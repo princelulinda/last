@@ -11,6 +11,7 @@ module.exports = tseslint.config(
       ...tseslint.configs.recommended,
       ...tseslint.configs.stylistic,
       ...angular.configs.tsRecommended,
+      // "plugin:prettier/recommended",
     ],
     processor: angular.processInlineTemplates,
     rules: {
@@ -35,9 +36,13 @@ module.exports = tseslint.config(
   {
     files: ["**/*.html"],
     extends: [
+      // "plugin:prettier/recommended",
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
     ],
-    rules: {},
+    rules: {
+      // NOTE: WE ARE OVERRIDING THE DEFAULT CONFIG TO ALWAYS SET THE PARSER TO ANGULAR (SEE BELOW)
+        // "prettier/prettier": ["error", { "parser": "angular" }]
+    },
   }
 );
