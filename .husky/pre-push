@@ -1,1 +1,1 @@
-npm test
+ng build --configuration=production
