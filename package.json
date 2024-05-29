@@ -14,9 +14,6 @@
   "lint-staged": {
     "*.{js,ts,json,css}": [
       "prettier --write"
-    ],
-    "*.{ts,html}": [
-      "ng lint --fix"
     ]
   },
   "private": true,
