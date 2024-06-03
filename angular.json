@@ -43,6 +43,7 @@
           },
           "configurations": {
             "production": {
+              "outputHashing": "all",
               "budgets": [
                 {
                   "type": "initial",
@@ -55,7 +56,6 @@
                   "maximumError": "15kB"
                 }
               ],
-              "outputHashing": "all",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -64,6 +64,7 @@
               ]
             },
             "public_prod": {
+              "outputHashing": "all",
               "budgets": [
                 {
                   "type": "initial",
@@ -76,7 +77,6 @@
                   "maximumError": "15kB"
                 }
               ],
-              "outputHashing": "all",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -85,6 +85,11 @@
               ]
             },
             "staging": {
+              "outputHashing": "all",
+              "namedChunks": true,
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -97,7 +102,7 @@
                   "maximumError": "15kB"
                 }
               ],
-              "outputHashing": "all",
+
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -106,6 +111,11 @@
               ]
             },
             "bbs": {
+              "outputHashing": "all",
+              "namedChunks": true,
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -118,7 +128,6 @@
                   "maximumError": "15kB"
                 }
               ],
-              "outputHashing": "all",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -127,9 +136,11 @@
               ]
             },
             "development": {
+              "outputHashing": "all",
+              "namedChunks": true,
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
+              "sourceMap": false,
               "budgets": [
                 {
                   "type": "initial",
