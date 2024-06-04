@@ -8,7 +8,6 @@
     "watch": "ng build --watch --configuration development",
     "prepare": "husky install",
     "test": "jest",
-    "prepare": "husky",
     "lint": "ng lint",
     "lint-staged": "lint-staged"
   },
