@@ -13,7 +13,7 @@ export class AuthService {
   login(login_data: {
     username: string;
     password: string;
-  }): Observable<string> {
+  }): Observable<object> {
     const data = { user: login_data };
     return this.apiService.post('/users/login/', data).pipe(
       map(data => {
