@@ -11,7 +11,7 @@ interface reusableDataModel {
 }
 export interface environmentModel extends reusableDataModel {
   apiUrl: string;
-  sentryTargetUrls: string | RegExp[];
+  sentryTargetUrls: (string | RegExp)[];
   websocketUrl?: string;
 }
 

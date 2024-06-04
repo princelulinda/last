@@ -1,2 +1,9 @@
-<h1>Hello, ng-magis-erp</h1>
-<div>Go</div>
+<head>
+  @if (plateform === 'workStation') {
+      <link rel="icon" type="image/x-icon" href="icons/erp-fav.ico" />
+    <title>MAGIS ERP</title>
+  } @else if (plateform !== 'workStation') {
+      <link rel="icon" type="image/x-icon" href="icons/ihela-fav.ico" />
+    <title>iHel&aacute; Rya&#771;nje</title>
+  }
+</head>
