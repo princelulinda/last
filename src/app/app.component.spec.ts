@@ -18,10 +18,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'market' platform`, () => {
+  it(`should have the 'market' plateform`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.platform).toEqual('market');
+    expect(app.plateform).toEqual('market');
   });
 
   // it('should render platform', () => {
