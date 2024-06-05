@@ -1,10 +1,6 @@
-import { BaseModel } from '../base.model';
-
-export interface User2 extends BaseModel {
-  username: string;
-}
+import { BaseModel, Field } from '../base.model';
 
 export class User extends BaseModel {
-  static username = null;
-  static token = null;
+  @Field static username = null;
+  @Field static token = null;
 }
