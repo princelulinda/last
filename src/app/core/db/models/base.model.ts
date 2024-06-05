@@ -1,6 +1,6 @@
 import 'reflect-metadata/lite';
 
-export function Field(target: symbol, propertyKey: string) {
+export function Field(target: symbol | object, propertyKey: string) {
   const attributes = Reflect.getMetadata('modelFields', target) || [];
   attributes.push(propertyKey);
   Reflect.defineMetadata('modelFields', attributes, target);
