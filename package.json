@@ -5,6 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:stats": "ng build --stats-json",
+    "analyze": "webpack-bundle-analyzer dist/ng-magis-erp/stats.json",
+    "build:analyze": "npm run build:stats && npm run analyze",
     "watch": "ng build --watch --configuration development",
     "prepare": "husky install",
     "test": "jest",
@@ -35,6 +38,7 @@
     "@angular/router": "^18.0.0",
     "@sentry/angular": "^8.7.0",
     "bootstrap": "^5.3.3",
+    "dexie": "^4.0.7",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
@@ -61,6 +65,7 @@
     "prettier": "^3.2.5",
     "typescript": "~5.4.2",
     "typescript-eslint": "8.0.0-alpha.20",
-    "validate-branch-name": "^1.3.0"
+    "validate-branch-name": "^1.3.0",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }

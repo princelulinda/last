@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
+import { DbService } from './core/db/db.service';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -10,4 +12,6 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   plateform = 'market';
+
+  constructor(private dbService: DbService) {}
 }
