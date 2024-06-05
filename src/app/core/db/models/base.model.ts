@@ -1,3 +1,11 @@
+import 'reflect-metadata/lite';
+
+export function Field(target: symbol | object, propertyKey: string) {
+  const attributes = Reflect.getMetadata('modelFields', target) || [];
+  attributes.push(propertyKey);
+  Reflect.defineMetadata('modelFields', attributes, target);
+}
+
 // export interface BaseModelInterface {
 //   id?: number; // Optional for auto-incrementing IDs
 //   createdAt?: Date; // Optional for timestamps
@@ -7,7 +15,7 @@
 // export class BaseModel implements BaseModelInterface {
 
 export class BaseModel {
-  static id?: number;
-  static createdAt?: Date;
-  static updatedAt?: Date;
+  @Field static id?: number;
+  @Field static createdAt?: Date;
+  @Field static updatedAt?: Date;
 }
