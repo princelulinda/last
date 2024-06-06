@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Dexie } from 'dexie';
-import { BaseModel } from './models/base.model';
+// import { BaseModel } from './models/base.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -33,55 +34,68 @@ export class DbService {
 
     const stores: Record<string, string> = {};
     for (const [rawModelName, model] of Object.entries(modelsModule)) {
-      if (model instanceof BaseModel) {
-        const modelName: string = rawModelName.toLowerCase() + 's'; // Pluralize for store name
+      // TODO : MAKE
+      // if (model instanceof BaseModel) {
+      const modelName: string = rawModelName.toLowerCase() + 's'; // Pluralize for store name
 
-        console.log(
-          `|== ADDING MODEL : ${modelName} > ${rawModelName} > ${model}`
-        );
+      console.log(
+        `|== ADDING MODEL : ${modelName} > ${rawModelName} > ${model}`
+      );
 
-        const getSchema = () => {
-          const schema: string[] = [];
+      const getSchema = () => {
+        const schema: string[] = [];
 
-          console.log(`==== BEFORE ADDING PROPS TO MODEL : ${modelName}`);
-          const commonJsClassPropToExclude: string[] = [
-            'constructor',
-            'id',
-            'prototype',
-            'length',
-          ];
-          // const propNames: (string|any)[] = Reflect.ownKeys(model as Record<string, any>).filter((key: any) => !commonJsClassPropToExclude.includes(key) && typeof model[key] !== 'function');
-          const propNames: (string | symbol)[] = Reflect.ownKeys(
+        console.log(`==== BEFORE ADDING PROPS TO MODEL : ${modelName}`);
+        const commonJsClassPropToExclude: string[] = [
+          'constructor',
+          'id',
+          'prototype',
+          // 'length',
+        ];
+        // ------------------------------
+        // const propNames: (string|any)[] = Reflect.ownKeys(model as Record<string, any>).filter((key: any) => !commonJsClassPropToExclude.includes(key) && typeof model[key] !== 'function');
+        // ------------------------------
+        // const propNames: (string | symbol)[] = Reflect.ownKeys(
+        //   model as Record<string, string>
+        // ).filter(
+        //   (key: string | symbol) =>
+        //     !commonJsClassPropToExclude.includes(key as string)
+        // );
+        // ------------------------------
+        // Access class attribute names after class definition
+        const propNames =
+          Reflect.getMetadata(
+            'modelFields',
             model as Record<string, string>
           ).filter(
             (key: string | symbol) =>
               !commonJsClassPropToExclude.includes(key as string)
-          );
+          ) || [];
+        console.log(
+          `======> FOUND PROPS '${propNames}' FOR MODEL CLASS '${modelName}'`
+        );
+
+        for (const prop of propNames) {
           console.log(
-            `======> FOUND PROPS '${propNames}' FOR MODEL CLASS '${modelName}'`
+            `========> ADDING PROP '${String(prop)}' TO MODEL '${modelName}'`
           );
+          schema.push(prop as string);
+        }
 
-          for (const prop of propNames) {
-            console.log(
-              `========> ADDING PROP '${String(prop)}' TO MODEL '${modelName}'`
-            );
-            schema.push(prop as string); // Infer property types using Dexie.Types
-          }
+        if (Array.isArray(schema) && schema.length) {
+          return `++id, ${(schema as string[]).join(', ')}`;
+        } else {
+          return '++id';
+        }
+      };
 
-          if (Array.isArray(schema) && schema.length) {
-            return `++id, ${(schema as string[]).join(', ')}`;
-          } else {
-            return '++id';
-          }
-        };
-
-        stores[modelName] = getSchema();
-      }
+      stores[modelName] = getSchema();
+      // } // END OF  CHECK : model instanceof BaseModel
     }
 
     console.log(`INITIALIZING DB STORES : `, stores);
 
-    await this.db.version(1).stores(stores);
+    await this.db.version(environment.appDbVersion).stores(stores);
 
     this.db.on('populate', () => this.populate());
 
