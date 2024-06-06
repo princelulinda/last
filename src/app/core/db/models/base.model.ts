@@ -16,6 +16,7 @@ export function Field(target: symbol | object, propertyKey: string) {
 
 export class BaseModel {
   @Field static id?: number;
+  @Field static serverId?: number;
   @Field static createdAt?: Date;
   @Field static updatedAt?: Date;
 }
