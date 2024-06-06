@@ -1,12 +1,15 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 import { routes } from './app.routes';
+
 import {
   HTTP_INTERCEPTORS,
-  provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+
+import { AllGuards, AllServices } from './core';
 
 import { ClientsInfoInterceptorInterceptor } from './core/interceptors/clients-info-interceptor.interceptor';
 import { HTTPEncryptInterceptor } from './core/interceptors/http-encrypt.interceptor';
@@ -32,5 +35,9 @@ export const appConfig: ApplicationConfig = {
         multi: true,
       },
     ],
+
+    provideHttpClient(withFetch()),
+    AllServices,
+    AllGuards,
   ],
 };
