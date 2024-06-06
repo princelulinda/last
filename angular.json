@@ -5,11 +5,11 @@
   "projects": {
     "ng-magis-erp": {
       "i18n": {
-        "sourceLocale": "en-US",
+        "sourceLocale": "en",
         "locales": {
           "fr": {
             "translation": "src/locale/messages.fr.xlf",
-            "baseHref": "fr-FR"
+            "baseHref": "fr"
           }
         }
       },
@@ -44,10 +44,11 @@
           "configurations": {
             "production": {
               "outputHashing": "all",
+              "localize": ["en", "fr"],
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "1MB",
                   "maximumError": "4MB"
                 },
                 {
@@ -64,11 +65,12 @@
               ]
             },
             "public_prod": {
+              "localize": ["en", "fr"],
               "outputHashing": "all",
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "1MB",
                   "maximumError": "4MB"
                 },
                 {
@@ -85,6 +87,7 @@
               ]
             },
             "staging": {
+              "localize": ["en", "fr"],
               "outputHashing": "all",
               "namedChunks": true,
               "optimization": false,
@@ -93,7 +96,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "1MB",
                   "maximumError": "4MB"
                 },
                 {
@@ -111,6 +114,7 @@
               ]
             },
             "bbs": {
+              "localize": ["en", "fr"],
               "outputHashing": "all",
               "namedChunks": true,
               "optimization": false,
@@ -119,7 +123,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "1MB",
                   "maximumError": "4MB"
                 },
                 {
@@ -136,6 +140,7 @@
               ]
             },
             "development": {
+              "localize": false,
               "outputHashing": "all",
               "namedChunks": true,
               "optimization": false,
@@ -144,7 +149,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "1MB",
                   "maximumError": "4MB"
                 },
                 {
@@ -188,7 +193,7 @@
               "buildTarget": "ng-magis-erp:build:fr"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "bbs"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

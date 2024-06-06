@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TestComponent } from './base-components/test/test.component';
 
+import { DbService } from './core/db/db.service';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -10,5 +12,7 @@ import { TestComponent } from './base-components/test/test.component';
   imports: [RouterOutlet, TestComponent],
 })
 export class AppComponent {
-  title = 'ng-magis-erp';
+  plateform = 'market';
+
+  constructor(private dbService: DbService) {}
 }
