@@ -9,9 +9,10 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ApiService {
-  headers = new HttpHeaders()
+  private headers = new HttpHeaders()
     .set('Content-Type', 'application/json')
     .append('Accept', 'application/json');
+
   constructor(private http: HttpClient) {}
 
   private formatErrors(error: string) {
