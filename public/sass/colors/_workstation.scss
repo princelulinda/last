@@ -1,5 +1,11 @@
 @import '../mixins/mixins';
-@import './global';
+
+$globalInchangesColor: (
+  'sucess': #058519,
+  'info': #2070b8,
+  'danger': #a11717,
+  'warning': #a3a300,
+);
 
 // For workstation light mode
 $workstation-colors-light: (

@@ -1,6 +1,16 @@
-$globalInchangesColor: (
-  'sucess': #058519,
-  'info': #2070b8,
-  'danger': #a11717,
-  'warning': #a3a300,
+@import '../mixins/mixins';
+
+// global font-sizes
+$fontSizes: (
+  x-large: 28px,
+  large: 24px,
+  l-medium: 20px,
+  medium: 18px,
+  normal: 16px,
+  small: 14px,
+  x-small: 12px,
 );
+
+@each $name, $value in $fontSizes {
+  @include generateTextClass($name, $value);
+}

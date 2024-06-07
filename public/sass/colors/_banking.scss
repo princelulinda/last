@@ -3,19 +3,45 @@
 // @import 'bootstrap/scss/variables-dark';
 @import '../mixins/mixins';
 
+$globalInchangesColor: (
+  'sucess': #058519,
+  'info': #2070b8,
+  'danger': #a11717,
+  'warning': #a3a300,
+);
+
+// For banking light mode
 $banking-colors-light: (
   'primary': #810019,
   'primary-2': #c98986,
   'primary-3': #e4c5c3,
-  'white': #ffffff,
 );
 
+$workstation-bg-light: (
+  'white': #ffffff,
+  'secondary': #ebebeb,
+  'banking': #ffffff,
+  'input': #f1f1f1,
+);
+
+// For banking light mode
 $banking-colors-dark: (
   'primary': #810019,
   'primary-2': #c98986,
   'primary-3': #e4c5c3,
   'white': #242526,
 );
+
+$workstation-bg-dark: (
+  'white': #242526,
+  'secondary': #424242,
+  'banking': #242526,
+  'input': #1c1c1c,
+);
+
+// merge global colors and current colors
+$banking-colors-light: map-merge($banking-colors-light, $globalInchangesColor);
+$banking-colors-dark: map-merge($banking-colors-dark, $globalInchangesColor);
 
 html[data-bs-theme='banking-light'] {
   // $theme-colors: map-merge($theme-colors, $banking-colors-light);
