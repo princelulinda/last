@@ -23,8 +23,9 @@ export class AuthService {
     );
   }
 
-  getAuthToken() {
+  getAuthToken(): string {
     // TODO : Take token from localStorage
+    return '';
   }
 
   populate() {
