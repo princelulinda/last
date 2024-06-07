@@ -10,7 +10,7 @@
     "build:analyze": "npm run build:stats && npm run analyze",
     "watch": "ng build --watch --configuration development",
     "prepare": "husky install",
-    "test": "jest",
+    "test": "jest --silent",
     "lint": "ng lint",
     "lint-staged": "lint-staged"
   },
