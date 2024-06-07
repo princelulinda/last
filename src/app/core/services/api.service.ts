@@ -9,6 +9,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ApiService {
+  private localUserTokenKey = 'userToken';
   private headers = new HttpHeaders()
     .set('Content-Type', 'application/json')
     .append('Accept', 'application/json');
@@ -17,6 +18,38 @@ export class ApiService {
 
   private formatErrors(error: string) {
     return throwError(error);
+  }
+
+  getLocalToken(): string | null {
+    const localToken = localStorage.getItem(this.localUserTokenKey);
+
+    if (
+      localToken === null ||
+      localToken === undefined ||
+      localToken === '' ||
+      localToken === 'undefined' ||
+      localToken === 'null'
+    ) {
+      localStorage.removeItem(this.localUserTokenKey);
+      return null;
+    } else {
+      return localToken;
+    }
+  }
+
+  setLocalToken(token: string): string | null {
+    if (
+      token === null ||
+      token === undefined ||
+      token === '' ||
+      token === 'undefined' ||
+      token === 'null'
+    ) {
+      return null;
+    } else {
+      localStorage.setItem(this.localUserTokenKey, token);
+      return token;
+    }
   }
 
   get(
@@ -60,6 +93,19 @@ export class ApiService {
     if (headers['lazyUpdate']) {
       this.headers = headers;
     }
+
+    console.log(
+      'CHECK POST : ',
+      path,
+      body,
+      this.headers,
+      ' OTHER : ',
+      this.http
+        .post(`${environment.apiUrl}${path}`, JSON.stringify(body), {
+          headers: this.headers,
+        })
+        .pipe(catchError(this.formatErrors))
+    );
 
     return this.http
       .post(`${environment.apiUrl}${path}`, JSON.stringify(body), {

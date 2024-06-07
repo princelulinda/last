@@ -3,29 +3,45 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ApiService } from './api.service';
+import { UserApiResponse } from '../db/models';
+import { DbService } from '../db';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private dbService: DbService
+  ) {}
 
   login(login_data: {
     username: string;
     password: string;
   }): Observable<object> {
-    const data = { user: login_data };
-    return this.apiService.post('/users/login/', data).pipe(
+    const loginData = { user: login_data };
+    console.log('LOGIN DATA REQ : ', loginData);
+    return this.apiService.post('/users/login/', loginData).pipe(
       map(data => {
+        const userData = (data as { user: UserApiResponse }).user;
         // TODO : Save user data to indexeddb and save token to localStorage
+        this.dbService.setUser(userData);
+
+        console.log('LOGIN DATA SERVICE : ', data);
         return data;
       })
     );
   }
 
-  getAuthToken(): string {
-    // TODO : Take token from localStorage
-    return '';
+  getAuthToken(): string | null {
+    const localToken = this.apiService.getLocalToken();
+
+    return localToken;
+  }
+
+  isAuthenticated(): boolean {
+    const localToken = this.apiService.getLocalToken();
+    return localToken !== null;
   }
 
   populate() {

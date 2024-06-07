@@ -9,13 +9,21 @@ export function httpTokenInterceptor(
 ): Observable<HttpEvent<unknown>> {
   // Inject the current `AuthService` and use it to get an authentication token:
   const authToken = inject(AuthService).getAuthToken();
+
   // Clone the request to add the authentication header.
-  if (authToken) {
+  if (
+    authToken === null ||
+    authToken === undefined ||
+    authToken === '' ||
+    authToken === 'undefined' ||
+    authToken === 'null'
+  ) {
+    return next(req);
+  } else {
+    console.log('INTECEPTED TOKEN : ', authToken);
     const newReq = req.clone({
       headers: req.headers.set('Authorization', `Token ${authToken}`),
     });
     return next(newReq);
   }
-
-  return next(req);
 }
