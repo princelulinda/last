@@ -52,6 +52,10 @@ export class ApiService {
     }
   }
 
+  clearLocalData() {
+    localStorage.clear();
+  }
+
   get(
     path: string,
     params: HttpParams = new HttpParams(),
