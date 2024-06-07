@@ -17,14 +17,20 @@ $banking-colors-light: (
   'primary-3': #e4c5c3,
 );
 
-$workstation-bg-light: (
+$banking-bg-light: (
   'white': #ffffff,
   'secondary': #ebebeb,
   'banking': #ffffff,
   'input': #f1f1f1,
 );
 
-// For banking light mode
+$banking-text-light: (
+  'dark': #414141,
+  'secondary': #838383,
+);
+
+// For banking dark mode
+
 $banking-colors-dark: (
   'primary': #810019,
   'primary-2': #c98986,
@@ -32,11 +38,16 @@ $banking-colors-dark: (
   'white': #242526,
 );
 
-$workstation-bg-dark: (
+$banking-bg-dark: (
   'white': #242526,
   'secondary': #424242,
   'banking': #242526,
   'input': #1c1c1c,
+);
+
+$banking-text-dark: (
+  'dark': #d9d9d9,
+  'secondary': #9d9d9d,
 );
 
 // merge global colors and current colors
@@ -48,11 +59,27 @@ html[data-bs-theme='banking-light'] {
   @each $color, $value in $banking-colors-light {
     @include makeAsGlobalColors($color, $value);
   }
+
+  @each $color, $value in $banking-bg-light {
+    @include generateBackgroundClass($color, $value);
+  }
+
+  @each $color, $value in $banking-text-light {
+    @include generateTextClass($color, value);
+  }
 }
 
 html[data-bs-theme='banking-dark'] {
   // $theme-colors: map-merge($theme-colors, $banking-colors-dark);
   @each $color, $value in $banking-colors-dark {
     @include makeAsGlobalColors($color, $value);
+  }
+
+  @each $color, $value in $banking-bg-dark {
+    @include generateBackgroundClass($color, $value);
+  }
+
+  @each $color, $value in $banking-text-dark {
+    @include generateTextClass($color, value);
   }
 }

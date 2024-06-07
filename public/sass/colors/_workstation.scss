@@ -21,6 +21,11 @@ $workstation-bg-light: (
   'input': #f1f1f1,
 );
 
+$workstation-text-light: (
+  'dark': #414141,
+  'secondary': #838383,
+);
+
 // For workstation dark mode
 $workstation-colors-dark: (
   'primary': #172b4d,
@@ -34,6 +39,11 @@ $workstation-bg-dark: (
   'secondary': #0c1627,
   'workstation': #18191a,
   'input': #3a3b3c,
+);
+
+$workstation-text-dark: (
+  'dark': #d9d9d9,
+  'secondary': #9d9d9d,
 );
 
 // merge global colors and current colors
@@ -55,6 +65,10 @@ html[data-bs-theme='workstation-light'] {
   @each $color, $value in $workstation-bg-light {
     @include generateBackgroundClass($color, $value);
   }
+
+  @each $color, $value in $workstation-text-light {
+    @include generateTextClass($color, value);
+  }
 }
 
 html[data-bs-theme='workstation-dark'] {
@@ -65,5 +79,9 @@ html[data-bs-theme='workstation-dark'] {
 
   @each $color, $value in $workstation-bg-dark {
     @include generateBackgroundClass($color, $value);
+  }
+
+  @each $color, $value in $workstation-text-dark {
+    @include generateTextClass($color, value);
   }
 }
