@@ -1,34 +1,18 @@
-import { Injectable, Inject, LOCALE_ID } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-} from '@angular/common/http';
+import { AuthService } from '../services/auth.service';
 
-import { Observable } from 'rxjs';
-import { Store } from '@ngxs/store';
-
-@Injectable()
-export class HttpTokenInterceptor implements HttpInterceptor {
-  constructor(
-    private store: Store,
-    @Inject(LOCALE_ID) protected localeId: string
-  ) {}
-
-  intercept(
-    req: HttpRequest<unknown>,
-    next: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
-    const headersConfig = {
-      Authorization: '',
-    };
-
-    // const token = this.store.select(state => state.authtoken);
-    //const token = this.store.selectSnapshot(AuthState.token);
-    // const token = null;
-
-    const request = req.clone({ setHeaders: headersConfig });
-    return next.handle(request);
+export function authInterceptor(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn
+) {
+  // Inject the current `AuthService` and use it to get an authentication token:
+  const authToken = inject(AuthService).getAuthToken();
+  // Clone the request to add the authentication header.
+  if (authToken) {
+    const newReq = req.clone({
+      headers: req.headers.set('Authorization', `Token ${authToken}`),
+    });
+    return next(newReq);
   }
+
+  return next(req);
 }
