@@ -1,35 +1,18 @@
-import { Injectable, Inject, LOCALE_ID } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-} from '@angular/common/http';
-import { Store } from '@ngxs/store';
+import { HttpRequest, HttpHandlerFn, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
-@Injectable()
-export class ClientsInfoInterceptorInterceptor implements HttpInterceptor {
-  constructor(
-    private store: Store,
-    @Inject(LOCALE_ID) protected localeId: string
-  ) {}
-
-  intercept(
-    req: HttpRequest<unknown>,
-    next: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
-    const headersConfig: {
-      'X-iHela-Access-Client-Id': string;
-      'X-iHela-Access-Bank-Id': string;
-      'X-iHela-AppSubject': string;
-    } = {
-      'X-iHela-Access-Client-Id': '',
-      'X-iHela-Access-Bank-Id': '',
-      'X-iHela-AppSubject': '',
-    };
-
-    const request = req.clone({ setHeaders: headersConfig });
-    return next.handle(request);
-  }
+export function clientInfoInterceptor(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> {
+  // Clone the request to add headers.
+  const newReq = req.clone({
+    headers: req.headers
+      .set('X-iHela-Access-Client-Id', null)
+      .set('X-iHela-Access-Bank-Id', null)
+      .set('X-iHela-AppSubject', null)
+      .set('X-iHela-AppInfo', environment.appInfo),
+  });
+  return next(newReq);
 }
