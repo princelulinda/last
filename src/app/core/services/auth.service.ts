@@ -17,9 +17,15 @@ export class AuthService {
     const data = { user: login_data };
     return this.apiService.post('/users/login/', data).pipe(
       map(data => {
+        // TODO : Save user data to indexeddb and save token to localStorage
         return data;
       })
     );
+  }
+
+  getAuthToken(): string {
+    // TODO : Take token from localStorage
+    return '';
   }
 
   populate() {
