@@ -1,0 +1,21 @@
+@mixin generateTextClass($colorName, $value) {
+  .text-#{$colorName} {
+    color: $value !important;
+  }
+}
+@mixin generateBorderColor($colorName, $value) {
+  .border-#{$colorName} {
+    border-color: $value !important;
+  }
+}
+@mixin generateBackgroundClass($colorName, $value) {
+  .bg-#{$colorName} {
+    background-color: $value !important;
+  }
+}
+
+@mixin makeAsGlobalColors($colorName, $value) {
+  @include generateBackgroundClass($colorName, $value);
+  @include generateBorderColor($colorName, $value);
+  @include generateTextClass($colorName, $value);
+}
