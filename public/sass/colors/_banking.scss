@@ -1,78 +1,85 @@
-// Required
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/variables-dark';
+// @import 'bootstrap/scss/functions';
+// @import 'bootstrap/scss/variables';
+// @import 'bootstrap/scss/variables-dark';
+@import '../mixins/mixins';
 
-$custom-colors-light: (
+$globalInchangesColor: (
+  'sucess': #058519,
+  'info': #2070b8,
+  'danger': #a11717,
+  'warning': #a3a300,
+);
+
+// For banking light mode
+$banking-colors-light: (
   'primary': #810019,
   'primary-2': #c98986,
   'primary-3': #e4c5c3,
-  'white': #ffffff,
 );
 
-$custom-colors-dark: (
-  //   'primary': #810019,
-  'primary': green,
+$banking-bg-light: (
+  'white': #ffffff,
+  'secondary': #ebebeb,
+  'banking': #ffffff,
+  'input': #f1f1f1,
+);
+
+$banking-text-light: (
+  'dark': #414141,
+  'secondary': #838383,
+);
+
+// For banking dark mode
+
+$banking-colors-dark: (
+  'primary': #810019,
   'primary-2': #c98986,
   'primary-3': #e4c5c3,
-  'white': #242526
+  'white': #242526,
 );
 
-$theme-colors: map-merge($theme-colors, $custom-colors-light);
-// $theme-colors-dark: map-merge($theme-colors, $custom-colors-dark);
+$banking-bg-dark: (
+  'white': #242526,
+  'secondary': #424242,
+  'banking': #242526,
+  'input': #1c1c1c,
+);
 
-@import 'bootstrap/scss/maps';
-@import 'bootstrap/scss/mixins';
-@import 'bootstrap/scss/utilities';
+$banking-text-dark: (
+  'dark': #d9d9d9,
+  'secondary': #9d9d9d,
+);
 
-// Light mode
-@each $color, $value in $custom-colors-light {
-  $custom-colors-text: (
-    $color: $value,
-  );
-  $custom-colors-bg-subtle: (
-    $color: $value,
-  );
-  $custom-colors-border-subtle: (
-    $color: $value,
-  );
-  $theme-colors-text: map-merge($theme-colors-text, $custom-colors-text);
-  $theme-colors-bg-subtle: map-merge(
-    $theme-colors-bg-subtle,
-    $custom-colors-bg-subtle
-  );
-  $theme-colors-border-subtle: map-merge(
-    $theme-colors-border-subtle,
-    $custom-colors-border-subtle
-  );
+// merge global colors and current colors
+$banking-colors-light: map-merge($banking-colors-light, $globalInchangesColor);
+$banking-colors-dark: map-merge($banking-colors-dark, $globalInchangesColor);
+
+html[data-bs-theme='banking-light'] {
+  // $theme-colors: map-merge($theme-colors, $banking-colors-light);
+  @each $color, $value in $banking-colors-light {
+    @include makeAsGlobalColors($color, $value);
+  }
+
+  @each $color, $value in $banking-bg-light {
+    @include generateBackgroundClass($color, $value);
+  }
+
+  @each $color, $value in $banking-text-light {
+    @include generateTextClass($color, value);
+  }
 }
 
-// Dark mode
-@each $color, $value in $custom-colors-dark {
-  $custom-colors-text-dark: (
-    $color: $value,
-  );
-  $custom-colors-bg-subtle-dark: (
-    $color: $value,
-  );
-  $custom-colors-border-subtle-dark: (
-    $color: $value,
-  );
+html[data-bs-theme='banking-dark'] {
+  // $theme-colors: map-merge($theme-colors, $banking-colors-dark);
+  @each $color, $value in $banking-colors-dark {
+    @include makeAsGlobalColors($color, $value);
+  }
 
-  $theme-colors-text-dark: map-merge(
-    $theme-colors-text-dark,
-    $custom-colors-text-dark
-  );
-  $theme-colors-bg-subtle-dark: map-merge(
-    $theme-colors-bg-subtle-dark,
-    $custom-colors-bg-subtle-dark
-  );
-  $theme-colors-border-subtle-dark: map-merge(
-    $theme-colors-border-subtle-dark,
-    $custom-colors-border-subtle-dark
-  );
+  @each $color, $value in $banking-bg-dark {
+    @include generateBackgroundClass($color, $value);
+  }
+
+  @each $color, $value in $banking-text-dark {
+    @include generateTextClass($color, value);
+  }
 }
-
-// Remainder of Bootstrap imports
-@import 'bootstrap/scss/root';
-@import 'bootstrap/scss/reboot';
