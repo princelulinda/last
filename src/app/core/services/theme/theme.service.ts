@@ -27,10 +27,16 @@ export class ThemeService {
     document.body.classList.add(`bg-${theme.split('-')[0]}`);
   }
 
+  /* To manage theme systeme for anywere */
+
   // manageThemeState(): void {
   //   this.theme = document.documentElement.getAttribute(
   //     'data-bs-theme'
   //   ) as ThemeModel;
   //   console.log('opakdpakda', this.theme);
   // }
+
+  getTheme(): string {
+    return '';
+  }
 }
