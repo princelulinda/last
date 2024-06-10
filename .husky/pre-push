@@ -1,7 +1,2 @@
-#!/bin/sh
-
+# npm run test
 ng build --configuration=production
-
-#npm run test
-#exit $?
-
