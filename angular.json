@@ -95,7 +95,7 @@
               "namedChunks": true,
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": false,
+              "sourceMap": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -122,7 +122,7 @@
               "namedChunks": true,
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": false,
+              "sourceMap": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -148,7 +148,7 @@
               "namedChunks": true,
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": false,
+              "sourceMap": true,
               "budgets": [
                 {
                   "type": "initial",

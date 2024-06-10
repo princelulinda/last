@@ -10,6 +10,7 @@ export const AllServices = [
 
 export const AllGuards = [
   Guards.authGuard,
+  Guards.noAuthGuard,
   Guards.bankingGuard,
   Guards.treasurerGuard,
   Guards.windowGuard,
