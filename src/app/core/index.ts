@@ -2,7 +2,12 @@ import * as Services from './services';
 import * as Guards from './guards';
 import * as Interceptors from './interceptors';
 
-export const AllServices = [Services.ApiService, Services.AuthService];
+export const AllServices = [
+  Services.ApiService,
+  Services.AuthService,
+  Services.ThemeService,
+];
+
 export const AllGuards = [
   Guards.authGuard,
   Guards.noAuthGuard,
@@ -11,6 +16,7 @@ export const AllGuards = [
   Guards.windowGuard,
   Guards.workstationGuard,
 ];
+
 export const NonDiInterceptors = [
   Interceptors.clientInfoInterceptor,
   Interceptors.httpTokenInterceptor,

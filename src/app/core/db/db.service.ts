@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Dexie, liveQuery } from 'dexie';
 import { UserApiResponse } from './models';
 import { environment } from '../../../environments/environment';
-import { ApiService } from '../services/api.service';
+import { ApiService } from '../services/api/api.service';
 
 @Injectable({
   providedIn: 'root',
