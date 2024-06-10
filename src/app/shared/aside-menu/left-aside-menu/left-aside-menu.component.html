@@ -1,36 +1,62 @@
-<section>
-    <div>
+<aside class="p-3 ps-md-0 ps-xl-3 w-25">
+  <!-- home menus -->
+    <section class="mt-2 w-50" >
         <a
-            class="mb-4 d-flex align-items-center clickable rounded text-gray"
-           
-           
-            routerLink="/b"
+            class="mb-4 d-flex align-items-center clickable rounded text-gray is-link"
+          
+            routerLink="/h"
            
             routerLinkActive="text-dark"
         >
             <span
-                class="magis-icon me-3 rounded-pill"
-               
-                style="padding: 0.78rem 1rem"
+                class="bg-primary me-3 rounded-pill"
+                
+                
                 ><i class="fa-solid fa-house"></i
             ></span>
-            <span class="fw-bold" i18n>Home</span>
+            <span class="fw-bold" i18n>Publications</span>
         </a>
         <a
-            class="d-flex align-items-center clickable rounded text-gray"
-            routerLink="/b/onlineBanking/tarifs"
+          
+            class="mb-4 d-flex align-items-center justify-content-between ckable rounded text-gray"
+            routerLink="/h/home/chat"
             routerLinkActive="text-dark"
-         
+        >
+            <span class="">
+                <span
+                   
+                    class="info-icon me-3 d-inline-block rounded-pill"
+                    style="padding: 0.7rem 0.9rem"
+                    ><i class="fa-regular fa-comments"></i
+                ></span>
+                <span class="fw-bold" i18n>Chat</span>
+            </span>
+            <span
+                style="padding: 0 0.6rem; font-size: 14px"
+                class="me-xl-5 rounded text-blue fw-bold"
+               
+            >
+                0
+            </span>
+        </a>
+
+        <a
+           
+            class="mt-4 d-flex align-items-center clickable rounded text-gray"
+            routerLink="/m"
+            routerLinkActive="text-dark"
           
         >
             <span
-             
-                class="fs-5 me-3 rounded-pill d-flex align-items-center justify-content-center text-primary"
-                style="padding: 0.7rem 0.86rem"
-            >
-                <i class="fa-solid fa-calculator"></i>
-            </span>
-            <span class="fw-bold" i18n>Tarifs</span>
+                
+                class="success-icon me-3 rounded-pill"
+                style="padding: 0.78rem 1rem"
+                ><i class="fa-solid fa-cart-shopping"></i
+            ></span>
+            <span class="fw-bold" i18n>Market</span>
         </a>
-</div>
-       </section>
+
+     
+    </section>
+
+</aside> 

@@ -1,10 +1,17 @@
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-left-aside-menu',
   standalone: true,
-  imports: [],
+  imports: [NgClass],
   templateUrl: './left-aside-menu.component.html',
-  styleUrl: './left-aside-menu.component.scss',
+  styleUrls: ['./left-aside-menu.component.scss'],
 })
-export class LeftAsideMenuComponent {}
+export class LeftAsideMenuComponent {
+  plateform = '';
+
+  switchPlateform(name: string) {
+    this.plateform = name;
+  }
+}

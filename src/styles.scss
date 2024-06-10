@@ -1,1 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+@import '../public/sass/colors/global';
+@import '../public/sass/colors/banking';
+@import '../public/sass/colors/workstation';
+
+@import 'bootstrap/scss/bootstrap';
+$enable-dark-mode: false;

@@ -7,18 +7,19 @@ import { routes } from './app.routes';
 import {
   HTTP_INTERCEPTORS,
   withInterceptorsFromDi,
+  withInterceptors,
 } from '@angular/common/http';
 
-import { AllGuards, AllServices } from './core';
-
-import { ClientsInfoInterceptorInterceptor } from './core/interceptors/clients-info-interceptor.interceptor';
+import { AllGuards, AllServices, NonDiInterceptors } from './core';
 import { HTTPEncryptInterceptor } from './core/interceptors/http-encrypt.interceptor';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
 
     provideHttpClient(
+      withInterceptors(NonDiInterceptors),
       // DI-based interceptors must be explicitly enabled.
       withInterceptorsFromDi()
     ),
@@ -26,12 +27,6 @@ export const appConfig: ApplicationConfig = {
       {
         provide: HTTP_INTERCEPTORS,
         useClass: HTTPEncryptInterceptor,
-        multi: true,
-      },
-
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: ClientsInfoInterceptorInterceptor,
         multi: true,
       },
     ],
