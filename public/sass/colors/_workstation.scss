@@ -73,7 +73,7 @@ html[data-bs-theme='workstation-light'] {
 
 html[data-bs-theme='workstation-dark'] {
   // $theme-colors: map-merge($theme-colors, $workstation-colors-dark);
-  @each $color, $value in $banking-colors-dark {
+  @each $color, $value in $workstation-colors-dark {
     @include makeAsGlobalColors($color, $value);
   }
 
