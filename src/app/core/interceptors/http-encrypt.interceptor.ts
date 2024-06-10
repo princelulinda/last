@@ -7,6 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class HTTPEncryptInterceptor implements HttpInterceptor {
@@ -37,26 +38,27 @@ export class HTTPEncryptInterceptor implements HttpInterceptor {
     req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    // Vérifiez si la requête a un corps à crypter
-    if (req.body && this.key) {
-      // Créer un vecteur d'initialisation (IV) aléatoire
-      const iv = window.crypto.getRandomValues(new Uint8Array(12));
+    if (environment.activateHttpEncryption) {
+      // Vérifiez si la requête a un corps à crypter
+      if (req.body && this.key) {
+        // Créer un vecteur d'initialisation (IV) aléatoire
+        const iv = window.crypto.getRandomValues(new Uint8Array(12));
 
-      // Encrypt the body and handle the request
-      return this.encrypt(JSON.stringify(req.body), this.key, iv).pipe(
-        switchMap(encrypted => {
-          // Cloner la requête avec le corps crypté et l'IV
-          const clonedReq = req.clone({
-            body: encrypted,
-            // headers: req.headers.set('X-IV', btoa(String.fromCharCode(...iv))),
-          });
-          // Pass the cloned request to the next handler
-          return next.handle(clonedReq);
-        })
-      );
+        // Encrypt the body and handle the request
+        return this.encrypt(JSON.stringify(req.body), this.key, iv).pipe(
+          switchMap(encrypted => {
+            // Cloner la requête avec le corps crypté et l'IV
+            const clonedReq = req.clone({
+              body: encrypted,
+              // headers: req.headers.set('X-IV', btoa(String.fromCharCode(...iv))),
+            });
+            // Pass the cloned request to the next handler
+            return next.handle(clonedReq);
+          })
+        );
+      }
     }
 
-    // Si la requête n'a pas de corps, passez-la sans modification
     return next.handle(req);
   }
   private encrypt(
