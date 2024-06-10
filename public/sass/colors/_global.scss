@@ -14,7 +14,9 @@ $fontSizes: (
 $border-color: #c4c4c4;
 
 @each $name, $value in $fontSizes {
-  @include generateTextClass($name, $value);
+  .fs-#{name} {
+    font-size: $value;
+  }
 }
 
 // global border color
