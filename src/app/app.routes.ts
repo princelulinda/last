@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 // import { authGuard,workstationGuard, bankingGuard} from './core/guards';
-import { authGuard, noAuthGuard } from './core/guards';
+// import { authGuard, noAuthGuard } from './core/guards';
 
 import { AuthLayoutComponent } from './components/auth/auth-layout/auth-layout.component';
 import { Notfound400Component } from './components/errors/notfound-400/notfound-400.component';
@@ -9,7 +9,7 @@ import { GeneralComponent } from './components/dev/general/general.component';
 export const routes: Routes = [
   {
     path: 's',
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     children: [
       {
         path: '',
@@ -19,7 +19,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    canActivate: [noAuthGuard],
+    // canActivate: [noAuthGuard],
     children: [
       {
         path: '',

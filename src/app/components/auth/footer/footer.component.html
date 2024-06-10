@@ -5,12 +5,13 @@
             ><a class="text-dark" href="https://about.ihela.bi ">About</a> .
             Privacy . Terms and conditions . Jobs .
             <a class="text-dark" href=" http://bankingdocs.ihela.bi/">API</a> .
-            <a class="text-dark" href=" https://magis.bi">MAGIS</a> . Plus</span
+            <a class="text-dark" href=" https://magis.bi/">MAGIS</a> . Plus</span
         >
         <br />
-        <span *ngIf="showCopyRight"
-            >Copyright &copy; iHela Credit Union {{ year }} . Provided by
-            <a class="text-dark" href=" https://magis.bi">MAGIS</a>
+        @if (showCopyRight) {
+        <span>Copyright &copy; iHela Credit Union {{ year }} . Provided by
+            <a class="text-dark" href=" https://magis.bi/">MAGIS</a>
         </span>
+        }
     </p>
 </div>
