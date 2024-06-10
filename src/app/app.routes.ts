@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 // import { authGuard,workstationGuard, bankingGuard} from './core/guards';
+import { authGuard, noAuthGuard } from './core/guards';
 
 import { AuthLayoutComponent } from './components/auth/auth-layout/auth-layout.component';
 import { Notfound400Component } from './components/errors/notfound-400/notfound-400.component';
@@ -8,12 +9,22 @@ import { HeaderComponent } from './components/dev/header/header.component';
 
 export const routes: Routes = [
   {
-    path: '',
-    component: HeaderComponent, // this is the component with the <router-outlet> in the template
+    path: 's',
+    canActivate: [authGuard],
     children: [
       {
-        path: 'password-creation', // child route path
-        component: AuthLayoutComponent, // child route component that the router renders
+        path: '',
+        component: GeneralComponent,
+      },
+    ],
+  },
+  {
+    path: '',
+    canActivate: [noAuthGuard],
+    children: [
+      {
+        path: '',
+        component: AuthLayoutComponent,
       },
     ],
   },

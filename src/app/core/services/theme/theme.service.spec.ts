@@ -2,16 +2,16 @@ import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { DbService } from './db.service';
+import { ThemeService } from './theme.service';
 
-describe('DbService', () => {
-  let service: DbService;
+describe('ThemeService', () => {
+  let service: ThemeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     });
-    service = TestBed.inject(DbService);
+    service = TestBed.inject(ThemeService);
   });
 
   it('should be created', () => {
