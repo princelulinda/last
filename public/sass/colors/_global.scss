@@ -1,0 +1,42 @@
+@import '../mixins/mixins';
+
+// global font-sizes
+$fontSizes: (
+  x-large: 28px,
+  large: 24px,
+  l-medium: 20px,
+  medium: 18px,
+  normal: 16px,
+  small: 14px,
+  x-small: 12px,
+);
+
+$border-color: #c4c4c4;
+
+@each $name, $value in $fontSizes {
+  @include generateTextClass($name, $value);
+}
+
+// global border color
+.border {
+  --bs-border-color: $border-color;
+}
+
+//global empty state color
+.empty-state {
+  color: #c4c4c4;
+}
+//global border radius
+.lg-radius {
+  border-radius: 10px;
+}
+.sm-radius {
+  border-radius: 5px;
+}
+
+//global image class
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
