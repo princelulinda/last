@@ -1,6 +1,7 @@
 #!/bin/sh
 
-npm run test
-exit $?  # Propagate exit code from test script
-
 ng build --configuration=production
+
+npm run test
+exit $?
+
