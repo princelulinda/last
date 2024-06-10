@@ -69,6 +69,15 @@ html[data-bs-theme='workstation-light'] {
   @each $color, $value in $workstation-text-light {
     @include generateTextClass($color, value);
   }
+
+  // Default color;
+  @extend .text-dark;
+
+  // Form inputs bootstrap
+  .form-control,
+  .form-select {
+    @extend .bg-input;
+  }
 }
 
 html[data-bs-theme='workstation-dark'] {
@@ -83,5 +92,14 @@ html[data-bs-theme='workstation-dark'] {
 
   @each $color, $value in $workstation-text-dark {
     @include generateTextClass($color, value);
+  }
+
+  // Default color;
+  @extend .text-dark;
+
+  // Form inputs bootstrap
+  .form-control,
+  .form-select {
+    @extend .bg-input;
   }
 }

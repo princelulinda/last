@@ -67,6 +67,15 @@ html[data-bs-theme='banking-light'] {
   @each $color, $value in $banking-text-light {
     @include generateTextClass($color, value);
   }
+
+  // Default color;
+  @extend .text-dark;
+
+  // Form inputs bootstrap
+  .form-control,
+  .form-select {
+    @extend .bg-input;
+  }
 }
 
 html[data-bs-theme='banking-dark'] {
@@ -81,5 +90,14 @@ html[data-bs-theme='banking-dark'] {
 
   @each $color, $value in $banking-text-dark {
     @include generateTextClass($color, value);
+  }
+
+  // Default color;
+  @extend .text-dark;
+
+  // Form inputs bootstrap
+  .form-control,
+  .form-select {
+    @extend .bg-input;
   }
 }

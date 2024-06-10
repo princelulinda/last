@@ -90,3 +90,35 @@ $border-color: #c4c4c4;
 //     color: #ffff !important;
 //   }
 // }
+
+// global config for bootstrap input
+
+.form-control + label.form-label,
+.form-control + label,
+.form-select + label {
+  @extend .form-label;
+  @extend .text-dark;
+  &:after {
+    background-color: transparent !important;
+  }
+}
+.form-floating > .form-control,
+.form-floating > .form-control-plaintext {
+  padding-bottom: 0;
+}
+
+.form-floating .form-control::placeholder {
+  color: transparent !important;
+}
+
+.input-group {
+  @extend .sm-radius;
+  overflow: hidden;
+  .form-control {
+    border: 0 !important;
+  }
+  .input-group-text {
+    border: 0 !important;
+    border-radius: 0 !important;
+  }
+}
