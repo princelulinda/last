@@ -2,8 +2,11 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: calibri;
+  min-height: 100dvh;
 }
 
+@import '../public/sass/fonts/fonts';
 @import '../public/sass/colors/global';
 @import '../public/sass/colors/banking';
 @import '../public/sass/colors/workstation';
