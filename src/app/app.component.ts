@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { DbService } from './core/db/db.service';
@@ -10,12 +10,17 @@ import { DbService } from './core/db/db.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   plateform = 'market';
 
   constructor(private dbService: DbService) {}
 
   setStoredTheme = (theme: string) => localStorage.setItem('theme', theme);
+
+  ngOnInit() {
+    console.log('CALLING FROM APP COMPONENT');
+    this.dbService.populate();
+  }
 
   // ngAfterViewInit() {
   // (() => {
