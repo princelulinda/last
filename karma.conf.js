@@ -12,6 +12,35 @@ module.exports = function (config) {
       require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma'),
     ],
+    // List of files / patterns to load in the browser.
+    files: [
+      'node_modules/@angular/core/testing.js',
+      'node_modules/@angular/platform-browser/testing.js',
+      'src/**/*.spec.ts', // Replace with path to your test specs
+    ],
+    // List of preprocessors to apply before serving the files
+    preprocessors: {
+      'src/**/*.spec.ts': ['webpack'], // Replace with path to your test specs
+    },
+    webpack: {
+      // Karma webpack configuration
+      module: {
+        rules: [
+          {
+            test: /\.ts$/,
+            use: [
+              { loader: 'ts-loader' },
+              // Add other loaders for code coverage if needed
+            ],
+            exclude: /node_modules/,
+          },
+        ],
+      },
+      resolve: {
+        extensions: ['.ts', '.js'],
+      },
+    },
+
     client: {
       jasmine: {
         // you can add configuration options for Jasmine here
