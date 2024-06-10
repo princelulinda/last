@@ -3,9 +3,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    "module": "CommonJS",
-    "types": ["jest", "node"]
+    "types": ["jasmine", "@angular/localize"]
   },
-  "files": ["setup.jest.ts"],
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }
