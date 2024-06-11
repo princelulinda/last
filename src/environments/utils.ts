@@ -26,10 +26,31 @@ export const environmentConfig: {
   configTest: {
     production: false,
     plateformsUuid: [
-      { name: 'newsfeed', uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022' },
-      { name: 'onlinebanking', uuid: '65231163-2099-45e3-95de-0bdfa5882088' },
-      { name: 'marketplace', uuid: '28544962-9f7a-4768-adad-66f336251822' },
-      { name: 'workstation', uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9' },
+      {
+        name: 'newsfeed',
+        uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
+        theme: { color: 'erp-ihela' },
+      },
+      {
+        name: 'onlinebanking',
+        uuid: '65231163-2099-45e3-95de-0bdfa5882088',
+        theme: { color: 'erp-ihela' },
+      },
+      {
+        name: 'marketplace',
+        uuid: '28544962-9f7a-4768-adad-66f336251822',
+        theme: { color: 'erp-ihela' },
+      },
+      {
+        name: 'workstation',
+        uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
+        theme: { color: 'erp-ihela' },
+      },
+      {
+        name: 'systemadmin',
+        uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
+        theme: { color: 'erp-magis' },
+      },
     ],
     appInfo: '39a31c07-633e-429e-a602-09500f8d56d2',
     defaultAppSubject: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
