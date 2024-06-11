@@ -153,27 +153,47 @@ export class DbService {
 
   async setUser(data: UserApiResponse) {
     console.log('ADDING USER USER : ', data, data?.token);
+    const checkUser = await this.checkIfUser();
     if (data?.token !== null) {
       console.log('ADDING USER TOKEN : ', data.token);
       this.apiService.setLocalToken(data.token);
-      await this.add('users', {
-        username: data.username,
-        email: data.email,
-        fullName: data.full_name,
-        hasPin: data.has_pin,
-        ihelaCode: data.ihela_code,
-        phoneNumber: data.phone_number,
-        userToken: data.token,
-        fcmData: data.fcm_data,
-        deviceData: data.device_data,
-      });
+      if (!checkUser) {
+        await this.add('users', {
+          username: data.username,
+          email: data.email,
+          fullName: data.full_name,
+          hasPin: data.has_pin,
+          ihelaCode: data.ihela_code,
+          phoneNumber: data.phone_number,
+          userToken: data.token,
+          fcmData: data.fcm_data,
+          deviceData: data.device_data,
+        });
+      }
     }
   }
 
+  // async getDbUser() {
+  //   return this.liveQuery(async () => {
+  //     await this.db.table('users').where({ id: 1 }).toArray();
+  //   });
+  // }
+
   async getDbUser() {
-    return this.liveQuery(async () => {
-      await this.db.table('users').where({ id: 1 }).toArray();
-    });
+    try {
+      const userDb = await this.db.table('users').orderBy(':id').first();
+      return [userDb];
+    } catch (error) {
+      console.error('Error in fetching Db user', error);
+      return [];
+    }
+  }
+
+  // Function to check if there is a use in Db
+
+  async checkIfUser() {
+    const data = await this.db.table('users').count();
+    return data > 0;
   }
 
   async getUser(): Promise<object> {
