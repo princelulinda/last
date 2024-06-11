@@ -18,7 +18,7 @@ export class ConfigService {
   } | null = null;
 
   constructor(private dbService: DbService) {
-    this.initAll();
+    // this.initAll();
   }
 
   getMainConfig() {

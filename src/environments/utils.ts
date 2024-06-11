@@ -29,27 +29,27 @@ export const environmentConfig: {
       {
         name: 'newsfeed',
         uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
-        theme: { color: 'erp-ihela' },
+        theme: { color: 'ihela' },
       },
       {
         name: 'onlinebanking',
         uuid: '65231163-2099-45e3-95de-0bdfa5882088',
-        theme: { color: 'erp-ihela' },
+        theme: { color: 'ihela' },
       },
       {
         name: 'marketplace',
         uuid: '28544962-9f7a-4768-adad-66f336251822',
-        theme: { color: 'erp-ihela' },
+        theme: { color: 'ihela' },
       },
       {
         name: 'workstation',
         uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
-        theme: { color: 'erp-ihela' },
+        theme: { color: 'erp' },
       },
       {
         name: 'systemadmin',
         uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
-        theme: { color: 'erp-magis' },
+        theme: { color: 'magis' },
       },
     ],
     appInfo: '39a31c07-633e-429e-a602-09500f8d56d2',
