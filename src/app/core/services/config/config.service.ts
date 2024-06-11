@@ -41,10 +41,10 @@ export class ConfigService {
   }
 
   initAll() {
-    /* eslint-disable */
     // Init selected platform
     this.getMainConfig().subscribe({
       next: (aConf: any) => {
+        // eslint-disable-line
         this.activeConfig = aConf as {
           activePlatform: string;
           activeTheme: ThemeModel;
@@ -52,7 +52,6 @@ export class ConfigService {
         } | null;
       },
     });
-    /* eslint-enable */
   }
 
   resetMode() {
