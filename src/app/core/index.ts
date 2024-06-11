@@ -6,6 +6,7 @@ export const AllServices = [
   Services.ApiService,
   Services.AuthService,
   Services.ThemeService,
+  Services.ConfigService,
 ];
 
 export const AllGuards = [
