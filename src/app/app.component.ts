@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { DbService } from './core/db/db.service';
-
+import { LeftAsideMenuComponent } from './shared/aside-menu/left-aside-menu/left-aside-menu.component';
+import { RightAsideMenuComponent } from './shared/aside-menu/right-aside-menu/right-aside-menu.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, LeftAsideMenuComponent, RightAsideMenuComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

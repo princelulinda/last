@@ -10,6 +10,7 @@ import { Component } from '@angular/core';
 })
 export class LeftAsideMenuComponent {
   plateform = '';
+  isMymarket = true;
 
   switchPlateform(name: string) {
     this.plateform = name;

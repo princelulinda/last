@@ -1,48 +1,86 @@
+
+
+
 <aside class="p-3 ps-md-0 ps-xl-3 w-25">
   <!-- home menus -->
-    <section class="mt-2 w-50" >
-        <a
-            class="mb-4 d-flex align-items-center clickable rounded text-gray is-link"
-          
-            routerLink="/h"
-           
-            routerLinkActive="text-dark"
-        >
-            <span
-                class="bg-primary me-3 rounded-pill"
-                
-                
-                ><i class="fa-solid fa-house"></i
-            ></span>
-            <span class="fw-bold" i18n>Publications</span>
-        </a>
-        <a
-          
-            class="mb-4 d-flex align-items-center justify-content-between ckable rounded text-gray"
-            routerLink="/h/home/chat"
-            routerLinkActive="text-dark"
-        >
-            <span class="">
-                <span
-                   
-                    class="info-icon me-3 d-inline-block rounded-pill"
-                    style="padding: 0.7rem 0.9rem"
-                    ><i class="fa-regular fa-comments"></i
-                ></span>
-                <span class="fw-bold" i18n>Chat</span>
-            </span>
-            <span
-                style="padding: 0 0.6rem; font-size: 14px"
-                class="me-xl-5 rounded text-blue fw-bold"
-               
-            >
-                0
-            </span>
-        </a>
+   @if (plateform === 'home') {
+    <section class="mt-2 w-50"  >
+      
+        <div
+             
+        class="mt-4 d-flex align-items-center clickable is-link "
+        routerLink="/m"
+        routerLinkActive="text-dark"
+      
+    >
+        <span
+            
+            class="success-icon me-3 rounded-pill"
+            style="padding: 0.78rem 1rem"
+            > <i class="fa-solid fa-house text-secondary"></i></span>
+        <span class="fw-bold text-secondary" i18n>Publications</span>
+    </div>
 
-        <a
+    <div
+                  
+    class="mt-4 d-flex align-items-center justify-content-between  is-link  clickable  "     
+    
+    routerLink="/h"
+routerLinkActive="text-dark"
+
+>
+   <div>
+    <span class="">
+        <span
            
-            class="mt-4 d-flex align-items-center clickable rounded text-gray"
+            class="info-icon me-3 d-inline-block rounded-pill"
+            style="padding: 0.7rem 0.9rem"
+            >
+            <i class="fa-regular fa-comments"></i
+                > </span>
+        <span class="fw-bold text-secondary" i18n>Chat</span>
+    </span>
+   </div>
+   <div>
+     <span
+    
+        class="  fw-bold me-xl-2"
+       
+    >
+        0
+    </span>
+   </div>
+    </div>
+  
+          <a
+             
+              class="mt-4 d-flex align-items-center clickable rounded text-gray is-link text-decoration-none"
+              routerLink="/m"
+              routerLinkActive="text-dark"
+            
+          >
+              <span
+                  
+                  class="success-icon me-3 rounded-pill"
+                  style="padding: 0.78rem 1rem"
+                  ><i class="fa-solid fa-cart-shopping text-success"></i
+              ></span>
+              <span class="fw-bold text-secondary" i18n>Market</span>
+          </a>
+  
+       
+      </section>
+   }
+   
+
+     <!-- onlineBanking menus -->
+
+     @if (plateform === 'onlineBanking'){
+        <section class="mt-2 w-50" >
+      
+            <div
+                 
+            class="mt-4 d-flex align-items-center clickable  is-link  "
             routerLink="/m"
             routerLinkActive="text-dark"
           
@@ -51,12 +89,295 @@
                 
                 class="success-icon me-3 rounded-pill"
                 style="padding: 0.78rem 1rem"
-                ><i class="fa-solid fa-cart-shopping"></i
-            ></span>
-            <span class="fw-bold" i18n>Market</span>
-        </a>
+                ><i class="fa-solid fa-house"></i
+                    ></span>
+            <span class="fw-bold text-secondary" i18n>Home</span>
+                </div>
+             
+      
+              <a
+                 
+                  class="mt-4 d-flex align-items-center clickable rounded text-gray is-link text-decoration-none"
+                  routerLink="/m"
+                  routerLinkActive="text-dark"
+                
+              >
+                  <span
+                      
+                      class=" me-3 rounded-pill "
+                      style="padding: 0.78rem 1rem"
+                      ><i class="fa-solid fa-calculator text-primary"></i></span>
+                  <span class="fw-bold text-secondary" i18n>Tarifs</span>
+              </a>
+      
+           
+          </section>
+     }
+    
+     <!--market-->
+     @if (plateform === 'Markert')
+     {
 
+        <div class="ms-2" >
+            <section class="mt-2 w-50"  >
+              
+                <div
+                     
+                class="mt-4 d-flex align-items-center clickable is-link text-decoration-none  clickable "
+                routerLink="/m"
+                routerLinkActive="text-dark"
+                
+              
+            >
+                <span
+                    
+                    class="success-icon me-3 rounded-pill"
+                    style="padding: 0.78rem 1rem">
+                    <i class="fa-solid fa-house"></i>
+                        
+                        </span>
+                <span class="fw-bold text-secondary" i18n>Home</span>
+        
+                    </div>
+                 
+                    <div
+                     
+                    class="mt-4 d-flex align-items-center clickable  is-link  clickable "
+                    routerLink="/m"
+                    routerLinkActive="text-dark"
+                  
+                >
+                    <span
+                        
+                        class=" me-3 rounded-pill"
+                        style="padding: 0.78rem 1rem"
+                        > <i class="fa-solid fa-basket-shopping text-success"></i>
+                        </span>
+                    <span class="fw-bold text-secondary" i18n>Product</span>
+                    </div>
+          
+                    <div
+                     
+                    class="mt-4 d-flex align-items-center clickable  is-link  clickable "
+                    routerLink="/m"
+                    routerLinkActive="text-dark"
+                  
+                >
+                    <span
+                        
+                        class="success-icon me-3 rounded-pill"
+                        style="padding: 0.78rem 1rem"
+                        ><i class="fa-solid fa-shop"></i>
+                        </span>
+                    <span class="fw-bold text-secondary" i18n>Merchants</span>
+                    </div>
+            <div
+                  
+            class="mt-4 d-flex align-items-center justify-content-between  is-link  clickable  "     
+            
+            routerLink="/h"
+        routerLinkActive="text-dark"
+        
+        >
+           <div>
+            <span class="">
+                <span
+                   
+                    class=" me-3 d-inline-block rounded-pill"
+                    style="padding: 0.7rem 0.9rem"
+                    >
+                    <i class="fa-solid fa-cart-shopping text-success"></i></span>
+                <span class="fw-bold text-secondary" i18n>Carts</span>
+            </span>
+           </div>
+           <div>
+             <span
+            
+                class=" text-success fw-bold me-xl-2"
+               
+            >
+                0
+            </span>
+           </div>
+            </div>
+               
+             
+
+                 <div
+                     
+                    class="mt-4 d-flex align-items-center clickable  is-link  clickable "
+                    routerLink="/m"
+                    routerLinkActive="text-dark"
+                  
+                >
+                    <span
+                        
+                        class=" me-3 rounded-pill"
+                        style="padding: 0.78rem 1rem"
+                        >  <i class="fa-solid fa-file-invoice-dollar"></i>
+                        </span>
+                    <span class="fw-bold text-secondary" i18n>Bills</span>
+                    </div>
+        
+                <div
+                     
+                class="mt-4 d-flex align-items-center clickable  is-link  clickable border  "
+                routerLink="/m"
+                routerLinkActive="text-dark"
+              
+            >
+                <span
+                    
+                    class=" me-3 rounded-pill"
+                    style="padding: 0.78rem 1rem"
+                    >  <i class=" fa-solid fa-cart-shopping fs-2 text-primary"></i>
+                    </span>
+                <span class="fw-bold text-secondary" i18n>My Market</span>
+                </div> 
+              </section>
+
+
+           
+        </div>
+        
+     }
+   
+@if (plateform==='myMarket') {
+    @if (isMymarket)
+    {
+        <section class="mt-2 w-50"   >
+      
+            <div
+                 
+            class="mt-4 d-flex align-items-center clickable is-link text-decoration-none  clickable "
+            routerLink="/m"
+            routerLinkActive="text-dark"
+            
+          
+        >
+            <span
+                
+                class="success-icon me-3 rounded-pill"
+                style="padding: 0.78rem 1rem">
+                <i class="fa-solid fa-house"></i>
+                    
+                    </span>
+            <span class="fw-bold text-secondary" i18n>Home</span>
+    
+                </div>
+             
+      
+        <div
+              
+        class="mt-4 d-flex align-items-center justify-content-between  is-link  clickable  "     
+        
+        routerLink="/h"
+    routerLinkActive="text-dark"
+    
+    >
+       <div>
+        <span class="">
+            <span
+               
+                class="info-icon me-3 d-inline-block rounded-pill"
+                style="padding: 0.7rem 0.9rem"
+                >
+                <i class="fa-solid fa-store"></i></span>
+            <span class="fw-bold text-secondary" i18n>Orders</span>
+        </span>
+       </div>
+       <div>
+         <span
+        
+            class=" text-blue fw-bold me-xl-2"
+           
+        >
+            0
+        </span>
+       </div>
+        </div>
+        <div
+              
+        class="mt-4 d-flex align-items-center justify-content-between  is-link  clickable  "     
+        
+        routerLink="/h"
+    routerLinkActive="text-dark"
+    
+    >
+       <div>
+        <span class="">
+            <span
+               
+                class="info-icon me-3 d-inline-block rounded-pill"
+                style="padding: 0.7rem 0.9rem"
+                >
+                <i class="fa-solid fa-cart-shopping"></i></span>
+            <span class="fw-bold text-secondary" i18n>Carts</span>
+        </span>
+       </div>
+       <div>
+         <span
+        
+            class=" text-blue fw-bold me-xl-2"
+           
+        >
+            0
+        </span>
+       </div>
+        </div>
+          
      
-    </section>
-
+    
+            <div
+                 
+            class="mt-4 d-flex align-items-center clickable  is-link  clickable "
+            routerLink="/m"
+            routerLinkActive="text-dark"
+          
+        >
+            <span
+                
+                class="success-icon me-3 rounded-pill"
+                style="padding: 0.78rem 1rem"
+                > <i class="fa-solid fa-file-invoice-dollar"></i>
+                </span>
+            <span class="fw-bold text-secondary" i18n>Bills Report</span>
+            </div>     
+    
+              
+    
+            <div
+                 
+            class="mt-4 d-flex align-items-center clickable  is-link  clickable "
+            routerLink="/m"
+            routerLinkActive="text-dark"
+          
+        >
+            <span
+                
+                class="success-icon me-3 rounded-pill p-2">
+               
+                <i class="fa-solid fa-receipt "></i>
+                </span>
+            <span class="fw-bold text-secondary" i18n>Payments Report</span>
+            </div> 
+    
+            <div
+                 
+            class="mt-4 d-flex align-items-center clickable  is-link  clickable border  "
+            routerLink="/m"
+            routerLinkActive="text-dark"
+          
+        >
+            <span
+                
+                class="success-icon me-3 rounded-pill"
+                style="padding: 0.78rem 1rem"
+                >  <i class="text-dark fa-solid fa-cart-shopping fs-2"></i>
+                </span>
+            <span class="fw-bold text-secondary" i18n>Market Place</span>
+            </div> 
+          </section>
+    }
+}
 </aside> 
