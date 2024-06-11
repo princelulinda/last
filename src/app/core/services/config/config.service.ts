@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DbService } from '../../db/db.service';
 import { MainConfig } from '../../db/models';
 
-import { environment } from '../../../environments';
+import { environment } from '../../../../environments/environment';
 
 export type ModeModel = 'light' | 'dark';
 export type ThemeModel = 'banking' | 'workstation';
@@ -13,19 +13,19 @@ export type ThemeModel = 'banking' | 'workstation';
 export class ConfigService {
   activeConfig: {
     activePlatform: string;
-    activeTheme: string;
-    activeMode: string;
+    activeTheme: ThemeModel;
+    activeMode: ModeModel;
   } | null = null;
 
   constructor(private dbService: DbService) {
     this.initAll();
   }
 
-  async getMainConfig() {
-    // return this.db.liveQuery(async () => {
-    //   await this.db.table('mainconfigs').where({ id: 1 }).toArray();
+  getMainConfig() {
+    // return this.dbService.liveQuery(async () => {
+    //   await this.dbService.table('mainconfigs').where({ id: 1 }).toArray();
     // });
-    return this.db.where(MainConfig.tableName, { id: 1 });
+    return this.dbService.get(MainConfig.tableName, 1);
   }
 
   setMainConfig(
@@ -33,7 +33,7 @@ export class ConfigService {
     activeTheme: ThemeModel,
     activeMode: ModeModel
   ) {
-    return this.db.add(MainConfig.tableName, {
+    return this.dbService.add(MainConfig.tableName, {
       activePlatform: activePlatform,
       activeTheme: activeTheme,
       activeMode: activeMode,
@@ -41,34 +41,51 @@ export class ConfigService {
   }
 
   initAll() {
+    /* eslint-disable */
     // Init selected platform
-    getMainConfig().subscribe({
-      next: conf => {
-        this.activeConfig = conf;
+    this.getMainConfig().subscribe({
+      next: (aConf: any) => {
+        this.activeConfig = aConf as {
+          activePlatform: string;
+          activeTheme: ThemeModel;
+          activeMode: ModeModel;
+        } | null;
       },
     });
+    /* eslint-enable */
   }
 
   resetMode() {
     const defaultMode: ModeModel = 'light';
-    return this.setMainConfig(
-      this.activeConfig.activePlatform,
-      this.activeConfig.activeTheme,
-      defaultMode
-    );
+    if (this.activeConfig) {
+      return this.setMainConfig(
+        this.activeConfig?.activePlatform,
+        this.activeConfig?.activeTheme,
+        defaultMode
+      );
+    } else {
+      return null;
+    }
   }
 
   switchMode(newMode: ModeModel) {
-    const activePlatform = selectedPlateform;
-    return this.setMainConfig(activePlatform, newMode);
+    if (this.activeConfig) {
+      return this.setMainConfig(
+        this.activeConfig?.activePlatform,
+        this.activeConfig?.activeTheme,
+        newMode
+      );
+    } else {
+      return null;
+    }
   }
 
   isLightMode() {
-    return this.activeConfig.activeMode === 'light';
+    return this.activeConfig?.activeMode === 'light';
   }
 
   isDarkMode() {
-    return this.activeConfig.activeMode === 'dark';
+    return this.activeConfig?.activeMode === 'dark';
   }
 
   // resetPlatform() {
@@ -79,14 +96,15 @@ export class ConfigService {
 
   filterPlatformData(platform: string) {
     return (
-      environment.plateformsUuid.filter((key: string) => key === platform) || []
+      environment.plateformsUuid.filter(plUuid => plUuid.name === platform) ||
+      []
     );
   }
 
   switchPlatformState(platform: string) {
     console.log('tsssssssss', platform);
     // const activeTheme = this.dbService.getConfig().platform; // light | dark
-    const platformData = this.filterPlatformData(platform);
+    const platformData = this.filterPlatformData(platform)[0];
     document.documentElement.setAttribute(
       'data-bs-theme',
       `${platformData.theme.color}-${this.activeConfig?.activeMode}`
@@ -96,7 +114,7 @@ export class ConfigService {
     // Update the platform and theme
     this.setMainConfig(
       platform,
-      platformData.theme.color,
+      platformData.theme.color as ThemeModel,
       this.activeConfig?.activeMode as ModeModel
     );
   }

@@ -186,7 +186,7 @@ export class DbService {
   }
 
   // Help : data requires IndexableTypes : https://dexie.org/docs/Indexable-Type
-  get(tableName: string, data: string | string[]) {
+  get(tableName: string, data: string | string[] | number) {
     return this.liveQuery(async () => {
       this.db.table(tableName).get(data);
     });
