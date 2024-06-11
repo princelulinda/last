@@ -1,3 +1,9 @@
+@mixin generateSizeClass($name, $value) {
+  .fs-#{$name} {
+    font-size: $value !important;
+  }
+}
+
 // mixins for border,text and background
 @mixin generateTextClass($colorName, $value) {
   .text-#{$colorName} {
@@ -8,6 +14,8 @@
 @mixin generateBorderColor($colorName, $value) {
   .border-#{$colorName} {
     border-color: $value !important;
+    border-width: 1px;
+    border-style: solid;
   }
 }
 @mixin generateBackgroundClass($colorName, $value) {

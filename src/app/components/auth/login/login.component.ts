@@ -13,8 +13,10 @@ import { UserApiResponse } from '../../../core/db/models';
 })
 export class LoginComponent implements OnInit {
   loginForm = this.formBuilder.nonNullable.group({
-    username: ['', Validators.required, Validators.minLength(2)],
-    password: ['', Validators.required, Validators.minLength(8)],
+    // username: ['', Validators.required, Validators.minLength(2)],
+    // password: ['', Validators.required, Validators.minLength(8)],
+    username: ['', Validators.required],
+    password: ['', Validators.required],
   });
 
   constructor(

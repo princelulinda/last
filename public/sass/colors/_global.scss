@@ -2,24 +2,30 @@
 
 // global font-sizes
 $fontSizes: (
-  x-large: 28px,
-  large: 24px,
-  l-medium: 20px,
-  medium: 18px,
-  normal: 16px,
-  small: 14px,
-  x-small: 12px,
+  'xx-large': 35px,
+  'x-large': 28px,
+  'large': 24px,
+  'l-medium': 20px,
+  'medium': 18px,
+  'normal': 16px,
+  'small': 14px,
+  'x-small': 12px,
 );
-
-$border-color: #c4c4c4;
-
-@each $name, $value in $fontSizes {
-  @include generateTextClass($name, $value);
+@each $name, $size in $fontSizes {
+  @include generateSizeClass($name, $size);
 }
 
 // global border color
+:root {
+  --default-border-color: #c4c4c4;
+}
 .border {
-  --bs-border-color: $border-color;
+  --bs-border-color: var(--default-border-color);
+}
+
+// reset link
+a {
+  text-decoration: none !important;
 }
 
 //global empty state color
