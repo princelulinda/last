@@ -11,7 +11,9 @@ $fontSizes: (
   x-small: 12px,
 );
 
-$border-color: #c4c4c4;
+:root {
+  --default-border-color: #c4c4c4;
+}
 
 @each $name, $value in $fontSizes {
   .fs-#{name} {
@@ -21,7 +23,12 @@ $border-color: #c4c4c4;
 
 // global border color
 .border {
-  --bs-border-color: $border-color;
+  --bs-border-color: var(--default-border-color);
+}
+
+// reset link
+a {
+  text-decoration: none !important;
 }
 
 //global empty state color
