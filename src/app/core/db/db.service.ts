@@ -8,14 +8,14 @@ import { ApiService } from '../services/api/api.service';
   providedIn: 'root',
 })
 export class DbService {
-  private db: Dexie;
+  public db: Dexie; // TODO : Make this private and use addEvent func
   private dbName = 'main-magis-erp-db';
   private modelsDir = './models';
   public liveQuery = liveQuery;
 
   constructor(private apiService: ApiService) {
     this.db = new Dexie(this.dbName);
-    this.initializeModels();
+    // this.initializeModels();
   }
 
   async initializeModels() {
@@ -94,8 +94,12 @@ export class DbService {
     this.db.open();
     // console.log(" ============================== >>> CALLING FROM DB SERVICE");
 
-    // this.populate();
+    this.populate();
   }
+
+  // addEvent(eventName: string, callback: Function) {
+  //   // this.db.on(eventName, () => callback());
+  // }
 
   async populate() {
     const localToken = this.apiService.getLocalToken();

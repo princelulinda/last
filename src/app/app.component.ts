@@ -24,7 +24,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     console.log('CALLING FROM APP COMPONENT');
-    this.dbService.populate();
+    this.dbService.initializeModels();
+    // this.configService.initAll();
+  }
+
+  ngAfterInit() {
+    this.configService.initAll();
   }
 
   // ngAfterViewInit() {

@@ -41,17 +41,23 @@ export class ConfigService {
   }
 
   initAll() {
-    // Init selected platform
-    this.getMainConfig().subscribe({
-      next: (aConf: any) => {
-        // eslint-disable-line
-        this.activeConfig = aConf as {
-          activePlatform: string;
-          activeTheme: ThemeModel;
-          activeMode: ModeModel;
-        } | null;
-      },
-    });
+    // this.dbService.initializeModels();
+    const initFn = () => {
+      console.log('PASSE ICI 1');
+      this.switchPlatformState('newsfeed');
+      // Init selected platform
+      this.getMainConfig().subscribe({
+        // eslint-disable-next-line
+        next: (aConf: any) => {
+          this.activeConfig = aConf as {
+            activePlatform: string;
+            activeTheme: ThemeModel;
+            activeMode: ModeModel;
+          } | null;
+        },
+      });
+    };
+    this.dbService.db.on('ready', initFn);
   }
 
   resetMode() {
