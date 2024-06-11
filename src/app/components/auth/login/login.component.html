@@ -1,11 +1,40 @@
-<form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
-  <div class="form-floating mb-3">
-    <input type="username" class="form-control" id="username" placeholder="Username" formControlName="username">
-    <label for="username" i18n>Username</label>
+<div class="container d-flex justify-content-center">
+  <div class="row border border-1 lg-radius col-md-8">
+    <div class="col px-5 p-3 ">
+       <div class="col d-flex justify-content-center fs-l-medium mb-3"><span>Login with</span></div>
+      <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+        <div class="form-floating mb-4">
+          <input type="text" class="form-control" id="number" placeholder="number" formControlName="number">
+          <label for="number">Onamob Number</label>
+        </div>
+
+        <div class="mt-4 mb-4 d-flex justify-content-center fw-bold"> <span>or</span></div>
+
+        <div class="form-floating mb-4">
+          <input type="username" class="form-control" id="username" placeholder="Username" formControlName="username">
+          <label for="username" i18n>Username</label>
+        </div>
+        
+        <div class="form-floating">
+          <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+          <label for="password">Password</label>
+        </div>
+       <div class="col">
+        <button type="submit" class="btn mt-4 w-100 bg-primary lg-radius text-white p-3" [disabled]="!loginForm.valid">Login</button>
+       </div>
+      </form>
+      <div class="col d-flex justify-content-center mt-4"><span>Forgot password?</span></div>
+    </div>
+    <div class="col bg-primary lg-radius text-white d-flex align-items-center justify-content-center text-center">
+      <div>
+        <span> <span class="fs-l-medium">New to iHela Ryanje?</span> <br> <br>
+          <span class="fs-normal">Create an account and join thousands <br>
+            of satisfied customers. <br>
+            <button class="btn bg-primary border-white text-white mt-4">Create an account</button>
+          </span>
+        </span>
+      </div>
+    </div>
   </div>
-  <div class="form-floating">
-    <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
-    <label for="password">Password</label>
-  </div>
-  <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">Submit</button>
-</form>
+
+</div>
