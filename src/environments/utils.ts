@@ -64,10 +64,26 @@ export const environmentConfig: {
   configProduction: {
     production: true,
     plateformsUuid: [
-      { name: 'newsfeed', uuid: '9c11211d-39cb-472d-ac7c-67820f067706' },
-      { name: 'onlinebanking', uuid: 'bafc6065-b332-443b-8444-a811f9a5e6a2' },
-      { name: 'marketplace', uuid: 'ef333aab-4887-4f33-baa8-862051151992' },
-      { name: 'workstation', uuid: 'bd75a7eb-37a1-4916-a144-54286dfbcc41' },
+      {
+        name: 'newsfeed',
+        uuid: '9c11211d-39cb-472d-ac7c-67820f067706',
+        theme: { color: 'erp-ihela' },
+      },
+      {
+        name: 'onlinebanking',
+        uuid: 'bafc6065-b332-443b-8444-a811f9a5e6a2',
+        theme: { color: 'erp-ihela' },
+      },
+      {
+        name: 'marketplace',
+        uuid: 'ef333aab-4887-4f33-baa8-862051151992',
+        theme: { color: 'erp-ihela' },
+      },
+      {
+        name: 'workstation',
+        uuid: 'bd75a7eb-37a1-4916-a144-54286dfbcc41',
+        theme: { color: 'erp-magis' },
+      },
     ],
     appInfo: '9c11211d-39cb-472d-ac7c-67820f067706',
     defaultAppSubject: '',
