@@ -31,14 +31,9 @@ export const routes: Routes = [
   {
     path: 'banking',
     component: BankingComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: () =>
-          import('./components/online-banking/banking.routes').then(
-            m => m.bankingRoutes
-          ),
-      },
-    ],
+    loadChildren: () =>
+      import('./components/online-banking/banking.routes').then(
+        m => m.bankingRoutes
+      ),
   },
 ];
