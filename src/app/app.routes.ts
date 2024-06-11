@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 // import { authGuard,workstationGuard, bankingGuard} from './core/guards';
 // import { authGuard, noAuthGuard } from './core/guards';
 
-import { AuthLayoutComponent } from './components/auth/auth-layout/auth-layout.component';
+import { routes as authRoutes } from './components/auth/auth.routes';
 import { Notfound400Component } from './components/errors/notfound-400/notfound-400.component';
 import { GeneralComponent } from './components/dev/general/general.component';
 
@@ -20,12 +20,7 @@ export const routes: Routes = [
   {
     path: '',
     // canActivate: [noAuthGuard],
-    children: [
-      {
-        path: '',
-        component: AuthLayoutComponent,
-      },
-    ],
+    children: authRoutes,
   },
   // This is a temporary logic to abandon as soon as possible
   { path: 'dev-general', component: GeneralComponent },
