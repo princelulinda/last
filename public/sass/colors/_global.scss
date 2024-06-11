@@ -2,24 +2,30 @@
 
 // global font-sizes
 $fontSizes: (
-  x-large: 28px,
-  large: 24px,
-  l-medium: 20px,
-  medium: 18px,
-  normal: 16px,
-  small: 14px,
-  x-small: 12px,
+  'xx-large': 35px,
+  'x-large': 28px,
+  'large': 24px,
+  'l-medium': 20px,
+  'medium': 18px,
+  'normal': 16px,
+  'small': 14px,
+  'x-small': 12px,
 );
-
-$border-color: #c4c4c4;
-
-@each $name, $value in $fontSizes {
-  @include generateTextClass($name, $value);
+@each $name, $size in $fontSizes {
+  @include generateSizeClass($name, $size);
 }
 
 // global border color
+:root {
+  --default-border-color: #c4c4c4;
+}
 .border {
-  --bs-border-color: $border-color;
+  --bs-border-color: var(--default-border-color);
+}
+
+// reset link
+a {
+  text-decoration: none !important;
 }
 
 //global empty state color
@@ -39,4 +45,86 @@ $border-color: #c4c4c4;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+//global cursor class
+.clickable {
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.not-clickable {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+//global badge classes
+// .badge-design {
+//   max-width: 100px;
+//   min-height: 31px;
+//   border-radius: 5px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: 15px;
+//   font-weight: bold;
+//   @extend .px-2;
+//   &.bg-success,
+//   &.success {
+//     background-color: $success !important;
+//     color: #058519 !important;
+//   }
+//   &.bg-info,
+//   &.info {
+//     background-color: $info !important;
+//     color: #235ea2 !important;
+//   }
+//   &.bg-warning,
+//   &.warning {
+//     background-color: $warning !important;
+//     color: #a3a300 !important;
+//   }
+//   &.bg-danger,
+//   &.danger {
+//     background-color: $danger !important;
+//     color: #a11717 !important;
+//   }
+//   &.bg-secondary,
+//   .secondary {
+//     background-color: $secondary !important;
+//     color: #ffff !important;
+//   }
+// }
+
+// global config for bootstrap input
+
+.form-control + label.form-label,
+.form-control + label,
+.form-select + label {
+  @extend .form-label;
+  @extend .text-dark;
+  &:after {
+    background-color: transparent !important;
+  }
+}
+.form-floating > .form-control,
+.form-floating > .form-control-plaintext {
+  padding-bottom: 0;
+}
+
+.form-floating .form-control::placeholder {
+  color: transparent !important;
+}
+
+.input-group {
+  @extend .sm-radius;
+  overflow: hidden;
+  .form-control {
+    border: 0 !important;
+  }
+  .input-group-text {
+    border: 0 !important;
+    border-radius: 0 !important;
+  }
 }
