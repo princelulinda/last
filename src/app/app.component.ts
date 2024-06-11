@@ -28,9 +28,9 @@ export class AppComponent implements OnInit {
     // this.configService.initAll();
   }
 
-  ngAfterInit() {
-    this.configService.initAll();
-  }
+  // ngAfterInit() {
+  //   this.configService.initAll();
+  // }
 
   // ngAfterViewInit() {
   // (() => {
