@@ -2,27 +2,23 @@
 
 // global font-sizes
 $fontSizes: (
-  xx-large: 35px,
-  x-large: 28px,
-  large: 24px,
-  l-medium: 20px,
-  medium: 18px,
-  normal: 16px,
-  small: 14px,
-  x-small: 12px,
+  'xx-large': 35px,
+  'x-large': 28px,
+  'large': 24px,
+  'l-medium': 20px,
+  'medium': 18px,
+  'normal': 16px,
+  'small': 14px,
+  'x-small': 12px,
 );
-
-:root {
-  --default-border-color: #c4c4c4;
-}
-
-@each $name, $value in $fontSizes {
-  .fs-#{name} {
-    font-size: $value;
-  }
+@each $name, $size in $fontSizes {
+  @include generateSizeClass($name, $size);
 }
 
 // global border color
+:root {
+  --default-border-color: #c4c4c4;
+}
 .border {
   --bs-border-color: var(--default-border-color);
 }
