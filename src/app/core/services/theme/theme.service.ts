@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { DbService } from '../../db/db.service';
 
-export type ThemeModel = 'banking' | 'workstation';
+export type ThemeModel2 = 'banking' | 'workstation';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +15,9 @@ export class ThemeService {
     //code
   }
 
-  theme!: ThemeModel;
+  theme!: ThemeModel2;
 
-  switchPlatformState(platform: ThemeModel) {
+  switchPlatformState(platform: ThemeModel2) {
     console.log('tsssssssss', platform);
     // const activeTheme = this.dbService.getConfig().platform; // light | dark
     const activeTheme = 'light';
@@ -30,7 +30,7 @@ export class ThemeService {
     // this.dbService.setConfig({platform});
   }
 
-  // switchThemeState(theme: ThemeModel) {
+  // switchThemeState(theme: ThemeModel2) {
   //   console.log('tsssssssss', theme);
   //   const activePlateform = this.dbService.getConfig().theme; // ihela | magis
   //   document.documentElement.setAttribute('data-bs-theme', `${activePlateform}-${theme}`);

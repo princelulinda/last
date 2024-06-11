@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { TestComponent } from './base-components/test/test.component';
 
 import { DbService } from './core/db/db.service';
+import { ConfigService } from './core/services';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,10 @@ import { DbService } from './core/db/db.service';
 export class AppComponent implements OnInit {
   plateform = 'market';
 
-  constructor(private dbService: DbService) {}
+  constructor(
+    private dbService: DbService,
+    private configService: ConfigService
+  ) {}
 
   setStoredTheme = (theme: string) => localStorage.setItem('theme', theme);
 

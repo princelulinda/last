@@ -11,6 +11,7 @@ export class DbService {
   private db: Dexie;
   private dbName = 'main-magis-erp-db';
   private modelsDir = './models';
+  public liveQuery = liveQuery;
 
   constructor(private apiService: ApiService) {
     this.db = new Dexie(this.dbName);
@@ -166,7 +167,7 @@ export class DbService {
   }
 
   async getDbUser() {
-    return liveQuery(async () => {
+    return this.liveQuery(async () => {
       await this.db.table('users').where({ id: 1 }).toArray();
     });
   }
@@ -184,13 +185,18 @@ export class DbService {
     return user;
   }
 
-  // get(tableName:string, data: Object|number) {
-  //   return this.db.table(tableName).get(data);
-  // }
+  // Help : data requires IndexableTypes : https://dexie.org/docs/Indexable-Type
+  get(tableName: string, data: string | string[]) {
+    return this.liveQuery(async () => {
+      this.db.table(tableName).get(data);
+    });
+  }
 
-  // where(tableName:string, data: Object|number) {
-  //   return this.db.table(tableName).where(data);
-  // }
+  where(tableName: string, data: string | string[]) {
+    return this.liveQuery(async () => {
+      this.db.table(tableName).where(data);
+    });
+  }
 
   add(tableName: string, data: object) {
     return this.db.table(tableName).add(data);
