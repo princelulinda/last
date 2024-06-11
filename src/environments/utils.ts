@@ -3,7 +3,7 @@ export const APPDBVERSION = 1;
 
 interface reusableDataModel {
   production: boolean;
-  plateformsUuid: { name: string; uuid: string }[];
+  plateformsUuid: { name: string; uuid: string; theme: { color: string } }[];
   appInfo: string;
   defaultAppSubject: string;
   bigBangId: number;
