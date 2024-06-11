@@ -8,6 +8,8 @@
 @mixin generateBorderColor($colorName, $value) {
   .border-#{$colorName} {
     border-color: $value !important;
+    border-width: 1px;
+    border-style: solid;
   }
 }
 @mixin generateBackgroundClass($colorName, $value) {
