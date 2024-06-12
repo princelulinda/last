@@ -13,15 +13,15 @@ export interface UserApiResponse {
 }
 
 export class User extends BaseModel {
-  @Field static username: string | null = null;
-  @Field static email: string | null = null;
-  @Field static fullName: string | null = null;
-  @Field static hasPin = false;
-  @Field static ihelaCode: number | null = null;
-  @Field static phoneNumber: string | null = null;
-  @Field static userToken = '';
-  @Field static fcmData: object | null = null;
-  @Field static deviceData: object | null = null;
+  @Field('userConfigFields') static username: string | null = null;
+  @Field('userConfigFields') static email: string | null = null;
+  @Field('userConfigFields') static fullName: string | null = null;
+  @Field('userConfigFields') static hasPin = false;
+  @Field('userConfigFields') static ihelaCode: number | null = null;
+  @Field('userConfigFields') static phoneNumber: string | null = null;
+  @Field('userConfigFields') static userToken = '';
+  @Field('userConfigFields') static fcmData: object | null = null;
+  @Field('userConfigFields') static deviceData: object | null = null;
 
   // constructor(username: string, email: string, fullName: string, hasPin: boolean, ihelaCode:number, phoneNumber: string, userToken: string, fcmData:object, deviceData: object) {
   //   super();

@@ -3,6 +3,11 @@ import { Dexie, liveQuery } from 'dexie';
 import { UserApiResponse } from './models';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../services/api/api.service';
+import {
+  getAllMetadataKeys,
+  // getMetadataKeyForProperty,
+  // getPropertiesForMetadataKey,
+} from './models/base.model';
 
 @Injectable({
   providedIn: 'root',
@@ -54,10 +59,15 @@ export class DbService {
           'prototype',
           // 'length',
         ];
+
+        // Get metadata keys
+        const metadataKeys = getAllMetadataKeys(model);
+        console.log('metadataKeys', metadataKeys[0]);
+
         // Access class attribute names after class definition
         const propNames =
           Reflect.getMetadata(
-            'modelFields',
+            metadataKeys[0],
             model as Record<string, string>
           ).filter(
             (key: string | symbol) =>
