@@ -1,10 +1,10 @@
 <br><br>
 <div class="container font-montserrat d-flex justify-content-center pt-5 p-5">
-  <div class="row border border-1 lg-radius col-md-10">
+  <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
     <div class="col-md-6 px-5 p-3">
        <div class="col d-flex justify-content-center fs-l-medium mb-3"><span class="fw-bold" i18n>Login with</span></div>
-      <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
-        <div class="form-floating">
+      <form  class="position-relative z-1" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+        <div class="form-floating ">
           <input  type="text" class="form-control" id="number" placeholder="number" formControlName="number">
           <label i18n for="number"><i class="fa-solid fa-mobile-screen  text-secondary me-1"></i> Onamob Number</label>
         </div>
