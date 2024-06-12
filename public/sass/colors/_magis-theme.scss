@@ -1,72 +1,52 @@
-@import '../mixins/mixins';
-
-$globalInchangesColor: (
-  'success': #058519,
-  'info': #2070b8,
-  'danger': #a11717,
-  'warning': #a3a300,
-);
-
-// For workstation light mode
-$workstation-colors-light: (
+// For magis light mode
+$magis-colors-light: (
   'primary': #2070b8,
   'primary-2': #aacef5,
   'primary-3': #e5f2ff,
 );
 
-$workstation-bg-light: (
+$magis-bg-light: (
   'white': #ffffff,
   'secondary': #dce2eb,
-  'workstation': #f6f7f9,
+  'magis': #f6f7f9,
   'input': #f1f1f1,
 );
 
-$workstation-text-light: (
+$magis-text-light: (
   'dark': #414141,
   'secondary': #838383,
 );
 
-// For workstation dark mode
-$workstation-colors-dark: (
+// For magis dark mode
+$magis-colors-dark: (
   'primary': #172b4d,
   'primary-2': #3e4f69,
   'primary-3': #0c1627,
   'white': #242526,
 );
 
-$workstation-bg-dark: (
+$magis-bg-dark: (
   'white': #242526,
   'secondary': #0c1627,
-  'workstation': #18191a,
+  'magis': #18191a,
   'input': #3a3b3c,
 );
 
-$workstation-text-dark: (
+$magis-text-dark: (
   'dark': #d9d9d9,
   'secondary': #9d9d9d,
 );
 
-// merge global colors and current colors
-$workstation-colors-light: map-merge(
-  $workstation-colors-light,
-  $globalInchangesColor
-);
-$workstation-colors-dark: map-merge(
-  $workstation-colors-dark,
-  $globalInchangesColor
-);
-
-html[data-bs-theme='workstation-light'] {
-  // $theme-colors: map-merge($theme-colors, $workstation-colors-light);
-  @each $color, $value in $workstation-colors-light {
+html[data-bs-theme='magis-light'] {
+  @each $color, $value in $magis-colors-light {
     @include makeAsGlobalColors($color, $value);
   }
 
-  @each $color, $value in $workstation-bg-light {
+  @each $color, $value in $magis-bg-light {
     @include generateBackgroundClass($color, $value);
   }
 
-  @each $color, $value in $workstation-text-light {
+  @each $color, $value in $magis-text-light {
     @include generateTextClass($color, value);
   }
 
@@ -80,17 +60,16 @@ html[data-bs-theme='workstation-light'] {
   }
 }
 
-html[data-bs-theme='workstation-dark'] {
-  // $theme-colors: map-merge($theme-colors, $workstation-colors-dark);
-  @each $color, $value in $workstation-colors-dark {
+html[data-bs-theme='magis-dark'] {
+  @each $color, $value in $magis-colors-dark {
     @include makeAsGlobalColors($color, $value);
   }
 
-  @each $color, $value in $workstation-bg-dark {
+  @each $color, $value in $magis-bg-dark {
     @include generateBackgroundClass($color, $value);
   }
 
-  @each $color, $value in $workstation-text-dark {
+  @each $color, $value in $magis-text-dark {
     @include generateTextClass($color, value);
   }
 
