@@ -18,12 +18,10 @@ $ihela-text-light: (
 );
 
 // For ihela dark mode
-
 $ihela-colors-dark: (
   'primary': #810019,
   'primary-2': #c98986,
   'primary-3': #e4c5c3,
-  'white': #242526,
 );
 
 $ihela-bg-dark: (
@@ -38,12 +36,7 @@ $ihela-text-dark: (
   'secondary': #9d9d9d,
 );
 
-// merge global colors and current colors
-// $ihela-colors-light: map-merge($ihela-colors-light, $globalInchangesColor);
-// $ihela-colors-dark: map-merge($ihela-colors-dark, $globalInchangesColor);
-
 html[data-bs-theme='ihela-light'] {
-  // $theme-colors: map-merge($theme-colors, $ihela-colors-light);
   @each $color, $value in $ihela-colors-light {
     @include makeAsGlobalColors($color, $value);
   }
@@ -67,7 +60,6 @@ html[data-bs-theme='ihela-light'] {
 }
 
 html[data-bs-theme='ihela-dark'] {
-  // $theme-colors: map-merge($theme-colors, $ihela-colors-dark);
   @each $color, $value in $ihela-colors-dark {
     @include makeAsGlobalColors($color, $value);
   }

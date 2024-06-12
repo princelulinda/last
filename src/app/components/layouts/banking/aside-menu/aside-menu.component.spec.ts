@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OnlineBankingComponent } from './online-banking.component';
+import { AsideMenuComponent } from './aside-menu.component';
 
-describe('OnlineBankingComponent', () => {
-  let component: OnlineBankingComponent;
-  let fixture: ComponentFixture<OnlineBankingComponent>;
+describe('AsideMenuComponent', () => {
+  let component: AsideMenuComponent;
+  let fixture: ComponentFixture<AsideMenuComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OnlineBankingComponent],
+      imports: [AsideMenuComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OnlineBankingComponent);
+    fixture = TestBed.createComponent(AsideMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,17 +1,8 @@
-@import '../mixins/mixins';
-
-$globalInchangesColor: (
-  'success': #058519,
-  'info': #2070b8,
-  'danger': #a11717,
-  'warning': #a3a300,
-);
-
 // For erp light mode
 $erp-colors-light: (
-  'primary': #2070b8,
-  'primary-2': #aacef5,
-  'primary-3': #e5f2ff,
+  'primary': #810019,
+  'primary-2': #c98986,
+  'primary-3': #e4c5c3,
 );
 
 $erp-bg-light: (
@@ -28,15 +19,14 @@ $erp-text-light: (
 
 // For erp dark mode
 $erp-colors-dark: (
-  'primary': #172b4d,
-  'primary-2': #3e4f69,
-  'primary-3': #0c1627,
-  'white': #242526,
+  'primary': #810019,
+  'primary-2': #c98986,
+  'primary-3': #e4c5c3,
 );
 
 $erp-bg-dark: (
   'white': #242526,
-  'secondary': #0c1627,
+  'secondary': #242526,
   'erp': #18191a,
   'input': #3a3b3c,
 );
@@ -44,20 +34,10 @@ $erp-bg-dark: (
 $erp-text-dark: (
   'dark': #d9d9d9,
   'secondary': #9d9d9d,
-);
-
-// merge global colors and current colors
-$erp-colors-light: map-merge(
-  $erp-colors-light,
-  $globalInchangesColor
-);
-$erp-colors-dark: map-merge(
-  $erp-colors-dark,
-  $globalInchangesColor
+  'primary': #c98986,
 );
 
 html[data-bs-theme='erp-light'] {
-  // $theme-colors: map-merge($theme-colors, $erp-colors-light);
   @each $color, $value in $erp-colors-light {
     @include makeAsGlobalColors($color, $value);
   }
@@ -81,7 +61,6 @@ html[data-bs-theme='erp-light'] {
 }
 
 html[data-bs-theme='erp-dark'] {
-  // $theme-colors: map-merge($theme-colors, $erp-colors-dark);
   @each $color, $value in $erp-colors-dark {
     @include makeAsGlobalColors($color, $value);
   }
