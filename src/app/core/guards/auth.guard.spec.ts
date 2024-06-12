@@ -44,7 +44,7 @@ describe('AuthGuard', () => {
       ],
     });
     guard = TestBed.inject(AuthGuard);
-    router = TestBed.inject(Router);
+    // router = TestBed.inject(Router);
     // authService = TestBed.inject(AuthService); // Inject mock service
   });
 

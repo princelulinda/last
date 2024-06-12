@@ -38,7 +38,7 @@ describe('NoAuthGuard', () => {
       ], // Mock Router
     });
     guard = TestBed.inject(NoAuthGuard);
-    router = TestBed.inject(Router);
+    // router = TestBed.inject(Router);
   });
 
   it('should be created', () => {
