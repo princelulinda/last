@@ -10,6 +10,7 @@ $fontSizes: (
   'normal': 16px,
   'small': 14px,
   'x-small': 12px,
+  
 );
 @each $name, $size in $fontSizes {
   @include generateSizeClass($name, $size);
