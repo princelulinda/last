@@ -6,6 +6,7 @@ import { routes as authRoutes } from './components/auth/auth.routes';
 import { Notfound400Component } from './components/errors/notfound-400/notfound-400.component';
 import { GeneralComponent } from './components/dev/general/general.component';
 import { BankingComponent } from './components/layouts/banking/banking.component';
+import { bankingRoutes } from './components/online-banking/banking.routes';
 
 export const routes: Routes = [
   {
@@ -30,10 +31,7 @@ export const routes: Routes = [
   // This is for Layouts tests
   {
     path: 'banking',
-    component: BankingComponent,
-    loadChildren: () =>
-      import('./components/online-banking/banking.routes').then(
-        m => m.bankingRoutes
-      ),
+    component: BankingComponent, // Banking layout component
+    children: bankingRoutes,
   },
 ];
