@@ -56,6 +56,7 @@ html[data-bs-theme='erp-light'] {
     @extend .bg-input;
   }
 
+  *,
   body {
     // Default color;
     @extend .text-dark;
@@ -84,6 +85,7 @@ html[data-bs-theme='erp-dark'] {
     @extend .bg-input;
   }
 
+  *,
   body {
     // Default color;
     @extend .text-dark;
