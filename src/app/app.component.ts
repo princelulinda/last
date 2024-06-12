@@ -1,27 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { TestComponent } from './base-components/test/test.component';
 
 import { DbService } from './core/db/db.service';
-import { LeftAsideMenuComponent } from './shared/aside-menu/left-aside-menu/left-aside-menu.component';
-import { RightAsideMenuComponent } from './shared/aside-menu/right-aside-menu/right-aside-menu.component';
+import { ConfigService } from './core/services';
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, LeftAsideMenuComponent, RightAsideMenuComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  imports: [RouterOutlet, TestComponent],
 })
 export class AppComponent implements OnInit {
   plateform = 'market';
 
-  constructor(private dbService: DbService) {}
+  constructor(
+    private dbService: DbService,
+    private configService: ConfigService
+  ) {}
 
   setStoredTheme = (theme: string) => localStorage.setItem('theme', theme);
 
   ngOnInit() {
     console.log('CALLING FROM APP COMPONENT');
-    this.dbService.populate();
+    this.dbService.initializeModels();
+    // this.configService.initAll();
   }
+
+  // ngAfterInit() {
+  //   this.configService.initAll();
+  // }
 
   // ngAfterViewInit() {
   // (() => {
