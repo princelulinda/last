@@ -10,7 +10,7 @@ $globalColors: (
 
 @each $color-name, $value in $globalColors {
   @include makeAsGlobalColors($color-name, $value);
-};
+}
 
 // global font-sizes
 $fontSizes: (
@@ -22,18 +22,17 @@ $fontSizes: (
   'normal': 16px,
   'small': 14px,
   'x-small': 12px,
-  
 );
 @each $name, $size in $fontSizes {
   @include generateSizeClass($name, $size);
 }
 
 // global color
-$globalColors: (
+$globalTextColors: (
   'all-white': #d9d9d9,
   'all-dark': #414141,
 );
-@each $name, $value in $globalColors {
+@each $name, $value in $globalTextColors {
   @include generateTextClass($name, $value);
 }
 

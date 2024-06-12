@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { LandingPageComponent } from './landing-page.component';
 import { ActivatedRoute } from '@angular/router';
 
-describe('LandingPageComponent', () => {
-  let component: LandingPageComponent;
-  let fixture: ComponentFixture<LandingPageComponent>;
+import { AuthHeaderComponent } from './auth-header.component';
+
+describe('AuthHeaderComponent', () => {
+  let component: AuthHeaderComponent;
+  let fixture: ComponentFixture<AuthHeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LandingPageComponent],
+      imports: [AuthHeaderComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -18,7 +18,7 @@ describe('LandingPageComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LandingPageComponent);
+    fixture = TestBed.createComponent(AuthHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

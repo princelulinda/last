@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-auth-header',
   standalone: true,
   imports: [RouterLink, RouterLinkActive],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
+  templateUrl: './auth-header.component.html',
+  styleUrl: './auth-header.component.scss',
 })
-export class HeaderComponent {}
+export class AuthHeaderComponent {}
