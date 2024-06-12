@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 import { AuthService } from '../../../core/services';
 import { FullpathService } from '../../../core/services';
 import { UserApiResponse } from '../../../core/db/models';
@@ -8,7 +13,7 @@ import { UserApiResponse } from '../../../core/db/models';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink, RouterLinkActive],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
