@@ -112,14 +112,14 @@ export class ConfigService {
     const platformData = this.filterPlatformData(platform)[0];
     document.documentElement.setAttribute(
       'data-bs-theme',
-      `${platformData.theme.color}-${this.activeConfig?.activeMode}`
+      `${platformData.theme.name}-${this.activeConfig?.activeMode}`
     );
-    document.body.classList.add(`bg-${platformData.theme.color}`);
+    document.body.classList.add(`bg-${platformData.theme.name}`);
 
     // Update the platform and theme
     this.setMainConfig(
       platform,
-      platformData.theme.color as ThemeModel,
+      platformData.theme.name as ThemeModel,
       this.activeConfig?.activeMode as ModeModel
     );
   }

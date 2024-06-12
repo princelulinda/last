@@ -1,58 +1,58 @@
-// For banking light mode
-$banking-colors-light: (
+// For ihela light mode
+$ihela-colors-light: (
   'primary': #810019,
   'primary-2': #c98986,
   'primary-3': #e4c5c3,
 );
 
-$banking-bg-light: (
+$ihela-bg-light: (
   'white': #ffffff,
   'secondary': #ebebeb,
-  'banking': #ffffff,
+  'ihela': #ffffff,
   'input': #f1f1f1,
 );
 
-$banking-text-light: (
+$ihela-text-light: (
   'dark': #414141,
   'secondary': #838383,
 );
 
-// For banking dark mode
+// For ihela dark mode
 
-$banking-colors-dark: (
+$ihela-colors-dark: (
   'primary': #810019,
   'primary-2': #c98986,
   'primary-3': #e4c5c3,
   'white': #242526,
 );
 
-$banking-bg-dark: (
+$ihela-bg-dark: (
   'white': #242526,
   'secondary': #424242,
-  'banking': #242526,
+  'ihela': #242526,
   'input': #1c1c1c,
 );
 
-$banking-text-dark: (
+$ihela-text-dark: (
   'dark': #d9d9d9,
   'secondary': #9d9d9d,
 );
 
 // merge global colors and current colors
-// $banking-colors-light: map-merge($banking-colors-light, $globalInchangesColor);
-// $banking-colors-dark: map-merge($banking-colors-dark, $globalInchangesColor);
+// $ihela-colors-light: map-merge($ihela-colors-light, $globalInchangesColor);
+// $ihela-colors-dark: map-merge($ihela-colors-dark, $globalInchangesColor);
 
-html[data-bs-theme='banking-light'] {
-  // $theme-colors: map-merge($theme-colors, $banking-colors-light);
-  @each $color, $value in $banking-colors-light {
+html[data-bs-theme='ihela-light'] {
+  // $theme-colors: map-merge($theme-colors, $ihela-colors-light);
+  @each $color, $value in $ihela-colors-light {
     @include makeAsGlobalColors($color, $value);
   }
 
-  @each $color, $value in $banking-bg-light {
+  @each $color, $value in $ihela-bg-light {
     @include generateBackgroundClass($color, $value);
   }
 
-  @each $color, $value in $banking-text-light {
+  @each $color, $value in $ihela-text-light {
     @include generateTextClass($color, value);
   }
 
@@ -66,17 +66,17 @@ html[data-bs-theme='banking-light'] {
   }
 }
 
-html[data-bs-theme='banking-dark'] {
-  // $theme-colors: map-merge($theme-colors, $banking-colors-dark);
-  @each $color, $value in $banking-colors-dark {
+html[data-bs-theme='ihela-dark'] {
+  // $theme-colors: map-merge($theme-colors, $ihela-colors-dark);
+  @each $color, $value in $ihela-colors-dark {
     @include makeAsGlobalColors($color, $value);
   }
 
-  @each $color, $value in $banking-bg-dark {
+  @each $color, $value in $ihela-bg-dark {
     @include generateBackgroundClass($color, $value);
   }
 
-  @each $color, $value in $banking-text-dark {
+  @each $color, $value in $ihela-text-dark {
     @include generateTextClass($color, value);
   }
 
