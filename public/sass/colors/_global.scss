@@ -1,5 +1,17 @@
 @import '../mixins/mixins';
 
+// global inchanges color
+$globalColors: (
+  'success': #058519,
+  'info': #2070b8,
+  'danger': #a11717,
+  'warning': #a3a300,
+);
+
+@each $color-name, $value in $globalColors {
+  @include makeAsGlobalColors($color-name, $value);
+};
+
 // global font-sizes
 $fontSizes: (
   'xx-large': 35px,
@@ -78,42 +90,42 @@ a {
 }
 
 //global badge classes
-// .badge-design {
-//   max-width: 100px;
-//   min-height: 31px;
-//   border-radius: 5px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: 15px;
-//   font-weight: bold;
-//   @extend .px-2;
-//   &.bg-success,
-//   &.success {
-//     background-color: $success !important;
-//     color: #058519 !important;
-//   }
-//   &.bg-info,
-//   &.info {
-//     background-color: $info !important;
-//     color: #235ea2 !important;
-//   }
-//   &.bg-warning,
-//   &.warning {
-//     background-color: $warning !important;
-//     color: #a3a300 !important;
-//   }
-//   &.bg-danger,
-//   &.danger {
-//     background-color: $danger !important;
-//     color: #a11717 !important;
-//   }
-//   &.bg-secondary,
-//   .secondary {
-//     background-color: $secondary !important;
-//     color: #ffff !important;
-//   }
-// }
+.badge-design {
+  max-width: 100px;
+  min-height: 31px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: bold;
+  @extend .px-2;
+  &.bg-success,
+  &.success {
+    @extend .bg-success;
+    color: #058519 !important;
+  }
+  &.bg-info,
+  &.info {
+    @extend .bg-info;
+    color: #235ea2 !important;
+  }
+  &.bg-warning,
+  &.warning {
+    @extend .bg-warning;
+    color: #a3a300 !important;
+  }
+  &.bg-danger,
+  &.danger {
+    @extend .bg-danger;
+    color: #a11717 !important;
+  }
+  &.bg-secondary,
+  .secondary {
+    @extend .bg-secondary;
+    color: #ffff !important;
+  }
+}
 
 // global config for bootstrap input
 
