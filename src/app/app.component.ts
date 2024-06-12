@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TestComponent } from './base-components/test/test.component';
 
 import { DbService } from './core/db/db.service';
-import { Layouts } from './components/layouts';
 import { ConfigService } from './core/services';
 
 @Component({
@@ -11,7 +9,7 @@ import { ConfigService } from './core/services';
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [RouterOutlet, TestComponent, ...Layouts],
+  imports: [RouterOutlet],
 })
 export class AppComponent implements OnInit {
   plateform = 'market';

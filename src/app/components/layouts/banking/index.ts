@@ -1,1 +1,1 @@
-export * from './banking.component';
+// export * from './banking.component';
