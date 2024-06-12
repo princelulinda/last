@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OnlineBankingComponent } from './online-banking.component';
+import { BankingComponent } from './banking.component';
 
-describe('OnlineBankingComponent', () => {
-  let component: OnlineBankingComponent;
-  let fixture: ComponentFixture<OnlineBankingComponent>;
+describe('BankingComponent', () => {
+  let component: BankingComponent;
+  let fixture: ComponentFixture<BankingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OnlineBankingComponent],
+      imports: [BankingComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OnlineBankingComponent);
+    fixture = TestBed.createComponent(BankingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
