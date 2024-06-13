@@ -3,6 +3,11 @@ import { Dexie, liveQuery } from 'dexie';
 import { UserApiResponse } from './models';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../services/api/api.service';
+import {
+  getAllMetadataKeys,
+  // getMetadataKeyForProperty,
+  // getPropertiesForMetadataKey,
+} from './models/base.model';
 
 @Injectable({
   providedIn: 'root',
@@ -54,10 +59,15 @@ export class DbService {
           'prototype',
           // 'length',
         ];
+
+        // Get metadata keys
+        const metadataKeys = getAllMetadataKeys(model);
+        console.log('metadataKeys', metadataKeys[0]);
+
         // Access class attribute names after class definition
         const propNames =
           Reflect.getMetadata(
-            'modelFields',
+            metadataKeys[0],
             model as Record<string, string>
           ).filter(
             (key: string | symbol) =>
@@ -156,7 +166,7 @@ export class DbService {
     if (data?.token !== null) {
       console.log('ADDING USER TOKEN : ', data.token);
       this.apiService.setLocalToken(data.token);
-      await this.add('users', {
+      await this.addOnce('users', {
         username: data.username,
         email: data.email,
         fullName: data.full_name,
@@ -170,10 +180,20 @@ export class DbService {
     }
   }
 
+  // async getDbUser() {
+  //   return this.liveQuery(async () => {
+  //     await this.db.table('users').where({ id: 1 }).toArray();
+  //   });
+  // }
+
   async getDbUser() {
-    return this.liveQuery(async () => {
-      await this.db.table('users').where({ id: 1 }).toArray();
-    });
+    try {
+      const userDb = await this.db.table('users').orderBy(':id').first();
+      return [userDb];
+    } catch (error) {
+      console.error('Error in fetching Db user', error);
+      return [];
+    }
   }
 
   async getUser(): Promise<object> {
@@ -204,6 +224,14 @@ export class DbService {
 
   add(tableName: string, data: object) {
     return this.db.table(tableName).add(data);
+  }
+
+  async addOnce(tableName: string, data: object) {
+    const count = await this.db.table(tableName).count();
+
+    if (!count) {
+      this.add(tableName, data);
+    }
   }
 
   update(tableName: string, id: number, data: object) {
