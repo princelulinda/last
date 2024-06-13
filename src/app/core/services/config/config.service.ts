@@ -40,9 +40,28 @@ export class ConfigService {
     });
   }
 
+  getPreferedMode(): ModeModel {
+    if (!this.activeConfig?.activeMode) {
+      return (
+        (window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light') ?? 'light'
+      );
+    } else {
+      return this.activeConfig.activeMode;
+    }
+  }
+
   initAll() {
     // this.dbService.initializeModels();
     const initFn = () => {
+      const mode: ModeModel = this.getPreferedMode();
+      this.switchMode(mode);
+      this.activeConfig = {
+        activeMode: mode,
+        activePlatform: this.activeConfig?.activePlatform as string,
+        activeTheme: this.activeConfig?.activeTheme as ThemeModel,
+      };
       console.log('PASSE ICI 1');
       this.switchPlatformState('newsfeed');
       // Init selected platform
@@ -85,11 +104,11 @@ export class ConfigService {
     }
   }
 
-  isLightMode() {
+  isLightMode(): boolean {
     return this.activeConfig?.activeMode === 'light';
   }
 
-  isDarkMode() {
+  isDarkMode(): boolean {
     return this.activeConfig?.activeMode === 'dark';
   }
 
@@ -106,10 +125,11 @@ export class ConfigService {
     );
   }
 
-  switchPlatformState(platform: string) {
+  switchPlatformState(platform: string): void {
     console.log('tsssssssss', platform);
     // const activeTheme = this.dbService.getConfig().platform; // light | dark
     const platformData = this.filterPlatformData(platform)[0];
+    console.log('ssssssslkajdlkajda', this.activeConfig);
     document.documentElement.setAttribute(
       'data-bs-theme',
       `${platformData.theme.name}-${this.activeConfig?.activeMode}`
