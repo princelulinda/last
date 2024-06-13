@@ -58,8 +58,7 @@ html[data-bs-theme='ihela-light'] {
 
   *,
   body {
-    // Default color;
-    @extend .text-dark;
+    color: map-get($ihela-text-light, 'dark');
   }
 }
 
@@ -85,6 +84,6 @@ html[data-bs-theme='ihela-dark'] {
   *,
   body {
     // Default color;
-    @extend .text-dark;
+    color: map-get($ihela-text-dark, 'dark');
   }
 }
