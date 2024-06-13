@@ -34,6 +34,7 @@ $ihela-bg-dark: (
 $ihela-text-dark: (
   'dark': #d9d9d9,
   'secondary': #9d9d9d,
+  'primary': #c98986,
 );
 
 html[data-bs-theme='ihela-light'] {
@@ -46,16 +47,19 @@ html[data-bs-theme='ihela-light'] {
   }
 
   @each $color, $value in $ihela-text-light {
-    @include generateTextClass($color, value);
+    @include generateTextClass($color, $value);
   }
-
-  // Default color;
-  @extend .text-dark;
 
   // Form inputs bootstrap
   .form-control,
   .form-select {
     @extend .bg-input;
+  }
+
+  *,
+  body {
+    // Default color;
+    @extend .text-dark;
   }
 }
 
@@ -69,15 +73,18 @@ html[data-bs-theme='ihela-dark'] {
   }
 
   @each $color, $value in $ihela-text-dark {
-    @include generateTextClass($color, value);
+    @include generateTextClass($color, $value);
   }
-
-  // Default color;
-  @extend .text-dark;
 
   // Form inputs bootstrap
   .form-control,
   .form-select {
     @extend .bg-input;
+  }
+
+  *,
+  body {
+    // Default color;
+    @extend .text-dark;
   }
 }

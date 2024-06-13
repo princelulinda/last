@@ -1,12 +1,11 @@
 <div class="w-100">
-  <div class="d-flex flex-column position-relative h-[100dvh]">
+  <div class="d-flex flex-column position-relative h-100">
     <section>
-      <!-- header -->
+   <!-- Header section , Put template here... -->
     </section>
 
     <!-- Main Content -->
     <section
-      id="mainContent-container"
       class="d-flex flex-grow-1 h-100 overflow-y-hidden">
       <div class="position-relative h-100 w-100 d-flex flex-column">
         <div class="mt-3 ms-lg-3">
@@ -17,16 +16,16 @@
           class="d-flex flex-lg-row flex-grow-1 flex-grow-lg-auto overflow-y-auto">
           <!-- Desktop Aside Menu -->
           <div
-            class="d-none d-lg-block overflow-y-auto position-relative overflow-auto aside-menu"
-            style="width: 17vw">
+            class="d-none d-lg-block overflow-y-auto position-relative  w-25 p-3 z-5 mb-5 shadow"
+       >
           <app-aside-menu></app-aside-menu>
           </div>
 
           <!-- Main Content -->
           <div
-            id="mainContent"
-            class="mx-md-3 p-1 pb-3 pt-2"
-            style="overflow-y: auto; flex-grow: 1; overflow-x: hidden">
+          
+            class="mx-md-3 p-1 pb-3 pt-2 w-50 flex-grow-1"
+            style="overflow-y: auto; overflow-x: hidden">
             <router-outlet></router-outlet>
           </div>
         </div>
@@ -34,19 +33,16 @@
 
       <!-- Right Sidebar Menu -->
       <div
-        class="pt-4 position-relative ps-2 d-none d-lg-flex"
+        class="pt-4 position-relative d-flex flex-column ps-2 w-25 overflow-auto d-none d-lg-flex"
         style="
-          width: 23vw;
-          height: calc(100vh - 50px);
-          flex-direction: column;
-          overflow-x: auto;
+          height: calc(100vh - 50px); 
         ">
-        <div style="flex-grow: 1">
+        <div class="flex-grow-1">
          <app-aside-bar></app-aside-bar>
         </div>
 
         <div class="mt-3 justify-content-center text-dark">
-          <!-- footer -->
+         <!-- Section for footer -->
         </div>
       </div>
     </section>
