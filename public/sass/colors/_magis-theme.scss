@@ -59,7 +59,7 @@ html[data-bs-theme='magis-light'] {
   *,
   body {
     // Default color;
-    @extend .text-dark;
+    color: map-get($magis-text-light, 'dark');
   }
 }
 
@@ -85,6 +85,6 @@ html[data-bs-theme='magis-dark'] {
   *,
   body {
     // Default color;
-    @extend .text-dark;
+    color: map-get($magis-text-dark, 'dark');
   }
 }

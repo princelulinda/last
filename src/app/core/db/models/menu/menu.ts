@@ -1,5 +1,5 @@
 import { BaseModel, Field } from '../base.model';
 
 export class Menu extends BaseModel {
-  @Field static title = null;
+  @Field('menuFields') static title = null;
 }

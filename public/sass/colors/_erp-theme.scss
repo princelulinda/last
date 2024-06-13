@@ -59,7 +59,7 @@ html[data-bs-theme='erp-light'] {
   *,
   body {
     // Default color;
-    @extend .text-dark;
+    color: map-get($erp-text-light, 'dark');
   }
 }
 
@@ -88,6 +88,6 @@ html[data-bs-theme='erp-dark'] {
   *,
   body {
     // Default color;
-    @extend .text-dark;
+    color: map-get($erp-text-dark, 'dark');
   }
 }
