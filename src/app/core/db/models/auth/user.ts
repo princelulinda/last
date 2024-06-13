@@ -1,4 +1,4 @@
-import { BaseModel, Field } from '../base.model';
+import { BaseModel, Field, FieldMulti, FieldUnique } from '../base.model';
 
 export interface UserApiResponse {
   username: string;
@@ -13,11 +13,11 @@ export interface UserApiResponse {
 }
 
 export class User extends BaseModel {
-  @Field('userConfigFields') static username: string | null = null;
-  @Field('userConfigFields') static email: string | null = null;
-  @Field('userConfigFields') static fullName: string | null = null;
-  @Field('userConfigFields') static hasPin = false;
-  @Field('userConfigFields') static ihelaCode: number | null = null;
+  @FieldUnique('userConfigFields') static username: string | null = null;
+  @FieldUnique('userConfigFields') static email: string | null = null;
+  @FieldUnique('userConfigFields') static fullName: string | null = null;
+  @FieldMulti('userConfigFields') static hasPin = false;
+  @FieldMulti('userConfigFields') static ihelaCode: number | null = null;
   @Field('userConfigFields') static phoneNumber: string | null = null;
   @Field('userConfigFields') static userToken = '';
   @Field('userConfigFields') static fcmData: object | null = null;

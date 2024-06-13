@@ -47,6 +47,38 @@ export function Field(key?: string): PropertyDecorator {
   };
 }
 
+export function FieldUnique(key?: string): PropertyDecorator {
+  return (target: object, propertyKey: string | symbol) => {
+    const metadataKey = key || baseModelFields;
+    const attributes = Reflect.getMetadata(metadataKey, target) || [];
+    attributes.push(`&${String(propertyKey)}`);
+    Reflect.defineMetadata(metadataKey, attributes, target);
+
+    // Store the metadata key itself under a special key for later retrieval
+    Reflect.defineMetadata(
+      `${metadataKeyPrefix}${String(propertyKey)}`,
+      metadataKey,
+      target
+    );
+  };
+}
+
+export function FieldMulti(key?: string): PropertyDecorator {
+  return (target: object, propertyKey: string | symbol) => {
+    const metadataKey = key || baseModelFields;
+    const attributes = Reflect.getMetadata(metadataKey, target) || [];
+    attributes.push(`*${String(propertyKey)}`);
+    Reflect.defineMetadata(metadataKey, attributes, target);
+
+    // Store the metadata key itself under a special key for later retrieval
+    Reflect.defineMetadata(
+      `${metadataKeyPrefix}${String(propertyKey)}`,
+      metadataKey,
+      target
+    );
+  };
+}
+
 export function getAllMetadataKeys(target: object): string[] {
   return Reflect.getMetadataKeys(target);
 }
