@@ -2,9 +2,9 @@
   <div class="container">
     <div class="row d-flex align-items-center py-2">
       <div class="col">
-        <!-- (click)="switchMode('light')" -->
-        <span i18n 
-          ><a routerLink="/">
+
+        <span i18n
+          ><a routerLink="/" >
             <img src="/images/ihela3.png" width="100" alt="" /></a
         ></span>
       </div>
@@ -18,9 +18,9 @@
             <option value="">FR</option>
           </select>
         </span>
-        <span role="button">
+        <button role="button" (click)="switchMode()">
           <img src="/images/light-active.svg" width="50" alt="" />
-        </span>
+        </button>
 
         <a
           class="btn bg-primary px-4 p-1 ms-5 rounded text-white fw-bold"

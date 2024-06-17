@@ -5,7 +5,7 @@ import { MainConfig } from '../../db/models';
 import { environment } from '../../../../environments/environment';
 
 export type ModeModel = 'light' | 'dark';
-export type ThemeModel = 'banking' | 'workstation';
+export type ThemeModel = 'ihela' | 'magis';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,9 @@ export class ConfigService {
     // return this.dbService.liveQuery(async () => {
     //   await this.dbService.table('mainconfigs').where({ id: 1 }).toArray();
     // });
-    return this.dbService.get(MainConfig.tableName, 1);
+    return this.dbService.liveQuery(
+      this.dbService.getOnce(MainConfig.tableName)
+    );
   }
 
   setMainConfig(
@@ -33,6 +35,9 @@ export class ConfigService {
     activeTheme: ThemeModel,
     activeMode: ModeModel
   ) {
+    console.log('Active mode +++ :', activePlatform, activeTheme, activeMode);
+    this.setActiveConfig(activePlatform, activeTheme, activeMode);
+
     return this.dbService.addOnceUpdate(MainConfig.tableName, {
       activePlatform: activePlatform,
       activeTheme: activeTheme,
@@ -52,20 +57,29 @@ export class ConfigService {
     }
   }
 
+  setActiveConfig(platform: string, theme: ThemeModel, mode: ModeModel) {
+    this.activeConfig = {
+      activeMode: mode,
+      activePlatform: platform,
+      activeTheme: theme,
+    };
+  }
+
   initAll() {
     // this.dbService.initializeModels();
     const initFn = () => {
-      const mode: ModeModel = this.getPreferedMode();
-      this.switchMode(mode);
-      this.activeConfig = {
-        activeMode: mode,
-        activePlatform: this.activeConfig?.activePlatform as string,
-        activeTheme: this.activeConfig?.activeTheme as ThemeModel,
-      };
-      console.log('PASSE ICI 1');
+      this.switchMode();
+      this.setActiveConfig(
+        this.activeConfig?.activePlatform as string,
+        this.activeConfig?.activeTheme as ThemeModel,
+        this.activeConfig?.activeMode as ModeModel
+      );
+
       this.switchPlatformState('newsfeed');
       // Init selected platform
-      this.getMainConfig().subscribe({
+      const configSubscription = this.getMainConfig();
+      console.log('CONFIG SUBS : ', configSubscription);
+      configSubscription.subscribe({
         // eslint-disable-next-line
         next: (aConf: any) => {
           this.activeConfig = aConf as {
@@ -92,15 +106,44 @@ export class ConfigService {
     }
   }
 
-  switchMode(newMode: ModeModel) {
+  switchMode() {
+    let newMode!: ModeModel;
+    let appTheme!: ThemeModel;
+
+    console.log(
+      'OLD MODE : ',
+      this.activeConfig?.activeMode,
+      this.activeConfig?.activeMode == 'dark'
+    );
+
     if (this.activeConfig) {
-      return this.setMainConfig(
-        this.activeConfig?.activePlatform,
-        this.activeConfig?.activeTheme,
-        newMode
-      );
+      newMode = this.activeConfig.activeMode == 'dark' ? 'light' : 'dark';
+      appTheme = this.activeConfig?.activeTheme;
     } else {
-      return null;
+      newMode = this.getPreferedMode();
+      appTheme = 'ihela';
+      console.log('PREFERED MODE : ', newMode);
+    }
+
+    console.log('NEW MODE : ', newMode);
+
+    this.setMainConfig(
+      this.activeConfig?.activePlatform as string,
+      appTheme,
+      newMode
+    );
+    this.setHtmlMode(appTheme, newMode);
+  }
+
+  setHtmlMode(newTheme: ThemeModel, newMode: ModeModel) {
+    // We cannot set a mode that does not exist
+    if (newMode && newTheme) {
+      console.log('SETTING HTML MODE : ', newTheme, ' - ', newMode);
+      document.documentElement.setAttribute(
+        'data-bs-theme',
+        `${newTheme}-${newMode}`
+      );
+      document.body.classList.add(`bg-${newTheme}`);
     }
   }
 
@@ -129,12 +172,10 @@ export class ConfigService {
     console.log('tsssssssss', platform);
     // const activeTheme = this.dbService.getConfig().platform; // light | dark
     const platformData = this.filterPlatformData(platform)[0];
-    console.log('ssssssslkajdlkajda', this.activeConfig);
-    document.documentElement.setAttribute(
-      'data-bs-theme',
-      `${platformData.theme.name}-${this.activeConfig?.activeMode}`
+    this.setHtmlMode(
+      platformData.theme.name as ThemeModel,
+      this.activeConfig?.activeMode as ModeModel
     );
-    document.body.classList.add(`bg-${platformData.theme.name}`);
 
     // Update the platform and theme
     this.setMainConfig(
