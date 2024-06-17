@@ -12,16 +12,16 @@ import { ConfigService } from '../../../core/services';
 export class AuthHeaderComponent implements OnInit {
   constructor(private configService: ConfigService) {}
 
-  ngOnInit() {
-    const obs = this.configService.getMainConfig();
-    console.log('OBS ::: ', obs);
+  // ngOnInit() {
+  //   // const obs = this.configService.getMainConfig();
+  //   // console.log('OBS ::: ', obs);
 
-    obs.subscribe({
-      next: response => {
-        console.log('ppppppppppp Main Config', response);
-      },
-    });
-  }
+  //   // obs.subscribe({
+  //   //   next: response => {
+  //   //     console.log('ppppppppppp Main Config', response);
+  //   //   },
+  //   // });
+  // }
 
   switchMode() {
     this.configService.switchMode();
