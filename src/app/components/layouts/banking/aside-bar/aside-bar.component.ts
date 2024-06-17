@@ -9,7 +9,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
   styleUrl: './aside-bar.component.scss',
 })
 export class AsideBarComponent {
-  plateform = '';
+  plateform = 'home';
 
   switchPlateform(name: string) {
     this.plateform = name;

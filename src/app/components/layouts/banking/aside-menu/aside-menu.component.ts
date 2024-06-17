@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./aside-menu.component.scss'],
 })
 export class AsideMenuComponent {
-  plateform = '';
+  plateform = 'home';
   isMymarket = true;
 
   switchPlateform(name: string) {
