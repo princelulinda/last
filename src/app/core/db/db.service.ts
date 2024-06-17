@@ -223,7 +223,7 @@ export class DbService {
     const count = await this.db.table(tableName).count();
 
     if (!count) {
-      this.add(tableName, data);
+      return this.add(tableName, data);
     }
   }
 
