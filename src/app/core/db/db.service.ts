@@ -152,13 +152,6 @@ export class DbService {
         });
       });
     }
-    // TODO : Put populate here for all populate
-    // const populatedUser = await this.db.table('users').add({
-    //   username: 'pierreclaverkoko',
-    //   token: 'mytoken1',
-    // });
-
-    // console.log('POPULATED USER : ', populatedUser);
   }
 
   async setUser(data: UserApiResponse) {
@@ -231,6 +224,16 @@ export class DbService {
 
     if (!count) {
       this.add(tableName, data);
+    }
+  }
+
+  async addOnceUpdate(tableName: string, data: object) {
+    const row = await this.db.table(tableName).get(1);
+
+    if (!row) {
+      this.add(tableName, data);
+    } else {
+      this.update(tableName, row.id, data);
     }
   }
 

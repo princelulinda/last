@@ -33,7 +33,7 @@ export class ConfigService {
     activeTheme: ThemeModel,
     activeMode: ModeModel
   ) {
-    return this.dbService.add(MainConfig.tableName, {
+    return this.dbService.addOnceUpdate(MainConfig.tableName, {
       activePlatform: activePlatform,
       activeTheme: activeTheme,
       activeMode: activeMode,
