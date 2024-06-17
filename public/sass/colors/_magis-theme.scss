@@ -1,0 +1,90 @@
+// For magis light mode
+$magis-colors-light: (
+  'primary': #2070b8,
+  'primary-2': #aacef5,
+  'primary-3': #e5f2ff,
+);
+
+$magis-bg-light: (
+  'white': #ffffff,
+  'secondary': #dce2eb,
+  'magis': #f6f7f9,
+  'input': #f1f1f1,
+);
+
+$magis-text-light: (
+  'dark': #414141,
+  'secondary': #838383,
+);
+
+// For magis dark mode
+$magis-colors-dark: (
+  'primary': #172b4d,
+  'primary-2': #3e4f69,
+  'primary-3': #0c1627,
+  'white': #242526,
+);
+
+$magis-bg-dark: (
+  'white': #242526,
+  'secondary': #0c1627,
+  'magis': #18191a,
+  'input': #3a3b3c,
+);
+
+$magis-text-dark: (
+  'dark': #d9d9d9,
+  'secondary': #9d9d9d,
+);
+
+html[data-bs-theme='magis-light'] {
+  @each $color, $value in $magis-colors-light {
+    @include makeAsGlobalColors($color, $value);
+  }
+
+  @each $color, $value in $magis-bg-light {
+    @include generateBackgroundClass($color, $value);
+  }
+
+  @each $color, $value in $magis-text-light {
+    @include generateTextClass($color, value);
+  }
+
+  // Form inputs bootstrap
+  .form-control,
+  .form-select {
+    @extend .bg-input;
+  }
+
+  *,
+  body {
+    // Default color;
+    color: map-get($magis-text-light, 'dark');
+  }
+}
+
+html[data-bs-theme='magis-dark'] {
+  @each $color, $value in $magis-colors-dark {
+    @include makeAsGlobalColors($color, $value);
+  }
+
+  @each $color, $value in $magis-bg-dark {
+    @include generateBackgroundClass($color, $value);
+  }
+
+  @each $color, $value in $magis-text-dark {
+    @include generateTextClass($color, value);
+  }
+
+  // Form inputs bootstrap
+  .form-control,
+  .form-select {
+    @extend .bg-input;
+  }
+
+  *,
+  body {
+    // Default color;
+    color: map-get($magis-text-dark, 'dark');
+  }
+}

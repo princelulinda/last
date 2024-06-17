@@ -3,18 +3,24 @@ import { Dexie, liveQuery } from 'dexie';
 import { UserApiResponse } from './models';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../services/api/api.service';
+import {
+  getAllMetadataKeys,
+  // getMetadataKeyForProperty,
+  // getPropertiesForMetadataKey,
+} from './models/base.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DbService {
-  private db: Dexie;
+  public db: Dexie; // TODO : Make this private and use addEvent func
   private dbName = 'main-magis-erp-db';
   private modelsDir = './models';
+  public liveQuery = liveQuery;
 
   constructor(private apiService: ApiService) {
     this.db = new Dexie(this.dbName);
-    this.initializeModels();
+    // this.initializeModels();
   }
 
   async initializeModels() {
@@ -53,10 +59,15 @@ export class DbService {
           'prototype',
           // 'length',
         ];
+
+        // Get metadata keys
+        const metadataKeys = getAllMetadataKeys(model);
+        console.log('metadataKeys', metadataKeys[0]);
+
         // Access class attribute names after class definition
         const propNames =
           Reflect.getMetadata(
-            'modelFields',
+            metadataKeys[0],
             model as Record<string, string>
           ).filter(
             (key: string | symbol) =>
@@ -93,8 +104,12 @@ export class DbService {
     this.db.open();
     // console.log(" ============================== >>> CALLING FROM DB SERVICE");
 
-    // this.populate();
+    this.populate();
   }
+
+  // addEvent(eventName: string, callback: Function) {
+  //   // this.db.on(eventName, () => callback());
+  // }
 
   async populate() {
     const localToken = this.apiService.getLocalToken();
@@ -151,7 +166,7 @@ export class DbService {
     if (data?.token !== null) {
       console.log('ADDING USER TOKEN : ', data.token);
       this.apiService.setLocalToken(data.token);
-      await this.add('users', {
+      await this.addOnce('users', {
         username: data.username,
         email: data.email,
         fullName: data.full_name,
@@ -165,10 +180,20 @@ export class DbService {
     }
   }
 
+  // async getDbUser() {
+  //   return this.liveQuery(async () => {
+  //     await this.db.table('users').where({ id: 1 }).toArray();
+  //   });
+  // }
+
   async getDbUser() {
-    return liveQuery(async () => {
-      await this.db.table('users').where({ id: 1 }).toArray();
-    });
+    try {
+      const userDb = await this.db.table('users').orderBy(':id').first();
+      return [userDb];
+    } catch (error) {
+      console.error('Error in fetching Db user', error);
+      return [];
+    }
   }
 
   async getUser(): Promise<object> {
@@ -184,16 +209,29 @@ export class DbService {
     return user;
   }
 
-  // get(tableName:string, data: Object|number) {
-  //   return this.db.table(tableName).get(data);
-  // }
+  // Help : data requires IndexableTypes : https://dexie.org/docs/Indexable-Type
+  get(tableName: string, data: string | string[] | number) {
+    return this.liveQuery(async () => {
+      this.db.table(tableName).get(data);
+    });
+  }
 
-  // where(tableName:string, data: Object|number) {
-  //   return this.db.table(tableName).where(data);
-  // }
+  where(tableName: string, data: string | string[]) {
+    return this.liveQuery(async () => {
+      this.db.table(tableName).where(data);
+    });
+  }
 
   add(tableName: string, data: object) {
     return this.db.table(tableName).add(data);
+  }
+
+  async addOnce(tableName: string, data: object) {
+    const count = await this.db.table(tableName).count();
+
+    if (!count) {
+      this.add(tableName, data);
+    }
   }
 
   update(tableName: string, id: number, data: object) {

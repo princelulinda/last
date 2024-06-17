@@ -1,0 +1,89 @@
+// For ihela light mode
+$ihela-colors-light: (
+  'primary': #810019,
+  'primary-2': #c98986,
+  'primary-3': #e4c5c3,
+);
+
+$ihela-bg-light: (
+  'white': #ffffff,
+  'secondary': #ebebeb,
+  'ihela': #ffffff,
+  'input': #f1f1f1,
+);
+
+$ihela-text-light: (
+  'dark': #414141,
+  'secondary': #838383,
+);
+
+// For ihela dark mode
+$ihela-colors-dark: (
+  'primary': #810019,
+  'primary-2': #c98986,
+  'primary-3': #e4c5c3,
+);
+
+$ihela-bg-dark: (
+  'white': #242526,
+  'secondary': #424242,
+  'ihela': #242526,
+  'input': #1c1c1c,
+);
+
+$ihela-text-dark: (
+  'dark': #d9d9d9,
+  'secondary': #9d9d9d,
+  'primary': #c98986,
+);
+
+html[data-bs-theme='ihela-light'] {
+  @each $color, $value in $ihela-colors-light {
+    @include makeAsGlobalColors($color, $value);
+  }
+
+  @each $color, $value in $ihela-bg-light {
+    @include generateBackgroundClass($color, $value);
+  }
+
+  @each $color, $value in $ihela-text-light {
+    @include generateTextClass($color, $value);
+  }
+
+  // Form inputs bootstrap
+  .form-control,
+  .form-select {
+    @extend .bg-input;
+  }
+
+  *,
+  body {
+    color: map-get($ihela-text-light, 'dark');
+  }
+}
+
+html[data-bs-theme='ihela-dark'] {
+  @each $color, $value in $ihela-colors-dark {
+    @include makeAsGlobalColors($color, $value);
+  }
+
+  @each $color, $value in $ihela-bg-dark {
+    @include generateBackgroundClass($color, $value);
+  }
+
+  @each $color, $value in $ihela-text-dark {
+    @include generateTextClass($color, $value);
+  }
+
+  // Form inputs bootstrap
+  .form-control,
+  .form-select {
+    @extend .bg-input;
+  }
+
+  *,
+  body {
+    // Default color;
+    color: map-get($ihela-text-dark, 'dark');
+  }
+}

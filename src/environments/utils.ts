@@ -3,7 +3,7 @@ export const APPDBVERSION = 1;
 
 interface reusableDataModel {
   production: boolean;
-  plateformsUuid: { name: string; uuid: string }[];
+  plateformsUuid: { name: string; uuid: string; theme: { name: string } }[];
   appInfo: string;
   defaultAppSubject: string;
   bigBangId: number;
@@ -26,10 +26,31 @@ export const environmentConfig: {
   configTest: {
     production: false,
     plateformsUuid: [
-      { name: 'newsfeed', uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022' },
-      { name: 'onlinebanking', uuid: '65231163-2099-45e3-95de-0bdfa5882088' },
-      { name: 'marketplace', uuid: '28544962-9f7a-4768-adad-66f336251822' },
-      { name: 'workstation', uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9' },
+      {
+        name: 'newsfeed',
+        uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
+        theme: { name: 'ihela' },
+      },
+      {
+        name: 'onlinebanking',
+        uuid: '65231163-2099-45e3-95de-0bdfa5882088',
+        theme: { name: 'ihela' },
+      },
+      {
+        name: 'marketplace',
+        uuid: '28544962-9f7a-4768-adad-66f336251822',
+        theme: { name: 'ihela' },
+      },
+      {
+        name: 'workstation',
+        uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
+        theme: { name: 'erp' },
+      },
+      {
+        name: 'systemadmin',
+        uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
+        theme: { name: 'magis' },
+      },
     ],
     appInfo: '39a31c07-633e-429e-a602-09500f8d56d2',
     defaultAppSubject: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
@@ -43,10 +64,26 @@ export const environmentConfig: {
   configProduction: {
     production: true,
     plateformsUuid: [
-      { name: 'newsfeed', uuid: '9c11211d-39cb-472d-ac7c-67820f067706' },
-      { name: 'onlinebanking', uuid: 'bafc6065-b332-443b-8444-a811f9a5e6a2' },
-      { name: 'marketplace', uuid: 'ef333aab-4887-4f33-baa8-862051151992' },
-      { name: 'workstation', uuid: 'bd75a7eb-37a1-4916-a144-54286dfbcc41' },
+      {
+        name: 'newsfeed',
+        uuid: '9c11211d-39cb-472d-ac7c-67820f067706',
+        theme: { name: 'ihela' },
+      },
+      {
+        name: 'onlinebanking',
+        uuid: 'bafc6065-b332-443b-8444-a811f9a5e6a2',
+        theme: { name: 'ihela' },
+      },
+      {
+        name: 'marketplace',
+        uuid: 'ef333aab-4887-4f33-baa8-862051151992',
+        theme: { name: 'ihela' },
+      },
+      {
+        name: 'workstation',
+        uuid: 'bd75a7eb-37a1-4916-a144-54286dfbcc41',
+        theme: { name: 'erp' },
+      },
     ],
     appInfo: '9c11211d-39cb-472d-ac7c-67820f067706',
     defaultAppSubject: '',

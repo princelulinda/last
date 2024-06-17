@@ -2,14 +2,15 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: calibri;
   min-height: 100dvh;
+  @extend .font-calibri;
 }
+@import 'bootstrap/scss/bootstrap';
+
 
 @import '../public/sass/fonts/fonts';
 @import '../public/sass/colors/global';
-@import '../public/sass/colors/banking';
-@import '../public/sass/colors/workstation';
+@import '../public/sass/colors/ihela-theme';
+@import '../public/sass/colors/erp-theme';
 
-@import 'bootstrap/scss/bootstrap';
 $enable-dark-mode: false;

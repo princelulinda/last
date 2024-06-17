@@ -1,0 +1,505 @@
+<div class="mt-2 p-3">
+  <div class="d-grid">
+    <!--* offers section, the one shown by default && !isBaking-->
+
+    <div class="w-100 mb-4 d-grid">
+      <div class="bg-primary d-flex justify-content-center py-2 rounded-top">
+        <b class="text-all-withe">Offers</b>
+      </div>
+      <div
+        class="rounded-bottom d-flex justify-content-center align-items-center border">
+        <img
+          class="img-fluid h-100 w-100"
+          src="../images/onamobNewImage.jpeg"
+          alt="onamob image" />
+      </div>
+    </div>
+
+    <!--* Last beneficiary section, the one shown when we are on transfer-->
+    <div class="w-100 mb-4 d-grid">
+      <div class="bg-primary d-flex justify-content-center py-2 rounded-top">
+        <b class="text-all-withe">Last transactions</b>
+      </div>
+      <div class="rounded-bottom d-grid border bg-secondary p-2">
+        <span class="w-100 mb-2">
+          <ngx-skeleton-loader
+            [theme]="{
+              'height.px': 50,
+              'width.%': 100,
+            }"></ngx-skeleton-loader
+        ></span>
+        <span class="w-100 mb-2">
+          <ngx-skeleton-loader
+            [theme]="{
+              'height.px': 50,
+              'width.%': 100,
+            }"></ngx-skeleton-loader
+        ></span>
+        <span class="w-100 mb-2">
+          <ngx-skeleton-loader
+            [theme]="{
+              'height.px': 50,
+              'width.%': 100,
+            }"></ngx-skeleton-loader
+        ></span>
+      </div>
+    </div>
+
+    <div class="bg-secondary mt-4 p-2">
+      <div role="button" class="d-flex align-items-center w-100">
+        <span class="w-75 text-dark me-2 h6 fw-bold">
+          <span class="text-primary">Link</span> your personal number with your
+          account
+        </span>
+        <span class="w-25 ms-1">
+          <i class="fa-solid text-primary fa-sim-card fa-rotate-270 fs-1"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (plateform === 'onlineBanking') {
+  <div class="" style="overflow-y: auto">
+    <div>
+      <div class="d-flex mb-2 justify-content-center">
+        <b class="h4 text-dark" i18n style="font-weight: 900">Advertisment</b>
+      </div>
+
+      <div class="col-10 mx-auto">
+        <img
+          class="img-fluid sm-radius"
+          style="object-fit: cover; max-height: 300px"
+          src="../images/onamobNewImage.jpeg"
+          alt="onamobNewImage" />
+      </div>
+    </div>
+    <div class="mx-2 my-4">
+      <hr />
+    </div>
+    <div class="mb-3">
+      <div class="d-flex mb-2 justify-content-center text-dark">
+        <b class="h4" style="font-weight: 900" i18n>Suggestions</b>
+      </div>
+
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <span style="width: 45%">
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 122 118"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#filter0_i_1432_2791)">
+              <ellipse cx="50" cy="109.5" rx="50" ry="8.5" fill="#D9D9D9" />
+            </g>
+            <rect
+              x="11.5"
+              y="0.5"
+              width="78"
+              height="104"
+              rx="4.5"
+              fill="white"
+              stroke="#9D9D9D" />
+            <rect
+              x="16.5"
+              y="4.5"
+              width="68"
+              height="86"
+              rx="4.5"
+              fill="white"
+              stroke="#9D9D9D" />
+            <circle cx="50.5" cy="98.5" r="3" fill="#D9D9D9" stroke="#9D9D9D" />
+            <line
+              x1="22"
+              y1="14.5"
+              x2="70"
+              y2="14.5"
+              stroke="#4C4C4C"
+              stroke-opacity="0.768627" />
+            <line
+              x1="22"
+              y1="19.25"
+              x2="77"
+              y2="19.25"
+              stroke="#4C4C4C"
+              stroke-opacity="0.768627"
+              stroke-width="1.5" />
+            <rect
+              x="1.5"
+              y="26.5"
+              width="97"
+              height="22"
+              rx="2.5"
+              fill="white"
+              stroke="#C4C4C4" />
+            <circle cx="17.5" cy="37.5" r="6" fill="white" stroke="#C4C4C4" />
+            <line
+              x1="30"
+              y1="37.5"
+              x2="78"
+              y2="37.5"
+              stroke="#4C4C4C"
+              stroke-opacity="0.768627" />
+            <line
+              x1="22"
+              y1="66.5"
+              x2="70"
+              y2="66.5"
+              stroke="#4C4C4C"
+              stroke-opacity="0.768627" />
+            <line
+              x1="22"
+              y1="71.5"
+              x2="70"
+              y2="71.5"
+              stroke="#4C4C4C"
+              stroke-opacity="0.768627" />
+            <line
+              x1="30"
+              y1="42.5"
+              x2="60"
+              y2="42.5"
+              stroke="#4C4C4C"
+              stroke-opacity="0.768627" />
+            <line
+              x1="30"
+              y1="33.25"
+              x2="85"
+              y2="33.25"
+              stroke="#4C4C4C"
+              stroke-opacity="0.768627"
+              stroke-width="1.5" />
+            <line
+              x1="22"
+              y1="59.25"
+              x2="77"
+              y2="59.25"
+              stroke="#4C4C4C"
+              stroke-opacity="0.768627"
+              stroke-width="1.5" />
+            <line
+              x1="22"
+              y1="78.25"
+              x2="77"
+              y2="78.25"
+              stroke="#4C4C4C"
+              stroke-opacity="0.768627"
+              stroke-width="1.5" />
+            <rect
+              x="103.248"
+              y="56.1806"
+              width="12"
+              height="4"
+              transform="rotate(43.7399 103.248 56.1806)"
+              fill="#D9D9D9"
+              stroke="#C4C4C4" />
+            <rect
+              x="111.847"
+              y="62.3535"
+              width="13.5"
+              height="7.5"
+              rx="1.75"
+              transform="rotate(43.7399 111.847 62.3535)"
+              fill="#414141"
+              stroke="black"
+              stroke-width="0.5" />
+            <g filter="url(#filter1_d_1432_2791)">
+              <circle
+                cx="92"
+                cy="49"
+                r="15"
+                fill="#7D91D9"
+                fill-opacity="0.45"
+                shape-rendering="crispEdges" />
+              <circle
+                cx="92"
+                cy="49"
+                r="13.5"
+                stroke="white"
+                stroke-width="3"
+                shape-rendering="crispEdges" />
+            </g>
+            <defs>
+              <filter
+                id="filter0_i_1432_2791"
+                x="0"
+                y="101"
+                width="100"
+                height="18"
+                filterUnits="userSpaceOnUse"
+                color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                <feBlend
+                  mode="normal"
+                  in="SourceGraphic"
+                  in2="BackgroundImageFix"
+                  result="shape" />
+                <feColorMatrix
+                  in="SourceAlpha"
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                  result="hardAlpha" />
+                <feOffset dy="1" />
+                <feGaussianBlur stdDeviation="2" />
+                <feComposite
+                  in2="hardAlpha"
+                  operator="arithmetic"
+                  k2="-1"
+                  k3="1" />
+                <feColorMatrix
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0" />
+                <feBlend
+                  mode="normal"
+                  in2="shape"
+                  result="effect1_innerShadow_1432_2791" />
+              </filter>
+              <filter
+                id="filter1_d_1432_2791"
+                x="73"
+                y="32"
+                width="38"
+                height="38"
+                filterUnits="userSpaceOnUse"
+                color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                <feColorMatrix
+                  in="SourceAlpha"
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                  result="hardAlpha" />
+                <feOffset dy="2" />
+                <feGaussianBlur stdDeviation="2" />
+                <feComposite in2="hardAlpha" operator="out" />
+                <feColorMatrix
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0" />
+                <feBlend
+                  mode="normal"
+                  in2="BackgroundImageFix"
+                  result="effect1_dropShadow_1432_2791" />
+                <feBlend
+                  mode="normal"
+                  in="SourceGraphic"
+                  in2="effect1_dropShadow_1432_2791"
+                  result="shape" />
+              </filter>
+            </defs>
+          </svg>
+        </span>
+        <span class="fw-bold fs-4 mt-2 text-dark" style="opacity: 0.8" i18n
+          >No Suggestion</span
+        >
+      </div>
+    </div>
+  </div>
+}
+@if (plateform === 'market') {
+  <div>
+    <div class="row justify-content-center mx-0">
+      <div class="col-10 shadow sm-radius">
+        <!-- style="width: 270px; height: 300px;" -->
+
+        <div class="row mb-2 bg-primary text-center rounded-top">
+          <h6 class="pt-2" i18n><b>Top Product</b></h6>
+        </div>
+
+        <div class="row ms-2">
+          <div class="row mb-3 align-items-center">
+            <div class="col-auto">
+              <ngx-skeleton-loader
+                [theme]="{
+                  'height.px': 60,
+                  'width.px': 60,
+                  'margin-bottom': 0,
+                }"></ngx-skeleton-loader>
+            </div>
+            <div class="col m-0 p-0">
+              <div>
+                <ngx-skeleton-loader
+                  [theme]="{
+                    'height.px': 8,
+                    'width.%': 60,
+                    'margin.px': 0,
+                  }"
+                  appearance="line"></ngx-skeleton-loader>
+              </div>
+              <div>
+                <ngx-skeleton-loader
+                  [theme]="{
+                    'height.px': 6,
+                    'width.%': 45,
+                    'margin.px': 0,
+                  }"
+                  appearance="line"></ngx-skeleton-loader>
+              </div>
+              <div>
+                <ngx-skeleton-loader
+                  [theme]="{
+                    'height.px': 6,
+                    'width.%': 60,
+                    'margin.px': 0,
+                  }"
+                  appearance="line"></ngx-skeleton-loader>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3 align-items-center">
+            <div class="col-auto">
+              <ngx-skeleton-loader
+                [theme]="{
+                  'height.px': 60,
+                  'width.px': 60,
+                  'margin-bottom': 0,
+                }"></ngx-skeleton-loader>
+            </div>
+            <div class="col m-0 p-0">
+              <div>
+                <ngx-skeleton-loader
+                  [theme]="{
+                    'height.px': 8,
+                    'width.%': 60,
+                    'margin.px': 0,
+                  }"
+                  appearance="line"></ngx-skeleton-loader>
+              </div>
+              <div>
+                <ngx-skeleton-loader
+                  [theme]="{
+                    'height.px': 6,
+                    'width.%': 45,
+                    'margin.px': 0,
+                  }"
+                  appearance="line"></ngx-skeleton-loader>
+              </div>
+              <div>
+                <ngx-skeleton-loader
+                  [theme]="{
+                    'height.px': 6,
+                    'width.%': 60,
+                    'margin.px': 0,
+                  }"
+                  appearance="line"></ngx-skeleton-loader>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3 align-items-center">
+            <div class="col-auto">
+              <ngx-skeleton-loader
+                [theme]="{
+                  'height.px': 60,
+                  'width.px': 60,
+                  'margin-bottom': 0,
+                }"></ngx-skeleton-loader>
+            </div>
+            <div class="col m-0 p-0">
+              <div>
+                <ngx-skeleton-loader
+                  [theme]="{
+                    'height.px': 8,
+                    'width.%': 60,
+                    'margin.px': 0,
+                  }"
+                  appearance="line"></ngx-skeleton-loader>
+              </div>
+              <div>
+                <ngx-skeleton-loader
+                  [theme]="{
+                    'height.px': 6,
+                    'width.%': 45,
+                    'margin.px': 0,
+                  }"
+                  appearance="line"></ngx-skeleton-loader>
+              </div>
+              <div>
+                <ngx-skeleton-loader
+                  [theme]="{
+                    'height.px': 6,
+                    'width.%': 60,
+                    'margin.px': 0,
+                  }"
+                  appearance="line"></ngx-skeleton-loader>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4 justify-content-center mx-0">
+      <div
+        class="col-10 level-1 shadow sm-radius d-flex flex-column"
+        style="min-height: 40vh">
+        <!-- style="width: 270px; height: 300px;" -->
+
+        <div class="row bg-primary text-center rounded-top">
+          <h6 class="pt-2"><b i18n>Recommend items</b></h6>
+        </div>
+
+        <div
+          class="d-flex flex-column justify-content-center align-items-center flex-grow-1">
+          <span style="width: 37%">
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 162 140"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg">
+              <g id="Group 341" filter="url(#filter0_i_1384_2774)">
+                <path
+                  id="Vector"
+                  d="M132 60C139.956 60 147.587 56.8393 153.213 51.2132C158.839 45.5871 162 37.9565 162 30C162 22.0435 158.839 14.4129 153.213 8.7868C147.587 3.16071 139.956 0 132 0C124.044 0 116.413 3.16071 110.787 8.7868C105.161 14.4129 102 22.0435 102 30C102 37.9565 105.161 45.5871 110.787 51.2132C116.413 56.8393 124.044 60 132 60ZM122.672 20.625C123.666 20.625 124.62 21.0201 125.324 21.7234C126.027 22.4266 126.422 23.3804 126.422 24.375C126.422 25.3696 126.027 26.3234 125.324 27.0266C124.62 27.7299 123.666 28.125 122.672 28.125C121.677 28.125 120.723 27.7299 120.02 27.0266C119.317 26.3234 118.922 25.3696 118.922 24.375C118.922 23.3804 119.317 22.4266 120.02 21.7234C120.723 21.0201 121.677 20.625 122.672 20.625ZM137.672 24.375C137.672 23.3804 138.067 22.4266 138.77 21.7234C139.473 21.0201 140.427 20.625 141.422 20.625C142.416 20.625 143.37 21.0201 144.074 21.7234C144.777 22.4266 145.172 23.3804 145.172 24.375C145.172 25.3696 144.777 26.3234 144.074 27.0266C143.37 27.7299 142.416 28.125 141.422 28.125C140.427 28.125 139.473 27.7299 138.77 27.0266C138.067 26.3234 137.672 25.3696 137.672 24.375ZM120.75 39.375H143.25C144.281 39.375 145.125 40.2188 145.125 41.25C145.125 42.2812 144.281 43.125 143.25 43.125H120.75C119.719 43.125 118.875 42.2812 118.875 41.25C118.875 40.2188 119.719 39.375 120.75 39.375Z"
+                  fill="#E0E0E0" />
+                <path
+                  id="Vector_2"
+                  d="M65.9635 15.1402C67.5521 12.0672 66.3542 8.2912 63.3073 6.70266C60.2604 5.11411 56.4583 6.31203 54.8698 9.35891L30.625 55.9995H8.33333C3.72396 55.9995 0 59.7235 0 64.3329C0 68.9422 3.72396 72.6662 8.33333 72.6662L21.849 126.703C23.6979 134.125 30.3646 139.333 38.0208 139.333H111.979C119.635 139.333 126.302 134.125 128.151 126.703L141.667 72.6662C146.276 72.6662 150 68.9422 150 64.3329C150 59.7235 146.276 55.9995 141.667 55.9995H119.375L95.1302 9.35891C93.5417 6.31203 89.7656 5.11411 86.6927 6.70266C83.6198 8.2912 82.4479 12.0672 84.0365 15.1402L105.286 55.9995H44.7135L65.9635 15.1402ZM50 85.1662V110.166C50 112.458 48.125 114.333 45.8333 114.333C43.5417 114.333 41.6667 112.458 41.6667 110.166V85.1662C41.6667 82.8745 43.5417 80.9995 45.8333 80.9995C48.125 80.9995 50 82.8745 50 85.1662ZM75 80.9995C77.2917 80.9995 79.1667 82.8745 79.1667 85.1662V110.166C79.1667 112.458 77.2917 114.333 75 114.333C72.7083 114.333 70.8333 112.458 70.8333 110.166V85.1662C70.8333 82.8745 72.7083 80.9995 75 80.9995ZM108.333 85.1662V110.166C108.333 112.458 106.458 114.333 104.167 114.333C101.875 114.333 100 112.458 100 110.166V85.1662C100 82.8745 101.875 80.9995 104.167 80.9995C106.458 80.9995 108.333 82.8745 108.333 85.1662Z"
+                  fill="#E0E0E0" />
+              </g>
+              <defs>
+                <filter
+                  id="filter0_i_1384_2774"
+                  x="0"
+                  y="0"
+                  width="162"
+                  height="143.333"
+                  filterUnits="userSpaceOnUse"
+                  color-interpolation-filters="sRGB">
+                  <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                  <feBlend
+                    mode="normal"
+                    in="SourceGraphic"
+                    in2="BackgroundImageFix"
+                    result="shape" />
+                  <feColorMatrix
+                    in="SourceAlpha"
+                    type="matrix"
+                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                    result="hardAlpha" />
+                  <feOffset dy="4" />
+                  <feGaussianBlur stdDeviation="2" />
+                  <feComposite
+                    in2="hardAlpha"
+                    operator="arithmetic"
+                    k2="-1"
+                    k3="1" />
+                  <feColorMatrix
+                    type="matrix"
+                    values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                  <feBlend
+                    mode="normal"
+                    in2="shape"
+                    result="effect1_innerShadow_1384_2774" />
+                </filter>
+              </defs>
+            </svg>
+          </span>
+          <span class="fw-bold fs-4 mt-2 text-center text-dark opacity-50"
+            >No recommended item</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+}

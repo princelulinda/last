@@ -1,23 +1,43 @@
 import { Routes } from '@angular/router';
-// import { authGuard,workstationGuard, bankingGuard} from './core/guards';
 
-import { AuthLayoutComponent } from './components/auth/auth-layout/auth-layout.component';
+import { NoAuthGuard, AuthGuard } from './core/guards';
+import { routes as authRoutes } from './components/auth/auth.routes';
 import { Notfound400Component } from './components/errors/notfound-400/notfound-400.component';
-import { GeneralComponent } from './components/dev/general/general.component';
-import { HeaderComponent } from './components/dev/header/header.component';
+import { BankingComponent } from './components/layouts/banking/banking.component';
+import { marketPlaceRoutes } from './components/market-place/market-place.routes';
+import { newsFeedRoutes } from './components/news-feed/news-feed.routes';
+import { bankingRoutes } from './components/online-banking/banking.routes';
 
 export const routes: Routes = [
+  // authantification routes
   {
     path: '',
-    component: HeaderComponent, // this is the component with the <router-outlet> in the template
-    children: [
-      {
-        path: 'password-creation', // child route path
-        component: AuthLayoutComponent, // child route component that the router renders
-      },
-    ],
+    canActivate: [NoAuthGuard],
+    children: authRoutes,
   },
-  // This is a temporary logic to abandon as soon as possible
-  { path: 'dev-general', component: GeneralComponent },
+  // banking Routes
+  {
+    path: 'b',
+    component: BankingComponent,
+    canActivate: [AuthGuard],
+    children: bankingRoutes,
+  },
+
+  // newsFeed Routes
+  {
+    path: 'n',
+    component: BankingComponent,
+    canActivate: [AuthGuard],
+    children: newsFeedRoutes,
+  },
+
+  // market place Routes
+  {
+    path: 'm',
+    component: BankingComponent,
+    canActivate: [AuthGuard],
+    children: marketPlaceRoutes,
+  },
+
   { path: '**', component: Notfound400Component },
 ];

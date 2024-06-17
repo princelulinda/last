@@ -1,0 +1,93 @@
+// For erp light mode
+$erp-colors-light: (
+  'primary': #810019,
+  'primary-2': #c98986,
+  'primary-3': #e4c5c3,
+);
+
+$erp-bg-light: (
+  'white': #ffffff,
+  'secondary': #dce2eb,
+  'erp': #f6f7f9,
+  'input': #f1f1f1,
+);
+
+$erp-text-light: (
+  'dark': #414141,
+  'secondary': #838383,
+);
+
+// For erp dark mode
+$erp-colors-dark: (
+  'primary': #810019,
+  'primary-2': #c98986,
+  'primary-3': #e4c5c3,
+);
+
+$erp-bg-dark: (
+  'white': #242526,
+  'secondary': #242526,
+  'erp': #18191a,
+  'input': #3a3b3c,
+);
+
+$erp-text-dark: (
+  'dark': #d9d9d9,
+  'secondary': #9d9d9d,
+  'primary': #c98986,
+);
+
+html[data-bs-theme='erp-light'] {
+  @each $color, $value in $erp-colors-light {
+    @include makeAsGlobalColors($color, $value);
+  }
+
+  @each $color, $value in $erp-bg-light {
+    @include generateBackgroundClass($color, $value);
+  }
+
+  @each $color, $value in $erp-text-light {
+    @include generateTextClass($color, value);
+  }
+
+  // Form inputs bootstrap
+  .form-control,
+  .form-select {
+    @extend .bg-input;
+  }
+
+  *,
+  body {
+    // Default color;
+    color: map-get($erp-text-light, 'dark');
+  }
+}
+
+html[data-bs-theme='erp-dark'] {
+  @each $color, $value in $erp-colors-dark {
+    @include makeAsGlobalColors($color, $value);
+  }
+
+  @each $color, $value in $erp-bg-dark {
+    @include generateBackgroundClass($color, $value);
+  }
+
+  @each $color, $value in $erp-text-dark {
+    @include generateTextClass($color, value);
+  }
+
+  // Default color;
+  @extend .text-dark;
+
+  // Form inputs bootstrap
+  .form-control,
+  .form-select {
+    @extend .bg-input;
+  }
+
+  *,
+  body {
+    // Default color;
+    color: map-get($erp-text-dark, 'dark');
+  }
+}

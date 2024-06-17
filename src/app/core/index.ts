@@ -5,12 +5,13 @@ import * as Interceptors from './interceptors';
 export const AllServices = [
   Services.ApiService,
   Services.AuthService,
-  Services.ThemeService,
+  Services.ConfigService,
+  Services.FullpathService,
 ];
 
 export const AllGuards = [
-  Guards.authGuard,
-  Guards.noAuthGuard,
+  Guards.AuthGuard,
+  Guards.NoAuthGuard,
   Guards.bankingGuard,
   Guards.treasurerGuard,
   Guards.windowGuard,
