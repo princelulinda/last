@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ConfigService } from '../../../core/services';
 
@@ -9,7 +9,7 @@ import { ConfigService } from '../../../core/services';
   templateUrl: './auth-header.component.html',
   styleUrl: './auth-header.component.scss',
 })
-export class AuthHeaderComponent implements OnInit {
+export class AuthHeaderComponent {
   constructor(private configService: ConfigService) {}
 
   // ngOnInit() {
