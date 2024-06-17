@@ -1,52 +1,53 @@
-<aside class="p-3 ps-md-0 ps-xl-3 vh-100">
+<aside class="p-3 ps-md-0 ps-xl-3">
   <!-- home menus -->
-
-  <section class="mt-2">
-    <div
-      class="mt-4 d-flex align-items-center clickable is-link"
-      routerLink="/m"
-      routerLinkActive="text-dark">
-      <div>
-        <span class="bg-secondary me-3 rounded-pill py-3 px-3"
-          ><i class="fa-solid fa-house"></i
-        ></span>
-      </div>
-      <span class="fw-bold text-secondary" i18n>Publications</span>
-    </div>
-
-    <div
-      class="mt-4 clickable is-link d-flex align-items-center justify-content-between">
+  @if (plateform === 'home') {
+    <section class="mt-2">
       <div
-        class="d-flex align-items-center"
+        class="mt-4 d-flex align-items-center clickable is-link"
         routerLink="/m"
         routerLinkActive="text-dark">
         <div>
           <span class="bg-secondary me-3 rounded-pill py-3 px-3"
-            ><i class="fa-regular fa-comments"></i
+            ><i class="fa-solid fa-house"></i
           ></span>
         </div>
-        <span class="fw-bold text-secondary" i18n>Chats</span>
+        <span class="fw-bold text-secondary" i18n>Publications</span>
       </div>
-      <div>
+
+      <div
+        class="mt-4 clickable is-link d-flex align-items-center justify-content-between">
         <div
-          class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
-          0
+          class="d-flex align-items-center"
+          routerLink="/m"
+          routerLinkActive="text-dark">
+          <div>
+            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+              ><i class="fa-regular fa-comments"></i
+            ></span>
+          </div>
+          <span class="fw-bold text-secondary" i18n>Chats</span>
+        </div>
+        <div>
+          <div
+            class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
+            0
+          </div>
         </div>
       </div>
-    </div>
 
-    <div
-      class="mt-4 d-flex align-items-center clickable is-link"
-      routerLink="/m"
-      routerLinkActive="text-dark">
-      <div>
-        <span class="bg-secondary me-3 rounded-pill py-3 px-3"
-          ><i class="fa-solid fa-cart-shopping text-success"></i
-        ></span>
+      <div
+        class="mt-4 d-flex align-items-center clickable is-link"
+        routerLink="/m"
+        routerLinkActive="text-dark">
+        <div>
+          <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+            ><i class="fa-solid fa-cart-shopping text-success"></i
+          ></span>
+        </div>
+        <span class="fw-bold text-secondary" i18n>Market</span>
       </div>
-      <span class="fw-bold text-secondary" i18n>Market</span>
-    </div>
-  </section>
+    </section>
+  }
 
   <!-- onlineBanking menus -->
 

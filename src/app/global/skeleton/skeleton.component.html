@@ -1,0 +1,17 @@
+@if (isLoading) {
+  
+    @for (_ of getPlaceholderArray(); track $index) {
+        <div  class="mb-2">
+            <div 
+            [ngClass]="['placeholder', getAnimationClass()]" 
+            [ngStyle]="{'width': width, 'height': height, 'background-color': color, 'border-radius': radius}" 
+            aria-hidden="true">
+          </div>
+          </div>
+    }
+ 
+}
+
+@if (!isLoading) {
+  <ng-content></ng-content>
+}
