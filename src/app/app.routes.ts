@@ -9,7 +9,7 @@ import { newsFeedRoutes } from './components/news-feed/news-feed.routes';
 import { marketPlaceRoutes } from './components/market-place/market-place.routes';
 
 export const routes: Routes = [
-  // authantification routes
+  // authentification routes
   {
     path: '',
     canActivate: [NoAuthGuard],
