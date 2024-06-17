@@ -1,143 +1,143 @@
-#black-bar {
-    height: 75px;
-}
+// #black-bar {
+//     height: 75px;
+// }
 
-.workStation {
-    margin-left: 122px;
-}
+// .workStation {
+//     margin-left: 122px;
+// }
 
-.onlineBanking {
-    width: 188px;
-}
-.border-light {
-    border: 2px solid #fff;
-}
+// .onlineBanking {
+//     width: 188px;
+// }
+// .border-light {
+//     border: 2px solid #fff;
+// }
 
-@keyframes anim {
-    0% {
-        top: 0px;
-    }
-    100% {
-        left: -2px;
-    }
-}
+// @keyframes anim {
+//     0% {
+//         top: 0px;
+//     }
+//     100% {
+//         left: -2px;
+//     }
+// }
 
-a {
-    text-decoration: none;
-}
-#close {
-    transition: all 1s;
-    position: relative;
-    top: 0px;
-    animation: anim 1s infinite;
-}
-#cont {
-    transition: all 2s ease-in-out;
-}
-.white {
-    color: white;
-    @media screen and (max-width: 991px) {
-        color: #9d9d9d;
-        .show-plateform {
-            filter: invert(70%) !important;
-        }
-    }
-}
+// a {
+//     text-decoration: none;
+// }
+// #close {
+//     transition: all 1s;
+//     position: relative;
+//     top: 0px;
+//     animation: anim 1s infinite;
+// }
+// #cont {
+//     transition: all 2s ease-in-out;
+// }
+// .white {
+//     color: white;
+//     @media screen and (max-width: 991px) {
+//         color: #9d9d9d;
+//         .show-plateform {
+//             filter: invert(70%) !important;
+//         }
+//     }
+// }
 
-.dark {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-    background-color: transparent;
-    border: 2px solid #000;
-    border-radius: 20px;
-    transition: all 0.3s;
-    padding: 2px 0px 5px 2px;
-}
+// .dark {
+//     position: relative;
+//     display: inline-block;
+//     width: 40px;
+//     height: 20px;
+//     background-color: transparent;
+//     border: 2px solid #000;
+//     border-radius: 20px;
+//     transition: all 0.3s;
+//     padding: 2px 0px 5px 2px;
+// }
 
-.light {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-    background-color: transparent;
-    border: 2px solid #fff;
-    border-radius: 20px;
-    transition: all 0.3s;
-    padding: 2px 0px 5px 2px;
-}
+// .light {
+//     position: relative;
+//     display: inline-block;
+//     width: 40px;
+//     height: 20px;
+//     background-color: transparent;
+//     border: 2px solid #fff;
+//     border-radius: 20px;
+//     transition: all 0.3s;
+//     padding: 2px 0px 5px 2px;
+// }
 
-.light::after {
-    content: '';
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    background-color: #fff;
-    transition: all 0.3s;
-}
-.dark::after {
-    content: '';
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    margin: 0px -5px 0px 0px;
-    background-color: black;
-    transition: all 0.3s;
-}
+// .light::after {
+//     content: '';
+//     position: absolute;
+//     width: 13px;
+//     height: 13px;
+//     border-radius: 50%;
+//     background-color: #fff;
+//     transition: all 0.3s;
+// }
+// .dark::after {
+//     content: '';
+//     position: absolute;
+//     width: 13px;
+//     height: 13px;
+//     border-radius: 50%;
+//     margin: 0px -5px 0px 0px;
+//     background-color: black;
+//     transition: all 0.3s;
+// }
 
-.checkbox:checked + .switch::after {
-    left: 20px;
-}
-.checkbox:checked + .switch {
-    background-color: transparent;
-}
-.checkbox {
-    display: none;
-}
+// .checkbox:checked + .switch::after {
+//     left: 20px;
+// }
+// .checkbox:checked + .switch {
+//     background-color: transparent;
+// }
+// .checkbox {
+//     display: none;
+// }
 
-.workstationHeaderWidth {
-    width: 100vw;
-}
+// .workstationHeaderWidth {
+//     width: 100vw;
+// }
 
-.onlineBankingHeaderWidth {
-    width: 100vw;
-}
-.clickable {
-    cursor: pointer;
-}
+// .onlineBankingHeaderWidth {
+//     width: 100vw;
+// }
+// .clickable {
+//     cursor: pointer;
+// }
 
-.padding {
-    padding: 5px 0px 0px 0px;
-}
+// .padding {
+//     padding: 5px 0px 0px 0px;
+// }
 
-.margin-top {
-    margin-top: -35px;
-}
+// .margin-top {
+//     margin-top: -35px;
+// }
 
-.unselectedIcon-b {
-    color: #b86b6b;
-}
+// .unselectedIcon-b {
+//     color: #b86b6b;
+// }
 
-.selectedIcon-b {
-    border-bottom: 3px solid #b86b6b;
-    padding-bottom: 8px;
-    width: 150%;
-    color: #ffff;
-}
+// .selectedIcon-b {
+//     border-bottom: 3px solid #b86b6b;
+//     padding-bottom: 8px;
+//     width: 150%;
+//     color: #ffff;
+// }
 
-.unselectedIcon-w {
-    color: #bddaf6;
-}
+// .unselectedIcon-w {
+//     color: #bddaf6;
+// }
 
-.selectedIcon-w {
-    border-bottom: 3px solid #2070b8;
-    padding-bottom: 8px;
-    width: 150%;
-    color: #2070b8;
-}
+// .selectedIcon-w {
+//     border-bottom: 3px solid #2070b8;
+//     padding-bottom: 8px;
+//     width: 150%;
+//     color: #2070b8;
+// }
 
 
 .margin-right {

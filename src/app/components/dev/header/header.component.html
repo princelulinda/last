@@ -1,4 +1,3 @@
-<p>header works!</p>
 <div
     class="w-100"
     style="height: 50px; z-index: 100; top: 0"
@@ -25,7 +24,7 @@
                     <img
                         class="img-fluid"
                         src="{{ onlineBankingHeaderImage }}"
-                        style="height: 50px !important"
+                        style="height: 50px !important" alt="logo1"
                     />
                 </div>
             </div>
@@ -45,7 +44,7 @@
                 class="p-1 d-none d-lg-flex"
             >
                 <div
-                    (click)="displayCorporatesSection()"
+                    (click)="displayCorporatesSection()" (keyup.enter)="displayCorporatesSection()" tabindex="0"
                     class="d-flex connectededOrganization rounded align-items-start ps-1"
                     style="width: 260px; height: 41px"
                     [ngClass]="{
@@ -62,7 +61,7 @@
                         <img
                             [src]="organization.institution_client.picture"
                             class="img-fluid float-start w-100"
-                            style="height: 41px"
+                            style="height: 41px" alt="organization"
                         />
                     </div>
                     <div
@@ -106,7 +105,7 @@
             }"
         >
             <!-- Active mobile menus -->
-            <span
+            <!-- <span
                 *ngIf="plateform !== 'workStation'"
                 class="d-lg-none me-md-1"
                 role="button"
@@ -118,7 +117,7 @@
                 }"
             >
                 <i class="fs-5 fa-solid fa-bars"></i>
-            </span>
+            </span> -->
             <!-- show amount icon -->
             <span
                 role="button"
@@ -132,23 +131,24 @@
                 <span
                     title="ctrl + shift + v to toggle Amount View"
                     *ngIf="!eyeShowed"
-                    (click)="toggleEyeStatus()"
+                    (click)="toggleEyeStatus()" (keyup.enter)="toggleEyeStatus()" tabindex={0}
                 >
                     <i class="fa-solid fa-eye"></i>
                 </span>
                 <span
                     title="ctrl + shift + v to toggle Amount View"
                     *ngIf="eyeShowed"
-                    (click)="toggleEyeStatus()"
+                    (click)="toggleEyeStatus()" (keyup.enter)="toggleEyeStatus()" tabindex={0}
                 >
                     <i class="fa-solid fa-eye-slash"></i>
                 </span>
             </span>
             <!-- chats icon -->
+             <!-- removed (click)="toggleAsideMenu(true); toggleNotFoundPopup('chat')" between role="button" and [ngClass] -->
             <span
                 class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1"
                 role="button"
-                (click)="toggleAsideMenu(true); toggleNotFoundPopup('chat')"
+                
                 [ngClass]="{
                     'text-primary-light':
                         theme === 'magis-light' || theme === 'magis-dark',
@@ -157,16 +157,17 @@
             >
                 <i
                     class="fa-regular fa-comments fs-6"
-                    (click)="showMenu = true"
+                    (click)="showMenu = true" (keyup.enter)="showMenu" tabindex="0"
                 ></i>
             </span>
             <!-- notification icon -->
+             <!-- removed (click)="
+                    toggleAsideMenu(true); toggleNotFoundPopup('notification')
+                " between role and [ngClass] -->
             <span
                 class="ms-4 ms-md-5 ms-lg-2 p-2 me-2"
                 role="button"
-                (click)="
-                    toggleAsideMenu(true); toggleNotFoundPopup('notification')
-                "
+                
                 [ngClass]="{
                     'text-primary-light':
                         theme === 'magis-light' || theme === 'magis-dark',
@@ -175,7 +176,7 @@
             >
                 <i
                     class="fa-regular fa-bell fs-6"
-                    (click)="showMenu = true"
+                    (click)="showMenu = true" (keyup.enter)="showMenu" tabindex="0"
                 ></i>
             </span>
             <!-- profile icon -->
@@ -209,6 +210,7 @@
                         <img
                             [src]="clientInfo?.client.picture"
                             class="image rounded-circle"
+                            alt="clienPicture"
                         />
                     </span>
                     <span
@@ -242,7 +244,7 @@
                                     (click)="showUserInfo = false"
                                     class="float-end text-dark fs-4"
                                     style="z-index: 50"
-                                    title="close"
+                                    title="close" (keyup.enter)="showUserInfo = false" tabindex="0"
                                 >
                                     <i class="fa fa-xmark"></i>
                                 </span>
@@ -284,7 +286,7 @@
                                                 class="image border border-secondary rounded-circle"
                                                 *ngIf="
                                                     !clientInfo?.client?.picture
-                                                "
+                                                " alt="userprofile"
                                             />
                                             <img
                                                 *ngIf="
@@ -293,7 +295,7 @@
                                                 [src]="
                                                     clientInfo?.client?.picture
                                                 "
-                                                class="image border border-secondary rounded-circle"
+                                                class="image border border-secondary rounded-circle" alt="clienPicture"
                                             />
                                             <!-- <img
                             [src]="operator.picture"
@@ -301,6 +303,7 @@
                             style="width: 78px; border-radius: 50%"
                             *ngIf="organization"
                         /> -->
+                        
                                         </div>
                                     </div>
                                 </div>
@@ -337,7 +340,7 @@
 
                         <!-- second section for clickable link  -->
                         <section
-                            class="px-3 overflow-y-auto d-flex flex-column h-100"
+                                class="px-3 overflow-y-auto d-flex flex-column h-100"
                             style="margin-top: -20%"
                         >
                             <section class="flex-grow-1">
@@ -464,9 +467,9 @@
                                         <div
                                             class="clickable"
                                             title="Switch Theme"
-                                            (click)="onToggle()"
+                                            (click)="onToggle()" (keyup.enter)="onToggle()" tabindex="0"
                                         >
-                                            <img [src]="themeLogo" />
+                                            <img [src]="themeLogo" alt="themeLogo" />
                                         </div>
                                     </div>
                                 </div>
@@ -491,11 +494,12 @@
                                 </div>
 
                                 <hr />
+                                <!-- removed (click)="logout()" between title and role -->
                                 <div
                                     class="w-100 d-flex justify-content-between text-dark"
                                     style="font-size: 18px"
                                     title="Logout"
-                                    (click)="logout()"
+                                    
                                     role="button"
                                 >
                                     <span>
@@ -515,9 +519,9 @@
                                     <div
                                         class="d-flex justify-content-center flex-wrap"
                                     >
-                                        <app-footer
+                                        <!-- <app-footer
                                             [showCopyRight]="false"
-                                        ></app-footer>
+                                        ></app-footer> -->
                                     </div>
                                 </div>
                             </div>
@@ -528,7 +532,7 @@
                 </div>
             </span>
             <!-- platform icon -->
-            <span
+            <!-- <span
                 (click)="showPlateform(); toggleAsideMenu(true)"
                 role="button"
                 class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1"
@@ -548,7 +552,7 @@
                     }"
                     style="width: 20px"
                 />
-            </span>
+            </span> -->
         </div>
 
         <!-- chat popup for page under construction -->
@@ -558,10 +562,10 @@
             class="position-absolute shadow level-1 border sm-radius py-3 px-5 overflow-hidden"
             style="right: 1%; top: 57px; z-index: 20"
         >
-            <app-not-found-page
+            <!-- <app-not-found-page
                 action="close"
                 (close)="getPopupEvent($event)"
-            ></app-not-found-page>
+            ></app-not-found-page> -->
         </div>
 
         <!-- notification popup for page under construction -->
@@ -570,10 +574,11 @@
             class="position-absolute shadow level-1 border sm-radius py-3 px-5 overflow-hidden"
             style="right: 1%; top: 57px; z-index: 20"
         >
-            <app-not-found-page
+            <!-- <app-not-found-page
                 action="close"
-                (close)="getPopupEvent($event)"
-            ></app-not-found-page>
+                (close)="
+                ($event)"
+            ></app-not-found-page> -->
         </div>
     </div>
 </div>
@@ -603,7 +608,7 @@
                     <img
                         [src]="organization.institution_client.picture"
                         class="img-fluid"
-                        style="width: 100%"
+                        style="width: 100%" alt="institution_client"
                     />
                 </div>
                 <div
@@ -660,7 +665,7 @@
                 <div
                     class="d-flex"
                     role="button"
-                    (click)="switchCorporate(corporate)"
+                    (click)="switchCorporate(corporate)" (keyup.enter)="switchCorporate(corporate)" tabindex="0"
                 >
                     <div
                         style="width: 100px; height: 100%"
@@ -675,7 +680,7 @@
                             style="
                                 border-radius: 10px 0px 0px 10px;
                                 width: 100%;
-                            "
+                            " alt="corporatePicture"
                         />
                     </div>
                     <div
@@ -729,7 +734,7 @@
                                     'bg-primary-3 ': plateform === 'home',
                                     'icons-color': plateform !== 'home'
                                 }"
-                                (click)="switchPlateform('home')"
+                                (click)="switchPlateform('home')" (keyup.enter)="switchPlateform('home')" tabindex="0"
                             >
                                 <div class="d-flex justify-content-center">
                                     <span
@@ -760,7 +765,7 @@
                                     'bg-primary-3':
                                         plateform === 'onlineBanking'
                                 }"
-                                (click)="switchPlateform('onlineBanking')"
+                                (click)="switchPlateform('onlineBanking')" (keyup.enter)="switchPlateform('onlineBanking')" tabindex="0"
                             >
                                 <div class="d-flex justify-content-center">
                                     <div>
@@ -769,7 +774,7 @@
                                                 plateform === 'onlineBanking'
                                             "
                                             src="assets/images/ihela-b.svg"
-                                            alt=""
+                                            alt="onlineBanking"
                                         />
                                         <img
                                             *ngIf="
@@ -798,7 +803,7 @@
                                     'bg-primary-3': plateform === 'market',
                                     'icons-color': plateform !== 'market'
                                 }"
-                                (click)="switchPlateform('market')"
+                                (click)="switchPlateform('market')" (keyup.enter)="switchPlateform('market')" tabindex="0"
                             >
                                 <div class="d-flex justify-content-center">
                                     <span
@@ -833,7 +838,7 @@
                                 (click)="switchPlateform('workStation')"
                                 [ngClass]="{
                                     'bg-primary-3': plateform === 'workStation'
-                                }"
+                                }" (keyup.enter)="switchPlateform('workStation')" tabindex="0"
                             >
                                 <div class="d-flex justify-content-center">
                                     <span
@@ -858,7 +863,7 @@
                                 (click)="switchPlateform('onamob')"
                                 [ngClass]="{
                                     'bg-onamob-2': plateform === 'onamob'
-                                }"
+                                }" (keyup.enter)="switchPlateform('onamob')" tabindex="0"
                             >
                                 <div class="d-flex justify-content-center">
                                     <span
