@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
   Input,
-  inject,
   EventEmitter,
   Output,
   HostListener,
@@ -35,13 +34,12 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 //     displayAmount,
 //     Logout,
 // } from '../../..';
-import {
-  // VariableService,
-  AuthService,
-  ThemeService,
-  // MenuService,
-  // GeneralService,
-} from '../../../core/services';
+import {} from // VariableService,
+// AuthService,
+// ThemeService,
+// MenuService,
+// GeneralService,
+'../../../core/services';
 // import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-plateform-icons.component';
@@ -56,11 +54,11 @@ import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-p
 export class HeaderComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   // public variableService = inject(VariableService);
-  public themeService = inject(ThemeService);
+  // public themeService = inject(ThemeService);
   showMenu = false;
   @Input() onLoginPage = false;
   plateform$!: Observable<string>;
-  plateform = '';
+  plateform = 'home';
   organization$!: Observable<unknown>;
 
   // eslint-disable-next-line
@@ -107,12 +105,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   eyeShowed!: [];
   // eyeStatus$: Observable<any>;
 
-  constructor(
-    // private store: Store,
-    private authService: AuthService
-    // private menuService: MenuService,
-    // private generalService: GeneralService
-  ) {
+  constructor() // private authService: AuthService // private store: Store,
+  // private menuService: MenuService,
+  // private generalService: GeneralService
+  {
     // this.plateform$.pipe(takeUntil(this.onDestroy$)).subscribe((plateform) => {
     //     this.plateform = plateform;
     // })
@@ -405,53 +401,53 @@ export class HeaderComponent implements OnInit, OnDestroy {
     };
     console.log('the data:' + data);
     // this.store.dispatch(new OpenDialog(data));
-    this.authService
-      .logoutCorporate()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        // next: (data) => {
-        //     // if (data.object.success === true) {
-        //     //     const login_data = {
-        //     //         password: this.variableService.password,
-        //     //         organization_id:
-        //     //             this.selectedCorporate.organization.id,
-        //     //     };
-        //     //     this.authService.loginCorporate(login_data).subscribe({
-        //     //         next: (data) => {
-        //     //             this.store.dispatch(
-        //     //                 new CloseDialog({ response: 'close' })
-        //     //             );
-        //     //             this.variableService.password = '';
-        //     //             if (data.object.success === true) {
-        //     //                 window.location.href = '/w';
-        //     //             } else if (data.object.response_code === '07') {
-        //     //                 this.displayCorporatesSection();
-        //     //                 const dataModal = {
-        //     //                     title: '',
-        //     //                     type: 'failed',
-        //     //                     message: data.object.response_message,
-        //     //                 };
-        //     //                 this.store.dispatch(
-        //     //                     new OpenDialog(dataModal)
-        //     //                 );
-        //     //             }
-        //     //         },
-        //     //         error: (err) => {
-        //     //             console.log('errrrrss', err);
-        //     //             this.variableService.password = '';
-        //     //             // this.showPassword = true;
-        //     //             // this.isLoading = false;
-        //     //             const data = {
-        //     //                 title: '',
-        //     //                 type: 'failed',
-        //     //                 message: 'Could not Login',
-        //     //             };
-        //     //             this.store.dispatch(new OpenDialog(data));
-        //     //         },
-        //     //     });
-        //     // }
-        // },
-      });
+    // this.authService
+    //   .logoutCorporate()
+    //   .pipe(takeUntil(this.onDestroy$))
+    //   .subscribe({
+    // next: (data) => {
+    //     // if (data.object.success === true) {
+    //     //     const login_data = {
+    //     //         password: this.variableService.password,
+    //     //         organization_id:
+    //     //             this.selectedCorporate.organization.id,
+    //     //     };
+    //     //     this.authService.loginCorporate(login_data).subscribe({
+    //     //         next: (data) => {
+    //     //             this.store.dispatch(
+    //     //                 new CloseDialog({ response: 'close' })
+    //     //             );
+    //     //             this.variableService.password = '';
+    //     //             if (data.object.success === true) {
+    //     //                 window.location.href = '/w';
+    //     //             } else if (data.object.response_code === '07') {
+    //     //                 this.displayCorporatesSection();
+    //     //                 const dataModal = {
+    //     //                     title: '',
+    //     //                     type: 'failed',
+    //     //                     message: data.object.response_message,
+    //     //                 };
+    //     //                 this.store.dispatch(
+    //     //                     new OpenDialog(dataModal)
+    //     //                 );
+    //     //             }
+    //     //         },
+    //     //         error: (err) => {
+    //     //             console.log('errrrrss', err);
+    //     //             this.variableService.password = '';
+    //     //             // this.showPassword = true;
+    //     //             // this.isLoading = false;
+    //     //             const data = {
+    //     //                 title: '',
+    //     //                 type: 'failed',
+    //     //                 message: 'Could not Login',
+    //     //             };
+    //     //             this.store.dispatch(new OpenDialog(data));
+    //     //         },
+    //     //     });
+    //     // }
+    // },
+    // });
     // this.store.dispatch( new LogoutCorporate({ corporateOnly: true }));
   }
 

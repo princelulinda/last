@@ -1,7 +1,7 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input } from '@angular/core';
 // import { Router } from 'express';
 import { Subject, Observable } from 'rxjs';
-import { ThemeService } from '../../../../core/services';
+// import { ThemeService } from '../../../../core/services';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,9 +14,9 @@ import { CommonModule } from '@angular/common';
 export class SwitchPlateformIconsComponent {
   private onDestroy$: Subject<void> = new Subject<void>();
   // public variableService = inject(VariableService);
-  public themeService = inject(ThemeService);
+  // public themeService = inject(ThemeService);
   plateform$!: Observable<string>;
-  plateform = '';
+  plateform = 'home';
   // theme$!: Observable<any>;
   // theme = '';
   plateforms = [
@@ -33,7 +33,15 @@ export class SwitchPlateformIconsComponent {
       title: 'Switch On Banking',
       icon: '',
       showit: false,
-      image: '/assets/images/ihela-b.svg',
+      image: '/images/ihela-b.svg',
+      is_selected: false,
+    },
+    {
+      plateform: 'onamob',
+      title: 'Switch On Onamob',
+      image: '',
+      showit: true,
+      icon: 'fa-solid fa-mobile-screen-button',
       is_selected: false,
     },
     {
@@ -50,14 +58,6 @@ export class SwitchPlateformIconsComponent {
       image: '',
       showit: true,
       icon: 'fa-solid fa-desktop',
-      is_selected: false,
-    },
-    {
-      plateform: 'onamob',
-      title: 'Switch On Onamob',
-      image: '',
-      showit: true,
-      icon: 'fa-solid fa-mobile-screen-button',
       is_selected: false,
     },
   ];

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AsideBarComponent } from './aside-bar/aside-bar.component';
 import { AsideMenuComponent } from './aside-menu/aside-menu.component';
+import { HeaderComponent } from '../../dev/header/header.component';
 
 @Component({
   selector: 'app-banking',
@@ -16,6 +17,7 @@ import { AsideMenuComponent } from './aside-menu/aside-menu.component';
     RouterLinkActive,
     AsideBarComponent,
     AsideMenuComponent,
+    HeaderComponent,
   ],
 })
 export class BankingComponent {
