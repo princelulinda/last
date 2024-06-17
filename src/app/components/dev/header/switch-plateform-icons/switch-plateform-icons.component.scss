@@ -109,18 +109,24 @@
 }
 
 .unselectedIcon-b {
-    color: #b86b6b;
+    color: #fff;
 }
 
 .unselectedIcon-o {
-    color: #ffc198;
+    color: #fff;
 }
 
 .selectedIcon-b {
-    border-bottom: 3px solid #b86b6b;
-    padding-bottom: 8px;
+    margin: 0%;
+    border-radius: 10px;
+    border: 1px solid #FFFFFF;
+    padding-right: 8px;
+    padding-left: 8px;
+    padding-bottom:4px;
+    padding-top: 3px;
+    background-color: #FFFFFF;
     width: 150%;
-    color: #ffff;
+    color: #2070b8;
     @media screen and (max-width: 991px) {
         border: 0;
     }
@@ -141,8 +147,12 @@
 }
 
 .selectedIcon-w {
-    border-bottom: 3px solid #2070b8;
-    padding-bottom: 8px;
+    border: 1px solid #FFFFFF;
+    padding-right: 8px;
+    padding-left: 8px;
+    padding-bottom:4px;
+    padding-top: 3px;
+    background-color: #FFFFFF;
     width: 150%;
     color: #2070b8;
     @media screen and (max-width: 991px) {
