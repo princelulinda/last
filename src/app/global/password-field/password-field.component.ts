@@ -16,7 +16,8 @@ import {
 })
 export class PasswordFieldComponent {
   @Input() Validator: boolean | undefined;
-  @Input() weak: boolean | undefined;
+  @Input() label: boolean | undefined;
+  @Input() required: boolean | undefined;
 
   @Output() passwordValid = new EventEmitter<string>();
 

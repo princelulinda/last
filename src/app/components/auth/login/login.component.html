@@ -1,6 +1,6 @@
 <br>
 
-<!-- <div class="container font-montserrat d-flex justify-content-center  pt-5 p-5">
+<div class="container font-montserrat d-flex justify-content-center  pt-5 p-5">
   <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
     <div class="col-md-6 px-5 p-3">
        <div class="col d-flex justify-content-center fs-l-medium mb-3"><span class="fw-bold" i18n>Login with</span></div>
@@ -13,8 +13,7 @@
         </div>
         
         <div class="form-floating">
-          <input  type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
-          <label class="fs-small" i18n for="number"><span><img src="/images/lock.svg" width="23" alt=""> password</span> </label>
+          <app-password-field [Validator]="false" [label]="true"></app-password-field>
         </div>
         <div class="col mt-4"><span class="text-primary" role="button" routerLink="/reset/" >Forgot password?</span>
         </div>
@@ -44,9 +43,9 @@
     </div> 
 
   </div>
-</div> -->
+</div>
 
-<div class="container font-montserrat d-flex justify-content-center  pt-5 p-5">
+<!-- <div class="container font-montserrat d-flex justify-content-center  pt-5 p-5">
   <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
     <div class="col-md-6 px-5 p-3">
       <div class="d-flex justify-content-end">
@@ -80,7 +79,7 @@
     </div> 
 
   </div>
-</div>
+</div> -->
 
 
 
