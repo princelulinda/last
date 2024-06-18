@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Dexie, liveQuery } from 'dexie';
 import { UserApiResponse } from './models';
+import { Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../services/api/api.service';
 import {
@@ -16,10 +17,11 @@ export class DbService {
   public db: Dexie; // TODO : Make this private and use addEvent func
   private dbName = 'main-magis-erp-db';
   private modelsDir = './models';
+  public dbIsReady: Subject<boolean> = new Subject<boolean>();
 
   constructor(private apiService: ApiService) {
     this.db = new Dexie(this.dbName);
-    // this.initializeModels();
+    this.dbIsReady.next(false);
   }
 
   async initializeModels() {
@@ -99,11 +101,15 @@ export class DbService {
     await this.db.version(environment.appDbVersion).stores(stores);
 
     this.db.on('populate', () => this.populate());
+    this.db.on('ready', () => {
+      console.log(`Database ${this.dbName} is ready`);
+      this.dbIsReady.next(true);
+    });
 
     this.db.open();
     // console.log(" ============================== >>> CALLING FROM DB SERVICE");
 
-    this.populate();
+    // this.populate();
   }
 
   // addEvent(eventName: string, callback: Function) {
