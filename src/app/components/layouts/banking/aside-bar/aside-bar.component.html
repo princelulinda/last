@@ -24,13 +24,9 @@
         <div class="rounded-bottom d-grid border bg-secondary p-2">
           <span class="w-100 mt-2">
             <app-skeleton
-              [isLoading]="true"
               [width]="'100%'"
-              [height]="'50px'"
-              [count]="4"
-              [animation]="'wave'"
-              [color]="'#e0e0e0'"
-              [radius]="'4px'">
+              [height]="'70px'"
+              classes="sm-radius">
             </app-skeleton>
           </span>
         </div>
@@ -297,151 +293,37 @@
       </div>
 
       <div class="row ms-2">
-        <div class="row mb-3 align-items-center">
-          <div class="col-4">
-            <app-skeleton
-              [isLoading]="true"
-              [width]="'100%'"
-              [height]="'70px'"
-              [count]="1"
-              [animation]="'wave'"
-              [color]="''"
-              [radius]="'4px'">
-            </app-skeleton>
-          </div>
-          <div class="col">
-            <div>
-              <app-skeleton
-                [isLoading]="true"
-                [width]="'70%'"
-                [height]="'20%'"
-                [count]="1"
-                [animation]="'wave'"
-                [color]="''"
-                [radius]="'10px'">
+        @for (_ of [1, 2, 3]; track $index) {
+          <div class="row mb-3 align-items-center">
+            <div class="col-4">
+              <app-skeleton [height]="'70px'" classes="sm-radius">
               </app-skeleton>
             </div>
-            <div>
-              <app-skeleton
-                [isLoading]="true"
-                [width]="'45%'"
-                [height]="'20%'"
-                [count]="1"
-                [animation]="'wave'"
-                [color]="''"
-                [radius]="'10px'">
-              </app-skeleton>
-            </div>
-            <div>
-              <app-skeleton
-                [isLoading]="true"
-                [width]="'70%'"
-                [height]="'20%'"
-                [count]="1"
-                [animation]="'wave'"
-                [color]="''"
-                [radius]="'10px'">
-              </app-skeleton>
+            <div class="col d-flex flex-column justify-content-around">
+              <div>
+                <app-skeleton
+                  [width]="'70%'"
+                  [height]="'10px'"
+                  classes="sm-radius">
+                </app-skeleton>
+              </div>
+              <div>
+                <app-skeleton
+                  [width]="'45%'"
+                  [height]="'8px'"
+                  classes="sm-radius">
+                </app-skeleton>
+              </div>
+              <div>
+                <app-skeleton
+                  [width]="'70%'"
+                  [height]="'8px'"
+                  classes="sm-radius">
+                </app-skeleton>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="row mb-3 align-items-center">
-          <div class="col-4">
-            <app-skeleton
-              [isLoading]="true"
-              [width]="'100%'"
-              [height]="'70px'"
-              [count]="1"
-              [animation]="'wave'"
-              [color]="''"
-              [radius]="'4px'">
-            </app-skeleton>
-          </div>
-          <div class="col">
-            <div>
-              <app-skeleton
-                [isLoading]="true"
-                [width]="'70%'"
-                [height]="'20%'"
-                [count]="1"
-                [animation]="'wave'"
-                [color]="''"
-                [radius]="'10px'">
-              </app-skeleton>
-            </div>
-            <div>
-              <app-skeleton
-                [isLoading]="true"
-                [width]="'45%'"
-                [height]="'20%'"
-                [count]="1"
-                [animation]="'wave'"
-                [color]="''"
-                [radius]="'10px'">
-              </app-skeleton>
-            </div>
-            <div>
-              <app-skeleton
-                [isLoading]="true"
-                [width]="'70%'"
-                [height]="'20%'"
-                [count]="1"
-                [animation]="'wave'"
-                [color]="''"
-                [radius]="'10px'">
-              </app-skeleton>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-3 align-items-center">
-          <div class="col-4">
-            <app-skeleton
-              [isLoading]="true"
-              [width]="'100%'"
-              [height]="'70px'"
-              [count]="1"
-              [animation]="'wave'"
-              [color]="''"
-              [radius]="'4px'">
-            </app-skeleton>
-          </div>
-          <div class="col">
-            <div>
-              <app-skeleton
-                [isLoading]="true"
-                [width]="'70%'"
-                [height]="'20%'"
-                [count]="1"
-                [animation]="'wave'"
-                [color]="''"
-                [radius]="'10px'">
-              </app-skeleton>
-            </div>
-            <div>
-              <app-skeleton
-                [isLoading]="true"
-                [width]="'45%'"
-                [height]="'20%'"
-                [count]="1"
-                [animation]="'wave'"
-                [color]="''"
-                [radius]="'10px'">
-              </app-skeleton>
-            </div>
-            <div>
-              <app-skeleton
-                [isLoading]="true"
-                [width]="'70%'"
-                [height]="'20%'"
-                [count]="1"
-                [animation]="'wave'"
-                [color]="''"
-                [radius]="'10px'">
-              </app-skeleton>
-            </div>
-          </div>
-        </div>
+        }
       </div>
     </div>
   </div>
