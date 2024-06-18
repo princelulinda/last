@@ -19,9 +19,7 @@ export class AppComponent implements OnInit {
     private configService: ConfigService
   ) {
     this.dbService.dbIsReady.subscribe((value: boolean) =>
-      console.log(
-        `............... /////////////////// APP COMPONENT DB READY : ${value}`
-      )
+      console.log(`APP COMPONENT DB READY : ${value}`)
     );
   }
 
