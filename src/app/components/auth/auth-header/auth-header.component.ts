@@ -12,17 +12,6 @@ import { ConfigService } from '../../../core/services';
 export class AuthHeaderComponent {
   constructor(private configService: ConfigService) {}
 
-  // ngOnInit() {
-  //   // const obs = this.configService.getMainConfig();
-  //   // console.log('OBS ::: ', obs);
-
-  //   // obs.subscribe({
-  //   //   next: response => {
-  //   //     console.log('ppppppppppp Main Config', response);
-  //   //   },
-  //   // });
-  // }
-
   switchMode() {
     this.configService.switchMode();
   }
