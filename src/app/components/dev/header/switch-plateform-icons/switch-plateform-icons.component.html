@@ -4,28 +4,29 @@
   <div class="d-flex justify-content-around justify-content-lg-start">
     <div class="d-flex justify-content-around justify-content-lg-start">
       @for (plateF of plateforms; track $index) {
-        <span role="button" title="{{ plateF.title }}" class="margin-right">
+        <span role="button" title="{{ plateF.title }}" class="px-5">
           <i
             *ngIf="plateF.icon"
-            class="{{ plateF.icon }} fs-3"
+            class="{{ plateF.icon }} fs-3 "
             [ngClass]="{
-              'selectedIcon-b':
-                plateF.plateform === plateform &&
-                plateform !== 'workstation' &&
-                plateform !== 'onamob',
-              'unselectedIcon-b':
-                plateF.plateform !== plateform &&
-                plateform !== 'workstation' &&
-                plateform !== 'onamob',
-              'selectedIcon-o':
-                plateF.plateform === plateform && plateform === 'onamob',
-              'unselectedIcon-o':
-                plateF.plateform !== plateform && plateform === 'onamob',
-              'selectedIcon-w':
-                plateF.plateform === plateform && plateform === 'workStation',
-              'unselectedIcon-w':
-                plateF.plateform !== plateform && plateform === 'workStation',
+              'bg-light lg-radius text-danger px-5 py-2 mt-2':
+                plateF.plateform === plateform ,
+                'mt-3': plateF.plateform !== plateform
+              
             }"></i>
+            <!-- @if(plateF.is_selected == true ) {
+              <span role="button" class="" 
+          
+              >
+                <i *ngIf="plateF.icon" class="{{ plateF.icon }} bg-light lg-radius text-danger px-4 py-2 mt-2"></i>
+              </span>
+            } @else {
+              <div>
+                <span role="button" class="" (click)="selectPlatform(plateF)">
+                  <i *ngIf="plateF.icon" class="{{ plateF.icon }} text-white mt-3" ></i>
+                </span>
+              </div>
+            } -->
 
           <img
             *ngIf="plateF.image && !plateF.is_selected"

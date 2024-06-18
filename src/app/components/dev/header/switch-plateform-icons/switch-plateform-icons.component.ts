@@ -16,7 +16,7 @@ export class SwitchPlateformIconsComponent {
   // public variableService = inject(VariableService);
   // public themeService = inject(ThemeService);
   plateform$!: Observable<string>;
-  plateform = 'home';
+  plateform = 'market';
   // theme$!: Observable<any>;
   // theme = '';
   plateforms = [
@@ -24,8 +24,8 @@ export class SwitchPlateformIconsComponent {
       plateform: 'home',
       title: 'Switch On Home',
       image: '',
-      icon: 'fa-solid fa-house-chimney-user',
-      is_selected: false,
+      icon: 'fa-solid fa-house-chimney-user fa-xl',
+      is_selected: true,
     },
     {
       plateform: 'onlineBanking',
@@ -38,24 +38,31 @@ export class SwitchPlateformIconsComponent {
       plateform: 'onamob',
       title: 'Switch On Onamob',
       image: '',
-      icon: 'fa-solid fa-mobile-screen-button',
+      icon: 'fa-solid fa-mobile-screen-button fa-xl',
       is_selected: false,
     },
     {
       plateform: 'market',
       title: 'Switch On My market',
       image: '',
-      icon: 'fa-solid fa-cart-shopping',
+      icon: 'fa-solid fa-cart-shopping fa-xl',
       is_selected: false,
     },
     {
       plateform: 'workStation',
       title: 'Switch On WorkStation',
       image: '',
-      icon: 'fa-solid fa-desktop',
+      icon: 'fa-solid fa-desktop fa-xl',
       is_selected: false,
     },
   ];
+  // selectPlatform(platform: any) {
+  //   const selectedIndex = this.plateforms.findIndex(p => p === platform); // Find the index of the clicked platform
+  //   if (selectedIndex !== -1) { // Check if platform found
+  //     this.plateforms.forEach(p => p.is_selected = false); // Deselect all platforms
+  //     this.plateforms[selectedIndex].is_selected = !platform.is_selected; // Toggle selection for the clicked platform
+  //   }
+  // }
   @Input() organization = '';
 
   // constructor(private store: Store, private router: Router) {
