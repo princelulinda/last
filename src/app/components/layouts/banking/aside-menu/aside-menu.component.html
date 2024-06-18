@@ -1,271 +1,170 @@
-
-
-<aside class="p-3 ps-md-0 ps-xl-3 vh-100  ">
+<aside class="p-3 ps-md-0 ps-xl-3">
   <!-- home menus -->
-  
-    <section class="mt-2  "  >
-      
-        <div
-             
-        class="mt-4 d-flex align-items-center clickable is-link "
+
+    <section class="mt-2">
+      <div
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
         routerLink="/m"
-        routerLinkActive="text-dark"
-      
-    >
-    <div>
-        <span
-            class="bg-secondary me-3 rounded-pill py-3 px-3"
-           
-           
-            ><i class="fa-solid fa-house"></i
-        ></span>
-       </div> 
-        <span class="fw-bold text-secondary" i18n>Publications</span>
-    </div>
-
-<div class=" mt-4 clickable is-link  d-flex align-items-center justify-content-between">
-    <div
-             
-    class=" d-flex align-items-center "
-    routerLink="/m"
-    routerLinkActive="text-dark"
-  
->
-<div>
-    <span
-        class="bg-secondary me-3 rounded-pill py-3 px-3"
-       
-       
-        ><i class="fa-regular fa-comments"></i
-    ></span>
-   </div> 
-    <span class="fw-bold text-secondary" i18n>Chats</span>
-</div>
-<div>
-    <div class="bg-secondary  px-2 d-flex justify-content-center  sm-radius text-blue">
-        0
-
-    </div>
-</div>
-</div>
-
-
-<div
-             
-class="mt-4 d-flex align-items-center clickable is-link "
-routerLink="/m"
-routerLinkActive="text-dark"
-
->
-<div>
-<span
-    class="bg-secondary me-3 rounded-pill py-3 px-3"
-   
-   
-    ><i class="fa-solid fa-cart-shopping text-success"></i
-></span>
-</div> 
-<span class="fw-bold text-secondary" i18n>Market</span>
-</div>
-       
-      </section>
-    
-   
-
-     <!-- onlineBanking menus -->
-
-     @if (plateform === 'onlineBanking'){
-        <section class="mt-2 w-50 " >
-      
-         
-
-
-                <div
-             
-                class="mt-4 d-flex align-items-center clickable is-link "
-                routerLink="/m"
-                routerLinkActive="text-dark"
-              
-            >
-            <div>
-                <span
-                    class="bg-secondary me-3 rounded-pill py-3 px-3"
-                   
-                   
-                    ><i class="fa-solid fa-house"></i
-                ></span>
-               </div> 
-                <span class="fw-bold text-secondary" i18n>Home</span>
-            </div>
-
-                
-            <div
-             
-            class="mt-4 d-flex align-items-center clickable is-link "
-            routerLink="/m"
-            routerLinkActive="text-dark"
-          
-        >
+        routerLinkActive="text-dark">
         <div>
-            <span
-                class="bg-secondary me-3 rounded-pill py-3 px-3"
-               
-               
-                >
-                <i class="fa-solid fa-calculator text-primary"></i>
-
+            <span class="bg-secondary me-3 rounded-pill py-3 px-3">
+                <i class="fa-solid fa-house house-color" ></i>
             </span>
-           </div> 
-            <span class="fw-bold text-secondary" i18n>Tarif</span>
+            </div>
+        <span class="fw-bold text-secondary" i18n>Publications</span>
+      </div>
+
+      <div
+        class="mt-4 clickable  bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
+        <div
+          class="d-flex align-items-center"
+          routerLink="/m"
+          routerLinkActive="text-dark">
+          <div>
+            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+              ><i class="fa-regular fa-comments chat-color"></i
+            ></span>
+          </div>
+          <span class="fw-bold text-secondary" i18n>Chats</span>
         </div>
-      
-           
-              
-      
-           
-          </section>
-     
-        }
-     <!--market-->
-     @if (plateform === 'market'){
-        <div class="ms-2 w-50" >
-            <section class="mt-2 "  >
-              
-             
-
-                    <div
-             
-                    class="mt-4 d-flex align-items-center clickable is-link "
-                    routerLink="/m"
-                    routerLinkActive="text-dark"
-                  
-                >
-                <div>
-                    <span
-                        class="bg-secondary me-3 rounded-pill py-3 px-3"
-                       
-                       
-                        ><i class="fa-solid fa-house"></i
-                    ></span>
-                   </div> 
-                    <span class="fw-bold text-secondary" i18n>Home</span>
-                </div>
-
-
-                <div
-             
-                class="mt-4 d-flex align-items-center clickable is-link "
-                routerLink="/m"
-                routerLinkActive="text-dark"
-              
-            >
-            <div>
-                <span
-                    class="bg-secondary me-3 rounded-pill py-3 px-3"
-                   
-                   
-                    ><i class="fa-solid fa-basket-shopping text-success"></i>
-                </span>
-               </div> 
-                <span class="fw-bold text-secondary" i18n>Product</span>
-            </div>
-                 
-                   
-          
-                  
-
-
-
-                <div
-             
-                class="mt-4 d-flex align-items-center clickable is-link "
-                routerLink="/m"
-                routerLinkActive="text-dark"
-              
-            >
-            <div>
-                <span
-                    class="bg-secondary me-3 rounded-pill py-3 px-3"
-                   
-                   
-                    ><i class="fa-solid fa-shop"></i>
-                </span>
-               </div> 
-                <span class="fw-bold text-secondary" i18n>Merchants</span>
-            </div>
-                    
-           
-               
-             
-           <div class=" mt-4 clickable is-link  d-flex align-items-center justify-content-between ">
-            <div
-                     
-            class=" d-flex align-items-center "
-            routerLink="/m"
-            routerLinkActive="text-dark"
-          
-        >
         <div>
-            <span
-                class="bg-secondary me-3 rounded-pill py-3 px-3"
-               
-               
-                > <i class="fa-solid fa-cart-shopping text-success"></i></span>
-           </div> 
-            <span class="fw-bold text-secondary" i18n>Carts</span>
+          <div
+            class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
+            0
+          </div>
         </div>
-        <div >
-            <div class="bg-secondary  px-2 d-flex justify-content-center  sm-radius text-success ">
-                0
-        
+      </div>
+
+      <div
+        class="mt-4 d-flex align-items-center clickable  bg-hover-secondary p-3 sm-radius"
+        routerLink="/m"
+        routerLinkActive="text-dark">
+        <div>
+          <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+            ><i class="fa-solid fa-cart-shopping text-success"></i
+          ></span>
+        </div>
+        <span class="fw-bold text-secondary" i18n>Market</span>
+      </div>
+    </section>
+  
+
+  <!-- onlineBanking menus -->
+
+  @if (plateform === 'onlineBanking') {
+    <section class="mt-2">
+      <div
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+        routerLink="/m"
+        routerLinkActive="text-dark">
+        <div>
+          <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+            ><i class="fa-solid fa-house house-color"></i
+          ></span>
+        </div>
+        <span class="fw-bold text-secondary" i18n>Home</span>
+      </div>
+
+      <div
+        class="mt-4 d-flex align-items-center clickable  bg-hover-secondary p-3 sm-radius"
+        routerLink="/m"
+        routerLinkActive="text-dark">
+        <div>
+          <span class="bg-secondary me-3 rounded-pill py-3 px-3">
+            <i class="fa-solid fa-calculator text-primary"></i>
+          </span>
+        </div>
+        <span class="fw-bold text-secondary" i18n>Tarif</span>
+      </div>
+    </section>
+  }
+  <!--market-->
+  @if (plateform === 'market') {
+    <div class="ms-2">
+      <section class="mt-2">
+        <div
+          class="mt-4 d-flex align-items-center clickable  bg-hover-secondary p-3 sm-radius"
+          routerLink="/m"
+          routerLinkActive="text-dark">
+          <div>
+            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+              ><i class="fa-solid fa-house"></i
+            ></span>
+          </div>
+          <span class="fw-bold text-secondary" i18n>Home</span>
+        </div>
+
+        <div
+          class="mt-4 d-flex align-items-center clickable  bg-hover-secondary p-3 sm-radius"
+          routerLink="/m"
+          routerLinkActive="text-dark">
+          <div>
+            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+              ><i class="fa-solid fa-basket-shopping text-success"></i>
+            </span>
+          </div>
+          <span class="fw-bold text-secondary" i18n>Product</span>
+        </div>
+
+        <div
+          class="mt-4 d-flex align-items-center clickable  bg-hover-secondary p-3 sm-radius"
+          routerLink="/m"
+          routerLinkActive="text-dark">
+          <div>
+            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+              ><i class="fa-solid fa-shop"></i>
+            </span>
+          </div>
+          <span class="fw-bold text-secondary" i18n>Merchants</span>
+        </div>
+
+        <div
+          class="mt-4 clickable is-link d-flex align-items-center justify-content-between">
+          <div
+            class="d-flex align-items-center"
+            routerLink="/m"
+            routerLinkActive="text-dark">
+            <div>
+              <span class="bg-secondary me-3 rounded-pill py-3 px-3">
+                <i class="fa-solid fa-cart-shopping text-success"></i
+              ></span>
             </div>
+            <span class="fw-bold text-secondary" i18n>Carts</span>
+          </div>
+          <div>
+            <div
+              class="bg-secondary px-2 d-flex justify-content-center sm-radius text-success">
+              0
+            </div>
+          </div>
         </div>
+
+        <div
+          class="mt-4 d-flex align-items-center clickable  bg-hover-secondary p-3 sm-radius"
+          routerLink="/m"
+          routerLinkActive="text-dark">
+          <div>
+            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+              ><i class="fa-solid fa-file-invoice-dollar"></i>
+            </span>
+          </div>
+          <span class="fw-bold text-secondary" i18n>Bills</span>
         </div>
 
-                
-
-                    <div
-             
-                    class="mt-4 d-flex align-items-center clickable is-link "
-                    routerLink="/m"
-                    routerLinkActive="text-dark"
-                  
-                >
-                <div>
-                    <span
-                        class="bg-secondary me-3 rounded-pill py-3 px-3"
-                       
-                       
-                        ><i class="fa-solid fa-file-invoice-dollar"></i>
-                    </span>
-                   </div> 
-                    <span class="fw-bold text-secondary" i18n>Bills</span>
-                </div>
-        
-                <div
-                     
-                class="mt-4 d-flex align-items-center   clickable border p-2 px-3 rounded  "
-                routerLink="/m"
-                routerLinkActive="text-dark"
-              
-            >
-                <span
-                    
-                    class=" me-3 "
-                   
-                    >  <i class=" fa-solid fa-store fs-2 text-primary"></i>
-                    </span>
-                <span class="fw-bold text-secondary" i18n>My Market</span>
-                </div> 
-              </section>
-
-
-           
+        <div
+          class="mt-4 d-flex align-items-center clickable border p-2 px-3 rounded  bg-hover-secondary p-3 sm-radius"
+          routerLink="/m"
+          routerLinkActive="text-dark">
+          <span class="me-3">
+            <i class="fa-solid fa-store fs-2 text-primary"></i>
+          </span>
+          <span class="fw-bold text-secondary" i18n>My Market</span>
         </div>
-    }
-     
-   
-<!--@if (plateform==='myMarket') {
+      </section>
+    </div>
+  }
+
+  <!--@if (plateform==='myMarket') {
     @if (isMymarket)
     {
         <section class="mt-2 w-50"   >
@@ -403,8 +302,7 @@ routerLinkActive="text-dark"
           </section>
     }
 }-->
-</aside> 
-
+</aside>
 
 <!--<div >
     <div >
@@ -450,4 +348,3 @@ routerLinkActive="text-dark"
         
     </div>
 </div>-->
-

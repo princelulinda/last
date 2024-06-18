@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
+import { SkeletonComponent } from '../../../../global/skeleton/skeleton.component';
 @Component({
   selector: 'app-aside-bar',
   standalone: true,
-  imports: [NgxSkeletonLoaderModule],
+  imports: [SkeletonComponent],
   templateUrl: './aside-bar.component.html',
   styleUrl: './aside-bar.component.scss',
 })
 export class AsideBarComponent {
-  plateform = '';
+  plateform = 'home';
 
   switchPlateform(name: string) {
     this.plateform = name;
