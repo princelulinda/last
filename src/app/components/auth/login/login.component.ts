@@ -9,11 +9,17 @@ import {
 import { AuthService } from '../../../core/services';
 import { FullpathService } from '../../../core/services';
 import { UserApiResponse } from '../../../core/db/models';
+import { PasswordFieldComponent } from '../../../global/password-field/password-field.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, RouterLinkActive],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    RouterLinkActive,
+    PasswordFieldComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
