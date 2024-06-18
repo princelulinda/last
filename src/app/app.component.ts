@@ -17,12 +17,16 @@ export class AppComponent implements OnInit {
   constructor(
     private dbService: DbService,
     private configService: ConfigService
-  ) {}
+  ) {
+    this.dbService.dbIsReady.subscribe((value: boolean) =>
+      console.log(`APP COMPONENT DB READY : ${value}`)
+    );
+  }
 
   setStoredTheme = (theme: string) => localStorage.setItem('theme', theme);
 
   ngOnInit() {
-    console.log('CALLING FROM APP COMPONENT');
+    console.log('INITIALIZING DB VARS FROM APP COMPONENT');
     this.dbService.initializeModels();
     this.configService.initAll();
   }

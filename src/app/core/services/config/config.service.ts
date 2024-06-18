@@ -89,8 +89,12 @@ export class ConfigService {
           } | null;
         },
       });
+      // TODO : Unsuscribe 'configSubscription'
     };
-    this.dbService.db.on('ready', initFn);
+    this.dbService.dbIsReady.subscribe((value: boolean) => {
+      console.log(`INITIALIZING ALL CONFIG FOR DB READY ${value}`);
+      initFn();
+    });
   }
 
   resetMode() {
