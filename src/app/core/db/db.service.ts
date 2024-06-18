@@ -164,9 +164,7 @@ export class DbService {
   }
 
   async setUser(data: UserApiResponse) {
-    console.log('ADDING USER USER : ', data, data?.token);
     if (data?.token !== null) {
-      console.log('ADDING USER TOKEN : ', data.token);
       this.apiService.setLocalToken(data.token);
       await this.addOnce('users', {
         username: data.username,
@@ -181,12 +179,6 @@ export class DbService {
       });
     }
   }
-
-  // async getDbUser() {
-  //   return this.liveQuery(async () => {
-  //     await this.db.table('users').where({ id: 1 }).toArray();
-  //   });
-  // }
 
   async getDbUser() {
     try {
@@ -240,11 +232,9 @@ export class DbService {
   async addOnceUpdate(tableName: string, data: object) {
     const row = await this.db.table(tableName).get(1);
 
-    console.log('ADD ONCE UPDATE : ', row);
     if (!row) {
       this.add(tableName, data);
     } else {
-      console.log('ADD ONCE UPDATE +++ : ', row, tableName, row.id, data);
       this.update(tableName, row.id, data);
     }
   }
