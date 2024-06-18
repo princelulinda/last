@@ -56,7 +56,6 @@ html[data-bs-theme='magis-light'] {
     @extend .bg-input;
   }
 
-  *,
   body {
     // Default color;
     color: map-get($magis-text-light, 'dark');
@@ -82,7 +81,6 @@ html[data-bs-theme='magis-dark'] {
     @extend .bg-input;
   }
 
-  *,
   body {
     // Default color;
     color: map-get($magis-text-dark, 'dark');

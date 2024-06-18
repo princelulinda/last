@@ -38,6 +38,8 @@ module.exports = tseslint.config(
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
     ],
-    rules: {}, // Add rules here
+    rules: {
+      '@angular-eslint/template/click-events-have-key-events': 'off',
+    }, // Add rules here
   }
 );

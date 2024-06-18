@@ -56,7 +56,6 @@ html[data-bs-theme='erp-light'] {
     @extend .bg-input;
   }
 
-  *,
   body {
     // Default color;
     color: map-get($erp-text-light, 'dark');
@@ -85,7 +84,6 @@ html[data-bs-theme='erp-dark'] {
     @extend .bg-input;
   }
 
-  *,
   body {
     // Default color;
     color: map-get($erp-text-dark, 'dark');

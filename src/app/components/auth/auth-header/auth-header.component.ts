@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ConfigService } from '../../../core/services';
 
 @Component({
   selector: 'app-auth-header',
@@ -8,4 +9,21 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './auth-header.component.html',
   styleUrl: './auth-header.component.scss',
 })
-export class AuthHeaderComponent {}
+export class AuthHeaderComponent {
+  constructor(private configService: ConfigService) {}
+
+  // ngOnInit() {
+  //   // const obs = this.configService.getMainConfig();
+  //   // console.log('OBS ::: ', obs);
+
+  //   // obs.subscribe({
+  //   //   next: response => {
+  //   //     console.log('ppppppppppp Main Config', response);
+  //   //   },
+  //   // });
+  // }
+
+  switchMode() {
+    this.configService.switchMode();
+  }
+}

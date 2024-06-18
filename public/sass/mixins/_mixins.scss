@@ -1,3 +1,5 @@
+@import 'bootstrap/scss/variables';
+
 @mixin generateSizeClass($name, $value) {
   .fs-#{$name} {
     font-size: $value !important;
@@ -6,6 +8,9 @@
 
 // mixins for border,text and background
 @mixin generateTextClass($colorName, $value) {
+  // :root {
+  //   --#{$variable-prefix}#{$colorName}: #{$value};
+  // }
   .text-#{$colorName} {
     color: $value !important;
   }
@@ -19,6 +24,9 @@
   }
 }
 @mixin generateBackgroundClass($colorName, $value) {
+  // :root {
+  //   --#{$variable-prefix}#{$colorName}-rgb: #{$value};
+  // }
   .bg-#{$colorName} {
     background-color: $value !important;
   }
