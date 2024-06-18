@@ -3,6 +3,9 @@ import { DbService } from '../../db/db.service';
 import { MainConfig } from '../../db/models';
 
 import { environment } from '../../../../environments/environment';
+import { Observable } from 'rxjs';
+import { liveQuery } from 'dexie';
+import { mainConfigModel } from '../../db/models/config/main-config';
 
 export type ModeModel = 'light' | 'dark';
 export type ThemeModel = 'ihela' | 'magis';
@@ -17,17 +20,28 @@ export class ConfigService {
     activeMode: ModeModel;
   } | null = null;
 
+  mainConfig$: unknown | Observable<mainConfigModel>;
+
   constructor(private dbService: DbService) {
     // this.initAll();
+    // this.mainConfig$ = liveQuery(() =>
+    //   this.dbService.db.table('mainconfigs').toArray()
+    // );
+    if (MainConfig) {
+      this.mainConfig$ = liveQuery(() =>
+        this.dbService.getOnce(MainConfig.tableName)
+      );
+    }
   }
 
   getMainConfig() {
+    return this.mainConfig$;
     // return this.dbService.liveQuery(async () => {
     //   await this.dbService.table('mainconfigs').where({ id: 1 }).toArray();
     // });
-    return this.dbService.liveQuery(
-      this.dbService.getOnce(MainConfig.tableName)
-    );
+    // return this.dbService.liveQuery(
+    //   this.dbService.getOnce(MainConfig.tableName)
+    // );
   }
 
   setMainConfig(
@@ -77,16 +91,19 @@ export class ConfigService {
 
       this.switchPlatformState('newsfeed');
       // Init selected platform
-      const configSubscription = this.getMainConfig();
-      console.log('CONFIG SUBS : ', configSubscription);
-      configSubscription.subscribe({
+      const configSubscription$ =
+        this.getMainConfig() as Observable<mainConfigModel>;
+      console.log('CONFIG SUBS : ', configSubscription$);
+      configSubscription$.subscribe({
         // eslint-disable-next-line
         next: (aConf: any) => {
-          this.activeConfig = aConf as {
-            activePlatform: string;
-            activeTheme: ThemeModel;
-            activeMode: ModeModel;
-          } | null;
+          if (aConf) {
+            this.activeConfig = aConf as {
+              activePlatform: string;
+              activeTheme: ThemeModel;
+              activeMode: ModeModel;
+            } | null;
+          }
         },
       });
       // TODO : Unsuscribe 'configSubscription'
