@@ -25,7 +25,7 @@ export class AuthHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.config$.subscribe((response: mainConfigModel) => {
+    this.config$?.subscribe((response: mainConfigModel) => {
       alert('new Data Comming');
       console.log('oooooooooo', response);
     });

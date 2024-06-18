@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DbService } from '../../db/db.service';
-import { MainConfig } from '../../db/models';
+import { MainConfig } from '../../db/models/config/main-config';
 
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -27,11 +27,13 @@ export class ConfigService {
     // this.mainConfig$ = liveQuery(() =>
     //   this.dbService.db.table('mainconfigs').toArray()
     // );
-    if (MainConfig) {
-      this.mainConfig$ = liveQuery(() =>
-        this.dbService.getOnce(MainConfig.tableName)
-      );
-    }
+    this.dbService.dbIsReady.subscribe((value: boolean) => {
+      if (value && MainConfig) {
+        this.mainConfig$ = liveQuery(() =>
+          this.dbService.getOnce(MainConfig.tableName)
+        );
+      }
+    });
   }
 
   getMainConfig() {
