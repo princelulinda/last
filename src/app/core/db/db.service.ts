@@ -16,7 +16,6 @@ export class DbService {
   public db: Dexie; // TODO : Make this private and use addEvent func
   private dbName = 'main-magis-erp-db';
   private modelsDir = './models';
-  public liveQuery = liveQuery;
 
   constructor(private apiService: ApiService) {
     this.db = new Dexie(this.dbName);
@@ -111,6 +110,10 @@ export class DbService {
   //   // this.db.on(eventName, () => callback());
   // }
 
+  liveQuery<T>(querier: T | Promise<T>) {
+    return liveQuery(() => querier);
+  }
+
   async populate() {
     const localToken = this.apiService.getLocalToken();
     const dbUser = await this.getDbUser();
@@ -152,13 +155,6 @@ export class DbService {
         });
       });
     }
-    // TODO : Put populate here for all populate
-    // const populatedUser = await this.db.table('users').add({
-    //   username: 'pierreclaverkoko',
-    //   token: 'mytoken1',
-    // });
-
-    // console.log('POPULATED USER : ', populatedUser);
   }
 
   async setUser(data: UserApiResponse) {
@@ -188,7 +184,7 @@ export class DbService {
 
   async getDbUser() {
     try {
-      const userDb = await this.db.table('users').orderBy(':id').first();
+      const userDb = await this.getOnce('users');
       return [userDb];
     } catch (error) {
       console.error('Error in fetching Db user', error);
@@ -211,15 +207,15 @@ export class DbService {
 
   // Help : data requires IndexableTypes : https://dexie.org/docs/Indexable-Type
   get(tableName: string, data: string | string[] | number) {
-    return this.liveQuery(async () => {
-      this.db.table(tableName).get(data);
-    });
+    return this.db.table(tableName).get(data);
+  }
+
+  getOnce<T>(tableName: string): Promise<T> {
+    return this.db.table(tableName).orderBy(':id').first();
   }
 
   where(tableName: string, data: string | string[]) {
-    return this.liveQuery(async () => {
-      this.db.table(tableName).where(data);
-    });
+    this.db.table(tableName).where(data);
   }
 
   add(tableName: string, data: object) {
@@ -230,7 +226,20 @@ export class DbService {
     const count = await this.db.table(tableName).count();
 
     if (!count) {
+      return this.add(tableName, data);
+    }
+    return null;
+  }
+
+  async addOnceUpdate(tableName: string, data: object) {
+    const row = await this.db.table(tableName).get(1);
+
+    console.log('ADD ONCE UPDATE : ', row);
+    if (!row) {
       this.add(tableName, data);
+    } else {
+      console.log('ADD ONCE UPDATE +++ : ', row, tableName, row.id, data);
+      this.update(tableName, row.id, data);
     }
   }
 

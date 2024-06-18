@@ -1,21 +1,34 @@
 <div class="border-bottom border-1 position-fixed bg-white w-100 z-3">
-    <div class="container">
-        <div class="row d-flex align-items-center py-2">
-            <div class="col">
-                <span i18n><a routerLink="/"> <img src="/images/ihela3.png" width="100" alt=""></a></span>
-            </div>
-            <div class="col d-flex justify-content-end align-items-center">
-                <span class="me-5">
-                    <select class="bg-white border-dark border-1 rounded px-2 fw-bold" name="" id="">
-                    <option value="">EN</option>
-                    <option value="">FR</option>
-                    </select>
-                </span>
-                <span role="button"> <img src="/images/light-active.svg" width="50" alt=""> </span>
-               
-                <a class="btn bg-primary px-4 p-1 ms-5 rounded text-white fw-bold" role="button" routerLink="/login/">Login</a>
-            
-            </div>
-        </div>
+  <div class="container">
+    <div class="row d-flex align-items-center py-2">
+      <div class="col">
+
+        <span i18n
+          ><a routerLink="/" >
+            <img src="/images/ihela3.png" width="100" alt="" /></a
+        ></span>
+      </div>
+      <div class="col d-flex justify-content-end align-items-center">
+        <span class="me-5">
+          <select
+            class="bg-white border-dark border-1 rounded px-2 fw-bold"
+            name=""
+            id="">
+            <option value="">EN</option>
+            <option value="">FR</option>
+          </select>
+        </span>
+        <button role="button" (click)="switchMode()">
+          <img src="/images/light-active.svg" width="50" alt="" />
+        </button>
+
+        <a
+          class="btn bg-primary px-4 p-1 ms-5 rounded text-white fw-bold"
+          role="button"
+          routerLink="/login/"
+          >Login</a
+        >
+      </div>
     </div>
+  </div>
 </div>
