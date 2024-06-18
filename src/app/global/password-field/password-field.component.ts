@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -18,6 +18,8 @@ export class PasswordFieldComponent {
   @Input() Validator: boolean | undefined;
   @Input() weak: boolean | undefined;
 
+  @Output() passwordValid = new EventEmitter<string>();
+
   passwordForm: FormGroup;
   showPassword = false;
   passwordType = 'password';
@@ -27,9 +29,9 @@ export class PasswordFieldComponent {
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
-        Validators.pattern(
-          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z$@$!%*?&].{8,}'
-        ),
+        Validators.pattern('(?=.*[0-9])'),
+        Validators.pattern('^(?=.*[A-Z])$'),
+        Validators.pattern('^(?=.*[$@$!%*?&])$'),
       ]),
     });
   }
@@ -53,18 +55,48 @@ export class PasswordFieldComponent {
     const errors = [];
     if (passwordControl && passwordControl.errors) {
       for (const key of Object.keys(passwordControl.errors)) {
-        // Customize error messages based on validation error keys
         if (key === 'required') {
           errors.push('Password is required');
         } else if (key === 'minlength') {
           errors.push('8 Characters minimun');
         } else if (key === 'pattern') {
-          errors.push('Must contain number');
-          errors.push('Must contain uppercase');
-          errors.push('Must contain spacial characters (!@$%');
+          const passwordErrors = [];
+          if (!this.hasDigit(passwordControl.value)) {
+            passwordErrors.push('Must contain number');
+          }
+          if (!this.hasUppercase(passwordControl.value)) {
+            passwordErrors.push('Must contain uppercase');
+          }
+          if (!this.hasSpecialChar(passwordControl.value)) {
+            passwordErrors.push('Must contain spacial characters (!@$%');
+          }
+          errors.push(...passwordErrors);
         }
       }
     }
     return errors;
+  }
+
+  hasDigit(password: string): boolean {
+    return /\d/.test(password);
+  }
+
+  hasLowercase(password: string): boolean {
+    return /[a-z]/.test(password);
+  }
+
+  hasUppercase(password: string): boolean {
+    return /[A-Z]/.test(password);
+  }
+
+  hasSpecialChar(password: string): boolean {
+    return /[$@$!%*?&]/.test(password);
+  }
+
+  onSubmit() {
+    if (this.passwordForm.valid) {
+      const password = this.passwordForm.value.password;
+      this.passwordValid.emit(password);
+    }
   }
 }
