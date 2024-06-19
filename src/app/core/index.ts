@@ -7,7 +7,6 @@ export const AllServices = [
   Services.AuthService,
   Services.ConfigService,
   Services.FullpathService,
-  Services.DexieService,
 ];
 
 export const AllGuards = [

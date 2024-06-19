@@ -1,15 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-// import { ConfigService } from '../../../core/services';
-// import { Observable } from 'rxjs';
-import { DbService } from '../../../core/db';
-// import { mainConfigModel } from '../../../core/db/models/config/main-config';
-import {
-  DexieService,
-  activeMainConfigModel,
-} from '../../../core/services/config/dexie.service';
+import { activeMainConfigModel } from '../../../core/services/config/dexie.service';
 import { Observable } from 'rxjs';
-// import { response } from 'express';
+import { ConfigService } from '../../../core/services';
 
 @Component({
   selector: 'app-auth-header',
@@ -22,11 +15,8 @@ export class AuthHeaderComponent implements OnInit {
   config$: Observable<activeMainConfigModel>;
   config!: activeMainConfigModel;
 
-  constructor(
-    private dexieSerivice: DexieService,
-    private dbService: DbService
-  ) {
-    this.config$ = this.dexieSerivice.getMainConfig();
+  constructor(private configService: ConfigService) {
+    this.config$ = this.configService.getMainConfig();
   }
 
   ngOnInit() {
@@ -36,6 +26,6 @@ export class AuthHeaderComponent implements OnInit {
   }
 
   switchMode() {
-    this.dexieSerivice.switchMode();
+    this.configService.switchMode();
   }
 }

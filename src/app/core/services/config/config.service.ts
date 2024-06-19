@@ -1,186 +1,163 @@
 import { Injectable } from '@angular/core';
-// import { DbService } from '../../db/db.service';
-// import { MainConfig } from '../../db/models';
+import { DbService } from '../../db';
+import { MainConfig } from '../../db/models';
+import { environment } from '../../../../environments/environment';
+import { liveQuery } from 'dexie';
+import { Observable } from 'rxjs';
 
-// import { environment } from '../../../../environments/environment';
-// import { Observable } from 'rxjs';
-// import { liveQuery } from 'dexie';
-// import { mainConfigModel } from '../../db/models/config/main-config';
-
-// export type ModeModel = 'light' | 'dark';
-// export type ThemeModel = 'ihela' | 'magis';
+export type ModeModel = 'light' | 'dark';
+export type ThemeModel = 'ihela' | 'magis';
+export type PlateformModel =
+  | 'authentification'
+  | 'newsFeed'
+  | 'onlineBanking'
+  | 'marketPlace'
+  | 'workstation'
+  | 'amin';
+export interface activeMainConfigModel {
+  activeMode: ModeModel;
+  activeTheme: ThemeModel;
+  activePlateform: PlateformModel;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigService {
-  //   activeConfig: {
-  //     activePlatform: string;
-  //     activeTheme: ThemeModel;
-  //     activeMode: ModeModel;
-  //   } | null = null;
-  //   mainConfig$: unknown | Observable<mainConfigModel>;
-  //   constructor(private dbService: DbService) {
-  //     // this.initAll();
-  //     // this.mainConfig$ = liveQuery(() =>
-  //     //   this.dbService.db.table('mainconfigs').toArray()
-  //     // );
-  //     if (MainConfig) {
-  //       this.mainConfig$ = liveQuery(() =>
-  //         this.dbService.getOnce(MainConfig.tableName)
-  //       );
-  //     }
-  //   }
-  //   getMainConfig() {
-  //     return this.mainConfig$;
-  //     // return this.dbService.liveQuery(async () => {
-  //     //   await this.dbService.table('mainconfigs').where({ id: 1 }).toArray();
-  //     // });
-  //     // return this.dbService.liveQuery(
-  //     //   this.dbService.getOnce(MainConfig.tableName)
-  //     // );
-  //   }
-  //   setMainConfig(
-  //     activePlatform: string,
-  //     activeTheme: ThemeModel,
-  //     activeMode: ModeModel
-  //   ) {
-  //     console.log('Active mode +++ :', activePlatform, activeTheme, activeMode);
-  //     this.setActiveConfig(activePlatform, activeTheme, activeMode);
-  //     return this.dbService.addOnceUpdate(MainConfig.tableName, {
-  //       activePlatform: activePlatform,
-  //       activeTheme: activeTheme,
-  //       activeMode: activeMode,
-  //     });
-  //   }
-  //   getPreferedMode(): ModeModel {
-  //     if (!this.activeConfig?.activeMode) {
-  //       return (
-  //         (window.matchMedia('(prefers-color-scheme: dark)').matches
-  //           ? 'dark'
-  //           : 'light') ?? 'light'
-  //       );
-  //     } else {
-  //       return this.activeConfig.activeMode;
-  //     }
-  //   }
-  //   setActiveConfig(platform: string, theme: ThemeModel, mode: ModeModel) {
-  //     this.activeConfig = {
-  //       activeMode: mode,
-  //       activePlatform: platform,
-  //       activeTheme: theme,
-  //     };
-  //   }
-  //   initAll() {
-  //     // this.dbService.initializeModels();
-  //     const initFn = () => {
-  //       this.switchMode();
-  //       this.setActiveConfig(
-  //         this.activeConfig?.activePlatform as string,
-  //         this.activeConfig?.activeTheme as ThemeModel,
-  //         this.activeConfig?.activeMode as ModeModel
-  //       );
-  //       this.switchPlatformState('newsfeed');
-  //       // Init selected platform
-  //       const configSubscription$ =
-  //         this.getMainConfig() as Observable<mainConfigModel>;
-  //       console.log('CONFIG SUBS : ', configSubscription$);
-  //       configSubscription$.subscribe({
-  //         // eslint-disable-next-line
-  //         next: (aConf: any) => {
-  //           if (aConf) {
-  //             this.activeConfig = aConf as {
-  //               activePlatform: string;
-  //               activeTheme: ThemeModel;
-  //               activeMode: ModeModel;
-  //             } | null;
-  //           }
-  //         },
-  //       });
-  //       // TODO : Unsuscribe 'configSubscription'
-  //     };
-  //     this.dbService.dbIsReady.subscribe((value: boolean) => {
-  //       console.log(`INITIALIZING ALL CONFIG FOR DB READY ${value}`);
-  //       initFn();
-  //     });
-  //   }
-  //   resetMode() {
-  //     const defaultMode: ModeModel = 'light';
-  //     if (this.activeConfig) {
-  //       return this.setMainConfig(
-  //         this.activeConfig?.activePlatform,
-  //         this.activeConfig?.activeTheme,
-  //         defaultMode
-  //       );
-  //     } else {
-  //       return null;
-  //     }
-  //   }
-  //   switchMode() {
-  //     let newMode!: ModeModel;
-  //     let appTheme!: ThemeModel;
-  //     console.log(
-  //       'OLD MODE : ',
-  //       this.activeConfig?.activeMode,
-  //       this.activeConfig?.activeMode == 'dark'
-  //     );
-  //     if (this.activeConfig) {
-  //       newMode = this.activeConfig.activeMode == 'dark' ? 'light' : 'dark';
-  //       appTheme = this.activeConfig?.activeTheme;
-  //     } else {
-  //       newMode = this.getPreferedMode();
-  //       appTheme = 'ihela';
-  //       console.log('PREFERED MODE : ', newMode);
-  //     }
-  //     console.log('NEW MODE : ', newMode);
-  //     this.setMainConfig(
-  //       this.activeConfig?.activePlatform as string,
-  //       appTheme,
-  //       newMode
-  //     );
-  //     this.setHtmlMode(appTheme, newMode);
-  //   }
-  //   setHtmlMode(newTheme: ThemeModel, newMode: ModeModel) {
-  //     // We cannot set a mode that does not exist
-  //     if (newMode && newTheme) {
-  //       console.log('SETTING HTML MODE : ', newTheme, ' - ', newMode);
-  //       document.documentElement.setAttribute(
-  //         'data-bs-theme',
-  //         `${newTheme}-${newMode}`
-  //       );
-  //       document.body.classList.add(`bg-${newTheme}`);
-  //     }
-  //   }
-  //   isLightMode(): boolean {
-  //     return this.activeConfig?.activeMode === 'light';
-  //   }
-  //   isDarkMode(): boolean {
-  //     return this.activeConfig?.activeMode === 'dark';
-  //   }
-  //   // resetPlatform() {
-  //   //   const defaultPlatform = '';
-  //   //   const activeTheme = this.getActiveTheme();
-  //   //   return this.setMainConfig(defaultPlatform, activeTheme);
-  //   // }
-  //   filterPlatformData(platform: string) {
-  //     return (
-  //       environment.plateformsUuid.filter(plUuid => plUuid.name === platform) ||
-  //       []
-  //     );
-  //   }
-  //   switchPlatformState(platform: string): void {
-  //     console.log('tsssssssss', platform);
-  //     // const activeTheme = this.dbService.getConfig().platform; // light | dark
-  //     const platformData = this.filterPlatformData(platform)[0];
-  //     this.setHtmlMode(
-  //       platformData.theme.name as ThemeModel,
-  //       this.activeConfig?.activeMode as ModeModel
-  //     );
-  //     // Update the platform and theme
-  //     this.setMainConfig(
-  //       platform,
-  //       platformData.theme.name as ThemeModel,
-  //       this.activeConfig?.activeMode as ModeModel
-  //     );
-  //   }
+  activeMainConfig!: activeMainConfigModel;
+
+  mainConfig$: unknown | Observable<activeMainConfigModel>;
+
+  constructor(private dbService: DbService) {
+    if (MainConfig) {
+      this.mainConfig$ = liveQuery(() =>
+        this.dbService.getOnce(MainConfig.tableName)
+      );
+    }
+  }
+  private async getActiveMainConfig(): Promise<activeMainConfigModel> {
+    const data: activeMainConfigModel = await this.dbService.getOnce(
+      MainConfig.tableName
+    );
+    this.activeMainConfig = data;
+    return data;
+  }
+
+  getMainConfig(): Observable<activeMainConfigModel> {
+    return this.mainConfig$ as Observable<activeMainConfigModel>;
+  }
+
+  setMainConfig(
+    activePlatform: PlateformModel,
+    activeTheme: ThemeModel,
+    activeMode: ModeModel
+  ) {
+    // console.log(
+    //   'Main ConFig ===++++ :',
+    //   activePlatform,
+    //   activeTheme,
+    //   activeMode
+    // );
+
+    return this.dbService.addOnceUpdate(MainConfig.tableName, {
+      activePlatform,
+      activeTheme,
+      activeMode,
+    });
+  }
+
+  private getPreferedMode(): ModeModel {
+    if (!this.activeMainConfig || !this.activeMainConfig.activeMode) {
+      const prefered =
+        (window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light') ?? 'light';
+      return prefered;
+    } else {
+      return this.activeMainConfig.activeMode;
+    }
+  }
+
+  private getActivePlateform(): PlateformModel {
+    if (!this.activeMainConfig || !this.activeMainConfig.activePlateform) {
+      return 'authentification';
+    } else {
+      return this.activeMainConfig.activePlateform as PlateformModel;
+    }
+  }
+
+  initAll() {
+    const initFn = async () => {
+      await this.getActiveMainConfig();
+      const mode = this.getPreferedMode();
+      const plateform = this.getActivePlateform();
+      const theme = this.filterPlatformData(plateform).theme.name as ThemeModel;
+      this.setHtmlMode(theme, mode);
+
+      const newActiveMainConfig: activeMainConfigModel = {
+        activeMode: mode,
+        activePlateform: plateform,
+        activeTheme: theme,
+      };
+      this.activeMainConfig = newActiveMainConfig;
+
+      this.dbService.addOnce(MainConfig.tableName, newActiveMainConfig);
+    };
+
+    this.dbService.dbIsReady.subscribe((value: boolean) => {
+      console.log(`INITIALIZING ALL CONFIG FOR DB READY ${value}`);
+      initFn();
+    });
+  }
+
+  private setHtmlMode(newTheme: ThemeModel, newMode: ModeModel) {
+    if (newMode && newTheme) {
+      document.documentElement.setAttribute(
+        'data-bs-theme',
+        `${newTheme}-${newMode}`
+      );
+      document.body.classList.add(`bg-${newTheme}`);
+    }
+  }
+
+  private filterPlatformData(platform: string): {
+    name: string;
+    uuid: string;
+    theme: { name: string };
+  } {
+    return environment.plateformsUuid.filter(
+      plUuid => plUuid.name === platform
+    )[0];
+  }
+  async switchPlateform(plateform: PlateformModel) {
+    this.activeMainConfig = await this.getActiveMainConfig();
+    if (plateform !== this.activeMainConfig.activePlateform) {
+      const theme = this.filterPlatformData(plateform).theme.name as ThemeModel;
+      this.setMainConfig(
+        plateform,
+        this.activeMainConfig.activeTheme,
+        this.activeMainConfig.activeMode
+      );
+      this.setHtmlMode(theme, this.activeMainConfig.activeMode);
+    }
+  }
+
+  async switchMode() {
+    let newModeToDispatch: ModeModel;
+
+    this.activeMainConfig = await this.getActiveMainConfig();
+    console.log('TRY to get new mode to dispatch', this.activeMainConfig);
+    if (this.activeMainConfig && this.activeMainConfig.activeMode) {
+      newModeToDispatch =
+        this.activeMainConfig.activeMode === 'dark' ? 'light' : 'dark';
+    } else {
+      newModeToDispatch = await this.getPreferedMode();
+    }
+    const plateform: PlateformModel = this.getActivePlateform();
+    const theme: ThemeModel = this.filterPlatformData(plateform).theme
+      .name as ThemeModel;
+
+    this.setMainConfig(plateform, theme, newModeToDispatch);
+    this.setHtmlMode(this.activeMainConfig.activeTheme, newModeToDispatch);
+  }
 }
