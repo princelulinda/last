@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { DbService } from './core/db/db.service';
-import { ConfigService } from './core/services';
+import { DexieService } from './core/services';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private dbService: DbService,
-    private configService: ConfigService
+    private configService: DexieService
   ) {
     this.dbService.dbIsReady.subscribe((value: boolean) =>
       console.log(`APP COMPONENT DB READY : ${value}`)

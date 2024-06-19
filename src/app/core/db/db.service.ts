@@ -238,7 +238,7 @@ export class DbService {
   }
 
   async addOnceUpdate(tableName: string, data: object) {
-    const row = await this.db.table(tableName).get(1);
+    const row = await this.db.table(tableName).orderBy(':id').first();
 
     console.log('ADD ONCE UPDATE : ', row);
     if (!row) {

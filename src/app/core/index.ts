@@ -5,7 +5,7 @@ import * as Interceptors from './interceptors';
 export const AllServices = [
   Services.ApiService,
   Services.AuthService,
-  Services.ConfigService,
+  Services.DexieService,
   Services.FullpathService,
 ];
 
