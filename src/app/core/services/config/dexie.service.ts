@@ -2,48 +2,62 @@ import { Injectable } from '@angular/core';
 import { DbService } from '../../db';
 import { MainConfig } from '../../db/models';
 import { environment } from '../../../../environments/environment';
+import { liveQuery } from 'dexie';
+import { Observable } from 'rxjs';
 
 export type ModeModel = 'light' | 'dark';
 export type ThemeModel = 'ihela' | 'magis';
+export type PlateformModel =
+  | 'authentification'
+  | 'newsFeed'
+  | 'onlineBanking'
+  | 'marketPlace'
+  | 'workstation'
+  | 'amin';
+export interface activeMainConfigModel {
+  activeMode: ModeModel;
+  activeTheme: ThemeModel;
+  activePlateform: PlateformModel;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class DexieService {
-  // mainConfig$: unknown | Observable<mainConfigModel>;
+  activeMainConfig!: activeMainConfigModel;
+
+  mainConfig$: unknown | Observable<activeMainConfigModel>;
 
   constructor(private dbService: DbService) {
-    // if (MainConfig) {
-    //   this.mainConfig$ = liveQuery(() =>
-    //     this.dbService.getOnce(MainConfig.tableName)
-    //   );
-    // }
+    if (MainConfig) {
+      this.mainConfig$ = liveQuery(() =>
+        this.dbService.getOnce(MainConfig.tableName)
+      );
+    }
   }
-
-  async isData() {
-    const dataNum = await this.dbService.db.table(MainConfig.tableName).count();
-    return dataNum > 0;
-  }
-
-  getMainConfig() {
-    // return this.mainConfig$;
-
-    return this.dbService.liveQuery(() =>
-      this.dbService.getOnce(MainConfig.tableName)
+  private async getActiveMainConfig(): Promise<activeMainConfigModel> {
+    const data: activeMainConfigModel = await this.dbService.getOnce(
+      MainConfig.tableName
     );
+    this.activeMainConfig = data;
+    return data;
+  }
+
+  getMainConfig(): Observable<activeMainConfigModel> {
+    return this.mainConfig$ as Observable<activeMainConfigModel>;
   }
 
   setMainConfig(
-    activePlatform: string,
+    activePlatform: PlateformModel,
     activeTheme: ThemeModel,
     activeMode: ModeModel
   ) {
-    console.log(
-      'Main ConFig ===++++ :',
-      activePlatform,
-      activeTheme,
-      activeMode
-    );
+    // console.log(
+    //   'Main ConFig ===++++ :',
+    //   activePlatform,
+    //   activeTheme,
+    //   activeMode
+    // );
 
     return this.dbService.addOnceUpdate(MainConfig.tableName, {
       activePlatform,
@@ -52,60 +66,42 @@ export class DexieService {
     });
   }
 
-  async getPreferedMode(): Promise<ModeModel> {
-    const hasData = await this.isData();
-    if (!hasData) {
+  private getPreferedMode(): ModeModel {
+    if (!this.activeMainConfig || !this.activeMainConfig.activeMode) {
       const prefered =
         (window.matchMedia('(prefers-color-scheme: dark)').matches
           ? 'dark'
           : 'light') ?? 'light';
       return prefered;
     } else {
-      const data = await this.dbService.db
-        .table(MainConfig.tableName)
-        .orderBy(':id')
-        .first();
-      return data.activeMode;
+      return this.activeMainConfig.activeMode;
     }
   }
 
-  async initialize() {
-    const mode = await this.getPreferedMode();
-    const row = {
-      activePlatform: 'newsfeed',
-      activeTheme: 'ihela',
-      activeMode: mode,
-    };
-
-    this.setHtmlMode('ihela', row.activeMode);
-
-    this.dbService.db
-      .table(MainConfig.tableName)
-      .add(row)
-      .then(() => {
-        console.log('Data added successfully to IndexedDB');
-      })
-      .catch(error => {
-        console.error('Error adding data to IndexedDB:', error);
-      });
+  private getActivePlateform(): PlateformModel {
+    if (!this.activeMainConfig || !this.activeMainConfig.activePlateform) {
+      return 'authentification';
+    } else {
+      return this.activeMainConfig.activePlateform as PlateformModel;
+    }
   }
 
   initAll() {
     const initFn = async () => {
-      const hasData = await this.isData();
-      console.log('INDEXEDDB HASDATA?? = ', hasData);
-      if (!hasData) {
-        this.initialize();
-        console.log('NNOOOO DATAAAA FOUND');
-      } else {
-        const row = await this.dbService.db
-          .table(MainConfig.tableName)
-          .orderBy(':id')
-          .first();
-        console.log('(((((((((((((((((())))row Foound', row);
+      await this.getActiveMainConfig();
+      const mode = this.getPreferedMode();
+      const plateform = this.getActivePlateform();
+      const theme = this.filterPlatformData(plateform).theme.name as ThemeModel;
+      this.setHtmlMode(theme, mode);
 
-        this.setHtmlMode(row.activeTheme, row.activeMode);
-      }
+      const newActiveMainConfig: activeMainConfigModel = {
+        activeMode: mode,
+        activePlateform: plateform,
+        activeTheme: theme,
+      };
+      this.activeMainConfig = newActiveMainConfig;
+
+      this.dbService.addOnce(MainConfig.tableName, newActiveMainConfig);
     };
 
     this.dbService.dbIsReady.subscribe((value: boolean) => {
@@ -114,33 +110,8 @@ export class DexieService {
     });
   }
 
-  async switchMode() {
-    let appTheme!: ThemeModel;
-    let activeMode!: ModeModel;
-    const hasData = await this.isData();
-    if (hasData) {
-      const row = await this.dbService.db
-        .table(MainConfig.tableName)
-        .orderBy(':id')
-        .first();
-      appTheme = row.activeTheme;
-      const oldMode: ModeModel = row.activeMode;
-      activeMode = oldMode == 'dark' ? 'light' : 'dark';
-
-      this.dbService.db
-        .table(MainConfig.tableName)
-        .update(row.id, { activeMode });
-    } else {
-      this.initialize();
-      appTheme = 'ihela';
-      activeMode = await this.getPreferedMode();
-    }
-    this.setHtmlMode(appTheme, activeMode);
-  }
-
-  setHtmlMode(newTheme: ThemeModel, newMode: ModeModel) {
+  private setHtmlMode(newTheme: ThemeModel, newMode: ModeModel) {
     if (newMode && newTheme) {
-      console.log('SETTING HTML mode :', newTheme, ' - ', newMode);
       document.documentElement.setAttribute(
         'data-bs-theme',
         `${newTheme}-${newMode}`
@@ -149,36 +120,44 @@ export class DexieService {
     }
   }
 
-  filterPlatformData(platform: string) {
-    return (
-      environment.plateformsUuid.filter(plUuid => plUuid.name === platform) ||
-      []
-    );
+  private filterPlatformData(platform: string): {
+    name: string;
+    uuid: string;
+    theme: { name: string };
+  } {
+    return environment.plateformsUuid.filter(
+      plUuid => plUuid.name === platform
+    )[0];
+  }
+  async switchPlateform(plateform: PlateformModel) {
+    this.activeMainConfig = await this.getActiveMainConfig();
+    if (plateform !== this.activeMainConfig.activePlateform) {
+      const theme = this.filterPlatformData(plateform).theme.name as ThemeModel;
+      this.setMainConfig(
+        plateform,
+        this.activeMainConfig.activeTheme,
+        this.activeMainConfig.activeMode
+      );
+      this.setHtmlMode(theme, this.activeMainConfig.activeMode);
+    }
   }
 
-  async switchPlatformState(platform: string): Promise<void> {
-    console.log('tsssssssss', platform);
-    let mode;
-    const hasData = await this.isData();
+  async switchMode() {
+    let newModeToDispatch: ModeModel;
 
-    if (hasData) {
-      const row = await this.dbService.db
-        .table(MainConfig.tableName)
-        .orderBy(':id')
-        .first();
-      mode = row.activeMode;
+    this.activeMainConfig = await this.getActiveMainConfig();
+    console.log('TRY to get new mode to dispatch', this.activeMainConfig);
+    if (this.activeMainConfig && this.activeMainConfig.activeMode) {
+      newModeToDispatch =
+        this.activeMainConfig.activeMode === 'dark' ? 'light' : 'dark';
     } else {
-      mode = this.getPreferedMode();
+      newModeToDispatch = await this.getPreferedMode();
     }
+    const plateform: PlateformModel = this.getActivePlateform();
+    const theme: ThemeModel = this.filterPlatformData(plateform).theme
+      .name as ThemeModel;
 
-    const platformData = this.filterPlatformData(platform)[0];
-    this.setHtmlMode(platformData.theme.name as ThemeModel, mode as ModeModel);
-
-    // Update the platform and theme
-    this.setMainConfig(
-      platform,
-      platformData.theme.name as ThemeModel,
-      mode as ModeModel
-    );
+    this.setMainConfig(plateform, theme, newModeToDispatch);
+    this.setHtmlMode(this.activeMainConfig.activeTheme, newModeToDispatch);
   }
 }

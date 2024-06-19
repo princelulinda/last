@@ -4,7 +4,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 // import { Observable } from 'rxjs';
 import { DbService } from '../../../core/db';
 // import { mainConfigModel } from '../../../core/db/models/config/main-config';
-import { DexieService } from '../../../core/services/config/dexie.service';
+import {
+  DexieService,
+  activeMainConfigModel,
+} from '../../../core/services/config/dexie.service';
+import { Observable } from 'rxjs';
 // import { response } from 'express';
 
 @Component({
@@ -15,24 +19,23 @@ import { DexieService } from '../../../core/services/config/dexie.service';
   styleUrl: './auth-header.component.scss',
 })
 export class AuthHeaderComponent implements OnInit {
-  config$ = this.configService.getMainConfig();
-  // config!: mainConfigModel;
+  config$: Observable<activeMainConfigModel>;
+  config!: activeMainConfigModel;
 
   constructor(
-    private configService: DexieService,
+    private dexieSerivice: DexieService,
     private dbService: DbService
   ) {
-    // this.config$ = this.configService
-    //   .mainConfig$ as Observable<mainConfigModel>;
+    this.config$ = this.dexieSerivice.getMainConfig();
   }
 
   ngOnInit() {
-    this.config$.subscribe(response => {
+    this.config$.subscribe((response: activeMainConfigModel) => {
       console.log('Observable Data Main Config', response);
     });
   }
 
   switchMode() {
-    this.configService.switchMode();
+    this.dexieSerivice.switchMode();
   }
 }
