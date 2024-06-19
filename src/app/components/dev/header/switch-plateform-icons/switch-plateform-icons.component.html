@@ -7,11 +7,11 @@
         <span role="button" title="{{ plateF.title }}" class="px-5">
           <i
             *ngIf="plateF.icon"
-            class="{{ plateF.icon }} fs-3 "
+            class="{{ plateF.icon }} fs-4 "
             [ngClass]="{
-              'bg-light lg-radius text-danger px-5 py-2 mt-2':
+              'bg-light sm-radius text-danger px-5 py-2 mt-2':
                 plateF.plateform === plateform ,
-                'mt-3': plateF.plateform !== plateform
+                'mt-3 text-light': plateF.plateform !== plateform
               
             }"></i>
             <!-- @if(plateF.is_selected == true ) {
