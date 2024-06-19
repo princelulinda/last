@@ -97,6 +97,14 @@ export class DexieService {
       if (!hasData) {
         this.initialize();
         console.log('NNOOOO DATAAAA FOUND');
+      } else {
+        const row = await this.dbService.db
+          .table(MainConfig.tableName)
+          .orderBy(':id')
+          .first();
+        console.log('(((((((((((((((((())))row Foound', row);
+
+        this.setHtmlMode(row.activeTheme, row.activeMode);
       }
     };
 
