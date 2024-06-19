@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ConfigService } from '../../../core/services';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 import { DbService } from '../../../core/db';
 import { mainConfigModel } from '../../../core/db/models/config/main-config';
 
@@ -15,6 +16,8 @@ import { mainConfigModel } from '../../../core/db/models/config/main-config';
 export class AuthHeaderComponent implements OnInit {
   config$: Observable<mainConfigModel>;
   config!: mainConfigModel;
+  isProduction: boolean = environment.production;
+  appVersion: string | number = environment.appVersion;
 
   constructor(
     private configService: ConfigService,
@@ -25,7 +28,7 @@ export class AuthHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.config$.subscribe((response: mainConfigModel) => {
+    this.config$?.subscribe((response: mainConfigModel) => {
       console.log('Observable Data Main Config', response);
     });
   }

@@ -9,6 +9,10 @@
         ></span>
       </div>
       <div class="col d-flex justify-content-end align-items-center">
+        @if (!isProduction) {
+
+          <span class="fs-6 badge text-bg-danger me-5"><i class="fa-solid fa-exclamation-triangle"></i> Test Version : <span class="text-monospace">{{ appVersion }}</span></span>
+        }
         <span class="me-5">
           <select
             class="bg-white border-dark border-1 rounded px-2 fw-bold"
