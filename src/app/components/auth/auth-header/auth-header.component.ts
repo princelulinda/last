@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { ConfigService } from '../../../core/services';
+import { activeMainConfigModel } from '../../../core/services/config/dexie.service';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { DbService } from '../../../core/db';
-import { mainConfigModel } from '../../../core/db/models/config/main-config';
+
+import { ConfigService } from '../../../core/services';
 
 @Component({
   selector: 'app-auth-header',
@@ -14,21 +13,15 @@ import { mainConfigModel } from '../../../core/db/models/config/main-config';
   styleUrl: './auth-header.component.scss',
 })
 export class AuthHeaderComponent implements OnInit {
-  config$: Observable<mainConfigModel>;
-  config!: mainConfigModel;
-  isProduction: boolean = environment.production;
-  appVersion: string | number = environment.appVersion;
+  config$: Observable<activeMainConfigModel>;
+  config!: activeMainConfigModel;
 
-  constructor(
-    private configService: ConfigService,
-    private dbService: DbService
-  ) {
-    this.config$ = this.configService
-      .mainConfig$ as Observable<mainConfigModel>;
+  constructor(private configService: ConfigService) {
+    this.config$ = this.configService.getMainConfig();
   }
 
   ngOnInit() {
-    this.config$?.subscribe((response: mainConfigModel) => {
+    this.config$.subscribe((response: activeMainConfigModel) => {
       console.log('Observable Data Main Config', response);
     });
   }

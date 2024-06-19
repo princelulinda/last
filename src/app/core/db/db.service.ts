@@ -267,8 +267,16 @@ export class DbService {
     return this.db.table(tableName).get(data);
   }
 
-  getOnce<T>(tableName: string): Promise<T> {
+  getOnce(tableName: string) {
     return this.db.table(tableName).orderBy(':id').first();
+  }
+
+  getTable(tableName: string): Promise<unknown[]> {
+    return this.db.table(tableName).toArray();
+  }
+
+  getTableCount(tableName: string): Promise<number> {
+    return this.db.table(tableName).count();
   }
 
   where(tableName: string, data: string | string[]) {
@@ -289,7 +297,7 @@ export class DbService {
   }
 
   async addOnceUpdate(tableName: string, data: object) {
-    const row = await this.db.table(tableName).get(1);
+    const row = await this.db.table(tableName).orderBy(':id').first();
 
     if (!row) {
       this.add(tableName, data);

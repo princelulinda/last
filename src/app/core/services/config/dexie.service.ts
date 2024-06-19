@@ -23,7 +23,7 @@ export interface activeMainConfigModel {
 @Injectable({
   providedIn: 'root',
 })
-export class ConfigService {
+export class DexieService {
   activeMainConfig!: activeMainConfigModel;
 
   mainConfig$: unknown | Observable<activeMainConfigModel>;

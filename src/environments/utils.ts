@@ -28,6 +28,11 @@ export const environmentConfig: {
     production: false,
     plateformsUuid: [
       {
+        name: 'authentification',
+        uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
+        theme: { name: 'ihela' },
+      },
+      {
         name: 'newsfeed',
         uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
         theme: { name: 'ihela' },
