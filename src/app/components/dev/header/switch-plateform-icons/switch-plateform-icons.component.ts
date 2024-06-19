@@ -16,7 +16,7 @@ export class SwitchPlateformIconsComponent {
   // public variableService = inject(VariableService);
   // public themeService = inject(ThemeService);
   plateform$!: Observable<string>;
-  plateform = 'market';
+  plateform = 'workStation';
   // theme$!: Observable<any>;
   // theme = '';
   plateforms = [
