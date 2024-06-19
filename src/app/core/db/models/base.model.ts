@@ -1,10 +1,53 @@
 import 'reflect-metadata/lite';
 
-// export function Field(target: symbol | object, propertyKey: string) {
-//   const attributes = Reflect.getMetadata('modelFields', target) || [];
-//   attributes.push(propertyKey);
-//   Reflect.defineMetadata('modelFields', attributes, target);
-// }
+export function Field(target: symbol | object, propertyKey: string) {
+  const metaTarget = `${(target as { tableName: string }).tableName}ModelFields`;
+  const attributes = Reflect.getMetadata(metaTarget, target) || [];
+  attributes.push(propertyKey);
+  console.log(
+    `Registered simple '${propertyKey}' in table '`,
+    target,
+    "' (",
+    attributes,
+    ')'
+  );
+  Reflect.defineMetadata(metaTarget, attributes, target);
+}
+
+export function UniqueField(target: symbol | object, propertyKey: string) {
+  const metaTarget = `${(target as { tableName: string }).tableName}ModelUniqueFields`;
+  const attributes = Reflect.getMetadata(metaTarget, target) || [];
+  attributes.push(propertyKey);
+  console.log(
+    `Registered unique '${propertyKey}' in table '`,
+    target,
+    `' with metadata : ${metaTarget} (`,
+    attributes,
+    ')'
+  );
+  Reflect.defineMetadata(metaTarget, attributes, target);
+}
+
+export function MultiField(target: symbol | object, propertyKey: string) {
+  const metaTarget = `${(target as { tableName: string }).tableName}ModelMultiFields`;
+  const attributes = Reflect.getMetadata(metaTarget, target) || [];
+  attributes.push(propertyKey);
+  console.log(
+    `Registered multi '${propertyKey}' in table '`,
+    target,
+    "' (",
+    attributes,
+    ')'
+  );
+  Reflect.defineMetadata(metaTarget, attributes, target);
+}
+
+export function getAllMetadataKeys(
+  metadataKey: string,
+  target: object
+): string[] {
+  return Reflect.getMetadata(metadataKey, target);
+}
 
 // export interface BaseModelInterface {
 //   id?: number; // Optional for auto-incrementing IDs
@@ -14,56 +57,9 @@ import 'reflect-metadata/lite';
 
 // export class BaseModel implements BaseModelInterface {
 
-const baseModelFields = Symbol('baseModelFields');
-const metadataKeyPrefix = 'metadataKey_';
-
 export class BaseModel {
-  static id?: number;
-  static serverId?: number;
-  static createdAt?: Date;
-  static updatedAt?: Date;
-
-  constructor() {
-    const fields = Reflect.getMetadata(baseModelFields, this) || [];
-    fields.push(...Object.getOwnPropertyNames(this));
-    Reflect.defineMetadata(baseModelFields, fields, this);
-  }
+  @Field static id?: number;
+  @UniqueField static serverId?: number;
+  @Field static createdAt?: Date;
+  @Field static updatedAt?: Date;
 }
-
-export function Field(key?: string): PropertyDecorator {
-  return (target: object, propertyKey: string | symbol) => {
-    const metadataKey = key || baseModelFields;
-
-    const attributes = Reflect.getMetadata(metadataKey, target) || [];
-    attributes.push(propertyKey);
-    Reflect.defineMetadata(metadataKey, attributes, target);
-
-    // Store the metadata key itself under a special key for later retrieval
-    Reflect.defineMetadata(
-      `${metadataKeyPrefix}${String(propertyKey)}`,
-      metadataKey,
-      target
-    );
-  };
-}
-
-export function getAllMetadataKeys(target: object): string[] {
-  return Reflect.getMetadataKeys(target);
-}
-
-// export function getMetadataKeyForProperty(
-//   target: object,
-//   propertyKey: string | symbol
-// ): string | undefined {
-//   return Reflect.getMetadata(
-//     `${metadataKeyPrefix}${String(propertyKey)}`,
-//     target
-//   );
-// }
-
-// export function getPropertiesForMetadataKey(
-//   target: object,
-//   metadataKey: string
-// ): (string | symbol)[] {
-//   return Reflect.getMetadata(metadataKey, target) || [];
-// }

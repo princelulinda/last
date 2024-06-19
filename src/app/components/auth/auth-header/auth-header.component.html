@@ -7,6 +7,10 @@
           ><a routerLink="/" >
             <img src="/images/ihela3.png" width="100" alt="" /></a
         ></span>
+        @if (!isProduction) {
+
+          <span class="fs-6 badge text-bg-danger"><i class="fa-solid fa-exclamation-triangle"></i> Test Version : <span class="text-monospace">{{ appVersion }}</span></span>
+        }
       </div>
       <div class="col d-flex justify-content-end align-items-center">
         <span class="me-5">

@@ -57,7 +57,7 @@ html[data-bs-theme='ihela-light'] {
     @extend .bg-input;
   }
 
-  body {
+  body ,input, textarea, select{
     color: map-get($ihela-text-light, 'dark');
   }
 }
@@ -81,7 +81,7 @@ html[data-bs-theme='ihela-dark'] {
     @extend .bg-input;
   }
 
-  body {
+  body,input, textarea, select {
     // Default color;
     color: map-get($ihela-text-dark, 'dark');
   }
