@@ -94,10 +94,16 @@ export class PasswordFieldComponent {
     return /[$@$!%*?&]/.test(password);
   }
 
+  // onSubmit() {
+  //   if (this.passwordForm.valid) {
+  //     const password = this.passwordForm.value.password;
+  //     this.passwordValid.emit(password);
+  //     console.log('password');
+  //   }
+  // }
+
   onSubmit() {
-    if (this.passwordForm.valid) {
-      const password = this.passwordForm.value.password;
-      this.passwordValid.emit(password);
-    }
+    const password = this.passwordForm.value.password;
+    this.passwordValid.emit(password);
   }
 }

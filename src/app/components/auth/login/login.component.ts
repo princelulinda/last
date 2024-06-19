@@ -80,4 +80,7 @@ export class LoginComponent implements OnInit {
         });
     }
   }
+  onPasswordChange(password: string) {
+    this.loginForm.get('password')?.setValue(password);
+  }
 }
