@@ -91,4 +91,7 @@ html[data-bs-theme='magis-dark'] {
     // Default color;
     color: map-get($magis-text-dark, 'dark');
   }
+
+  // reset border in dark
+  --bs-border-color: #4a4a4a;
 }

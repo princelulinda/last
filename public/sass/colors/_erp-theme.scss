@@ -88,4 +88,7 @@ html[data-bs-theme='erp-dark'] {
     // Default color;
     color: map-get($erp-text-dark, 'dark');
   }
+
+  // reset border in dark
+  --bs-border-color: #4a4a4a;
 }
