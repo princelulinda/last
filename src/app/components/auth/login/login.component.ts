@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
   loginForm = this.formBuilder.nonNullable.group({
     // username: ['', Validators.required, Validators.minLength(2)],
     // password: ['', Validators.required, Validators.minLength(8)],
-    number: [''],
     username: ['', Validators.required],
     password: ['', Validators.required],
   });
