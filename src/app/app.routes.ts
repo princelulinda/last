@@ -4,12 +4,12 @@ import { NoAuthGuard, AuthGuard } from './core/guards';
 import { routes as authRoutes } from './components/auth/auth.routes';
 import { Notfound400Component } from './components/errors/notfound-400/notfound-400.component';
 import { BankingComponent } from './components/layouts/banking/banking.component';
-import { bankingRoutes } from './components/online-banking/banking.routes';
-import { newsFeedRoutes } from './components/news-feed/news-feed.routes';
-import { marketPlaceRoutes } from './components/market-place/market-place.routes';
+import { bankingRoutes } from './routes/banking/banking.routes';
+import { newsFeedRoutes } from './routes/newsFeed/newsFeed.routes';
+import { marketPlaceRoutes } from './routes/market-place/marketPlace.routes';
 
 export const routes: Routes = [
-  // authantification routes
+  // authentification routes
   {
     path: '',
     canActivate: [NoAuthGuard],

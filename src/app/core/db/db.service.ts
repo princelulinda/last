@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Dexie, liveQuery } from 'dexie';
 import { UserApiResponse } from './models';
+import { getAllMetadataKeys } from './models/base.model';
+import { Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../services/api/api.service';
-import {
-  getAllMetadataKeys,
-  // getMetadataKeyForProperty,
-  // getPropertiesForMetadataKey,
-} from './models/base.model';
+import 'reflect-metadata/lite';
+// import {
+//   getAllMetadataKeys,
+//   // getMetadataKeyForProperty,
+//   // getPropertiesForMetadataKey,
+// } from './models/base.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +19,11 @@ export class DbService {
   public db: Dexie; // TODO : Make this private and use addEvent func
   private dbName = 'main-magis-erp-db';
   private modelsDir = './models';
-  public liveQuery = liveQuery;
+  public dbIsReady: Subject<boolean> = new Subject<boolean>();
 
   constructor(private apiService: ApiService) {
     this.db = new Dexie(this.dbName);
-    // this.initializeModels();
+    this.dbIsReady.next(false);
   }
 
   async initializeModels() {
@@ -41,47 +44,103 @@ export class DbService {
 
     const stores: Record<string, string> = {};
     for (const [rawModelName, model] of Object.entries(modelsModule)) {
-      // TODO : MAKE
-      // if (model instanceof BaseModel) {
-      const modelName: string = rawModelName.toLowerCase() + 's'; // Pluralize for store name
+      // CHECK INSTANCE OF BASE MODEL
+      // if (modelInstance instanceof BaseModel) {
+      const modelTableName: string = (model as { tableName: string }).tableName;
+
+      const metadataName = `${modelTableName}ModelFields`;
+      const uniqueMetadataName = `${modelTableName}ModelUniqueFields`;
+      const multiMetadataName = `${modelTableName}ModelMultiFields`;
 
       console.log(
-        `|== ADDING MODEL : ${modelName} > ${rawModelName} > ${model}`
+        `|== ADDING MODEL : ${modelTableName} || ${metadataName} > ${rawModelName} > ${model}`
+      );
+      console.log(
+        '==== METADATA NAMES :: ',
+        metadataName,
+        uniqueMetadataName,
+        multiMetadataName
       );
 
       const getSchema = () => {
         const schema: string[] = [];
 
-        console.log(`==== BEFORE ADDING PROPS TO MODEL : ${modelName}`);
+        console.log(`==== BEFORE ADDING PROPS TO MODEL : ${modelTableName}`);
         const commonJsClassPropToExclude: string[] = [
           'constructor',
           'id',
           'prototype',
           // 'length',
         ];
-
-        // Get metadata keys
-        const metadataKeys = getAllMetadataKeys(model);
-        console.log('metadataKeys', metadataKeys[0]);
-
+        // ------------------------------
+        // const propNames: (string|any)[] = Reflect.ownKeys(model as Record<string, any>).filter((key: any) => !commonJsClassPropToExclude.includes(key) && typeof model[key] !== 'function');
+        // ------------------------------
+        // const propNames: (string | symbol)[] = Reflect.ownKeys(
+        //   model as Record<string, string>
+        // ).filter(
+        //   (key: string | symbol) =>
+        //     !commonJsClassPropToExclude.includes(key as string)
+        // );
+        // ------------------------------
         // Access class attribute names after class definition
+
+        // NORMAL PROPS
+
         const propNames =
-          Reflect.getMetadata(
-            metadataKeys[0],
+          getAllMetadataKeys(
+            metadataName,
             model as Record<string, string>
-          ).filter(
+          )?.filter(
             (key: string | symbol) =>
               !commonJsClassPropToExclude.includes(key as string)
           ) || [];
         console.log(
-          `======> FOUND PROPS '${propNames}' FOR MODEL CLASS '${modelName}'`
+          `======> FOUND PROPS '${propNames}' FOR MODEL CLASS '${modelTableName}'`
         );
 
         for (const prop of propNames) {
           console.log(
-            `========> ADDING PROP '${String(prop)}' TO MODEL '${modelName}'`
+            `========> ADDING PROP '${String(prop)}' TO MODEL '${modelTableName}'`
           );
           schema.push(prop as string);
+        }
+
+        // UNIQUE PROPS
+
+        const uniquePropNames =
+          getAllMetadataKeys(
+            uniqueMetadataName,
+            model as Record<string, string>
+          )?.filter(
+            (key: string | symbol) =>
+              !commonJsClassPropToExclude.includes(key as string)
+          ) || [];
+        console.log(
+          `======> FOUND UNIQUE PROPS '${uniquePropNames}' FOR MODEL CLASS '${modelTableName}'`
+        );
+
+        for (const u_prop of uniquePropNames) {
+          console.log(
+            `========> ADDING UNIQUE PROP '${String(u_prop)}' TO MODEL '${modelTableName}'`
+          );
+          schema.push(`&${u_prop}` as string);
+        }
+
+        // MULTI PROPS
+        const multiPropNames =
+          getAllMetadataKeys(multiMetadataName, model)?.filter(
+            (key: string | symbol) =>
+              !commonJsClassPropToExclude.includes(key as string)
+          ) || [];
+        console.log(
+          `======> FOUND MULTI PROPS '${multiPropNames}' FOR MODEL CLASS '${modelTableName}'`
+        );
+
+        for (const m_prop of multiPropNames) {
+          console.log(
+            `========> ADDING MULTI PROP '${String(m_prop)}' TO MODEL '${modelTableName}'`
+          );
+          schema.push(`*${m_prop}` as string);
         }
 
         if (Array.isArray(schema) && schema.length) {
@@ -91,7 +150,7 @@ export class DbService {
         }
       };
 
-      stores[modelName] = getSchema();
+      stores[modelTableName] = getSchema();
       // } // END OF  CHECK : model instanceof BaseModel
     }
 
@@ -100,16 +159,24 @@ export class DbService {
     await this.db.version(environment.appDbVersion).stores(stores);
 
     this.db.on('populate', () => this.populate());
+    this.db.on('ready', () => {
+      console.log(`Database ${this.dbName} is ready`);
+      this.dbIsReady.next(true);
+    });
 
     this.db.open();
     // console.log(" ============================== >>> CALLING FROM DB SERVICE");
 
-    this.populate();
+    // this.populate();
   }
 
   // addEvent(eventName: string, callback: Function) {
   //   // this.db.on(eventName, () => callback());
   // }
+
+  liveQuery<T>(querier: T | Promise<T>) {
+    return liveQuery(() => querier);
+  }
 
   async populate() {
     const localToken = this.apiService.getLocalToken();
@@ -152,19 +219,10 @@ export class DbService {
         });
       });
     }
-    // TODO : Put populate here for all populate
-    // const populatedUser = await this.db.table('users').add({
-    //   username: 'pierreclaverkoko',
-    //   token: 'mytoken1',
-    // });
-
-    // console.log('POPULATED USER : ', populatedUser);
   }
 
   async setUser(data: UserApiResponse) {
-    console.log('ADDING USER USER : ', data, data?.token);
     if (data?.token !== null) {
-      console.log('ADDING USER TOKEN : ', data.token);
       this.apiService.setLocalToken(data.token);
       await this.addOnce('users', {
         username: data.username,
@@ -180,15 +238,9 @@ export class DbService {
     }
   }
 
-  // async getDbUser() {
-  //   return this.liveQuery(async () => {
-  //     await this.db.table('users').where({ id: 1 }).toArray();
-  //   });
-  // }
-
   async getDbUser() {
     try {
-      const userDb = await this.db.table('users').orderBy(':id').first();
+      const userDb = await this.getOnce('users');
       return [userDb];
     } catch (error) {
       console.error('Error in fetching Db user', error);
@@ -211,15 +263,23 @@ export class DbService {
 
   // Help : data requires IndexableTypes : https://dexie.org/docs/Indexable-Type
   get(tableName: string, data: string | string[] | number) {
-    return this.liveQuery(async () => {
-      this.db.table(tableName).get(data);
-    });
+    return this.db.table(tableName).get(data);
+  }
+
+  getOnce(tableName: string) {
+    return this.db.table(tableName).orderBy(':id').first();
+  }
+
+  getTable(tableName: string): Promise<unknown[]> {
+    return this.db.table(tableName).toArray();
+  }
+
+  getTableCount(tableName: string): Promise<number> {
+    return this.db.table(tableName).count();
   }
 
   where(tableName: string, data: string | string[]) {
-    return this.liveQuery(async () => {
-      this.db.table(tableName).where(data);
-    });
+    this.db.table(tableName).where(data);
   }
 
   add(tableName: string, data: object) {
@@ -230,7 +290,18 @@ export class DbService {
     const count = await this.db.table(tableName).count();
 
     if (!count) {
+      return this.add(tableName, data);
+    }
+    return null;
+  }
+
+  async addOnceUpdate(tableName: string, data: object) {
+    const row = await this.db.table(tableName).orderBy(':id').first();
+
+    if (!row) {
       this.add(tableName, data);
+    } else {
+      this.update(tableName, row.id, data);
     }
   }
 
