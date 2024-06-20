@@ -4,6 +4,7 @@ import { activeMainConfigModel } from '../../../core/services/config/dexie.servi
 import { Observable } from 'rxjs';
 
 import { ConfigService } from '../../../core/services';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-auth-header',
@@ -15,6 +16,9 @@ import { ConfigService } from '../../../core/services';
 export class AuthHeaderComponent implements OnInit {
   config$: Observable<activeMainConfigModel>;
   config!: activeMainConfigModel;
+
+  isProduction: boolean = environment.production;
+  appVersion: string | number = environment.appVersion;
 
   constructor(private configService: ConfigService) {
     this.config$ = this.configService.getMainConfig();
