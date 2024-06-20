@@ -45,7 +45,6 @@ html[data-bs-theme='ihela-light'] {
   @each $color, $value in $ihela-bg-light {
     @include generateBackgroundClass($color, $value);
   }
-  $border-color: red;
 
   @each $color, $value in $ihela-text-light {
     @include generateTextClass($color, $value);
@@ -57,6 +56,7 @@ html[data-bs-theme='ihela-light'] {
     @extend .bg-input;
   }
 
+  // default color
   body,
   input,
   textarea,
@@ -84,6 +84,7 @@ html[data-bs-theme='ihela-dark'] {
     @extend .bg-input;
   }
 
+  // default color
   body,
   input,
   textarea,
@@ -93,5 +94,5 @@ html[data-bs-theme='ihela-dark'] {
   }
 
   // reset border in dark
-  --bs-border-color: #4a4a4a;
+  --bs-border-color: #474747;
 }
