@@ -52,8 +52,20 @@ html[data-bs-theme='ihela-light'] {
 
   // Form inputs bootstrap
   .form-control,
-  .form-select {
+  .form-select .form-check,
+  .form-range {
     @extend .bg-input;
+    @extend .text-dark;
+    @extend .sm-radius;
+    &:focus,
+    &:focus-visible {
+      border-color: #c989866e;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem #c989862b;
+      // border-color: map-get($ihela-colors-light, 'primary-3');
+      // outline: 0;
+      // box-shadow: 0 0 0 0.2rem map-get($ihela-colors-light, 'primary-3');
+    }
   }
 
   // default color
@@ -79,9 +91,21 @@ html[data-bs-theme='ihela-dark'] {
   }
 
   // Form inputs bootstrap
+
   .form-control,
-  .form-select {
+  .form-select .form-check,
+  .form-range {
     @extend .bg-input;
+    @extend .text-dark;
+    &:focus,
+    &:focus-visible {
+      border-color: #c989866e;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem #c989862b;
+      // border-color: map-get($ihela-colors-dark, 'primary-2');
+      // outline: 0;
+      // box-shadow: 0 0 0 0.2rem map-get($ihela-colors-dark, 'primary-2');
+    }
   }
 
   // default color
