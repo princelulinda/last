@@ -4,11 +4,11 @@
     "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "ng serve --configuration=bbs",
     "devPath": "http://localhost:4200",
-    "distDir": "../dist"
+    "distDir": "../dist/ng-magis-erp"
   },
   "package": {
-    "productName": "ng-magis-erp",
-    "version": "0.1.0"
+    "productName": "ihela-ryanje",
+    "version": "0.0.1"
   },
   "tauri": {
     "allowlist": {
@@ -29,7 +29,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "com.ihela.bi",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
