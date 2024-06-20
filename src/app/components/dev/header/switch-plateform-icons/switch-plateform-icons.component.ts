@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 // import { ThemeService } from '../../../../core/services';
 import { CommonModule } from '@angular/common';
+import { organizationModel } from '../header.component';
 
 @Component({
   selector: 'app-switch-plateform-icons',
@@ -63,7 +64,7 @@ export class SwitchPlateformIconsComponent {
   //     this.plateforms[selectedIndex].is_selected = !platform.is_selected; // Toggle selection for the clicked platform
   //   }
   // }
-  @Input() organization = '';
+  @Input() organization!: organizationModel;
 
   // constructor(private store: Store, private router: Router) {
   //     this.plateform$ = this.store.select(SwitchState.GetPlateform);

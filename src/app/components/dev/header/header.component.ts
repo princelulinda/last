@@ -43,16 +43,15 @@ import {} from // VariableService,
 // import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-plateform-icons.component';
+import { clientInfoModel } from './model';
 
-// export interface organizationModel{
-//   organization: {
-//     company_type_code: string
-//     institution_client: {
-//         client_full_name: string,
-//         picture: string,
-//     }
-// }
-// }
+export interface organizationModel {
+  company_type_code: string;
+  institution_client: {
+    client_full_name: string;
+    picture: string;
+  };
+}
 
 @Component({
   selector: 'app-header',
@@ -69,10 +68,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Input() onLoginPage = false;
   plateform$!: Observable<string>;
   plateform = 'workStation';
-  organization$!: Observable<unknown>;
+  organization$!: Observable<organizationModel>;
 
   // eslint-disable-next-line
-  organization!: any;
+  organization!: organizationModel;
   showUserInfo = false;
   // userInfo$: Observable<any>;
 
@@ -115,8 +114,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   eyeShowed!: [];
   // eyeStatus$: Observable<any>;
 
-  constructor() // private generalService: GeneralService // private menuService: MenuService, // private authService: AuthService // private store: Store,
-  {
+  constructor() { // private generalService: GeneralService // private menuService: MenuService, // private authService: AuthService // private store: Store,
     // this.plateform$.pipe(takeUntil(this.onDestroy$)).subscribe((plateform) => {
     //     this.plateform = plateform;
     // })
