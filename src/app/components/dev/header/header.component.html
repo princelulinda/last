@@ -2,7 +2,7 @@
   class="w-100"
   style="height: 60px; z-index: 100; top: 0"
   [ngClass]="{
-    'header-color': plateform === 'workStation',
+    'bg-white': plateform === 'workStation',
     'bg-primary': plateform !== 'workStation' && plateform !== 'onamob',
     'primary-onamob': plateform === 'onamob',
   }">
@@ -18,8 +18,13 @@
         style="width: 260px">
         <div class="level-2 ps-1">
           <div class="px-2 py-1">
+            <!-- class="img-fluid bg-primary-2 border border-light sm-radius border-4 px-3" -->
             <img
-            class="img-fluid bg-primary-2 border border-light sm-radius border-4 px-3"
+            [ngClass]="{
+              'mg-fluid bg-primary-2 border border-light sm-radius border-4 px-3': plateform !== 'workStation',
+              'bg-primary-2': plateform === 'workStation'
+            }"
+            
             src="/images/ihela3.png"
             style="height: 50px !important"
             alt="logo1" />
@@ -89,7 +94,7 @@
       class="d-flex align-items-center justify-content-around justify-content-lg-center position-relative"
       [ngClass]="{
         'bg-primary': plateform !== 'workStation' && plateform !== 'onamob',
-        'header-color': plateform === 'workStation',
+        'header-color text-secondary': plateform === 'workStation',
         'primary-onamob': plateform === 'onamob',
       }">
       <!-- Active mobile menus -->

@@ -68,7 +68,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showMenu = false;
   @Input() onLoginPage = false;
   plateform$!: Observable<string>;
-  plateform = 'home';
+  plateform = 'workStation';
   organization$!: Observable<unknown>;
 
   // eslint-disable-next-line
@@ -115,8 +115,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   eyeShowed!: [];
   // eyeStatus$: Observable<any>;
 
-  constructor() // private menuService: MenuService, // private authService: AuthService // private store: Store,
-  // private generalService: GeneralService
+  constructor() // private generalService: GeneralService // private menuService: MenuService, // private authService: AuthService // private store: Store,
   {
     // this.plateform$.pipe(takeUntil(this.onDestroy$)).subscribe((plateform) => {
     //     this.plateform = plateform;

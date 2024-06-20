@@ -9,9 +9,14 @@
             *ngIf="plateF.icon"
             class="{{ plateF.icon }} fs-4 "
             [ngClass]="{
-              'bg-light sm-radius text-danger px-4 py-2 mt-2':
-                plateF.plateform === plateform ,
-                'mt-3 text-light': plateF.plateform !== plateform
+              'bg-light text-primary':
+                plateF.plateform === plateform && plateform !== 'workStation',
+                'text-white': plateF.plateform !== plateform && plateform !== 'workStation',
+                'bg-primary text-light px-3 py-1 mt-1': plateF.plateform === plateform && plateform === 'workStation',
+                'text-secondary mt-1': plateF.plateform !== plateform && plateform === 'workStation',
+                'sm-radius mt-2 px-4 py-2': plateF.plateform === plateform,
+                'mt-3': plateF.plateform !== plateform
+                
               
             }"></i>
             <!-- @if(plateF.is_selected == true ) {
