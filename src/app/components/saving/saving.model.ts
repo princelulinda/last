@@ -1,5 +1,4 @@
-export interface Tontine {
-  id: number;
+export interface TontineModel {
   name: string;
   members_count: number;
   short_description: string;

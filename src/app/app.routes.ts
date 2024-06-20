@@ -15,6 +15,7 @@ export const routes: Routes = [
     canActivate: [NoAuthGuard],
     children: authRoutes,
   },
+
   // banking Routes
   {
     path: 'b',

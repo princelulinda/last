@@ -7,18 +7,49 @@
                 
             >
                 <i class="fa fa-arrow-left"></i>
-                <b class="ms-1">Back</b>
+                <b class="ms-1">Back </b>
             </span>
         </div>
     </div>
-   <!---- <div class="row  mt-4">
-        @for ( tontine of clientTontines ; track $index) {
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2 mb-3">
+    <div class="row  mt-4">
+        @for ( tontine of selectedData  ; track $index) {
+            <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3">
             <div class="bg-light rounded p-2 d-flex is-hoverable m-auto">
-               {{tontine.name}}
+               
+                <div class="d-flex justify-content-between">
+                    <div class="d-grid">
+                        <div class="fs-l-medium fw-bold">
+                            {{tontine.name}}
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <div>
+                                <i
+                                        class="fa-solid fa-people-line fs-5 text-secondary"
+                                      
+                                    ></i>
+                            </div>
+                          <div class="d-flex align-items-center">
+                            <div class="fw-bold fs-medium">
+                                {{ tontine.members_count}}
+                            </div>
+                            <div class="fw-bold fs-medium">
+                                Members
+                            </div>
+                          </div>
+                        </div>
+                        <div class="fs-medium fw-bold">
+                            {{ tontine.short_description}}
+                        </div>
+                    </div>
+                    <div >
+                        <i
+                            class="fa-solid fa-people-line fs-2 text-primary"
+                                ></i>
+                    </div>
+                </div>
             </div>
 
         </div>}
 
-    </div>-->
+    </div>
     </div>
