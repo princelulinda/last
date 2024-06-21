@@ -1,27 +1,30 @@
-<header
-  class="w-100"
-  style="height: 60px; z-index: 100; top: 0"
-  class="d-flex justify-content-center justify-content-lg-between w-100 p-1"
-  [ngClass]="{
-    'bg-white': mainConfig.activePlateform === 'workstation',
-    'bg-primary':
-      mainConfig.activePlateform === 'newsFeed' || 'onlineBanking' || 'market',
-  }">
-  <!-- First section with iHela Ryanje Logo OR Organization list with Access -->
-  <section class="d-none d-lg-block">
-    <!-- iHela Ryanje logo for onlineBanking, market, newsFeed Plateforms -->
-    <div
-      class="px-2 col-8 h-100"
-      style="max-width: 260px"
-      *ngIf="mainConfig.activePlateform !== 'workstation'">
-      <img
-        class="bg-primary-2 img-fluid border border-3 px-4 py-1 sm-radius h-100"
-        src="/images/ihela3.png"
-        alt="iHela Ryanje Logo" />
-    </div>
+@if (mainConfig) {
+  <header
+    class="w-100"
+    style="height: 60px; z-index: 100; top: 0"
+    class="d-flex justify-content-center justify-content-lg-between w-100 p-1 px-3"
+    [ngClass]="{
+      'bg-white': mainConfig.activePlateform === 'workstation',
+      'bg-primary':
+        mainConfig.activePlateform === 'newsFeed' ||
+        'onlineBanking' ||
+        'market',
+    }">
+    <!-- First section with iHela Ryanje Logo OR Organization list with Access -->
+    <section class="d-none d-lg-block">
+      <!-- iHela Ryanje logo for onlineBanking, market, newsFeed Plateforms -->
+      <div
+        class="col-8 h-100"
+        style="max-width: 260px"
+        *ngIf="mainConfig.activePlateform !== 'workstation'">
+        <img
+          class="bg-primary-2 img-fluid border border-3 px-4 py-1 sm-radius h-100"
+          src="/images/ihela3.png"
+          alt="iHela Ryanje Logo" />
+      </div>
 
-    <!--* Organization list with Access for workstation plateform -->
-    <!-- <div
+      <!--* Organization list with Access for workstation plateform -->
+      <!-- <div
       *ngIf="!organization && mainConfig.activePlateform === 'workstation'"
       style="width: 260px; background-color: transparent"></div>
     <div
@@ -65,259 +68,256 @@
         </div>
       </div>
     </div> -->
-  </section>
+    </section>
 
-  <!-- Second section with Icons To switch Plateforms -->
-  <section class="d-none d-lg-block py-1">
-    <app-switch-plateform-icons></app-switch-plateform-icons>
-  </section>
+    <!-- Second section with Icons To switch Plateforms -->
+    <section class="d-none d-lg-block py-1">
+      <app-switch-plateform-icons></app-switch-plateform-icons>
+    </section>
 
-  <!-- Third section with Other icons actions -->
-  <section
-    class="d-flex align-items-center justify-content-around justify-content-lg-center position-relative">
-    <!-- ONLY ON MOBILE : Active Aside menus -->
-    <span
-      class="d-lg-none me-md-1"
-      role="button"
-      tabindex="0"
-      (click)="toggleAsideMenu()"
-      [ngClass]="{
-        'text-inverse-dark': mainConfig.activePlateform === 'workstation',
-      }">
-      <i class="fs-5 fa-solid fa-bars"></i>
-    </span>
-
-    <!-- show amount icon -->
-    <span
-      role="button"
-      class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1"
-      [ngClass]="{
-        'text-inverse-dark': mainConfig.activePlateform === 'workstation',
-      }">
-      <span title="ctrl + shift + v to toggle Amount View" tabindex="0">
-        <i class="fa-solid fa-eye"></i>
-      </span>
-    </span>
-
-    <!-- chats icon -->
-    <span
-      class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1"
-      role="button"
-      [ngClass]="{
-        'text-inverse-dark': mainConfig.activePlateform === 'workstation',
-      }">
-      <i class="fa-solid fa-magnifying-glass fs-6"></i>
-    </span>
-
-    <!-- notification icon -->
-    <span
-      class="ms-4 ms-md-5 ms-lg-2 p-2 me-2"
-      role="button"
-      [ngClass]="{
-        'text-inverse-dark': mainConfig.activePlateform === 'workstation',
-      }">
-      <i class="fa-regular fa-bell fs-6"></i>
-    </span>
-    <!-- profile icon -->
-    <span
-      class="dropdown ms-4 ms-md-5 ms-lg-2 me-md-1"
-      [ngClass]="{
-        'text-inverse-dark': mainConfig.activePlateform === 'workstation',
-      }">
+    <!-- Third section with Other icons actions -->
+    <section
+      class="d-flex align-items-center justify-content-around justify-content-lg-center position-relative">
+      <!-- ONLY ON MOBILE : Active Aside menus -->
       <span
-        type="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-        class="">
-        <span
-          *ngIf="
-            !clientInfo ||
-            (clientInfo && clientInfo?.client && clientInfo?.client?.picture)
-          ">
-          <img
-            [src]="clientInfo?.client.picture"
-            class="image rounded-circle"
-            alt="" />
-        </span>
-        <span *ngIf="!clientInfo">
-          <i class="fa-regular fa-circle-user fs-6"></i>
+        class="d-lg-none me-md-1"
+        role="button"
+        tabindex="0"
+        (click)="toggleAsideMenu()"
+        [ngClass]="{
+          'text-inverse-dark': mainConfig.activePlateform === 'workstation',
+        }">
+        <i class="fs-5 fa-solid fa-bars"></i>
+      </span>
+
+      <!-- show amount icon -->
+      <span
+        role="button"
+        class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1"
+        [ngClass]="{
+          'text-inverse-dark': mainConfig.activePlateform === 'workstation',
+        }">
+        <span title="ctrl + shift + v to toggle Amount View" tabindex="0">
+          <i class="fa-solid fa-eye"></i>
         </span>
       </span>
 
-      <!--*user profile card-->
-      <div class="dropdown-menu bg-transparent">
-        <div
-          class="float-end m-0 lg-radius profile-card text-dark pe-3 ps-1 dropdown-item bg-white"
-          style="width: 302px">
-          <!-- first section for user info -->
-          <section>
-            <div
-              class="pt-2 pb-2 d-flex justify-content-end"
-              style="border-radius: 5px 5px 0px 0px">
-              <span
-                role="button"
-                class="float-end text-dark fs-4"
-                style="z-index: 50"
-                title="close"
-                tabindex="0">
-                <i class="fa fa-xmark"></i>
-              </span>
-            </div>
-            <!--user infos-->
-            <hr class="w-100 text-secondary" />
-            <div
-              style="transform: translateY(-60%)"
-              class="d-flex align-items-end justify-content-end ms-4 mb-0">
-              <div class="p-1 rounded-circle">
-                <div
-                  class="d-flex align-items-end me-0 ms-0 p-2 rounded-circle border border-secondary">
-                  <!--user profile picture-->
-                  <div
-                    class="text-center border border-secondary d-flex flex-column align-items-center justify-content-center rounded-circle profile-picture-container">
-                    <img
-                      src="images/userprofile.png"
-                      class="image border border-secondary rounded-circle"
-                      *ngIf="!clientInfo?.client?.picture"
-                      alt="userprofile" />
-                    <img
-                      *ngIf="clientInfo?.client?.picture"
-                      [src]="clientInfo?.client?.picture"
-                      class="image border border-secondary rounded-circle"
-                      alt="clienPicture" />
-                  </div>
-                </div>
-              </div>
+      <!-- chats icon -->
+      <span
+        class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1"
+        role="button"
+        [ngClass]="{
+          'text-inverse-dark': mainConfig.activePlateform === 'workstation',
+        }">
+        <i class="fa-solid fa-magnifying-glass fs-6"></i>
+      </span>
 
+      <!-- notification icon -->
+      <span
+        class="ms-4 ms-md-5 ms-lg-2 p-2 me-2"
+        role="button"
+        [ngClass]="{
+          'text-inverse-dark': mainConfig.activePlateform === 'workstation',
+        }">
+        <i class="fa-regular fa-bell fs-6"></i>
+      </span>
+      <!-- profile icon -->
+      <span
+        class="dropdown ms-4 ms-md-5 ms-lg-2 me-md-1"
+        [ngClass]="{
+          'text-inverse-dark': mainConfig.activePlateform === 'workstation',
+        }">
+        <span type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <span
+            *ngIf="
+              clientInfo ||
+              (clientInfo && clientInfo?.client && clientInfo?.client?.picture)
+            ">
+            <img
+              [src]="clientInfo?.client.picture"
+              class="image rounded-circle"
+              alt="" />
+          </span>
+          <span *ngIf="!clientInfo">
+            <i class="fa-regular fa-circle-user fs-6"></i>
+          </span>
+        </span>
+
+        <!--*user profile card-->
+        <div class="dropdown-menu bg-transparent">
+          <div
+            class="float-end m-0 lg-radius profile-card text-dark pe-3 ps-1 dropdown-item bg-white"
+            style="width: 302px">
+            <!-- first section for user info -->
+            <section>
               <div
-                class="ms-0 d-grid w-100 mb-2"
-                style="line-height: 20px; transform: translateY(-9%)">
+                class="pt-2 pb-2 d-flex justify-content-end"
+                style="border-radius: 5px 5px 0px 0px">
                 <span
-                  class="ms-2 mb-2 text-dark w-100 text-sm-md"
-                  style="word-break: break-word"
-                  >{{ userInfo?.username ?? '-----' }}</span
-                >
-
-                <span
-                  style="word-break: break-word"
-                  class="ms-2 text-secondary w-100 text-xsm">
-                  <span>{{ userInfo?.email ?? '-----' }}</span> </span
-                ><br />
-                <span class="ms-2 text-secondary text-xsm">{{
-                  clientInfo?.client?.clientCode ?? '-----'
-                }}</span>
-              </div>
-            </div>
-          </section>
-
-          <section
-            class="px-3 overflow-y-auto d-flex flex-column h-100"
-            style="margin-top: -20%">
-            <section class="flex-grow-1 d-flex flex-column">
-              <div
-                class="w-100 my-3 d-flex justify-content-between align-items-center">
-                <a>
-                  <div
-                    role="button"
-                    class="d-flex align-items-center"
-                    style="font-size: 18px">
-                    <i class="fa-solid text-secondary fa-user-circle me-2"></i>
-                    <b class="text-dark ms-1" i18n>Profile</b>
-                  </div>
-                </a>
-              </div>
-              <div
-                class="w-100 my-3 d-flex justify-content-between align-items-center">
-                <a>
-                  <div
-                    role="button"
-                    class="d-flex align-items-center fs-medium">
-                    <span class="me-2"
-                      ><i class="fa-solid text-secondary fa-gear"></i
-                    ></span>
-                    <b class="text-dark ms-1" i18n>Settings</b>
-                  </div>
-                </a>
-              </div>
-              <div
-                class="w-100 d-flex justify-content-between align-items-center mt-3">
-                <div class="d-flex align-items-center fs-medium">
-                  <span class="me-2"
-                    ><i class="fa-solid text-secondary fa-language"></i
-                  ></span>
-                  <b class="text-dark" i18n>Language</b>
-                </div>
-                <select
-                  [formControl]="selectedLanguage"
-                  style="width: 60px"
-                  (click)="changeLanguage()">
-                  <option value="en">En</option>
-                  <option value="fr">Fr</option>
-                </select>
-              </div>
-              <div
-                class="w-100 d-flex my-3 justify-content-between align-items-center">
-                <div class="d-flex align-items-center fs-medium">
-                  <span class="me-2"
-                    ><img src="{{ lightModeImage }}" alt="light logo"
-                  /></span>
-                  <b class="text-dark" i18n>Light Mode</b>
-                </div>
-                <div>
-                  <a
-                    class="clickable"
-                    title="Switch Theme"
-                    (click)="switchMode()"
-                    tabindex="0">
-                    <img [src]="themeLogo" alt="themeLogo" />
-                  </a>
-                </div>
-              </div>
-              <div
-                class="w-100 my-3 d-flex justify-content-between align-items-center">
-                <a>
-                  <div
-                    role="button"
-                    class="d-flex align-items-center fs-medium">
-                    <span class="me-2"
-                      ><i class="fa-solid text-secondary fa-flag"></i
-                    ></span>
-                    <b class="text-dark ms-1" i18n>Report a problem</b>
-                  </div>
-                </a>
-              </div>
-
-              <div
-                class="w-100 d-flex justify-content-between text-dark fs-medium"
-                title="Logout"
-                role="button">
-                <span>
-                  <span class="me-2">
-                    <i
-                      class="fa-solid text-secondary fa-right-from-bracket"></i>
-                  </span>
-                  <b i18n>Logout</b>
+                  role="button"
+                  class="float-end text-dark fs-4"
+                  style="z-index: 50"
+                  title="close"
+                  tabindex="0">
+                  <i class="fa fa-xmark"></i>
                 </span>
+              </div>
+              <!--user infos-->
+              <hr class="w-100 text-secondary" />
+              <div
+                style="transform: translateY(-60%)"
+                class="d-flex align-items-end justify-content-end ms-4 mb-0">
+                <div class="p-1 rounded-circle">
+                  <div
+                    class="d-flex align-items-end me-0 ms-0 p-2 rounded-circle border border-secondary">
+                    <!--user profile picture-->
+                    <div
+                      class="text-center border border-secondary d-flex flex-column align-items-center justify-content-center rounded-circle profile-picture-container">
+                      <img
+                        src="images/userprofile.png"
+                        class="image border border-secondary rounded-circle"
+                        *ngIf="!clientInfo?.client?.picture"
+                        alt="userprofile" />
+                      <img
+                        *ngIf="clientInfo?.client?.picture"
+                        [src]="clientInfo?.client?.picture"
+                        class="image border border-secondary rounded-circle"
+                        alt="clienPicture" />
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="ms-0 d-grid w-100 mb-2"
+                  style="line-height: 20px; transform: translateY(-9%)">
+                  <span
+                    class="ms-2 mb-2 text-dark w-100 text-sm-md"
+                    style="word-break: break-word"
+                    >{{ userInfo?.username ?? '-----' }}</span
+                  >
+
+                  <span
+                    style="word-break: break-word"
+                    class="ms-2 text-secondary w-100 text-xsm">
+                    <span>{{ userInfo?.email ?? '-----' }}</span> </span
+                  ><br />
+                  <span class="ms-2 text-secondary text-xsm">{{
+                    clientInfo?.client?.clientCode ?? '-----'
+                  }}</span>
+                </div>
               </div>
             </section>
 
-            <div class="mt-3">
-              <!--user profile footer-->
-              <div class="mt-2 px-2 bg-white text-secondary text-sm-md">
-                <div class="d-flex justify-content-center flex-wrap">
-                  <!-- <app-footer
+            <section
+              class="px-3 overflow-y-auto d-flex flex-column h-100"
+              style="margin-top: -20%">
+              <section class="flex-grow-1 d-flex flex-column">
+                <div
+                  class="w-100 my-3 d-flex justify-content-between align-items-center">
+                  <a>
+                    <div
+                      role="button"
+                      class="d-flex align-items-center"
+                      style="font-size: 18px">
+                      <i
+                        class="fa-solid text-secondary fa-user-circle me-2"></i>
+                      <b class="text-dark ms-1" i18n>Profile</b>
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="w-100 my-3 d-flex justify-content-between align-items-center">
+                  <a>
+                    <div
+                      role="button"
+                      class="d-flex align-items-center fs-medium">
+                      <span class="me-2"
+                        ><i class="fa-solid text-secondary fa-gear"></i
+                      ></span>
+                      <b class="text-dark ms-1" i18n>Settings</b>
+                    </div>
+                  </a>
+                </div>
+                <div
+                  class="w-100 d-flex justify-content-between align-items-center mt-3">
+                  <div class="d-flex align-items-center fs-medium">
+                    <span class="me-2"
+                      ><i class="fa-solid text-secondary fa-language"></i
+                    ></span>
+                    <b class="text-dark" i18n>Language</b>
+                  </div>
+                  <select
+                    [formControl]="selectedLanguage"
+                    style="width: 60px"
+                    (click)="changeLanguage()">
+                    <option value="en">En</option>
+                    <option value="fr">Fr</option>
+                  </select>
+                </div>
+                <div
+                  class="w-100 d-flex my-3 justify-content-between align-items-center">
+                  <div class="d-flex align-items-center fs-medium">
+                    <span class="me-2"
+                      ><img src="{{ lightModeImage }}" alt="light logo"
+                    /></span>
+                    <b class="text-dark" i18n>Light Mode</b>
+                  </div>
+                  <div>
+                    <a
+                      class="clickable"
+                      title="Switch Theme"
+                      (click)="switchMode()"
+                      tabindex="0">
+                      <img [src]="themeLogo" alt="themeLogo" />
+                    </a>
+                  </div>
+                </div>
+                <div
+                  class="w-100 my-3 d-flex justify-content-between align-items-center">
+                  <a>
+                    <div
+                      role="button"
+                      class="d-flex align-items-center fs-medium">
+                      <span class="me-2"
+                        ><i class="fa-solid text-secondary fa-flag"></i
+                      ></span>
+                      <b class="text-dark ms-1" i18n>Report a problem</b>
+                    </div>
+                  </a>
+                </div>
+
+                <div
+                  class="w-100 d-flex justify-content-between text-dark fs-medium"
+                  title="Logout"
+                  role="button">
+                  <span>
+                    <span class="me-2">
+                      <i
+                        class="fa-solid text-secondary fa-right-from-bracket"></i>
+                    </span>
+                    <b i18n>Logout</b>
+                  </span>
+                </div>
+              </section>
+
+              <div class="mt-3">
+                <!--user profile footer-->
+                <div class="mt-2 px-2 bg-white text-secondary text-sm-md">
+                  <div class="d-flex justify-content-center flex-wrap">
+                    <!-- <app-footer
                                             [showCopyRight]="false"
                                         ></app-footer> -->
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
 
-          <!--*shwitchPlateform card-->
+            <!--*shwitchPlateform card-->
+          </div>
         </div>
-      </div>
-    </span>
-    <!-- platform icon -->
-    <!-- <span
+      </span>
+      <!-- platform icon -->
+      <!-- <span
                 (click)="showPlateform(); toggleAsideMenu(true)"
                 role="button"
                 class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1"
@@ -338,32 +338,33 @@
                     style="width: 20px"
                 />
             </span> -->
-  </section>
+    </section>
 
-  <!-- chat popup for page under construction -->
+    <!-- chat popup for page under construction -->
 
-  <div
-    *ngIf="chatNotFoundPopup"
-    class="position-absolute shadow level-1 border sm-radius py-3 px-5 overflow-hidden"
-    style="right: 1%; top: 57px; z-index: 20">
-    <!-- <app-not-found-page
+    <div
+      *ngIf="chatNotFoundPopup"
+      class="position-absolute shadow level-1 border sm-radius py-3 px-5 overflow-hidden"
+      style="right: 1%; top: 57px; z-index: 20">
+      <!-- <app-not-found-page
                 action="close"
                 (close)="getPopupEvent($event)"
             ></app-not-found-page> -->
-  </div>
+    </div>
 
-  <!-- notification popup for page under construction -->
-  <div
-    *ngIf="notificationNotFoundPopup"
-    class="position-absolute shadow level-1 border sm-radius py-3 px-5 overflow-hidden"
-    style="right: 1%; top: 57px; z-index: 20">
-    <!-- <app-not-found-page
+    <!-- notification popup for page under construction -->
+    <div
+      *ngIf="notificationNotFoundPopup"
+      class="position-absolute shadow level-1 border sm-radius py-3 px-5 overflow-hidden"
+      style="right: 1%; top: 57px; z-index: 20">
+      <!-- <app-not-found-page
                 action="close"
                 (close)="
                 ($event)"
             ></app-not-found-page> -->
-  </div>
-</header>
+    </div>
+  </header>
+}
 
 <!-- **__End of the three sections that are flexibly displayed and spaced at the edges with proportional margins between them__** -->
 

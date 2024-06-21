@@ -1,77 +1,43 @@
 <!--* The icons to display in online banking plateform-->
-<div
-  class="d-flex justify-content-around justify-content-lg-start align-items-center h-100">
-  @for (plateF of plateforms; track $index) {
-    <a
-      (click)="switchPlateform(plateF.plateform)"
-      tabindex="0"
-      *ngIf="mainConfig"
-      class="d-block p-2 px-5 sm-radius clickable mx-4 h-100"
-      title="{{ plateF.title }}"
-      [ngClass]="{
-        'bg-hover-primary-2': mainConfig.activePlateform !== plateF.plateform,
-        'text-primary':
-          mainConfig.activePlateform === 'newsFeed' ||
-          'onlineBanking' ||
-          ('market' && mainConfig.activePlateform !== plateF.plateform),
-        'text-all-dark':
-          mainConfig.activePlateform === 'workstation' &&
-          mainConfig.activePlateform !== plateF.plateform &&
-          mainConfig.activeMode === 'light',
-        'text-all-white':
-          mainConfig.activePlateform === 'workstation' &&
-          mainConfig.activePlateform !== plateF.plateform &&
-          mainConfig.activeMode === 'dark',
-        'text-primary bg-all-white':
-          mainConfig.activePlateform === plateF.plateform,
-      }">
-      <i *ngIf="plateF.icon" class="{{ plateF.icon }} fs-4 "></i>
-      <!-- <img
-        *ngIf="plateF.image && !plateF.is_selected"
+@if (mainConfig) {
+  <div
+    class="d-flex justify-content-around justify-content-lg-start align-items-center h-100">
+    @for (plateF of plateforms; track $index) {
+      <a
+        (click)="switchPlateform(plateF.plateform)"
+        tabindex="0"
+        class="d-block p-2 px-5 sm-radius clickable mx-4 h-100"
         [ngClass]="{
-          'selectedIcon-b':
-            plateF.plateform === plateform &&
-            plateform !== 'workstation' &&
-            plateform !== 'onamob',
-          'unselectedIcon-b':
-            plateF.plateform !== plateform &&
-            plateform !== 'workstation' &&
-            plateform !== 'onamob',
-          'selectedIcon-o':
-            plateF.plateform === plateform && plateform === 'onamob',
-          'unselectedIcon-o':
-            plateF.plateform !== plateform && plateform === 'onamob',
-          'selectedIcon-w':
-            plateF.plateform === plateform && plateform === 'workStation',
-          'unselectedIcon-w':
-            plateF.plateform !== plateform && plateform === 'workStation',
+          'bg-hover-primary-2': mainConfig.activePlateform !== plateF.plateform,
+          'text-primary-1':
+            mainConfig.activePlateform === 'newsFeed' ||
+            'onlineBanking' ||
+            ('market' && mainConfig.activePlateform !== plateF.plateform),
+          'text-all-dark':
+            mainConfig.activePlateform === 'workstation' &&
+            mainConfig.activePlateform !== plateF.plateform &&
+            mainConfig.activeMode === 'light',
+          'text-all-white':
+            mainConfig.activePlateform === 'workstation' &&
+            mainConfig.activePlateform !== plateF.plateform &&
+            mainConfig.activeMode === 'dark',
+          'text-primary-1 bg-all-white':
+            mainConfig.activePlateform === plateF.plateform,
         }"
-        src="{{ plateF.image }}"
-        style="width: 30px; margin-top: -15%"
-        alt="" />
-      <img
-        *ngIf="plateF.image && plateF.is_selected"
-        [ngClass]="{
-          'selectedIcon-b':
-            plateF.plateform === plateform &&
-            plateform !== 'workstation' &&
-            plateform !== 'onamob',
-          'unselectedIcon-b':
-            plateF.plateform !== plateform &&
-            plateform !== 'workstation' &&
-            plateform !== 'onamob',
-          'selectedIcon-o':
-            plateF.plateform === plateform && plateform === 'onamob',
-          'unselectedIcon-o':
-            plateF.plateform !== plateform && plateform === 'onamob',
-          'selectedIcon-w':
-            plateF.plateform === plateform && plateform === 'workStation',
-          'unselectedIcon-w':
-            plateF.plateform !== plateform && plateform === 'workStation',
-        }"
-        src="/assets/images/ihela-b-light.svg"
-        style="width: 31px; margin-top: -19%"
-        alt="" /> -->
-    </a>
-  }
-</div>
+        title="{{ plateF.title }}">
+        @if (plateF.icon) {
+          <span>
+            <i class="{{ plateF.icon }} fs-4 "></i>
+          </span>
+        } @else if (plateF.plateform === 'onlineBanking') {
+          <div style="width: 28px">
+            <img
+              [src]="bankingPlateformIcon"
+              class="img-fluid"
+              [attr.alt]="plateF.title" />
+          </div>
+        }
+      </a>
+    }
+  </div>
+}

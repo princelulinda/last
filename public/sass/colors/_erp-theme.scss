@@ -38,6 +38,7 @@ $erp-bg-dark: (
 $erp-text-dark: (
   'dark': #d9d9d9,
   'secondary': #9d9d9d,
+  'primary-1': #810019,
   'primary': #c98986,
 );
 
@@ -51,7 +52,7 @@ html[data-bs-theme='erp-light'] {
   }
 
   @each $color, $value in $erp-text-light {
-    @include generateTextClass($color, value);
+    @include generateTextClass($color, $value);
   }
 
   // Form inputs bootstrap
@@ -80,7 +81,7 @@ html[data-bs-theme='erp-dark'] {
   }
 
   @each $color, $value in $erp-text-dark {
-    @include generateTextClass($color, value);
+    @include generateTextClass($color, $value);
   }
 
   // Default color;

@@ -19,10 +19,13 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
 
   mainConfig$: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
+
+  bankingPlateformIcon = '/icons/banking-light-icon.svg';
+
   plateforms: {
     plateform: PlateformModel;
     title: string;
-    image?: string;
+    image: string;
     icon: string;
     is_selected: boolean;
   }[] = [
@@ -37,16 +40,16 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       plateform: 'onlineBanking',
       title: 'Switch On Banking',
       icon: '',
-      image: '/images/ihela-b.svg',
+      image: '',
       is_selected: false,
     },
-    // {
-    //   plateform: 'onamob',
-    //   title: 'Switch On Onamob',
-    //   image: '',
-    //   icon: 'fa-solid fa-mobile-screen-button fa-xl',
-    //   is_selected: false,
-    // },
+    {
+      plateform: 'onamob',
+      title: 'Switch On Onamob',
+      image: '',
+      icon: 'fa-solid fa-mobile-screen-button fa-xl',
+      is_selected: false,
+    },
     {
       plateform: 'marketPlace',
       title: 'Switch On Market Place',
@@ -71,6 +74,17 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
+        if (this.mainConfig.activePlateform === 'onlineBanking') {
+          this.bankingPlateformIcon = '/icons/banking-primary-icon.svg';
+        } else if (this.mainConfig.activePlateform === 'workstation') {
+          if (this.mainConfig.activeMode === 'light') {
+            this.bankingPlateformIcon = '/icons/banking-dark-icon.svg';
+          } else {
+            this.bankingPlateformIcon = '/icons/banking-light-icon.svg';
+          }
+        } else {
+          this.bankingPlateformIcon = '/icons/banking-light-icon.svg';
+        }
       },
     });
   }
