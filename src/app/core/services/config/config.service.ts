@@ -47,11 +47,7 @@ export class ConfigService {
     return this.mainConfig$ as Observable<activeMainConfigModel>;
   }
 
-  setMainConfig(
-    activePlatform: PlateformModel,
-    activeTheme: ThemeModel,
-    activeMode: ModeModel
-  ) {
+  setMainConfig(payload: activeMainConfigModel) {
     // console.log(
     //   'Main ConFig ===++++ :',
     //   activePlatform,
@@ -59,11 +55,7 @@ export class ConfigService {
     //   activeMode
     // );
 
-    return this.dbService.addOnceUpdate(MainConfig.tableName, {
-      activePlatform,
-      activeTheme,
-      activeMode,
-    });
+    return this.dbService.addOnceUpdate(MainConfig.tableName, payload);
   }
 
   private getPreferedMode(): ModeModel {
@@ -101,7 +93,7 @@ export class ConfigService {
       };
       this.activeMainConfig = newActiveMainConfig;
 
-      this.dbService.addOnce(MainConfig.tableName, newActiveMainConfig);
+      this.setMainConfig(newActiveMainConfig);
     };
 
     this.dbService.dbIsReady.subscribe((value: boolean) => {
@@ -134,11 +126,11 @@ export class ConfigService {
     if (plateform !== this.activeMainConfig.activePlateform) {
       const theme = this.filterPlatformData(plateform).theme.name as ThemeModel;
 
-      this.setMainConfig(
-        plateform,
-        this.activeMainConfig.activeTheme,
-        this.activeMainConfig.activeMode
-      );
+      this.setMainConfig({
+        activePlateform: plateform,
+        activeTheme: this.activeMainConfig.activeTheme,
+        activeMode: this.activeMainConfig.activeMode,
+      });
       this.setHtmlMode(theme, this.activeMainConfig.activeMode);
     }
   }
@@ -157,7 +149,11 @@ export class ConfigService {
     const theme: ThemeModel = this.filterPlatformData(plateform).theme
       .name as ThemeModel;
 
-    this.setMainConfig(plateform, theme, newModeToDispatch);
+    this.setMainConfig({
+      activePlateform: plateform,
+      activeTheme: theme,
+      activeMode: newModeToDispatch,
+    });
     this.setHtmlMode(this.activeMainConfig.activeTheme, newModeToDispatch);
   }
 }
