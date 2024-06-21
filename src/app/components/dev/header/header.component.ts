@@ -43,7 +43,6 @@ import {} from // VariableService,
 // import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-plateform-icons.component';
-import { clientInfoModel } from './model';
 
 export interface organizationModel {
   company_type_code: string;
@@ -67,10 +66,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showMenu = false;
   @Input() onLoginPage = false;
   plateform$!: Observable<string>;
-  plateform = 'workStation';
+  plateform = 'onlineBanking';
   organization$!: Observable<organizationModel>;
 
-  // eslint-disable-next-line
   organization!: organizationModel;
   showUserInfo = false;
   // userInfo$: Observable<any>;
@@ -114,7 +112,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   eyeShowed!: [];
   // eyeStatus$: Observable<any>;
 
-  constructor() { // private generalService: GeneralService // private menuService: MenuService, // private authService: AuthService // private store: Store,
+  constructor() {
+    // private generalService: GeneralService // private menuService: MenuService, // private authService: AuthService // private store: Store,
     // this.plateform$.pipe(takeUntil(this.onDestroy$)).subscribe((plateform) => {
     //     this.plateform = plateform;
     // })

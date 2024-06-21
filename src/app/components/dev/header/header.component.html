@@ -3,8 +3,7 @@
   style="height: 60px; z-index: 100; top: 0"
   [ngClass]="{
     'bg-white': plateform === 'workStation',
-    'bg-primary': plateform !== 'workStation' && plateform !== 'onamob',
-    'primary-onamob': plateform === 'onamob',
+    'bg-primary': plateform === 'newsFeedd' || 'onlineBanking' || 'market',
   }">
   <!-- ** Header global container, it has three sections one on left other on center and other on right**-->
   <div
@@ -20,15 +19,10 @@
           <div class="px-2 py-1">
             <!-- class="img-fluid bg-primary-2 border border-light sm-radius border-4 px-3" -->
             <img
-            [ngClass]="{
-              'mg-fluid bg-primary-2 border border-light sm-radius border-4 px-3': plateform !== 'workStation',
-              'bg-primary-2': plateform === 'workStation'
-            }"
-            
-            src="/images/ihela3.png"
-            style="height: 50px !important"
-            alt="logo1" />
-            
+              class="bg-primary-2 border border-3 px-3 sm-radius"
+              src="/images/ihela3.png"
+              style="height: 50px !important"
+              alt="logo1" />
           </div>
         </div>
       </div>
@@ -86,8 +80,7 @@
       [ngClass]="{
         'mx-auto': plateform === 'workStation',
       }">
-      <app-switch-plateform-icons
-        [organization]="organization"></app-switch-plateform-icons>
+      <app-switch-plateform-icons></app-switch-plateform-icons>
     </div>
     <!--* Right side section that contains menu icons for workstation -->
     <div
@@ -152,7 +145,6 @@
           (click)="showMenu = true"
           (keyup.enter)="(showMenu)"
           tabindex="0"></i>
-
       </span>
       <!-- notification icon -->
       <!-- removed (click)="

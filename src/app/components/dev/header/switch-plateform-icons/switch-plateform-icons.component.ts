@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
-// import { Router } from 'express';
-import { Subject, Observable } from 'rxjs';
-// import { ThemeService } from '../../../../core/services';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { organizationModel } from '../header.component';
+import {
+  ConfigService,
+  activeMainConfigModel,
+} from '../../../../core/services';
 
 @Component({
   selector: 'app-switch-plateform-icons',
@@ -12,17 +13,14 @@ import { organizationModel } from '../header.component';
   templateUrl: './switch-plateform-icons.component.html',
   styleUrl: './switch-plateform-icons.component.scss',
 })
-export class SwitchPlateformIconsComponent {
+export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
-  // public variableService = inject(VariableService);
-  // public themeService = inject(ThemeService);
-  plateform$!: Observable<string>;
-  plateform = 'workStation';
-  // theme$!: Observable<any>;
-  // theme = '';
+
+  mainConfig$: Observable<activeMainConfigModel>;
+  mainConfig!: activeMainConfigModel;
   plateforms = [
     {
-      plateform: 'home',
+      plateform: 'authentification',
       title: 'Switch On Home',
       image: '',
       icon: 'fa-solid fa-house-chimney-user fa-xl',
@@ -57,77 +55,23 @@ export class SwitchPlateformIconsComponent {
       is_selected: false,
     },
   ];
-  // selectPlatform(platform: any) {
-  //   const selectedIndex = this.plateforms.findIndex(p => p === platform); // Find the index of the clicked platform
-  //   if (selectedIndex !== -1) { // Check if platform found
-  //     this.plateforms.forEach(p => p.is_selected = false); // Deselect all platforms
-  //     this.plateforms[selectedIndex].is_selected = !platform.is_selected; // Toggle selection for the clicked platform
-  //   }
-  // }
-  @Input() organization!: organizationModel;
 
-  // constructor(private store: Store, private router: Router) {
-  //     this.plateform$ = this.store.select(SwitchState.GetPlateform);
-  //     this.theme$ = this.store.select(SwitchThemeState.GetTheme);
-  // }
+  constructor(private configService: ConfigService) {
+    this.mainConfig$ = this.configService.getMainConfig();
+  }
 
-  // ngOnInit() {
-  //     this.plateform$
-  //         .pipe(takeUntil(this.onDestroy$))
-  //         .subscribe((plateform: string) => {
-  //             this.plateform = plateform;
-  //             this.variableService.initPlateforms();
-  //             this.variableService.plateforms.find(
-  //                 (plateF: any) => plateF.plateform === plateform
-  //             )!.is_selected = true;
-  //         });
+  ngOnInit() {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.mainConfig = configs;
+      },
+    });
+  }
 
-  //     this.theme$
-  //         .pipe(takeUntil(this.onDestroy$))
-  //         .pipe(takeUntil(this.onDestroy$))
-  //         .subscribe((theme) => {
-  //             this.theme = theme;
-  //         });
-  // }
-
-  // public ngOnDestroy(): void {
-  //     this.onDestroy$.next();
-  //     this.onDestroy$.complete();
-  // }
-
-  // switchPlateform(plateform: string) {
-  //     if (this.plateform !== plateform) {
-  //         if (plateform === 'onamob') {
-  //             if (
-  //                 this.theme === 'light-mode' ||
-  //                 this.theme === 'magis-light'
-  //             ) {
-  //                 // this.themeService.switchPlateform(
-  //                 //     plateform,
-  //                 //     'light-mode',
-  //                 //     this.organization
-  //                 // );
-  //             }
-  //             if (this.theme === 'dark-mode' || this.theme === 'magis-dark') {
-  //                 // this.themeService.switchPlateform(
-  //                 //     plateform,
-  //                 //     'dark-mode',
-  //                 //     this.organization
-  //                 // );
-  //             }
-  //         } else if (plateform !== 'onamob') {
-  //             // this.themeService.switchPlateform(
-  //             //     plateform,
-  //             //     this.theme,
-  //             //     this.organization
-  //             // );
-  //         }
-
-  //         if (plateform === 'market') {
-  //             this.toggleMarket();
-  //         }
-  //     }
-  // }
+  public ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
 
   // toggleMarket() {
   //     this.store.dispatch(new SelectMarket({ marketName: 'market' }));
