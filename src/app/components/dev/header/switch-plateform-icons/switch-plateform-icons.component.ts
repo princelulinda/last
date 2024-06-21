@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import {
   ConfigService,
+  PlateformModel,
   activeMainConfigModel,
 } from '../../../../core/services';
 
@@ -18,10 +19,16 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
 
   mainConfig$: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
-  plateforms = [
+  plateforms: {
+    plateform: PlateformModel;
+    title: string;
+    image?: string;
+    icon: string;
+    is_selected: boolean;
+  }[] = [
     {
-      plateform: 'authentification',
-      title: 'Switch On Home',
+      plateform: 'newsFeed',
+      title: 'Switch On News Feed',
       image: '',
       icon: 'fa-solid fa-house-chimney-user fa-xl',
       is_selected: true,
@@ -33,23 +40,23 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       image: '/images/ihela-b.svg',
       is_selected: false,
     },
+    // {
+    //   plateform: 'onamob',
+    //   title: 'Switch On Onamob',
+    //   image: '',
+    //   icon: 'fa-solid fa-mobile-screen-button fa-xl',
+    //   is_selected: false,
+    // },
     {
-      plateform: 'onamob',
-      title: 'Switch On Onamob',
-      image: '',
-      icon: 'fa-solid fa-mobile-screen-button fa-xl',
-      is_selected: false,
-    },
-    {
-      plateform: 'market',
-      title: 'Switch On My market',
+      plateform: 'marketPlace',
+      title: 'Switch On Market Place',
       image: '',
       icon: 'fa-solid fa-cart-shopping fa-xl',
       is_selected: false,
     },
     {
-      plateform: 'workStation',
-      title: 'Switch On WorkStation',
+      plateform: 'workstation',
+      title: 'Switch On Workstation',
       image: '',
       icon: 'fa-solid fa-desktop fa-xl',
       is_selected: false,
@@ -64,8 +71,13 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
+        console.log('oooooooooooook', configs);
       },
     });
+  }
+
+  switchPlateform(plateform: PlateformModel) {
+    this.configService.switchPlateform(plateform);
   }
 
   public ngOnDestroy(): void {

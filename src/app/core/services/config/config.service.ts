@@ -120,19 +120,20 @@ export class ConfigService {
     }
   }
 
-  private filterPlatformData(platform: string): {
+  private filterPlatformData(plateform: PlateformModel): {
     name: string;
     uuid: string;
     theme: { name: string };
   } {
     return environment.plateformsUuid.filter(
-      plUuid => plUuid.name === platform
+      plateformData => plateformData.name === plateform
     )[0];
   }
   async switchPlateform(plateform: PlateformModel) {
     this.activeMainConfig = await this.getActiveMainConfig();
     if (plateform !== this.activeMainConfig.activePlateform) {
       const theme = this.filterPlatformData(plateform).theme.name as ThemeModel;
+
       this.setMainConfig(
         plateform,
         this.activeMainConfig.activeTheme,
@@ -146,12 +147,11 @@ export class ConfigService {
     let newModeToDispatch: ModeModel;
 
     this.activeMainConfig = await this.getActiveMainConfig();
-    console.log('TRY to get new mode to dispatch', this.activeMainConfig);
     if (this.activeMainConfig && this.activeMainConfig.activeMode) {
       newModeToDispatch =
         this.activeMainConfig.activeMode === 'dark' ? 'light' : 'dark';
     } else {
-      newModeToDispatch = await this.getPreferedMode();
+      newModeToDispatch = this.getPreferedMode();
     }
     const plateform: PlateformModel = this.getActivePlateform();
     const theme: ThemeModel = this.filterPlatformData(plateform).theme
