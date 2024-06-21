@@ -71,7 +71,6 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
-        console.log('oooooooooooook', configs);
       },
     });
   }

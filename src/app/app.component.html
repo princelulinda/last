@@ -1,12 +1,12 @@
 <head>
-  @if (plateform === 'workstation') {
-    <link rel="icon" type="image/x-icon" href="icons/erp-fav.ico" />
+  @if (mainConfig?.activePlateform === 'workstation') {
+    <link rel="icon" type="image/x-icon" href="icons/favicon/erp-fav.ico" />
     <title>MAGIS ERP</title>
-  } @else if (plateform !== 'workstation') {
-    <link rel="icon" type="image/x-icon" href="icons/ihela-fav.ico" />
+  } @else if (mainConfig?.activePlateform !== 'workstation') {
+    <link rel="icon" type="image/x-icon" href="icons/favicon/ihela-fav.ico" />
     <title>iHel&aacute; Rya&#771;nje</title>
   }
 </head>
-<main >
+<main>
   <router-outlet />
 </main>
