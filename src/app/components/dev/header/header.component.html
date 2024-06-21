@@ -1,432 +1,323 @@
-<div
+<header
   class="w-100"
   style="height: 60px; z-index: 100; top: 0"
+  class="d-flex justify-content-center justify-content-lg-between w-100 p-1"
   [ngClass]="{
-    'bg-all-white': plateform === 'workstation',
-    'bg-primary': plateform === 'newsFeedd' || 'onlineBanking' || 'market',
+    'bg-white': mainConfig.activePlateform === 'workstation',
+    'bg-primary':
+      mainConfig.activePlateform === 'newsFeed' || 'onlineBanking' || 'market',
   }">
-  <!-- ** Header global container, it has three sections one on left other on center and other on right**-->
-  <div
-    class="d-flex justify-content-center justify-content-lg-between w-100 h-100">
-    <!--* Left side section that contains the photo of the connected organization when we are in workstation and contains the photo of connected client when we are in online banking-->
-    <div>
-      <!--* The photo that displayed when we are in online banking-->
-      <div
-        class="d-none d-lg-block"
-        *ngIf="plateform !== 'workStation'"
-        style="width: 260px">
-        <div class="level-2 ps-1">
-          <div class="px-2 py-1">
-            <!-- class="img-fluid bg-primary-2 border border-light sm-radius border-4 px-3" -->
-            <img
-              class="bg-primary-2 border border-3 px-3 sm-radius"
-              src="/images/ihela3.png"
-              style="height: 50px !important"
-              alt="logo1" />
-          </div>
-        </div>
-      </div>
+  <!-- First section with iHela Ryanje Logo OR Organization list with Access -->
+  <section class="d-none d-lg-block">
+    <!-- iHela Ryanje logo for onlineBanking, market, newsFeed Plateforms -->
+    <div
+      class="px-2 col-8 h-100"
+      style="max-width: 260px"
+      *ngIf="mainConfig.activePlateform !== 'workstation'">
+      <img
+        class="bg-primary-2 img-fluid border border-3 px-4 py-1 sm-radius h-100"
+        src="/images/ihela3.png"
+        alt="iHela Ryanje Logo" />
+    </div>
 
-      <!--* The photo that displayed when we are in workstation-->
+    <!--* Organization list with Access for workstation plateform -->
+    <!-- <div
+      *ngIf="!organization && mainConfig.activePlateform === 'workstation'"
+      style="width: 260px; background-color: transparent"></div>
+    <div
+      *ngIf="organization && mainConfig.activePlateform === 'workstation'"
+      class="p-1 d-none d-lg-flex flex-column justify-content-center mt-0">
       <div
-        *ngIf="!organization && plateform === 'workStation'"
-        style="width: 260px; background-color: transparent"></div>
-      <div
-        *ngIf="organization && plateform === 'workStation'"
-        style="flex-direction: column; justify-content: center; margin-top: 0px"
-        class="p-1 d-none d-lg-flex">
+        (click)="displayCorporatesSection()"
+        (keyup.enter)="displayCorporatesSection()"
+        tabindex="0"
+        class="d-flex connectededOrganization rounded align-items-start ps-1"
+        style="width: 260px; height: 41px"
+        [ngClass]="{
+          'border-light': showCorporatesSection && plateform === 'workStation',
+        }"
+        role="button"
+        *ngIf="plateform === 'workStation'">
         <div
-          (click)="displayCorporatesSection()"
-          (keyup.enter)="displayCorporatesSection()"
-          tabindex="0"
-          class="d-flex connectededOrganization rounded align-items-start ps-1"
-          style="width: 260px; height: 41px"
-          [ngClass]="{
-            'border-light':
-              showCorporatesSection && plateform === 'workStation',
-          }"
-          role="button"
-          *ngIf="plateform === 'workStation'">
-          <div
-            style="width: 100px; height: 100%"
-            class="d-flex justify-content-start">
-            <img
-              [src]="organization.institution_client.picture"
-              class="img-fluid float-start w-100"
-              style="height: 41px"
-              alt="organization" />
-          </div>
-          <div
-            style="
-              margin-top: auto;
-              margin-bottom: auto;
-              line-height: 15px;
-              width: 100%;
-            "
-            class="ps-1">
-            <b class="text-dark">{{
-              organization.institution_client.client_full_name
-            }}</b
-            ><br />
-            <span style="font-size: 14px" class="text-dark">{{
-              organization.company_type_code
-            }}</span>
-          </div>
+          style="width: 100px; height: 100%"
+          class="d-flex justify-content-start">
+          <img
+            [src]="organization.institution_client.picture"
+            class="img-fluid float-start w-100"
+            style="height: 41px"
+            alt="organization" />
+        </div>
+        <div
+          style="
+            margin-top: auto;
+            margin-bottom: auto;
+            line-height: 15px;
+            width: 100%;
+          "
+          class="ps-1">
+          <b class="text-dark">{{
+            organization.institution_client.client_full_name
+          }}</b
+          ><br />
+          <span style="font-size: 14px" class="text-dark">{{
+            organization.company_type_code
+          }}</span>
         </div>
       </div>
-    </div>
-    <div
-      class="d-none d-lg-block"
+    </div> -->
+  </section>
+
+  <!-- Second section with Icons To switch Plateforms -->
+  <section class="d-none d-lg-block py-1">
+    <app-switch-plateform-icons></app-switch-plateform-icons>
+  </section>
+
+  <!-- Third section with Other icons actions -->
+  <section
+    class="d-flex align-items-center justify-content-around justify-content-lg-center position-relative">
+    <!-- ONLY ON MOBILE : Active Aside menus -->
+    <span
+      class="d-lg-none me-md-1"
+      role="button"
+      tabindex="0"
+      (click)="toggleAsideMenu()"
       [ngClass]="{
-        'mx-auto': plateform === 'workStation',
+        'text-inverse-dark': mainConfig.activePlateform === 'workstation',
       }">
-      <app-switch-plateform-icons></app-switch-plateform-icons>
-    </div>
-    <!--* Right side section that contains menu icons for workstation -->
-    <div
-      class="d-flex align-items-center justify-content-around justify-content-lg-center position-relative"
+      <i class="fs-5 fa-solid fa-bars"></i>
+    </span>
+
+    <!-- show amount icon -->
+    <span
+      role="button"
+      class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1"
       [ngClass]="{
-        'bg-primary': plateform !== 'workStation' && plateform !== 'onamob',
-        'header-color text-secondary': plateform === 'workStation',
-        'primary-onamob': plateform === 'onamob',
+        'text-inverse-dark': mainConfig.activePlateform === 'workstation',
       }">
-      <!-- Active mobile menus -->
-      <!-- <span
-                *ngIf="plateform !== 'workStation'"
-                class="d-lg-none me-md-1"
-                role="button"
-                (click)="toggleAsideMenu()"
-                [ngClass]="{
-                    'text-primary-light':
-                        theme === 'magis-light' || theme === 'magis-dark',
-                    white: theme === 'light-mode' || theme === 'dark-mode'
-                }"
-            >
-                <i class="fs-5 fa-solid fa-bars"></i>
-            </span> -->
-      <!-- show amount icon -->
+      <span title="ctrl + shift + v to toggle Amount View" tabindex="0">
+        <i class="fa-solid fa-eye"></i>
+      </span>
+    </span>
+
+    <!-- chats icon -->
+    <span
+      class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1"
+      role="button"
+      [ngClass]="{
+        'text-inverse-dark': mainConfig.activePlateform === 'workstation',
+      }">
+      <i class="fa-solid fa-magnifying-glass fs-6"></i>
+    </span>
+
+    <!-- notification icon -->
+    <span
+      class="ms-4 ms-md-5 ms-lg-2 p-2 me-2"
+      role="button"
+      [ngClass]="{
+        'text-inverse-dark': mainConfig.activePlateform === 'workstation',
+      }">
+      <i class="fa-regular fa-bell fs-6"></i>
+    </span>
+    <!-- profile icon -->
+    <span
+      class="dropdown ms-4 ms-md-5 ms-lg-2 me-md-1"
+      [ngClass]="{
+        'text-inverse-dark': mainConfig.activePlateform === 'workstation',
+      }">
       <span
-        role="button"
-        class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1"
-        [ngClass]="{
-          'text-primary-light':
-            theme === 'magis-light' || theme === 'magis-dark',
-          white: theme === 'light-mode' || theme === 'dark-mode',
-        }">
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        class="">
         <span
-          title="ctrl + shift + v to toggle Amount View"
-          *ngIf="!eyeShowed"
-          (click)="toggleEyeStatus()"
-          (keyup.enter)="toggleEyeStatus()"
-          tabindex="{0}">
-          <i class="fa-solid fa-eye"></i>
-        </span>
-        <span
-          title="ctrl + shift + v to toggle Amount View"
-          *ngIf="eyeShowed"
-          (click)="toggleEyeStatus()"
-          (keyup.enter)="toggleEyeStatus()"
-          tabindex="{0}">
-          <i class="fa-solid fa-eye-slash"></i>
-        </span>
-      </span>
-      <!-- chats icon -->
-      <!-- removed (click)="toggleAsideMenu(true); toggleNotFoundPopup('chat')" between role="button" and [ngClass] -->
-      <span
-        class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1"
-        role="button"
-        [ngClass]="{
-          'text-primary-light':
-            theme === 'magis-light' || theme === 'magis-dark',
-          white: theme === 'light-mode' || theme === 'dark-mode',
-        }">
-        <i
-          class="fa-solid fa-magnifying-glass fs-6"
-          (click)="showMenu = true"
-          (keyup.enter)="(showMenu)"
-          tabindex="0"></i>
-      </span>
-      <!-- notification icon -->
-      <!-- removed (click)="
-                    toggleAsideMenu(true); toggleNotFoundPopup('notification')
-                " between role and [ngClass] -->
-      <span
-        class="ms-4 ms-md-5 ms-lg-2 p-2 me-2"
-        role="button"
-        [ngClass]="{
-          'text-primary-light':
-            theme === 'magis-light' || theme === 'magis-dark',
-          white: theme === 'light-mode' || theme === 'dark-mode',
-        }">
-        <i
-          class="fa-regular fa-bell fs-6"
-          (click)="showMenu = true"
-          (keyup.enter)="(showMenu)"
-          tabindex="0"></i>
-      </span>
-      <!-- profile icon -->
-      <span
-        class="dropdown ms-4 ms-md-5 ms-lg-2 me-md-1"
-        [ngClass]="{
-          'text-primary-light':
-            theme === 'magis-light' || theme === 'magis-dark',
-          white: theme === 'light-mode' || theme === 'dark-mode',
-          clientProfile:
+          *ngIf="
             !clientInfo ||
-            (clientInfo && clientInfo?.client && clientInfo?.client?.picture),
-        }">
-        <span
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-          class="">
-          <span
-            *ngIf="
-              !clientInfo ||
-              (clientInfo && clientInfo?.client && clientInfo?.client?.picture)
-            ">
-            <img
-              [src]="clientInfo?.client.picture"
-              class="image rounded-circle"
-              alt="" />
-          </span>
-          <span
-            *ngIf="
-              clientInfo && clientInfo.client && !clientInfo?.client?.picture
-            ">
-            <i class="fa-regular fa-circle-user fs-6"></i>
-          </span>
+            (clientInfo && clientInfo?.client && clientInfo?.client?.picture)
+          ">
+          <img
+            [src]="clientInfo?.client.picture"
+            class="image rounded-circle"
+            alt="" />
         </span>
-        <!--*user profile card-->
-        <div class="dropdown-menu bg-transparent">
-          <div
-            class="float-end m-0 lg-radius profile-card text-dark pe-3 ps-1 dropdown-item"
-            style="width: 302px"
-            [ngClass]="{
-              'level-2': plateform === 'workStation',
-              'level-1': plateform !== 'workStation',
-            }">
-            <!-- first section for user info -->
-            <section>
+        <span *ngIf="!clientInfo">
+          <i class="fa-regular fa-circle-user fs-6"></i>
+        </span>
+      </span>
+
+      <!--*user profile card-->
+      <div class="dropdown-menu bg-transparent">
+        <div
+          class="float-end m-0 lg-radius profile-card text-dark pe-3 ps-1 dropdown-item bg-white"
+          style="width: 302px">
+          <!-- first section for user info -->
+          <section>
+            <div
+              class="pt-2 pb-2 d-flex justify-content-end"
+              style="border-radius: 5px 5px 0px 0px">
+              <span
+                role="button"
+                class="float-end text-dark fs-4"
+                style="z-index: 50"
+                title="close"
+                tabindex="0">
+                <i class="fa fa-xmark"></i>
+              </span>
+            </div>
+            <!--user infos-->
+            <hr class="w-100 text-secondary" />
+            <div
+              style="transform: translateY(-60%)"
+              class="d-flex align-items-end justify-content-end ms-4 mb-0">
+              <div class="p-1 rounded-circle">
+                <div
+                  class="d-flex align-items-end me-0 ms-0 p-2 rounded-circle border border-secondary">
+                  <!--user profile picture-->
+                  <div
+                    class="text-center border border-secondary d-flex flex-column align-items-center justify-content-center rounded-circle profile-picture-container">
+                    <img
+                      src="images/userprofile.png"
+                      class="image border border-secondary rounded-circle"
+                      *ngIf="!clientInfo?.client?.picture"
+                      alt="userprofile" />
+                    <img
+                      *ngIf="clientInfo?.client?.picture"
+                      [src]="clientInfo?.client?.picture"
+                      class="image border border-secondary rounded-circle"
+                      alt="clienPicture" />
+                  </div>
+                </div>
+              </div>
+
               <div
-                class="pt-2 pb-2 d-flex justify-content-end"
-                style="border-radius: 5px 5px 0px 0px">
+                class="ms-0 d-grid w-100 mb-2"
+                style="line-height: 20px; transform: translateY(-9%)">
                 <span
-                  role="button"
-                  (click)="showUserInfo = false"
-                  class="float-end text-dark fs-4"
-                  style="z-index: 50"
-                  title="close"
-                  (keyup.enter)="showUserInfo = false"
-                  tabindex="0">
-                  <i class="fa fa-xmark"></i>
+                  class="ms-2 mb-2 text-dark w-100 text-sm-md"
+                  style="word-break: break-word"
+                  >{{ userInfo?.username ?? '-----' }}</span
+                >
+
+                <span
+                  style="word-break: break-word"
+                  class="ms-2 text-secondary w-100 text-xsm">
+                  <span>{{ userInfo?.email ?? '-----' }}</span> </span
+                ><br />
+                <span class="ms-2 text-secondary text-xsm">{{
+                  clientInfo?.client?.clientCode ?? '-----'
+                }}</span>
+              </div>
+            </div>
+          </section>
+
+          <section
+            class="px-3 overflow-y-auto d-flex flex-column h-100"
+            style="margin-top: -20%">
+            <section class="flex-grow-1 d-flex flex-column">
+              <div
+                class="w-100 my-3 d-flex justify-content-between align-items-center">
+                <a>
+                  <div
+                    role="button"
+                    class="d-flex align-items-center"
+                    style="font-size: 18px">
+                    <i class="fa-solid text-secondary fa-user-circle me-2"></i>
+                    <b class="text-dark ms-1" i18n>Profile</b>
+                  </div>
+                </a>
+              </div>
+              <div
+                class="w-100 my-3 d-flex justify-content-between align-items-center">
+                <a>
+                  <div
+                    role="button"
+                    class="d-flex align-items-center fs-medium">
+                    <span class="me-2"
+                      ><i class="fa-solid text-secondary fa-gear"></i
+                    ></span>
+                    <b class="text-dark ms-1" i18n>Settings</b>
+                  </div>
+                </a>
+              </div>
+              <div
+                class="w-100 d-flex justify-content-between align-items-center mt-3">
+                <div class="d-flex align-items-center fs-medium">
+                  <span class="me-2"
+                    ><i class="fa-solid text-secondary fa-language"></i
+                  ></span>
+                  <b class="text-dark" i18n>Language</b>
+                </div>
+                <select
+                  [formControl]="selectedLanguage"
+                  style="width: 60px"
+                  (click)="changeLanguage()">
+                  <option value="en">En</option>
+                  <option value="fr">Fr</option>
+                </select>
+              </div>
+              <div
+                class="w-100 d-flex my-3 justify-content-between align-items-center">
+                <div class="d-flex align-items-center fs-medium">
+                  <span class="me-2"
+                    ><img src="{{ lightModeImage }}" alt="light logo"
+                  /></span>
+                  <b class="text-dark" i18n>Light Mode</b>
+                </div>
+                <div>
+                  <a
+                    class="clickable"
+                    title="Switch Theme"
+                    (click)="switchMode()"
+                    tabindex="0">
+                    <img [src]="themeLogo" alt="themeLogo" />
+                  </a>
+                </div>
+              </div>
+              <div
+                class="w-100 my-3 d-flex justify-content-between align-items-center">
+                <a>
+                  <div
+                    role="button"
+                    class="d-flex align-items-center fs-medium">
+                    <span class="me-2"
+                      ><i class="fa-solid text-secondary fa-flag"></i
+                    ></span>
+                    <b class="text-dark ms-1" i18n>Report a problem</b>
+                  </div>
+                </a>
+              </div>
+
+              <div
+                class="w-100 d-flex justify-content-between text-dark fs-medium"
+                title="Logout"
+                role="button">
+                <span>
+                  <span class="me-2">
+                    <i
+                      class="fa-solid text-secondary fa-right-from-bracket"></i>
+                  </span>
+                  <b i18n>Logout</b>
                 </span>
               </div>
-              <!--user infos-->
-              <hr class="w-100 text-secondary" />
-              <div
-                style="transform: translateY(-60%)"
-                class="d-flex align-items-end justify-content-end ms-4 mb-0">
-                <div
-                  class="p-1 rounded-circle"
-                  [ngClass]="{
-                    'level-2': plateform === 'workStation',
-                    'level-1': plateform !== 'workStation',
-                  }">
-                  <div
-                    class="d-flex align-items-end me-0 ms-0 p-2 rounded-circle border border-secondary"
-                    [ngClass]="{
-                      'level-2': plateform === 'workStation',
-                      'level-1': plateform !== 'workStation',
-                    }">
-                    <!--user profile picture-->
-                    <div
-                      class="text-center border border-secondary d-flex flex-column align-items-center justify-content-center rounded-circle profile-picture-container"
-                      [ngClass]="{
-                        'level-1': plateform === 'workStation',
-                        'level-2': plateform !== 'workStation',
-                      }">
-                      <img
-                        src="/assets/images/userprofile.png"
-                        class="image border border-secondary rounded-circle"
-                        *ngIf="!clientInfo?.client?.picture"
-                        alt="userprofile" />
-                      <img
-                        *ngIf="clientInfo?.client?.picture"
-                        [src]="clientInfo?.client?.picture"
-                        class="image border border-secondary rounded-circle"
-                        alt="clienPicture" />
-                      <!-- <img
-                            [src]="operator.picture"
-                            class="img-fluid border border-secondary"
-                            style="width: 78px; border-radius: 50%"
-                            *ngIf="organization"
-                        /> -->
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="ms-0 d-grid w-100 mb-2"
-                  style="line-height: 20px; transform: translateY(-9%)">
-                  <span
-                    class="ms-2 mb-2 text-dark w-100 text-sm-md"
-                    style="word-break: break-word"
-                    >{{ userInfo?.username }}</span
-                  >
-
-                  <span
-                    style="word-break: break-word"
-                    class="ms-2 text-secondary w-100 text-xsm">
-                    <span>{{ userInfo?.email }}</span> </span
-                  ><br />
-                  <span
-                    class="ms-2 text-secondary text-xsm"
-                    *ngIf="clientInfo && clientInfo?.client"
-                    >{{ clientInfo?.client?.clientCode }}</span
-                  >
-                </div>
-              </div>
             </section>
 
-            <!-- second section for clickable link  -->
-            <section
-              class="px-3 overflow-y-auto d-flex flex-column h-100"
-              style="margin-top: -20%">
-              <section class="flex-grow-1">
-                <div
-                  class="w-100 my-3 d-flex justify-content-between align-items-center">
-                  <a>
-                    <div
-                      role="button"
-                      class="d-flex align-items-center"
-                      style="font-size: 18px">
-                      <i
-                        class="fa-solid text-secondary fa-user-circle me-2"></i>
-                      <b class="text-dark ms-1" i18n>Profile</b>
-                    </div>
-                  </a>
-                </div>
-                <div
-                  class="w-100 my-3 d-flex justify-content-between align-items-center">
-                  <a
-                    routerLink="/b/settings"
-                    *ngIf="plateform !== 'workStation'">
-                    <div
-                      role="button"
-                      class="d-flex align-items-center"
-                      style="font-size: 18px">
-                      <i class="fa-solid text-secondary fa-gear me-2"></i>
-                      <b class="text-dark ms-1" i18n>Settings</b>
-                    </div>
-                  </a>
-                  <button
-                    style="border: none; background-color: transparent"
-                    disabled
-                    routerLink="w/desk/settings/"
-                    *ngIf="plateform === 'workStation'">
-                    <div
-                      role="button"
-                      class="d-flex align-items-center"
-                      style="font-size: 18px">
-                      <i class="fa-solid text-secondary fa-gear me-2"></i>
-                      <b class="text-dark ms-1" i18n>Settings</b>
-                    </div>
-                  </button>
-                </div>
-                <hr />
-                <div
-                  class="w-100 d-flex justify-content-between align-items-center mt-3">
-                  <div
-                    class="d-flex align-items-center"
-                    style="font-size: 18px">
-                    <i class="fa-solid text-secondary fa-language me-2"></i>
-                    <b class="text-dark" i18n>Language</b>
-                  </div>
-                  <select
-                    [formControl]="selectedLanguage"
-                    style="width: 60px"
-                    (click)="changeLanguage()">
-                    <option value="en">En</option>
-                    <option value="fr">Fr</option>
-                  </select>
-                </div>
-                <div
-                  class="w-100 d-flex my-3 justify-content-between align-items-center">
-                  <div
-                    class="d-flex align-items-center"
-                    style="font-size: 18px">
-                    <span
-                      *ngIf="theme === 'magis-light' || theme === 'light-mode'">
-                      <span class="me-2"
-                        ><img src="{{ lightModeImage }}" alt="light logo"
-                      /></span>
-                      <b class="text-dark" i18n>Light Mode</b>
-                    </span>
-                    <span
-                      *ngIf="theme === 'magis-dark' || theme === 'dark-mode'">
-                      <i class="fa-solid text-secondary fa-moon me-2"></i>
-                      <b class="text-dark" i18n>Dark Mode</b>
-                    </span>
-                  </div>
-                  <div>
-                    <div
-                      class="clickable"
-                      title="Switch Theme"
-                      (click)="onToggle()"
-                      (keyup.enter)="onToggle()"
-                      tabindex="0">
-                      <img [src]="themeLogo" alt="themeLogo" />
-                    </div>
-                  </div>
-                </div>
-                <hr />
-                <div
-                  class="w-100 my-3 d-flex justify-content-between align-items-center">
-                  <a>
-                    <div
-                      role="button"
-                      class="d-flex align-items-center"
-                      style="font-size: 18px">
-                      <i class="fa-solid text-secondary fa-flag me-2"></i>
-                      <b class="text-dark ms-1" i18n>Report a problem</b>
-                    </div>
-                  </a>
-                </div>
-
-                <hr />
-                <!-- removed (click)="logout()" between title and role -->
-                <div
-                  class="w-100 d-flex justify-content-between text-dark"
-                  style="font-size: 18px"
-                  title="Logout"
-                  role="button">
-                  <span>
-                    <i
-                      class="fa-solid text-secondary me-2 fa-right-from-bracket"></i>
-                    <b i18n>Logout</b>
-                  </span>
-                </div>
-              </section>
-
-              <div class="mt-3">
-                <!--user profile footer-->
-                <div class="mt-2 px-2 bg-white text-secondary text-sm-md">
-                  <div class="d-flex justify-content-center flex-wrap">
-                    <!-- <app-footer
+            <div class="mt-3">
+              <!--user profile footer-->
+              <div class="mt-2 px-2 bg-white text-secondary text-sm-md">
+                <div class="d-flex justify-content-center flex-wrap">
+                  <!-- <app-footer
                                             [showCopyRight]="false"
                                         ></app-footer> -->
-                  </div>
                 </div>
               </div>
-            </section>
+            </div>
+          </section>
 
-            <!--*shwitchPlateform card-->
-          </div>
+          <!--*shwitchPlateform card-->
         </div>
-      </span>
-      <!-- platform icon -->
-      <!-- <span
+      </div>
+    </span>
+    <!-- platform icon -->
+    <!-- <span
                 (click)="showPlateform(); toggleAsideMenu(true)"
                 role="button"
                 class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1"
@@ -447,33 +338,32 @@
                     style="width: 20px"
                 />
             </span> -->
-    </div>
+  </section>
 
-    <!-- chat popup for page under construction -->
+  <!-- chat popup for page under construction -->
 
-    <div
-      *ngIf="chatNotFoundPopup"
-      class="position-absolute shadow level-1 border sm-radius py-3 px-5 overflow-hidden"
-      style="right: 1%; top: 57px; z-index: 20">
-      <!-- <app-not-found-page
+  <div
+    *ngIf="chatNotFoundPopup"
+    class="position-absolute shadow level-1 border sm-radius py-3 px-5 overflow-hidden"
+    style="right: 1%; top: 57px; z-index: 20">
+    <!-- <app-not-found-page
                 action="close"
                 (close)="getPopupEvent($event)"
             ></app-not-found-page> -->
-    </div>
+  </div>
 
-    <!-- notification popup for page under construction -->
-    <div
-      *ngIf="notificationNotFoundPopup"
-      class="position-absolute shadow level-1 border sm-radius py-3 px-5 overflow-hidden"
-      style="right: 1%; top: 57px; z-index: 20">
-      <!-- <app-not-found-page
+  <!-- notification popup for page under construction -->
+  <div
+    *ngIf="notificationNotFoundPopup"
+    class="position-absolute shadow level-1 border sm-radius py-3 px-5 overflow-hidden"
+    style="right: 1%; top: 57px; z-index: 20">
+    <!-- <app-not-found-page
                 action="close"
                 (close)="
                 ($event)"
             ></app-not-found-page> -->
-    </div>
   </div>
-</div>
+</header>
 
 <!-- **__End of the three sections that are flexibly displayed and spaced at the edges with proportional margins between them__** -->
 
@@ -482,7 +372,11 @@
   <!--*corporates card-->
   <div
     class="connectededOrganization pb-2 pt-2 ms-2 mt-2 rounded position-fixed"
-    *ngIf="showCorporatesSection && organization && plateform === 'workStation'"
+    *ngIf="
+      showCorporatesSection &&
+      organization &&
+      mainConfig.activePlateform === 'workstation'
+    "
     style="width: 300px; height: 296px; overflow: auto; z-index: 30">
     <!--*logo and title of the connected organization inside the corporates card-->
     <div class="w-100 d-flex justify-content-center mb-0" style="height: 50px">
@@ -498,7 +392,7 @@
         </div>
         <div
           style="margin-top: auto; margin-bottom: auto; line-height: 15px"
-          *ngIf="plateform === 'workStation'"
+          *ngIf="mainConfig.activePlateform === 'workstation'"
           class="ps-1">
           <b class="text-dark">{{
             organization.institution_client.client_full_name
@@ -514,7 +408,9 @@
     <!--*Icon that shows that the operator has no access to more than one organization-->
     <div
       class="w-100 d-flex justify-content-center mb-2 mt-5"
-      *ngIf="corporates.length < 1 && plateform === 'workStation'">
+      *ngIf="
+        corporates.length < 1 && mainConfig.activePlateform === 'workstation'
+      ">
       <div>
         <span class="fa-stack text-white" style="font-size: 65px">
           <i class="fa fa-business-time fa-stack-1x fs-1"></i>
@@ -562,7 +458,7 @@
               width: 170px;
               border-radius: 0px 10px 10px 0px;
             "
-            *ngIf="plateform === 'workStation'"
+            *ngIf="mainConfig.activePlateform === 'workstation'"
             class="header-color h-100 pt-2 px-2">
             <b class="text-dark">{{
               corporate.organization.institution_client.client_full_name
@@ -577,17 +473,10 @@
     </div>
   </div>
 
-  <!--plateform infos-->
-  <div>
+  <!-- Plateforms switch Icons DropDown  -->
+  <section>
     <div
-      class="float-end plateforn-card lg-radius border"
-      style="border-width: 10px !important"
-      [ngClass]="{
-        'level-2': plateform === 'workStation',
-        'level-1': plateform !== 'workStation',
-        'border-primary-onamob': plateform === 'onamob',
-        'border-primary-2': plateform !== 'onamob',
-      }"
+      class="float-end plateforn-card lg-radius border border-primary-2 border-10 bg-white"
       *ngIf="showPlateformPopup">
       <div class="h-100 p-3 py-4 overflow-y-auto">
         <div class="d-flex flex-column h-100">
@@ -597,16 +486,16 @@
                 class="col-4 d-flex flex-column align-items-center p-2 sm-radius"
                 role="button"
                 [ngClass]="{
-                  'bg-primary-3 ': plateform === 'home',
-                  'icons-color': plateform !== 'home',
+                  'bg-primary-3 ': mainConfig.activePlateform === 'newsFeed',
+                  'text-secondary': mainConfig.activePlateform !== 'newsFeed',
                 }"
-                (click)="switchPlateform('home')"
-                (keyup.enter)="switchPlateform('home')"
+                (click)="('ne')"
+                (keyup.enter)="switchPlateform('newsFeed')"
                 tabindex="0">
                 <div class="d-flex justify-content-center">
                   <span
                     [ngClass]="{
-                      'text-primary': plateform === 'home',
+                      'text-primary': mainConfig.activePlateform === 'newsFeed',
                     }">
                     <i class="fs-1 fa-solid fa-house-chimney-user"></i>
                   </span>
@@ -614,7 +503,7 @@
                 <div
                   class="text-xsm text-center text-dark mt-2"
                   [ngClass]="{
-                    'text-all-dark': plateform === 'home',
+                    'text-all-dark': mainConfig.activePlateform === 'newsFeed',
                   }"
                   i18n>
                   Community
@@ -624,7 +513,8 @@
                 class="col-4 d-flex flex-column align-items-center p-2 sm-radius"
                 role="button"
                 [ngClass]="{
-                  'bg-primary-3': plateform === 'onlineBanking',
+                  'bg-primary-3':
+                    mainConfig.activePlateform === 'onlineBanking',
                 }"
                 (click)="switchPlateform('onlineBanking')"
                 (keyup.enter)="switchPlateform('onlineBanking')"
@@ -632,11 +522,11 @@
                 <div class="d-flex justify-content-center">
                   <div>
                     <img
-                      *ngIf="plateform === 'onlineBanking'"
+                      *ngIf="mainConfig.activePlateform === 'onlineBanking'"
                       src="assets/images/ihela-b.svg"
                       alt="onlineBanking" />
                     <img
-                      *ngIf="plateform !== 'onlineBanking'"
+                      *ngIf="mainConfig.activePlateform !== 'onlineBanking'"
                       src="assets/images/ihelap.svg"
                       alt="" />
                   </div>
@@ -644,7 +534,8 @@
                 <div
                   class="text-xsm text-center mt-2"
                   [ngClass]="{
-                    'text-all-dark': plateform === 'onlineBanking',
+                    'text-all-dark':
+                      mainConfig.activePlateform === 'onlineBanking',
                   }"
                   i18n>
                   Fin. services
@@ -654,16 +545,17 @@
                 class="col-4 d-flex flex-column align-items-center p-2 sm-radius"
                 role="button"
                 [ngClass]="{
-                  'bg-primary-3': plateform === 'market',
-                  'icons-color': plateform !== 'market',
+                  'bg-primary-3': mainConfig.activePlateform === 'marketPlace',
+                  'text-secondary':
+                    mainConfig.activePlateform !== 'marketPlace',
                 }"
-                (click)="switchPlateform('market')"
-                (keyup.enter)="switchPlateform('market')"
+                (click)="switchPlateform('marketPlace')"
                 tabindex="0">
                 <div class="d-flex justify-content-center">
                   <span
                     [ngClass]="{
-                      'text-primary': plateform === 'market',
+                      'text-primary':
+                        mainConfig.activePlateform === 'marketPlace',
                     }">
                     <i class="fa-solid fa-cart-shopping fs-1 fs-1"></i>
                   </span>
@@ -672,7 +564,8 @@
                 <div
                   class="text-xsm text-center mt-2"
                   [ngClass]="{
-                    'text-all-dark': plateform === 'market',
+                    'text-all-dark':
+                      mainConfig.activePlateform === 'marketPlace',
                   }"
                   i18n>
                   Market Place
@@ -684,17 +577,19 @@
               <div
                 class="col-4 d-flex flex-column align-items-center p-2 sm-radius"
                 role="button"
-                (click)="switchPlateform('workStation')"
+                (click)="switchPlateform('workstation')"
                 [ngClass]="{
-                  'bg-primary-3': plateform === 'workStation',
+                  'bg-primary-3': mainConfig.activePlateform === 'workstation',
                 }"
-                (keyup.enter)="switchPlateform('workStation')"
+                (keyup.enter)="switchPlateform('workstation')"
                 tabindex="0">
                 <div class="d-flex justify-content-center">
                   <span
                     [ngClass]="{
-                      'text-primary ': plateform === 'workStation',
-                      'icons-color': plateform !== 'workStation',
+                      'text-primary ':
+                        mainConfig.activePlateform === 'workstation',
+                      'text-secondary':
+                        mainConfig.activePlateform !== 'workstation',
                     }">
                     <i class="fa-solid fa-desktop fs-1"></i>
                   </span>
@@ -707,15 +602,15 @@
                 role="button"
                 (click)="switchPlateform('onamob')"
                 [ngClass]="{
-                  'bg-onamob-2': plateform === 'onamob',
+                  'bg-onamob-2': mainConfig.activePlateform === 'onamob',
                 }"
                 (keyup.enter)="switchPlateform('onamob')"
                 tabindex="0">
                 <div class="d-flex justify-content-center">
                   <span
                     [ngClass]="{
-                      'text-onamob': plateform === 'onamob',
-                      'icons-color': plateform !== 'onamob',
+                      'text-primary': mainConfig.activePlateform === 'onamob',
+                      'text-secondary': mainConfig.activePlateform !== 'onamob',
                     }">
                     <i class="fa-solid fa-mobile-screen-button fs-1"></i>
                   </span>
@@ -723,7 +618,7 @@
                 <div
                   class="text-xsm text-center mt-2"
                   [ngClass]="{
-                    'text-all-dark': plateform === 'onamob',
+                    'text-all-dark': mainConfig.activePlateform === 'onamob',
                   }"
                   i18n>
                   MVNO
@@ -775,5 +670,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </div>

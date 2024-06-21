@@ -11,6 +11,7 @@ export type PlateformModel =
   | 'authentification'
   | 'newsFeed'
   | 'onlineBanking'
+  | 'onamob'
   | 'marketPlace'
   | 'workstation'
   | 'amin';

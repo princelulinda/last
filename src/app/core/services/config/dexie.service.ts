@@ -12,6 +12,7 @@ export type PlateformModel =
   | 'newsFeed'
   | 'onlineBanking'
   | 'marketPlace'
+  | 'onamob'
   | 'workstation'
   | 'amin';
 export interface activeMainConfigModel {
