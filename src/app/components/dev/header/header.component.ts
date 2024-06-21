@@ -12,8 +12,11 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { Observable, Subject } from 'rxjs';
 import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-plateform-icons.component';
-import { activeMainConfigModel } from '../../../core/services/config/dexie.service';
-import { ConfigService, PlateformModel } from '../../../core/services';
+import {
+  ConfigService,
+  PlateformModel,
+  activeMainConfigModel,
+} from '../../../core/services';
 
 export interface organizationModel {
   company_type_code: string;

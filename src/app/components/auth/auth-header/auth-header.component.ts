@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { activeMainConfigModel } from '../../../core/services/config/dexie.service';
 import { Observable } from 'rxjs';
-import { ConfigService } from '../../../core/services';
+import { ConfigService, activeMainConfigModel } from '../../../core/services';
 import { environment } from '../../../../environments/environment';
 
 @Component({
