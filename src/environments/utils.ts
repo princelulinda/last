@@ -10,6 +10,7 @@ interface reusableDataModel {
   publicServicesMerchantCategoryId: number;
   sentryDsn: string;
   sentryTraceRate: number;
+  appVersion: string;
   appDbVersion: number;
   activateHttpEncryption: boolean;
 }
@@ -63,6 +64,7 @@ export const environmentConfig: {
     publicServicesMerchantCategoryId: 1,
     sentryDsn: 'https://4808bd0c8a72e687fe9af699ab0a05d7@turabe.ihela.online/6',
     sentryTraceRate: 1.0,
+    appVersion: VERSION,
     appDbVersion: APPDBVERSION,
     activateHttpEncryption: false,
   },
@@ -96,6 +98,7 @@ export const environmentConfig: {
     publicServicesMerchantCategoryId: 3,
     sentryDsn: 'https://8343ed4cedf1ee0797427869307f4cc1@turabe.ihela.online/7',
     sentryTraceRate: 1.0,
+    appVersion: VERSION,
     appDbVersion: APPDBVERSION,
     activateHttpEncryption: true,
   },

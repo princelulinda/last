@@ -3,6 +3,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { activeMainConfigModel } from '../../../core/services/config/dexie.service';
 import { Observable } from 'rxjs';
 import { ConfigService } from '../../../core/services';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-auth-header',
@@ -14,6 +15,9 @@ import { ConfigService } from '../../../core/services';
 export class AuthHeaderComponent implements OnInit {
   config$: Observable<activeMainConfigModel>;
   config!: activeMainConfigModel;
+
+  isProduction: boolean = environment.production;
+  appVersion: string | number = environment.appVersion;
 
   constructor(private configService: ConfigService) {
     this.config$ = this.configService.getMainConfig();

@@ -31,7 +31,6 @@ $fontSizes: (
 $globalTextColors: (
   'all-white': #d9d9d9,
   'all-dark': #414141,
-
 );
 @each $name, $value in $globalTextColors {
   @include generateTextClass($name, $value);
@@ -39,10 +38,7 @@ $globalTextColors: (
 
 // global border color
 :root {
-  --default-border-color: #c4c4c4;
-}
-.border {
-  --bs-border-color: var(--default-border-color);
+  --bs-border-color: #c4c4c4;
 }
 
 // reset link
