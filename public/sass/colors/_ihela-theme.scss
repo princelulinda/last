@@ -10,12 +10,13 @@ $ihela-bg-light: (
   'secondary': #ebebeb,
   'ihela': #ffffff,
   'input': #f1f1f1,
+  'all-white': #ffffff,
+  'all-dark': #242526,
 );
 
 $ihela-text-light: (
   'dark': #414141,
   'secondary': #838383,
- 
 );
 
 // For ihela dark mode
@@ -30,6 +31,8 @@ $ihela-bg-dark: (
   'secondary': #424242,
   'ihela': #242526,
   'input': #1c1c1c,
+  'all-white': #ffffff,
+  'all-dark': #242526,
 );
 
 $ihela-text-dark: (
@@ -57,7 +60,11 @@ html[data-bs-theme='ihela-light'] {
     @extend .bg-input;
   }
 
-  body ,input, textarea, select,a{
+  body,
+  input,
+  textarea,
+  select,
+  a {
     color: map-get($ihela-text-light, 'dark');
   }
 }
@@ -81,7 +88,11 @@ html[data-bs-theme='ihela-dark'] {
     @extend .bg-input;
   }
 
-  body,input, textarea, select,a {
+  body,
+  input,
+  textarea,
+  select,
+  a {
     // Default color;
     color: map-get($ihela-text-dark, 'dark');
   }

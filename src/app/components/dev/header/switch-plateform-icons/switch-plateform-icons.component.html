@@ -8,7 +8,7 @@
       title="{{ plateF.title }}"
       [ngClass]="{
         'bg-hover-primary-2': mainConfig.activePlateform !== plateF.plateform,
-        'text-primary bg-white':
+        'text-primary bg-all-white':
           mainConfig.activePlateform === plateF.plateform,
       }">
       <i *ngIf="plateF.icon" class="{{ plateF.icon }} fs-4 "></i>
