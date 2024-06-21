@@ -10,6 +10,8 @@ $erp-bg-light: (
   'secondary': #dce2eb,
   'erp': #f6f7f9,
   'input': #f1f1f1,
+  'all-white': #ffffff,
+  'all-dark': #242526,
 );
 
 $erp-text-light: (
@@ -29,6 +31,8 @@ $erp-bg-dark: (
   'secondary': #242526,
   'erp': #18191a,
   'input': #3a3b3c,
+  'all-white': #ffffff,
+  'all-dark': #242526,
 );
 
 $erp-text-dark: (
@@ -59,7 +63,8 @@ html[data-bs-theme='erp-light'] {
   body,
   input,
   textarea,
-  select {
+  select,
+  a {
     // Default color;
     color: map-get($erp-text-light, 'dark');
   }
@@ -90,7 +95,8 @@ html[data-bs-theme='erp-dark'] {
   body,
   input,
   textarea,
-  select {
+  select,
+  a {
     // Default color;
     color: map-get($erp-text-dark, 'dark');
   }
