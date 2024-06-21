@@ -43,6 +43,11 @@ export const environmentConfig: {
         theme: { name: 'ihela' },
       },
       {
+        name: 'onamob',
+        uuid: '65231163-2099-45e3-95de-0bdfa5882088',
+        theme: { name: 'ihela' },
+      },
+      {
         name: 'marketPlace',
         uuid: '28544962-9f7a-4768-adad-66f336251822',
         theme: { name: 'ihela' },
