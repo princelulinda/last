@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AsideBarComponent } from './aside-bar/aside-bar.component';
 import { AsideMenuComponent } from './aside-menu/aside-menu.component';
-import { HeaderComponent } from '../../dev/header/header.component';
+import { HeaderComponent } from '../header/header.component';
+import { SwitchPlateformIconsComponent } from '../header/switch-plateform-icons/switch-plateform-icons.component';
 
 @Component({
   selector: 'app-banking',
@@ -18,6 +19,7 @@ import { HeaderComponent } from '../../dev/header/header.component';
     AsideBarComponent,
     AsideMenuComponent,
     HeaderComponent,
+    SwitchPlateformIconsComponent,
   ],
 })
 export class BankingComponent {
