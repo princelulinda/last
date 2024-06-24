@@ -3,18 +3,25 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiService } from '../api/api.service';
 import { DbService } from '../../db';
-import { UserApiResponse } from '../../db/models';
+import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
+import { UserInfoModel } from '../../db/models/auth';
+import { liveQuery } from 'dexie';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  //
+  userInfo$: Observable<UserInfoModel> | unknown;
+
   constructor(
     private apiService: ApiService,
     private dbService: DbService,
     private configService: ConfigService
-  ) {}
+  ) {
+    this.userInfo$ = liveQuery(() => this.dbService.getOnce(User.tableName));
+  }
 
   login(login_data: {
     username: string;
@@ -27,7 +34,9 @@ export class AuthService {
         const userData = (data as { user: UserApiResponse }).user;
         // TODO : Save user data to indexeddb and save token to localStorage
         // this.dbService.setUser(userData);
-        this.dbService.setLocalStorageUserToken(userData.token);
+        if (userData.token) {
+          this.dbService.setLocalStorageUserToken(userData.token);
+        }
 
         // console.log('LOGIN DATA SERVICE : ', data);
         return data;
@@ -134,5 +143,10 @@ export class AuthService {
   verifyPhoneNumber(tel: string) {
     const apiUrl = `/extid/verification/?externel_request=true&type=phone_number&value=${tel}`;
     return this.apiService.get(apiUrl).pipe(map(data => data));
+  }
+
+  // METHOD FOR DATABASE DATA
+  getUserInfo(): Observable<UserInfoModel> {
+    return this.userInfo$ as Observable<UserInfoModel>;
   }
 }

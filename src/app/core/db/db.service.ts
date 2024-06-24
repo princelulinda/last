@@ -245,7 +245,7 @@ export class DbService {
     this.apiService.setLocalToken(token);
   }
 
-  async getDbUser() {
+  private async getDbUser() {
     try {
       const userDb = await this.getOnce('users');
       return [userDb];
@@ -255,14 +255,13 @@ export class DbService {
     }
   }
 
-  private async getUser(): Promise<object> {
+  private async checkUser(): Promise<object> {
     const localToken = this.apiService.getLocalToken();
     const user = await this.getDbUser();
 
-    if (!user && localToken) {
+    if (!user || (!user && localToken)) {
       this.populate();
-
-      return this.getUser();
+      return this.checkUser();
     }
 
     return user;

@@ -24,6 +24,10 @@ export interface ClientApiResponse {
   is_partner_bank: boolean;
   prefered_language: languageModel;
 }
+export interface UserInfoModel {
+  user: UserApiResponse;
+  client: ClientApiResponse;
+}
 
 export class User extends BaseModel {
   static tableName = 'users';

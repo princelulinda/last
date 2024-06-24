@@ -67,13 +67,13 @@ export class LoginComponent implements OnInit {
           password: this.loginForm.value.password,
         })
         .subscribe({
-          next: async data => {
+          next: data => {
             console.log('GOT LOGIN : ', data);
             const userData = (data as { user: UserApiResponse }).user;
             console.log('GOT LOGIN 2 : ', userData);
             if (userData.token) {
               console.log('GOT LOGIN 3 : ', userData);
-              await this.dbService.populate();
+              // await this.dbService.populate();
               this.redirectToNext();
             }
           },
