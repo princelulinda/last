@@ -17,7 +17,13 @@ import {
   PlateformModel,
   activeMainConfigModel,
 } from '../../../core/services';
-import { organizationModel, userInfoModel } from './model';
+import {
+  organizationModel,
+  userInfoModel,
+  corporatesModel,
+  selectedCorporateModel,
+  clientInfoModel,
+} from './model';
 
 // export interface organizationModel {
 //   company_type_code: string;
@@ -47,20 +53,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   organization!: organizationModel;
 
   // showUserInfo = false;
-  userInfo$!: Observable<userInfoModel>;
+  // userInfo$: Observable<any>;
 
   userInfo!: userInfoModel;
 
-  // corporates$: Observable<any>;
+  corporates$!: Observable<corporatesModel>;
 
-  // eslint-disable-next-line
-  corporates: any;
+  corporates: corporatesModel[] = [];
   showCorporatesSection = false;
   // dialog$: Observable<any>;
   dialog = '';
 
-  // eslint-disable-next-line
-  selectedCorporate: any;
+  selectedCorporate!: selectedCorporateModel;
   // operator$: Observable<any>;
   operator = '';
   otherCorporates = '';
@@ -68,10 +72,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   next = '';
   themeLogo = '';
   showPlateformPopup = false;
-  // clientInfo$: Observable<any>;
+  clientInfo$!: Observable<clientInfoModel>;
 
-  // eslint-disable-next-line
-  clientInfo: any;
+  clientInfo!: clientInfoModel;
 
   @Output() toggleAsideMenuEvent = new EventEmitter<boolean>();
   asideMenuIsActive = false;
