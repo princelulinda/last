@@ -10,6 +10,8 @@ $ihela-bg-light: (
   'secondary': #ebebeb,
   'ihela': #ffffff,
   'input': #f1f1f1,
+  'all-white': #ffffff,
+  'all-dark': #242526,
 );
 
 $ihela-text-light: (
@@ -29,11 +31,14 @@ $ihela-bg-dark: (
   'secondary': #424242,
   'ihela': #242526,
   'input': #1c1c1c,
+  'all-white': #ffffff,
+  'all-dark': #242526,
 );
 
 $ihela-text-dark: (
   'dark': #d9d9d9,
   'secondary': #9d9d9d,
+  'primary-1': #810019,
   'primary': #c98986,
 );
 
@@ -68,11 +73,11 @@ html[data-bs-theme='ihela-light'] {
     }
   }
 
-  // default color
   body,
   input,
   textarea,
-  select {
+  select,
+  a {
     color: map-get($ihela-text-light, 'dark');
   }
 }
@@ -108,11 +113,11 @@ html[data-bs-theme='ihela-dark'] {
     }
   }
 
-  // default color
   body,
   input,
   textarea,
-  select {
+  select,
+  a {
     // Default color;
     color: map-get($ihela-text-dark, 'dark');
   }

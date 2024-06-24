@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DexieService } from './dexie.service';
+import { SavingService } from './saving.service';
 
-describe('DexieService', () => {
-  let service: DexieService;
+describe('SavingService', () => {
+  let service: SavingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DexieService);
+    service = TestBed.inject(SavingService);
   });
 
   it('should be created', () => {

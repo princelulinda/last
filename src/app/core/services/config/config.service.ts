@@ -11,6 +11,7 @@ export type PlateformModel =
   | 'authentification'
   | 'newsFeed'
   | 'onlineBanking'
+  | 'onamob'
   | 'marketPlace'
   | 'workstation'
   | 'amin';
@@ -47,11 +48,7 @@ export class ConfigService {
     return this.mainConfig$ as Observable<activeMainConfigModel>;
   }
 
-  setMainConfig(
-    activePlatform: PlateformModel,
-    activeTheme: ThemeModel,
-    activeMode: ModeModel
-  ) {
+  setMainConfig(payload: activeMainConfigModel) {
     // console.log(
     //   'Main ConFig ===++++ :',
     //   activePlatform,
@@ -59,11 +56,7 @@ export class ConfigService {
     //   activeMode
     // );
 
-    return this.dbService.addOnceUpdate(MainConfig.tableName, {
-      activePlatform,
-      activeTheme,
-      activeMode,
-    });
+    return this.dbService.addOnceUpdate(MainConfig.tableName, payload);
   }
 
   private getPreferedMode(): ModeModel {
@@ -101,7 +94,7 @@ export class ConfigService {
       };
       this.activeMainConfig = newActiveMainConfig;
 
-      this.dbService.addOnce(MainConfig.tableName, newActiveMainConfig);
+      this.setMainConfig(newActiveMainConfig);
     };
 
     this.dbService.dbIsReady.subscribe((value: boolean) => {
@@ -120,24 +113,25 @@ export class ConfigService {
     }
   }
 
-  private filterPlatformData(platform: string): {
+  private filterPlatformData(plateform: PlateformModel): {
     name: string;
     uuid: string;
     theme: { name: string };
   } {
     return environment.plateformsUuid.filter(
-      plUuid => plUuid.name === platform
+      plateformData => plateformData.name === plateform
     )[0];
   }
   async switchPlateform(plateform: PlateformModel) {
     this.activeMainConfig = await this.getActiveMainConfig();
     if (plateform !== this.activeMainConfig.activePlateform) {
       const theme = this.filterPlatformData(plateform).theme.name as ThemeModel;
-      this.setMainConfig(
-        plateform,
-        this.activeMainConfig.activeTheme,
-        this.activeMainConfig.activeMode
-      );
+
+      this.setMainConfig({
+        activePlateform: plateform,
+        activeTheme: this.activeMainConfig.activeTheme,
+        activeMode: this.activeMainConfig.activeMode,
+      });
       this.setHtmlMode(theme, this.activeMainConfig.activeMode);
     }
   }
@@ -146,18 +140,21 @@ export class ConfigService {
     let newModeToDispatch: ModeModel;
 
     this.activeMainConfig = await this.getActiveMainConfig();
-    console.log('TRY to get new mode to dispatch', this.activeMainConfig);
     if (this.activeMainConfig && this.activeMainConfig.activeMode) {
       newModeToDispatch =
         this.activeMainConfig.activeMode === 'dark' ? 'light' : 'dark';
     } else {
-      newModeToDispatch = await this.getPreferedMode();
+      newModeToDispatch = this.getPreferedMode();
     }
     const plateform: PlateformModel = this.getActivePlateform();
     const theme: ThemeModel = this.filterPlatformData(plateform).theme
       .name as ThemeModel;
 
-    this.setMainConfig(plateform, theme, newModeToDispatch);
+    this.setMainConfig({
+      activePlateform: plateform,
+      activeTheme: theme,
+      activeMode: newModeToDispatch,
+    });
     this.setHtmlMode(this.activeMainConfig.activeTheme, newModeToDispatch);
   }
 }
