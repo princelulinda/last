@@ -17,14 +17,15 @@ import {
   PlateformModel,
   activeMainConfigModel,
 } from '../../../core/services';
+import { organizationModel, userInfoModel } from './model';
 
-export interface organizationModel {
-  company_type_code: string;
-  institution_client: {
-    client_full_name: string;
-    picture: string;
-  };
-}
+// export interface organizationModel {
+//   company_type_code: string;
+//   institution_client: {
+//     client_full_name: string;
+//     picture: string;
+//   };
+// }
 
 @Component({
   selector: 'app-header',
@@ -46,10 +47,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   organization!: organizationModel;
 
   // showUserInfo = false;
-  // userInfo$: Observable<any>;
+  userInfo$!: Observable<userInfoModel>;
 
-  // eslint-disable-next-line
-  userInfo: any;
+  userInfo!: userInfoModel;
 
   // corporates$: Observable<any>;
 
