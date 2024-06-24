@@ -10,6 +10,8 @@ $erp-bg-light: (
   'secondary': #dce2eb,
   'erp': #f6f7f9,
   'input': #f1f1f1,
+  'all-white': #ffffff,
+  'all-dark': #242526,
 );
 
 $erp-text-light: (
@@ -29,11 +31,14 @@ $erp-bg-dark: (
   'secondary': #242526,
   'erp': #18191a,
   'input': #3a3b3c,
+  'all-white': #ffffff,
+  'all-dark': #242526,
 );
 
 $erp-text-dark: (
   'dark': #d9d9d9,
   'secondary': #9d9d9d,
+  'primary-1': #810019,
   'primary': #c98986,
 );
 
@@ -47,7 +52,7 @@ html[data-bs-theme='erp-light'] {
   }
 
   @each $color, $value in $erp-text-light {
-    @include generateTextClass($color, value);
+    @include generateTextClass($color, $value);
   }
 
   // Form inputs bootstrap
@@ -56,7 +61,11 @@ html[data-bs-theme='erp-light'] {
     @extend .bg-input;
   }
 
-  body,input, textarea, select {
+  body,
+  input,
+  textarea,
+  select,
+  a {
     // Default color;
     color: map-get($erp-text-light, 'dark');
   }
@@ -72,7 +81,7 @@ html[data-bs-theme='erp-dark'] {
   }
 
   @each $color, $value in $erp-text-dark {
-    @include generateTextClass($color, value);
+    @include generateTextClass($color, $value);
   }
 
   // Default color;
@@ -84,8 +93,15 @@ html[data-bs-theme='erp-dark'] {
     @extend .bg-input;
   }
 
-  body,input, textarea, select {
+  body,
+  input,
+  textarea,
+  select,
+  a {
     // Default color;
     color: map-get($erp-text-dark, 'dark');
   }
+
+  // reset border in dark
+  --bs-border-color: #474747;
 }

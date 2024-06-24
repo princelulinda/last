@@ -10,6 +10,7 @@ interface reusableDataModel {
   publicServicesMerchantCategoryId: number;
   sentryDsn: string;
   sentryTraceRate: number;
+  appVersion: string;
   appDbVersion: number;
   activateHttpEncryption: boolean;
 }
@@ -32,17 +33,22 @@ export const environmentConfig: {
         theme: { name: 'ihela' },
       },
       {
-        name: 'newsfeed',
+        name: 'newsFeed',
         uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
         theme: { name: 'ihela' },
       },
       {
-        name: 'onlinebanking',
+        name: 'onlineBanking',
         uuid: '65231163-2099-45e3-95de-0bdfa5882088',
         theme: { name: 'ihela' },
       },
       {
-        name: 'marketplace',
+        name: 'onamob',
+        uuid: '65231163-2099-45e3-95de-0bdfa5882088',
+        theme: { name: 'ihela' },
+      },
+      {
+        name: 'marketPlace',
         uuid: '28544962-9f7a-4768-adad-66f336251822',
         theme: { name: 'ihela' },
       },
@@ -52,7 +58,7 @@ export const environmentConfig: {
         theme: { name: 'erp' },
       },
       {
-        name: 'systemadmin',
+        name: 'systemAdmin',
         uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
         theme: { name: 'magis' },
       },
@@ -63,6 +69,7 @@ export const environmentConfig: {
     publicServicesMerchantCategoryId: 1,
     sentryDsn: 'https://4808bd0c8a72e687fe9af699ab0a05d7@turabe.ihela.online/6',
     sentryTraceRate: 1.0,
+    appVersion: VERSION,
     appDbVersion: APPDBVERSION,
     activateHttpEncryption: false,
   },
@@ -96,6 +103,7 @@ export const environmentConfig: {
     publicServicesMerchantCategoryId: 3,
     sentryDsn: 'https://8343ed4cedf1ee0797427869307f4cc1@turabe.ihela.online/7',
     sentryTraceRate: 1.0,
+    appVersion: VERSION,
     appDbVersion: APPDBVERSION,
     activateHttpEncryption: true,
   },
