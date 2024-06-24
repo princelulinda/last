@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { ApiService } from '../api/api.service';
 import { DbService } from '../../db';
 import { UserApiResponse } from '../../db/models';
+import { ConfigService } from '../config/config.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,8 @@ import { UserApiResponse } from '../../db/models';
 export class AuthService {
   constructor(
     private apiService: ApiService,
-    private dbService: DbService
+    private dbService: DbService,
+    private configService: ConfigService
   ) {}
 
   login(login_data: {
@@ -74,11 +76,15 @@ export class AuthService {
   }
 
   logout() {
-    return this.apiService.post('/users/logout/').pipe(
-      map(data => {
-        return data;
-      })
-    );
+    this.apiService.post('/users/logout/').subscribe({
+      next: response => {
+        console.info('LOGOUT RETURN INFO ::', response);
+        this.configService.clearDB();
+      },
+      error: err => {
+        console.error('LOGOUT ERROR', err);
+      },
+    });
   }
 
   populateClient() {
