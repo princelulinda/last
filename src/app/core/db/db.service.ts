@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
+
+import { Subject } from 'rxjs';
 import { Dexie, liveQuery } from 'dexie';
+
 import { UserApiResponse } from './models';
 import { getAllMetadataKeys } from './models/base.model';
-import { Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../services/api/api.service';
 import 'reflect-metadata/lite';
-// import {
-//   getAllMetadataKeys,
-//   // getMetadataKeyForProperty,
-//   // getPropertiesForMetadataKey,
-// } from './models/base.model';
+import { ClientApiResponse } from './models/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -168,7 +166,7 @@ export class DbService {
     this.db.open();
     // console.log(" ============================== >>> CALLING FROM DB SERVICE");
 
-    // this.populate();
+    this.populate();
   }
 
   // addEvent(eventName: string, callback: Function) {
@@ -179,64 +177,72 @@ export class DbService {
     return liveQuery(() => querier);
   }
 
-  async populate() {
+  async populate(): Promise<void> {
     const localToken = this.apiService.getLocalToken();
     const dbUser = await this.getDbUser();
     console.log('DB USER CHECK : ', dbUser, localToken);
     // if (localToken && !dbUser) {
     if (localToken !== null) {
-      this.apiService.get('/client/user/populate/').subscribe(data => {
-        console.log('POPULATED USER USER : ', data);
-        const populateData = (
-          data as {
-            object: {
-              user: UserApiResponse;
-              client: {
-                client_full_name: string;
-                client_phone_number: string;
-                client_code: number;
-                has_pin: boolean;
+      this.apiService.get('/client/user/populate/').subscribe({
+        next: data => {
+          console.log('POPULATED USER USER : ', data);
+          const populateData = (
+            data as {
+              object: {
+                user: UserApiResponse;
+                client: ClientApiResponse;
               };
+            }
+          ).object;
+          console.log(
+            'POPULATED USER USER : ',
+            populateData,
+            ' DATA : ',
+            populateData.user,
+            populateData.client
+          );
+          const userInfo: { user: UserApiResponse; client: ClientApiResponse } =
+            {
+              user: {
+                username: populateData.user.username,
+                token: populateData.user.token,
+                fcm_data: {},
+                device_data: {},
+              },
+              client: {
+                id: populateData.client.id,
+                client_id: populateData.client.client_id,
+                client_code: populateData.client.client_code,
+                client_email: populateData.client.client_email,
+                client_full_name: populateData.client.client_full_name,
+                client_phone_number: populateData.client.client_phone_number,
+                client_type: populateData.client.client_type,
+                has_pin: populateData.client.has_pin,
+                is_agent: populateData.client.is_agent,
+                is_merchant: populateData.client.is_merchant,
+                is_partner_bank: populateData.client.is_partner_bank,
+                picture_url: populateData.client.picture_url,
+                prefered_language: populateData.client.prefered_language,
+              },
             };
-          }
-        ).object;
-        console.log(
-          'POPULATED USER USER : ',
-          populateData,
-          ' DATA : ',
-          populateData.user,
-          populateData.client
-        );
-        this.setUser({
-          username: populateData.user.username,
-          email: populateData.user.email,
-          full_name: populateData.client.client_full_name,
-          has_pin: populateData.client.has_pin,
-          ihela_code: populateData.client.client_code,
-          phone_number: populateData.client.client_phone_number,
-          token: populateData.user.token,
-          fcm_data: {},
-          device_data: {},
-        });
+          this.setUser(userInfo);
+        },
+        error: err => {
+          console.log(err);
+        },
       });
     }
   }
 
-  async setUser(data: UserApiResponse) {
-    if (data?.token !== null) {
-      this.apiService.setLocalToken(data.token);
-      await this.addOnce('users', {
-        username: data.username,
-        email: data.email,
-        fullName: data.full_name,
-        hasPin: data.has_pin,
-        ihelaCode: data.ihela_code,
-        phoneNumber: data.phone_number,
-        userToken: data.token,
-        fcmData: data.fcm_data,
-        deviceData: data.device_data,
-      });
+  async setUser(data: { user: UserApiResponse; client: ClientApiResponse }) {
+    if (data?.user.token !== null) {
+      this.setLocalStorageUserToken(data.user.token);
+      await this.addOnce('users', data);
     }
+  }
+
+  setLocalStorageUserToken(token: string) {
+    this.apiService.setLocalToken(token);
   }
 
   async getDbUser() {
@@ -249,7 +255,7 @@ export class DbService {
     }
   }
 
-  async getUser(): Promise<object> {
+  private async getUser(): Promise<object> {
     const localToken = this.apiService.getLocalToken();
     const user = await this.getDbUser();
 

@@ -24,9 +24,10 @@ export class AuthService {
       map(data => {
         const userData = (data as { user: UserApiResponse }).user;
         // TODO : Save user data to indexeddb and save token to localStorage
-        this.dbService.setUser(userData);
+        // this.dbService.setUser(userData);
+        this.dbService.setLocalStorageUserToken(userData.token);
 
-        console.log('LOGIN DATA SERVICE : ', data);
+        // console.log('LOGIN DATA SERVICE : ', data);
         return data;
       })
     );
@@ -34,7 +35,6 @@ export class AuthService {
 
   getAuthToken(): string | null {
     const localToken = this.apiService.getLocalToken();
-
     return localToken;
   }
 
@@ -46,11 +46,7 @@ export class AuthService {
   populate() {
     return this.apiService
       .get('/hr/access/operator/organizations/?populate=true')
-      .pipe(
-        map(data => {
-          return data;
-        })
-      );
+      .pipe(map(data => data));
   }
 
   getConnectedOperator() {

@@ -2,14 +2,27 @@ import { BaseModel, Field, UniqueField, MultiField } from '../base.model';
 
 export interface UserApiResponse {
   username: string;
-  email: string;
-  full_name: string;
-  has_pin: boolean;
-  ihela_code: number;
-  phone_number: string;
   token: string;
   fcm_data: object;
   device_data: object;
+}
+
+export type languageModel = 'en' | 'fr';
+
+export interface ClientApiResponse {
+  id: number;
+  client_id: number;
+  client_full_name: string;
+  client_phone_number: string;
+  client_type: string;
+  client_email: string;
+  client_code: number;
+  picture_url: string;
+  has_pin: boolean;
+  is_agent: boolean;
+  is_merchant: boolean;
+  is_partner_bank: boolean;
+  prefered_language: languageModel;
 }
 
 export class User extends BaseModel {
