@@ -4,6 +4,8 @@ import { map } from 'rxjs/operators';
 import { ApiService } from '../api/api.service';
 import { DbService } from '../../db';
 import { UserApiResponse } from '../../db/models';
+import { emailModule } from '../../../components/auth/auth.model';
+import { phoneNumberModule } from '../../../components/auth/auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -124,13 +126,18 @@ export class AuthService {
     );
   }
 
-  verifyEmail(email: string) {
-    const apiUrl = `/extid/verification/?externel_request=true&type=email&value=${email}`;
-    return this.apiService.get(apiUrl).pipe(map(data => data));
+  // verifyEmail(email: string) {
+  //   const apiUrl = `/extid/verification/?externel_request=true&type=email&value=${email}`;
+  //   return this.apiService.get(apiUrl).pipe(map(data => data));
+  // }
+
+  verifyEmail(email: string): Observable<{ object: emailModule[] }> {
+    const url = `/extid/verification/?externel_request=true&type=email&value=${email}`;
+    return this.apiService.get<{ object: emailModule[] }>(url);
   }
 
-  verifyPhoneNumber(tel: string) {
-    const apiUrl = `/extid/verification/?externel_request=true&type=phone_number&value=${tel}`;
-    return this.apiService.get(apiUrl).pipe(map(data => data));
+  verifyPhoneNumber(tel: string): Observable<{ object: phoneNumberModule[] }> {
+    const url = `/extid/verification/?externel_request=true&type=phone_number&value=${tel}`;
+    return this.apiService.get<{ object: phoneNumberModule[] }>(url);
   }
 }

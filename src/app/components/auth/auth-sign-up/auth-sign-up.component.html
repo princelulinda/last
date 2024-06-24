@@ -87,7 +87,7 @@
             <div class="row mb-3 mt-2">
                 <div class="col-md-6 ">
                     <div class="form-floating">
-                        <input i18n  type="text" class="form-control" id="number" placeholder="number" formControlName="number" 
+                        <input i18n  (focusout)="phoneNumverVerification()"  type="text" class="form-control" id="number" placeholder="number" formControlName="number" 
                         
                     >
                         <label class="fs-small" i18n for="number"><span>Phone number<code>*</code></span> </label>
@@ -104,12 +104,17 @@
                         Phone number verification
                     </span>
                       }
-                      
-                      
+
+                      <!-- @if(phoneNumberToVerify?.success ) {  <span
+                        class="text-danger"
+                        >Phone number already exists</span>
+                      } -->
+
+                   <span>{{phoneNumberToVerify?.success}}</span>
                 </div>
                 <div class="col-md-6">
                     <div class="form-floating ">
-                        <input i18n  type="email" class="form-control" id="email" placeholder="email" formControlName="email" >
+                        <input i18n (focusout)="EmailVerification()" type="email" class="form-control" id="email" placeholder="email" formControlName="email" >
                         <label class="fs-small" i18n for="email"><span>Email<code>*</code></span> </label>
                       </div>
                     

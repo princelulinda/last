@@ -3,11 +3,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PasswordFieldComponent } from '../../../global/password-field/password-field.component';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services';
-interface EmailVerificationResponse {
-  success: boolean;
-  message: string;
-  // Add any other relevant properties
-}
+import { emailModule, phoneNumberModule } from '../auth.model';
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,
@@ -164,36 +160,64 @@ export class AuthSignUpComponent {
       '';
   }
 
-  // PhoneNumberVerification() {
-  //     this.phoneNumberVerificationLoader = true;
-  //     const tel =
-  //         this.multiStepForm.controls.authentificationInformation?.value?.number || '';
-  //     this.authService.verifyPhoneNumber(tel).subscribe({
-  //         next: (data) => {
-  //             this.phoneNumberData = data;
-  //             this.phoneNumberVerificationLoader = false;
-  //         },
-  //         error: (error) => {
-  //             error;
-  //         },
-  //     });
-  // }
+  emailData: emailModule[] | [] | null = null;
+  EmailVerification() {
+    this.EmailVerificationloader = true;
+    const email =
+      this.multiStepForm.controls.authentificationInformation?.value?.email ||
+      '';
+    this.authService.verifyEmail(email).subscribe({
+      next: (response: { object: emailModule[] }) => {
+        this.EmailVerificationloader = false;
+        this.emailData = response.object;
+        console.log('Données sélectionnées', this.emailData);
+      },
+      error: (error: Error) =>
+        console.error('Erreur lors de la récupération de email:', error),
+    });
+  }
 
-  emailData: EmailVerificationResponse | null = null;
-
-  // EmailVerification() {
-  //   this.EmailVerificationloader = true;
-  //   const email =
-  //     this.multiStepForm.controls.authentificationInformation?.value?.email || '';
-  //   this.authService.verifyEmail(email).subscribe({
-  //     next: (data: EmailVerificationResponse) => {
-  //       this.emailData = data;
-  //       this.EmailVerificationloader = false;
+  // phoneNumberToVerify?: { success?:boolean; object?: phoneNumberModule[] } | null = null;
+  // phoneNumverVerification() {
+  //   this.phoneNumberVerificationLoader = true;
+  //   const tel = this.multiStepForm.controls.authentificationInformation?.value?.number || '';
+  //   this.authService.verifyPhoneNumber(tel).subscribe({
+  //     next: (response: {object: phoneNumberModule[] }) => {
+  //       this.phoneNumberVerificationLoader = false;
+  //       this.phoneNumberToVerify = {
+  //         success: response?.object,
+  //       };
+  //       console.log('Données sélectionnées', this.phoneNumberToVerify);
   //     },
-  //     error: (error) => {
-  //       this.EmailVerificationloader = false;
-  //       console.error(error);
-  //     },
+  //     error: (error: Error) =>
+  //       console.error('Erreur lors de la récupération du numero de telephone:', error),
   //   });
   // }
+  phoneNumberToVerify?: {
+    object?: phoneNumberModule[];
+    success?: phoneNumberModule[];
+  } | null = null;
+
+  phoneNumverVerification() {
+    this.phoneNumberVerificationLoader = true;
+    const tel =
+      this.multiStepForm.controls.authentificationInformation?.value?.number ||
+      '';
+    this.authService.verifyPhoneNumber(tel).subscribe({
+      next: response => {
+        this.phoneNumberVerificationLoader = false;
+        this.phoneNumberToVerify = {
+          object: response.object,
+        };
+        console.log('Données sélectionnées', this.phoneNumberToVerify);
+      },
+      error: (error: Error) => {
+        this.phoneNumberVerificationLoader = false;
+        console.error(
+          'Erreur lors de la récupération du numero de telephone:',
+          error
+        );
+      },
+    });
+  }
 }
