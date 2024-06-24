@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Observable } from 'rxjs';
-import { TontineModel } from '../../../components/saving/saving.model';
+import {
+  SuggestedTontinesModel,
+  TontineModel,
+} from '../../../components/saving/saving.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,5 +20,10 @@ export class SavingDetailService {
   getClientTontines(): Observable<{ objects: TontineModel[] }> {
     const url = '/tontines/list/?registered=true';
     return this.apiService.get<{ objects: TontineModel[] }>(url);
+  }
+
+  getSuggestedTontines(): Observable<{ objects: SuggestedTontinesModel[] }> {
+    const url = '/tontines/client/list/?not_registered=true';
+    return this.apiService.get<{ objects: SuggestedTontinesModel[] }>(url);
   }
 }

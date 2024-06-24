@@ -1,55 +1,265 @@
-<div class="rounded p-4 bg-secondary min-vh-75">
-    <div class="row mb-4" >
-        <div class="col-lg-12 col-md-12">
-            <span
-                role="button"
-                class="d-flex align-items-center back-md float-end"
-                
-            >
-                <i class="fa fa-arrow-left"></i>
-                <b class="ms-1">Back </b>
-            </span>
+<div class="sm-radius p-4 bg-secondary min-h  " >
+   
+  <!--  <div class="fs-large fw-bold text-secondary">
+        saving Clubs
+    </div>-->
+ <div class="d-flex flex-column justify-content-between min-h  " 
+ >
+  
+    <div>
+        <div class="row " >
+            <div class="col-lg-12 col-md-12">
+                <span
+                    role="button"
+                    class="d-flex align-items-center back-md float-end"
+                    
+                >
+                    <i class="fa fa-arrow-left"></i>
+                    <b class="ms-1">Back </b>
+                </span>
+            </div>
         </div>
-    </div>
-    <div class="row  mt-4">
-        @for ( tontine of selectedData  ; track $index) {
-            <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3">
-            <div class="bg-light rounded p-2 d-flex is-hoverable m-auto">
-               
-                <div class="d-flex justify-content-between">
-                    <div class="d-grid">
-                        <div class="fs-l-medium fw-bold">
-                            {{tontine.name}}
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div>
-                                <i
-                                        class="fa-solid fa-people-line fs-5 text-secondary"
-                                      
-                                    ></i>
-                            </div>
-                          <div class="d-flex align-items-center">
-                            <div class="fw-bold fs-medium">
-                                {{ tontine.members_count}}
-                            </div>
-                            <div class="fw-bold fs-medium">
-                                Members
-                            </div>
-                          </div>
-                        </div>
-                        <div class="fs-medium fw-bold">
-                            {{ tontine.short_description}}
-                        </div>
-                    </div>
-                    <div >
-                        <i
-                            class="fa-solid fa-people-line fs-2 text-primary"
-                                ></i>
+         <!--if your are member-->
+        
+
+            <div  class="d-flex justify-content-center mt-5 align-items-center">
+            <div class="d-flex justify-content-between col-8" >
+                <div class="d-flex flex-column align-items-center">
+                  <div class="">
+                    <span class=" me-2 fs-2 "
+                    ><i class="fa-solid fa-face-frown img-color " ></i></span>
+                  </div>
+                  <div class="fs-large fw-bold img-color">
+                    You are not registered in any club
+                  </div>
+                
+                    <div class=" bg-primary text-white w-25 p-2 sm-radius fw-bold fs-medium mt-3 d-flex justify-content-center"  
+                     (click)="switchMenu('allClubs')" role="button" tabindex="0">
+                        Add
+                </div>
+                </div>
+                <div class="border-r p-1">
+                    <div class="bg-secondary">
+                        hello
                     </div>
                 </div>
+             
+              
+                
             </div>
+            </div>
+        
+        <!--if your are member-->
+        <div class="row ">
+           <!-- @if (savingClub &&savingClub.length > 0 && suggestedTontines ){
+            @for ( tontine of savingClub  ; track $index) {
+                <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3">
+                <div class="bg-light rounded p-2 d-flex is-hoverable m-auto " role="button">
+                   
+                    <div class="d-flex justify-content-between">
+                        <div class="d-grid">
+                            <div class="fs-l-medium fw-bold">
+                                {{tontine.name}}
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div>
+                                    <i
+                                            class="fa-solid fa-people-line fs-5 text-secondary"
+                                          
+                                        ></i>
+                                </div>
+                              <div class="d-flex align-items-center">
+                                <div class="fw-bold fs-medium">
+                                    {{ tontine.members_count}}
+                                </div>
+                                <div class="fw-bold fs-medium">
+                                    Members
+                                </div>
+                              </div>
+                            </div>
+                            <div class="fs-medium fw-bold">
+                                {{ tontine.short_description}}
+                            </div>
+                        </div>
+                        <div >
+                            <i
+                                class="fa-solid fa-people-line fs-2 text-primary"
+                                    ></i>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>}}-->
+            @if (!savingClub ||!suggestedTontines) {
+            
+                
+                @for (_ of [1, 2, 3]; track $index){
+                    <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3">
+                    <app-skeleton
+                    [width]="'200px'"
+                    [height]="'90px'"
+                    classes="sm-radius">
+                  </app-skeleton>
+                </div>
+                }
+            
+            
+            }
+          <!--  @if(suggestedTontines && suggestedTontines.length>0 ){
+    
+                <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3">
+    
+                    <div class="bg-light rounded p-2 d-flex justify-content-center align-items-center py-3" role="button"(click)="switchMenu('allClubs')">
+                   
+                       <div class="d-grid">
+                        <div>
+                            <i
+                            class="fa-solid fa-people-line fs-2 text-secondary mt-1"
+                        ></i>
+                        </div>
+                        <div class="fs-l-medium fw-bold ">
+                            Add
+                        </div>
+                       </div>
+                       <div>
+                            <i
+                                class="fa-solid fa-plus fs-2 text-primary "
+                            ></i>
+                        
+                       </div>
+                    </div>   
+                    
+                </div>
+            }-->
+    
+        </div>
+       </div>
+      <div class="row">
+        <div class="fs-large fw-bold text-secondary ">
+            Club suggestion
+        </div>
+        @if (suggestedTontines && suggestedTontines.length>0 ) {
+            @for (suggestedTontines of suggestedTontines; track $index ) {
+             <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3 mt-4">
+                 <div class="bg-light rounded p-2 d-flex is-hoverable m-auto " role="button"  (click)="switchMenu('allClubs')" tabindex="0">
+                   <div class="d-flex  gap-4">
+                    <div>
+                        <i   class="fa-solid fa-people-line mt-3 text-secondary fs-2"
+                            ></i>
+                    </div>
+                    <div>
+                        <div class="d-grid">
+                            <div class="fs-l-medium fw-bold">
+                                {{suggestedTontines.name}}
+                            </div>
+                            <div>
+                                
+                              <div class="d-flex align-items-center">
+                                <div class="fw-bold fs-medium">
+                                    {{ suggestedTontines.members_count}}
+                                </div>
+                                <div class="fw-bold fs-medium">
+                                    Members
+                                </div>
+                              </div>
+                            </div>
+                            <div class="fs-small fw-bold">
+                                Entery:{{ suggestedTontines.membership_fees }} BIF
+                            </div>
+                        </div>  
+                    </div>
+                   </div>
+                 </div>
+     
+             </div>
+            } 
+     
+         }
 
-        </div>}
+         @if (!savingClub ||!suggestedTontines) {
+            
+                
+            @for (_ of [1, 2, 3]; track $index){
+                <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3 mt-4">
+                <app-skeleton
+                [width]="'200px'"
+                [height]="'90px'"
+                classes="sm-radius">
+              </app-skeleton>
+            </div>
+            }
+        
+        
+        }
+      </div>
+   
+ </div>
+    
 
-    </div>
+    @if (selected==='allClubs') {
+        <div class="row">
+            <div class="fs-large fw-bold text-secondary ">
+                Suggested Clubs 
+            </div>
+            @if (suggestedTontines && suggestedTontines.length>0 ) {
+
+              
+                @for (suggestedTontines of suggestedTontines; track $index ) {
+                 <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3 mt-4">
+                     <div class="bg-light rounded p-2 d-flex is-hoverable m-auto " role="button"routerLink="" [routerLink]="
+                     '/b/saving/adhesion/'+
+                     suggestedTontines.id 
+                    
+                 ">
+                       <div class="d-flex  gap-4">
+                        <div>
+                            <i   class="fa-solid fa-people-line mt-3 text-secondary fs-2"
+                                ></i>
+                        </div>
+                        <div>
+                            <div class="d-grid">
+                                <div class="fs-l-medium fw-bold">
+                                    {{suggestedTontines.name}}
+                                </div>
+                                <div>
+                                    
+                                  <div class="d-flex align-items-center">
+                                    <div class="fw-bold fs-medium">
+                                        {{ suggestedTontines.members_count}}
+                                    </div>
+                                    <div class="fw-bold fs-medium">
+                                        Members
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="fs-small fw-bold">
+                                    Entery:{{ suggestedTontines.membership_fees }} BIF
+                                </div>
+                            </div>  
+                        </div>
+                       </div>
+                     </div>
+         
+                 </div>
+                } 
+         
+             }
+    
+             @if (!savingClub ||!suggestedTontines) {
+                
+                    
+                @for (_ of [1, 2, 3]; track $index){
+                    <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3 mt-4">
+                    <app-skeleton
+                    [width]="'200px'"
+                    [height]="'90px'"
+                    classes="sm-radius">
+                  </app-skeleton>
+                </div>
+                }
+            
+            
+            }
+          </div> 
+    }
     </div>
