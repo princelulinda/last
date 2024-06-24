@@ -1,48 +1,23 @@
 import {
   Component,
   OnInit,
-  Input,
   EventEmitter,
   Output,
   HostListener,
   OnDestroy,
 } from '@angular/core';
 
-// import { Select, Store } from '@ngxs/store';
-// import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-// import { Router } from '@angular/router';
-
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-// import {
-//     SwitchState,
-//     Switch,
-//     AuthState,
-//     SwitchThemeState,
-//     SwitchTheme,
-//     LogoutCorporate,
-//     OpenDialog,
-//     DialogState,
-//     CloseDialog,
-//     OpenConfirmDialog,
-//     OpenActionDialog,
-//     MenuState,
-//     SelectMarket,
-//     AmountState,
-//     displayAmount,
-//     Logout,
-// } from '../../..';
-import {} from // VariableService,
-// AuthService,
-// ThemeService,
-// MenuService,
-// GeneralService,
-'../../../core/services';
-// import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-plateform-icons.component';
+import {
+  ConfigService,
+  PlateformModel,
+  activeMainConfigModel,
+} from '../../../core/services';
+
 export interface organizationModel {
   company_type_code: string;
   institution_client: {
@@ -62,20 +37,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   // public variableService = inject(VariableService);
   // public themeService = inject(ThemeService);
-  showMenu = false;
-  @Input() onLoginPage = false;
-  plateform$!: Observable<string>;
-  plateform = 'workStation';
-  organization$!: Observable<organizationModel>;
+  // showMenu = false;
 
+  mainConfig$!: Observable<activeMainConfigModel>;
+  mainConfig!: activeMainConfigModel;
+
+  // organization$!: Observable<organizationModel>;
   organization!: organizationModel;
-  showUserInfo = false;
+
+  // showUserInfo = false;
   // userInfo$: Observable<any>;
 
   // eslint-disable-next-line
   userInfo: any;
-  // theme$: Observable<any>;
-  theme = '';
+
   // corporates$: Observable<any>;
 
   // eslint-disable-next-line
@@ -111,25 +86,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
   eyeShowed!: [];
   // eyeStatus$: Observable<any>;
 
-  constructor() {
-    // private generalService: GeneralService // private menuService: MenuService, // private authService: AuthService // private store: Store,
-    // this.plateform$.pipe(takeUntil(this.onDestroy$)).subscribe((plateform) => {
-    //     this.plateform = plateform;
-    // })
-    // this.plateform$ = this.store.select(SwitchState.GetPlateform);
-    // this.organization$ = this.store.select(AuthState.GetOrganization);
-    // this.userInfo$ = this.store.select(AuthState.GetUserInfo);
-    // this.clientInfo$ = this.store.select(AuthState.GetPopulateUser);
-    // this.theme$ = this.store.select(SwitchThemeState.GetTheme);
-    // this.corporates$ = this.store.select(AuthState.corporates);
-    // this.dialog$ = this.store.select(DialogState.GetDialog);
-    // this.operator$ = this.store.select(AuthState.GetOperator);
-    // this.eyeStatus$ = this.store.select(AmountState.isShowed);
+  constructor(private configService: ConfigService) {
+    this.mainConfig$ = this.configService.getMainConfig();
   }
 
   ngOnInit(): void {
     this.next = $localize`next`;
-    this.theme = $localize`theme`;
+    // this.theme = $localize`theme`;
+
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.mainConfig = configs;
+      },
+    });
 
     // if (this.generalService.isCurrentDateInChristMassPeriod()) {
     //     this.onlineBankingHeaderImage =
@@ -137,19 +106,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // } else {
     //     this.onlineBankingHeaderImage = '../../../assets/images/ihela3.png';
     // }
-
-    this.plateform$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((plateform: string) => {
-        this.plateform = plateform;
-        if (this.plateform === 'workStation') {
-          this.gridFill = '/assets/images/grid-fill-blue.svg';
-          this.lightModeImage = '/assets/images/light-icon.svg';
-        } else {
-          this.gridFill = '/assets/images/grid-fill.svg';
-          this.lightModeImage = '/assets/images/light-icon.svg';
-        }
-      });
 
     // this.eyeStatus$.subscribe({
     //     next: (status) => {
@@ -252,13 +208,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     console.log(event);
   }
 
-  doShowMenu() {
-    if (this.showMenu) {
-      this.showMenu = false;
-    } else {
-      this.showMenu = true;
-    }
-  }
+  // doShowMenu() {
+  //   if (this.showMenu) {
+  //     this.showMenu = false;
+  //   } else {
+  //     this.showMenu = true;
+  //   }
+  // }
 
   public ngOnDestroy(): void {
     this.onDestroy$.next();
@@ -269,118 +225,78 @@ export class HeaderComponent implements OnInit, OnDestroy {
   //     this.otherCorporates=corporate.
   // }
 
-  showPlateformMenu() {
-    if (this.showMenu) {
-      this.showMenu = false;
-    } else {
-      this.showMenu = true;
-      this.showUserInfo = false;
-      this.chatNotFoundPopup = false;
-      this.notificationNotFoundPopup = false;
-      this.showPlateformPopup = false;
-    }
-  }
+  // showPlateformMenu() {
+  //   if (this.showMenu) {
+  //     this.showMenu = false;
+  //   } else {
+  //     this.showMenu = true;
+  //     this.showUserInfo = false;
+  //     this.chatNotFoundPopup = false;
+  //     this.notificationNotFoundPopup = false;
+  //     this.showPlateformPopup = false;
+  //   }
+  // }
 
-  showPlateform() {
-    if (this.showPlateformPopup) {
-      this.showPlateformPopup = false;
-    } else {
-      this.showPlateformPopup = true;
-      this.showMenu = false;
-      this.showUserInfo = false;
-      this.chatNotFoundPopup = false;
-      this.notificationNotFoundPopup = false;
-    }
-  }
+  // showPlateform() {
+  //   if (this.showPlateformPopup) {
+  //     this.showPlateformPopup = false;
+  //   } else {
+  //     this.showPlateformPopup = true;
+  //     this.showMenu = false;
+  //     this.showUserInfo = false;
+  //     this.chatNotFoundPopup = false;
+  //     this.notificationNotFoundPopup = false;
+  //   }
+  // }
 
-  displayUserInfo() {
-    if (this.showUserInfo) {
-      this.showUserInfo = false;
-    } else {
-      this.showUserInfo = true;
-      this.chatNotFoundPopup = false;
-      this.notificationNotFoundPopup = false;
-      this.showMenu = false;
-      this.showPlateformPopup = false;
-    }
-  }
+  // displayUserInfo() {
+  //   if (this.showUserInfo) {
+  //     this.showUserInfo = false;
+  //   } else {
+  //     this.showUserInfo = true;
+  //     this.chatNotFoundPopup = false;
+  //     this.notificationNotFoundPopup = false;
+  //     this.showMenu = false;
+  //     this.showPlateformPopup = false;
+  //   }
+  // }
 
-  switchPlateform(plateform: string) {
-    if (this.plateform !== plateform) {
-      if (plateform === 'onamob') {
-        if (this.theme === 'light-mode' || this.theme === 'magis-light') {
-          // this.themeService.switchPlateform(
-          //     plateform,
-          //     'light-mode',
-          //     this.organization
-          // );
-        }
-        if (this.theme === 'dark-mode' || this.theme === 'magis-dark') {
-          // this.themeService.switchPlateform(
-          //     plateform,
-          //     'dark-mode',
-          //     this.organization
-          // );
-        }
-      } else if (plateform !== 'onamob') {
-        // this.themeService.switchPlateform(
-        //     plateform,
-        //     this.theme,
-        //     this.organization
-        // );
-      }
-
-      if (plateform === 'market') {
-        this.toggleMarket();
-      }
-    }
-  }
   toggleMarket() {
     // this.store.dispatch(new SelectMarket({ marketName: 'market' }));
   }
 
-  onToggle(): void {
-    if (this.plateform !== 'workStation') {
-      if (this.theme === 'dark-mode') {
-        // this.store.dispatch(new SwitchTheme({ theme: 'light-mode' }));
-      } else {
-        // this.store.dispatch(new SwitchTheme({ theme: 'dark-mode' }));
-      }
-    } else if (this.plateform === 'workStation') {
-      if (this.theme === 'magis-light') {
-        // this.store.dispatch(new SwitchTheme({ theme: 'magis-dark' }));
-      } else {
-        // this.store.dispatch(new SwitchTheme({ theme: 'magis-light' }));
-      }
-    }
+  switchMode() {
+    this.configService.switchMode();
+  }
+  switchPlateform(plateform: PlateformModel) {
+    this.configService.switchPlateform(plateform);
   }
 
   // logout() {
   //     this.store.dispatch(new Logout());
   // }
 
-  displayCorporatesSection() {
-    if (this.showCorporatesSection) {
-      this.showCorporatesSection = false;
-    } else {
-      this.showCorporatesSection = true;
-    }
-  }
+  // displayCorporatesSection() {
+  //   if (this.showCorporatesSection) {
+  //     this.showCorporatesSection = false;
+  //   } else {
+  //     this.showCorporatesSection = true;
+  //   }
+  // }
 
-  openModal() {
-    const data = {
-      title: '',
-      type: 'confirm',
-      message:
-        'This action will disconnect you in ' +
-        this.organization.institution_client.client_full_name +
-        '  Are you sure you want to Logout ?',
-      action: 'logoutCorporate',
-    };
-    console.log(data);
-    // this.store.dispatch(new OpenConfirmDialog(data));
-    // this.showSettingMenu = true;
-  }
+  // openModal() {
+  //   const data = {
+  //     title: '',
+  //     type: 'confirm',
+  //     message:
+  //       'This action will disconnect you in ' +
+  //       this.organization.institution_client.client_full_name +
+  //       '  Are you sure you want to Logout ?',
+  //     action: 'logoutCorporate',
+  //   };
+  //   // this.store.dispatch(new OpenConfirmDialog(data));
+  //   // this.showSettingMenu = true;
+  // }
   //corporate was any
   // eslint-disable-next-line
   switchCorporate(corporate: any) {
@@ -476,36 +392,36 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  // toggleAsideMenu(hidden?: boolean) {
-  //     this.menuService.toggleAsideMenu(hidden);
-  // }
-
-  toggleNotFoundPopup(action: string) {
-    switch (action) {
-      case 'notification':
-        if (this.notificationNotFoundPopup) {
-          this.notificationNotFoundPopup = false;
-        } else {
-          this.notificationNotFoundPopup = true;
-          this.showMenu = false;
-          this.showUserInfo = false;
-          this.chatNotFoundPopup = false;
-          this.showPlateformPopup = false;
-        }
-        break;
-      case 'chat':
-        if (this.chatNotFoundPopup) {
-          this.chatNotFoundPopup = false;
-        } else {
-          this.chatNotFoundPopup = true;
-          this.showMenu = false;
-          this.showUserInfo = false;
-          this.notificationNotFoundPopup = false;
-          this.showPlateformPopup = false;
-        }
-        break;
-    }
+  toggleAsideMenu() {
+    // this.menuService.toggleAsideMenu(hidden);
   }
+
+  // toggleNotFoundPopup(action: string) {
+  //   switch (action) {
+  //     case 'notification':
+  //       if (this.notificationNotFoundPopup) {
+  //         this.notificationNotFoundPopup = false;
+  //       } else {
+  //         this.notificationNotFoundPopup = true;
+  //         this.showMenu = false;
+  //         this.showUserInfo = false;
+  //         this.chatNotFoundPopup = false;
+  //         this.showPlateformPopup = false;
+  //       }
+  //       break;
+  //     case 'chat':
+  //       if (this.chatNotFoundPopup) {
+  //         this.chatNotFoundPopup = false;
+  //       } else {
+  //         this.chatNotFoundPopup = true;
+  //         this.showMenu = false;
+  //         this.showUserInfo = false;
+  //         this.notificationNotFoundPopup = false;
+  //         this.showPlateformPopup = false;
+  //       }
+  //       break;
+  //   }
+  // }
 
   // Get close event from not-found-page
   // getPopupEvent(event: any) {
