@@ -130,11 +130,10 @@
         <span type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <span
             *ngIf="
-              clientInfo ||
-              (clientInfo && clientInfo?.client && clientInfo?.client?.picture)
+              clientInfo
             ">
             <img
-              [src]="clientInfo?.client.picture"
+              [src]="clientInfo?.client?.picture ?? ''"
               class="image rounded-circle"
               alt="" />
           </span>

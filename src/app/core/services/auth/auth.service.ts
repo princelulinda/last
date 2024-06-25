@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { liveQuery } from 'dexie';
+
 import { ApiService } from '../api/api.service';
 import { DbService } from '../../db';
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
 import { UserInfoModel } from '../../db/models/auth';
-import { liveQuery } from 'dexie';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  //
-  userInfo$: Observable<UserInfoModel> | unknown;
+  private userInfo$: Observable<UserInfoModel> | unknown;
+  private userClientId$ = new Subject<number>();
+  private userId$ = new Subject<number>();
 
   constructor(
     private apiService: ApiService,
@@ -145,8 +148,26 @@ export class AuthService {
     return this.apiService.get(apiUrl).pipe(map(data => data));
   }
 
-  // METHOD FOR DATABASE DATA
+  // METHOD FOR USSER DATABASE DATA
   getUserInfo(): Observable<UserInfoModel> {
     return this.userInfo$ as Observable<UserInfoModel>;
+  }
+
+  getUserClientId(): Observable<number> {
+    this.getUserInfo().subscribe({
+      next: userInfo => {
+        this.userClientId$.next(userInfo.client.client_id);
+      },
+    });
+    return this.userClientId$;
+  }
+
+  getUserId(): Observable<number> {
+    this.getUserInfo().subscribe({
+      next: userInfo => {
+        this.userId$.next(userInfo.client.id);
+      },
+    });
+    return this.userId$;
   }
 }
