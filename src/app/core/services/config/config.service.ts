@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
+
+import { liveQuery } from 'dexie';
+import { Observable, Subject } from 'rxjs';
+
 import { DbService } from '../../db';
 import { MainConfig } from '../../db/models';
 import { environment } from '../../../../environments/environment';
-import { liveQuery } from 'dexie';
-import { Observable, Subject } from 'rxjs';
+
 import { ApiService } from '../api/api.service';
 
 export type ModeModel = 'light' | 'dark';
