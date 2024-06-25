@@ -103,14 +103,13 @@
   
                         Phone number verification
                     </span>
-                      }
-
-                      <!-- @if(phoneNumberToVerify?.success ) {  <span
-                        class="text-danger"
-                        >Phone number already exists</span>
-                      } -->
-
-                   <!-- <span>{{phoneNumberToVerify?.success.success}}</span> -->
+                  }
+                  @if(phoneNumberToVerify && phoneNumberToVerify.object.success ===true &&
+                  !phoneNumberVerificationLoader ) {  <span
+                    class="text-danger"
+                    >Phone number already exists</span>
+                  }
+                    
                 </div>
                 <div class="col-md-6">
                     <div class="form-floating ">
@@ -129,6 +128,11 @@
                         Email verification
                     </span>
                        }
+                       @if(emailToVerify && emailToVerify.object.success ===true &&
+                       !EmailVerificationloader ) {  <span
+                        class="text-danger"
+                        >email already exists</span>
+                      }
                       
                 </div>
             </div>
@@ -139,17 +143,19 @@
                 </div>
             </div>
             <div class="col mb-3">
-                <div class="form-floating">
-                    <app-password-field [Validator]="false" [required]="true"></app-password-field>
-                </div>
+              <div class="form-floating">
+                <app-password-field  [label]="true" (passwordValid)="onPasswordChange($event)"></app-password-field>
+              </div>
             </div>
             <div class="col">
               <div class="form-floating">
                 <input
                     class="form-control"
+                    [type]="passwordType"
                     formControlName="confirmPassword"
                     placeholder="Confirm Password"
                     id="confirmPassword"
+                    (keyup)="checkPasswordSimilarity()"
                 />
                 <label
                     for="confirmPassword"
@@ -158,16 +164,29 @@
                     >Confirm password<code class="me-1">*</code></label
                 >
 
-                <span
-                    
-                >
-                    <i
-                        
-                        class="fa-regular fa-eye-slash text-dark"
-                    ></i>
-                </span>
+                @if (showPassword) {
+
+                  <a  tabindex="0" role="button" (click)="changePasswordType()" ><i class="fa-regular fa-eye-slash text-dark"></i></a>
+                  
+                 }
+             
+             @if (!showPassword) {
+              <a  tabindex="0" role="button" (click)="changePasswordType() "> <i class="fa-regular fa-eye text-dark"></i></a>
+             }
                
             </div>
+            @if (!arePasswordsMatch && multiStepForm.controls
+            .authentificationInformation.value
+            .password !== '' &&
+            multiStepForm.controls
+            .authentificationInformation.value
+            .confirmPassword !== '') {
+              <span
+              class="text-danger"
+              i18n
+              >Password doesn't match</span>
+            }
+          
             </div>
          <div class="col">
           <button i18n type="button" class="btn mt-4 w-100 bg-primary lg-radius text-white p-3 fw-bold" (click)="submit()" [disabled]="
@@ -487,7 +506,11 @@
            <form  class="position-relative z-1" >
           <div class="row position-relative z-1">
               <div class="col d-flex justify-content-start align-items-center">
-                <div><span class="fw-bold fs-l-medium"></span> <br><span class="fs-normal"></span></div>
+                <div><span class="fs-normal">
+                  <span><span class="fw-bold fs-l-medium">Bibyento Bundi</span> <br>bibyengmail.com</span>
+                </span>
+
+                </div>
               </div>
               <div class="col d-flex justify-content-end">
                   <div class="rounded-circle border border-5 d-flex justify-content-center align-items-center">
@@ -538,7 +561,7 @@
               <span i18n class="fs-normal text-all-white">Chose one of the banks to create <br>
                 a bank account or click continue <br>
                 to create a wallet only.<br>
-                <!-- <button type="button" class="btn bg-primary fw-bold border border-white mt-4 text-all-white px-5" (click)="createAccount()">Continue</button> -->
+                <button type="button" class="btn bg-primary fw-bold border border-white mt-4 text-all-white px-5" (click)="createAccount()">Continue</button>
               </span>
             </span>
           </div>
@@ -561,23 +584,13 @@
         
           <form  class="position-relative z-1" >
            <div class="row position-relative z-1">
-            <div class="col d-flex align-items-center"><span>Bibyento Bundi <br>bibyengmail.com</span></div>
+            <div class="col d-flex align-items-center"><span class="fs-normal"><span class="fw-bold fs-l-medium">Bibyento Bundi</span> <br>bibyengmail.com</span></div>
             <div class="col d-flex justify-content-end">
                 <div class="rounded-circle border border-5 d-flex justify-content-center align-items-center">
                   <img src="/images/multi-secure.png" width="85" alt="">
                 </div>
             </div>
           </div> 
-          <div class="row position-relative z-1">
-            <div class="col d-flex justify-content-start align-items-center">
-              <div><span class="fw-bold fs-l-medium"></span> <br><span class="fs-normal"></span></div>
-            </div>
-            <div class="col d-flex justify-content-end">
-                <div class="rounded-circle border border-5 d-flex justify-content-center align-items-center">
-                  <img src="/images/multi-secure.png" width="85" alt="">
-                </div>
-            </div>
-          </div>
           <div class="col mt-4"><span class="fs-normal">Your customer code number is</span></div>
           <div class="col-md-4 mb-1">
             <hr>

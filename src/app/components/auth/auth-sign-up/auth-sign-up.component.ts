@@ -3,7 +3,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PasswordFieldComponent } from '../../../global/password-field/password-field.component';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services';
-import { emailModule, phoneNumberModule } from '../auth.model';
+import {
+  EmailVerificationResponse,
+  phoneNumberVerificaitonResponse,
+  createAccountResponse,
+} from '../auth.model';
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,
@@ -29,14 +33,10 @@ export class AuthSignUpComponent {
   EmailVerificationloader = false;
   phoneNumberVerificationLoader = false;
 
-  // userInfo: any = [];
-  // phoneNumberData:any;
-  // emailData:any;
-
   submit() {
     this.submitted = true;
     if (this.step === 5) {
-      // this.createAccount();
+      this.createAccount();
     }
     this.step = this.step + 1;
   }
@@ -76,76 +76,66 @@ export class AuthSignUpComponent {
       expiryDate: [''],
     }),
   });
+  userInfo!: createAccountResponse;
+  createAccount() {
+    this.isLoadingCreation = true;
 
-  // createAccount() {
-  //   this.isLoadingCreation = true;
+    const data = {
+      // creation_client: this.id,
+      // organization: this.bankId,
+      // picture: this.selectedImage,
+      email:
+        this.multiStepForm.controls.authentificationInformation.value.email,
+      username:
+        this.multiStepForm.controls.authentificationInformation.value.username,
+      password:
+        this.multiStepForm.controls.authentificationInformation.value.password,
+      password2:
+        this.multiStepForm.controls.authentificationInformation.value
+          .confirmPassword,
+      firstname: this.multiStepForm.controls.personalInformation.value.fname,
+      lastname: this.multiStepForm.controls.personalInformation.value.lname,
+      birthday: this.multiStepForm.controls.personalInformation.value.birthday,
+      // birth_place:
+      //     this.multistep.controls.personalInformation.value.birthPlace,
+      sex: this.multiStepForm.controls.personalInformation.value.gender,
+      marital_status:
+        this.multiStepForm.controls.personalInformation.value.martialStatus,
+      telephones:
+        this.multiStepForm.controls.authentificationInformation.value.number,
+      card_id: {
+        card_id_type:
+          this.multiStepForm.controls.cardInformation.value.cardType,
+        other_card_type: '',
+        reference_number:
+          this.multiStepForm.controls.cardInformation.value.cardIdNumber,
+        place_of_issue:
+          this.multiStepForm.controls.cardInformation.value.deliveryPlace,
+        date_of_issue:
+          this.multiStepForm.controls.cardInformation.value.deliveryDate,
+      },
+      card_id_picture_recto: '',
+      card_id_picture_verso: '',
+      father_name: '',
+      mother_name: '',
+    };
+    // if (this.multiStepForm.controls.cardInformation.value.expiryDate !== '') {
+    //     data.card_id['expiry_date'] =
+    //         this.multiStepForm.controls.cardInformation.value.expiryDate;
+    // }
 
-  //     const data: any = {
-  //         // creation_client: this.id,
-  //         // organization: this.bankId,
+    this.authService.createAccount(data).subscribe({
+      next: response => {
+        this.isLoadingCreation = false;
+        this.userInfo = response;
 
-  //         // picture: this.selectedImage,
-  //         email: this.multiStepForm.controls.authentificationInformation.value
-  //             .email,
-  //         username:
-  //             this.multiStepForm.controls.authentificationInformation.value
-  //                 .username,
-  //         password:
-  //             this.multiStepForm.controls.authentificationInformation.value
-  //                 .password,
-  //         password2:
-  //             this.multiStepForm.controls.authentificationInformation.value
-  //                 .confirmPassword,
-  //         firstname: this.multiStepForm.controls.personalInformation.value.fname,
-  //         lastname: this.multiStepForm.controls.personalInformation.value.lname,
-  //         birthday:
-  //             this.multiStepForm.controls.personalInformation.value.birthday,
-  //         // birth_place:
-  //         //     this.multistep.controls.personalInformation.value.birthPlace,
-  //         sex: this.multiStepForm.controls.personalInformation.value.gender,
-  //         marital_status:
-  //             this.multiStepForm.controls.personalInformation.value.martialStatus,
-  //         telephones:
-  //             this.multiStepForm.controls.authentificationInformation.value
-  //                 .number,
-  //         card_id: {
-  //             card_id_type:
-  //                 this.multiStepForm.controls.cardInformation.value.cardType,
-  //             other_card_type: '',
-  //             reference_number:
-  //                 this.multiStepForm.controls.cardInformation.value.cardIdNumber,
-  //             place_of_issue:
-  //                 this.multiStepForm.controls.cardInformation.value.deliveryPlace,
-  //             date_of_issue:
-  //                 this.multiStepForm.controls.cardInformation.value.deliveryDate,
-  //         },
-  //         card_id_picture_recto: '',
-  //         card_id_picture_verso: '',
-  //         father_name: '',
-  //         mother_name: '',
-  //     };
-  //     if (this.multiStepForm.controls.cardInformation.value.expiryDate !== '') {
-  //         data.card_id['expiry_date'] =
-  //             this.multiStepForm.controls.cardInformation.value.expiryDate;
-  //     }
-
-  //     this.authService.createAccount(data).subscribe({
-  //         next: (response) => {
-  //             this.isLoadingCreation = false;
-  //             this.userInfo = response;
-  //             this.step = this.step = 5;
-  //         },
-  //         error: (error) => {
-  //             this.isLoadingCreation = false;
-  //             const data = {
-  //                 title: '',
-  //                 type: 'failed',
-  //                 message: 'Something went wrong, please retry again!',
-  //             };
-
-  //         },
-  //     });
-  // }
+        this.step = this.step = 5;
+      },
+      error: () => {
+        this.isLoadingCreation = false;
+      },
+    });
+  }
 
   getClientInfo() {
     this.firstName =
@@ -160,65 +150,66 @@ export class AuthSignUpComponent {
       '';
   }
 
-  emailData: emailModule[] | [] | null = null;
+  emailToVerify!: EmailVerificationResponse;
   EmailVerification() {
     this.EmailVerificationloader = true;
     const email =
       this.multiStepForm.controls.authentificationInformation?.value?.email ||
       '';
     this.authService.verifyEmail(email).subscribe({
-      next: (response: { object: emailModule[] }) => {
+      next: (response: EmailVerificationResponse) => {
         this.EmailVerificationloader = false;
-        this.emailData = response.object;
-        console.log('Données sélectionnées', this.emailData);
+        this.emailToVerify = response;
+        console.log('Données sélectionnées', this.emailToVerify);
       },
       error: (error: Error) =>
         console.error('Erreur lors de la récupération de email:', error),
     });
   }
 
-  // phoneNumberToVerify?: { success?:boolean; object?: phoneNumberModule[] } | null = null;
-  // phoneNumverVerification() {
-  //   this.phoneNumberVerificationLoader = true;
-  //   const tel = this.multiStepForm.controls.authentificationInformation?.value?.number || '';
-  //   this.authService.verifyPhoneNumber(tel).subscribe({
-  //     next: (response: {object: phoneNumberModule[] }) => {
-  //       this.phoneNumberVerificationLoader = false;
-  //       this.phoneNumberToVerify = {
-  //         success: response?.object,
-  //       };
-  //       console.log('Données sélectionnées', this.phoneNumberToVerify);
-  //     },
-  //     error: (error: Error) =>
-  //       console.error('Erreur lors de la récupération du numero de telephone:', error),
-  //   });
-  // }
-
-  phoneNumberToVerify: {
-    success?: phoneNumberModule[];
-    object?: phoneNumberModule[];
-  } | null = null;
-
+  phoneNumberToVerify!: phoneNumberVerificaitonResponse;
   phoneNumverVerification() {
     this.phoneNumberVerificationLoader = true;
     const tel =
       this.multiStepForm.controls.authentificationInformation?.value?.number ||
       '';
     this.authService.verifyPhoneNumber(tel).subscribe({
-      next: response => {
+      next: (response: phoneNumberVerificaitonResponse) => {
         this.phoneNumberVerificationLoader = false;
-        this.phoneNumberToVerify = {
-          success: response.object,
-        };
+        this.phoneNumberToVerify = response;
         console.log('Données sélectionnées', this.phoneNumberToVerify);
       },
-      error: (error: Error) => {
-        this.phoneNumberVerificationLoader = false;
-        console.error(
-          'Erreur lors de la récupération du numero de telephone:',
-          error
-        );
-      },
+      error: (error: Error) =>
+        console.error('Erreur lors de la récupération de email:', error),
     });
+  }
+
+  onPasswordChange(password: string) {
+    this.multiStepForm.controls.authentificationInformation.patchValue({
+      password,
+    });
+  }
+  showPassword = false;
+  passwordType = 'password';
+  changePasswordType() {
+    if (!this.showPassword) {
+      this.showPassword = true;
+      this.passwordType = 'text';
+    } else {
+      this.showPassword = false;
+      this.passwordType = 'password';
+    }
+  }
+  arePasswordsMatch = false;
+  checkPasswordSimilarity() {
+    if (
+      this.multiStepForm.controls.authentificationInformation.value.password !==
+      this.multiStepForm.controls.authentificationInformation.value
+        .confirmPassword
+    ) {
+      this.arePasswordsMatch = false;
+    } else {
+      this.arePasswordsMatch = true;
+    }
   }
 }

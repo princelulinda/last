@@ -4,8 +4,11 @@ import { map } from 'rxjs/operators';
 import { ApiService } from '../api/api.service';
 import { DbService } from '../../db';
 import { UserApiResponse } from '../../db/models';
-import { emailModule } from '../../../components/auth/auth.model';
-import { phoneNumberModule } from '../../../components/auth/auth.model';
+import {
+  EmailVerificationResponse,
+  createAccountResponse,
+} from '../../../components/auth/auth.model';
+import { phoneNumberVerificaitonResponse } from '../../../components/auth/auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -95,9 +98,12 @@ export class AuthService {
     );
   }
 
-  createAccount(body: object) {
+  createAccount(body: object): Observable<createAccountResponse> {
     const url = '/client/';
-    return this.apiService.post(url, body).pipe(map(response => response));
+    // return this.apiService.post(url, body).pipe(map(response => response));
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as createAccountResponse));
   }
 
   requestOTP(body: object) {
@@ -126,18 +132,13 @@ export class AuthService {
     );
   }
 
-  // verifyEmail(email: string) {
-  //   const apiUrl = `/extid/verification/?externel_request=true&type=email&value=${email}`;
-  //   return this.apiService.get(apiUrl).pipe(map(data => data));
-  // }
-
-  verifyEmail(email: string): Observable<{ object: emailModule[] }> {
+  verifyEmail(email: string): Observable<EmailVerificationResponse> {
     const url = `/extid/verification/?externel_request=true&type=email&value=${email}`;
-    return this.apiService.get<{ object: emailModule[] }>(url);
+    return this.apiService.get(url);
   }
 
-  verifyPhoneNumber(tel: string): Observable<{ object: phoneNumberModule[] }> {
+  verifyPhoneNumber(tel: string): Observable<phoneNumberVerificaitonResponse> {
     const url = `/extid/verification/?externel_request=true&type=phone_number&value=${tel}`;
-    return this.apiService.get<{ object: phoneNumberModule[] }>(url);
+    return this.apiService.get(url);
   }
 }

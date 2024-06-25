@@ -1,7 +1,32 @@
-export interface emailModule {
-  email: string;
+export interface EmailVerificationResponse {
+  object: {
+    success: boolean;
+    response_message: string;
+    response_code: string;
+    response_data: {
+      object: {
+        verification: boolean;
+      };
+    };
+  };
 }
-export interface phoneNumberModule {
-  success: boolean;
-  object?: phoneNumberModule[];
+
+export interface phoneNumberVerificaitonResponse {
+  object: {
+    success: boolean;
+    response_message: string;
+    response_code: string;
+    response_data: {
+      object: {
+        verification: boolean;
+      };
+    };
+  };
+}
+export interface createAccountResponse {
+  object: {
+    picture: string;
+    number: number;
+    email: string;
+  };
 }
