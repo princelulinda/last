@@ -3,20 +3,22 @@ import {
   OnInit,
   EventEmitter,
   Output,
-  HostListener,
   OnDestroy,
+  HostListener,
 } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { Observable, Subject } from 'rxjs';
+
 import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-plateform-icons.component';
 import {
+  AuthService,
   ConfigService,
   PlateformModel,
   activeMainConfigModel,
 } from '../../../core/services';
+import { UserInfoModel } from '../../../core/db/models/auth';
 
 export interface organizationModel {
   company_type_code: string;
@@ -86,8 +88,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   eyeShowed!: [];
   // eyeStatus$: Observable<any>;
 
-  constructor(private configService: ConfigService) {
+  userInfo$: Observable<UserInfoModel>;
+  clientId$: Observable<number>;
+
+  constructor(
+    private configService: ConfigService,
+    private authService: AuthService
+  ) {
     this.mainConfig$ = this.configService.getMainConfig();
+    this.userInfo$ = this.authService.getUserInfo();
+    this.clientId$ = this.authService.getUserClientId();
   }
 
   ngOnInit(): void {
@@ -97,6 +107,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
+      },
+    });
+
+    this.userInfo$.subscribe({
+      next: userinfo => {
+        console.log('OBSERVABLE POPULATE USER DATA ', userinfo);
+      },
+    });
+
+    this.clientId$.subscribe({
+      next: clientId => {
+        console.info('OBSERVABLE POPULATE CLIENT ID', clientId);
       },
     });
 

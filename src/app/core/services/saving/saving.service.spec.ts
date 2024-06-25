@@ -1,13 +1,17 @@
 import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { SavingService } from './saving.service';
+import { SavingDetailService } from './saving.service';
 
 describe('SavingService', () => {
-  let service: SavingService;
+  let service: SavingDetailService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(SavingService);
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    });
+    service = TestBed.inject(SavingDetailService);
   });
 
   it('should be created', () => {

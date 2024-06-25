@@ -3,6 +3,6 @@ module.exports = {
   roots: ['src'],
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   globalSetup: 'jest-preset-angular/global-setup',
-  testEnvironment: 'node',
+  // testEnvironment: 'node',
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/dist/'],
 };

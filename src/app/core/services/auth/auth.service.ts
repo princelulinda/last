@@ -1,20 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { liveQuery } from 'dexie';
+
 import { ApiService } from '../api/api.service';
 import { DbService } from '../../db';
-import { UserApiResponse } from '../../db/models';
 import { emailModule } from '../../../components/auth/auth.model';
 import { phoneNumberModule } from '../../../components/auth/auth.model';
+import { User, UserApiResponse } from '../../db/models';
+import { ConfigService } from '../config/config.service';
+import { UserInfoModel } from '../../db/models/auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private userInfo$: Observable<UserInfoModel> | unknown;
+  private userClientId$ = new Subject<number>();
+  private userId$ = new Subject<number>();
+
   constructor(
     private apiService: ApiService,
-    private dbService: DbService
-  ) {}
+    private dbService: DbService,
+    private configService: ConfigService
+  ) {
+    this.userInfo$ = liveQuery(() => this.dbService.getOnce(User.tableName));
+  }
 
   login(login_data: {
     username: string;
@@ -26,9 +38,12 @@ export class AuthService {
       map(data => {
         const userData = (data as { user: UserApiResponse }).user;
         // TODO : Save user data to indexeddb and save token to localStorage
-        this.dbService.setUser(userData);
+        // this.dbService.setUser(userData);
+        if (userData.token) {
+          this.dbService.setLocalStorageUserToken(userData.token);
+        }
 
-        console.log('LOGIN DATA SERVICE : ', data);
+        // console.log('LOGIN DATA SERVICE : ', data);
         return data;
       })
     );
@@ -36,7 +51,6 @@ export class AuthService {
 
   getAuthToken(): string | null {
     const localToken = this.apiService.getLocalToken();
-
     return localToken;
   }
 
@@ -48,11 +62,7 @@ export class AuthService {
   populate() {
     return this.apiService
       .get('/hr/access/operator/organizations/?populate=true')
-      .pipe(
-        map(data => {
-          return data;
-        })
-      );
+      .pipe(map(data => data));
   }
 
   getConnectedOperator() {
@@ -80,11 +90,15 @@ export class AuthService {
   }
 
   logout() {
-    return this.apiService.post('/users/logout/').pipe(
-      map(data => {
-        return data;
-      })
-    );
+    this.apiService.post('/users/logout/').subscribe({
+      next: response => {
+        console.info('LOGOUT RETURN INFO ::', response);
+        this.configService.clearDB();
+      },
+      error: err => {
+        console.error('LOGOUT ERROR', err);
+      },
+    });
   }
 
   populateClient() {
@@ -139,5 +153,28 @@ export class AuthService {
   verifyPhoneNumber(tel: string): Observable<{ object: phoneNumberModule[] }> {
     const url = `/extid/verification/?externel_request=true&type=phone_number&value=${tel}`;
     return this.apiService.get<{ object: phoneNumberModule[] }>(url);
+  }
+
+  // METHOD FOR USSER DATABASE DATA
+  getUserInfo(): Observable<UserInfoModel> {
+    return this.userInfo$ as Observable<UserInfoModel>;
+  }
+
+  getUserClientId(): Observable<number> {
+    this.getUserInfo().subscribe({
+      next: userInfo => {
+        this.userClientId$.next(userInfo.client.client_id);
+      },
+    });
+    return this.userClientId$;
+  }
+
+  getUserId(): Observable<number> {
+    this.getUserInfo().subscribe({
+      next: userInfo => {
+        this.userId$.next(userInfo.client.id);
+      },
+    });
+    return this.userId$;
   }
 }
