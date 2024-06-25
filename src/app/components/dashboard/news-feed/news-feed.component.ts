@@ -3,13 +3,13 @@ import { SkeletonComponent } from '../../../global/skeleton/skeleton.component';
 import { BillersModel } from '../dashboard.model';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-news-feed',
   standalone: true,
   imports: [SkeletonComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  templateUrl: './news-feed.component.html',
+  styleUrl: './news-feed.component.scss',
 })
-export class HomeComponent {
+export class NewsFeedComponent {
   countProductLoader = [1, 2, 3, 4];
   search = '';
 
