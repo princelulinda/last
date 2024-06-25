@@ -193,9 +193,10 @@ export class AuthSignUpComponent {
   //       console.error('Erreur lors de la récupération du numero de telephone:', error),
   //   });
   // }
-  phoneNumberToVerify?: {
-    object?: phoneNumberModule[];
+
+  phoneNumberToVerify: {
     success?: phoneNumberModule[];
+    object?: phoneNumberModule[];
   } | null = null;
 
   phoneNumverVerification() {
@@ -207,7 +208,7 @@ export class AuthSignUpComponent {
       next: response => {
         this.phoneNumberVerificationLoader = false;
         this.phoneNumberToVerify = {
-          object: response.object,
+          success: response.object,
         };
         console.log('Données sélectionnées', this.phoneNumberToVerify);
       },
