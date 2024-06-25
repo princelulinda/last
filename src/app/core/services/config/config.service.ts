@@ -3,7 +3,7 @@ import { DbService } from '../../db';
 import { MainConfig } from '../../db/models';
 import { environment } from '../../../../environments/environment';
 import { liveQuery } from 'dexie';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ApiService } from '../api/api.service';
 
 export type ModeModel = 'light' | 'dark';
@@ -27,8 +27,10 @@ export interface activeMainConfigModel {
 })
 export class ConfigService {
   activeMainConfig!: activeMainConfigModel;
-
   mainConfig$: unknown | Observable<activeMainConfigModel>;
+  actifPlateform = new Subject<PlateformModel>();
+  actifTheme = new Subject<ThemeModel>();
+  actifMode = new Subject<ModeModel>();
 
   constructor(
     private dbService: DbService,
@@ -50,6 +52,33 @@ export class ConfigService {
 
   getMainConfig(): Observable<activeMainConfigModel> {
     return this.mainConfig$ as Observable<activeMainConfigModel>;
+  }
+
+  getPlateform(): Observable<PlateformModel> {
+    this.getMainConfig().subscribe({
+      next: mainConfig => {
+        this.actifPlateform.next(mainConfig.activePlateform);
+      },
+    });
+    return this.actifPlateform;
+  }
+
+  getTheme(): Observable<ThemeModel> {
+    this.getMainConfig().subscribe({
+      next: mainConfig => {
+        this.actifTheme.next(mainConfig.activeTheme);
+      },
+    });
+    return this.actifTheme;
+  }
+
+  getMode(): Observable<ModeModel> {
+    this.getMainConfig().subscribe({
+      next: mainConfig => {
+        this.actifMode.next(mainConfig.activeMode);
+      },
+    });
+    return this.actifMode;
   }
 
   setMainConfig(payload: activeMainConfigModel) {
