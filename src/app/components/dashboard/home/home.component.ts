@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SkeletonComponent } from '../../../global/skeleton/skeleton.component';
+import { BillersModel } from '../dashboard.model';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,14 @@ export class HomeComponent {
   countProductLoader = [1, 2, 3, 4];
   search = '';
 
-  // billers: any;
+  billers: BillersModel[] | [] | null = null;
   billersLoading = true;
+
+  selectedBiller: BillersModel | null = null;
+
+  // constructor() {}
+
+  selectBiller(biller: BillersModel) {
+    this.selectedBiller = biller;
+  }
 }

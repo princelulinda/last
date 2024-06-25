@@ -56,11 +56,11 @@ export class ApiService {
     localStorage.clear();
   }
 
-  get(
+  get<T>(
     path: string,
     params: HttpParams = new HttpParams(),
     headers: HttpHeaders = new HttpHeaders()
-  ): Observable<object> {
+  ): Observable<T> {
     if (headers['lazyUpdate']) {
       this.headers = headers;
     }
@@ -70,7 +70,7 @@ export class ApiService {
         params: params,
         headers: this.headers,
       })
-      .pipe(catchError(this.formatErrors));
+      .pipe(catchError(this.formatErrors)) as Observable<T>;
   }
 
   patch(

@@ -9,6 +9,7 @@ import {
 import { AuthService } from '../../../core/services';
 import { FullpathService } from '../../../core/services';
 import { UserApiResponse } from '../../../core/db/models';
+import { DbService } from '../../../core/db';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private fullpathService: FullpathService
+    private fullpathService: FullpathService,
+    private dbService: DbService
   ) {}
 
   redirectToNext() {
@@ -64,14 +66,20 @@ export class LoginComponent implements OnInit {
           username: this.loginForm.value.username,
           password: this.loginForm.value.password,
         })
-        .subscribe(data => {
-          console.log('GOT LOGIN : ', data);
-          const userData = (data as { user: UserApiResponse }).user;
-          console.log('GOT LOGIN 2 : ', userData);
-          if (userData.token) {
-            console.log('GOT LOGIN 3 : ', userData);
-            this.redirectToNext();
-          }
+        .subscribe({
+          next: data => {
+            console.log('GOT LOGIN : ', data);
+            const userData = (data as { user: UserApiResponse }).user;
+            console.log('GOT LOGIN 2 : ', userData);
+            if (userData.token) {
+              console.log('GOT LOGIN 3 : ', userData);
+              // await this.dbService.populate();
+              this.redirectToNext();
+            }
+          },
+          error: err => {
+            console.error('LOGIN :: ERROR', err);
+          },
         });
     }
   }

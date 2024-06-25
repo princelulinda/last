@@ -18,8 +18,8 @@ export function clientInfoInterceptor(
   // Clone the request to add headers.
   const newReq = req.clone({
     headers: req.headers
-      .set('X-iHela-Access-Client-Id', '')
-      .set('X-iHela-Access-Bank-Id', '')
+      .set('X-iHela-Access-Client-Id', '16')
+      .set('X-iHela-Access-Bank-Id', '1')
       .set('X-iHela-AppSubject', appSubject)
       .set('X-iHela-AppInfo', environment.appInfo),
   });

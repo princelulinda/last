@@ -53,7 +53,109 @@
             <app-skeleton [height]="'100%'"></app-skeleton>
           </div>
         }
+        <!-- for responsive design -->
+        <div class="col-5 col-md-3"></div>
+        <div class="col-5 col-md-3"></div>
+      </div>
+    }
+
+    @if (!billersLoading) {
+      <div class="row justify-content-center mx-0" style="gap: 1rem">
+        @for (biller of billers; track $index) {
+          <div
+            class="col-5 col-md-3 border overflow-hidden lg-radius level-2 clickable d-flex flex-column flex-sm-row p-2 justify-content-center align-items-center justify-content-sm-start"
+            style="min-height: 73px"
+            data-bs-toggle="modal"
+            data-bs-target="#biller"
+            tabindex="0"
+            (click)="selectBiller(biller)">
+            <div
+              class="col-sm-4 d-flex align-items-center justify-content-center text-dark">
+              @if (biller.lookup_image) {
+                <img
+                  src="{{ biller.lookup_image }}"
+                  class="img-fluid w-100"
+                  alt="Biller Logo"
+                  style="object-fit: cover; max-height: 65px" />
+              }
+              @if (!biller.lookup_image) {
+                <span class="fs-1">
+                  <i class="fa-solid fa-shop"></i>
+                </span>
+              }
+            </div>
+            <div
+              class="fw-bold d-flex align-items-center mt-1 mt-sm-0 ms-sm-2 text-center text-sm-start text-dark"
+              style="font-size: 1.125rem">
+              {{ biller.lookup_title }}
+            </div>
+          </div>
+        }
+
+        <!-- for responsive design -->
+        <div class="col-5 col-md-3"></div>
+        <div class="col-5 col-md-3"></div>
       </div>
     }
   </section>
 </section>
+
+<main class="d-flex me-2" style="gap: 0 1rem">
+  <!-- posts section -->
+  <section
+    id="postsSection"
+    class="mx-auto row overflow-hidden w-80 md-w-60"
+    style="gap: 2rem 0">
+    <!-- section unvailable -->
+    <div
+      class="unvailable lg-radius shadow level-1 d-flex flex-column col-md-10 mx-auto"
+      style="height: max-content">
+      <div class="header d-flex align-items-center mx-4 my-2">
+        <div
+          class="profil rounded-circle dflex align-items-center justify-content-center"></div>
+      </div>
+      <div
+        class="product-body bg-secondary d-flex flex-column justify-content-center align-items-center p-2 sm-radius">
+        <span class="fz-emoji text-gray" style="opacity: 0.4">
+          <i class="fa-solid fa-face-meh"></i>
+        </span>
+        <span
+          class="fw-bold text-center d-flex flex-column fs-4 text-dark"
+          style="opacity: 0.7">
+          <b i18n>This section is unavailable at</b>
+          <b i18n>this moment</b>
+        </span>
+      </div>
+      <div class="footer mt-3">
+        <div class="d-flex flex-column mx-3">
+          <span
+            class="rounded-pill d-block mb-2"
+            style="width: 85%; height: 10px"></span>
+          <span
+            class="rounded-pill d-block"
+            style="width: 70%; height: 10px"></span>
+        </div>
+        <div class="footer mt-3">
+          <div class="d-flex flex-column mx-3">
+            <span
+              class="rounded-pill d-block mb-2"
+              style="width: 85%; height: 10px"></span>
+            <span
+              class="rounded-pill d-block mb-2"
+              style="width: 70%; height: 10px"></span>
+          </div>
+          <div style="flex-grow: 1" class="text-center mt-3">
+            <div
+              class="icons border-top border-2 d-inline-block fs-2 pt-2 text-gray">
+              <span class="me-5"><i class="fa-solid fa-heart"></i></span>
+              <span class="mx-4"
+                ><i class="fa-solid fa-cart-shopping"></i
+              ></span>
+              <span class="ms-5"><i class="fa-solid fa-share"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-
 import { SkeletonComponent } from '../../../../global/skeleton/skeleton.component';
+
 @Component({
   selector: 'app-aside-bar',
   standalone: true,
