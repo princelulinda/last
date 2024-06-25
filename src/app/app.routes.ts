@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { NoAuthGuard, AuthGuard } from './core/guards';
-import { routes as authRoutes } from './components/auth/auth.routes';
+import { AuthRoutes } from './components/auth/auth.routes';
 import { Notfound400Component } from './components/errors/notfound-400/notfound-400.component';
 import { BankingComponent } from './components/layouts/banking/banking.component';
 import { bankingRoutes } from './routes/banking/banking.routes';
@@ -13,7 +13,7 @@ export const routes: Routes = [
   {
     path: '',
     canActivate: [NoAuthGuard],
-    children: authRoutes,
+    children: AuthRoutes,
   },
 
   // banking Routes
