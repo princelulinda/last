@@ -158,4 +158,59 @@
       </div>
     </div>
   </section>
+
+  <!-- announcements section -->
+  <section class="d-none d-md-block announcements" style="width: 40%">
+    <section>
+      <div class="text-center mb-3">
+        <span class="fw-bold text-dark" i18n>Announcements</span>
+      </div>
+      <div class="row mx-0" style="gap: 2rem 0">
+        <div class="shadow mx-auto announce-box bg-secondary sm-radius py-1">
+          <span class="fw-bold fs-5 text-dark" i18n> ONAMOB / IHELA </span>
+        </div>
+        <div
+          class="shadow mx-auto announce-box sm-radius bg-secondary d-flex assurnace-box pe-0 position-relative">
+          <div
+            class="h-100 d-flex align-items-center flex-column justify-content-center"
+            style="z-index: 3">
+            <span class="fw-bold fs-5 mb-4 text-dark" i18n
+              >Insure your home</span
+            >
+            <button
+              class="btn bg-primary text-light fw-bold px-3 me-3 py-1 disabled"
+              i18n>
+              More
+            </button>
+          </div>
+          <div class="box_parent">
+            <div class="image">
+              <img
+                src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG91c2UlMjBhc3N1cmFuY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+                alt="" />
+            </div>
+            <svg class="flt-svg" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <filter id="flt_tag">
+                  <feGaussianBlur
+                    in="SourceGraphic"
+                    stdDeviation="6"
+                    result="blur" />
+                  <feColorMatrix
+                    in="blur"
+                    mode="matrix"
+                    values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
+                    result="flt_tag" />
+                  <feComposite
+                    in="SourceGraphic"
+                    in2="flt_tag"
+                    operator="atop" />
+                </filter>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
 </main>
