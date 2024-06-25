@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { Observable } from 'rxjs';
-import { ConfigService, activeMainConfigModel } from '../../../core/services';
+import { ConfigService } from '../../../core/services';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -11,22 +10,11 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './auth-header.component.html',
   styleUrl: './auth-header.component.scss',
 })
-export class AuthHeaderComponent implements OnInit {
-  config$: Observable<activeMainConfigModel>;
-  config!: activeMainConfigModel;
-
+export class AuthHeaderComponent {
   isProduction: boolean = environment.production;
   appVersion: string | number = environment.appVersion;
 
-  constructor(private configService: ConfigService) {
-    this.config$ = this.configService.getMainConfig();
-  }
-
-  ngOnInit() {
-    this.config$.subscribe((response: activeMainConfigModel) => {
-      console.log('Observable Data Main Config', response);
-    });
-  }
+  constructor(private configService: ConfigService) {}
 
   switchMode() {
     this.configService.switchMode();

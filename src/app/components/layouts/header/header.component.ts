@@ -91,6 +91,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // eyeStatus$: Observable<any>;
 
   userInfo$: Observable<UserInfoModel>;
+  clientId$: Observable<number>;
 
   constructor(
     private configService: ConfigService,
@@ -98,6 +99,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.userInfo$ = this.authService.getUserInfo();
+    this.clientId$ = this.authService.getUserClientId();
   }
 
   ngOnInit(): void {
@@ -112,7 +114,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.userInfo$.subscribe({
       next: userinfo => {
-        console.log('SALUT LES GENS ', userinfo);
+        console.log('OBSERVABLE POPULATE USER DATA ', userinfo);
+      },
+    });
+
+    this.clientId$.subscribe({
+      next: clientId => {
+        console.info('OBSERVABLE POPULATE CLIENT ID', clientId);
       },
     });
 
