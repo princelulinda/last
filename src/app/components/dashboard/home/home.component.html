@@ -1,1 +1,59 @@
-<p>home works!</p>
+<!-- mobile section -->
+<section class="d-lg-none mb-5">
+  <!-- plateform cards -->
+  <div class="row justify-content-center mx-0" style="gap: 1rem">
+    <div
+      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center clickable text-dark">
+      <div class="icon mb-2" style="width: 45px; height: 60px">
+        <img
+          src="/public/images/ihela-b.svg"
+          alt="ihela logo"
+          class="img-fluid w-100" />
+      </div>
+      <b i18n>Manage your account</b>
+    </div>
+    <div
+      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center clickable text-dark">
+      <div class="icon mb-2 text-magis" style="font-size: 2.5rem">
+        <i class="fa-solid fa-desktop"></i>
+      </div>
+      <b i18n>Manage your Company</b>
+    </div>
+    <div
+      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center clickable text-dark">
+      <div class="icon text-success mb-2" style="font-size: 2.5rem">
+        <i class="fa-solid fa-cart-shopping"></i>
+      </div>
+      <b i18n>Market Place</b>
+    </div>
+    <div
+      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center clickable text-dark"
+      routerLink="/h/home/chat">
+      <div class="icon text-info mb-2" style="font-size: 2.5rem">
+        <i class="fa-regular fa-comments"></i>
+      </div>
+      <b i18n>Chat</b>
+    </div>
+
+    <!-- for responsive design -->
+    <div class="col-5 col-md-3"></div>
+    <div class="col-5 col-md-3"></div>
+  </div>
+
+  <section class="mt-5">
+    <div class="col-10 col-md-9 mb-3 fs-5 text-gray mx-auto">
+      <b class="text-dark">Ours Billers</b>
+    </div>
+
+    <!-- biller skeleton loader -->
+    @if (billersLoading) {
+      <div class="row justify-content-center mx-0" style="gap: 1rem">
+        @for (item of countProductLoader; track $index) {
+          <div class="col-5 col-md-3 lg-radius" style="height: 73px">
+            <app-skeleton [height]="'100%'"></app-skeleton>
+          </div>
+        }
+      </div>
+    }
+  </section>
+</section>

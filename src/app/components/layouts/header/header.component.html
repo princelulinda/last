@@ -493,7 +493,9 @@
                 (click)="('ne')"
                 (keyup.enter)="switchPlateform('newsFeed')"
                 tabindex="0">
-                <div class="d-flex justify-content-center">
+                <div
+                  class="d-flex justify-content-center"
+                  routerLink="/b/dashboard">
                   <span
                     [ngClass]="{
                       'text-primary': mainConfig.activePlateform === 'newsFeed',

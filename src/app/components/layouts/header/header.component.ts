@@ -17,6 +17,7 @@ import {
   PlateformModel,
   activeMainConfigModel,
 } from '../../../core/services';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 export interface organizationModel {
   company_type_code: string;
@@ -29,7 +30,13 @@ export interface organizationModel {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SwitchPlateformIconsComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    SwitchPlateformIconsComponent,
+    RouterLink,
+    RouterLinkActive,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
