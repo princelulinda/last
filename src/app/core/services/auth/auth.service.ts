@@ -7,11 +7,12 @@ import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
 import { UserInfoModel } from '../../db/models/auth';
 import { liveQuery } from 'dexie';
+import { AutoUnsubscribe } from '../../../base-components/base-classes/auto-unsubscribe';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService extends AutoUnsubscribe {
   //
   private userInfo$: Observable<UserInfoModel> | unknown;
   private userClientId$ = new Subject<number>();
@@ -22,6 +23,7 @@ export class AuthService {
     private dbService: DbService,
     private configService: ConfigService
   ) {
+    super();
     this.userInfo$ = liveQuery(() => this.dbService.getOnce(User.tableName));
   }
 
@@ -153,20 +155,24 @@ export class AuthService {
   }
 
   getUserClientId(): Observable<number> {
-    this.getUserInfo().subscribe({
-      next: userInfo => {
-        this.userClientId$.next(userInfo.client.client_id);
-      },
-    });
+    this.getUserInfo()
+      .pipe(this.autoUnsubscribe())
+      .subscribe({
+        next: userInfo => {
+          this.userClientId$.next(userInfo.client.client_id);
+        },
+      });
     return this.userClientId$;
   }
 
   getUserId(): Observable<number> {
-    this.getUserInfo().subscribe({
-      next: userInfo => {
-        this.userId$.next(userInfo.client.id);
-      },
-    });
+    this.getUserInfo()
+      .pipe(this.autoUnsubscribe())
+      .subscribe({
+        next: userInfo => {
+          this.userId$.next(userInfo.client.id);
+        },
+      });
     return this.userId$;
   }
 }
