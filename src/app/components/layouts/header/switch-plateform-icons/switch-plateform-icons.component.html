@@ -13,14 +13,7 @@
             mainConfig.activePlateform === 'newsFeed' ||
             'onlineBanking' ||
             ('market' && mainConfig.activePlateform !== plateF.plateform),
-          'text-all-dark':
-            mainConfig.activePlateform === 'workstation' &&
-            mainConfig.activePlateform !== plateF.plateform &&
-            mainConfig.activeMode === 'light',
-          'text-all-white':
-            mainConfig.activePlateform === 'workstation' &&
-            mainConfig.activePlateform !== plateF.plateform &&
-            mainConfig.activeMode === 'dark',
+          'text-dark': mainConfig.activePlateform === 'workstation',
           'text-primary-1 bg-all-white':
             mainConfig.activePlateform === plateF.plateform,
         }"

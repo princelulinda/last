@@ -2,19 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { BankingComponent } from './banking.component';
+import { SavingClubComponent } from './saving-club.component';
 
-describe('BankingComponent', () => {
-  let component: BankingComponent;
-  let fixture: ComponentFixture<BankingComponent>;
+describe('SavingClubComponent', () => {
+  let component: SavingClubComponent;
+  let fixture: ComponentFixture<SavingClubComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BankingComponent],
+      imports: [SavingClubComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BankingComponent);
+    fixture = TestBed.createComponent(SavingClubComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
