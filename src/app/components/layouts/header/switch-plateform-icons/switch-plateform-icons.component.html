@@ -4,6 +4,7 @@
     class="d-flex justify-content-around justify-content-lg-start align-items-center h-100">
     @for (plateF of plateforms; track $index) {
       <a
+        [routerLink]="plateF.link"
         (click)="switchPlateform(plateF.plateform)"
         tabindex="0"
         class="d-block p-2 px-5 sm-radius clickable mx-4 h-100"

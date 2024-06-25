@@ -15,7 +15,7 @@ export type PlateformModel =
   | 'onamob'
   | 'marketPlace'
   | 'workstation'
-  | 'amin';
+  | 'admin';
 export interface activeMainConfigModel {
   activeMode: ModeModel;
   activeTheme: ThemeModel;
