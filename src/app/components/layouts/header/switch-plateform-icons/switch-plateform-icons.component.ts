@@ -6,11 +6,12 @@ import {
   PlateformModel,
   activeMainConfigModel,
 } from '../../../../core/services';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-switch-plateform-icons',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './switch-plateform-icons.component.html',
   styleUrl: './switch-plateform-icons.component.scss',
 })
@@ -28,6 +29,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
     image: string;
     icon: string;
     is_selected: boolean;
+    link: string;
   }[] = [
     {
       plateform: 'newsFeed',
@@ -35,6 +37,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       image: '',
       icon: 'fa-solid fa-house-chimney-user fa-xl',
       is_selected: true,
+      link: '/n',
     },
     {
       plateform: 'onlineBanking',
@@ -42,6 +45,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       icon: '',
       image: '',
       is_selected: false,
+      link: '/b',
     },
     {
       plateform: 'onamob',
@@ -49,6 +53,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       image: '',
       icon: 'fa-solid fa-mobile-screen-button fa-xl',
       is_selected: false,
+      link: '/o',
     },
     {
       plateform: 'marketPlace',
@@ -56,6 +61,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       image: '',
       icon: 'fa-solid fa-cart-shopping fa-xl',
       is_selected: false,
+      link: '/m',
     },
     {
       plateform: 'workstation',
@@ -63,6 +69,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       image: '',
       icon: 'fa-solid fa-desktop fa-xl',
       is_selected: false,
+      link: '/w',
     },
   ];
 
