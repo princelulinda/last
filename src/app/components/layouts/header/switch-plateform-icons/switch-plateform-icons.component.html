@@ -8,6 +8,9 @@
         tabindex="0"
         class="d-block p-2 px-5 sm-radius clickable mx-4 h-100"
         [ngClass]="{
+          'text-all-white':
+            mainConfig.activePlateform !== 'workstation' &&
+            mainConfig.activePlateform !== plateF.plateform,
           'bg-hover-primary-2': mainConfig.activePlateform !== plateF.plateform,
           'text-primary-1':
             mainConfig.activePlateform === 'newsFeed' ||
