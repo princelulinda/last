@@ -3,16 +3,25 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiService } from '../api/api.service';
 import { DbService } from '../../db';
-import { UserApiResponse } from '../../db/models';
+import { User, UserApiResponse } from '../../db/models';
+import { ConfigService } from '../config/config.service';
+import { UserInfoModel } from '../../db/models/auth';
+import { liveQuery } from 'dexie';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  //
+  userInfo$: Observable<UserInfoModel> | unknown;
+
   constructor(
     private apiService: ApiService,
-    private dbService: DbService
-  ) {}
+    private dbService: DbService,
+    private configService: ConfigService
+  ) {
+    this.userInfo$ = liveQuery(() => this.dbService.getOnce(User.tableName));
+  }
 
   login(login_data: {
     username: string;
@@ -24,9 +33,12 @@ export class AuthService {
       map(data => {
         const userData = (data as { user: UserApiResponse }).user;
         // TODO : Save user data to indexeddb and save token to localStorage
-        this.dbService.setUser(userData);
+        // this.dbService.setUser(userData);
+        if (userData.token) {
+          this.dbService.setLocalStorageUserToken(userData.token);
+        }
 
-        console.log('LOGIN DATA SERVICE : ', data);
+        // console.log('LOGIN DATA SERVICE : ', data);
         return data;
       })
     );
@@ -34,7 +46,6 @@ export class AuthService {
 
   getAuthToken(): string | null {
     const localToken = this.apiService.getLocalToken();
-
     return localToken;
   }
 
@@ -46,11 +57,7 @@ export class AuthService {
   populate() {
     return this.apiService
       .get('/hr/access/operator/organizations/?populate=true')
-      .pipe(
-        map(data => {
-          return data;
-        })
-      );
+      .pipe(map(data => data));
   }
 
   getConnectedOperator() {
@@ -78,11 +85,15 @@ export class AuthService {
   }
 
   logout() {
-    return this.apiService.post('/users/logout/').pipe(
-      map(data => {
-        return data;
-      })
-    );
+    this.apiService.post('/users/logout/').subscribe({
+      next: response => {
+        console.info('LOGOUT RETURN INFO ::', response);
+        this.configService.clearDB();
+      },
+      error: err => {
+        console.error('LOGOUT ERROR', err);
+      },
+    });
   }
 
   populateClient() {
@@ -132,5 +143,10 @@ export class AuthService {
   verifyPhoneNumber(tel: string) {
     const apiUrl = `/extid/verification/?externel_request=true&type=phone_number&value=${tel}`;
     return this.apiService.get(apiUrl).pipe(map(data => data));
+  }
+
+  // METHOD FOR DATABASE DATA
+  getUserInfo(): Observable<UserInfoModel> {
+    return this.userInfo$ as Observable<UserInfoModel>;
   }
 }

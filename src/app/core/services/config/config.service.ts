@@ -4,6 +4,7 @@ import { MainConfig } from '../../db/models';
 import { environment } from '../../../../environments/environment';
 import { liveQuery } from 'dexie';
 import { Observable } from 'rxjs';
+import { ApiService } from '../api/api.service';
 
 export type ModeModel = 'light' | 'dark';
 export type ThemeModel = 'ihela' | 'magis';
@@ -29,7 +30,10 @@ export class ConfigService {
 
   mainConfig$: unknown | Observable<activeMainConfigModel>;
 
-  constructor(private dbService: DbService) {
+  constructor(
+    private dbService: DbService,
+    private apiService: ApiService
+  ) {
     if (MainConfig) {
       this.mainConfig$ = liveQuery(() =>
         this.dbService.getOnce(MainConfig.tableName)
@@ -101,6 +105,14 @@ export class ConfigService {
       console.log(`INITIALIZING ALL CONFIG FOR DB READY ${value}`);
       initFn();
     });
+  }
+
+  clearDB() {
+    this.apiService.clearLocalData();
+    // DELETE DATABASE
+    this.dbService.db.delete();
+    this.dbService.initializeModels();
+    this.initAll();
   }
 
   private setHtmlMode(newTheme: ThemeModel, newMode: ModeModel) {
