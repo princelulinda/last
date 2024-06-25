@@ -2,12 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import {
-  AuthService,
   ConfigService,
   PlateformModel,
   activeMainConfigModel,
 } from '../../../../core/services';
-import { UserInfoModel } from '../../../../core/db/models/auth';
 
 @Component({
   selector: 'app-switch-plateform-icons',
@@ -68,22 +66,11 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
     },
   ];
 
-  userInfo$: Observable<UserInfoModel>;
-
-  constructor(
-    private configService: ConfigService,
-    private authService: AuthService
-  ) {
+  constructor(private configService: ConfigService) {
     this.mainConfig$ = this.configService.getMainConfig();
-    this.userInfo$ = this.authService.getUserInfo();
   }
 
   ngOnInit() {
-    this.userInfo$.subscribe({
-      next: userinfo => {
-        console.log('PUTAIN MERDE ', userinfo);
-      },
-    });
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
