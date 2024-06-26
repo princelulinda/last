@@ -278,6 +278,39 @@
           </div>
         </div>
       }
+
+      <!-- TODO : add product card and topProducts -->
+
+      <!-- @if (!loadingProducts) {
+        <div class="row" style="gap: 1.5rem 0">
+          @for (product of topProducts; track $index) {
+            <div class="product sm-radius col-md-6 clickable">
+              <app-product-merchant-card [product]="product" [get_product]="true">
+              </app-product-merchant-card>
+            </div>
+          }
+        </div>
+      } -->
+    </section>
+    <section class="mobile-app-download mt-4">
+      <div
+        class="sm-radius bg-secondary shadow px-3 py-4 col-md-11 mt-3 mx-auto">
+        <h5 class="text-center fw-bold text-dark">Download Mobile App</h5>
+        <div class="d-flex justify-content-around align-items-center mt-4">
+          <div class="col-5 clickable position-relative">
+            <a
+              href="https://apps.apple.com/fr/app/ihel%C3%A1-ryanje-app/id6470385289"
+              target="_blank"
+              style="inset: 0; z-index: 2"
+              class="position-absolute">
+              <img
+                src="/assets/images/Download-On-The-App-Store-PNG-Transparent-Image.png"
+                alt="App Store Logo"
+                class="img-fluid" />
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
   </section>
 </main>
