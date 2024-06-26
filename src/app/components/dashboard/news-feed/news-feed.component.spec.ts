@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { NewsFeedComponent } from './news-feed.component';
 
 describe('NewsFeedComponent', () => {
@@ -7,7 +8,7 @@ describe('NewsFeedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NewsFeedComponent],
+      imports: [NewsFeedComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NewsFeedComponent);
