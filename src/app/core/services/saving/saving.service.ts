@@ -3,6 +3,7 @@ import { ApiService } from '../api/api.service';
 import { Observable } from 'rxjs';
 import {
   SuggestedTontinesModel,
+  TontineDataModele,
   TontineModel,
 } from '../../../components/saving/saving.model';
 
@@ -25,5 +26,10 @@ export class SavingDetailService {
   getSuggestedTontines(): Observable<{ objects: SuggestedTontinesModel[] }> {
     const url = '/tontines/client/list/?not_registered=true';
     return this.apiService.get<{ objects: SuggestedTontinesModel[] }>(url);
+  }
+
+  getSavingData(tontineId: number): Observable<{ tontine: TontineDataModele }> {
+    const url = `/tontines/manage/${tontineId}`;
+    return this.apiService.get<{ tontine: TontineDataModele }>(url);
   }
 }

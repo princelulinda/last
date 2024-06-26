@@ -9,3 +9,11 @@ export interface SuggestedTontinesModel {
   members_count: number;
   membership_fees: number;
 }
+export interface TontineDataModele {
+  name: string;
+  members_count: number;
+  penalities: number;
+  mise_perso: number;
+  contribution: number;
+  preferences: string;
+}
