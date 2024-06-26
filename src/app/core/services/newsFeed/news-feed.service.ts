@@ -22,4 +22,19 @@ export class NewsFeedService {
     const url = '/socialnetwork/publication-type/';
     return this.apiService.get(url).pipe(map(data => data));
   }
+
+  getPublication() {
+    const url = '/socialnetwork/publication/';
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getPublicationCategory() {
+    const url = '/socialnetwork/publication-category/';
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  pubicationComments() {
+    const url = '/socialnetwork/publication-comments/';
+    return this.apiService.get(url).pipe(map(data => data));
+  }
 }
