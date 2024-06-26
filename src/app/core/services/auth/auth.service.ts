@@ -9,8 +9,9 @@ import { DbService } from '../../db';
 import {
   EmailVerificationResponse,
   createAccountResponse,
+  phoneNumberVerificaitonResponse,
+  bankListResponse,
 } from '../../../components/auth/auth.model';
-import { phoneNumberVerificaitonResponse } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
 import { UserInfoModel } from '../../db/models/auth';
@@ -137,13 +138,15 @@ export class AuthService {
     const url = '/hr/administration/operator/organization/status/';
     return this.apiService.post(url, body).pipe(map(data => data));
   }
-  getBanksList() {
+  // getBanksList():Observable<bankListResponse> {
+  //   const url = '/banks/list/?externel_request=true&bank_type=MFI';
+  //   return this.apiService.get(url);
+
+  // }
+
+  getBanksList(): Observable<{ objects: bankListResponse[] }> {
     const url = '/banks/list/?externel_request=true&bank_type=MFI';
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService.get<{ objects: bankListResponse[] }>(url);
   }
 
   verifyEmail(email: string): Observable<EmailVerificationResponse> {

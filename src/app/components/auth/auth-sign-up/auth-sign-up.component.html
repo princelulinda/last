@@ -353,7 +353,7 @@
               </div>
               </div>
            <div class="col pb-5">
-            <button i18n type="button" class="btn mt-4 mb-5 w-100 bg-primary lg-radius text-white p-3 fw-bold" (click)="submit()" [disabled]="
+            <button i18n type="button" tabindex="0" class="btn mt-4 mb-5 w-100 bg-primary lg-radius text-white p-3 fw-bold" (click)="submit()" [disabled]="
             !multiStepForm.controls
                 .personalInformation
                 .valid" >Continue</button>
@@ -479,7 +479,7 @@
               </div>
               </div>
            <div class="col">
-            <button i18n type="button" class="btn mt-4 mb-5 w-100 bg-primary lg-radius text-white p-3 fw-bold" (click)="submit()" [disabled]="
+            <button i18n type="button" class="btn mt-4 mb-5 w-100 bg-primary lg-radius text-white p-3 fw-bold" (click)="submit();getBankList()" [disabled]="
             !multiStepForm.controls.cardInformation
                 .valid ||
             (this.multiStepForm.controls.cardInformation
@@ -516,6 +516,7 @@
         <div class="col-md-7 px-5 p-3">
           <div class="row mb-4">
               <div class="col fw-bold"><span>Sign up</span></div>
+             
               <div class="col d-flex justify-content-center align-items-center">
                 <div class="row g-1">
                   <div class="col"><div class="bg-primary test"></div></div>
@@ -542,7 +543,7 @@
               </div>
               <div class="col d-flex justify-content-end">
                   <div class="rounded-circle border border-5 d-flex justify-content-center align-items-center">
-                    <img src="/images/multi-secure.png" width="85" alt="">
+                    <span> <img src="/images/multi-secure.png" width="85" alt=""></span>
                   </div>
               </div>
             </div>
@@ -551,35 +552,24 @@
                 banks bellow</span>
             </div>
             <div class="row ms-2" style="gap: 2rem">
-              <div class="col-md-3    lg-radius  border border-secondary">
-                <div class="text-center p-1">
-                  <div class="col d-flex justify-content-center"><img src="/images/ihela3.png" width="90" alt=""></div>
-                  <div><span class="fs-x-small">IHELA CREDIT UNION</span></div>
+              
+              @for(bank of getBanksList; track bank) {
+                <div tabindex="0" (click)="selectedBankId(bank);
+                selectedBankIndex = i;"
+                 class="col-md-3  lg-radius  border border-secondary" role="button">
+                  <div class="text-center p-1">
+                    <div class="col d-flex justify-content-center">
+                      @if (bank.company.logo){<img src="{{bank.company.logo}}" width="90" alt="">}
+                      @else{
+                        <span class="fs-3"><i class="fa-solid fa-building-columns"></i> </span>
+                      }
+                      
+                    </div>
+                    <div><span class="fs-x-small">{{bank.name}}</span></div>
+                  </div>
                 </div>
-               
-              </div>
-  
-              <div class="col-md-3  lg-radius  border border-secondary">
-                <div class="  text-center p-1">
-                  <div class="col d-flex justify-content-center" ><img src="/images/ihela3.png" width="90" alt=""></div>
-                  <div><span class="fs-x-small">LES
-                    CHAMPIONS</span></div>
-                </div>
-               
-              </div>
-              <div class="col-md-3  lg-radius  border border-secondary">
-                <div class=" p-1 text-center">
-                  <div class="col d-flex justify-content-center"><img src="/images/ihela3.png" width="90" alt=""></div>
-                  <div><span class="fs-x-small">SOCADE
-                    TWIYUNGE</span></div>
-                </div>
-              </div>
-              <div class="col-md-3 mb-4  lg-radius  border border-secondary">
-                <div class=" text-center  p-1">
-                  <div class="col d-flex justify-content-center"><img src="/images/ihela3.png" width="90" alt=""></div>
-                  <div><span class="fs-x-small">IHELA CREDIT UNION</span></div>
-                </div>
-              </div>  
+              }
+            
             </div>
           </form>
         </div>
@@ -615,7 +605,7 @@
             <div class="col d-flex align-items-center"><span class="fs-normal"><span class="fw-bold fs-l-medium">Bibyento Bundi</span> <br>bibyengmail.com</span></div>
             <div class="col d-flex justify-content-end">
                 <div class="rounded-circle border border-5 d-flex justify-content-center align-items-center">
-                  <img src="/images/multi-secure.png" width="85" alt="">
+                 <span> <img src="/images/multi-secure.png" width="85" alt=""></span>
                 </div>
             </div>
           </div> 

@@ -7,6 +7,7 @@ import {
   EmailVerificationResponse,
   phoneNumberVerificaitonResponse,
   createAccountResponse,
+  bankListResponse,
 } from '../auth.model';
 @Component({
   selector: 'app-auth-sign-up',
@@ -29,9 +30,26 @@ export class AuthSignUpComponent {
   lastName!: string;
   Email!: string;
   Profile!: string;
-
   EmailVerificationloader = false;
   phoneNumberVerificationLoader = false;
+  isLoadingBank = false;
+  test: bankListResponse[] | [] | null = null;
+  getBanksList: bankListResponse[] | [] | null = null;
+  emailToVerify!: EmailVerificationResponse;
+  phoneNumberToVerify!: phoneNumberVerificaitonResponse;
+  showPassword = false;
+  passwordType = 'password';
+  arePasswordsMatch = false;
+  isMatchNumber!: boolean;
+  isMatchEmail!: boolean;
+  isMatchPassword!: boolean;
+  isNotMatchPassword!: boolean;
+  inputNumber!: string;
+  inputEmail!: string;
+  inputPassword!: string;
+  bankId!: number;
+  selectedBankIndex: number | null = null;
+  i!: number;
 
   submit() {
     this.submitted = true;
@@ -82,7 +100,7 @@ export class AuthSignUpComponent {
 
     const data = {
       // creation_client: this.id,
-      // organization: this.bankId,
+      organization: this.bankId,
       // picture: this.selectedImage,
       email:
         this.multiStepForm.controls.authentificationInformation.value.email,
@@ -150,7 +168,6 @@ export class AuthSignUpComponent {
       '';
   }
 
-  emailToVerify!: EmailVerificationResponse;
   EmailVerification() {
     this.EmailVerificationloader = true;
     const email =
@@ -167,7 +184,6 @@ export class AuthSignUpComponent {
     });
   }
 
-  phoneNumberToVerify!: phoneNumberVerificaitonResponse;
   phoneNumverVerification() {
     this.phoneNumberVerificationLoader = true;
     const tel =
@@ -184,13 +200,22 @@ export class AuthSignUpComponent {
     });
   }
 
+  getBankList() {
+    this.authService.getBanksList().subscribe({
+      next: (response: { objects: bankListResponse[] }) => {
+        this.getBanksList = response.objects;
+        console.log('Données sélectionnées', this.getBanksList);
+      },
+      error: (error: Error) =>
+        console.error('Erreur lors de la récupération des tontines:', error),
+    });
+  }
   onPasswordChange(password: string) {
     this.multiStepForm.controls.authentificationInformation.patchValue({
       password,
     });
   }
-  showPassword = false;
-  passwordType = 'password';
+
   changePasswordType() {
     if (!this.showPassword) {
       this.showPassword = true;
@@ -200,7 +225,6 @@ export class AuthSignUpComponent {
       this.passwordType = 'password';
     }
   }
-  arePasswordsMatch = false;
   checkPasswordSimilarity() {
     if (
       this.multiStepForm.controls.authentificationInformation.value.password !==
@@ -212,13 +236,6 @@ export class AuthSignUpComponent {
       this.arePasswordsMatch = true;
     }
   }
-  isMatchNumber!: boolean;
-  isMatchEmail!: boolean;
-  isMatchPassword!: boolean;
-  isNotMatchPassword!: boolean;
-  inputNumber!: string;
-  inputEmail!: string;
-  inputPassword!: string;
 
   checkNumber() {
     const pattern = /[0-9]+/;
@@ -230,5 +247,10 @@ export class AuthSignUpComponent {
   }
   isAllInputValueUndefined(): boolean {
     return this.inputEmail === undefined && this.inputNumber === undefined;
+  }
+
+  selectedBankId(bank: { organization_id: number }) {
+    this.bankId = bank.organization_id;
+    console.log(this.bankId);
   }
 }

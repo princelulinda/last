@@ -30,3 +30,11 @@ export interface createAccountResponse {
     email: string;
   };
 }
+
+export interface bankListResponse {
+  name: string;
+  organization_id: number;
+  company: {
+    logo: string;
+  };
+}
