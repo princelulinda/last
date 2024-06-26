@@ -1,0 +1,61 @@
+<!-- TODO :: DIALOGS FOR PASSWORD , PIN , CONFIRMATION -->
+<dialog
+  id="favDialog"
+  class="rounded level-2"
+  style="border: none; max-width: 500px">
+  <!-- CONFIRM DIALOG -->
+  @if (dialog?.type === 'confirm') {
+    <div>
+      <p class="text-center" style="color: #f27474; font-size: 60px">
+        <i class="fa-regular fa-circle-question"></i>
+      </p>
+      <p
+        style="font-weight: 900; font-size: 20px"
+        *ngIf="dialog"
+        class="text-center text-dark"
+        [innerHTML]="dialog.message"></p>
+      <div class="text-center mt-3">
+        <button type="button" class="btn btn-primary btn-sm me-3">Yes</button>
+
+        <button type="button" class="btn btn-dark btn-sm">No</button>
+      </div>
+    </div>
+  }
+</dialog>
+
+<!-- TODO :: TOAST FOR SUCCESS , FAILED , INFO ALERT -->
+
+<div id="alert" role="alert" class="position-absolute sm-radius">
+  @if (
+    dialog?.active &&
+    (dialog.type === 'success' ||
+      dialog.type === 'failed' ||
+      dialog.type === 'info')
+  ) {
+    <div
+      class="alert-body h-100 d-flex align-items-center p-2 ps-4 pe-4 sm-radius badge-design bg-{{
+        dialog.type | lowercase
+      }}">
+      <div>
+        @if (dialog.type === 'success') {
+          <span
+            ><i
+              class="fa-solid fa-circle-check me-2 text-success text-medium"></i
+          ></span>
+        } @else if (dialog.type === 'failed') {
+          <span
+            ><i
+              class="fa-solid fa-exclamation-triangle me-2 text-danger text-medium"></i
+          ></span>
+        } @else if (dialog.type === 'info') {
+          <span>
+            <i class="fa-solid fa-circle-info me-2 text-medium"></i>
+          </span>
+        }
+      </div>
+      <div class="fw-normal">
+        <b>{{ dialog.message }}</b>
+      </div>
+    </div>
+  }
+</div>

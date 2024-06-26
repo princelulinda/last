@@ -8,13 +8,15 @@ import {
   activeMainConfigModel,
 } from './core/services';
 import { Observable } from 'rxjs';
+import { ConfirmDialogComponent } from './global/popups/confirm-dialog/confirm-dialog.component';
+import { OpenDialog } from './core/popups/dialogs/open-dialog';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ConfirmDialogComponent],
 })
 export class AppComponent implements OnInit {
   mainConfig: activeMainConfigModel | undefined;
@@ -29,6 +31,10 @@ export class AppComponent implements OnInit {
     this.dbService.dbIsReady.subscribe((value: boolean) =>
       console.log(`APP COMPONENT DB READY : ${value}`)
     );
+  }
+
+  showAlert() {
+    new OpenDialog({ message: 'Salut les gens', title: '', type: 'success' });
   }
 
   ngOnInit() {
