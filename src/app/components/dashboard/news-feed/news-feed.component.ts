@@ -33,14 +33,35 @@ export class NewsFeedComponent {
 
   // ngOnInit(): void {
   //   this.getMerchantProducts();
+  //   this.getBiller();
   // }
 
   getMerchantProducts() {
     this.newsFeedService.getClientProducts().subscribe({
       next: res => {
-        this.topProducts = res as MerchantModel[] | null;
+        const prodResponse = res as { objects: MerchantModel[] };
+        this.topProducts = prodResponse.objects;
         this.loadingProducts = false;
         console.log('**********TOP******* PRODUCTS : ', this.topProducts);
+      },
+      error: err => {
+        this.loadingProducts = false;
+        console.error(err);
+      },
+    });
+  }
+
+  getBiller() {
+    this.newsFeedService.getBillers().subscribe({
+      next: res => {
+        const billersResponse = res as { objects: BillersModel[] };
+        this.billers = billersResponse.objects;
+        this.billersLoading = false;
+        console.log('**********BILLERS******* : ', this.billers[0]);
+      },
+      error: err => {
+        this.billersLoading = false;
+        console.error(err);
       },
     });
   }
