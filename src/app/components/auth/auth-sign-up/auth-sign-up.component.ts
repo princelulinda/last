@@ -113,6 +113,8 @@ export class AuthSignUpComponent {
           this.multiStepForm.controls.cardInformation.value.deliveryPlace,
         date_of_issue:
           this.multiStepForm.controls.cardInformation.value.deliveryDate,
+        expiry_date:
+          this.multiStepForm.controls.cardInformation.value.expiryDate,
       },
       card_id_picture_recto: '',
       card_id_picture_verso: '',
@@ -120,15 +122,13 @@ export class AuthSignUpComponent {
       mother_name: '',
     };
     // if (this.multiStepForm.controls.cardInformation.value.expiryDate !== '') {
-    //     data.card_id['expiry_date'] =
-    //         this.multiStepForm.controls.cardInformation.value.expiryDate;
+    //     data.card_id['expiry_date'] = this.multiStepForm.controls.cardInformation.value.expiryDate;
     // }
 
     this.authService.createAccount(data).subscribe({
       next: response => {
         this.isLoadingCreation = false;
         this.userInfo = response;
-
         this.step = this.step = 5;
       },
       error: () => {
@@ -211,5 +211,24 @@ export class AuthSignUpComponent {
     } else {
       this.arePasswordsMatch = true;
     }
+  }
+  isMatchNumber!: boolean;
+  isMatchEmail!: boolean;
+  isMatchPassword!: boolean;
+  isNotMatchPassword!: boolean;
+  inputNumber!: string;
+  inputEmail!: string;
+  inputPassword!: string;
+
+  checkNumber() {
+    const pattern = /[0-9]+/;
+    this.isMatchNumber = !pattern.test(this.inputNumber);
+  }
+  checkEmail() {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    this.isMatchEmail = !emailPattern.test(this.inputEmail);
+  }
+  isAllInputValueUndefined(): boolean {
+    return this.inputEmail === undefined && this.inputNumber === undefined;
   }
 }

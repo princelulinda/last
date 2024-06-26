@@ -87,7 +87,8 @@
             <div class="row mb-3 mt-2">
                 <div class="col-md-6 ">
                     <div class="form-floating">
-                        <input i18n  (focusout)="phoneNumverVerification()"  type="text" class="form-control" id="number" placeholder="number" formControlName="number" 
+                        <input i18n  (focusout)="phoneNumverVerification()" [(ngModel)]="inputNumber"
+                        (input)="checkNumber()"  type="text" class="form-control" id="number" placeholder="number" formControlName="number" 
                         
                     >
                         <label class="fs-small" i18n for="number"><span>Phone number<code>*</code></span> </label>
@@ -109,11 +110,15 @@
                     class="text-danger"
                     >Phone number already exists</span>
                   }
+                  @if (isMatchNumber &&
+                  !phoneNumberVerificationLoader) { <span class="text-danger">Phone number is invalid</span>}
+                  
                     
                 </div>
                 <div class="col-md-6">
                     <div class="form-floating ">
-                        <input i18n (focusout)="EmailVerification()" type="email" class="form-control" id="email" placeholder="email" formControlName="email" >
+                        <input i18n (focusout)="EmailVerification()" [(ngModel)]="inputEmail"
+                        (input)="checkEmail()" type="email" class="form-control" id="email" placeholder="email" formControlName="email" >
                         <label class="fs-small" i18n for="email"><span>Email<code>*</code></span> </label>
                       </div>
                     
@@ -131,8 +136,10 @@
                        @if(emailToVerify && emailToVerify.object.success ===true &&
                        !EmailVerificationloader ) {  <span
                         class="text-danger"
-                        >email already exists</span>
+                        >Email already exists</span>
                       }
+                      @if (isMatchEmail &&
+                      !EmailVerificationloader) { <span class="text-danger">Email is invalid</span>}
                       
                 </div>
             </div>
@@ -189,10 +196,26 @@
           
             </div>
          <div class="col">
-          <button i18n type="button" class="btn mt-4 w-100 bg-primary lg-radius text-white p-3 fw-bold" (click)="submit()" [disabled]="
+          <button i18n type="button" class="btn mt-4 w-100 bg-primary lg-radius text-white p-3 fw-bold" (click)="submit()"  [disabled]="
+          isAllInputValueUndefined() ||
           !multiStepForm.controls
               .authentificationInformation
-              .valid" >Continue</button>
+              .valid ||
+          !arePasswordsMatch ||
+          isMatchPassword ||
+          isMatchEmail ||
+          EmailVerificationloader ||
+          (this.multiStepForm.controls
+              .authentificationInformation.value
+              .email &&
+              emailToVerify.object.success === true) ||
+          isMatchNumber ||
+          phoneNumberVerificationLoader ||
+          (this.multiStepForm.controls
+              .authentificationInformation.value
+              .number &&
+              phoneNumberToVerify.object.success === true)
+      " >Continue</button>
          </div>
       
       </div>
@@ -457,9 +480,14 @@
               </div>
            <div class="col">
             <button i18n type="button" class="btn mt-4 mb-5 w-100 bg-primary lg-radius text-white p-3 fw-bold" (click)="submit()" [disabled]="
-            !multiStepForm.controls
-                .cardInformation
-                .valid" >Continue</button>
+            !multiStepForm.controls.cardInformation
+                .valid ||
+            (this.multiStepForm.controls.cardInformation
+                .value.cardType === 'PASSPORT' &&
+                this.multiStepForm.controls
+                    .cardInformation.value
+                    .expiryDate === '')
+        " >Continue</button>
            </div>
           </form>
          

@@ -4,10 +4,14 @@
     class="d-flex justify-content-around justify-content-lg-start align-items-center h-100">
     @for (plateF of plateforms; track $index) {
       <a
+        [routerLink]="plateF.link"
         (click)="switchPlateform(plateF.plateform)"
         tabindex="0"
         class="d-block p-2 px-5 sm-radius clickable mx-4 h-100"
         [ngClass]="{
+          'text-all-white':
+            mainConfig.activePlateform !== 'workstation' &&
+            mainConfig.activePlateform !== plateF.plateform,
           'bg-hover-primary-2': mainConfig.activePlateform !== plateF.plateform,
           'text-primary-1':
             mainConfig.activePlateform === 'newsFeed' ||
