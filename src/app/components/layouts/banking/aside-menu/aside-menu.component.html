@@ -1,5 +1,6 @@
 <aside class="p-3 ps-md-0 ps-xl-3">
   <!-- home menus -->
+   @if ( mainConfig.activePlateform==="newsFeed") {
     <section class="mt-2">
       <div
         class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
@@ -47,10 +48,10 @@
       </div>
     </section>
   
-
+  }
   <!-- onlineBanking menus -->
 
-
+  @if ( mainConfig.activePlateform==="onlineBanking") {
     <section class="mt-2">
       <div
         class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
@@ -76,9 +77,9 @@
         <span class="fw-bold text-secondary" i18n>Tarif</span>
       </div>
     </section>
-  
+  }
   <!--market-->
-  @if (plateform === 'market') {
+  @if ( mainConfig.activePlateform==="marketPlace") {
     <div class="ms-2">
       <section class="mt-2">
         <div
@@ -117,27 +118,27 @@
           <span class="fw-bold text-secondary" i18n>Merchants</span>
         </div>
 
+      
         <div
-          class="mt-4 clickable is-link d-flex align-items-center justify-content-between">
-          <div
-            class="d-flex align-items-center"
-            routerLink="/m"
-            routerLinkActive="text-dark">
-            <div>
-              <span class="bg-secondary me-3 rounded-pill py-3 px-3">
-                <i class="fa-solid fa-cart-shopping text-success"></i
-              ></span>
-            </div>
-            <span class="fw-bold text-secondary" i18n>Carts</span>
-          </div>
+        class="mt-4 clickable  bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
+        <div
+          class="d-flex align-items-center"
+          routerLink="/m"
+          routerLinkActive="text-dark">
           <div>
-            <div
-              class="bg-secondary px-2 d-flex justify-content-center sm-radius text-success">
-              0
-            </div>
+            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+              > <i class="fa-solid fa-cart-shopping text-success"></i
+            ></span>
+          </div>
+          <span class="fw-bold text-secondary" i18n>Carts</span>
+        </div>
+        <div>
+          <div
+            class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
+            0
           </div>
         </div>
-
+      </div>
         <div
           class="mt-4 d-flex align-items-center clickable  bg-hover-secondary p-3 sm-radius"
           routerLink="/m"
