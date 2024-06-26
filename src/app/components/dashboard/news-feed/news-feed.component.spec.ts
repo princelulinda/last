@@ -7,7 +7,7 @@ describe('NewsFeedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NewsFeedComponent],
+      declarations: [NewsFeedComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NewsFeedComponent);
