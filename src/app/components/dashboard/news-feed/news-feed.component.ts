@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SkeletonComponent } from '../../../global/skeleton/skeleton.component';
-import { BillersModel, MerchantModel } from '../dashboard.model';
+import { BillersModel, ProductModel } from '../dashboard.model';
 import { ConfigService } from '../../../core/services';
 import { Router } from '@angular/router';
 import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.service';
@@ -16,7 +16,8 @@ export class NewsFeedComponent {
   countProductLoader = [1, 2, 3, 4];
   search = '';
 
-  topProducts: MerchantModel[] | [] | null = null;
+  topProducts: ProductModel[] | [] | null = null;
+  product: ProductModel | null = null;
 
   billers: BillersModel[] | [] | null = null;
   billersLoading = true;
@@ -39,7 +40,7 @@ export class NewsFeedComponent {
   getMerchantProducts() {
     this.newsFeedService.getClientProducts().subscribe({
       next: res => {
-        const prodResponse = res as { objects: MerchantModel[] };
+        const prodResponse = res as { objects: ProductModel[] };
         this.topProducts = prodResponse.objects;
         this.loadingProducts = false;
         console.log('**********TOP******* PRODUCTS : ', this.topProducts);
@@ -68,6 +69,10 @@ export class NewsFeedComponent {
 
   selectBiller(biller: BillersModel) {
     this.selectedBiller = biller;
+  }
+
+  selectProduct(product: ProductModel) {
+    this.product = product;
   }
 
   openGooglePlayStore() {
