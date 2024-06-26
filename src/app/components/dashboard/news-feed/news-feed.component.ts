@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { SkeletonComponent } from '../../../global/skeleton/skeleton.component';
-import { BillersModel } from '../dashboard.model';
+import { BillersModel, MerchantModel } from '../dashboard.model';
 import { ConfigService } from '../../../core/services';
 import { Router } from '@angular/router';
+import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.service';
 
 @Component({
   selector: 'app-news-feed',
@@ -15,6 +16,8 @@ export class NewsFeedComponent {
   countProductLoader = [1, 2, 3, 4];
   search = '';
 
+  topProducts: MerchantModel[] | [] | null = null;
+
   billers: BillersModel[] | [] | null = null;
   billersLoading = true;
 
@@ -24,8 +27,22 @@ export class NewsFeedComponent {
 
   constructor(
     private configService: ConfigService,
-    private router: Router
+    private router: Router,
+    private newsFeedService: NewsFeedService
   ) {}
+
+  // ngOnInit(): void {
+  //   this.getMerchantProducts();
+  // }
+
+  getMerchantProducts() {
+    this.newsFeedService.getClientProducts().subscribe({
+      next: res => {
+        this.topProducts = res as MerchantModel[] | null;
+        console.log('**********TOP******* PRODUCTS : ', this.topProducts);
+      },
+    });
+  }
 
   selectBiller(biller: BillersModel) {
     this.selectedBiller = biller;
