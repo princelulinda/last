@@ -4,6 +4,7 @@ import { BillersModel, ProductModel } from '../dashboard.model';
 import { ConfigService } from '../../../core/services';
 import { Router } from '@angular/router';
 import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-news-feed',
@@ -13,6 +14,7 @@ import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.servi
   styleUrl: './news-feed.component.scss',
 })
 export class NewsFeedComponent {
+  private onDestroy$: Subject<void> = new Subject<void>();
   countProductLoader = [1, 2, 3, 4];
   search = '';
 
@@ -38,33 +40,39 @@ export class NewsFeedComponent {
   // }
 
   getMerchantProducts() {
-    this.newsFeedService.getClientProducts().subscribe({
-      next: res => {
-        const prodResponse = res as { objects: ProductModel[] };
-        this.topProducts = prodResponse.objects;
-        this.loadingProducts = false;
-        console.log('**********TOP******* PRODUCTS : ', this.topProducts);
-      },
-      error: err => {
-        this.loadingProducts = false;
-        console.error(err);
-      },
-    });
+    this.newsFeedService
+      .getClientProducts()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: res => {
+          const prodResponse = res as { objects: ProductModel[] };
+          this.topProducts = prodResponse.objects;
+          this.loadingProducts = false;
+          console.log('**********TOP******* PRODUCTS : ', this.topProducts);
+        },
+        error: err => {
+          this.loadingProducts = false;
+          console.error(err);
+        },
+      });
   }
 
   getBiller() {
-    this.newsFeedService.getBillers().subscribe({
-      next: res => {
-        const billersResponse = res as { objects: BillersModel[] };
-        this.billers = billersResponse.objects;
-        this.billersLoading = false;
-        console.log('**********BILLERS******* : ', this.billers[0]);
-      },
-      error: err => {
-        this.billersLoading = false;
-        console.error(err);
-      },
-    });
+    this.newsFeedService
+      .getBillers()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: res => {
+          const billersResponse = res as { objects: BillersModel[] };
+          this.billers = billersResponse.objects;
+          this.billersLoading = false;
+          console.log('**********BILLERS******* : ', this.billers[0]);
+        },
+        error: err => {
+          this.billersLoading = false;
+          console.error(err);
+        },
+      });
   }
 
   selectBiller(biller: BillersModel) {
@@ -96,4 +104,9 @@ export class NewsFeedComponent {
   //     this.router.navigate([url]);
   //   }
   // }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
 }
