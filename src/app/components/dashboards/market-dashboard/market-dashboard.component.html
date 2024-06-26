@@ -29,15 +29,15 @@
     <div>
         <div class="row mt-4">
             <div class="col-4">
-                <div class="bg-light shadow-sm py-3 ps-3 sm-radius">
+                <div class="bg-all-dark border border-right shadow-sm py-3 ps-3 sm-radius">
                     <div class="row g-0">
                         <div class="col-8">
                             <div class="row">
-                                <h5 class="text-all-dark fw-bold">Secure payments</h5>
+                                <h5 class="text-right fw-bold">Secure payments</h5>
 
                             </div>
                             <div class="row">
-                                <p class="text-all-dark lh-sm my-0 fs-small">
+                                <p class="text-right lh-sm my-0 fs-small">
                                     We ensure 100% secure <br>payment with iHela Ryanje
                                 </p>
                             </div>
@@ -51,15 +51,15 @@
                 </div>
             </div>
             <div class="col-4">
-                <div class="bg-light shadow-sm py-3 ps-3 sm-radius">
+                <div class="bg-all-dark border shadow-sm py-3 ps-3 sm-radius">
                     <div class="row g-0">
                         <div class="col-8">
                             <div class="row">
-                                <h5 class="text-all-dark fw-bold">Home delivery</h5>
+                                <h5 class="text-llight fw-bold">Home delivery</h5>
 
                             </div>
                             <div class="row">
-                                <p class="text-all-dark lh-sm my-0 fs-small">
+                                <p class="text-light lh-sm my-0 fs-small">
                                     We deliver your product <br>wherever you want
                                 </p>
                             </div>
@@ -73,15 +73,15 @@
                 </div>
             </div>
             <div class="col-4">
-                <div class="bg-light shadow-sm py-3 ps-3 sm-radius">
+                <div class="bg-all-dark border border-right shadow-sm py-3 ps-3 sm-radius">
                     <div class="row g-0">
                         <div class="col-8">
                             <div class="row">
-                                <h5 class="text-all-dark fw-bold">Easy return</h5>
+                                <h5 class="text-light fw-bold">Easy return</h5>
 
                             </div>
                             <div class="row">
-                                <p class="text-all-dark lh-sm my-0 fs-small">
+                                <p class="text-light lh-sm my-0 fs-small">
                                     Return any defective<br>product within 15 days
                                 </p>
                             </div>
@@ -286,14 +286,14 @@
                 
                     @for (biller of billersList; track biller.id) {
                     <div class="col-2 me-3">
-                        <div class="card border border-all-dark" style="width: 8rem;">
+                        <div class="card sm-radius border border-all-dark" style="width: 8rem;">
                             <span>
                                 <img src="{{biller.image}}" class="card-img-top" alt="logoBanque">
                             </span>
-                            <div class="card-body">
-                                <div class="card-text">
-                                    <span class="fs-normal fw-bold">{{biller.banque}} </span><br>
-                                    <span class="">{{biller.comptNum}} </span>
+                            <div class="bg-all-dark border">
+                                <div class="card-text ms-3 mt-2">
+                                    <span class="fs-normal text-light fw-bold">{{biller.banque}} </span><br>
+                                    <span class="text-light">{{biller.comptNum}} </span>
                                 </div>
                             </div>
                         </div>
