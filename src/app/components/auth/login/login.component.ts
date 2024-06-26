@@ -9,20 +9,26 @@ import {
 import { AuthService } from '../../../core/services';
 import { FullpathService } from '../../../core/services';
 import { UserApiResponse } from '../../../core/db/models';
+import { PasswordFieldComponent } from '../../../global/password-field/password-field.component';
 import { DbService } from '../../../core/db';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, RouterLinkActive],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    RouterLinkActive,
+    PasswordFieldComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
+  loginLoader = false;
   loginForm = this.formBuilder.nonNullable.group({
     // username: ['', Validators.required, Validators.minLength(2)],
     // password: ['', Validators.required, Validators.minLength(8)],
-    number: [''],
     username: ['', Validators.required],
     password: ['', Validators.required],
   });
@@ -60,6 +66,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSubmit() {
+    this.loginLoader = true;
     if (this.loginForm.value.username && this.loginForm.value.password) {
       this.authService
         .login({
@@ -68,6 +75,7 @@ export class LoginComponent implements OnInit {
         })
         .subscribe({
           next: data => {
+            this.loginLoader = false;
             console.log('GOT LOGIN : ', data);
             const userData = (data as { user: UserApiResponse }).user;
             console.log('GOT LOGIN 2 : ', userData);
@@ -78,9 +86,13 @@ export class LoginComponent implements OnInit {
             }
           },
           error: err => {
+            this.loginLoader = false;
             console.error('LOGIN :: ERROR', err);
           },
         });
     }
+  }
+  onPasswordChange(password: string) {
+    this.loginForm.get('password')?.setValue(password);
   }
 }
