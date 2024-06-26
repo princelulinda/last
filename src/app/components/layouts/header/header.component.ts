@@ -20,20 +20,19 @@ import {
 } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import {
-  organizationModel,
-  userInfoModel,
   corporatesModel,
   selectedCorporateModel,
   clientInfoModel,
+  userInfoModel,
 } from './model';
 
-// export interface organizationModel {
-//   company_type_code: string;
-//   institution_client: {
-//     client_full_name: string;
-//     picture: string;
-//   };
-// }
+export interface organizationModel {
+  company_type_code: string;
+  institution_client: {
+    client_full_name: string;
+    picture: string;
+  };
+}
 
 @Component({
   selector: 'app-header',
