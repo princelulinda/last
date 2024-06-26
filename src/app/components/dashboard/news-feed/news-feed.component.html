@@ -238,7 +238,7 @@
         </div>
         <!-- (click)="switchPlateform('onlineBanking', '/b/onlineBanking/tarifs')" in next div -->
         <div
-          class="level-1 lg-radius p-3 px-4 d-flex align-items-center justify-content-between mt-2 mb-4"
+          class="bg-secondary lg-radius p-3 px-4 d-flex align-items-center justify-content-between mt-2 mb-4"
           style="
             box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
             cursor: pointer;
@@ -298,19 +298,65 @@
         <h5 class="text-center fw-bold text-dark">Download Mobile App</h5>
         <div class="d-flex justify-content-around align-items-center mt-4">
           <div class="col-5 clickable position-relative">
-            <a
+            <!-- <a
               href="https://apps.apple.com/fr/app/ihel%C3%A1-ryanje-app/id6470385289"
               target="_blank"
               style="inset: 0; z-index: 2"
               class="position-absolute">
-              <img
-                src="/assets/images/Download-On-The-App-Store-PNG-Transparent-Image.png"
-                alt="App Store Logo"
-                class="img-fluid" />
-            </a>
+            </a> -->
+            <img
+              src="./images/Download-On-The-App-Store-PNG-Transparent-Image.png"
+              alt="App Store Logo"
+              class="img-fluid"
+              style="cursor: pointer"
+              tabindex="0"
+              (click)="openAppStore()" />
+          </div>
+
+          <div class="col-5 clickable position-relative">
+            <!-- <a
+              href="https://play.google.com/store/apps/details?id=com.ubuviz.ihera_mobile&hl=fr&gl=US"
+              target="_blank"
+              style="inset: 0; z-index: 2"
+              class="position-absolute">
+            </a> -->
+            <img
+              src="./images/Logo-Disponible-sur-Google-play_full_image.png"
+              alt="Play Store Logo"
+              class="img-fluid"
+              style="cursor: pointer"
+              tabindex="0"
+              (click)="openGooglePlayStore()" />
           </div>
         </div>
       </div>
     </section>
   </section>
 </main>
+
+<!-- @if (topProducts) {
+<div class="modal fade" id="exampleModal">
+    <div
+        class="modal-dialog modal-dialog-centered"
+        style="min-width: 70%; max-height: 800px"
+    >
+    @if(product) {
+        <div class="modal-content">
+            <app-billers-merchants [product]="product"></app-billers-merchants>
+        </div>
+      }
+    </div>
+</div>
+<div class="modal fade d-lg-none" id="biller" *ngIf="billers">
+    <div
+        class="modal-dialog modal-dialog-centered"
+        style="min-width: 70%; max-height: 800px"
+    >
+        <div class="modal-content" *ngIf="selectedBiller">
+            <app-billers-merchants
+                [biller]="selectedBiller"
+            ></app-billers-merchants>
+        </div>
+    </div>
+</div>
+} -->

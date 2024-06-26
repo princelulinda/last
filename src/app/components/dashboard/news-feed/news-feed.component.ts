@@ -31,6 +31,20 @@ export class NewsFeedComponent {
     this.selectedBiller = biller;
   }
 
+  openGooglePlayStore() {
+    window.open(
+      'https://play.google.com/store/apps/details?id=com.ubuviz.ihera_mobile&hl=fr&gl=US',
+      '_blank'
+    );
+  }
+
+  openAppStore() {
+    window.open(
+      'https://apps.apple.com/fr/app/ihel%C3%A1-ryanje-app/id6470385289',
+      '_blank'
+    );
+  }
+
   // switchPlateform(plateform: PlateformModel, url?: string) {
   //   this.configService.switchPlateform(plateform);
 
