@@ -11,20 +11,35 @@ import { ToastModel } from '../../../core/popups/dialogs/dialog-models';
   styleUrl: './confirm-dialog.component.scss',
 })
 export class ConfirmDialogComponent implements AfterViewInit {
-  dialog: ToastModel = { message: '', active: false, title: '', type: '' };
+  dialog: ToastModel = {
+    message: '',
+    active: false,
+    title: '',
+    type: '',
+  };
   dialogElement!: HTMLDialogElement | null;
   alertElement!: HTMLElement | null;
 
   constructor() {
     effect(() => {
-      this.dialog = OpenDialog.payload();
-      // if (this.dialogElement && this.dialog.active) {
-      //   this.dialogElement.showModal();
-      // } else if (this.dialogElement && !this.dialog.active) {
-      //   this.dialogElement.close();
+      // if (OpenDialog.dialog as WritableSignal<ToastModel>) {
+      this.dialog = OpenDialog.dialog();
+      // } else if (OpenDialog.dialog as WritableSignal<ActionDialogModel>) {
+      //   this.dialog = OpenDialog.dialog() as ActionDialogModel;
       // }
 
       if (
+        this.dialog.active &&
+        (this.dialog.type === 'confirm' ||
+          this.dialog.type === 'password' ||
+          this.dialog.type === 'pin')
+      ) {
+        if (this.dialogElement && this.dialog.active) {
+          this.dialogElement.showModal();
+        } else if (this.dialogElement && !this.dialog.active) {
+          this.dialogElement.close();
+        }
+      } else if (
         this.dialog?.active &&
         (this.dialog.type === 'success' ||
           this.dialog.type === 'failed' ||

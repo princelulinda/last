@@ -33,11 +33,8 @@ export class AppComponent implements OnInit {
     );
   }
 
-  showAlert() {
-    new OpenDialog({ message: 'Salut les gens', title: '', type: 'success' });
-  }
-
   ngOnInit() {
+    new OpenDialog({ message: 'Salut les gens', title: '', type: 'success' });
     console.log('INITIALIZING DB VARS FROM APP COMPONENT');
     this.dbService.initializeModels();
     this.configService.initAll();
