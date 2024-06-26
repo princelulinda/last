@@ -24,8 +24,7 @@ import {
 export class AuthSignUpComponent {
   step = 0;
   submitted = false;
-  isLoadingCreation = false;
-
+  isLoadingCreation!: boolean;
   firstName!: string;
   lastName!: string;
   Email!: string;
@@ -97,7 +96,6 @@ export class AuthSignUpComponent {
   userInfo!: createAccountResponse;
   createAccount() {
     this.isLoadingCreation = true;
-
     const data = {
       // creation_client: this.id,
       organization: this.bankId,
@@ -142,7 +140,6 @@ export class AuthSignUpComponent {
     // if (this.multiStepForm.controls.cardInformation.value.expiryDate !== '') {
     //     data.card_id['expiry_date'] = this.multiStepForm.controls.cardInformation.value.expiryDate;
     // }
-
     this.authService.createAccount(data).subscribe({
       next: response => {
         this.isLoadingCreation = false;

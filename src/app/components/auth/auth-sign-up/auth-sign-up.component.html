@@ -579,7 +579,13 @@
               <span i18n class="fs-normal text-all-white">Chose one of the banks to create <br>
                 a bank account or click continue <br>
                 to create a wallet only.<br>
-                <button type="button" class="btn bg-primary fw-bold border border-white mt-4 text-all-white px-5" (click)="createAccount()">Continue</button>
+                
+                <button type="button" class="btn bg-primary fw-bold border border-white mt-4 text-all-white px-5" [disabled]="isLoadingCreation" (click)="createAccount()">
+                  @if(!isLoadingCreation) {Continue }
+                  @else{
+                    <span><i class="fa-solid fa-pulse fa-circle-notch fs-4"></i></span>
+                  } 
+                </button>
               </span>
             </span>
           </div>

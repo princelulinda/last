@@ -25,6 +25,7 @@ import { DbService } from '../../../core/db';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
+  loginLoader = false;
   loginForm = this.formBuilder.nonNullable.group({
     // username: ['', Validators.required, Validators.minLength(2)],
     // password: ['', Validators.required, Validators.minLength(8)],
@@ -65,6 +66,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSubmit() {
+    this.loginLoader = true;
     if (this.loginForm.value.username && this.loginForm.value.password) {
       this.authService
         .login({
@@ -73,6 +75,7 @@ export class LoginComponent implements OnInit {
         })
         .subscribe({
           next: data => {
+            this.loginLoader = false;
             console.log('GOT LOGIN : ', data);
             const userData = (data as { user: UserApiResponse }).user;
             console.log('GOT LOGIN 2 : ', userData);
@@ -83,6 +86,7 @@ export class LoginComponent implements OnInit {
             }
           },
           error: err => {
+            this.loginLoader = false;
             console.error('LOGIN :: ERROR', err);
           },
         });
