@@ -1,0 +1,63 @@
+.biller {
+    border: none;
+}
+.sector {
+    margin-left: 1.5rem;
+}
+
+.categories {
+    margin-left: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.billers {
+    width: 160px;
+    border: 1px lightgray solid;
+    height: 70px;
+    border-radius: 10px;
+}
+
+@media (max-width: 576px) {
+    .merchant {
+        justify-content: center;
+    }
+    .sector {
+        margin-left: 0px;
+    }
+
+    .categories {
+        margin-left: 0.5rem;
+        // grid-template-columns: 41.5%;
+    }
+
+    .billers {
+        width: 144px;
+        height: 70px;
+    }
+    .biller {
+        justify-content: center;
+    }
+}
+.simple-merchant-dialog {
+    min-width: 52%;
+    max-height: 800px;
+}
+.biller-merchant-dialog {
+    min-width: 70%;
+    max-height: 800px;
+}
+.favorite_fav {
+    right: 19%;
+    z-index: 10;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+    top: 3%;
+    width: 30px;
+    height: 30px;
+}
+.favorite_icon {
+    position: relative;
+    top: -30%;
+    left: -13%;
+}
