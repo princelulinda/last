@@ -39,6 +39,7 @@ export class NewsFeedComponent {
     this.newsFeedService.getClientProducts().subscribe({
       next: res => {
         this.topProducts = res as MerchantModel[] | null;
+        this.loadingProducts = false;
         console.log('**********TOP******* PRODUCTS : ', this.topProducts);
       },
     });
