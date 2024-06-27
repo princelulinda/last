@@ -7,8 +7,6 @@ import { BankingComponent } from './components/layouts/banking/banking.component
 import { bankingRoutes } from './routes/banking/banking.routes';
 import { newsFeedRoutes } from './routes/newsFeed/newsFeed.routes';
 import { marketPlaceRoutes } from './routes/market-place/marketPlace.routes';
-//import { ClubAdhesionComponent } from './components/saving/club-adhesion/club-adhesion.component';
-import { SavingClubDetailsComponent } from './components/saving/saving-club-details/saving-club-details.component';
 
 export const routes: Routes = [
   // authentification routes
@@ -21,7 +19,7 @@ export const routes: Routes = [
   // banking Routes
   {
     path: 'b',
-    component: SavingClubDetailsComponent,
+    component: BankingComponent,
     canActivate: [AuthGuard],
     children: bankingRoutes,
   },
