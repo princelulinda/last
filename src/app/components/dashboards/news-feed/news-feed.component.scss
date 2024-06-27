@@ -1,6 +1,6 @@
 .profil {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
 }
 // .product-image {
 //   max-height: 300px;
@@ -12,6 +12,15 @@
 // }
 // .success-icon {
 //   color: #035811;
+// }
+
+.noSpaces {
+  margin: 0;
+  padding: 0;
+}
+
+// .product-body {
+//   height: 200px;
 // }
 .announcements {
   .announce-box {
@@ -87,8 +96,6 @@
   }
   // @media screen and (min-width: 401px) and (max-width: 767px) {
   //     width: 60%;
-  // }
-  // .unvailable {
   // }
 }
 // #profile {
