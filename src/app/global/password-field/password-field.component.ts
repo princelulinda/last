@@ -35,6 +35,7 @@ export class PasswordFieldComponent {
         Validators.pattern('(?=.*[0-9])'),
         Validators.pattern('^(?=.*[A-Z])$'),
         Validators.pattern('^(?=.*[$@$!%*?&])$'),
+        // Validators.pattern('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*_)(?!.*\W)(?!.* ).{8,16}$')
       ]),
     });
   }
@@ -73,6 +74,9 @@ export class PasswordFieldComponent {
           if (!this.hasSpecialChar(passwordControl.value)) {
             passwordErrors.push('Must contain spacial characters (!@$%');
           }
+          // if (!this.generalverify(passwordControl.value)) {
+          //   passwordErrors.push('generalVerify');
+          // }
           errors.push(...passwordErrors);
         }
       }
@@ -95,6 +99,9 @@ export class PasswordFieldComponent {
   hasSpecialChar(password: string): boolean {
     return /[$@$!%*?&]/.test(password);
   }
+  // generalverify(password: string): boolean {
+  //   return /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*_)(?!.*\W)(?!.* ).{8,16}$/.test(password);
+  // }
 
   // onSubmit() {
   //   if (this.passwordForm.valid) {
