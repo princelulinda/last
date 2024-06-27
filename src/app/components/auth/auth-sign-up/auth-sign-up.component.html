@@ -151,10 +151,10 @@
             </div>
             <div class="col mb-3">
               <div class="form-floating">
-                <app-password-field  [label]="true" (passwordValid)="onPasswordChange($event)"></app-password-field>
+                <app-password-field  [labelPass]="true" [required]="true" [Validator]="true" (passwordValid)="onPasswordChange($event)"></app-password-field>
               </div>
             </div>
-            <div class="col">
+            <div class="col position-relative z-1">
               <div class="form-floating">
                 <input
                     class="form-control"
