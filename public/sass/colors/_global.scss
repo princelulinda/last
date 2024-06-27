@@ -87,33 +87,31 @@ a {
 
 //global badge classes
 .badge-design {
-  max-width: 100px;
   min-height: 31px;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  font-weight: bold;
+  @extend .sm-radius;
+  // @extend .d-flex;
+  // @extend .align-items-center;
+  // @extend .justify-content-center;
+  @extend .fw-bold;
   @extend .px-2;
   &.bg-success,
   &.success {
-    @extend .bg-success;
+    background-color: #cefdd5 !important;
     color: #058519 !important;
   }
   &.bg-info,
   &.info {
-    @extend .bg-info;
+    background-color: #aacef5 !important;
     color: #235ea2 !important;
   }
   &.bg-warning,
   &.warning {
-    @extend .bg-warning;
+    background-color: #fbfbad !important;
     color: #a3a300 !important;
   }
   &.bg-danger,
   &.danger {
-    @extend .bg-danger;
+    background-color: #ffcccc !important;
     color: #a11717 !important;
   }
   &.bg-secondary,

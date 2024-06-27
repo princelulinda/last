@@ -1,16 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 import { DbService } from './core/db/db.service';
-import { ConfigService, activeMainConfigModel } from './core/services';
+import {
+  ConfigService,
+  PlateformModel,
+  activeMainConfigModel,
+} from './core/services';
 import { Observable } from 'rxjs';
+import { ConfirmDialogComponent } from './global/popups/confirm-dialog/confirm-dialog.component';
+import { OpenDialog } from './core/popups/dialogs/open-dialog';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ConfirmDialogComponent],
 })
 export class AppComponent implements OnInit {
   mainConfig: activeMainConfigModel | undefined;
@@ -18,7 +24,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private dbService: DbService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private router: Router
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.dbService.dbIsReady.subscribe((value: boolean) =>
@@ -26,114 +33,46 @@ export class AppComponent implements OnInit {
     );
   }
 
-  setStoredTheme = (theme: string) => localStorage.setItem('theme', theme);
-
   ngOnInit() {
+    new OpenDialog({ message: 'Salut les gens', title: '', type: 'success' });
     console.log('INITIALIZING DB VARS FROM APP COMPONENT');
     this.dbService.initializeModels();
     this.configService.initAll();
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
+        this.managePlateformRedirection(this.mainConfig.activePlateform);
       },
     });
   }
 
-  // ngAfterInit() {
-  //   this.configService.initAll();
-  // }
+  private managePlateformRedirection(plateform: PlateformModel) {
+    switch (plateform) {
+      case 'workstation':
+        this.navigate('/w');
+        break;
+      case 'newsFeed':
+        this.navigate('/n');
+        break;
+      case 'onlineBanking':
+        this.navigate('/b');
+        break;
+      case 'onamob':
+        this.navigate('/o');
+        break;
+      case 'marketPlace':
+        this.navigate('/m');
+        break;
+      case 'admin':
+        this.navigate('/a');
+        break;
+      default:
+        this.navigate('/n');
+        break;
+    }
+  }
 
-  // ngAfterViewInit() {
-  // (() => {
-  //   'use strict';
-
-  //   const getStoredTheme = () => localStorage.getItem('theme');
-  //   const getPreferredTheme = () => {
-  //     const storedTheme = getStoredTheme();
-  //     if (storedTheme) {
-  //       return storedTheme;
-  //     }
-  //     console.log(
-  //       'aaaaaaaaaaaaaaaaaaaaaaa',
-  //       window.matchMedia('(prefers-color-scheme: dark)')
-  //     );
-  //     return window.matchMedia('(prefers-color-scheme: dark)').matches
-  //       ? 'dark'
-  //       : 'light';
-  //   };
-
-  //   const setTheme = (theme: string) => {
-  //     if (theme === 'auto') {
-  //       document.documentElement.setAttribute(
-  //         'data-bs-theme',
-  //         window.matchMedia('(prefers-color-scheme: dark)').matches
-  //           ? 'dark'
-  //           : 'light'
-  //       );
-  //     } else {
-  //       document.documentElement.setAttribute('data-bs-theme', theme);
-  //     }
-  //   };
-
-  //   setTheme(getPreferredTheme());
-
-  //   const showActiveTheme = (theme: string, focus = false) => {
-  //     const themeSwitcher = document.querySelector('#bd-theme');
-
-  //     if (!themeSwitcher) {
-  //       return;
-  //     }
-
-  //     const themeSwitcherText = document.querySelector('#bd-theme-text');
-  //     const activeThemeIcon = document.querySelector(
-  //       '.theme-icon-active use'
-  //     );
-  //     const btnToActive: any = document?.querySelector(
-  //       `[data-bs-theme-value="${theme}"]`
-  //     );
-  //     const svgOfActiveBtn = btnToActive
-  //       ?.querySelector('svg use')
-  //       ?.getAttribute('href');
-
-  //     document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
-  //       element.classList.remove('active');
-  //       element.setAttribute('aria-pressed', 'false');
-  //     });
-
-  //     console.log('sopadapojf');
-
-  //     btnToActive?.classList.add('active');
-  //     btnToActive?.setAttribute('aria-pressed', 'true');
-  //     activeThemeIcon?.setAttribute('href', svgOfActiveBtn ?? '');
-  //     const themeSwitcherLabel: any = `${themeSwitcherText?.textContent} (${btnToActive?.dataset.bsThemeValue})`;
-  //     themeSwitcher.setAttribute('aria-label', themeSwitcherLabel);
-
-  //     if (focus) {
-  //       // themeSwitcher.focus();
-  //     }
-  //   };
-
-  //   window
-  //     .matchMedia('(prefers-color-scheme: dark)')
-  //     .addEventListener('change', () => {
-  //       const storedTheme = getStoredTheme();
-  //       if (storedTheme !== 'light' && storedTheme !== 'dark') {
-  //         setTheme(getPreferredTheme());
-  //       }
-  //     });
-
-  //   window.addEventListener('DOMContentLoaded', () => {
-  //     showActiveTheme(getPreferredTheme());
-
-  //     document.querySelectorAll('[data-bs-theme-value]').forEach(toggle => {
-  //       toggle.addEventListener('click', () => {
-  //         const theme = toggle.getAttribute('data-bs-theme-value');
-  //         this.setStoredTheme(theme ?? '');
-  //         setTheme(theme ?? '');
-  //         showActiveTheme(theme ?? '', true);
-  //       });
-  //     });
-  //   });
-  // })();
-  // }
+  private navigate(url: string) {
+    this.router.navigate([url]);
+  }
 }

@@ -1,0 +1,36 @@
+dialog::backdrop {
+  background: rgba(17, 17, 17, 0.5);
+}
+// dialog[open] {
+//   -webkit-animation: show 10s ease normal;
+// }
+// @-webkit-keyframes show {
+//   from {
+//     transform: translateY(-50%);
+//   }
+//   to {
+//     transform: translateY(0%);
+//   }
+// }
+
+#alert {
+  transform: translateX(70%);
+  opacity: 0;
+  bottom: 5%;
+  right: 2%;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  z-index: 1000;
+  .alert-body {
+    min-height: 55px;
+    min-width: 300px;
+    max-width: 400px;
+  }
+  &.show {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  &.hide {
+    transform: translateX(70%);
+    opacity: 0;
+  }
+}
