@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+// import { Subject } from 'rxjs';
+// import { MerchantService } from '../../../core/services/merchant/merchant.service';
 
 @Component({
   selector: 'app-merchants',
@@ -10,12 +12,22 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './merchants.component.scss',
 })
 export class MerchantsComponent {
+  // private onDestroy$: Subject<void> = new Subject<void>();
+
   searchInput = new FormControl('');
   // theme: any;
   // theme$: Observable<any>;
   // merchants: any;
   // merchant: any;
+  merchants!: [];
+  favorite_merchant_making = null;
+
   isLoading = false;
+  constructor() // private merchantService: MerchantService,
+  // private store: Store
+  {
+    // this.theme$ = this.store.select(SwitchThemeState.GetTheme);
+  }
 
   isSearchInputNotEmpty(): boolean {
     const searchValue = this.searchInput.value;
@@ -36,7 +48,9 @@ export class MerchantsComponent {
       // this.variableService.search.next('');
     }
   }
-
+  /**   can work if added interface and is needed in market-dashboard
+   *
+   */
   // getMerchants(search: string) {
   //   this.isLoading = true;
 
@@ -44,7 +58,7 @@ export class MerchantsComponent {
   //       .getMerchantsAutocomplete(search)
   //       .pipe(takeUntil(this.onDestroy$))
   //       .subscribe({
-  //           next: (data) => {
+  //           next: (data: any) => {
   //               this.isLoading = false;
   //               this.merchants = data.objects;
 
@@ -52,6 +66,7 @@ export class MerchantsComponent {
   //           },
   //           error: (err) => {
   //               this.isLoading = false;
+  //               console.log(err)
 
   //               const data = {
   //                   title: '',
