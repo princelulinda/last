@@ -2,19 +2,29 @@
 <dialog id="favDialog" class="rounded bg-white border-0">
   <!-- CONFIRM DIALOG -->
   @if (dialog.type === 'confirm') {
-    <div>
-      <p class="text-center text-primary-2" style="font-size: 60px">
+    <div class="p-3">
+      <p class="text-center text-primary-2 mb-0" style="font-size: 60px">
         <i class="fa-regular fa-circle-question"></i>
       </p>
       <p
         style="font-weight: 900; font-size: 20px"
         *ngIf="dialog"
-        class="text-center text-dark fw-bold text-l-medium"
+        class="text-center text-dark fw-bold fs-l-medium mb-4 mt-2 fw-bold"
         [innerHTML]="dialog.message"></p>
       <div class="text-center mt-3">
-        <button type="button" class="btn btn-primary btn-sm me-3">Yes</button>
+        <button
+          type="button"
+          class="btn bg-primary btn-sm me-3 text-all-white px-4"
+          (click)="closeDialog()">
+          Yes
+        </button>
 
-        <button type="button" class="btn btn-dark btn-sm">No</button>
+        <button
+          type="button"
+          class="btn bg-wihte btn-sm text-dark px-4"
+          (click)="closeDialog()">
+          No
+        </button>
       </div>
     </div>
   }

@@ -37,10 +37,14 @@ export class ConfirmDialogComponent implements AfterViewInit {
       ) {
         if (this.dialogElement && this.dialog.active) {
           this.dialogElement.showModal();
-        } else if (this.dialogElement && !this.dialog.active) {
+        }
+      } else {
+        if (this.dialogElement) {
           this.dialogElement.close();
         }
-      } else if (
+      }
+
+      if (
         this.dialog?.active &&
         (this.dialog.type === 'success' ||
           this.dialog.type === 'failed' ||
@@ -54,6 +58,10 @@ export class ConfirmDialogComponent implements AfterViewInit {
       }
       console.log('DIALOG INFORMATION', this.dialog);
     });
+  }
+
+  closeDialog() {
+    OpenDialog.closeDialog();
   }
 
   ngAfterViewInit() {

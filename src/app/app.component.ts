@@ -35,6 +35,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     new OpenDialog({ message: 'Salut les gens', title: '', type: 'success' });
+    new OpenDialog({
+      message: 'Vous voulez confirmer cette action',
+      title: '',
+      type: 'confirm',
+      action: 'Get Confirmation',
+    });
     console.log('INITIALIZING DB VARS FROM APP COMPONENT');
     this.dbService.initializeModels();
     this.configService.initAll();

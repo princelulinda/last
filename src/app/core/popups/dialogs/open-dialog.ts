@@ -5,7 +5,7 @@ interface DialogPayloadModel {
   title: string;
   message: string;
   type: dialogTypeModel;
-  action?: '';
+  action?: string;
 }
 
 // interface ActionPayloadModel {
@@ -37,18 +37,26 @@ export class OpenDialog {
     // } else if (payload as ActionPayloadModel) {
     //   alert('PUTAIN CA PEUT MARCHE Action PAYLOAD');
     // }
-    OpenDialog.closeDialog();
+    if (
+      payload.type === 'failed' ||
+      payload.type === 'success' ||
+      payload.type === 'info'
+    ) {
+      OpenDialog.closeDialog();
+    }
   }
 
+  // getDialogResponse(){
+
+  // }
+
   static closeDialog() {
-    setTimeout(() => {
-      OpenDialog.dialog.set({
-        active: false,
-        message: '',
-        title: '',
-        type: '',
-        action: '',
-      });
-    }, 5000);
+    OpenDialog.dialog.set({
+      active: false,
+      message: '',
+      title: '',
+      type: '',
+      action: '',
+    });
   }
 }
