@@ -4,7 +4,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
-export const routes = [
+export const AuthRoutes = [
   {
     path: '',
     component: AuthLayoutComponent,
