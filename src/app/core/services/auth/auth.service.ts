@@ -6,6 +6,12 @@ import { liveQuery } from 'dexie';
 
 import { ApiService } from '../api/api.service';
 import { DbService } from '../../db';
+import {
+  EmailVerificationResponse,
+  createAccountResponse,
+  phoneNumberVerificaitonResponse,
+  bankListResponse,
+} from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
 import { UserInfoModel } from '../../db/models/auth';
@@ -107,9 +113,12 @@ export class AuthService {
     );
   }
 
-  createAccount(body: object) {
+  createAccount(body: object): Observable<createAccountResponse> {
     const url = '/client/';
-    return this.apiService.post(url, body).pipe(map(response => response));
+    // return this.apiService.post(url, body).pipe(map(response => response));
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as createAccountResponse));
   }
 
   requestOTP(body: object) {
@@ -129,23 +138,25 @@ export class AuthService {
     const url = '/hr/administration/operator/organization/status/';
     return this.apiService.post(url, body).pipe(map(data => data));
   }
-  getBanksList() {
+  // getBanksList():Observable<bankListResponse> {
+  //   const url = '/banks/list/?externel_request=true&bank_type=MFI';
+  //   return this.apiService.get(url);
+
+  // }
+
+  getBanksList(): Observable<{ objects: bankListResponse[] }> {
     const url = '/banks/list/?externel_request=true&bank_type=MFI';
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService.get<{ objects: bankListResponse[] }>(url);
   }
 
-  verifyEmail(email: string) {
-    const apiUrl = `/extid/verification/?externel_request=true&type=email&value=${email}`;
-    return this.apiService.get(apiUrl).pipe(map(data => data));
+  verifyEmail(email: string): Observable<EmailVerificationResponse> {
+    const url = `/extid/verification/?externel_request=true&type=email&value=${email}`;
+    return this.apiService.get(url);
   }
 
-  verifyPhoneNumber(tel: string) {
-    const apiUrl = `/extid/verification/?externel_request=true&type=phone_number&value=${tel}`;
-    return this.apiService.get(apiUrl).pipe(map(data => data));
+  verifyPhoneNumber(tel: string): Observable<phoneNumberVerificaitonResponse> {
+    const url = `/extid/verification/?externel_request=true&type=phone_number&value=${tel}`;
+    return this.apiService.get(url);
   }
 
   // METHOD FOR USSER DATABASE DATA

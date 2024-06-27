@@ -1,7 +1,9 @@
 <!-- Header here -->
 <!-- TODO : Import the header component here for auth layout -->
-<app-auth-header></app-auth-header>
+<div class="header"><app-auth-header></app-auth-header></div>
 <!-- End of header -->
-<router-outlet/>
+<div class="col" >
+    <router-outlet/>
+</div>
 
-<app-footer></app-footer>
+<div class="footer d-flex justify-content-center align-items-end"><app-footer></app-footer></div>
