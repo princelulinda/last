@@ -20,7 +20,6 @@ export class PasswordFieldComponent {
   @Input() labelPin: boolean | undefined;
   @Input() required: boolean | undefined;
   @Input() labelIcon: boolean | undefined;
-
   @Output() passwordValid = new EventEmitter<string>();
 
   passwordForm: FormGroup;
@@ -35,7 +34,6 @@ export class PasswordFieldComponent {
         Validators.pattern('(?=.*[0-9])'),
         Validators.pattern('^(?=.*[A-Z])$'),
         Validators.pattern('^(?=.*[$@$!%*?&])$'),
-        // Validators.pattern('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*_)(?!.*\W)(?!.* ).{8,16}$')
       ]),
     });
   }
@@ -74,9 +72,6 @@ export class PasswordFieldComponent {
           if (!this.hasSpecialChar(passwordControl.value)) {
             passwordErrors.push('Must contain spacial characters (!@$%');
           }
-          // if (!this.generalverify(passwordControl.value)) {
-          //   passwordErrors.push('generalVerify');
-          // }
           errors.push(...passwordErrors);
         }
       }
@@ -99,20 +94,19 @@ export class PasswordFieldComponent {
   hasSpecialChar(password: string): boolean {
     return /[$@$!%*?&]/.test(password);
   }
-  // generalverify(password: string): boolean {
-  //   return /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*_)(?!.*\W)(?!.* ).{8,16}$/.test(password);
-  // }
-
-  // onSubmit() {
-  //   if (this.passwordForm.valid) {
-  //     const password = this.passwordForm.value.password;
-  //     this.passwordValid.emit(password);
-  //     console.log('password');
-  //   }
-  // }
-
   onSubmit() {
-    const password = this.passwordForm.value.password;
-    this.passwordValid.emit(password);
+    if (
+      !this.getPasswordErrors().includes('8 Characters minimun') &&
+      !this.getPasswordErrors().includes('Must contain number') &&
+      !this.getPasswordErrors().includes('Password is required') &&
+      !this.getPasswordErrors().includes('Must contain uppercase') &&
+      !this.getPasswordErrors().includes(
+        'Must contain spacial characters (!@$%'
+      )
+    ) {
+      const password = this.passwordForm.value.password;
+      this.passwordValid.emit(password);
+      console.log(password);
+    }
   }
 }
