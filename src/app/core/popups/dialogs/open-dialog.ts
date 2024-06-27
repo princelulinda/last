@@ -1,10 +1,11 @@
 import { WritableSignal, signal } from '@angular/core';
-import { ToastModel, dialogTypeModel } from './dialog-models';
+import { DialogModel, dialogTypeModel } from './dialog-models';
 
-interface ToastPayloadModel {
+interface DialogPayloadModel {
   title: string;
   message: string;
   type: dialogTypeModel;
+  action?: '';
 }
 
 // interface ActionPayloadModel {
@@ -15,18 +16,20 @@ interface ToastPayloadModel {
 // }
 
 export class OpenDialog {
-  static dialog: WritableSignal<ToastModel> = signal({
+  static dialog: WritableSignal<DialogModel> = signal({
     active: false,
     message: '',
     title: '',
+    action: '',
     type: '',
   });
 
-  constructor(payload: ToastPayloadModel) {
+  constructor(payload: DialogPayloadModel) {
     OpenDialog.dialog.set({
       type: payload.type,
       title: payload.title,
       message: payload.message,
+      action: payload.action ?? '',
       active: true,
     });
     // if (payload as ToastPayloadModel) {
@@ -44,6 +47,7 @@ export class OpenDialog {
         message: '',
         title: '',
         type: '',
+        action: '',
       });
     }, 5000);
   }

@@ -1,17 +1,14 @@
-export interface ToastModel {
-  title: string;
-  type: dialogTypeModel;
-  message: string;
-  active: boolean;
-}
-
-export interface ActionDialogModel {
+export interface DialogModel {
   title: string;
   message: string;
   type: dialogTypeModel;
   action: string;
   active: boolean;
 }
+
+// export interface ActionDialogModel {
+
+// }
 
 export interface CloseDialog {
   response: string;

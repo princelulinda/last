@@ -1,7 +1,7 @@
 import { Component, effect, AfterViewInit } from '@angular/core';
 import { OpenDialog } from '../../../core/popups/dialogs/open-dialog';
 import { CommonModule } from '@angular/common';
-import { ToastModel } from '../../../core/popups/dialogs/dialog-models';
+import { DialogModel } from '../../../core/popups/dialogs/dialog-models';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -11,11 +11,12 @@ import { ToastModel } from '../../../core/popups/dialogs/dialog-models';
   styleUrl: './confirm-dialog.component.scss',
 })
 export class ConfirmDialogComponent implements AfterViewInit {
-  dialog: ToastModel = {
+  dialog: DialogModel = {
     message: '',
     active: false,
     title: '',
     type: '',
+    action: '',
   };
   dialogElement!: HTMLDialogElement | null;
   alertElement!: HTMLElement | null;
