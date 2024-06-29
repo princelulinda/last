@@ -37,7 +37,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       image: '',
       icon: 'fa-solid fa-house-chimney-user fa-xl',
       is_selected: true,
-      link: '/n',
+      link: '/n/newsFeed',
     },
     {
       plateform: 'onlineBanking',
@@ -45,7 +45,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       icon: '',
       image: '',
       is_selected: false,
-      link: '/b',
+      link: '/b/banking',
     },
     {
       plateform: 'onamob',
@@ -53,7 +53,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       image: '',
       icon: 'fa-solid fa-mobile-screen-button fa-xl',
       is_selected: false,
-      link: '/o',
+      link: '/o/onamob',
     },
     {
       plateform: 'marketPlace',
@@ -61,7 +61,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       image: '',
       icon: 'fa-solid fa-cart-shopping fa-xl',
       is_selected: false,
-      link: '/m',
+      link: '/m/market',
     },
     {
       plateform: 'workstation',
@@ -69,7 +69,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       image: '',
       icon: 'fa-solid fa-desktop fa-xl',
       is_selected: false,
-      link: '/w',
+      link: '/w/workstation',
     },
   ];
 
