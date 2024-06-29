@@ -13,6 +13,7 @@ import { RouterLink } from '@angular/router';
 export class SavingClubComponent implements OnInit {
   savingClub: TontineModel[] | [] | null = null;
   suggestedTontines: SuggestedTontinesModel[] | [] | null = null;
+  thirdSuggestedTontines: SuggestedTontinesModel[] | [] | null = null;
   selected = '';
   constructor(private savingDetailService: SavingDetailService) {}
 
@@ -36,17 +37,19 @@ export class SavingClubComponent implements OnInit {
     });
   }
 
-  getSuggestedTontines() {
+  getthirdSuggestedTontines() {
     this.savingDetailService.getSuggestedTontines().subscribe({
       next: (response: { objects: SuggestedTontinesModel[] }) => {
-        this.suggestedTontines = response.objects.map(
-          (suggestedTontines: SuggestedTontinesModel) => ({
-            id: suggestedTontines.id,
-            name: suggestedTontines.name,
-            members_count: suggestedTontines.members_count,
-            membership_fees: suggestedTontines.membership_fees,
-          })
-        );
+        // Utilisez 'slice' pour obtenir les trois premiers éléments
+        this.thirdSuggestedTontines = response.objects
+          .slice(0, 3)
+          .map((thirdSuggestedTontines: SuggestedTontinesModel) => ({
+            id: thirdSuggestedTontines.id,
+            name: thirdSuggestedTontines.name,
+            members_count: thirdSuggestedTontines.members_count,
+            membership_fees: thirdSuggestedTontines.membership_fees,
+            // Assurez-vous d'ajouter ici toutes les propriétés nécessaires
+          }));
         console.log('suggestedTontines', this.suggestedTontines);
       },
       error: (error: Error) =>
@@ -54,6 +57,25 @@ export class SavingClubComponent implements OnInit {
     });
   }
 
+  getSuggestedTontines() {
+    this.savingDetailService.getSuggestedTontines().subscribe({
+      next: (response: { objects: SuggestedTontinesModel[] }) => {
+        // Utilisez 'slice' pour obtenir les trois premiers éléments
+        this.suggestedTontines = response.objects
+          .slice(0, 4)
+          .map((suggestedTontines: SuggestedTontinesModel) => ({
+            id: suggestedTontines.id,
+            name: suggestedTontines.name,
+            members_count: suggestedTontines.members_count,
+            membership_fees: suggestedTontines.membership_fees,
+            // Assurez-vous d'ajouter ici toutes les propriétés nécessaires
+          }));
+        console.log('suggestedTontines', this.suggestedTontines);
+      },
+      error: (error: Error) =>
+        console.error('Erreur lors de la récupération des tontines:', error),
+    });
+  }
   switchMenu(name: string) {
     this.selected = name;
   }

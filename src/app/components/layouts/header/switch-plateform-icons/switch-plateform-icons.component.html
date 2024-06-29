@@ -12,14 +12,19 @@
           'text-all-white':
             mainConfig.activePlateform !== 'workstation' &&
             mainConfig.activePlateform !== plateF.plateform,
-          'bg-hover-primary-2': mainConfig.activePlateform !== plateF.plateform,
+          'text-primary':
+            mainConfig.activePlateform === plateF.plateform &&
+            mainConfig.activePlateform !== 'workstation' &&
+            mainConfig.activeMode === 'light',
           'text-primary-1':
-            mainConfig.activePlateform === 'newsFeed' ||
-            'onlineBanking' ||
-            ('market' && mainConfig.activePlateform !== plateF.plateform),
+            mainConfig.activePlateform === plateF.plateform &&
+            mainConfig.activePlateform !== 'workstation' &&
+            mainConfig.activeMode === 'dark',
+
+          'bg-hover-primary-2': mainConfig.activePlateform !== plateF.plateform,
+
           'text-dark': mainConfig.activePlateform === 'workstation',
-          'text-primary-1 bg-all-white':
-            mainConfig.activePlateform === plateF.plateform,
+          'bg-all-white': mainConfig.activePlateform === plateF.plateform,
         }"
         title="{{ plateF.title }}">
         @if (plateF.icon) {

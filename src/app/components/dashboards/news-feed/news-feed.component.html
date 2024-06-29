@@ -3,7 +3,8 @@
   <!-- plateform cards -->
   <div class="row justify-content-center mx-0" style="gap: 1rem">
     <div
-      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center clickable text-dark">
+      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
+      role="button">
       <div class="icon mb-2" style="width: 45px; height: 60px">
         <img
           src="/public/images/ihela-b.svg"
@@ -13,21 +14,24 @@
       <b i18n>Manage your account</b>
     </div>
     <div
-      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center clickable text-dark">
+      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
+      role="button">
       <div class="icon mb-2 text-magis" style="font-size: 2.5rem">
         <i class="fa-solid fa-desktop"></i>
       </div>
       <b i18n>Manage your Company</b>
     </div>
     <div
-      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center clickable text-dark">
+      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
+      role="button">
       <div class="icon text-success mb-2" style="font-size: 2.5rem">
         <i class="fa-solid fa-cart-shopping"></i>
       </div>
       <b i18n>Market Place</b>
     </div>
     <div
-      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center clickable text-dark"
+      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
+      role="button"
       routerLink="/h/home/chat">
       <div class="icon text-info mb-2" style="font-size: 2.5rem">
         <i class="fa-regular fa-comments"></i>
@@ -63,8 +67,9 @@
       <div class="row justify-content-center mx-0" style="gap: 1rem">
         @for (biller of billers; track $index) {
           <div
-            class="col-5 col-md-3 border overflow-hidden lg-radius level-2 clickable d-flex flex-column flex-sm-row p-2 justify-content-center align-items-center justify-content-sm-start"
+            class="col-5 col-md-3 border overflow-hidden lg-radius level-2 d-flex flex-column flex-sm-row p-2 justify-content-center align-items-center justify-content-sm-start"
             style="min-height: 73px"
+            role="button"
             data-bs-toggle="modal"
             data-bs-target="#biller"
             tabindex="0"
@@ -107,15 +112,15 @@
     class="mx-auto row overflow-hidden w-80 md-w-60"
     style="gap: 2rem 0">
     <!-- section unvailable -->
-    <div
-      class="unvailable lg-radius shadow level-1 d-flex flex-column col-md-10 mx-auto"
+    <!-- <div
+      class="unvailable lg-radius shadow bg-secondary d-flex flex-column col-md-10 mx-auto"
       style="height: max-content">
       <div class="header d-flex align-items-center mx-4 my-2">
         <div
           class="profil rounded-circle dflex align-items-center justify-content-center"></div>
       </div>
       <div
-        class="product-body bg-secondary d-flex flex-column justify-content-center align-items-center p-2 sm-radius">
+        class="product-body d-flex bg-white flex-column justify-content-center align-items-center p-2 sm-radius">
         <span class="fz-emoji text-gray" style="opacity: 0.4">
           <i class="fa-solid fa-face-meh"></i>
         </span>
@@ -156,6 +161,72 @@
           </div>
         </div>
       </div>
+    </div> -->
+
+    <div
+      class="lg-radius shadow bg-white d-flex flex-column col-md-10 mx-auto"
+      style="height: max-content">
+      <div class="header d-flex align-items-center mx-4 my-2">
+        <div
+          class="profil rounded-circle bg-primary d-flex align-items-center justify-content-center">
+          <i class="fa-solid fa-user fs-2 text-all-white"></i>
+        </div>
+        <div
+          class="d-flex flex-column overflow-hidden gap-0 ps-2"
+          style="max-height: 60px">
+          <p class="noSpaces"><b>iHelá Ryanje</b></p>
+          <p class="noSpaces">
+            00H <b>Public </b><i class="fa-solid fa-earth-africa"></i>
+          </p>
+        </div>
+      </div>
+      <div class="w-100 px-2">
+        <app-read-more [maxLength]="200">
+          <p>
+            Bienvenue dans l’application iHela Ryanje. Nous améliorons les
+            fonctionnalités afin de vous offrir une expérience unique. Toutes
+            les transactions financières se font sur la même plateforme en un
+            temps record. <br />
+          </p>
+          <ul>
+            <li>
+              Les transferts d’argent vers les banques et portefeuilles mobiles
+            </li>
+            <li>Achat d’unités</li>
+            <li>Paiement d’impôts et taxes de la Mairie</li>
+            <li>Dépôt et retrait sur les plateformes de paris en ligne</li>
+            <li>Consultation des soldes</li>
+          </ul>
+          <p>
+            L’application mise à jour, donne la possibilité de payer une facture
+            et de donner un pourboire au caissier/serveur qui vous a bien servi.
+            Cette fonctionnalité apparaît dans le formulaire de paiement
+            marchand.
+          </p>
+          <p>
+            La connexion dans l’application est gratuite si vous possédez une
+            carte Sim Onatel. Pour s’en procurer, rendez-vous dans le guichet de
+            iHela le plus proche sur toute l’étendue du Burundi.
+          </p>
+          <p>
+            Trouvez toutes les informations nécessaires sur nos produits
+            d’épargne et de crédit dans l’application sans vous diriger au
+            guichet.
+          </p>
+          <p>
+            Pour des transactions rapides vers Lumicash, liez votre carte sim au
+            compte courant afin de transférer de l’argent sans passer par
+            l’application, en composant *163#.
+          </p>
+        </app-read-more>
+      </div>
+      <div
+        class="product-body d-flex bg-white flex-column justify-content-center align-items-center p-2 mb-3 sm-radius overflow-hidden w-100">
+        <img
+          src="./images/NouvelleExperience.jpeg"
+          class="img-fluid w-100"
+          alt="" />
+      </div>
     </div>
   </section>
 
@@ -183,14 +254,17 @@
               More
             </button>
           </div>
-          <div class="box_parent">
-            <div class="image">
+          <div class="box_parent position-absolute h-100 end-0">
+            <div class="image h-100 overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG91c2UlMjBhc3N1cmFuY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+                class="w-100 h-100 object-fit-cover border rounded-0 border-top-left-radius-15 border-bottom-right-radius-15"
                 alt="" />
             </div>
 
-            <svg class="flt_svg" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              class="flt_svg position-absolute invisible"
+              xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <filter id="flt_tag">
                   <feGaussianBlur
@@ -239,10 +313,8 @@
         <!-- (click)="switchPlateform('onlineBanking', '/b/onlineBanking/tarifs')" in next div -->
         <div
           class="bg-secondary lg-radius p-3 px-4 d-flex align-items-center justify-content-between mt-2 mb-4"
-          style="
-            box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-          ">
+          role="button"
+          style="box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1)">
           <b class="text-dark ms-2 fs-5">Tarifs</b>
           <span class="text-dark fs-3">
             <i class="fa-solid fa-calculator"></i>
@@ -284,7 +356,7 @@
       <!-- @if (!loadingProducts) {
         <div class="row" style="gap: 1.5rem 0">
           @for (product of topProducts; track $index) {
-            <div class="product sm-radius col-md-6 clickable">
+            <div class="product sm-radius col-md-6 role="button">
               <app-product-merchant-card [product]="product" [get_product]="true">
               </app-product-merchant-card>
             </div>
@@ -297,7 +369,7 @@
         class="sm-radius bg-secondary shadow px-3 py-4 col-md-11 mt-3 mx-auto">
         <h5 class="text-center fw-bold text-dark">Download Mobile App</h5>
         <div class="d-flex justify-content-around align-items-center mt-4">
-          <div class="col-5 clickable position-relative">
+          <div class="col-5 position-relative">
             <!-- <a
               href="https://apps.apple.com/fr/app/ihel%C3%A1-ryanje-app/id6470385289"
               target="_blank"
@@ -308,12 +380,12 @@
               src="./images/Download-On-The-App-Store-PNG-Transparent-Image.png"
               alt="App Store Logo"
               class="img-fluid"
-              style="cursor: pointer"
+              role="button"
               tabindex="0"
               (click)="openAppStore()" />
           </div>
 
-          <div class="col-5 clickable position-relative">
+          <div class="col-5 position-relative">
             <!-- <a
               href="https://play.google.com/store/apps/details?id=com.ubuviz.ihera_mobile&hl=fr&gl=US"
               target="_blank"
@@ -324,7 +396,7 @@
               src="./images/Logo-Disponible-sur-Google-play_full_image.png"
               alt="Play Store Logo"
               class="img-fluid"
-              style="cursor: pointer"
+              role="button"
               tabindex="0"
               (click)="openGooglePlayStore()" />
           </div>

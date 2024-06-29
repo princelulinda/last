@@ -41,9 +41,10 @@ export class AuthSignUpComponent {
   arePasswordsMatch = false;
   isMatchNumber!: boolean;
   isMatchEmail!: boolean;
-  isMatchPassword!: boolean;
+  isMatchConfirmPassword!: boolean;
   isNotMatchPassword!: boolean;
   inputNumber!: string;
+  inputconfirmPassword!: string;
   inputEmail!: string;
   inputPassword!: string;
   bankId!: number;
@@ -196,7 +197,6 @@ export class AuthSignUpComponent {
         console.error('Erreur lors de la récupération de email:', error),
     });
   }
-
   getBankList() {
     this.authService.getBanksList().subscribe({
       next: (response: { objects: bankListResponse[] }) => {
@@ -212,7 +212,6 @@ export class AuthSignUpComponent {
       password,
     });
   }
-
   changePasswordType() {
     if (!this.showPassword) {
       this.showPassword = true;
@@ -233,7 +232,6 @@ export class AuthSignUpComponent {
       this.arePasswordsMatch = true;
     }
   }
-
   checkNumber() {
     const pattern = /[0-9]+/;
     this.isMatchNumber = !pattern.test(this.inputNumber);
@@ -245,9 +243,13 @@ export class AuthSignUpComponent {
   isAllInputValueUndefined(): boolean {
     return this.inputEmail === undefined && this.inputNumber === undefined;
   }
-
   selectedBankId(bank: { organization_id: number }) {
     this.bankId = bank.organization_id;
     console.log(this.bankId);
   }
+
+  //   checkPassword() {
+  //   const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;;
+  //   this.isMatchConfirmPassword = !passwordPattern.test(this.inputconfirmPassword);
+  // }
 }

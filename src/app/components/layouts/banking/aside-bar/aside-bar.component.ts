@@ -1,34 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { SkeletonComponent } from '../../../../global/skeleton/skeleton.component';
-import { ConfigService, PlateformModel } from '../../../../core/services';
 import { Observable } from 'rxjs';
-import { FooterComponent } from '../../footer/footer.component';
-import { NgClass } from '@angular/common';
+import { activeMainConfigModel } from '../../../../core/services';
+import { ConfigService } from '../../../../core/services';
 
 @Component({
   selector: 'app-aside-bar',
   standalone: true,
-  imports: [SkeletonComponent, FooterComponent, NgClass],
+  imports: [SkeletonComponent],
   templateUrl: './aside-bar.component.html',
   styleUrl: './aside-bar.component.scss',
 })
 export class AsideBarComponent implements OnInit {
-  plateform!: PlateformModel;
-  plateform$: Observable<PlateformModel>;
+  mainConfig$!: Observable<activeMainConfigModel>;
+  mainConfig!: activeMainConfigModel;
 
   constructor(private configService: ConfigService) {
-    this.plateform$ = this.configService.getPlateform();
+    this.mainConfig$ = this.configService.getMainConfig();
   }
 
-  ngOnInit() {
-    this.plateform$.subscribe({
-      next: plateform => {
-        this.plateform = plateform;
+  ngOnInit(): void {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.mainConfig = configs;
       },
     });
-  }
-
-  switchPlateform(name: PlateformModel) {
-    this.configService.switchPlateform(name);
   }
 }

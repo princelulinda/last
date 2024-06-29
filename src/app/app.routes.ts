@@ -17,28 +17,42 @@ export const routes: Routes = [
   },
 
   // banking Routes
+
   {
-    path: 'b',
+    path: ':plateform',
     component: BankingComponent,
     canActivate: [AuthGuard],
-    children: bankingRoutes,
+    children: [
+      {
+        path: 'banking',
+        children: bankingRoutes,
+      },
+      {
+        path: 'newsFeed',
+        children: newsFeedRoutes,
+      },
+      {
+        path: 'market',
+        children: marketPlaceRoutes,
+      },
+    ],
   },
 
-  // newsFeed Routes
-  {
-    path: 'n',
-    component: BankingComponent,
-    canActivate: [AuthGuard],
-    children: newsFeedRoutes,
-  },
+  // // newsFeed Routes
+  // {
+  //   path: 'n',
+  //   component: BankingComponent,
+  //   canActivate: [AuthGuard],
+  //   children: newsFeedRoutes,
+  // },
 
-  // market place Routes
-  {
-    path: 'm',
-    component: BankingComponent,
-    canActivate: [AuthGuard],
-    children: marketPlaceRoutes,
-  },
+  // // market place Routes
+  // {
+  //   path: 'm',
+  //   component: BankingComponent,
+  //   canActivate: [AuthGuard],
+  //   children: marketPlaceRoutes,
+  // },
 
   { path: '**', component: Notfound400Component },
 ];

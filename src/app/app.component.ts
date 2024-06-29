@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 
 import { DbService } from './core/db/db.service';
 import {
@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   constructor(
     private dbService: DbService,
     private configService: ConfigService,
+    private route: ActivatedRoute,
     private router: Router
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
@@ -54,28 +55,30 @@ export class AppComponent implements OnInit {
   private managePlateformRedirection(plateform: PlateformModel) {
     switch (plateform) {
       case 'workstation':
-        this.navigate('/w');
+        this.navigate('/w/workstation');
         break;
       case 'newsFeed':
-        this.navigate('/n');
+        this.navigate('/n/newsFeed');
         break;
       case 'onlineBanking':
-        this.navigate('/b');
+        this.navigate('/b/banking');
         break;
       case 'onamob':
-        this.navigate('/o');
+        this.navigate('/o/onamob');
         break;
       case 'marketPlace':
-        this.navigate('/m');
+        this.navigate('/m/market');
         break;
       case 'admin':
-        this.navigate('/a');
+        this.navigate('/a/admin');
         break;
       default:
-        this.navigate('/n');
+        this.navigate('/n/newsFeed');
         break;
     }
   }
+
+  // private managePlateformByURL();
 
   private navigate(url: string) {
     this.router.navigate([url]);

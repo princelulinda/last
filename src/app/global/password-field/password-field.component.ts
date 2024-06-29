@@ -16,9 +16,10 @@ import {
 })
 export class PasswordFieldComponent {
   @Input() Validator: boolean | undefined;
-  @Input() label: boolean | undefined;
+  @Input() labelPass: boolean | undefined;
+  @Input() labelPin: boolean | undefined;
   @Input() required: boolean | undefined;
-
+  @Input() labelIcon: boolean | undefined;
   @Output() passwordValid = new EventEmitter<string>();
 
   passwordForm: FormGroup;
@@ -93,17 +94,19 @@ export class PasswordFieldComponent {
   hasSpecialChar(password: string): boolean {
     return /[$@$!%*?&]/.test(password);
   }
-
-  // onSubmit() {
-  //   if (this.passwordForm.valid) {
-  //     const password = this.passwordForm.value.password;
-  //     this.passwordValid.emit(password);
-  //     console.log('password');
-  //   }
-  // }
-
   onSubmit() {
-    const password = this.passwordForm.value.password;
-    this.passwordValid.emit(password);
+    if (
+      !this.getPasswordErrors().includes('8 Characters minimun') &&
+      !this.getPasswordErrors().includes('Must contain number') &&
+      !this.getPasswordErrors().includes('Password is required') &&
+      !this.getPasswordErrors().includes('Must contain uppercase') &&
+      !this.getPasswordErrors().includes(
+        'Must contain spacial characters (!@$%'
+      )
+    ) {
+      const password = this.passwordForm.value.password;
+      this.passwordValid.emit(password);
+      console.log(password);
+    }
   }
 }
