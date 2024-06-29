@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Observable, Subject } from 'rxjs';
 // import { Subject, Observable, takeUntil } from 'rxjs';
+// import { MerchantService } from '../../../core/services/merchant/merchant.service';
 
 @Component({
   selector: 'app-market-dashboard',
@@ -18,66 +20,65 @@ export class MarketDashboardComponent {
     { id: '5', image: '/images/obr.png', banque: 'OBR', comptNum: '34567' },
   ];
 
-  // private onDestroy$: Subject<void> = new Subject<void>();
+  private onDestroy$: Subject<void> = new Subject<void>();
   // // private variableService = inject(VariableService);
 
-  // clientId$!: Observable<any>;
-  // clientId: any;
+  clientId$!: Observable<string>;
+  clientId!: string;
 
-  // favoriteMerchantLoading = false;
+  favoriteMerchantLoading = false;
   // favoriteMerchants: any;
   // favoriteMerchantsNumber: any;
   // favorite_merchants: any;
-  // favorite_making = true;
+  favorite_making = true;
   // favorite_merchant_making: any;
 
   // activities: any = [];
-  // merchants: any;
-  // biller: any;
+  merchants!: [];
+  biller!: [];
   // sector: any;
   // last4: any;
   // first6: any;
-  // clearData = true;
-  // billerChecked = true;
-  // billers: any;
-  // merchantDetail = false;
+  clearData = true;
+  billerChecked = true;
+  billers!: [];
+  merchantDetail = false;
   // categorySections = false;
-  // loadingmerchants = true;
-  // merchantId: any;
-  // merchantDetails: any;
+  loadingmerchants = true;
+  merchantId!: string;
+  merchantDetails!: [];
   // payMerchant: any;
   // merchantSelected: any;
   // categorySelected: any;
   // category: { sector: any; category: any } = { sector: null, category: null };
   // payment: any;
 
-  // constructor(
-  //     // private merchantService: MerchantService,
-  //     // private store: Store
-  // ) {
-  //     // this.clientId$ = this.store.select(AuthState.GetClientId);
-  //     // comment
-  // }
+  constructor() //   private merchantService: MerchantService,
+  // private store: Store
+  {
+    // this.clientId$ = this.store.select(AuthState.GetClientId);
+    // comment
+  }
 
-  // ngOnInit(): void {
-  //     // this.getMerchants('');
-  //     this.getFavoriteMerchants('');
-  //     // this.getSectorsAndCategories();
-  //     // this.getBillers();
+  //   ngOnInit(): void {
+  //       // this.getMerchants('');
+  //       // this.getFavoriteMerchants('');
+  //       // this.getSectorsAndCategories();
+  //     //   this.getBillers();
 
-  //     this.clientId$.pipe(takeUntil(this.onDestroy$)).subscribe({
-  //         next: (clientId: any) => {
-  //             this.clientId = clientId;
-  //             // this.getMerchant('');
-  //         },
-  //     });
+  //       this.clientId$.pipe(takeUntil(this.onDestroy$)).subscribe({
+  //           next: (clientId: string) => {
+  //               this.clientId = clientId;
+  //               // this.getMerchant('');
+  //           },
+  //       });
 
-  //     // this.variableService.search.pipe(takeUntil(this.onDestroy$)).subscribe({
-  //     //     next: (search: any) => {
-  //     //         this.getMerchants(search);
-  //     //     },
-  //     // });
-  // }
+  //       // this.variableService.search.pipe(takeUntil(this.onDestroy$)).subscribe({
+  //       //     next: (search: any) => {
+  //       //         this.getMerchants(search);
+  //       //     },
+  //       // });
+  //   }
   // getFavoriteMerchants(search: string, activeLoading = true) {
   //     activeLoading ? (this.favoriteMerchantLoading = true) : false;
   //     // this.merchantService
@@ -156,32 +157,36 @@ export class MarketDashboardComponent {
   // //             },
   // //         });
   // // }
-  // // getBillers() {
-  // //     this.merchantService
-  // //         .getBIllers(this.billerChecked)
-  // //         .pipe(takeUntil(this.onDestroy$))
-  // //         .subscribe({
-  // //             next: (response: any) => {
-  // //                 this.billers = response.objects;
-  // //             },
-  // //             error: (error) => {
-  // //                 this.loadingmerchants = false;
-  // //             },
-  // //         });
-  // // }
 
-  // // getMerchantDetails() {
-  // //     this.merchantService
-  // //         .getMerchantsDetails(this.merchantId)
-  // //         .pipe(takeUntil(this.onDestroy$))
-  // //         .subscribe({
-  // //             next: (data) => {
-  // //                 this.clearData = false;
-  // //                 this.merchantDetails = data.object;
-  // //                 // this.merchant = this.merchantDetails;
-  // //             },
-  // //         });
-  // // }
+  /**can be work if u add interface for biller
+   */
+  //   getBillers() {
+  //       this.merchantService
+  //           .getBIllers(this.billerChecked)
+  //           .pipe(takeUntil(this.onDestroy$))
+  //           .subscribe({
+  //               next: (response: any) => {
+  //                   this.billers = response.objects;
+  //               },
+  //               error: (error) => {
+  //                   this.loadingmerchants = false;
+  //                   console.log(error)
+  //               },
+  //           });
+  //   }
+
+  //   getMerchantDetails() {
+  //       this.merchantService
+  //           .getMerchantsDetails(this.merchantId)
+  //           .pipe(takeUntil(this.onDestroy$))
+  //           .subscribe({
+  //               // next: (data) => {
+  //               //     this.clearData = false;
+  //               //     this.merchantDetails = data.object;
+  //               //     this.merchant = this.merchantDetails;
+  //               // },
+  //           });
+  //   }
 
   // makeFavoriteMerchants(favorite: any, event: any) {
   //     event.stopPropagation();
