@@ -86,7 +86,7 @@
             </div>
             <div class="row mb-3 mt-2">
                 <div class="col-md-6 ">
-                    <div class="form-floating">
+                    <div class="form-floating mb-2">
                         <input i18n  (focusout)="phoneNumverVerification()" [(ngModel)]="inputNumber"
                         (input)="checkNumber()"  type="text" class="form-control" id="number" placeholder="number" formControlName="number" 
                         
@@ -143,7 +143,7 @@
                       
                 </div>
             </div>
-            <div class="col mb-3">
+            <div class="col mb-4">
                 <div class="form-floating">
                     <input i18n  type="text" class="form-control" id="username" placeholder="username" formControlName="username">
                     <label class="fs-small" i18n for="Username"><span>Username<code>*</code></span> </label>
@@ -151,10 +151,10 @@
             </div>
             <div class="col mb-3">
               <div class="form-floating">
-                <app-password-field  [label]="true" (passwordValid)="onPasswordChange($event)"></app-password-field>
+                <app-password-field  [labelPass]="true" [required]="true" [Validator]="true" (passwordValid)="onPasswordChange($event)"></app-password-field>
               </div>
             </div>
-            <div class="col">
+            <div class="col position-relative z-1">
               <div class="form-floating">
                 <input
                     class="form-control"
@@ -187,7 +187,7 @@
             .password !== '' &&
             multiStepForm.controls
             .authentificationInformation.value
-            .confirmPassword !== '') {
+            .confirmPassword !== '' && isMatchConfirmPassword) {
               <span
               class="text-danger"
               i18n
@@ -202,7 +202,7 @@
               .authentificationInformation
               .valid ||
           !arePasswordsMatch ||
-          isMatchPassword ||
+  
           isMatchEmail ||
           EmailVerificationloader ||
           (this.multiStepForm.controls
