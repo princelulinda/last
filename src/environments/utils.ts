@@ -1,9 +1,16 @@
+import { PlateformModel, ThemeModel } from '../app/core/services';
+
 export const VERSION = '2.0.1';
 export const APPDBVERSION = 1;
 
 interface reusableDataModel {
   production: boolean;
-  plateformsUuid: { name: string; uuid: string; theme: { name: string } }[];
+  plateformsUuid: {
+    name: PlateformModel;
+    uuid: string;
+    theme: { name: ThemeModel };
+    baseHref: string;
+  }[];
   appInfo: string;
   defaultAppSubject: string;
   bigBangId: number;
@@ -31,36 +38,49 @@ export const environmentConfig: {
         name: 'authentification',
         uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
         theme: { name: 'ihela' },
+        baseHref: '/',
       },
       {
         name: 'newsFeed',
         uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
         theme: { name: 'ihela' },
+        baseHref: '/n/newsFeed',
       },
       {
         name: 'onlineBanking',
         uuid: '65231163-2099-45e3-95de-0bdfa5882088',
         theme: { name: 'ihela' },
+        baseHref: '/b/banking',
       },
       {
         name: 'onamob',
         uuid: '65231163-2099-45e3-95de-0bdfa5882088',
         theme: { name: 'ihela' },
+        baseHref: '/o/onamob',
       },
       {
         name: 'marketPlace',
         uuid: '28544962-9f7a-4768-adad-66f336251822',
         theme: { name: 'ihela' },
+        baseHref: '/m/market',
+      },
+      {
+        name: 'myMarket',
+        uuid: '28544962-9f7a-4768-adad-66f336251822',
+        theme: { name: 'ihela' },
+        baseHref: '/m/myMarket',
       },
       {
         name: 'workstation',
         uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
         theme: { name: 'erp' },
+        baseHref: '/w/workstation',
       },
       {
         name: 'systemAdmin',
         uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
         theme: { name: 'magis' },
+        baseHref: '/a/admin',
       },
     ],
     appInfo: '39a31c07-633e-429e-a602-09500f8d56d2',
@@ -77,24 +97,52 @@ export const environmentConfig: {
     production: true,
     plateformsUuid: [
       {
-        name: 'newsfeed',
+        name: 'authentification',
+        uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
+        theme: { name: 'ihela' },
+        baseHref: '/',
+      },
+      {
+        name: 'newsFeed',
         uuid: '9c11211d-39cb-472d-ac7c-67820f067706',
         theme: { name: 'ihela' },
+        baseHref: '/n/newsFeed',
       },
       {
-        name: 'onlinebanking',
+        name: 'onlineBanking',
         uuid: 'bafc6065-b332-443b-8444-a811f9a5e6a2',
         theme: { name: 'ihela' },
+        baseHref: '/b/banking',
       },
       {
-        name: 'marketplace',
+        name: 'onamob',
+        uuid: '65231163-2099-45e3-95de-0bdfa5882088',
+        theme: { name: 'ihela' },
+        baseHref: '/o/onamob',
+      },
+      {
+        name: 'marketPlace',
         uuid: 'ef333aab-4887-4f33-baa8-862051151992',
         theme: { name: 'ihela' },
+        baseHref: '/m/market',
+      },
+      {
+        name: 'myMarket',
+        uuid: '28544962-9f7a-4768-adad-66f336251822',
+        theme: { name: 'ihela' },
+        baseHref: '/m/myMarket',
       },
       {
         name: 'workstation',
-        uuid: 'bd75a7eb-37a1-4916-a144-54286dfbcc41',
+        uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
         theme: { name: 'erp' },
+        baseHref: '/w/workstation',
+      },
+      {
+        name: 'systemAdmin',
+        uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
+        theme: { name: 'magis' },
+        baseHref: '/a/admin',
       },
     ],
     appInfo: '9c11211d-39cb-472d-ac7c-67820f067706',

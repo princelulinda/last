@@ -10,15 +10,16 @@ import { environment } from '../../../../environments/environment';
 import { ApiService } from '../api/api.service';
 
 export type ModeModel = 'light' | 'dark';
-export type ThemeModel = 'ihela' | 'magis';
+export type ThemeModel = 'ihela' | 'magis' | 'erp';
 export type PlateformModel =
   | 'authentification'
   | 'newsFeed'
   | 'onlineBanking'
   | 'onamob'
   | 'marketPlace'
+  | 'myMarket'
   | 'workstation'
-  | 'admin';
+  | 'systemAdmin';
 export interface activeMainConfigModel {
   activeMode: ModeModel;
   activeTheme: ThemeModel;
@@ -157,10 +158,11 @@ export class ConfigService {
     }
   }
 
-  private filterPlatformData(plateform: PlateformModel): {
-    name: string;
+  filterPlatformData(plateform: PlateformModel): {
+    name: PlateformModel;
     uuid: string;
-    theme: { name: string };
+    theme: { name: ThemeModel };
+    baseHref: string;
   } {
     return environment.plateformsUuid.filter(
       plateformData => plateformData.name === plateform

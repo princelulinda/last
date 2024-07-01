@@ -18,7 +18,7 @@ import { ConfirmDialogComponent } from './global/popups/confirm-dialog/confirm-d
   imports: [RouterOutlet, ConfirmDialogComponent],
 })
 export class AppComponent implements OnInit {
-  mainConfig: activeMainConfigModel | undefined;
+  mainConfig!: activeMainConfigModel;
   mainConfig$: Observable<activeMainConfigModel>;
 
   constructor(
@@ -44,6 +44,7 @@ export class AppComponent implements OnInit {
     console.log('INITIALIZING DB VARS FROM APP COMPONENT');
     this.dbService.initializeModels();
     this.configService.initAll();
+
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
@@ -53,34 +54,20 @@ export class AppComponent implements OnInit {
   }
 
   private managePlateformRedirection(plateform: PlateformModel) {
-    switch (plateform) {
-      case 'workstation':
-        this.navigate('/w/workstation');
-        break;
-      case 'newsFeed':
-        this.navigate('/n/newsFeed');
-        break;
-      case 'onlineBanking':
-        this.navigate('/b/banking');
-        break;
-      case 'onamob':
-        this.navigate('/o/onamob');
-        break;
-      case 'marketPlace':
-        this.navigate('/m/market');
-        break;
-      case 'admin':
-        this.navigate('/a/admin');
-        break;
-      default:
-        this.navigate('/n/newsFeed');
-        break;
-    }
+    const plateformData = this.configService.filterPlatformData(plateform);
+    this.router.navigate([plateformData.baseHref]);
   }
 
-  // private managePlateformByURL();
-
-  private navigate(url: string) {
-    this.router.navigate([url]);
-  }
+  // private managePlateformByURL() {
+  //   let url = this.router.url;
+  //   let plateformData = environment.plateformsUuid.find(item =>
+  //     item.baseHref.includes(url)
+  //   );
+  //   if (
+  //     plateformData &&
+  //     plateformData.name !== this.mainConfig.activePlateform
+  //   ) {
+  //     this.configService.switchPlateform(plateformData?.name);
+  //   }
+  // }
 }
