@@ -3,18 +3,18 @@
   <!-- plateform cards -->
   <div class="row justify-content-center mx-0" style="gap: 1rem">
     <div
-      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
+      class="col-5 col-md-3 bg-secondary sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
       role="button">
       <div class="icon mb-2" style="width: 45px; height: 60px">
         <img
-          src="/public/images/ihela-b.svg"
+          src="/images/ihela-b.svg"
           alt="ihela logo"
           class="img-fluid w-100" />
       </div>
       <b i18n>Manage your account</b>
     </div>
     <div
-      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
+      class="col-5 col-md-3 bg-secondary sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
       role="button">
       <div class="icon mb-2 text-magis" style="font-size: 2.5rem">
         <i class="fa-solid fa-desktop"></i>
@@ -22,7 +22,7 @@
       <b i18n>Manage your Company</b>
     </div>
     <div
-      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
+      class="col-5 col-md-3 bg-secondary sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
       role="button">
       <div class="icon text-success mb-2" style="font-size: 2.5rem">
         <i class="fa-solid fa-cart-shopping"></i>
@@ -30,7 +30,7 @@
       <b i18n>Market Place</b>
     </div>
     <div
-      class="col-5 col-md-3 plateform-card sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
+      class="col-5 col-md-3 bg-secondary sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
       role="button"
       routerLink="/h/home/chat">
       <div class="icon text-info mb-2" style="font-size: 2.5rem">
@@ -53,8 +53,8 @@
     @if (billersLoading) {
       <div class="row justify-content-center mx-0" style="gap: 1rem">
         @for (item of countProductLoader; track $index) {
-          <div class="col-5 col-md-3 lg-radius" style="height: 73px">
-            <app-skeleton [height]="'100%'"></app-skeleton>
+          <div class="col-5 col-md-3 lg-radius">
+            <app-skeleton [height]="'73px'" classes="sm-radius"></app-skeleton>
           </div>
         }
         <!-- for responsive design -->
