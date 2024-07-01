@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { SkeletonComponent } from '../../../global/skeleton/skeleton.component';
 import { BillersModel, ProductModel } from '../dashboard.model';
-import { ConfigService } from '../../../core/services';
+import { ConfigService, PlateformModel } from '../../../core/services';
 import { Router } from '@angular/router';
 import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -84,27 +84,13 @@ export class NewsFeedComponent implements OnDestroy {
     this.product = product;
   }
 
-  openGooglePlayStore() {
-    window.open(
-      'https://play.google.com/store/apps/details?id=com.ubuviz.ihera_mobile&hl=fr&gl=US',
-      '_blank'
-    );
+  switchPlateform(plateform: PlateformModel, url?: string) {
+    this.configService.switchPlateform(plateform);
+
+    if (url) {
+      this.router.navigate([url]);
+    }
   }
-
-  openAppStore() {
-    window.open(
-      'https://apps.apple.com/fr/app/ihel%C3%A1-ryanje-app/id6470385289',
-      '_blank'
-    );
-  }
-
-  // switchPlateform(plateform: PlateformModel, url?: string) {
-  //   this.configService.switchPlateform(plateform);
-
-  //   if (url) {
-  //     this.router.navigate([url]);
-  //   }
-  // }
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
