@@ -1,7 +1,7 @@
 import { Component, effect, AfterViewInit } from '@angular/core';
 import { OpenDialog } from '../../../core/popups/dialogs/open-dialog';
 import { CommonModule } from '@angular/common';
-import { DialogModel } from '../../../core/popups/dialogs-models';
+import { DialogModel, ToastModel } from '../../../core/popups/dialogs-models';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -18,8 +18,15 @@ export class ConfirmDialogComponent implements AfterViewInit {
     type: '',
     action: '',
   };
-  dialogElement!: HTMLDialogElement | null;
-  alertElement!: HTMLElement | null;
+  toast: ToastModel = {
+    active: false,
+    message: '',
+    title: '',
+    type: '',
+  };
+
+  private dialogElement!: HTMLDialogElement | null;
+  private toastElement!: HTMLElement | null;
 
   constructor() {
     effect(() => {
@@ -45,16 +52,16 @@ export class ConfirmDialogComponent implements AfterViewInit {
       }
 
       if (
-        this.dialog?.active &&
-        (this.dialog.type === 'success' ||
-          this.dialog.type === 'failed' ||
-          this.dialog.type === 'info')
+        this.toast?.active &&
+        (this.toast.type === 'success' ||
+          this.toast.type === 'failed' ||
+          this.toast.type === 'info')
       ) {
-        this.alertElement?.classList.remove('hide');
-        this.alertElement?.classList.add('show');
+        this.toastElement?.classList.remove('hide');
+        this.toastElement?.classList.add('show');
       } else {
-        this.alertElement?.classList.remove('add');
-        this.alertElement?.classList.add('hide');
+        this.toastElement?.classList.remove('add');
+        this.toastElement?.classList.add('hide');
       }
       console.log('DIALOG INFORMATION', this.dialog);
     });
@@ -67,6 +74,6 @@ export class ConfirmDialogComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.dialogElement =
       (document.getElementById('favDialog') as HTMLDialogElement) ?? null;
-    this.alertElement = document.getElementById('alert');
+    this.toastElement = document.getElementById('alert');
   }
 }

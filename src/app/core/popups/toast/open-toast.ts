@@ -1,14 +1,15 @@
-import { signal } from '@angular/core';
+import { WritableSignal, signal } from '@angular/core';
+import { ToastModel, ToastPaylodModel } from '../dialogs-models';
 
 export class OpenToast {
-  static dialog = signal({
+  static dialog: WritableSignal<ToastModel> = signal({
     active: false,
     message: '',
     title: '',
     type: '',
   });
 
-  constructor(payload: { message: string; title: string; type: string }) {
+  constructor(payload: ToastPaylodModel) {
     OpenToast.dialog.set({
       type: payload.type,
       title: payload.title,
