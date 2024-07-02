@@ -26,6 +26,29 @@ export class MarketDashboardComponent {
       image: '/images/shoe.png',
     },
   ];
+  newArrivalInfo = [
+    {
+      id: '1',
+      name: 'Nike Air Jordan',
+      storage: '257 Shop',
+      cost: 'BIF 150,000',
+      image: '/images/greenShoe.png',
+    },
+    {
+      id: '2',
+      name: 'Nike Air Jordan',
+      storage: '257 Shop',
+      cost: 'BIF 150,000',
+      image: '/images/greenShoe.png',
+    },
+    {
+      id: '3',
+      name: 'Nike Air Jordan',
+      storage: '257 Shop',
+      cost: 'BIF 150,000',
+      image: '/images/greenShoe.png',
+    },
+  ];
   billersList = [
     { id: '1', image: '/images/obr.png', banque: 'OBR', comptNum: '34567' },
     { id: '2', image: '/images/obr.png', banque: 'OBR', comptNum: '34567' },
@@ -67,8 +90,7 @@ export class MarketDashboardComponent {
   // category: { sector: any; category: any } = { sector: null, category: null };
   // payment: any;
 
-  constructor() // private store: Store //   private merchantService: MerchantService,
-  {
+  constructor() { // private store: Store //   private merchantService: MerchantService,
     // this.clientId$ = this.store.select(AuthState.GetClientId);
     // comment
   }

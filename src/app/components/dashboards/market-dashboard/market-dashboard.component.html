@@ -175,7 +175,74 @@
     </div>
    </div>
 
-
+  <!-- new arrival -->
+   <div>
+    <div class="mt-5">
+      <div class="row mb-3">
+        <div class="col-10">
+          <h5 class="fs-medium fw-bold">New arrivals</h5>
+        </div>
+        <div class="col ms-4">
+          <div class="row">
+            <div class="col-3 me-4">
+              <span class="border rounded-circle py-1 px-2 text-secondary">
+                <i class="fa-solid fa-arrow-left fa-xs"></i>
+              </span>
+            </div>
+            <div class="col-3">
+              <span class="border rounded-circle py-1 px-2 text-secondary">
+                <i class="fa-solid fa-arrow-right fa-xs"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="bgLinear sm-radius">
+            <div class="col-8 mx-auto">
+              <div class="row">
+                <div class="col-8 mx-auto">
+                  <img src="/images/samsung.png" class="w-100 mt-5" alt="samsung">
+                </div>
+              </div>
+              <div class="row">
+               <div class="col-9 mx-auto">
+                <h3 class="fw-bold text-all-white text-center mt-5 mb-4">Samsung Galaxy <br> S24 Pro</h3>
+               </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          @for ( item of newArrivalInfo; track item.id) {
+            <div class="bg-white sm-radius border mb-3">
+              <div class="row">
+                <div class="col-11 mx-auto">
+                  <div class="row">
+                    <div class="col-3">
+                      <img src="{{item.image}}" class="border py-3 px-1 my-3" alt="greenShoe">
+                    </div>
+                    <div class="col-5">
+                      <div class="row">
+                        <h5 class="fs-medium mt-3">{{item.name}} </h5>
+                      </div>
+                      <div class="row">
+                        <p class="text-primary-light m-0">{{item.storage}} </p>
+                      </div>
+                      <div class="row">
+                        <h5 class="fw-bold mt-2">{{item.cost}} </h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+   </div>
   <!-- watch card -->
   <div class="mt-5">
     <div class="row mb-2">
