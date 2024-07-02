@@ -2,6 +2,7 @@ import { Component, effect, AfterViewInit } from '@angular/core';
 import { OpenDialog } from '../../../core/popups/dialogs/open-dialog';
 import { CommonModule } from '@angular/common';
 import { DialogModel, ToastModel } from '../../../core/popups/dialogs-models';
+import { OpenToast } from '../../../core/popups/toast/open-toast';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -30,11 +31,7 @@ export class ConfirmDialogComponent implements AfterViewInit {
 
   constructor() {
     effect(() => {
-      // if (OpenDialog.dialog as WritableSignal<ToastModel>) {
       this.dialog = OpenDialog.dialog();
-      // } else if (OpenDialog.dialog as WritableSignal<ActionDialogModel>) {
-      //   this.dialog = OpenDialog.dialog() as ActionDialogModel;
-      // }
 
       if (
         this.dialog.active &&
@@ -50,7 +47,10 @@ export class ConfirmDialogComponent implements AfterViewInit {
           this.dialogElement.close();
         }
       }
+    });
 
+    effect(() => {
+      this.toast = OpenToast.toast();
       if (
         this.toast?.active &&
         (this.toast.type === 'success' ||
@@ -63,7 +63,6 @@ export class ConfirmDialogComponent implements AfterViewInit {
         this.toastElement?.classList.remove('add');
         this.toastElement?.classList.add('hide');
       }
-      console.log('DIALOG INFORMATION', this.dialog);
     });
   }
 

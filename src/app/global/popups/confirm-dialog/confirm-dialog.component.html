@@ -39,7 +39,7 @@
   ) {
     <div
       class="alert-body h-100 d-flex align-items-center p-2 ps-4 pe-4 sm-radius badge-design bg-{{
-        dialog.type | lowercase
+        toast.type | lowercase
       }}">
       <div>
         @if (toast.type === 'success') {
@@ -59,7 +59,7 @@
         }
       </div>
       <div class="fw-normal">
-        <b>{{ dialog.message }}</b>
+        <b>{{ toast.message }}</b>
       </div>
     </div>
   }
