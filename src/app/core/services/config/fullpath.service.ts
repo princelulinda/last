@@ -6,7 +6,7 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 })
 export class FullpathService {
   public loginUrl = '/login/';
-  public nextDefaultUrl = '/b/';
+  public nextDefaultUrl = '/b/banking';
 
   getFullPath(snapshot: ActivatedRouteSnapshot): string {
     let path = snapshot.url.map(segment => segment.path).join('/');

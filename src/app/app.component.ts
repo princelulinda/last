@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Router, RouterOutlet } from '@angular/router';
 
 import { DbService } from './core/db/db.service';
@@ -7,8 +8,8 @@ import {
   PlateformModel,
   activeMainConfigModel,
 } from './core/services';
-import { Observable } from 'rxjs';
 import { ConfirmDialogComponent } from './global/popups/confirm-dialog/confirm-dialog.component';
+// import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
