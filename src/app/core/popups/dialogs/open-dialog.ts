@@ -5,6 +5,9 @@ import {
   ResponseModel,
 } from '../dialogs-models';
 // import { ConfirmDialogComponent } from '../../../global/popups/confirm-dialog/confirm-dialog.component';
+import { Observable } from 'rxjs';
+// import { toObservable } from '@angular/core/rxjs-interop';
+// import { ConfirmDialogComponent } from '../../../global/popups/confirm-dialog/confirm-dialog.component';
 
 export class OpenDialog {
   static dialog: WritableSignal<DialogModel> = signal({
@@ -15,10 +18,16 @@ export class OpenDialog {
     type: '',
   });
 
-  private static response: WritableSignal<ResponseModel> = signal({
+  // private  response: WritableSignal<ResponseModel> = signal({
+  //   action: '',
+  //   response: '',
+  // });
+
+  response: WritableSignal<ResponseModel> = signal({
     action: '',
     response: '',
   });
+  response$!: Observable<ResponseModel>;
 
   constructor(payload: DialogPayloadModel) {
     OpenDialog.dialog.set({
@@ -28,14 +37,11 @@ export class OpenDialog {
       action: payload.action,
       active: true,
     });
-
-    // effect(() => {
-    //  OpenDialog.
-    // });
+    // this.response$ = toObservable(ConfirmDialogComponent.DialogResponse);
   }
 
-  static getResponse(): ResponseModel {
-    return OpenDialog.response();
+  getResponse(): Observable<ResponseModel> {
+    return this.response$;
   }
 
   static closeDialog() {

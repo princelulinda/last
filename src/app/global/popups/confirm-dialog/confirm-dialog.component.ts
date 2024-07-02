@@ -3,6 +3,7 @@ import {
   effect,
   AfterViewInit,
   WritableSignal,
+  signal,
 } from '@angular/core';
 import { OpenDialog } from '../../../core/popups/dialogs/open-dialog';
 import { CommonModule } from '@angular/common';
@@ -35,7 +36,10 @@ export class ConfirmDialogComponent implements AfterViewInit {
     type: '',
   };
 
-  static DialogResponse: WritableSignal<ResponseModel>;
+  static DialogResponse: WritableSignal<ResponseModel> = signal({
+    action: '',
+    response: '',
+  });
 
   private dialogElement!: HTMLDialogElement | null;
   private toastElement!: HTMLElement | null;
@@ -81,11 +85,13 @@ export class ConfirmDialogComponent implements AfterViewInit {
     OpenDialog.closeDialog();
   }
 
-  getDialogResponse(response: string) {
-    ConfirmDialogComponent.DialogResponse.set({
-      response: response,
-      action: this.dialog.action,
-    });
+  getDialogResponse(response?: string) {
+    if (response) {
+      ConfirmDialogComponent.DialogResponse.set({
+        response: response,
+        action: this.dialog.action,
+      });
+    }
     this.closeDialog();
   }
 
