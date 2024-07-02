@@ -23,8 +23,7 @@ export class MerchantsComponent {
   favorite_merchant_making = null;
 
   isLoading = false;
-  constructor() // private store: Store // private merchantService: MerchantService,
-  {
+  constructor() { // private store: Store // private merchantService: MerchantService,
     // this.theme$ = this.store.select(SwitchThemeState.GetTheme);
   }
 
