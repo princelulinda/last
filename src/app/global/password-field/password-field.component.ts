@@ -97,25 +97,27 @@ export class PasswordFieldComponent {
   }
 
   onSubmitPassword() {
-    if (
-      !this.getPasswordErrors().includes('8 Characters minimun') &&
-      !this.getPasswordErrors().includes('Must contain number') &&
-      !this.getPasswordErrors().includes('Password is required') &&
-      !this.getPasswordErrors().includes('Must contain uppercase') &&
-      !this.getPasswordErrors().includes(
-        'Must contain spacial characters (!@$%'
-      )
-    ) {
-      const password = this.passwordForm.value.password;
-      this.passwordValid.emit(password);
-      console.log(password);
-    }
+    const password = this.passwordForm.value.password;
+    this.passwordValid.emit(password);
+    // if (
+    //   !this.getPasswordErrors().includes('8 Characters minimun') &&
+    //   !this.getPasswordErrors().includes('Must contain number') &&
+    //   !this.getPasswordErrors().includes('Password is required') &&
+    //   !this.getPasswordErrors().includes('Must contain uppercase') &&
+    //   !this.getPasswordErrors().includes(
+    //     'Must contain spacial characters (!@$%'
+    //   )
+    // ) {
+    //   const password = this.passwordForm.value.password;
+    //   this.passwordValid.emit(password);
+    //   console.log(password);
+    // }
   }
-  onSubmitPin() {
-    if (!this.getPasswordErrors().includes(' Characters minimun')) {
-      const pin = this.passwordForm.value.password;
-      this.pinValid.emit(pin);
-      console.log(pin);
-    }
-  }
+  // onSubmitPin() {
+  //   if (!this.getPasswordErrors().includes(' Characters minimun')) {
+  //     const pin = this.passwordForm.value.password;
+  //     this.pinValid.emit(pin);
+  //     console.log(pin);
+  //   }
+  // }
 }

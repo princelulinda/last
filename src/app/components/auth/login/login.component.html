@@ -10,7 +10,7 @@
           <label class="fs-small" i18n for="number"><span><img src="/images/user.svg" width="23" alt=""> Username</span> </label>
         </div>
         <div class="form-floating">
-          <app-password-field  [labelPass]="true" [labelIcon]="true" (pinValid)="onPasswordChange($event)"></app-password-field>
+          <app-password-field  [labelPass]="true" [labelIcon]="true" (passwordValid)="onPasswordChange($event)"></app-password-field>
         </div>
         <div class="col mt-4"><span class="text-primary" role="button" routerLink="/reset/" >Forgot password?</span>
         </div>
