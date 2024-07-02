@@ -10,7 +10,7 @@ import { AuthService } from '../../../core/services';
 import { FullpathService } from '../../../core/services';
 import { UserApiResponse } from '../../../core/db/models';
 import { PasswordFieldComponent } from '../../../global/password-field/password-field.component';
-import { DbService } from '../../../core/db';
+// import { DbService } from '../../../core/db';
 
 @Component({
   selector: 'app-login',
@@ -38,8 +38,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private fullpathService: FullpathService,
-    private dbService: DbService
+    private fullpathService: FullpathService
   ) {}
 
   redirectToNext() {
@@ -92,7 +91,7 @@ export class LoginComponent implements OnInit {
         });
     }
   }
-  onPasswordChange(password: string) {
-    this.loginForm.get('password')?.setValue(password);
+  onPasswordChange(pin: string) {
+    this.loginForm.get('password')?.setValue(pin);
   }
 }

@@ -207,11 +207,7 @@ export class AuthSignUpComponent {
         console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
-  onPasswordChange(password: string) {
-    this.multiStepForm.controls.authentificationInformation.patchValue({
-      password,
-    });
-  }
+
   changePasswordType() {
     if (!this.showPassword) {
       this.showPassword = true;
@@ -247,9 +243,9 @@ export class AuthSignUpComponent {
     this.bankId = bank.organization_id;
     console.log(this.bankId);
   }
-
-  //   checkPassword() {
-  //   const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;;
-  //   this.isMatchConfirmPassword = !passwordPattern.test(this.inputconfirmPassword);
-  // }
+  onPasswordChange(password: string) {
+    this.multiStepForm.controls.authentificationInformation.patchValue({
+      password,
+    });
+  }
 }
