@@ -34,3 +34,8 @@ export type dialogTypeModel = 'confirm' | 'password' | 'pin';
 export interface CloseDialog {
   response: string;
 }
+
+export interface ResponseModel {
+  response: string;
+  action: string;
+}

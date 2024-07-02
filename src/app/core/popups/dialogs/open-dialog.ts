@@ -1,5 +1,10 @@
 import { WritableSignal, signal } from '@angular/core';
-import { DialogModel, DialogPayloadModel } from '../dialogs-models';
+import {
+  DialogModel,
+  DialogPayloadModel,
+  ResponseModel,
+} from '../dialogs-models';
+// import { ConfirmDialogComponent } from '../../../global/popups/confirm-dialog/confirm-dialog.component';
 
 export class OpenDialog {
   static dialog: WritableSignal<DialogModel> = signal({
@@ -10,14 +15,27 @@ export class OpenDialog {
     type: '',
   });
 
+  private static response: WritableSignal<ResponseModel> = signal({
+    action: '',
+    response: '',
+  });
+
   constructor(payload: DialogPayloadModel) {
     OpenDialog.dialog.set({
       type: payload.type,
       title: payload.title,
       message: payload.message,
-      action: payload.action ?? '',
+      action: payload.action,
       active: true,
     });
+
+    // effect(() => {
+    //  OpenDialog.
+    // });
+  }
+
+  static getResponse(): ResponseModel {
+    return OpenDialog.response();
   }
 
   static closeDialog() {

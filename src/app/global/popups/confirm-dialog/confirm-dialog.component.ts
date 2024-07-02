@@ -1,7 +1,16 @@
-import { Component, effect, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  effect,
+  AfterViewInit,
+  WritableSignal,
+} from '@angular/core';
 import { OpenDialog } from '../../../core/popups/dialogs/open-dialog';
 import { CommonModule } from '@angular/common';
-import { DialogModel, ToastModel } from '../../../core/popups/dialogs-models';
+import {
+  DialogModel,
+  ResponseModel,
+  ToastModel,
+} from '../../../core/popups/dialogs-models';
 import { OpenToast } from '../../../core/popups/toast/open-toast';
 
 @Component({
@@ -25,6 +34,8 @@ export class ConfirmDialogComponent implements AfterViewInit {
     title: '',
     type: '',
   };
+
+  static DialogResponse: WritableSignal<ResponseModel>;
 
   private dialogElement!: HTMLDialogElement | null;
   private toastElement!: HTMLElement | null;
@@ -68,6 +79,14 @@ export class ConfirmDialogComponent implements AfterViewInit {
 
   closeDialog() {
     OpenDialog.closeDialog();
+  }
+
+  getDialogResponse(response: string) {
+    ConfirmDialogComponent.DialogResponse.set({
+      response: response,
+      action: this.dialog.action,
+    });
+    this.closeDialog();
   }
 
   ngAfterViewInit() {
