@@ -181,12 +181,18 @@
         </div>
       </div>
       <div class="w-100 px-2 overflow-hidden">
-        <app-read-more [maxLength]="200">
-          <p>
+        <p appShowMore [maxLength]="50">
+          Bienvenue dans l’application iHela Ryanje. Nous améliorons les
+          fonctionnalités afin de vous offrir une expérience unique. Toutes les
+          transactions financières se font sur la même plateforme en un temps
+          record.
+        </p>
+        <!-- <app-read-more [maxLength]="200">
+          <p appShowMore [maxLength]="50">
             Bienvenue dans l’application iHela Ryanje. Nous améliorons les
             fonctionnalités afin de vous offrir une expérience unique. Toutes
             les transactions financières se font sur la même plateforme en un
-            temps record. <br />
+            temps record.
           </p>
           <ul>
             <li>
@@ -218,7 +224,7 @@
             compte courant afin de transférer de l’argent sans passer par
             l’application, en composant *163#.
           </p>
-        </app-read-more>
+        </app-read-more> -->
       </div>
       <div
         class="product-body d-flex bg-white flex-column justify-content-center align-items-center p-2 mb-3 sm-radius overflow-hidden w-100">
