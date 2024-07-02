@@ -21,6 +21,7 @@ export class PasswordFieldComponent {
   @Input() required: boolean | undefined;
   @Input() labelIcon: boolean | undefined;
   @Output() passwordValid = new EventEmitter<string>();
+  @Output() pinValid = new EventEmitter<string>();
 
   passwordForm: FormGroup;
   showPassword = false;
@@ -94,7 +95,8 @@ export class PasswordFieldComponent {
   hasSpecialChar(password: string): boolean {
     return /[$@$!%*?&]/.test(password);
   }
-  onSubmit() {
+
+  onSubmitPassword() {
     if (
       !this.getPasswordErrors().includes('8 Characters minimun') &&
       !this.getPasswordErrors().includes('Must contain number') &&
@@ -107,6 +109,13 @@ export class PasswordFieldComponent {
       const password = this.passwordForm.value.password;
       this.passwordValid.emit(password);
       console.log(password);
+    }
+  }
+  onSubmitPin() {
+    if (!this.getPasswordErrors().includes(' Characters minimun')) {
+      const pin = this.passwordForm.value.password;
+      this.pinValid.emit(pin);
+      console.log(pin);
     }
   }
 }
