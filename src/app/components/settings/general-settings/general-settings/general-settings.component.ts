@@ -19,9 +19,9 @@ export class GeneralSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.clientInfo$.subscribe({
-      next: clientInfo => {
-        this.clientInfo = clientInfo;
-        console.log('Client Info:', this.clientInfo);
+      next: userInfo => {
+        this.clientInfo = userInfo;
+        console.log('Client Info:', userInfo);
       },
     });
   }
