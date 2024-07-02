@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   userInfo!: userInfoModel;
 
-  corporates$!: Observable<corporatesModel>;
+  private corporates$!: Observable<corporatesModel>;
 
   corporates: corporatesModel[] = [];
   showCorporatesSection = false;
@@ -73,9 +73,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   next = '';
   themeLogo = '';
   showPlateformPopup = false;
-  clientInfo$!: Observable<clientInfoModel>;
 
-  clientInfo!: clientInfoModel;
+  private clientInfo$!: Observable<clientInfoModel>;
+  clientInfo!: UserInfoModel;
 
   @Output() toggleAsideMenuEvent = new EventEmitter<boolean>();
   asideMenuIsActive = false;
@@ -90,8 +90,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   eyeShowed!: [];
   // eyeStatus$: Observable<any>;
 
-  userInfo$: Observable<UserInfoModel>;
-  clientId$: Observable<number>;
+  private userInfo$: Observable<UserInfoModel>;
+  private clientId$: Observable<number>;
 
   constructor(
     private configService: ConfigService,
@@ -114,6 +114,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.userInfo$.subscribe({
       next: userinfo => {
+        this.clientInfo = userinfo;
         console.log('OBSERVABLE POPULATE USER DATA ', userinfo);
       },
     });
