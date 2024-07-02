@@ -28,7 +28,7 @@ export const routes: Routes = [
         children: bankingRoutes,
       },
       {
-        path: 'newsFeed',
+        path: 'newsfeed',
         children: newsFeedRoutes,
       },
       {
@@ -37,22 +37,6 @@ export const routes: Routes = [
       },
     ],
   },
-
-  // // newsFeed Routes
-  // {
-  //   path: 'n',
-  //   component: BankingComponent,
-  //   canActivate: [AuthGuard],
-  //   children: newsFeedRoutes,
-  // },
-
-  // // market place Routes
-  // {
-  //   path: 'm',
-  //   component: BankingComponent,
-  //   canActivate: [AuthGuard],
-  //   children: marketPlaceRoutes,
-  // },
 
   { path: '**', component: Notfound400Component },
 ];

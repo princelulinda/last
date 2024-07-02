@@ -44,7 +44,7 @@ export const environmentConfig: {
         name: 'newsFeed',
         uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
         theme: { name: 'ihela' },
-        baseHref: '/n/newsFeed',
+        baseHref: '/n/newsfeed',
       },
       {
         name: 'onlineBanking',
@@ -68,7 +68,7 @@ export const environmentConfig: {
         name: 'myMarket',
         uuid: '28544962-9f7a-4768-adad-66f336251822',
         theme: { name: 'ihela' },
-        baseHref: '/m/myMarket',
+        baseHref: '/m/mymarket',
       },
       {
         name: 'workstation',
