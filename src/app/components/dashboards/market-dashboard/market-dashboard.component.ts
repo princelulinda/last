@@ -12,6 +12,43 @@ import { Observable, Subject } from 'rxjs';
   styleUrl: './market-dashboard.component.scss',
 })
 export class MarketDashboardComponent {
+  shoeCardInfo = [
+    {
+      id: '1',
+      offerPourcent: '15% Discount',
+      offerInfo: 'Buy new Nike Air Jordan and get up to 15% discount',
+      image: '/images/shoe.png',
+    },
+    {
+      id: '2',
+      offerPourcent: '15% Discount',
+      offerInfo: 'Buy new Nike Air Jordan and get up to 15% discount',
+      image: '/images/shoe.png',
+    },
+  ];
+  newArrivalInfo = [
+    {
+      id: '1',
+      name: 'Nike Air Jordan',
+      storage: '257 Shop',
+      cost: 'BIF 150,000',
+      image: '/images/greenShoe.png',
+    },
+    {
+      id: '2',
+      name: 'Nike Air Jordan',
+      storage: '257 Shop',
+      cost: 'BIF 150,000',
+      image: '/images/greenShoe.png',
+    },
+    {
+      id: '3',
+      name: 'Nike Air Jordan',
+      storage: '257 Shop',
+      cost: 'BIF 150,000',
+      image: '/images/greenShoe.png',
+    },
+  ];
   billersList = [
     { id: '1', image: '/images/obr.png', banque: 'OBR', comptNum: '34567' },
     { id: '2', image: '/images/obr.png', banque: 'OBR', comptNum: '34567' },
