@@ -37,7 +37,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       image: '',
       icon: 'fa-solid fa-house-chimney-user fa-xl',
       is_selected: true,
-      link: '/n/newsFeed',
+      link: '/n/newsfeed',
     },
     {
       plateform: 'onlineBanking',

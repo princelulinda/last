@@ -1,19 +1,13 @@
 import { WritableSignal, signal } from '@angular/core';
-import { DialogModel, dialogTypeModel } from './dialog-models';
-
-interface DialogPayloadModel {
-  title: string;
-  message: string;
-  type: dialogTypeModel;
-  action?: string;
-}
-
-// interface ActionPayloadModel {
-//   title: string;
-//   message: string;
-//   type: dialogTypeModel;
-//   action: string;
-// }
+import {
+  DialogModel,
+  DialogPayloadModel,
+  ResponseModel,
+} from '../dialogs-models';
+// import { ConfirmDialogComponent } from '../../../global/popups/confirm-dialog/confirm-dialog.component';
+import { Observable } from 'rxjs';
+// import { toObservable } from '@angular/core/rxjs-interop';
+// import { ConfirmDialogComponent } from '../../../global/popups/confirm-dialog/confirm-dialog.component';
 
 export class OpenDialog {
   static dialog: WritableSignal<DialogModel> = signal({
@@ -24,31 +18,31 @@ export class OpenDialog {
     type: '',
   });
 
+  // private  response: WritableSignal<ResponseModel> = signal({
+  //   action: '',
+  //   response: '',
+  // });
+
+  response: WritableSignal<ResponseModel> = signal({
+    action: '',
+    response: '',
+  });
+  response$!: Observable<ResponseModel>;
+
   constructor(payload: DialogPayloadModel) {
     OpenDialog.dialog.set({
       type: payload.type,
       title: payload.title,
       message: payload.message,
-      action: payload.action ?? '',
+      action: payload.action,
       active: true,
     });
-    // if (payload as ToastPayloadModel) {
-    //   alert('PUTAIN CA PEUT MARCHE TOAST PAYLOAD');
-    // } else if (payload as ActionPayloadModel) {
-    //   alert('PUTAIN CA PEUT MARCHE Action PAYLOAD');
-    // }
-    if (
-      payload.type === 'failed' ||
-      payload.type === 'success' ||
-      payload.type === 'info'
-    ) {
-      OpenDialog.closeDialog();
-    }
+    // this.response$ = toObservable(ConfirmDialogComponent.DialogResponse);
   }
 
-  // getDialogResponse(){
-
-  // }
+  getResponse(): Observable<ResponseModel> {
+    return this.response$;
+  }
 
   static closeDialog() {
     OpenDialog.dialog.set({
