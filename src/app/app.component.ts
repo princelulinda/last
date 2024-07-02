@@ -8,16 +8,17 @@ import {
   activeMainConfigModel,
 } from './core/services';
 import { Observable } from 'rxjs';
+import { ConfirmDialogComponent } from './global/popups/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ConfirmDialogComponent],
 })
 export class AppComponent implements OnInit {
-  mainConfig: activeMainConfigModel | undefined;
+  mainConfig!: activeMainConfigModel;
   mainConfig$: Observable<activeMainConfigModel>;
 
   constructor(
@@ -32,9 +33,17 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    // new OpenDialog({ message: 'Salut les gens', title: '', type: 'success' });
+    // new OpenDialog({
+    //   message: 'Vous voulez confirmer cette action',
+    //   title: '',
+    //   type: 'confirm',
+    //   action: 'Get Confirmation',
+    // });
     console.log('INITIALIZING DB VARS FROM APP COMPONENT');
     this.dbService.initializeModels();
     this.configService.initAll();
+
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
@@ -44,32 +53,20 @@ export class AppComponent implements OnInit {
   }
 
   private managePlateformRedirection(plateform: PlateformModel) {
-    switch (plateform) {
-      case 'workstation':
-        this.navigate('/w');
-        break;
-      case 'newsFeed':
-        this.navigate('/n');
-        break;
-      case 'onlineBanking':
-        this.navigate('/b');
-        break;
-      case 'onamob':
-        this.navigate('/o');
-        break;
-      case 'marketPlace':
-        this.navigate('/m');
-        break;
-      case 'admin':
-        this.navigate('/a');
-        break;
-      default:
-        this.navigate('/n');
-        break;
-    }
+    const plateformData = this.configService.filterPlatformData(plateform);
+    this.router.navigate([plateformData.baseHref]);
   }
 
-  private navigate(url: string) {
-    this.router.navigate([url]);
-  }
+  // private managePlateformByURL() {
+  //   let url = this.router.url;
+  //   let plateformData = environment.plateformsUuid.find(item =>
+  //     item.baseHref.includes(url)
+  //   );
+  //   if (
+  //     plateformData &&
+  //     plateformData.name !== this.mainConfig.activePlateform
+  //   ) {
+  //     this.configService.switchPlateform(plateformData?.name);
+  //   }
+  // }
 }

@@ -1,0 +1,9 @@
+<div #content style="display: none">
+  <ng-content></ng-content>
+</div>
+<div>
+  <span [innerHTML]="isCollapsed ? truncatedText : fullText"></span>
+  <a href="javascript:void(0)" class="fw-bold" (click)="toggleCollapse()">
+    {{ isCollapsed ? 'Voir plus' : 'Voir moins' }}
+  </a>
+</div>

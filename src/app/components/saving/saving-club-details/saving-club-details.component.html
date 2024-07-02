@@ -1,1 +1,391 @@
-<p>saving-club-details works!</p>
+<div class="sm-radius p-5 bg-secondary min-h  mt-5  " >
+    <div class="row col-8">
+     <div class="col">
+        <div class="d-flex align-items-center justify-content-between">
+           <div class="border-r p-2 border-5 ">
+            <div class="fs-large fw-bold  font-calibri ">
+                Bibyento Bundi
+            </div>
+            <div class="fw-bold fs-medium font-calibri">
+                53 members
+            </div>
+           </div>
+           <div>
+            <div class="bg-primary text-all-white rounded text-normal fw-bold font-calibri px-5 p-2  " role="button">
+                Admin
+            </div>
+           </div>
+            <div>
+                <div class=" text-primary fw-bold fs-medium text-decoration-underline" role="button">
+                    Internal regulations
+                </div>
+
+            </div>
+        </div>
+
+     
+        <div class="mt-4 ">
+         <div>
+            <div class="fw-bold fs-small font-calibri text-secondary">
+                Penalities
+            </div>
+            <div class="fw-bold fs-medium font-calibri">
+                1000
+            </div>
+         </div>
+        </div>
+        <div class="mt-4 ">
+            <div>
+               <div class="fw-bold fs-small font-calibri text-secondary">
+                Contribution date
+               </div>
+               <div class="fw-bold fs-medium font-calibri">
+                   5/5/2340
+               </div>
+            </div>
+           </div>
+      
+       
+     </div>   
+    </div>
+    <hr class="mb-4">
+    <div class="row d-flex justify-content-between align-items-center">
+        <div class="col-1"  >
+            <div class="bg-primary text-all-white fs-normal font-calibri p-2 rounded text-center "
+                    
+                            [ngClass]="{ 'opacity-25': selectedMenu }"
+                            (click)="switchMenu('')"  tabindex="0"
+                        role="button"
+            >
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="bg-primary text-all-white fs-normal font-calibri p-2 rounded text-center fw-bold"
+            [ngClass]="{ 'opacity-25': selectedMenu!=='contribution' }"
+            (click)="switchMenu('contribution')"  tabindex="0"
+        role="button">
+                Contribution
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="bg-primary text-all-white fs-normal font-calibri p-2 rounded text-center fw-bold"
+            [ngClass]="{ 'opacity-25': selectedMenu !== 'request'}"
+            (click)="switchMenu('request')"  tabindex="0"
+        role="button">
+           Request
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="bg-primary text-all-white fs-normal font-calibri p-2 rounded text-center fw-bold"
+            [ngClass]="{ 'opacity-25': selectedMenu!=='settings' }"
+            (click)="switchMenu('settings')"  tabindex="0"
+        role="button">
+                Settings
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="bg-primary text-all-white fs-normal font-calibri p-2 rounded text-center fw-bold"
+            [ngClass]="{ 'opacity-25': selectedMenu!=='credit' }"
+           
+        role="button">
+                Cedrit
+            </div>
+        </div>
+    </div>
+
+<!--if selected menu is contribution-->
+@if (selectedMenu === 'contribution') {
+
+    <div class="row col-8 mt-4">
+        <div class="col">
+            <div class="mt-3">
+                <div class="text-secondary fw-bold font-calibri fs-small">
+                    Club Contribution
+                </div>
+                <div class="fw-bold fs-medium font-calibri">
+                    2500 BIF
+                </div>
+               </div>
+               <div class="mt-3">
+                <div class="text-secondary fw-bold font-calibri fs-small">
+                    Social Contribution
+                </div>
+                <div class="fw-bold fs-medium font-calibri">
+                    2500 BIF
+                </div>
+               </div>
+        </div>
+
+
+        <div class="col">
+            <div class="mt-3">
+                <div class="text-secondary fw-bold font-calibri fs-small">
+                    Payroll Amount
+                </div>
+                <div class="fw-bold fs-medium font-calibri">
+                    2500 BIF
+                </div>
+               </div>
+               <div class="mt-3">
+                <div class="text-secondary fw-bold font-calibri fs-small">
+                    Penalties
+                </div>
+                <div class="fw-bold fs-medium font-calibri">
+                    2500 BIF
+                </div>
+               </div>
+              
+        </div>
+        <div class="col">
+            <div class="mt-3">
+                <div class="text-secondary fw-bold font-calibri fs-small">
+                    Payment date
+                </div>
+                <div class="fw-bold fs-medium font-calibri">
+                    2
+                </div>
+               </div>
+               <div class="mt-3">
+               <div class="bg-primary text-all-white fs-small font-calibri rounded  p-2 fw-bold text-center ">
+                        Pay Next contribution
+               </div>
+               </div>
+              
+        </div>
+    </div>
+
+    <div class="mt-3  d-flex align-items-center gap-2 col-4 " >
+        <div class="fw-bold font-calibri fs-medium">
+            Monthly contribution
+        </div>
+     <div class="w-25">
+        <select
+        class="form-select bg-white text-dark  "
+    >
+        <option
+    >
+        </option>
+    </select>
+     </div>
+       </div>
+}
+
+ <!-- if !selectedMenu-->
+   @if (!selectedMenu ) {
+    <div class="mt-4">
+        <div class="row">
+           <div class="text-secondary fs-medium font-calibri fw-bold">
+            Membership information
+           </div> 
+        </div>
+        <div class="mt-3 row col-8">
+            <div class="col">
+               <div>
+                <div class="text-secondary fw-bold font-calibri fs-small">
+                    Name
+                </div>
+                <div class="fw-bold fs-medium font-calibri">
+                    Pierre claver koko
+                </div>
+               </div>
+
+               <div class="mt-4">
+                <div class="text-secondary fw-bold font-calibri fs-small">
+                    Contribution
+                </div>
+                <div class="fw-bold fs-medium font-calibri">
+                    50000 BIF
+                </div>
+               </div>
+               <div class="mt-4">
+                <div class="text-secondary fw-bold font-calibri fs-small">
+                    Contribution date
+                </div>
+                <div class="fw-bold fs-medium font-calibri">
+                    5
+                </div>
+               </div>
+               <div class="mt-4">
+                <div class="text-secondary fw-bold font-calibri fs-small">
+                    Next Contribution
+                </div>
+                <div class="fw-bold fs-medium font-calibri">
+                    5
+                </div>
+               </div>
+            </div>
+
+            <div class="col">
+                <div>
+                 <div class="text-secondary fw-bold font-calibri fs-small">
+                     Code
+                 </div>
+                 <div class="fw-bold fs-medium font-calibri">
+                   16
+                 </div>
+                </div>
+ 
+                <div class="mt-4">
+                 <div class="text-secondary fw-bold font-calibri fs-small">
+                     Parts number
+                 </div>
+                 <div class="fw-bold fs-medium font-calibri">
+                     5
+                 </div>
+                </div>
+              
+                <div class="mt-4">
+                 <div class="text-secondary fw-bold font-calibri fs-small">
+                     Balance
+                 </div>
+                 <div class="fw-bold fs-medium font-calibri">
+                     890000 BIF
+                 </div>
+                </div>
+                <div class="mt-4">
+                    <div class="text-secondary fw-bold font-calibri fs-small">
+                        Capacity
+                    </div>
+                    <div class="fw-bold fs-medium font-calibri">
+                        0000 BIF
+                    </div>
+                   </div>
+             </div>
+
+             <div class="col">
+                <div>
+                 <div class="text-secondary fw-bold font-calibri fs-small">
+                     Penalities
+                 </div>
+                 <div class="fw-bold fs-medium font-calibri">
+                   992 BIF
+                 </div>
+                </div>
+ 
+                <div class="mt-4">
+                 <div class="text-secondary fw-bold font-calibri fs-small">
+                     Credit
+                 </div>
+                 <div class="fw-bold fs-medium font-calibri">
+                     5000 BIF
+                 </div>
+                </div>
+              
+                <div class="mt-4">
+                 <div class="text-secondary fw-bold font-calibri fs-small">
+                    Accumulated approved amount
+                 </div>
+                 <div class="fw-bold fs-medium font-calibri">
+                     890000 BIF
+                 </div>
+                </div>
+                <div class="mt-4">
+                    <div class="text-secondary fw-bold font-calibri fs-small">
+                        Request
+                    </div>
+                    <div class="fw-bold fs-medium font-calibri">
+                        0
+                    </div>
+                   </div>
+             </div>
+
+             <div class="col">
+                <div>
+                 <div class="text-secondary fw-bold font-calibri fs-small">
+                     Status
+                 </div>
+                 <div class="fw-bold fs-medium font-calibri active-color">
+                   Active
+                 </div>
+                </div>
+ 
+                <div class="mt-4">
+                 <div class="text-secondary fw-bold font-calibri fs-small">
+                    Adhesion date
+                 </div>
+                 <div class="fw-bold fs-medium font-calibri">
+                     4 feb 2024
+                 </div>
+                </div>
+              
+                <div class="mt-4">
+                 <div class="text-secondary fw-bold font-calibri fs-small">
+                    Reference member
+                 </div>
+                 <div class="fw-bold fs-medium font-calibri">
+                     8
+                 </div>
+                </div>
+              
+             </div>
+        </div>
+    </div>
+   }
+   <!-- if selected menu is settings-->
+   @if (selectedMenu === 'settings') {
+    <div class="row col-4 mt-5">
+<div class=" fs-medium fw-bold font-calibri">
+    Choose the day of your contribution 
+</div>
+
+<div >
+    <select
+    class="form-select bg-white text-dark  "
+>
+    <option
+>
+    </option>
+</select>
+ </div>
+ <div class="mt-5 col-4 ">
+    <div class="bg-primary text-all-white fs-medium fw-bold p-2 text-center rounded">
+        Save
+    </div>
+ </div>
+    </div>
+
+   }
+
+<!--id selected menu is request -->
+@if (selectedMenu==='request') {
+    <div class=" row col-5 mt-4">
+        <div class="text-secondary fw-bold font-calibri fs-normal">
+            Request
+     </div>
+     <div class="col">
+        <div class="bg-white lg-radius p-3">
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex gap-4">
+                <div>
+                    <i class="fa-solid fa-circle-user text-secondary fs-2"></i>
+                </div>
+                <div class="d-grid">
+                    <div class="fw-bold font-calibri fs-normal">
+                        Marie jane Irakoze
+                    </div>
+                    <div class="fw-bold fs-x-small font-calibri">
+                        0056
+                    </div>
+                    <div class="fw-bold fs-x-small font-calibri">
+                        2week ago
+                    </div>
+                </div>
+              </div>
+    
+                <div class="d-flex flex-column gap-2">
+                    <div class="bg-primary rounded text-all-white p-2 px-5 fs-medium font-calibri fw-bold">
+                       Accept 
+                    </div>
+                    <div class="border border-2 border-primary text-all-dark fw-bold fs-medium p-2 px-5 rounded ">
+                        Cancel
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+    
+     </div>
+    </div>
+}
+</div>

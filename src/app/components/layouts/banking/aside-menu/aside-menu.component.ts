@@ -1,6 +1,8 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { activeMainConfigModel } from '../../../../core/services';
+import { ConfigService } from '../../../../core/services';
 @Component({
   selector: 'app-aside-menu',
   standalone: true,
@@ -8,11 +10,19 @@ import { Component } from '@angular/core';
   templateUrl: './aside-menu.component.html',
   styleUrls: ['./aside-menu.component.scss'],
 })
-export class AsideMenuComponent {
-  plateform = 'home';
-  isMymarket = true;
+export class AsideMenuComponent implements OnInit {
+  mainConfig$!: Observable<activeMainConfigModel>;
+  mainConfig!: activeMainConfigModel;
 
-  switchPlateform(name: string) {
-    this.plateform = name;
+  constructor(private configService: ConfigService) {
+    this.mainConfig$ = this.configService.getMainConfig();
+  }
+
+  ngOnInit(): void {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.mainConfig = configs;
+      },
+    });
   }
 }
