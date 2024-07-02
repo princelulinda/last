@@ -123,6 +123,59 @@
       </div>
     </div>
   </div>
+
+  <!-- best offers cards -->
+   <div>
+    <div class="mt-4">
+      <div class="row">
+        <div class="col-10">
+          <h4 class="fs-medium fw-bold">Best offers</h4>
+
+        </div>
+        <div class="col ms-4">
+          <div class="row">
+            <div class="col-3 me-4">
+              <span class="border rounded-circle py-1 px-2 text-secondary">
+                <i class="fa-solid fa-arrow-left fa-xs"></i>
+              </span>
+            </div>
+            <div class="col-3">
+              <span class="border rounded-circle py-1 px-2 text-secondary">
+                <i class="fa-solid fa-arrow-right fa-xs"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        @for ( item of shoeCardInfo; track item.id) {
+          <div class="col-6">
+            <div class="bg-primary sm-radius">
+              <div class="col-11 mx-auto">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <h4 class="fw-bold text-all-white mt-5">{{item.offerPourcent}}</h4>
+                    </div>
+                    <div class="row">
+                      <p class="fs-small">
+                        {{item.offerInfo}}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <img src="{{item.image}}" class="mt-4" alt="shoe">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+   </div>
+
+
   <!-- watch card -->
   <div class="mt-5">
     <div class="row mb-2">
@@ -343,12 +396,12 @@
                 class="card-img-top"
                 alt="logoBanque" />
             </span>
-            <div class="bg-all-dark border">
+            <div class="bg-white border">
               <div class="card-text ms-3 mt-2">
-                <span class="fs-normal text-light fw-bold"
+                <span class="fs-normal text-dark fw-bold"
                   >{{ biller.banque }} </span
                 ><br />
-                <span class="text-light">{{ biller.comptNum }} </span>
+                <span class="text-dark">{{ biller.comptNum }} </span>
               </div>
             </div>
           </div>
