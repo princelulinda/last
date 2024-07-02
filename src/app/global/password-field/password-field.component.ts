@@ -95,15 +95,16 @@ export class PasswordFieldComponent {
     return /[$@$!%*?&]/.test(password);
   }
   onSubmit() {
-    if (
-      !this.getPasswordErrors().includes('8 Characters minimun') &&
-      !this.getPasswordErrors().includes('Must contain number') &&
-      !this.getPasswordErrors().includes('Password is required') &&
-      !this.getPasswordErrors().includes('Must contain uppercase') &&
-      !this.getPasswordErrors().includes(
-        'Must contain spacial characters (!@$%'
-      )
-    ) {
+    // if (
+    //   !this.getPasswordErrors().includes('8 Characters minimun') &&
+    //   !this.getPasswordErrors().includes('Must contain number') &&
+    //   !this.getPasswordErrors().includes('Password is required') &&
+    //   !this.getPasswordErrors().includes('Must contain uppercase') &&
+    //   !this.getPasswordErrors().includes(
+    //     'Must contain spacial characters (!@$%'
+    //   )
+    // ) {
+    {
       const password = this.passwordForm.value.password;
       this.passwordValid.emit(password);
       console.log(password);
