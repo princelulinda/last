@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
+import { ProductCardComponent } from '../../dev/product-card/product-card.component';
 // import { Subject, Observable, takeUntil } from 'rxjs';
 // import { MerchantService } from '../../../core/services/merchant/merchant.service';
 
 @Component({
   selector: 'app-market-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProductCardComponent],
   templateUrl: './market-dashboard.component.html',
   styleUrl: './market-dashboard.component.scss',
 })
@@ -90,7 +91,8 @@ export class MarketDashboardComponent {
   // category: { sector: any; category: any } = { sector: null, category: null };
   // payment: any;
 
-  constructor() { // private store: Store //   private merchantService: MerchantService,
+  constructor() {
+    // private store: Store //   private merchantService: MerchantService,
     // this.clientId$ = this.store.select(AuthState.GetClientId);
     // comment
   }
