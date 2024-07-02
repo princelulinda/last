@@ -1,19 +1,5 @@
 import { WritableSignal, signal } from '@angular/core';
-import { DialogModel, dialogTypeModel } from './dialog-models';
-
-interface DialogPayloadModel {
-  title: string;
-  message: string;
-  type: dialogTypeModel;
-  action?: string;
-}
-
-// interface ActionPayloadModel {
-//   title: string;
-//   message: string;
-//   type: dialogTypeModel;
-//   action: string;
-// }
+import { DialogModel, DialogPayloadModel } from '../dialogs-models';
 
 export class OpenDialog {
   static dialog: WritableSignal<DialogModel> = signal({
@@ -32,23 +18,7 @@ export class OpenDialog {
       action: payload.action ?? '',
       active: true,
     });
-    // if (payload as ToastPayloadModel) {
-    //   alert('PUTAIN CA PEUT MARCHE TOAST PAYLOAD');
-    // } else if (payload as ActionPayloadModel) {
-    //   alert('PUTAIN CA PEUT MARCHE Action PAYLOAD');
-    // }
-    if (
-      payload.type === 'failed' ||
-      payload.type === 'success' ||
-      payload.type === 'info'
-    ) {
-      OpenDialog.closeDialog();
-    }
   }
-
-  // getDialogResponse(){
-
-  // }
 
   static closeDialog() {
     OpenDialog.dialog.set({

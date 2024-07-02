@@ -1,7 +1,7 @@
 import { Component, effect, AfterViewInit } from '@angular/core';
 import { OpenDialog } from '../../../core/popups/dialogs/open-dialog';
 import { CommonModule } from '@angular/common';
-import { DialogModel } from '../../../core/popups/dialogs/dialog-models';
+import { DialogModel } from '../../../core/popups/dialogs-models';
 
 @Component({
   selector: 'app-confirm-dialog',
