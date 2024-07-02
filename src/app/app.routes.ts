@@ -7,7 +7,7 @@ import { BankingComponent } from './components/layouts/banking/banking.component
 import { bankingRoutes } from './routes/banking/banking.routes';
 import { newsFeedRoutes } from './routes/newsFeed/newsFeed.routes';
 import { marketPlaceRoutes } from './routes/market-place/marketPlace.routes';
-
+//import { GeneralSettingsComponent } from './components/settings/general-settings/general-settings/general-settings.component';
 export const routes: Routes = [
   // authentification routes
   {
