@@ -1,13 +1,14 @@
 import { WritableSignal, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+
+import { Observable } from 'rxjs';
+
 import {
   DialogModel,
   DialogPayloadModel,
-  ResponseModel,
+  DialogResponseModel,
 } from '../dialogs-models';
-// import { ConfirmDialogComponent } from '../../../global/popups/confirm-dialog/confirm-dialog.component';
-import { Observable } from 'rxjs';
-// import { toObservable } from '@angular/core/rxjs-interop';
-// import { ConfirmDialogComponent } from '../../../global/popups/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../global/popups/confirm-dialog/confirm-dialog.component';
 
 export class OpenDialog {
   static dialog: WritableSignal<DialogModel> = signal({
@@ -23,11 +24,11 @@ export class OpenDialog {
   //   response: '',
   // });
 
-  response: WritableSignal<ResponseModel> = signal({
+  private response: WritableSignal<DialogResponseModel> = signal({
     action: '',
     response: '',
   });
-  response$!: Observable<ResponseModel>;
+  response$!: Observable<DialogResponseModel>;
 
   constructor(payload: DialogPayloadModel) {
     OpenDialog.dialog.set({
@@ -37,11 +38,10 @@ export class OpenDialog {
       action: payload.action,
       active: true,
     });
-    // this.response$ = toObservable(ConfirmDialogComponent.DialogResponse);
   }
 
-  getResponse(): Observable<ResponseModel> {
-    return this.response$;
+  getResponse(): Observable<DialogResponseModel> {
+    return toObservable(ConfirmDialogComponent.DialogResponse);
   }
 
   static closeDialog() {

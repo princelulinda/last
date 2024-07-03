@@ -35,7 +35,7 @@ export interface CloseDialog {
   response: string;
 }
 
-export interface ResponseModel {
+export interface DialogResponseModel {
   response: string;
   action: string;
 }

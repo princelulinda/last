@@ -9,7 +9,7 @@ import { OpenDialog } from '../../../core/popups/dialogs/open-dialog';
 import { CommonModule } from '@angular/common';
 import {
   DialogModel,
-  ResponseModel,
+  DialogResponseModel,
   ToastModel,
 } from '../../../core/popups/dialogs-models';
 import { OpenToast } from '../../../core/popups/toast/open-toast';
@@ -36,7 +36,7 @@ export class ConfirmDialogComponent implements AfterViewInit {
     type: '',
   };
 
-  static DialogResponse: WritableSignal<ResponseModel> = signal({
+  static DialogResponse: WritableSignal<DialogResponseModel> = signal({
     action: '',
     response: '',
   });
