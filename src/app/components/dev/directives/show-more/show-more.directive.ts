@@ -1,80 +1,92 @@
 import {
-  AfterViewInit,
+  AfterContentInit,
   Directive,
   ElementRef,
   Input,
-  OnChanges,
-  SimpleChanges,
+  Renderer2,
 } from '@angular/core';
 
 @Directive({
   selector: '[appShowMore]',
   standalone: true,
 })
-export class ShowMoreDirective implements AfterViewInit, OnChanges {
+export class ShowMoreDirective implements AfterContentInit {
   @Input() maxLength = 100;
-  private fullText = '';
-  private elementRef: ElementRef<HTMLElement>;
-  showMoreBtn = false;
 
-  constructor(elementRef: ElementRef) {
-    this.elementRef = elementRef;
+  private fullText = '';
+  private truncatedText = '';
+  private isCollapsed = true;
+  private contentElement: HTMLElement;
+  private toggleElement!: HTMLElement;
+
+  constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2
+  ) {
+    this.contentElement = elementRef.nativeElement;
   }
 
-  ngAfterViewInit(): void {
-    console.log('11111111111111111----------ngAfterViewInit called');
-    this.fullText = this.elementRef.nativeElement.textContent || '';
+  ngAfterContentInit(): void {
+    console.log('11111111111111111----------ngAfterContentInit called');
+    this.fullText = this.contentElement.innerHTML.trim();
     console.log(
       '222222222---------------Full text after view init:',
       this.fullText
     );
-    this.truncateText();
-    this.showMoreBtn = this.fullText.length > this.maxLength;
+    this.truncatedText =
+      this.fullText.length > this.maxLength
+        ? this.fullText.slice(0, this.maxLength) + '...'
+        : this.fullText;
     console.log(
-      '333333333333333333333-------------------------Show more button state:',
-      this.showMoreBtn
+      '333333333333333333333-------------------------truncated text:',
+      this.truncatedText
     );
+    this.createToggleElement();
+    this.updateContent();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('444444444444444------------ngOnChanges called', changes);
-    if (changes['maxLength']) {
-      this.truncateText();
-      this.showMoreBtn = this.fullText.length > this.maxLength;
-      console.log(
-        '55555555555555-----------------Show more button state:',
-        this.showMoreBtn
-      );
-    }
+  private toggleCollapse(): void {
+    console.log(
+      '4444444444----------------is Collapsed before toggle:',
+      this.isCollapsed
+    );
+    this.isCollapsed = !this.isCollapsed;
+
+    console.log(
+      '55555555----------------is Collapsed after toggle:',
+      this.isCollapsed
+    );
+
+    this.updateContent();
+    this.updateToggleText();
   }
 
-  private truncateText(): void {
-    console.log('66666666666666666-----------------Truncate text called');
-    if (this.fullText.length > this.maxLength) {
-      this.elementRef.nativeElement.textContent =
-        this.fullText.slice(0, this.maxLength) + '...';
-    } else {
-      this.elementRef.nativeElement.textContent = this.fullText;
-    }
-    console.log(
-      '66666666666666666666----------------Text after truncation:',
-      this.elementRef.nativeElement.textContent
-    );
+  private updateContent(): void {
+    const contentToShow = this.isCollapsed ? this.truncatedText : this.fullText;
+    this.renderer.setProperty(this.contentElement, 'innerHTML', contentToShow);
+    this.renderer.appendChild(this.contentElement, this.toggleElement);
   }
 
-  toggleCollapse(showText: boolean): void {
-    console.log(
-      '7777777777----------------Toggle collapse called with:',
-      showText
+  private createToggleElement(): void {
+    this.toggleElement = this.renderer.createElement('a');
+    this.renderer.setAttribute(
+      this.toggleElement,
+      'href',
+      'javascript:void(0)'
     );
-    if (showText) {
-      this.elementRef.nativeElement.textContent = this.fullText;
-    } else {
-      this.truncateText();
-    }
-    console.log(
-      '8888888888888----------------Text after toggle:',
-      this.elementRef.nativeElement.textContent
+    this.renderer.addClass(this.toggleElement, 'fw-bold');
+    this.renderer.listen(this.toggleElement, 'click', (event: Event) => {
+      event.stopPropagation();
+      this.toggleCollapse();
+    });
+    this.updateToggleText();
+  }
+
+  private updateToggleText(): void {
+    this.renderer.setProperty(
+      this.toggleElement,
+      'innerText',
+      this.isCollapsed ? 'Voir plus' : 'Voir moins'
     );
   }
 }
