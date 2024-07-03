@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
       action: 'Generate bill password',
       message: '',
       title: '',
-      type: 'password',
+      type: 'pin',
     });
 
     this.dialog$.subscribe({

@@ -4,7 +4,8 @@
   class="bg-white border sm-radius is-dialog d-flex justify-content-center align-items-center">
   <!-- TODO :: CONFIRMATION DIALOG -->
   @if (dialog.active && dialog.type === 'confirm') {
-    <div class="p-3 w-100">
+    <div
+      class="w-100 d-flex align-items-center flex-column justify-content-center">
       <span class="text-center text-primary-2 mb-0" style="font-size: 60px">
         <i class="fa-regular fa-circle-question"></i>
       </span>
@@ -32,48 +33,49 @@
   }
 
   <!-- TODO :: PASSWORD DIALOG -->
-  @if (dialog.active && dialog.type === 'password') {}
-  <div class="w-100">
-    <span
-      class="text-center text-dark fs-l-medium"
-      [innerHTML]="dialog.message"></span>
-    <form
-      [formGroup]="passwordForm"
-      (ngSubmit)="submitPassword()"
-      class="text-center mt-2">
-      <div class="form-floating mt-2">
-        <input
-          type="password"
-          class="form-control input"
-          name="password"
-          placeholder="Password"
-          formControlName="password" />
-        <label class="fs-6" for="id_password"
-          ><small i18n
-            ><i class="fa-solid fa-lock text-secondary"></i> Password</small
+  @if (dialog.active && dialog.type === 'password') {
+    <div class="w-100">
+      <span
+        class="text-center text-dark fs-l-medium"
+        [innerHTML]="dialog.message"></span>
+      <form
+        [formGroup]="passwordForm"
+        (ngSubmit)="submitPassword()"
+        class="text-center mt-2">
+        <div class="form-floating mt-2">
+          <input
+            type="password"
+            class="form-control input"
+            name="password"
+            placeholder="Password"
+            formControlName="password" />
+          <label class="fs-6" for="id_password"
+            ><small i18n
+              ><i class="fa-solid fa-lock text-secondary"></i> Password</small
+            >
+            <code>*</code></label
           >
-          <code>*</code></label
-        >
-      </div>
-      <div class="text-center mt-4">
-        <button
-          class="btn bg-primary btn-sm px-4 border-0"
-          type="submit"
-          (click)="submitPassword()"
-          [disabled]="!passwordForm.valid">
-          <span class="text-all-white">Submit</span>
-        </button>
-        <span
-          role="button"
-          tabindex="0"
-          class="ms-4 text-dark"
-          i18n
-          (click)="cancelDialog()"
-          >Cancel</span
-        >
-      </div>
-    </form>
-  </div>
+        </div>
+        <div class="text-center mt-4">
+          <button
+            class="btn bg-primary btn-sm px-4 border-0"
+            type="submit"
+            (click)="submitPassword()"
+            [disabled]="!passwordForm.valid">
+            <span class="text-all-white">Submit</span>
+          </button>
+          <span
+            role="button"
+            tabindex="0"
+            class="ms-4 text-dark"
+            i18n
+            (click)="cancelDialog()"
+            >Cancel</span
+          >
+        </div>
+      </form>
+    </div>
+  }
 
   <!-- TODO :: PIN DIALOG -->
   @if (dialog.active && dialog.type === 'pin') {
@@ -186,11 +188,11 @@
             <div class="form-floating mt-2">
               <input
                 type="password"
-                class="form-control input level-3"
+                class="form-control"
                 name="pin"
                 placeholder="Pin"
-                style="border: none"
                 formControlName="pin"
+                minlength="4"
                 maxlength="4" />
               <label class="fs-6" for="id_password"
                 ><small
@@ -201,7 +203,7 @@
             </div>
             <div class="text-center mt-4">
               <button
-                class="btn btn-sm bg-primary is-small is-rounded"
+                class="btn btn-sm bg-primary btn-small text-all-white px-4 border-0"
                 type="submit"
                 [disabled]="!pinForm.valid">
                 <span>Submit</span>

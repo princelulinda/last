@@ -68,13 +68,9 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
     this.clientInfo$ = this.authService.getUserInfo();
     effect(() => {
       this.dialog = this.dialogService.dialog();
+      console.log("PUTAIN DE MERDE C'EST QUOI CA ", this.dialog);
 
-      if (
-        this.dialog.active &&
-        (this.dialog.type === 'confirm' ||
-          this.dialog.type === 'password' ||
-          this.dialog.type === 'pin')
-      ) {
+      if (this.dialog.active) {
         if (this.dialogElement) {
           this.dialogElement.showModal();
         }
