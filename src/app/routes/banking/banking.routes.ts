@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { bankingSavingRoutes } from '../../components/saving/saving.routes';
+import { OnlineBankingComponent } from '../../components/dashboards/online-banking/online-banking.component';
 
 export const bankingRoutes: Routes = [
   {
-    path: 'saving',
-    children: bankingSavingRoutes,
+    path: '',
+    component: OnlineBankingComponent,
   },
 ];
