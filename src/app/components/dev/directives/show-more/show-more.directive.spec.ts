@@ -8,7 +8,7 @@ describe('ShowMoreDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ShowMoreDirective],
+      imports: [ShowMoreDirective],
     });
     renderer = TestBed.inject(Renderer2);
   });
