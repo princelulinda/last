@@ -10,18 +10,21 @@ import { UserInfoModel } from '../../../../core/db/models/auth';
   styleUrl: './general-settings.component.scss',
 })
 export class GeneralSettingsComponent implements OnInit {
-  clientInfo$!: Observable<UserInfoModel>;
   clientInfo!: UserInfoModel;
 
+  private userInfo$: Observable<UserInfoModel>;
+
   constructor(private authService: AuthService) {
-    this.clientInfo$ = this.authService.getUserInfo();
+    this.userInfo$ = this.authService.getUserInfo();
   }
 
   ngOnInit(): void {
-    this.clientInfo$.subscribe({
-      next: userInfo => {
-        this.clientInfo = userInfo;
-        console.log('Client Info:', userInfo);
+    this.userInfo$.subscribe({
+      next: userinfo => {
+        if (userinfo) {
+          this.clientInfo = userinfo;
+          console.log('userinfo', this.clientInfo);
+        }
       },
     });
   }

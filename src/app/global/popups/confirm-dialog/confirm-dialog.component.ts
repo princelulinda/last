@@ -1,7 +1,18 @@
-import { Component, effect, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  effect,
+  AfterViewInit,
+  WritableSignal,
+  signal,
+} from '@angular/core';
 import { OpenDialog } from '../../../core/popups/dialogs/open-dialog';
 import { CommonModule } from '@angular/common';
-import { DialogModel } from '../../../core/popups/dialogs/dialog-models';
+import {
+  DialogModel,
+  ResponseModel,
+  ToastModel,
+} from '../../../core/popups/dialogs-models';
+import { OpenToast } from '../../../core/popups/toast/open-toast';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -18,16 +29,24 @@ export class ConfirmDialogComponent implements AfterViewInit {
     type: '',
     action: '',
   };
-  dialogElement!: HTMLDialogElement | null;
-  alertElement!: HTMLElement | null;
+  toast: ToastModel = {
+    active: false,
+    message: '',
+    title: '',
+    type: '',
+  };
+
+  static DialogResponse: WritableSignal<ResponseModel> = signal({
+    action: '',
+    response: '',
+  });
+
+  private dialogElement!: HTMLDialogElement | null;
+  private toastElement!: HTMLElement | null;
 
   constructor() {
     effect(() => {
-      // if (OpenDialog.dialog as WritableSignal<ToastModel>) {
       this.dialog = OpenDialog.dialog();
-      // } else if (OpenDialog.dialog as WritableSignal<ActionDialogModel>) {
-      //   this.dialog = OpenDialog.dialog() as ActionDialogModel;
-      // }
 
       if (
         this.dialog.active &&
@@ -43,20 +62,22 @@ export class ConfirmDialogComponent implements AfterViewInit {
           this.dialogElement.close();
         }
       }
+    });
 
+    effect(() => {
+      this.toast = OpenToast.toast();
       if (
-        this.dialog?.active &&
-        (this.dialog.type === 'success' ||
-          this.dialog.type === 'failed' ||
-          this.dialog.type === 'info')
+        this.toast?.active &&
+        (this.toast.type === 'success' ||
+          this.toast.type === 'failed' ||
+          this.toast.type === 'info')
       ) {
-        this.alertElement?.classList.remove('hide');
-        this.alertElement?.classList.add('show');
+        this.toastElement?.classList.remove('hide');
+        this.toastElement?.classList.add('show');
       } else {
-        this.alertElement?.classList.remove('add');
-        this.alertElement?.classList.add('hide');
+        this.toastElement?.classList.remove('add');
+        this.toastElement?.classList.add('hide');
       }
-      console.log('DIALOG INFORMATION', this.dialog);
     });
   }
 
@@ -64,9 +85,19 @@ export class ConfirmDialogComponent implements AfterViewInit {
     OpenDialog.closeDialog();
   }
 
+  getDialogResponse(response?: string) {
+    if (response) {
+      ConfirmDialogComponent.DialogResponse.set({
+        response: response,
+        action: this.dialog.action,
+      });
+    }
+    this.closeDialog();
+  }
+
   ngAfterViewInit() {
     this.dialogElement =
       (document.getElementById('favDialog') as HTMLDialogElement) ?? null;
-    this.alertElement = document.getElementById('alert');
+    this.toastElement = document.getElementById('alert');
   }
 }

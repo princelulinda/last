@@ -75,7 +75,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showPlateformPopup = false;
 
   private clientInfo$!: Observable<clientInfoModel>;
-  clientInfo!: UserInfoModel;
 
   @Output() toggleAsideMenuEvent = new EventEmitter<boolean>();
   asideMenuIsActive = false;
@@ -89,7 +88,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   //eyeShowed was any
   eyeShowed!: [];
   // eyeStatus$: Observable<any>;
-
+  clientInfo!: UserInfoModel;
   private userInfo$: Observable<UserInfoModel>;
   private clientId$: Observable<number>;
 

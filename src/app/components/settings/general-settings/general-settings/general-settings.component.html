@@ -7,9 +7,59 @@
           <i class="fa-solid fa-pen text-success text-sm"></i>
         </div>
       </div>
-      <div class="text-all-dark">
-        {{ clientInfo.user.username }}
-      </div>
+      @if (clientInfo) {
+        <div class="row mt-3 mt-sm-5">
+          <div
+            class="d-flex flex-wrap d-sm-block col-sm-6"
+            style="gap: 1rem 2rem">
+            <div class="d-flex flex-column">
+              <span class="fw-bold text-dark" i18n>User id</span>
+
+              <span class="text-dark mt-2">
+                <i>{{ clientInfo.client.client_id }}</i>
+              </span>
+            </div>
+
+            <div class="mt-sm-3 d-flex flex-column">
+              <span class="fw-bold text-dark" i18n>Username</span>
+
+              <span class="text-dark mt-2">
+                <i>{{ clientInfo.user.username }}</i>
+              </span>
+            </div>
+
+            <div class="mt-sm-3 d-flex flex-column">
+              <span class="fw-bold text-dark" i18n>Name</span>
+              <span class="text-dark mt-2">
+                <i>{{ clientInfo.client.client_full_name }}</i></span
+              >
+            </div>
+          </div>
+          <div class="col-sm-6 mt-3 mt-sm-0">
+            <div class="align-items-center" style="display: inline-flex">
+              <span class="fw-bold text-dark" i18n>Profile</span>
+
+              @if (clientInfo && clientInfo.client) {
+                <div
+                  class="bg-secondary profifPicture lg-radius d-flex justify-content-center align-items-center">
+                  @if (clientInfo.client.picture_url) {
+                    <span class="text-secondary fs-1">
+                      <i class="fa-regular fa-user"></i>
+                    </span>
+                  }
+                  @if (clientInfo.client.picture_url) {
+                    <img
+                      [src]="clientInfo.client.picture_url"
+                      class="img-fluid image w-100 h-100 lg-radius"
+                      alt="userprofile" />
+                    />
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
     </div>
   </div>
 </div>
