@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
-        this.managePlateformRedirection(this.mainConfig.activePlateform);
+        // this.managePlateformRedirection(this.mainConfig.activePlateform);
       },
     });
   }

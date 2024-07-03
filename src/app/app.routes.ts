@@ -24,13 +24,14 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'banking',
-        children: bankingRoutes,
-      },
-      {
         path: 'newsfeed',
         children: newsFeedRoutes,
       },
+      {
+        path: 'banking',
+        children: bankingRoutes,
+      },
+
       {
         path: 'market',
         children: marketPlaceRoutes,
