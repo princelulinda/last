@@ -1,6 +1,5 @@
 import { ElementRef, Renderer2 } from '@angular/core';
 import { ShowMoreDirective } from './show-more.directive';
-// import { TestBed } from '@angular/core/testing';
 
 describe('ShowMoreDirective', () => {
   const elementRef: ElementRef = new ElementRef(null);
@@ -8,12 +7,7 @@ describe('ShowMoreDirective', () => {
 
   beforeEach(() => {
     renderer = {
-      // setProperty: () => {},
       createElement: () => document.createElement('a'),
-      // setAttribute: () => {},
-      // addClass: () => {},
-      // appendChild: () => {},
-      // listen: () => {},
     } as unknown as Renderer2;
   });
 
