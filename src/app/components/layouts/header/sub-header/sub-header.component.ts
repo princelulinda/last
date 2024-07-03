@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { AuthService } from '../../../../core/services';
 import { UserInfoModel } from '../../../../core/db/models/auth';
@@ -20,7 +20,7 @@ export class SubHeaderComponent implements OnInit, OnDestroy {
   clientInfo!: UserInfoModel;
   private userInfo$: Observable<UserInfoModel>;
 
-  constructor(private authService: AuthService) {
+  constructor(@Inject(AuthService) private authService: AuthService) {
     this.userInfo$ = this.authService.getUserInfo();
   }
 
