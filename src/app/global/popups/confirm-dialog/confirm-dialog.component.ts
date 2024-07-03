@@ -1,17 +1,20 @@
-import { Component, effect, AfterViewInit } from '@angular/core';
+import { Component, effect, AfterViewInit, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import {
-  DialogModel,
-  ToastModel,
-} from '../../../core/services/dialog/dialogs-models';
-import { DialogService } from '../../../core/services';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+
+import { Observable } from 'rxjs';
+
+import {
+  DialogModel,
+  ToastModel,
+} from '../../../core/services/dialog/dialogs-models';
+import { AuthService, DialogService } from '../../../core/services';
+import { UserInfoModel } from '../../../core/db/models/auth';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -20,7 +23,7 @@ import {
   templateUrl: './confirm-dialog.component.html',
   styleUrl: './confirm-dialog.component.scss',
 })
-export class ConfirmDialogComponent implements AfterViewInit {
+export class ConfirmDialogComponent implements AfterViewInit, OnInit {
   dialog: DialogModel = {
     message: '',
     active: false,
@@ -41,17 +44,28 @@ export class ConfirmDialogComponent implements AfterViewInit {
     password: ['', Validators.required],
   });
 
-  pinForm = this.fb.group({
+  pinForm: FormGroup = this.fb.group({
     pin: [
       '',
       [Validators.required, Validators.minLength(4), Validators.maxLength(4)],
     ],
   });
+  changePinForm = this.fb.group({
+    old_pin: ['', Validators.required],
+    new_pin: ['', Validators.required],
+    new_pin2: ['', Validators.required],
+  });
+  isCreatingPin = false;
+
+  clientInfo!: UserInfoModel;
+  clientInfo$: Observable<UserInfoModel>;
 
   constructor(
     private dialogService: DialogService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthService
   ) {
+    this.clientInfo$ = this.authService.getUserInfo();
     effect(() => {
       this.dialog = this.dialogService.dialog();
 
@@ -86,11 +100,23 @@ export class ConfirmDialogComponent implements AfterViewInit {
     });
   }
 
+  ngOnInit() {
+    this.clientInfo$.subscribe({
+      next: userInfo => {
+        this.clientInfo = userInfo;
+      },
+    });
+  }
+
   setConfirmationDialogResponse(payload: 'YES' | 'NO') {
     this.dialogService.setDialogResponse({
       action: this.dialog.action,
       response: payload,
     });
+  }
+
+  cancelDialog() {
+    this.dialogService.closeDialog();
   }
 
   submitPassword() {
@@ -101,10 +127,44 @@ export class ConfirmDialogComponent implements AfterViewInit {
     this.passwordForm.reset();
     this.dialogService.closeDialog();
   }
-
-  cancelDialog() {
+  submitPin() {
+    this.dialogService.setDialogResponse({
+      action: this.dialog.action,
+      response: { pin: this.pinForm.value },
+    });
+    this.pinForm.reset();
     this.dialogService.closeDialog();
   }
+
+  // submitPinCreation() {
+  //   this.isCreatingPin = true;
+  //   this.settingService.changePin(this.changePinForm.value).subscribe({
+  //     next: response_data => {
+  //       this.isCreatingPin = false;
+  //       if (response_data.object.success === true) {
+  //         this.variableService.pin = this.changePinForm.value['new_pin'];
+  //         this.store.dispatch(new CloseDialog({ response: 'pin submitted' }));
+  //         this.store.dispatch(new ConfirmPinPossession());
+  //       } else if (response_data.object.success === false) {
+  //         const data = {
+  //           title: '',
+  //           type: 'failed',
+  //           message: response_data.object.response_message,
+  //         };
+  //         this.store.dispatch(new OpenDialog(data));
+  //       }
+  //     },
+  //     error: (err: any) => {
+  //       this.isCreatingPin = false;
+  //       const data = {
+  //         title: '',
+  //         type: 'failed',
+  //         message: 'Something went, please retry again!',
+  //       };
+  //       this.store.dispatch(new OpenDialog(data));
+  //     },
+  //   });
+  // }
 
   ngAfterViewInit() {
     this.dialogElement =
