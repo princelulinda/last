@@ -90,7 +90,8 @@ export class MarketDashboardComponent {
   // category: { sector: any; category: any } = { sector: null, category: null };
   // payment: any;
 
-  constructor() { // private store: Store //   private merchantService: MerchantService,
+  constructor() {
+    // private store: Store //   private merchantService: MerchantService,
     // this.clientId$ = this.store.select(AuthState.GetClientId);
     // comment
   }
