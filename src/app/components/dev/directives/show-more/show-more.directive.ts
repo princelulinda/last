@@ -27,35 +27,35 @@ export class ShowMoreDirective implements AfterContentInit {
   }
 
   ngAfterContentInit(): void {
-    console.log('11111111111111111----------ngAfterContentInit called');
+    // console.log('11111111111111111----------ngAfterContentInit called');
     this.fullText = this.contentElement.innerHTML.trim();
-    console.log(
-      '222222222---------------Full text after view init:',
-      this.fullText
-    );
+    // console.log(
+    //   '222222222---------------Full text after view init:',
+    //   this.fullText
+    // );
     this.truncatedText =
       this.fullText.length > this.maxLength
         ? this.fullText.slice(0, this.maxLength) + '...'
         : this.fullText;
-    console.log(
-      '333333333333333333333-------------------------truncated text:',
-      this.truncatedText
-    );
+    // console.log(
+    //   '333333333333333333333-------------------------truncated text:',
+    //   this.truncatedText
+    // );
     this.createToggleElement();
     this.updateContent();
   }
 
   private toggleCollapse(): void {
-    console.log(
-      '4444444444----------------is Collapsed before toggle:',
-      this.isCollapsed
-    );
+    // console.log(
+    //   '4444444444----------------is Collapsed before toggle:',
+    //   this.isCollapsed
+    // );
     this.isCollapsed = !this.isCollapsed;
 
-    console.log(
-      '55555555----------------is Collapsed after toggle:',
-      this.isCollapsed
-    );
+    // console.log(
+    //   '55555555----------------is Collapsed after toggle:',
+    //   this.isCollapsed
+    // );
 
     this.updateContent();
     this.updateToggleText();
