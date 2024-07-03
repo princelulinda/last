@@ -15,7 +15,7 @@ import { userInfoModel } from '../model';
 export class SubHeaderComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  dayMoment: string = 'Morning';
+  dayMoment = 'Morning';
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   private userInfo$: Observable<UserInfoModel>;

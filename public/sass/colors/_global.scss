@@ -153,6 +153,13 @@ a {
   }
 }
 
+.app-container {
+  @media screen and (min-width: 1700px) {
+    margin: 0 auto;
+    max-width: 1700px;
+  }
+}
+
 @import '../colors/erp-theme';
 @import '../colors/ihela-theme';
 @import '../colors/magis-theme';
