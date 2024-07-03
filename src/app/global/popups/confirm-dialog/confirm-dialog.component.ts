@@ -37,6 +37,12 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
     title: '',
     type: '',
   };
+  loading: { active: boolean; type: 'loading' | ''; action: string } = {
+    action: '',
+    active: false,
+    type: '',
+  };
+
   private dialogElement!: HTMLDialogElement | null;
   private toastElement!: HTMLElement | null;
 
@@ -68,9 +74,9 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
     this.clientInfo$ = this.authService.getUserInfo();
     effect(() => {
       this.dialog = this.dialogService.dialog();
-      console.log("PUTAIN DE MERDE C'EST QUOI CA ", this.dialog);
+      this.loading = this.dialogService.loading();
 
-      if (this.dialog.active) {
+      if (this.dialog.active || this.loading.active) {
         if (this.dialogElement) {
           this.dialogElement.showModal();
         }

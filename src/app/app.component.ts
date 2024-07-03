@@ -6,12 +6,10 @@ import { Observable } from 'rxjs';
 import { DbService } from './core/db/db.service';
 import {
   ConfigService,
-  DialogService,
   PlateformModel,
   activeMainConfigModel,
 } from './core/services';
 import { ConfirmDialogComponent } from './global/popups/confirm-dialog/confirm-dialog.component';
-import { DialogResponseModel } from './core/services/dialog/dialogs-models';
 
 @Component({
   selector: 'app-root',
@@ -24,34 +22,18 @@ export class AppComponent implements OnInit {
   mainConfig!: activeMainConfigModel;
   mainConfig$: Observable<activeMainConfigModel>;
 
-  dialog$: Observable<DialogResponseModel>;
-
   constructor(
     private dbService: DbService,
     private configService: ConfigService,
-    private router: Router,
-    private dialogService: DialogService
+    private router: Router
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.dbService.dbIsReady.subscribe((value: boolean) =>
       console.log(`APP COMPONENT DB READY : ${value}`)
     );
-    this.dialog$ = this.dialogService.getDialogState();
   }
 
   ngOnInit() {
-    this.dialogService.openDialog({
-      action: 'Generate bill password',
-      message: '',
-      title: '',
-      type: 'pin',
-    });
-
-    this.dialog$.subscribe({
-      next: dialog => {
-        console.log('TODO ::', dialog);
-      },
-    });
     this.dbService.initializeModels();
     this.configService.initAll();
 

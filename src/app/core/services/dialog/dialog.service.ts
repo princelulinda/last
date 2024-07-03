@@ -28,6 +28,16 @@ export class DialogService {
     type: '',
   });
 
+  loading: WritableSignal<{
+    type: 'loading' | '';
+    active: boolean;
+    action: string;
+  }> = signal({
+    action: '',
+    type: 'loading',
+    active: false,
+  });
+
   response: WritableSignal<DialogResponseModel> = signal({
     action: '',
     response: '',
@@ -56,6 +66,14 @@ export class DialogService {
     });
   }
 
+  dispatchLoading(action: string) {
+    this.loading.set({
+      action: action,
+      active: true,
+      type: 'loading',
+    });
+  }
+
   setDialogResponse(data: DialogResponseModel) {
     this.response.set(data);
   }
@@ -79,6 +97,13 @@ export class DialogService {
       title: '',
       type: '',
       action: '',
+    });
+  }
+  closeLoading() {
+    this.loading.set({
+      action: '',
+      active: false,
+      type: '',
     });
   }
 }
