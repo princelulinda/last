@@ -5,6 +5,7 @@ import { AsideBarComponent } from './aside-bar/aside-bar.component';
 import { AsideMenuComponent } from './aside-menu/aside-menu.component';
 import { HeaderComponent } from '../header/header.component';
 import { SwitchPlateformIconsComponent } from '../header/switch-plateform-icons/switch-plateform-icons.component';
+import { SubHeaderComponent } from '../header/sub-header/sub-header.component';
 
 @Component({
   selector: 'app-banking',
@@ -20,6 +21,7 @@ import { SwitchPlateformIconsComponent } from '../header/switch-plateform-icons/
     AsideMenuComponent,
     HeaderComponent,
     SwitchPlateformIconsComponent,
+    SubHeaderComponent,
   ],
 })
 export class BankingComponent {
