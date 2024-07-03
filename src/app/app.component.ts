@@ -40,6 +40,18 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dialogService.openDialog({
+      action: 'Generate bill password',
+      message: '',
+      title: '',
+      type: 'password',
+    });
+
+    this.dialog$.subscribe({
+      next: dialog => {
+        console.log('TODO ::', dialog);
+      },
+    });
     this.dbService.initializeModels();
     this.configService.initAll();
 

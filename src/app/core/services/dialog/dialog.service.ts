@@ -42,7 +42,7 @@ export class DialogService {
     });
 
     setTimeout(() => {
-      this.closeDialog();
+      this.closeToast();
     }, 5000);
   }
 
@@ -64,12 +64,21 @@ export class DialogService {
     return toObservable(this.response);
   }
 
-  closeDialog() {
+  closeToast() {
     this.toast.set({
       active: false,
       message: '',
       title: '',
       type: '',
+    });
+  }
+  closeDialog() {
+    this.dialog.set({
+      active: false,
+      message: '',
+      title: '',
+      type: '',
+      action: '',
     });
   }
 }

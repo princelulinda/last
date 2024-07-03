@@ -1,11 +1,13 @@
 <!-- TODO :: DIALOGS FOR PASSWORD , PIN , CONFIRMATION -->
-<dialog id="favDialog" class="bg-white border sm-radius">
-  <!-- CONFIRM DIALOG -->
-  @if (dialog.type === 'confirm') {
-    <div class="p-3">
-      <p class="text-center text-primary-2 mb-0" style="font-size: 60px">
+<dialog
+  id="favDialog"
+  class="bg-white border sm-radius is-dialog d-flex justify-content-center align-items-center">
+  <!-- TODO :: CONFIRMATION DIALOG -->
+  @if (dialog.active && dialog.type === 'confirm') {
+    <div class="p-3 w-100">
+      <span class="text-center text-primary-2 mb-0" style="font-size: 60px">
         <i class="fa-regular fa-circle-question"></i>
-      </p>
+      </span>
       <p
         class="text-center text-dark fw-bold fs-l-medium mb-4 mt-2 fw-bold"
         [innerHTML]="dialog.message"></p>
@@ -13,23 +15,68 @@
         <button
           type="button"
           class="btn bg-primary btn-sm me-3 text-all-white px-4"
-          (click)="setConfirmationDialogResponse('YES')">
+          (click)="setConfirmationDialogResponse('YES')"
+          i18n>
           Yes
         </button>
 
         <button
           type="button"
           class="btn bg-wihte btn-sm text-dark px-4"
+          i18n
           (click)="setConfirmationDialogResponse('NO')">
           No
         </button>
       </div>
     </div>
   }
+
+  <!-- TODO :: PASSWORD DIALOG -->
+  @if (dialog.active && dialog.type === 'password') {}
+  <div class="w-100">
+    <span
+      class="text-center text-dark fs-l-medium"
+      [innerHTML]="dialog.message"></span>
+    <form
+      [formGroup]="passwordForm"
+      (ngSubmit)="submitPassword()"
+      class="text-center mt-2">
+      <div class="form-floating mt-2">
+        <input
+          type="password"
+          class="form-control input"
+          name="password"
+          placeholder="Password"
+          formControlName="password" />
+        <label class="fs-6" for="id_password"
+          ><small i18n
+            ><i class="fa-solid fa-lock text-secondary"></i> Password</small
+          >
+          <code>*</code></label
+        >
+      </div>
+      <div class="text-center mt-4">
+        <button
+          class="btn bg-primary btn-sm px-4 border-0"
+          type="submit"
+          (click)="submitPassword()"
+          [disabled]="!passwordForm.valid">
+          <span class="text-all-white">Submit</span>
+        </button>
+        <span
+          role="button"
+          tabindex="0"
+          class="ms-4 text-dark"
+          i18n
+          (click)="cancelDialog()"
+          >Cancel</span
+        >
+      </div>
+    </form>
+  </div>
 </dialog>
 
 <!-- TODO :: TOAST FOR SUCCESS , FAILED , INFO ALERT -->
-
 <div id="alert" role="alert" class="position-absolute sm-radius">
   @if (
     toast.active &&
