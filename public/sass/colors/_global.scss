@@ -156,6 +156,11 @@ a {
   }
 }
 
+.app-container {
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
 @import '../colors/erp-theme';
 @import '../colors/ihela-theme';
 @import '../colors/magis-theme';

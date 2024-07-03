@@ -1,41 +1,37 @@
-<div class="w-100 position-relative">
+<div class="w-100 ">
   <div class="d-flex flex-column position-relative h-100">
-    <!--Top DeskTop Header section -->
-    <section>
+    <!-- Top DeskTop Header section -->
+    <section class="order-1 order-lg-0 sticky-lg-top sticky-bottom">
       <app-header></app-header>
     </section>
 
     <!-- Main Content -->
-    <section class="d-flex flex-grow-1 h-100 overflow-y-hidden">
+    <section class="d-flex flex-grow-1 h-100 overflow-hidden order-0 order-lg-1">
       <div class="position-relative h-100 w-100 d-flex flex-column">
-        <div
-          class="d-flex flex-lg-row flex-grow-1 flex-grow-lg-auto overflow-y-auto">
+        <div class="d-flex flex-lg-row flex-grow-1 flex-grow-lg-auto  w-100">
           <!-- Desktop Aside Menu -->
-          <div
-            class="d-none d-lg-block overflow-y-auto position-relative vw-17 z-5 h-100">
+          <div class="d-none d-lg-block overflow-y-auto overflow-hidden position-relative vw-20 z-5 h-100">
             <app-aside-menu></app-aside-menu>
           </div>
 
           <!-- Main Content -->
-          <div
-            class="mx-md-3 p-1 pb-3 pt-2 flex-grow-1 overflow-y-auto overflow-x-hidden">
-            <router-outlet></router-outlet>
+          <div class="mx-md-3 p-1 pb-3 pt-2 flex-grow-1 position-relative  w-100">
+            <div class="h-75 overflow-y-auto overflow-hidden"><router-outlet></router-outlet></div>
+            
           </div>
         </div>
       </div>
 
       <!-- Right Sidebar Menu -->
-      <div
-        class="d-flex flex-column ps-2 w-25 overflow-auto d-none d-lg-flex"
-        style="height: calc(100vh - 50px)">
+      <div class="d-flex flex-column ps-2 w-25  d-none d-lg-flex overflow-hidden overflow-y-auto" style="height: calc(100vh - 50px)">
         <div class="flex-grow-1">
           <app-aside-bar></app-aside-bar>
         </div>
 
-        <div class="mt-3 justify-content-center text-dark">
-          <!-- Section for footer -->
-        </div>
       </div>
     </section>
   </div>
 </div>
+
+
+
