@@ -1,18 +1,11 @@
-import {
-  Component,
-  effect,
-  AfterViewInit,
-  WritableSignal,
-  signal,
-} from '@angular/core';
-import { OpenDialog } from '../../../core/popups/dialogs/open-dialog';
+import { Component, effect, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import {
   DialogModel,
-  DialogResponseModel,
   ToastModel,
-} from '../../../core/popups/dialogs-models';
-import { OpenToast } from '../../../core/popups/toast/open-toast';
+} from '../../../core/services/dialog/dialogs-models';
+import { DialogService } from '../../../core/services';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -36,17 +29,12 @@ export class ConfirmDialogComponent implements AfterViewInit {
     type: '',
   };
 
-  static DialogResponse: WritableSignal<DialogResponseModel> = signal({
-    action: '',
-    response: '',
-  });
-
   private dialogElement!: HTMLDialogElement | null;
   private toastElement!: HTMLElement | null;
 
-  constructor() {
+  constructor(private dialogService: DialogService) {
     effect(() => {
-      this.dialog = OpenDialog.dialog();
+      this.dialog = this.dialogService.dialog();
 
       if (
         this.dialog.active &&
@@ -65,7 +53,7 @@ export class ConfirmDialogComponent implements AfterViewInit {
     });
 
     effect(() => {
-      this.toast = OpenToast.toast();
+      this.toast = this.dialogService.toast();
       if (
         this.toast?.active &&
         (this.toast.type === 'success' ||
@@ -82,17 +70,14 @@ export class ConfirmDialogComponent implements AfterViewInit {
   }
 
   closeDialog() {
-    OpenDialog.closeDialog();
+    this.dialogService.closeDialog();
   }
 
-  getDialogResponse(response?: string) {
-    if (response) {
-      ConfirmDialogComponent.DialogResponse.set({
-        response: response,
-        action: this.dialog.action,
-      });
-    }
-    this.closeDialog();
+  setConfirmationDialogResponse(payload: 'YES' | 'NO') {
+    this.dialogService.setDialogResponse({
+      action: this.dialog.action,
+      response: payload,
+    });
   }
 
   ngAfterViewInit() {
