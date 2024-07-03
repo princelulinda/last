@@ -5,13 +5,12 @@ import { ConfigService, PlateformModel } from '../../../core/services';
 import { Router } from '@angular/router';
 import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.service';
 import { Subject, takeUntil } from 'rxjs';
-import { ReadMoreComponent } from './read-more/read-more.component';
 import { ShowMoreDirective } from '../../dev/directives/show-more/show-more.directive';
 
 @Component({
   selector: 'app-news-feed',
   standalone: true,
-  imports: [SkeletonComponent, ReadMoreComponent, ShowMoreDirective],
+  imports: [SkeletonComponent, ShowMoreDirective],
   templateUrl: './news-feed.component.html',
   styleUrl: './news-feed.component.scss',
 })
