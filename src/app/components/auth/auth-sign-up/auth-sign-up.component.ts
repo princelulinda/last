@@ -9,6 +9,7 @@ import {
   createAccountResponse,
   bankListResponse,
 } from '../auth.model';
+import { FileComponent } from '../../../global/file/file.component';
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,
@@ -17,6 +18,7 @@ import {
     RouterLinkActive,
     PasswordFieldComponent,
     ReactiveFormsModule,
+    FileComponent,
   ],
   templateUrl: './auth-sign-up.component.html',
   styleUrl: './auth-sign-up.component.scss',
@@ -100,7 +102,7 @@ export class AuthSignUpComponent {
     const data = {
       // creation_client: this.id,
       organization: this.bankId,
-      // picture: this.selectedImage,
+      picture: this.test,
       email:
         this.multiStepForm.controls.authentificationInformation.value.email,
       username:
@@ -246,6 +248,12 @@ export class AuthSignUpComponent {
   onPasswordChange(password: string) {
     this.multiStepForm.controls.authentificationInformation.patchValue({
       password,
+    });
+  }
+
+  onPictureChange(picture: string) {
+    this.multiStepForm.controls.authentificationInformation.patchValue({
+      picture,
     });
   }
 }
