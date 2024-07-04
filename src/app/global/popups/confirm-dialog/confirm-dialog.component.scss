@@ -1,21 +1,23 @@
-.is-dialog {
-  min-width: 300px;
-  min-height: 200px;
-}
 dialog::backdrop {
   background: rgba(17, 17, 17, 0.5);
 }
-// dialog[open] {
-//   -webkit-animation: show 10s ease normal;
-// }
-// @-webkit-keyframes show {
-//   from {
-//     transform: translateY(-50%);
-//   }
-//   to {
-//     transform: translateY(0%);
-//   }
-// }
+dialog[open] {
+  min-width: 300px;
+  min-height: 200px;
+  animation: show 0.5s ease normal;
+}
+@keyframes show {
+  from {
+    scale: 1.1;
+    opacity: 0.5;
+    transform: translateY(-50%);
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
 
 #alert {
   transform: translateX(70%);

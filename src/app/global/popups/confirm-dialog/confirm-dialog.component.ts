@@ -119,6 +119,7 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
         pin: '',
       },
     });
+    this.cancelDialog();
   }
 
   cancelDialog() {
