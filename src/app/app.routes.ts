@@ -24,35 +24,20 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        path: 'newsfeed',
+        children: newsFeedRoutes,
+      },
+      {
         path: 'banking',
         children: bankingRoutes,
       },
-      {
-        path: 'newsFeed',
-        children: newsFeedRoutes,
-      },
+
       {
         path: 'market',
         children: marketPlaceRoutes,
       },
     ],
   },
-
-  // // newsFeed Routes
-  // {
-  //   path: 'n',
-  //   component: BankingComponent,
-  //   canActivate: [AuthGuard],
-  //   children: newsFeedRoutes,
-  // },
-
-  // // market place Routes
-  // {
-  //   path: 'm',
-  //   component: BankingComponent,
-  //   canActivate: [AuthGuard],
-  //   children: marketPlaceRoutes,
-  // },
 
   { path: '**', component: Notfound400Component },
 ];

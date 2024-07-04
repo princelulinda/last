@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
+import { Observable } from 'rxjs';
+
 import { DbService } from './core/db/db.service';
 import {
   ConfigService,
   PlateformModel,
   activeMainConfigModel,
 } from './core/services';
-import { Observable } from 'rxjs';
 import { ConfirmDialogComponent } from './global/popups/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -33,21 +34,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // new OpenDialog({ message: 'Salut les gens', title: '', type: 'success' });
-    // new OpenDialog({
-    //   message: 'Vous voulez confirmer cette action',
-    //   title: '',
-    //   type: 'confirm',
-    //   action: 'Get Confirmation',
-    // });
-    console.log('INITIALIZING DB VARS FROM APP COMPONENT');
     this.dbService.initializeModels();
     this.configService.initAll();
 
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
-        this.managePlateformRedirection(this.mainConfig.activePlateform);
+        // this.managePlateformRedirection(this.mainConfig.activePlateform);
       },
     });
   }

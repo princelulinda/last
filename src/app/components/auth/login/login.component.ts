@@ -6,11 +6,11 @@ import {
   RouterLink,
   RouterLinkActive,
 } from '@angular/router';
-import { AuthService } from '../../../core/services';
+import { AuthService, ConfigService } from '../../../core/services';
 import { FullpathService } from '../../../core/services';
 import { UserApiResponse } from '../../../core/db/models';
 import { PasswordFieldComponent } from '../../../global/password-field/password-field.component';
-// import { DbService } from '../../../core/db';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -38,21 +38,18 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private fullpathService: FullpathService
+    private fullpathService: FullpathService,
+    private configService: ConfigService
   ) {}
 
   redirectToNext() {
     const nextPath = this.route.snapshot.queryParamMap.get('next');
-    console.log(
-      `LOGIN : NEXT URL : '${nextPath}'`,
-      ' :: ',
-      this.route.snapshot.paramMap
-    );
     if (nextPath) {
       this.router.navigate([nextPath]);
     } else {
       this.router.navigate([this.fullpathService.nextDefaultUrl]);
     }
+    this.managePlateformByURL(nextPath ?? this.fullpathService.nextDefaultUrl);
   }
 
   ngOnInit() {
@@ -93,5 +90,17 @@ export class LoginComponent implements OnInit {
   }
   onPasswordChange(pin: string) {
     this.loginForm.get('password')?.setValue(pin);
+  }
+
+  private managePlateformByURL(url: string) {
+    const plateformData = environment.plateformsUuid.find(item =>
+      item.baseHref.includes(url)
+    );
+
+    if (plateformData) {
+      this.configService.switchPlateform(plateformData.name);
+    } else {
+      this.configService.switchPlateform('newsFeed');
+    }
   }
 }

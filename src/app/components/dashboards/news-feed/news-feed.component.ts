@@ -6,12 +6,12 @@ import { Router } from '@angular/router';
 import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ReadMoreComponent } from './read-more/read-more.component';
-import { FileComponent } from '../../../global/file/file.component';
+import { ShowMoreDirective } from '../../dev/directives/show-more/show-more.directive';
 
 @Component({
   selector: 'app-news-feed',
   standalone: true,
-  imports: [SkeletonComponent, ReadMoreComponent, FileComponent],
+  imports: [SkeletonComponent, ReadMoreComponent, ShowMoreDirective],
   templateUrl: './news-feed.component.html',
   styleUrl: './news-feed.component.scss',
 })

@@ -1,11 +1,14 @@
 <!-- TODO :: DIALOGS FOR PASSWORD , PIN , CONFIRMATION -->
-<dialog id="favDialog" class="bg-white border sm-radius">
-  <!-- CONFIRM DIALOG -->
-  @if (dialog.type === 'confirm') {
-    <div class="p-3">
-      <p class="text-center text-primary-2 mb-0" style="font-size: 60px">
+<dialog
+  id="favDialog"
+  class="bg-white border sm-radius is-dialog d-flex justify-content-center align-items-center">
+  <!-- TODO :: CONFIRMATION DIALOG -->
+  @if (dialog.active && dialog.type === 'confirm') {
+    <div
+      class="w-100 d-flex align-items-center flex-column justify-content-center">
+      <span class="text-center text-primary-2 mb-0" style="font-size: 60px">
         <i class="fa-regular fa-circle-question"></i>
-      </p>
+      </span>
       <p
         class="text-center text-dark fw-bold fs-l-medium mb-4 mt-2 fw-bold"
         [innerHTML]="dialog.message"></p>
@@ -13,53 +16,254 @@
         <button
           type="button"
           class="btn bg-primary btn-sm me-3 text-all-white px-4"
-          (click)="closeDialog()">
+          (click)="setConfirmationDialogResponse('YES')"
+          i18n>
           Yes
         </button>
 
         <button
           type="button"
           class="btn bg-wihte btn-sm text-dark px-4"
-          (click)="closeDialog()">
+          i18n
+          (click)="setConfirmationDialogResponse('NO')">
           No
         </button>
       </div>
     </div>
   }
+
+  <!-- TODO :: PASSWORD DIALOG -->
+  @if (dialog.active && dialog.type === 'password') {
+    <div class="w-100">
+      <span
+        class="text-center text-dark fs-l-medium"
+        [innerHTML]="dialog.message"></span>
+      <form
+        [formGroup]="passwordForm"
+        (ngSubmit)="submitPassword()"
+        class="text-center mt-2">
+        <div class="form-floating mt-2">
+          <input
+            type="password"
+            class="form-control input"
+            name="password"
+            placeholder="Password"
+            formControlName="password" />
+          <label class="fs-6" for="id_password"
+            ><small i18n
+              ><i class="fa-solid fa-lock text-secondary"></i> Password</small
+            >
+            <code>*</code></label
+          >
+        </div>
+        <div class="text-center mt-4">
+          <button
+            class="btn bg-primary btn-sm px-4 border-0"
+            type="submit"
+            (click)="submitPassword()"
+            [disabled]="!passwordForm.valid">
+            <span class="text-all-white">Submit</span>
+          </button>
+          <span
+            role="button"
+            tabindex="0"
+            class="ms-4 text-dark"
+            i18n
+            (click)="cancelDialog()"
+            >Cancel</span
+          >
+        </div>
+      </form>
+    </div>
+  }
+
+  <!-- TODO :: PIN DIALOG -->
+  @if (dialog.active && dialog.type === 'pin') {
+    <div class="w-100">
+      @if (clientInfo && !clientInfo.client.has_pin) {
+        <!-- <div>
+          <p class="text-center text-l-medium" i18n>
+            You do not have a pin yet, Please create your pin before performing
+            your action!
+          </p>
+          <form
+            [formGroup]="changePinForm"
+            (ngSubmit)="submitPinCreation()"
+            class="text-center mt-2">
+            <div class="form-floating mt-2">
+              <input
+                type="{{ pinType }}"
+                class="form-control"
+                name="pin"
+                formControlName="new_pin"
+                placeholder="Enter your pin"
+                maxlength="4"
+                (keyup)="checkPinSimulality()" />
+              <label class="fs-6" for="id_pin"
+                ><small
+                  ><i class="fa-solid fa-key text-secondary me-3"></i> Enter
+                  your pin</small
+                >
+              </label>
+            </div>
+            <div class="form-floating mt-2">
+              <input
+                type="{{ pinType }}"
+                class="form-control input level-3"
+                name="pin"
+                style="border: none"
+                formControlName="new_pin2"
+                placeholder="Confirm your pin"
+                maxlength="4"
+                (keyup)="checkPinSimulality()" />
+              <label class="fs-6" for="id_pin"
+                ><small
+                  ><i class="fa-solid fa-key text-secondary me-3"></i> Confirm
+                  your pin</small
+                >
+              </label>
+            </div>
+            <div
+              *ngIf="
+                changePinForm.value.new_pin !== '' &&
+                changePinForm.value.new_pin2 !== ''
+              ">
+              <small class="text-danger" *ngIf="!arePinsMatch"
+                >Pins doesn't match</small
+              >
+            </div>
+            <div class="form-floating mt-2">
+              <input
+                type="{{ pinType }}"
+                class="form-control input level-3"
+                name="pin"
+                style="border: none"
+                formControlName="old_pin"
+                placeholder="Enter your password" />
+              <label class="fs-6" for="id_password"
+                ><small
+                  ><i class="fa-solid fa-lock text-secondary me-3"></i> Enter
+                  your password</small
+                >
+              </label>
+              <span (click)="changePinType()" *ngIf="showPin">
+                <i
+                  class="fa-regular fa-eye text-dark"
+                  style="position: absolute; top: 19px; right: 10px"></i>
+              </span>
+              <span (click)="changePinType()" *ngIf="!showPin">
+                <i
+                  class="fa-regular fa-eye-slash text-dark"
+                  style="position: absolute; top: 19px; right: 10px"></i>
+              </span>
+            </div>
+
+            <div class="text-center mt-4">
+              <button
+                class="btn btn-sm bg-primary is-small is-rounded text-all-white px-3"
+                type="submit"
+                [disabled]="!changePinForm.valid">
+                <span *ngIf="!isCreatingPin">Create</span>
+                <span *ngIf="isCreatingPin"
+                  ><i class="fa-solid fa-pulse fa-circle-notch fs-5"></i
+                ></span>
+              </button>
+              <b role="button" class="ms-4 text-dark" *ngIf="!isCreatingPin"
+                >Cancel</b
+              >
+            </div>
+          </form>
+        </div> -->
+      } @else {
+        <div>
+          <p
+            style="font-size: 20px"
+            *ngIf="dialog"
+            class="text-center text-dark"
+            [innerHTML]="dialog.message"></p>
+          <form
+            [formGroup]="pinForm"
+            (ngSubmit)="submitPin()"
+            class="text-center mt-2">
+            <div class="form-floating mt-2">
+              <input
+                type="password"
+                class="form-control"
+                name="pin"
+                placeholder="Pin"
+                formControlName="pin"
+                minlength="4"
+                maxlength="4" />
+              <label class="fs-6" for="id_password"
+                ><small
+                  ><i class="fa-solid fa-lock text-secondary"></i> Pin</small
+                >
+                <code>*</code></label
+              >
+            </div>
+            <div class="text-center mt-4">
+              <button
+                class="btn btn-sm bg-primary btn-small text-all-white px-4 border-0"
+                type="submit"
+                [disabled]="!pinForm.valid">
+                <span>Submit</span>
+              </button>
+              <span
+                tabindex="0"
+                role="button"
+                class="ms-4 text-dark"
+                (click)="cancelDialog()"
+                >Cancel</span
+              >
+            </div>
+          </form>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- TODO :: LOADING  -->
+  @if (loading.active && loading.type === 'loading') {
+    <div>
+      <div
+        class="spinner-border text-dark"
+        style="width: 3rem; height: 3rem"
+        role="status"></div>
+    </div>
+  }
 </dialog>
 
 <!-- TODO :: TOAST FOR SUCCESS , FAILED , INFO ALERT -->
-
 <div id="alert" role="alert" class="position-absolute sm-radius">
   @if (
-    dialog.active &&
-    (dialog.type === 'success' ||
-      dialog.type === 'failed' ||
-      dialog.type === 'info')
+    toast.active &&
+    (toast.type === 'success' ||
+      toast.type === 'failed' ||
+      toast.type === 'info')
   ) {
     <div
       class="alert-body h-100 d-flex align-items-center p-2 ps-4 pe-4 sm-radius badge-design bg-{{
-        dialog.type | lowercase
+        toast.type | lowercase
       }}">
       <div>
-        @if (dialog.type === 'success') {
+        @if (toast.type === 'success') {
           <span
             ><i
               class="fa-solid fa-circle-check me-2 text-success text-medium"></i
           ></span>
-        } @else if (dialog.type === 'failed') {
+        } @else if (toast.type === 'failed') {
           <span
             ><i
               class="fa-solid fa-exclamation-triangle me-2 text-danger text-medium"></i
           ></span>
-        } @else if (dialog.type === 'info') {
+        } @else if (toast.type === 'info') {
           <span>
             <i class="fa-solid fa-circle-info me-2 text-medium"></i>
           </span>
         }
       </div>
       <div class="fw-normal">
-        <b>{{ dialog.message }}</b>
+        <b>{{ toast.message }}</b>
       </div>
     </div>
   }

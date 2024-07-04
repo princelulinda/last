@@ -1,21 +1,21 @@
 <aside class="p-3 ps-md-0 ps-xl-3">
   <!-- home menus -->
-   @if ( mainConfig.activePlateform==="newsFeed") {
+  @if (mainConfig && mainConfig.activePlateform === 'newsFeed') {
     <section class="mt-2">
       <div
         class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
         routerLink="/m"
         routerLinkActive="text-dark">
         <div>
-            <span class="bg-secondary me-3 rounded-pill py-3 px-3">
-                <i class="fa-solid fa-house house-color" ></i>
-            </span>
-            </div>
+          <span class="bg-secondary me-3 rounded-pill py-3 px-3">
+            <i class="fa-solid fa-house house-color"></i>
+          </span>
+        </div>
         <span class="fw-bold text-secondary" i18n>Publications</span>
       </div>
 
       <div
-        class="mt-4 clickable  bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
+        class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
         <div
           class="d-flex align-items-center"
           routerLink="/m"
@@ -36,7 +36,7 @@
       </div>
 
       <div
-        class="mt-4 d-flex align-items-center clickable  bg-hover-secondary p-3 sm-radius"
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
         routerLink="/m"
         routerLinkActive="text-dark">
         <div>
@@ -47,11 +47,10 @@
         <span class="fw-bold text-secondary" i18n>Market</span>
       </div>
     </section>
-  
   }
   <!-- onlineBanking menus -->
 
-  @if ( mainConfig.activePlateform==="onlineBanking") {
+  @if (mainConfig && mainConfig.activePlateform === 'onlineBanking') {
     <section class="mt-2">
       <div
         class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
@@ -66,7 +65,7 @@
       </div>
 
       <div
-        class="mt-4 d-flex align-items-center clickable  bg-hover-secondary p-3 sm-radius"
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
         routerLink="/m"
         routerLinkActive="text-dark">
         <div>
@@ -79,11 +78,11 @@
     </section>
   }
   <!--market-->
-  @if ( mainConfig.activePlateform==="marketPlace") {
-    <div class="ms-2">
+  @if (mainConfig && mainConfig.activePlateform === 'marketPlace') {
+    <div>
       <section class="mt-2">
         <div
-          class="mt-4 d-flex align-items-center clickable  bg-hover-secondary p-3 sm-radius"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
           routerLink="/m"
           routerLinkActive="text-dark">
           <div>
@@ -95,7 +94,7 @@
         </div>
 
         <div
-          class="mt-4 d-flex align-items-center clickable  bg-hover-secondary p-3 sm-radius"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
           routerLink="/m"
           routerLinkActive="text-dark">
           <div>
@@ -107,7 +106,7 @@
         </div>
 
         <div
-          class="mt-4 d-flex align-items-center clickable  bg-hover-secondary p-3 sm-radius"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
           routerLink="/m"
           routerLinkActive="text-dark">
           <div>
@@ -118,29 +117,28 @@
           <span class="fw-bold text-secondary" i18n>Merchants</span>
         </div>
 
-      
         <div
-        class="mt-4 clickable  bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
-        <div
-          class="d-flex align-items-center"
-          routerLink="/m"
-          routerLinkActive="text-dark">
-          <div>
-            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
-              > <i class="fa-solid fa-cart-shopping text-success"></i
-            ></span>
-          </div>
-          <span class="fw-bold text-secondary" i18n>Carts</span>
-        </div>
-        <div>
+          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
           <div
-            class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
-            0
+            class="d-flex align-items-center"
+            routerLink="/m"
+            routerLinkActive="text-dark">
+            <div>
+              <span class="bg-secondary me-3 rounded-pill py-3 px-3">
+                <i class="fa-solid fa-cart-shopping text-success"></i
+              ></span>
+            </div>
+            <span class="fw-bold text-secondary" i18n>Carts</span>
+          </div>
+          <div>
+            <div
+              class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
+              0
+            </div>
           </div>
         </div>
-      </div>
         <div
-          class="mt-4 d-flex align-items-center clickable  bg-hover-secondary p-3 sm-radius"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
           routerLink="/m"
           routerLinkActive="text-dark">
           <div>
@@ -152,7 +150,7 @@
         </div>
 
         <div
-          class="mt-4 d-flex align-items-center clickable border p-2 px-3 rounded  bg-hover-secondary p-3 sm-radius"
+          class="mt-4 d-flex align-items-center clickable border p-2 px-3 rounded bg-hover-secondary p-3 sm-radius"
           routerLink="/m"
           routerLinkActive="text-dark">
           <span class="me-3">

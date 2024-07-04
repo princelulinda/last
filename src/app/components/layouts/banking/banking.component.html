@@ -1,41 +1,46 @@
-<div class="w-100 position-relative">
-  <div class="d-flex flex-column position-relative h-100">
-    <!--Top DeskTop Header section -->
-    <section>
-      <app-header></app-header>
-    </section>
+<div class="container-fluid position-relative h-100 p-0">
+  <!-- Top Desktop Header section -->
+  <section class="sticky-top">
+    <app-header></app-header>
+  </section>
 
-    <!-- Main Content -->
-    <section class="d-flex flex-grow-1 h-100 overflow-y-hidden">
-      <div class="position-relative h-100 w-100 d-flex flex-column">
-        <div
-          class="d-flex flex-lg-row flex-grow-1 flex-grow-lg-auto overflow-y-auto">
-          <!-- Desktop Aside Menu -->
-          <div
-            class="d-none d-lg-block overflow-y-auto position-relative vw-17 z-5 h-100">
-            <app-aside-menu></app-aside-menu>
-          </div>
+  <!-- Main Container -->
+  <div class="d-flex flex-column flex-lg-row overflow-hidden h-100">
+    <!-- Desktop Aside Menu -->
+    <aside class="d-none d-lg-block overflow-y-auto position-relative w-20 z-5">
+      <app-aside-menu></app-aside-menu>
+    </aside>
 
-          <!-- Main Content -->
-          <div
-            class="mx-md-3 p-1 pb-3 pt-2 flex-grow-1 overflow-y-auto overflow-x-hidden">
+    <!-- Main Content and Right Sidebar -->
+    <section class="flex-grow-1 position-relative w-100">
+      <!-- Sub-header -->
+      <div class="sticky-lg-top bg-white d-lg-block d-none p-2">
+        <app-sub-header></app-sub-header>
+      </div>
+
+      <!-- Content below Sub-header -->
+      <div
+        class="d-flex flex-column flex-lg-row flex-grow-1 h-75 overflow-y-auto">
+        <!-- Main Content -->
+        <div class="p-1 pb-3 pt-2 flex-grow-1 position-relative">
+          <div class="">
             <router-outlet></router-outlet>
           </div>
         </div>
-      </div>
 
-      <!-- Right Sidebar Menu -->
-      <div
-        class="d-flex flex-column ps-2 w-25 overflow-auto d-none d-lg-flex"
-        style="height: calc(100vh - 50px)">
-        <div class="flex-grow-1">
-          <app-aside-bar></app-aside-bar>
-        </div>
-
-        <div class="mt-3 justify-content-center text-dark">
-          <!-- Section for footer -->
-        </div>
+        <!-- Right Sidebar Menu -->
+        <aside
+          class="ps-2 flex-shrink-0 w-25 d-none d-lg-flex flex-column sticky-top">
+          <div class="flex-grow-1">
+            <app-aside-bar></app-aside-bar>
+          </div>
+        </aside>
       </div>
     </section>
   </div>
+
+  <!-- Mobile Bottom Icons -->
+  <section class="d-lg-none bg-primary sticky-bottom z-5">
+    <app-switch-plateform-icons></app-switch-plateform-icons>
+  </section>
 </div>

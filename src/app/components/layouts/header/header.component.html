@@ -134,193 +134,195 @@
           'text-dark': mainConfig.activePlateform === 'workstation',
         }">
         <span type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          @if (clientInfo) {
-            <span>
+          <!-- @if (clientInfo) {
+            <span style="width: 50px;height: 50px;" class="">
               <img
-                [src]="clientInfo.client.picture"
+                [src]="clientInfo.client.picture_url"
                 class="image rounded-circle"
                 alt="" />
             </span>
-          } @else {
-            <span>
-              <i class="fa-regular fa-circle-user fs-6"></i>
-            </span>
-          }
+          } @else { -->
+          <span>
+            <i class="fa-regular fa-circle-user fs-6"></i>
+          </span>
+          <!-- } -->
         </span>
 
         <!--*user profile card-->
-        <div class="dropdown-menu bg-transparent">
-          <div
-            class="float-end m-0 lg-radius profile-card text-dark pe-3 ps-1 dropdown-item bg-white"
-            style="width: 302px">
-            <!-- first section for user info -->
-            <section>
-              <div
-                class="pt-2 pb-2 d-flex justify-content-end"
-                style="border-radius: 5px 5px 0px 0px">
-                <span
-                  role="button"
-                  class="float-end text-dark fs-4"
-                  style="z-index: 50"
-                  title="close"
-                  tabindex="0">
-                  <i class="fa fa-xmark"></i>
-                </span>
-              </div>
-              <!--user infos-->
-              <hr class="w-100 text-secondary" />
-              <div
-                style="transform: translateY(-60%)"
-                class="d-flex align-items-end justify-content-end ms-4 mb-0">
-                <div class="p-1 rounded-circle">
-                  <div
-                    class="d-flex align-items-end me-0 ms-0 p-2 rounded-circle border border-secondary">
-                    <!--user profile picture-->
-                    <div
-                      class="text-center border border-secondary d-flex flex-column align-items-center justify-content-center rounded-circle profile-picture-container">
-                      @if (clientInfo && clientInfo.client.picture) {
-                        <img
-                          [src]="clientInfo.client.picture"
-                          class="image border border-secondary rounded-circle"
-                          alt="Client Image Profil" />
-                      } @else {
-                        <img
-                          src="'images/userprofile.png'"
-                          class="image border border-secondary rounded-circle"
-                          alt="userprofile" />
-                      }
-                    </div>
-                  </div>
-                </div>
-
+        @if (clientInfo) {
+          <div class="dropdown-menu bg-transparent">
+            <div
+              class="float-end m-0 lg-radius profile-card text-dark pe-3 ps-1 dropdown-item bg-white"
+              style="width: 302px">
+              <!-- first section for user info -->
+              <section>
                 <div
-                  class="ms-0 d-grid w-100 mb-2"
-                  style="line-height: 20px; transform: translateY(-9%)">
+                  class="pt-2 pb-2 d-flex justify-content-end"
+                  style="border-radius: 5px 5px 0px 0px">
                   <span
-                    class="ms-2 mb-2 text-dark w-100 text-sm-md"
-                    style="word-break: break-word"
-                    >{{ userInfo?.username ?? '-----' }}</span
-                  >
-
-                  <span
-                    style="word-break: break-word"
-                    class="ms-2 text-secondary w-100 text-xsm">
-                    <span>{{ userInfo?.email ?? '-----' }}</span> </span
-                  ><br />
-                  <span class="ms-2 text-secondary text-xsm">{{
-                    clientInfo?.client?.clientCode ?? '-----'
-                  }}</span>
-                </div>
-              </div>
-            </section>
-
-            <section
-              class="px-3 overflow-y-auto d-flex flex-column h-100"
-              style="margin-top: -20%">
-              <section class="flex-grow-1 d-flex flex-column">
-                <div
-                  class="w-100 my-3 d-flex justify-content-between align-items-center">
-                  <a>
-                    <div
-                      role="button"
-                      class="d-flex align-items-center"
-                      style="font-size: 18px">
-                      <i
-                        class="fa-solid text-secondary fa-user-circle me-2"></i>
-                      <b class="text-dark ms-1" i18n>Profile</b>
-                    </div>
-                  </a>
-                </div>
-                <div
-                  class="w-100 my-3 d-flex justify-content-between align-items-center">
-                  <a>
-                    <div
-                      role="button"
-                      class="d-flex align-items-center fs-medium">
-                      <span class="me-2"
-                        ><i class="fa-solid text-secondary fa-gear"></i
-                      ></span>
-                      <b class="text-dark ms-1" i18n>Settings</b>
-                    </div>
-                  </a>
-                </div>
-                <div
-                  class="w-100 d-flex justify-content-between align-items-center mt-3">
-                  <div class="d-flex align-items-center fs-medium">
-                    <span class="me-2"
-                      ><i class="fa-solid text-secondary fa-language"></i
-                    ></span>
-                    <b class="text-dark" i18n>Language</b>
-                  </div>
-                  <select
-                    [formControl]="selectedLanguage"
-                    style="width: 60px"
-                    (click)="changeLanguage()">
-                    <option value="en">En</option>
-                    <option value="fr">Fr</option>
-                  </select>
-                </div>
-                <div
-                  class="w-100 d-flex my-3 justify-content-between align-items-center">
-                  <div class="d-flex align-items-center fs-medium">
-                    <span class="me-2"
-                      ><img src="{{ lightModeImage }}" alt="light logo"
-                    /></span>
-                    <b class="text-dark" i18n>Light Mode</b>
-                  </div>
-                  <div>
-                    <a
-                      class="clickable"
-                      title="Switch Theme"
-                      (click)="switchMode()"
-                      tabindex="0">
-                      <img [src]="themeLogo" alt="themeLogo" />
-                    </a>
-                  </div>
-                </div>
-                <div
-                  class="w-100 my-3 d-flex justify-content-between align-items-center">
-                  <a>
-                    <div
-                      role="button"
-                      class="d-flex align-items-center fs-medium">
-                      <span class="me-2"
-                        ><i class="fa-solid text-secondary fa-flag"></i
-                      ></span>
-                      <b class="text-dark ms-1" i18n>Report a problem</b>
-                    </div>
-                  </a>
-                </div>
-
-                <div
-                  class="w-100 d-flex justify-content-between text-dark fs-medium"
-                  title="Logout"
-                  role="button">
-                  <span>
-                    <span class="me-2">
-                      <i
-                        class="fa-solid text-secondary fa-right-from-bracket"></i>
-                    </span>
-                    <b i18n>Logout</b>
+                    role="button"
+                    class="float-end text-dark fs-4"
+                    style="z-index: 50"
+                    title="close"
+                    tabindex="0">
+                    <i class="fa fa-xmark"></i>
                   </span>
+                </div>
+                <!--user infos-->
+                <hr class="w-100 text-secondary" />
+                <div
+                  style="transform: translateY(-60%)"
+                  class="d-flex align-items-end justify-content-end ms-4 mb-0">
+                  <div class="p-1 rounded-circle">
+                    <div
+                      class="d-flex align-items-end me-0 ms-0 p-2 rounded-circle border border-secondary">
+                      <!--user profile picture-->
+                      <div
+                        class="text-center border border-secondary d-flex flex-column align-items-center justify-content-center rounded-circle profile-picture-container">
+                        @if (clientInfo && clientInfo.client.picture_url) {
+                          <img
+                            [src]="clientInfo.client.picture_url"
+                            class="image border border-secondary rounded-circle"
+                            alt="Client Image Profil" />
+                        } @else {
+                          <img
+                            src="/images/userprofile.png"
+                            class="image border border-secondary rounded-circle"
+                            alt="userprofile" />
+                        }
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="ms-0 d-grid w-100 mb-2"
+                    style="line-height: 20px; transform: translateY(-9%)">
+                    <span
+                      class="ms-2 mb-2 text-dark w-100 text-sm-md"
+                      style="word-break: break-word"
+                      >{{ clientInfo.user.username }}</span
+                    >
+
+                    <span
+                      style="word-break: break-word"
+                      class="ms-2 text-secondary w-100 text-xsm">
+                      <span>{{ clientInfo.client.client_email }}</span> </span
+                    ><br />
+                    <span class="ms-2 text-secondary text-xsm">{{
+                      clientInfo.client.client_code
+                    }}</span>
+                  </div>
                 </div>
               </section>
 
-              <div class="mt-3">
-                <!--user profile footer-->
-                <div class="mt-2 px-2 bg-white text-secondary text-sm-md">
-                  <div class="d-flex justify-content-center flex-wrap">
-                    <!-- <app-footer
+              <section
+                class="px-3 overflow-y-auto d-flex flex-column h-100"
+                style="margin-top: -20%">
+                <section class="flex-grow-1 d-flex flex-column">
+                  <div
+                    class="w-100 my-3 d-flex justify-content-between align-items-center">
+                    <a>
+                      <div
+                        role="button"
+                        class="d-flex align-items-center"
+                        style="font-size: 18px">
+                        <i
+                          class="fa-solid text-secondary fa-user-circle me-2"></i>
+                        <b class="text-dark ms-1" i18n>Profile</b>
+                      </div>
+                    </a>
+                  </div>
+                  <div
+                    class="w-100 my-3 d-flex justify-content-between align-items-center">
+                    <a>
+                      <div
+                        role="button"
+                        class="d-flex align-items-center fs-medium">
+                        <span class="me-2"
+                          ><i class="fa-solid text-secondary fa-gear"></i
+                        ></span>
+                        <b class="text-dark ms-1" i18n>Settings</b>
+                      </div>
+                    </a>
+                  </div>
+                  <div
+                    class="w-100 d-flex justify-content-between align-items-center mt-3">
+                    <div class="d-flex align-items-center fs-medium">
+                      <span class="me-2"
+                        ><i class="fa-solid text-secondary fa-language"></i
+                      ></span>
+                      <b class="text-dark" i18n>Language</b>
+                    </div>
+                    <select
+                      [formControl]="selectedLanguage"
+                      style="width: 60px"
+                      (click)="changeLanguage()">
+                      <option value="en">En</option>
+                      <option value="fr">Fr</option>
+                    </select>
+                  </div>
+                  <div
+                    class="w-100 d-flex my-3 justify-content-between align-items-center">
+                    <div class="d-flex align-items-center fs-medium">
+                      <span class="me-2"
+                        ><img src="{{ lightModeImage }}" alt="light logo"
+                      /></span>
+                      <b class="text-dark" i18n>Light Mode</b>
+                    </div>
+                    <div>
+                      <a
+                        class="clickable"
+                        title="Switch Theme"
+                        (click)="switchMode()"
+                        tabindex="0">
+                        <img [src]="themeLogo" alt="themeLogo" />
+                      </a>
+                    </div>
+                  </div>
+                  <div
+                    class="w-100 my-3 d-flex justify-content-between align-items-center">
+                    <a>
+                      <div
+                        role="button"
+                        class="d-flex align-items-center fs-medium">
+                        <span class="me-2"
+                          ><i class="fa-solid text-secondary fa-flag"></i
+                        ></span>
+                        <b class="text-dark ms-1" i18n>Report a problem</b>
+                      </div>
+                    </a>
+                  </div>
+
+                  <div
+                    class="w-100 d-flex justify-content-between text-dark fs-medium"
+                    title="Logout"
+                    role="button">
+                    <span>
+                      <span class="me-2">
+                        <i
+                          class="fa-solid text-secondary fa-right-from-bracket"></i>
+                      </span>
+                      <b i18n>Logout</b>
+                    </span>
+                  </div>
+                </section>
+
+                <div class="mt-3">
+                  <!--user profile footer-->
+                  <div class="mt-2 px-2 bg-white text-secondary text-sm-md">
+                    <div class="d-flex justify-content-center flex-wrap">
+                      <!-- <app-footer
                                             [showCopyRight]="false"
                                         ></app-footer> -->
+                    </div>
                   </div>
                 </div>
-              </div>
-            </section>
+              </section>
 
-            <!--*shwitchPlateform card-->
+              <!--*shwitchPlateform card-->
+            </div>
           </div>
-        </div>
+        }
       </span>
 
       <!-- platform icon -->
