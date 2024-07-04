@@ -1,7 +1,7 @@
 <div
   class="bg-secondary mt-4 ms-md-5 ps-xl-3 col-md-10 p-3 sm-radius"
   style="line-height: 1em">
-  <div>
+  <!--- <div>
     <div class="bg-white p-3 lg-radius">
       <div class="d-flex justify-content-between">
         <span class="fw-bold text-dark text-md" i18n>Account</span><br />
@@ -182,13 +182,14 @@
             <div class="ms-3">
               <button
                 type="submit"
-                [disabled]="!email.valid || isLoading"
+             
                 title="add an account"
                 i18n
                 class="btn bg-primary text-light"
                 i18n>
                 @if (!isLoading) {
-                  <span> Add</span>
+                  <span 
+                  (click)="openPinPopup('email')"> Add</span>
                 }
                 @if (isLoading) {
                   <span>
@@ -334,10 +335,11 @@
             <div class="ms-3">
               <button
                 type="submit"
-                [disabled]="!phoneNumber.valid || isLoading"
+                
                 title="add a phone number"
                 i18n
-                class="btn bg-primary text-light">
+                class="btn bg-primary text-light"
+                (click)="openPinPopup('phoneNumber')">
                 @if (!loading) {
                   <span> Add</span>
                 }
@@ -361,6 +363,121 @@
           </div>
         </div>
       }
+    </div>
+  </div>-->
+
+  <div>
+    <div class="bg-white p-4">
+      <div class="row d-flex">
+        <div class="row">
+          <span class="text-dark col ms-1 text-md opacity-50">Theme</span><br />
+        </div>
+        <hr class="w-50 mt-3 ms-3 text-dark border" />
+        <div class="row">
+          <div class="col d-flex align-items-center">
+            <span class="fw-bold me-5 text-dark">Choose your theme</span>
+            <div
+              class="rounded d-flex border flex-column justify-content-center p-1 position-relative align-items-center me-4"
+              style="height: 97px; width: 97px">
+              <div>
+                <span class="fw-bold text-dark">Light</span>
+              </div>
+              <div>
+                <span class="text-sm text-dark" style="font-style: italic"
+                  >Default</span
+                >
+              </div>
+              <i
+                class="fa-solid text-primary-light fa-circle-check position-absolute top-0 end-0 mt-1 me-1"></i>
+            </div>
+
+            <div
+              class="rounded d-flex flex-column colors justify-content-center align-items-center"
+              style="width: 97px; height: 97px; background-color: #0c1627">
+              <div>
+                <span class="text-light text-md-sm">Dark</span>
+              </div>
+              <div>
+                <span class="text-sm text-light" style="font-style: italic"
+                  >Set Default</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white p-4 mb-3 lg-radius">
+      <div class="row d-flex">
+        <div class="row">
+          <span class="text-dark ms-1 col text-md opacity-50" i18n
+            >Language</span
+          ><br />
+          <div class="col d-flex justify-content-end">
+            <span class="not-clickable" i18n>
+              Add
+              <i class="fa-solid fa-circle-plus text-success"></i
+            ></span>
+          </div>
+        </div>
+        <hr class="w-50 ms-3 mt-3 border" />
+        <div>
+          <div>
+            <span class="text-ms-sm text-dark" style="font-style: italic" i18n>
+              Default:</span
+            >
+            @if (clientInfo.client.prefered_language === 'en') {
+              <span
+                style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
+                class="text-md-sm"
+                i18n
+                >English
+              </span>
+            }
+            @if (clientInfo.client.prefered_language === 'fr') {
+              <span
+                style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
+                class="text-md-sm"
+                i18n
+                >French
+              </span>
+            }
+
+            @if (clientInfo.client.prefered_language === 'sw') {
+              <span
+                style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
+                class="text-md-sm"
+                i18n
+                >Swahili</span
+              >
+            }
+
+            @if (clientInfo.client.prefered_language === 'ki') {
+              <span
+                style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
+                class="text-md-sm"
+                i18n
+                >Kirundi</span
+              >
+            }
+          </div>
+
+          <div class="mt-4">
+            <span class="fw-bold me-5 text-dark" i18n
+              >Choose your language</span
+            >
+            <select
+              class="text-muted not-clickable"
+              style="width: 300px; height: 30px">
+              <option value="option1">ENGLISH (EN)</option>
+
+              <option value="option3">FRENCH (FR)</option>
+              <option value="option3">KISWAHILI (KI)</option>
+            </select>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

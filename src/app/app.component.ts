@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Router, RouterOutlet } from '@angular/router';
+
+import { Observable } from 'rxjs';
 
 import { DbService } from './core/db/db.service';
 import {
@@ -9,8 +10,6 @@ import {
   activeMainConfigModel,
 } from './core/services';
 import { ConfirmDialogComponent } from './global/popups/confirm-dialog/confirm-dialog.component';
-// import { OpenDialog } from './core/popups/dialogs/open-dialog';
-// import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -35,13 +34,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // let response = new OpenDialog({
-    //   message: 'Vous voulez confirmer cette action',
-    //   title: '',
-    //   type: 'confirm',
-    //   action: 'Get Confirmation',
-    // }).getResponse();
-    console.log('INITIALIZING DB VARS FROM APP COMPONENT');
     this.dbService.initializeModels();
     this.configService.initAll();
 

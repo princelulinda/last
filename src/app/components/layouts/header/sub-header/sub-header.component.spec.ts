@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfirmDialogComponent } from './confirm-dialog.component';
+import { SubHeaderComponent } from './sub-header.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-describe('ConfirmDialogComponent', () => {
-  let component: ConfirmDialogComponent;
-  let fixture: ComponentFixture<ConfirmDialogComponent>;
+describe('SubHeaderComponent', () => {
+  let component: SubHeaderComponent;
+  let fixture: ComponentFixture<SubHeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfirmDialogComponent],
+      imports: [SubHeaderComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ConfirmDialogComponent);
+    fixture = TestBed.createComponent(SubHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

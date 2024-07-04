@@ -1,13 +1,13 @@
-<!--* The icons to display in online banking plateform-->
+<!--* The icons to display in online banking platform -->
 @if (mainConfig) {
   <div
-    class="d-flex justify-content-around justify-content-lg-start align-items-center h-100">
+    class="d-flex align-items-center h-100 flex-nowrap flex-md-wrap flex-lg-nowrap justify-content-center">
     @for (plateF of plateforms; track $index) {
       <a
         [routerLink]="plateF.link"
         (click)="switchPlateform(plateF.plateform)"
         tabindex="0"
-        class="d-block p-2 px-5 sm-radius clickable mx-4 h-100"
+        class="d-block p-2 px-3 px-md-4 px-lg-5 sm-radius clickable mx-2 mx-md-3 mx-lg-4 h-100"
         [ngClass]="{
           'text-all-white':
             mainConfig.activePlateform !== 'workstation' &&
@@ -29,7 +29,7 @@
         title="{{ plateF.title }}">
         @if (plateF.icon) {
           <span>
-            <i class="{{ plateF.icon }} fs-4 "></i>
+            <i class="{{ plateF.icon }} fs-4"></i>
           </span>
         } @else if (plateF.plateform === 'onlineBanking') {
           <div style="width: 28px">
