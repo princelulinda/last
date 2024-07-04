@@ -1,4 +1,6 @@
-<div class="bg-secondary mt-5 ms-md-5 ps-xl-3 col-md-10 col-xl-7 p-3 sm-radius">
+<div
+  class="bg-secondary mt-4 ms-md-5 ps-xl-3 col-md-10 p-3 sm-radius"
+  style="line-height: 1em">
   <div>
     <div class="bg-white p-3 lg-radius">
       <div class="d-flex justify-content-between">
@@ -7,55 +9,354 @@
           <i class="fa-solid fa-pen text-success text-sm"></i>
         </div>
       </div>
-      @if (clientInfo) {
-        <div class="row mt-3 mt-sm-5">
-          <div
-            class="d-flex flex-wrap d-sm-block col-sm-6"
-            style="gap: 1rem 2rem">
-            <div class="d-flex flex-column">
-              <span class="fw-bold text-dark" i18n>User id</span>
 
-              <span class="text-dark mt-2">
-                <i>{{ clientInfo.client.client_id }}</i>
+      <div class="row mt-3 mt-sm-5">
+        <div
+          class="d-flex flex-wrap d-sm-block col-sm-6"
+          style="gap: 1rem 2rem">
+          <div class="d-flex flex-column">
+            <span class="fw-bold text-dark" i18n>User id</span>
+
+            <span class="text-dark mt-2">
+              <i>{{ clientInfo.client.client_id }}</i>
+            </span>
+          </div>
+
+          <div class="mt-sm-3 d-flex flex-column">
+            <span class="fw-bold text-dark" i18n>Username</span>
+
+            <span class="text-dark mt-2">
+              <i>{{ clientInfo.user.username }}</i>
+            </span>
+          </div>
+          <div class="mt-sm-3 d-flex flex-column">
+            <span class="fw-bold text-dark" i18n>Name</span>
+            <span class="text-dark mt-2">
+              <i>{{ clientInfo.client.client_full_name }}</i></span
+            >
+          </div>
+        </div>
+
+        <div class="col-sm-6 mt-3 mt-sm-0">
+          <div class="align-items-center" style="display: inline-flex">
+            <span class="fw-bold text-dark" i18n>Profile</span>
+
+            @if (clientInfo && clientInfo.client) {
+              <div
+                class="level-2 profifPicture lg-radius d-flex justify-content-center align-items-center">
+                @if (!clientInfo.client.picture_url) {
+                  <span class="text-secondary fs-1">
+                    <i class="fa-regular fa-user"></i>
+                  </span>
+                }
+                @if (clientInfo.client.picture_url) {
+                  <img
+                    [src]="clientInfo.client.picture_url"
+                    alt="userprofile"
+                    class="img-fluid image w-100 h-100 lg-radius" />
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white lg-radius mt-4 p-3">
+      <div class="row">
+        <div class="col">
+          <span class="fs-medium font-calibri text-secondary" i18n
+            >Additional Accounts</span
+          >
+        </div>
+        <div class="col d-flex justify-content-end">
+          <span
+            role="button"
+            class="text-dark"
+            (click)="addAccount()"
+            tabindex="0"
+            i18n>
+            Add
+            <i class="fa-solid fa-circle-plus greenColor"></i
+          ></span>
+          <span
+            class="ms-5 border-bottom text-dark"
+            role="button"
+            title="Refresh"
+            i18n
+            (click)="refreshContact('email')"
+            tabindex="0"
+            >Refresh</span
+          >
+        </div>
+      </div>
+      @if (!newAccount) {
+        <div class="col-md-12">
+          <div class="row text-dark d-flex align-items-center mt-3 px-3">
+            <div class="col-5 fw-bold px-4" i18n>Email</div>
+            <div class="col-3 fw-bold px-4" i18n>Level</div>
+            <div class="col-4 fw-bold px-4" i18n>Status</div>
+          </div>
+          @if (!emails && emailsLoading) {
+            <div
+              class="row text-center align-items-center d-flex"
+              style="height: 20vh">
+              <span>
+                <i class="fa-solid fa-spin text-dark fa-circle-notch fs-4"></i>
               </span>
             </div>
-
-            <div class="mt-sm-3 d-flex flex-column">
-              <span class="fw-bold text-dark" i18n>Username</span>
-
-              <span class="text-dark mt-2">
-                <i>{{ clientInfo.user.username }}</i>
-              </span>
+          }
+          @if (!emails && !emailsLoading) {
+            <div
+              class="fw-bold row ms-5 ps-5 fs-4 align-items-center d-flex text-dark"
+              style="height: 20vh; opacity: 0.4"
+              i18n>
+              No email account available
             </div>
+          }
+          @if (emails && !emailsLoading) {
+            <div
+              class="mt-3 p-3 align-items-center rounded"
+              style="background-color: #e5f2ff">
+              @for (email of emails; track $index) {
+                <div
+                  class="row d-flex justify-content-between align-items-center">
+                  <div class="col-5 fw-bold text-all-dark">
+                    {{ $index + 1 }}. {{ email.ident }}
+                  </div>
 
-            <div class="mt-sm-3 d-flex flex-column">
-              <span class="fw-bold text-dark" i18n>Name</span>
-              <span class="text-dark mt-2">
-                <i>{{ clientInfo.client.client_full_name }}</i></span
+                  <div
+                    class="col-3 d-flex align-items-center text-all-blue-sky"
+                    i18n>
+                    @if (email.is_primary) {
+                      <span class="fs-small font-calibri">
+                        Primary
+                        <span class="ms-3">
+                          <i
+                            class="fa-solid fa-check-double text-all-blue-sky"></i>
+                        </span>
+                      </span>
+                    }
+                  </div>
+                  <div class="col-4 fw-bold d-flex justify-content-between">
+                    <div class="">
+                      @if (email.is_verified) {
+                        <div
+                          class="badge-design bg-success d-flex justify-content-center align-items-center">
+                          <div i18n>Verified</div>
+                        </div>
+                      }
+                      @if (!email.is_verified) {
+                        <div
+                          class="badge-design bg-danger d-flex justify-content-center align-items-center">
+                          <div i18n>Not Verified</div>
+                        </div>
+                      }
+                    </div>
+
+                    <div>
+                      <span class="text-all-blue-sky">
+                        <i class="fas fa-ellipsis-v"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <hr
+                    class="w-100 mt-3"
+                    style="border-top: 2px solid #639cd8" />
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+      @if (newAccount) {
+        <div class="mt-2">
+          <div class="d-flex text-center">
+            <div class="rounded text-dark">
+              <input
+                class="form-control input text-dark"
+                type="email"
+                [formControl]="email"
+                placeholder="myEmail@gmail.com" />
+            </div>
+            <div class="ms-3">
+              <button
+                type="submit"
+                [disabled]="!email.valid || isLoading"
+                title="add an account"
+                i18n
+                class="btn bg-primary text-light"
+                i18n>
+                @if (!isLoading) {
+                  <span> Add</span>
+                }
+                @if (isLoading) {
+                  <span>
+                    <i
+                      class="fa-solid fa-spin text-light fa-circle-notch fs-5"></i>
+                  </span>
+                }
+              </button>
+
+              <b
+                role="button"
+                class="ms-4 text-dark"
+                (click)="newAccount = false"
+                tabindex="0"
+                i18n
+                >Cancel</b
               >
             </div>
           </div>
-          <div class="col-sm-6 mt-3 mt-sm-0">
-            <div class="align-items-center" style="display: inline-flex">
-              <span class="fw-bold text-dark" i18n>Profile</span>
+        </div>
+      }
+    </div>
 
-              @if (clientInfo && clientInfo.client) {
+    <div class="bg-white lg-radius mt-4 p-3">
+      <div class="row">
+        <div class="col">
+          <span class="fs-medium font-calibri text-secondary" i18n
+            >Additional Number</span
+          >
+        </div>
+        <div class="col d-flex justify-content-end">
+          <span
+            role="button"
+            class="text-dark"
+            (click)="addPhoneNumber()"
+            tabindex="0"
+            i18n>
+            Add
+            <i class="fa-solid fa-circle-plus greenColor"></i
+          ></span>
+          <span
+            class="ms-5 border-bottom text-dark"
+            role="button"
+            title="Refresh"
+            i18n
+            (click)="refreshContact('phoneNumber')"
+            tabindex="0"
+            >Refresh</span
+          >
+        </div>
+      </div>
+      @if (!newPhoneNumber) {
+        <div class="col-md-12">
+          <div class="row text-dark d-flex align-items-center mt-3 px-3">
+            <div class="col-5 fw-bold px-4" i18n>Email</div>
+            <div class="col-3 fw-bold px-4" i18n>Level</div>
+            <div class="col-4 fw-bold px-4" i18n>Status</div>
+          </div>
+          @if (!phoneNumbers && phoneNumbersLoading) {
+            <div
+              class="row text-center align-items-center d-flex"
+              style="height: 20vh">
+              <span>
+                <i class="fa-solid fa-spin text-dark fa-circle-notch fs-4"></i>
+              </span>
+            </div>
+          }
+          @if (!phoneNumbers && !phoneNumbersLoading) {
+            <div
+              class="fw-bold row ms-5 ps-5 fs-4 align-items-center d-flex text-dark"
+              style="height: 20vh; opacity: 0.4"
+              i18n>
+              No email account available
+            </div>
+          }
+          @if (phoneNumbers && !phoneNumbersLoading) {
+            <div
+              class="mt-3 p-3 align-items-center rounded"
+              style="background-color: #e5f2ff">
+              @for (number of phoneNumbers; track $index) {
                 <div
-                  class="bg-secondary profifPicture lg-radius d-flex justify-content-center align-items-center">
-                  @if (clientInfo.client.picture_url) {
-                    <span class="text-secondary fs-1">
-                      <i class="fa-regular fa-user"></i>
-                    </span>
-                  }
-                  @if (clientInfo.client.picture_url) {
-                    <img
-                      [src]="clientInfo.client.picture_url"
-                      class="img-fluid image w-100 h-100 lg-radius"
-                      alt="userprofile" />
-                    />
-                  }
+                  class="row d-flex justify-content-between align-items-center">
+                  <div class="col-5 fw-bold text-all-dark">
+                    {{ $index + 1 }}. {{ number.ident }}
+                  </div>
+
+                  <div
+                    class="col-3 d-flex align-items-center text-all-blue-sky"
+                    i18n>
+                    @if (number.is_primary) {
+                      <span class="fs-small font-calibri">
+                        Primary
+                        <span class="ms-3">
+                          <i
+                            class="fa-solid fa-check-double text-all-blue-sky"></i>
+                        </span>
+                      </span>
+                    }
+                  </div>
+                  <div class="col-4 fw-bold d-flex justify-content-between">
+                    <div class="">
+                      @if (number.is_verified) {
+                        <div
+                          class="badge-design bg-success d-flex justify-content-center align-items-center">
+                          <div i18n>Verified</div>
+                        </div>
+                      }
+                      @if (!number.is_verified) {
+                        <div
+                          class="badge-design bg-danger d-flex justify-content-center align-items-center">
+                          <div i18n>Not Verified</div>
+                        </div>
+                      }
+                    </div>
+
+                    <div>
+                      <span class="text-all-blue-sky">
+                        <i class="fas fa-ellipsis-v"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <hr
+                    class="w-100 mt-3"
+                    style="border-top: 2px solid #639cd8" />
                 </div>
               }
+            </div>
+          }
+        </div>
+      }
+
+      @if (newPhoneNumber) {
+        <div class="mt-2">
+          <div class="d-flex text-center">
+            <div class="rounded text-dark">
+              <input
+                class="form-control input text-dark"
+                type="tel"
+                [formControl]="phoneNumber"
+                placeholder="+257 7*******" />
+            </div>
+
+            <div class="ms-3">
+              <button
+                type="submit"
+                [disabled]="!phoneNumber.valid || isLoading"
+                title="add a phone number"
+                i18n
+                class="btn bg-primary text-light">
+                @if (!loading) {
+                  <span> Add</span>
+                }
+                @if (loading) {
+                  <span>
+                    <i
+                      class="fa-solid fa-spin text-light fa-circle-notch fs-5"></i>
+                  </span>
+                }
+              </button>
+
+              <b
+                role="button"
+                class="ms-4 text-dark"
+                (click)="newPhoneNumber = false"
+                tabindex="0"
+                i18n
+                >Cancel</b
+              >
             </div>
           </div>
         </div>
