@@ -1,11 +1,9 @@
-.vw-20 {
-  width: 20vw;
+.w-20 {
+  width: 20%;
 
 }
 @media (max-width: 991.98px) {
-  .sticky-top {
-    position: static !important; 
-  }
+
   .sticky-bottom {
     position: sticky;
     bottom: 0;

@@ -1,27 +1,29 @@
-import {
-  Component,
-  effect,
-  AfterViewInit,
-  WritableSignal,
-  signal,
-} from '@angular/core';
-import { OpenDialog } from '../../../core/popups/dialogs/open-dialog';
+import { Component, effect, AfterViewInit, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+
+import { Observable } from 'rxjs';
+
+import {
   DialogModel,
-  ResponseModel,
   ToastModel,
-} from '../../../core/popups/dialogs-models';
-import { OpenToast } from '../../../core/popups/toast/open-toast';
+} from '../../../core/services/dialog/dialogs-models';
+import { AuthService, DialogService } from '../../../core/services';
+import { UserInfoModel } from '../../../core/db/models/auth';
 
 @Component({
   selector: 'app-confirm-dialog',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './confirm-dialog.component.html',
   styleUrl: './confirm-dialog.component.scss',
 })
-export class ConfirmDialogComponent implements AfterViewInit {
+export class ConfirmDialogComponent implements AfterViewInit, OnInit {
   dialog: DialogModel = {
     message: '',
     active: false,
@@ -35,37 +37,56 @@ export class ConfirmDialogComponent implements AfterViewInit {
     title: '',
     type: '',
   };
-
-  static DialogResponse: WritableSignal<ResponseModel> = signal({
+  loading: { active: boolean; type: 'loading' | ''; action: string } = {
     action: '',
-    response: '',
-  });
+    active: false,
+    type: '',
+  };
 
   private dialogElement!: HTMLDialogElement | null;
   private toastElement!: HTMLElement | null;
 
-  constructor() {
-    effect(() => {
-      this.dialog = OpenDialog.dialog();
+  passwordForm: FormGroup = this.fb.group({
+    password: ['', Validators.required],
+  });
 
-      if (
-        this.dialog.active &&
-        (this.dialog.type === 'confirm' ||
-          this.dialog.type === 'password' ||
-          this.dialog.type === 'pin')
-      ) {
-        if (this.dialogElement && this.dialog.active) {
+  pinForm: FormGroup = this.fb.group({
+    pin: [
+      '',
+      [Validators.required, Validators.minLength(4), Validators.maxLength(4)],
+    ],
+  });
+  changePinForm = this.fb.group({
+    old_pin: ['', Validators.required],
+    new_pin: ['', Validators.required],
+    new_pin2: ['', Validators.required],
+  });
+  isCreatingPin = false;
+
+  clientInfo!: UserInfoModel;
+  clientInfo$: Observable<UserInfoModel>;
+
+  constructor(
+    private dialogService: DialogService,
+    private fb: FormBuilder,
+    private authService: AuthService
+  ) {
+    this.clientInfo$ = this.authService.getUserInfo();
+    effect(() => {
+      this.dialog = this.dialogService.dialog();
+      this.loading = this.dialogService.loading();
+
+      if (this.dialog.active || this.loading.active) {
+        if (this.dialogElement) {
           this.dialogElement.showModal();
         }
-      } else {
-        if (this.dialogElement) {
-          this.dialogElement.close();
-        }
+      } else if (!this.dialog.active) {
+        this.dialogElement?.close();
       }
     });
 
     effect(() => {
-      this.toast = OpenToast.toast();
+      this.toast = this.dialogService.toast();
       if (
         this.toast?.active &&
         (this.toast.type === 'success' ||
@@ -81,19 +102,71 @@ export class ConfirmDialogComponent implements AfterViewInit {
     });
   }
 
-  closeDialog() {
-    OpenDialog.closeDialog();
+  ngOnInit() {
+    this.clientInfo$.subscribe({
+      next: userInfo => {
+        this.clientInfo = userInfo;
+      },
+    });
   }
 
-  getDialogResponse(response?: string) {
-    if (response) {
-      ConfirmDialogComponent.DialogResponse.set({
-        response: response,
-        action: this.dialog.action,
-      });
-    }
-    this.closeDialog();
+  setConfirmationDialogResponse(payload: 'YES' | 'NO') {
+    this.dialogService.setDialogResponse({
+      action: this.dialog.action,
+      response: payload,
+    });
   }
+
+  cancelDialog() {
+    this.dialogService.closeDialog();
+  }
+
+  submitPassword() {
+    this.dialogService.setDialogResponse({
+      action: this.dialog.action,
+      response: { password: this.passwordForm.value },
+    });
+    this.passwordForm.reset();
+    this.dialogService.closeDialog();
+  }
+  submitPin() {
+    this.dialogService.setDialogResponse({
+      action: this.dialog.action,
+      response: { pin: this.pinForm.value },
+    });
+    this.pinForm.reset();
+    this.dialogService.closeDialog();
+  }
+
+  // submitPinCreation() {
+  //   this.isCreatingPin = true;
+  //   this.settingService.changePin(this.changePinForm.value).subscribe({
+  //     next: response_data => {
+  //       this.isCreatingPin = false;
+  //       if (response_data.object.success === true) {
+  //         this.variableService.pin = this.changePinForm.value['new_pin'];
+  //         this.store.dispatch(new CloseDialog({ response: 'pin submitted' }));
+  //         this.store.dispatch(new ConfirmPinPossession());
+  //       } else if (response_data.object.success === false) {
+  //         const data = {
+  //           title: '',
+  //           type: 'failed',
+  //           message: response_data.object.response_message,
+  //         };
+  //         this.store.dispatch(new OpenDialog(data));
+  //       }
+  //     },
+  //     error: (err: any) => {
+  //       this.isCreatingPin = false;
+  //       const data = {
+  //         title: '',
+  //         type: 'failed',
+  //         message: 'Something went, please retry again!',
+  //       };
+  //       this.store.dispatch(new OpenDialog(data));
+  //     },
+  //   });
+  // }
 
   ngAfterViewInit() {
     this.dialogElement =
