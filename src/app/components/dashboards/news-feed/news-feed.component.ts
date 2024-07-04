@@ -1,6 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
 import { SkeletonComponent } from '../../../global/skeleton/skeleton.component';
-import { BillersModel, ProductModel } from '../dashboard.model';
+import {
+  BillersModel,
+  ProductModel,
+  PublicationModel,
+} from '../dashboard.model';
 import { ConfigService, PlateformModel } from '../../../core/services';
 import { Router } from '@angular/router';
 import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.service';
@@ -30,16 +34,17 @@ export class NewsFeedComponent implements OnDestroy {
 
   loadingProducts = true;
 
+  publications: PublicationModel[] | [] | null = null;
+
   constructor(
     private configService: ConfigService,
     private router: Router,
     private newsFeedService: NewsFeedService
   ) {}
 
-  // ngOnInit(): void {
-  //   this.getMerchantProducts();
-  //   this.getBiller();
-  // }
+  ngOnInit(): void {
+    this.getPublications();
+  }
 
   getMerchantProducts() {
     this.newsFeedService
@@ -55,6 +60,25 @@ export class NewsFeedComponent implements OnDestroy {
         error: err => {
           this.loadingProducts = false;
           console.error(err);
+        },
+      });
+  }
+
+  getPublications() {
+    this.newsFeedService
+      .getPublication()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: res => {
+          const publicationsRes = res as { objects: PublicationModel[] };
+          this.publications = publicationsRes.objects;
+          console.log(
+            '$$$$$$$$$$$$$$$$$$$$$$$$ PUBLICATIONS',
+            this.publications
+          );
+        },
+        error: err => {
+          console.log(err);
         },
       });
   }

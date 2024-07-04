@@ -171,9 +171,11 @@
           alt="" />
       </div>
     </div>
-    <app-publication-card></app-publication-card>
-    <app-publication-card></app-publication-card>
-    <app-publication-card></app-publication-card>
+    @if (publications) {
+      <app-publication-card></app-publication-card>
+      <app-publication-card></app-publication-card>
+      <app-publication-card></app-publication-card>
+    }
   </section>
 
   <!-- announcements section -->
