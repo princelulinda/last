@@ -1,196 +1,180 @@
 <!-- start upload many files-->
 
-<!-- @if (uploadMultipleFile) {
-<div>
+@if (uploadMultipleFile) {
+  <div>
     <label for="files" class="container w-100 mb-5">
-        <div
-            role="button"
-            class="drop-area"
-            (dragover)="onDragOver($event)"
-            (dragleave)="onDragLeave($event)"
-            (drop)="onDrop($event)"
-            class="container w-100 p-3 bg-white rounded text-xl"
-            style="border: dashed 1px #979797"
-        >
-            <div class="col d-flex justify-content-center mt-4">
-                <i
-                    class="fa fa-cloud-download fa-4x"
-                    style="color: #b86b6b"
-                ></i>
-            </div>
-            <div class="col d-flex justify-content-center">
-                <span>Drag and drop file here</span>
-            </div>
-            <div class="col d-flex justify-content-center">
-                <span class="text-secondary" i18n>or </span>
-            </div>
-            <div class="col d-flex justify-content-center mb-4">
-                Browser file icon
-            </div>
+      <div
+        role="button"
+        class="drop-area"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+        class="container w-100 p-3 bg-white rounded text-xl"
+        style="border: dashed 1px #979797">
+        <div class="col d-flex justify-content-center mt-4">
+          <i class="fa fa-cloud-download fa-4x" style="color: #b86b6b"></i>
         </div>
+        <div class="col d-flex justify-content-center">
+          <span>Drag and drop file here</span>
+        </div>
+        <div class="col d-flex justify-content-center">
+          <span class="text-secondary" i18n>or </span>
+        </div>
+        <div class="col d-flex justify-content-center mb-4">
+          Browser file icon
+        </div>
+      </div>
     </label>
 
     <form class="box" method="post" action="" enctype="multipart/form-data">
-        <input
-            type="file"
-            name="files"
-            id="files"
-            (change)="onFilesChange($event); onFileSelected($event)"
-            multiple
-            class="form-control mb-4"
-            class="d-none"
-            multiple
-        />
+      <input
+        type="file"
+        name="files"
+        id="files"
+        (change)="onFilesChange($event); onFileSelected($event)"
+        multiple
+        class="form-control mb-4"
+        class="d-none"
+        multiple />
     </form>
 
     <div class="container bg-white">
-        @for (data of uploadedFiles; track data) {
-        <div class="col-md-4" >
-            <div class="row">
-                <div class="col-2">
-                    <span
-                        ><i
-                            class="fa-regular fa-file bg-light"
-                            style="font-size: 60px"
-                        ></i>
-                        <p style="margin-top: -38px; margin-left: 8px"> -->
-                            <!-- {{ getFileFormat(data.docfile) }} -->
-                        <!-- </p>
-                        <i
-                            style="margin-left: 43px"
-                            class="fa-solid fa-circle-check text-success"
-                        ></i>
-                    </span>
-                </div>
-                <div class="col ms-2 truncate"> -->
-                    <!-- <span>{{ data.id }}</span
+      @for (data of uploadedFiles; track data) {
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-2">
+              <span
+                ><i
+                  class="fa-regular fa-file bg-light"
+                  style="font-size: 60px"></i>
+                <!-- <p style="margin-top: -38px; margin-left: 8px">
+                            {{ getFileFormat(data.object.docfile) }}
+                        </p> -->
+                <i
+                  style="margin-left: 43px"
+                  class="fa-solid fa-circle-check text-success"></i>
+              </span>
+            </div>
+            <div class="col ms-2 truncate">
+              <!-- <span>{{ data.object.id }}</span
                     ><br /> -->
-                    <!-- <span>{{ data.uuid }}</span> -->
-                <!-- </div> -->
-                <!-- <div class="col">
-          <div class="progress-bar" >
-            <div class="progress" [style.width]="data.progress"></div>
+              <span>{{ data.object.uuid }}</span>
+            </div>
+            <div class="col">
+              <div class="progress-bar">
+                <!-- <div class="progress" [style.width]="data.progress"></div> -->
+              </div>
+            </div>
+            <div class="col-1 ms-2">
+              @if (!data.isLoadingDelete) {
+                <span
+                  tabindex="0"
+                  (click)="deleteImage(data.object.id)"
+                  class="d-flex justify-content-end mt-4">
+                  <i role="button" class="fa-regular fa-trash-can text-primary">
+                  </i>
+                </span>
+              }
+
+              @if (isLoadingDelete) {
+                <span class="d-flex justify-content-end mt-4">
+                  <i class="fa-solid fa-pulse fa-circle-notch fs-4"></i>
+                </span>
+              }
+            </div>
           </div>
-        </div> -->
-                <!-- <div class="col-1 ms-2"> -->
-                    <!-- @if (!data.isLoadingDelete) {
-                        <span
-                       
-                       
-                        class="d-flex justify-content-end mt-4"
-                    >
-                        <i
-                            role="button"
-                            class="fa-regular fa-trash-can text-primary"
-                        >
-                        </i>
-                    </span>
-                    } -->
-                    
-                    <!-- <span
-                        class="d-flex justify-content-end mt-4"
-                        
-                    >
-                        <i class="fa-solid fa-pulse fa-circle-notch fs-4"></i>
-                    </span>
-                </div>
-            </div>
-            <hr />
+          <hr />
         </div>
-    }
-    </div> -->
-
-    <!-- <div class="container bg-white">
-        @for (file of fileList; track file) {
-        <div class="col-md-4 mb-2" >
-            <div class="row">
-                <div class="col-2">
-                    <span>
-                        <i
-                            class="fa-regular fa-file"
-                            style="font-size: 60px"
-                        ></i>
-                    </span>
-                    <p style="margin-top: -38px; margin-left: 8px">
-                        {{ getFileFormat(file.name) }}
-                    </p>
-                </div>
-                <div class="col ms-2">
-                    <span>{{ file.name }}</span
-                    ><br /> -->
-
-                    <!-- <span>{{ file.size / 1024 | number : '1.0-0' }} kB</span
-                    ><br /> -->
-                <!-- </div>
-            </div>
-            <div class="progress-bar" >
-                <hr />
-                <div
-                    class="progresss"
-                    role="progressbarr"
-                    [style.width]="file.progress + '%'"
-                    [attr.aria-valuenow]="file.progress"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                >
-                     <span class="ms-2 fw-bold"> {{ file.progress }}%</span> -->
-                <!-- </div>
-            </div>
-        </div> }
+      }
     </div>
-</div> } --> 
+
+    <div class="container bg-white">
+      @for (file of fileList; track file) {
+        <div class="col-md-4 mb-2">
+          <div class="row">
+            <div class="col-2">
+              <span>
+                <i class="fa-regular fa-file" style="font-size: 60px"></i>
+              </span>
+              <p style="margin-top: -38px; margin-left: 8px">
+                {{ getFileFormat(file.name) }}
+              </p>
+            </div>
+            <div class="col ms-2">
+              <span>{{ file.name }}</span
+              ><br />
+              <span class="ms-2 fw-bold"> {{ file.progress }}%</span>
+              <!-- <span>{{ file.size / 1024 | number : '1.0-0' }} kB</span -->
+              <br />
+            </div>
+          </div>
+          <div class="progress-bar">
+            <hr />
+            <div
+              class="progresss"
+              role="progressbarr"
+              [style.width]="file.progress + '%'"
+              [attr.aria-valuenow]="file.progress"
+              aria-valuemin="0"
+              aria-valuemax="100"></div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}
 
 <!-- end upload many files-->
 
 <!-- start upload one file-->
-<div>
+@if (uploadOneFile) {
+  <div>
     <form method="post" action="" enctype="multipart/form-data">
-        <input
-            type="file"
-            id="file"
-            name="file"
-            class="d-none"
-            FormControlName="image"
-            name="image"
-            style="display: none"
-            [value]="file.value"
-            (change)="
-                onFileChange($event);
-                uploadProfileImage($event);
-                onImageSelected($event)
-            "
-        />
+      <input
+        type="file"
+        id="file"
+        name="file"
+        class="d-none"
+        FormControlName="image"
+        name="image"
+        style="display: none"
+        [value]="file.value"
+        (change)="
+          onFileChange($event);
+          uploadProfileImage($event);
+          onImageSelected($event)
+        " />
     </form>
 
     <div class="position-relative z-1 col d-flex justify-content-center">
-        <label for="file">
-            <div
-                role="button"
-                class="bg-secondary d-flex justify-content-center align-items-center rounded-circle"
-            >
-                <i class="fa-solid fa-camera fs-4"></i>
-            </div>
-        </label>
+      <label for="file">
+        <div
+          role="button"
+          class="bg-secondary d-flex justify-content-center align-items-center rounded-circle">
+          <i class="fa-solid fa-camera fs-4"></i>
+        </div>
+      </label>
     </div>
     @for (file of oneFile; track file) {
-    <div
-        class="col position-relative z-2 circleProgress border-light"
-       
-    >
+      <div class="col position-relative z-2 circleProgress border-light">
         <div
-            class="percentage"
-            role="progressbar"
-            aria-valuenow="50"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            [style.--value]="file.progress"
-        >
-           <span><img [src]="image" class="profile rounded-circle border border-1" alt="profile" /></span>
+          class="percentage"
+          role="progressbar"
+          aria-valuenow="50"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          [style.--value]="file.progress">
+          <span
+            ><img
+              [src]="image"
+              class="profile rounded-circle border border-1"
+              alt="profile"
+          /></span>
         </div>
-    </div> }
-</div>
-
-
+      </div>
+    }
+  </div>
+}
 
 <!-- end upload one file-->
 <!--  

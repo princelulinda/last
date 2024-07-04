@@ -1,6 +1,6 @@
 export interface fileResponse {
-  // uuid: fileResponse[];
-  // uploadedFile:fileResponse[];
+  id: number;
+  isLoadingDelete: boolean;
   object: {
     id: number;
     uuid: string;

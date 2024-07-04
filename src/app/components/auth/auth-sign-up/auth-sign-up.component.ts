@@ -34,7 +34,7 @@ export class AuthSignUpComponent {
   EmailVerificationloader = false;
   phoneNumberVerificationLoader = false;
   isLoadingBank = false;
-  test: bankListResponse[] | [] | null = null;
+  // file: bankListResponse[] | [] | null = null;
   getBanksList: bankListResponse[] | [] | null = null;
   emailToVerify!: EmailVerificationResponse;
   phoneNumberToVerify!: phoneNumberVerificaitonResponse;
@@ -102,7 +102,8 @@ export class AuthSignUpComponent {
     const data = {
       // creation_client: this.id,
       organization: this.bankId,
-      picture: this.test,
+      picture:
+        this.multiStepForm.controls.authentificationInformation.value.picture,
       email:
         this.multiStepForm.controls.authentificationInformation.value.email,
       username:

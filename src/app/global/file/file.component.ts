@@ -131,9 +131,9 @@ export class FileComponent {
     this.oneFile.push(...filesToUpload);
 
     filesToUpload.forEach(file => {
-      const formData = new FormData();
-      const blob = new Blob([file], { type: file.type });
-      formData.append('file', blob);
+      // const formData = new FormData();
+      // const blob = new Blob([file], { type: file.type });
+      // formData.append('file', blob);
 
       const uploadReq = this.fileService.uploadFile();
       uploadReq.subscribe({
@@ -150,9 +150,9 @@ export class FileComponent {
             this.updateProgress(file, 100);
             file.isLoadingFile = false;
 
-            const test = this.uploadedFile[0]?.object.uuid;
-            this.uploadOneFileEvent.emit(test);
-            console.log('UUID:', test);
+            const uuidFile = this.uploadedFile[0]?.object.uuid;
+            this.uploadOneFileEvent.emit(uuidFile);
+            console.log('UUID:', uuidFile);
           }
         },
         error: () => {
@@ -166,96 +166,105 @@ export class FileComponent {
     });
   }
 
-  // onFilesChange(event: Event): void {
-  //     const inputElement = event.target as HTMLInputElement;
-  //     if (inputElement.files) {
-  //       const fileList: FileList = inputElement.files;
-  //       const filesArray: File[] = Array.from(fileList);
-  //       this.uploadFiles(filesArray);
-  //     }
-  //   }
+  //start uplload multiple
 
-  // onDragOver(event: DragEvent): void {
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  // }
+  onFilesChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement.files) {
+      const fileList: FileList = inputElement.files;
+      const filesArray: File[] = Array.from(fileList);
+      this.uploadFiles(filesArray);
+    }
+  }
 
-  // onDragLeave(event: DragEvent): void {
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  // }
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
 
-  // onDrop(event: DragEvent): void {
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  //     const files: FileList | undefined = event.dataTransfer?.files;
-  //     if (files && files.length > 0) {
-  //         this.uploadFiles(Array.from(files));
-  //     }
-  // }
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
 
-  // fileList: (File & {
-  //     progress: number;
-  //     thumbnail: string | undefined;
-  //     isLoadingFile: boolean;
-  // })[] = [];
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const files: FileList | undefined = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.uploadFiles(Array.from(files));
+    }
+  }
 
-  // private uploadFiles(fileList: File[]): void {
-  //     const filesToUpload = fileList.map((file) => {
-  //         return Object.assign(file, {
-  //             progress: 0,
-  //             thumbnail: undefined,
-  //             isLoadingFile: true,
-  //         });
-  //     });
+  fileList: (File & {
+    progress: number;
+    thumbnail: string | undefined;
+    isLoadingFile: boolean;
+  })[] = [];
 
-  //     // this.fileList.push(...filesToUpload);
+  private uploadFiles(fileList: File[]): void {
+    const filesToUpload = fileList.map(file => {
+      return Object.assign(file, {
+        progress: 0,
+        thumbnail: undefined,
+        isLoadingFile: true,
+      });
+    });
+    this.fileList.push(...filesToUpload);
+    filesToUpload.forEach(file => {
+      const uploadReq = this.fileService.uploadFiles();
+      uploadReq.subscribe({
+        next: event => {
+          if (event.type === HttpEventType.UploadProgress) {
+            const newProgress = Math.round(
+              (event.loaded / (event.total ?? 0)) * 90
+            );
+            this.updateProgress(file, newProgress);
+          } else if (event.type === HttpEventType.Response) {
+            const responseObject = event.body;
+            this.uploadedFiles.push(responseObject as fileResponse);
+            // const fileSizeKB = Math.round(file.size / 1024);
+            this.updateProgress(file, 100);
+            file.isLoadingFile = false;
+            console.log('test:', this.uploadedFiles[0].object.uuid);
 
-  //     filesToUpload.forEach((file) => {
-  //         const uploadReq = this.fileService.uploadFiles(file);
-  //         uploadReq.subscribe({
-  //             next: (data: any) => {
-  //                 if (data.type === HttpEventType.UploadProgress) {
-  //                     const newProgress = Math.round(
-  //                         (data.loaded / data.total) * 100
-  //                     );
-  //                     this.updateProgress(file, newProgress);
-  //                 } else if (data.type === HttpEventType.Response) {
-  //                     const responseObject = data.body.object;
-  //                     const fileSizeKB = Math.round(file.size / 1024);
-  //                     responseObject.size =
-  //                         fileSizeKB.toLocaleString() + ' k B';
-  //                     this.uploadedFiles.push(responseObject);
-  //                     this.updateProgress(file, 100);
-  //                     file.isLoadingFile = false;
+            // this.uploadMultipleFilesEvent.emit(this.uploadedFiles);
 
-  //                     // this.uploadMultipleFilesEvent.emit(this.uploadedFiles);
+            const index = this.fileList.findIndex(f => f === file);
+            if (index !== -1) {
+              this.fileList.splice(index, 1);
+            }
+          }
+        },
+        error: () => {
+          // Handle error
+          // this.store.dispatch(new CloseDialog({ response: 'clear' }));
+          // const data = {
+          //     title: '',
+          //     type: 'failed',
+          //     message:
+          //         error?.object?.response_message ??
+          //         'Something went wrong, please retry again',
+          // };
+          // this.store.dispatch(new OpenDialog(data));
+          const index = this.fileList.findIndex(f => f === file);
+          if (index !== -1) {
+            this.fileList.splice(index, 1);
+          }
+        },
+      });
+    });
+  }
 
-  //                     const index = this.fileList.findIndex(
-  //                         (f) => f === file
-  //                     );
-  //                     if (index !== -1) {
-  //                         this.fileList.splice(index, 1);
-  //                     }
-  //                 }
-  //             },
-  //             error: (error) => {
-  //                 // Handle error
-  //                 // this.store.dispatch(new CloseDialog({ response: 'clear' }));
-  //                 const data = {
-  //                     title: '',
-  //                     type: 'failed',
-  //                     message:
-  //                         error?.object?.response_message ??
-  //                         'Something went wrong, please retry again',
-  //                 };
-  //                 // this.store.dispatch(new OpenDialog(data));
-  //                 const index = this.fileList.findIndex((f) => f === file);
-  //                 if (index !== -1) {
-  //                     this.fileList.splice(index, 1);
-  //                 }
-  //             },
-  //         });
-  //     });
-  // }
+  deleteImage(id: number): void {
+    const index = this.uploadedFiles.findIndex(data => data.object.id === id);
+    this.uploadedFiles[index].isLoadingDelete = true;
+    if (index !== -1) {
+      this.fileService.deleteImage(id).subscribe(() => {
+        //   console.log('Image deleted successfully');
+        this.uploadedFiles.splice(index, 1);
+        this.uploadedFiles[index].isLoadingDelete = false;
+      });
+    }
+  }
 }
