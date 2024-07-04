@@ -1,0 +1,28 @@
+.small-2 {
+    font-size: 13px;
+}
+
+// * {
+//     outline: none;
+//     -webkit-print-color-adjust: exact;
+//     print-color-adjust: exact;
+// }
+
+.is-clickable{
+    cursor: pointer;
+}
+
+.active-border-none {
+    &:active,
+    &:focus-visible {
+        border: none !important;
+        outline: none !important;
+        background: none !important;
+        box-shadow: none !important;
+    }
+}
+@media print {
+    .noprint {
+       visibility: hidden;
+    }
+ }
