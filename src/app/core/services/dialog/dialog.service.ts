@@ -40,7 +40,11 @@ export class DialogService {
 
   response: WritableSignal<DialogResponseModel> = signal({
     action: '',
-    response: '',
+    response: {
+      confirmation: '',
+      password: '',
+      pin: '',
+    },
   });
 
   openToast(payload: ToastPaylodModel) {

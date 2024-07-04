@@ -36,6 +36,11 @@ export interface CloseDialog {
 }
 
 export interface DialogResponseModel {
-  response: string | { password: string } | { pin: string };
+  // response: string | { password: string } | { pin: string };
+  response: {
+    confirmation: 'YES' | 'NO' | '';
+    password: string;
+    pin: string;
+  };
   action: string;
 }

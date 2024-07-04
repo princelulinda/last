@@ -113,7 +113,11 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
   setConfirmationDialogResponse(payload: 'YES' | 'NO') {
     this.dialogService.setDialogResponse({
       action: this.dialog.action,
-      response: payload,
+      response: {
+        confirmation: payload,
+        password: '',
+        pin: '',
+      },
     });
   }
 
@@ -124,7 +128,11 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
   submitPassword() {
     this.dialogService.setDialogResponse({
       action: this.dialog.action,
-      response: { password: this.passwordForm.value },
+      response: {
+        password: this.passwordForm.value.password,
+        confirmation: '',
+        pin: '',
+      },
     });
     this.passwordForm.reset();
     this.dialogService.closeDialog();
@@ -132,7 +140,7 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
   submitPin() {
     this.dialogService.setDialogResponse({
       action: this.dialog.action,
-      response: { pin: this.pinForm.value },
+      response: { pin: this.pinForm.value.pin, confirmation: '', password: '' },
     });
     this.pinForm.reset();
     this.dialogService.closeDialog();
