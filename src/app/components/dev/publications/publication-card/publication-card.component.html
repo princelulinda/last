@@ -21,12 +21,12 @@
     <div
       class="d-flex flex-column overflow-hidden gap-0 ps-2"
       style="max-height: 60px">
-      @if (data.publishers.length > 0) {
+      @if (data.publishers && data.publishers.length > 0) {
         <p class="m-0 p-0">
           <b>{{ data.publishers![0].client_full_name }}</b>
         </p>
       }
-      @if (data.publishers.length === 0) {
+      @if (data.publishers && data.publishers.length === 0) {
         <p class="m-0 p-0">
           <b>Unknown</b>
         </p>
