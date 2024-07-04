@@ -3,7 +3,7 @@
   style="height: max-content">
   <div class="header d-flex align-items-center mx-4 my-2">
     <div
-      class="profil rounded-circle bg-primary d-flex align-items-center justify-content-center">
+      class="profil p-relative rounded-circle bg-primary d-flex align-items-center justify-content-center">
       <!-- <i class="fa-solid fa-user fs-2 text-all-white"></i> -->
       <img
         src="./images/profilePicture001.jpg"
@@ -28,11 +28,14 @@
     </p>
   </div>
   <div
-    class="d-flex bg-white flex-column justify-content-center postImage align-items-center p-2 px-3 mb-3 sm-radius overflow-hidden w-100 align-items-center">
+    class="d-flex bg-white flex-column justify-content-center postImage align-items-center p-2 px-3 mb-2 sm-radius overflow-hidden w-100 align-items-center">
     <img src="./images/post001.jpg" class="image w-100" alt="" />
   </div>
+
+  <!-- Like & Comment input field -->
+
   <div
-    class="rounded-3 border mx-3 mb-3 px-2 py-1 d-flex flex-row overflow-hidden">
+    class="rounded-3 border mx-3 mb-2 px-2 py-1 d-flex flex-row overflow-hidden">
     <div class="d-flex flex-row align-items-center border-end pe-2">
       <i class="fa-solid fa-thumbs-up"></i>
       <span>33</span>
@@ -40,10 +43,10 @@
       <span>5</span>
     </div>
     <div class="d-flex flex-row align-items-center border-end px-2">
-      <div class="comment d-flex flex-row align-items-center">
+      <div class="p-relative d-flex flex-row align-items-center">
         <i class="fa-regular fa-comment"></i>
         <div
-          class="comments rounded-circle d-flex align-items-center justify-content-center position-absolute comment-dot">
+          class="rounded-circle d-flex align-items-center justify-content-center position-absolute comment-dot">
           23
         </div>
       </div>
@@ -57,7 +60,30 @@
     <div class="d-flex flex-row align-items-center ms-auto">
       <i class="fa-regular fa-face-smile pe-1"></i>
       <i class="fa-solid fa-camera pe-1"></i>
-      <i class="fa-solid fa-share"></i>
+      <i class="fa-solid fa-share text-primary"></i>
+    </div>
+  </div>
+  <!-- COMMENTS SECTION -->
+  <div class="d-flex mx-3 mb-3">
+    <div
+      class="profilComment p-relative rounded-circle bg-primary d-flex align-items-center justify-content-center ms-1">
+      <img
+        src="./images/comment001.jpg"
+        class="w-100 h-100 rounded-circle"
+        alt="" />
+      <div class="onlineComment rounded-circle position-absolute"></div>
+    </div>
+    <div class="p-2 ms-1 bg-secondary rounded-2 p-relative">
+      <p class="m-0 p-0"><b>John Doe</b></p>
+      <p class="m-0 p-0 pe-1 pb-3">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit.🤩
+      </p>
+      <p class="position-absolute replies">22 replies</p>
+    </div>
+    <div class="d-flex flex-column rounded-2 gap-2">
+      <i class="fa-regular fa-thumbs-up"></i>
+      <i class="fa-regular fa-thumbs-down"></i>
+      <i class="fa-regular fa-comment"></i>
     </div>
   </div>
 </div>
