@@ -1,19 +1,36 @@
 <div
   class="lg-radius shadow bg-white d-flex flex-column col-md-10 mx-auto max-width-600 m-0 p-0">
   <div class="header d-flex align-items-center mx-4 my-2">
-    <div
-      class="profil p-relative rounded-circle bg-primary d-flex align-items-center justify-content-center">
-      <!-- <i class="fa-solid fa-user fs-2 text-all-white"></i> -->
-      <img
-        src="./images/profilePicture001.jpg"
-        class="w-100 h-100 rounded-circle"
-        alt="" />
-      <div class="online rounded-circle position-absolute"></div>
-    </div>
+    @if (data.publishers.length > 0) {
+      <div
+        class="profil p-relative rounded-circle d-flex align-items-center justify-content-center">
+        <img
+          [src]="data.publishers![0].picture"
+          class="w-100 h-100 rounded-circle border"
+          alt="" />
+        <div class="online rounded-circle position-absolute"></div>
+      </div>
+    }
+    @if (data.publishers.length === 0) {
+      <div
+        class="profil p-relative rounded-circle bg-primary d-flex align-items-center justify-content-center">
+        <i class="fa-solid fa-user fs-2 text-all-white"></i>
+      </div>
+    }
+
     <div
       class="d-flex flex-column overflow-hidden gap-0 ps-2"
       style="max-height: 60px">
-      <p class="m-0 p-0"><b>John Doe</b></p>
+      @if (data.publishers.length > 0) {
+        <p class="m-0 p-0">
+          <b>{{ data.publishers![0].client_full_name }}</b>
+        </p>
+      }
+      @if (data.publishers.length === 0) {
+        <p class="m-0 p-0">
+          <b>Unknown</b>
+        </p>
+      }
       <p class="m-0 p-0">
         00H <b>Public </b><i class="fa-solid fa-earth-africa"></i>
       </p>
@@ -21,15 +38,15 @@
   </div>
   <div class="w-100 px-3 overflow-hidden">
     <p>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et odit ratione
-      praesentium debitis blanditiis deserunt fugiat commodi nemo veritatis
-      molestiae!
+      {{ data.caption }}
     </p>
   </div>
-  <div
-    class="d-flex bg-white flex-column justify-content-center postImage align-items-center p-2 px-3 mb-2 sm-radius overflow-hidden w-100 align-items-center">
-    <img src="./images/post001.jpg" class="image w-100" alt="" />
-  </div>
+  @if (data.documents.length > 0) {
+    <div
+      class="d-flex bg-white flex-column justify-content-center postImage align-items-center p-2 px-3 mb-2 sm-radius overflow-hidden w-100 align-items-center">
+      <img [src]="data.documents![0].docfile" class="image w-100" alt="" />
+    </div>
+  }
 
   <!-- Like & Comment input field -->
 

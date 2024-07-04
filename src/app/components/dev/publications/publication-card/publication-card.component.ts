@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { PublicationModel } from '../../../dashboards/dashboard.model';
 
 @Component({
   selector: 'app-publication-card',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
   templateUrl: './publication-card.component.html',
   styleUrl: './publication-card.component.scss',
 })
-export class PublicationCardComponent {}
+export class PublicationCardComponent {
+  @Input({ required: true }) data!: PublicationModel;
+}

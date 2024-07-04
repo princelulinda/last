@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SkeletonComponent } from '../../../global/skeleton/skeleton.component';
 import {
   BillersModel,
@@ -19,7 +19,7 @@ import { PublicationCardComponent } from '../../dev/publications/publication-car
   templateUrl: './news-feed.component.html',
   styleUrl: './news-feed.component.scss',
 })
-export class NewsFeedComponent implements OnDestroy {
+export class NewsFeedComponent implements OnDestroy, OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
   countProductLoader = [1, 2, 3, 4];
   search = '';

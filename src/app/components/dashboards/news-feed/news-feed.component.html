@@ -172,9 +172,9 @@
       </div>
     </div>
     @if (publications) {
-      <app-publication-card></app-publication-card>
-      <app-publication-card></app-publication-card>
-      <app-publication-card></app-publication-card>
+      @for (publication of publications; track $index) {
+        <app-publication-card [data]="publication"></app-publication-card>
+      }
     }
   </section>
 
