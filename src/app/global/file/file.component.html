@@ -60,11 +60,11 @@
                     ><br /> -->
               <span>{{ data.object.uuid }}</span>
             </div>
-            <div class="col">
+            <!-- <div class="col">
               <div class="progress-bar">
-                <!-- <div class="progress" [style.width]="data.progress"></div> -->
+                <div class="progress" [style.width]="data.object.progress"></div>
               </div>
-            </div>
+            </div> -->
             <div class="col-1 ms-2">
               @if (!data.isLoadingDelete) {
                 <span
@@ -76,7 +76,7 @@
                 </span>
               }
 
-              @if (isLoadingDelete) {
+              @if (data.isLoadingDelete) {
                 <span class="d-flex justify-content-end mt-4">
                   <i class="fa-solid fa-pulse fa-circle-notch fs-4"></i>
                 </span>

@@ -123,7 +123,7 @@ export class FileComponent {
       isLoadingFile: boolean;
     })[] = oneFile.map(file => ({
       ...file,
-      progress: 0,
+      progress: 1,
       thumbnail: undefined,
       isLoadingFile: true,
     }));
@@ -140,7 +140,7 @@ export class FileComponent {
         next: event => {
           if (event.type === HttpEventType.UploadProgress) {
             const newProgress = Math.round(
-              (event.loaded / (event.total ?? 0)) * 90
+              (event.loaded / (event.total ?? 1)) * 100
             );
             this.updateProgress(file, newProgress);
           }
@@ -205,7 +205,7 @@ export class FileComponent {
   private uploadFiles(fileList: File[]): void {
     const filesToUpload = fileList.map(file => {
       return Object.assign(file, {
-        progress: 0,
+        progress: 1,
         thumbnail: undefined,
         isLoadingFile: true,
       });
@@ -217,7 +217,7 @@ export class FileComponent {
         next: event => {
           if (event.type === HttpEventType.UploadProgress) {
             const newProgress = Math.round(
-              (event.loaded / (event.total ?? 0)) * 90
+              (event.loaded / (event.total ?? 0)) * 100
             );
             this.updateProgress(file, newProgress);
           } else if (event.type === HttpEventType.Response) {
