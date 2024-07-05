@@ -10,6 +10,7 @@ import { marketPlaceRoutes } from './routes/market-place/marketPlace.routes';
 import { NotFound404Component } from './components/dev/not-found-404/not-found-404.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { BankingComponent } from './layouts/banking/banking.component';
+import { bankingSettingsRoutes } from './components/settings/settings.routes';
 // import { Forbidden403Component } from './components/dev/forbidden-403/forbidden-403.component';
 
 export const routes: Routes = [
@@ -35,6 +36,10 @@ export const routes: Routes = [
       {
         path: 'banking',
         children: bankingRoutes,
+      },
+      {
+        path: 'settings',
+        children: bankingSettingsRoutes,
       },
 
       {

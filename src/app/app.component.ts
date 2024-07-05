@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  ActivatedRoute,
   // NavigationEnd,
-  Router,
   RouterOutlet,
 } from '@angular/router';
 
@@ -30,9 +28,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private dbService: DbService,
-    private configService: ConfigService,
-    private router: Router,
-    private route: ActivatedRoute
+    private configService: ConfigService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.dbService.dbIsReady.subscribe((value: boolean) =>
