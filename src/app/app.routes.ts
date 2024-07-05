@@ -2,11 +2,13 @@ import { Routes } from '@angular/router';
 
 import { NoAuthGuard, AuthGuard } from './core/guards';
 import { AuthRoutes } from './components/auth/auth.routes';
-import { Notfound400Component } from './components/errors/notfound-400/notfound-400.component';
+// import { Notfound400Component } from './components/errors/notfound-400/notfound-400.component';
 import { BankingComponent } from './components/layouts/banking/banking.component';
 import { bankingRoutes } from './routes/banking/banking.routes';
 import { newsFeedRoutes } from './routes/newsFeed/newsFeed.routes';
 import { marketPlaceRoutes } from './routes/market-place/marketPlace.routes';
+import { NotFound404Component } from './components/dev/not-found-404/not-found-404.component';
+// import { Forbidden403Component } from './components/dev/forbidden-403/forbidden-403.component';
 
 export const routes: Routes = [
   // authentification routes
@@ -39,5 +41,7 @@ export const routes: Routes = [
     ],
   },
 
-  { path: '**', component: Notfound400Component },
+  // { path: '**', component: Notfound400Component },
+  // { path: '403', component: Forbidden403Component},
+  { path: '**', component: NotFound404Component },
 ];
