@@ -9,6 +9,7 @@ import {
   createAccountResponse,
   bankListResponse,
 } from '../auth.model';
+import { FileComponent } from '../../../global/file/file.component';
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,
@@ -17,6 +18,7 @@ import {
     RouterLinkActive,
     PasswordFieldComponent,
     ReactiveFormsModule,
+    FileComponent,
   ],
   templateUrl: './auth-sign-up.component.html',
   styleUrl: './auth-sign-up.component.scss',
@@ -32,7 +34,7 @@ export class AuthSignUpComponent {
   EmailVerificationloader = false;
   phoneNumberVerificationLoader = false;
   isLoadingBank = false;
-  test: bankListResponse[] | [] | null = null;
+  // file: bankListResponse[] | [] | null = null;
   getBanksList: bankListResponse[] | [] | null = null;
   emailToVerify!: EmailVerificationResponse;
   phoneNumberToVerify!: phoneNumberVerificaitonResponse;
@@ -100,7 +102,8 @@ export class AuthSignUpComponent {
     const data = {
       // creation_client: this.id,
       organization: this.bankId,
-      // picture: this.selectedImage,
+      picture:
+        this.multiStepForm.controls.authentificationInformation.value.picture,
       email:
         this.multiStepForm.controls.authentificationInformation.value.email,
       username:
@@ -207,11 +210,7 @@ export class AuthSignUpComponent {
         console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
-  onPasswordChange(password: string) {
-    this.multiStepForm.controls.authentificationInformation.patchValue({
-      password,
-    });
-  }
+
   changePasswordType() {
     if (!this.showPassword) {
       this.showPassword = true;
@@ -247,9 +246,15 @@ export class AuthSignUpComponent {
     this.bankId = bank.organization_id;
     console.log(this.bankId);
   }
+  onPasswordChange(password: string) {
+    this.multiStepForm.controls.authentificationInformation.patchValue({
+      password,
+    });
+  }
 
-  //   checkPassword() {
-  //   const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;;
-  //   this.isMatchConfirmPassword = !passwordPattern.test(this.inputconfirmPassword);
-  // }
+  onPictureChange(picture: string) {
+    this.multiStepForm.controls.authentificationInformation.patchValue({
+      picture,
+    });
+  }
 }
