@@ -7,7 +7,7 @@
         routerLink="/m"
         routerLinkActive="text-dark">
         <div>
-          <span class="bg-secondary me-3 rounded-pill py-3 px-3">
+          <span class="icon-bg me-3 rounded-pill py-3 px-3">
             <i class="fa-solid fa-house house-color"></i>
           </span>
         </div>
@@ -21,7 +21,7 @@
           routerLink="/m"
           routerLinkActive="text-dark">
           <div>
-            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+            <span class="icon-bg me-3 rounded-pill py-3 px-3"
               ><i class="fa-regular fa-comments chat-color"></i
             ></span>
           </div>
@@ -40,7 +40,7 @@
         routerLink="/m"
         routerLinkActive="text-dark">
         <div>
-          <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+          <span class="icon-bg me-3 rounded-pill py-3 px-3"
             ><i class="fa-solid fa-cart-shopping text-success"></i
           ></span>
         </div>
@@ -57,7 +57,7 @@
         routerLink="/m"
         routerLinkActive="text-dark">
         <div>
-          <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+          <span class="icon-bg me-3 rounded-pill py-3 px-3"
             ><i class="fa-solid fa-house house-color"></i
           ></span>
         </div>
@@ -69,7 +69,7 @@
         routerLink="/m"
         routerLinkActive="text-dark">
         <div>
-          <span class="bg-secondary me-3 rounded-pill py-3 px-3">
+          <span class="icon-bg me-3 rounded-pill py-3 px-3">
             <i class="fa-solid fa-calculator text-primary"></i>
           </span>
         </div>
@@ -86,11 +86,13 @@
           routerLink="/m"
           routerLinkActive="text-dark">
           <div>
-            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+            <span class="icon-bg me-3 rounded-pill py-3 px-3"
               ><i class="fa-solid fa-house"></i
             ></span>
           </div>
-          <span class="fw-bold text-secondary" i18n>Home</span>
+          <span class="fw-bold text-secondary fs-normal font-calibri" i18n
+            >Dashboard</span
+          >
         </div>
 
         <div
@@ -98,23 +100,13 @@
           routerLink="/m"
           routerLinkActive="text-dark">
           <div>
-            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
-              ><i class="fa-solid fa-basket-shopping text-success"></i>
+            <span class="icon-bg me-3 rounded-pill py-3 px-3">
+              <i class="fa-solid fa-credit-card text-all-goldenrod"></i>
             </span>
           </div>
-          <span class="fw-bold text-secondary" i18n>Product</span>
-        </div>
-
-        <div
-          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
-          routerLink="/m"
-          routerLinkActive="text-dark">
-          <div>
-            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
-              ><i class="fa-solid fa-shop"></i>
-            </span>
-          </div>
-          <span class="fw-bold text-secondary" i18n>Merchants</span>
+          <span class="fw-bold text-secondary fs-normal font-calibri" i18n
+            >Purchase Statement</span
+          >
         </div>
 
         <div
@@ -124,29 +116,51 @@
             routerLink="/m"
             routerLinkActive="text-dark">
             <div>
-              <span class="bg-secondary me-3 rounded-pill py-3 px-3">
-                <i class="fa-solid fa-cart-shopping text-success"></i
-              ></span>
+              <span class="icon-bg me-3 rounded-pill py-3 px-3">
+                <i class="fa-solid fa-chalkboard-user text-primary"></i>
+              </span>
             </div>
-            <span class="fw-bold text-secondary" i18n>Carts</span>
+            <span class="fw-bold text-secondary" i18n>Slats</span>
           </div>
           <div>
             <div
-              class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
+              class="bg-secondary px-2 d-flex justify-content-center sm-radius text-primary fw-bold">
               0
             </div>
           </div>
         </div>
+
+        <div
+          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
+          <div
+            class="d-flex align-items-center"
+            routerLink="/m"
+            routerLinkActive="text-dark">
+            <div>
+              <span class="icon-bg me-3 rounded-pill py-3 px-3">
+                <i class="fa-solid fa-file-invoice-dollar text-all-blue"></i>
+              </span>
+            </div>
+            <span class="fw-bold text-secondary" i18n> Bills Reports </span>
+          </div>
+          <div>
+            <div
+              class="bg-secondary px-2 d-flex justify-content-center sm-radius text-all-blue fw-bold">
+              0
+            </div>
+          </div>
+        </div>
+
         <div
           class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
           routerLink="/m"
           routerLinkActive="text-dark">
           <div>
-            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
-              ><i class="fa-solid fa-file-invoice-dollar"></i>
+            <span class="icon-bg me-3 rounded-pill py-3 px-3">
+              <i class="fa-solid fa-receipt text-all-blue-sky"></i>
             </span>
           </div>
-          <span class="fw-bold text-secondary" i18n>Bills</span>
+          <span class="fw-bold text-secondary" i18n>Payment Reports</span>
         </div>
 
         <div

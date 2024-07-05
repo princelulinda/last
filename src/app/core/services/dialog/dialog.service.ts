@@ -81,7 +81,7 @@ export class DialogService {
   setDialogResponse(data: DialogResponseModel) {
     this.response.set(data);
   }
-
+  //
   getDialogState(): Observable<DialogResponseModel> {
     return toObservable(this.response);
   }
