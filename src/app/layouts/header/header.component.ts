@@ -11,20 +11,20 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { Observable, Subject } from 'rxjs';
 
-import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-plateform-icons.component';
 import {
   AuthService,
   ConfigService,
   PlateformModel,
   activeMainConfigModel,
-} from '../../../core/services';
-import { UserInfoModel } from '../../../core/db/models/auth';
+} from '../../core/services';
+import { UserInfoModel } from '../../core/db/models/auth';
 import {
   corporatesModel,
   selectedCorporateModel,
   clientInfoModel,
   userInfoModel,
 } from './model';
+import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-plateform-icons.component';
 
 export interface organizationModel {
   company_type_code: string;

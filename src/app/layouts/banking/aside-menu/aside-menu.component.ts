@@ -1,8 +1,10 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+
 import { Observable } from 'rxjs';
-import { activeMainConfigModel } from '../../../../core/services';
-import { ConfigService } from '../../../../core/services';
+
+import { ConfigService, activeMainConfigModel } from '../../../core/services';
+
 @Component({
   selector: 'app-aside-menu',
   standalone: true,

@@ -1,7 +1,9 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+
 import { Observable, Subject } from 'rxjs';
-import { AuthService } from '../../../../core/services';
-import { UserInfoModel } from '../../../../core/db/models/auth';
+
+import { AuthService } from '../../../core/services';
+import { UserInfoModel } from '../../../core/db/models/auth';
 import { userInfoModel } from '../model';
 
 @Component({

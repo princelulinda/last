@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+import { Observable, Subject } from 'rxjs';
+
 import {
   ConfigService,
   PlateformModel,
   activeMainConfigModel,
-} from '../../../../core/services';
-import { RouterModule } from '@angular/router';
+} from '../../../core/services';
 
 @Component({
   selector: 'app-switch-plateform-icons',
