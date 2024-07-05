@@ -41,10 +41,9 @@ export const routes: Routes = [
         path: 'market',
         children: marketPlaceRoutes,
       },
+      { path: '**', component: NotFound404Component },
     ],
   },
 
-  // { path: '**', component: Notfound400Component },
-  // { path: '403', component: Forbidden403Component},
   { path: '**', component: NotFound404Component },
 ];

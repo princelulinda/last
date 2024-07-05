@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 import { AuthSignUpComponent } from './auth-sign-up/auth-sign-up.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginComponent } from './login/login.component';

@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
 import { DbService } from './core/db/db.service';
 import {
   ConfigService,
-  PlateformModel,
+  // PlateformModel,
   activeMainConfigModel,
 } from './core/services';
 import { ConfirmDialogComponent } from './global/components/popups/confirm-dialog/confirm-dialog.component';
+// import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,8 @@ export class AppComponent implements OnInit {
   constructor(
     private dbService: DbService,
     private configService: ConfigService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.dbService.dbIsReady.subscribe((value: boolean) =>
@@ -40,15 +42,23 @@ export class AppComponent implements OnInit {
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
-        // this.managePlateformRedirection(this.mainConfig.activePlateform);
       },
     });
   }
 
-  private managePlateformRedirection(plateform: PlateformModel) {
-    const plateformData = this.configService.filterPlatformData(plateform);
-    this.router.navigate([plateformData.baseHref]);
-  }
+  // private managePlateformRedirection(plateform: PlateformModel) {
+  //   let url = this.router.url;
+  //   let plateformData = environment.plateformsUuid.find(item =>
+  //     item.baseHref.includes(url)
+  //   );
+  //   if (
+  //     plateformData &&
+  //     plateformData.name !== this.mainConfig.activePlateform
+  //   ) {
+  //     this.configService.switchPlateform(plateformData?.name);
+  //   }
+  //   this.router.navigate([]);
+  // }
 
   // private managePlateformByURL() {
   //   let url = this.router.url;
