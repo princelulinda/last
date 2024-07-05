@@ -9,7 +9,7 @@ import { ConfigService, PlateformModel } from '../../../core/services';
 import { Router } from '@angular/router';
 import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.service';
 import { Subject, takeUntil } from 'rxjs';
-import { ShowMoreDirective } from '../../dev/directives/show-more/show-more.directive';
+import { ShowMoreDirective } from '../../../global/directives/show-more/show-more.directive';
 import { PublicationCardComponent } from '../../dev/publications/publication-card/publication-card.component';
 
 @Component({
