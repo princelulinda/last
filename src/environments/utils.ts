@@ -53,6 +53,12 @@ export const environmentConfig: {
         baseHref: '/b/banking',
       },
       {
+        name: 'bankingSettings',
+        uuid: '65231163-2099-45e3-95de-0bdfa5882088',
+        theme: { name: 'ihela' },
+        baseHref: '/b/settings',
+      },
+      {
         name: 'onamob',
         uuid: '65231163-2099-45e3-95de-0bdfa5882088',
         theme: { name: 'ihela' },
@@ -113,6 +119,12 @@ export const environmentConfig: {
         uuid: 'bafc6065-b332-443b-8444-a811f9a5e6a2',
         theme: { name: 'ihela' },
         baseHref: '/b/banking',
+      },
+      {
+        name: 'bankingSettings',
+        uuid: 'bafc6065-b332-443b-8444-a811f9a5e6a2',
+        theme: { name: 'ihela' },
+        baseHref: '/b/settings',
       },
       {
         name: 'onamob',
