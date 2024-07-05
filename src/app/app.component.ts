@@ -9,7 +9,7 @@ import {
   PlateformModel,
   activeMainConfigModel,
 } from './core/services';
-import { ConfirmDialogComponent } from './global/popups/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from './global/components/popups/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-root',

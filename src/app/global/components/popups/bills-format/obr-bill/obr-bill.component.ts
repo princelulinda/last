@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ObrBillModel } from '../../../../core/services/dialog/dialogs-models';
+import { ObrBillModel } from '../../../../../core/services/dialog/dialogs-models';
 
 @Component({
   selector: 'app-obr-bill',

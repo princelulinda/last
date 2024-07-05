@@ -3,8 +3,8 @@ import { HttpEventType } from '@angular/common/http';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { FormControl } from '@angular/forms';
-import { FileService } from '../../core/services/file/file.service';
-import { fileResponse } from '../global.model';
+import { FileService } from '../../../core/services/file/file.service';
+import { fileResponse } from '../../global.model';
 @Component({
   selector: 'app-file',
   standalone: true,

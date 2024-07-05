@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LandscpeBillModel } from '../../../../core/services/dialog/dialogs-models';
+import { LandscpeBillModel } from '../../../../../core/services/dialog/dialogs-models';
 
 @Component({
   selector: 'app-landscape-bill',

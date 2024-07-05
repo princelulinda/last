@@ -12,9 +12,9 @@ import { Observable } from 'rxjs';
 import {
   DialogModel,
   ToastModel,
-} from '../../../core/services/dialog/dialogs-models';
-import { AuthService, DialogService } from '../../../core/services';
-import { UserInfoModel } from '../../../core/db/models/auth';
+} from '../../../../core/services/dialog/dialogs-models';
+import { AuthService, DialogService } from '../../../../core/services';
+import { UserInfoModel } from '../../../../core/db/models/auth';
 
 @Component({
   selector: 'app-confirm-dialog',

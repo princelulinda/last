@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { PasswordFieldComponent } from '../../../global/password-field/password-field.component';
+import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services';
 import {
@@ -9,7 +9,7 @@ import {
   createAccountResponse,
   bankListResponse,
 } from '../auth.model';
-import { FileComponent } from '../../../global/file/file.component';
+import { FileComponent } from '../../../global/components/file/file.component';
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,

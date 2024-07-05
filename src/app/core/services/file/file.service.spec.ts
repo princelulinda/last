@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { FileService } from './file.service';
-import { FileComponent } from '../../../global/file/file.component';
+import { FileComponent } from '../../../global/components/file/file.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 

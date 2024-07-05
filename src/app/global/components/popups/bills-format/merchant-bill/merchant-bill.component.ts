@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MerchantBillModel } from '../../../../core/services/dialog/dialogs-models';
+import { MerchantBillModel } from '../../../../../core/services/dialog/dialogs-models';
 
 @Component({
   selector: 'app-merchant-bill',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SkeletonComponent } from '../../../../global/skeleton/skeleton.component';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { Observable } from 'rxjs';
 import { activeMainConfigModel } from '../../../../core/services';
 import { ConfigService } from '../../../../core/services';

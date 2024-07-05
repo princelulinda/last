@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TransfertBillModel } from '../../../../core/services/dialog/dialogs-models';
+import { TransfertBillModel } from '../../../../../core/services/dialog/dialogs-models';
 
 @Component({
   selector: 'app-transfer-bill',
