@@ -24,8 +24,8 @@ import {
   RouterStateSnapshot,
   Router,
 } from '@angular/router';
-import { AuthService } from '../services/auth/auth.service';
-import { FullpathService } from '../services/config/fullpath.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { FullpathService } from '../../services/config/fullpath.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
