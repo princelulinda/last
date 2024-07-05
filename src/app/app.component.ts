@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  // NavigationEnd,
+  Router,
+  RouterOutlet,
+} from '@angular/router';
 
 import { Observable } from 'rxjs';
 
@@ -44,21 +49,16 @@ export class AppComponent implements OnInit {
         this.mainConfig = configs;
       },
     });
-  }
 
-  // private managePlateformRedirection(plateform: PlateformModel) {
-  //   let url = this.router.url;
-  //   let plateformData = environment.plateformsUuid.find(item =>
-  //     item.baseHref.includes(url)
-  //   );
-  //   if (
-  //     plateformData &&
-  //     plateformData.name !== this.mainConfig.activePlateform
-  //   ) {
-  //     this.configService.switchPlateform(plateformData?.name);
-  //   }
-  //   this.router.navigate([]);
-  // }
+    // TODO :: TRY TO CHANGE PLATEFORM BY URL !! CAN GOT PROBLEME WITH SOME GUARDS
+    // this.router.events
+    //   .pipe(filter(event => event instanceof NavigationEnd))
+    //   .subscribe({
+    //     next: events => {
+    //       let navigationInfo: NavigationEnd = events as NavigationEnd;
+    //     },
+    //   });
+  }
 
   // private managePlateformByURL() {
   //   let url = this.router.url;

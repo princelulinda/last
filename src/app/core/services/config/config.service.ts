@@ -8,6 +8,7 @@ import { MainConfig } from '../../db/models';
 import { environment } from '../../../../environments/environment';
 
 import { ApiService } from '../api/api.service';
+import { Router } from '@angular/router';
 
 export type ModeModel = 'light' | 'dark';
 export type ThemeModel = 'ihela' | 'magis' | 'erp';
@@ -38,7 +39,8 @@ export class ConfigService {
 
   constructor(
     private dbService: DbService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private router: Router
   ) {
     if (MainConfig) {
       this.mainConfig$ = liveQuery(() =>
@@ -171,7 +173,9 @@ export class ConfigService {
   async switchPlateform(plateform: PlateformModel) {
     this.activeMainConfig = await this.getActiveMainConfig();
     if (plateform !== this.activeMainConfig.activePlateform) {
-      const theme = this.filterPlatformData(plateform).theme.name as ThemeModel;
+      const plateformData = this.filterPlatformData(plateform);
+      const theme = plateformData.theme.name;
+      const baseHref = plateformData.baseHref;
 
       this.setMainConfig({
         activePlateform: plateform,
@@ -179,6 +183,7 @@ export class ConfigService {
         activeMode: this.activeMainConfig.activeMode,
       });
       this.setHtmlMode(theme, this.activeMainConfig.activeMode);
+      this.router.navigate([baseHref]);
     }
   }
 
