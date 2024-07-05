@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '..';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { MailModel } from '../../../components/settings/setting.model';
-
+import { BehaviorSubject, Observable, map } from 'rxjs';
+import {
+  MailModel,
+  PasswordModel,
+} from '../../../components/settings/setting.model';
+import { PinModel } from '../../../components/settings/setting.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -33,6 +36,23 @@ export class SettingsService {
 
   selectSubMenu(menu: string) {
     this._selectedSubMenu.next(menu);
+  }
+
+  changePin(body: PinModel) {
+    const url = '/client/change-pin/';
+    return this.apiService.post(url, body).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+  changePassword(body: PasswordModel) {
+    const url = '/client/change-pin/';
+    return this.apiService.post(url, body).pipe(
+      map(data => {
+        return data;
+      })
+    );
   }
 
   getClientContact(

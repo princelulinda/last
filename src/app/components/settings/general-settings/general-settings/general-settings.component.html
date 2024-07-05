@@ -1,7 +1,7 @@
 <div
   class="bg-secondary mt-4 ms-md-5 ps-xl-3 col-md-10 p-3 sm-radius"
   style="line-height: 1em">
-  <!--- <div>
+  <div>
     <div class="bg-white p-3 lg-radius">
       <div class="d-flex justify-content-between">
         <span class="fw-bold text-dark text-md" i18n>Account</span><br />
@@ -182,14 +182,13 @@
             <div class="ms-3">
               <button
                 type="submit"
-             
+                [disabled]="!email.valid || isLoading"
                 title="add an account"
                 i18n
                 class="btn bg-primary text-light"
                 i18n>
                 @if (!isLoading) {
-                  <span 
-                  (click)="openPinPopup('email')"> Add</span>
+                  <span (click)="openPinPopup('email')" tabindex="0"> Add</span>
                 }
                 @if (isLoading) {
                   <span>
@@ -335,7 +334,6 @@
             <div class="ms-3">
               <button
                 type="submit"
-                
                 title="add a phone number"
                 i18n
                 class="btn bg-primary text-light"
@@ -364,9 +362,9 @@
         </div>
       }
     </div>
-  </div>-->
+  </div>
 
-  <div>
+  <!--- <div>
     <div class="bg-white p-4">
       <div class="row d-flex">
         <div class="row">
@@ -479,5 +477,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 </div>

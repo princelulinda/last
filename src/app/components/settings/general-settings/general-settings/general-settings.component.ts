@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../../core/services';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { SettingsService } from '../../../../core/services/settings/settings.service';
 import { MailModel } from '../../setting.model';
@@ -9,6 +9,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DialogService } from '../../../../core/services';
 import { ClientService } from '../../../../core/services/client/client.service';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
+import { BodyModel } from '../../setting.model';
+
 @Component({
   selector: 'app-general-settings',
   standalone: true,
@@ -33,7 +35,7 @@ export class GeneralSettingsComponent implements OnInit {
   phoneNumber = new FormControl('', Validators.required);
   dialogState$!: Observable<DialogResponseModel>;
 
-  pin!: number;
+  pin!: string;
   constructor(
     private authService: AuthService,
     private settingsService: SettingsService,
@@ -57,26 +59,29 @@ export class GeneralSettingsComponent implements OnInit {
         }
       },
     });
+    this.dialogService
+      .getDialogState()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (dialogResponse: DialogResponseModel) => {
+          this.pin = dialogResponse.response.pin;
 
-    // this.dialogService.getDialogState().pipe(takeUntil(this.onDestroy$)).subscribe({
-    //   next: (dialogResponse: DialogResponseModel) => {
-    //   if (dialogResponse && dialogResponse.response === 'pin submitted') {
-    //     this.pin =  dialogResponse.response.pin
-    //   if (dialogResponse.action === 'phoneNumber') {
-    //   this.submitContact(dialogResponse.action);
-    //   } else if (dialogResponse.action === 'email') {
-    //   this.submitContact(dialogResponse.action);
-    //   }
-    //   }
-    //   },
-    //   });
+          console.log('Received PIN:', this.pin);
+
+          if (dialogResponse.action === 'phoneNumber') {
+            this.submitContact(dialogResponse.action);
+          } else if (dialogResponse.action === 'email') {
+            this.submitContact(dialogResponse.action);
+          }
+        },
+      });
   }
 
   getEmails() {
     this.emailsLoading = true;
     this.settingsService.getClientContact(this.id, 'email').subscribe({
       next: response => {
-        this.emails = response.objects; // Utilisez la propriété 'objects' comme défini dans le service
+        this.emails = response.objects;
         this.emailsLoading = false;
       },
       error: err => {
@@ -116,76 +121,40 @@ export class GeneralSettingsComponent implements OnInit {
       this.getPhoneNumbers();
     }
   }
+  submitContact(contactType: string) {
+    this.dialogService.dispatchLoading('loading');
+    this.loading = true;
 
-  // submitContact(contactType: string) {
-  //   // Afficher le dialogue de chargement
-  //   this.dialogService.dispatchLoading('loading');
+    let body: BodyModel = {
+      pin_code: '',
+      id_type: '',
+      ident: '',
+    };
 
-  //   this.loading = true;
-  //   let body = {};
-  //   if (contactType === 'email') {
-  //   body = {
-  //   pin_code: this.pin,
-  //   id_type: 'E',
-  //   ident: this.email.value,
-  //   };
-  //   } else if (contactType === 'phoneNumber') {
-  //   body = {
-  //   pin_code: this.pin,
-  //   id_type: 'P',
-  //   ident: this.phoneNumber.value,
-  //   };
-  //   }
+    if (contactType === 'email') {
+      body = {
+        pin_code: this.pin,
+        id_type: 'E',
+        ident: this.email.value ?? '',
+      };
+    } else if (contactType === 'phoneNumber') {
+      body = {
+        pin_code: this.pin,
+        id_type: 'P',
+        ident: this.phoneNumber.value ?? '',
+      };
+    }
 
-  //   this.clientService
-  //   .addAphoneNumber(body)
-  //   .pipe(takeUntil(this.onDestroy$))
-  //   .subscribe({
-  //   next: (response: any) => { // Utilisez 'any' pour éviter les erreurs de type
-  //   this.loading = false;
-  //   this.email.reset();
-  //   this.phoneNumber.reset();
-  //   this.dialogService.closeLoading(); // Fermer le dialogue de chargement
-
-  //   // Vérifiez si la réponse contient la propriété 'object'
-  //   if (response && response.object && response.object.success) {
-  //   // Afficher le toast de succès
-  //   this.dialogService.openToast({
-  //   type: 'success',
-  //   title: '',
-  //   message: 'Success',
-  //   });
-
-  //   if (contactType === 'email') {
-  //   this.refreshContact('email');
-  //   this.newAccount = false;
-  //   } else if (contactType === 'phoneNumber') {
-  //   this.newPhoneNumber = false;
-  //   this.refreshContact('phoneNumber');
-  //   }
-  //   } else {
-  //   // Afficher le toast d'échec
-  //   this.dialogService.openToast({
-  //   type: 'failed',
-  //   title: '',
-  //   message: response && response.object ? response.object.response_message : 'An error occurred',
-  //   });
-  //   }
-  //   },
-  //   error: (msg) => {
-  //   this.dialogService.closeLoading(); // Fermer le dialogue de chargement
-  //   // Afficher le toast d'échec
-  //   this.dialogService.openToast({
-  //   type: 'failed',
-  //   title: '',
-  //   message: 'Failed, please try again',
-  //   });
-  //   this.email.reset();
-  //   this.phoneNumber.reset();
-  //   this.loading = false;
-  //   },
-  //   });
-  //   }
+    this.clientService
+      .addAphoneNumber(body)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        // next: () => {
+        // },
+        // error: () => {
+        // },
+      });
+  }
 
   openPinPopup(contactType: string) {
     this.dialogService.openDialog({
