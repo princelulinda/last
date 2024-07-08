@@ -12,7 +12,7 @@ export class PublicationCardComponent {
   @Input({ required: true }) data: PublicationModel = {
     caption: '',
     category: {
-      created_at: '',
+      created_at: '2024-07-08',
       id: 0,
       name: '',
     },
@@ -33,7 +33,7 @@ export class PublicationCardComponent {
     total_shares: 0,
   };
 
-  dateFormatter(createdAt: string) {
+  dateFormatter(createdAt: string): string {
     const date = new Date(createdAt);
 
     const options: Intl.DateTimeFormatOptions = {
