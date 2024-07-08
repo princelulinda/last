@@ -53,11 +53,12 @@ export class AuthSignUpComponent implements OnInit {
   inputconfirmPassword!: string;
   inputEmail!: string;
   inputPassword!: string;
-  bankId!: number;
+  bankId: number | null = null;
   selectedBankIndex: number | null = null;
   i!: number;
   dialog$: Observable<DialogResponseModel>;
-  ngOnInit() {
+
+  ngOnInit(): void {
     this.dialog$.subscribe({
       next: (status: DialogResponseModel) => {
         if (
@@ -65,7 +66,9 @@ export class AuthSignUpComponent implements OnInit {
           status.response.confirmation === 'YES'
         ) {
           this.createAccount();
-          // alert('Putain wee');
+        } else {
+          this.selectedBankIndex = null;
+          this.bankId = null;
         }
       },
     });
