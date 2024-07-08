@@ -237,12 +237,21 @@ export class DbService {
   async setUser(data: { user: UserApiResponse; client: ClientApiResponse }) {
     if (data?.user.token !== null) {
       this.setLocalStorageUserToken(data.user.token);
+      this.setLocalStorageBankId(data.client.client_id);
       await this.addOnce('users', data);
     }
   }
 
   setLocalStorageUserToken(token: string) {
     this.apiService.setLocalToken(token);
+  }
+
+  setLocalStorageClientId(clientId: string) {
+    this.apiService.setLocalClientId(clientId);
+  }
+
+  setLocalStorageBankId(bankId: number) {
+    this.apiService.setLocalBankId(bankId);
   }
 
   private async getDbUser() {

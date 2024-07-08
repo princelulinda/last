@@ -4,12 +4,17 @@ import { Observable, throwError } from 'rxjs';
 
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
+import { PlateformModel } from '../config/config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private localUserTokenKey = 'userToken';
+  private localUserTokenKey = 'iHelaRyanjeUserToken';
+  private localUserClientIdKey = 'iHelaRyanjeUserClientId';
+  private localBankIdKey = 'iHelaRyanjeBankId';
+  private localPlateformKey = 'iHelaRyanjePlaform';
+
   private headers = new HttpHeaders()
     .set('Content-Type', 'application/json')
     .append('Accept', 'application/json');
@@ -37,19 +42,47 @@ export class ApiService {
     }
   }
 
-  setLocalToken(token: string): string | null {
-    if (
-      token === null ||
-      token === undefined ||
-      token === '' ||
-      token === 'undefined' ||
-      token === 'null'
-    ) {
+  setLocalToken(token: string) {
+    localStorage.setItem(this.localUserTokenKey, token);
+  }
+
+  getLocalClientId(): string | null {
+    const localClientId = localStorage.getItem(this.localUserClientIdKey);
+
+    if (!localClientId) {
+      localStorage.removeItem(this.localUserClientIdKey);
       return null;
     } else {
-      localStorage.setItem(this.localUserTokenKey, token);
-      return token;
+      return localClientId;
     }
+  }
+
+  setLocalClientId(cliendId: string) {
+    localStorage.setItem(this.localUserClientIdKey, cliendId);
+  }
+
+  getLocalBankId(): string | null {
+    const localBankId = localStorage.getItem(this.localBankIdKey);
+
+    if (!localBankId) {
+      localStorage.removeItem(this.localBankIdKey);
+      return null;
+    } else {
+      return localBankId;
+    }
+  }
+
+  setLocalBankId(bankId: number) {
+    localStorage.setItem(this.localBankIdKey, bankId.toString());
+  }
+
+  getLocalPlateform(): PlateformModel {
+    const plateform = localStorage.getItem(this.localPlateformKey);
+    return plateform as PlateformModel;
+  }
+
+  setLocalPlateform(plateform: PlateformModel) {
+    localStorage.setItem(this.localPlateformKey, plateform);
   }
 
   clearLocalData() {

@@ -88,15 +88,8 @@ export class ConfigService {
     return this.actifMode;
   }
 
-  setMainConfig(payload: activeMainConfigModel) {
-    // console.log(
-    //   'Main ConFig ===++++ :',
-    //   activePlatform,
-    //   activeTheme,
-    //   activeMode
-    // );
-
-    return this.dbService.addOnceUpdate(MainConfig.tableName, payload);
+  setMainConfig(payload: activeMainConfigModel): void {
+    this.dbService.addOnceUpdate(MainConfig.tableName, payload);
   }
 
   private getPreferedMode(): ModeModel {
@@ -149,6 +142,7 @@ export class ConfigService {
     this.dbService.db.delete();
     this.dbService.initializeModels();
     this.initAll();
+    this.apiService.clearLocalData();
   }
 
   private setHtmlMode(newTheme: ThemeModel, newMode: ModeModel) {
@@ -178,6 +172,7 @@ export class ConfigService {
       const theme = plateformData.theme.name;
       const baseHref = plateformData.baseHref;
 
+      this.apiService.setLocalPlateform(plateform);
       this.setMainConfig({
         activePlateform: plateform,
         activeTheme: this.activeMainConfig.activeTheme,

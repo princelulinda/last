@@ -53,11 +53,6 @@ export class AuthService {
     );
   }
 
-  getAuthToken(): string | null {
-    const localToken = this.apiService.getLocalToken();
-    return localToken;
-  }
-
   isAuthenticated(): boolean {
     const localToken = this.apiService.getLocalToken();
     return localToken !== null;
@@ -180,5 +175,20 @@ export class AuthService {
       },
     });
     return this.userId$;
+  }
+
+  // METHOD FOR GET LOCAL DATA
+  getLocalAuthToken(): string | null {
+    const localToken = this.apiService.getLocalToken();
+    return localToken;
+  }
+  getLocalClientId(): string | null {
+    return this.apiService.getLocalClientId();
+  }
+  getLocalBankId(): string | null {
+    return this.apiService.getLocalBankId();
+  }
+  getLocalPlateform(): string {
+    return this.apiService.getLocalPlateform();
   }
 }

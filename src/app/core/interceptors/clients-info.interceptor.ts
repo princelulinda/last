@@ -1,16 +1,26 @@
 import { HttpRequest, HttpHandlerFn, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { inject } from '@angular/core';
+import { AuthService } from '../services';
 
 export function clientInfoInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
-  //Get the subject
-  let appSubject = req.headers.get('X-iHela-AppSubject');
+  const authService = inject(AuthService);
+  const CLIENT_ID = authService.getLocalClientId();
+  const BANK_ID = authService.getLocalBankId();
+  const PLATEFORM = authService.getLocalPlateform();
+  let appSubject: string = '';
+  let plateformData = environment.plateformsUuid.filter(
+    plateformData => plateformData.name === PLATEFORM
+  )[0];
 
-  if (!appSubject) {
+  if (!plateformData) {
     appSubject = environment.defaultAppSubject;
+  } else {
+    appSubject = plateformData.uuid;
   }
 
   // TODO : Get Access Client Id and Access Bank Id from indexeddb
@@ -18,8 +28,8 @@ export function clientInfoInterceptor(
   // Clone the request to add headers.
   const newReq = req.clone({
     headers: req.headers
-      .set('X-iHela-Access-Client-Id', '16')
-      .set('X-iHela-Access-Bank-Id', '1')
+      .set('X-iHela-Access-Client-Id', CLIENT_ID ?? '')
+      .set('X-iHela-Access-Bank-Id', BANK_ID ?? '')
       .set('X-iHela-AppSubject', appSubject)
       .set('X-iHela-AppInfo', environment.appInfo),
   });
