@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services';
+import { DialogService } from '../../../core/services';
+import { takeUntil, Subject } from 'rxjs';
 import {
   EmailVerificationResponse,
   phoneNumberVerificaitonResponse,
@@ -10,6 +12,7 @@ import {
   bankListResponse,
 } from '../auth.model';
 import { FileComponent } from '../../../global/components/file/file.component';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,
@@ -23,7 +26,8 @@ import { FileComponent } from '../../../global/components/file/file.component';
   templateUrl: './auth-sign-up.component.html',
   styleUrl: './auth-sign-up.component.scss',
 })
-export class AuthSignUpComponent {
+export class AuthSignUpComponent implements OnInit {
+  private onDestroy$: Subject<void> = new Subject<void>();
   step = 0;
   submitted = false;
   isLoadingCreation!: boolean;
@@ -53,6 +57,25 @@ export class AuthSignUpComponent {
   selectedBankIndex: number | null = null;
   i!: number;
 
+  ngOnInit(): void {
+    this.dialogService
+      .getDialogState()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (dialogResponse: DialogResponseModel) => {
+          if (
+            dialogResponse.action === 'confirm' &&
+            dialogResponse.response.confirmation === 'YES'
+          ) {
+            this.createAccount();
+            console.log(dialogResponse);
+          } else {
+            this.selectedBankIndex = null;
+          }
+        },
+      });
+  }
+
   submit() {
     this.submitted = true;
     if (this.step === 5) {
@@ -66,7 +89,8 @@ export class AuthSignUpComponent {
   }
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialogService: DialogService
   ) {}
 
   multiStepForm = this.fb.group({
@@ -257,4 +281,13 @@ export class AuthSignUpComponent {
       picture,
     });
   }
+
+  // openPinPopup(bankId: string) {
+  //   this.dialogService.openDialog({
+  //     type: 'confirm',
+  //     title: '',
+  //     message: 'Do you want to create an account in this organization ?',
+  //     action:'confirm',
+  //   });
+  // }
 }
