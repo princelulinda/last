@@ -4,7 +4,7 @@ import { PasswordFieldComponent } from '../../../global/components/custom-field/
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
-import { takeUntil, Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import {
   EmailVerificationResponse,
   phoneNumberVerificaitonResponse,
@@ -56,24 +56,19 @@ export class AuthSignUpComponent implements OnInit {
   bankId!: number;
   selectedBankIndex: number | null = null;
   i!: number;
-
-  ngOnInit(): void {
-    this.dialogService
-      .getDialogState()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: (dialogResponse: DialogResponseModel) => {
-          if (
-            dialogResponse.action === 'confirm' &&
-            dialogResponse.response.confirmation === 'YES'
-          ) {
-            this.createAccount();
-            console.log(dialogResponse);
-          } else {
-            this.selectedBankIndex = null;
-          }
-        },
-      });
+  dialog$: Observable<DialogResponseModel>;
+  ngOnInit() {
+    this.dialog$.subscribe({
+      next: (status: DialogResponseModel) => {
+        if (
+          status.action === 'confirmation' &&
+          status.response.confirmation === 'YES'
+        ) {
+          this.createAccount();
+          // alert('Putain wee');
+        }
+      },
+    });
   }
 
   submit() {
@@ -91,7 +86,9 @@ export class AuthSignUpComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private dialogService: DialogService
-  ) {}
+  ) {
+    this.dialog$ = this.dialogService.getDialogState();
+  }
 
   multiStepForm = this.fb.group({
     authentificationInformation: this.fb.group({
@@ -231,7 +228,7 @@ export class AuthSignUpComponent implements OnInit {
         console.log('Données sélectionnées', this.getBanksList);
       },
       error: (error: Error) =>
-        console.error('Erreur lors de la récupération des tontines:', error),
+        console.error('Erreur lors de la récupération des banks:', error),
     });
   }
 
@@ -282,12 +279,12 @@ export class AuthSignUpComponent implements OnInit {
     });
   }
 
-  // openPinPopup(bankId: string) {
-  //   this.dialogService.openDialog({
-  //     type: 'confirm',
-  //     title: '',
-  //     message: 'Do you want to create an account in this organization ?',
-  //     action:'confirm',
-  //   });
-  // }
+  openPinPopup() {
+    this.dialogService.openDialog({
+      action: 'confirmation',
+      message: 'Do you want to create an account in this organization ?',
+      title: '',
+      type: 'confirm',
+    });
+  }
 }

@@ -603,7 +603,7 @@
   <!--end step 3-->
 
   <!--start step 4-->
-  @if (step === 1) {
+  @if (step === 4) {
     <div
       class="container font-montserrat d-flex justify-content-center pt-5 p-5">
       <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
@@ -659,7 +659,9 @@
               @for (bank of getBanksList; track bank) {
                 <div
                   tabindex="0"
-                  (click)="selectedBankId(bank); selectedBankIndex = i"
+                  (click)="
+                    selectedBankId(bank); openPinPopup(); selectedBankIndex = i
+                  "
                   class="col-md-3 lg-radius border border-secondary"
                   role="button">
                   <div class="text-center p-1">
@@ -798,4 +800,4 @@
   [uploadMultipleFile]="true"
   (uploadOneFileEvent)="onPictureChange($event)"></app-file> -->
 
-<!-- <span (click)="getBankList()" tabindex="0" role="button"> Add</span> -->
+<!-- <span (click)="getBankList();openPinPopup()" tabindex="0" role="button"> Add</span> -->
