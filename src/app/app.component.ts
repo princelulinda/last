@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.dbService.initializeModels();
     this.configService.initAll();
-    this.configService.initPopulate();
+    // this.configService.initPopulate();
 
     this.mainConfig$.subscribe({
       next: configs => {

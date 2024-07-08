@@ -122,11 +122,11 @@ export class ApiService {
       .pipe(catchError(this.formatErrors));
   }
 
-  post(
+  post<T>(
     path: string,
     body: object = {},
     headers: HttpHeaders = new HttpHeaders()
-  ): Observable<object> {
+  ): Observable<T> {
     if (headers['lazyUpdate']) {
       this.headers = headers;
     }
@@ -145,7 +145,7 @@ export class ApiService {
     );
 
     return this.http
-      .post(`${environment.apiUrl}${path}`, JSON.stringify(body), {
+      .post<T>(`${environment.apiUrl}${path}`, JSON.stringify(body), {
         headers: this.headers,
       })
       .pipe(catchError(this.formatErrors));

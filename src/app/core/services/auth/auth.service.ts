@@ -39,17 +39,12 @@ export class AuthService {
     password: string;
   }): Observable<object> {
     const loginData = { user: login_data };
-    console.log('LOGIN DATA REQ : ', loginData);
-    return this.apiService.post('/users/login/', loginData).pipe(
+    return this.apiService.post<UserInfoModel>('/users/login/', loginData).pipe(
       map(data => {
         const userData = (data as { user: UserApiResponse }).user;
-        // TODO : Save user data to indexeddb and save token to localStorage
-        // this.dbService.setUser(userData);
         if (userData.token) {
           this.dbService.setLocalStorageUserToken(userData.token);
         }
-
-        // console.log('LOGIN DATA SERVICE : ', data);
         return data;
       })
     );
@@ -107,12 +102,43 @@ export class AuthService {
     });
   }
 
-  populateClient() {
-    return this.apiService.get('/client/user/populate/').pipe(
+  populateClient(): Observable<UserInfoModel> {
+    return this.apiService.get<UserInfoModel>('/client/user/populate/').pipe(
       map(data => {
+        if (data) {
+          const populate = data;
+          const userDB = this.populateClientFormat(populate);
+          this.dbService.setUser(userDB);
+        }
         return data;
       })
     );
+  }
+
+  private populateClientFormat(populate: UserInfoModel): UserInfoModel {
+    return {
+      user: {
+        username: populate.user.username,
+        token: populate.user.token,
+        fcm_data: {},
+        device_data: {},
+      },
+      client: {
+        id: populate.client.id,
+        client_id: populate.client.client_id,
+        client_code: populate.client.client_code,
+        client_email: populate.client.client_email,
+        client_full_name: populate.client.client_full_name,
+        client_phone_number: populate.client.client_phone_number,
+        client_type: populate.client.client_type,
+        has_pin: populate.client.has_pin,
+        is_agent: populate.client.is_agent,
+        is_merchant: populate.client.is_merchant,
+        is_partner_bank: populate.client.is_partner_bank,
+        picture_url: populate.client.picture_url,
+        prefered_language: populate.client.prefered_language,
+      },
+    };
   }
 
   createAccount(body: object): Observable<createAccountResponse> {

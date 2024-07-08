@@ -215,11 +215,9 @@ export class ConfigService {
       this.dbService.setLocalStorageClientId(
         dbUser.client.client_id.toString()
       );
-      alert('TODO :: No Local Data Found');
     } else if (!dbUser) {
-      alert('TODO :: No user Found');
       this.apiService.clearLocalData();
-      this.dbService.populate();
+      // this.dbService.populate();
     }
   }
 }
