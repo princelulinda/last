@@ -1,121 +1,60 @@
 
-// .simple-merchant-dialog {
-//     min-width: 52%;
-//     max-height: 800px;
-// }
-// .biller-merchant-dialog {
-//     min-width: 70%;
-//     max-height: 800px;
-// }
+.simple-merchant-dialog {
+    min-width: 52%;
+    max-height: 800px;
+}
+.biller-merchant-dialog {
+    min-width: 70%;
+    max-height: 800px;
+}
 
 
 
-// .circ-badge {
-//     width: 42px;
-//     height: 42px;
-// }
-
-
-// .wallet-card {
-//     background-image: url('../../../../assets/images/wallet-card.svg');
-//     background-size: cover;
-//     width: 365px;
-//     height: 210px;
-// }
-
-// .nyamu-card {
-//     background-size: cover;
-//     width: 365px;
-//     height: 210px;
-// }
-
-// .nyamu-light {
-//     background-image: url('../../../../assets/images/nyamuranzi.svg');
-// }
-
-// .nyamu-dark {
-//     background-image: url('../../../../assets/images/nyamuranzi-dark.svg');
-// }
-
-// .ihela-image {
-//     width: 70px;
-//     height: 35px;
-// }
-
-// .africa {
-//     transform: translate(53%, 7%);
-//     -webkit-transform: translate(53%, 7%);
-//     -moz-transform: translate(53%, 7%);
-//     -ms-transform: translate(53%, 7%);
-//     -o-transform: translate(53%, 7%);
-// }
-
-// .wallet {
-//     border-right: 1px solid #4f4f4f;
-// }
-
-// .b-light {
-//     background-color: #ffffff36;
-// }
-
-// .invited {
-//     line-height: 27px;
-// }
-
-// .t-light {
-//     color: #cecece;
-// }
-
-// .topup {
-//     width: 20px;
-// }
-
-// .img-container {
-//     width: 60px;
-//     height: 60px;
-// }
-
-// .menu-container {
-//     width: 73px;
-//     height: 73px;
-// }
-
-// .bank-image {
-//     width: 55px;
-// }
-
-// .expand-collapse-section {
-//     min-height: 100px;
-// }
-
-// @keyframes anim {
-//     0% {
-//         max-height: 0px;
-//     }
-//     100% {
-//         max-height: 100px;
-//     }
-// }
-
-// .empty-icon {
-//     font-size: 3.7rem;
-// }
-
-// @media (min-width: 992px) {
-//     .w-resp {
-//         width: 75%;
-//     }
-// }
-
-// @media (max-width: 991px) {
-//     .w-resp {
-//         width: 100%;
-//     }
-// }
 
 
 
-// .short {
-//     width: 30px;
-//     height: 28px;
-// }
+.img-container {
+    width: 60px;
+    height: 60px;
+}
+
+.menu-container {
+    width: 73px;
+    height: 73px;
+}
+
+.bank-image {
+    width: 55px;
+}
+
+.expand-collapse-section {
+    min-height: 100px;
+}
+
+@keyframes anim {
+    0% {
+        max-height: 0px;
+    }
+    100% {
+        max-height: 100px;
+    }
+}
+
+.empty-icon {
+    font-size: 3.7rem;
+}
+
+@media (min-width: 992px) {
+    .w-resp {
+        width: 75%;
+    }
+}
+
+@media (max-width: 991px) {
+    .w-resp {
+        width: 100%;
+    }
+}
+
+
+

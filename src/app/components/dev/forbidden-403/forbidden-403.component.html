@@ -1,0 +1,26 @@
+<!-- <p>forbidden-403 works!</p> -->
+<section>
+  <div class="container-fluid">
+    <div class="text-center font-Calibri justify-content-center">
+      <p i18n class="fw-bold fs-xx-large">Ooops...!</p>
+      <p i18n class="fs-normal">
+        It looks like you don't have permission to access this page.<br
+          class="d-none d-sm-block" />
+        There are a couple of reasons why this might be happening: <br />
+        * You may not be logged in.<br />
+        * You may not have the necessary privileges to view this page.
+      </p>
+    </div>
+    <div class="text-center font-Calibri fs-medium p-4">
+      <button
+        i18n
+        class="btn btn-danger fw-bold ps-5 pe-5 pt-2 pb-2"
+        (click)="goBack()">
+        BACK
+      </button>
+    </div>
+    <div class="text-center mt-5 pt-5">
+      <img src="/images/errors/Group 649.png" alt="" />
+    </div>
+  </div>
+</section>

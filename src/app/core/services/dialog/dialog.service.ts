@@ -70,9 +70,9 @@ export class DialogService {
     });
   }
 
-  dispatchLoading(action: string) {
+  dispatchLoading(action?: string) {
     this.loading.set({
-      action: action,
+      action: action ?? '',
       active: true,
       type: 'loading',
     });

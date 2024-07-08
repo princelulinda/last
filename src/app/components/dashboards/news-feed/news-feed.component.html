@@ -108,63 +108,10 @@
 <main class="d-flex me-2" style="gap: 0 1rem">
   <!-- posts section -->
   <section
-    id="postsSection"
-    class="mx-auto row overflow-hidden w-80 md-w-60"
+    class="mx-auto row overflow-hidden w-75 md-w-60 py-3"
     style="gap: 2rem 0">
-    <!-- section unvailable -->
-    <!-- <div
-      class="unvailable lg-radius shadow bg-secondary d-flex flex-column col-md-10 mx-auto"
-      style="height: max-content">
-      <div class="header d-flex align-items-center mx-4 my-2">
-        <div
-          class="profil rounded-circle dflex align-items-center justify-content-center"></div>
-      </div>
-      <div
-        class="product-body d-flex bg-white flex-column justify-content-center align-items-center p-2 sm-radius">
-        <span class="fz-emoji dark" style="opacity: 0.4">
-          <i class="fa-solid fa-face-meh"></i>
-        </span>
-        <span
-          class="fw-bold text-center d-flex flex-column fs-4 text-dark"
-          style="opacity: 0.7">
-          <b i18n>This section is unavailable at</b>
-          <b i18n>this moment</b>
-        </span>
-      </div>
-      <div class="footer mt-3">
-        <div class="d-flex flex-column mx-3">
-          <span
-            class="rounded-pill d-block mb-2"
-            style="width: 85%; height: 10px"></span>
-          <span
-            class="rounded-pill d-block"
-            style="width: 70%; height: 10px"></span>
-        </div>
-        <div class="footer mt-3">
-          <div class="d-flex flex-column mx-3">
-            <span
-              class="rounded-pill d-block mb-2"
-              style="width: 85%; height: 10px"></span>
-            <span
-              class="rounded-pill d-block mb-2"
-              style="width: 70%; height: 10px"></span>
-          </div>
-          <div style="flex-grow: 1" class="text-center mt-3">
-            <div
-              class="icons border-top border-2 d-inline-block fs-2 pt-2 dark">
-              <span class="me-5"><i class="fa-solid fa-heart"></i></span>
-              <span class="mx-4"
-                ><i class="fa-solid fa-cart-shopping"></i
-              ></span>
-              <span class="ms-5"><i class="fa-solid fa-share"></i></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
     <div
-      class="lg-radius shadow bg-white d-flex flex-column col-md-10 mx-auto max-width-600"
+      class="lg-radius shadow bg-white d-flex flex-column col-md-10 mx-auto max-width-600 m-0 p-0"
       style="height: max-content">
       <div class="header d-flex align-items-center mx-4 my-2">
         <div
@@ -181,7 +128,6 @@
         </div>
       </div>
       <div class="w-100 px-2 overflow-hidden" appShowMore [maxLength]="200">
-        <!-- <app-read-more [maxLength]="200"> -->
         <p>
           Bienvenue dans l’application iHela Ryanje. Nous améliorons les
           fonctionnalités afin de vous offrir une expérience unique. Toutes les
@@ -218,13 +164,18 @@
         </p>
       </div>
       <div
-        class="product-body d-flex bg-white flex-column justify-content-center align-items-center p-2 mb-3 sm-radius overflow-hidden w-100">
+        class="d-flex bg-white flex-column justify-content-center align-items-center p-2 mb-3 sm-radius overflow-hidden w-100">
         <img
           src="./images/NouvelleExperience.jpeg"
-          class="img-fluid w-100"
+          class="image w-100"
           alt="" />
       </div>
     </div>
+    @if (publications) {
+      @for (publication of publications; track $index) {
+        <app-publication-card [data]="publication"></app-publication-card>
+      }
+    }
   </section>
 
   <!-- announcements section -->

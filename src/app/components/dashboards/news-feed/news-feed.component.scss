@@ -27,19 +27,6 @@
   font-size: calc(7rem + 1.5vw) !important;
 }
 
-#postsSection {
-  @media screen and (min-width: 768px) {
-    width: 60%;
-  }
-  @media screen and (max-width: 767px) {
-    width: 80%;
-  }
-}
-
-.btn {
-  width: 150px;
-}
-
 .max-width-600 {
-  max-width: 600px;
+  max-width: 500px;
 }

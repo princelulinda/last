@@ -9,7 +9,7 @@ import {
 import { AuthService, ConfigService } from '../../../core/services';
 import { FullpathService } from '../../../core/services';
 import { UserApiResponse } from '../../../core/db/models';
-import { PasswordFieldComponent } from '../../../global/password-field/password-field.component';
+import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -88,8 +88,8 @@ export class LoginComponent implements OnInit {
         });
     }
   }
-  onPasswordChange(password: string) {
-    this.loginForm.get('password')?.setValue(password);
+  onPasswordChange(pin: string) {
+    this.loginForm.get('password')?.setValue(pin);
   }
 
   private managePlateformByURL(url: string) {

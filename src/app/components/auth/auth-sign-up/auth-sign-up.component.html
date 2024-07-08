@@ -107,22 +107,17 @@
           </div>
 
           <div class="col d-flex justify-content-center position-relative z-1">
-            <label for="file" role="button">
-              <div class="imgBloc p-1 border border-secondary rounded-circle">
-                <div
-                  class="underImgBloc bg-secondary rounded-circle d-flex justify-content-center align-items-center">
-                  <span
-                    class="rounded-circle d-flex justify-content-center align-items-center"
-                    ><img src="/images/appareil.svg" alt=""
-                  /></span>
-                </div></div
-            ></label>
-            <input
-              class="d-none"
-              type="file"
-              name="file"
-              formControlName="picture"
-              id="file" />
+            <app-file
+              [uploadOneFile]="true"
+              (uploadOneFileEvent)="onPictureChange($event)"></app-file>
+
+            <!-- 
+               <label for="file" role="button"> <div class="imgBloc p-1 border border-secondary rounded-circle">
+                <div class="underImgBloc bg-secondary rounded-circle d-flex justify-content-center align-items-center">
+                  <span class="rounded-circle d-flex justify-content-center align-items-center"><img src="/images/appareil.svg" alt=""></span></div>
+                  
+            </div></label>
+                <input class="d-none" type="file" name="file" formControlName="picture" id="file"> -->
           </div>
           <div class="d-flex justify-content-center mt-1 mb-4">
             <span>Upload an image<code>*</code></span>
@@ -222,9 +217,10 @@
           <div class="col mb-3">
             <div class="form-floating">
               <app-password-field
-                [labelPass]="true"
+                [labelPassword]="true"
                 [required]="true"
                 [Validator]="true"
+                [password]="true"
                 (passwordValid)="onPasswordChange($event)"></app-password-field>
             </div>
           </div>
@@ -793,3 +789,7 @@
 }
 
 <!--end step 5 -->
+
+<!-- <app-file
+[uploadMultipleFile]="true"
+(uploadOneFileEvent)="onPictureChange($event)"></app-file> -->
