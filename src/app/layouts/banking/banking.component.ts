@@ -12,6 +12,7 @@ import { SwitchPlateformIconsComponent } from '../header/switch-plateform-icons/
 import {
   AuthService,
   ConfigService,
+  DialogService,
   PlateformModel,
 } from '../../core/services';
 import { SettingsAsideMenuComponent } from './settings/settings-aside-menu/settings-aside-menu.component';
@@ -47,7 +48,8 @@ export class BankingComponent implements OnInit {
   constructor(
     private configService: ConfigService,
     private authService: AuthService,
-    private dbService: DbService
+    private dbService: DbService,
+    private dialogService: DialogService
   ) {
     this.plateform$ = this.configService.getPlateform();
     this.localToken = this.authService.getLocalAuthToken();
@@ -67,6 +69,7 @@ export class BankingComponent implements OnInit {
   }
 
   populate() {
+    this.dialogService.dispatchSplashScreen();
     this.authService.populateClient().subscribe({
       next: (populateData: UserInfoModel) => {
         const userInfo: UserInfoModel = {
@@ -93,6 +96,7 @@ export class BankingComponent implements OnInit {
           },
         };
         this.dbService.setUser(userInfo);
+        this.dialogService.closeSplashScreen();
       },
       error: err => {
         console.log(err);
