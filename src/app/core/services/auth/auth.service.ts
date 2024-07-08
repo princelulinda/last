@@ -39,7 +39,7 @@ export class AuthService {
     password: string;
   }): Observable<object> {
     const loginData = { user: login_data };
-    return this.apiService.post<UserInfoModel>('/users/login/', loginData).pipe(
+    return this.apiService.post<object>('/users/login/', loginData).pipe(
       map(data => {
         const userData = (data as { user: UserApiResponse }).user;
         if (userData.token) {

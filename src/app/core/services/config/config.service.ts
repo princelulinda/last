@@ -205,19 +205,19 @@ export class ConfigService {
     this.setHtmlMode(this.activeMainConfig.activeTheme, newModeToDispatch);
   }
 
-  async initPopulate() {
-    const localToken = this.apiService.getLocalToken();
-    const clientId = this.apiService.getLocalClientId();
-    const dbUser = await this.dbService.getDbUser();
-    if ((!localToken || !clientId) && dbUser) {
-      this.apiService.clearLocalData();
-      this.dbService.setLocalStorageUserToken(dbUser.user.token);
-      this.dbService.setLocalStorageClientId(
-        dbUser.client.client_id.toString()
-      );
-    } else if (!dbUser) {
-      this.apiService.clearLocalData();
-      // this.dbService.populate();
-    }
-  }
+  // async initPopulate() {
+  //   const localToken = this.apiService.getLocalToken();
+  //   const clientId = this.apiService.getLocalClientId();
+  //   const dbUser = await this.dbService.getDbUser();
+  //   if ((!localToken || !clientId) && dbUser) {
+  //     // this.apiService.clearLocalData();
+  //     this.dbService.setLocalStorageUserToken(dbUser.user.token);
+  //     this.dbService.setLocalStorageClientId(
+  //       dbUser.client.client_id.toString()
+  //     );
+  //   } else if (!dbUser) {
+  //     // this.apiService.clearLocalData();
+  //     // this.dbService.populate();
+  //   }
+  // }
 }

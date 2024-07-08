@@ -9,8 +9,14 @@ import { AsideMenuComponent } from './aside-menu/aside-menu.component';
 import { SubHeaderComponent } from '../header/sub-header/sub-header.component';
 import { HeaderComponent } from '../header/header.component';
 import { SwitchPlateformIconsComponent } from '../header/switch-plateform-icons/switch-plateform-icons.component';
-import { ConfigService, PlateformModel } from '../../core/services';
+import {
+  AuthService,
+  ConfigService,
+  PlateformModel,
+} from '../../core/services';
 import { SettingsAsideMenuComponent } from './settings/settings-aside-menu/settings-aside-menu.component';
+import { DbService } from '../../core/db';
+import { UserInfoModel } from '../../core/db/models/auth';
 
 @Component({
   selector: 'app-banking',
@@ -34,14 +40,62 @@ export class BankingComponent implements OnInit {
   plateform: PlateformModel = 'newsFeed';
   plateform$: Observable<PlateformModel>;
 
-  constructor(private configService: ConfigService) {
+  localToken: string | null;
+  localClientId: string | null = null;
+  dbUser: Promise<UserInfoModel | null>;
+
+  constructor(
+    private configService: ConfigService,
+    private authService: AuthService,
+    private dbService: DbService
+  ) {
     this.plateform$ = this.configService.getPlateform();
+    this.localToken = this.authService.getLocalAuthToken();
+    this.localClientId = this.authService.getLocalClientId();
+    this.dbUser = this.dbService.getDbUser();
   }
 
   ngOnInit() {
     this.plateform$.subscribe({
       next: plateform => {
         this.plateform = plateform;
+      },
+    });
+    if (!this.localToken || !this.localClientId) {
+      this.populate();
+    }
+  }
+
+  populate() {
+    this.authService.populateClient().subscribe({
+      next: (populateData: UserInfoModel) => {
+        const userInfo: UserInfoModel = {
+          user: {
+            username: populateData.user.username,
+            token: populateData.user.token,
+            fcm_data: {},
+            device_data: {},
+          },
+          client: {
+            id: populateData.client.id,
+            client_id: populateData.client.client_id,
+            client_code: populateData.client.client_code,
+            client_email: populateData.client.client_email,
+            client_full_name: populateData.client.client_full_name,
+            client_phone_number: populateData.client.client_phone_number,
+            client_type: populateData.client.client_type,
+            has_pin: populateData.client.has_pin,
+            is_agent: populateData.client.is_agent,
+            is_merchant: populateData.client.is_merchant,
+            is_partner_bank: populateData.client.is_partner_bank,
+            picture_url: populateData.client.picture_url,
+            prefered_language: populateData.client.prefered_language,
+          },
+        };
+        this.dbService.setUser(userInfo);
+      },
+      error: err => {
+        console.log(err);
       },
     });
   }
