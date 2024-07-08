@@ -11,6 +11,8 @@ import {
   createAccountResponse,
   phoneNumberVerificaitonResponse,
   bankListResponse,
+  resetPasswordResponse,
+  otpVerificationResponse,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
@@ -121,13 +123,17 @@ export class AuthService {
       .pipe(map(response => response as createAccountResponse));
   }
 
-  requestOTP(body: object) {
+  requestOTP(body: object): Observable<resetPasswordResponse> {
     const url = '/otp/request/';
-    return this.apiService.post(url, body).pipe(map(response => response));
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as resetPasswordResponse));
   }
-  OTPverification(body: object) {
+  OTPverification(body: object): Observable<otpVerificationResponse> {
     const url = '/otp/verification/';
-    return this.apiService.post(url, body).pipe(map(response => response));
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as otpVerificationResponse));
   }
 
   getOperatorInvitations(clientId: string) {

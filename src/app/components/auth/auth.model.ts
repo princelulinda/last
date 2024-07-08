@@ -38,3 +38,13 @@ export interface bankListResponse {
     logo: string;
   };
 }
+export interface resetPasswordResponse {
+  object: {
+    success: boolean;
+  };
+}
+export interface otpVerificationResponse {
+  object: {
+    success: boolean;
+  };
+}
