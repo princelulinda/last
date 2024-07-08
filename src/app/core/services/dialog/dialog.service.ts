@@ -40,7 +40,11 @@ export class DialogService {
 
   response: WritableSignal<DialogResponseModel> = signal({
     action: '',
-    response: '',
+    response: {
+      confirmation: '',
+      password: '',
+      pin: '',
+    },
   });
 
   openToast(payload: ToastPaylodModel) {
@@ -66,9 +70,9 @@ export class DialogService {
     });
   }
 
-  dispatchLoading(action: string) {
+  dispatchLoading(action?: string) {
     this.loading.set({
-      action: action,
+      action: action ?? '',
       active: true,
       type: 'loading',
     });
@@ -77,7 +81,7 @@ export class DialogService {
   setDialogResponse(data: DialogResponseModel) {
     this.response.set(data);
   }
-
+  //
   getDialogState(): Observable<DialogResponseModel> {
     return toObservable(this.response);
   }
