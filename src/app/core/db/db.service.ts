@@ -8,7 +8,7 @@ import { getAllMetadataKeys } from './models/base.model';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../services/api/api.service';
 import 'reflect-metadata/lite';
-import { ClientApiResponse } from './models/auth';
+import { ClientApiResponse, UserInfoModel } from './models/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -166,7 +166,7 @@ export class DbService {
     this.db.open();
     // console.log(" ============================== >>> CALLING FROM DB SERVICE");
 
-    this.populate();
+    // this.populate();
   }
 
   // addEvent(eventName: string, callback: Function) {
@@ -178,60 +178,45 @@ export class DbService {
   }
 
   async populate(): Promise<void> {
-    const localToken = this.apiService.getLocalToken();
-    const dbUser = await this.getDbUser();
-    console.log('DB USER CHECK : ', dbUser, localToken);
-    // if (localToken && !dbUser) {
-    if (localToken !== null) {
-      this.apiService.get('/client/user/populate/').subscribe({
-        next: data => {
-          console.log('POPULATED USER USER : ', data);
-          const populateData = (
-            data as {
-              object: {
-                user: UserApiResponse;
-                client: ClientApiResponse;
-              };
-            }
-          ).object;
-          console.log(
-            'POPULATED USER USER : ',
-            populateData,
-            ' DATA : ',
-            populateData.user,
-            populateData.client
-          );
-          const userInfo: { user: UserApiResponse; client: ClientApiResponse } =
-            {
-              user: {
-                username: populateData.user.username,
-                token: populateData.user.token,
-                fcm_data: {},
-                device_data: {},
-              },
-              client: {
-                id: populateData.client.id,
-                client_id: populateData.client.client_id,
-                client_code: populateData.client.client_code,
-                client_email: populateData.client.client_email,
-                client_full_name: populateData.client.client_full_name,
-                client_phone_number: populateData.client.client_phone_number,
-                client_type: populateData.client.client_type,
-                has_pin: populateData.client.has_pin,
-                is_agent: populateData.client.is_agent,
-                is_merchant: populateData.client.is_merchant,
-                is_partner_bank: populateData.client.is_partner_bank,
-                picture_url: populateData.client.picture_url,
-                prefered_language: populateData.client.prefered_language,
-              },
+    this.apiService.get('/client/user/populate/').subscribe({
+      next: data => {
+        const populateData = (
+          data as {
+            object: {
+              user: UserApiResponse;
+              client: ClientApiResponse;
             };
-          this.setUser(userInfo);
-        },
-        error: err => {
-          console.log(err);
-        },
-      });
-    }
+          }
+        ).object;
+        const userInfo: { user: UserApiResponse; client: ClientApiResponse } = {
+          user: {
+            username: populateData.user.username,
+            token: populateData.user.token,
+            fcm_data: {},
+            device_data: {},
+          },
+          client: {
+            id: populateData.client.id,
+            client_id: populateData.client.client_id,
+            client_code: populateData.client.client_code,
+            client_email: populateData.client.client_email,
+            client_full_name: populateData.client.client_full_name,
+            client_phone_number: populateData.client.client_phone_number,
+            client_type: populateData.client.client_type,
+            has_pin: populateData.client.has_pin,
+            is_agent: populateData.client.is_agent,
+            is_merchant: populateData.client.is_merchant,
+            is_partner_bank: populateData.client.is_partner_bank,
+            picture_url: populateData.client.picture_url,
+            prefered_language: populateData.client.prefered_language,
+          },
+        };
+        this.setUser(userInfo);
+      },
+      error: err => {
+        console.log(err);
+      },
+    });
   }
 
   async setUser(data: { user: UserApiResponse; client: ClientApiResponse }) {
@@ -254,13 +239,13 @@ export class DbService {
     this.apiService.setLocalBankId(bankId);
   }
 
-  private async getDbUser() {
+  async getDbUser(): Promise<UserInfoModel | null> {
     try {
       const userDb = await this.getOnce('users');
-      return [userDb];
+      return [userDb][0];
     } catch (error) {
       console.error('Error in fetching Db user', error);
-      return [];
+      return null;
     }
   }
 
