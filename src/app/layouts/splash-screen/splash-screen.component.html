@@ -1,0 +1,24 @@
+<section
+  class="p-4 position-absolute d-flex flex-column align-items-center"
+  style="inset: 0; background-color: rgba(252, 252, 252, 1); z-index: 1000">
+  <div class="flex-grow-1 d-flex justify-content-center align-items-center">
+    <div
+      style="width: 220px; height: 220px; z-index: 100"
+      class="rounded-circle position-relative">
+      <div
+        class="shadow h-100 w-100 rounded-circle position-relative p-4"
+        style="background-color: rgba(252, 252, 252, 1); z-index: 11">
+        <img
+          [src]="imageUrl"
+          [alt]="plateform === 'workstation' ? 'Magis ERP Logo' : 'iHela Logo'"
+          class="image"
+          style="object-fit: contain" />
+      </div>
+      <div class="contour rounded-circle bg-primary position-absolute"></div>
+    </div>
+  </div>
+  <div class="text-center text-secondary">
+    <span i18n>A product of</span> Onamob & iHelá Credit Union <br />
+    <span i18n>for financial services in Burundi</span>
+  </div>
+</section>

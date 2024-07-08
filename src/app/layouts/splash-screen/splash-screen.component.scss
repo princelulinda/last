@@ -1,0 +1,10 @@
+.contour {
+    width: 270px;
+    height: 270px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.3;
+    filter: blur(12px);
+    z-index: 4;
+}
