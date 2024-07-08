@@ -36,10 +36,6 @@ export class PublicationCardComponent {
   dateFormatter(createdAt: string) {
     const date = new Date(createdAt);
 
-    if (isNaN(date.getTime())) {
-      throw new RangeError('Invalid time value');
-    }
-
     const options: Intl.DateTimeFormatOptions = {
       // year: 'numeric',
       month: 'short',
