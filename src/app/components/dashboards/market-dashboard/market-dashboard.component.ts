@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
 import { ProductCardComponent } from '../../dev/product-card/product-card.component';
+import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
 // import { Subject, Observable, takeUntil } from 'rxjs';
 // import { MerchantService } from '../../../core/services/merchant/merchant.service';
 
 @Component({
   selector: 'app-market-dashboard',
   standalone: true,
-  imports: [CommonModule, ProductCardComponent],
+  imports: [CommonModule, ProductCardComponent, MerchantCardComponent],
   templateUrl: './market-dashboard.component.html',
   styleUrl: './market-dashboard.component.scss',
 })
