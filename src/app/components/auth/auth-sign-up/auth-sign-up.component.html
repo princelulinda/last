@@ -7,7 +7,11 @@
       <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
         <div class="col-md-6 px-5 p-3">
           <div class="d-flex justify-content-end mb-5">
-            <span class="fs-normal"
+            <span
+              class="fs-normal"
+              role="button"
+              routerLink="/login/"
+              [tabIndex]="0"
               ><i class="fa-solid fa-arrow-turn-up fa-rotate-270 me-2"></i>
               Back</span
             >
@@ -790,6 +794,6 @@
 
 <!--end step 5 -->
 
-<!-- <app-file
-[uploadMultipleFile]="true"
-(uploadOneFileEvent)="onPictureChange($event)"></app-file> -->
+<app-file
+  [uploadMultipleFile]="true"
+  (uploadOneFileEvent)="onPictureChange($event)"></app-file>
