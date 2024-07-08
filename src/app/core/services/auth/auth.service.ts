@@ -15,6 +15,7 @@ import {
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
 import { UserInfoModel } from '../../db/models/auth';
+import { DialogService } from '../dialog/dialog.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,8 @@ export class AuthService {
   constructor(
     private apiService: ApiService,
     private dbService: DbService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private dialogService: DialogService
   ) {
     this.userInfo$ = liveQuery(() => this.dbService.getOnce(User.tableName));
   }
@@ -90,12 +92,17 @@ export class AuthService {
 
   logout() {
     this.apiService.post('/users/logout/').subscribe({
-      next: response => {
-        console.info('LOGOUT RETURN INFO ::', response);
+      next: () => {
         this.configService.clearDB();
       },
       error: err => {
-        console.error('LOGOUT ERROR', err);
+        this.dialogService.openToast({
+          message:
+            err?.response_message ??
+            'Something went wrong, please retry again!',
+          title: '',
+          type: 'failed',
+        });
       },
     });
   }

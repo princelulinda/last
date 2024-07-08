@@ -12,8 +12,8 @@ export function clientInfoInterceptor(
   const CLIENT_ID = authService.getLocalClientId();
   const BANK_ID = authService.getLocalBankId();
   const PLATEFORM = authService.getLocalPlateform();
-  let appSubject: string = '';
-  let plateformData = environment.plateformsUuid.filter(
+  let appSubject = '';
+  const plateformData = environment.plateformsUuid.filter(
     plateformData => plateformData.name === PLATEFORM
   )[0];
 

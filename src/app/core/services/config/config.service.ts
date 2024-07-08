@@ -141,8 +141,8 @@ export class ConfigService {
     // DELETE DATABASE
     this.dbService.db.delete();
     this.dbService.initializeModels();
-    this.initAll();
     this.apiService.clearLocalData();
+    this.initAll();
   }
 
   private setHtmlMode(newTheme: ThemeModel, newMode: ModeModel) {
