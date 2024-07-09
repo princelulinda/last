@@ -1,11 +1,11 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-loan-home',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterModule],
   templateUrl: './loan-home.component.html',
   styleUrl: './loan-home.component.scss',
 })
