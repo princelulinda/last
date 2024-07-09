@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
 import { ProductCardComponent } from '../../dev/product-card/product-card.component';
 import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
+// import { MerchantService } from '../../../core/services/merchant/merchant.service';
 // import { Subject, Observable, takeUntil } from 'rxjs';
 // import { MerchantService } from '../../../core/services/merchant/merchant.service';
 
@@ -70,18 +71,18 @@ export class MarketDashboardComponent {
   clientId!: string;
 
   favoriteMerchantLoading = false;
-  // favoriteMerchants: any;
-  // favoriteMerchantsNumber: any;
+  favoriteMerchants!: [];
+  favoriteMerchantsNumber!: [];
   // favorite_merchants: any;
   favorite_making = true;
-  // favorite_merchant_making: any;
+  favorite_merchant_making!: [] | null;
 
   // activities: any = [];
   merchants!: [];
   biller!: [];
   // sector: any;
-  // last4: any;
-  // first6: any;
+  last4!: string[];
+  first6!: string[];
   clearData = true;
   billerChecked = true;
   billers!: [];
@@ -96,47 +97,49 @@ export class MarketDashboardComponent {
   // category: { sector: any; category: any } = { sector: null, category: null };
   // payment: any;
 
-  constructor() {
-    // private store: Store //   private merchantService: MerchantService,
-    // this.clientId$ = this.store.select(AuthState.GetClientId);
-    // comment
-  }
+  // constructor(private merchantService: MerchantService) {
+  //   // private store: Store
 
-  //   ngOnInit(): void {
-  //       // this.getMerchants('');
-  //       // this.getFavoriteMerchants('');
-  //       // this.getSectorsAndCategories();
-  //     //   this.getBillers();
+  //   // this.clientId$ = this.store.select(AuthState.GetClientId);
+  //   // comment
+  // }
 
-  //       this.clientId$.pipe(takeUntil(this.onDestroy$)).subscribe({
-  //           next: (clientId: string) => {
-  //               this.clientId = clientId;
-  //               // this.getMerchant('');
-  //           },
-  //       });
+  // ngOnInit(): void {
+  //     // this.getMerchants('');
+  //     // this.getFavoriteMerchants('');
+  //     // this.getSectorsAndCategories();
+  //     // this.getBillers();
 
-  //       // this.variableService.search.pipe(takeUntil(this.onDestroy$)).subscribe({
-  //       //     next: (search: any) => {
-  //       //         this.getMerchants(search);
-  //       //     },
-  //       // });
-  //   }
+  //     this.clientId$.pipe(takeUntil(this.onDestroy$)).subscribe({
+  //         next: (clientId: string) => {
+  //             this.clientId = clientId;
+  //             // this.getMerchant('');
+  //         },
+  //     });
+
+  //     // this.variableService.search.pipe(takeUntil(this.onDestroy$)).subscribe({
+  //     //     next: (search: any) => {
+  //     //         this.getMerchants(search);
+  //     //     },
+  //     // });
+  // }
   // getFavoriteMerchants(search: string, activeLoading = true) {
   //     activeLoading ? (this.favoriteMerchantLoading = true) : false;
-  //     // this.merchantService
-  //     //     .getFavoriteMerchantsAutocomplete(search)
-  //     //     .pipe(takeUntil(this.onDestroy$))
-  //     //     .subscribe({
-  //     //         next: (data) => {
-  //     //             this.favoriteMerchants = data.objects;
-  //     //             this.favoriteMerchantsNumber = data.count;
-  //     //             this.favoriteMerchantLoading = false;
-  //     //             this.favorite_merchant_making = null;
-  //     //         },
-  //     //         error: (err) => {
-  //     //             this.favoriteMerchantLoading = false;
-  //     //         },
-  //     //     });
+  //     this.merchantService
+  //         .getFavoriteMerchantsAutocomplete(search)
+  //         .pipe(takeUntil(this.onDestroy$))
+  //         .subscribe({
+  //             next: (data: any) => {
+  //                 this.favoriteMerchants = data.objects;
+  //                 this.favoriteMerchantsNumber = data.count;
+  //                 this.favoriteMerchantLoading = false;
+  //                 this.favorite_merchant_making = null;
+  //             },
+  //             error: (err) => {
+  //                 this.favoriteMerchantLoading = false;
+  //                 console.log(err)
+  //             },
+  //         });
   // }
 
   // selectMerchant(category: any, merchant: any) {
@@ -185,37 +188,37 @@ export class MarketDashboardComponent {
   //     this.categorySections = false;
   // }
 
-  // // getMerchants(search: string) {
-  // //     this.merchantService
-  // //         .getMerchantsAutocomplete(search)
-  // //         .pipe(takeUntil(this.onDestroy$))
-  // //         .subscribe({
-  // //             next: (data) => {
-  // //                 this.merchants = data.objects;
-  // //                 // this.merchant = this.merchants;
-  // //                 this.last4 = this.merchants.slice(-4);
-  // //                 this.first6 = this.merchants.slice(0, 6);
-  // //                 this.favorite_merchant_making = null;
-  // //             },
-  // //         });
-  // // }
+  // getMerchants(search: string) {
+  //     this.merchantService
+  //         .getMerchantsAutocomplete(search)
+  //         .pipe(takeUntil(this.onDestroy$))
+  //         .subscribe({
+  //             next: (data: any) => {
+  //                 this.merchants = data.objects;
+  //                 // this.merchant = this.merchants;
+  //                 this.last4 = this.merchants.slice(-4);
+  //                 this.first6 = this.merchants.slice(0, 6);
+  //                 this.favorite_merchant_making = null;
+  //             },
+  //         });
+  // }
 
   /**can be work if u add interface for biller
    */
-  //   getBillers() {
-  //       this.merchantService
-  //           .getBIllers(this.billerChecked)
-  //           .pipe(takeUntil(this.onDestroy$))
-  //           .subscribe({
-  //               next: (response: any) => {
-  //                   this.billers = response.objects;
-  //               },
-  //               error: (error) => {
-  //                   this.loadingmerchants = false;
-  //                   console.log(error)
-  //               },
-  //           });
-  //   }
+  // getBillers() {
+  //     this.merchantService
+  //         .getBIllers(this.billerChecked)
+  //         .pipe(takeUntil(this.onDestroy$))
+  //         .subscribe({
+  //             next: (response: any) => {
+  //                 this.billers = response.objects;
+  //             },
+  //             error: (error) => {
+  //                 this.loadingmerchants = false;
+  //                 console.log(error)
+  //             },
+  //         });
+  // }
 
   //   getMerchantDetails() {
   //       this.merchantService
@@ -256,18 +259,18 @@ export class MarketDashboardComponent {
   //     // add data-bs after click on favorite star
   //     productCard.setAttribute('data-bs-target', '#myModal');
   //     productCard.setAttribute('data-bs-toggle', 'modal');
-  //     // this.merchantService
-  //     //     .makeFavoriteMerchants(body)
-  //     //     .pipe(takeUntil(this.onDestroy$))
-  //     //     .subscribe({
-  //     //         next: (data) => {
-  //     //             const response = data.object;
-  //     //             if (response.success) {
-  //     //                 this.getMerchants('');
-  //     //                 this.getFavoriteMerchants('');
-  //     //             }
-  //     //         },
-  //     //     });
+  //     this.merchantService
+  //         .makeFavoriteMerchants(body)
+  //         .pipe(takeUntil(this.onDestroy$))
+  //         .subscribe({
+  //             next: (data: any) => {
+  //                 const response = data.object;
+  //                 if (response.success) {
+  //                     this.getMerchants('');
+  //                     this.getFavoriteMerchants('');
+  //                 }
+  //             },
+  //         });
   // }
   // // getSectorsAndCategories() {
   // //     this.merchantService.getActivitySectors().subscribe({

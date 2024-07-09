@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 // import { ApiService } from '..';
+// import { map, retry } from 'rxjs/operators';
+// import { billerValue } from '../../../components/dev/merchant-card/merchant.model';
 // import { GeneralSe } from '..';
 // import { map, retry } from 'rxjs';
 // import { HttpClient } from '@angular/common/http';
@@ -8,11 +10,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class MerchantService {
-  //   constructor(
-  //    private apiService: ApiService,
-  //   //   private http: HttpClient,
-  //       // private generalService: GeneralService
-  //   ) {}
+  // constructor(
+  // //   private http: HttpClient,
+  //     // private generalService: GeneralService
+  //     // private apiService: ApiService,
+  // ) {}
   //   // getMerchantList() {
   //   //     return this.apiService.get('/dbs/merchant/list/?').pipe(
   //   //         map((data) => {
@@ -28,50 +30,50 @@ export class MerchantService {
   //   //     this._coords.next(coords);
   //   //     console.log('coords', coords);
   //   // }
-  //   // getMerchants(data: any) {
-  //   //     const url = `/dbs/merchant/manage/?limit=${data.limit}&offset=${data.offset}`;
-  //   //     return this.apiService.get(url).pipe(
-  //   //         // retry({ count: 5, delay: 3000, resetOnSuccess: true }),
-  //   //         map((data) => {
-  //   //             return data;
-  //   //         })
-  //   //     );
-  //   // }
-  //   getMerchantsAutocomplete(search: string) {
-  //       const url =
-  //           '/dbs/merchant/manage/objects_autocomplete/?search=' +
-  //           search +
-  //           '&is_recent=true';
-  //       return this.apiService.get(url).pipe(
-  //           retry({ count: 5, delay: 3000, resetOnSuccess: true }),
-  //           map((data) => {
-  //               return data;
-  //           })
-  //       );
-  //   }
+  // getMerchants(data: any) {
+  //     const url = `/dbs/merchant/manage/?limit=${data.limit}&offset=${data.offset}`;
+  //     return this.apiService.get(url).pipe(
+  //         // retry({ count: 5, delay: 3000, resetOnSuccess: true }),
+  //         map((data) => {
+  //             return data;
+  //         })
+  //     );
+  // }
+  // getMerchantsAutocomplete(search: string) {
+  //     const url =
+  //         '/dbs/merchant/manage/objects_autocomplete/?search=' +
+  //         search +
+  //         '&is_recent=true';
+  //     return this.apiService.get(url).pipe(
+  //         retry({ count: 5, delay: 3000, resetOnSuccess: true }),
+  //         map((data) => {
+  //             return data;
+  //         })
+  //     );
+  // }
   //   //needed in market-dashboard
-  //   getFavoriteMerchantsAutocomplete(search: string) {
-  //       const url =
-  //           '/dbs/merchant/manage/objects_autocomplete/?search=' +
-  //           search +
-  //           '&is_favorite=true';
-  //       return this.apiService.get(url).pipe(
-  //           retry({ count: 5, delay: 3000, resetOnSuccess: true }),
-  //           map((data) => {
-  //               return data;
-  //           })
-  //       );
-  //   }
+  // getFavoriteMerchantsAutocomplete(search: string) {
+  //     const url =
+  //         '/dbs/merchant/manage/objects_autocomplete/?search=' +
+  //         search +
+  //         '&is_favorite=true';
+  //     return this.apiService.get(url).pipe(
+  //         retry({ count: 5, delay: 3000, resetOnSuccess: true }),
+  //         map((data) => {
+  //             return data;
+  //         })
+  //     );
+  // }
   //   //needed in market-dashboard
-  //   makeFavoriteMerchants(favorite: []) {
-  //       const url = '/dbs/merchant-client/favorite/';
-  //       return this.apiService.post(url, favorite).pipe(
-  //           retry({ count: 5, delay: 3000, resetOnSuccess: true }),
-  //           map((data) => {
-  //               return data;
-  //           })
-  //       );
-  //   }
+  // makeFavoriteMerchants(body: { merchant: billerValue; merchant_action: string; } | undefined, p0: never[], favorite: []) {
+  //     const url = '/dbs/merchant-client/favorite/';
+  //     return this.apiService.post(url, favorite).pipe(
+  //         retry({ count: 5, delay: 3000, resetOnSuccess: true }),
+  //         map((data) => {
+  //             return data;
+  //         })
+  //     );
+  // }
   //   doBillAction(body: []) {
   //       const url = '/dbs/merchant/bill/action/perform/';
   //       return this.apiService.post(url, body).pipe(
@@ -121,14 +123,14 @@ export class MerchantService {
   //           })
   //       );
   //   }
-  //   getMerchantsCategoriesDetails(id: string) {
-  //       const url = '/dbs/merchant-category/';
-  //       return this.apiService.get(url + id).pipe(
-  //           map((data) => {
-  //               return data;
-  //           })
-  //       );
-  //   }
+  // getMerchantsCategoriesDetails(id: string) {
+  //     const url = '/dbs/merchant-category/';
+  //     return this.apiService.get(url + id).pipe(
+  //         map((data) => {
+  //             return data;
+  //         })
+  //     );
+  // }
   //   UpdateMerchantCategoriesDetails(id: string, data: []) {
   //       const url = '/dbs/merchant-category/';
   //       return this.apiService.patch(url + id, data).pipe(
@@ -365,10 +367,10 @@ export class MerchantService {
   //   //     return this.apiService.get(url).pipe(map((data) => data));
   //   // }
   //   //needed in market-dashboard
-  //   getBIllers(biller: boolean) {
-  //       const url = '/dbs/merchant/manage/objects_autocomplete/?is_biller=';
-  //       return this.apiService.get(url + biller).pipe(map((data) => data));
-  //   }
+  // getBIllers(biller: boolean) {
+  //     const url = '/dbs/merchant/manage/objects_autocomplete/?is_biller=';
+  //     return this.apiService.get(url + biller).pipe(map((data) => data));
+  // }
   //   getBillActions(billId: string) {
   //       const url = `/dbs/merchant/bills/${billId}/object_actions/`;
   //       return this.apiService.get(url).pipe(
