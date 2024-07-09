@@ -109,61 +109,6 @@ export class FileComponent {
     }
   }
 
-  // oneFile: (File & {
-  //   progress: number;
-  //   thumbnail: string | undefined;
-  //   isLoadingFile: boolean;
-  // })[] = [];
-
-  // private uploadFile(oneFile: File[]): void {
-  //   const filesToUpload: (File & {
-  //     progress: number;
-  //     thumbnail: string | undefined;
-  //     isLoadingFile: boolean;
-  //   })[] = oneFile.map(file => ({
-  //     ...file,
-  //     progress: 1,
-  //     thumbnail: undefined,
-  //     isLoadingFile: true,
-  //   }));
-
-  //   this.oneFile.push(...filesToUpload);
-
-  //   filesToUpload.forEach(file => {
-  //     // const formData = new FormData();
-  //     // const blob = new Blob([file], { type: file.type });
-  //     // formData.append('file', blob);
-
-  //     const uploadReq = this.fileService.uploadFile();
-  //     uploadReq.subscribe({
-  //       next: event => {
-  //         if (event.type === HttpEventType.UploadProgress) {
-  //           const newProgress = Math.round(
-  //             (event.loaded / (event.total ?? 1)) * 100
-  //           );
-  //           this.updateProgress(file, newProgress);
-  //         }
-  //         if (event.type === HttpEventType.Response) {
-  //           const responseObject = event.body;
-  //           this.uploadedFile.push(responseObject as fileResponse);
-  //           this.updateProgress(file, 100);
-  //           file.isLoadingFile = false;
-
-  //           const uuidFile = this.uploadedFile[0]?.object.uuid;
-  //           this.uploadOneFileEvent.emit(uuidFile);
-  //           console.log('UUID:', uuidFile);
-  //         }
-  //       },
-  //       error: () => {
-  //         // Handle error
-  //         const index = this.oneFile.findIndex(f => f === file);
-  //         if (index !== -1) {
-  //           this.oneFile.splice(index, 1);
-  //         }
-  //       },
-  //     });
-  //   });
-  // }
   errorMessage = '';
   oneFile: (File & {
     progress: number;
@@ -276,7 +221,7 @@ export class FileComponent {
     });
     this.fileList.push(...filesToUpload);
     filesToUpload.forEach(file => {
-      const uploadReq = this.fileService.uploadFiles();
+      const uploadReq = this.fileService.uploadFiles(file);
       uploadReq.subscribe({
         next: event => {
           if (event.type === HttpEventType.UploadProgress) {
@@ -290,9 +235,8 @@ export class FileComponent {
             // const fileSizeKB = Math.round(file.size / 1024);
             this.updateProgress(file, 100);
             file.isLoadingFile = false;
-            console.log('test:', this.uploadedFiles[0].object.uuid);
-
-            // this.uploadMultipleFilesEvent.emit(this.uploadedFiles);
+            // console.log('test:', this.uploadedFiles[0].object.uuid);
+            this.uploadOneFileEvent.emit(this.uploadedFiles);
 
             const index = this.fileList.findIndex(f => f === file);
             if (index !== -1) {

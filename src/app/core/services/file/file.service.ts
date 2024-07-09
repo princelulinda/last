@@ -20,11 +20,16 @@ export class FileService {
     private sanitizer: DomSanitizer
   ) {}
 
-  uploadFiles() {
+  uploadFiles(file: File) {
     const formData = new FormData();
+    formData.append('docfile', file, file.name);
+    // formData.append('title', file.name);
+    // formData.append('document_type', file.name);
+
     const headers = new HttpHeaders();
     headers.set('Content-Type', 'application/octet-stream');
     const path = '/documents/';
+
     return this.http
       .post(environment.apiUrl + path, formData, {
         headers,
