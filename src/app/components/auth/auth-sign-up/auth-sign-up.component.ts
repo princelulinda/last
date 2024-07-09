@@ -179,7 +179,6 @@ export class AuthSignUpComponent implements OnInit {
       error: error => {
         this.isLoadingCreation = false;
         this.dialogService.closeLoading();
-        console.log('kdkdsklsdklsd klsdklsdklsdkldsjkd ');
         if (error?.object?.success === false) {
           this.dialogService.openToast({
             type: 'failed',
