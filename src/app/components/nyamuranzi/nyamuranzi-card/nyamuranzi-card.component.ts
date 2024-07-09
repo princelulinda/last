@@ -4,8 +4,9 @@ import { Subject, Observable, takeUntil } from 'rxjs';
 import { ModeModel, ConfigService, AuthService } from '../../../core/services';
 import { CommonModule, NgClass } from '@angular/common';
 import { UserInfoModel } from '../../../core/db/models/auth';
-import { userInfoModel } from '../../layouts/header/model';
+
 import { nyamuranziCard } from '../models';
+import { userInfoModel } from '../../../layouts/header/model';
 
 @Component({
   selector: 'app-nyamuranzi-card',

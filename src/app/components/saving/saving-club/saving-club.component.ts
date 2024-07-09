@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SavingDetailService } from '../../../core/services/saving/saving.service';
 import { SuggestedTontinesModel, TontineModel } from '../saving.model';
-import { SkeletonComponent } from '../../../global/skeleton/skeleton.component';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-saving-club',

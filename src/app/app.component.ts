@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  // NavigationEnd,
+  RouterOutlet,
+} from '@angular/router';
+
 import { Observable } from 'rxjs';
-import { Router, RouterOutlet } from '@angular/router';
 
 import { DbService } from './core/db/db.service';
 import {
   ConfigService,
-  PlateformModel,
+  // PlateformModel,
   activeMainConfigModel,
 } from './core/services';
-import { ConfirmDialogComponent } from './global/popups/confirm-dialog/confirm-dialog.component';
-// import { OpenDialog } from './core/popups/dialogs/open-dialog';
+import { ConfirmDialogComponent } from './global/components/popups/confirm-dialog/confirm-dialog.component';
 // import { environment } from '../environments/environment';
 
 @Component({
@@ -25,8 +28,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private dbService: DbService,
-    private configService: ConfigService,
-    private router: Router
+    private configService: ConfigService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.dbService.dbIsReady.subscribe((value: boolean) =>
@@ -35,27 +37,23 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // let response = new OpenDialog({
-    //   message: 'Vous voulez confirmer cette action',
-    //   title: '',
-    //   type: 'confirm',
-    //   action: 'Get Confirmation',
-    // }).getResponse();
-    console.log('INITIALIZING DB VARS FROM APP COMPONENT');
     this.dbService.initializeModels();
     this.configService.initAll();
 
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
-        // this.managePlateformRedirection(this.mainConfig.activePlateform);
       },
     });
-  }
 
-  private managePlateformRedirection(plateform: PlateformModel) {
-    const plateformData = this.configService.filterPlatformData(plateform);
-    this.router.navigate([plateformData.baseHref]);
+    // TODO :: TRY TO CHANGE PLATEFORM BY URL !! CAN GOT PROBLEME WITH SOME GUARDS
+    // this.router.events
+    //   .pipe(filter(event => event instanceof NavigationEnd))
+    //   .subscribe({
+    //     next: events => {
+    //       let navigationInfo: NavigationEnd = events as NavigationEnd;
+    //     },
+    //   });
   }
 
   // private managePlateformByURL() {

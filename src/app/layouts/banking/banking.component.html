@@ -1,0 +1,67 @@
+<div class="container-fluid position-relative h-100 p-0">
+  <!-- Top Desktop Header section -->
+  <section class="sticky-top">
+    <app-header></app-header>
+  </section>
+
+  <!-- OnlineBanking Main Container -->
+  @if (
+    plateform === 'onlineBanking' ||
+    plateform === 'newsFeed' ||
+    plateform === 'marketPlace' ||
+    plateform === 'myMarket' ||
+    plateform === 'onamob'
+  ) {
+    <div class="d-flex flex-column flex-lg-row overflow-hidden h-100">
+      <!-- Desktop Aside Menu -->
+      <aside
+        class="d-none d-lg-block overflow-y-auto position-relative w-20 z-5">
+        <app-aside-menu></app-aside-menu>
+      </aside>
+
+      <!-- Main Content and Right Sidebar -->
+      <section class="flex-grow-1 position-relative w-100">
+        <!-- Sub-header -->
+        <div class="bg-white d-lg-block d-none p-2">
+          <app-sub-header></app-sub-header>
+        </div>
+
+        <!-- Content below Sub-header -->
+        <div
+          class="d-flex flex-column flex-lg-row flex-grow-1 h-75 overflow-y-auto">
+          <!-- Main Content -->
+          <div class="p-1 pb-3 pt-2 flex-grow-1 position-relative">
+            <router-outlet></router-outlet>
+          </div>
+
+          <!-- Right Sidebar Menu -->
+          <aside
+            class="ps-2 flex-shrink-0 w-25 d-none d-lg-flex flex-column sticky-top overflow-y-auto h-100"
+            style="z-index: -999">
+            <div class="flex-grow-1">
+              <app-aside-bar></app-aside-bar>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </div>
+  }
+
+  @if (plateform === 'bankingSettings') {
+    <div class="d-flex flex-column flex-lg-row overflow-hidden h-100">
+      <!-- Desktop settings Aside Menu -->
+      <aside
+        class="d-none d-lg-block overflow-y-auto position-relative w-20 z-5">
+        <app-settings-aside-menu></app-settings-aside-menu>
+      </aside>
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  }
+
+  <!-- Mobile Bottom Icons -->
+  <section class="d-lg-none bg-primary sticky-bottom z-5">
+    <app-switch-plateform-icons></app-switch-plateform-icons>
+  </section>
+</div>

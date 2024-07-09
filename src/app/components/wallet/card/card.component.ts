@@ -3,9 +3,10 @@ import { BankingService } from '../../../core/services/dashboards/banking.servic
 import { Subject, Observable, takeUntil } from 'rxjs';
 import { AuthService, ConfigService, ModeModel } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
-import { userInfoModel } from '../../layouts/header/model';
+
 import { NgClass, CommonModule } from '@angular/common';
 import { WalletCard } from '../models';
+import { userInfoModel } from '../../../layouts/header/model';
 
 @Component({
   selector: 'app-card',

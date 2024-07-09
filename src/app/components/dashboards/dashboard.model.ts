@@ -55,3 +55,29 @@ interface Menu {
 
   link: string;
 }
+
+export interface PublisherModel {
+  client_full_name: string;
+  picture: string;
+  id: number;
+}
+
+export interface DocumentModel {
+  docfile: string;
+}
+
+export interface CategoryModel {
+  created_at: string;
+  id: number;
+  name: string;
+}
+
+export interface PublicationModel {
+  caption: string;
+  category: CategoryModel;
+  documents: DocumentModel[];
+  publishers: PublisherModel[];
+  total_reactions: number;
+  total_replies: number;
+  total_shares: number;
+}

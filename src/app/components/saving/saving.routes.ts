@@ -21,5 +21,3 @@ export const bankingSavingRoutes: Routes = [
     component: ClubAdminComponent,
   },
 ];
-
-export const workstationSavingRoutes: Routes = [];

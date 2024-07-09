@@ -7,7 +7,7 @@ export interface UserApiResponse {
   device_data: object;
 }
 
-export type languageModel = 'en' | 'fr';
+export type languageModel = 'en' | 'fr' | 'ki' | 'sw';
 
 export interface ClientApiResponse {
   id: number;

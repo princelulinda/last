@@ -4,10 +4,9 @@ import { NyamuranziCardComponent } from '../../nyamuranzi/nyamuranzi-card/nyamur
 import { Subject, Observable, takeUntil } from 'rxjs';
 import { AuthService, ConfigService, ModeModel } from '../../../core/services';
 import { CommonModule, NgClass } from '@angular/common';
-import { SkeletonComponent } from '../../../global/skeleton/skeleton.component';
 import { BankService } from '../../../core/services/bank/bank.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
-import { userInfoModel } from '../../layouts/header/model';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import {
   bankModel,
@@ -15,6 +14,7 @@ import {
   MerchantLookup,
   PayMerchant,
 } from '../dashboard.model';
+import { userInfoModel } from '../../../layouts/header/model';
 
 @Component({
   selector: 'app-online-banking',
