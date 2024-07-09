@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
   templateUrl: './loan-simulator.component.html',
   styleUrl: './loan-simulator.component.scss',
 })
-export class LoanSimulatorComponent {}
+export class LoanSimulatorComponent {
+  constructor(private _location: Location) {}
+
+  goBack() {
+    this._location.back();
+  }
+}
