@@ -48,6 +48,7 @@ export class DialogService {
   });
 
   splashScreen = signal(false);
+  private isShowed = signal(false);
 
   // Toast Methods
   openToast(payload: ToastPaylodModel) {
@@ -116,10 +117,19 @@ export class DialogService {
     return toObservable(this.response);
   }
 
+  // Spash screnn Methods
   dispatchSplashScreen() {
     this.splashScreen.set(true);
   }
   closeSplashScreen() {
     this.splashScreen.set(false);
+  }
+
+  // Amount Methods
+  displayAmount() {
+    this.isShowed.set(!this.isShowed());
+  }
+  getAmountState() {
+    return toObservable(this.isShowed);
   }
 }
