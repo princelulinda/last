@@ -6,8 +6,15 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SettingsService } from '../../../core/services/settings/settings.service';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import {
+  PasswordChangeResponse,
+  PasswordModel,
+  PinChangeResponse,
+  PinModel,
+} from '../setting.model';
+import { DialogService } from '../../../core/services';
 @Component({
   selector: 'app-individual-settings',
   standalone: true,
@@ -27,7 +34,11 @@ export class IndividualSettingsComponent implements OnInit, OnDestroy {
   isLoadingNewPassword!: boolean;
   selectedsubmenu = '';
   pinMatch = true;
-  constructor(private settingsService: SettingsService) {}
+  passwordMatch = true;
+  constructor(
+    private settingsService: SettingsService,
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit(): void {
     // Initialisez votre composant ici
@@ -37,6 +48,12 @@ export class IndividualSettingsComponent implements OnInit, OnDestroy {
       newPin: new FormControl('', Validators.required),
       confirmNewPin: new FormControl('', Validators.required),
       agreementPin: new FormControl('', Validators.required),
+    });
+    this.formPassword = new FormGroup({
+      oldPassword: new FormControl('', Validators.required),
+      newPassword: new FormControl('', Validators.required),
+      confirmNewPassword: new FormControl('', Validators.required),
+      agreementPassword: new FormControl('', Validators.required),
     });
   }
 
@@ -62,81 +79,101 @@ export class IndividualSettingsComponent implements OnInit, OnDestroy {
     this.formPin.reset();
   }
 
-  // modifyPin() {
-  //   this.isLoadingNewPin = true;
-  //   const data = {
-  //       old_pin: this.formPin.value.oldPin,
-  //       new_pin: this.formPin.value.newPin,
-  //       new_pin2: this.formPin.value.confirmNewPin,
-  //   };
-  //   this.pinMatch = this.confirmEqualPin(data.new_pin!, data.new_pin2!);
-  //   if (!this.pinMatch) {
-  //       setTimeout(() => {
-  //           this.pinMatch = true;
-  //       }, 3000);
-  //       this.isLoadingNewPin = false;
-  //       return;
-  //   }
+  modifyPin() {
+    this.isLoadingNewPin = true;
 
-  //   this.settingsService
-  //   .changePin(data)
-  //   .pipe(takeUntil(this.onDestroy$))
-  //   .subscribe({
-  //   next: (response: any) => {
-  //   this.isLoadingNewPin = false;
-  //   this.formPin.reset();
-  //   // Ici, vous pouvez gérer la réponse et ouvrir un dialogue avec votre service de dialogue personnalisé
-  //   if (response.object.success) {
-  //   // Logique pour le succès
-  //   } else {
-  //   // Logique pour l'échec
-  //   }
-  //   },
-  //   error: (error) => {
-  //   this.isLoadingNewPin = false;
-  //   this.formPin.reset();
-  //   // Ici, vous pouvez gérer l'erreur et ouvrir un dialogue avec votre service de dialogue personnalisé
-  //   },
-  //   });
-  // }
+    const data: PinModel = {
+      old_pin: this.formPin.value.oldPin,
+      new_pin: this.formPin.value.newPin,
+      new_pin2: this.formPin.value.confirmNewPin,
+    };
+    this.pinMatch = this.confirmEqualPin(data.new_pin!, data.new_pin2!);
+    if (!this.pinMatch) {
+      setTimeout(() => {
+        this.pinMatch = true;
+      }, 3000);
+      this.isLoadingNewPin = false;
+      return;
+    }
 
-  // modifyPassword() {
-  //   this.isLoadingNewPassword = true;
-  //   const data = {
-  //     old_password: this.formPassword.value.oldPassword,
-  //             new_password: this.formPassword.value.newPassword,
-  //             new_password2: this.formPassword.value.confirmNewPassword,
-  //   };
-  //   this.pinMatch = this.confirmEqualPassword(data.new_password!, data.new_password2!);
-  //   if (!this.pinMatch) {
-  //       setTimeout(() => {
-  //           this.pinMatch = true;
-  //       }, 3000);
-  //       this.isLoadingNewPassword = false;
-  //       return;
-  //   }
+    this.settingsService
+      .changePin(data)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (response: PinChangeResponse) => {
+          this.isLoadingNewPin = false;
+          this.formPin.reset();
 
-  //   this.settingsService
-  //   .changePassword(data)
-  //   .pipe(takeUntil(this.onDestroy$))
-  //   .subscribe({
-  //   next: (response: any) => {
-  //   this.isLoadingNewPassword = false;
-  //   this.formPassword.reset();
+          if (response.object.success === true) {
+            this.dialogService.openToast({
+              type: 'success',
+              title: 'Succès',
+              message: response.object.response_message,
+            });
+          } else {
+            this.dialogService.openToast({
+              type: 'failed',
+              title: 'Échec',
+              message: response.object.response_message,
+            });
+          }
+        },
+        error: () => {
+          this.isLoadingNewPin = false;
+          this.formPin.reset();
+          // Ici, vous pouvez gérer l'erreur et ouvrir un dialogue avec votre service de dialogue personnalisé
+        },
+      });
+  }
 
-  //   if (response.object.success) {
+  modifyPassword() {
+    this.isLoadingNewPassword = true;
 
-  //   } else {
+    const data: PasswordModel = {
+      old_password: this.formPassword.value.oldPassword,
+      new_password: this.formPassword.value.newPassword,
+      new_password2: this.formPassword.value.confirmNewPassword,
+    };
+    this.passwordMatch = this.confirmEqualPassword(
+      data.new_password2!,
+      data.new_password2!
+    );
+    if (!this.passwordMatch) {
+      setTimeout(() => {
+        this.passwordMatch = true;
+      }, 3000);
+      this.isLoadingNewPassword = false;
+      return;
+    }
 
-  //   }
-  //   },
-  //   error: (error) => {
-  //   this.isLoadingNewPassword = false;
-  //   this.formPassword.reset();
+    this.settingsService
+      .changePassword(data)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (response: PasswordChangeResponse) => {
+          this.isLoadingNewPassword = false;
+          this.formPassword.reset();
 
-  //   },
-  //   });
-  // }
+          if (response.object.success === true) {
+            this.dialogService.openToast({
+              type: 'success',
+              title: 'Succès',
+              message: response.object.response_message,
+            });
+          } else {
+            this.dialogService.openToast({
+              type: 'failed', // Assurez-vous que 'error' est un type valide défini dans toastTypeModel
+              title: 'Échec',
+              message: response.object.response_message,
+            });
+          }
+        },
+        error: () => {
+          this.isLoadingNewPassword = false;
+          this.formPassword.reset();
+        },
+      });
+  }
 
   private confirmEqualPin(new_pin: string, new_pin2: string) {
     if (new_pin !== new_pin2) {

@@ -3,7 +3,7 @@ import { AuthService } from '../../../../core/services';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { SettingsService } from '../../../../core/services/settings/settings.service';
-import { MailModel } from '../../setting.model';
+import { AddResponse, MailModel } from '../../setting.model';
 import { FormControl, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DialogService } from '../../../../core/services';
@@ -30,9 +30,13 @@ export class GeneralSettingsComponent implements OnInit {
   phoneNumbersLoading = true;
   phoneNumbers: MailModel[] | null = null;
   private userInfo$: Observable<UserInfoModel>;
-  emails: MailModel[] | null = null; // Utilisez le type MailModel pour vos emails
+  emails: MailModel[] | null = null;
   email = new FormControl('', [Validators.required, Validators.email]);
-  phoneNumber = new FormControl('', Validators.required);
+  phoneNumber = new FormControl('', [
+    Validators.required,
+    Validators.pattern('^[0-9]+$'),
+  ]);
+
   dialogState$!: Observable<DialogResponseModel>;
 
   pin!: string;
@@ -43,6 +47,7 @@ export class GeneralSettingsComponent implements OnInit {
     private clientService: ClientService
   ) {
     this.userInfo$ = this.authService.getUserInfo();
+    this.dialogState$ = this.dialogService.getDialogState();
   }
 
   ngOnInit(): void {
@@ -59,22 +64,25 @@ export class GeneralSettingsComponent implements OnInit {
         }
       },
     });
-    this.dialogService
-      .getDialogState()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: (dialogResponse: DialogResponseModel) => {
+
+    this.dialogState$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: (dialogResponse: DialogResponseModel) => {
+        console.log('PIN reçu:', this.pin);
+        if (
+          dialogResponse.action === 'phoneNumber' &&
+          dialogResponse.response.pin
+        ) {
           this.pin = dialogResponse.response.pin;
-
-          console.log('Received PIN:', this.pin);
-
-          if (dialogResponse.action === 'phoneNumber') {
-            this.submitContact(dialogResponse.action);
-          } else if (dialogResponse.action === 'email') {
-            this.submitContact(dialogResponse.action);
-          }
-        },
-      });
+          this.submitContact(dialogResponse.action);
+        } else if (
+          dialogResponse.action === 'email' &&
+          dialogResponse.response.pin
+        ) {
+          this.pin = dialogResponse.response.pin;
+          this.submitContact(dialogResponse.action);
+        }
+      },
+    });
   }
 
   getEmails() {
@@ -121,8 +129,9 @@ export class GeneralSettingsComponent implements OnInit {
       this.getPhoneNumbers();
     }
   }
+
   submitContact(contactType: string) {
-    this.dialogService.dispatchLoading('loading');
+    this.dialogService.dispatchLoading();
     this.loading = true;
 
     let body: BodyModel = {
@@ -149,10 +158,43 @@ export class GeneralSettingsComponent implements OnInit {
       .addAphoneNumber(body)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        // next: () => {
-        // },
-        // error: () => {
-        // },
+        next: (response: AddResponse) => {
+          this.loading = false;
+          this.email.reset();
+          this.phoneNumber.reset();
+          this.dialogService.closeLoading();
+          if (response.object.success) {
+            this.dialogService.openToast({
+              type: 'success',
+              title: 'Succès',
+              message: 'success',
+            });
+            if (contactType === 'email') {
+              this.refreshContact('email');
+              this.newAccount = false;
+            } else if (contactType === 'phoneNumber') {
+              this.refreshContact('phoneNumber');
+              this.newPhoneNumber = false;
+            }
+          } else {
+            this.dialogService.openToast({
+              type: 'failed',
+              title: 'Échec',
+              message: 'failed',
+            });
+          }
+        },
+        error: () => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            type: 'failed', // Assurez-vous que 'error' est un type valide défini dans toastTypeModel
+            title: 'Échec',
+            message: 'failed please try again',
+          });
+          this.email.reset();
+          this.phoneNumber.reset();
+          this.loading = false;
+        },
       });
   }
 

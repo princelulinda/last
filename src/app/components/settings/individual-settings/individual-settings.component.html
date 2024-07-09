@@ -148,7 +148,9 @@
               class="btn bg-primary text-all-white"
               style="width: 90px; height: 40.15px; border-radius: 7px"
               [disabled]="!formPin.valid || isLoadingNewPin"
-              type="submit">
+              type="submit"
+              (click)="modifyPin()"
+              [tabIndex]="0">
               @if (!isLoadingNewPin) {
                 <strong i18n>Save</strong>
               }
@@ -300,11 +302,13 @@
             class="btn bg-primary text-all-white"
             style="width: 90px; height: 40.15px; border-radius: 7px"
             [disabled]="!formPassword.valid || isLoadingNewPassword"
+            (click)="modifyPassword()"
+            [tabIndex]="0"
             type="submit">
-            @if (!isLoadingNewPin) {
+            @if (!isLoadingNewPassword) {
               <strong i18n>Save</strong>
             }
-            @if (isLoadingNewPin) {
+            @if (isLoadingNewPassword) {
               <span>
                 <i class="fa-solid fa-spin text-light fa-circle-notch fs-5"></i>
               </span>

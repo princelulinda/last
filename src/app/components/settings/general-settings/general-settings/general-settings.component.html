@@ -186,11 +186,12 @@
                 title="add an account"
                 i18n
                 class="btn bg-primary text-light"
+                role="button"
                 i18n>
-                @if (!isLoading) {
+                @if (!loading) {
                   <span (click)="openPinPopup('email')" tabindex="0"> Add</span>
                 }
-                @if (isLoading) {
+                @if (loading) {
                   <span>
                     <i
                       class="fa-solid fa-spin text-light fa-circle-notch fs-5"></i>
@@ -243,7 +244,7 @@
       @if (!newPhoneNumber) {
         <div class="col-md-12">
           <div class="row text-dark d-flex align-items-center mt-3 px-3">
-            <div class="col-5 fw-bold px-4" i18n>Email</div>
+            <div class="col-5 fw-bold px-4" i18n>Phone</div>
             <div class="col-3 fw-bold px-4" i18n>Level</div>
             <div class="col-4 fw-bold px-4" i18n>Status</div>
           </div>
@@ -337,6 +338,7 @@
                 title="add a phone number"
                 i18n
                 class="btn bg-primary text-light"
+                [disabled]="!phoneNumber.valid || isLoading"
                 (click)="openPinPopup('phoneNumber')">
                 @if (!loading) {
                   <span> Add</span>
