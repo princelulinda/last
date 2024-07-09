@@ -179,19 +179,13 @@ export class AuthSignUpComponent implements OnInit {
       error: error => {
         this.isLoadingCreation = false;
         this.dialogService.closeLoading();
-        if (error?.object?.success === false) {
-          this.dialogService.openToast({
-            type: 'failed',
-            title: 'Échec',
-            message: error?.object?.response_message,
-          });
-        } else {
-          this.dialogService.openToast({
-            type: 'failed',
-            title: 'Échec',
-            message: 'An error occured!',
-          });
-        }
+        this.dialogService.openToast({
+          type: 'failed',
+          title: 'Échec',
+          message:
+            error?.object?.response_message ??
+            $localize`Something went wrong please retry again !`,
+        });
       },
     });
   }
