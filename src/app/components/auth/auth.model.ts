@@ -30,6 +30,9 @@ export interface createAccountResponse {
     email: string;
     response_message: string;
     success: boolean;
+    client: {
+      client_id: number;
+    };
   };
 }
 

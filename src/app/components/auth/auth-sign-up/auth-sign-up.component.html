@@ -603,7 +603,7 @@
   <!--end step 3-->
 
   <!--start step 4-->
-  @if (step === 1) {
+  @if (step === 4) {
     <div
       class="container font-montserrat d-flex justify-content-center pt-5 p-5">
       <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
@@ -727,16 +727,17 @@
           <div class="row position-relative z-1">
             <div class="col d-flex align-items-center">
               <span class="fs-normal"
-                ><span class="fw-bold fs-l-medium">Bibyento Bundi</span>
-                <br />bibyengmail.com</span
+                ><span class="fw-bold fs-l-medium">
+                  {{ firstName }} {{ lastName }}</span
+                >
+                <br />
+                {{ Email }}</span
               >
             </div>
             <div class="col d-flex justify-content-end">
               <div
                 class="rounded-circle border border-5 d-flex justify-content-center align-items-center">
-                <span>
-                  <img src="/images/multi-secure.png" width="85" alt=""
-                /></span>
+                <span> <img src="{{ Profile }}" width="85" alt="" /></span>
               </div>
             </div>
           </div>
@@ -746,7 +747,9 @@
           <div class="col-md-4 mb-1">
             <hr />
             <div class="d-flex justify-content-center">
-              <span class="fw-bold fs-normal text-primary">6778</span>
+              <span class="fw-bold fs-normal text-primary">
+                {{ userInfo.object.client.client_id }}
+              </span>
             </div>
             <hr />
           </div>
