@@ -119,6 +119,11 @@ export class IndividualSettingsComponent implements OnInit, OnDestroy {
           }
         },
         error: () => {
+          this.dialogService.openToast({
+            type: 'failed',
+            title: 'Échec',
+            message: 'failed please try again',
+          });
           this.isLoadingNewPin = false;
           this.formPin.reset();
           // Ici, vous pouvez gérer l'erreur et ouvrir un dialogue avec votre service de dialogue personnalisé
@@ -162,13 +167,18 @@ export class IndividualSettingsComponent implements OnInit, OnDestroy {
             });
           } else {
             this.dialogService.openToast({
-              type: 'failed', // Assurez-vous que 'error' est un type valide défini dans toastTypeModel
+              type: 'failed',
               title: 'Échec',
-              message: response.object.response_message,
+              message: 'failed',
             });
           }
         },
         error: () => {
+          this.dialogService.openToast({
+            type: 'failed',
+            title: 'Échec',
+            message: 'failed please try again',
+          });
           this.isLoadingNewPassword = false;
           this.formPassword.reset();
         },

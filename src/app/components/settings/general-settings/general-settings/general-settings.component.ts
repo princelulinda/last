@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../../../core/services';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { UserInfoModel } from '../../../../core/db/models/auth';
@@ -18,12 +18,13 @@ import { BodyModel } from '../../setting.model';
   templateUrl: './general-settings.component.html',
   styleUrl: './general-settings.component.scss',
 })
-export class GeneralSettingsComponent implements OnInit {
+export class GeneralSettingsComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   clientInfo!: UserInfoModel;
   newAccount = false;
   newPhoneNumber = false;
   isLoading!: false;
+  selectedsubmenu = '';
   id!: number;
   loading = false;
   emailsLoading = true;
@@ -51,6 +52,9 @@ export class GeneralSettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.settingsService.selectedSubMenu$.subscribe(selected => {
+      this.selectedsubmenu = selected;
+    });
     this.userInfo$.subscribe({
       next: userinfo => {
         if (userinfo) {
@@ -205,5 +209,10 @@ export class GeneralSettingsComponent implements OnInit {
       message: 'Please enter your PIN code to continue.',
       action: contactType,
     });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
