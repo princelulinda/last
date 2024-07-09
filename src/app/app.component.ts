@@ -13,6 +13,7 @@ import {
   // PlateformModel,
 } from './core/services';
 import { ConfirmDialogComponent } from './global/components/popups/confirm-dialog/confirm-dialog.component';
+import { SplashScreenComponent } from './layouts/splash-screen/splash-screen.component';
 // import { environment } from '../environments/environment';
 
 @Component({
@@ -20,7 +21,7 @@ import { ConfirmDialogComponent } from './global/components/popups/confirm-dialo
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [RouterOutlet, ConfirmDialogComponent],
+  imports: [RouterOutlet, ConfirmDialogComponent, SplashScreenComponent],
 })
 export class AppComponent implements OnInit {
   plateform: PlateformModel = 'authentification';
