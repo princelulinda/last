@@ -4,12 +4,12 @@
       <div>
         <span class="sub-title-loan fw-bold" i18n>Apply for a loan</span>
       </div>
-      <div class="dflex align-items-center">
+      <button class="dflex align-items-center" (click)="goBack()">
         <span>
           <i class="fa fa-arrow-left fs-4"></i>
         </span>
         <b class="fs-3 ms-1">Back</b>
-      </div>
+      </button>
     </section>
 
     <section class="my-4 pt-1">
@@ -40,7 +40,9 @@
         </div>
         <div class="w-lg-50 d-flex justify-content-between">
           <div class="d-flex w-50 justify-content-between align-items-center">
-            <button class="btn w-50 me-5 d-flex p-0 bg-primary">
+            <button
+              class="btn w-50 me-5 d-flex p-0 bg-primary"
+              routerLink="/b/banking/simulator">
               <div class="d-flex px-2 py-1 rounded-start h-100">
                 <img src="./images/loan/simulator1.svg" alt="" />
               </div>

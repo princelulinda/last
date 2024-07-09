@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { bankingSavingRoutes } from '../../components/saving/saving.routes';
-import { LoanHomeComponent } from '../../components/loan/loan-home/loan-home.component';
+import { loanRoutes } from '../../components/loan/loan.routes';
 
 export const bankingRoutes: Routes = [
   {
@@ -9,6 +9,6 @@ export const bankingRoutes: Routes = [
   },
   {
     path: '',
-    component: LoanHomeComponent,
+    children: loanRoutes,
   },
 ];
