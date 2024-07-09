@@ -19,7 +19,7 @@
         *ngIf="mainConfig.activePlateform !== 'workstation'">
         <img
           class="bg-primary-2 img-fluid border border-3 px-4 py-1 sm-radius h-100"
-          src="/images/ihela3.png"
+          src="/images/auth/ihela3.png"
           alt="iHela Ryanje Logo" />
       </div>
 
@@ -234,7 +234,9 @@
                   </div>
                   <div
                     class="w-100 my-3 d-flex justify-content-between align-items-center">
-                    <a>
+                    <a
+                      (click)="switchPlateform('bankingSettings')"
+                      tabindex="0">
                       <div
                         role="button"
                         class="d-flex align-items-center fs-medium">
