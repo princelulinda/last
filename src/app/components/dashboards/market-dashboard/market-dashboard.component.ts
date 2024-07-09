@@ -34,21 +34,24 @@ export class MarketDashboardComponent {
       name: 'Nike Air Jordan',
       storage: '257 Shop',
       cost: 'BIF 150,000',
-      image: '/images/greenShoe.png',
+      image:
+        'https://images.unsplash.com/photo-1539185441755-769473a23570?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
       id: '2',
       name: 'Nike Air Jordan',
       storage: '257 Shop',
       cost: 'BIF 150,000',
-      image: '/images/greenShoe.png',
+      image:
+        'https://images.unsplash.com/photo-1539185441755-769473a23570?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
       id: '3',
       name: 'Nike Air Jordan',
       storage: '257 Shop',
       cost: 'BIF 150,000',
-      image: '/images/greenShoe.png',
+      image:
+        'https://images.unsplash.com/photo-1539185441755-769473a23570?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
   ];
   billersList = [

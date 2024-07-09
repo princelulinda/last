@@ -200,13 +200,13 @@
       </div>
       <div class="row">
         <div class="col-6">
-          <div class="bgLinear sm-radius">
+          <div class="bgLinear py-4 sm-radius">
             <div class="col-8 mx-auto">
               <div class="row">
                 <div class="col-8 mx-auto">
                   <img
-                    src="/images/samsung.png"
-                    class="w-100 mt-5"
+                    src="https://images.unsplash.com/photo-1523412494944-82526a3162fe?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    class="w-100 opacity-75"
                     alt="samsung" />
                 </div>
               </div>
@@ -224,25 +224,25 @@
         </div>
         <div class="col-6">
           @for (item of newArrivalInfo; track item.id) {
-            <div class="bg-white sm-radius border mb-3 mb-xxl-3">
+            <div class="bg-white sm-radius border mb-3 py-3 mb-xxl-3">
               <div class="row">
                 <div class="col-11 mx-auto">
                   <div class="row">
                     <div class="col-3">
                       <img
                         src="{{ item.image }}"
-                        class="border py-3 px-1 my-3"
+                        class="border object-fit-cover w-100"
                         alt="greenShoe" />
                     </div>
                     <div class="col-5">
                       <div class="row">
-                        <h5 class="fs-medium mt-3">{{ item.name }}</h5>
+                        <h5 class="fs-medium">{{ item.name }}</h5>
                       </div>
                       <div class="row">
                         <p class="text-primary-light m-0">{{ item.storage }}</p>
                       </div>
                       <div class="row">
-                        <h5 class="fw-bold mt-2">{{ item.cost }}</h5>
+                        <h5 class="fw-bold">{{ item.cost }}</h5>
                       </div>
                     </div>
                   </div>
