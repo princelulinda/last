@@ -23,7 +23,6 @@ export const routes: Routes = [
   },
 
   // banking Routes
-
   {
     path: ':plateform',
     component: BankingComponent,
