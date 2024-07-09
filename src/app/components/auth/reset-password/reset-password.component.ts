@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Router } from '@angular/router';
 import { Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../../core/services';
+import { AuthService, DialogService } from '../../../core/services';
 import { resetPasswordResponse, otpVerificationResponse } from '../auth.model';
 import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-reset-password',
@@ -24,6 +26,7 @@ export class ResetPasswordComponent {
   isLoadingOTP = false;
   arePasswordsMatch = false;
   isLoadingVerificationOTP = false;
+  dialog$: Observable<DialogResponseModel>;
   submit() {
     this.submitted = true;
     if (this.stepResetPassword.controls.clientEmail.invalid && this.step == 1) {
@@ -37,8 +40,11 @@ export class ResetPasswordComponent {
   constructor(
     private route: Router,
     private fb: FormBuilder,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private dialogService: DialogService
+  ) {
+    this.dialog$ = this.dialogService.getDialogState();
+  }
   previous() {
     this.step = this.step - 1;
   }
@@ -111,10 +117,11 @@ export class ResetPasswordComponent {
           this.stepResetPassword.controls.changePassword.value.confirmPassword,
       },
     };
-
+    this.dialogService.dispatchLoading();
     this.authService.OTPverification(data).subscribe({
       next: (response: otpVerificationResponse) => {
         this.isLoadingVerificationOTP = false;
+        this.dialogService.closeLoading();
         if (response.object.success === true) {
           this.route.navigate(['/login/']);
         } else {
@@ -129,6 +136,7 @@ export class ResetPasswordComponent {
       error: error => {
         console.log('error', error);
         this.isLoadingVerificationOTP = false;
+        this.dialogService.closeLoading();
         //   const data = {
         //       title: '',
         //       type: 'failed',

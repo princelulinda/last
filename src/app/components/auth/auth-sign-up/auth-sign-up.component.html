@@ -702,13 +702,7 @@
                   class="btn bg-primary fw-bold border border-white mt-4 text-all-white px-5"
                   [disabled]="isLoadingCreation"
                   (click)="createAccount()">
-                  @if (!isLoadingCreation) {
-                    Continue
-                  } @else {
-                    <span
-                      ><i class="fa-solid fa-pulse fa-circle-notch fs-4"></i
-                    ></span>
-                  }
+                  Continue
                 </button>
               </span>
             </span>

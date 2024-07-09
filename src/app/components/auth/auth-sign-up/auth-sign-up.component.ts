@@ -168,14 +168,17 @@ export class AuthSignUpComponent implements OnInit {
     // if (this.multiStepForm.controls.cardInformation.value.expiryDate !== '') {
     //     data.card_id['expiry_date'] = this.multiStepForm.controls.cardInformation.value.expiryDate;
     // }
+    this.dialogService.dispatchLoading();
     this.authService.createAccount(data).subscribe({
       next: response => {
         this.isLoadingCreation = false;
         this.userInfo = response;
         this.step = this.step = 5;
+        this.dialogService.closeLoading();
       },
       error: () => {
         this.isLoadingCreation = false;
+        this.dialogService.closeLoading();
       },
     });
   }
