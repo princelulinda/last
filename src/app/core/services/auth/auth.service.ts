@@ -105,43 +105,10 @@ export class AuthService {
     });
   }
 
-  populateClient(): Observable<UserInfoModel> {
-    return this.apiService.get<UserInfoModel>('/client/user/populate/').pipe(
-      map(data => {
-        if (data) {
-          const populate = data;
-          const userDB = this.populateClientFormat(populate);
-          this.dbService.setUser(userDB);
-        }
-        return data;
-      })
-    );
-  }
-
-  private populateClientFormat(populate: UserInfoModel): UserInfoModel {
-    return {
-      user: {
-        username: populate.user.username,
-        token: populate.user.token,
-        fcm_data: {},
-        device_data: {},
-      },
-      client: {
-        id: populate.client.id,
-        client_id: populate.client.client_id,
-        client_code: populate.client.client_code,
-        client_email: populate.client.client_email,
-        client_full_name: populate.client.client_full_name,
-        client_phone_number: populate.client.client_phone_number,
-        client_type: populate.client.client_type,
-        has_pin: populate.client.has_pin,
-        is_agent: populate.client.is_agent,
-        is_merchant: populate.client.is_merchant,
-        is_partner_bank: populate.client.is_partner_bank,
-        picture_url: populate.client.picture_url,
-        prefered_language: populate.client.prefered_language,
-      },
-    };
+  populateClient(): Observable<{ object: UserInfoModel }> {
+    return this.apiService
+      .get<{ object: UserInfoModel }>('/client/user/populate/')
+      .pipe(map(data => data));
   }
 
   createAccount(body: object): Observable<createAccountResponse> {
@@ -198,7 +165,9 @@ export class AuthService {
   getUserClientId(): Observable<number> {
     this.getUserInfo().subscribe({
       next: userInfo => {
-        this.userClientId$.next(userInfo.client.client_id);
+        if (userInfo) {
+          this.userClientId$.next(userInfo.client.client_id);
+        }
       },
     });
     return this.userClientId$;
@@ -207,7 +176,9 @@ export class AuthService {
   getUserId(): Observable<number> {
     this.getUserInfo().subscribe({
       next: userInfo => {
-        this.userId$.next(userInfo.client.id);
+        if (userInfo) {
+          this.userId$.next(userInfo.client.id);
+        }
       },
     });
     return this.userId$;

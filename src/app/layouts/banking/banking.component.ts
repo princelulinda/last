@@ -63,7 +63,7 @@ export class BankingComponent implements OnInit {
         this.plateform = plateform;
       },
     });
-    if (!this.localToken || !this.localClientId) {
+    if (!this.localClientId) {
       this.populate();
     }
   }
@@ -71,7 +71,9 @@ export class BankingComponent implements OnInit {
   populate() {
     this.dialogService.dispatchSplashScreen();
     this.authService.populateClient().subscribe({
-      next: (populateData: UserInfoModel) => {
+      next: (data: { object: UserInfoModel }) => {
+        let populateData = data.object;
+        console.log('TODO :: POPULATE USER DATA', populateData);
         const userInfo: UserInfoModel = {
           user: {
             username: populateData.user.username,

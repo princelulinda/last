@@ -180,7 +180,7 @@ export class DbService {
   async setUser(data: { user: UserApiResponse; client: ClientApiResponse }) {
     if (data?.user.token !== null) {
       this.setLocalStorageUserToken(data.user.token);
-      this.setLocalStorageBankId(data.client.client_id);
+      this.setLocalStorageClientId(data.client.client_id.toString());
       await this.addOnce('users', data);
     }
   }
