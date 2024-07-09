@@ -17,8 +17,7 @@ export class FileComponent {
   @Input() uploadOneFile: boolean | undefined;
 
   @Output() uploadMultipleFilesEvent = new EventEmitter<string>();
-  @Output() uploadOneFileEvent = new EventEmitter<string>();
-  test: File | undefined;
+  @Output() uploadOneFileEvent = new EventEmitter<fileResponse[]>();
 
   constructor(
     // private sanitizer: DomSanitizer,
@@ -110,53 +109,118 @@ export class FileComponent {
     }
   }
 
+  // oneFile: (File & {
+  //   progress: number;
+  //   thumbnail: string | undefined;
+  //   isLoadingFile: boolean;
+  // })[] = [];
+
+  // private uploadFile(oneFile: File[]): void {
+  //   const filesToUpload: (File & {
+  //     progress: number;
+  //     thumbnail: string | undefined;
+  //     isLoadingFile: boolean;
+  //   })[] = oneFile.map(file => ({
+  //     ...file,
+  //     progress: 1,
+  //     thumbnail: undefined,
+  //     isLoadingFile: true,
+  //   }));
+
+  //   this.oneFile.push(...filesToUpload);
+
+  //   filesToUpload.forEach(file => {
+  //     // const formData = new FormData();
+  //     // const blob = new Blob([file], { type: file.type });
+  //     // formData.append('file', blob);
+
+  //     const uploadReq = this.fileService.uploadFile();
+  //     uploadReq.subscribe({
+  //       next: event => {
+  //         if (event.type === HttpEventType.UploadProgress) {
+  //           const newProgress = Math.round(
+  //             (event.loaded / (event.total ?? 1)) * 100
+  //           );
+  //           this.updateProgress(file, newProgress);
+  //         }
+  //         if (event.type === HttpEventType.Response) {
+  //           const responseObject = event.body;
+  //           this.uploadedFile.push(responseObject as fileResponse);
+  //           this.updateProgress(file, 100);
+  //           file.isLoadingFile = false;
+
+  //           const uuidFile = this.uploadedFile[0]?.object.uuid;
+  //           this.uploadOneFileEvent.emit(uuidFile);
+  //           console.log('UUID:', uuidFile);
+  //         }
+  //       },
+  //       error: () => {
+  //         // Handle error
+  //         const index = this.oneFile.findIndex(f => f === file);
+  //         if (index !== -1) {
+  //           this.oneFile.splice(index, 1);
+  //         }
+  //       },
+  //     });
+  //   });
+  // }
+  errorMessage = '';
   oneFile: (File & {
     progress: number;
     thumbnail: string | undefined;
     isLoadingFile: boolean;
   })[] = [];
-
   private uploadFile(oneFile: File[]): void {
-    const filesToUpload: (File & {
-      progress: number;
-      thumbnail: string | undefined;
-      isLoadingFile: boolean;
-    })[] = oneFile.map(file => ({
-      ...file,
-      progress: 1,
-      thumbnail: undefined,
-      isLoadingFile: true,
-    }));
+    const filesToUpload = oneFile.map(file => {
+      return Object.assign(file, {
+        progress: 0,
+        thumbnail: undefined,
+        isLoadingFile: true,
+      });
+    });
 
     this.oneFile.push(...filesToUpload);
 
     filesToUpload.forEach(file => {
-      // const formData = new FormData();
-      // const blob = new Blob([file], { type: file.type });
-      // formData.append('file', blob);
+      const formData = new FormData();
+      const blob = new Blob([file], { type: file.type });
+      formData.append('file', blob);
 
-      const uploadReq = this.fileService.uploadFile();
+      const uploadReq = this.fileService.uploadFile(file);
       uploadReq.subscribe({
-        next: event => {
-          if (event.type === HttpEventType.UploadProgress) {
+        next: data => {
+          if (data.type === HttpEventType.UploadProgress) {
             const newProgress = Math.round(
-              (event.loaded / (event.total ?? 1)) * 100
+              (data.loaded / (data.total ?? 0)) * 90
             );
+
             this.updateProgress(file, newProgress);
-          }
-          if (event.type === HttpEventType.Response) {
-            const responseObject = event.body;
+          } else if (data.type === HttpEventType.Response) {
+            const responseObject = data.body;
+            // const fileSizeKB = Math.round(file.size / 1024);
+            // responseObject.size =fileSizeKB.toLocaleString() + ' kB';
             this.uploadedFile.push(responseObject as fileResponse);
+            // const uuidFile = this.uploadedFile;
+            this.uploadOneFileEvent.emit(this.uploadedFile);
+
+            console.log('doc', responseObject);
             this.updateProgress(file, 100);
             file.isLoadingFile = false;
 
-            const uuidFile = this.uploadedFile[0]?.object.uuid;
-            this.uploadOneFileEvent.emit(uuidFile);
-            console.log('UUID:', uuidFile);
+            // this.uploadOneFileEvent.emit(this.uploadedFile);
           }
         },
         error: () => {
           // Handle error
+          // this.store.dispatch(new CloseDialog({ response: 'clear' }));
+          // const data = {
+          //     title: '',
+          //     type: 'failed',
+          //     message:
+          //         error?.object?.response_message ??
+          //         'Something went wrong, please retry again',
+          // };
+          // this.store.dispatch(new OpenDialog(data));
           const index = this.oneFile.findIndex(f => f === file);
           if (index !== -1) {
             this.oneFile.splice(index, 1);

@@ -33,6 +33,11 @@ export interface createAccountResponse {
     client: {
       client_id: number;
     };
+    user: {
+      username: string;
+      email: string;
+      token: string;
+    };
   };
 }
 
@@ -51,5 +56,11 @@ export interface resetPasswordResponse {
 export interface otpVerificationResponse {
   object: {
     success: boolean;
+  };
+}
+export interface UploadedFileModel {
+  object: {
+    uuid: string;
+    docfile: string;
   };
 }
