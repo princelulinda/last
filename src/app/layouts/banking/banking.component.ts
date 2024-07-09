@@ -72,7 +72,7 @@ export class BankingComponent implements OnInit {
     this.dialogService.dispatchSplashScreen();
     this.authService.populateClient().subscribe({
       next: (data: { object: UserInfoModel }) => {
-        let populateData = data.object;
+        const populateData = data.object;
         console.log('TODO :: POPULATE USER DATA', populateData);
         const userInfo: UserInfoModel = {
           user: {
