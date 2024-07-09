@@ -19,13 +19,15 @@ export class MarketDashboardComponent {
       id: '1',
       offerPourcent: '15% Discount',
       offerInfo: 'Buy new Nike Air Jordan and get up to 15% discount',
-      image: '/images/shoe.png',
+      image:
+        'https://images.pexels.com/photos/786003/pexels-photo-786003.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     },
     {
       id: '2',
       offerPourcent: '15% Discount',
       offerInfo: 'Buy new Nike Air Jordan and get up to 15% discount',
-      image: '/images/shoe.png',
+      image:
+        'https://images.pexels.com/photos/786003/pexels-photo-786003.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     },
   ];
   newArrivalInfo = [
