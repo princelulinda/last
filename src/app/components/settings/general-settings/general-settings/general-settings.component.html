@@ -1,481 +1,495 @@
 <div
-  class="bg-secondary mt-4 ms-md-5 ps-xl-3 col-md-10 p-3 sm-radius"
+  class="bg-secondary mt-4 ms-md-5 ps-xl-3 col-md-10 col-xl-7 p-3 sm-radius"
   style="line-height: 1em">
-  <div>
-    <div class="bg-white p-3 lg-radius">
-      <div class="d-flex justify-content-between">
-        <span class="fw-bold text-dark text-md" i18n>Account</span><br />
-        <div class="penIcon d-flex justify-content-center align-items-center">
-          <i class="fa-solid fa-pen text-success text-sm"></i>
+  @if (selectedsubmenu === 'account') {
+    <div>
+      <div class="bg-white p-3 lg-radius">
+        <div class="d-flex justify-content-between">
+          <span class="fw-bold text-dark text-md" i18n>Account</span><br />
+          <div class="penIcon d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-pen text-success text-sm"></i>
+          </div>
+        </div>
+
+        <div class="row mt-3 mt-sm-5">
+          <div
+            class="d-flex flex-wrap d-sm-block col-sm-6"
+            style="gap: 1rem 2rem">
+            <div class="d-flex flex-column">
+              <span class="fw-bold text-dark" i18n>User id</span>
+
+              <span class="text-dark mt-2">
+                <i>{{ clientInfo.client.client_id }}</i>
+              </span>
+            </div>
+
+            <div class="mt-sm-3 d-flex flex-column">
+              <span class="fw-bold text-dark" i18n>Username</span>
+
+              <span class="text-dark mt-2">
+                <i>{{ clientInfo.user.username }}</i>
+              </span>
+            </div>
+            <div class="mt-sm-3 d-flex flex-column">
+              <span class="fw-bold text-dark" i18n>Name</span>
+              <span class="text-dark mt-2">
+                <i>{{ clientInfo.client.client_full_name }}</i></span
+              >
+            </div>
+          </div>
+
+          <div class="col-sm-6 mt-3 mt-sm-0">
+            <div class="align-items-center" style="display: inline-flex">
+              <span class="fw-bold text-dark" i18n>Profile</span>
+
+              @if (clientInfo && clientInfo.client) {
+                <div
+                  class="level-2 profifPicture lg-radius d-flex justify-content-center align-items-center">
+                  @if (!clientInfo.client.picture_url) {
+                    <span class="text-secondary fs-1">
+                      <i class="fa-regular fa-user"></i>
+                    </span>
+                  }
+                  @if (clientInfo.client.picture_url) {
+                    <img
+                      [src]="clientInfo.client.picture_url"
+                      alt="userprofile"
+                      class="img-fluid image w-100 h-100 lg-radius" />
+                  }
+                </div>
+              }
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="row mt-3 mt-sm-5">
-        <div
-          class="d-flex flex-wrap d-sm-block col-sm-6"
-          style="gap: 1rem 2rem">
-          <div class="d-flex flex-column">
-            <span class="fw-bold text-dark" i18n>User id</span>
-
-            <span class="text-dark mt-2">
-              <i>{{ clientInfo.client.client_id }}</i>
-            </span>
-          </div>
-
-          <div class="mt-sm-3 d-flex flex-column">
-            <span class="fw-bold text-dark" i18n>Username</span>
-
-            <span class="text-dark mt-2">
-              <i>{{ clientInfo.user.username }}</i>
-            </span>
-          </div>
-          <div class="mt-sm-3 d-flex flex-column">
-            <span class="fw-bold text-dark" i18n>Name</span>
-            <span class="text-dark mt-2">
-              <i>{{ clientInfo.client.client_full_name }}</i></span
+      <div class="bg-white lg-radius mt-4 p-3">
+        <div class="row">
+          <div class="col">
+            <span class="fs-medium font-calibri text-secondary" i18n
+              >Additional Accounts</span
             >
           </div>
-        </div>
-
-        <div class="col-sm-6 mt-3 mt-sm-0">
-          <div class="align-items-center" style="display: inline-flex">
-            <span class="fw-bold text-dark" i18n>Profile</span>
-
-            @if (clientInfo && clientInfo.client) {
-              <div
-                class="level-2 profifPicture lg-radius d-flex justify-content-center align-items-center">
-                @if (!clientInfo.client.picture_url) {
-                  <span class="text-secondary fs-1">
-                    <i class="fa-regular fa-user"></i>
-                  </span>
-                }
-                @if (clientInfo.client.picture_url) {
-                  <img
-                    [src]="clientInfo.client.picture_url"
-                    alt="userprofile"
-                    class="img-fluid image w-100 h-100 lg-radius" />
-                }
-              </div>
-            }
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="bg-white lg-radius mt-4 p-3">
-      <div class="row">
-        <div class="col">
-          <span class="fs-medium font-calibri text-secondary" i18n
-            >Additional Accounts</span
-          >
-        </div>
-        <div class="col d-flex justify-content-end">
-          <span
-            role="button"
-            class="text-dark"
-            (click)="addAccount()"
-            tabindex="0"
-            i18n>
-            Add
-            <i class="fa-solid fa-circle-plus greenColor"></i
-          ></span>
-          <span
-            class="ms-5 border-bottom text-dark"
-            role="button"
-            title="Refresh"
-            i18n
-            (click)="refreshContact('email')"
-            tabindex="0"
-            >Refresh</span
-          >
-        </div>
-      </div>
-      @if (!newAccount) {
-        <div class="col-md-12">
-          <div class="row text-dark d-flex align-items-center mt-3 px-3">
-            <div class="col-5 fw-bold px-4" i18n>Email</div>
-            <div class="col-3 fw-bold px-4" i18n>Level</div>
-            <div class="col-4 fw-bold px-4" i18n>Status</div>
-          </div>
-          @if (!emails && emailsLoading) {
-            <div
-              class="row text-center align-items-center d-flex"
-              style="height: 20vh">
-              <span>
-                <i class="fa-solid fa-spin text-dark fa-circle-notch fs-4"></i>
-              </span>
-            </div>
-          }
-          @if (!emails && !emailsLoading) {
-            <div
-              class="fw-bold row ms-5 ps-5 fs-4 align-items-center d-flex text-dark"
-              style="height: 20vh; opacity: 0.4"
-              i18n>
-              No email account available
-            </div>
-          }
-          @if (emails && !emailsLoading) {
-            <div
-              class="mt-3 p-3 align-items-center rounded"
-              style="background-color: #e5f2ff">
-              @for (email of emails; track $index) {
-                <div
-                  class="row d-flex justify-content-between align-items-center">
-                  <div class="col-5 fw-bold text-all-dark">
-                    {{ $index + 1 }}. {{ email.ident }}
-                  </div>
-
-                  <div
-                    class="col-3 d-flex align-items-center text-all-blue-sky"
-                    i18n>
-                    @if (email.is_primary) {
-                      <span class="fs-small font-calibri">
-                        Primary
-                        <span class="ms-3">
-                          <i
-                            class="fa-solid fa-check-double text-all-blue-sky"></i>
-                        </span>
-                      </span>
-                    }
-                  </div>
-                  <div class="col-4 fw-bold d-flex justify-content-between">
-                    <div class="">
-                      @if (email.is_verified) {
-                        <div
-                          class="badge-design bg-success d-flex justify-content-center align-items-center">
-                          <div i18n>Verified</div>
-                        </div>
-                      }
-                      @if (!email.is_verified) {
-                        <div
-                          class="badge-design bg-danger d-flex justify-content-center align-items-center">
-                          <div i18n>Not Verified</div>
-                        </div>
-                      }
-                    </div>
-
-                    <div>
-                      <span class="text-all-blue-sky">
-                        <i class="fas fa-ellipsis-v"></i>
-                      </span>
-                    </div>
-                  </div>
-                  <hr
-                    class="w-100 mt-3"
-                    style="border-top: 2px solid #639cd8" />
-                </div>
-              }
-            </div>
-          }
-        </div>
-      }
-      @if (newAccount) {
-        <div class="mt-2">
-          <div class="d-flex text-center">
-            <div class="rounded text-dark">
-              <input
-                class="form-control input text-dark"
-                type="email"
-                [formControl]="email"
-                placeholder="myEmail@gmail.com" />
-            </div>
-            <div class="ms-3">
-              <button
-                type="submit"
-                [disabled]="!email.valid || isLoading"
-                title="add an account"
-                i18n
-                class="btn bg-primary text-light"
-                i18n>
-                @if (!isLoading) {
-                  <span (click)="openPinPopup('email')" tabindex="0"> Add</span>
-                }
-                @if (isLoading) {
-                  <span>
-                    <i
-                      class="fa-solid fa-spin text-light fa-circle-notch fs-5"></i>
-                  </span>
-                }
-              </button>
-
-              <b
-                role="button"
-                class="ms-4 text-dark"
-                (click)="newAccount = false"
-                tabindex="0"
-                i18n
-                >Cancel</b
-              >
-            </div>
-          </div>
-        </div>
-      }
-    </div>
-
-    <div class="bg-white lg-radius mt-4 p-3">
-      <div class="row">
-        <div class="col">
-          <span class="fs-medium font-calibri text-secondary" i18n
-            >Additional Number</span
-          >
-        </div>
-        <div class="col d-flex justify-content-end">
-          <span
-            role="button"
-            class="text-dark"
-            (click)="addPhoneNumber()"
-            tabindex="0"
-            i18n>
-            Add
-            <i class="fa-solid fa-circle-plus greenColor"></i
-          ></span>
-          <span
-            class="ms-5 border-bottom text-dark"
-            role="button"
-            title="Refresh"
-            i18n
-            (click)="refreshContact('phoneNumber')"
-            tabindex="0"
-            >Refresh</span
-          >
-        </div>
-      </div>
-      @if (!newPhoneNumber) {
-        <div class="col-md-12">
-          <div class="row text-dark d-flex align-items-center mt-3 px-3">
-            <div class="col-5 fw-bold px-4" i18n>Email</div>
-            <div class="col-3 fw-bold px-4" i18n>Level</div>
-            <div class="col-4 fw-bold px-4" i18n>Status</div>
-          </div>
-          @if (!phoneNumbers && phoneNumbersLoading) {
-            <div
-              class="row text-center align-items-center d-flex"
-              style="height: 20vh">
-              <span>
-                <i class="fa-solid fa-spin text-dark fa-circle-notch fs-4"></i>
-              </span>
-            </div>
-          }
-          @if (!phoneNumbers && !phoneNumbersLoading) {
-            <div
-              class="fw-bold row ms-5 ps-5 fs-4 align-items-center d-flex text-dark"
-              style="height: 20vh; opacity: 0.4"
-              i18n>
-              No email account available
-            </div>
-          }
-          @if (phoneNumbers && !phoneNumbersLoading) {
-            <div
-              class="mt-3 p-3 align-items-center rounded"
-              style="background-color: #e5f2ff">
-              @for (number of phoneNumbers; track $index) {
-                <div
-                  class="row d-flex justify-content-between align-items-center">
-                  <div class="col-5 fw-bold text-all-dark">
-                    {{ $index + 1 }}. {{ number.ident }}
-                  </div>
-
-                  <div
-                    class="col-3 d-flex align-items-center text-all-blue-sky"
-                    i18n>
-                    @if (number.is_primary) {
-                      <span class="fs-small font-calibri">
-                        Primary
-                        <span class="ms-3">
-                          <i
-                            class="fa-solid fa-check-double text-all-blue-sky"></i>
-                        </span>
-                      </span>
-                    }
-                  </div>
-                  <div class="col-4 fw-bold d-flex justify-content-between">
-                    <div class="">
-                      @if (number.is_verified) {
-                        <div
-                          class="badge-design bg-success d-flex justify-content-center align-items-center">
-                          <div i18n>Verified</div>
-                        </div>
-                      }
-                      @if (!number.is_verified) {
-                        <div
-                          class="badge-design bg-danger d-flex justify-content-center align-items-center">
-                          <div i18n>Not Verified</div>
-                        </div>
-                      }
-                    </div>
-
-                    <div>
-                      <span class="text-all-blue-sky">
-                        <i class="fas fa-ellipsis-v"></i>
-                      </span>
-                    </div>
-                  </div>
-                  <hr
-                    class="w-100 mt-3"
-                    style="border-top: 2px solid #639cd8" />
-                </div>
-              }
-            </div>
-          }
-        </div>
-      }
-
-      @if (newPhoneNumber) {
-        <div class="mt-2">
-          <div class="d-flex text-center">
-            <div class="rounded text-dark">
-              <input
-                class="form-control input text-dark"
-                type="tel"
-                [formControl]="phoneNumber"
-                placeholder="+257 7*******" />
-            </div>
-
-            <div class="ms-3">
-              <button
-                type="submit"
-                title="add a phone number"
-                i18n
-                class="btn bg-primary text-light"
-                (click)="openPinPopup('phoneNumber')">
-                @if (!loading) {
-                  <span> Add</span>
-                }
-                @if (loading) {
-                  <span>
-                    <i
-                      class="fa-solid fa-spin text-light fa-circle-notch fs-5"></i>
-                  </span>
-                }
-              </button>
-
-              <b
-                role="button"
-                class="ms-4 text-dark"
-                (click)="newPhoneNumber = false"
-                tabindex="0"
-                i18n
-                >Cancel</b
-              >
-            </div>
-          </div>
-        </div>
-      }
-    </div>
-  </div>
-
-  <!--- <div>
-    <div class="bg-white p-4">
-      <div class="row d-flex">
-        <div class="row">
-          <span class="text-dark col ms-1 text-md opacity-50">Theme</span><br />
-        </div>
-        <hr class="w-50 mt-3 ms-3 text-dark border" />
-        <div class="row">
-          <div class="col d-flex align-items-center">
-            <span class="fw-bold me-5 text-dark">Choose your theme</span>
-            <div
-              class="rounded d-flex border flex-column justify-content-center p-1 position-relative align-items-center me-4"
-              style="height: 97px; width: 97px">
-              <div>
-                <span class="fw-bold text-dark">Light</span>
-              </div>
-              <div>
-                <span class="text-sm text-dark" style="font-style: italic"
-                  >Default</span
-                >
-              </div>
-              <i
-                class="fa-solid text-primary-light fa-circle-check position-absolute top-0 end-0 mt-1 me-1"></i>
-            </div>
-
-            <div
-              class="rounded d-flex flex-column colors justify-content-center align-items-center"
-              style="width: 97px; height: 97px; background-color: #0c1627">
-              <div>
-                <span class="text-light text-md-sm">Dark</span>
-              </div>
-              <div>
-                <span class="text-sm text-light" style="font-style: italic"
-                  >Set Default</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="bg-white p-4 mb-3 lg-radius">
-      <div class="row d-flex">
-        <div class="row">
-          <span class="text-dark ms-1 col text-md opacity-50" i18n
-            >Language</span
-          ><br />
           <div class="col d-flex justify-content-end">
-            <span class="not-clickable" i18n>
+            <span
+              role="button"
+              class="text-dark"
+              (click)="addAccount()"
+              tabindex="0"
+              i18n>
               Add
-              <i class="fa-solid fa-circle-plus text-success"></i
+              <i class="fa-solid fa-circle-plus greenColor"></i
             ></span>
+            <span
+              class="ms-5 border-bottom text-dark"
+              role="button"
+              title="Refresh"
+              i18n
+              (click)="refreshContact('email')"
+              tabindex="0"
+              >Refresh</span
+            >
           </div>
         </div>
-        <hr class="w-50 ms-3 mt-3 border" />
-        <div>
-          <div>
-            <span class="text-ms-sm text-dark" style="font-style: italic" i18n>
-              Default:</span
-            >
-            @if (clientInfo.client.prefered_language === 'en') {
-              <span
-                style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
-                class="text-md-sm"
-                i18n
-                >English
-              </span>
+        @if (!newAccount) {
+          <div class="col-md-12">
+            <div class="row text-dark d-flex align-items-center mt-3 px-3">
+              <div class="col-5 fw-bold px-4" i18n>Email</div>
+              <div class="col-3 fw-bold px-4" i18n>Level</div>
+              <div class="col-4 fw-bold px-4" i18n>Status</div>
+            </div>
+            @if (!emails && emailsLoading) {
+              <div
+                class="row text-center align-items-center d-flex"
+                style="height: 20vh">
+                <span>
+                  <i
+                    class="fa-solid fa-spin text-dark fa-circle-notch fs-4"></i>
+                </span>
+              </div>
             }
-            @if (clientInfo.client.prefered_language === 'fr') {
-              <span
-                style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
-                class="text-md-sm"
-                i18n
-                >French
-              </span>
+            @if (!emails && !emailsLoading) {
+              <div
+                class="fw-bold row ms-5 ps-5 fs-4 align-items-center d-flex text-dark"
+                style="height: 20vh; opacity: 0.4"
+                i18n>
+                No email account available
+              </div>
             }
+            @if (emails && !emailsLoading) {
+              <div
+                class="mt-3 p-3 align-items-center rounded"
+                style="background-color: #e5f2ff">
+                @for (email of emails; track $index) {
+                  <div
+                    class="row d-flex justify-content-between align-items-center">
+                    <div class="col-5 fw-bold text-all-dark">
+                      {{ $index + 1 }}. {{ email.ident }}
+                    </div>
 
-            @if (clientInfo.client.prefered_language === 'sw') {
-              <span
-                style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
-                class="text-md-sm"
-                i18n
-                >Swahili</span
-              >
-            }
+                    <div
+                      class="col-3 d-flex align-items-center text-all-blue-sky"
+                      i18n>
+                      @if (email.is_primary) {
+                        <span class="fs-small font-calibri">
+                          Primary
+                          <span class="ms-3">
+                            <i
+                              class="fa-solid fa-check-double text-all-blue-sky"></i>
+                          </span>
+                        </span>
+                      }
+                    </div>
+                    <div class="col-4 fw-bold d-flex justify-content-between">
+                      <div class="">
+                        @if (email.is_verified) {
+                          <div
+                            class="badge-design bg-success d-flex justify-content-center align-items-center">
+                            <div i18n>Verified</div>
+                          </div>
+                        }
+                        @if (!email.is_verified) {
+                          <div
+                            class="badge-design bg-danger d-flex justify-content-center align-items-center">
+                            <div i18n>Not Verified</div>
+                          </div>
+                        }
+                      </div>
 
-            @if (clientInfo.client.prefered_language === 'ki') {
-              <span
-                style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
-                class="text-md-sm"
-                i18n
-                >Kirundi</span
-              >
+                      <div>
+                        <span class="text-all-blue-sky">
+                          <i class="fas fa-ellipsis-v"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <hr
+                      class="w-100 mt-3"
+                      style="border-top: 2px solid #639cd8" />
+                  </div>
+                }
+              </div>
             }
           </div>
+        }
+        @if (newAccount) {
+          <div class="mt-2">
+            <div class="d-flex text-center">
+              <div class="rounded text-dark">
+                <input
+                  class="form-control input text-dark"
+                  type="email"
+                  [formControl]="email"
+                  placeholder="myEmail@gmail.com" />
+              </div>
+              <div class="ms-3">
+                <button
+                  type="submit"
+                  [disabled]="!email.valid || isLoading"
+                  title="add an account"
+                  i18n
+                  class="btn bg-primary text-light"
+                  role="button"
+                  i18n>
+                  @if (!loading) {
+                    <span (click)="openPinPopup('email')" tabindex="0">
+                      Add</span
+                    >
+                  }
+                  @if (loading) {
+                    <span>
+                      <i
+                        class="fa-solid fa-spin text-light fa-circle-notch fs-5"></i>
+                    </span>
+                  }
+                </button>
 
-          <div class="mt-4">
-            <span class="fw-bold me-5 text-dark" i18n
-              >Choose your language</span
+                <b
+                  role="button"
+                  class="ms-4 text-dark"
+                  (click)="newAccount = false"
+                  tabindex="0"
+                  i18n
+                  >Cancel</b
+                >
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="bg-white lg-radius mt-4 p-3">
+        <div class="row">
+          <div class="col">
+            <span class="fs-medium font-calibri text-secondary" i18n
+              >Additional Number</span
             >
-            <select
-              class="text-muted not-clickable"
-              style="width: 300px; height: 30px">
-              <option value="option1">ENGLISH (EN)</option>
+          </div>
+          <div class="col d-flex justify-content-end">
+            <span
+              role="button"
+              class="text-dark"
+              (click)="addPhoneNumber()"
+              tabindex="0"
+              i18n>
+              Add
+              <i class="fa-solid fa-circle-plus greenColor"></i
+            ></span>
+            <span
+              class="ms-5 border-bottom text-dark"
+              role="button"
+              title="Refresh"
+              i18n
+              (click)="refreshContact('phoneNumber')"
+              tabindex="0"
+              >Refresh</span
+            >
+          </div>
+        </div>
+        @if (!newPhoneNumber) {
+          <div class="col-md-12">
+            <div class="row text-dark d-flex align-items-center mt-3 px-3">
+              <div class="col-5 fw-bold px-4" i18n>Phone</div>
+              <div class="col-3 fw-bold px-4" i18n>Level</div>
+              <div class="col-4 fw-bold px-4" i18n>Status</div>
+            </div>
+            @if (!phoneNumbers && phoneNumbersLoading) {
+              <div
+                class="row text-center align-items-center d-flex"
+                style="height: 20vh">
+                <span>
+                  <i
+                    class="fa-solid fa-spin text-dark fa-circle-notch fs-4"></i>
+                </span>
+              </div>
+            }
+            @if (!phoneNumbers && !phoneNumbersLoading) {
+              <div
+                class="fw-bold row ms-5 ps-5 fs-4 align-items-center d-flex text-dark"
+                style="height: 20vh; opacity: 0.4"
+                i18n>
+                No email account available
+              </div>
+            }
+            @if (phoneNumbers && !phoneNumbersLoading) {
+              <div
+                class="mt-3 p-3 align-items-center rounded"
+                style="background-color: #e5f2ff">
+                @for (number of phoneNumbers; track $index) {
+                  <div
+                    class="row d-flex justify-content-between align-items-center">
+                    <div class="col-5 fw-bold text-all-dark">
+                      {{ $index + 1 }}. {{ number.ident }}
+                    </div>
 
-              <option value="option3">FRENCH (FR)</option>
-              <option value="option3">KISWAHILI (KI)</option>
-            </select>
+                    <div
+                      class="col-3 d-flex align-items-center text-all-blue-sky"
+                      i18n>
+                      @if (number.is_primary) {
+                        <span class="fs-small font-calibri">
+                          Primary
+                          <span class="ms-3">
+                            <i
+                              class="fa-solid fa-check-double text-all-blue-sky"></i>
+                          </span>
+                        </span>
+                      }
+                    </div>
+                    <div class="col-4 fw-bold d-flex justify-content-between">
+                      <div class="">
+                        @if (number.is_verified) {
+                          <div
+                            class="badge-design bg-success d-flex justify-content-center align-items-center">
+                            <div i18n>Verified</div>
+                          </div>
+                        }
+                        @if (!number.is_verified) {
+                          <div
+                            class="badge-design bg-danger d-flex justify-content-center align-items-center">
+                            <div i18n>Not Verified</div>
+                          </div>
+                        }
+                      </div>
+
+                      <div>
+                        <span class="text-all-blue-sky">
+                          <i class="fas fa-ellipsis-v"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <hr
+                      class="w-100 mt-3"
+                      style="border-top: 2px solid #639cd8" />
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+
+        @if (newPhoneNumber) {
+          <div class="mt-2">
+            <div class="d-flex text-center">
+              <div class="rounded text-dark">
+                <input
+                  class="form-control input text-dark"
+                  type="tel"
+                  [formControl]="phoneNumber"
+                  placeholder="+257 7*******" />
+              </div>
+
+              <div class="ms-3">
+                <button
+                  type="submit"
+                  title="add a phone number"
+                  i18n
+                  class="btn bg-primary text-light"
+                  [disabled]="!phoneNumber.valid || isLoading"
+                  (click)="openPinPopup('phoneNumber')">
+                  @if (!loading) {
+                    <span> Add</span>
+                  }
+                  @if (loading) {
+                    <span>
+                      <i
+                        class="fa-solid fa-spin text-light fa-circle-notch fs-5"></i>
+                    </span>
+                  }
+                </button>
+
+                <b
+                  role="button"
+                  class="ms-4 text-dark"
+                  (click)="newPhoneNumber = false"
+                  tabindex="0"
+                  i18n
+                  >Cancel</b
+                >
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  @if (selectedsubmenu === 'customization') {
+    <div>
+      <div class="bg-white p-4">
+        <div class="row d-flex">
+          <div class="row">
+            <span class="text-dark col ms-1 text-md opacity-50">Theme</span
+            ><br />
+          </div>
+          <hr class="w-50 mt-3 ms-3 text-dark border" />
+          <div class="row">
+            <div class="col d-flex align-items-center">
+              <span class="fw-bold me-5 text-dark">Choose your theme</span>
+              <div
+                class="rounded d-flex border flex-column justify-content-center p-1 position-relative align-items-center me-4"
+                style="height: 97px; width: 97px">
+                <div>
+                  <span class="fw-bold text-dark">Light</span>
+                </div>
+                <div>
+                  <span class="text-sm text-dark" style="font-style: italic"
+                    >Default</span
+                  >
+                </div>
+                <i
+                  class="fa-solid text-primary-light fa-circle-check position-absolute top-0 end-0 mt-1 me-1"></i>
+              </div>
+
+              <div
+                class="rounded d-flex flex-column colors justify-content-center align-items-center"
+                style="width: 97px; height: 97px; background-color: #0c1627">
+                <div>
+                  <span class="text-light text-md-sm">Dark</span>
+                </div>
+                <div>
+                  <span class="text-sm text-light" style="font-style: italic"
+                    >Set Default</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 mb-3 lg-radius">
+        <div class="row d-flex">
+          <div class="row">
+            <span class="text-dark ms-1 col text-md opacity-50" i18n
+              >Language</span
+            ><br />
+            <div class="col d-flex justify-content-end">
+              <span class="not-clickable" i18n>
+                Add
+                <i class="fa-solid fa-circle-plus text-success"></i
+              ></span>
+            </div>
+          </div>
+          <hr class="w-50 ms-3 mt-3 border" />
+          <div>
+            <div>
+              <span
+                class="text-ms-sm text-dark"
+                style="font-style: italic"
+                i18n>
+                Default:</span
+              >
+              @if (clientInfo.client.prefered_language === 'en') {
+                <span
+                  style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
+                  class="text-md-sm"
+                  i18n
+                  >English
+                </span>
+              }
+              @if (clientInfo.client.prefered_language === 'fr') {
+                <span
+                  style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
+                  class="text-md-sm"
+                  i18n
+                  >French
+                </span>
+              }
+
+              @if (clientInfo.client.prefered_language === 'sw') {
+                <span
+                  style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
+                  class="text-md-sm"
+                  i18n
+                  >Swahili</span
+                >
+              }
+
+              @if (clientInfo.client.prefered_language === 'ki') {
+                <span
+                  style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
+                  class="text-md-sm"
+                  i18n
+                  >Kirundi</span
+                >
+              }
+            </div>
+
+            <div class="mt-4">
+              <span class="fw-bold me-5 text-dark" i18n
+                >Choose your language</span
+              >
+              <select
+                class="text-muted not-clickable"
+                style="width: 300px; height: 30px">
+                <option value="option1">ENGLISH (EN)</option>
+
+                <option value="option3">FRENCH (FR)</option>
+                <option value="option3">KISWAHILI (KI)</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>-->
+  }
 </div>

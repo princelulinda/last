@@ -28,6 +28,11 @@ export interface createAccountResponse {
     picture: string;
     number: number;
     email: string;
+    response_message: string;
+    success: boolean;
+    client: {
+      client_id: number;
+    };
   };
 }
 
@@ -36,5 +41,15 @@ export interface bankListResponse {
   organization_id: number;
   company: {
     logo: string;
+  };
+}
+export interface resetPasswordResponse {
+  object: {
+    success: boolean;
+  };
+}
+export interface otpVerificationResponse {
+  object: {
+    success: boolean;
   };
 }

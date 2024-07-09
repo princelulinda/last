@@ -1,5 +1,5 @@
 <div
-  class="bg-secondary mt-4 ms-md-5 ps-xl-3 col-md-10 p-3 lg-radius"
+  class="bg-secondary mt-4 ms-md-5 ps-xl-3 col-md-10 col-xl-9 p-3 lg-radius"
   style="line-height: 1em">
   @if (selectedsubmenu === 'pin') {
     <div class="col-6">
@@ -16,7 +16,7 @@
               required />
           </span>
           <br />
-          <div class="text-end text-dark" style="width: 42.5%">
+          <div class="text-end text-dark">
             <input
               id="showPin"
               type="checkbox"
@@ -148,7 +148,9 @@
               class="btn bg-primary text-all-white"
               style="width: 90px; height: 40.15px; border-radius: 7px"
               [disabled]="!formPin.valid || isLoadingNewPin"
-              type="submit">
+              type="submit"
+              (click)="modifyPin()"
+              [tabIndex]="0">
               @if (!isLoadingNewPin) {
                 <strong i18n>Save</strong>
               }
@@ -170,154 +172,158 @@
     </div>
   }
 
-  <div class="col-6">
-    <form [formGroup]="formPassword">
-      <!-- for big devices -->
-      <div class="d-lg-block d-none">
-        <span class="p-2">
-          <input
-            class="form-control ms-3 input sm-radius pin"
-            formControlName="oldPassword"
-            [type]="passwordType"
-            minlength="8"
-            placeholder="Old Password"
-            required />
-        </span>
-        <br />
-        <div class="text-end text-dark" style="width: 42.5%" i18n>
-          <input
-            type="checkbox"
-            (click)="changePasswordType()"
-            class="form-check-input me-2 mt-0"
-            style="width: 15px; height: 15px; border-radius: 2px"
-            id="showPassword" />
-          <label for="showPassword">Show Password</label>
-        </div>
-        <span class="p-2">
-          <label
-            for="newPassword"
-            class="ms-2 text-dark"
-            style="opacity: 0.5"
-            i18n
-            >( 8 characters minimum )</label
-          ><input
-            class="form-control ms-3 input sm-radius pin"
-            type="{{ showPassword ? 'text' : 'password' }}"
-            placeholder="New Password"
-            minlength="8"
-            formControlName="newPassword"
-        /></span>
-        <br />
-        <span class="p-2"
-          ><input
-            class="form-control ms-3 input sm-radius pin"
-            type="{{ showPassword ? 'text' : 'password' }}"
-            placeholder="Confirm New Password"
-            minlength="8"
-            formControlName="confirmNewPassword"
-        /></span>
-        <br />
-        <div class="ms-3 p-2 text-dark" style="font-weight: 400" i18n>
-          <input
-            type="checkbox"
-            class="form-control-check me-2"
-            formControlName="agreementPassword"
-            style="width: 15px; height: 15px; border-radius: 2px" />
-          All operations will be required to sign in with new pin
-        </div>
-      </div>
-      <!-- for small devices -->
-      <!-- for small devices -->
-      <div class="d-sm-block d-lg-none d-md-none">
-        <span class="p-2"
-          ><input
-            class="form-control ms-3 input sm-radius pin"
-            formControlName="oldPassword"
-            [type]="passwordType"
-            minlength="8"
-            placeholder="Old Password"
-            required
-        /></span>
-        <br />
-        <div class="text-end" style="width: 32.5%" i18n>
-          <input
-            type="checkbox"
-            (click)="changePasswordType()"
-            class="form-check-input me-2 showPassButton" />
-          Show Password
-        </div>
-        <span class="p-2">
-          <label for="newPassword" class="ms-2 text-dark" style="opacity: 0.5"
-            >( 8 characters minimum )</label
-          ><input
-            class="form-control ms-3 input sm-radius pin"
-            type="{{ showPassword ? 'text' : 'password' }}"
-            placeholder="New Password"
-            minlength="8"
-            formControlName="newPassword"
-        /></span>
-        <br />
-        <span class="p-2"
-          ><input
-            class="form-control ms-3 input sm-radius pin"
-            type="{{ showPassword ? 'text' : 'password' }}"
-            placeholder="Confirm New Password"
-            minlength="8"
-            formControlName="confirmNewPassword"
-        /></span>
-        <br />
-        <div class="ms-3 p-2 text-dark" style="font-weight: 400" i18n>
-          <input
-            id="agreementPassword"
-            type="checkbox"
-            class="form-control-check me-2"
-            formControlName="agreementPassword"
-            style="width: 15px; height: 15px; border-radius: 2px" />
-          <label for="agreementPassword">
-            All operations will be required to sign in <br />
-            with new pin</label
-          >
-        </div>
-      </div>
-    </form>
-
-    <br />
-
-    <div style="display: flex; align-items: center">
-      <div class="d-flex align-items-center gap-4">
-        <div>
-          <span
-            role="button"
-            class="level-2 cancelButton"
-            (click)="resetPin()"
-            disabled="isLoadingNewPin"
-            i18n>
-            Cancel
+  @if (selectedsubmenu === 'pin') {
+    <div class="col-6">
+      <form [formGroup]="formPassword">
+        <!-- for big devices -->
+        <div class="d-lg-block d-none">
+          <span class="p-2">
+            <input
+              class="form-control ms-3 input sm-radius pin"
+              formControlName="oldPassword"
+              [type]="passwordType"
+              minlength="8"
+              placeholder="Old Password"
+              required />
           </span>
+          <br />
+          <div class="text-end text-dark" i18n>
+            <input
+              type="checkbox"
+              (click)="changePasswordType()"
+              class="form-check-input me-2 mt-0"
+              style="width: 15px; height: 15px; border-radius: 2px"
+              id="showPassword" />
+            <label for="showPassword">Show Password</label>
+          </div>
+          <span class="p-2">
+            <label
+              for="newPassword"
+              class="ms-2 text-dark"
+              style="opacity: 0.5"
+              i18n
+              >( 8 characters minimum )</label
+            ><input
+              class="form-control ms-3 input sm-radius pin"
+              type="{{ showPassword ? 'text' : 'password' }}"
+              placeholder="New Password"
+              minlength="8"
+              formControlName="newPassword"
+          /></span>
+          <br />
+          <span class="p-2"
+            ><input
+              class="form-control ms-3 input sm-radius pin"
+              type="{{ showPassword ? 'text' : 'password' }}"
+              placeholder="Confirm New Password"
+              minlength="8"
+              formControlName="confirmNewPassword"
+          /></span>
+          <br />
+          <div class="ms-3 p-2 text-dark" style="font-weight: 400" i18n>
+            <input
+              type="checkbox"
+              class="form-control-check me-2"
+              formControlName="agreementPassword"
+              style="width: 15px; height: 15px; border-radius: 2px" />
+            All operations will be required to sign in with new pin
+          </div>
         </div>
-        <div>
-          <button
-            class="btn bg-primary text-all-white"
-            style="width: 90px; height: 40.15px; border-radius: 7px"
-            [disabled]="!formPassword.valid || isLoadingNewPassword"
-            type="submit">
-            @if (!isLoadingNewPin) {
-              <strong i18n>Save</strong>
-            }
-            @if (isLoadingNewPin) {
-              <span>
-                <i class="fa-solid fa-spin text-light fa-circle-notch fs-5"></i>
-              </span>
-            }
-          </button>
+        <!-- for small devices -->
+        <!-- for small devices -->
+        <div class="d-sm-block d-lg-none d-md-none">
+          <span class="p-2"
+            ><input
+              class="form-control ms-3 input sm-radius pin"
+              formControlName="oldPassword"
+              [type]="passwordType"
+              minlength="8"
+              placeholder="Old Password"
+              required
+          /></span>
+          <br />
+          <div class="text-end" style="width: 32.5%" i18n>
+            <input
+              type="checkbox"
+              (click)="changePasswordType()"
+              class="form-check-input me-2 showPassButton" />
+            Show Password
+          </div>
+          <span class="p-2">
+            <label for="newPassword" class="ms-2 text-dark" style="opacity: 0.5"
+              >( 8 characters minimum )</label
+            ><input
+              class="form-control ms-3 input sm-radius pin"
+              type="{{ showPassword ? 'text' : 'password' }}"
+              placeholder="New Password"
+              minlength="8"
+              formControlName="newPassword"
+          /></span>
+          <br />
+          <span class="p-2"
+            ><input
+              class="form-control ms-3 input sm-radius pin"
+              type="{{ showPassword ? 'text' : 'password' }}"
+              placeholder="Confirm New Password"
+              minlength="8"
+              formControlName="confirmNewPassword"
+          /></span>
+          <br />
+          <div class="ms-3 p-2 text-dark" style="font-weight: 400" i18n>
+            <input
+              id="agreementPassword"
+              type="checkbox"
+              class="form-control-check me-2"
+              formControlName="agreementPassword"
+              style="width: 15px; height: 15px; border-radius: 2px" />
+            <label for="agreementPassword">
+              All operations will be required to sign in <br />
+              with new pin</label
+            >
+          </div>
         </div>
+      </form>
+
+      <br />
+
+      <div style="display: flex; align-items: center">
+        <div class="d-flex align-items-center gap-4">
+          <div>
+            <span
+              role="button"
+              class="level-2 cancelButton"
+              (click)="resetPin()"
+              disabled="isLoadingNewPin"
+              i18n>
+              Cancel
+            </span>
+          </div>
+          <div>
+            <button
+              class="btn bg-primary text-all-white"
+              style="width: 90px; height: 40.15px; border-radius: 7px"
+              [disabled]="!formPassword.valid || isLoadingNewPassword"
+              (click)="modifyPassword()"
+              [tabIndex]="0"
+              type="submit">
+              @if (!isLoadingNewPassword) {
+                <strong i18n>Save</strong>
+              }
+              @if (isLoadingNewPassword) {
+                <span>
+                  <i
+                    class="fa-solid fa-spin text-light fa-circle-notch fs-5"></i>
+                </span>
+              }
+            </button>
+          </div>
+        </div>
+        @if (!pinMatch) {
+          <div class="text-danger ms-3">
+            <span i18n>Pin Doesn't Match</span>
+          </div>
+        }
       </div>
-      @if (!pinMatch) {
-        <div class="text-danger ms-3">
-          <span i18n>Pin Doesn't Match</span>
-        </div>
-      }
     </div>
-  </div>
-  <div></div>
+  }
 </div>

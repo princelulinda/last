@@ -7,7 +7,11 @@
       <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
         <div class="col-md-6 px-5 p-3">
           <div class="d-flex justify-content-end mb-5">
-            <span class="fs-normal"
+            <span
+              class="fs-normal"
+              role="button"
+              routerLink="/login/"
+              [tabIndex]="0"
               ><i class="fa-solid fa-arrow-turn-up fa-rotate-270 me-2"></i>
               Back</span
             >
@@ -655,7 +659,9 @@
               @for (bank of getBanksList; track bank) {
                 <div
                   tabindex="0"
-                  (click)="selectedBankId(bank); selectedBankIndex = i"
+                  (click)="
+                    selectedBankId(bank); openPinPopup(); selectedBankIndex = i
+                  "
                   class="col-md-3 lg-radius border border-secondary"
                   role="button">
                   <div class="text-center p-1">
@@ -696,13 +702,7 @@
                   class="btn bg-primary fw-bold border border-white mt-4 text-all-white px-5"
                   [disabled]="isLoadingCreation"
                   (click)="createAccount()">
-                  @if (!isLoadingCreation) {
-                    Continue
-                  } @else {
-                    <span
-                      ><i class="fa-solid fa-pulse fa-circle-notch fs-4"></i
-                    ></span>
-                  }
+                  Continue
                 </button>
               </span>
             </span>
@@ -727,16 +727,17 @@
           <div class="row position-relative z-1">
             <div class="col d-flex align-items-center">
               <span class="fs-normal"
-                ><span class="fw-bold fs-l-medium">Bibyento Bundi</span>
-                <br />bibyengmail.com</span
+                ><span class="fw-bold fs-l-medium">
+                  {{ firstName }} {{ lastName }}</span
+                >
+                <br />
+                {{ Email }}</span
               >
             </div>
             <div class="col d-flex justify-content-end">
               <div
                 class="rounded-circle border border-5 d-flex justify-content-center align-items-center">
-                <span>
-                  <img src="/images/multi-secure.png" width="85" alt=""
-                /></span>
+                <span> <img src="{{ Profile }}" width="85" alt="" /></span>
               </div>
             </div>
           </div>
@@ -746,7 +747,9 @@
           <div class="col-md-4 mb-1">
             <hr />
             <div class="d-flex justify-content-center">
-              <span class="fw-bold fs-normal text-primary">6778</span>
+              <span class="fw-bold fs-normal text-primary">
+                {{ userInfo.object.client.client_id }}
+              </span>
             </div>
             <hr />
           </div>
@@ -791,5 +794,7 @@
 <!--end step 5 -->
 
 <!-- <app-file
-[uploadMultipleFile]="true"
-(uploadOneFileEvent)="onPictureChange($event)"></app-file> -->
+  [uploadMultipleFile]="true"
+  (uploadOneFileEvent)="onPictureChange($event)"></app-file> -->
+
+<!-- <span (click)="getBankList();openPinPopup()" tabindex="0" role="button"> Add</span> -->
