@@ -1,7 +1,7 @@
 <!-- <p>empty-state works!</p> -->
 <div class="container-fluid">
   <ng-container [ngSwitch]="searchType">
-    <ng-container *ngSwitchCase="'liste'">
+    <ng-container *ngSwitchCase="'list'">
       <div class="text-center">
         <img src="/images/empty-state/empty-list.png" alt="" />
         <p i18n class="font-montserrat fs-l-medium">
@@ -10,7 +10,7 @@
         </p>
       </div>
     </ng-container>
-    <ng-container *ngSwitchCase="'marchand'">
+    <ng-container *ngSwitchCase="'merchant'">
       <div class="text-center">
         <img src="/images/empty-state/market.png" alt="" />
         <p i18n class="font-montserrat fs-l-medium">
@@ -23,7 +23,7 @@
         </p>
       </div>
     </ng-container>
-    <ng-container *ngSwitchCase="'produit'">
+    <ng-container *ngSwitchCase="'product'">
       <div class="text-center">
         <img src="/images/empty-state/product.png" alt="" />
         <p i18n class="font-montserrat fs-l-medium">

@@ -9,9 +9,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './empty-state.component.scss',
 })
 export class EmptyStateComponent {
-  @Input() searchTerm: string = '';
-  @Input() searchType: string = '';
-  // @Input() searchResults: string[] = [];
-  // @Input() isLoading: boolean = false;
+  @Input() searchTerm = '';
+  @Input() searchType = '';
+  // @Input() searchTerm: string[] = [];
   // @Input() searchType: 'list' | 'merchant' | 'product' | 'service' | 'other';
 }
