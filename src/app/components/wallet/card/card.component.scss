@@ -1,6 +1,5 @@
 .wallet-card {
     background-image: url('/images/wallet-card.svg');
-    background-size: cover;
     width: 365px;
     height: 210px;
 }
@@ -12,9 +11,6 @@
     -o-transform: translate(53%, 7%);
 }
 
-.wallet {
-    border-right: 1px solid #4f4f4f;
-}
 .topup {
     width: 20px;
 }
