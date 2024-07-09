@@ -1,6 +1,10 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { AuthService } from '../../../../core/services';
+import {
+  AuthService,
+  ConfigService,
+  activeMainConfigModel,
+} from '../../../../core/services';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { userInfoModel } from '../model';
 
@@ -18,13 +22,25 @@ export class SubHeaderComponent implements OnInit, OnDestroy {
   dayMoment = 'Morning';
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
+  mainConfig$!: Observable<activeMainConfigModel>;
+  mainConfig!: activeMainConfigModel;
+
   private userInfo$: Observable<UserInfoModel>;
 
-  constructor(@Inject(AuthService) private authService: AuthService) {
+  constructor(
+    @Inject(AuthService) private authService: AuthService,
+    @Inject(ConfigService) private configService: ConfigService
+  ) {
     this.userInfo$ = this.authService.getUserInfo();
+    this.mainConfig$ = this.configService.getMainConfig();
   }
 
   ngOnInit(): void {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.mainConfig = configs;
+      },
+    });
     this.userInfo$.subscribe({
       next: userinfo => {
         this.clientInfo = userinfo;

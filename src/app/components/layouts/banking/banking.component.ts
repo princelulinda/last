@@ -26,6 +26,6 @@ import { SubHeaderComponent } from '../header/sub-header/sub-header.component';
 })
 export class BankingComponent {
   constructor() {
-    console.log('BankingComponent créé !');
+    //comment
   }
 }

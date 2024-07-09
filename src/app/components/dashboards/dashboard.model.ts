@@ -16,3 +16,42 @@ export interface ProductModel {
   icon: string;
   merchant: MerchantModel;
 }
+
+export interface MerchantLookup {
+  id: number;
+  lookup_title: string;
+  lookup_image: string;
+}
+
+export interface bankModel {
+  company: {
+    image: string;
+    fullname: string;
+  };
+
+  organization_id: number;
+}
+
+export interface PayMerchant {
+  id: number;
+}
+
+export interface MenuGroup {
+  icon: string;
+
+  name: string;
+
+  description: string;
+
+  menus: Menu[] | null;
+
+  is_active: boolean;
+}
+
+interface Menu {
+  name: string;
+
+  icon: string;
+
+  link: string;
+}
