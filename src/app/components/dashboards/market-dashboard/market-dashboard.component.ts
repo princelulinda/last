@@ -61,7 +61,6 @@ export class MarketDashboardComponent {
     { id: '2', image: '/images/obr.png', banque: 'OBR', comptNum: '34567' },
     { id: '3', image: '/images/obr.png', banque: 'OBR', comptNum: '34567' },
     { id: '4', image: '/images/obr.png', banque: 'OBR', comptNum: '34567' },
-    { id: '5', image: '/images/obr.png', banque: 'OBR', comptNum: '34567' },
   ];
 
   private onDestroy$: Subject<void> = new Subject<void>();
