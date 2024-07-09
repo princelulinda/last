@@ -28,6 +28,8 @@ export interface createAccountResponse {
     picture: string;
     number: number;
     email: string;
+    response_message: string;
+    success: boolean;
   };
 }
 

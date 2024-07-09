@@ -170,15 +170,29 @@ export class AuthSignUpComponent implements OnInit {
     // }
     this.dialogService.dispatchLoading();
     this.authService.createAccount(data).subscribe({
-      next: response => {
+      next: (response: createAccountResponse) => {
         this.isLoadingCreation = false;
         this.userInfo = response;
         this.step = this.step = 5;
         this.dialogService.closeLoading();
       },
-      error: () => {
+      error: error => {
         this.isLoadingCreation = false;
         this.dialogService.closeLoading();
+        console.log('kdkdsklsdklsd klsdklsdklsdkldsjkd ');
+        if (error?.object?.success === false) {
+          this.dialogService.openToast({
+            type: 'failed',
+            title: 'Échec',
+            message: error?.object?.response_message,
+          });
+        } else {
+          this.dialogService.openToast({
+            type: 'failed',
+            title: 'Échec',
+            message: 'An error occured!',
+          });
+        }
       },
     });
   }

@@ -94,6 +94,12 @@ export class LoginComponent implements OnInit {
             this.loginLoader = false;
             console.error('LOGIN :: ERROR', err);
             this.dialogService.closeLoading();
+
+            this.dialogService.openToast({
+              type: 'failed',
+              title: 'Échec',
+              message: 'An error occured!',
+            });
           },
         });
     }

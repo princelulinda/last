@@ -137,12 +137,11 @@ export class ResetPasswordComponent {
         console.log('error', error);
         this.isLoadingVerificationOTP = false;
         this.dialogService.closeLoading();
-        //   const data = {
-        //       title: '',
-        //       type: 'failed',
-        //       message: 'Something went wrong, please retry again!',
-        //   };
-        // this.store.dispatch(new OpenDialog(data));
+        this.dialogService.openToast({
+          type: 'failed',
+          title: 'Échec',
+          message: 'an error has occured!',
+        });
       },
     });
   }

@@ -117,7 +117,6 @@ export class AuthService {
 
   createAccount(body: object): Observable<createAccountResponse> {
     const url = '/client/';
-    // return this.apiService.post(url, body).pipe(map(response => response));
     return this.apiService
       .post(url, body)
       .pipe(map(response => response as createAccountResponse));
