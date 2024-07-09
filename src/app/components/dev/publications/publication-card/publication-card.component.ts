@@ -12,7 +12,7 @@ export class PublicationCardComponent {
   @Input({ required: true }) data: PublicationModel = {
     caption: '',
     category: {
-      created_at: '',
+      created_at: '2024-07-08',
       id: 0,
       name: '',
     },
@@ -32,4 +32,23 @@ export class PublicationCardComponent {
     total_replies: 0,
     total_shares: 0,
   };
+
+  dateFormatter(createdAt: string): string {
+    const date = new Date(createdAt);
+
+    const options: Intl.DateTimeFormatOptions = {
+      // year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    };
+
+    const formatter = new Intl.DateTimeFormat('en-GB', options);
+    const formattedDate: string = formatter.format(date);
+    const [datePart, timePart] = formattedDate.split(', ');
+
+    return `${datePart} at ${timePart}`;
+  }
 }
