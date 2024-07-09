@@ -86,11 +86,14 @@ export class AuthService {
   }
 
   logout() {
+    this.dialogService.dispatchLoading();
     this.apiService.post('/users/logout/').subscribe({
       next: () => {
         this.configService.clearDB();
+        this.dialogService.closeLoading();
       },
       error: err => {
+        this.dialogService.closeLoading();
         this.dialogService.openToast({
           message:
             err?.response_message ??
