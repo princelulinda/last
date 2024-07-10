@@ -31,10 +31,9 @@ $fontSizes: (
 $globalTextColors: (
   'all-white': #d9d9d9,
   'all-dark': #414141,
-  'all-goldenrod': #C99100,
-  'all-blue': #172B4D,
-  'all-blue-sky':#2070B8,
-
+  'all-goldenrod': #c99100,
+  'all-blue': #172b4d,
+  'all-blue-sky': #2070b8,
 );
 @each $name, $value in $globalTextColors {
   @include generateTextClass($name, $value);
@@ -114,7 +113,8 @@ a {
     color: #a3a300 !important;
   }
   &.bg-danger,
-  &.danger {
+  &.danger,
+  &.bg-failed {
     background-color: #ffcccc !important;
     color: #a11717 !important;
   }
