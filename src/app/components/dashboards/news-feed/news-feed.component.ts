@@ -11,11 +11,17 @@ import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.servi
 import { Subject, takeUntil } from 'rxjs';
 import { ShowMoreDirective } from '../../../global/directives/show-more/show-more.directive';
 import { PublicationCardComponent } from '../../dev/publications/publication-card/publication-card.component';
+import { PublicationSkeletonComponent } from '../../dev/publications/publication-skeleton/publication-skeleton.component';
 
 @Component({
   selector: 'app-news-feed',
   standalone: true,
-  imports: [SkeletonComponent, ShowMoreDirective, PublicationCardComponent],
+  imports: [
+    SkeletonComponent,
+    ShowMoreDirective,
+    PublicationCardComponent,
+    PublicationSkeletonComponent,
+  ],
   templateUrl: './news-feed.component.html',
   styleUrl: './news-feed.component.scss',
 })
