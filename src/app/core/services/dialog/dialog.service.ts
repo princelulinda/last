@@ -114,6 +114,12 @@ export class DialogService {
     this.response.set(data);
   }
   getDialogState(): Observable<DialogResponseModel> {
+    if (!this.dialog().active) {
+      this.setDialogResponse({
+        action: '',
+        response: { confirmation: '', password: '', pin: '' },
+      });
+    }
     return toObservable(this.response);
   }
 
