@@ -7,7 +7,7 @@ import { bankingRoutes } from './routes/banking/banking.routes';
 import { newsFeedRoutes } from './routes/newsFeed/newsFeed.routes';
 import { marketPlaceRoutes } from './routes/market-place/marketPlace.routes';
 //import { GeneralSettingsComponent } from './components/settings/general-settings/general-settings/general-settings.component';
-import { NotFound404Component } from './components/dev/not-found-404/not-found-404.component';
+import { NotFound404Component } from './components/errors/not-found-404/not-found-404.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { BankingComponent } from './layouts/banking/banking.component';
 import { bankingSettingsRoutes } from './components/settings/settings.routes';
@@ -23,7 +23,6 @@ export const routes: Routes = [
   },
 
   // banking Routes
-
   {
     path: ':plateform',
     component: BankingComponent,

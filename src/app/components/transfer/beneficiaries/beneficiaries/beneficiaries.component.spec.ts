@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Notfound400Component } from './notfound-400.component';
+import { BeneficiariesComponent } from './beneficiaries.component';
 
-describe('Notfound400Component', () => {
-  let component: Notfound400Component;
-  let fixture: ComponentFixture<Notfound400Component>;
+describe('BeneficiariesComponent', () => {
+  let component: BeneficiariesComponent;
+  let fixture: ComponentFixture<BeneficiariesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Notfound400Component],
+      imports: [BeneficiariesComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Notfound400Component);
+    fixture = TestBed.createComponent(BeneficiariesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

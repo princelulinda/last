@@ -88,15 +88,8 @@ export class ConfigService {
     return this.actifMode;
   }
 
-  setMainConfig(payload: activeMainConfigModel) {
-    // console.log(
-    //   'Main ConFig ===++++ :',
-    //   activePlatform,
-    //   activeTheme,
-    //   activeMode
-    // );
-
-    return this.dbService.addOnceUpdate(MainConfig.tableName, payload);
+  setMainConfig(payload: activeMainConfigModel): void {
+    this.dbService.addOnceUpdate(MainConfig.tableName, payload);
   }
 
   private getPreferedMode(): ModeModel {
@@ -148,6 +141,7 @@ export class ConfigService {
     // DELETE DATABASE
     this.dbService.db.delete();
     this.dbService.initializeModels();
+    this.apiService.clearLocalData();
     this.initAll();
   }
 
@@ -178,6 +172,7 @@ export class ConfigService {
       const theme = plateformData.theme.name;
       const baseHref = plateformData.baseHref;
 
+      this.apiService.setLocalPlateform(plateform);
       this.setMainConfig({
         activePlateform: plateform,
         activeTheme: this.activeMainConfig.activeTheme,
@@ -209,4 +204,20 @@ export class ConfigService {
     });
     this.setHtmlMode(this.activeMainConfig.activeTheme, newModeToDispatch);
   }
+
+  // async initPopulate() {
+  //   const localToken = this.apiService.getLocalToken();
+  //   const clientId = this.apiService.getLocalClientId();
+  //   const dbUser = await this.dbService.getDbUser();
+  //   if ((!localToken || !clientId) && dbUser) {
+  //     // this.apiService.clearLocalData();
+  //     this.dbService.setLocalStorageUserToken(dbUser.user.token);
+  //     this.dbService.setLocalStorageClientId(
+  //       dbUser.client.client_id.toString()
+  //     );
+  //   } else if (!dbUser) {
+  //     // this.apiService.clearLocalData();
+  //     // this.dbService.populate();
+  //   }
+  // }
 }

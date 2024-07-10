@@ -17,6 +17,7 @@ import {
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
 import { UserInfoModel } from '../../db/models/auth';
+import { DialogService } from '../dialog/dialog.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,8 @@ export class AuthService {
   constructor(
     private apiService: ApiService,
     private dbService: DbService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private dialogService: DialogService
   ) {
     this.userInfo$ = liveQuery(() => this.dbService.getOnce(User.tableName));
   }
@@ -39,25 +41,15 @@ export class AuthService {
     password: string;
   }): Observable<object> {
     const loginData = { user: login_data };
-    console.log('LOGIN DATA REQ : ', loginData);
-    return this.apiService.post('/users/login/', loginData).pipe(
+    return this.apiService.post<object>('/users/login/', loginData).pipe(
       map(data => {
         const userData = (data as { user: UserApiResponse }).user;
-        // TODO : Save user data to indexeddb and save token to localStorage
-        // this.dbService.setUser(userData);
         if (userData.token) {
           this.dbService.setLocalStorageUserToken(userData.token);
         }
-
-        // console.log('LOGIN DATA SERVICE : ', data);
         return data;
       })
     );
-  }
-
-  getAuthToken(): string | null {
-    const localToken = this.apiService.getLocalToken();
-    return localToken;
   }
 
   isAuthenticated(): boolean {
@@ -96,23 +88,29 @@ export class AuthService {
   }
 
   logout() {
+    this.dialogService.dispatchLoading();
     this.apiService.post('/users/logout/').subscribe({
-      next: response => {
-        console.info('LOGOUT RETURN INFO ::', response);
+      next: () => {
         this.configService.clearDB();
+        this.dialogService.closeLoading();
       },
       error: err => {
-        console.error('LOGOUT ERROR', err);
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          message:
+            err?.response_message ??
+            'Something went wrong, please retry again!',
+          title: '',
+          type: 'failed',
+        });
       },
     });
   }
 
-  populateClient() {
-    return this.apiService.get('/client/user/populate/').pipe(
-      map(data => {
-        return data;
-      })
-    );
+  populateClient(): Observable<{ object: UserInfoModel }> {
+    return this.apiService
+      .get<{ object: UserInfoModel }>('/client/user/populate/')
+      .pipe(map(data => data));
   }
 
   createAccount(body: object): Observable<createAccountResponse> {
@@ -172,7 +170,9 @@ export class AuthService {
   getUserClientId(): Observable<number> {
     this.getUserInfo().subscribe({
       next: userInfo => {
-        this.userClientId$.next(userInfo.client.client_id);
+        if (userInfo) {
+          this.userClientId$.next(userInfo.client.client_id);
+        }
       },
     });
     return this.userClientId$;
@@ -181,9 +181,26 @@ export class AuthService {
   getUserId(): Observable<number> {
     this.getUserInfo().subscribe({
       next: userInfo => {
-        this.userId$.next(userInfo.client.id);
+        if (userInfo) {
+          this.userId$.next(userInfo.client.id);
+        }
       },
     });
     return this.userId$;
+  }
+
+  // METHOD FOR GET LOCAL DATA
+  getLocalAuthToken(): string | null {
+    const localToken = this.apiService.getLocalToken();
+    return localToken;
+  }
+  getLocalClientId(): string | null {
+    return this.apiService.getLocalClientId();
+  }
+  getLocalBankId(): string | null {
+    return this.apiService.getLocalBankId();
+  }
+  getLocalPlateform(): string {
+    return this.apiService.getLocalPlateform();
   }
 }

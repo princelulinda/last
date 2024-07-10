@@ -8,7 +8,7 @@ export function httpTokenInterceptor(
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
   // Inject the current `AuthService` and use it to get an authentication token:
-  const authToken = inject(AuthService).getAuthToken();
+  const authToken = inject(AuthService).getLocalAuthToken();
 
   // Clone the request to add the authentication header.
   if (

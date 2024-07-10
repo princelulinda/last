@@ -80,13 +80,10 @@ export class LoginComponent implements OnInit {
         .subscribe({
           next: data => {
             this.loginLoader = false;
-            console.log('GOT LOGIN : ', data);
             const userData = (data as { user: UserApiResponse }).user;
             console.log('GOT LOGIN 2 : ', userData);
             this.dialogService.closeLoading();
             if (userData.token) {
-              console.log('GOT LOGIN 3 : ', userData);
-              // await this.dbService.populate();
               this.redirectToNext();
             }
           },

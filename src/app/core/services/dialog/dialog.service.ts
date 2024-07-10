@@ -47,6 +47,10 @@ export class DialogService {
     },
   });
 
+  splashScreen = signal(false);
+  private isShowed = signal(false);
+
+  // Toast Methods
   openToast(payload: ToastPaylodModel) {
     this.toast.set({
       type: payload.type,
@@ -60,6 +64,16 @@ export class DialogService {
     }, 5000);
   }
 
+  closeToast() {
+    this.toast.set({
+      active: false,
+      message: '',
+      title: '',
+      type: '',
+    });
+  }
+
+  // Dialogs Methods
   openDialog(payload: DialogPayloadModel) {
     this.dialog.set({
       type: payload.type,
@@ -67,31 +81,6 @@ export class DialogService {
       message: payload.message,
       action: payload.action,
       active: true,
-    });
-  }
-
-  dispatchLoading(action?: string) {
-    this.loading.set({
-      action: action ?? '',
-      active: true,
-      type: 'loading',
-    });
-  }
-
-  setDialogResponse(data: DialogResponseModel) {
-    this.response.set(data);
-  }
-  //
-  getDialogState(): Observable<DialogResponseModel> {
-    return toObservable(this.response);
-  }
-
-  closeToast() {
-    this.toast.set({
-      active: false,
-      message: '',
-      title: '',
-      type: '',
     });
   }
   closeDialog() {
@@ -103,11 +92,44 @@ export class DialogService {
       action: '',
     });
   }
+
+  // Loading Methods
+  dispatchLoading(action?: string) {
+    this.loading.set({
+      action: action ?? '',
+      active: true,
+      type: 'loading',
+    });
+  }
   closeLoading() {
     this.loading.set({
       action: '',
       active: false,
       type: '',
     });
+  }
+
+  // Response Methods
+  setDialogResponse(data: DialogResponseModel) {
+    this.response.set(data);
+  }
+  getDialogState(): Observable<DialogResponseModel> {
+    return toObservable(this.response);
+  }
+
+  // Spash screnn Methods
+  dispatchSplashScreen() {
+    this.splashScreen.set(true);
+  }
+  closeSplashScreen() {
+    this.splashScreen.set(false);
+  }
+
+  // Amount Methods
+  displayAmount() {
+    this.isShowed.set(!this.isShowed());
+  }
+  getAmountState(): Observable<boolean> {
+    return toObservable(this.isShowed);
   }
 }
