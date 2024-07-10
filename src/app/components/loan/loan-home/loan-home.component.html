@@ -1,0 +1,98 @@
+<main class="rounded p-4 bg-secondary">
+  <div>
+    <section class="mb-2 d-flex justify-content-between">
+      <div>
+        <span class="sub-title-loan fw-bold" i18n>Apply for a loan</span>
+      </div>
+      <button
+        class="dflex align-items-center bg-transparent btn"
+        (click)="goBack()">
+        <span>
+          <i class="fa fa-arrow-left text-dark fs-4"></i>
+        </span>
+        <b class="fs-3 ms-1 text-dark">Back</b>
+      </button>
+    </section>
+
+    <section class="my-4 pt-1">
+      <div class="w-100">
+        <p class="w-75" style="line-height: 22px; font-size: 18px">
+          Are you looking for a loan that suits your needs and budget? <br />
+          Discover the offers of IHELA Ryanje, the digital bank that supports
+          you in all your projects. Whether you want to finance a car, a house,
+          a trip or a training, We offer you a personalized and advantageous
+          solutions.
+        </p>
+      </div>
+    </section>
+
+    <!-- Mobile buttons -->
+
+    <section class="mt-4 pt-5 w-100 d-md-none">
+      <div
+        class="d-flex flex-column justify-content-center align-items-center gap-3">
+        <button
+          class="btn w-75 w- me-5 bg-primary d-flex justify-content-center py-2"
+          routerLink="/b/banking/list">
+          <b class="text-all-white fs-6" i18n>Loans</b>
+        </button>
+        <button
+          class="btn w-75 me-5 bg-primary d-flex justify-content-center py-2">
+          <b class="text-all-white fs-6" i18n>Pending loans</b>
+        </button>
+        <button
+          class="btn w-75 me-5 d-flex p-0 bg-primary"
+          routerLink="/b/banking/simulator">
+          <div class="d-flex px-2 py-1 rounded-start h-100">
+            <img src="./images/loan/simulator1.svg" alt="" />
+          </div>
+          <div class="py-2 w-100 rounded-end">
+            <b class="fs-6 text-all-white" i18n> Simulation </b>
+          </div>
+        </button>
+        <button
+          class="btn w-75 me-5 bg-primary d-flex justify-content-center py-2"
+          routerLink="/b/banking/request">
+          <b class="text-all-white fs-6">Apply</b>
+        </button>
+      </div>
+    </section>
+
+    <section class="mt-4 pt-5 w-100">
+      <div class="w-100 d-none d-md-grid">
+        <div class="w-lg-50 d-flex justify-content-between mb-4">
+          <div class="d-flex w-50 justify-content-between align-items-center">
+            <button
+              class="btn w-50 me-5 bg-primary d-flex justify-content-center py-2"
+              routerLink="/b/banking/list">
+              <b class="text-all-white fs-6" i18n>Loans</b>
+            </button>
+            <button
+              class="btn w-50 me-lg-5 bg-primary d-flex justify-content-center py-2">
+              <b class="text-all-white fs-6" i18n>Pending loans</b>
+            </button>
+          </div>
+        </div>
+        <div class="w-lg-50 d-flex justify-content-between">
+          <div class="d-flex w-50 justify-content-between align-items-center">
+            <button
+              class="btn w-50 me-5 d-flex p-0 bg-primary"
+              routerLink="/b/banking/simulator">
+              <div class="d-flex px-2 py-1 rounded-start h-100">
+                <img src="./images/loan/simulator1.svg" alt="" />
+              </div>
+              <div class="py-2 w-100 rounded-end">
+                <b class="fs-6 text-all-white" i18n> Simulation </b>
+              </div>
+            </button>
+            <button
+              class="btn w-50 me-lg-5 bg-primary d-flex justify-content-center py-2"
+              routerLink="/b/banking/request">
+              <b class="text-all-white fs-6">Apply</b>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>

@@ -1,28 +1,87 @@
 <div>
   <div class="text-dark d-flex align-items-center">
     <b class="me-2 fs-4">Nyamuranzi</b>
-    <b role="button">
-      @if (showAmountAccount) {
+    <b
+      tabindex="0"
+      (click)="toggleAmount()"
+      [ngClass]="{
+        'not-clickable': !referees,
+      }"
+      role="button">
+      @if (!showAmountAccount) {
         <span title="show balance">
-          <i class="fa fa-eye-slash fs-6"></i>
+          <i class="fa fa-eye fs-6"></i>
         </span>
       } @else {
         <span title="show balance">
-          <i class="fa fa-eye fs-6"></i>
+          <i class="fa fa-eye-slash fs-6"></i>
         </span>
       }
     </b>
   </div>
   <div
-    class="mt-2 lg-radius position-relative p-2 shadow nyamu-card nyamu-dark">
+    class="mt-2 lg-radius position-relative p-2 shadow nyamu-card"
+    [ngClass]="{
+      'nyamu-light': mode === 'light',
+      'nyamu-dark': mode === 'dark',
+    }">
     <div class="m-2">
       <div class="d-flex align-items-start justify-content-between">
-        <div class="d-grid">
-          <div class="mb-5 mt-4 pb-3">
-            <span class="fs-5 text-dark">
-              Share the link, open accounts and earn commissions
-            </span>
-          </div>
+        <div
+          [ngClass]="{
+            'text-dark': mode === 'light',
+            'text-white': mode === 'dark',
+          }"
+          class="d-grid">
+          @if (!noRefereed) {
+            <div>
+              <div class="d-grid mb-2 invited">
+                @if (!referees) {
+                  <span>
+                    <i class="fa-solid fa-pulse fa-spinner text-dark"></i
+                  ></span>
+                }
+
+                @if (referees) {
+                  <b class="text-success fs-3">{{
+                    referees.response_data.referred_count
+                  }}</b>
+                }
+
+                <span i18n class="fs-5 text-secondary">invited</span>
+              </div>
+              <div class="d-grid mb-4 invited">
+                <span class="fs-5 text-secondary">Earnings</span>
+                <b class="fs-4 d-flex text-dark">
+                  @if (referees) {
+                    <span class="me-1">{{
+                      referees.response_data.currency
+                    }}</span>
+                  }
+                  @if (showAmountAccount && referees) {
+                    <span
+                      >{{ referees.response_data.commissions | number }}
+                    </span>
+                  }
+                  @if (!showAmountAccount && referees) {
+                    <b>*** ***</b>
+                  }
+                </b>
+                @if (!referees) {
+                  <span>
+                    <i class="fa-solid fa-pulse fa-spinner text-dark"></i
+                  ></span>
+                }
+              </div>
+            </div>
+          }
+          @if (noRefereed) {
+            <div class="mb-5 mt-4 pb-3">
+              <span class="fs-5 text-dark">
+                Share the link, open accounts and earn commissions
+              </span>
+            </div>
+          }
 
           <div class="d-flex mt-2">
             <b
@@ -35,11 +94,14 @@
               role="button">
               <i class="fa fa-user-plus fs-6"></i>
             </b>
-            <b
-              class="px-2 py-1 border short level-2 rounded me-2 d-flex align-items-center justify-content-center text-dark"
-              role="button">
-              <i class="fa fa-user-tie fs-5"></i>
-            </b>
+            @if (clientInfo && clientInfo.client.is_agent) {
+              <b
+                class="px-2 py-1 border short level-2 rounded me-2 d-flex align-items-center justify-content-center text-dark"
+                role="button">
+                <i class="fa fa-user-tie fs-5"></i>
+              </b>
+            }
+
             <b
               class="px-2 py-1 level-2 short border rounded me-2 d-flex align-items-center justify-content-center text-dark"
               role="button">

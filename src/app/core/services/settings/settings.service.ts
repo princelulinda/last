@@ -3,9 +3,12 @@ import { ApiService } from '..';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import {
   MailModel,
+  PasswordChangeResponse,
   PasswordModel,
+  PinChangeResponse,
 } from '../../../components/settings/setting.model';
 import { PinModel } from '../../../components/settings/setting.model';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -38,21 +41,18 @@ export class SettingsService {
     this._selectedSubMenu.next(menu);
   }
 
-  changePin(body: PinModel) {
+  changePin(body: PinModel): Observable<PinChangeResponse> {
     const url = '/client/change-pin/';
-    return this.apiService.post(url, body).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as PinChangeResponse));
   }
-  changePassword(body: PasswordModel) {
-    const url = '/client/change-pin/';
-    return this.apiService.post(url, body).pipe(
-      map(data => {
-        return data;
-      })
-    );
+
+  changePassword(body: PasswordModel): Observable<PasswordChangeResponse> {
+    const url = '/client/change-password/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as PasswordChangeResponse));
   }
 
   getClientContact(
