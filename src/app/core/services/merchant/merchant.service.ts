@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-// import { ApiService } from '..';
+import { ApiService } from '..';
+import { map, retry } from 'rxjs/operators';
+import { BillersModel } from '../../../components/dashboards/dashboard.model';
 // import { map, retry } from 'rxjs/operators';
 // import { billerValue } from '../../../components/dev/merchant-card/merchant.model';
 // import { GeneralSe } from '..';
@@ -10,26 +12,26 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class MerchantService {
-  // constructor(
-  // //   private http: HttpClient,
-  //     // private generalService: GeneralService
-  //     // private apiService: ApiService,
-  // ) {}
-  //   // getMerchantList() {
-  //   //     return this.apiService.get('/dbs/merchant/list/?').pipe(
-  //   //         map((data) => {
-  //   //         return data;
-  //   //     })
-  //   // );
-  //   // }
-  //   // private _coords: BehaviorSubject<any> = new BehaviorSubject<[] | null>(null);
-  //   // get coords$(): Observable<[]> {
-  //   //     return this._coords.asObservable();
-  //   // }
-  //   // getUserCoords(coords: string) {
-  //   //     this._coords.next(coords);
-  //   //     console.log('coords', coords);
-  //   // }
+  constructor(
+    // private http: HttpClient,
+    // private generalService: GeneralService
+    private apiService: ApiService
+  ) {}
+  // getMerchantList() {
+  //     return this.apiService.get('/dbs/merchant/list/?').pipe(
+  //         map((data) => {
+  //         return data;
+  //     })
+  // );
+  // }
+  // private _coords: BehaviorSubject<any> = new BehaviorSubject<[] | null>(null);
+  // get coords$(): Observable<[]> {
+  //     return this._coords.asObservable();
+  // }
+  // getUserCoords(coords: string) {
+  //     this._coords.next(coords);
+  //     console.log('coords', coords);
+  // }
   // getMerchants(data: any) {
   //     const url = `/dbs/merchant/manage/?limit=${data.limit}&offset=${data.offset}`;
   //     return this.apiService.get(url).pipe(
@@ -39,33 +41,33 @@ export class MerchantService {
   //         })
   //     );
   // }
-  // getMerchantsAutocomplete(search: string) {
-  //     const url =
-  //         '/dbs/merchant/manage/objects_autocomplete/?search=' +
-  //         search +
-  //         '&is_recent=true';
-  //     return this.apiService.get(url).pipe(
-  //         retry({ count: 5, delay: 3000, resetOnSuccess: true }),
-  //         map((data) => {
-  //             return data;
-  //         })
-  //     );
-  // }
+  getMerchantsAutocomplete(search: string) {
+    const url =
+      '/dbs/merchant/manage/objects_autocomplete/?search=' +
+      search +
+      '&is_recent=true';
+    return this.apiService.get(url).pipe(
+      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
+      map(data => {
+        return data;
+      })
+    );
+  }
   //   //needed in market-dashboard
-  // getFavoriteMerchantsAutocomplete(search: string) {
-  //     const url =
-  //         '/dbs/merchant/manage/objects_autocomplete/?search=' +
-  //         search +
-  //         '&is_favorite=true';
-  //     return this.apiService.get(url).pipe(
-  //         retry({ count: 5, delay: 3000, resetOnSuccess: true }),
-  //         map((data) => {
-  //             return data;
-  //         })
-  //     );
-  // }
+  getFavoriteMerchantsAutocomplete(search: string) {
+    const url =
+      '/dbs/merchant/manage/objects_autocomplete/?search=' +
+      search +
+      '&is_favorite=true';
+    return this.apiService.get(url).pipe(
+      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
+      map(data => {
+        return data;
+      })
+    );
+  }
   //   //needed in market-dashboard
-  // makeFavoriteMerchants(body: { merchant: billerValue; merchant_action: string; } | undefined, p0: never[], favorite: []) {
+  // makeFavoriteMerchants(body: { merchant: BillersModel; merchant_action: string; } | undefined, p0: [], favorite: []) {
   //     const url = '/dbs/merchant-client/favorite/';
   //     return this.apiService.post(url, favorite).pipe(
   //         retry({ count: 5, delay: 3000, resetOnSuccess: true }),
@@ -74,6 +76,15 @@ export class MerchantService {
   //         })
   //     );
   // }
+  makeFavoriteMerchants(favorite: BillersModel) {
+    const url = '/dbs/merchant-client/favorite/';
+    return this.apiService.post(url, favorite).pipe(
+      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
+      map(data => {
+        return data;
+      })
+    );
+  }
   //   doBillAction(body: []) {
   //       const url = '/dbs/merchant/bill/action/perform/';
   //       return this.apiService.post(url, body).pipe(
@@ -367,18 +378,18 @@ export class MerchantService {
   //   //     return this.apiService.get(url).pipe(map((data) => data));
   //   // }
   //   //needed in market-dashboard
-  // getBIllers(biller: boolean) {
-  //     const url = '/dbs/merchant/manage/objects_autocomplete/?is_biller=';
-  //     return this.apiService.get(url + biller).pipe(map((data) => data));
-  // }
-  //   getBillActions(billId: string) {
-  //       const url = `/dbs/merchant/bills/${billId}/object_actions/`;
-  //       return this.apiService.get(url).pipe(
-  //           map((data) => {
-  //               return data;
-  //           })
-  //       );
-  //   }
+  getBIllers(biller: boolean) {
+    const url = '/dbs/merchant/manage/objects_autocomplete/?is_biller=';
+    return this.apiService.get(url + biller).pipe(map(data => data));
+  }
+  getBillActions(billId: string) {
+    const url = `/dbs/merchant/bills/${billId}/object_actions/`;
+    return this.apiService.get(url).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
   //   merchantCashin(data: []) {
   //       const url = '/dbs/merchant/cashin/';
   //       return this.apiService.post(url, data).pipe(map((data) => data));

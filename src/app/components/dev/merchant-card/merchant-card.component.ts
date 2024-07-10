@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { billerValue } from './merchant.model';
-// import { billerValue } from './merchant.model';
+import { BillersModel } from '../../dashboards/dashboard.model';
+// import { MerchantService } from '../../../core/services/merchant/merchant.service';
+// import { takeUntil } from 'rxjs/operators';
+// import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-merchant-card',
@@ -13,29 +15,30 @@ import { billerValue } from './merchant.model';
   styleUrl: './merchant-card.component.scss',
 })
 export class MerchantCardComponent {
-  // payMerchant: any;
-  biller!: [] | null;
-  categorySelected!: null;
-  merchantId!: string;
-  merchants!: billerValue[];
-  first6!: [];
-  clearData!: boolean;
-  billers!: billerValue[];
+  @Input() product = '';
+  @Input() merchant!: BillersModel;
+  @Input() get_merchant!: boolean;
+  @Input() get_product = [];
 
-  openModal(merchant: [], event: Event) {
-    // this.payMerchant = merchant;
-    this.biller = null;
-    this.categorySelected = null;
-    // this.merchantId = this.payMerchant.id;
-    this.clearData = true;
+  // theme$: Observable<any>;
+  // theme: any;
 
-    event.stopPropagation();
-    // add data-bs after click on favorite star
-    const element = event.target as HTMLButtonElement;
-    element.setAttribute('data-bs-toggle', 'modal');
-    element.setAttribute('data-bs-target', '#merchantModal');
-    element.click();
-    // accepts_simple_payment;
-    // this.getMerchantDetails();
+  // constructor(private store: Store) {
+  //     this.theme$ = this.store.select(SwitchThemeState.GetTheme);
+  // }
+
+  // ngOnInit(): void {
+  //     this.theme$.subscribe({
+  //         next: (theme) => {
+  //             this.theme = theme;
+  //         },
+  //     });
+  // }
+
+  closeModal() {
+    const modal = document.getElementById('modal');
+    if (modal !== null) {
+      modal.style.display = 'none';
+    }
   }
 }
