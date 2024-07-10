@@ -23,13 +23,26 @@ export class PlateformGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
     const url = state.url.split('?')[0];
+    const localPlateform = this.authService.getLocalPlateform();
+    // let plateform: PlateformModel = localPlateform as PlateformModel;
+
+    // if (url.includes('/b/banking') || url === '/b/banking') {
+    //   plateform = 'onlineBanking';
+    // } else if (url.includes('/m/market') || url === '/m/market') {
+    //   plateform = 'marketPlace';
+    // } else if (url.includes('/o/onamob') || url === '/o/onamob') {
+    //   plateform = 'onamob';
+    // } else if (url === '' || url === '/') {
+    //   plateform = 'authentification';
+    // }
     const plateformData = environment.plateformsUuid.find(env =>
       env.baseHref.includes(url)
     );
-    alert(plateformData?.name);
-    const localPlateform = this.authService.getLocalPlateform();
     if (localPlateform !== plateformData?.name) {
-      this.configService.switchPlateform(plateformData?.name as PlateformModel);
+      this.configService.switchPlateform(
+        plateformData?.name as PlateformModel,
+        false
+      );
     }
     return true;
   }
