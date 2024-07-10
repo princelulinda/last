@@ -3,6 +3,7 @@ import { OnlineBankingComponent } from '../../components/dashboards/online-banki
 import { bankingSavingRoutes } from '../../components/saving/saving.routes';
 import { loanRoutes } from '../../components/loan/loan.routes';
 import { NyamuranziDetailsComponent } from '../../components/nyamuranzi-details/nyamuranzi-details/nyamuranzi-details.component';
+import { BeneficiariesComponent } from '../../components/transfer/beneficiaries/beneficiaries/beneficiaries.component';
 
 export const bankingRoutes: Routes = [
   {
@@ -20,5 +21,9 @@ export const bankingRoutes: Routes = [
   {
     path: 'nyamuranzi/details',
     component: NyamuranziDetailsComponent,
+  },
+  {
+    path: 'transfer',
+    component: BeneficiariesComponent,
   },
 ];
