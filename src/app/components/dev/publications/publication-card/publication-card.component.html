@@ -6,9 +6,13 @@
         class="profil position-relative rounded-circle d-flex align-items-center justify-content-center">
         <img
           [src]="data.publishers![0].picture"
-          class="w-100 h-100 rounded-circle border"
+          class="image rounded-circle border"
           alt="" />
-        <div class="online rounded-circle position-absolute"></div>
+        <!-- <div class="online rounded-circle position-absolute"></div> -->
+        <span
+          class="position-absolute top-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+          <span class="visually-hidden">Online status</span>
+        </span>
       </div>
     }
     @if (data.publishers.length === 0) {
