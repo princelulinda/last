@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services';
+import { DialogService } from '../../../core/services';
+import { Subject, Observable } from 'rxjs';
 import {
   EmailVerificationResponse,
   phoneNumberVerificaitonResponse,
@@ -10,6 +12,7 @@ import {
   bankListResponse,
 } from '../auth.model';
 import { FileComponent } from '../../../global/components/file/file.component';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,
@@ -23,7 +26,8 @@ import { FileComponent } from '../../../global/components/file/file.component';
   templateUrl: './auth-sign-up.component.html',
   styleUrl: './auth-sign-up.component.scss',
 })
-export class AuthSignUpComponent {
+export class AuthSignUpComponent implements OnInit {
+  private onDestroy$: Subject<void> = new Subject<void>();
   step = 0;
   submitted = false;
   isLoadingCreation!: boolean;
@@ -49,9 +53,26 @@ export class AuthSignUpComponent {
   inputconfirmPassword!: string;
   inputEmail!: string;
   inputPassword!: string;
-  bankId!: number;
+  bankId: number | null = null;
   selectedBankIndex: number | null = null;
   i!: number;
+  dialog$: Observable<DialogResponseModel>;
+
+  ngOnInit(): void {
+    this.dialog$.subscribe({
+      next: (status: DialogResponseModel) => {
+        if (
+          status.action === 'confirmation' &&
+          status.response.confirmation === 'YES'
+        ) {
+          this.createAccount();
+        } else {
+          this.selectedBankIndex = null;
+          this.bankId = null;
+        }
+      },
+    });
+  }
 
   submit() {
     this.submitted = true;
@@ -66,8 +87,11 @@ export class AuthSignUpComponent {
   }
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private dialogService: DialogService
+  ) {
+    this.dialog$ = this.dialogService.getDialogState();
+  }
 
   multiStepForm = this.fb.group({
     authentificationInformation: this.fb.group({
@@ -144,14 +168,24 @@ export class AuthSignUpComponent {
     // if (this.multiStepForm.controls.cardInformation.value.expiryDate !== '') {
     //     data.card_id['expiry_date'] = this.multiStepForm.controls.cardInformation.value.expiryDate;
     // }
+    this.dialogService.dispatchLoading();
     this.authService.createAccount(data).subscribe({
-      next: response => {
+      next: (response: createAccountResponse) => {
         this.isLoadingCreation = false;
         this.userInfo = response;
         this.step = this.step = 5;
+        this.dialogService.closeLoading();
       },
-      error: () => {
+      error: error => {
         this.isLoadingCreation = false;
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          type: 'failed',
+          title: 'Échec',
+          message:
+            error?.object?.response_message ??
+            $localize`Something went wrong please retry again !`,
+        });
       },
     });
   }
@@ -207,7 +241,7 @@ export class AuthSignUpComponent {
         console.log('Données sélectionnées', this.getBanksList);
       },
       error: (error: Error) =>
-        console.error('Erreur lors de la récupération des tontines:', error),
+        console.error('Erreur lors de la récupération des banks:', error),
     });
   }
 
@@ -255,6 +289,15 @@ export class AuthSignUpComponent {
   onPictureChange(picture: string) {
     this.multiStepForm.controls.authentificationInformation.patchValue({
       picture,
+    });
+  }
+
+  openPinPopup() {
+    this.dialogService.openDialog({
+      action: 'confirmation',
+      message: 'Do you want to create an account in this organization ?',
+      title: '',
+      type: 'confirm',
     });
   }
 }

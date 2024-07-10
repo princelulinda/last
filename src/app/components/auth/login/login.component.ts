@@ -11,6 +11,9 @@ import { FullpathService } from '../../../core/services';
 import { UserApiResponse } from '../../../core/db/models';
 import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
 import { environment } from '../../../../environments/environment';
+import { DialogService } from '../../../core/services';
+import { Observable } from 'rxjs';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +28,7 @@ import { environment } from '../../../../environments/environment';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
+  dialog$: Observable<DialogResponseModel>;
   loginLoader = false;
   loginForm = this.formBuilder.nonNullable.group({
     // username: ['', Validators.required, Validators.minLength(2)],
@@ -39,8 +43,11 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private fullpathService: FullpathService,
-    private configService: ConfigService
-  ) {}
+    private configService: ConfigService,
+    private dialogService: DialogService
+  ) {
+    this.dialog$ = this.dialogService.getDialogState();
+  }
 
   redirectToNext() {
     const nextPath = this.route.snapshot.queryParamMap.get('next');
@@ -63,6 +70,7 @@ export class LoginComponent implements OnInit {
 
   onLoginSubmit() {
     this.loginLoader = true;
+    this.dialogService.dispatchLoading();
     if (this.loginForm.value.username && this.loginForm.value.password) {
       this.authService
         .login({
@@ -72,18 +80,23 @@ export class LoginComponent implements OnInit {
         .subscribe({
           next: data => {
             this.loginLoader = false;
-            console.log('GOT LOGIN : ', data);
             const userData = (data as { user: UserApiResponse }).user;
             console.log('GOT LOGIN 2 : ', userData);
+            this.dialogService.closeLoading();
             if (userData.token) {
-              console.log('GOT LOGIN 3 : ', userData);
-              // await this.dbService.populate();
               this.redirectToNext();
             }
           },
           error: err => {
             this.loginLoader = false;
             console.error('LOGIN :: ERROR', err);
+            this.dialogService.closeLoading();
+
+            this.dialogService.openToast({
+              type: 'failed',
+              title: 'Échec',
+              message: 'An error occured!',
+            });
           },
         });
     }

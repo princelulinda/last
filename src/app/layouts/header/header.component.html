@@ -1,7 +1,7 @@
 @if (mainConfig) {
   <header
     class="w-100"
-    style="height: 60px; z-index: 100; top: 0"
+    style="height: 60px; z-index: 50; top: 0"
     class="d-flex justify-content-center justify-content-lg-between w-100 p-1 px-3"
     [ngClass]="{
       'bg-white': mainConfig.activePlateform === 'workstation',
@@ -19,7 +19,7 @@
         *ngIf="mainConfig.activePlateform !== 'workstation'">
         <img
           class="bg-primary-2 img-fluid border border-3 px-4 py-1 sm-radius h-100"
-          src="/images/ihela3.png"
+          src="/images/auth/ihela3.png"
           alt="iHela Ryanje Logo" />
       </div>
 

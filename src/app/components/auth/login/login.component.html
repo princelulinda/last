@@ -42,13 +42,7 @@
             type="submit"
             class="btn mt-4 w-100 bg-primary lg-radius text-white p-3 fw-bold"
             [disabled]="!loginForm.valid || loginLoader">
-            @if (loginLoader) {
-              <span
-                ><i class="fa-solid fa-pulse fa-circle-notch fs-4"></i
-              ></span>
-            } @else {
-              Login
-            }
+            Login
           </button>
         </div>
       </form>
