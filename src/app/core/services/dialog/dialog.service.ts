@@ -129,7 +129,7 @@ export class DialogService {
   displayAmount() {
     this.isShowed.set(!this.isShowed());
   }
-  getAmountState() {
+  getAmountState(): Observable<boolean> {
     return toObservable(this.isShowed);
   }
 }
