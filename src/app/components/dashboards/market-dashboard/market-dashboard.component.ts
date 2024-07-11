@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ProductCardComponent } from '../../dev/product-card/product-card.component';
 import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
@@ -74,8 +74,8 @@ export class MarketDashboardComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
   // // private variableService = inject(VariableService);
 
-  clientId$!: Observable<string>;
-  clientId!: string;
+  // clientId$!: Observable<string>;
+  // clientId!: string;
 
   favoriteMerchantLoading = false;
   favoriteMerchants!: BillersModel[];
@@ -116,12 +116,12 @@ export class MarketDashboardComponent implements OnInit {
     // this.getSectorsAndCategories();
     this.getBillers();
 
-    this.clientId$.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: (clientId: string) => {
-        this.clientId = clientId;
-        // this.getMerchant('');
-      },
-    });
+    // this.clientId$.pipe(takeUntil(this.onDestroy$)).subscribe({
+    //   next: (id: string) => {
+    //     this.clientId = id;
+    //     this.getMerchant('');
+    //   },
+    // });
 
     // this.variableService.search.pipe(takeUntil(this.onDestroy$)).subscribe({
     //     next: (search: any) => {
