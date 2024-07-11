@@ -43,10 +43,6 @@ export class SettingsAsideMenuComponent implements OnInit {
     } else if (this.router.url === '/b/settings/session') {
       this.selectedMenu = 'session';
       this.isSessionMenusShown = true;
-    } else {
-      this.selectedMenu = 'general';
-      this.selectedSubMenu = 'account';
-      this.isGeneralSubMensShown = true;
     }
     this.selectSubMenu(this.selectedMenu, this.selectedSubMenu);
     this.toggleMenuPopup(this.activePopupMenu);
@@ -65,11 +61,11 @@ export class SettingsAsideMenuComponent implements OnInit {
     this.selectedSubMenu = selectedSubMenu;
 
     if (selectedMenu === 'security') {
-      this.router.navigateByUrl('b/settings/security');
+      this.router.navigateByUrl('/b/settings/security');
     }
 
     if (selectedMenu === 'general') {
-      this.router.navigateByUrl('b/settings');
+      this.router.navigateByUrl('/b/settings');
     }
     if (selectedMenu === 'session') {
       this.router.navigateByUrl('b/settings/session');

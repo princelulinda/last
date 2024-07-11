@@ -4,15 +4,23 @@
     <section class="mt-2">
       <div
         class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
-        routerLink="/m"
-        routerLinkActive="text-dark">
+        (click)="hideAsideMenu()"
+        tabindex="0"
+        routerLink="/n/newsfeed"
+        #rla="routerLinkActive"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [ngClass]="{
+          'text-dark': rla.isActive,
+          'text-secondary': !rla.isActive,
+        }">
         <div>
           <span
             class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
             <i class="fa-solid fa-house house-color"></i>
           </span>
         </div>
-        <span class="fw-bold text-secondary" i18n>Publications</span>
+        <span class="fw-bold" i18n>Publications</span>
       </div>
 
       <div
@@ -55,15 +63,23 @@
     <section class="mt-2">
       <div
         class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
-        routerLink="/m"
-        routerLinkActive="text-dark">
+        (click)="hideAsideMenu()"
+        tabindex="0"
+        routerLink="/b/banking"
+        #rla="routerLinkActive"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [ngClass]="{
+          'text-dark': rla.isActive,
+          'text-secondary': !rla.isActive,
+        }">
         <div>
           <span
-            class="bg-secondary me-3 text-magis-primary rounded-pill py-3 px-3"
-            ><i class="fa-solid fa-house house-color"></i
-          ></span>
+            class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
+            <i class="fa-solid fa-house house-color"></i>
+          </span>
         </div>
-        <span class="fw-bold text-secondary" i18n>Home</span>
+        <span class="fw-bold" i18n>Home</span>
       </div>
 
       <div
@@ -85,17 +101,23 @@
       <section class="mt-2">
         <div
           class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
-          routerLink="/m"
-          routerLinkActive="text-dark">
+          (click)="hideAsideMenu()"
+          tabindex="0"
+          routerLink="/m/market"
+          #rla="routerLinkActive"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }"
+          [ngClass]="{
+            'text-dark': rla.isActive,
+            'text-secondary': !rla.isActive,
+          }">
           <div>
             <span
-              class="bg-secondary me-3 text-magis-primary rounded-pill py-3 px-3"
-              ><i class="fa-solid fa-house"></i
-            ></span>
+              class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
+              <i class="fa-solid fa-house"></i>
+            </span>
           </div>
-          <span class="fw-bold text-secondary fs-normal font-calibri" i18n
-            >Dashboard</span
-          >
+          <span class="fw-bold fs-normal font-calibri" i18n>Dashboard</span>
         </div>
 
         <div
