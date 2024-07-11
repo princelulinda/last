@@ -64,3 +64,7 @@ export interface UploadedFileModel {
     docfile: string;
   };
 }
+
+export interface cardIdData {
+  expiry_date: string | null | undefined;
+}

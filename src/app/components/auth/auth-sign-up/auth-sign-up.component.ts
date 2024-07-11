@@ -12,6 +12,7 @@ import {
   phoneNumberVerificaitonResponse,
   createAccountResponse,
   bankListResponse,
+  cardIdData,
 } from '../auth.model';
 import { FileComponent } from '../../../global/components/file/file.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
@@ -127,6 +128,7 @@ export class AuthSignUpComponent implements OnInit {
     }),
   });
   userInfo!: createAccountResponse;
+  // expiry_date!:string | null | undefined;
   createAccount() {
     this.isLoadingCreation = true;
     const data = {
@@ -165,17 +167,17 @@ export class AuthSignUpComponent implements OnInit {
           this.multiStepForm.controls.cardInformation.value.deliveryPlace,
         date_of_issue:
           this.multiStepForm.controls.cardInformation.value.deliveryDate,
-        expiry_date:
-          this.multiStepForm.controls.cardInformation.value.expiryDate,
       },
       card_id_picture_recto: '',
       card_id_picture_verso: '',
       father_name: '',
       mother_name: '',
     };
-    // if (this.multiStepForm.controls.cardInformation.value.expiryDate !== '') {
-    //     data.card_id['expiry_date'] = this.multiStepForm.controls.cardInformation.value.expiryDate;
-    // }
+    if (this.multiStepForm.controls.cardInformation.value.expiryDate !== '') {
+      (data.card_id as unknown as cardIdData).expiry_date =
+        this.multiStepForm.controls.cardInformation.value.expiryDate;
+    }
+
     this.dialogService.dispatchLoading();
     this.authService.createAccount(data).subscribe({
       next: (response: createAccountResponse) => {
