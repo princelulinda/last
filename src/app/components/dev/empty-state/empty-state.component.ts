@@ -1,6 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+export enum SearchTypes {
+  List = 'list',
+  Merchant = 'merchant',
+  Product = 'product',
+  Service = 'service',
+  Other = 'other',
+}
+
 @Component({
   selector: 'app-empty-state',
   standalone: true,
@@ -10,7 +18,7 @@ import { CommonModule } from '@angular/common';
 })
 export class EmptyStateComponent {
   @Input() searchTerm = '';
-  @Input() searchType = '';
+  @Input() searchType: SearchTypes = SearchTypes.Service;
   // @Input() searchTerm: string[] = [];
   // @Input() searchType: 'list' | 'merchant' | 'product' | 'service' | 'other';
 }

@@ -1,7 +1,7 @@
 <!-- <p>empty-state works!</p> -->
 <div class="container-fluid">
   <ng-container [ngSwitch]="searchType">
-    <ng-container *ngSwitchCase="'list'">
+    <ng-container *ngSwitchCase="'SearchTypes.list'">
       <div class="text-center">
         <img src="/images/empty-state/empty-list.png" alt="" />
         <p i18n class="font-montserrat fs-l-medium">
@@ -10,7 +10,7 @@
         </p>
       </div>
     </ng-container>
-    <ng-container *ngSwitchCase="'merchant'">
+    <ng-container *ngSwitchCase="'SearchTypes.merchant'">
       <div class="text-center">
         <img src="/images/empty-state/market.png" alt="" />
         <p i18n class="font-montserrat fs-l-medium">
@@ -23,7 +23,7 @@
         </p>
       </div>
     </ng-container>
-    <ng-container *ngSwitchCase="'product'">
+    <ng-container *ngSwitchCase="'SearchTypes.product'">
       <div class="text-center">
         <img src="/images/empty-state/product.png" alt="" />
         <p i18n class="font-montserrat fs-l-medium">
@@ -36,7 +36,7 @@
         </p>
       </div>
     </ng-container>
-    <ng-container *ngSwitchCase="'other'">
+    <ng-container *ngSwitchCase="'SearchTypes.other'">
       <div class="text-center">
         <img src="/images/empty-state/search-empty.png" alt="" />
         <p i18n class="font-montserrat fs-l-medium">
@@ -49,7 +49,8 @@
         </p>
       </div>
     </ng-container>
-    <ng-container *ngSwitchDefault>
+    <!-- <ng-container *ngSwitchDefault> -->
+    <ng-container *ngSwitchCase="'SearchTypes.service'">
       <div class="text-center">
         <img src="/images/empty-state/service-empty.png" alt="" />
         <p i18n class="font-montserrat fs-small">
