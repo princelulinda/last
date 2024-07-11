@@ -10,6 +10,7 @@ import { DbService } from './core/db/db.service';
 import {
   AuthService,
   ConfigService,
+  DialogService,
   PlateformModel,
   // PlateformModel,
 } from './core/services';
@@ -31,16 +32,23 @@ export class AppComponent implements OnInit {
   constructor(
     private dbService: DbService,
     private configService: ConfigService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialogService: DialogService
   ) {
     this.plateform$ = this.configService.getPlateform();
-    this.dbService.dbIsReady.subscribe((value: boolean) =>
-      console.log(`APP COMPONENT DB READY : ${value}`)
-    );
   }
 
   ngOnInit() {
-    // const localToken = this.authService.getLocalAuthToken();
+    const localToken = this.authService.getLocalAuthToken();
+    if (localToken) {
+      this.dialogService.dispatchSplashScreen();
+      this.dbService.dbIsReady.subscribe((value: boolean) => {
+        console.log(`APP COMPONENT DB READY : ${value}`);
+        setTimeout(() => {
+          this.dialogService.closeSplashScreen();
+        }, 2000);
+      });
+    }
 
     this.dbService.initializeModels();
     this.configService.initAll();

@@ -63,10 +63,6 @@ export class BankingComponent implements OnInit {
         this.plateform = plateform;
       },
     });
-    this.dialogService.closeSplashScreen();
-    // if (!this.localClientId) {
-    // this.populate();
-    // }
   }
 
   // populate() {
