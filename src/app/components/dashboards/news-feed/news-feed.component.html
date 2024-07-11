@@ -128,36 +128,36 @@
         </div>
       </div>
       <div class="w-100 px-2 overflow-hidden" appShowMore [maxLength]="200">
-        <p>
+        <p i18n>
           Bienvenue dans l’application iHela Ryanje. Nous améliorons les
           fonctionnalités afin de vous offrir une expérience unique. Toutes les
           transactions financières se font sur la même plateforme en un temps
           record.
         </p>
         <ul>
-          <li>
+          <li i18n>
             Les transferts d’argent vers les banques et portefeuilles mobiles
           </li>
-          <li>Achat d’unités</li>
-          <li>Paiement d’impôts et taxes de la Mairie</li>
-          <li>Dépôt et retrait sur les plateformes de paris en ligne</li>
-          <li>Consultation des soldes</li>
+          <li i18n>Achat d’unités</li>
+          <li i18n>Paiement d’impôts et taxes de la Mairie</li>
+          <li i18n>Dépôt et retrait sur les plateformes de paris en ligne</li>
+          <li i18n>Consultation des soldes</li>
         </ul>
-        <p>
+        <p i18n>
           L’application mise à jour, donne la possibilité de payer une facture
           et de donner un pourboire au caissier/serveur qui vous a bien servi.
           Cette fonctionnalité apparaît dans le formulaire de paiement marchand.
         </p>
-        <p>
+        <p i18n>
           La connexion dans l’application est gratuite si vous possédez une
           carte Sim Onatel. Pour s’en procurer, rendez-vous dans le guichet de
           iHela le plus proche sur toute l’étendue du Burundi.
         </p>
-        <p>
+        <p i18n>
           Trouvez toutes les informations nécessaires sur nos produits d’épargne
           et de crédit dans l’application sans vous diriger au guichet.
         </p>
-        <p>
+        <p i18n>
           Pour des transactions rapides vers Lumicash, liez votre carte sim au
           compte courant afin de transférer de l’argent sans passer par
           l’application, en composant *163#.
@@ -272,7 +272,7 @@
           class="bg-secondary lg-radius p-3 px-4 d-flex align-items-center justify-content-between mt-2 mb-4"
           role="button"
           style="box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1)">
-          <b class="text-dark ms-2 fs-5">Tarifs</b>
+          <b class="text-dark ms-2 fs-5" i18n>Tarifs</b>
           <span class="text-dark fs-3">
             <i class="fa-solid fa-calculator"></i>
           </span>
@@ -286,31 +286,31 @@
           >Top Products</span
         >
       </div>
-      @if (loadingProducts) {
-        <div class="cont-preloader mb-3" style="min-height: 200px">
-          <div class="row" style="gap: 1.5rem 0">
-            @for (item of countProductLoader; track $index) {
-              <div class="col-md-6" style="height: 180px">
+      <!-- @if (loadingProducts) { -->
+      <div class="cont-preloader mb-3" style="min-height: 200px">
+        <div class="row" style="gap: 1.5rem 0">
+          @for (item of countProductLoader; track $index) {
+            <div class="col-md-6" style="height: 180px">
+              <app-skeleton
+                [height]="'57%'"
+                [classes]="'rounded-2'"></app-skeleton>
+              <div>
                 <app-skeleton
-                  [height]="'57%'"
-                  [classes]="'rounded-2'"></app-skeleton>
-                <div>
-                  <app-skeleton
-                    [height]="'10px'"
-                    [width]="'60%'"
-                    [classes]="'rounded'"></app-skeleton>
-                </div>
-                <div>
-                  <app-skeleton
-                    [height]="'10px'"
-                    [width]="'40%'"
-                    [classes]="'rounded'"></app-skeleton>
-                </div>
+                  [height]="'10px'"
+                  [width]="'60%'"
+                  [classes]="'rounded'"></app-skeleton>
               </div>
-            }
-          </div>
+              <div>
+                <app-skeleton
+                  [height]="'10px'"
+                  [width]="'40%'"
+                  [classes]="'rounded'"></app-skeleton>
+              </div>
+            </div>
+          }
         </div>
-      }
+      </div>
+      <!-- } -->
 
       <!-- TODO : add product card and topProducts -->
 
