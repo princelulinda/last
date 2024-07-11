@@ -47,12 +47,8 @@ export class TarifComponent implements OnInit {
   isLoadingTariffType = false;
   isLoadingTariffFees = false;
   isLoadingSimulate = false;
-
-  //   fetchedTariffType: any;
   tariffData: tarifResponse[] | null = null;
   feesData: feesResonse[] | null = null;
-  //   bank_id: any;
-
   companyName!: string;
   companyLogo!: string;
   tarifTitle!: string;
