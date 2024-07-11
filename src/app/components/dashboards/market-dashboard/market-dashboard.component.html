@@ -544,46 +544,47 @@
           (click)="openModal(merchant, $event)"
           tabindex="0">
           <div class="col-2 w-100">
-            <!-- @if(merchant.is_favorite_merchant && (favorite_merchant_making === null || favorite_merchant_making.id !== merchant.id)){
-            <span
-                                type="button"
-                                (click)="makeFavoriteMerchants(merchant, $event)" tabindex="0"
-                                
-                                title="Revoke Favorite"
-                                class="position-absolute favorite_fav level-3 text-primary p-2"
-                            >
-                                <span class="text-primary"
-                                    ><i class="fa-solid fa-star"></i
-                                ></span>
-                            </span>
-          }
-                            
-                            <span
-                                type="button"
-                                (click)="makeFavoriteMerchants(merchant, $event)" tabindex="0"
-                                title="Make Favorite"
-                                *ngIf="
-                                    !merchant.is_favorite_merchant &&
-                                    (favorite_merchant_making === null ||
-                                        favorite_merchant_making.id !== merchant.id)
-                                "
-                                class="position-absolute favorite_fav level-3 text-primary p-2"
-                            >
-                                <span class="favorite_icon"
-                                    ><i class="fa-regular fa-star"></i
-                                ></span>
-                            </span>
-                            <span
-                                *ngIf="
-                                    favorite_merchant_making !== null &&
-                                    favorite_merchant_making.id === merchant.id
-                                "
-                                class="position-absolute favorite_fav level-3 text-primary p-2"
-                            >
-                                <span class="favorite_icon"
-                                    ><i class="fas fa-spinner fa-pulse"></i
-                                ></span>
-                            </span> -->
+            <!-- <span
+            type="button"
+            (click)="makeFavoriteMerchants(merchant, $event)"
+            *ngIf="
+                merchant.is_favorite_merchant &&
+                (favorite_merchant_making === null ||
+                    favorite_merchant_making.id !== merchant.id)
+            " tabindex="0"
+            title="Revoke Favorite"
+            class=" z-3 position-absolute bg-all-white rounded-circle  end-0 me-4 mt-3 p-1 px-2 d-flex"
+        >
+            <span class="text-primary"
+                ><i class="fa-solid fa-star"></i
+            ></span>
+        </span>
+        <span
+            type="button"
+            (click)="makeFavoriteMerchants(merchant, $event)" tabindex="0"
+            title="Make Favorite"
+            *ngIf="
+                !merchant.is_favorite_merchant &&
+                (favorite_merchant_making === null ||
+                    favorite_merchant_making.id !== merchant.id)
+            "
+            class="z-3 position-absolute bg-all-white rounded-circle  end-0 me-4 mt-3 p-1 px-2 d-flex"
+        >
+            <span class=" text-primary"
+                ><i class="fa-regular fa-star"></i
+            ></span>
+        </span>
+        <span
+            *ngIf="
+                favorite_merchant_making !== null &&
+                favorite_merchant_making.id === merchant.id
+            "
+            class="z-3 position-absolute bg-all-white rounded-circle  end-0 me-4 mt-3 p-1 px-2 d-flex"
+        >
+            <span class="text-primary"
+                ><i class="fas fa-spinner fa-pulse"></i
+            ></span>
+        </span> -->
             <app-merchant-card [merchant]="merchant" [get_merchant]="true">
             </app-merchant-card>
           </div>
@@ -617,122 +618,7 @@
           </div>
         </div>
       </div>
-
-      <!-- <div class="row m-0 p-0"> -->
-      <!-- changement of col -->
-      <!-- <div class="col-lg-6 col-md-6 col-sm-6 col order-sm-last m-0 p-0">
-                        <div
-                            class="m-0 mt-5 biller"
-                            style="display: flex; flex-wrap: wrap"
-                        >
-                            <div
-                                class="mt-2 mx-3"
-                                *ngFor="let biller of billers"
-                                [attr.click]="'openModal(biller, $event)'" tabindex="0"
-                                data-bs-toggle="modal"
-                                data-bs-target="#merchantModal"
-                            >
-                                
-        
-                                
-                                <div
-                                    class="billers d-flex align-items-center"
-                                    [ngClass]="!biller.lookup_image ? 'level-2' : ''"
-                                    role="button"
-                                    *ngIf="!biller.lookup_image"
-                                >
-                                    <div>
-                                        <span
-                                            class="ps-2"
-                                            style="position: relative; top: 7px"
-                                            ><span
-                                                class="text-dark"
-                                                style="font-size: 50px; opacity: 0.5"
-                                                *ngIf="biller && !biller.lookup_image"
-                                            >
-                                                <i class="fa-solid fa-shop"></i>
-                                            </span>
-                                        </span>
-                                    </div>
-                                    <span
-                                        title="{{ biller.lookup_title }}"
-                                        class="p-2 text-truncate text-dark"
-                                        ><b>{{ biller.lookup_title }}</b></span
-                                    >
-                                </div>
-        
-                                <div
-                                    class="d-flex billers level-2 align-items-center overflow-hidden"
-                                    *ngIf="biller.lookup_image"
-                                    role="button"
-                                >
-                                    <div style="width: 60%; height: 100%">
-                                        <img
-                                            [src]="biller.lookup_image"
-                                            class="image" alt="billerImg"
-                                        />
-                                    </div>
-                                    <span
-                                        title="{{ biller.lookup_title }}"
-                                        class="p-2 text-truncate text-dark"
-                                        ><b>{{ biller.lookup_title }}</b></span
-                                    >
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="row ms-2 d-flex align-items-center"
-                            *ngIf="!billers"
-                        >
-                            <div
-                                class="col-lg-5 col-md-6 col-sm-6 col mt-2 d-flex biller"
-                                *ngFor="let _ of [1, 2, 3, 4]"
-                            >
-                                <ngx-skeleton-loader
-                                    [theme]="{
-                                        'height.px': 70,
-                                        'width.px': 160,
-                                        'margin-bottom': 0
-                                    }"
-                                ></ngx-skeleton-loader>
-                            </div>
-                        </div>
-                    </div> -->
-
-      <!-- </div> -->
     </section>
-    <div class="modal fade" id="merchantModal" data-bs-backdrop="static">
-      <!-- <div
-                class="modal-dialog modal-dialog-centered"
-                [ngClass]="{
-                    'biller-merchant-dialog': !payMerchant,
-                    'simple-merchant-dialog': payMerchant
-                }"
-            >
-                <div
-                    class="modal-content"
-                    *ngIf="payMerchant && payMerchant.accepts_simple_payment"
-                >
-                    <app-simple-merchants
-                        [merchantId]="payMerchant['id']"
-                    ></app-simple-merchants>
-                </div>
-        
-                <div class="modal-content" *ngIf="categorySelected">
-                    <app-billers-merchants
-                        [category]="category"
-                    ></app-billers-merchants>
-                </div>
-                <div
-                    class="modal-content"
-                    *ngIf="payMerchant && !payMerchant.accepts_simple_payment"
-                >
-                    <app-billers-merchants
-                        [biller]="payMerchant"
-                    ></app-billers-merchants>
-                </div>
-            </div> -->
-    </div>
   </div>
 
   <!-- end of recent merchant -->

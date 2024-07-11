@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '..';
 import { map, retry } from 'rxjs/operators';
-import { BillersModel } from '../../../components/dashboards/dashboard.model';
+import { Favorite } from './model';
 // import { map, retry } from 'rxjs/operators';
 // import { billerValue } from '../../../components/dev/merchant-card/merchant.model';
 // import { GeneralSe } from '..';
@@ -76,8 +76,8 @@ export class MerchantService {
   //         })
   //     );
   // }
-  makeFavoriteMerchants(favorite: BillersModel) {
-    const url = '/dbs/merchant-client/favorite/';
+  makeFavoriteMerchants(favorite: Favorite | undefined) {
+    const url = 'ahdhdh/ddd';
     return this.apiService.post(url, favorite).pipe(
       retry({ count: 5, delay: 3000, resetOnSuccess: true }),
       map(data => {

@@ -112,7 +112,7 @@ export class MarketDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMerchants('');
-    // this.getFavoriteMerchants('');
+    this.getFavoriteMerchants('');
     // this.getSectorsAndCategories();
     this.getBillers();
 
@@ -245,11 +245,16 @@ export class MarketDashboardComponent implements OnInit {
   //   }
 
   //     makeFavoriteMerchants(favorite: BillersModel, event: Event) {
+
   //     event.stopPropagation();
+  //     console.log('merchant value is:', favorite);
+  // console.log('is_favorite_merchant_making:', favorite.is_favorite_merchant);
+
   //     const productCard: HTMLElement =
-  //         event.target.parentElement.parentElement.parentElement.parentElement
-  //             .parentElement;
+  //         event.target?.parentElement.parentElement.parentElement.parentElement.parentElement;
+
   //     // remove data-bs for bootstrap modal
+
   //     productCard.removeAttribute('data-bs-target');
   //     productCard.removeAttribute('data-bs-toggle');
   //     this.favorite_merchant_making = favorite;
@@ -283,6 +288,7 @@ export class MarketDashboardComponent implements OnInit {
   //                 }
   //             },
   //         });
+
   // }
   // // getSectorsAndCategories() {
   // //     this.merchantService.getActivitySectors().subscribe({
