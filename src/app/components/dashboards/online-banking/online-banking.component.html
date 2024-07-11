@@ -148,30 +148,8 @@
 
                   @if (i === 2 && menuGroup.is_active) {
                     <div>
-                      <!-- Contenu pour les marchands (boucle *ngFor) -->
-                      @if (!merchants) {
-                        <div class="d-flex pt-3 ps-3">
-                          @for (_ of [1, 2, 3]; track $index) {
-                            <div class="d-grid mt-1 me-5">
-                              <span class="text-center">
-                                <app-skeleton
-                                  [height]="'60px'"
-                                  [width]="'60px'"
-                                  [classes]="'rounded'"></app-skeleton>
-                              </span>
-                              <span>
-                                <app-skeleton
-                                  [height]="'7px'"
-                                  [width]="'80px'"
-                                  [classes]="'rounded'"></app-skeleton>
-                              </span>
-                            </div>
-                          }
-                        </div>
-                      }
-
                       <!-- Bloc de marchands -->
-                      @if (merchants) {
+                      @if (merchants && merchants.length > 0) {
                         <div class="p-2 row">
                           @for (merchant of merchants; track $index) {
                             <div
@@ -196,6 +174,27 @@
                                   merchant.lookup_title.toUpperCase()
                                 }}</span>
                               </div>
+                            </div>
+                          }
+                        </div>
+                      }
+                      <!-- Contenu pour les marchands (boucle *ngFor) -->
+                      @else {
+                        <div class="d-flex pt-3 ps-3">
+                          @for (_ of [1, 2, 3]; track $index) {
+                            <div class="d-grid mt-1 me-5">
+                              <span class="text-center">
+                                <app-skeleton
+                                  [height]="'60px'"
+                                  [width]="'60px'"
+                                  [classes]="'rounded'"></app-skeleton>
+                              </span>
+                              <span>
+                                <app-skeleton
+                                  [height]="'7px'"
+                                  [width]="'80px'"
+                                  [classes]="'rounded'"></app-skeleton>
+                              </span>
                             </div>
                           }
                         </div>

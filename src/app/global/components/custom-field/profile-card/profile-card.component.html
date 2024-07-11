@@ -1,0 +1,10 @@
+<div
+  class="d-flex justify-content-center align-items-center rounded-circle bg-info square">
+  @if (imageUrl) {
+    <ng-container>
+      <img [src]="imageUrl" alt="" class="rounded-circle img-fluid" />
+    </ng-container>
+  } @else {
+    <span class="fw-bold">{{ initials }}</span>
+  }
+</div>

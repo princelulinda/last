@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { OnlineBankingComponent } from '../../components/dashboards/online-banking/online-banking.component';
 import { bankingSavingRoutes } from '../../components/saving/saving.routes';
 import { loanRoutes } from '../../components/loan/loan.routes';
-import { BeneficiariesComponent } from '../../components/transfer/beneficiaries/beneficiaries/beneficiaries.component';
+import { TransferComponent } from '../../components/transfer/transfer/transfer.component';
 
 export const bankingRoutes: Routes = [
   {
@@ -19,6 +19,6 @@ export const bankingRoutes: Routes = [
   },
   {
     path: 'transfer',
-    component: BeneficiariesComponent,
+    component: TransferComponent,
   },
 ];
