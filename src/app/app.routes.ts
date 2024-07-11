@@ -9,6 +9,7 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import { BankingComponent } from './layouts/banking/banking.component';
 import { bankingSettingsRoutes } from './components/settings/settings.routes';
 import { NotFound404Component } from './components/errors/not-found-404/not-found-404.component';
+// import { PopulateClientGuard } from './core/guards/populate-client/populate-client.guard';
 
 export const routes: Routes = [
   // authentification routes

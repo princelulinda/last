@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,7 +16,7 @@ import {
   otpVerificationResponse,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
-import { ConfigService } from '../config/config.service';
+import { ConfigService, PlateformModel } from '../config/config.service';
 import { UserInfoModel } from '../../db/models/auth';
 import { DialogService } from '../dialog/dialog.service';
 
@@ -57,7 +58,7 @@ export class AuthService {
     return localToken !== null;
   }
 
-  populate() {
+  populateOperator() {
     return this.apiService
       .get('/hr/access/operator/organizations/?populate=true')
       .pipe(map(data => data));
@@ -107,10 +108,54 @@ export class AuthService {
     });
   }
 
-  populateClient(): Observable<{ object: UserInfoModel }> {
+  populateClient(Router: Router, switchOn: PlateformModel = 'onlineBanking') {
+    this.dialogService.dispatchSplashScreen();
+    this.apiService
+      .get<{ object: UserInfoModel }>('/client/user/populate/')
+      .subscribe({
+        next: data => {
+          const populateData = data.object;
+          const userInfo: UserInfoModel =
+            this.formatPopulateClientData(populateData);
+          this.dbService.setUser(userInfo);
+          this.configService.switchPlateform(switchOn);
+          this.dialogService.closeSplashScreen();
+        },
+        error: err => {
+          console.log('err', err);
+        },
+      });
+  }
+
+  private populate(): Observable<{ object: UserInfoModel }> {
     return this.apiService
       .get<{ object: UserInfoModel }>('/client/user/populate/')
       .pipe(map(data => data));
+  }
+  private formatPopulateClientData(data: UserInfoModel): UserInfoModel {
+    return {
+      user: {
+        username: data.user.username,
+        token: data.user.token,
+        fcm_data: {},
+        device_data: {},
+      },
+      client: {
+        id: data.client.id,
+        client_id: data.client.client_id,
+        client_code: data.client.client_code,
+        client_email: data.client.client_email,
+        client_full_name: data.client.client_full_name,
+        client_phone_number: data.client.client_phone_number,
+        client_type: data.client.client_type,
+        has_pin: data.client.has_pin,
+        is_agent: data.client.is_agent,
+        is_merchant: data.client.is_merchant,
+        is_partner_bank: data.client.is_partner_bank,
+        picture_url: data.client.picture_url,
+        prefered_language: data.client.prefered_language,
+      },
+    };
   }
 
   createAccount(body: object): Observable<createAccountResponse> {

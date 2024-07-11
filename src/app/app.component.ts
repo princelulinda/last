@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 
 import { DbService } from './core/db/db.service';
 import {
+  AuthService,
   ConfigService,
   PlateformModel,
   // PlateformModel,
@@ -29,7 +30,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private dbService: DbService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private authService: AuthService
   ) {
     this.plateform$ = this.configService.getPlateform();
     this.dbService.dbIsReady.subscribe((value: boolean) =>
@@ -38,8 +40,15 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dbService.initializeModels();
-    this.configService.initAll();
+    const localToken = this.authService.getLocalAuthToken();
+    if (
+      !localToken ||
+      this.dbService.db.hasBeenClosed() ||
+      this.dbService.db.hasFailed()
+    ) {
+      this.dbService.initializeModels();
+      this.configService.initAll();
+    }
     // this.configService.initPopulate();
 
     this.plateform$.subscribe({

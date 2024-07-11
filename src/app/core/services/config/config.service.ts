@@ -64,7 +64,9 @@ export class ConfigService {
   getPlateform(): Observable<PlateformModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
-        this.actifPlateform.next(mainConfig.activePlateform);
+        if (mainConfig) {
+          this.actifPlateform.next(mainConfig.activePlateform);
+        }
       },
     });
     return this.actifPlateform;
@@ -73,7 +75,9 @@ export class ConfigService {
   getTheme(): Observable<ThemeModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
-        this.actifTheme.next(mainConfig.activeTheme);
+        if (mainConfig) {
+          this.actifTheme.next(mainConfig.activeTheme);
+        }
       },
     });
     return this.actifTheme;
@@ -82,7 +86,9 @@ export class ConfigService {
   getMode(): Observable<ModeModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
-        this.actifMode.next(mainConfig.activeMode);
+        if (mainConfig) {
+          this.actifMode.next(mainConfig.activeMode);
+        }
       },
     });
     return this.actifMode;
