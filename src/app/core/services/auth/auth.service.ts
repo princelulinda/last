@@ -24,6 +24,7 @@ import { UserInfoModel } from '../../db/models/auth';
 export class AuthService {
   private userInfo$: Observable<UserInfoModel> | unknown;
   private userClientId$ = new Subject<number>();
+  private userIsAgent$ = new Subject<boolean>();
   private userId$ = new Subject<number>();
 
   constructor(
@@ -176,6 +177,14 @@ export class AuthService {
       },
     });
     return this.userClientId$;
+  }
+  getUserIsAgent(): Observable<boolean> {
+    this.getUserInfo().subscribe({
+      next: userInfo => {
+        this.userIsAgent$.next(userInfo.client.is_agent);
+      },
+    });
+    return this.userIsAgent$;
   }
 
   getUserId(): Observable<number> {

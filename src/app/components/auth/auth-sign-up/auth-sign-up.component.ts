@@ -5,6 +5,7 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
 import { Subject, Observable } from 'rxjs';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 
 import {
   EmailVerificationResponse,
@@ -24,6 +25,7 @@ import { UploadedFileModel } from '../auth.model';
     PasswordFieldComponent,
     ReactiveFormsModule,
     FileComponent,
+    SkeletonComponent,
   ],
   templateUrl: './auth-sign-up.component.html',
   styleUrl: './auth-sign-up.component.scss',
@@ -246,10 +248,11 @@ export class AuthSignUpComponent implements OnInit {
     });
   }
   getBankList() {
+    this.isLoadingBank = true;
     this.authService.getBanksList().subscribe({
       next: (response: { objects: bankListResponse[] }) => {
         this.getBanksList = response.objects;
-        console.log('Données sélectionnées', this.getBanksList);
+        this.isLoadingBank = false;
       },
       error: (error: Error) =>
         console.error('Erreur lors de la récupération des banks:', error),

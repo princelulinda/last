@@ -604,6 +604,7 @@
 
   <!--start step 4-->
   @if (step === 4) {
+    <button (click)="getBankList()">test</button>
     <div
       class="container font-montserrat d-flex justify-content-center pt-5 p-5">
       <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
@@ -663,6 +664,19 @@
               <span>Create an account by choosing one of the banks bellow</span>
             </div>
             <div class="row ms-2" style="gap: 2rem">
+              @if (isLoadingBank) {
+                <div class="row justify-content-center">
+                  @for (_ of [1, 2, 3]; track $index) {
+                    <div class="col-md-4 mb-4">
+                      <app-skeleton
+                        [width]="'100px'"
+                        [height]="'130px'"
+                        classes="sm-radius">
+                      </app-skeleton>
+                    </div>
+                  }
+                </div>
+              }
               @for (bank of getBanksList; track bank) {
                 <div
                   tabindex="0"

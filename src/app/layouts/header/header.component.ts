@@ -91,6 +91,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   clientInfo!: UserInfoModel;
   private userInfo$: Observable<UserInfoModel>;
   private clientId$: Observable<number>;
+  private isAgent$: Observable<boolean>;
 
   constructor(
     private configService: ConfigService,
@@ -99,6 +100,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.mainConfig$ = this.configService.getMainConfig();
     this.userInfo$ = this.authService.getUserInfo();
     this.clientId$ = this.authService.getUserClientId();
+    this.isAgent$ = this.authService.getUserIsAgent();
   }
 
   ngOnInit(): void {
