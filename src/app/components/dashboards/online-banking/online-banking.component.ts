@@ -15,7 +15,7 @@ import {
   PayMerchant,
 } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
-import { TarifComponent } from '../../tarif/tarif.component';
+import { WithdrawalComponent } from '../../withdrawal/withdrawal.component';
 
 @Component({
   selector: 'app-online-banking',
@@ -28,7 +28,7 @@ import { TarifComponent } from '../../tarif/tarif.component';
     NgClass,
     SkeletonComponent,
     CommonModule,
-    TarifComponent,
+    WithdrawalComponent,
   ],
 })
 export class OnlineBankingComponent implements OnInit, OnDestroy {
