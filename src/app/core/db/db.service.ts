@@ -163,7 +163,6 @@ export class DbService {
     // this.db.on('populate', () => this.populate());
     this.db.on('ready', () => {
       console.log(`Database ${this.dbName} is ready`);
-
       this.dbIsReady.next(true);
     });
 

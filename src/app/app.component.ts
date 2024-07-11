@@ -40,15 +40,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    const localToken = this.authService.getLocalAuthToken();
-    if (
-      !localToken ||
-      this.dbService.db.hasBeenClosed() ||
-      this.dbService.db.hasFailed()
-    ) {
-      this.dbService.initializeModels();
-      this.configService.initAll();
-    }
+    // const localToken = this.authService.getLocalAuthToken();
+
+    this.dbService.initializeModels();
+    this.configService.initAll();
     // this.configService.initPopulate();
 
     this.plateform$.subscribe({
