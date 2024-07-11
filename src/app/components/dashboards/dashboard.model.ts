@@ -3,6 +3,7 @@ export interface BillersModel {
   lookup_image: string;
   lookup_title: string;
   lookup_icon: string;
+  icon: string;
   lookup_subtitle: string;
   is_favorite_merchant: boolean;
   success: string;
