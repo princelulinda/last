@@ -165,7 +165,7 @@ export class ConfigService {
       plateformData => plateformData.name === plateform
     )[0];
   }
-  async switchPlateform(plateform: PlateformModel) {
+  async switchPlateform(plateform: PlateformModel, redirectToBaseHref = true) {
     this.activeMainConfig = await this.getActiveMainConfig();
     if (plateform !== this.activeMainConfig.activePlateform) {
       const plateformData = this.filterPlatformData(plateform);
@@ -179,7 +179,9 @@ export class ConfigService {
         activeMode: this.activeMainConfig.activeMode,
       });
       this.setHtmlMode(theme, this.activeMainConfig.activeMode);
-      this.router.navigate([baseHref]);
+      if (redirectToBaseHref) {
+        this.router.navigate([baseHref]);
+      }
     }
   }
 

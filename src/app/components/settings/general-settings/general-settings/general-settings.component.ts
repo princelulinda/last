@@ -60,7 +60,6 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
         if (userinfo) {
           this.clientInfo = userinfo;
           this.id = userinfo.client.id;
-          console.log('userinfoooooooooooooo', userinfo);
           if (this.id) {
             this.getPhoneNumbers();
             this.getEmails();
