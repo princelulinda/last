@@ -50,6 +50,7 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.getPublications();
+    this.getMerchantProducts();
   }
 
   getMerchantProducts() {

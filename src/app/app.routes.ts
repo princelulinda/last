@@ -9,7 +9,7 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import { BankingComponent } from './layouts/banking/banking.component';
 import { bankingSettingsRoutes } from './components/settings/settings.routes';
 import { NotFound404Component } from './components/errors/not-found-404/not-found-404.component';
-// import { PopulateClientGuard } from './core/guards/populate-client/populate-client.guard';
+import { OnamobDashboardComponent } from './components/dashboards/onamob-dashboard/onamob-dashboard.component';
 
 export const routes: Routes = [
   // authentification routes
@@ -42,6 +42,10 @@ export const routes: Routes = [
       {
         path: 'market',
         children: marketPlaceRoutes,
+      },
+      {
+        path: 'onamob',
+        component: OnamobDashboardComponent,
       },
       { path: '**', component: NotFound404Component },
     ],

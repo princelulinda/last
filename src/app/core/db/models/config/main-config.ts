@@ -10,7 +10,7 @@ export interface mainConfigModel {
 export class MainConfig extends BaseModel {
   static tableName = 'mainconfigs';
 
-  @UniqueField static activePlatform = null;
+  @UniqueField static activePlateform = null;
   @UniqueField static activeTheme = null;
   @UniqueField static activeMode = null;
 }
