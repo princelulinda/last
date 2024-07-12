@@ -3,7 +3,7 @@ import { OnlineBankingComponent } from '../../components/dashboards/online-banki
 import { bankingSavingRoutes } from '../../components/saving/saving.routes';
 import { loanRoutes } from '../../components/loan/loan.routes';
 import { TransferComponent } from '../../components/transfer/transfer/transfer.component';
-import { NyamuranziDetailsComponent } from '../../components/nyamuranzi-details/nyamuranzi-details/nyamuranzi-details.component';
+import { NyamuranziDetailsComponent } from '../../components/nyamuranzi/nyamuranzi-details/nyamuranzi-details.component';
 
 export const bankingRoutes: Routes = [
   {
