@@ -172,19 +172,8 @@
       </div>
     </div>
 
-    <!-- PUBLICATIONS skeleton -->
-
-    @if (publications === null || publications.length === 0) {
-      <app-publication-skeleton></app-publication-skeleton>
-      <app-publication-skeleton></app-publication-skeleton>
-    }
-
-    <!-- publications section -->
-    @if (publications !== null && publications.length > 0) {
-      @for (publication of publications; track $index) {
-        <app-publication-card [data]="publication"></app-publication-card>
-      }
-    }
+    <!-- PUBLICATIONS -->
+    <app-publications></app-publications>
   </section>
 
   <!-- announcements section -->
