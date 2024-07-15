@@ -8,11 +8,14 @@ import { Observable } from 'rxjs';
 
 import { DbService } from './core/db/db.service';
 import {
+  AuthService,
   ConfigService,
+  DialogService,
+  PlateformModel,
   // PlateformModel,
-  activeMainConfigModel,
 } from './core/services';
 import { ConfirmDialogComponent } from './global/components/popups/confirm-dialog/confirm-dialog.component';
+import { SplashScreenComponent } from './layouts/splash-screen/splash-screen.component';
 // import { environment } from '../environments/environment';
 
 @Component({
@@ -20,29 +23,40 @@ import { ConfirmDialogComponent } from './global/components/popups/confirm-dialo
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [RouterOutlet, ConfirmDialogComponent],
+  imports: [RouterOutlet, ConfirmDialogComponent, SplashScreenComponent],
 })
 export class AppComponent implements OnInit {
-  mainConfig!: activeMainConfigModel;
-  mainConfig$: Observable<activeMainConfigModel>;
+  plateform: PlateformModel = 'authentification';
+  plateform$: Observable<PlateformModel>;
 
   constructor(
     private dbService: DbService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private authService: AuthService,
+    private dialogService: DialogService
   ) {
-    this.mainConfig$ = this.configService.getMainConfig();
-    this.dbService.dbIsReady.subscribe((value: boolean) =>
-      console.log(`APP COMPONENT DB READY : ${value}`)
-    );
+    this.plateform$ = this.configService.getPlateform();
   }
 
   ngOnInit() {
+    const localToken = this.authService.getLocalAuthToken();
+    if (localToken) {
+      this.dialogService.dispatchSplashScreen();
+      this.dbService.dbIsReady.subscribe((value: boolean) => {
+        console.log(`APP COMPONENT DB READY : ${value}`);
+        setTimeout(() => {
+          this.dialogService.closeSplashScreen();
+        }, 2000);
+      });
+    }
+
     this.dbService.initializeModels();
     this.configService.initAll();
+    // this.configService.initPopulate();
 
-    this.mainConfig$.subscribe({
-      next: configs => {
-        this.mainConfig = configs;
+    this.plateform$.subscribe({
+      next: plateform => {
+        this.plateform = plateform;
       },
     });
 

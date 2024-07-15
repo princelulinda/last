@@ -36,6 +36,7 @@
     "@sentry/angular": "^8.7.0",
     "bootstrap": "^5.3.3",
     "dexie": "^4.0.7",
+    "ngx-skeleton-loader": "^9.0.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

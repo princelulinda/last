@@ -1,6 +1,16 @@
 export interface BillersModel {
+  id: string;
   lookup_image: string;
   lookup_title: string;
+  lookup_icon: string;
+  icon: string;
+  lookup_subtitle: string;
+  is_favorite_merchant: boolean;
+  success: string;
+}
+
+export interface objectsModel {
+  objects: BillersModel[];
 }
 
 export interface MerchantModel {
@@ -81,3 +91,8 @@ export interface PublicationModel {
   total_replies: number;
   total_shares: number;
 }
+
+// export interface favorite_merchant_makingModel {
+//   id: string;
+//   success: string;
+// }

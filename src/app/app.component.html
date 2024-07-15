@@ -1,15 +1,17 @@
 <head>
-  @if (mainConfig) {
-    @if (mainConfig.activePlateform === 'workstation') {
-      <link rel="icon" type="image/x-icon" href="icons/favicon/erp-fav.ico" />
-      <title>MAGIS ERP</title>
-    } @else {
-      <link rel="icon" type="image/x-icon" href="icons/favicon/ihela-fav.ico" />
-      <title>iHel&aacute; Rya&#771;nje</title>
-    }
+  @if (plateform === 'workstation') {
+    <link rel="icon" type="image/x-icon" href="icons/favicon/erp-fav.ico" />
+    <title>MAGIS ERP</title>
+  } @else {
+    <link rel="icon" type="image/x-icon" href="icons/favicon/ihela-fav.ico" />
+    <title>iHel&aacute; Rya&#771;nje</title>
   }
 </head>
 <main class="app-container position-relative">
+  <!-- TODO :: GLOBAL SPLASH SCREEN -->
+  <Section>
+    <app-splash-screen></app-splash-screen>
+  </Section>
   <!-- TODO :: GLOBAL POPUPS ON THE PROJECT -->
   <section>
     <app-confirm-dialog></app-confirm-dialog>
