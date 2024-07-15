@@ -1,0 +1,63 @@
+<!-- <p>empty-state works!</p> -->
+<div class="container-fluid">
+  <ng-container [ngSwitch]="searchType">
+    <ng-container *ngSwitchCase="'SearchTypes.list'">
+      <div class="text-center">
+        <img src="/images/empty-state/empty-list.png" alt="" />
+        <p i18n class="font-montserrat fs-l-medium">
+          <b class="fw-bold">The list is currently empty "{{ searchTerm }}".</b>
+          Start adding items to fill it up!
+        </p>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="'SearchTypes.merchant'">
+      <div class="text-center">
+        <img src="/images/empty-state/market.png" alt="" />
+        <p i18n class="font-montserrat fs-l-medium">
+          <b class="fw-bold"
+            >Oops! We couldn't find anything for '[search term]' "{{
+              searchTerm
+            }}".</b
+          >
+          Try a different search term or browse by category.
+        </p>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="'SearchTypes.product'">
+      <div class="text-center">
+        <img src="/images/empty-state/product.png" alt="" />
+        <p i18n class="font-montserrat fs-l-medium">
+          <b class="fw-bold"
+            >Oops! We couldn't find anything for '[search term]' "{{
+              searchTerm
+            }}".</b
+          >
+          Try a different search term or browse by category.
+        </p>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="'SearchTypes.other'">
+      <div class="text-center">
+        <img src="/images/empty-state/search-empty.png" alt="" />
+        <p i18n class="font-montserrat fs-l-medium">
+          <b class="fw-bold"
+            >Oops! We couldn't find anything for '[search term]' "{{
+              searchTerm
+            }}".</b
+          >
+          Try a different search term or browse by category.
+        </p>
+      </div>
+    </ng-container>
+    <!-- <ng-container *ngSwitchDefault> -->
+    <ng-container *ngSwitchCase="'SearchTypes.service'">
+      <div class="text-center">
+        <img src="/images/empty-state/service-empty.png" alt="" />
+        <p i18n class="font-montserrat fs-small">
+          This service is not available yet, please try again later
+          {{ searchTerm }}".
+        </p>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

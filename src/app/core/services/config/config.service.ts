@@ -64,7 +64,9 @@ export class ConfigService {
   getPlateform(): Observable<PlateformModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
-        this.actifPlateform.next(mainConfig.activePlateform);
+        if (mainConfig) {
+          this.actifPlateform.next(mainConfig.activePlateform);
+        }
       },
     });
     return this.actifPlateform;
@@ -73,7 +75,9 @@ export class ConfigService {
   getTheme(): Observable<ThemeModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
-        this.actifTheme.next(mainConfig.activeTheme);
+        if (mainConfig) {
+          this.actifTheme.next(mainConfig.activeTheme);
+        }
       },
     });
     return this.actifTheme;
@@ -82,21 +86,16 @@ export class ConfigService {
   getMode(): Observable<ModeModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
-        this.actifMode.next(mainConfig.activeMode);
+        if (mainConfig) {
+          this.actifMode.next(mainConfig.activeMode);
+        }
       },
     });
     return this.actifMode;
   }
 
-  setMainConfig(payload: activeMainConfigModel) {
-    // console.log(
-    //   'Main ConFig ===++++ :',
-    //   activePlatform,
-    //   activeTheme,
-    //   activeMode
-    // );
-
-    return this.dbService.addOnceUpdate(MainConfig.tableName, payload);
+  setMainConfig(payload: activeMainConfigModel): void {
+    this.dbService.addOnceUpdate(MainConfig.tableName, payload);
   }
 
   private getPreferedMode(): ModeModel {
@@ -148,6 +147,7 @@ export class ConfigService {
     // DELETE DATABASE
     this.dbService.db.delete();
     this.dbService.initializeModels();
+    this.apiService.clearLocalData();
     this.initAll();
   }
 
@@ -171,20 +171,23 @@ export class ConfigService {
       plateformData => plateformData.name === plateform
     )[0];
   }
-  async switchPlateform(plateform: PlateformModel) {
+  async switchPlateform(plateform: PlateformModel, redirectToBaseHref = true) {
     this.activeMainConfig = await this.getActiveMainConfig();
     if (plateform !== this.activeMainConfig.activePlateform) {
       const plateformData = this.filterPlatformData(plateform);
       const theme = plateformData.theme.name;
       const baseHref = plateformData.baseHref;
 
+      this.apiService.setLocalPlateform(plateform);
       this.setMainConfig({
         activePlateform: plateform,
         activeTheme: this.activeMainConfig.activeTheme,
         activeMode: this.activeMainConfig.activeMode,
       });
       this.setHtmlMode(theme, this.activeMainConfig.activeMode);
-      this.router.navigate([baseHref]);
+      if (redirectToBaseHref) {
+        this.router.navigate([baseHref]);
+      }
     }
   }
 
@@ -209,4 +212,20 @@ export class ConfigService {
     });
     this.setHtmlMode(this.activeMainConfig.activeTheme, newModeToDispatch);
   }
+
+  // async initPopulate() {
+  //   const localToken = this.apiService.getLocalToken();
+  //   const clientId = this.apiService.getLocalClientId();
+  //   const dbUser = await this.dbService.getDbUser();
+  //   if ((!localToken || !clientId) && dbUser) {
+  //     // this.apiService.clearLocalData();
+  //     this.dbService.setLocalStorageUserToken(dbUser.user.token);
+  //     this.dbService.setLocalStorageClientId(
+  //       dbUser.client.client_id.toString()
+  //     );
+  //   } else if (!dbUser) {
+  //     // this.apiService.clearLocalData();
+  //     // this.dbService.populate();
+  //   }
+  // }
 }

@@ -1,1 +1,145 @@
-<p>settings-aside-menu works!</p>
+<section class="d-none d-lg-block">
+  <div class="ms-3 mt-5 fw-bold" style="font-size: 28px; color: #c98986">
+    <span>Settings</span>
+  </div>
+
+  <div class="mb-3 ms-3" style="margin-top: 100px">
+    <div
+      class="p-2 rounded-top"
+      [ngClass]="{
+        'bg-secondary': isGeneralSubMensShown,
+      }"
+      style="width: 256px">
+      <div
+        (click)="
+          isGeneralSubMensShown = !isGeneralSubMensShown;
+          isSecurityMenusShown = false;
+          isSessionMenusShown = false;
+          selectSubMenu('general', 'account')
+        "
+        tabindex="0"
+        role="button"
+        class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+          <i
+            class="fa-solid fa-gear"
+            style="color: #9d9d9d; height: 19px; width: 20px">
+          </i>
+          <b
+            class="fw-bold text-dark text-md"
+            style="
+              color: #414141;
+
+              margin-left: 10px;
+            "
+            >General
+          </b>
+        </div>
+        <div class="text-dark">
+          <span *ngIf="!isGeneralSubMensShown">
+            <i class="fa fa-chevron-right"></i>
+          </span>
+          <span *ngIf="isGeneralSubMensShown">
+            <i class="fa fa-chevron-down"></i>
+          </span>
+        </div>
+      </div>
+      @if (isGeneralSubMensShown) {
+        <div>
+          <div class="d-grid ms-5">
+            <span
+              class="mb-1 colors fw-bold text-md-sm text-secondary"
+              role="button"
+              (click)="selectSubMenu('general', 'account')"
+              tabindex="0"
+              [ngClass]="{
+                'text-dark': selectedSubMenu === 'account',
+                'text-secondary': selectedSubMenu !== 'account',
+              }"
+              >Account</span
+            >
+
+            <span
+              class="mb-1 colors fw-bold text-md-sm text-secondary"
+              role="button"
+              (click)="selectSubMenu('general', 'customization')"
+              tabindex="0"
+              [ngClass]="{
+                'text-dark': selectedSubMenu === 'customization',
+                'text-secondary': selectedSubMenu !== 'customization',
+              }">
+              Customization</span
+            >
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+  <div class="mb-3 ms-3 mt-2">
+    <div
+      class="p-2 rounded-top"
+      [ngClass]="{
+        'bg-secondary': isSecurityMenusShown,
+      }"
+      style="width: 256px">
+      <div
+        (click)="
+          isSecurityMenusShown = !isSecurityMenusShown;
+          isGeneralSubMensShown = false;
+          isSessionMenusShown = false;
+          selectSubMenu('security', 'pin')
+        "
+        tabindex="0"
+        role="button"
+        class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+          <i
+            class="fa-solid fa-shield-halved"
+            style="color: #9d9d9d; height: 19px; width: 20px">
+          </i>
+          <b
+            class="fw-bold text-dark text-md"
+            style="color: #414141; margin-left: 10px"
+            i18n
+            >Security</b
+          >
+        </div>
+        <div class="text-dark">
+          <span *ngIf="!isSecurityMenusShown">
+            <i class="fa fa-chevron-right"></i>
+          </span>
+          <span *ngIf="isSecurityMenusShown">
+            <i class="fa fa-chevron-down"></i>
+          </span>
+        </div>
+      </div>
+      <div *ngIf="isSecurityMenusShown">
+        <div class="d-grid ms-5">
+          <span
+            class="mb-1 colors fw-bold text-md-sm"
+            role="button"
+            (click)="selectSubMenu('security', 'pin')"
+            tabindex="0"
+            [ngClass]="{
+              'text-dark': selectedSubMenu === 'pin',
+              'text-secondary': selectedSubMenu !== 'pin',
+            }"
+            >Pin</span
+          >
+
+          <span
+            class="mb-1 colors fw-bold text-md-sm"
+            role="button"
+            (click)="selectSubMenu('security', 'password')"
+            tabindex="0"
+            [ngClass]="{
+              'text-dark': selectedSubMenu === 'password',
+              'text-secondary': selectedSubMenu !== 'password',
+            }">
+            Password</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
