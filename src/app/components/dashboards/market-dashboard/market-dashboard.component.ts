@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ProductCardComponent } from '../../dev/product-card/product-card.component';
 import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import { BillersModel, objectsModel } from '../dashboard.model';
+import { BillersModel, objectModel, objectsModel } from '../dashboard.model';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { Favorite } from '../../../core/services/merchant/model';
 // import { Subject, Observable, takeUntil } from 'rxjs';
 // import { MerchantService } from '../../../core/services/merchant/merchant.service';
 
@@ -14,7 +15,7 @@ import { BillersModel, objectsModel } from '../dashboard.model';
   standalone: true,
   imports: [
     CommonModule,
-    NgxSkeletonLoaderModule,
+    SkeletonComponent,
     ProductCardComponent,
     MerchantCardComponent,
   ],
@@ -86,6 +87,7 @@ export class MarketDashboardComponent implements OnInit {
 
   // activities: any = [];
   merchants!: BillersModel[];
+  products!: BillersModel[];
   biller: [] | null = null;
   // sector: any;
   last4!: BillersModel[];
@@ -213,6 +215,17 @@ export class MarketDashboardComponent implements OnInit {
       });
   }
 
+  // getProduct(data: any) {
+  //   this.merchantService.searchProductByMerchant(data).pipe(takeUntil(this.onDestroy$)).subscribe({
+  //     next: (result: any) => {
+  //       this.products = result.objects;
+  //       this.first6 = this.merchants.slice(0,4);
+  //       console.log('this is first66-----:', this.first6);
+
+  //     }
+  //   })
+  // }
+
   /**can be work if u add interface for biller
    */
   getBillers() {
@@ -243,8 +256,8 @@ export class MarketDashboardComponent implements OnInit {
   //               // },
   //           });
   //   }
-
-  //     makeFavoriteMerchants(favorite: BillersModel, event: Event) {
+  /************************************************************************ */
+  //     makeFavoriteMerchants(favorite: BillersModel, event: any) {
 
   //     event.stopPropagation();
   //     console.log('merchant value is:', favorite);
@@ -290,6 +303,47 @@ export class MarketDashboardComponent implements OnInit {
   //         });
 
   // }
+  /********************************************************************** */
+  makeFavoriteMerchants(favorite: BillersModel, event: Event) {
+    event.stopPropagation();
+    // const productCard: HTMLElement =
+    //     event.target?.parentElement.parentElement.parentElement.parentElement
+    //         .parentElement;
+    // remove data-bs for bootstrap modal
+    // productCard.removeAttribute('data-bs-target');
+    // productCard.removeAttribute('data-bs-toggle');
+    this.favorite_merchant_making = favorite;
+    this.favorite_making = false;
+    let body!: Favorite;
+    if (!favorite.is_favorite_merchant) {
+      body = {
+        merchant: favorite.id,
+        merchant_action: 'make_favorite',
+      };
+    } else if (favorite.is_favorite_merchant) {
+      body = {
+        merchant: favorite.id,
+        merchant_action: 'revoke_favorite',
+      };
+    }
+
+    // add data-bs after click on favorite star
+    // productCard.setAttribute('data-bs-target', '#myModal');
+    // productCard.setAttribute('data-bs-toggle', 'modal');
+    this.merchantService
+      .makeFavoriteMerchants(body)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: result => {
+          const data = result as objectModel;
+          const response = data.object;
+          if (response.success) {
+            this.getMerchants('');
+            this.getFavoriteMerchants('');
+          }
+        },
+      });
+  }
   // // getSectorsAndCategories() {
   // //     this.merchantService.getActivitySectors().subscribe({
   // //         next: (data) => {

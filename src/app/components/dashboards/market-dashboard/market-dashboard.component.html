@@ -351,7 +351,35 @@
   </div>
 
   <!-- recent product -->
-  <app-product-card></app-product-card>
+  <!-- <div>
+    <section>
+      <div class="row">
+        <div class="col-10">
+          <h5 class="fs-medium fw-bold mt-4">Recent product</h5>
+        </div>
+        <div class="col ms-4">
+          <div class="row">
+            <div class="col-3 me-4">
+              <span
+                class="border rounded-circle text-secondary py-1 px-2 opacity-50">
+                <i class="fa-solid fa-arrow-left fa-xs"></i>
+              </span>
+            </div>
+            <div class="col-3">
+              <span class="border rounded-circle text-dark py-1 px-2">
+                <i class="fa-solid fa-arrow-right fa-xs"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        @if(get_product) {
+
+        }
+      </div>
+    </section>
+  </div> -->
   <!-- recent billers -->
   <div class="mt-5">
     <div class="row mb-3">
@@ -544,47 +572,44 @@
           (click)="openModal(merchant, $event)"
           tabindex="0">
           <div class="col-2 w-100">
-            <!-- <span
-            type="button"
-            (click)="makeFavoriteMerchants(merchant, $event)"
-            *ngIf="
+            <span
+              type="button"
+              (click)="makeFavoriteMerchants(merchant, $event)"
+              *ngIf="
                 merchant.is_favorite_merchant &&
                 (favorite_merchant_making === null ||
-                    favorite_merchant_making.id !== merchant.id)
-            " tabindex="0"
-            title="Revoke Favorite"
-            class=" z-3 position-absolute bg-all-white rounded-circle  end-0 me-4 mt-3 p-1 px-2 d-flex"
-        >
-            <span class="text-primary"
-                ><i class="fa-solid fa-star"></i
-            ></span>
-        </span>
-        <span
-            type="button"
-            (click)="makeFavoriteMerchants(merchant, $event)" tabindex="0"
-            title="Make Favorite"
-            *ngIf="
+                  favorite_merchant_making.id !== merchant.id)
+              "
+              tabindex="0"
+              title="Revoke Favorite"
+              class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
+              <span class="text-primary"><i class="fa-solid fa-star"></i></span>
+            </span>
+            <span
+              type="button"
+              (click)="makeFavoriteMerchants(merchant, $event)"
+              tabindex="0"
+              title="Make Favorite"
+              *ngIf="
                 !merchant.is_favorite_merchant &&
                 (favorite_merchant_making === null ||
-                    favorite_merchant_making.id !== merchant.id)
-            "
-            class="z-3 position-absolute bg-all-white rounded-circle  end-0 me-4 mt-3 p-1 px-2 d-flex"
-        >
-            <span class=" text-primary"
+                  favorite_merchant_making.id !== merchant.id)
+              "
+              class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
+              <span class="text-primary"
                 ><i class="fa-regular fa-star"></i
-            ></span>
-        </span>
-        <span
-            *ngIf="
+              ></span>
+            </span>
+            <span
+              *ngIf="
                 favorite_merchant_making !== null &&
                 favorite_merchant_making.id === merchant.id
-            "
-            class="z-3 position-absolute bg-all-white rounded-circle  end-0 me-4 mt-3 p-1 px-2 d-flex"
-        >
-            <span class="text-primary"
+              "
+              class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
+              <span class="text-primary"
                 ><i class="fas fa-spinner fa-pulse"></i
-            ></span>
-        </span> -->
+              ></span>
+            </span>
             <app-merchant-card [merchant]="merchant" [get_merchant]="true">
             </app-merchant-card>
           </div>
@@ -592,29 +617,25 @@
       </div>
       <div class="row ms-2 merchant" *ngIf="!merchants">
         <div
-          class="col-lg-2 col-md-2 col-sm-4 col mb-2"
-          *ngFor="let _ of [1, 2, 3, 4, 5, 6]">
-          <ngx-skeleton-loader
-            [theme]="{
-              'height.px': 100,
-              'width.px': 100,
-              'margin-bottom': 0,
-            }"></ngx-skeleton-loader>
+          class="col-lg-3 col-md-2 col-sm-4 col mb-2"
+          *ngFor="let _ of [1, 2, 3, 4]">
+          <app-skeleton
+            height="140px"
+            width="170px"
+            classes="sm-radius"></app-skeleton>
           <div>
-            <ngx-skeleton-loader
-              [theme]="{
-                'height.px': 10,
-                'width.%': 30,
-              }"
-              appearance="line"></ngx-skeleton-loader>
+            <app-skeleton
+              height="10px"
+              width="30px"
+              classes="sm-radius"
+              appearance="line"></app-skeleton>
           </div>
           <div>
-            <ngx-skeleton-loader
-              [theme]="{
-                'height.px': 10,
-                'width.%': 50,
-              }"
-              appearance="line"></ngx-skeleton-loader>
+            <app-skeleton
+              height="10px"
+              width="50px"
+              classes="sm-radius"
+              appearance="line"></app-skeleton>
           </div>
         </div>
       </div>

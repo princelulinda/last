@@ -7,6 +7,7 @@ import { ApiService } from '../api/api.service';
 import { map, Observable, retry } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
+import { Favorite } from './model';
 // import { Pagination } from './model';
 @Injectable({
   providedIn: 'root',
@@ -66,7 +67,7 @@ export class MerchantService {
     );
   }
   //needed in market-dashboard
-  makeFavoriteMerchants(favorite: []) {
+  makeFavoriteMerchants(favorite: Favorite) {
     const url = '/dbs/merchant-client/favorite/';
     return this.apiService.post(url, favorite).pipe(
       retry({ count: 5, delay: 3000, resetOnSuccess: true }),
