@@ -11,11 +11,13 @@ import {
   AuthService,
   ConfigService,
   DialogService,
+  ModeModel,
   PlateformModel,
   // PlateformModel,
 } from './core/services';
 import { ConfirmDialogComponent } from './global/components/popups/confirm-dialog/confirm-dialog.component';
 import { SplashScreenComponent } from './layouts/splash-screen/splash-screen.component';
+import { CommonModule } from '@angular/common';
 // import { environment } from '../environments/environment';
 
 @Component({
@@ -23,11 +25,18 @@ import { SplashScreenComponent } from './layouts/splash-screen/splash-screen.com
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [RouterOutlet, ConfirmDialogComponent, SplashScreenComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    ConfirmDialogComponent,
+    SplashScreenComponent,
+  ],
 })
 export class AppComponent implements OnInit {
   plateform: PlateformModel = 'authentification';
   plateform$: Observable<PlateformModel>;
+  activeMode!: ModeModel;
+  activeMode$: Observable<ModeModel>;
 
   constructor(
     private dbService: DbService,
@@ -36,6 +45,7 @@ export class AppComponent implements OnInit {
     private dialogService: DialogService
   ) {
     this.plateform$ = this.configService.getPlateform();
+    this.activeMode$ = this.configService.getMode();
   }
 
   ngOnInit() {
@@ -56,6 +66,11 @@ export class AppComponent implements OnInit {
     this.plateform$.subscribe({
       next: plateform => {
         this.plateform = plateform;
+      },
+    });
+    this.activeMode$.subscribe({
+      next: mode => {
+        this.activeMode = mode;
       },
     });
 
