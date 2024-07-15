@@ -1,8 +1,11 @@
 @if (isLoading) {
   <!-- show skeletons by count Input  -->
-  @for (item of getArray(countSkeletons); track $index) {
+  @for (item of getArray(countSkeletons); track $index; let index = $index) {
     <div
-      class="lg-radius shadow bg-white d-flex flex-column col-md-10 mx-auto max-width-600 m-0 p-0">
+      class="lg-radius shadow bg-white d-flex flex-column col-md-10 mx-auto max-width-600 m-0 p-0"
+      [ngClass]="{
+        'mt-4': index !== 0,
+      }">
       <div class="header d-flex align-items-center mx-4 my-2">
         <div
           class="profil rounded-circle overflow-hidden d-flex align-items-center justify-content-center">
