@@ -1,0 +1,14 @@
+.unavailable-contaier {
+  animation: transition 0.7s ease-in;
+}
+
+@keyframes transition {
+  0% {
+    opacity: 0;
+    transform: translatey(100px);
+  }
+  100% {
+    opacity: 1;
+    transtransform: translatey(0px);
+  }
+}
