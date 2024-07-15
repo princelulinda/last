@@ -1,10 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { PublicationModel } from '../../../dashboards/dashboard.model';
+import { CommonModule } from '@angular/common';
+
+import { PublicationModel } from '../../dashboards/dashboard.model';
 
 @Component({
   selector: 'app-publication-card',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './publication-card.component.html',
   styleUrl: './publication-card.component.scss',
 })
@@ -32,23 +34,4 @@ export class PublicationCardComponent {
     total_replies: 0,
     total_shares: 0,
   };
-
-  dateFormatter(createdAt: string): string {
-    const date = new Date(createdAt);
-
-    const options: Intl.DateTimeFormatOptions = {
-      // year: 'numeric',
-      month: 'short',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    };
-
-    const formatter = new Intl.DateTimeFormat('en-GB', options);
-    const formattedDate: string = formatter.format(date);
-    const [datePart, timePart] = formattedDate.split(', ');
-
-    return `${datePart} at ${timePart}`;
-  }
 }

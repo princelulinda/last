@@ -7,6 +7,13 @@
     <title>iHel&aacute; Rya&#771;nje</title>
   }
 </head>
+<span
+  id="app-global-bg"
+  class="position-absolute zn-1"
+  [ngClass]="{
+    'opacity-25': activeMode === 'light',
+    'opacity-50': activeMode === 'dark',
+  }"></span>
 <main class="app-container position-relative">
   <!-- TODO :: GLOBAL SPLASH SCREEN -->
   <Section>

@@ -11,7 +11,7 @@ import { ApiService } from '../api/api.service';
 import { Router } from '@angular/router';
 
 export type ModeModel = 'light' | 'dark';
-export type ThemeModel = 'ihela' | 'magis' | 'erp';
+export type ThemeModel = 'ihela' | 'magis' | 'erp' | 'onamob';
 export type PlateformModel =
   | 'authentification'
   | 'newsFeed'
@@ -32,6 +32,7 @@ export interface activeMainConfigModel {
   providedIn: 'root',
 })
 export class ConfigService {
+  initConfigReady: Subject<boolean> = new Subject<boolean>();
   activeMainConfig!: activeMainConfigModel;
   mainConfig$: unknown | Observable<activeMainConfigModel>;
   actifPlateform = new Subject<PlateformModel>();
@@ -142,13 +143,12 @@ export class ConfigService {
     });
   }
 
-  clearDB() {
-    this.apiService.clearLocalData();
+  async clearDB() {
     // DELETE DATABASE
-    this.dbService.db.delete();
-    this.dbService.initializeModels();
+    // await this.dbService.db.delete();
     this.apiService.clearLocalData();
-    this.initAll();
+    // await this.dbService.initializeModels();
+    // this.initAll();
   }
 
   private setHtmlMode(newTheme: ThemeModel, newMode: ModeModel) {

@@ -8,7 +8,7 @@ import { marketPlaceRoutes } from './routes/market-place/marketPlace.routes';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { BankingComponent } from './layouts/banking/banking.component';
 import { bankingSettingsRoutes } from './components/settings/settings.routes';
-import { NotFound404Component } from './components/errors/not-found-404/not-found-404.component';
+import { NotFound404Component } from './global/components/errors/not-found-404/not-found-404.component';
 import { OnamobDashboardComponent } from './components/dashboards/onamob-dashboard/onamob-dashboard.component';
 
 export const routes: Routes = [

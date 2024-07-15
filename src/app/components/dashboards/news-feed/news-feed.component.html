@@ -165,26 +165,12 @@
       </div>
       <div
         class="d-flex bg-white flex-column justify-content-center align-items-center p-2 mb-3 sm-radius overflow-hidden w-100">
-        <img
-          src="./images/NouvelleExperience.jpeg"
-          class="image w-100"
-          alt="" />
+        <img src="./images/NouvelleExperience.jpg" class="image w-100" alt="" />
       </div>
     </div>
 
-    <!-- PUBLICATIONS skeleton -->
-
-    @if (publications === null || publications.length === 0) {
-      <app-publication-skeleton></app-publication-skeleton>
-      <app-publication-skeleton></app-publication-skeleton>
-    }
-
-    <!-- publications section -->
-    @if (publications !== null && publications.length > 0) {
-      @for (publication of publications; track $index) {
-        <app-publication-card [data]="publication"></app-publication-card>
-      }
-    }
+    <!-- PUBLICATIONS -->
+    <app-publications></app-publications>
   </section>
 
   <!-- announcements section -->
@@ -335,7 +321,7 @@
             href="https://apps.apple.com/fr/app/ihel%C3%A1-ryanje-app/id6470385289"
             target="_blank">
             <img
-              src="/images/Download-On-The-App-Store-PNG-Transparent-Image.png"
+              src="/images/auth/Download-On-The-App-Store-PNG-Transparent-Image.png"
               alt="App Store Logo"
               class="img-fluid" />
           </a>
@@ -345,7 +331,7 @@
             href="https://play.google.com/store/apps/details?id=com.ubuviz.ihera_mobile&hl=fr&gl=US"
             target="_blank">
             <img
-              src="/images/Logo-Disponible-sur-Google-play_full_image.png"
+              src="/images/auth/Logo-Disponible-sur-Google-play_full_image.png"
               alt="Play Store Logo"
               class="img-fluid" />
           </a>

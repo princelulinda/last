@@ -92,8 +92,9 @@ export class AuthService {
   logout() {
     this.dialogService.dispatchLoading();
     this.apiService.post('/users/logout/').subscribe({
-      next: () => {
-        this.configService.clearDB();
+      next: async () => {
+        await this.configService.clearDB();
+        this.configService.switchPlateform('authentification');
         this.dialogService.closeLoading();
       },
       error: err => {
@@ -120,7 +121,9 @@ export class AuthService {
             this.formatPopulateClientData(populateData);
           this.dbService.setUser(userInfo);
           this.configService.switchPlateform(switchOn);
-          this.dialogService.closeSplashScreen();
+          setTimeout(() => {
+            this.dialogService.closeSplashScreen();
+          }, 1000);
         },
         error: err => {
           console.log('err', err);
@@ -226,7 +229,9 @@ export class AuthService {
   getUserIsAgent(): Observable<boolean> {
     this.getUserInfo().subscribe({
       next: userInfo => {
-        this.userIsAgent$.next(userInfo.client.is_agent);
+        if (userInfo) {
+          this.userIsAgent$.next(userInfo.client.is_agent);
+        }
       },
     });
     return this.userIsAgent$;
