@@ -1,27 +1,16 @@
 <div
   id="tarif"
   class="border border-secondary bg-secondary p-4 lg-radius w-100">
-  @if (showExternalTarif || showInternalTarif) {
+  @if (actifSection === 'internalBank' || actifSection === 'externalBank') {
     <div class="container">
       <div class="col">
         <span class="me-4">
           <button
-            class="btn border border-dark px-4"
-            [ngStyle]="{
-              'background-color': buttonInternalClicked
-                ? '#810019'
-                : buttonInternalClicked === false &&
-                    buttonExternalClicked === false
-                  ? '#810019'
-                  : 'white',
-              color: buttonInternalClicked
-                ? 'white'
-                : buttonInternalClicked === false &&
-                    buttonExternalClicked === false
-                  ? 'white'
-                  : '#333',
+            [ngClass]="{
+              'bg-primary text-all-white': actifSection === 'internalBank',
             }"
-            (click)="onButtonInternalClick()"
+            class="btn border border-dark px-4"
+            (click)="setActifSection('internalBank')"
             i18n>
             Internal
           </button></span
@@ -29,11 +18,10 @@
         <span>
           <button
             class="btn border border-dark px-4"
-            [ngStyle]="{
-              'background-color': buttonExternalClicked ? '#810019' : 'white',
-              color: buttonExternalClicked ? 'white' : '#333',
+            [ngClass]="{
+              'bg-primary text-all-white': actifSection === 'externalBank',
             }"
-            (click)="onButtonExternalClick()"
+            (click)="setActifSection('externalBank')"
             i18n>
             External
           </button></span
@@ -42,7 +30,7 @@
       <br />
     </div>
   }
-  @if (showExternalTarif) {
+  @if (actifSection === 'externalBank') {
     <div>
       <div class="w-100 d-flex justify-content-center">
         <div class="empty-state-icon d-grid fs-3">
@@ -56,7 +44,7 @@
       </div>
     </div>
   }
-  @if (showInternalTarif) {
+  @if (actifSection === 'internalBank') {
     <div id="tarif">
       <div class="container">
         @if (isLoadingBank) {
@@ -154,7 +142,7 @@
                   role="button"
                   tabindex="0"
                   (click)="
-                    onTariffClick();
+                    setActifSection('tarif');
                     selectedTarifInfo(tarif);
                     getTarifFees(tarif.id)
                   ">
@@ -200,10 +188,15 @@
     </div>
   }
 
-  @if (tariffClicked && !isLoadingTariffFees) {
+  @if (actifSection === 'tarif' && !isLoadingTariffFees) {
     <div>
       <div class="col d-flex justify-content-end">
-        <span tabindex="0" role="button" i18n (click)="backOnTarifHome()" i18n>
+        <span
+          tabindex="0"
+          role="button"
+          i18n
+          (click)="setActifSection('internalBank')"
+          i18n>
           <i class="fa fa-arrow-left" aria-hidden="true"> </i> Back
         </span>
       </div>
@@ -236,7 +229,7 @@
             <button
               type="button"
               class="btn bg-primary text-all-white fw-bold px-4"
-              (click)="onButtonSimulateClick()"
+              (click)="setActifSection('simulate')"
               i18n>
               Simulate
             </button></span
@@ -313,14 +306,14 @@
       </div>
     </div>
   }
-  @if (showSimulate) {
+  @if (actifSection === 'simulate') {
     <div>
       <div class="col d-flex justify-content-end text-dark">
         <span
           tabindex="0"
           role="button"
           i18n
-          (click)="onButtonInternalClick(); resetSimulateData()">
+          (click)="resetSimulateData(); setActifSection('tarif')">
           <i class="fa fa-arrow-left text-dark" aria-hidden="true"> </i>
           Back
         </span>
