@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { BillersModel } from '../../dashboards/dashboard.model';
 // import { MerchantService } from '../../../core/services/merchant/merchant.service';
 // import { takeUntil } from 'rxjs/operators';
@@ -10,7 +9,7 @@ import { BillersModel } from '../../dashboards/dashboard.model';
 @Component({
   selector: 'app-merchant-card',
   standalone: true,
-  imports: [CommonModule, NgxSkeletonLoaderModule],
+  imports: [CommonModule],
   templateUrl: './merchant-card.component.html',
   styleUrl: './merchant-card.component.scss',
 })
