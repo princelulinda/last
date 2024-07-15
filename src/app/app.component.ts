@@ -42,8 +42,7 @@ export class AppComponent implements OnInit {
     const localToken = this.authService.getLocalAuthToken();
     if (localToken) {
       this.dialogService.dispatchSplashScreen();
-      this.dbService.dbIsReady.subscribe((value: boolean) => {
-        console.log(`APP COMPONENT DB READY : ${value}`);
+      this.dbService.dbIsReady.subscribe(() => {
         setTimeout(() => {
           this.dialogService.closeSplashScreen();
         }, 2000);

@@ -32,6 +32,7 @@ export interface activeMainConfigModel {
   providedIn: 'root',
 })
 export class ConfigService {
+  initConfigReady: Subject<boolean> = new Subject<boolean>();
   activeMainConfig!: activeMainConfigModel;
   mainConfig$: unknown | Observable<activeMainConfigModel>;
   actifPlateform = new Subject<PlateformModel>();
@@ -137,17 +138,17 @@ export class ConfigService {
     };
 
     this.dbService.dbIsReady.subscribe((value: boolean) => {
+      alert('Initialisation');
       console.log(`INITIALIZING ALL CONFIG FOR DB READY ${value}`);
       initFn();
     });
   }
 
-  clearDB() {
-    this.apiService.clearLocalData();
+  async clearDB() {
     // DELETE DATABASE
-    this.dbService.db.delete();
-    this.dbService.initializeModels();
+    await this.dbService.db.delete();
     this.apiService.clearLocalData();
+    await this.dbService.initializeModels();
     this.initAll();
   }
 
