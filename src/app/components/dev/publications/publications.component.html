@@ -1,46 +1,49 @@
 @if (isLoading) {
-  <div
-    class="lg-radius shadow bg-white d-flex flex-column col-md-10 mx-auto max-width-600 m-0 p-0">
-    <div class="header d-flex align-items-center mx-4 my-2">
-      <div
-        class="profil rounded-circle overflow-hidden d-flex align-items-center justify-content-center">
-        <app-skeleton [height]="'50px'" [width]="'50px'"></app-skeleton>
-      </div>
-      <div class="d-flex flex-column gap-0 ps-2 w-50">
-        <app-skeleton
-          [height]="'8px'"
-          [width]="'80%'"
-          [classes]="'rounded'"></app-skeleton>
-        <app-skeleton
-          [height]="'8px'"
-          [width]="'100%'"
-          [classes]="'rounded'"></app-skeleton>
-      </div>
-    </div>
-    <div class="w-100 px-3 overflow-hidden">
-      <app-skeleton
-        [height]="'5px'"
-        [width]="'100%'"
-        [classes]="'rounded'"></app-skeleton>
-      <app-skeleton
-        [height]="'5px'"
-        [width]="'100%'"
-        [classes]="'rounded'"></app-skeleton>
-      <app-skeleton
-        [height]="'5px'"
-        [width]="'50%'"
-        [classes]="'rounded'"></app-skeleton>
-    </div>
+  <!-- show skeletons by count Input  -->
+  @for (item of getArray(countSkeletons); track $index) {
     <div
-      class="d-flex bg-white flex-column justify-content-center postImage align-items-center p-2 px-3 mb-2 sm-radius overflow-hidden w-100 align-items-center">
-      <div class="w-100">
+      class="lg-radius shadow bg-white d-flex flex-column col-md-10 mx-auto max-width-600 m-0 p-0">
+      <div class="header d-flex align-items-center mx-4 my-2">
+        <div
+          class="profil rounded-circle overflow-hidden d-flex align-items-center justify-content-center">
+          <app-skeleton [height]="'50px'" [width]="'50px'"></app-skeleton>
+        </div>
+        <div class="d-flex flex-column gap-0 ps-2 w-50">
+          <app-skeleton
+            [height]="'8px'"
+            [width]="'80%'"
+            [classes]="'rounded'"></app-skeleton>
+          <app-skeleton
+            [height]="'8px'"
+            [width]="'100%'"
+            [classes]="'rounded'"></app-skeleton>
+        </div>
+      </div>
+      <div class="w-100 px-3 overflow-hidden">
         <app-skeleton
-          [height]="'300px'"
+          [height]="'5px'"
           [width]="'100%'"
-          [classes]="'rounded-2'"></app-skeleton>
+          [classes]="'rounded'"></app-skeleton>
+        <app-skeleton
+          [height]="'5px'"
+          [width]="'100%'"
+          [classes]="'rounded'"></app-skeleton>
+        <app-skeleton
+          [height]="'5px'"
+          [width]="'50%'"
+          [classes]="'rounded'"></app-skeleton>
+      </div>
+      <div
+        class="d-flex bg-white flex-column justify-content-center postImage align-items-center p-2 px-3 mb-2 sm-radius overflow-hidden w-100 align-items-center">
+        <div class="w-100">
+          <app-skeleton
+            [height]="'300px'"
+            [width]="'100%'"
+            [classes]="'rounded-2'"></app-skeleton>
+        </div>
       </div>
     </div>
-  </div>
+  }
 } @else {
   @for (publication of publications; track $index; let index = $index) {
     <div

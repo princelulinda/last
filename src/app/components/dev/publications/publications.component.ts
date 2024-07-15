@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.service';
 import { PublicationModel } from '../../dashboards/dashboard.model';
 import { Subject, takeUntil } from 'rxjs';
@@ -22,6 +22,8 @@ import { ShowMoreDirective } from '../../../global/directives/show-more/show-mor
 })
 export class PublicationsComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
+  @Input() countSkeletons = 3;
+
   publications: PublicationModel[] | [] | null = null;
   isLoading = false;
 
@@ -56,6 +58,10 @@ export class PublicationsComponent implements OnInit, OnDestroy {
           });
         },
       });
+  }
+
+  getArray(count: number): number[] {
+    return new Array(count);
   }
 
   ngOnDestroy(): void {

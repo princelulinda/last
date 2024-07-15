@@ -38,7 +38,7 @@
         </p>
       }
       <p class="m-0 p-0 text-secondary fs-x-small">
-        {{ dateFormatter(data.category.created_at) }} <b>Public </b
+        {{ data.category.created_at | date: 'medium' }} <b>Public </b
         ><i class="fa-solid fa-earth-africa"></i>
       </p>
     </div>
