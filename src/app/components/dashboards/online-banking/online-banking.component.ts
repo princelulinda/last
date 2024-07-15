@@ -16,6 +16,7 @@ import {
 } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
 import { WithdrawalComponent } from '../../withdrawal/withdrawal.component';
+import { TarifComponent } from '../../tarif/tarif.component';
 
 @Component({
   selector: 'app-online-banking',
@@ -29,6 +30,7 @@ import { WithdrawalComponent } from '../../withdrawal/withdrawal.component';
     SkeletonComponent,
     CommonModule,
     WithdrawalComponent,
+    TarifComponent,
   ],
 })
 export class OnlineBankingComponent implements OnInit, OnDestroy {
