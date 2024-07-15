@@ -146,10 +146,10 @@ export class ConfigService {
 
   async clearDB() {
     // DELETE DATABASE
-    await this.dbService.db.delete();
+    // await this.dbService.db.delete();
     this.apiService.clearLocalData();
-    await this.dbService.initializeModels();
-    this.initAll();
+    // await this.dbService.initializeModels();
+    // this.initAll();
   }
 
   private setHtmlMode(newTheme: ThemeModel, newMode: ModeModel) {
