@@ -11,7 +11,7 @@ import { ApiService } from '../api/api.service';
 import { Router } from '@angular/router';
 
 export type ModeModel = 'light' | 'dark';
-export type ThemeModel = 'ihela' | 'magis' | 'erp';
+export type ThemeModel = 'ihela' | 'magis' | 'erp' | 'onamob';
 export type PlateformModel =
   | 'authentification'
   | 'newsFeed'
