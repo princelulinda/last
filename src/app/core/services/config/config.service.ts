@@ -138,7 +138,6 @@ export class ConfigService {
     };
 
     this.dbService.dbIsReady.subscribe((value: boolean) => {
-      alert('Initialisation');
       console.log(`INITIALIZING ALL CONFIG FOR DB READY ${value}`);
       initFn();
     });

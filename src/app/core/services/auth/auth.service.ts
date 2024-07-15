@@ -121,7 +121,9 @@ export class AuthService {
             this.formatPopulateClientData(populateData);
           this.dbService.setUser(userInfo);
           this.configService.switchPlateform(switchOn);
-          this.dialogService.closeSplashScreen();
+          setTimeout(() => {
+            this.dialogService.closeSplashScreen();
+          }, 1000);
         },
         error: err => {
           console.log('err', err);
