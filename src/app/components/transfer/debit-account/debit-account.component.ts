@@ -45,7 +45,7 @@ export class DebitAccountComponent {
   //   isBanksListShown = false;
   //   isBalanceShown = false;
   //   lookupType = '';
-  //   @Output() debitOptions: EventEmitter<{
+  //   @Output() debitOptions = new EventEmitter<{
   //       account: any;
   //       wallet: any;
   //       selectedDebitOption: any;
@@ -54,13 +54,13 @@ export class DebitAccountComponent {
   //       isAmountChanging: boolean;
   //       selectedInstitutionType: string;
   //       selectedInstitution: string;
-  //   }> = new EventEmitter();
-  //   @Output() amount: EventEmitter<number> = new EventEmitter();
-  //   @Output() lookupOptions: EventEmitter<{
+  //   }>();
+  //   @Output() amount = new EventEmitter<number>();
+  //   @Output() lookupOptions = new EventEmitter<{
   //       id: string;
   //       acc_holder: string;
   //       acc_number: string;
-  //   }> = new EventEmitter();
+  //   }>();
   //   @Input() isTransactionDone = false;
   //   @Input() isGrey = false;
   //   @Input() title = 'Debit Account';
