@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ProductCardComponent } from '../../dev/product-card/product-card.component';
 import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
@@ -12,12 +11,7 @@ import { BillersModel, objectsModel } from '../dashboard.model';
 @Component({
   selector: 'app-market-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-    NgxSkeletonLoaderModule,
-    ProductCardComponent,
-    MerchantCardComponent,
-  ],
+  imports: [CommonModule, ProductCardComponent, MerchantCardComponent],
   templateUrl: './market-dashboard.component.html',
   styleUrl: './market-dashboard.component.scss',
 })
