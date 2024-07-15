@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 
 import { Subject, takeUntil } from 'rxjs';
 
@@ -32,7 +32,7 @@ export class LoanSimulatorComponent implements OnDestroy {
   constructor(
     private _location: Location,
     private loanService: LoanService,
-    private router: Router,
+    // private router: Router,
     private dialogService: DialogService
   ) {
     this.simulationForm = new FormGroup({
