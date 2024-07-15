@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+
 import { Observable, Subject } from 'rxjs';
+
 import { DialogService } from '../../../../core/services';
-import { CurrencyModel } from '../../currency.model';
+import { CurrencyModel } from '../currency.model';
 
 @Component({
   selector: 'app-amount-visibility',
@@ -12,13 +14,14 @@ import { CurrencyModel } from '../../currency.model';
   styleUrl: './amount-visibility.component.scss',
 })
 export class AmountVisibilityComponent implements OnInit, OnDestroy {
-  @Input() amount: number | string = ''; // Input property to receive the amount value
-  @Input() currency: CurrencyModel | null = null; // Input property to receive the currency value
-  @Input() customClasses: string | undefined; // Input property to receive custom CSS classes
-
-  showAmounts: boolean | undefined = false; // Variable to store the visibility state of amounts
-  showAmounts$: Observable<boolean>; // Observable for the visibility state
   private onDestroy$: Subject<void> = new Subject<void>(); // Subject to trigger the component destruction
+
+  @Input({ required: true }) amount: number | string = ''; // Input property to receive the amount value
+  @Input({ required: true }) currency: CurrencyModel = 'BIF'; // Input property to receive the currency value
+  @Input() customClasses = ''; // Input property to receive custom CSS classes
+
+  showAmounts = false; // Variable to store the visibility state of amounts
+  showAmounts$: Observable<boolean>; // Observable for the visibility state
 
   constructor(private dialogService: DialogService) {
     this.showAmounts$ = this.dialogService.getAmountState();
