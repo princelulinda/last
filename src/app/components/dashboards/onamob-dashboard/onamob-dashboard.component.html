@@ -4,18 +4,20 @@
       <div class="d-lg-flex align-items-start row p-3 w-100">
         <div class="w-40 p-3">
           <div class="d-flex bg-secondary overflow-hidden p-2 rounded border">
-            <div class="d-flex align-items-center">
-              <span class="text-center me-3">
-                <app-profile-card
-                  [imageUrl]="userInfo.client.picture_url"
-                  [fullName]="
-                    userInfo.client.client_full_name
-                  "></app-profile-card>
-              </span>
-              <b class="text-center fs-medium">
-                {{ userInfo.client.client_full_name }}
-              </b>
-            </div>
+            @if (userInfo) {
+              <div class="d-flex align-items-center">
+                <span class="text-center me-3">
+                  <app-profile-card
+                    [imageUrl]="userInfo.client.picture_url"
+                    [fullName]="
+                      userInfo.client.client_full_name
+                    "></app-profile-card>
+                </span>
+                <b class="text-center fs-medium">
+                  {{ userInfo.client.client_full_name }}
+                </b>
+              </div>
+            }
           </div>
         </div>
         <div class="w-60 ps-4 sec row">
