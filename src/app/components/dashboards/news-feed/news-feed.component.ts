@@ -8,7 +8,7 @@ import { BillersModel, ProductModel } from '../dashboard.model';
 import { ConfigService, PlateformModel } from '../../../core/services';
 import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.service';
 import { ShowMoreDirective } from '../../../global/directives/show-more/show-more.directive';
-import { PublicationsComponent } from '../../dev/publications/publications.component';
+import { PublicationsComponent } from '../../publications/publications.component';
 
 @Component({
   selector: 'app-news-feed',

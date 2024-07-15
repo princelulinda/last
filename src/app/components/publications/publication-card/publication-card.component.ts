@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { PublicationModel } from '../../../dashboards/dashboard.model';
 import { CommonModule } from '@angular/common';
+
+import { PublicationModel } from '../../dashboards/dashboard.model';
 
 @Component({
   selector: 'app-publication-card',
