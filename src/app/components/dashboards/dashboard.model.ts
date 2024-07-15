@@ -13,6 +13,10 @@ export interface objectsModel {
   objects: BillersModel[];
 }
 
+export interface objectModel {
+  object: BillersModel;
+}
+
 export interface MerchantModel {
   code: string;
   id: number;
@@ -92,7 +96,6 @@ export interface PublicationModel {
   total_shares: number;
 }
 
-// export interface favorite_merchant_makingModel {
-//   id: string;
-//   success: string;
-// }
+export interface HTMLInputEvent extends Event {
+  target: HTMLInputElement | EventTarget;
+}
