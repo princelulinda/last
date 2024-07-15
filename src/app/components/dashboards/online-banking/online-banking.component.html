@@ -18,7 +18,7 @@
       <div class="bg-secondary lg-radius p-4 border w-resp mt-4">
         <div class="accordion" id="accordionExample">
           @for (menuGroup of menuGroups; track $index; let i = $index) {
-            <div class="accordion-item mb-3 p-2 sm-radius border bg-white">
+            <div class="accordion-item mb-3 p-2 sm-radius border bg-all-white">
               <div
                 class="accordion-header"
                 (click)="showMenus(i)"
@@ -35,7 +35,7 @@
                       class="rounded-circle circ-badge me-2 bg-secondary justify-content-center d-flex align-items-center">
                       <i
                         [class]="
-                          'fa fa-' + menuGroup.icon + ' text-l-md text-dark'
+                          'fa fa-' + menuGroup.icon + ' fs-l-medium text-dark'
                         "></i>
                     </span>
                     <div class="d-grid align-items-center">
@@ -212,7 +212,8 @@
                             <div
                               class="d-grid justify-content-center align-items-center img-container border lg-radius">
                               <span>
-                                <i [class]="'fs-3 fa fa-' + menu.icon"></i>
+                                <i
+                                  [class]="'fs-x-large fa fa-' + menu.icon"></i>
                               </span>
                             </div>
                           </div>
@@ -228,7 +229,7 @@
                       <span class="text-center mb-3">
                         <i class="fa fa-face-meh empty-icon"></i>
                       </span>
-                      <b i18n class="fs-5 text-secondary text-center"
+                      <b i18n class="fs-l-medium text-secondary text-center"
                         >This section is not available at the moment</b
                       >
                     </div>
@@ -253,10 +254,10 @@
             class="text-dark"
             data-bs-dismiss="modal"
             aria-label="Close">
-            <i class="fa-solid fa-xmark fs-4"></i>
+            <i class="fa-solid fa-xmark fs-large"></i>
           </span>
         </div>
-        <div class="text-dark fs-5 text-center p-2" i18n>
+        <div class="text-dark fs-l-medium text-center p-2" i18n>
           Create an account by choosing one of the banks bellow
         </div>
         <br />
@@ -308,10 +309,10 @@
 
         @if (banksFiltered && banksFiltered.length === 0) {
           <div
-            class="p-2 text-center text-l fw-bold"
+            class="p-2 text-center fs-large fw-bold"
             [ngClass]="{
               'text-primary': mode === 'light',
-              'text-light': mode === 'dark',
+              'text-all-white': mode === 'dark',
             }"
             i18n>
             You are already in all the available banks

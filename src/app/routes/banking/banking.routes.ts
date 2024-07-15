@@ -3,6 +3,7 @@ import { OnlineBankingComponent } from '../../components/dashboards/online-banki
 import { bankingSavingRoutes } from '../../components/saving/saving.routes';
 import { loanRoutes } from '../../components/loan/loan.routes';
 import { TransferComponent } from '../../components/transfer/transfer/transfer.component';
+import { DebitAccountComponent } from '../../components/transfer/debit-account/debit-account.component';
 
 export const bankingRoutes: Routes = [
   {
@@ -21,4 +22,5 @@ export const bankingRoutes: Routes = [
     path: 'transfer',
     component: TransferComponent,
   },
+  { path: 'debitAccount', component: DebitAccountComponent },
 ];
