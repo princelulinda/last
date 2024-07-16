@@ -205,6 +205,20 @@ export class MarketDashboardComponent implements OnInit {
   //     this.merchantDetail = false;
   //     this.categorySections = false;
   // }
+  nextMerchant() {
+    if (this.end < this.merchants.length) {
+      this.start++;
+      this.end++;
+      this.first6 = this.merchants.slice(this.start, this.end);
+    }
+  }
+  previousMerchant() {
+    if (this.start > 0) {
+      this.start--;
+      this.end--;
+      this.first6 = this.merchants.slice(this.start, this.end);
+    }
+  }
 
   getMerchants(search: string) {
     this.merchantService
@@ -216,7 +230,14 @@ export class MarketDashboardComponent implements OnInit {
           this.merchants = response.objects;
           // this.merchant = this.merchants;
           this.last4 = this.merchants.slice(-4);
-          this.first6 = this.merchants.slice(0, 4);
+          const navigationBtn = document.getElementById(
+            'navigationButtonMerchant'
+          );
+          this.first6 = this.merchants.slice(this.start, this.end);
+          navigationBtn?.addEventListener('click', () => {
+            this.nextMerchant();
+            this.previousMerchant();
+          });
           this.favorite_merchant_making = null;
         },
       });
