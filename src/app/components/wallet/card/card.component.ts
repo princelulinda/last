@@ -7,11 +7,11 @@ import { UserInfoModel } from '../../../core/db/models/auth';
 import { NgClass, CommonModule } from '@angular/common';
 import { WalletCard } from '../models';
 import { userInfoModel } from '../../../layouts/header/model';
-
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [NgClass, CommonModule],
+  imports: [NgClass, CommonModule, RouterLink],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })

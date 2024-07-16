@@ -1,0 +1,32 @@
+<div
+  class="lg-radius p-2 position-relative d-lg-flex bg-secondary"
+  style="min-height: 65vh; border: 2px solid #dad8d8">
+  <div>
+    <app-wallet-list> </app-wallet-list>
+  </div>
+
+  <div class="level-2 w-100">
+    @if (!isWalletDetailsShown) {
+      <div class="text-end me-4 p-1" routerLink="/b/baking" role="button">
+        <span class="text-dark fw-bold" i18n
+          ><i class="fa-solid fa-arrow-left"></i> Back</span
+        >
+      </div>
+    }
+    <!--
+        @if (!isWalletDetailsShown) {
+        <div
+            class="fw-bold fs-3 position-absolute text-center text-dark d-none d-lg-block"
+           
+            style="opacity: 0.55; top: 45%; margin-left: 22%"
+            
+        >
+            <i class="fa fa-face-meh"></i> No wallet selected yet, <br />
+            Please Select one...
+        </div>}-->
+
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
