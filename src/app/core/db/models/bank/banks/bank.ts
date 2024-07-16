@@ -7,6 +7,7 @@ export class Bank extends BaseModel {
   @UniqueField static bank_name: string | null = null;
   @MultiField static bank_type: string | null = null;
   @UniqueField static bank_code: string | null = null;
+  @Field static organization_id: string | null = null;
   @Field static is_active: boolean;
   @Field static is_default: boolean;
   // @Field static company: {
