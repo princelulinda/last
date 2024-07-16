@@ -1,0 +1,10 @@
+<div>
+  <!-- loader for OnlineBanking -->
+
+  <span
+    *ngIf="!accountsOnlineBanking && plateform === 'onlineBanking'"
+    class="text-center w-100 d-flex position-absolute justify-content-center h-100 align-items-center text-dark"
+    title="Loading...">
+    <i class="spinner-border"></i>
+  </span>
+</div>

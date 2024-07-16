@@ -4,6 +4,7 @@ import { bankingSavingRoutes } from '../../components/saving/saving.routes';
 import { loanRoutes } from '../../components/loan/loan.routes';
 import { TransferComponent } from '../../components/transfer/transfer/transfer.component';
 import { NyamuranziDetailsComponent } from '../../components/nyamuranzi/nyamuranzi-details/nyamuranzi-details.component';
+import { AccountComponent } from '../../components/account/account/account.component';
 
 export const bankingRoutes: Routes = [
   {
@@ -25,5 +26,13 @@ export const bankingRoutes: Routes = [
   {
     path: 'transfer',
     component: TransferComponent,
+  },
+
+  {
+    path: 'accounts',
+    component: AccountComponent,
+    children: [
+      // { path: 'statement', component: GeneralStatementComponent },
+    ],
   },
 ];
