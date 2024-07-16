@@ -23,75 +23,43 @@
   <!-- list for OnlineBanking -->
   @if (
     accountsOnlineBanking && mainConfig.activePlateform === 'onlineBanking'
-  ) {}
-  <div
-    class="position-relative overflow-x-hidden overflow-y-auto"
-    style="min-width: 220px; height: 80vh">
+  ) {
     <div
-      class="row p-2 d-flex justify-content-between align-items-center"
-      style="height: 35px">
-      <div style="margin-right: 10px" class="col pt-1 text-dark">
-        <b i18n>Accounts</b>
-        <b
-          class="ms-2 text-dark"
-          role="button"
-          title="Refresh accounts list"
-          (click)="refresh()"
-          tabindex="0"
-          ><i class="fa-solid fa-rotate-right"></i
-        ></b>
-      </div>
-
-      <div class="col-1 pt-1 me-3" role="button">
-        <span title="Show balances">
-          <i class="fa-solid fa-eye text-dark"></i
-        ></span>
-      </div>
-
-      <hr class="mt-1 ms-3" style="width: 93%; color: #8e8b8b" />
-    </div>
-
-    <!--*Accounts loop for large screens-->
-    @for (account of accountsOnlineBanking; track $index) {
+      class="position-relative overflow-x-hidden overflow-y-auto"
+      style="min-width: 220px; height: 80vh">
       <div
-        class="fig is-hoverable d-none d-lg-block overflow-auto"
-        role="button"
-        style="border-bottom: 1px solid #ccc">
-        <div class="mt-2 px-2 borders" routerLinkActive="cliped">
-          <small
-            ><b class="">{{ account.acc_account_type }}</b></small
-          ><br />
-
-          <div class="rounded mb-2 mt-0" style="line-height: 0.8em">
-            <small
-              ><span class="mt-0 text-sm"
-                >{{ account.acc_holder }}
-              </span></small
-            ><br />
-            <small>
-              <span class="mt-0 mb-0 text-sm">
-                {{ account.acc_number }}
-              </span>
-            </small>
-            <br />
-            <small
-              ><b class="text-success"
-                >{{ account.acc_available_balance | number }}
-                {{ account.acc_currency }}</b
-              ></small
-            >
-          </div>
+        class="row p-2 d-flex justify-content-between align-items-center"
+        style="height: 35px">
+        <div style="margin-right: 10px" class="col pt-1 text-dark">
+          <b i18n>Accounts</b>
+          <b
+            class="ms-2 text-dark"
+            role="button"
+            title="Refresh accounts list"
+            (click)="refresh()"
+            tabindex="0"
+            ><i class="fa-solid fa-rotate-right"></i
+          ></b>
         </div>
+
+        <div class="col-1 pt-1 me-3" role="button">
+          <span title="Show balances">
+            <i class="fa-solid fa-eye text-dark"></i
+          ></span>
+        </div>
+
+        <hr class="mt-1 ms-3" style="width: 93%; color: #8e8b8b" />
       </div>
-    }
-    <!--* Accounts loop for medium and small screen-->
-    @for (account of accountsOnlineBanking; track $index) {
-      <div>
+
+      <!--*Accounts loop for large screens-->
+      @for (account of accountsOnlineBanking; track $index) {
         <div
-          class="fig is-hoverable d-lg-none d-sm-block d-md-block overflow-auto"
+          (click)="selectLoneAccount(account)"
+          tabindex="0"
+          class="fig is-hoverable d-none d-lg-block overflow-auto"
           role="button"
           style="border-bottom: 1px solid #ccc">
-          <div class="mt-2 px-2 borders">
+          <div class="mt-2 px-2 borders" routerLinkActive="cliped">
             <small
               ><b class="">{{ account.acc_account_type }}</b></small
             ><br />
@@ -117,35 +85,76 @@
             </div>
           </div>
         </div>
-      </div>
-    }
+      }
+      <!--* Accounts loop for medium and small screen-->
+      @for (account of accountsOnlineBanking; track $index) {
+        <div>
+          <div
+            class="fig is-hoverable d-lg-none d-sm-block d-md-block overflow-auto"
+            (click)="selectLoneAccount(account)"
+            tabindex="0"
+            role="button"
+            style="border-bottom: 1px solid #ccc">
+            <div class="mt-2 px-2 borders">
+              <small
+                ><b class="">{{ account.acc_account_type }}</b></small
+              ><br />
 
-    <!--*selected account for small and medium screens-->
-    @for (account of accountsOnlineBanking; track $index) {
-      <div
-        class="mt-4 px-2 d-lg-none d-sm-block d-md-block cliped text-dark w-100 borders">
-        <small
-          ><b class="">{{ account.acc_account_type }}</b></small
-        ><br />
-
-        <div class="rounded mb-2 mt-0" style="line-height: 0.8em">
-          <small
-            ><span class="mt-0 text-sm">{{ account.acc_holder }} </span></small
-          ><br />
-          <small>
-            <span class="mt-0 mb-0 text-sm">
-              {{ account.acc_number }}
-            </span>
-          </small>
-          <br />
-          <small
-            ><b class="text-success"
-              >{{ account.acc_available_balance | number }}
-              {{ account.acc_currency }}</b
-            ></small
-          >
+              <div class="rounded mb-2 mt-0" style="line-height: 0.8em">
+                <small
+                  ><span class="mt-0 text-sm"
+                    >{{ account.acc_holder }}
+                  </span></small
+                ><br />
+                <small>
+                  <span class="mt-0 mb-0 text-sm">
+                    {{ account.acc_number }}
+                  </span>
+                </small>
+                <br />
+                <small
+                  ><b class="text-success"
+                    >{{ account.acc_available_balance | number }}
+                    {{ account.acc_currency }}</b
+                  ></small
+                >
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    }
-  </div>
+      }
+
+      <!--*selected account for small and medium screens-->
+      @for (account of accountsOnlineBanking; track $index) {
+        <div
+          class="mt-4 px-2 d-lg-none d-sm-block d-md-block cliped text-dark w-100 borders"
+          (click)="selectLoneAccount(account)"
+          tabindex="0">
+          <small
+            ><b class="">{{ account.acc_account_type }}</b></small
+          ><br />
+
+          <div class="rounded mb-2 mt-0" style="line-height: 0.8em">
+            <small
+              ><span class="mt-0 text-sm"
+                >{{ account.acc_holder }}
+              </span></small
+            ><br />
+            <small>
+              <span class="mt-0 mb-0 text-sm">
+                {{ account.acc_number }}
+              </span>
+            </small>
+            <br />
+            <small
+              ><b class="text-success"
+                >{{ account.acc_available_balance | number }}
+                {{ account.acc_currency }}</b
+              ></small
+            >
+          </div>
+        </div>
+      }
+    </div>
+  }
 </div>
