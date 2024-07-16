@@ -1,11 +1,11 @@
-<div>
+<div class="mb-3">
   <div>
     <!--cards ( wallet and nyamuranzi )-->
     <section class="d-flex overflow-x-auto p-3 w-100">
       <!--wallet card-->
-      <!-- <div>
-        <app-card></app-card>
-      </div> -->
+      <div>
+        <app-wallet-card></app-wallet-card>
+      </div>
 
       <!-- nyamuranzi card-->
       <div class="ps-5">
@@ -70,7 +70,7 @@
                     <div>
                       <!-- Contenu pour les banques (boucle *ngFor) -->
 
-                      @if (banks) {
+                      @if (banks && banks.length > 0) {
                         <div class="p-2 row" style="gap: 2rem 0">
                           <!-- Bloc de banque -->
                           @for (bank of banks; track $index) {
@@ -123,7 +123,7 @@
                       }
 
                       <!-- Bloc de chargement -->
-                      @if (!banks) {
+                      @else {
                         <div class="d-flex pt-3 ps-3">
                           @for (_ of [1, 2, 3]; track $index) {
                             <div class="d-grid mt-1 me-5">
@@ -148,30 +148,8 @@
 
                   @if (i === 2 && menuGroup.is_active) {
                     <div>
-                      <!-- Contenu pour les marchands (boucle *ngFor) -->
-                      @if (!merchants) {
-                        <div class="d-flex pt-3 ps-3">
-                          @for (_ of [1, 2, 3]; track $index) {
-                            <div class="d-grid mt-1 me-5">
-                              <span class="text-center">
-                                <app-skeleton
-                                  [height]="'60px'"
-                                  [width]="'60px'"
-                                  [classes]="'rounded'"></app-skeleton>
-                              </span>
-                              <span>
-                                <app-skeleton
-                                  [height]="'7px'"
-                                  [width]="'80px'"
-                                  [classes]="'rounded'"></app-skeleton>
-                              </span>
-                            </div>
-                          }
-                        </div>
-                      }
-
                       <!-- Bloc de marchands -->
-                      @if (merchants) {
+                      @if (merchants && merchants.length > 0) {
                         <div class="p-2 row">
                           @for (merchant of merchants; track $index) {
                             <div
@@ -196,6 +174,27 @@
                                   merchant.lookup_title.toUpperCase()
                                 }}</span>
                               </div>
+                            </div>
+                          }
+                        </div>
+                      }
+                      <!-- Contenu pour les marchands (boucle *ngFor) -->
+                      @else {
+                        <div class="d-flex pt-3 ps-3">
+                          @for (_ of [1, 2, 3]; track $index) {
+                            <div class="d-grid mt-1 me-5">
+                              <span class="text-center">
+                                <app-skeleton
+                                  [height]="'60px'"
+                                  [width]="'60px'"
+                                  [classes]="'rounded'"></app-skeleton>
+                              </span>
+                              <span>
+                                <app-skeleton
+                                  [height]="'7px'"
+                                  [width]="'80px'"
+                                  [classes]="'rounded'"></app-skeleton>
+                              </span>
                             </div>
                           }
                         </div>
@@ -262,7 +261,7 @@
         </div>
         <br />
 
-        @if (banksFiltered) {
+        @if (banksFiltered && banksFiltered.length > 0) {
           <div class="p-2 row">
             @for (bank of banksFiltered; track $index) {
               <div
@@ -288,20 +287,7 @@
               </div>
             }
           </div>
-        }
-
-        @if (banksFiltered && banksFiltered.length === 0) {
-          <div
-            class="p-2 text-center text-l fw-bold"
-            [ngClass]="{
-              'text-primary': mode === 'light',
-              'text-light': mode === 'dark',
-            }"
-            i18n>
-            You are already in all the available banks
-          </div>
-        }
-        @if (!banksFiltered) {
+        } @else {
           <div class="d-flex pt-3 ps-3">
             @for (_ of [1, 2, 3]; track $index) {
               <div class="d-grid mt-1 me-5">
@@ -317,6 +303,18 @@
                 </span>
               </div>
             }
+          </div>
+        }
+
+        @if (banksFiltered && banksFiltered.length === 0) {
+          <div
+            class="p-2 text-center text-l fw-bold"
+            [ngClass]="{
+              'text-primary': mode === 'light',
+              'text-light': mode === 'dark',
+            }"
+            i18n>
+            You are already in all the available banks
           </div>
         }
       </main>
