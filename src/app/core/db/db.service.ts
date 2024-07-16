@@ -3,13 +3,12 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Dexie, liveQuery } from 'dexie';
 
-import { Bank, SelectedBank, User, UserApiResponse } from './models';
+import { User, UserApiResponse } from './models';
 import { getAllMetadataKeys } from './models/base.model';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../services/api/api.service';
 import 'reflect-metadata/lite';
 import { ClientApiResponse, UserInfoModel } from './models/auth';
-import { bankModel } from './models/bank/bank.model';
 
 @Injectable({
   providedIn: 'root',
@@ -239,6 +238,15 @@ export class DbService {
     this.db.table(tableName).where(data);
   }
 
+  async checkTable(tableName: string): Promise<boolean> {
+    try {
+      this.db.table(tableName).toArray();
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   add(tableName: string, data: object) {
     return this.db.table(tableName).add(data);
   }
@@ -266,17 +274,7 @@ export class DbService {
     return this.db.table(tableName).update(id, data);
   }
 
-  // bank Methods
-  setUserBanks(banks: bankModel[]) {
-    this.addOnce(Bank.tableName, banks);
-  }
-  setSelectedBank(selectedBank: bankModel) {
-    this.addOnce(SelectedBank.tableName, selectedBank);
-  }
-  async getUserBanks(): Promise<bankModel> {
-    return await this.getOnce(Bank.tableName);
-  }
-  async getSelectedBank(): Promise<bankModel> {
-    return await this.getOnce(SelectedBank.tableName);
+  clearTable(tableName: string) {
+    this.db.table(tableName).clear();
   }
 }
