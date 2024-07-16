@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfigService, activeMainConfigModel } from '../../../core/services';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { AuthService } from '../../../core/services';
 import { ClientService } from '../../../core/services/client/client.service';
@@ -16,7 +16,6 @@ import { RouterLink } from '@angular/router';
   styleUrl: './wallet-list.component.scss',
 })
 export class WalletListComponent implements OnInit, OnDestroy {
-  private onDestroy$: Subject<void> = new Subject<void>();
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
   clientInfo!: UserInfoModel;
