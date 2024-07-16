@@ -10,7 +10,6 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import { MenuGroup, MerchantLookup, PayMerchant } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
-import { WithdrawalComponent } from '../../withdrawal/withdrawal.component';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 @Component({
   selector: 'app-online-banking',
@@ -23,7 +22,6 @@ import { bankModel } from '../../../core/db/models/bank/bank.model';
     NgClass,
     SkeletonComponent,
     CommonModule,
-    WithdrawalComponent,
     WalletCardComponent,
   ],
 })
