@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BankingService } from '../../../core/services/dashboards/banking.service';
 import { Subject, Observable, takeUntil } from 'rxjs';
 import { ModeModel, ConfigService, AuthService } from '../../../core/services';
@@ -29,9 +29,9 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
   private userInfo$: Observable<UserInfoModel>;
 
   constructor(
-    @Inject(BankingService) private bankingService: BankingService,
-    @Inject(ConfigService) private configService: ConfigService,
-    @Inject(AuthService) private authService: AuthService
+    private bankingService: BankingService,
+    private configService: ConfigService,
+    private authService: AuthService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();

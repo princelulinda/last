@@ -12,7 +12,6 @@ import { MenuGroup, MerchantLookup, PayMerchant } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
 import { WithdrawalComponent } from '../../withdrawal/withdrawal.component';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
-
 @Component({
   selector: 'app-online-banking',
   standalone: true,
@@ -272,9 +271,9 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   getAddedBankId(bankId: number) {
     this.selectedNewBank = bankId;
   }
-  selectBank(bank: bankModel | undefined) {
+  selectBank(bank: object | undefined) {
     this.selectedBank = bank;
-    this.configService.setSelectedBank(bank as bankModel);
+
     // this.store.dispatch(
     //     new SelectClientBank({
     //         id: this.selectedBank.id,

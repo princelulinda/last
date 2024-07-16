@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   activeMainConfigModel,
@@ -30,6 +30,7 @@ export class AccountsListComponent implements OnInit {
   isLoneAccountSelected = false;
   // close the account's creation form
   closeForm = false;
+  @Output() accountSelected = new EventEmitter<accountsList>();
 
   constructor(
     private configService: ConfigService,
@@ -91,6 +92,7 @@ export class AccountsListComponent implements OnInit {
     this.isLoneAccountSelected = true;
     this.isLoading = false;
     this.closeForm = false;
+    this.accountSelected.emit(account);
   }
   refresh() {
     this.accountsOnlineBanking = null;
