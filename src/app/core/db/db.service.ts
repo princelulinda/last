@@ -264,4 +264,7 @@ export class DbService {
   update(tableName: string, id: number, data: object) {
     return this.db.table(tableName).update(id, data);
   }
+  clearTable(tableName: string) {
+    this.db.table(tableName).clear();
+  }
 }

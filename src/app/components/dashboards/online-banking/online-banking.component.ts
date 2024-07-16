@@ -271,9 +271,9 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   getAddedBankId(bankId: number) {
     this.selectedNewBank = bankId;
   }
-  selectBank(bank: object | undefined) {
+  selectBank(bank: bankModel | undefined) {
     this.selectedBank = bank;
-
+    this.configService.setSelectedBank(bank as bankModel);
     // this.store.dispatch(
     //     new SelectClientBank({
     //         id: this.selectedBank.id,

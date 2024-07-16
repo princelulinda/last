@@ -246,6 +246,9 @@ export class ConfigService {
   setSelectedBank(selectedBank: bankModel) {
     this.dbService.addOnce(SelectedBank.tableName, selectedBank);
   }
+  resetSelectedBank(): void {
+    this.dbService.clearTable(SelectedBank.tableName);
+  }
   // getUserBanks(): Observable<bankModel[]> {
   //   return this.userBanks$ as Observable<bankModel[]>;
   // }
