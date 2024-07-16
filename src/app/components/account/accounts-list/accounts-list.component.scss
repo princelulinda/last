@@ -1,0 +1,10 @@
+
+.cliped {
+    position: relative;
+    width: 225px;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    background-color: #e3bfc6;
+    min-height: 80px;
+    clip-path: polygon(95% 0, 99% 50%, 95% 100%, 0 100%, 0 0%);
+}

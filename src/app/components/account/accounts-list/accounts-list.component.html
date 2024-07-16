@@ -56,6 +56,19 @@
         <div
           (click)="selectLoneAccount(account)"
           tabindex="0"
+          [ngClass]="{
+            cliped: selectedLoneAccount === account,
+
+            'not-clickable':
+              account.acc_status.status_code === 'B' ||
+              account.acc_status.status_code === 'C',
+            'opacity-50':
+              account.acc_status.status_code === 'B' ||
+              account.acc_status.status_code === 'C',
+            'border-gray':
+              account.acc_status.status_code === 'B' ||
+              account.acc_status.status_code === 'C',
+          }"
           class="fig is-hoverable d-none d-lg-block overflow-auto"
           role="button"
           style="border-bottom: 1px solid #ccc">
@@ -93,6 +106,19 @@
             class="fig is-hoverable d-lg-none d-sm-block d-md-block overflow-auto"
             (click)="selectLoneAccount(account)"
             tabindex="0"
+            [ngClass]="{
+              cliped: selectedLoneAccount === account,
+
+              'not-clickable':
+                account.acc_status.status_code === 'B' ||
+                account.acc_status.status_code === 'C',
+              'opacity-50':
+                account.acc_status.status_code === 'B' ||
+                account.acc_status.status_code === 'C',
+              'border-gray':
+                account.acc_status.status_code === 'B' ||
+                account.acc_status.status_code === 'C',
+            }"
             role="button"
             style="border-bottom: 1px solid #ccc">
             <div class="mt-2 px-2 borders">
@@ -129,7 +155,20 @@
         <div
           class="mt-4 px-2 d-lg-none d-sm-block d-md-block cliped text-dark w-100 borders"
           (click)="selectLoneAccount(account)"
-          tabindex="0">
+          tabindex="0"
+          [ngClass]="{
+            cliped: selectedLoneAccount === account,
+
+            'not-clickable':
+              account.acc_status.status_code === 'B' ||
+              account.acc_status.status_code === 'C',
+            'opacity-50':
+              account.acc_status.status_code === 'B' ||
+              account.acc_status.status_code === 'C',
+            'border-gray':
+              account.acc_status.status_code === 'B' ||
+              account.acc_status.status_code === 'C',
+          }">
           <small
             ><b class="">{{ account.acc_account_type }}</b></small
           ><br />
