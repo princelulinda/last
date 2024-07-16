@@ -20,7 +20,6 @@ export class DbService {
   public dbIsReady: Subject<boolean> = new Subject<boolean>();
 
   constructor(private apiService: ApiService) {
-    // this.db = ;
     this.dbIsReady.next(false);
   }
 
@@ -171,11 +170,6 @@ export class DbService {
 
     // this.populate();
   }
-
-  // addEvent(eventName: string, callback: Function) {
-  //   // this.db.on(eventName, () => callback());
-  // }
-
   liveQuery<T>(querier: T | Promise<T>) {
     return liveQuery(() => querier);
   }
@@ -184,7 +178,7 @@ export class DbService {
     if (data?.user.token !== null) {
       this.setLocalStorageUserToken(data.user.token);
       this.setLocalStorageClientId(data.client.client_id.toString());
-      await this.addOnce('users', data);
+      await this.addOnce(User.tableName, data);
     }
   }
 
@@ -269,5 +263,8 @@ export class DbService {
 
   update(tableName: string, id: number, data: object) {
     return this.db.table(tableName).update(id, data);
+  }
+  clearTable(tableName: string) {
+    this.db.table(tableName).clear();
   }
 }

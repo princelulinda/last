@@ -20,7 +20,6 @@ export function httpTokenInterceptor(
   ) {
     return next(req);
   } else {
-    console.log('INTECEPTED TOKEN : ', authToken);
     const newReq = req.clone({
       headers: req.headers.set('Authorization', `Token ${authToken}`),
     });

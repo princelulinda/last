@@ -8,14 +8,10 @@ import { BankService } from '../../../core/services/bank/bank.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import {
-  bankModel,
-  MenuGroup,
-  MerchantLookup,
-  PayMerchant,
-} from '../dashboard.model';
+import { MenuGroup, MerchantLookup, PayMerchant } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
 import { WithdrawalComponent } from '../../withdrawal/withdrawal.component';
+import { bankModel } from '../../../core/db/models/bank/bank.model';
 
 @Component({
   selector: 'app-online-banking',
@@ -203,7 +199,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          this.banks = data.objects;
+          this.banks = data;
         },
         error: () => {
           // code
@@ -275,9 +271,9 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   getAddedBankId(bankId: number) {
     this.selectedNewBank = bankId;
   }
-  selectBank(bank: object | undefined) {
+  selectBank(bank: bankModel | undefined) {
     this.selectedBank = bank;
-
+    this.configService.setSelectedBank(bank as bankModel);
     // this.store.dispatch(
     //     new SelectClientBank({
     //         id: this.selectedBank.id,

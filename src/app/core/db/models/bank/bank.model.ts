@@ -1,11 +1,12 @@
 export interface bankModel {
   id: number;
   slug: string;
-  name: string;
+  bank_name: string;
   bank_type: string;
   bank_code: string;
   is_active: boolean;
   is_default: boolean;
+  organization_id: number;
   company: {
     about: string;
     fullname: string;
@@ -13,7 +14,7 @@ export interface bankModel {
     image: string;
     logo: string;
     logo_icon: string;
-    name: string;
+    company_name: string;
     nickname: string;
     slug: string;
   };

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoanSimulatorComponent } from './loan-simulator.component';
+import { LookupComponent } from './lookup.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-describe('LoanSimulatorComponent', () => {
-  let component: LoanSimulatorComponent;
-  let fixture: ComponentFixture<LoanSimulatorComponent>;
+describe('LookupComponent', () => {
+  let component: LookupComponent;
+  let fixture: ComponentFixture<LookupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoanSimulatorComponent],
+      imports: [LookupComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LoanSimulatorComponent);
+    fixture = TestBed.createComponent(LookupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
