@@ -1,15 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services';
+import { DialogService } from '../../../core/services';
+import { Subject, Observable } from 'rxjs';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+
 import {
   EmailVerificationResponse,
   phoneNumberVerificaitonResponse,
   createAccountResponse,
   bankListResponse,
+  cardIdData,
 } from '../auth.model';
 import { FileComponent } from '../../../global/components/file/file.component';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import { UploadedFileModel } from '../auth.model';
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,
@@ -19,11 +26,13 @@ import { FileComponent } from '../../../global/components/file/file.component';
     PasswordFieldComponent,
     ReactiveFormsModule,
     FileComponent,
+    SkeletonComponent,
   ],
   templateUrl: './auth-sign-up.component.html',
   styleUrl: './auth-sign-up.component.scss',
 })
-export class AuthSignUpComponent {
+export class AuthSignUpComponent implements OnInit {
+  onDestroy$: Subject<void> = new Subject<void>();
   step = 0;
   submitted = false;
   isLoadingCreation!: boolean;
@@ -49,9 +58,28 @@ export class AuthSignUpComponent {
   inputconfirmPassword!: string;
   inputEmail!: string;
   inputPassword!: string;
-  bankId!: number;
+  bankId: number | null = null;
   selectedBankIndex: number | null = null;
   i!: number;
+  dialog$: Observable<DialogResponseModel>;
+  uuid!: string;
+  docFile!: string;
+
+  ngOnInit(): void {
+    this.dialog$.subscribe({
+      next: (status: DialogResponseModel) => {
+        if (
+          status.action === 'confirmation' &&
+          status.response.confirmation === 'YES'
+        ) {
+          this.createAccount();
+        } else {
+          this.selectedBankIndex = null;
+          this.bankId = null;
+        }
+      },
+    });
+  }
 
   submit() {
     this.submitted = true;
@@ -66,12 +94,15 @@ export class AuthSignUpComponent {
   }
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private dialogService: DialogService
+  ) {
+    this.dialog$ = this.dialogService.getDialogState();
+  }
 
   multiStepForm = this.fb.group({
     authentificationInformation: this.fb.group({
-      picture: ['', Validators.required],
+      write_picture: ['', Validators.required],
       number: [''],
       username: ['', Validators.required],
       email: [''],
@@ -97,13 +128,16 @@ export class AuthSignUpComponent {
     }),
   });
   userInfo!: createAccountResponse;
+  // expiry_date!:string | null | undefined;
   createAccount() {
     this.isLoadingCreation = true;
     const data = {
       // creation_client: this.id,
       organization: this.bankId,
-      picture:
-        this.multiStepForm.controls.authentificationInformation.value.picture,
+      picture: '',
+      write_picture:
+        this.multiStepForm.controls.authentificationInformation.value
+          .write_picture,
       email:
         this.multiStepForm.controls.authentificationInformation.value.email,
       username:
@@ -133,40 +167,55 @@ export class AuthSignUpComponent {
           this.multiStepForm.controls.cardInformation.value.deliveryPlace,
         date_of_issue:
           this.multiStepForm.controls.cardInformation.value.deliveryDate,
-        expiry_date:
-          this.multiStepForm.controls.cardInformation.value.expiryDate,
       },
       card_id_picture_recto: '',
       card_id_picture_verso: '',
       father_name: '',
       mother_name: '',
     };
-    // if (this.multiStepForm.controls.cardInformation.value.expiryDate !== '') {
-    //     data.card_id['expiry_date'] = this.multiStepForm.controls.cardInformation.value.expiryDate;
-    // }
+    if (this.multiStepForm.controls.cardInformation.value.expiryDate !== '') {
+      (data.card_id as unknown as cardIdData).expiry_date =
+        this.multiStepForm.controls.cardInformation.value.expiryDate;
+    }
+
+    this.dialogService.dispatchLoading();
     this.authService.createAccount(data).subscribe({
-      next: response => {
+      next: (response: createAccountResponse) => {
         this.isLoadingCreation = false;
         this.userInfo = response;
+        //   const userData = {
+        //     username: response.object.user.username,
+        //     email: response.object.user.email,
+        //     token: response.object.user.token,
+        // };
+        // this.store.dispatch(new ConnectUser(userData));
         this.step = this.step = 5;
+        this.dialogService.closeLoading();
       },
-      error: () => {
+      error: error => {
         this.isLoadingCreation = false;
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          type: 'failed',
+          title: 'Échec',
+          message:
+            error?.object?.response_message ??
+            $localize`Something went wrong please retry again !`,
+        });
       },
     });
   }
 
   getClientInfo() {
     this.firstName =
-      this.multiStepForm.controls.personalInformation?.value?.fname || '';
+      this.multiStepForm.controls.personalInformation.value.fname || '';
     this.lastName =
-      this.multiStepForm.controls.personalInformation?.value?.lname || '';
+      this.multiStepForm.controls.personalInformation.value.lname || '';
     this.Email =
-      this.multiStepForm.controls.authentificationInformation?.value?.email ||
-      '';
+      this.multiStepForm.controls.authentificationInformation.value.email || '';
     this.Profile =
-      this.multiStepForm.controls.authentificationInformation?.value?.picture ||
-      '';
+      this.multiStepForm.controls.authentificationInformation.value
+        .write_picture || '';
   }
 
   EmailVerification() {
@@ -201,13 +250,14 @@ export class AuthSignUpComponent {
     });
   }
   getBankList() {
+    this.isLoadingBank = true;
     this.authService.getBanksList().subscribe({
       next: (response: { objects: bankListResponse[] }) => {
         this.getBanksList = response.objects;
-        console.log('Données sélectionnées', this.getBanksList);
+        this.isLoadingBank = false;
       },
       error: (error: Error) =>
-        console.error('Erreur lors de la récupération des tontines:', error),
+        console.error('Erreur lors de la récupération des banks:', error),
     });
   }
 
@@ -252,9 +302,21 @@ export class AuthSignUpComponent {
     });
   }
 
-  onPictureChange(picture: string) {
+  onPictureChange(write_picture: UploadedFileModel[]) {
+    this.uuid = write_picture[0]?.object.uuid;
+    this.docFile = write_picture[0]?.object.docfile;
+    console.log('picture', write_picture);
     this.multiStepForm.controls.authentificationInformation.patchValue({
-      picture,
+      write_picture: this.uuid,
+    });
+  }
+
+  openPinPopup() {
+    this.dialogService.openDialog({
+      action: 'confirmation',
+      message: 'Do you want to create an account in this organization ?',
+      title: '',
+      type: 'confirm',
     });
   }
 }

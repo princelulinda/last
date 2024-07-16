@@ -1,6 +1,20 @@
 export interface BillersModel {
+  id: string;
   lookup_image: string;
   lookup_title: string;
+  lookup_icon: string;
+  icon: string;
+  lookup_subtitle: string;
+  is_favorite_merchant: boolean;
+  success: string;
+}
+
+export interface objectsModel {
+  objects: BillersModel[];
+}
+
+export interface objectModel {
+  object: BillersModel;
 }
 
 export interface MerchantModel {
@@ -15,6 +29,45 @@ export interface ProductModel {
   price: number;
   icon: string;
   merchant: MerchantModel;
+}
+
+export interface MerchantLookup {
+  id: number;
+  lookup_title: string;
+  lookup_image: string;
+}
+
+export interface bankModel {
+  company: {
+    image: string;
+    fullname: string;
+  };
+
+  organization_id: number;
+}
+
+export interface PayMerchant {
+  id: number;
+}
+
+export interface MenuGroup {
+  icon: string;
+
+  name: string;
+
+  description: string;
+
+  menus: Menu[] | null;
+
+  is_active: boolean;
+}
+
+interface Menu {
+  name: string;
+
+  icon: string;
+
+  link: string;
 }
 
 export interface PublisherModel {
@@ -41,4 +94,8 @@ export interface PublicationModel {
   total_reactions: number;
   total_replies: number;
   total_shares: number;
+}
+
+export interface HTMLInputEvent extends Event {
+  target: HTMLInputElement | EventTarget;
 }

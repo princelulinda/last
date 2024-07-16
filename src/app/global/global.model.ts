@@ -5,5 +5,8 @@ export interface fileResponse {
     id: number;
     uuid: string;
     test: string;
+    docfile: string;
+    title: string;
+    description: string;
   };
 }

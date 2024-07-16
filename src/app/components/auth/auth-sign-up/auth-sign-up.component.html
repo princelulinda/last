@@ -4,10 +4,15 @@
   @if (step === 0) {
     <div
       class="container font-montserrat d-flex justify-content-center pt-5 p-5">
-      <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
-        <div class="col-md-6 px-5 p-3">
+      <div class="row border border-1 lg-radius col-md-9 bg-white mt-5">
+        <div class="col-md-7 px-5 p-3">
           <div class="d-flex justify-content-end mb-5">
-            <span class="fs-normal"
+            <span
+              i18n
+              class="fs-normal"
+              role="button"
+              routerLink="/login/"
+              [tabIndex]="0"
               ><i class="fa-solid fa-arrow-turn-up fa-rotate-270 me-2"></i>
               Back</span
             >
@@ -50,7 +55,7 @@
           </div>
         </div>
         <div
-          class="col-md-6 p-4 bg text-white d-flex align-items-center justify-content-center text-center">
+          class="col-md-5 p-4 bg text-white d-flex align-items-center justify-content-center text-center">
           <div>
             <span>
               <span i18n class="fs-l-medium text-all-white fw-bold"
@@ -82,10 +87,10 @@
     <div
       class="container font-montserrat d-flex justify-content-center pt-5 p-5"
       formGroupName="authentificationInformation">
-      <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
+      <div class="row border border-1 lg-radius col-md-9 bg-white mt-5">
         <div class="col-md-7 px-5 p-3">
           <div class="row mb-4">
-            <div class="col fw-bold"><span>Sign up</span></div>
+            <div class="col fw-bold"><span i18n>Sign up</span></div>
             <div class="col d-flex justify-content-center align-items-center">
               <div class="row g-1">
                 <div class="col"><div class="bg-primary test"></div></div>
@@ -96,6 +101,7 @@
             </div>
             <div class="col d-flex justify-content-end">
               <span
+                i18n
                 class="fs-normal"
                 role="button"
                 tabindex="0"
@@ -120,7 +126,7 @@
                 <input class="d-none" type="file" name="file" formControlName="picture" id="file"> -->
           </div>
           <div class="d-flex justify-content-center mt-1 mb-4">
-            <span>Upload an image<code>*</code></span>
+            <span i18n>Upload an image<code>*</code></span>
           </div>
           <div>
             <span class="text-danger fs-x-small"
@@ -147,7 +153,7 @@
               </div>
 
               @if (phoneNumberVerificationLoader) {
-                <span class="text-secondary">
+                <span i18n class="text-secondary">
                   <i class="fa-solid fa-pulse fa-spinner"></i>
 
                   Phone number verification
@@ -158,10 +164,12 @@
                 phoneNumberToVerify.object.success === true &&
                 !phoneNumberVerificationLoader
               ) {
-                <span class="text-danger">Phone number already exists</span>
+                <span i18n class="text-danger"
+                  >Phone number already exists</span
+                >
               }
               @if (isMatchNumber && !phoneNumberVerificationLoader) {
-                <span class="text-danger">Phone number is invalid</span>
+                <span i18n class="text-danger">Phone number is invalid</span>
               }
             </div>
             <div class="col-md-6">
@@ -182,7 +190,7 @@
               </div>
 
               @if (EmailVerificationloader) {
-                <span class="text-secondary">
+                <span i18n class="text-secondary">
                   <i class="fa-solid fa-pulse fa-spinner"></i>
 
                   Email verification
@@ -193,10 +201,10 @@
                 emailToVerify.object.success === true &&
                 !EmailVerificationloader
               ) {
-                <span class="text-danger">Email already exists</span>
+                <span i18n class="text-danger">Email already exists</span>
               }
               @if (isMatchEmail && !EmailVerificationloader) {
-                <span class="text-danger">Email is invalid</span>
+                <span i18n class="text-danger">Email is invalid</span>
               }
             </div>
           </div>
@@ -313,10 +321,10 @@
     <div
       class="container font-montserrat d-flex justify-content-center pt-5 p-5"
       formGroupName="personalInformation">
-      <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
+      <div class="row border border-1 lg-radius col-md-9 bg-white mt-5">
         <div class="col-md-7 px-5 p-3">
           <div class="row mb-4">
-            <div class="col fw-bold"><span>Sign up</span></div>
+            <div class="col fw-bold"><span i18n>Sign up</span></div>
             <div class="col d-flex justify-content-center align-items-center">
               <div class="row g-1">
                 <div class="col"><div class="bg-primary test"></div></div>
@@ -327,6 +335,7 @@
             </div>
             <div class="col d-flex justify-content-end">
               <span
+                i18n
                 tabindex="0"
                 class="fs-normal"
                 role="button"
@@ -461,10 +470,10 @@
     <div
       class="container font-montserrat d-flex justify-content-center pt-5 p-5"
       formGroupName="cardInformation">
-      <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
+      <div class="row border border-1 lg-radius col-md-9 bg-white mt-5">
         <div class="col-md-7 px-5 p-3">
           <div class="row mb-4">
-            <div class="col fw-bold"><span>Sign up</span></div>
+            <div class="col fw-bold"><span i18n>Sign up</span></div>
             <div class="col d-flex justify-content-center align-items-center">
               <div class="row g-1">
                 <div class="col"><div class="bg-primary test"></div></div>
@@ -475,6 +484,7 @@
             </div>
             <div class="col d-flex justify-content-end">
               <span
+                i18n
                 tabindex="0"
                 class="fs-normal"
                 role="button"
@@ -563,7 +573,7 @@
                 i18n
                 type="button"
                 class="btn mt-4 mb-5 w-100 bg-primary lg-radius text-white p-3 fw-bold"
-                (click)="submit(); getBankList()"
+                (click)="submit(); getBankList(); getClientInfo()"
                 [disabled]="
                   !multiStepForm.controls.cardInformation.valid ||
                   (this.multiStepForm.controls.cardInformation.value
@@ -600,12 +610,13 @@
 
   <!--start step 4-->
   @if (step === 4) {
+    <button (click)="getBankList()">test</button>
     <div
       class="container font-montserrat d-flex justify-content-center pt-5 p-5">
-      <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
+      <div class="row border border-1 lg-radius col-md-9 bg-white mt-5">
         <div class="col-md-7 px-5 p-3">
           <div class="row mb-4">
-            <div class="col fw-bold"><span>Sign up</span></div>
+            <div class="col fw-bold"><span i18n>Sign up</span></div>
 
             <div class="col d-flex justify-content-center align-items-center">
               <div class="row g-1">
@@ -617,6 +628,7 @@
             </div>
             <div class="col d-flex justify-content-end">
               <span
+                i18n
                 tabindex="0"
                 class="fs-normal"
                 role="button"
@@ -631,10 +643,12 @@
             <div class="row position-relative z-1">
               <div class="col d-flex justify-content-start align-items-center">
                 <div>
-                  <span class="fs-normal">
+                  <span i18n class="fs-normal">
                     <span
-                      ><span class="fw-bold fs-l-medium">Bibyento Bundi</span>
-                      <br />bibyengmail.com</span
+                      ><span class="fw-bold fs-l-medium">
+                        {{ firstName }} {{ lastName }}</span
+                      >
+                      <br />{{ Email }}</span
                     >
                   </span>
                 </div>
@@ -642,20 +656,42 @@
               <div class="col d-flex justify-content-end">
                 <div
                   class="rounded-circle border border-5 d-flex justify-content-center align-items-center">
-                  <span>
-                    <img src="/images/multi-secure.png" width="85" alt=""
+                  <span i18n>
+                    <img
+                      src="{{ docFile }}"
+                      width="85"
+                      height="85"
+                      class="rounded-circle"
+                      alt=""
                   /></span>
                 </div>
               </div>
             </div>
             <div class="col mt-3 mb-4">
-              <span>Create an account by choosing one of the banks bellow</span>
+              <span i18n
+                >Create an account by choosing one of the banks bellow</span
+              >
             </div>
             <div class="row ms-2" style="gap: 2rem">
+              @if (isLoadingBank) {
+                <div class="row justify-content-center">
+                  @for (_ of [1, 2, 3]; track $index) {
+                    <div class="col-md-4 mb-4">
+                      <app-skeleton
+                        [width]="'100px'"
+                        [height]="'130px'"
+                        classes="sm-radius">
+                      </app-skeleton>
+                    </div>
+                  }
+                </div>
+              }
               @for (bank of getBanksList; track bank) {
                 <div
                   tabindex="0"
-                  (click)="selectedBankId(bank); selectedBankIndex = i"
+                  (click)="
+                    selectedBankId(bank); openPinPopup(); selectedBankIndex = i
+                  "
                   class="col-md-3 lg-radius border border-secondary"
                   role="button">
                   <div class="text-center p-1">
@@ -663,13 +699,13 @@
                       @if (bank.company.logo) {
                         <img src="{{ bank.company.logo }}" width="90" alt="" />
                       } @else {
-                        <span class="fs-3"
+                        <span class="fs-3" i18n
                           ><i class="fa-solid fa-building-columns"></i>
                         </span>
                       }
                     </div>
                     <div>
-                      <span class="fs-x-small">{{ bank.name }}</span>
+                      <span i18n class="fs-x-small">{{ bank.name }}</span>
                     </div>
                   </div>
                 </div>
@@ -696,13 +732,7 @@
                   class="btn bg-primary fw-bold border border-white mt-4 text-all-white px-5"
                   [disabled]="isLoadingCreation"
                   (click)="createAccount()">
-                  @if (!isLoadingCreation) {
-                    Continue
-                  } @else {
-                    <span
-                      ><i class="fa-solid fa-pulse fa-circle-notch fs-4"></i
-                    ></span>
-                  }
+                  Continue
                 </button>
               </span>
             </span>
@@ -717,40 +747,50 @@
 <!--start step 5 -->
 @if (step === 5) {
   <div class="container font-montserrat d-flex justify-content-center pt-5 p-5">
-    <div class="row border border-1 lg-radius col-md-10 bg-white mt-5">
+    <div class="row border border-1 lg-radius col-md-9 bg-white mt-5">
       <div class="col-md-7 px-5 p-3">
         <div class="row mb-4">
-          <div class="col fw-bold"><span>Success</span></div>
+          <div class="col fw-bold"><span i18n>Success</span></div>
         </div>
 
         <form class="position-relative z-1">
           <div class="row position-relative z-1">
             <div class="col d-flex align-items-center">
-              <span class="fs-normal"
-                ><span class="fw-bold fs-l-medium">Bibyento Bundi</span>
-                <br />bibyengmail.com</span
+              <span class="fs-normal" i18n
+                ><span class="fw-bold fs-l-medium">
+                  {{ firstName }} {{ lastName }}</span
+                >
+                <br />
+                {{ Email }}</span
               >
             </div>
             <div class="col d-flex justify-content-end">
               <div
                 class="rounded-circle border border-5 d-flex justify-content-center align-items-center">
-                <span>
-                  <img src="/images/multi-secure.png" width="85" alt=""
+                <span i18n>
+                  <img
+                    src="{{ docFile }}"
+                    width="85"
+                    height="85"
+                    class="rounded-circle"
+                    alt=""
                 /></span>
               </div>
             </div>
           </div>
           <div class="col mt-4">
-            <span class="fs-normal">Your customer code number is</span>
+            <span i18n class="fs-normal">Your customer code number is</span>
           </div>
           <div class="col-md-4 mb-1">
             <hr />
             <div class="d-flex justify-content-center">
-              <span class="fw-bold fs-normal text-primary">6778</span>
+              <span i18n class="fw-bold fs-normal text-primary">
+                {{ userInfo.object.client.client_id }}
+              </span>
             </div>
             <hr />
           </div>
-          <div class="col"><span>Click bellow to start.</span></div>
+          <div class="col"><span i18n>Click bellow to start.</span></div>
           <div class="d-flex justify-content-center pt-3">
             <button
               class="btn bg-primary fw-bold text-all-white px-5 mt-5 mb-4"
@@ -759,7 +799,7 @@
             </button>
           </div>
           <div class="col d-flex justify-content-center">
-            <span> <a class="text-primary">Logout</a></span>
+            <span i18n> <a class="text-primary">Logout</a></span>
           </div>
         </form>
       </div>
@@ -787,9 +827,3 @@
     </div>
   </div>
 }
-
-<!--end step 5 -->
-
-<!-- <app-file
-[uploadMultipleFile]="true"
-(uploadOneFileEvent)="onPictureChange($event)"></app-file> -->

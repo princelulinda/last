@@ -4,3 +4,8 @@ export interface Pagination {
     offset?: number;
   };
 }
+
+export interface Favorite {
+  merchant: string;
+  merchant_action: string;
+}
