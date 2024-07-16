@@ -6,6 +6,7 @@ import {
   ConfigService,
 } from '../../../core/services';
 import { ClientService } from '../../../core/services/client/client.service';
+import { UserInfoModel } from '../../../core/db/models/auth';
 
 @Component({
   selector: 'app-accounts-list',
@@ -17,7 +18,7 @@ import { ClientService } from '../../../core/services/client/client.service';
 export class AccountsListComponent implements OnInit {
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
-
+  private userInfo$: Observable<UserInfoModel>;
   // walletsOnlineBanking: WalletList[] | [] | null = null;
   constructor(
     private configService: ConfigService,
@@ -26,7 +27,7 @@ export class AccountsListComponent implements OnInit {
     private location: Location
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
-    // this.userInfo$ = this.authService.getUserInfo();
+    this.userInfo$ = this.authService.getUserInfo();
   }
 
   ngOnInit(): void {
