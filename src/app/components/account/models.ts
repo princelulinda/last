@@ -1,10 +1,10 @@
 export interface accountsList {
   title: string;
-  account: {
-    account_holder: string;
-  };
+  acc_holder: string;
   id: string;
   code: string;
-  available_balance: number;
-  currency: string;
+  acc_available_balance: number;
+  acc_currency: string;
+  acc_account_type: string;
+  acc_number: number;
 }
