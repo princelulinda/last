@@ -39,3 +39,14 @@ export interface ResponseDataModel {
   response_message: string;
   success: boolean;
 }
+
+export interface LoanTypeModel {
+  active: boolean;
+  bank_loan_mode: string;
+  cap_imp_account_type: number;
+  comment: string;
+  financement_account_type: number;
+  id: number;
+  loan_type_code_reporting: string;
+  title: string;
+}
