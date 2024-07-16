@@ -40,8 +40,8 @@ export class ConfigService {
   private actifTheme = new Subject<ThemeModel>();
   private actifMode = new Subject<ModeModel>();
 
-  // private userBanks$: unknown | Observable<bankModel[]>;
-  // private selectedBank$: unknown | Observable<bankModel>;
+  private userBanks$: unknown | Observable<bankModel[]>;
+  private selectedBank$: unknown | Observable<bankModel>;
 
   constructor(
     private dbService: DbService,
@@ -53,12 +53,10 @@ export class ConfigService {
         this.dbService.getOnce(MainConfig.tableName)
       );
     }
-    // this.userBanks$ = this.dbService.liveQuery(() =>
-    //   this.dbService.getOnce(Bank.tableName)
-    // );
-    // this.selectedBank$ = this.dbService.liveQuery<bankModel | null>(
-    //   this.dbService.getOnce(SelectedBank.tableName)
-    // );
+    this.userBanks$ = liveQuery(() => this.dbService.getOnce(Bank.tableName));
+    this.selectedBank$ = liveQuery(() =>
+      this.dbService.getOnce(SelectedBank.tableName)
+    );
   }
   private async getActiveMainConfig(): Promise<activeMainConfigModel> {
     const data: activeMainConfigModel = await this.dbService.getOnce(
@@ -249,10 +247,10 @@ export class ConfigService {
   resetSelectedBank(): void {
     this.dbService.clearTable(SelectedBank.tableName);
   }
-  // getUserBanks(): Observable<bankModel[]> {
-  //   return this.userBanks$ as Observable<bankModel[]>;
-  // }
-  // getSelectedBank() {
-  //   return this.selectedBank$ as Observable<bankModel>;
-  // }
+  getUserBanks(): Observable<bankModel[]> {
+    return this.userBanks$ as Observable<bankModel[]>;
+  }
+  getSelectedBank(): Observable<bankModel> {
+    return this.selectedBank$ as Observable<bankModel>;
+  }
 }
