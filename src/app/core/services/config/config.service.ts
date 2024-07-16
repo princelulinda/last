@@ -4,11 +4,12 @@ import { liveQuery } from 'dexie';
 import { Observable, Subject } from 'rxjs';
 
 import { DbService } from '../../db';
-import { MainConfig } from '../../db/models';
+import { Bank, MainConfig, SelectedBank } from '../../db/models';
 import { environment } from '../../../../environments/environment';
 
 import { ApiService } from '../api/api.service';
 import { Router } from '@angular/router';
+import { bankModel } from '../../db/models/bank/bank.model';
 
 export type ModeModel = 'light' | 'dark';
 export type ThemeModel = 'ihela' | 'magis' | 'erp' | 'onamob';
@@ -228,4 +229,22 @@ export class ConfigService {
   //     // this.dbService.populate();
   //   }
   // }
+
+  // Banks methods
+  setUserBanks(banks: bankModel[]) {
+    this.dbService.addOnce(Bank.tableName, banks);
+  }
+  setSelectedBank(selectedBank: bankModel) {
+    this.dbService.addOnce(SelectedBank.tableName, selectedBank);
+  }
+  getUserBanks() {
+    return this.dbService.liveQuery<bankModel | null>(
+      this.dbService.getOnce(Bank.tableName)
+    );
+  }
+  getSelectedBank() {
+    return this.dbService.liveQuery<bankModel | null>(
+      this.dbService.getOnce(SelectedBank.tableName)
+    );
+  }
 }
