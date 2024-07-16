@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CardComponent } from '../../wallet/card/card.component';
 import { NyamuranziCardComponent } from '../../nyamuranzi/nyamuranzi-card/nyamuranzi-card.component';
 import { Subject, Observable, takeUntil } from 'rxjs';
@@ -125,10 +125,10 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    @Inject(BankService) private bankService: BankService,
-    @Inject(ConfigService) private configService: ConfigService,
-    @Inject(AuthService) private authService: AuthService,
-    @Inject(MerchantService) private merchantService: MerchantService
+    private bankService: BankService,
+    private configService: ConfigService,
+    private authService: AuthService,
+    private merchantService: MerchantService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();

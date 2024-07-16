@@ -8,6 +8,18 @@ export const AllServices = [
   Services.ConfigService,
   Services.FullpathService,
   Services.DialogService,
+  Services.AdminService,
+  Services.BankService,
+  Services.ClientService,
+  Services.FileService,
+  Services.GeneralService,
+  Services.LoanService,
+  Services.MenuService,
+  Services.MerchantService,
+  Services.NewsFeedService,
+  Services.SavingDetailService,
+  Services.SettingsService,
+  Services.TarifService,
 ];
 
 export const AllGuards = [
