@@ -96,6 +96,12 @@ export interface PublicationModel {
   total_shares: number;
 }
 
-export interface HTMLInputEvent extends Event {
-  target: HTMLInputElement | EventTarget;
+export interface productCategoryModel {
+  id: number;
+  icon: string;
+  is_active: true;
+  name: string;
+  ordering: number;
+  slug: string;
+  value_added_tax_rate: string;
 }
