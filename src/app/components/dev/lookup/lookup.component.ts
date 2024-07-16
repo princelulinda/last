@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DialogService } from '../../../core/services';
 import { GeneralService } from '../../../core/services/general/general.service';
 import { AdminService } from '../../../core/services/admin/admin.service';
-import { AdminModel, ItemModel } from './lookup.mode';
+import { AdminModel, ItemModel } from './lookup.model';
 
 @Component({
   selector: 'app-lookup',
@@ -56,13 +56,10 @@ export class LookupComponent implements OnInit {
 
   inputFocused() {
     this.showAutoComplete = true;
-    // this.input = document.getElementById("menu_group");
   }
 
   selectItem(item: ItemModel) {
-    // this.test = true;
     this.selectedItem = item;
-    console.log('Boossss', this.selectedItem);
     this.selectedItemEvent.emit(item);
     this.showAutoComplete = false;
   }
@@ -86,7 +83,6 @@ export class LookupComponent implements OnInit {
     this.adminService.getAdminMenuGroupList().subscribe({
       next: admins => {
         const response = admins as { objects: AdminModel[] };
-        console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&', admins);
         this.adminMenus = response.objects;
       },
     });
@@ -127,14 +123,12 @@ export class LookupComponent implements OnInit {
           const res = value as { objects: ItemModel[] };
           this.items = res.objects;
           this.isLoading = false;
-          console.log(!this.search.value);
         });
     } else {
       this.generalService.DoAutocomplete(this.url, '').subscribe(value => {
         const res = value as { objects: ItemModel[] };
         this.items = res.objects;
         this.isLoading = false;
-        console.log('itemss', this.items);
       });
     }
   }

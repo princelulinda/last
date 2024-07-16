@@ -1,3 +1,5 @@
+import { bankModel } from '../../core/db/models/bank/bank.model';
+
 export interface BillersModel {
   id: string;
   lookup_image: string;
@@ -35,19 +37,6 @@ export interface MerchantLookup {
   id: number;
   lookup_title: string;
   lookup_image: string;
-}
-
-export interface bankModel {
-  company: {
-    image: string;
-    fullname: string;
-    name: string;
-  };
-  is_default: boolean;
-  organization_id: number;
-  id: number;
-  name: string;
-  slug: string;
 }
 
 export interface PayMerchant {

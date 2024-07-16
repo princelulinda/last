@@ -1,17 +1,16 @@
 <main>
-  <!-- @if (selectedBank
-    ) {
-         <div  class="d-flex justify-content-center">
-        <img
-            class="me-2 rounded is-hoverable selected"
-            role="button"
-            (click)="showModal()"
-            [src]="selectedBank.company.image"
-            [alt]="selectedBank.company.name"
-            [title]="selectedBank.company.name"
-        />
-    </div>   
-    } -->
+  @if (selectedBank) {
+    <div class="d-flex justify-content-center">
+      <img
+        class="me-2 rounded is-hoverable selected"
+        tabindex="0"
+        role="button"
+        (click)="showModal()"
+        [src]="selectedBank.company.image"
+        [alt]="selectedBank.company.fullname"
+        [title]="selectedBank.company.fullname" />
+    </div>
+  }
 
   @if (isModalShown) {
     <section
@@ -53,12 +52,12 @@
                   <div class="w-100 d-flex justify-content-center">
                     <img
                       class="me-2 rounded bank border-0"
-                      [title]="'switch to ' + bank.company.name"
+                      [title]="'switch to ' + bank.company.fullname"
                       [src]="bank.company.image"
-                      [alt]="bank.company.name" />
+                      [alt]="bank.company.fullname" />
                   </div>
 
-                  <span class="mt-1">{{ bank.company.name }}</span>
+                  <span class="mt-1">{{ bank.company.fullname }}</span>
                 </div>
               }
             </div>

@@ -9,10 +9,8 @@ import {
 } from '../../../../core/services';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { userInfoModel } from '../../../../layouts/header/model';
-import {
-  bankModel,
-  BankOptions,
-} from '../../../../components/dashboards/dashboard.model';
+import { BankOptions } from '../../../../components/dashboards/dashboard.model';
+import { bankModel } from '../../../../core/db/models/bank/bank.model';
 @Component({
   selector: 'app-switch-bank',
   standalone: true,
@@ -25,8 +23,8 @@ export class SwitchBankComponent implements OnInit {
   // clientId$: any;
   clientId: number | null = null;
   defaultBank: bankModel | undefined;
-  //  selectedBank: any;
-  //  selectedBank$: Observable<any>;
+  selectedBank!: bankModel;
+  selectedBank$!: Observable<bankModel>;
   // loans: any;
   isModalShown = false;
   mode!: ModeModel;
@@ -44,6 +42,7 @@ export class SwitchBankComponent implements OnInit {
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
+    this.selectedBank$ = this.configService.getSelectedBank();
   }
 
   ngOnInit() {
@@ -52,20 +51,24 @@ export class SwitchBankComponent implements OnInit {
         this.mode = datas;
       },
     });
+
     this.userInfo$.subscribe({
       next: userinfo => {
         this.clientInfo = userinfo;
         this.clientId = this.clientInfo.client.client_id;
 
-        // this.selectedBank$.subscribe((bank: any) => {
-        //     this.selectedBank = bank;
-        // });
+        this.selectedBank$.subscribe({
+          next: datas => {
+            this.selectedBank = datas;
+            console.log('ghhh', this.selectedBank);
+          },
+        });
 
         this.bankService
           .getBanksList()
           .pipe(takeUntil(this.onDestroy$))
           .subscribe(banks => {
-            this.banks = banks.objects;
+            this.banks = banks;
             const options = {
               selectedDebitAccountType: null,
               debitAccount: null,
@@ -78,9 +81,7 @@ export class SwitchBankComponent implements OnInit {
 
             this.bankOptions.emit(options);
 
-            this.defaultBank = banks.objects.find(
-              bank => bank.is_default === true
-            );
+            this.defaultBank = banks.find(bank => bank.is_default === true);
           });
       },
     });
@@ -105,7 +106,7 @@ export class SwitchBankComponent implements OnInit {
       wallets: null,
     };
     this.bankOptions.emit(options);
-    // this.selectedBank = this.banks[index];
+    this.selectedBank = this.banks[index];
 
     // this.store.dispatch(
     //     new SelectClientBank({
