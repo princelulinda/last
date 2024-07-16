@@ -15,6 +15,7 @@ import {
   PayMerchant,
 } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
+import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 
 @Component({
   selector: 'app-online-banking',
@@ -27,6 +28,7 @@ import { userInfoModel } from '../../../layouts/header/model';
     NgClass,
     SkeletonComponent,
     CommonModule,
+    AmountFieldComponent,
   ],
 })
 export class OnlineBankingComponent implements OnInit, OnDestroy {

@@ -1,0 +1,59 @@
+<div>
+  <div
+    [ngClass]="{
+      'form-floating': isFormFloating,
+    }">
+    <input
+      type="text"
+      class="form-control field"
+      [ngStyle]="{ 'background-color': background }"
+      [formControl]="amountInput"
+      (input)="newAmount()"
+      id="amount"
+      placeholder="Amount"
+      min="1" />
+    @if (isFormFloating) {
+      <label for="amount" class="form-label fs-6" i18n
+        >Amount <code>*</code></label
+      >
+    }
+  </div>
+  @if (showAmountwords) {
+    <div class="text-center py-1 d-flex align-items-center ms-3 mt-2">
+      @if (amountWords) {
+        <small class="text-dark me-3"><i class="fa-solid fa-play"></i></small>
+        <small class="text-dark text-capitalize fw-bold">
+          {{ amountWords }}
+        </small>
+      }
+    </div>
+  }
+
+  @if (showFees && showAmountwords) {
+    <div class="ms-3 my-2">
+      <div class="text-dark d-flex align-items-center">
+        <span class="text-dark"><i class="fa-solid fa-play"></i></span>
+        <small class="">
+          <b i18n class="ms-3" i18n>Fees : </b>
+          @if (!isLoading && !fees) {
+            <b>----</b>
+          } @else if (!isLoading && fees) {
+            <b>{{ (fees?.commissions | currency: 'BIF ') ?? '' }}</b>
+            <b
+              >(
+              <span class="text-primary"
+                >Total : {{ totalWithFees | currency: 'BIF ' }}</span
+              >
+              )</b
+            >
+          }
+        </small>
+        @if (isLoading) {
+          <span class="fs-small ms-2">
+            <i class="fas fa-spinner fa-pulse"></i>
+          </span>
+        }
+      </div>
+    </div>
+  }
+</div>
