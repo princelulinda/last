@@ -1,7 +1,7 @@
 @if (mainConfig) {
   <header
     class="w-100"
-    style="height: 60px; z-index: 100; top: 0"
+    style="height: 60px; z-index: 50; top: 0"
     class="d-flex justify-content-center justify-content-lg-between w-100 p-1 px-3"
     [ngClass]="{
       'bg-white': mainConfig.activePlateform === 'workstation',
@@ -298,6 +298,8 @@
                   <div
                     class="w-100 d-flex justify-content-between text-dark fs-medium"
                     title="Logout"
+                    tabindex="0"
+                    (click)="logout()"
                     role="button">
                     <span>
                       <span class="me-2">

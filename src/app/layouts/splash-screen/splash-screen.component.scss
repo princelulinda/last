@@ -1,0 +1,18 @@
+.contour {
+  width: 270px;
+  height: 270px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.3;
+  filter: blur(12px);
+  z-index: 4;
+}
+.show {
+  z-index: 10000;
+  inset: 0;
+}
+.fade {
+  inset: 0;
+  z-index: -100;
+}

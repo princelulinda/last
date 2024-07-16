@@ -1,21 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import {
-  BillersModel,
-  ProductModel,
-  PublicationModel,
-} from '../dashboard.model';
-import { ConfigService, PlateformModel } from '../../../core/services';
 import { Router } from '@angular/router';
-import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.service';
+
 import { Subject, takeUntil } from 'rxjs';
+
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { BillersModel, ProductModel } from '../dashboard.model';
+import { ConfigService, PlateformModel } from '../../../core/services';
+import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.service';
 import { ShowMoreDirective } from '../../../global/directives/show-more/show-more.directive';
-import { PublicationCardComponent } from '../../dev/publications/publication-card/publication-card.component';
+import { PublicationsComponent } from '../../publications/publications.component';
 
 @Component({
   selector: 'app-news-feed',
   standalone: true,
-  imports: [SkeletonComponent, ShowMoreDirective, PublicationCardComponent],
+  imports: [SkeletonComponent, ShowMoreDirective, PublicationsComponent],
   templateUrl: './news-feed.component.html',
   styleUrl: './news-feed.component.scss',
 })
@@ -34,8 +32,6 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
 
   loadingProducts = true;
 
-  publications: PublicationModel[] | [] | null = null;
-
   constructor(
     private configService: ConfigService,
     private router: Router,
@@ -43,7 +39,7 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getPublications();
+    this.getMerchantProducts();
   }
 
   getMerchantProducts() {
@@ -60,25 +56,6 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
         error: err => {
           this.loadingProducts = false;
           console.error(err);
-        },
-      });
-  }
-
-  getPublications() {
-    this.newsFeedService
-      .getPublication()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: res => {
-          const publicationsRes = res as { objects: PublicationModel[] };
-          this.publications = publicationsRes.objects;
-          console.log(
-            '$$$$$$$$$$$$$$$$$$$$$$$$ PUBLICATIONS',
-            this.publications
-          );
-        },
-        error: err => {
-          console.log(err);
         },
       });
   }

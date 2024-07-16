@@ -1,0 +1,421 @@
+<div
+  id="tarif"
+  class="border border-secondary bg-secondary p-4 lg-radius w-100">
+  @if (showExternalTarif || showInternalTarif) {
+    <div class="container">
+      <div class="col">
+        <span class="me-4">
+          <button
+            class="btn border border-dark px-4"
+            [ngStyle]="{
+              'background-color': buttonInternalClicked
+                ? '#810019'
+                : buttonInternalClicked === false &&
+                    buttonExternalClicked === false
+                  ? '#810019'
+                  : 'white',
+              color: buttonInternalClicked
+                ? 'white'
+                : buttonInternalClicked === false &&
+                    buttonExternalClicked === false
+                  ? 'white'
+                  : '#333',
+            }"
+            (click)="onButtonInternalClick()"
+            i18n>
+            Internal
+          </button></span
+        >
+        <span>
+          <button
+            class="btn border border-dark px-4"
+            [ngStyle]="{
+              'background-color': buttonExternalClicked ? '#810019' : 'white',
+              color: buttonExternalClicked ? 'white' : '#333',
+            }"
+            (click)="onButtonExternalClick()"
+            i18n>
+            External
+          </button></span
+        >
+      </div>
+      <br />
+    </div>
+  }
+  @if (showExternalTarif) {
+    <div>
+      <div class="w-100 d-flex justify-content-center">
+        <div class="empty-state-icon d-grid fs-3">
+          <span i18n class="text-center">
+            <i class="fa fs-1 fa-face-meh"></i>
+          </span>
+          <span class="text-center text-secondary" i18n
+            >No external bank found</span
+          >
+        </div>
+      </div>
+    </div>
+  }
+  @if (showInternalTarif) {
+    <div id="tarif">
+      <div class="container">
+        @if (isLoadingBank) {
+          <div class="row justify-content-center">
+            @for (_ of [1, 2, 3]; track $index) {
+              <div class="col-md-4 mb-4">
+                <app-skeleton
+                  [width]="'200px'"
+                  [height]="'90px'"
+                  classes="sm-radius bg-white">
+                </app-skeleton>
+              </div>
+            }
+          </div>
+        }
+        @if (!isLoadingBank) {
+          <div class="row g-2 mb-5 text-dark">
+            <div class="col-md-2" i18n>Choose the bank:</div>
+            @for (bank of bankList; track bank) {
+              <div class="col-md-2 p-2">
+                <div
+                  tabindex="0"
+                  role="button"
+                  [ngClass]="{
+                    'bg-white shadow  rounded': bank.isSelected,
+                  }"
+                  (click)="
+                    selectBank(bank);
+                    selectedBankInfo(bank);
+                    getTarifType(bank.id)
+                  ">
+                  <div class="d-flex justify-content-center">
+                    <img src="{{ bank.company.logo }}" alt="" width="70" />
+                  </div>
+                  <div
+                    class="d-flex justify-content-center text-center text-dark">
+                    <span class="text-sm-md" i18n>
+                      {{ bank.company.name }}
+                    </span>
+                  </div>
+                </div>
+                @if (bankList && bankList.length === 0) {
+                  <div class="col w-100 d-flex justify-content-center">
+                    <div class="empty-state-icon d-grid fs-3">
+                      <span i18n class="text-center">
+                        <i class="fa fs-1 fa-face-meh"></i>
+                      </span>
+                      <span class="text-center text-secondary" i18n
+                        >No banks found</span
+                      >
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+        <!-- <div  *ngIf="isLoadingTariffType" >
+               
+            <span
+                ><i
+                    class="fa-solid fa-pulse fa-circle-notch fs-4"
+                ></i
+            ></span>
+            </div> -->
+
+        <div class="row gx-5 g-4 justify-content-center">
+          @if (isLoadingTariffType) {
+            <div class="row justify-content-center">
+              @for (_ of [1, 2, 3]; track $index) {
+                <div class="col-md-4 mb-4">
+                  <app-skeleton
+                    [width]="'220px'"
+                    [height]="'130px'"
+                    classes="sm-radius bg-white">
+                  </app-skeleton>
+                </div>
+                <div class="col-md-4 mb-4">
+                  <app-skeleton
+                    [width]="'220px'"
+                    [height]="'130px'"
+                    classes="sm-radius bg-white">
+                  </app-skeleton>
+                </div>
+              }
+            </div>
+          }
+        </div>
+        @if (!isLoadingTariffType) {
+          <div class="row gx-5 g-4">
+            @for (tarif of tariffData; track tarif) {
+              <div class="col-md-4">
+                <div
+                  class="border border-secondary level-1 bg-white lg-radius tarif p-3"
+                  role="button"
+                  tabindex="0"
+                  (click)="
+                    onTariffClick();
+                    selectedTarifInfo(tarif);
+                    getTarifFees(tarif.id)
+                  ">
+                  <div class="d-flex justify-content-end mb-2">
+                    <span i18n class="text-end text-sm-md">
+                      {{ tarif.type_type }}</span
+                    >
+                  </div>
+                  <div class="text-truncate">
+                    <span i18n class="fw-bold text-md">
+                      {{ tarif.type_name }}</span
+                    >
+                  </div>
+                  <div
+                    class="d-flex justify-content-start align-items-end text-truncate mt-2">
+                    <span i18n class="text-end text-sm-md">{{
+                      tarif.description
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            }
+            @if (tariffData && tariffData.length === 0) {
+              <div class="col w-100 d-flex justify-content-center">
+                <div class="empty-state-icon d-grid fs-3">
+                  <span i18n class="text-center">
+                    <i class="fa fs-1 fa-face-meh"></i>
+                  </span>
+                  <span i18n class="text-center text-secondary" i18n
+                    >No tarifs found</span
+                  >
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+  @if (isLoadingTariffFees) {
+    <div class="d-flex justify-content-center loader">
+      <span i18n><i class="fa-solid fa-pulse fa-circle-notch fs-4"></i></span>
+    </div>
+  }
+
+  @if (tariffClicked && !isLoadingTariffFees) {
+    <div>
+      <div class="col d-flex justify-content-end">
+        <span tabindex="0" role="button" i18n (click)="backOnTarifHome()" i18n>
+          <i class="fa fa-arrow-left" aria-hidden="true"> </i> Back
+        </span>
+      </div>
+      <div class="row">
+        <div class="col-md-2 text-dark text-md" i18n>Bank :</div>
+        <div class="col">
+          <img i18n src="{{ companyLogo }}" width="90" alt="" />
+        </div>
+        <div class="col text-md text-end">
+          <b i18n>{{ tarifName }}</b>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 text-dark text-md">Title :</div>
+        <div class="col text-dark">{{ tarifTitle }}</div>
+
+        <div class="col"></div>
+      </div>
+      <br />
+
+      <div class="row text-dark">
+        <div class="col-md-2 text-dark text-md" i18n>Description :</div>
+        <div class="col" i18n>
+          Carry out your operations with our Ihela agents available in all the
+          countries
+        </div>
+        <div class="col text-dark"></div>
+        <div class="col d-flex justify-content-end">
+          <span>
+            <button
+              type="button"
+              class="btn bg-primary text-all-white fw-bold px-4"
+              (click)="onButtonSimulateClick()"
+              i18n>
+              Simulate
+            </button></span
+          >
+        </div>
+      </div>
+      <hr />
+      <div style="overflow-x: scroll">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th class="bg-secondary" i18n></th>
+              <th class="bg-secondary"></th>
+              <th class="bg-secondary" i18n></th>
+              <th class="bg-secondary text-dark">Client</th>
+              @if (isAgent) {
+                <th class="bg-secondary text-dark">Agent</th>
+              }
+            </tr>
+            <tr class="bg-primary">
+              <th class="bg-primary text-light" i18n>Valeur minimale</th>
+              <th class="bg-primary text-light">-</th>
+              <th class="bg-primary text-light" i18n>Valeur maximale</th>
+              <th
+                class="bg-primary text-light"
+                colspan="2"
+                style="width: 300px"
+                i18n>
+                Fees
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (fees of feesData; track fees) {
+              <tr>
+                <td class="">
+                  <b class="text-dark">{{ fees.amount_range.lower }}</b>
+                </td>
+                <td>
+                  <b class="text-dark">-</b>
+                </td>
+                <td>
+                  <b class="text-dark">{{ fees.amount_range.upper }}</b>
+                </td>
+                <td class="border-start">
+                  @if (tarifName !== 'agent deposit') {
+                    <b class="text-dark">{{ fees.total_commission }}</b>
+                  }
+                  @if (tarifName === 'agent deposit') {
+                    <b class="text-dark">-----</b>
+                  }
+                </td>
+                @if (isAgent) {
+                  <td class="border-start">
+                    <b class="text-dark">{{ fees.agent_commission }}</b>
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+        @if (feesData && feesData.length === 0) {
+          <div class="col w-100 d-flex justify-content-center">
+            <div class="empty-state-icon d-grid fs-3">
+              <span i18n class="text-center">
+                <i class="fa fs-1 fa-face-meh"></i>
+              </span>
+              <span class="text-center text-secondary" i18n
+                >No records found</span
+              >
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+  @if (showSimulate) {
+    <div>
+      <div class="col d-flex justify-content-end text-dark">
+        <span
+          tabindex="0"
+          role="button"
+          i18n
+          (click)="onButtonInternalClick(); resetSimulateData()">
+          <i class="fa fa-arrow-left text-dark" aria-hidden="true"> </i>
+          Back
+        </span>
+      </div>
+      <div class="row">
+        <div class="col-md-2 text-dark text-md" i18n>Bank :</div>
+        <div class="col">
+          <img i18n src="{{ companyLogo }}" width="90" alt="" />
+        </div>
+        <div class="col text-md text-end">
+          <b i18n>{{ tarifName }}</b>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 text-dark text-md" i18n>Title :</div>
+        <div class="col text-dark" i18n>{{ tarifTitle }}</div>
+
+        <div class="col"></div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-md-2 text-dark text-md" i18n>Description :</div>
+        <div class="col text-dark" i18n>
+          Carry out your operations with our Ihela agents available in all the
+          countries
+        </div>
+        <div class="col"></div>
+      </div>
+      <hr />
+
+      <form [formGroup]="simulateForm">
+        <div class="col-md-4 d-flex justify-content-start">
+          <!-- <span>
+                <app-amount-words
+                    [showAmountwords]="false"
+                    (amountEvent)="getAmount($event)"
+                ></app-amount-words>
+            </span> -->
+
+          <input
+            class="form-control me-2"
+            formControlName="amount"
+            placeholder="Amount"
+            type="text" />
+
+          <span class="ms-3">
+            <button
+              (click)="getSimulate()"
+              [disabled]="isLoadingSimulate"
+              class="btn bg-primary p-3 text-all-white">
+              @if (!isLoadingSimulate) {
+                <span i18n class="fs-6" i18n>Ok</span>
+              }
+              @if (isLoadingSimulate) {
+                <span
+                  ><i class="fa-solid fa-pulse fa-circle-notch fs-6"></i
+                ></span>
+              }</button
+          ></span>
+        </div>
+      </form>
+
+      <br />
+      <div class="d-flex">
+        <div class="d-flex align-items-center">
+          <span i18n class="text-primary me-2"
+            ><i class="fa-solid fa-play"></i
+          ></span>
+          <span i18n>Fees</span>
+        </div>
+
+        @for (simulate of simulates; track simulate) {
+          <div class="d-flex align-items-center">
+            <div class="d-flex flex-column align-items-center px-3 mx-3">
+              @if (simulate.total_commission) {
+                <b class="text-secondary" i18n>Client </b>
+              }
+              <b i18n class="mt-2">{{ simulate.total_commission }}</b>
+            </div>
+            @if (isAgent) {
+              <div class="d-flex flex-column align-items-center px-3 mx-3">
+                @if (simulate.agent_commission) {
+                  <b class="text-secondary" i18n> Agent</b>
+                }
+                <b i18n class="mt-2">{{ simulate.agent_commission }}</b>
+              </div>
+            }
+          </div>
+        }
+        @if (simulates && simulates.length === 0) {
+          <div class="d-flex align-items-center">
+            <span i18n class="text-danger ms-4">No fees found</span>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

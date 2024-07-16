@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,8 +16,9 @@ import {
   otpVerificationResponse,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
-import { ConfigService } from '../config/config.service';
+import { ConfigService, PlateformModel } from '../config/config.service';
 import { UserInfoModel } from '../../db/models/auth';
+import { DialogService } from '../dialog/dialog.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +26,14 @@ import { UserInfoModel } from '../../db/models/auth';
 export class AuthService {
   private userInfo$: Observable<UserInfoModel> | unknown;
   private userClientId$ = new Subject<number>();
+  private userIsAgent$ = new Subject<boolean>();
   private userId$ = new Subject<number>();
 
   constructor(
     private apiService: ApiService,
     private dbService: DbService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private dialogService: DialogService
   ) {
     this.userInfo$ = liveQuery(() => this.dbService.getOnce(User.tableName));
   }
@@ -39,25 +43,15 @@ export class AuthService {
     password: string;
   }): Observable<object> {
     const loginData = { user: login_data };
-    console.log('LOGIN DATA REQ : ', loginData);
-    return this.apiService.post('/users/login/', loginData).pipe(
+    return this.apiService.post<object>('/users/login/', loginData).pipe(
       map(data => {
         const userData = (data as { user: UserApiResponse }).user;
-        // TODO : Save user data to indexeddb and save token to localStorage
-        // this.dbService.setUser(userData);
         if (userData.token) {
           this.dbService.setLocalStorageUserToken(userData.token);
         }
-
-        // console.log('LOGIN DATA SERVICE : ', data);
         return data;
       })
     );
-  }
-
-  getAuthToken(): string | null {
-    const localToken = this.apiService.getLocalToken();
-    return localToken;
   }
 
   isAuthenticated(): boolean {
@@ -65,7 +59,7 @@ export class AuthService {
     return localToken !== null;
   }
 
-  populate() {
+  populateOperator() {
     return this.apiService
       .get('/hr/access/operator/organizations/?populate=true')
       .pipe(map(data => data));
@@ -96,23 +90,76 @@ export class AuthService {
   }
 
   logout() {
+    this.dialogService.dispatchLoading();
     this.apiService.post('/users/logout/').subscribe({
-      next: response => {
-        console.info('LOGOUT RETURN INFO ::', response);
-        this.configService.clearDB();
+      next: async () => {
+        await this.configService.clearDB();
+        this.configService.switchPlateform('authentification');
+        this.dialogService.closeLoading();
       },
       error: err => {
-        console.error('LOGOUT ERROR', err);
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          message:
+            err?.response_message ??
+            'Something went wrong, please retry again!',
+          title: '',
+          type: 'failed',
+        });
       },
     });
   }
 
-  populateClient() {
-    return this.apiService.get('/client/user/populate/').pipe(
-      map(data => {
-        return data;
-      })
-    );
+  populateClient(Router: Router, switchOn: PlateformModel = 'onlineBanking') {
+    this.dialogService.dispatchSplashScreen();
+    this.apiService
+      .get<{ object: UserInfoModel }>('/client/user/populate/')
+      .subscribe({
+        next: data => {
+          const populateData = data.object;
+          const userInfo: UserInfoModel =
+            this.formatPopulateClientData(populateData);
+          this.dbService.setUser(userInfo);
+          this.configService.switchPlateform(switchOn);
+          setTimeout(() => {
+            this.dialogService.closeSplashScreen();
+          }, 1000);
+        },
+        error: err => {
+          console.log('err', err);
+        },
+      });
+  }
+
+  private populate(): Observable<{ object: UserInfoModel }> {
+    return this.apiService
+      .get<{ object: UserInfoModel }>('/client/user/populate/')
+      .pipe(map(data => data));
+  }
+  private formatPopulateClientData(data: UserInfoModel): UserInfoModel {
+    return {
+      user: {
+        username: data.user.username,
+        token: data.user.token,
+        fcm_data: {},
+        device_data: {},
+      },
+      client: {
+        id: data.client.id,
+        client_id: data.client.client_id,
+        client_code: data.client.client_code,
+        client_email: data.client.client_email,
+        client_full_name: data.client.client_full_name,
+        client_phone_number: data.client.client_phone_number,
+        client_type: data.client.client_type,
+        has_pin: data.client.has_pin,
+        is_agent: data.client.is_agent,
+        is_merchant: data.client.is_merchant,
+        is_partner_bank: data.client.is_partner_bank,
+        picture_url: data.client.picture_url,
+        prefered_language: data.client.prefered_language,
+      },
+    };
   }
 
   createAccount(body: object): Observable<createAccountResponse> {
@@ -172,18 +219,47 @@ export class AuthService {
   getUserClientId(): Observable<number> {
     this.getUserInfo().subscribe({
       next: userInfo => {
-        this.userClientId$.next(userInfo.client.client_id);
+        if (userInfo) {
+          this.userClientId$.next(userInfo.client.client_id);
+        }
       },
     });
     return this.userClientId$;
+  }
+  getUserIsAgent(): Observable<boolean> {
+    this.getUserInfo().subscribe({
+      next: userInfo => {
+        if (userInfo) {
+          this.userIsAgent$.next(userInfo.client.is_agent);
+        }
+      },
+    });
+    return this.userIsAgent$;
   }
 
   getUserId(): Observable<number> {
     this.getUserInfo().subscribe({
       next: userInfo => {
-        this.userId$.next(userInfo.client.id);
+        if (userInfo) {
+          this.userId$.next(userInfo.client.id);
+        }
       },
     });
     return this.userId$;
+  }
+
+  // METHOD FOR GET LOCAL DATA
+  getLocalAuthToken(): string | null {
+    const localToken = this.apiService.getLocalToken();
+    return localToken;
+  }
+  getLocalClientId(): string | null {
+    return this.apiService.getLocalClientId();
+  }
+  getLocalBankId(): string | null {
+    return this.apiService.getLocalBankId();
+  }
+  getLocalPlateform(): string {
+    return this.apiService.getLocalPlateform();
   }
 }

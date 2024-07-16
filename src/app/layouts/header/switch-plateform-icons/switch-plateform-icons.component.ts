@@ -83,10 +83,10 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
-        if (this.mainConfig.activePlateform === 'onlineBanking') {
+        if (this.mainConfig?.activePlateform === 'onlineBanking') {
           this.bankingPlateformIcon = '/icons/banking-primary-icon.svg';
-        } else if (this.mainConfig.activePlateform === 'workstation') {
-          if (this.mainConfig.activeMode === 'light') {
+        } else if (this.mainConfig?.activePlateform === 'workstation') {
+          if (this.mainConfig?.activeMode === 'light') {
             this.bankingPlateformIcon = '/icons/banking-dark-icon.svg';
           } else {
             this.bankingPlateformIcon = '/icons/banking-light-icon.svg';

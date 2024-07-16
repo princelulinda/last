@@ -33,6 +33,11 @@ export interface createAccountResponse {
     client: {
       client_id: number;
     };
+    user: {
+      username: string;
+      email: string;
+      token: string;
+    };
   };
 }
 
@@ -52,4 +57,14 @@ export interface otpVerificationResponse {
   object: {
     success: boolean;
   };
+}
+export interface UploadedFileModel {
+  object: {
+    uuid: string;
+    docfile: string;
+  };
+}
+
+export interface cardIdData {
+  expiry_date: string | null | undefined;
 }
