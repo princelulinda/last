@@ -41,7 +41,9 @@ export class IndividualSettingsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Initialisez votre composant ici
+    this.settingsService.selectedSubMenu$.subscribe(selected => {
+      this.selectedsubmenu = selected;
+    });
 
     this.formPin = new FormGroup({
       oldPin: new FormControl('', Validators.required),

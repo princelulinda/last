@@ -1,17 +1,17 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BankingService } from '../../../core/services/dashboards/banking.service';
 import { Subject, Observable, takeUntil } from 'rxjs';
 import { ModeModel, ConfigService, AuthService } from '../../../core/services';
 import { CommonModule, NgClass } from '@angular/common';
 import { UserInfoModel } from '../../../core/db/models/auth';
-
+import { RouterLink } from '@angular/router';
 import { nyamuranziCard } from '../models';
 import { userInfoModel } from '../../../layouts/header/model';
 
 @Component({
   selector: 'app-nyamuranzi-card',
   standalone: true,
-  imports: [NgClass, CommonModule],
+  imports: [NgClass, CommonModule, RouterLink],
   templateUrl: './nyamuranzi-card.component.html',
   styleUrl: './nyamuranzi-card.component.scss',
 })
@@ -29,9 +29,9 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
   private userInfo$: Observable<UserInfoModel>;
 
   constructor(
-    @Inject(BankingService) private bankingService: BankingService,
-    @Inject(ConfigService) private configService: ConfigService,
-    @Inject(AuthService) private authService: AuthService
+    private bankingService: BankingService,
+    private configService: ConfigService,
+    private authService: AuthService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();

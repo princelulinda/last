@@ -61,7 +61,7 @@ export const environmentConfig: {
       {
         name: 'onamob',
         uuid: '65231163-2099-45e3-95de-0bdfa5882088',
-        theme: { name: 'ihela' },
+        theme: { name: 'onamob' },
         baseHref: '/o/onamob',
       },
       {
@@ -129,7 +129,7 @@ export const environmentConfig: {
       {
         name: 'onamob',
         uuid: '65231163-2099-45e3-95de-0bdfa5882088',
-        theme: { name: 'ihela' },
+        theme: { name: 'onamob' },
         baseHref: '/o/onamob',
       },
       {

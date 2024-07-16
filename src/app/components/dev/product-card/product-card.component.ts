@@ -1,17 +1,18 @@
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
 })
 export class ProductCardComponent {
   @Input() product = '';
   @Input() merchant = '';
-  @Input() get_merchant = [];
-  @Input() get_product = [];
+  @Input() get_merchant!: boolean;
+  @Input() get_product!: boolean;
   // @Output() payMerchant = new EventEmitter<any>();
 
   // theme$: Observable<any>;

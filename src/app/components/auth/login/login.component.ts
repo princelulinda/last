@@ -6,13 +6,14 @@ import {
   RouterLink,
   RouterLinkActive,
 } from '@angular/router';
+
+import { Observable } from 'rxjs';
+
 import { AuthService, ConfigService } from '../../../core/services';
 import { FullpathService } from '../../../core/services';
-import { UserApiResponse } from '../../../core/db/models';
 import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
 import { environment } from '../../../../environments/environment';
 import { DialogService } from '../../../core/services';
-import { Observable } from 'rxjs';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 
 @Component({
@@ -80,19 +81,16 @@ export class LoginComponent implements OnInit {
         .subscribe({
           next: data => {
             this.loginLoader = false;
-            console.log('GOT LOGIN : ', data);
-            const userData = (data as { user: UserApiResponse }).user;
-            console.log('GOT LOGIN 2 : ', userData);
+            console.log(data);
+            // const userData = (data as { user: UserApiResponse }).user;
             this.dialogService.closeLoading();
-            if (userData.token) {
-              console.log('GOT LOGIN 3 : ', userData);
-              // await this.dbService.populate();
-              this.redirectToNext();
-            }
+            this.authService.populateClient(this.router, 'newsFeed');
+            // if (userData.token) {
+            //   this.redirectToNext();
+            // }
           },
-          error: err => {
+          error: () => {
             this.loginLoader = false;
-            console.error('LOGIN :: ERROR', err);
             this.dialogService.closeLoading();
 
             this.dialogService.openToast({

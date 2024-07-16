@@ -8,7 +8,7 @@ export function httpTokenInterceptor(
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
   // Inject the current `AuthService` and use it to get an authentication token:
-  const authToken = inject(AuthService).getAuthToken();
+  const authToken = inject(AuthService).getLocalAuthToken();
 
   // Clone the request to add the authentication header.
   if (
@@ -20,7 +20,6 @@ export function httpTokenInterceptor(
   ) {
     return next(req);
   } else {
-    console.log('INTECEPTED TOKEN : ', authToken);
     const newReq = req.clone({
       headers: req.headers.set('Authorization', `Token ${authToken}`),
     });

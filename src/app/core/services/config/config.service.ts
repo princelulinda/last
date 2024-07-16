@@ -4,14 +4,15 @@ import { liveQuery } from 'dexie';
 import { Observable, Subject } from 'rxjs';
 
 import { DbService } from '../../db';
-import { MainConfig } from '../../db/models';
+import { Bank, MainConfig, SelectedBank } from '../../db/models';
 import { environment } from '../../../../environments/environment';
 
 import { ApiService } from '../api/api.service';
 import { Router } from '@angular/router';
+import { bankModel } from '../../db/models/bank/bank.model';
 
 export type ModeModel = 'light' | 'dark';
-export type ThemeModel = 'ihela' | 'magis' | 'erp';
+export type ThemeModel = 'ihela' | 'magis' | 'erp' | 'onamob';
 export type PlateformModel =
   | 'authentification'
   | 'newsFeed'
@@ -32,11 +33,15 @@ export interface activeMainConfigModel {
   providedIn: 'root',
 })
 export class ConfigService {
-  activeMainConfig!: activeMainConfigModel;
-  mainConfig$: unknown | Observable<activeMainConfigModel>;
-  actifPlateform = new Subject<PlateformModel>();
-  actifTheme = new Subject<ThemeModel>();
-  actifMode = new Subject<ModeModel>();
+  private activeMainConfig!: activeMainConfigModel;
+  private mainConfig$: unknown | Observable<activeMainConfigModel>;
+
+  private actifPlateform = new Subject<PlateformModel>();
+  private actifTheme = new Subject<ThemeModel>();
+  private actifMode = new Subject<ModeModel>();
+
+  private userBanks$: unknown | Observable<bankModel[]>;
+  private selectedBank$: unknown | Observable<bankModel>;
 
   constructor(
     private dbService: DbService,
@@ -48,6 +53,10 @@ export class ConfigService {
         this.dbService.getOnce(MainConfig.tableName)
       );
     }
+    this.userBanks$ = liveQuery(() => this.dbService.getOnce(Bank.tableName));
+    this.selectedBank$ = liveQuery(() =>
+      this.dbService.getOnce(SelectedBank.tableName)
+    );
   }
   private async getActiveMainConfig(): Promise<activeMainConfigModel> {
     const data: activeMainConfigModel = await this.dbService.getOnce(
@@ -64,7 +73,9 @@ export class ConfigService {
   getPlateform(): Observable<PlateformModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
-        this.actifPlateform.next(mainConfig.activePlateform);
+        if (mainConfig) {
+          this.actifPlateform.next(mainConfig.activePlateform);
+        }
       },
     });
     return this.actifPlateform;
@@ -73,7 +84,9 @@ export class ConfigService {
   getTheme(): Observable<ThemeModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
-        this.actifTheme.next(mainConfig.activeTheme);
+        if (mainConfig) {
+          this.actifTheme.next(mainConfig.activeTheme);
+        }
       },
     });
     return this.actifTheme;
@@ -82,21 +95,16 @@ export class ConfigService {
   getMode(): Observable<ModeModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
-        this.actifMode.next(mainConfig.activeMode);
+        if (mainConfig) {
+          this.actifMode.next(mainConfig.activeMode);
+        }
       },
     });
     return this.actifMode;
   }
 
-  setMainConfig(payload: activeMainConfigModel) {
-    // console.log(
-    //   'Main ConFig ===++++ :',
-    //   activePlatform,
-    //   activeTheme,
-    //   activeMode
-    // );
-
-    return this.dbService.addOnceUpdate(MainConfig.tableName, payload);
+  setMainConfig(payload: activeMainConfigModel): void {
+    this.dbService.addOnceUpdate(MainConfig.tableName, payload);
   }
 
   private getPreferedMode(): ModeModel {
@@ -143,12 +151,12 @@ export class ConfigService {
     });
   }
 
-  clearDB() {
-    this.apiService.clearLocalData();
+  async clearDB() {
     // DELETE DATABASE
-    this.dbService.db.delete();
-    this.dbService.initializeModels();
-    this.initAll();
+    // await this.dbService.db.delete();
+    this.apiService.clearLocalData();
+    // await this.dbService.initializeModels();
+    // this.initAll();
   }
 
   private setHtmlMode(newTheme: ThemeModel, newMode: ModeModel) {
@@ -171,20 +179,23 @@ export class ConfigService {
       plateformData => plateformData.name === plateform
     )[0];
   }
-  async switchPlateform(plateform: PlateformModel) {
+  async switchPlateform(plateform: PlateformModel, redirectToBaseHref = true) {
     this.activeMainConfig = await this.getActiveMainConfig();
     if (plateform !== this.activeMainConfig.activePlateform) {
       const plateformData = this.filterPlatformData(plateform);
       const theme = plateformData.theme.name;
       const baseHref = plateformData.baseHref;
 
+      this.apiService.setLocalPlateform(plateform);
       this.setMainConfig({
         activePlateform: plateform,
         activeTheme: this.activeMainConfig.activeTheme,
         activeMode: this.activeMainConfig.activeMode,
       });
       this.setHtmlMode(theme, this.activeMainConfig.activeMode);
-      this.router.navigate([baseHref]);
+      if (redirectToBaseHref) {
+        this.router.navigate([baseHref]);
+      }
     }
   }
 
@@ -208,5 +219,38 @@ export class ConfigService {
       activeMode: newModeToDispatch,
     });
     this.setHtmlMode(this.activeMainConfig.activeTheme, newModeToDispatch);
+  }
+
+  // async initPopulate() {
+  //   const localToken = this.apiService.getLocalToken();
+  //   const clientId = this.apiService.getLocalClientId();
+  //   const dbUser = await this.dbService.getDbUser();
+  //   if ((!localToken || !clientId) && dbUser) {
+  //     // this.apiService.clearLocalData();
+  //     this.dbService.setLocalStorageUserToken(dbUser.user.token);
+  //     this.dbService.setLocalStorageClientId(
+  //       dbUser.client.client_id.toString()
+  //     );
+  //   } else if (!dbUser) {
+  //     // this.apiService.clearLocalData();
+  //     // this.dbService.populate();
+  //   }
+  // }
+
+  // Banks methods
+  setUserBanks(banks: bankModel[]) {
+    this.dbService.addOnce(Bank.tableName, banks);
+  }
+  setSelectedBank(selectedBank: bankModel) {
+    this.dbService.addOnce(SelectedBank.tableName, selectedBank);
+  }
+  resetSelectedBank(): void {
+    this.dbService.clearTable(SelectedBank.tableName);
+  }
+  getUserBanks(): Observable<bankModel[]> {
+    return this.userBanks$ as Observable<bankModel[]>;
+  }
+  getSelectedBank(): Observable<bankModel> {
+    return this.selectedBank$ as Observable<bankModel>;
   }
 }

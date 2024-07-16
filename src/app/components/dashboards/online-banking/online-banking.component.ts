@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { CardComponent } from '../../wallet/card/card.component';
+import { WalletCardComponent } from '../../wallet/wallet-card/wallet-card.component';
 import { NyamuranziCardComponent } from '../../nyamuranzi/nyamuranzi-card/nyamuranzi-card.component';
 import { Subject, Observable, takeUntil } from 'rxjs';
 import { AuthService, ConfigService, ModeModel } from '../../../core/services';
@@ -8,28 +8,24 @@ import { BankService } from '../../../core/services/bank/bank.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import {
-  bankModel,
-  MenuGroup,
-  MerchantLookup,
-  PayMerchant,
-} from '../dashboard.model';
+import { MenuGroup, MerchantLookup, PayMerchant } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
+import { WithdrawalComponent } from '../../withdrawal/withdrawal.component';
+import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { SessionsComponent } from '../../dev/sessions/sessions/sessions.component';
-
 @Component({
   selector: 'app-online-banking',
   standalone: true,
   templateUrl: './online-banking.component.html',
   styleUrl: './online-banking.component.scss',
   imports: [
-    CardComponent,
+    WalletCardComponent,
     NyamuranziCardComponent,
     NgClass,
     SkeletonComponent,
     CommonModule,
-    // WithdrawalComponent,
-    // TarifComponent,
+    WithdrawalComponent,
+    WalletCardComponent,
     SessionsComponent,
   ],
 })
@@ -205,7 +201,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          this.banks = data.objects;
+          this.banks = data;
         },
         error: () => {
           // code
