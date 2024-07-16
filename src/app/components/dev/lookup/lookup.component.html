@@ -36,7 +36,7 @@
         type="text"
         class="form-control lg-radius input text-dark global-border-input"
         id="validationTooltipUsername"
-        placeholder="{{ lookupLabel }}"
+        placeholder="{{ label }}"
         aria-describedby="validationTooltipUsernamePrepend"
         [disabled]="isLoading"
         required
@@ -61,7 +61,7 @@
     </div>
   }
 
-  @if (option === 'lookup' && selectedItem) {
+  @if (option === 'autocomplete') {
     <div>
       @if (!selectedItem) {
         <div class="form-floating">
@@ -75,9 +75,7 @@
             [formControl]="search"
             (input)="DoAutocomplete()"
             autocomplete="false" />
-          <label for="menu_group" class="form-label mx-3">{{
-            itemsLabel
-          }}</label>
+          <label for="menu_group" class="form-label mx-3">{{ label }}</label>
         </div>
       }
 
@@ -86,10 +84,10 @@
           class="autoCompleteItems level-2 shadow rounded level-0 w-100 shadow py-2 mt-2">
           <div class="list mx-1">
             <div class="d-flex">
-              <b class="text-secondary">{{ itemsLabel }} List</b>
+              <b class="text-secondary">{{ label }} List</b>
               <button
                 style="right: 0 !important; position: absolute"
-                class="me-2"
+                class="me-2 bg-transparent"
                 (click)="close()">
                 <span class="ms-1">
                   <i class="fa-solid fa-circle-xmark text-danger"></i>
@@ -115,10 +113,9 @@
                 @for (item of items; track item) {
                   <button
                     class="item py-1 px-3 rounded"
-                    role="button"
                     (click)="selectItem(item)">
                     <div>
-                      <div class="d-flex text-dark">
+                      <div class="d-flex">
                         @if (showProfile) {
                           <div style="width: 50px; height: 50px">
                             <img

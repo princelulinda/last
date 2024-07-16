@@ -20,12 +20,11 @@ export class LookupComponent implements OnInit {
   items: ItemModel[] = [];
   search = new FormControl('');
   isLoading = false;
-  @Input() option = 'autocomplete';
+  @Input({ required: true }) option!: 'lookup' | 'autocomplete';
   lookup = new FormControl('');
   @Output() selectedItemEvent = new EventEmitter<ItemModel | null>();
-  @Input() url = '';
-  @Input() itemsLabel = '';
-  @Input() lookupLabel = '';
+  @Input({ required: true }) url!: string;
+  @Input({ required: true }) label!: string;
   @Input() selectedId: number | null = null;
   @Input() showProfile = true;
   title = '';
