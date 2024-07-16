@@ -93,8 +93,12 @@ export class LookupComponent implements OnInit {
   }
 
   initAutocomplete() {
-    if (!this.items && this.search.value === '') {
+    console.log('!!!!!!!!!!!!!!!!!!!Items', this.items);
+    console.log('!!!!!!!!!!!!!!!!!!!>>>>>>search', this.search.value);
+    if (this.items.length === 0 && this.search.value === '') {
       this.isLoading = true;
+
+      console.log('inside IIIIIIIFFFFFFF', this.isLoading);
 
       this.generalService.DoAutocomplete(this.url, '').subscribe(value => {
         const res = value as { objects: ItemModel[] };
