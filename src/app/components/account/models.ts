@@ -7,4 +7,7 @@ export interface accountsList {
   acc_currency: string;
   acc_account_type: string;
   acc_number: number;
+  acc_status: {
+    status_code: string;
+  };
 }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BankingService } from '../../../core/services/dashboards/banking.service';
 import { Subject, Observable, takeUntil } from 'rxjs';
 import { AuthService, ConfigService, ModeModel } from '../../../core/services';
@@ -30,9 +30,9 @@ export class CardComponent implements OnInit, OnDestroy {
   noWalletData = false;
 
   constructor(
-    @Inject(BankingService) private bankingService: BankingService,
-    @Inject(ConfigService) private configService: ConfigService,
-    @Inject(AuthService) private authService: AuthService
+    private bankingService: BankingService,
+    private configService: ConfigService,
+    private authService: AuthService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
