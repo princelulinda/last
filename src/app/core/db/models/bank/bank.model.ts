@@ -6,6 +6,7 @@ export interface bankModel {
   bank_code: string;
   is_active: boolean;
   is_default: boolean;
+  organization_id: number;
   company: {
     about: string;
     fullname: string;
