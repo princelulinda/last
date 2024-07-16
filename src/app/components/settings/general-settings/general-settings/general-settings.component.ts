@@ -10,7 +10,7 @@ import { DialogService } from '../../../../core/services';
 import { ClientService } from '../../../../core/services/client/client.service';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { BodyModel } from '../../setting.model';
-
+// { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-general-settings',
   standalone: true,
@@ -31,6 +31,8 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
   phoneNumbersLoading = true;
   phoneNumbers: MailModel[] | null = null;
   private userInfo$: Observable<UserInfoModel>;
+  //showActionPopupAt:any
+  //selectedNumberToMap!: string;
   emails: MailModel[] | null = null;
   email = new FormControl('', [Validators.required, Validators.email]);
   phoneNumber = new FormControl('', [
@@ -209,7 +211,13 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
       action: contactType,
     });
   }
-
+  //   toggleActionPopup(number: any) {
+  //     if (this.showActionPopupAt && this.showActionPopupAt === number) {
+  //         this.showActionPopupAt = null;
+  //     } else {
+  //         this.showActionPopupAt = number;
+  //     }
+  // }
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Dexie, liveQuery } from 'dexie';
 
-import { UserApiResponse } from './models';
+import { User, UserApiResponse } from './models';
 import { getAllMetadataKeys } from './models/base.model';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../services/api/api.service';
@@ -14,149 +14,151 @@ import { ClientApiResponse, UserInfoModel } from './models/auth';
   providedIn: 'root',
 })
 export class DbService {
-  public db: Dexie; // TODO : Make this private and use addEvent func
   private dbName = 'main-magis-erp-db';
+  public db: Dexie = new Dexie(this.dbName); // TODO : Make this private and use addEvent func
   private modelsDir = './models';
   public dbIsReady: Subject<boolean> = new Subject<boolean>();
 
   constructor(private apiService: ApiService) {
-    this.db = new Dexie(this.dbName);
     this.dbIsReady.next(false);
   }
 
   async initializeModels() {
-    // Assuming models are loaded dynamically (replace with your loading logic)
-    const rawModelsModule: object = await import('./models');
-    const modelsModule: Record<string, object> = rawModelsModule as Record<
-      string,
-      object
-    >;
-
-    console.log(
-      'FOUND DB MODELS :',
-      modelsModule,
-      'RAW :',
-      rawModelsModule,
-      'ALL :'
-    );
-
-    const stores: Record<string, string> = {};
-    for (const [rawModelName, model] of Object.entries(modelsModule)) {
-      // CHECK INSTANCE OF BASE MODEL
-      // if (modelInstance instanceof BaseModel) {
-      const modelTableName: string = (model as { tableName: string }).tableName;
-
-      const metadataName = `${modelTableName}ModelFields`;
-      const uniqueMetadataName = `${modelTableName}ModelUniqueFields`;
-      const multiMetadataName = `${modelTableName}ModelMultiFields`;
+    const exist = await Dexie.exists(this.dbName);
+    if (!exist) {
+      // Assuming models are loaded dynamically (replace with your loading logic)
+      const rawModelsModule: object = await import('./models');
+      const modelsModule: Record<string, object> = rawModelsModule as Record<
+        string,
+        object
+      >;
 
       console.log(
-        `|== ADDING MODEL : ${modelTableName} || ${metadataName} > ${rawModelName} > ${model}`
-      );
-      console.log(
-        '==== METADATA NAMES :: ',
-        metadataName,
-        uniqueMetadataName,
-        multiMetadataName
+        'FOUND DB MODELS :',
+        modelsModule,
+        'RAW :',
+        rawModelsModule,
+        'ALL :'
       );
 
-      const getSchema = () => {
-        const schema: string[] = [];
+      const stores: Record<string, string> = {};
+      for (const [rawModelName, model] of Object.entries(modelsModule)) {
+        // CHECK INSTANCE OF BASE MODEL
+        // if (modelInstance instanceof BaseModel) {
+        const modelTableName: string = (model as { tableName: string })
+          .tableName;
 
-        console.log(`==== BEFORE ADDING PROPS TO MODEL : ${modelTableName}`);
-        const commonJsClassPropToExclude: string[] = [
-          'constructor',
-          'id',
-          'prototype',
-          // 'length',
-        ];
-        // ------------------------------
-        // const propNames: (string|any)[] = Reflect.ownKeys(model as Record<string, any>).filter((key: any) => !commonJsClassPropToExclude.includes(key) && typeof model[key] !== 'function');
-        // ------------------------------
-        // const propNames: (string | symbol)[] = Reflect.ownKeys(
-        //   model as Record<string, string>
-        // ).filter(
-        //   (key: string | symbol) =>
-        //     !commonJsClassPropToExclude.includes(key as string)
-        // );
-        // ------------------------------
-        // Access class attribute names after class definition
+        const metadataName = `${modelTableName}ModelFields`;
+        const uniqueMetadataName = `${modelTableName}ModelUniqueFields`;
+        const multiMetadataName = `${modelTableName}ModelMultiFields`;
 
-        // NORMAL PROPS
-
-        const propNames =
-          getAllMetadataKeys(
-            metadataName,
-            model as Record<string, string>
-          )?.filter(
-            (key: string | symbol) =>
-              !commonJsClassPropToExclude.includes(key as string)
-          ) || [];
         console.log(
-          `======> FOUND PROPS '${propNames}' FOR MODEL CLASS '${modelTableName}'`
+          `|== ADDING MODEL : ${modelTableName} || ${metadataName} > ${rawModelName} > ${model}`
+        );
+        console.log(
+          '==== METADATA NAMES :: ',
+          metadataName,
+          uniqueMetadataName,
+          multiMetadataName
         );
 
-        for (const prop of propNames) {
+        const getSchema = () => {
+          const schema: string[] = [];
+
+          console.log(`==== BEFORE ADDING PROPS TO MODEL : ${modelTableName}`);
+          const commonJsClassPropToExclude: string[] = [
+            'constructor',
+            'id',
+            'prototype',
+            // 'length',
+          ];
+          // ------------------------------
+          // const propNames: (string|any)[] = Reflect.ownKeys(model as Record<string, any>).filter((key: any) => !commonJsClassPropToExclude.includes(key) && typeof model[key] !== 'function');
+          // ------------------------------
+          // const propNames: (string | symbol)[] = Reflect.ownKeys(
+          //   model as Record<string, string>
+          // ).filter(
+          //   (key: string | symbol) =>
+          //     !commonJsClassPropToExclude.includes(key as string)
+          // );
+          // ------------------------------
+          // Access class attribute names after class definition
+
+          // NORMAL PROPS
+
+          const propNames =
+            getAllMetadataKeys(
+              metadataName,
+              model as Record<string, string>
+            )?.filter(
+              (key: string | symbol) =>
+                !commonJsClassPropToExclude.includes(key as string)
+            ) || [];
           console.log(
-            `========> ADDING PROP '${String(prop)}' TO MODEL '${modelTableName}'`
+            `======> FOUND PROPS '${propNames}' FOR MODEL CLASS '${modelTableName}'`
           );
-          schema.push(prop as string);
-        }
 
-        // UNIQUE PROPS
+          for (const prop of propNames) {
+            console.log(
+              `========> ADDING PROP '${String(prop)}' TO MODEL '${modelTableName}'`
+            );
+            schema.push(prop as string);
+          }
 
-        const uniquePropNames =
-          getAllMetadataKeys(
-            uniqueMetadataName,
-            model as Record<string, string>
-          )?.filter(
-            (key: string | symbol) =>
-              !commonJsClassPropToExclude.includes(key as string)
-          ) || [];
-        console.log(
-          `======> FOUND UNIQUE PROPS '${uniquePropNames}' FOR MODEL CLASS '${modelTableName}'`
-        );
+          // UNIQUE PROPS
 
-        for (const u_prop of uniquePropNames) {
+          const uniquePropNames =
+            getAllMetadataKeys(
+              uniqueMetadataName,
+              model as Record<string, string>
+            )?.filter(
+              (key: string | symbol) =>
+                !commonJsClassPropToExclude.includes(key as string)
+            ) || [];
           console.log(
-            `========> ADDING UNIQUE PROP '${String(u_prop)}' TO MODEL '${modelTableName}'`
+            `======> FOUND UNIQUE PROPS '${uniquePropNames}' FOR MODEL CLASS '${modelTableName}'`
           );
-          schema.push(`&${u_prop}` as string);
-        }
 
-        // MULTI PROPS
+          for (const u_prop of uniquePropNames) {
+            console.log(
+              `========> ADDING UNIQUE PROP '${String(u_prop)}' TO MODEL '${modelTableName}'`
+            );
+            schema.push(`&${u_prop}` as string);
+          }
 
-        const multiPropNames =
-          getAllMetadataKeys(multiMetadataName, model)?.filter(
-            (key: string | symbol) =>
-              !commonJsClassPropToExclude.includes(key as string)
-          ) || [];
-        console.log(
-          `======> FOUND MULTI PROPS '${multiPropNames}' FOR MODEL CLASS '${modelTableName}'`
-        );
+          // MULTI PROPS
 
-        for (const m_prop of multiPropNames) {
+          const multiPropNames =
+            getAllMetadataKeys(multiMetadataName, model)?.filter(
+              (key: string | symbol) =>
+                !commonJsClassPropToExclude.includes(key as string)
+            ) || [];
           console.log(
-            `========> ADDING MULTI PROP '${String(m_prop)}' TO MODEL '${modelTableName}'`
+            `======> FOUND MULTI PROPS '${multiPropNames}' FOR MODEL CLASS '${modelTableName}'`
           );
-          schema.push(`*${m_prop}` as string);
-        }
 
-        if (Array.isArray(schema) && schema.length) {
-          return `++id, ${(schema as string[]).join(', ')}`;
-        } else {
-          return '++id';
-        }
-      };
+          for (const m_prop of multiPropNames) {
+            console.log(
+              `========> ADDING MULTI PROP '${String(m_prop)}' TO MODEL '${modelTableName}'`
+            );
+            schema.push(`*${m_prop}` as string);
+          }
 
-      stores[modelTableName] = getSchema();
-      // } // END OF  CHECK : model instanceof BaseModel
+          if (Array.isArray(schema) && schema.length) {
+            return `++id, ${(schema as string[]).join(', ')}`;
+          } else {
+            return '++id';
+          }
+        };
+
+        stores[modelTableName] = getSchema();
+        // } // END OF  CHECK : model instanceof BaseModel
+      }
+
+      console.log(`INITIALIZING DB STORES : `, stores);
+
+      this.db.version(environment.appDbVersion).stores(stores);
     }
-
-    console.log(`INITIALIZING DB STORES : `, stores);
-
-    await this.db.version(environment.appDbVersion).stores(stores);
-
     // this.db.on('populate', () => this.populate());
     this.db.on('ready', () => {
       console.log(`Database ${this.dbName} is ready`);
@@ -168,11 +170,6 @@ export class DbService {
 
     // this.populate();
   }
-
-  // addEvent(eventName: string, callback: Function) {
-  //   // this.db.on(eventName, () => callback());
-  // }
-
   liveQuery<T>(querier: T | Promise<T>) {
     return liveQuery(() => querier);
   }
@@ -181,7 +178,7 @@ export class DbService {
     if (data?.user.token !== null) {
       this.setLocalStorageUserToken(data.user.token);
       this.setLocalStorageClientId(data.client.client_id.toString());
-      await this.addOnce('users', data);
+      await this.addOnce(User.tableName, data);
     }
   }
 
@@ -199,7 +196,8 @@ export class DbService {
 
   async getDbUser(): Promise<UserInfoModel | null> {
     try {
-      const userDb = await this.getOnce('users');
+      const userDb = await this.getOnce(User.tableName);
+      console.log('db service userDB', userDb);
       return [userDb][0];
     } catch (error) {
       console.error('Error in fetching Db user', error);
@@ -240,6 +238,15 @@ export class DbService {
     this.db.table(tableName).where(data);
   }
 
+  async checkTable(tableName: string): Promise<boolean> {
+    try {
+      this.db.table(tableName).toArray();
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   add(tableName: string, data: object) {
     return this.db.table(tableName).add(data);
   }
@@ -265,5 +272,9 @@ export class DbService {
 
   update(tableName: string, id: number, data: object) {
     return this.db.table(tableName).update(id, data);
+  }
+
+  clearTable(tableName: string) {
+    this.db.table(tableName).clear();
   }
 }

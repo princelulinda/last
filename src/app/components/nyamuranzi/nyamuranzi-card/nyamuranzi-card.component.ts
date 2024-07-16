@@ -4,14 +4,14 @@ import { Subject, Observable, takeUntil } from 'rxjs';
 import { ModeModel, ConfigService, AuthService } from '../../../core/services';
 import { CommonModule, NgClass } from '@angular/common';
 import { UserInfoModel } from '../../../core/db/models/auth';
-
+import { RouterLink } from '@angular/router';
 import { nyamuranziCard } from '../models';
 import { userInfoModel } from '../../../layouts/header/model';
 
 @Component({
   selector: 'app-nyamuranzi-card',
   standalone: true,
-  imports: [NgClass, CommonModule],
+  imports: [NgClass, CommonModule, RouterLink],
   templateUrl: './nyamuranzi-card.component.html',
   styleUrl: './nyamuranzi-card.component.scss',
 })

@@ -9,6 +9,8 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { WalletList } from '../../../components/wallet/models';
 
+import { accountsList } from '../../../components/account/models';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -51,5 +53,10 @@ export class ClientService {
   ): Observable<{ object: WalletList[] }> {
     const url = '/dbs/wallets/' + selectedWallet + '/';
     return this.apiService.get<{ object: WalletList[] }>(url);
+  }
+
+  getClientAccounts(clientId: number): Observable<{ objects: accountsList[] }> {
+    const url = '/accounts/' + clientId + '/';
+    return this.apiService.get<{ objects: accountsList[] }>(url);
   }
 }

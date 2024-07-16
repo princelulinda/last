@@ -7,15 +7,12 @@
           src="/icons/favicon/ihela-fav.ico"
           class="img-fluid clickable"
           style="height: 30px"
-          alt="" />
+          alt="iHela Banking Image" />
       }
-      <!-- @else {
-
-    } -->
     </span>
     @switch (mainConfig.activePlateform) {
       @case ('newsFeed') {
-        <span class="opacity-50 ms-1 p-1"
+        <span class="opacity-50 ms-1 p-1" i18n
           >Good {{ dayMoment }},
           @if (clientInfo) {
             <span> {{ clientInfo.user.username }}</span>
@@ -23,13 +20,15 @@
         </span>
       }
       @case ('marketPlace') {
-        <span class="opacity-50 ms-1 p-1">Market Place </span>
+        <span class="opacity-50 ms-1 p-1" i18n>Market Place </span>
       }
       @case ('myMarket') {
-        <span class="opacity-50 ms-1 p-1">My Market </span>
+        <span class="opacity-50 ms-1 p-1" i18n>My Market </span>
       }
       @case ('onlineBanking') {
-        <span class="opacity-50 ms-1 p-1">Digital Financial Services </span>
+        <span class="opacity-50 ms-1 p-1" i18n
+          >Digital Financial Services
+        </span>
       }
     }
   </div>

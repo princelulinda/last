@@ -1,0 +1,101 @@
+// For onamob light mode
+$onamob-colors-light: (
+  'primary': #ff6501,
+);
+
+$onamob-bg-light: (
+  'white': #ffffff,
+  'secondary': #dce2eb,
+  'onamob': #f6f7f9,
+  'input': #f1f1f1,
+  'all-white': #ffffff,
+  'all-dark': #242526,
+);
+
+$onamob-text-light: (
+  'dark': #414141,
+  'secondary': #838383,
+);
+
+// For onamob dark mode
+$onamob-colors-dark: (
+  'primary': #ff6501,
+);
+
+$onamob-bg-dark: (
+  'white': #242526,
+  'secondary': #242526,
+  'onamob': #18191a,
+  'input': #3a3b3c,
+  'all-white': #ffffff,
+  'all-dark': #242526,
+);
+
+$onamob-text-dark: (
+  'dark': #d9d9d9,
+  'secondary': #9d9d9d,
+);
+
+html[data-bs-theme='onamob-light'] {
+  @each $color, $value in $onamob-colors-light {
+    @include makeAsGlobalColors($color, $value);
+  }
+
+  @each $color, $value in $onamob-bg-light {
+    @include generateBackgroundClass($color, $value);
+  }
+
+  @each $color, $value in $onamob-text-light {
+    @include generateTextClass($color, $value);
+  }
+
+  // Form inputs bootstrap
+  .form-control,
+  .form-select {
+    @extend .bg-input;
+  }
+
+  body,
+  input,
+  textarea,
+  select,
+  a {
+    // Default color;
+    color: map-get($onamob-text-light, 'dark');
+  }
+}
+
+html[data-bs-theme='onamob-dark'] {
+  @each $color, $value in $onamob-colors-dark {
+    @include makeAsGlobalColors($color, $value);
+  }
+
+  @each $color, $value in $onamob-bg-dark {
+    @include generateBackgroundClass($color, $value);
+  }
+
+  @each $color, $value in $onamob-text-dark {
+    @include generateTextClass($color, $value);
+  }
+
+  // Default color;
+  @extend .text-dark;
+
+  // Form inputs bootstrap
+  .form-control,
+  .form-select {
+    @extend .bg-input;
+  }
+
+  body,
+  input,
+  textarea,
+  select,
+  a {
+    // Default color;
+    color: map-get($onamob-text-dark, 'dark');
+  }
+
+  // reset border in dark
+  --bs-border-color: #474747;
+}

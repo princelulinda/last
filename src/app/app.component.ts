@@ -8,12 +8,16 @@ import { Observable } from 'rxjs';
 
 import { DbService } from './core/db/db.service';
 import {
+  AuthService,
   ConfigService,
+  DialogService,
+  ModeModel,
   PlateformModel,
   // PlateformModel,
 } from './core/services';
 import { ConfirmDialogComponent } from './global/components/popups/confirm-dialog/confirm-dialog.component';
 import { SplashScreenComponent } from './layouts/splash-screen/splash-screen.component';
+import { CommonModule } from '@angular/common';
 // import { environment } from '../environments/environment';
 
 @Component({
@@ -21,23 +25,40 @@ import { SplashScreenComponent } from './layouts/splash-screen/splash-screen.com
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [RouterOutlet, ConfirmDialogComponent, SplashScreenComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    ConfirmDialogComponent,
+    SplashScreenComponent,
+  ],
 })
 export class AppComponent implements OnInit {
   plateform: PlateformModel = 'authentification';
   plateform$: Observable<PlateformModel>;
+  activeMode!: ModeModel;
+  activeMode$: Observable<ModeModel>;
 
   constructor(
     private dbService: DbService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private authService: AuthService,
+    private dialogService: DialogService
   ) {
     this.plateform$ = this.configService.getPlateform();
-    this.dbService.dbIsReady.subscribe((value: boolean) =>
-      console.log(`APP COMPONENT DB READY : ${value}`)
-    );
+    this.activeMode$ = this.configService.getMode();
   }
 
   ngOnInit() {
+    const localToken = this.authService.getLocalAuthToken();
+    if (localToken) {
+      this.dialogService.dispatchSplashScreen();
+      this.dbService.dbIsReady.subscribe(() => {
+        setTimeout(() => {
+          this.dialogService.closeSplashScreen();
+        }, 2000);
+      });
+    }
+
     this.dbService.initializeModels();
     this.configService.initAll();
     // this.configService.initPopulate();
@@ -45,6 +66,11 @@ export class AppComponent implements OnInit {
     this.plateform$.subscribe({
       next: plateform => {
         this.plateform = plateform;
+      },
+    });
+    this.activeMode$.subscribe({
+      next: mode => {
+        this.activeMode = mode;
       },
     });
 

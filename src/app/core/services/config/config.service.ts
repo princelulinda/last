@@ -4,14 +4,15 @@ import { liveQuery } from 'dexie';
 import { Observable, Subject } from 'rxjs';
 
 import { DbService } from '../../db';
-import { MainConfig } from '../../db/models';
+import { Bank, MainConfig, SelectedBank } from '../../db/models';
 import { environment } from '../../../../environments/environment';
 
 import { ApiService } from '../api/api.service';
 import { Router } from '@angular/router';
+import { bankModel } from '../../db/models/bank/bank.model';
 
 export type ModeModel = 'light' | 'dark';
-export type ThemeModel = 'ihela' | 'magis' | 'erp';
+export type ThemeModel = 'ihela' | 'magis' | 'erp' | 'onamob';
 export type PlateformModel =
   | 'authentification'
   | 'newsFeed'
@@ -32,11 +33,15 @@ export interface activeMainConfigModel {
   providedIn: 'root',
 })
 export class ConfigService {
-  activeMainConfig!: activeMainConfigModel;
-  mainConfig$: unknown | Observable<activeMainConfigModel>;
-  actifPlateform = new Subject<PlateformModel>();
-  actifTheme = new Subject<ThemeModel>();
-  actifMode = new Subject<ModeModel>();
+  private activeMainConfig!: activeMainConfigModel;
+  private mainConfig$: unknown | Observable<activeMainConfigModel>;
+
+  private actifPlateform = new Subject<PlateformModel>();
+  private actifTheme = new Subject<ThemeModel>();
+  private actifMode = new Subject<ModeModel>();
+
+  private userBanks$: unknown | Observable<bankModel[]>;
+  private selectedBank$: unknown | Observable<bankModel>;
 
   constructor(
     private dbService: DbService,
@@ -48,6 +53,10 @@ export class ConfigService {
         this.dbService.getOnce(MainConfig.tableName)
       );
     }
+    this.userBanks$ = liveQuery(() => this.dbService.getOnce(Bank.tableName));
+    this.selectedBank$ = liveQuery(() =>
+      this.dbService.getOnce(SelectedBank.tableName)
+    );
   }
   private async getActiveMainConfig(): Promise<activeMainConfigModel> {
     const data: activeMainConfigModel = await this.dbService.getOnce(
@@ -64,7 +73,9 @@ export class ConfigService {
   getPlateform(): Observable<PlateformModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
-        this.actifPlateform.next(mainConfig.activePlateform);
+        if (mainConfig) {
+          this.actifPlateform.next(mainConfig.activePlateform);
+        }
       },
     });
     return this.actifPlateform;
@@ -73,7 +84,9 @@ export class ConfigService {
   getTheme(): Observable<ThemeModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
-        this.actifTheme.next(mainConfig.activeTheme);
+        if (mainConfig) {
+          this.actifTheme.next(mainConfig.activeTheme);
+        }
       },
     });
     return this.actifTheme;
@@ -82,7 +95,9 @@ export class ConfigService {
   getMode(): Observable<ModeModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
-        this.actifMode.next(mainConfig.activeMode);
+        if (mainConfig) {
+          this.actifMode.next(mainConfig.activeMode);
+        }
       },
     });
     return this.actifMode;
@@ -136,13 +151,12 @@ export class ConfigService {
     });
   }
 
-  clearDB() {
-    this.apiService.clearLocalData();
+  async clearDB() {
     // DELETE DATABASE
-    this.dbService.db.delete();
-    this.dbService.initializeModels();
+    // await this.dbService.db.delete();
     this.apiService.clearLocalData();
-    this.initAll();
+    // await this.dbService.initializeModels();
+    // this.initAll();
   }
 
   private setHtmlMode(newTheme: ThemeModel, newMode: ModeModel) {
@@ -222,4 +236,21 @@ export class ConfigService {
   //     // this.dbService.populate();
   //   }
   // }
+
+  // Banks methods
+  setUserBanks(banks: bankModel[]) {
+    this.dbService.addOnce(Bank.tableName, banks);
+  }
+  setSelectedBank(selectedBank: bankModel) {
+    this.dbService.addOnce(SelectedBank.tableName, selectedBank);
+  }
+  resetSelectedBank(): void {
+    this.dbService.clearTable(SelectedBank.tableName);
+  }
+  getUserBanks(): Observable<bankModel[]> {
+    return this.userBanks$ as Observable<bankModel[]>;
+  }
+  getSelectedBank(): Observable<bankModel> {
+    return this.selectedBank$ as Observable<bankModel>;
+  }
 }
