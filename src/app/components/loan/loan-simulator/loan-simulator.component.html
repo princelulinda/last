@@ -1,120 +1,236 @@
-<main class="rounded p-4 bg-secondary">
-  <div>
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <div>
-        <span class="sub-title-loan fw-bold" i18n> Loan Simulator </span>
+@if (!showResults) {
+  <main class="rounded p-4 bg-secondary">
+    <div>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <span class="sub-title-loan fw-bold" i18n> Loan Simulator </span>
+        </div>
+        <button
+          class="dflex align-items-center bg-transparent btn"
+          (click)="goBack()">
+          <span>
+            <i class="fa fa-arrow-left text-dark fs-4"></i>
+          </span>
+          <b class="fs-3 ms-1 text-dark" i18n>Back</b>
+        </button>
       </div>
-      <button
-        class="dflex align-items-center bg-transparent btn"
-        (click)="goBack()">
-        <span>
-          <i class="fa fa-arrow-left text-dark fs-4"></i>
+      <div class="mb-2 me-5">
+        <span style="line-height: 22px; font-size: 18px" i18n>
+          Please change values to have different loan scenarios works for all
+          currencies. Don't add currency in the amount field.
         </span>
-        <b class="fs-3 ms-1 text-dark">Back</b>
-      </button>
+      </div>
+      <div class="me-5">
+        <form [formGroup]="simulationForm">
+          <div class="row d-flex align-items-start">
+            <div class="col-lg-3 mb-4 d-grid">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="input form-control mb-1 mt-2 fs-5 text-dark simulator-input"
+                  id="amount"
+                  formControlName="amount"
+                  placeholder="Amount" />
+                <label for="amount" class="ms-2 mt-2" i18n>Amount</label>
+              </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3 mb-4 d-grid">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="input form-control mb-1 mt-2 fs-5 simulator-input"
+                  id="interest"
+                  formControlName="interest_rate"
+                  placeholder="Interest rate" />
+                <label for="interest" class="ms-2 mt-2" i18n>Interest</label>
+              </div>
+              <span i18n>The interest rate is in %</span>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-3 mb-4 d-grid">
+              <div class="form-floating">
+                <select
+                  name=""
+                  id="mode"
+                  class="fs-5 mt-2 mb-1 py-2 rounded simulator-input px-2 form-control"
+                  placeholder="mode"
+                  formControlName="mode">
+                  <option value="" selected disabled hidden i18n>
+                    Select Type
+                  </option>
+                  <option value="D" i18n>Declining</option>
+                  <option value="L" i18n>Linear</option>
+                </select>
+                <label for="mode" class="ms-2 mt-1" i18n>Type</label>
+              </div>
+              <span></span>
+            </div>
+            <div class="col-lg-3 mb-4 d-grid">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  id="paymentNumber"
+                  class="input form-control mb-1 mt-2 fs-5 simulator-input"
+                  placeholder="Payment Number"
+                  formControlName="payment_number" />
+                <label for="paymentNumber" class="ms-2 mt-2" i18n
+                  >Payment Number</label
+                >
+              </div>
+              <span i18n>The number of payment by the given period</span>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3 mb-4 d-grid">
+              <div class="form-floating">
+                <select
+                  name="period"
+                  id="period"
+                  class="fs-5 mt-2 mb-1 py-2 rounded simulator-input px-2 form-control"
+                  formControlName="period">
+                  <option value="" selected disabled hidden i18n>
+                    Select Period
+                  </option>
+                  <option value="1" i18n>Month</option>
+                  <option value="3" i18n>Quarter</option>
+                  <option value="6" i18n>Semester</option>
+                  <option value="12" i18n>Annually</option>
+                </select>
+                <label for="period" class="ms-2 mt-1" i18n>Periodicity</label>
+              </div>
+              <span i18n>Payment periodicity</span>
+            </div>
+          </div>
+        </form>
+        <div class="w-100 mt-5 pt-2 d-flex justify-content-center">
+          <button
+            type="submit"
+            [disabled]="!simulationForm.valid || isLoading"
+            class="btn px-5 bg-primary d-flex justify-content-center py-2"
+            (click)="simulateLoan()">
+            @if (!isLoading) {
+              <b class="fs-5 mx-2 text-all-white" i18n>Simulate</b>
+            }
+            @if (isLoading) {
+              <i class="fa-solid fa-spin fa-circle-notch text-white fs-3"></i>
+            }
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="mb-2 me-5">
-      <span style="line-height: 22px; font-size: 18px" i18n>
-        Please change values to have different loan scenarios works for all
-        currencies. Don't add currency in the amount field.
-      </span>
-    </div>
-    <div class="me-5">
-      <form [formGroup]="simulationForm">
-        <div class="row d-flex align-items-start">
-          <div class="col-lg-3 mb-4 d-grid">
-            <div class="form-floating">
-              <input
-                type="text"
-                class="input form-control mb-1 mt-2 fs-5 text-dark simulator-input"
-                id="amount"
-                formControlName="amount"
-                placeholder="Amount" />
-              <label for="amount" class="ms-2 mt-2" i18n>Amount</label>
+  </main>
+} @else {
+  <main class="rounded p-4 overflow-auto bg-secondary" style="height: 70vh">
+    <div>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <span class="sub-title-loan fw-bold" i18n>Loan simulator</span>
+        </div>
+        <button
+          class="dflex align-items-center bg-transparent btn"
+          (click)="newSimulation()">
+          <span>
+            <i class="fa fa-arrow-left text-dark fs-4"></i>
+          </span>
+          <b class="fs-3 ms-1 text-dark" i18n>Back</b>
+        </button>
+      </div>
+      <div class="mb-2 me-5">
+        <span style="font-size: 19px">
+          Please change values to have different loan scenarios works for all
+          currencies. Don't add currency in the amount field
+        </span>
+      </div>
+      <div class="me-5">
+        <div class="row">
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid">
+              <span class="less-grey">Amount</span>
+              <b>{{ simulationResult?.amount | currency: ' ' }}</b>
             </div>
           </div>
-          <div class="col-lg-1"></div>
-          <div class="col-lg-3 mb-4 d-grid">
-            <div class="form-floating">
-              <input
-                type="text"
-                class="input form-control mb-1 mt-2 fs-5 simulator-input"
-                id="interest"
-                formControlName="interest_rate"
-                placeholder="Interest rate" />
-              <label for="interest" class="ms-2 mt-2" i18n>Interest</label>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid">
+              <span class="less-grey">Echeance Amount</span>
+              <b>{{ simulationResult?.echeance_amount | currency: ' ' }}</b>
             </div>
-            <span i18n>The interest rate is in %</span>
           </div>
-          <div class="col-lg-2"></div>
-          <div class="col-lg-3 mb-4 d-grid">
-            <div class="form-floating">
-              <select
-                name=""
-                id="mode"
-                class="fs-5 mt-2 mb-1 py-2 rounded simulator-input px-2 form-control"
-                placeholder="mode"
-                formControlName="mode">
-                <option value="" selected disabled hidden i18n>
-                  Select Type
-                </option>
-                <option value="D" i18n>Declining</option>
-                <option value="L" i18n>Linear</option>
-              </select>
-              <label for="mode" class="ms-2 mt-1" i18n>Type</label>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid">
+              <span class="less-grey">First Payment</span>
+              <b>{{ simulationResult?.first_date | date: 'medium' }}</b>
             </div>
-            <span></span>
           </div>
-          <div class="col-lg-3 mb-4 d-grid">
-            <div class="form-floating">
-              <input
-                type="text"
-                id="paymentNumber"
-                class="input form-control mb-1 mt-2 fs-5 simulator-input"
-                placeholder="Payment Number"
-                formControlName="payment_number" />
-              <label for="paymentNumber" class="ms-2 mt-2" i18n
-                >Payment Number</label
-              >
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid">
+              <span class="less-grey">Interest Rate</span>
+              <b>{{ simulationResult?.interest_rate | number }}</b>
             </div>
-            <span i18n>The number of payment by the given period</span>
           </div>
-          <div class="col-lg-1"></div>
-          <div class="col-lg-3 mb-4 d-grid">
-            <div class="form-floating">
-              <select
-                name="period"
-                id="period"
-                class="fs-5 mt-2 mb-1 py-2 rounded simulator-input px-2 form-control"
-                formControlName="period">
-                <option value="" selected disabled hidden i18n>
-                  Select Period
-                </option>
-                <option value="1" i18n>Month</option>
-                <option value="3" i18n>Quarter</option>
-                <option value="6" i18n>Semester</option>
-                <option value="12" i18n>Annually</option>
-              </select>
-              <label for="period" class="ms-2 mt-1" i18n>Periodicity</label>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid">
+              <span class="less-grey">Exigible Amount</span>
+              <b>{{ simulationResult?.exigible_amount | currency: ' ' }}</b>
             </div>
-            <span i18n>Payment periodicity</span>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid">
+              <span class="less-grey">Period</span>
+              <b>{{ simulationResult?.period }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid">
+              <span class="less-grey">Total Interests</span>
+              <b>{{ simulationResult?.total_interests | currency: ' ' }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid">
+              <span class="less-grey">Payment Number</span>
+              <b>{{ simulationResult?.payment_number }}</b>
+            </div>
           </div>
         </div>
-      </form>
-      <div class="w-100 mt-5 pt-2 d-flex justify-content-center">
+      </div>
+      <hr />
+      <div>
+        <div
+          class="row rounded p-1 mb-3 d-flex align-items-center bg-secondary"
+          style="min-width: 700px">
+          <b class="col-2">Echeance Date</b>
+          <b class="col-2">Echeance Amount</b>
+          <b class="col-2">Capital Amount</b>
+          <b class="col-2">Interests</b>
+          <b class="col-2">Due Interests</b>
+          <b class="col-2">Due Capital</b>
+        </div>
+
+        @for (plan of simulationResult?.plan; track plan) {
+          <div
+            style="min-width: 700px"
+            class="row mb-1 rounded p-1 py-2 d-flex align-items-center bg-secondary">
+            <div class="col-2 d-grid">
+              <b>{{ plan.crep_echeance_date | date: 'medium' }}</b>
+              <!-- <b>12:00:00 AM</b> -->
+            </div>
+            <b class="col-2">{{ plan.crep_echeance_amount | currency: ' ' }}</b>
+            <b class="col-2">{{ plan.crep_capital | currency: ' ' }}</b>
+            <b class="col-2">{{ plan.crep_interest | currency: ' ' }}</b>
+            <b class="col-2">{{ plan.crep_due_interest | currency: ' ' }}</b>
+            <b class="col-2">{{ plan.crep_due_capital | currency: ' ' }}</b>
+          </div>
+        }
+      </div>
+
+      <div class="my-3 mt-4 d-flex align-items-center">
+        <b class="me-2 text-muted fs-4">satistified with this offer ? </b>
         <button
-          type="submit"
-          [disabled]="!simulationForm.valid || isLoading"
-          class="btn px-5 bg-primary d-flex justify-content-center py-2"
-          (click)="simulateLoan()">
-          @if (!isLoading) {
-            <b class="fs-5 mx-2 text-all-white" i18n>Simulate</b>
-          }
-          @if (isLoading) {
-            <i class="fa-solid fa-spin fa-circle-notch text-white fs-3"></i>
-          }
+          routerLink="/b/onlineBanking/banking/menuBanking/loan/request"
+          class="btn bg-primary p-2 rounded">
+          <b style="color: white">Request for it</b>
         </button>
       </div>
     </div>
-  </div>
-</main>
+  </main>
+}

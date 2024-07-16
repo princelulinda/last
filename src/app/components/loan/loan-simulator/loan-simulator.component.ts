@@ -1,4 +1,4 @@
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import {
   FormControl,
@@ -6,14 +6,18 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-// import { LoanService } from '../../../core/services/loan/loan.service';
-// import { Route } from '@angular/router';
-import { Subject } from 'rxjs';
+// import { Router } from '@angular/router';
+
+import { Subject, takeUntil } from 'rxjs';
+
+import { LoanService } from '../../../core/services/loan/loan.service';
+import { ResponseDataModel, SimulationResModel } from '../loan.models';
+import { DialogService } from '../../../core/services';
 
 @Component({
   selector: 'app-loan-simulator',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './loan-simulator.component.html',
   styleUrl: './loan-simulator.component.scss',
 })
@@ -22,12 +26,14 @@ export class LoanSimulatorComponent implements OnDestroy {
 
   simulationForm: FormGroup;
   isLoading = false;
-  // simulationResult: any;
+  simulationResult: SimulationResModel | null = null;
   showResults = false;
 
   constructor(
-    private _location: Location
-    // private loanService: LoanService
+    private _location: Location,
+    private loanService: LoanService,
+    // private router: Router,
+    private dialogService: DialogService
   ) {
     this.simulationForm = new FormGroup({
       payment_number: new FormControl<string>('', Validators.required),
@@ -47,22 +53,48 @@ export class LoanSimulatorComponent implements OnDestroy {
     formValue.period = parseInt(formValue.period);
     formValue.interest_rate = parseInt(formValue.interest_rate);
 
-    // this.loanService
-    //   .simulateLoan(formValue)
-    //   .pipe(takeUntil(this.onDestroy$))
-    //   .subscribe({
-    //     next: data => {
-    //       console.log(formValue);
-    //       console.log(
-    //         'SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSimulation Result : ',
-    //         data
-    //       );
-    //     },
-    //   });
+    this.loanService
+      .simulateLoan(formValue)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: data => {
+          const res = data as { object: ResponseDataModel };
+          if (res.object.success === true) {
+            this.dialogService.openToast({
+              title: '',
+              type: 'success',
+              message: res.object.response_message,
+            });
+            this.simulationResult = res.object.response_data;
+            this.showResults = true;
+          } else if (res.object.success === false) {
+            this.dialogService.openToast({
+              title: '',
+              type: 'failed',
+              message: res.object.response_message,
+            });
+          }
+          this.isLoading = false;
+        },
+        error: () => {
+          this.isLoading = false;
+          this.dialogService.openToast({
+            title: 'failure',
+            type: 'failed',
+            message: 'Failed to simulate a loan',
+          });
+        },
+      });
   }
 
   goBack() {
     this._location.back();
+  }
+
+  newSimulation() {
+    this.showResults = false;
+    this.simulationResult = null;
+    this.simulationForm.reset();
   }
 
   ngOnDestroy() {
