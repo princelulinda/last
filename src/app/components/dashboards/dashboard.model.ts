@@ -41,15 +41,34 @@ export interface bankModel {
   company: {
     image: string;
     fullname: string;
+    name: string;
   };
-
+  is_default: boolean;
   organization_id: number;
+  id: number;
+  name: string;
+  slug: string;
 }
 
 export interface PayMerchant {
   id: number;
 }
+export interface BankOptions {
+  selectedDebitAccountType: string | null;
+  debitAccount: string | null;
+  debitWallet: string | null;
+  banks: bankModel[];
+  creditAccountType: string | null;
+  accounts: Account[] | null;
+  wallets: Wallet[] | null;
+}
+export interface Account {
+  id: number;
+}
 
+export interface Wallet {
+  id: number;
+}
 export interface MenuGroup {
   icon: string;
 

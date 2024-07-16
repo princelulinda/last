@@ -9,13 +9,13 @@ import { WalletCard } from '../models';
 import { userInfoModel } from '../../../layouts/header/model';
 
 @Component({
-  selector: 'app-card',
+  selector: 'app-wallet-card',
   standalone: true,
   imports: [NgClass, CommonModule],
-  templateUrl: './card.component.html',
-  styleUrl: './card.component.scss',
+  templateUrl: './wallet-card.component.html',
+  styleUrl: './wallet-card.component.scss',
 })
-export class CardComponent implements OnInit, OnDestroy {
+export class WalletCardComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
   showAmountWallet = false;

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { CardComponent } from '../../wallet/card/card.component';
+import { WalletCardComponent } from '../../wallet/wallet-card/wallet-card.component';
 import { NyamuranziCardComponent } from '../../nyamuranzi/nyamuranzi-card/nyamuranzi-card.component';
 import { Subject, Observable, takeUntil } from 'rxjs';
 import { AuthService, ConfigService, ModeModel } from '../../../core/services';
@@ -23,12 +23,13 @@ import { WithdrawalComponent } from '../../withdrawal/withdrawal.component';
   templateUrl: './online-banking.component.html',
   styleUrl: './online-banking.component.scss',
   imports: [
-    CardComponent,
+    WalletCardComponent,
     NyamuranziCardComponent,
     NgClass,
     SkeletonComponent,
     CommonModule,
     WithdrawalComponent,
+    WalletCardComponent,
   ],
 })
 export class OnlineBankingComponent implements OnInit, OnDestroy {
