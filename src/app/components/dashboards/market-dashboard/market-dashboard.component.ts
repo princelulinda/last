@@ -8,6 +8,7 @@ import {
   BillersModel,
   objectModel,
   objectsModel,
+  productCategoryArray,
   productCategoryModel,
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
@@ -88,11 +89,12 @@ export class MarketDashboardComponent implements OnInit {
   merchants!: BillersModel[];
   products!: BillersModel[];
   biller: [] | null = null;
-  productCategory!: productCategoryModel;
+  productCategory!: productCategoryModel[];
   // sector: any;
   last4!: BillersModel[];
   first6!: BillersModel[];
   first5!: BillersModel[];
+  first4!: productCategoryModel[];
   start = 0;
   end = 4;
   clearData = true;
@@ -279,9 +281,13 @@ export class MarketDashboardComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: result => {
-          const response = result as productCategoryModel;
-          this.productCategory = response;
-          console.log('productCategory:', this.productCategory);
+          const response = result as productCategoryArray;
+          this.productCategory = response.objects;
+          console.log(
+            '===============??productCategory:',
+            this.productCategory
+          );
+          this.first4 = this.productCategory.slice(0, 4);
         },
       });
   }
