@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { activeMainConfigModel } from '../../../core/services';
+import {
+  activeMainConfigModel,
+  AuthService,
+  ConfigService,
+} from '../../../core/services';
+import { ClientService } from '../../../core/services/client/client.service';
 
 @Component({
   selector: 'app-accounts-list',
@@ -12,6 +17,17 @@ import { activeMainConfigModel } from '../../../core/services';
 export class AccountsListComponent implements OnInit {
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
+
+  // walletsOnlineBanking: WalletList[] | [] | null = null;
+  constructor(
+    private configService: ConfigService,
+    private authService: AuthService,
+    private clientService: ClientService,
+    private location: Location
+  ) {
+    this.mainConfig$ = this.configService.getMainConfig();
+    // this.userInfo$ = this.authService.getUserInfo();
+  }
 
   ngOnInit(): void {
     this.mainConfig$.subscribe({
