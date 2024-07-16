@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { ApiService } from '..';
 import { bankModel } from '../../../components/dashboards/dashboard.model';
+import { bankListResponse } from '../../../components/auth/auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -76,6 +77,10 @@ export class BankService {
     );
   }
 
+  getAllBanks(): Observable<{ objects: bankListResponse[] }> {
+    const url = '/banks/list/?externel_request=true&bank_type=MFI';
+    return this.apiService.get<{ objects: bankListResponse[] }>(url);
+  }
   // getBankStatusPing(body: any) {
   //     const url = `${environment.websocketUrl}ws/dbsapp/partners-ping/`;
 
