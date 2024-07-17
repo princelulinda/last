@@ -4,7 +4,13 @@ import { Subject, takeUntil } from 'rxjs';
 import { ProductCardComponent } from '../../dev/product-card/product-card.component';
 import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import { BillersModel, objectModel, objectsModel } from '../dashboard.model';
+import {
+  BillersModel,
+  objectModel,
+  objectsModel,
+  productCategoryArray,
+  productCategoryModel,
+} from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { Favorite } from '../../../core/services/merchant/model';
 // import { Subject, Observable, takeUntil } from 'rxjs';
@@ -65,12 +71,6 @@ export class MarketDashboardComponent implements OnInit {
         'https://images.unsplash.com/photo-1539185441755-769473a23570?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
   ];
-  billersList = [
-    { id: '1', image: '/images/obr.png', banque: 'OBR', comptNum: '34567' },
-    { id: '2', image: '/images/obr.png', banque: 'OBR', comptNum: '34567' },
-    { id: '3', image: '/images/obr.png', banque: 'OBR', comptNum: '34567' },
-    { id: '4', image: '/images/obr.png', banque: 'OBR', comptNum: '34567' },
-  ];
 
   private onDestroy$: Subject<void> = new Subject<void>();
   // // private variableService = inject(VariableService);
@@ -89,9 +89,14 @@ export class MarketDashboardComponent implements OnInit {
   merchants!: BillersModel[];
   products!: BillersModel[];
   biller: [] | null = null;
+  productCategory!: productCategoryModel[];
   // sector: any;
   last4!: BillersModel[];
   first6!: BillersModel[];
+  first5!: BillersModel[];
+  first4!: productCategoryModel[];
+  start = 0;
+  end = 4;
   clearData = true;
   billerChecked = true;
   billers!: BillersModel[];
@@ -115,6 +120,8 @@ export class MarketDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getMerchants('');
     this.getFavoriteMerchants('');
+    this.getBrowseByCategory();
+    // this.getSearchProduct('');
     // this.getSectorsAndCategories();
     this.getBillers();
 
@@ -198,6 +205,20 @@ export class MarketDashboardComponent implements OnInit {
   //     this.merchantDetail = false;
   //     this.categorySections = false;
   // }
+  nextMerchant() {
+    if (this.end < this.merchants.length) {
+      this.start++;
+      this.end++;
+      this.first6 = this.merchants.slice(this.start, this.end);
+    }
+  }
+  previousMerchant() {
+    if (this.start > 0) {
+      this.start--;
+      this.end--;
+      this.first6 = this.merchants.slice(this.start, this.end);
+    }
+  }
 
   getMerchants(search: string) {
     this.merchantService
@@ -209,7 +230,14 @@ export class MarketDashboardComponent implements OnInit {
           this.merchants = response.objects;
           // this.merchant = this.merchants;
           this.last4 = this.merchants.slice(-4);
-          this.first6 = this.merchants.slice(0, 4);
+          const navigationBtn = document.getElementById(
+            'navigationButtonMerchant'
+          );
+          this.first6 = this.merchants.slice(this.start, this.end);
+          navigationBtn?.addEventListener('click', () => {
+            this.nextMerchant();
+            this.previousMerchant();
+          });
           this.favorite_merchant_making = null;
         },
       });
@@ -228,18 +256,59 @@ export class MarketDashboardComponent implements OnInit {
 
   /**can be work if u add interface for biller
    */
+  nextBiller() {
+    if (this.end < this.billers.length) {
+      this.start++;
+      this.end++;
+      this.first5 = this.billers.slice(this.start, this.end);
+    }
+  }
+  previousBiller() {
+    if (this.start > 0) {
+      this.start--;
+      this.end--;
+      this.first5 = this.billers.slice(this.start, this.end);
+    }
+  }
   getBillers() {
+    console.log('getBillers called');
     this.merchantService
       .getBIllers(this.billerChecked)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
+          console.log('============response:', response);
           const result = response as objectsModel;
           this.billers = result.objects;
+          console.log('=========this.billers:', this.billers);
+
+          const nextBtn = document.getElementById('navigationButton');
+          this.first5 = this.billers.slice(this.start, this.end);
+          console.log('==================this.first5:', this.first6);
+          nextBtn?.addEventListener('click', () => {
+            this.nextBiller();
+            this.previousBiller();
+          });
         },
         error: error => {
+          console.log('========error:', error);
           this.loadingmerchants = false;
-          console.log(error);
+        },
+      });
+  }
+  getBrowseByCategory() {
+    this.merchantService
+      .getBrowseByCategory()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: result => {
+          const response = result as productCategoryArray;
+          this.productCategory = response.objects;
+          console.log(
+            '===============??productCategory:',
+            this.productCategory
+          );
+          this.first4 = this.productCategory.slice(0, 4);
         },
       });
   }
@@ -344,6 +413,18 @@ export class MarketDashboardComponent implements OnInit {
         },
       });
   }
+  /*********call product api **********************************************************/
+  // getSearchProduct(data: any) {
+  //   this.merchantService.searchProductByMerchant(data).pipe(takeUntil(this.onDestroy$)).subscribe({
+  //     next: (result: any) =>{
+  //       const response = result.object;
+  //       this.products = response;
+  //       console.log('=========this is products result:',this.products);
+
+  //     }
+  //   })
+  // }
+  /******************************************************************************** */
   // // getSectorsAndCategories() {
   // //     this.merchantService.getActivitySectors().subscribe({
   // //         next: (data) => {

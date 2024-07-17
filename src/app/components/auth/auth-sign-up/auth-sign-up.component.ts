@@ -17,6 +17,7 @@ import {
 import { FileComponent } from '../../../global/components/file/file.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { UploadedFileModel } from '../auth.model';
+import { BankService } from '../../../core/services/bank/bank.service';
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,
@@ -95,6 +96,7 @@ export class AuthSignUpComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private bankService: BankService,
     private dialogService: DialogService
   ) {
     this.dialog$ = this.dialogService.getDialogState();
@@ -251,7 +253,7 @@ export class AuthSignUpComponent implements OnInit {
   }
   getBankList() {
     this.isLoadingBank = true;
-    this.authService.getBanksList().subscribe({
+    this.bankService.getAllBanks().subscribe({
       next: (response: { objects: bankListResponse[] }) => {
         this.getBanksList = response.objects;
         this.isLoadingBank = false;
