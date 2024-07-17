@@ -8,6 +8,10 @@ import { map, Observable, retry } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
 import { Favorite } from './model';
+import {
+  searchTellerModel,
+  updateMerchantDetailsModel,
+} from '../../../components/merchant/merchant.models';
 // import { Pagination } from './model';
 @Injectable({
   providedIn: 'root',
@@ -204,7 +208,7 @@ export class MerchantService {
       })
     );
   }
-  updateMerchantDetails(body: []) {
+  updateMerchantDetails(body: updateMerchantDetailsModel) {
     return this.apiService.post('/dbs/merchant/configuration/', body).pipe(
       map(body => {
         return body;
@@ -267,14 +271,14 @@ export class MerchantService {
       })
     );
   }
-  createNewTeller(body: []) {
-    const url = '/dbs/merchant-teller/';
-    return this.apiService.post(url, body).pipe(
-      map(data => {
-        return data;
-      })
-    );
-  }
+  // createNewTeller(body: any) {
+  //   const url = '/dbs/merchant-teller/';
+  //   return this.apiService.post(url, body).pipe(
+  //     map(data => {
+  //       return data;
+  //     })
+  //   );
+  // }
   createNewMerchant(body: []) {
     const url = '/dbs/merchant/creation/';
     return this.apiService.post(url, body).pipe(
@@ -393,14 +397,14 @@ export class MerchantService {
       })
     );
   }
-  doTellerAction(body: []) {
-    const url = '/dbs/merchant-teller/teller/action/';
-    return this.apiService.post(url, body).pipe(
-      map(data => {
-        return data;
-      })
-    );
-  }
+  // doTellerAction(body: any) {
+  //   const url = '/dbs/merchant-teller/teller/action/';
+  //   return this.apiService.post(url, body).pipe(
+  //     map(data => {
+  //       return data;
+  //     })
+  //   );
+  // }
   getMerchantsByCategoriesSlug(
     slug: string
   ): Observable<{ objects: MerchantLookup[]; count: number }> {
@@ -439,14 +443,14 @@ export class MerchantService {
     return this.apiService.get(url).pipe(map(data => data));
   }
   /******************************************************************************* */
-  // searchTellersByMerchant(data: any) {
-  //     const url =
-  //         '/dbs/merchant-teller/objects_autocomplete/?merchant=' +
-  //         data.merchant +
-  //         '&search=' +
-  //         data.search;
-  //     return this.apiService.get(url).pipe(map((data) => data));
-  // }
+  searchTellersByMerchant(data: searchTellerModel) {
+    const url =
+      '/dbs/merchant-teller/objects_autocomplete/?merchant=' +
+      data.merchant +
+      '&search=' +
+      data.search;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
   getMerchantsLocation() {
     const url = '/dbs/merchant/maplist/';
     return this.apiService.get(url).pipe(
