@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 
 import { ApiService, ConfigService } from '..';
 import { bankModel } from '../../db/models/bank/bank.model';
+import { addBankResponse } from '../../../components/dashboards/dashboard.model';
 
 @Injectable({
   providedIn: 'root',
@@ -67,9 +68,11 @@ export class BankService {
         })
       );
   }
-  addBank(body: []) {
+  addBank(body: object): Observable<addBankResponse> {
     const url = '/client/clientorganization/';
-    return this.apiService.post(url, body).pipe(map(response => response));
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as addBankResponse));
   }
   // withdrawFromAgent(withdraw: any) {
   //     return this.apiService.post('/dbs/agent/withdrawal/', withdraw).pipe(

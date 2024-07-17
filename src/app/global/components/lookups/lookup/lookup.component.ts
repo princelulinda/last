@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { DialogService } from '../../../core/services';
-import { GeneralService } from '../../../core/services/general/general.service';
-import { AdminService } from '../../../core/services/admin/admin.service';
+import { DialogService } from '../../../../core/services';
+import { GeneralService } from '../../../../core/services/general/general.service';
+import { AdminService } from '../../../../core/services/admin/admin.service';
 import { AdminModel, ItemModel } from './lookup.model';
 
 @Component({
