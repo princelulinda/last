@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './auth-corporate.component.html',
   styleUrl: './auth-corporate.component.scss',
 })
-export class AuthCorporateComponent {}
+export class AuthCorporateComponent {
+  organization = false;
+}
