@@ -63,18 +63,17 @@ export class LoanListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(isBalanceShown => {
         this.isBalanceShown = isBalanceShown;
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!isBalanceSh', this.isBalanceShown);
+        // console.log('!!!!!!!!!!!!!!!!!!!!!!!!isBalanceSh', this.isBalanceShown);
       });
-    this.selectedBank$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((bank: bankModel) => {
-        console.log(
-          'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaankkkkkkkkkkkkkkkkkkkkkk',
-          bank
-        );
-        this.selectedBank = bank;
-        this.bankId = bank.id;
-      });
+
+    this.selectedBank$.subscribe((bank: bankModel) => {
+      // console.log(
+      //   'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaankkkkkkkkkkkkkkkkkkkkkk',
+      //   bank
+      // );
+      this.selectedBank = bank;
+      this.bankId = bank.id;
+    });
   }
 
   getLoansList() {
