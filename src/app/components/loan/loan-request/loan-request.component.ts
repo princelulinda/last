@@ -20,7 +20,7 @@ import {
   LoanTypeModel,
   // ResponseDataModel,
 } from '../loan.models';
-import { LookupComponent } from '../../dev/lookup/lookup.component';
+import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 
 @Component({
   selector: 'app-loan-request',

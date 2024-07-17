@@ -18,8 +18,8 @@ import { FileComponent } from '../../../../global/components/file/file.component
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { UploadedFileModel } from '../../auth.model';
 import { BankService } from '../../../../core/services/bank/bank.service';
-import { LookupComponent } from '../../../dev/lookup/lookup.component';
-import { ItemModel } from '../../../dev/lookup/lookup.model';
+import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
+import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,

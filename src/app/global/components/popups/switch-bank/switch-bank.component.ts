@@ -60,7 +60,6 @@ export class SwitchBankComponent implements OnInit {
         this.selectedBank$.subscribe({
           next: datas => {
             this.selectedBank = datas;
-            console.log('ghhh', this.selectedBank);
           },
         });
 
