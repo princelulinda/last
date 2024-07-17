@@ -11,6 +11,7 @@ import { MerchantService } from '../../../core/services/merchant/merchant.servic
 import { MenuGroup, MerchantLookup, PayMerchant } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
+
 @Component({
   selector: 'app-online-banking',
   standalone: true,
