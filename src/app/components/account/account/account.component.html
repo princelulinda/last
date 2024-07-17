@@ -3,7 +3,9 @@
   style="min-height: 65vh; border: 2px solid #dad8d8">
   <div>
     <app-accounts-list
-      (accountSelected)="handleAccountSelected($event)"></app-accounts-list>
+      [listType]="'transfer'"
+      (accountSelected)="handleAccountSelected($event)">
+    </app-accounts-list>
   </div>
 
   <!---- <div class="bg-secondary w-100" >
