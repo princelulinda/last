@@ -243,9 +243,11 @@ export class ConfigService {
   }
   setSelectedBank(selectedBank: bankModel) {
     this.dbService.addOnce(SelectedBank.tableName, selectedBank);
+    this.dbService.setLocalStorageBankId(selectedBank.id);
   }
   resetSelectedBank(): void {
     this.dbService.clearTable(SelectedBank.tableName);
+    this.dbService.removeLocalStorageBankId();
   }
   getUserBanks(): Observable<bankModel[]> {
     return this.userBanks$ as Observable<bankModel[]>;
