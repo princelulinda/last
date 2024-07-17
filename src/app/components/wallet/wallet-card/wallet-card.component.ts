@@ -13,7 +13,7 @@ import { bankModel } from '../../../core/db/models/bank/bank.model';
   selector: 'app-wallet-card',
   standalone: true,
   imports: [NgClass, CommonModule],
-  templateUrl: './wallet-card.compt-onent.html',
+  templateUrl: './wallet-card.component.html',
   styleUrl: './wallet-card.component.scss',
 })
 export class WalletCardComponent implements OnInit, OnDestroy {
