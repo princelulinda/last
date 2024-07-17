@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
+import { PasswordFieldComponent } from '../../../../global/components/custom-field/password-field/password-field.component';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../../core/services';
-import { DialogService } from '../../../core/services';
+import { AuthService } from '../../../../core/services';
+import { DialogService } from '../../../../core/services';
 import { Subject, Observable } from 'rxjs';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 
 import {
   EmailVerificationResponse,
@@ -13,11 +13,11 @@ import {
   createAccountResponse,
   bankListResponse,
   cardIdData,
-} from '../auth.model';
-import { FileComponent } from '../../../global/components/file/file.component';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { UploadedFileModel } from '../auth.model';
-import { BankService } from '../../../core/services/bank/bank.service';
+} from '../../auth.model';
+import { FileComponent } from '../../../../global/components/file/file.component';
+import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
+import { UploadedFileModel } from '../../auth.model';
+import { BankService } from '../../../../core/services/bank/bank.service';
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,

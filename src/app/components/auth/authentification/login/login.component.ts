@@ -9,12 +9,12 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { AuthService, ConfigService } from '../../../core/services';
-import { FullpathService } from '../../../core/services';
-import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
-import { environment } from '../../../../environments/environment';
-import { DialogService } from '../../../core/services';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import { AuthService, ConfigService } from '../../../../core/services';
+import { FullpathService } from '../../../../core/services';
+import { PasswordFieldComponent } from '../../../../global/components/custom-field/password-field/password-field.component';
+import { environment } from '../../../../../environments/environment';
+import { DialogService } from '../../../../core/services';
+import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 
 @Component({
   selector: 'app-login',

@@ -2,10 +2,13 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Router } from '@angular/router';
 import { Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { AuthService, DialogService } from '../../../core/services';
-import { resetPasswordResponse, otpVerificationResponse } from '../auth.model';
-import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import { AuthService, DialogService } from '../../../../core/services';
+import {
+  resetPasswordResponse,
+  otpVerificationResponse,
+} from '../../auth.model';
+import { PasswordFieldComponent } from '../../../../global/components/custom-field/password-field/password-field.component';
+import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { Observable } from 'rxjs';
 
 @Component({
