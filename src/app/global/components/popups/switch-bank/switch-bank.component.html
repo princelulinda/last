@@ -1,0 +1,83 @@
+<main>
+  @if (selectedBank) {
+    <div class="d-flex justify-content-center">
+      <img
+        class="me-2 rounded is-hoverable selected"
+        tabindex="0"
+        role="button"
+        (click)="showModal()"
+        [src]="selectedBank.company.image"
+        [alt]="selectedBank.company.fullname"
+        [title]="selectedBank.company.fullname" />
+    </div>
+  }
+
+  @if (isModalShown) {
+    <section
+      class="modal-overlay position-fixed w-100 h-100 bg-dark bg-opacity-50 d-flex justify-content-center top-0 z-5 align-items-center"
+      (click)="closeModal($event)"
+      tabindex="0">
+      <div
+        class="bg-secondary w-lg-25 inner-container mx-1 h-50 lg-radius"
+        style="min-width: 25%">
+        <div class="pe-2 pt-2 mb-3">
+          <span
+            tabindex="0"
+            class="float-end"
+            role="button"
+            (click)="isModalShown = false">
+            <i class="fa fa-circle-xmark text-danger fs-4"></i>
+          </span>
+        </div>
+
+        <div class="m-3 mt-5">
+          @if (banks) {
+            <div class="mt-1 px-5">
+              <div class="w-100 d-flex justify-content-between">
+                <b>Banks</b>
+                <span class="px-2 rounded-circle bg-primary-3">
+                  <b>{{ banks.length }}</b>
+                </span>
+              </div>
+            </div>
+            <hr class="mx-4" />
+            <div
+              class="px-1 mt-5 align-items-center row justify-content-between">
+              @for (bank of banks; let i = $index; track $index) {
+                <div
+                  class="d-grid col-auto mb-4 me-2 p-2 is-hoverable rounded align-items-center"
+                  tabindex="0"
+                  (click)="switchBank(i)"
+                  role="button">
+                  <div class="w-100 d-flex justify-content-center">
+                    <img
+                      class="me-2 rounded bank border-0"
+                      [title]="'switch to ' + bank.company.fullname"
+                      [src]="bank.company.image"
+                      [alt]="bank.company.fullname" />
+                  </div>
+
+                  <span class="mt-1">{{ bank.company.fullname }}</span>
+                </div>
+              }
+            </div>
+          } @else if (!banks) {
+            <div class="d-flex align-items-center m-3 justify-content-center">
+              <span class="fs-5 me-2">
+                <i class="fa-solid fa-pulse fa-circle-notch"></i>
+              </span>
+              <span
+                class="fs-6 text-secondary"
+                [ngClass]="{
+                  'text-secondary': mode === 'light',
+                  'text-all-dark': mode === 'dark',
+                }"
+                >Loading bank...</span
+              >
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+  }
+</main>

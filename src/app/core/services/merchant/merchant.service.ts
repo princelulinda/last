@@ -428,8 +428,17 @@ export class MerchantService {
   //         data.merchant +
   //         '&search=' +
   //         data.search;
+  //         console.log('the value of the data is :', data);
   //     return this.apiService.get(url).pipe(map((data) => data));
+
   // }
+
+  /**********************api call of browse by category ******************************/
+  getBrowseByCategory() {
+    const url = '/dbs/merchant-product-category/';
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+  /******************************************************************************* */
   // searchTellersByMerchant(data: any) {
   //     const url =
   //         '/dbs/merchant-teller/objects_autocomplete/?merchant=' +

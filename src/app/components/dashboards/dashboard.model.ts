@@ -1,3 +1,5 @@
+import { bankModel } from '../../core/db/models/bank/bank.model';
+
 export interface BillersModel {
   id: string;
   lookup_image: string;
@@ -37,19 +39,25 @@ export interface MerchantLookup {
   lookup_image: string;
 }
 
-export interface bankModel {
-  company: {
-    image: string;
-    fullname: string;
-  };
-
-  organization_id: number;
-}
-
 export interface PayMerchant {
   id: number;
 }
+export interface BankOptions {
+  selectedDebitAccountType: string | null;
+  debitAccount: string | null;
+  debitWallet: string | null;
+  banks: bankModel[];
+  creditAccountType: string | null;
+  accounts: Account[] | null;
+  wallets: Wallet[] | null;
+}
+export interface Account {
+  id: number;
+}
 
+export interface Wallet {
+  id: number;
+}
 export interface MenuGroup {
   icon: string;
 
@@ -96,6 +104,12 @@ export interface PublicationModel {
   total_shares: number;
 }
 
-export interface HTMLInputEvent extends Event {
-  target: HTMLInputElement | EventTarget;
+export interface productCategoryModel {
+  id: number;
+  icon: string;
+  is_active: true;
+  name: string;
+  ordering: number;
+  slug: string;
+  value_added_tax_rate: string;
 }

@@ -1,4 +1,4 @@
-<div class="position-fixed bg-white w-100 z-3">
+<div class="bg-white position-fixed top-0 start-0 w-100 z-3">
   <div class="container">
     <div class="row d-flex align-items-center py-2">
       <div class="col">
@@ -14,10 +14,7 @@
             <option value="">FR</option>
           </select>
         </span>
-        <a tabindex="0" role="button" (click)="switchMode()">
-          <img src="images/auth/light-active.svg" width="50" alt="" />
-        </a>
-
+        <app-switch-mode />
         <a
           class="btn bg-primary px-4 p-1 ms-5 rounded text-white fw-bold"
           role="button"
