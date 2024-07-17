@@ -1,13 +1,18 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { ApiService } from '..';
-import { bankModel } from '../../../components/dashboards/dashboard.model';
+import { bankListResponse } from '../../../components/auth/auth.model';
+import { ApiService, ConfigService } from '..';
+import { bankModel } from '../../db/models/bank/bank.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BankService {
-  constructor(@Inject(ApiService) private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private configService: ConfigService
+  ) {}
 
   private _isTransactionDone: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
@@ -30,13 +35,24 @@ export class BankService {
   handleBanking(arg: boolean) {
     this._isBankingAndServicesSelected.next(arg);
   }
-  getBanksList(): Observable<{ objects: bankModel[]; count: number }> {
+
+  // private getUserBank(refreshBanks: false): Observable<bankModel[]> {
+  //   if (refreshBanks) {
+  //     return this.getBanksList();
+  //   } else {
+  //     return this.configService.getUserBanks();
+  //   }
+  // }
+
+  getBanksList(): Observable<bankModel[]> {
     const url = '/banks/clientlist/?';
     return this.apiService
       .get<{ objects: bankModel[]; count: number }>(url)
       .pipe(
         map(data => {
-          return data;
+          const banks = data.objects;
+          this.configService.setUserBanks(banks);
+          return banks;
         })
       );
   }
@@ -76,6 +92,10 @@ export class BankService {
     );
   }
 
+  getAllBanks(): Observable<{ objects: bankListResponse[] }> {
+    const url = '/banks/list/?externel_request=true&bank_type=MFI';
+    return this.apiService.get<{ objects: bankListResponse[] }>(url);
+  }
   // getBankStatusPing(body: any) {
   //     const url = `${environment.websocketUrl}ws/dbsapp/partners-ping/`;
 

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BankingService } from '../../../core/services/dashboards/banking.service';
 import { Subject, Observable, takeUntil } from 'rxjs';
 import { AuthService, ConfigService, ModeModel } from '../../../core/services';
@@ -9,13 +9,13 @@ import { WalletCard } from '../models';
 import { userInfoModel } from '../../../layouts/header/model';
 
 @Component({
-  selector: 'app-card',
+  selector: 'app-wallet-card',
   standalone: true,
   imports: [NgClass, CommonModule],
-  templateUrl: './card.component.html',
-  styleUrl: './card.component.scss',
+  templateUrl: './wallet-card.component.html',
+  styleUrl: './wallet-card.component.scss',
 })
-export class CardComponent implements OnInit, OnDestroy {
+export class WalletCardComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
   showAmountWallet = false;
@@ -30,9 +30,9 @@ export class CardComponent implements OnInit, OnDestroy {
   noWalletData = false;
 
   constructor(
-    @Inject(BankingService) private bankingService: BankingService,
-    @Inject(ConfigService) private configService: ConfigService,
-    @Inject(AuthService) private authService: AuthService
+    private bankingService: BankingService,
+    private configService: ConfigService,
+    private authService: AuthService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();

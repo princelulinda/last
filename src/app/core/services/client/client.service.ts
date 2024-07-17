@@ -7,6 +7,7 @@ import {
   BodyModel,
 } from '../../../components/settings/setting.model';
 import { Observable } from 'rxjs';
+import { accountsList } from '../../../components/account/models';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +24,10 @@ export class ClientService {
         return response as AddResponse;
       })
     );
+  }
+
+  getClientAccounts(clientId: number): Observable<{ objects: accountsList[] }> {
+    const url = '/accounts/' + clientId + '/';
+    return this.apiService.get<{ objects: accountsList[] }>(url);
   }
 }

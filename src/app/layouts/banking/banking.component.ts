@@ -57,12 +57,13 @@ export class BankingComponent implements OnInit {
     this.dbUser = this.dbService.getDbUser();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.plateform$.subscribe({
       next: plateform => {
         this.plateform = plateform;
       },
     });
+    await this.dbUser;
   }
 
   // populate() {
