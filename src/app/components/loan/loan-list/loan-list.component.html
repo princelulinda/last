@@ -1,1 +1,360 @@
-<main class="rounded"></main>
+<main class="text-dark rounded bg-secondary" style="min-height: 70vh">
+  <div
+    class="px-4"
+    [ngClass]="{
+      'h-100': !loans,
+      'h-85': loans && loans.length > 0,
+      'h-60': loans && loans.length === 0,
+    }">
+    <header class="fs-5 d-flex align-items-center pt-1">
+      <div
+        class="w-30 d-lg-flex d-none justify-content-between align-items-center py-1 pe-2"
+        [ngClass]="{
+          'br-right': loans && loans.length > 0,
+        }">
+        <b i18n style="font-size: 18px" class="d-flex align-items-center">
+          <span class="me-1">Loans</span>
+          <span class="me-3">list</span>
+          <div (click)="toggleBalance()" role="button" class="" tabindex="0">
+            @if (!isBalanceShown) {
+              <span title="Show balance"> <i class="fa-solid fa-eye"></i></span>
+            }
+
+            @if (isBalanceShown) {
+              <span title="Hide balance">
+                <i class="fa-solid fa-eye-slash"></i
+              ></span>
+            }
+          </div>
+        </b>
+
+        <div role="button" class="mt-1 mb-2 me-4">
+          <span
+            title="Refresh loans list"
+            (click)="refreshLoansList()"
+            tabindex="0">
+            <i class="fa-solid fa-refresh mt-3"></i
+          ></span>
+        </div>
+      </div>
+      <div class="w-70 d-none ms-2 d-lg-flex justify-content-between">
+        @if (loans && loans.length > 0 && isLoanDetailsShown) {
+          <div>
+            <b i18n style="font-size: 18px">Loan Details</b>
+          </div>
+        }
+
+        <div
+          [ngClass]="{
+            'w-100': !isLoanDetailsShown,
+          }">
+          <span
+            [ngClass]="{
+              'float-end': !isLoanDetailsShown,
+            }"
+            tabindex="0"
+            role="button"
+            (click)="goBack()"
+            class="d-flex align-items-center back-md text-dark">
+            <i class="fa fa-arrow-left"></i>
+            <b class="ms-1" i18n>Back</b>
+          </span>
+        </div>
+      </div>
+
+      <div
+        class="d-lg-none d-flex justify-content-between w-100 align-items-center">
+        <b i18n style="font-size: 18px" class="d-flex align-items-center">
+          <span class="me-3">Loans</span>
+          <div (click)="toggleBalance()" tabindex="0" role="button" class="">
+            @if (isBalanceShown) {
+              <span title="Show balance"> <i class="fa-solid fa-eye"></i></span>
+            }
+            @if (!isBalanceShown) {
+              <span title="Hide balance">
+                <i class="fa-solid fa-eye-slash"></i
+              ></span>
+            }
+          </div>
+        </b>
+        <div></div>
+        <div>
+          <span
+            role="button"
+            tabindex="0"
+            (click)="goBack()"
+            class="d-flex align-items-center back-md text-dark">
+            <i class="fa fa-arrow-left"></i>
+            <b class="ms-1" i18n>Back</b>
+          </span>
+        </div>
+      </div>
+    </header>
+    <div class="d-flex">
+      @if (loans && loans.length > 0) {
+        <hr class="mt-2 w-30" />
+      }
+
+      @if (loans && loans.length > 0 && isLoanDetailsShown) {
+        <hr class="mt-2 w-70" />
+      }
+    </div>
+    <!-- <div
+            *ngIf="!loans"
+            class="w-100 h-100 d-flex justify-content-center align-items-center"
+        >
+            <span>
+                <i class="spinner-border"></i>
+            </span>
+        </div> -->
+
+    @if (loans && loans.length === 0) {
+      <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+        <h4 class="text-secondary" i18n>
+          <i class="fa fa-ban"></i>
+          You don't have any loan in {{ selectedBank?.bank_name }}
+        </h4>
+      </div>
+    }
+
+    @if (!loans) {
+      <div class="d-grid px-2 pt-3 w-30">
+        @for (shimmer of [1, 2, 3, 4, 5, 6, 7, 8]; track shimmer) {
+          <span class="w-100 mb-2">
+            <app-skeleton
+              height="50px"
+              width="100%"
+              classes="rounded"></app-skeleton>
+          </span>
+        }
+      </div>
+    }
+
+    @if (loans && loans.length > 0) {
+      <div class="h-100">
+        <section class="d-lg-flex align-items-start h-100">
+          <div
+            class="w-30 pe-1 overflow-auto d-none d-lg-block"
+            style="border-right: 1px solid grey; max-height: 70vh">
+            <div class="">
+              @for (loan of loans; track loan) {
+                <div
+                  class="w-100"
+                  role="button"
+                  (click)="selectLoan(loan)"
+                  tabindex="0"
+                  [routerLink]="
+                    '/b/onlineBanking/banking/menuBanking/loan/list/detail/' +
+                    loan.id
+                  ">
+                  <div
+                    class="border-l ps-2 d-grid w-100 pe-2 pt-1"
+                    routerLinkActive="cliped t-dark"
+                    [ngClass]="">
+                    <div
+                      class="d-flex justify-content-between align-items-center me-3">
+                      <b>{{ selectedBank?.bank_name }}</b>
+                      @if (loan.cred_status.value === 'PE') {
+                        <b class="text-dark less-danger px-1 rounded" i18n
+                          >Pending</b
+                        >
+                      }
+                    </div>
+                    <div class="">
+                      <span>
+                        <span i18n>loan id :</span>
+                        <span>{{ loan.cred_code }}</span>
+                      </span>
+                    </div>
+                    <div class="">
+                      <b class="text-dark level-1 p-1 rounded">{{
+                        loan.cred_mode
+                      }}</b>
+                    </div>
+                    <div>
+                      <span class="text-success">
+                        @if (isBalanceShown) {
+                          <b>{{ loan.cred_amount | currency: ' ' }}</b>
+                        }
+                        @if (!isBalanceShown) {
+                          <b>*** ***</b>
+                        }
+                      </span>
+                    </div>
+                  </div>
+                  <hr class="mt-0 mx-2 me-3" />
+                </div>
+              }
+            </div>
+            <div>
+              <div class="d-flex justify-content-between">
+                <div class="d-flex w-100 justify-content-between mb-2">
+                  <div class="me-3">
+                    <span
+                      role="button"
+                      tabindex="0"
+                      class="border border-dark rounded px-1 fs-4 d-flex align-items-center"
+                      [ngClass]="{
+                        'not-clickable': offset <= 0,
+                      }"
+                      (click)="previousPage()"
+                      ><i class="fa fa-chevron-left"></i>
+                      <span>prev</span>
+                    </span>
+                  </div>
+                  <div class="me-3">
+                    <span
+                      role="button"
+                      tabindex="0"
+                      class="border border-dark rounded px-1 fs-4 d-flex align-items-center"
+                      [ngClass]="{
+                        'not-clickable': limit > loans.length,
+                      }"
+                      (click)="nextPage()">
+                      <span>next</span>
+                      <i class="fa fa-chevron-right"></i
+                    ></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          @if (isLoanSelected) {
+            <div
+              class="border-l cliped ps-2 d-sm-grid d-lg-none d-md-grid w-100 pe-2 pt-1"
+              routerLinkActive="cliped t-dark"
+              [ngClass]="">
+              <div
+                class="d-flex justify-content-between align-items-center me-3">
+                <b>{{ selectedBank?.bank_name }}</b>
+                @if (selectedLoan && selectedLoan.cred_status.value === 'PE') {
+                  <b class="text-dark less-danger px-1 rounded" i18n>Pending</b>
+                }
+              </div>
+              <div class="">
+                <span>
+                  <span i18n>loan id :</span>
+                  <span>{{ selectedLoan?.cred_code }}</span>
+                </span>
+              </div>
+              <div class="">
+                <b class="text-dark level-1 p-1 rounded">{{
+                  selectedLoan?.cred_mode
+                }}</b>
+              </div>
+              <div>
+                <span class="text-success">
+                  @if (isBalanceShown) {
+                    <b>{{ selectedLoan?.cred_amount | currency: ' ' }}</b>
+                  } @else {
+                    <b>*** ***</b>
+                  }
+                </span>
+              </div>
+            </div>
+          }
+          <div
+            class="w-100 overflow-y-auto pe-1 d-lg-none d-md-block d-sm-block">
+            @if (!isLoanSelected) {
+              <div class="overflow-auto">
+                @for (loan of loans; track loan) {
+                  <div
+                    class="w-100"
+                    role="button"
+                    tabindex="0"
+                    (click)="selectLoan(loan)"
+                    [routerLink]="
+                      '/b/onlineBanking/banking/menuBanking/loan/list/detail/' +
+                      loan.id
+                    ">
+                    <div
+                      class="border-l ps-2 d-grid w-100 pe-2 pt-1"
+                      routerLinkActive="cliped t-dark"
+                      [ngClass]="">
+                      <div
+                        class="d-flex justify-content-between align-items-center me-3">
+                        <b>{{ selectedBank?.bank_name }}</b>
+
+                        @if (loan.cred_status.value === 'PE') {
+                          <b
+                            class="text-dark bg-info text-info badge-design px-1 rounded"
+                            i18n
+                            >Pending</b
+                          >
+                        }
+                      </div>
+                      <div class="">
+                        <span>
+                          <span i18n>loan id :</span>
+                          <span>{{ loan.cred_code }}</span>
+                        </span>
+                      </div>
+                      <div class="">
+                        <b class="text-dark level-1 p-1 rounded">{{
+                          loan.cred_mode
+                        }}</b>
+                      </div>
+                      <div>
+                        <span class="text-success">
+                          @if (isBalanceShown) {
+                            <b>{{ loan.cred_amount | currency: ' ' }}</b>
+                          } @else {
+                            <b>*** ***</b>
+                          }
+                        </span>
+                      </div>
+                    </div>
+                    <hr class="mt-0 mx-2 me-3" />
+                  </div>
+                }
+              </div>
+            }
+
+            @if (!isLoanSelected) {
+              <div>
+                <div class="d-flex justify-content-between mb-2">
+                  <div class="d-flex w-100 justify-content-between">
+                    <div class="me-3">
+                      <span
+                        role="button"
+                        tabindex="0"
+                        class="border border-dark rounded px-1 fs-4 d-flex align-items-center"
+                        [ngClass]="{
+                          'not-clickable': offset <= 0,
+                        }"
+                        (click)="previousPage()"
+                        ><i class="fa fa-chevron-left"></i>
+                        <span>prev</span>
+                      </span>
+                    </div>
+                    <div class="me-3">
+                      <span
+                        role="button"
+                        tabindex="0"
+                        class="border border-dark rounded px-1 fs-4 d-flex align-items-center"
+                        [ngClass]="{
+                          'not-clickable': limit > loans.length,
+                        }"
+                        (click)="nextPage()">
+                        <span>next</span>
+                        <i class="fa fa-chevron-right"></i
+                      ></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+          <!-- <div class="w-70 d-none d-lg-flex" *ngIf="loans && loans.length > 0">
+                    <router-outlet></router-outlet>
+                </div> -->
+
+          @if (loans && loans.length > 0) {
+            <div class="w-70 d-flex justify-content-center"></div>
+          }
+        </section>
+      </div>
+    }
+  </div>
+</main>
