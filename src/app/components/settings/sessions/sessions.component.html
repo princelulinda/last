@@ -364,6 +364,20 @@
               </div>
             }
             <!--end  pagination-->
+            @if (activeSessions.length === 0 && !activeSessionLoading) {
+              <div class="text-center mt-3">
+                <div class="w-100 d-flex justify-content-center">
+                  <div class="empty-state-icon d-grid fs-3">
+                    <span class="text-center">
+                      <i class="fa fs-1 fa-face-meh"></i>
+                    </span>
+                    <span class="text-center text-secondary" i18n>
+                      No active sessions found
+                    </span>
+                  </div>
+                </div>
+              </div>
+            }
           }
         </div>
         <!-- end active sessions-->
@@ -572,6 +586,32 @@
                 </div>
               }
             </div>
+
+            <!--start pagination-->
+            @if (countHistory > lim && !isLoadingHistorySessions) {
+              <div
+                class="mt-4 d-flex align-items-center justify-content-center">
+                <button
+                  title="Previous"
+                  (click)="doListMove2('prev')"
+                  [disabled]="currentPage === 0"
+                  class="border-0 me-2 btn d-inline-flex align-items-center rounded p-2 fs-4 text-primary-dark">
+                  <i class="fa-solid fa-play fa-rotate-180 text-primary"></i>
+                </button>
+                @if (pagination.filters.limit) {
+                  <button
+                    title="Next"
+                    (click)="doListMove2('next')"
+                    [disabled]="
+                      count < (currentPage + 1) * pagination.filters.limit
+                    "
+                    class="border-0 ms-2 btn fs-4 d-inline-flex align-items-center rounded p-2 text-primary-dark">
+                    <i class="fa-solid fa-play text-primary"></i>
+                  </button>
+                }
+              </div>
+            }
+            <!--end  pagination-->
           }
           <!--fin accordion-->
 
@@ -593,40 +633,6 @@
               </div>
             </div>
           }
-          <!--start pagination-->
-          <div class="mt-4 d-flex align-items-center justify-content-center">
-            <!-- <button
-        title="Previous"
-        (click)="doListMove2('prev')"
-        [disabled]="currentPage === 0"
-        class="border-0 me-2 btn d-inline-flex align-items-center rounded p-2 fs-4 text-primary-dark"
-        [ngClass]="{
-            'text-primary': theme === 'magis-dark',
-            'text-primary-dark': theme === 'magis-light'
-        }"
-    >
-        <i
-            class="fa-solid fa-play fa-rotate-180 text-primary"
-        ></i>
-    </button> -->
-            <!-- <button
-        title="Next"
-        (click)="doListMove2('next')"
-        *ngIf="pagination.filters.limit"
-        [disabled]="
-            count <
-            (currentPage + 1) * pagination.filters.limit
-        "
-        class="border-0 ms-2 btn fs-4 d-inline-flex align-items-center rounded p-2 text-primary-dark"
-        [ngClass]="{
-            'text-primary': theme === 'magis-dark',
-            'text-primary-dark': theme === 'magis-light'
-        }"
-    >
-        <i class="fa-solid fa-play text-primary"></i>
-    </button> -->
-          </div>
-          <!--end  pagination-->
         </div>
 
         <!-- end history sessions-->
