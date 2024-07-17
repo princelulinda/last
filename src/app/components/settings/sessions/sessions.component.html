@@ -1,0 +1,642 @@
+<section>
+  <div class="container">
+    <div id="sessionBloc" class="w-100 p-2 bg-secondary lg-radius border">
+      <div id="inSessionBloc" class="w-100 bg-white p-5 lg-radius">
+        <div class="row mb-1">
+          <div class="col-md-3 d-flex align-items-end mb-2"></div>
+          <div class="col mb-3">
+            <span i18n
+              ><input type="text" class="form-control" disabled
+            /></span>
+          </div>
+          <div class="col-md-2 text-center mb-2">
+            <button type="button" class="btn btn-outline-secondary" disabled>
+              <span i18n class="fw-bold">
+                Filter
+                <i class="fa-solid fa-bars-staggered ms-3"></i>
+              </span>
+            </button>
+          </div>
+          <div class="col-md-3 d-flex align-items-start justify-content-end">
+            <button
+              type="button"
+              class="btn bg-primary text-all-white lg-radius"
+              data-bs-toggle="modal"
+              data-bs-target="#myModal"
+              disabled>
+              End all sessions
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <span i18n class="text-md ms-3">Active sessions</span>
+          </div>
+          <div class="col d-flex justify-content-end mb-2">
+            <section class="text-end mt-1">
+              <span
+                class="refreshactivesession"
+                role="button"
+                tabindex="0"
+                title="Refresh"
+                (click)="refreshactivesession()">
+                <span class="me-1 text-dark text-sm">
+                  @if (!activeSessionLoading) {
+                    <span><i class="fa-solid fa-arrows-rotate"></i></span>
+                  }
+                  @if (activeSessionLoading) {
+                    <span>
+                      <i class="fas fa-spinner fa-pulse"></i>
+                    </span>
+                  }
+                </span>
+                <span class="text-dark" i18n>Refresh</span>
+              </span>
+            </section>
+          </div>
+        </div>
+
+        <span>
+          <div class="modal" id="myModal">
+            <div class="modal-dialog modal-md">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <div class="d-flex justify-content-center">
+                    <div class="containe endSessionPopup text-dark">
+                      <div class="col d-flex justify-content-center">
+                        <img
+                          src="assets/images/magis.png"
+                          alt=""
+                          width="150"
+                          height="150" />
+                      </div>
+                      <div class="col text-center text-md">
+                        <p>Are you sure you want to end all sessions?</p>
+                      </div>
+                      <div class="col d-flex justify-content-start mb-4">
+                        <input class="form-check-input" type="checkbox" />
+                        <span i18n class="ms-2 text-md">Do not ask again</span>
+                      </div>
+                      <div class="col d-flex justify-content-center">
+                        <span
+                          i18n
+                          class="mt-2 close text-md"
+                          data-bs-dismiss="modal"
+                          ><b>Cancel</b></span
+                        >
+                        <button
+                          class="btn btn-primary mb-4 btn-lg ms-4 fw-bold">
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </span>
+        @if (displaySessionFilters) {
+          <div class="popup p-4 level-2">
+            <div class="row g-0">
+              <div
+                class="col-1 d-flex justify-content-center align-items-center">
+                <div class="bg-primary lg-radius"></div>
+              </div>
+              <div class="col">
+                <span class="fw-bold" i18n> Last conexion </span>
+              </div>
+            </div>
+
+            <div class="row ms-4 mt-3">
+              <div class="col">
+                <span>
+                  From
+                  <i class="fa-regular fa-calendar-days text-primary"></i></span
+                ><br />
+                <input type="date" />
+              </div>
+              <div class="col">
+                <span
+                  >To
+                  <i
+                    class="fa-regular fa-calendar-days text-primary"></i> </span
+                ><br />
+                <input type="date" />
+              </div>
+            </div>
+
+            <div class="row mt-3 g-0">
+              <div
+                class="col-1 d-flex justify-content-center align-items-center">
+                <div class="bg-primary lg-radius"></div>
+              </div>
+              <div class="col-2"><span> Active </span></div>
+              <div class="col">
+                <input class="form-check-input" type="checkbox" />
+              </div>
+            </div>
+          </div>
+        }
+
+        <div class="w-100 bg-secondary lg-radius w-100 p-4 px-4 mb-3">
+          <div class="w-100 bg d-flex px-4 justify-content-center">
+            <div class="row mb-1 text-sm-md w-100 fw-bold">
+              <div class="col-md-3">
+                <span class="ms-3">Operating system</span>
+              </div>
+              <div class="col">
+                <span class="ms-2">Browser</span>
+              </div>
+              <div class="col">Location</div>
+              <div class="col">IP Address</div>
+              <div class="col">Action</div>
+              <div class="col"></div>
+            </div>
+          </div>
+
+          @if (activeSessionLoading) {
+            <div class="row d-flex justify-content-center px-4">
+              <div class="col justify-content-center">
+                @for (_ of [1, 2, 3]; track $index) {
+                  <div class="col mb-4">
+                    <app-skeleton
+                      [width]="'100%'"
+                      [height]="'50px'"
+                      classes="sm-radius w-100 bg-all-white">
+                    </app-skeleton>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+          <!-- start active sessions-->
+          @if (!activeSessionLoading) {
+            <div
+              class="accordion accordion-flush px-4"
+              id="accordionFlushExample1">
+              @for (counter of activeSessions; track counter) {
+                <div class="accordion-item mb-3 rounded border">
+                  <h2
+                    class="accordion-header rounded level-1"
+                    id="flush-headingOne">
+                    <div
+                      tabindex="0"
+                      role="button"
+                      style="box-shadow: none"
+                      (click)="rotateActiveSessionButton(counter.id)"
+                      class="accordion-button w-100 collapsed rounded text-secondary d-flex justify-content-center"
+                      data-bs-toggle="collapse"
+                      [attr.data-bs-target]="
+                        '#flush-collapseOne-' + counter.id
+                      ">
+                      <div class="row w-100">
+                        <div class="col-md-3">
+                          @if (
+                            counter.device.user_agent_data.os.family !==
+                              'Other' &&
+                            counter.device.user_agent_data.os.family !== 'iOS'
+                          ) {
+                            <span>
+                              <i
+                                class="fa-brands fa-{{
+                                  counter.device.user_agent_data.os.family
+                                    | lowercase
+                                }}"></i>
+                            </span>
+                          }
+                          @if (
+                            counter.device.user_agent_data.os.family ===
+                              'Other' ||
+                            counter.device.user_agent_data.os.family === 'iOS'
+                          ) {
+                            <span> </span>
+                          }
+                          @if (
+                            counter.device.user_agent_data.os.family === 'iOS'
+                          ) {
+                            <span><i class="fa-brands fa-apple"></i> </span>
+                          }
+
+                          {{
+                            counter?.device?.user_agent_data?.os?.family ??
+                              '-----'
+                          }}
+                        </div>
+                        <div class="col">
+                          {{
+                            counter?.device?.user_agent_data?.browser?.family ??
+                              '-----'
+                          }}
+                        </div>
+                        @if (counter.location) {
+                          <div class="col">
+                            <span>{{ counter?.location ?? '-----' }}</span>
+                          </div>
+                        }
+                        @if (!counter.location) {
+                          <div class="col">
+                            <span class="ms-2">-</span>
+                          </div>
+                        }
+                        @if (!counter.user_ip_address) {
+                          <div class="col">-</div>
+                        }
+                        @if (counter.user_ip_address) {
+                          <div class="col">
+                            {{ counter?.user_ip_address ?? '-----' }}
+                          </div>
+                        }
+                        <div class="col">
+                          <span
+                            i18n
+                            class="bg-primary p-1 sm-radius text-all-white fw-bold px-3"
+                            >Freeze</span
+                          >
+                        </div>
+                        <div
+                          class="col d-flex align-items-center justify-content-end">
+                          <div
+                            role="button"
+                            [style.transform]="
+                              ActiveSessionButtonRotation(counter.id)
+                            ">
+                            <i class="fa-solid fa-expand text-primary"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </h2>
+                  <div
+                    [id]="'flush-collapseOne-' + counter.id"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingOne"
+                    data-bs-parent="#accordionFlushExample1">
+                    <div class="accordion-body rounded level-1">
+                      <hr />
+
+                      <div class="row text-dark">
+                        <div class="row text-dark fw-bold">
+                          <div class="col-md-3">
+                            <span class="ms-2">Device</span>
+                          </div>
+                          <div class="col">Session duration</div>
+                          <div class="col"></div>
+                        </div>
+                        <div class="row text-secondary">
+                          <div class="col-md-3">
+                            <span class="ms-2">
+                              {{
+                                counter?.device?.user_agent_data?.device_brand
+                                  ?.family ?? '-----'
+                              }}
+                            </span>
+                          </div>
+                          @if (counter.session_duration) {
+                            <div class="col">
+                              {{ counter?.session_duration ?? '-----' }}
+                            </div>
+                          }
+                          @if (!counter.session_duration) {
+                            <div class="col">-</div>
+                          }
+                          <div class="col-md-1"></div>
+                          <div
+                            class="col d-flex justify-content-start text-center">
+                            <!-- <span
+                                                    role="button"
+                                                    i18n
+                                                    class="bg-primary p-1 sm-radius text-all-white fw-bold mb-2 ms-"
+                                                    style="width: 150px"
+                                                    (click)="
+                                                        endSession(counter.id)
+                                                    "
+                                                    [style.pointer-events]="
+                                                        isLoadingEndSession
+                                                            ? 'none'
+                                                            : 'auto'
+                                                    "
+                                                >
+                                                    <b
+                                                        *ngIf="
+                                                            !isLoadingEndSession
+                                                        "
+                                                        >End session</b
+                                                    >
+                                                    <i
+                                                        *ngIf="
+                                                            isLoadingEndSession
+                                                        "
+                                                        class="fa-solid fa-pulse fa-circle-notch fs-4"
+                                                    ></i>
+                                                </span> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!--start pagination-->
+            @if (countActive > lim && !activeSessionLoading) {
+              <div
+                class="mt-4 d-flex align-items-center justify-content-center">
+                <button
+                  title="Previous"
+                  (click)="doListMove1('prev')"
+                  [disabled]="currentPage === 0"
+                  class="border-0 me-2 btn d-inline-flex align-items-center rounded p-2 fs-4">
+                  <i class="fa-solid fa-play fa-rotate-180 text-primary"></i>
+                </button>
+                @if (pagination.filters.limit) {
+                  <button
+                    title="Next"
+                    (click)="doListMove1('next')"
+                    [disabled]="
+                      count < (currentPage + 1) * pagination.filters.limit
+                    "
+                    class="border-0 ms-2 btn fs-4 d-inline-flex align-items-center rounded p-2 text-primary">
+                    <i class="fa-solid fa-play text-primary"></i>
+                  </button>
+                }
+              </div>
+            }
+            <!--end  pagination-->
+            @if (activeSessions.length === 0 && !activeSessionLoading) {
+              <div class="text-center mt-3">
+                <div class="w-100 d-flex justify-content-center">
+                  <div class="empty-state-icon d-grid fs-3">
+                    <span class="text-center">
+                      <i class="fa fs-1 fa-face-meh"></i>
+                    </span>
+                    <span class="text-center text-secondary" i18n>
+                      No active sessions found
+                    </span>
+                  </div>
+                </div>
+              </div>
+            }
+          }
+        </div>
+        <!-- end active sessions-->
+        <!-- start history sessions-->
+        <div class="row">
+          <div class="col">
+            <span i18n class="text-md">Sessions history</span>
+          </div>
+          <div class="col d-flex justify-content-end mb-2 align-items-center">
+            <section class="text-end mt-1">
+              <span
+                class="refresh"
+                role="button"
+                tabindex="0"
+                (click)="refresh()"
+                title="Refresh">
+                <span class="me-1 text-dark text-sm">
+                  @if (!isLoadingHistorySessions) {
+                    <span><i class="fa-solid fa-arrows-rotate"></i></span>
+                  }
+                  @if (isLoadingHistorySessions) {
+                    <span>
+                      <i class="fas fa-spinner fa-pulse"></i>
+                    </span>
+                  }
+                </span>
+                <span class="text-dark" i18n>Refresh</span>
+              </span>
+            </section>
+          </div>
+        </div>
+        <div class="lg-radius p-4 bg-secondary">
+          <div class="w-100 d-flex justify-content-center">
+            <div class="row mb-1 w-100 px-4 text-sm-md fw-bold">
+              <div class="col-md-3">
+                <span class="ms-3">Last Connection</span>
+              </div>
+              <div class="col-md-2">
+                <span class="ms-2">Operating system</span>
+              </div>
+              <div class="col">Browser</div>
+              <div class="col">Location</div>
+              <div class="col">IP Address</div>
+              <div class="col"></div>
+            </div>
+          </div>
+          @if (isLoadingHistorySessions) {
+            <div class="row d-flex justify-content-center px-4">
+              <div class="col justify-content-center">
+                @for (_ of [1, 2, 3]; track $index) {
+                  <div class="col mb-4">
+                    <app-skeleton
+                      [width]="'100%'"
+                      [height]="'50px'"
+                      classes="sm-radius w-100 bg-all-white">
+                    </app-skeleton>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          <!--start accordion-->
+          @if (!isLoadingHistorySessions) {
+            <div
+              class="accordion accordion-flush px-4"
+              id="accordionFlushExample">
+              @for (counters of historySessions; track counters) {
+                <div class="accordion-item mb-3 w-100 rounded border">
+                  <h2
+                    class="accordion-header rounded level-1"
+                    id="flush-headingOne">
+                    <div
+                      role="button"
+                      style="box-shadow: none"
+                      tabindex="0"
+                      (click)="rotateHistorySessionButton(counters.id)"
+                      class="accordion-button collapsed rounded text-secondary d-flex justify-content-center"
+                      data-bs-toggle="collapse"
+                      [attr.data-bs-target]="
+                        '#flush-collapseOne' + counters.id
+                      ">
+                      <div class="row w-100">
+                        @if (counters.id) {
+                          <div class="col-md-3">
+                            <!-- {{
+                    counters?.last_activity
+                          | date : 'd/M/yyyy'
+                        : '-----'
+                }} -->
+                            {{ counters.last_activity | date: 'HH:mm:ss' }}
+                          </div>
+                        }
+                        @if (!counters.id) {
+                          <div class="col-md-2">-</div>
+                        }
+                        <div class="col-md-2">
+                          @if (
+                            counters.device.user_agent_data.os.family !==
+                              'Other' &&
+                            counters.device.user_agent_data.os.family !== 'iOS'
+                          ) {
+                            <span>
+                              <i
+                                class="fa-brands fa-{{
+                                  counters.device.user_agent_data.os.family
+                                    | lowercase
+                                }}"></i>
+                            </span>
+                          }
+                          @if (
+                            counters.device.user_agent_data.os.family ===
+                              'Other' ||
+                            counters.device.user_agent_data.os.family === 'iOS'
+                          ) {
+                            <span> </span>
+                          }
+                          @if (
+                            counters.device.user_agent_data.os.family === 'iOS'
+                          ) {
+                            <span>
+                              <i class="fa-brands fa-apple"></i>
+                            </span>
+                          }
+                          {{
+                            counters?.device?.user_agent_data?.os?.family ??
+                              '-----'
+                          }}
+                        </div>
+
+                        <div class="col">
+                          <span>
+                            {{
+                              counters?.device?.user_agent_data?.browser
+                                ?.family ?? '-----'
+                            }}</span
+                          >
+                        </div>
+                        @if (counters.location) {
+                          <div class="col">
+                            <span>{{ counters?.location ?? '-----' }}</span>
+                          </div>
+                        }
+                        @if (!counters.location) {
+                          <div class="col">
+                            <span class="ms-2">-</span>
+                          </div>
+                        }
+                        @if (counters.user_ip_address) {
+                          <div class="col">
+                            <span class="ms-2">
+                              {{ counters?.user_ip_address ?? '-----' }}</span
+                            >
+                          </div>
+                        }
+                        @if (!counters.user_ip_address) {
+                          <div class="col">
+                            <span class="ms-2"> -</span>
+                          </div>
+                        }
+                        <div
+                          class="col d-flex align-items-center justify-content-end">
+                          <div
+                            [style.transform]="
+                              historySessionButtonRotation(counters.id)
+                            ">
+                            <i class="fa-solid fa-expand text-primary"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </h2>
+
+                  <div
+                    [id]="'flush-collapseOne' + counters.id"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingOne"
+                    data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body rounded level-1">
+                      <hr />
+
+                      <div class="row text-dark fw-bold">
+                        <div class="col-md-3">
+                          <b class="ms-2">Device</b>
+                        </div>
+                        <div class="col">
+                          <b>Session duration</b>
+                        </div>
+                      </div>
+                      <div class="row text-secondary">
+                        <div class="col-md-3">
+                          <span class="ms-2">{{
+                            counters?.device?.user_agent_data?.device_brand
+                              ?.family ?? '-----'
+                          }}</span>
+                        </div>
+
+                        <div class="col">
+                          {{ counters?.session_duration ?? '-----' }}
+                        </div>
+
+                        <div class="col"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!--start pagination-->
+            @if (countHistory > lim && !isLoadingHistorySessions) {
+              <div
+                class="mt-4 d-flex align-items-center justify-content-center">
+                <button
+                  title="Previous"
+                  (click)="doListMove2('prev')"
+                  [disabled]="currentPage === 0"
+                  class="border-0 me-2 btn d-inline-flex align-items-center rounded p-2 fs-4 text-primary-dark">
+                  <i class="fa-solid fa-play fa-rotate-180 text-primary"></i>
+                </button>
+                @if (pagination.filters.limit) {
+                  <button
+                    title="Next"
+                    (click)="doListMove2('next')"
+                    [disabled]="
+                      count < (currentPage + 1) * pagination.filters.limit
+                    "
+                    class="border-0 ms-2 btn fs-4 d-inline-flex align-items-center rounded p-2 text-primary-dark">
+                    <i class="fa-solid fa-play text-primary"></i>
+                  </button>
+                }
+              </div>
+            }
+            <!--end  pagination-->
+          }
+          <!--fin accordion-->
+
+          @if (
+            historySessions &&
+            historySessions.length === 0 &&
+            !isLoadingHistorySessions
+          ) {
+            <div class="text-center mt-3">
+              <div class="w-100 d-flex justify-content-center">
+                <div class="empty-state-icon d-grid fs-3">
+                  <span class="text-center">
+                    <i class="fa fs-1 fa-face-meh"></i>
+                  </span>
+                  <span class="text-center text-secondary" i18n>
+                    No sessions history found
+                  </span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- end history sessions-->
+      </div>
+    </div>
+  </div>
+</section>

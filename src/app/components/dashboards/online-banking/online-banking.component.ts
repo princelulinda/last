@@ -26,10 +26,11 @@ import {
   PayMerchant,
 } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
-import { WithdrawalComponent } from '../../withdrawal/withdrawal.component';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
+
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-online-banking',
   standalone: true,
@@ -41,7 +42,6 @@ import { Router } from '@angular/router';
     NgClass,
     SkeletonComponent,
     CommonModule,
-    WithdrawalComponent,
     WalletCardComponent,
   ],
 })
