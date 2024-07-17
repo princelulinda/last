@@ -1,8 +1,6 @@
 <div>
-  <!-- loader for OnlineBanking -->
-  @if (
-    !accountsOnlineBanking && mainConfig.activePlateform === 'onlineBanking'
-  ) {
+  <!-- loader f -->
+  @if (!accountsListData) {
     <span
       class="text-center w-100 d-flex position-absolute justify-content-center h-100 align-items-center text-dark"
       title="Loading...">
@@ -10,36 +8,27 @@
     </span>
   }
 
-  <!-- loader for workStation -->
-  @if (!accountsWorkStation && mainConfig.activePlateform === 'workstation') {
-    <div
-      class="text-center w-100 d-flex justify-content-center align-items-center text-dark"
-      style="height: 80vh"
-      title="Loading...">
-      <i class="spinner-border"></i>
-    </div>
-  }
-
-  <!-- list for OnlineBanking -->
-  @if (
-    accountsOnlineBanking && mainConfig.activePlateform === 'onlineBanking'
-  ) {
+  <!-- list -->
+  @if (accountsListData) {
     <div
       class="position-relative overflow-x-hidden overflow-y-auto"
-      style="min-width: 220px; height: 80vh">
-      <div
-        class="row p-2 d-flex justify-content-between align-items-center"
-        style="height: 35px">
+      style="min-width: 220px; height: 80vh; max-width: 320px">
+      <div class="row p-3 d-flex justify-content-between align-items-center">
         <div style="margin-right: 10px" class="col pt-1 text-dark">
           <b i18n>Accounts</b>
-          <b
-            class="ms-2 text-dark"
-            role="button"
-            title="Refresh accounts list"
-            (click)="refresh()"
-            tabindex="0"
-            ><i class="fa-solid fa-rotate-right"></i
-          ></b>
+          @if (
+            listType === 'list' ||
+            (listType === 'transfer' && !selectedLoneAccount)
+          ) {
+            <b
+              class="ms-2 text-dark"
+              role="button"
+              title="Refresh accounts list"
+              (click)="refresh()"
+              tabindex="0"
+              ><i class="fa-solid fa-rotate-right"></i
+            ></b>
+          }
         </div>
 
         <div class="col-1 pt-1 me-3" role="button">
@@ -47,150 +36,76 @@
             <i class="fa-solid fa-eye text-dark"></i
           ></span>
         </div>
-
-        <hr class="mt-1 ms-3" style="width: 93%; color: #8e8b8b" />
       </div>
 
       <!--*Accounts loop for large screens-->
-      @for (account of accountsOnlineBanking; track $index) {
+      @if (
+        listType === 'list' || (listType === 'transfer' && !selectedLoneAccount)
+      ) {
         <div
-          (click)="selectLoneAccount(account)"
-          tabindex="0"
           [ngClass]="{
-            cliped: selectedLoneAccount === account,
-
-            'not-clickable':
-              account.acc_status.status_code === 'B' ||
-              account.acc_status.status_code === 'C',
-            'opacity-50':
-              account.acc_status.status_code === 'B' ||
-              account.acc_status.status_code === 'C',
-            'border-gray':
-              account.acc_status.status_code === 'B' ||
-              account.acc_status.status_code === 'C',
-          }"
-          class="fig is-hoverable d-none d-lg-block overflow-auto"
-          role="button"
-          style="border-bottom: 1px solid #ccc">
-          <div class="mt-2 px-2 borders" routerLinkActive="cliped">
-            <small
-              ><b class="">{{ account.acc_account_type }}</b></small
-            ><br />
-
-            <div class="rounded mb-2 mt-0" style="line-height: 0.8em">
-              <small
-                ><span class="mt-0 text-sm"
-                  >{{ account.acc_holder }}
-                </span></small
-              ><br />
-              <small>
-                <span class="mt-0 mb-0 text-sm">
-                  {{ account.acc_number }}
-                </span>
-              </small>
-              <br />
-              <small
-                ><b class="text-success"
-                  >{{ account.acc_available_balance | number }}
-                  {{ account.acc_currency }}</b
-                ></small
-              >
-            </div>
-          </div>
-        </div>
-      }
-      <!--* Accounts loop for medium and small screen-->
-      @for (account of accountsOnlineBanking; track $index) {
-        <div>
-          <div
-            class="fig is-hoverable d-lg-none d-sm-block d-md-block overflow-auto"
-            (click)="selectLoneAccount(account)"
-            tabindex="0"
-            [ngClass]="{
-              cliped: selectedLoneAccount === account,
-
-              'not-clickable':
-                account.acc_status.status_code === 'B' ||
-                account.acc_status.status_code === 'C',
-              'opacity-50':
-                account.acc_status.status_code === 'B' ||
-                account.acc_status.status_code === 'C',
-              'border-gray':
-                account.acc_status.status_code === 'B' ||
-                account.acc_status.status_code === 'C',
-            }"
-            role="button"
-            style="border-bottom: 1px solid #ccc">
-            <div class="mt-2 px-2 borders">
-              <small
-                ><b class="">{{ account.acc_account_type }}</b></small
-              ><br />
-
-              <div class="rounded mb-2 mt-0" style="line-height: 0.8em">
-                <small
-                  ><span class="mt-0 text-sm"
-                    >{{ account.acc_holder }}
-                  </span></small
-                ><br />
-                <small>
-                  <span class="mt-0 mb-0 text-sm">
-                    {{ account.acc_number }}
-                  </span>
-                </small>
-                <br />
-                <small
-                  ><b class="text-success"
-                    >{{ account.acc_available_balance | number }}
-                    {{ account.acc_currency }}</b
-                  ></small
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      }
-
-      <!--*selected account for small and medium screens-->
-      @for (account of accountsOnlineBanking; track $index) {
-        <div
-          class="mt-4 px-2 d-lg-none d-sm-block d-md-block cliped text-dark w-100 borders"
-          (click)="selectLoneAccount(account)"
-          tabindex="0"
-          [ngClass]="{
-            cliped: selectedLoneAccount === account,
-
-            'not-clickable':
-              account.acc_status.status_code === 'B' ||
-              account.acc_status.status_code === 'C',
-            'opacity-50':
-              account.acc_status.status_code === 'B' ||
-              account.acc_status.status_code === 'C',
-            'border-gray':
-              account.acc_status.status_code === 'B' ||
-              account.acc_status.status_code === 'C',
+            'bg-white p-2 border border-secondary border-2 mt-2 ms-2 lg-radius overflow-y-auto':
+              listType === 'transfer',
           }">
-          <small
-            ><b class="">{{ account.acc_account_type }}</b></small
-          ><br />
-
-          <div class="rounded mb-2 mt-0" style="line-height: 0.8em">
-            <small
-              ><span class="mt-0 text-sm"
-                >{{ account.acc_holder }}
-              </span></small
-            ><br />
-            <small>
-              <span class="mt-0 mb-0 text-sm">
-                {{ account.acc_number }}
-              </span>
-            </small>
-            <br />
-            <small
-              ><b class="text-success"
+          @for (account of accountsListData; track $index) {
+            <div
+              (click)="selectLoneAccount(account)"
+              tabindex="0"
+              class="d-grid ps-3 py-0 rounded mt-2 b-left"
+              [ngClass]="{
+                account: listType === 'transfer',
+                cliped: selectedLoneAccount === account && listType === 'list',
+                'not-clickable':
+                  account.acc_status.status_code === 'B' ||
+                  account.acc_status.status_code === 'C',
+                'opacity-50':
+                  account.acc_status.status_code === 'B' ||
+                  account.acc_status.status_code === 'C',
+                'border-gray':
+                  account.acc_status.status_code === 'B' ||
+                  account.acc_status.status_code === 'C',
+              }"
+              role="button">
+              <b class="fw-bold">{{ account.acc_account_type }}</b>
+              <b class="fw-normal">{{ account.acc_holder }}</b>
+              <b class="fw-normal">{{ account.acc_number }}</b>
+              <b class="text-success"
                 >{{ account.acc_available_balance | number }}
                 {{ account.acc_currency }}</b
-              ></small
-            >
+              >
+            </div>
+            <hr class="mx-4 my-1" />
+          }
+        </div>
+      }
+
+      @if (listType === 'transfer' && selectedLoneAccount) {
+        <div class="mt-3 w-100 lg-radius">
+          <div class="p-2 ms-2 lg-radius bg-white">
+            <div
+              class="d-flex align-items-start justify-content-between ps-2 py-0 b-left">
+              <div class="d-grid">
+                <b>{{ selectedLoneAccount.acc_holder }}</b>
+                <b class="fw-normal">{{ selectedLoneAccount.acc_number }}</b>
+                <b class="fw-normal text-success">
+                  <span>{{
+                    selectedLoneAccount.acc_available_balance | currency: ' '
+                  }}</span>
+
+                  {{ selectedLoneAccount.acc_currency }}</b
+                >
+              </div>
+
+              <div>
+                <span
+                  role="button"
+                  class="bg-danger text-white ms-5 pt-1 px-1 rounded-circle"
+                  (click)="clearSelectedAccount()"
+                  tabindex="0">
+                  <i class="fa fa-xmark"></i>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       }

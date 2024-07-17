@@ -10,12 +10,13 @@ body {
     background-repeat: no-repeat;
     inset: 0;
   }
-
-  // opacity: 0.5;
 }
+
+@import '../public/sass/utilities';
+
 @import 'bootstrap/scss/bootstrap';
 
 @import '../public/sass/fonts/fonts';
-@import '../public/sass/colors/global';
+@import '../public/sass/global';
 
 $enable-dark-mode: false;

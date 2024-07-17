@@ -10,21 +10,29 @@
         class="d-block p-2 px-3 px-md-4 px-lg-5 sm-radius clickable mx-2 mx-md-3 mx-lg-4 h-100"
         [ngClass]="{
           'text-all-white':
-            mainConfig.activePlateform !== 'workstation' &&
-            mainConfig.activePlateform !== plateF.plateform,
-          'text-primary':
-            mainConfig.activePlateform === plateF.plateform &&
-            mainConfig.activePlateform !== 'workstation' &&
-            mainConfig.activeMode === 'light',
+            (mainConfig.activePlateform !== 'workstation' &&
+              mainConfig.activePlateform !== plateF.plateform) ||
+            (mainConfig.activePlateform === 'workstation' &&
+              mainConfig.activePlateform === plateF.plateform),
           'text-primary-1':
             mainConfig.activePlateform === plateF.plateform &&
-            mainConfig.activePlateform !== 'workstation' &&
-            mainConfig.activeMode === 'dark',
+            mainConfig.activePlateform !== 'workstation',
 
-          'bg-hover-primary-2': mainConfig.activePlateform !== plateF.plateform,
-
-          'text-dark': mainConfig.activePlateform === 'workstation',
-          'bg-all-white': mainConfig.activePlateform === plateF.plateform,
+          'bg-hover-primary-2':
+            mainConfig.activePlateform !== plateF.plateform &&
+            mainConfig.activePlateform !== 'workstation',
+          'bg-hover-primary-3':
+            mainConfig.activePlateform !== plateF.plateform &&
+            mainConfig.activePlateform === 'workstation',
+          'text-secondary':
+            mainConfig.activePlateform === 'workstation' &&
+            mainConfig.activePlateform !== plateF.plateform,
+          'bg-all-white':
+            mainConfig.activePlateform === plateF.plateform &&
+            plateF.plateform !== 'workstation',
+          'bg-primary':
+            mainConfig.activePlateform === plateF.plateform &&
+            mainConfig.activePlateform === 'workstation',
         }"
         title="{{ plateF.title }}">
         @if (plateF.icon) {

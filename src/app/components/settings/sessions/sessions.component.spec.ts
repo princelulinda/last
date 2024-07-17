@@ -1,20 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { LoanRequestComponent } from './loan-request.component';
+import { SessionsComponent } from './sessions.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-describe('LoanRequestComponent', () => {
-  let component: LoanRequestComponent;
-  let fixture: ComponentFixture<LoanRequestComponent>;
+describe('SessionsComponent', () => {
+  let component: SessionsComponent;
+  let fixture: ComponentFixture<SessionsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoanRequestComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      imports: [SessionsComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        // RouterModule.forRoot(AuthRoutes),
+      ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LoanRequestComponent);
+    fixture = TestBed.createComponent(SessionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

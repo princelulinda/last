@@ -1,5 +1,5 @@
 <br />
-<form class="position-relative z-1" [formGroup]="multiStepForm">
+<form class="position-relative z-1 scroll" [formGroup]="multiStepForm">
   <!-- start step 0 -->
   @if (step === 0) {
     <div
@@ -24,9 +24,13 @@
             For a more secure experience, enter your <br />
             reference account number (if you have one)
           </div>
-
           <div class="form-floating mb-4 mt-4">
-            <input
+            <app-lookup
+              (selectedItemEvent)="selectClient($event)"
+              option="lookup"
+              url="/clients/list/all/object_lookup/?list_type=all&externel_request=true&lookup_data="
+              label="Search by client ID"></app-lookup>
+            <!-- <input
               i18n
               type="text"
               class="form-control"
@@ -35,17 +39,18 @@
               formControlName="username" />
             <label class="fs-small" i18n for="number"
               ><span
-                ><img src="/images/user.svg" width="23" alt="" /> Referal
+                ><img src="/images/auth/user.svg" width="23" alt="" /> Referal
                 account number</span
               >
-            </label>
+            </label> -->
           </div>
           <div class="col">
             <button
               i18n
               type="button"
               class="btn mt-4 w-100 bg-primary lg-radius text-white p-3 fw-bold"
-              (click)="submit()">
+              (click)="submit()"
+              [disabled]="!this.id">
               Continue
             </button>
           </div>

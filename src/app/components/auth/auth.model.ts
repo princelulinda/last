@@ -68,3 +68,7 @@ export interface UploadedFileModel {
 export interface cardIdData {
   expiry_date: string | null | undefined;
 }
+export interface referenceNumberModel {
+  id: number;
+  event: string;
+}

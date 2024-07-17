@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   activeMainConfigModel,
@@ -23,13 +23,14 @@ export class AccountsListComponent implements OnInit {
   clientInfo!: UserInfoModel;
   clientId!: number;
   isLoading = false;
-  accountsOnlineBanking: accountsList[] | [] | null = null;
-  accountsWorkStation: accountsList[] | [] | null = null;
-  selectedLoneAccount!: accountsList;
+  accountsListData: accountsList[] | [] | null = null;
+
+  selectedLoneAccount: accountsList | null = null;
   selectedAccount!: accountsList[];
   isLoneAccountSelected = false;
   // close the account's creation form
   closeForm = false;
+  @Input() listType: 'transfer' | 'list' = 'list';
   @Output() accountSelected = new EventEmitter<accountsList>();
 
   constructor(
@@ -47,8 +48,7 @@ export class AccountsListComponent implements OnInit {
         this.clientInfo = userinfo;
         this.clientId = this.clientInfo.client.id;
         if (this.clientId) {
-          this.getClientAccountsOnlineBanking();
-          this.getClientAccountsWorkstation();
+          this.getClientAccounts();
         }
       },
     });
@@ -59,11 +59,11 @@ export class AccountsListComponent implements OnInit {
     });
   }
 
-  getClientAccountsOnlineBanking() {
+  getClientAccounts() {
     this.isLoading = true;
     this.clientService.getClientAccounts(this.clientId).subscribe({
       next: response => {
-        this.accountsOnlineBanking = response.objects;
+        this.accountsListData = response.objects;
         this.isLoading = false;
       },
       error: err => {
@@ -73,18 +73,8 @@ export class AccountsListComponent implements OnInit {
     });
   }
 
-  getClientAccountsWorkstation() {
-    this.isLoading = true;
-    this.clientService.getClientAccounts(this.clientId).subscribe({
-      next: response => {
-        this.accountsWorkStation = response.objects;
-        this.isLoading = false;
-      },
-      error: err => {
-        console.error('Erreur :', err);
-        this.isLoading = false;
-      },
-    });
+  clearSelectedAccount() {
+    this.selectedLoneAccount = null;
   }
 
   selectLoneAccount(account: accountsList) {
@@ -95,8 +85,8 @@ export class AccountsListComponent implements OnInit {
     this.accountSelected.emit(account);
   }
   refresh() {
-    this.accountsOnlineBanking = null;
+    this.accountsListData = null;
     this.isLoading = true;
-    this.getClientAccountsOnlineBanking();
+    this.getClientAccounts();
   }
 }

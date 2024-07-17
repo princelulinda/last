@@ -17,6 +17,9 @@ import {
 import { FileComponent } from '../../../global/components/file/file.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { UploadedFileModel } from '../auth.model';
+import { BankService } from '../../../core/services/bank/bank.service';
+import { LookupComponent } from '../../dev/lookup/lookup.component';
+import { ItemModel } from '../../dev/lookup/lookup.model';
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,
@@ -27,6 +30,7 @@ import { UploadedFileModel } from '../auth.model';
     ReactiveFormsModule,
     FileComponent,
     SkeletonComponent,
+    LookupComponent,
   ],
   templateUrl: './auth-sign-up.component.html',
   styleUrl: './auth-sign-up.component.scss',
@@ -64,6 +68,8 @@ export class AuthSignUpComponent implements OnInit {
   dialog$: Observable<DialogResponseModel>;
   uuid!: string;
   docFile!: string;
+  id!: number;
+  // event!: referenceNumberModel[];
 
   ngOnInit(): void {
     this.dialog$.subscribe({
@@ -95,6 +101,7 @@ export class AuthSignUpComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private bankService: BankService,
     private dialogService: DialogService
   ) {
     this.dialog$ = this.dialogService.getDialogState();
@@ -132,7 +139,7 @@ export class AuthSignUpComponent implements OnInit {
   createAccount() {
     this.isLoadingCreation = true;
     const data = {
-      // creation_client: this.id,
+      creation_client: this.id,
       organization: this.bankId,
       picture: '',
       write_picture:
@@ -251,7 +258,7 @@ export class AuthSignUpComponent implements OnInit {
   }
   getBankList() {
     this.isLoadingBank = true;
-    this.authService.getBanksList().subscribe({
+    this.bankService.getAllBanks().subscribe({
       next: (response: { objects: bankListResponse[] }) => {
         this.getBanksList = response.objects;
         this.isLoadingBank = false;
@@ -305,7 +312,6 @@ export class AuthSignUpComponent implements OnInit {
   onPictureChange(write_picture: UploadedFileModel[]) {
     this.uuid = write_picture[0]?.object.uuid;
     this.docFile = write_picture[0]?.object.docfile;
-    console.log('picture', write_picture);
     this.multiStepForm.controls.authentificationInformation.patchValue({
       write_picture: this.uuid,
     });
@@ -318,5 +324,10 @@ export class AuthSignUpComponent implements OnInit {
       title: '',
       type: 'confirm',
     });
+  }
+  selectClient(event: ItemModel | null) {
+    if (event) {
+      this.id = event.id;
+    }
   }
 }
