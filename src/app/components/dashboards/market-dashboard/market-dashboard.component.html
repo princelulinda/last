@@ -334,7 +334,7 @@
   </div>
 
   <!-- recent product -->
-  <!-- <div>
+  <div>
     <section>
       <div class="row">
         <div class="col-10">
@@ -357,39 +357,15 @@
         </div>
       </div>
       <div class="row">
-        @if(get_product) {
-
+        @for (item of [1, 2, 3, 4]; track $index) {
+          <div class="col-3">
+            <app-product-card></app-product-card>
+          </div>
         }
       </div>
     </section>
-  </div> -->
-  <!-- <div class="row">
-    <div class="col-10">
-      <h5 class="fs-medium fw-bold mt-4">Recent product</h5>
-    </div>
-    <div class="col ms-4">
-      <div class="row">
-        <div class="col-3 me-4">
-          <span
-            class="border rounded-circle text-secondary py-1 px-2 opacity-50">
-            <i class="fa-solid fa-arrow-left fa-xs"></i>
-          </span>
-        </div>
-        <div class="col-3">
-          <span class="border rounded-circle text-dark py-1 px-2">
-            <i class="fa-solid fa-arrow-right fa-xs"></i>
-          </span>
-        </div>
-      </div>
-    </div>
   </div>
-  <div class="row">
-    @for (item of [1, 2, 3, 4]; track $index) {
-      <div class="col-3">
-        <app-product-card></app-product-card>
-      </div>
-    }
-  </div> -->
+
   <!-- recent billers -->
   <div class="mt-5">
     <div class="row mb-3">
