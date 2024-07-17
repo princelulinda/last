@@ -15,26 +15,32 @@
     </div>
     <div>
       <div class="d-lg-flex row">
-        <!-- @if (plateform === 'onlineBanking'){ -->
-        <div class="col-lg-6 row">
-          <div class="d-grid">
-            <!-- <app-my-accounts (debitOptions)="geAccountOptions($event)" title="Account to credit" [isWallerShown]="isWallerShown"></app-my-accounts> -->
+        <!-- -------------------------------------------------------------- -->
+
+        @if (plateform === 'onlineBanking') {
+          <div class="col-lg-6 row">
+            <div class="d-grid">
+              <!-- <app-my-accounts (debitOptions)="geAccountOptions($event)" title="Account to credit" [isWallerShown]="isWallerShown"></app-my-accounts> -->
+            </div>
           </div>
-        </div>
-        <!-- } (clossing bracket of if onlinebanking plateform) -->
+        }
 
         <!-- -------------------------------------------------------------- -->
 
-        <!-- @if (plateform === 'workStation'){ -->
-        <div class="col-lg-6 row">
-          <div class="d-grid col-lg-8">
-            <div>
-              <b i18n>Client Account</b>
+        @if (plateform === 'workStation') {
+          <div class="col-lg-6 row">
+            <div class="d-grid col-lg-8">
+              <div>
+                <b i18n>Client Account</b>
+              </div>
+              <app-lookup
+                option="autocomplete"
+                (selectedItemEvent)="getAccount($event)"
+                url="/clients/manage/accounts/objects_autocomplete?search="
+                label="Accounts"></app-lookup>
             </div>
-            <!-- <app-lookup option="autocomplete" (selectedItemEvent)="getAccount($event)" url="/clients/manage/accounts/objects_autocomplete?search=" itemsLabel="Accounts"></app-lookup>" -->
           </div>
-        </div>
-        <!-- } (clossing bracket of if workStation plateform) -->
+        }
 
         <!-- -------------------------------------------------------------- -->
 
@@ -47,333 +53,404 @@
               </div>
 
               <div>
-                <!-- <app-lookup option="autocomplete" (selectedItemEvent)="getCreditType($event)" url="/loans/loan-type/objects_autocomplete?search=" itemsLabel="Accounts"></app-lookup>" -->
+                <app-lookup
+                  option="autocomplete"
+                  (selectedItemEvent)="getCreditType($event)"
+                  url="/loans/loan-type/objects_autocomplete?search="
+                  label="Accounts"></app-lookup>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- @if(!isFormVisible){ -->
-      <div class="w-75 mt-5 pt-2 d-flex justify-content-center">
-        <button class="btn px-5 bg-primary d-flex justify-content-center py-2">
-          <b class="text-all-white" i18n>Continue</b>
-        </button>
-      </div>
-      <!-- } (clossing bracket of if !isFormVisible) -->
+      @if (!isFormVisible) {
+        <div class="w-75 mt-5 pt-2 d-flex justify-content-center">
+          <!-- [disabled]="(!account && !accountWorkstation) || !creditType" -->
+          <button
+            [disabled]="!accountWorkstation || !creditType"
+            class="btn px-5 bg-primary d-flex justify-content-center py-2">
+            @if (!isLoading) {
+              <b class="text-all-white" i18n>Continue</b>
+            }
+            @if (isLoading) {
+              <span>
+                <i class="fa-solid fa-pulse fa-circle-notch text-white"></i>
+              </span>
+            }
+          </button>
+        </div>
+      }
       <div class="mt-4 ms-3">
-        <!-- @if(isFormVisible){ -->
-        <div>
-          <div class="d-flex"></div>
-          <!-- @if(plateform === '')  -->
-          <div class="row">
-            <div class="col-lg-4 mb-3">
-              <div class="d-grid">
-                <span class="less-grey" i18n> Penalties </span>
-                <!-- <b>{{defaultValuesLoan.penalties_rate}}%</b> -->
-              </div>
-            </div>
-            <div class="col-lg-4 mb-3">
-              <div class="d-grid">
-                <span class="less-grey" i18n>Fees</span>
-                <!-- <b>{{defaultValuesLoan.max_amount_fees}}</b> -->
-              </div>
-            </div>
-            <div class="col-lg-4 mb-3">
-              <div class="d-grid">
-                <span class="less-grey" i18n>Interest Rate</span>
-                <!-- <b>{{defaultValuesLoan.max_interest_rate}}</b> -->
-              </div>
-            </div>
-            <div class="col-lg-4 mb-3">
-              <div class="d-grid">
-                <span class="less-grey" i18n>Period</span>
-                <!-- <b>{{defaultValuesLoan.periodicity}}</b> -->
-              </div>
-            </div>
-          </div>
-          <!-- } (clossing bracket of if plateform) -->
-          <div class="row align-items-start">
-            <div
-              class="col-lg-6 row align-items-center justify-content-between">
-              <div class="col-lg-8 d-grid">
-                <!-- <app-amount-words [background]="amountBackground" [amountEvent]="getAmount($event)"></app-amount-words>" -->
-                <div class="row ms-2">
-                  <div class="col-4 d-flex">
-                    <b class="leg">Min: </b>
-                    <!-- <span class="val">{{defaultValuesLoan.min_amount | currency : ' '}}</span> -->
+        <!-- ====================================================================== -->
+        <!-- @if (isFormVisible && (account || accountWorkstation) && creditType) { -->
+
+        @if (isFormVisible && accountWorkstation && creditType) {
+          <div [formGroup]="requestForm">
+            <div class="d-flex"></div>
+            @if (plateform === '') {
+              <div class="row">
+                <div class="col-lg-4 mb-3">
+                  <div class="d-grid">
+                    <span class="less-grey" i18n> Penalties </span>
+                    <!-- <b>{{ defaultValuesLoan.penalties_rate }}%</b> -->
                   </div>
-                  <div class="col-4 d-flex">
-                    <b class="leg">Max: </b>
-                    <!-- <span class="val">{{defaultValuesLoan.max_amount | currency : ' '}}</span> -->
+                </div>
+                <div class="col-lg-4 mb-3">
+                  <div class="d-grid">
+                    <span class="less-grey" i18n>Fees</span>
+                    <!-- <b>{{ defaultValuesLoan.max_amount_fees }}</b> -->
+                  </div>
+                </div>
+                <div class="col-lg-4 mb-3">
+                  <div class="d-grid">
+                    <span class="less-grey" i18n>Interest Rate</span>
+                    <!-- <b>{{ defaultValuesLoan.max_interest_rate }}</b> -->
+                  </div>
+                </div>
+                <div class="col-lg-4 mb-3">
+                  <div class="d-grid">
+                    <span class="less-grey" i18n>Period</span>
+                    <!-- <b>{{ defaultValuesLoan.periodicity }}</b> -->
+                  </div>
+                </div>
+              </div>
+            }
+
+            <!-- =================================================================== -->
+
+            <div class="row align-items-start">
+              <div
+                class="col-lg-6 row align-items-center justify-content-between">
+                <div class="col-lg-8 d-grid">
+                  <!-- <app-amount-words [background]="amountBackground" [amountEvent]="getAmount($event)"></app-amount-words>" -->
+                  <div class="row ms-2">
+                    <div class="col-4 d-flex">
+                      <b class="leg">Min: </b>
+                      <!-- <span class="val">{{
+                        defaultValuesLoan.min_amount | currency: ' '
+                      }}</span> -->
+                    </div>
+                    <div class="col-4 d-flex">
+                      <b class="leg">Max: </b>
+                      <!-- <span class="val">{{
+                        defaultValuesLoan.max_amount | currency: ' '
+                      }}</span> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ======================================================================== -->
+
+              <!-- @if (plateform === 'workStation') {
+                <div
+                  class="col-lg-6 row align-items-center justify-content-between">
+                  <div class="col-lg-8 d-grid">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input"
+                        id="interest"
+                        placeholder="interests rate"
+                        formControlName="interest_rate" />
+                      <label for="interest" i18n>Interests rate</label>
+                    </div>
+                    <div class="row ms-2">
+                      <div class="col-4 d-flex">
+                        <b class="leg">Min: </b>
+                        <span class="val"
+                          >{{
+                            defaultValuesLoan.min_interest_rate | number
+                          }}%</span
+                        >
+                      </div>
+                      <div class="col-4 d-flex">
+                        <b class="leg">Max: </b>
+                        <span class="val"
+                          >{{
+                            defaultValuesLoan.max_interest_rate | number
+                          }}%</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              } -->
+              <div
+                class="col-lg-6 row align-items-center justify-content-between">
+                <div class="col-lg-8">
+                  <div class="form-floating">
+                    <input
+                      type="date"
+                      class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input"
+                      id="date"
+                      placeholder="date"
+                      formControlName="first_date" />
+                    <label for="date" i18n>First date</label>
+                  </div>
+                </div>
+              </div>
+              @if (plateform === 'workStation') {
+                <div
+                  class="col-lg-6 row align-items-center justify-content-between">
+                  <div class="col-lg-8 d-grid">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        id="penalties"
+                        placeholder="penalties"
+                        class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input"
+                        formControlName="penalties_rate" />
+                      <label for="penalties" i18n>Penalties</label>
+                    </div>
+                    <div class="row ms-2">
+                      <div class="col-6 d-flex">
+                        <b class="leg">Min: </b>
+                        <span class="val"></span>
+                      </div>
+                      <div class="col-6 d-flex">
+                        <b class="leg">Max: </b>
+                        <span class="val"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-lg-6 row align-items-center justify-content-between">
+                  <div class="col-lg-8 d-grid">
+                    <div class="form-floating">
+                      <!-- input has an (input) attribute -->
+                      <input
+                        type="text"
+                        class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input"
+                        id="feesAmount"
+                        placeholder="fees"
+                        formControlName="fees_amount"
+                        (input)="updateUnitValues()" />
+                      <label for="feesAmount" i18n> Fees </label>
+                    </div>
+                    <div class="d-flex ps-2">
+                      <div
+                        class="d-flex align-items-center me-5"
+                        (click)="changeFeesUnit()"
+                        tabindex="0">
+                        @if (feesUnit === 'percent') {
+                          <span>
+                            <i class="fa-regular fa-square-check fs-4"></i>
+                          </span>
+                        }
+                        @if (feesUnit === 'amount') {
+                          <span>
+                            <i class="fa-regular fa-square fs-4"></i>
+                          </span>
+                        }
+                        <span class="ms-2">%</span>
+                      </div>
+                      <div
+                        class="d-flex align-items-center me-5"
+                        (click)="changeFeesUnit()"
+                        tabindex="0">
+                        @if (feesUnit === 'amount') {
+                          <span class="me-2">
+                            <i class="fa-regular fa-square-check fs-4"></i>
+                          </span>
+                        } @else {
+                          <span class="me-2">
+                            <i class="fa-regular fa-square fs-4"></i>
+                          </span>
+                        }
+                        <span class="ms-2">Amount</span>
+                      </div>
+                      <div class="d-flex">
+                        <span class="me-2 text-primary-light">
+                          <i class="fa fa-play"></i>
+                        </span>
+                        <span>{{ fees | currency: ' ' }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-lg-6 row align-items-center justify-content-between">
+                  <div class="not-clickable col-lg-8 d-grid">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        (input)="updateUnitValues()"
+                        class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input"
+                        id="insurance"
+                        placeholder="fees"
+                        formControlName="insurance_amount" />
+                      <label for="insurance" i18n>Insurance</label>
+                    </div>
+
+                    <div class="d-flex ps-2">
+                      <div class="d-flex align-items-center me-5">
+                        @if (insuranceFeesUnit === 'percent') {
+                          <span>
+                            <i class="fa-regular fa-square-check fs-4"></i>
+                          </span>
+                        }
+                        @if (insuranceFeesUnit !== 'percent') {
+                          <span>
+                            <i class="fa-regular fa-square fs-4"></i>
+                          </span>
+                        }
+                        <span class="ms-2">%</span>
+                      </div>
+                      <!-- <div
+                        class="d-flex align-items-center me-5"
+                        (click)="changeInsuranceFeesUnit()"
+                        tabindex="0">
+                        @if (insuranceFeesUnit === 'amount') {
+                          <span class="me-2">
+                            <i class="fa-regular fa-square-check fs-4"></i>
+                          </span>
+                        } @else {
+                          <span class="me-2">
+                            <i class="fa-regular fa-square fs-4"></i>
+                          </span>
+                        }
+                        <span>Amount</span>
+                      </div> -->
+                      <div class="d-flex">
+                        <span class="me-2 text-primary-light">
+                          <i class="fa fa-play"></i>
+                        </span>
+                        <span>{{ insuranceFees | currency: ' ' }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-lg-6 row align-items-center justify-content-between">
+                  <div class="not-clickable col-lg-8 d-grid">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        (input)="updateUnitValues()"
+                        id="guarantee"
+                        placeholder="fees"
+                        class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input"
+                        formControlName="guarantee_rate" />
+                      <label for="guarantee" i18n>Guarantee</label>
+                    </div>
+                    <div class="d-flex ps-2">
+                      <div class="d-flex align-items-center me-5">
+                        @if (guaranteeFeesUnit === 'percent') {
+                          <span>
+                            <i class="fa-regular fa-square-check fs-4"></i>
+                          </span>
+                        } @else {
+                          <span>
+                            <i class="fa-regular fa-square fs-4"></i>
+                          </span>
+                        }
+                        <span class="ms-2">%</span>
+                      </div>
+                      <div class="d-flex align-items-center me-5">
+                        @if (guaranteeFeesUnit === 'amount') {
+                          <span class="me-2">
+                            <i class="fa-regular fa-square-check fs-4"></i>
+                          </span>
+                        } @else {
+                          <span class="me-2">
+                            <i class="fa-regular fa-square fs-4"></i>
+                          </span>
+                        }
+                        <span>Amount</span>
+                      </div>
+
+                      <div class="d-flex">
+                        <span class="me-2 text-primary-light">
+                          <i class="fa fa-play"></i>
+                        </span>
+                        <span>{{ guaranteeFees | currency: ' ' }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+              <div
+                class="col-lg-6 row align-items-center justify-content-between">
+                <div class="col-lg-8">
+                  <select
+                    style="border: 1px solid #9d9d9d"
+                    id="period"
+                    placeholder="period"
+                    formControlName="period"
+                    class="input form-select mb-1 mt-2 fs-4 p-2-3 simulator-input w-100">
+                    <option value="" selected i18n>Select frequency</option>
+                    <option value="1" i18n>Month</option>
+                    <option value="3" i18n>Quarter</option>
+                    <option value="6" i18n>Semester</option>
+                  </select>
+                </div>
+              </div>
+              <div
+                class="col-lg-6 row align-items-center justify-content-between">
+                <div class="col-lg-8">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      id="payment"
+                      placeholder="payment number"
+                      formControlName="payment_number"
+                      class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input" />
+                    <label for="payment" i18n>Payment number</label>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- @if(plateform === 'workStation') -->
-            <div
-              class="col-lg-6 row align-items-center justify-content-between">
-              <div class="col-lg-8 d-grid">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input"
-                    id="interest"
-                    placeholder="interests rate" />
-                  <label for="interest" i18n>Interests rate</label>
-                </div>
-                <div class="row ms-2">
-                  <div class="col-4 d-flex">
-                    <b class="leg">Min: </b>
-                    <!-- <span class="val">{{defaultValuesLoan.min_interest_rate | number}}%</span> -->
-                  </div>
-                  <div class="col-4 d-flex">
-                    <b class="leg">Max: </b>
-                    <!-- <span class="val">{{defaultValuesLoan.max_interest_rate | number}}%</span> -->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- } (clossing bracket of if workstation platform) -->
-            <div
-              class="col-lg-6 row align-items-center justify-content-between">
-              <div class="col-lg-8">
-                <div class="form-floating">
-                  <input
-                    type="date"
-                    class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input"
-                    id="date"
-                    placeholder="date" />
-                  <label for="date" i18n>First date</label>
-                </div>
-              </div>
-            </div>
-            <!-- @if(plateform === 'workStation'){ -->
-            <div
-              class="col-lg-6 row align-items-center justify-content-between">
-              <div class="col-lg-8 d-grid">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    id="penalties"
-                    placeholder="penalties"
-                    class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input" />
-                  <label for="penalties" i18n>Penalties</label>
-                </div>
-                <div class="row ms-2">
-                  <div class="col-6 d-flex">
-                    <b class="leg">Min: </b>
-                    <span class="val"></span>
-                  </div>
-                  <div class="col-6 d-flex">
-                    <b class="leg">Max: </b>
-                    <span class="val"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="col-lg-6 row align-items-center justify-content-between">
-              <div class="col-lg-8 d-grid">
-                <div class="form-floating">
-                  <!-- input has an (input) attribute -->
-                  <input
-                    type="text"
-                    class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input"
-                    id="feesAmount"
-                    placeholder="fees" />
-                  <label for="feesAmount" i18n> Fees </label>
-                </div>
-                <div class="d-flex ps-2">
-                  <!-- <div class="d-flex align-items-center me-5">
-                    @if(feesUnit === 'percent') {
-                      <span>
-                        
-                        <i class="fa-regular fa-square-check fs-4"></i>
-                      </span>
-                    }
-                    @else {
-                      <span>
-                        <i class="fa-regular fa-square fs-4"></i>
-                      </span>
-                    }
-                    <span class="ms-2">%</span>
-                  </div>
-                  <div class="d-flex align-items-center me-5">
-                    @if(feesUnit === 'amount') {
-                      
-                      <span class="me-2">
-                        <i class="fa-regular fa-square-check fs-4"></i>
-                      </span>
-                    }
-                    @else {
-                      <span class="me-2">
-                        <i class="fa-regular fa-square fs-4"></i>
-                      </span>
-                    }
-                    <span class="ms-2">Amount</span>
-                  </div> -->
-                  <div class="d-flex">
-                    <span class="me-2 text-primary-light">
-                      <i class="fa fa-play"></i>
+
+            <!-- REQUEST BUTTON IN WORKSTATION -->
+
+            <!-- @if (plateform === 'workStation') {
+              <div class="w-100 mt-5 pt-2 d-flex justify-content-center">
+                <button
+                  type="submit"
+                  (click)="requestLoan()"
+                  class="btn px-5 bg-primary d-flex justify-content-center py-2"
+                  [disabled]="requestForm.invalid">
+                  @if (isLoading) {
+                    <span>
+                      <i
+                        class="fa-solid fa-pulse fa-circle-notch text-white"></i>
                     </span>
-                    <!-- <span>{{fees | currency : ' '}}</span> -->
-                  </div>
-                </div>
+                  } @else {
+                    <b class="text-all-white" i18n>Confirm</b>
+                  }
+                </button>
               </div>
-            </div>
-            <div
-              class="col-lg-6 row align-items-center justify-content-between">
-              <div class="not-clickable col-lg-8 d-grid">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input"
-                    id="insurance"
-                    placeholder="fees" />
-                  <label for="insurance" i18n>Insurance</label>
-                </div>
+            } -->
 
-                <div class="d-flex ps-2">
-                  <!-- <div class="d-flex align-items-center me-5">
-                    @if(insuranceUnit === 'percent') {
-                      <span>
-                        <i class="fa-regular fa-square-check fs-4"></i>
-                      </span>
-                    }
-                    @else {
-                      <span>
-                        <i class="fa-regular fa-square fs-4"></i>
-                      </span>
-                    }
-                    <span class="ms-2">%</span>
-                  </div>
-                  <div class="d-flex align-items-center me-5">
-                    @if(insuranceUnit === 'amount') {
-                      <span class="me-2">
-                        <i class="fa-regular fa-square-check fs-4"></i>
-                      </span>
-                    }
-                    @else {
-                      <span class="me-2">
-                        <i class="fa-regular fa-square fs-4"></i>
-                      </span>
-                    }
-                    <span>Amount</span>
-                  </div> -->
-                  <div class="d-flex">
-                    <span class="me-2 text-primary-light">
-                      <i class="fa fa-play"></i>
+            <!-- REQUEST BUTTON IN ONLINE BANKING -->
+
+            <!-- @if (plateform === 'onlineBanking') {
+              <div class="w-100 mt-5 pt-2 d-flex justify-content-center">
+                <button
+                  type="submit"
+                  (click)="requestLoan()"
+                  class="btn px-5 bg-primary d-flex justify-content-center py-2"
+                  [disabled]="
+                    !requestForm.value.first_date ||
+                    !requestForm.value.amount ||
+                    !requestForm.value.payment_number
+                  ">
+                  @if (isLoading) {
+                    <span>
+                      <i
+                        class="fa-solid fa-pulse fa-circle-notch text-white"></i>
                     </span>
-                    <!-- <span>{{insuranceFees | currency : ' '}}</span> -->
-                  </div>
-                </div>
+                  } @else {
+                    <b class="text-all-white" i18n>Confirm</b>
+                  }
+                </button>
               </div>
-            </div>
-            <div
-              class="col-lg-6 row align-items-center justify-content-between">
-              <div class="not-clickable col-lg-8 d-grid">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    id="guarantee"
-                    placeholder="fees"
-                    class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input" />
-                  <label for="guarantee" i18n>Guarantee</label>
-                </div>
-                <div class="d-flex ps-2">
-                  <!-- <div class="d-flex align-items-center me-5">
-                    @if(guaranteeUnit === 'percent') {
-                      <span>
-                        <i class="fa-regular fa-square-check fs-4"></i>
-                      </span>
-                    }
-                    @else {
-                      <span>
-                        <i class="fa-regular fa-square fs-4"></i>
-                      </span>
-                    }
-                    <span class="ms-2">%</span>
-                  </div>
-                  <div class="d-flex align-items-center me-5">
-                    @if(guaranteeUnit === 'amount') {
-                      <span class="me-2">
-                        <i class="fa-regular fa-square-check fs-4"></i>
-                      </span>
-                    }
-                    @else {
-                      <span class="me-2">
-                        <i class="fa-regular fa-square fs-4"></i>
-                      </span>
-                    }
-                    <span>Amount</span>
-                  </div> -->
-
-                  <div class="d-flex">
-                    <span class="me-2 text-primary-light">
-                      <i class="fa fa-play"></i>
-                    </span>
-                    <!-- <span>{{guaranteeFees | currency : ' '}}</span> -->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- } (clossing bracket of if workstation plateform) -->
-            <div
-              class="col-lg-6 row align-items-center justify-content-between">
-              <div class="col-lg-8">
-                <select
-                  style="border: 1px solid #9d9d9d"
-                  id="period"
-                  placeholder="period"
-                  class="input form-select mb-1 mt-2 fs-4 p-2-3 simulator-input w-100">
-                  <option value="" selected i18n>Select frequency</option>
-                  <option value="1" i18n>Month</option>
-                  <option value="3" i18n>Quarter</option>
-                  <option value="6" i18n>Semester</option>
-                </select>
-              </div>
-            </div>
-            <div
-              class="col-lg-6 row align-items-center justify-content-between">
-              <div class="col-lg-8">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    id="payment"
-                    placeholder="payment number"
-                    class="input form-control mb-1 mt-2 fs-5 p-2-3 simulator-input" />
-                  <label for="payment" i18n>Payment number</label>
-                </div>
-              </div>
-            </div>
+            } -->
           </div>
-
-          <!-- REQUEST BUTTON IN WORKSTATION -->
-
-          <!-- @if (plateform === 'workStation'){ -->
-          <div class="w-100 mt-5 pt-2 d-flex justify-content-center">
-            <button
-              type="submit"
-              class="btn px-5 bg-primary d-flex justify-content-center py-2">
-              <b class="text-all-white" i18n>Confirm</b>
-            </button>
-          </div>
-          <!-- } (clossing bracket of if workStation plateform) -->
-
-          <!-- REQUEST BUTTON IN ONLINE BANKING -->
-
-          <!-- @if (plateform === 'onlineBanking'){ -->
-          <div class="w-100 mt-5 pt-2 d-flex justify-content-center">
-            <button
-              type="submit"
-              class="btn px-5 bg-primary d-flex justify-content-center py-2">
-              <b class="text-all-white" i18n>Confirm</b>
-            </button>
-          </div>
-          <!-- } (clossing bracket of if onlineBanking plateform) -->
-        </div>
-        <!-- } (clossing bracket of if isFormVisible) -->
+        }
       </div>
     </div>
   </div>
