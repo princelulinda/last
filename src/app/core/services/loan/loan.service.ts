@@ -47,9 +47,13 @@ export class LoanService {
     limit: number;
     offset: number;
   }) {
-    return this.apiService.get(
-      `/loans/clients/list/?limit=${limit}&offset=${offset}`
-    );
+    return this.apiService
+      .get(`/loans/clients/list/?limit=${limit}&offset=${offset}`)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
   getSimulationResult(result: SimulationResModel) {
     this._simulationResult.next(result);
