@@ -122,12 +122,14 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     this.theme$ = this.configService.getMode();
   }
   ngOnInit(): void {
-    this.route.params.subscribe({
-      next: data => {
-        this.merchantId = data['id'];
-        console.log('awdsdgdhgf', data);
-      },
-    });
+    if (this.route.params) {
+      this.route.params.subscribe({
+        next: data => {
+          this.merchantId = data['id'];
+          console.log('awdsdgdhgf', data);
+        },
+      });
+    }
     this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: theme => {
         this.theme = theme;
