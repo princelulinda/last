@@ -12,6 +12,7 @@ import { NotFound404Component } from './global/components/errors/not-found-404/n
 import { OnamobDashboardComponent } from './components/dashboards/onamob-dashboard/onamob-dashboard.component';
 import { AuthCorporateLayoutComponent } from './layouts/auth-corporate-layout/auth-corporate-layout.component';
 import { AuthCorporateComponent } from './components/auth/workstation/auth-corporate/auth-corporate.component';
+import { MyMarketDashboardComponent } from './components/products/my-market-dashboard/my-market-dashboard.component';
 
 export const routes: Routes = [
   // authentification routes
@@ -60,6 +61,8 @@ export const routes: Routes = [
         path: 'onamob',
         component: OnamobDashboardComponent,
       },
+
+      { path: 'my-market', component: MyMarketDashboardComponent },
       { path: '**', component: NotFound404Component },
     ],
   },
