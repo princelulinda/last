@@ -1,0 +1,109 @@
+.is-disabled {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+$color1: #a9dee5;
+$color2: #acd0db;
+$color3: #89bebe;
+$body-max-width: 200px;
+$pie-dimensions: $body-max-width;
+
+body {
+  background-color: #fce4ec;
+  font-family: Roboto, sans-serif;
+  color: #d81b60;
+}
+
+h1 {
+  margin-bottom: 3rem;
+}
+
+.container {
+
+  max-width: $body-max-width;
+
+  text-align: center;
+}
+
+.pie-chart {
+  position: relative;
+  width: $pie-dimensions;
+  height: $pie-dimensions;
+  border-radius: 50%;
+  background: $color3;
+  background-image: linear-gradient(to right, transparent 50%, $color2 0);
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    margin-left: 50%;
+    height: 100%;
+    border-radius: 0 100% 100% 0 / 50%;
+    transform-origin: left;
+  }
+  &::before {
+    background-color: $color2;
+    transform: rotate(0.1turn);
+  }
+  &::after {
+    margin-top: -100%;
+    background-color: $color1;
+    transform: rotate(0.4turn);
+  }
+}
+
+.pie-text {
+  position: absolute;
+  font-weight: bold;
+  &.text1 {
+    color: $color1;
+    left: 0;
+    bottom: 50px;
+  }
+  &.text2 {
+    color: $color2;
+    right: -26px;
+    top: 80px;
+  }
+  &.text3 {
+    color: $color3;
+    top: -15px;
+    left: 106px;
+  }
+}
+.miniSettings{
+
+  height: 50px;
+  width: 165px;
+  background-color: #f6f6f6;
+}
+.roundBox{
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+
+}
+
+.elementPosition{
+  border-radius: 15px;
+  background-color: #810019;
+  width: 150px;
+  margin-left: -9.5%;
+}
+.cardShopping{
+  font-size: 258%;
+  opacity: 0.5;
+  left: 39%;
+  top: 34%;
+}
+.dashboardBox{
+  height: 130px;
+  width: 206px;
+}
+.merchantsModal{
+  margin-top: 35%;
+  width: 1000px;
+  margin-left: -45%;
+  min-height: 50vh;
+}
