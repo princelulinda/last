@@ -12,7 +12,7 @@
   @if (accountsListData) {
     <div
       class="position-relative overflow-x-hidden overflow-y-auto"
-      style="min-width: 220px; height: 80vh; max-width: 320px">
+      style="min-width: 220px; height: 80vh; max-width: 360px">
       <div class="row p-3 d-flex justify-content-between align-items-center">
         <div style="margin-right: 10px" class="col pt-1 text-dark">
           <b i18n>Accounts</b>
@@ -31,10 +31,17 @@
           }
         </div>
 
-        <div class="col-1 pt-1 me-3" role="button">
-          <span title="Show balances">
-            <i class="fa-solid fa-eye text-dark"></i
-          ></span>
+        <div
+          class="col-1 pt-1 me-3 d-flex align-items-center"
+          role="button"
+          (click)="toggleAmountVisibility()"
+          tabindex="0">
+          <div *ngIf="isBalanceShown" title="Show balances">
+            <i class="fa-solid fa-eye-slash"></i>
+          </div>
+          <div *ngIf="!isBalanceShown" title="Show balances">
+            <i class="fa-solid fa-eye text-dark"></i>
+          </div>
         </div>
       </div>
 
@@ -87,13 +94,16 @@
               <div class="d-grid">
                 <b>{{ selectedLoneAccount.acc_holder }}</b>
                 <b class="fw-normal">{{ selectedLoneAccount.acc_number }}</b>
-                <b class="fw-normal text-success">
-                  <span>{{
-                    selectedLoneAccount.acc_available_balance | currency: ' '
-                  }}</span>
-
-                  {{ selectedLoneAccount.acc_currency }}</b
-                >
+                <b>
+                  <span>
+                    <app-amount-visibility
+                      [amount]="selectedLoneAccount.acc_number"
+                      [currency]="selectedLoneAccount.acc_currency"
+                      [ngClass]="
+                        'fw-normal text-success'
+                      "></app-amount-visibility>
+                  </span>
+                </b>
               </div>
 
               <div>
