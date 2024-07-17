@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionsService } from '../../../../core/services/sessions/sessions.service';
+import { SessionsService } from '../../../core/services/sessions/sessions.service';
 import {
   activeSessionResponse,
   historySessionResponse,
-} from '../sessions.model';
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+} from '../setting.model';
+
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { DatePipe } from '@angular/common';
 import { LowerCasePipe } from '@angular/common';
-import { PaginationConfig } from '../../../../global/global.model';
+import { PaginationConfig } from '../../../global/global.model';
 import { takeUntil, Subject } from 'rxjs';
 @Component({
   selector: 'app-sessions',
@@ -20,7 +21,6 @@ export class SessionsComponent implements OnInit {
   activeSessions!: activeSessionResponse[];
   historySessions!: historySessionResponse[];
   countActive!: number;
-
   activeSessionLoading = false;
   isLoadingHistorySessions = false;
   displaySessionFilters = false;
@@ -33,6 +33,7 @@ export class SessionsComponent implements OnInit {
   canMoveToNext = true;
   selectedId = '';
   detailButtonActiveSession = 'rotate(0deg)';
+  countHistory!: number;
 
   ngOnInit() {
     this.getActiveSession();
@@ -58,7 +59,7 @@ export class SessionsComponent implements OnInit {
           this.activeSessionLoading = false;
           this.activeSessions = data.objects;
           this.countActive = data.count;
-          console.log('operating system', this.osFamily);
+          console.log('operating system', this.countActive);
 
           if (this.activeSessions.length === 0) {
             //
@@ -82,6 +83,21 @@ export class SessionsComponent implements OnInit {
       this.getActiveSession();
     }
   }
+  doListMove2(action: string) {
+    if (action === 'next') {
+      this.currentPage += 1;
+    } else {
+      this.currentPage -= 1;
+    }
+
+    // condition just for typescript
+    if (this.pagination.filters.limit) {
+      this.pagination.filters.offset =
+        this.pagination.filters.limit * this.currentPage;
+      this.getHystorySession();
+      // console.log(this.currentPage);
+    }
+  }
   onButtonClick() {
     const searchValue = '';
     this.getActiveSession(searchValue);
@@ -97,7 +113,7 @@ export class SessionsComponent implements OnInit {
         next: data => {
           this.isLoadingHistorySessions = false;
           this.historySessions = data.objects;
-          this.count = data.count;
+          this.countHistory = data.count;
           if (this.historySessions.length === 0) {
             //
           }
