@@ -128,7 +128,6 @@ export class SessionsComponent implements OnInit {
   endActiveSession!: activeSessionResponse[];
   endSession(sessionId: string) {
     this.isLoadingEndSession = true;
-    // const sessionId = this.sessionId;
     this.SessionsService.endSession(sessionId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
