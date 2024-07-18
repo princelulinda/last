@@ -1,13 +1,13 @@
 <div>
   <!-- loader f -->
-  @if (!accountsListData && Type === 'list') {
+  @if (!walletsListData && Type === 'list') {
     <span
       class="text-center w-100 d-flex position-absolute justify-content-center h-100 align-items-center text-dark"
       title="Loading...">
       <i class="spinner-border"></i>
     </span>
   }
-  @if (!accountsListData && Type === 'transfer') {
+  @if (!walletsListData && Type === 'transfer') {
     <div
       class="bg-white p-3 border border-secondary border-2 mt-2 lg-radius"
       style="min-width: 300px">
@@ -20,7 +20,7 @@
   }
 
   <!-- list -->
-  @if (accountsListData && accountsListData.length > 0) {
+  @if (walletsListData && walletsListData.length > 0) {
     <div
       class="position-relative overflow-x-hidden overflow-y-auto"
       style="min-width: 220px; height: 80vh">
@@ -28,38 +28,31 @@
         <hr class="my-1" />
       }
       <!--*Accounts loop for large screens-->
-      @if (Type === 'list' || (Type === 'transfer' && !selectedLoneAccount)) {
+      @if (Type === 'list' || (Type === 'transfer' && !selectedLoneWallet)) {
         <div
           [ngClass]="{
-            'bg-white p-2 border border-secondary border-2 mt-2 ms-2 lg-radius overflow-y-auto':
+            'bg-white p-3 border border-secondary border-2 mt-2 ms-2 lg-radius overflow-y-auto':
               Type === 'transfer',
           }">
-          @for (account of accountsListData; track $index) {
+          @for (wallet of walletsListData; track $index) {
             <div
-              (click)="selectLoneAccount(account)"
+              (click)="selectLoneAccount(wallet)"
               tabindex="0"
               class="d-grid ps-3 py-0 rounded b-left"
               [ngClass]="{
                 account: Type === 'transfer',
-                cliped: selectedLoneAccount === account && Type === 'list',
-                'not-clickable':
-                  account.acc_status.status_code === 'B' ||
-                  account.acc_status.status_code === 'C',
-                'opacity-50':
-                  account.acc_status.status_code === 'B' ||
-                  account.acc_status.status_code === 'C',
-                'border-gray':
-                  account.acc_status.status_code === 'B' ||
-                  account.acc_status.status_code === 'C',
+                cliped: selectedLoneWallet === wallet && Type === 'list',
               }"
               role="button">
-              <b class="fw-bold">{{ account.acc_account_type }}</b>
-              <b class="fw-normal">{{ account.acc_holder }}</b>
-              <b class="fw-normal">{{ account.acc_number }}</b>
+              <b class="fw-bold">{{ wallet.title }}</b>
+              <b class="fw-normal">{{ wallet.account.account_holder }}</b>
+              @if (Type === 'list') {
+                <b class="fw-normal">{{ wallet.code }}</b>
+              }
               <b>
                 <app-amount-visibility
-                  [amount]="account.acc_available_balance"
-                  [currency]="account.acc_currency"
+                  [amount]="wallet.available_balance"
+                  [currency]="wallet.currency"
                   [ngClass]="
                     'fw-normal text-success fw-bold'
                   "></app-amount-visibility>
@@ -70,19 +63,21 @@
         </div>
       }
 
-      @if (Type === 'transfer' && selectedLoneAccount) {
-        <div class="mt-3 w-100 lg-radius">
+      @if (Type === 'transfer' && selectedLoneWallet) {
+        <div class="mt-3 lg-radius">
           <div class="p-2 ms-2 lg-radius bg-white">
             <div
               class="d-flex align-items-start justify-content-between ps-2 py-0 b-left">
               <div class="d-grid ps-3 py-0">
-                <b>{{ selectedLoneAccount.acc_holder }}</b>
-                <b class="fw-normal">{{ selectedLoneAccount.acc_number }}</b>
+                <b>{{ selectedLoneWallet.title }}</b>
+                <b class="fw-normal">{{
+                  selectedLoneWallet.account.account_holder
+                }}</b>
                 <b>
                   <span>
                     <app-amount-visibility
-                      [amount]="selectedLoneAccount.acc_available_balance"
-                      [currency]="selectedLoneAccount.acc_currency"
+                      [amount]="selectedLoneWallet.available_balance"
+                      [currency]="selectedLoneWallet.currency"
                       [ngClass]="
                         'fw-normal text-success'
                       "></app-amount-visibility>
@@ -94,7 +89,7 @@
                 <span
                   role="button"
                   class="bg-danger text-white ms-5 pt-1 px-1 rounded-circle"
-                  (click)="clearSelectedAccount()"
+                  (click)="clearSelectedWallet()"
                   tabindex="0">
                   <i class="fa fa-xmark"></i>
                 </span>
@@ -107,11 +102,11 @@
   }
   <!--*No accounts message-->
   <span
-    *ngIf="accountsListData && accountsListData.length === 0"
+    *ngIf="walletsListData && walletsListData.length === 0"
     class="text-center w-100 h-100 align-items-center d-flex justify-content-center text-dark">
     <span class="text-secondary">
       <i class="fa fa-ban me-1"></i>
-      <b>You don't have any account</b>
+      <b>You don't have any wallet</b>
     </span>
   </span>
 </div>

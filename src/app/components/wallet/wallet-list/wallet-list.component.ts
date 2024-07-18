@@ -7,7 +7,6 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-
 import {
   activeMainConfigModel,
   AuthService,
@@ -15,34 +14,33 @@ import {
 } from '../../../core/services';
 import { ClientService } from '../../../core/services/client/client.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
-import { accountsList } from '../models';
+import { WalletList } from '../models';
 import { CommonModule } from '@angular/common';
-
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 @Component({
-  selector: 'app-accounts-list',
+  selector: 'app-wallet-list',
   standalone: true,
   imports: [CommonModule, AmountVisibilityComponent],
-  templateUrl: './accounts-list.component.html',
-  styleUrl: './accounts-list.component.scss',
+  templateUrl: './wallet-list.component.html',
+  styleUrl: './wallet-list.component.scss',
 })
-export class AccountsListComponent implements OnInit, OnDestroy {
+export class WalletListComponent implements OnInit, OnDestroy {
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
   private userInfo$: Observable<UserInfoModel>;
   clientInfo!: UserInfoModel;
   clientId!: number;
   isLoading = false;
-  accountsListData: accountsList[] | [] | null = null;
+  walletsListData: WalletList[] | [] | null = null;
 
-  selectedLoneAccount: accountsList | null = null;
-  selectedAccount!: accountsList[];
-  isLoneAccountSelected = false;
+  selectedLoneWallet: WalletList | null = null;
+  selectedWallet!: WalletList[];
+  isLoneWalletSelected = false;
 
   // close the account's creation form
   closeForm = false;
   @Input() Type: 'transfer' | 'list' = 'transfer';
-  @Output() accountSelected = new EventEmitter<accountsList>();
+  @Output() walletSelected = new EventEmitter<WalletList>();
 
   private onDestroy$ = new Subject<void>();
 
@@ -54,7 +52,6 @@ export class AccountsListComponent implements OnInit, OnDestroy {
     this.mainConfig$ = this.configService.getMainConfig();
     this.userInfo$ = this.authService.getUserInfo();
   }
-
   ngOnInit(): void {
     this.userInfo$.subscribe({
       next: userinfo => {
@@ -73,16 +70,11 @@ export class AccountsListComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-  }
-
   getClientAccounts() {
     this.isLoading = true;
-    this.clientService.getClientAccounts(this.clientId).subscribe({
+    this.clientService.getWallets(this.clientId).subscribe({
       next: response => {
-        this.accountsListData = response.objects;
+        this.walletsListData = response.objects;
         this.isLoading = false;
       },
       error: err => {
@@ -91,22 +83,19 @@ export class AccountsListComponent implements OnInit, OnDestroy {
       },
     });
   }
-
-  clearSelectedAccount() {
-    this.selectedLoneAccount = null;
+  clearSelectedWallet() {
+    this.selectedLoneWallet = null;
   }
 
-  selectLoneAccount(account: accountsList) {
-    this.selectedLoneAccount = account;
-    this.isLoneAccountSelected = true;
+  selectLoneAccount(wallet: WalletList) {
+    this.selectedLoneWallet = wallet;
+    this.isLoneWalletSelected = true;
     this.isLoading = false;
     this.closeForm = false;
-    this.accountSelected.emit(account);
+    this.walletSelected.emit(wallet);
   }
-
-  refresh() {
-    this.accountsListData = null;
-    this.isLoading = true;
-    this.getClientAccounts();
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

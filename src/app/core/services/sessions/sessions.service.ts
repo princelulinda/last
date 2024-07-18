@@ -35,4 +35,8 @@ export class SessionsService {
     const url = `/erp/session/?active=false&search=${search}&limit=${pagination.filters.limit}&offset=${pagination.filters.offset}`;
     return this.apiService.get(url);
   }
+  endSession(sessionId: string): Observable<activeSessionResponse> {
+    const url = `/erp/session/${sessionId}/close/`;
+    return this.apiService.post(url);
+  }
 }

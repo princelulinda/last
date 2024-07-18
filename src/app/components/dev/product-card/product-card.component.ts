@@ -10,7 +10,7 @@ import { ProductModel } from '../../products/products.model';
   styleUrl: './product-card.component.scss',
 })
 export class ProductCardComponent {
-  @Input() product: ProductModel | [] | null = null;
+  @Input() product!: ProductModel;
   @Input() merchant = '';
   @Input() get_merchant!: boolean;
   @Input() get_product!: boolean;
