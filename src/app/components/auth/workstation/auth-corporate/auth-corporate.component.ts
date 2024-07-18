@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 
 import {
   AuthService,
@@ -32,15 +32,15 @@ export class AuthCorporateComponent implements OnInit {
   ngOnInit() {
     this.dialogService.dispatchSplashScreen();
     this.getOperatorOperator_organization();
-    this.operatorIsAuthenticated$.subscribe({
-      next: state => {
-        if (state) {
-          this.dialogService.closeDialog();
-        } else {
-          this.getConnectedOperator();
-        }
-      },
-    });
+    // this.operatorIsAuthenticated$.subscribe({
+    //   next: state => {
+    //     if (state) {
+    //       this.dialogService.closeDialog();
+    //     } else {
+    //       this.getConnectedOperator();
+    //     }
+    //   },
+    // });
   }
 
   getConnectedOperator() {
@@ -65,6 +65,33 @@ export class AuthCorporateComponent implements OnInit {
   }
 
   getOperatorOperator_organization() {
-    // code
+    this.authService
+      .getConnectedOperator()
+      .pipe(
+        switchMap(operator =>
+          this.authService.getOperatorOrganizations().pipe(
+            map(data => {
+              return { operator: operator, organisations: data };
+            })
+          )
+        )
+      )
+      .subscribe({
+        next: response => {
+          const connectedOperator =
+            response.operator.object.response_data.object;
+          // const organizations = response.organisations.objects;
+
+          const operator: connectedOperatorModel = {
+            organization: connectedOperator.organization,
+            operator: {
+              id: connectedOperator.operator.id,
+              isTeller: connectedOperator.operator.is_teller,
+              isTreasurer: connectedOperator.operator.is_treasurer,
+            },
+          };
+          this.configService.setOperator(operator);
+        },
+      });
   }
 }
