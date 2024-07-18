@@ -120,6 +120,34 @@ export interface LoanListModel {
   id: number;
 }
 
+export interface MainAccountModel {
+  acc_account_type: string;
+  acc_bank_id: number;
+  acc_client: number;
+  acc_client_type: string;
+  acc_currency: string;
+  acc_get_title: string;
+  acc_holder: string;
+  acc_number: string;
+  acc_short_number: string;
+}
+
+export interface LoanPendingModel {
+  amount: string;
+  created_at: string;
+  cred_defaults: number;
+  fees_amount: string;
+  fees_rate: string;
+  first_date: string;
+  id: string;
+  interests_rate: string;
+  main_account: MainAccountModel;
+  payment_number: number;
+  penalities_rate: string;
+  period: number;
+  status: CredStatusModel;
+}
+
 export interface LoanListResponseModel {
   response_code: string;
   response_data: LoanListModel[];
