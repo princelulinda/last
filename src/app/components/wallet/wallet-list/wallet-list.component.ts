@@ -1,70 +1,80 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ConfigService, activeMainConfigModel } from '../../../core/services';
-import { Observable } from 'rxjs';
-import { UserInfoModel } from '../../../core/db/models/auth';
-import { AuthService } from '../../../core/services';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  OnDestroy,
+} from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import {
+  activeMainConfigModel,
+  AuthService,
+  ConfigService,
+} from '../../../core/services';
 import { ClientService } from '../../../core/services/client/client.service';
+import { UserInfoModel } from '../../../core/db/models/auth';
 import { WalletList } from '../models';
-import { Location } from '@angular/common';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 @Component({
   selector: 'app-wallet-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, AmountVisibilityComponent],
   templateUrl: './wallet-list.component.html',
   styleUrl: './wallet-list.component.scss',
 })
 export class WalletListComponent implements OnInit, OnDestroy {
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
-  clientInfo!: UserInfoModel;
-  isLoneWalletSelected = false;
   private userInfo$: Observable<UserInfoModel>;
-  isLoading = false;
+  clientInfo!: UserInfoModel;
   clientId!: number;
-  selectedWallet!: WalletList;
-  wallet!: WalletList;
-  //selected Wallet for medium and small screens
-  selectedLoneWallet!: WalletList;
+  isLoading = false;
+  walletsListData: WalletList[] | [] | null = null;
 
-  isWalletDetailsShown = false;
-  walletsOnlineBanking: WalletList[] | [] | null = null;
+  selectedLoneWallet: WalletList | null = null;
+  selectedWallet!: WalletList[];
+  isLoneWalletSelected = false;
+
+  // close the account's creation form
+  closeForm = false;
+  @Input() Type: 'transfer' | 'list' = 'transfer';
+  @Output() walletSelected = new EventEmitter<WalletList>();
+
+  private onDestroy$ = new Subject<void>();
+
   constructor(
     private configService: ConfigService,
     private authService: AuthService,
-    private clientService: ClientService,
-    private location: Location
+    private clientService: ClientService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.userInfo$ = this.authService.getUserInfo();
   }
   ngOnInit(): void {
-    this.mainConfig$.subscribe({
-      next: configs => {
-        this.mainConfig = configs;
-      },
-    });
     this.userInfo$.subscribe({
       next: userinfo => {
         this.clientInfo = userinfo;
         this.clientId = this.clientInfo.client.id;
         if (this.clientId) {
-          this.getClientWalletsOnlineBanking();
+          this.getClientAccounts();
         }
       },
     });
 
-    this.clientService.isDetailsWalletShown$.subscribe((response: boolean) => {
-      this.isWalletDetailsShown = response;
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.mainConfig = configs;
+      },
     });
   }
 
-  getClientWalletsOnlineBanking() {
+  getClientAccounts() {
     this.isLoading = true;
     this.clientService.getWallets(this.clientId).subscribe({
       next: response => {
-        this.walletsOnlineBanking = response.objects;
+        this.walletsListData = response.objects;
         this.isLoading = false;
       },
       error: err => {
@@ -73,30 +83,19 @@ export class WalletListComponent implements OnInit, OnDestroy {
       },
     });
   }
+  clearSelectedAccount() {
+    this.selectedLoneWallet = null;
+  }
 
-  selectLoneWallet(wallet: WalletList) {
-    this.selectedLoneWallet = wallet;
+  selectLoneAccount(account: WalletList) {
+    this.selectedLoneWallet = account;
     this.isLoneWalletSelected = true;
     this.isLoading = false;
-
-    this.selectedWallet = wallet;
-  }
-
-  selectWallet(wallet: WalletList) {
-    this.isLoading = false;
-    this.selectedWallet = wallet;
-  }
-
-  goBack() {
-    this.location.back();
-    this.isLoneWalletSelected = false;
-  }
-  refresh() {
-    //  this.walletsOnlineBanking = []; // Initialize as an empty array
-    this.isLoading = true;
-    this.getClientWalletsOnlineBanking();
+    this.closeForm = false;
+    // this.accountSelected.emit(account);
   }
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
