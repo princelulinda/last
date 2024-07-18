@@ -90,13 +90,10 @@ export class SessionsComponent implements OnInit {
     } else {
       this.currentPage -= 1;
     }
-
-    // condition just for typescript
     if (this.pagination.filters.limit) {
       this.pagination.filters.offset =
         this.pagination.filters.limit * this.currentPage;
       this.getHystorySession();
-      // console.log(this.currentPage);
     }
   }
   onButtonClick() {
