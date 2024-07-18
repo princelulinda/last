@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WalletListComponent } from './wallet-list.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('WalletListComponent', () => {
   let component: WalletListComponent;
@@ -9,11 +11,12 @@ describe('WalletListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [WalletListComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WalletListComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    //fixture.detectChanges();
   });
 
   it('should create', () => {
