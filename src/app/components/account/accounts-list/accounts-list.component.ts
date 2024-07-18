@@ -7,7 +7,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+
 import {
   activeMainConfigModel,
   AuthService,
@@ -17,7 +17,7 @@ import { ClientService } from '../../../core/services/client/client.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { accountsList } from '../models';
 import { CommonModule } from '@angular/common';
-import { DialogService } from '../../../core/services';
+
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 @Component({
   selector: 'app-accounts-list',
@@ -38,11 +38,10 @@ export class AccountsListComponent implements OnInit, OnDestroy {
   selectedLoneAccount: accountsList | null = null;
   selectedAccount!: accountsList[];
   isLoneAccountSelected = false;
-  isBalanceShown = false;
 
   // close the account's creation form
   closeForm = false;
-  @Input() listType: 'transfer' | 'list' = 'transfer';
+  @Input() Type: 'transfer' | 'list' = 'transfer';
   @Output() accountSelected = new EventEmitter<accountsList>();
 
   private onDestroy$ = new Subject<void>();
@@ -50,8 +49,7 @@ export class AccountsListComponent implements OnInit, OnDestroy {
   constructor(
     private configService: ConfigService,
     private authService: AuthService,
-    private clientService: ClientService,
-    private dialogService: DialogService
+    private clientService: ClientService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.userInfo$ = this.authService.getUserInfo();
@@ -68,13 +66,6 @@ export class AccountsListComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.dialogService
-      .getAmountState()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((isShowed: boolean) => {
-        this.isBalanceShown = isShowed;
-      });
-
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
@@ -85,10 +76,6 @@ export class AccountsListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
-  }
-
-  toggleAmountVisibility() {
-    this.dialogService.displayAmount();
   }
 
   getClientAccounts() {
