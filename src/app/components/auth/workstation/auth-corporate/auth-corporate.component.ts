@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+
+import { Observable } from 'rxjs';
+
 import {
   AuthService,
   ConfigService,
   DialogService,
 } from '../../../../core/services';
 import { connectedOperatorModel } from '../../auth.model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-auth-corporate',
@@ -29,6 +31,7 @@ export class AuthCorporateComponent implements OnInit {
 
   ngOnInit() {
     this.dialogService.dispatchSplashScreen();
+    this.getOperatorOperator_organization();
     this.operatorIsAuthenticated$.subscribe({
       next: state => {
         if (state) {
@@ -59,5 +62,9 @@ export class AuthCorporateComponent implements OnInit {
         console.log('Salut les gens', err);
       },
     });
+  }
+
+  getOperatorOperator_organization() {
+    // code
   }
 }

@@ -14,6 +14,7 @@ import {
   resetPasswordResponse,
   otpVerificationResponse,
   conectedOperatorApiResponseModel,
+  organizationModel,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
@@ -60,9 +61,15 @@ export class AuthService {
     return localToken !== null;
   }
 
-  populateOperator() {
+  getOperatorOrganizations(): Observable<{
+    objects: organizationModel[];
+    count: number;
+  }> {
     return this.apiService
-      .get('/hr/access/operator/organizations/?populate=true')
+      .get<{
+        objects: organizationModel[];
+        count: number;
+      }>('/hr/access/operator/organizations/?populate=true')
       .pipe(map(data => data));
   }
 
