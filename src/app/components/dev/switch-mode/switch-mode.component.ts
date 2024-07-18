@@ -9,21 +9,18 @@ import { CommonModule } from '@angular/common';
   templateUrl: './switch-mode.component.html',
   styleUrls: ['./switch-mode.component.scss'],
 })
-
 export class SwitchModeComponent implements OnInit {
-
   mode!: ModeModel;
 
   constructor(private configService: ConfigService) {}
 
   ngOnInit() {
-
     this.configService.getMode().subscribe({
-      next : response => {
+      next: response => {
         this.mode = response;
-        console.log("mode récupéré:",this.mode);
-      }
-    })
+        console.log('mode récupéré:', this.mode);
+      },
+    });
   }
 
   onThemeSwitchChange() {

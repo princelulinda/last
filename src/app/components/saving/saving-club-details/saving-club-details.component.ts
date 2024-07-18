@@ -26,8 +26,6 @@ export class SavingClubDetailsComponent implements OnInit {
   getSavingData() {
     this.savingDetailService.getSavingData(this.tontineId).subscribe({
       next: (response: { tontine: TontineDataModele }) => {
-        // Puisque 'response.tontine' est un objet, vous pouvez l'assigner directement
-        // à 'this.savingData' si 'this.savingData' est de type 'TontineDataModele | null'
         this.savingData = response.tontine;
         console.log('Données de tontine:', this.savingData);
       },
