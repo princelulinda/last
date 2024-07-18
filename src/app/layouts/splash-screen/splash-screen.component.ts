@@ -22,7 +22,7 @@ export class SplashScreenComponent implements OnInit, AfterViewInit {
   splashScreenElement: HTMLElement | null = null;
   splashScreenState = false;
 
-  imageUrl = '/images/auth/ihela3.png';
+  imageUrl = '/images/auth/ihela-ryanje.png';
 
   constructor(
     private configService: ConfigService,
@@ -46,7 +46,7 @@ export class SplashScreenComponent implements OnInit, AfterViewInit {
       next: plateform => {
         this.plateform = plateform;
         if (plateform === 'workstation') {
-          this.imageUrl = '/images/magis.png';
+          this.imageUrl = '/images/logo/magis-erp.png';
         }
       },
     });

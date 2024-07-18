@@ -1,0 +1,130 @@
+<!-- TODO :: Presentation section -->
+<section class="pb-4 row align-items-center justify-content-center mx-0">
+  <div
+    class="col-11 col-md-7 col-lg-5 mt-3 mt-md-0 text-sm-center text-md-start d-flex flex-column">
+    <b class="fs-xx-large">
+      <span i18n
+        >Manage better, grow faster <br />
+        with <span class="text-primary">Magis ERP</span></span
+      >
+    </b>
+    <span class="fs-l-medium mt-3" i18n>
+      The ideal solution for businesses of all sizes looking
+      <br class="d-none d-md-block" />
+      to improve their operations and stimulate their growth.
+    </span>
+  </div>
+  <div class="col-10 col-sm-7 col-md-4">
+    <div class="col-lg-10 ms-auto">
+      <img
+        class="image"
+        src="/images/logo/magis-erp.png"
+        alt="Magis ERP Logo" />
+    </div>
+  </div>
+</section>
+
+<!-- TODO :: Trusted by Section -->
+<section class="bg-erp py-4 position-relative">
+  <div class="text-center mb-3 text-secondary">
+    <b class="fs-l-medium" i18n>Trusted by</b>
+  </div>
+  <section
+    class="row col-md-9 col-lg-10 col-xxl-8 mx-auto justify-content-center justify-content-sm-start align-items-center"
+    style="gap: 1rem 0">
+    <div class="col-6 col-sm-4 col-md-3 border-end">
+      <div class="logo-size mx-auto">
+        <img
+          src="/images/logo/ihela-credit-union.png"
+          alt=""
+          class="image object-fit-contain" />
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3 border-end">
+      <div class="logo-size mx-auto">
+        <img
+          src="/images/logo/socade.png"
+          alt=""
+          class="image object-fit-contain" />
+      </div>
+    </div>
+
+    <div class="col-6 col-sm-4 col-md-3 border-end">
+      <div class="logo-size mx-auto">
+        <img
+          src="/images/logo/CECD_ART.png"
+          alt=""
+          class="image object-fit-contain" />
+      </div>
+    </div>
+    <div class="col-6 col-sm-4 col-md-3">
+      <div class="logo-size mx-auto">
+        <img
+          src="/images/logo/les-champions.png"
+          alt=""
+          class="image object-fit-contain" />
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- TODO :: ORGANISATIONS , INVITATION AND REQUEST SECTION -->
+<section class="mt-5 mb-3 mx-auto">
+  @if (organization) {
+    <div class="row mx-0 justify-content-center">
+      <!-- TODO :: INVITIATIONS SECTION -->
+      <section class="col-lg-5 px-0 px-md-auto">
+        <div class="fs-x-large col-11 mx-auto text-center text-md-start">
+          <b i18n>Your Organizations</b>
+        </div>
+        <div
+          class="row mx-0 mt-3 justify-content-center justify-content-sm-start"
+          style="gap: 2rem 0">
+          @for (_ of [0, 2, 2]; track $index) {
+            <div class="d-flex flex-column align-items-center col-5 col-sm-4">
+              <div
+                class="sm-radius organization-logo d-flex justify-content-center align-items-center p-3 bg-white">
+                <img
+                  src="/images/logo/ihela-ryanje.png"
+                  class="image"
+                  alt="organization logo" />
+              </div>
+              <div class="mt-1 text-center">
+                <small><b>iHela Microfinance</b></small>
+              </div>
+            </div>
+          }
+          <!-- add organization -->
+          <div class="d-flex flex-column align-items-center col-5 col-sm-4">
+            <div
+              class="sm-radius organization-logo d-flex justify-content-center align-items-center bg-white">
+              <span class="text-primary fs-x-large"
+                ><i class="fa-solid fa-plus"></i
+              ></span>
+            </div>
+            <div class="mt-1 text-center">
+              <small> <b i18n>Add Organization</b></small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TODO :: REQUEST INVITTATIONS SECTION -->
+      <section class="col-5"></section>
+    </div>
+  } @else {
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <b class="fs-x-large" i18n>Join Magis ERP and unlock growth!</b>
+      <span class="mt-4">
+        Elevate your business and unlock a world of opportunities to reach more
+        customers, boost visibility, manage your business seamlessly, and gain
+        valuable insights that drive growth.
+      </span>
+      <div class="text-center mt-5">
+        <button class="btn bg-primary text-all-white lg-radius px-5 py-2" i18n>
+          <b class="fs-l-medium">Get started</b>
+        </button>
+      </div>
+    </div>
+  }
+</section>

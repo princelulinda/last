@@ -130,7 +130,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //     this.onlineBankingHeaderImage =
     //         '../../../assets/images/ihela_christmas.png';
     // } else {
-    //     this.onlineBankingHeaderImage = '../../../assets/images/ihela3.png';
+    //     this.onlineBankingHeaderImage = '../../../assets/images/ihela-ryanje.png';
     // }
 
     // this.eyeStatus$.subscribe({

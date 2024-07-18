@@ -11,7 +11,6 @@ import {
   EmailVerificationResponse,
   createAccountResponse,
   phoneNumberVerificaitonResponse,
-  bankListResponse,
   resetPasswordResponse,
   otpVerificationResponse,
 } from '../../../components/auth/auth.model';
@@ -195,11 +194,6 @@ export class AuthService {
   //   return this.apiService.get(url);
 
   // }
-
-  getBanksList(): Observable<{ objects: bankListResponse[] }> {
-    const url = '/banks/list/?externel_request=true&bank_type=MFI';
-    return this.apiService.get<{ objects: bankListResponse[] }>(url);
-  }
 
   verifyEmail(email: string): Observable<EmailVerificationResponse> {
     const url = `/extid/verification/?externel_request=true&type=email&value=${email}`;

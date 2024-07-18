@@ -285,69 +285,52 @@
       </div>
     </div>
     <div class="row g-0">
-      <div class="col-2 me-4">
-        <div>
-          <div class="card bg-all-dark text-white">
-            <span
-              ><img
-                src="https://media.istockphoto.com/id/1419621205/photo/wrist-watch-with-a-leather-strap-on-a-black-background-close-up.jpg?s=1024x1024&w=is&k=20&c=-VoaycgCC1sJDO0upVFjXqa-fFwhdcGkZya4qxl7ENE="
-                height="70"
+      @for (item of first4; track $index) {
+        <div class="col-2 me-4" id="{{ item.id }}">
+          @if (item.icon) {
+            <div class="card bg-all-dark text-white">
+              <img
+                src="{{ item.icon }}"
                 class="card-img object-fit-cover lg-radius opacity-75"
-                alt="watch1"
-            /></span>
-            <div class="card-img-overlay">
-              <p class="card-text text-center fw-bold mt-2">Watch</p>
+                alt="" />
+              @if (item.name) {
+                <div class="card-img-overlay">
+                  <p class="card-text text-center fw-bold mt-2">
+                    {{ item.name }}
+                  </p>
+                </div>
+              }
             </div>
-          </div>
+          } @else {
+            <div class="card bg-secondary text-white">
+              <span class="">
+                <i
+                  class="fa-solid fa-mountain-sun fa-2x my-3 ps-5"
+                  style="color: #838383"></i>
+              </span>
+              @if (item.name) {
+                <div class="card-img-overlay">
+                  <p class="card-text text-center fw-bold mt-2">
+                    {{ item.name }}
+                  </p>
+                </div>
+              }
+            </div>
+          }
         </div>
-      </div>
-      <div class="col-2 me-4">
-        <div class="card bg-all-dark text-white">
-          <span
-            ><img
-              src="https://images.unsplash.com/photo-1648104063874-6d0171132211?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              height="70"
-              class="card-img object-fit-cover lg-radius opacity-75"
-              alt="watch1"
-          /></span>
-          <div class="card-img-overlay">
-            <p class="card-text text-center fw-bold mt-2">Electronics</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-2 me-4">
-        <div class="card bg-secondary text-white">
-          <span class="">
-            <!-- <img
-              src="/images/lumi.png "
-              height="70"
-              class="card-img object-fit-cover lg-radius opacity-75"
-              alt="watch1"
-          /> -->
-            <i
-              class="fa-solid fa-mountain-sun fa-2x my-3 ps-5"
-              style="color: #838383"></i>
-          </span>
-          <div class="card-img-overlay">
-            <p class="card-text text-center fw-bold mt-2">Airtime</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-2 me-4">
-        <div class="card bg-all-dark text-white">
-          <span
-            ><img
-              src="https://images.unsplash.com/photo-1648104063874-6d0171132211?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              height="70"
-              class="card-img object-fit-cover lg-radius opacity-75"
-              alt="watch1"
-          /></span>
-          <div class="card-img-overlay">
-            <p class="card-text text-center fw-bold mt-2">Electronics</p>
-          </div>
-        </div>
-      </div>
+      }
     </div>
+
+    @if (!productCategory) {
+      <div class="row ms-2">
+        @for (item of [1, 2]; track $index) {
+          <div class="col-lg-3 col-md-2 col-sm-4 col mb-2">
+            <app-skeleton height="65px" width="85%" classes="sm-radius">
+            </app-skeleton>
+          </div>
+        }
+      </div>
+    }
   </div>
 
   <!-- recent product -->
@@ -380,7 +363,7 @@
       </div>
     </section>
   </div> -->
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-10">
       <h5 class="fs-medium fw-bold mt-4">Recent product</h5>
     </div>
@@ -406,7 +389,7 @@
         <app-product-card></app-product-card>
       </div>
     }
-  </div>
+  </div> -->
   <!-- recent billers -->
   <div class="mt-5">
     <div class="row mb-3">
@@ -417,12 +400,27 @@
         <div class="row">
           <div class="col-3 me-4">
             <span
-              class="border rounded-circle text-secondary py-1 px-2 opacity-50">
+              class="border rounded-circle py-1 px-2"
+              [ngClass]="{
+                'opacity-50 text-secondary': start === 0,
+                'text-dark opacity-100': end >= 5,
+              }"
+              id="navigationButton"
+              (click)="previousBiller()"
+              tabindex="0">
               <i class="fa-solid fa-arrow-left fa-xs"></i>
             </span>
           </div>
           <div class="col-3">
-            <span class="border rounded-circle text-dark py-1 px-2">
+            <span
+              class="border rounded-circle py-1 px-2"
+              [ngClass]="{
+                'opacity-50 text-secondary': end === 13,
+                'text-dark opacity-100': end < 13,
+              }"
+              id="navigationButton"
+              (click)="nextBiller()"
+              tabindex="0">
               <i class="fa-solid fa-arrow-right fa-xs"></i>
             </span>
           </div>
@@ -430,127 +428,82 @@
       </div>
     </div>
     <!-- *** -->
-    <div class="row">
-      <div class="col-3">
-        <div class="border sm-radius">
-          <div class="row">
-            <div class="position-relative">
-              <div class="bg-input m-1 sm-radius">
-                <span
-                  class="favorite-star bg-all-white p-1 rounded-circle position-absolute end-0 me-4 mt-3 d-flex"
-                  data-id="123">
-                  <i class="fa-solid fa-star text-primary"></i>
-                </span>
-                <span class="d-flex justify-content-center">
-                  <i
-                    class="fa-solid fa-box-open fa-5x my-5"
-                    style="color: #ffffff"></i>
-                </span>
+
+    @if (billers) {
+      <div class="row">
+        @for (item of first5; track $index) {
+          @if (item) {
+            <div class="col-3" (click)="openModal(item, $event)" tabindex="0">
+              <div class="border sm-radius">
+                <div class="row">
+                  <div class="position-relative">
+                    <div class="bg-input m-1 sm-radius">
+                      <!-- <span
+                       class="favorite-star bg-all-white p-1 rounded-circle position-absolute end-0 me-4 mt-3 d-flex"
+                       data-id="123">
+                       <i class="fa-solid fa-star text-primary"></i>
+                     </span> -->
+                      @if (item.lookup_image) {
+                        <div class="col-12" style="height: 178px">
+                          <img
+                            src="{{ item.lookup_image }}"
+                            class="w-100 h-100 object-fit-cover sm-radius"
+                            alt="billerImg" />
+                        </div>
+                      } @else {
+                        <span class="d-flex justify-content-center">
+                          <i
+                            class="fa-solid fa-box-open fa-5x my-5"
+                            style="color: #ffffff"></i>
+                        </span>
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div class="row ms-0 mt-2">
+                  <h6 class="fs-x-small">
+                    {{ item.lookup_title }} ({{ item.lookup_subtitle }})
+                  </h6>
+                </div>
+
+                <div class="row ms-0">
+                  <div class="col-8">
+                    <p class="text-secondary fs-x-small">Category</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="row ms-0 mt-2">
-            <h6 class="fs-x-small">OBR (23785)</h6>
-          </div>
+          }
+        }
 
-          <div class="row ms-0">
-            <div class="col-8">
-              <p class="text-secondary fs-x-small">Category</p>
-            </div>
-          </div>
-        </div>
+        <!-- ********************************* -->
       </div>
-      <!-- ********************************* -->
-      <div class="col-3">
-        <div class="border sm-radius">
-          <div class="row">
-            <div class="position-relative">
-              <div class="bg-input m-1 sm-radius">
-                <span
-                  class="favorite-star bg-all-white p-1 rounded-circle position-absolute end-0 me-4 mt-3 d-flex"
-                  data-id="123">
-                  <i class="fa-solid fa-star text-primary"></i>
-                </span>
-                <span class="d-flex justify-content-center">
-                  <i
-                    class="fa-solid fa-box-open fa-5x my-5"
-                    style="color: #ffffff"></i>
-                </span>
-              </div>
+    }
+    <div *ngIf="!billers">
+      <div class="row ms-2">
+        @for (item of [1, 2, 3, 4]; track $index) {
+          <div class="col-lg-3 col-md-2 col-sm-4 col mb-2">
+            <app-skeleton
+              height="140px"
+              width="170px"
+              classes="sm-radius"></app-skeleton>
+            <div>
+              <app-skeleton
+                height="10px"
+                width="30px"
+                classes="sm-radius"
+                appearance="line"></app-skeleton>
+            </div>
+            <div>
+              <app-skeleton
+                height="10px"
+                width="50px"
+                classes="sm-radius"
+                appearance="line"></app-skeleton>
             </div>
           </div>
-          <div class="row ms-0 mt-2">
-            <h6 class="fs-x-small">Maronko Shop (23785)</h6>
-          </div>
-
-          <div class="row ms-0">
-            <div class="col-8">
-              <p class="text-secondary fs-x-small">Category</p>
-            </div>
-          </div>
-        </div>
+        }
       </div>
-      <!-- ********************************* -->
-      <div class="col-3">
-        <div class="border sm-radius">
-          <div class="row">
-            <div class="position-relative">
-              <div class="bg-input m-1 sm-radius">
-                <span
-                  class="favorite-star bg-all-white p-1 rounded-circle position-absolute end-0 me-4 mt-3 d-flex"
-                  data-id="123">
-                  <i class="fa-solid fa-star text-primary"></i>
-                </span>
-                <span class="d-flex justify-content-center">
-                  <i
-                    class="fa-solid fa-box-open fa-5x my-5"
-                    style="color: #ffffff"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="row ms-0 mt-2">
-            <h6 class="fs-x-small">Maronko Shop (23785)</h6>
-          </div>
-
-          <div class="row ms-0">
-            <div class="col-8">
-              <p class="text-secondary fs-x-small">Category</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- ********************************* -->
-      <div class="col-3">
-        <div class="border sm-radius">
-          <div class="row">
-            <div class="position-relative">
-              <div class="bg-input m-1 sm-radius">
-                <span
-                  class="favorite-star bg-all-white p-1 rounded-circle position-absolute end-0 me-4 mt-3 d-flex"
-                  data-id="123">
-                  <i class="fa-solid fa-star text-primary"></i>
-                </span>
-                <span class="d-flex justify-content-center">
-                  <i
-                    class="fa-solid fa-box-open fa-5x my-5"
-                    style="color: #ffffff"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="row ms-0 mt-2">
-            <h6 class="fs-x-small">Maronko Shop (23785)</h6>
-          </div>
-
-          <div class="row ms-0">
-            <div class="col-8">
-              <p class="text-secondary fs-x-small">Category</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- ********************************* -->
     </div>
   </div>
   <!-- recent merchant -->
@@ -565,7 +518,7 @@
         </div>
         <div class="col-sm-2 col-2 p-0 pe-2 m-0 float-end">
           <div class="col ms-4">
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-3 me-4">
                 <span
                   class="border rounded-circle text-secondary py-1 px-2 opacity-50">
@@ -574,6 +527,34 @@
               </div>
               <div class="col-3">
                 <span class="border rounded-circle text-dark py-1 px-2">
+                  <i class="fa-solid fa-arrow-right fa-xs"></i>
+                </span>
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col-3 me-4">
+                <span
+                  class="border rounded-circle py-1 px-2"
+                  [ngClass]="{
+                    'opacity-50 text-secondary': start === 0,
+                    'text-dark opacity-100': end >= 5,
+                  }"
+                  id="navigationButtonMerchant"
+                  (click)="previousMerchant()"
+                  tabindex="0">
+                  <i class="fa-solid fa-arrow-left fa-xs"></i>
+                </span>
+              </div>
+              <div class="col-3">
+                <span
+                  class="border rounded-circle py-1 px-2"
+                  [ngClass]="{
+                    'opacity-50 text-secondary': end === 20,
+                    'text-dark opacity-100': end < 20,
+                  }"
+                  id="navigationButtonMerchant"
+                  (click)="nextMerchant()"
+                  tabindex="0">
                   <i class="fa-solid fa-arrow-right fa-xs"></i>
                 </span>
               </div>
