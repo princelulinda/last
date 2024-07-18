@@ -1,3 +1,5 @@
+import { languageModel } from '../../core/db/models/auth';
+
 export interface EmailVerificationResponse {
   object: {
     success: boolean;
@@ -71,4 +73,48 @@ export interface cardIdData {
 export interface referenceNumberModel {
   id: number;
   event: string;
+}
+
+// Corporate Authentification
+export interface connectedOperatorModel {
+  operator: {
+    id: string | null;
+    isTeller: boolean;
+    isTreasurer: boolean;
+  };
+  organization: organizationModel;
+}
+
+export interface organizationModel {
+  accepts_login: boolean;
+  bank_id: number;
+  bank_ihela_code: number;
+  company_type_code: string;
+  company_type_name: string;
+  id: number;
+  is_active: boolean;
+  is_erp: false;
+  is_main: boolean;
+  org_accounting_type: number;
+  share_capital: number | string | null;
+  slug: string;
+  institution_client: {
+    client_code: number;
+    client_email: string;
+    client_full_name: string;
+    client_id: number;
+    client_state: string | null;
+    client_type: {
+      css: string | null;
+      title: string | null;
+      value: string | null;
+    };
+    has_pin: boolean;
+    id: number;
+    is_agent: boolean;
+    is_merchant: boolean;
+    is_partner_bank: boolean;
+    picture: string | null;
+    prefered_language: languageModel;
+  };
 }
