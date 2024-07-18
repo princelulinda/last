@@ -18,8 +18,13 @@ import { takeUntil, Subject } from 'rxjs';
   styleUrl: './sessions.component.scss',
 })
 export class SessionsComponent implements OnInit {
+  private onDestroy$: Subject<void> = new Subject<void>();
   activeSessions!: activeSessionResponse[];
   historySessions!: historySessionResponse[];
+  endActiveSession!: activeSessionResponse[];
+  lim!: number;
+  osFamily!: string;
+
   countActive!: number;
   activeSessionLoading = false;
   isLoadingHistorySessions = false;
@@ -44,11 +49,6 @@ export class SessionsComponent implements OnInit {
   constructor(private SessionsService: SessionsService) {
     //
   }
-
-  lim!: number;
-  osFamily!: string;
-  private onDestroy$: Subject<void> = new Subject<void>();
-
   getActiveSession(searchValue?: string) {
     this.activeSessionLoading = true;
     this.pagination.filters.limit = 15;
@@ -125,7 +125,6 @@ export class SessionsComponent implements OnInit {
         },
       });
   }
-  endActiveSession!: activeSessionResponse[];
   endSession(sessionId: string) {
     this.isLoadingEndSession = true;
     this.SessionsService.endSession(sessionId)
