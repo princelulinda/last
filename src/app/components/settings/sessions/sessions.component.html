@@ -303,33 +303,20 @@
                           <div class="col-md-1"></div>
                           <div
                             class="col d-flex justify-content-start text-center">
-                            <!-- <span
-                                                    role="button"
-                                                    i18n
-                                                    class="bg-primary p-1 sm-radius text-all-white fw-bold mb-2 ms-"
-                                                    style="width: 150px"
-                                                    (click)="
-                                                        endSession(counter.id)
-                                                    "
-                                                    [style.pointer-events]="
-                                                        isLoadingEndSession
-                                                            ? 'none'
-                                                            : 'auto'
-                                                    "
-                                                >
-                                                    <b
-                                                        *ngIf="
-                                                            !isLoadingEndSession
-                                                        "
-                                                        >End session</b
-                                                    >
-                                                    <i
-                                                        *ngIf="
-                                                            isLoadingEndSession
-                                                        "
-                                                        class="fa-solid fa-pulse fa-circle-notch fs-4"
-                                                    ></i>
-                                                </span> -->
+                            <button
+                              i18n
+                              class="bg-primary p-1 lg-radius text-all-white fw-bold mb-2 ms-"
+                              style="width: 150px"
+                              [disabled]="isLoadingEndSession"
+                              (click)="endSession(counter.id)">
+                              @if (!isLoadingEndSession) {
+                                <b>End session</b>
+                              }
+                              @if (isLoadingEndSession) {
+                                <i
+                                  class="fa-solid fa-pulse fa-circle-notch fs-4"></i>
+                              }
+                            </button>
                           </div>
                         </div>
                       </div>

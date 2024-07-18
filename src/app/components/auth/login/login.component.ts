@@ -32,8 +32,6 @@ export class LoginComponent implements OnInit {
   dialog$: Observable<DialogResponseModel>;
   loginLoader = false;
   loginForm = this.formBuilder.nonNullable.group({
-    // username: ['', Validators.required, Validators.minLength(2)],
-    // password: ['', Validators.required, Validators.minLength(8)],
     username: ['', Validators.required],
     password: ['', Validators.required],
   });

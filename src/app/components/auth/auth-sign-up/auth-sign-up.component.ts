@@ -234,7 +234,6 @@ export class AuthSignUpComponent implements OnInit {
       next: (response: EmailVerificationResponse) => {
         this.EmailVerificationloader = false;
         this.emailToVerify = response;
-        console.log('Données sélectionnées', this.emailToVerify);
       },
       error: (error: Error) =>
         console.error('Erreur lors de la récupération de email:', error),
