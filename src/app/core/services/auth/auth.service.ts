@@ -13,8 +13,8 @@ import {
   phoneNumberVerificaitonResponse,
   resetPasswordResponse,
   otpVerificationResponse,
-  conectedOperatorApiResponseModel,
-  organizationModel,
+  ConectedOperatorApiResponseModel,
+  OrganizationModel,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
@@ -62,20 +62,28 @@ export class AuthService {
   }
 
   getOperatorOrganizations(): Observable<{
-    objects: organizationModel[];
+    objects: {
+      id: number;
+      operator: object;
+      organisation: OrganizationModel;
+    }[];
     count: number;
   }> {
     return this.apiService
       .get<{
-        objects: organizationModel[];
+        objects: {
+          id: number;
+          operator: object;
+          organisation: OrganizationModel;
+        }[];
         count: number;
       }>('/hr/access/operator/organizations/?populate=true')
       .pipe(map(data => data));
   }
 
-  getConnectedOperator(): Observable<conectedOperatorApiResponseModel> {
+  getConnectedOperator(): Observable<ConectedOperatorApiResponseModel> {
     return this.apiService
-      .get<conectedOperatorApiResponseModel>('/hr/connected/operator/')
+      .get<ConectedOperatorApiResponseModel>('/hr/connected/operator/')
       .pipe(
         map(data => {
           return data;

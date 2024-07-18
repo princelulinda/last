@@ -7,7 +7,7 @@ import {
   ConfigService,
   DialogService,
 } from '../../../../core/services';
-import { connectedOperatorModel } from '../../auth.model';
+import { ConnectedOperatorModel, OrganizationModel } from '../../auth.model';
 
 @Component({
   selector: 'app-auth-corporate',
@@ -17,7 +17,8 @@ import { connectedOperatorModel } from '../../auth.model';
   styleUrl: './auth-corporate.component.scss',
 })
 export class AuthCorporateComponent implements OnInit {
-  organization: connectedOperatorModel | null = null;
+  private operatorOrganizations$: Observable<OrganizationModel[]>;
+  operatorOrganizations: OrganizationModel[] | [] = [];
   operatorIsAuthenticated$: Observable<boolean>;
 
   constructor(
@@ -27,39 +28,26 @@ export class AuthCorporateComponent implements OnInit {
   ) {
     this.operatorIsAuthenticated$ =
       this.configService.operatorIsAuthenticated();
+    this.operatorOrganizations$ = this.configService.getOperatorOrganizations();
   }
 
   ngOnInit() {
+    // NOTE :: WORKSTATION INITIALISATION
     this.dialogService.dispatchSplashScreen();
-    this.getOperatorOperator_organization();
-    // this.operatorIsAuthenticated$.subscribe({
-    //   next: state => {
-    //     if (state) {
-    //       this.dialogService.closeDialog();
-    //     } else {
-    //       this.getConnectedOperator();
-    //     }
-    //   },
-    // });
-  }
-
-  getConnectedOperator() {
-    this.authService.getConnectedOperator().subscribe({
-      next: response => {
-        const data = response.object.response_data.object;
-        const operator: connectedOperatorModel = {
-          organization: data.organization,
-          operator: {
-            id: data.operator.id,
-            isTeller: data.operator.is_teller,
-            isTreasurer: data.operator.is_treasurer,
-          },
-        };
-        this.configService.setOperator(operator);
-        this.dialogService.closeSplashScreen();
+    this.operatorIsAuthenticated$.subscribe({
+      next: state => {
+        if (state) {
+          this.dialogService.closeSplashScreen();
+        } else {
+          this.getOperatorOperator_organization();
+        }
       },
-      error: err => {
-        console.log('Salut les gens', err);
+    });
+
+    // NOTE :: OTHER FONCTIONNALITY
+    this.operatorOrganizations$.subscribe({
+      next: organizations => {
+        this.operatorOrganizations = organizations;
       },
     });
   }
@@ -71,7 +59,7 @@ export class AuthCorporateComponent implements OnInit {
         switchMap(operator =>
           this.authService.getOperatorOrganizations().pipe(
             map(data => {
-              return { operator: operator, organisations: data };
+              return { operator: operator, organizations: data };
             })
           )
         )
@@ -80,9 +68,12 @@ export class AuthCorporateComponent implements OnInit {
         next: response => {
           const connectedOperator =
             response.operator.object.response_data.object;
-          // const organizations = response.organisations.objects;
+          const organizations: OrganizationModel[] = [];
+          response.organizations.objects.map(data => {
+            organizations.push(data.organisation);
+          });
 
-          const operator: connectedOperatorModel = {
+          const operator: ConnectedOperatorModel = {
             organization: connectedOperator.organization,
             operator: {
               id: connectedOperator.operator.id,
@@ -91,6 +82,8 @@ export class AuthCorporateComponent implements OnInit {
             },
           };
           this.configService.setOperator(operator);
+          this.configService.setOperatorOrganizations(organizations);
+          this.dialogService.closeSplashScreen();
         },
       });
   }

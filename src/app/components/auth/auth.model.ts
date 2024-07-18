@@ -76,16 +76,16 @@ export interface referenceNumberModel {
 }
 
 // Corporate Authentification
-export interface connectedOperatorModel {
+export interface ConnectedOperatorModel {
   operator: {
     id: string | number;
     isTeller: boolean;
     isTreasurer: boolean;
   };
-  organization: organizationModel;
+  organization: OrganizationModel;
 }
 
-export interface organizationModel {
+export interface OrganizationModel {
   accepts_login: boolean;
   bank_id: number;
   bank_ihela_code: number;
@@ -119,7 +119,7 @@ export interface organizationModel {
   };
 }
 
-export interface conectedOperatorApiResponseModel {
+export interface ConectedOperatorApiResponseModel {
   object: {
     success: boolean;
     response_code: string | number;
@@ -136,7 +136,7 @@ export interface conectedOperatorApiResponseModel {
           is_teller: boolean;
           is_treasurer: boolean;
         };
-        organization: organizationModel;
+        organization: OrganizationModel;
       };
     };
   };

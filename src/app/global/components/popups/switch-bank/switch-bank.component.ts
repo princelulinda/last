@@ -4,15 +4,12 @@ import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { BankService } from '../../../../core/services/bank/bank.service';
-import {
-  AuthService,
-  ConfigService,
-  ModeModel,
-} from '../../../../core/services';
+import { AuthService, ConfigService } from '../../../../core/services';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { userInfoModel } from '../../../../layouts/header/model';
 import { BankOptions } from '../../../../components/dashboards/dashboard.model';
 import { bankModel } from '../../../../core/db/models/bank/bank.model';
+import { ModeModel } from '../../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-switch-bank',
   standalone: true,

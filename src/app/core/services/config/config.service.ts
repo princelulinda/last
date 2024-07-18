@@ -11,8 +11,8 @@ import { ApiService } from '../api/api.service';
 import { Router } from '@angular/router';
 import { bankModel } from '../../db/models/bank/bank.model';
 import {
-  connectedOperatorModel,
-  organizationModel,
+  ConnectedOperatorModel,
+  OrganizationModel,
 } from '../../../components/auth/auth.model';
 
 import {
@@ -21,6 +21,7 @@ import {
   PlateformModel,
   ThemeModel,
 } from './main-config.models';
+import { Organizations } from '../../db/models/organisations/organizations';
 
 @Injectable({
   providedIn: 'root',
@@ -36,10 +37,13 @@ export class ConfigService {
   private userBanks$: unknown | Observable<bankModel[]>;
   private selectedBank$: unknown | Observable<bankModel>;
 
-  private connectedOperator$: unknown | Observable<connectedOperatorModel>;
-  private operatorOrganization = new Subject<organizationModel>();
+  private connectedOperator$: unknown | Observable<ConnectedOperatorModel>;
+  private operatorOrganization = new Subject<OrganizationModel>();
   private isAuthenticatedOperator = new Subject<boolean>();
   private isTreasurerOperator = new Subject<boolean>();
+
+  private allOrganizations$: unknown | Observable<OrganizationModel[]>;
+  // private organizations_without_Selected$ = new Subject<OrganizationModel[]>();
 
   constructor(
     private dbService: DbService,
@@ -58,9 +62,13 @@ export class ConfigService {
     this.connectedOperator$ = liveQuery(() =>
       this.dbService.getOnce(Operator.tableName)
     );
+    this.allOrganizations$ = liveQuery(() =>
+      this.dbService.getOnce(Organizations.tableName)
+    );
   }
 
   // NOTE :: MAIN CONFIG INITIALISATION METHODS
+
   initAll() {
     const initFn = async () => {
       await this.getActiveMainConfig();
@@ -101,6 +109,7 @@ export class ConfigService {
   // }
 
   // NOTE :: GETTING MAIN CONFIGS METHODS
+
   getMainConfig(): Observable<activeMainConfigModel> {
     return this.mainConfig$ as Observable<activeMainConfigModel>;
   }
@@ -139,6 +148,7 @@ export class ConfigService {
   }
 
   // NOTE :: SWITCH MAIN CONFIGS METHODS
+
   async switchPlateform(plateform: PlateformModel, redirectToBaseHref = true) {
     this.activeMainConfig = await this.getActiveMainConfig();
     if (plateform !== this.activeMainConfig.activePlateform) {
@@ -189,6 +199,7 @@ export class ConfigService {
   }
 
   // NOTE :: Banks methods
+
   setUserBanks(banks: bankModel[]) {
     this.dbService.addOnce(Bank.tableName, banks);
   }
@@ -208,17 +219,18 @@ export class ConfigService {
   }
 
   // NOTE :: operator methods
-  setOperator(operator: connectedOperatorModel) {
+
+  setOperator(operator: ConnectedOperatorModel) {
     this.dbService.addOnce(Operator.tableName, operator);
   }
   resetOperator(): void {
     this.dbService.clearTable(Operator.tableName);
-    // TODO :: RESET ORGANIZATIONS TABLE
+    this.resetOrganizations();
   }
-  getConnectedOperator(): Observable<connectedOperatorModel> {
-    return this.connectedOperator$ as Observable<connectedOperatorModel>;
+  getConnectedOperator(): Observable<ConnectedOperatorModel> {
+    return this.connectedOperator$ as Observable<ConnectedOperatorModel>;
   }
-  getOperatorOrganization(): Observable<organizationModel> {
+  getSelectedOrganization(): Observable<OrganizationModel> {
     this.getConnectedOperator().subscribe({
       next: operator => {
         this.operatorOrganization.next(operator.organization);
@@ -262,7 +274,20 @@ export class ConfigService {
     return this.isTreasurerOperator;
   }
 
+  // NOTE :: ORGANIZATIONS METHODS
+
+  setOperatorOrganizations(organizations: OrganizationModel[]): void {
+    this.dbService.addOnce(Organizations.tableName, organizations);
+  }
+  private resetOrganizations(): void {
+    this.dbService.clearTable(Organizations.tableName);
+  }
+  getOperatorOrganizations(): Observable<OrganizationModel[]> {
+    return this.allOrganizations$ as Observable<OrganizationModel[]>;
+  }
+
   // NOTE :: PRIVATE CONFIG METHODS
+
   private async getActiveMainConfig(): Promise<activeMainConfigModel> {
     const data: activeMainConfigModel = await this.dbService.getOnce(
       MainConfig.tableName
