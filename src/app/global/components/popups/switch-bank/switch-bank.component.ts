@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Inject, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+
 import { Observable, Subject, takeUntil } from 'rxjs';
+
 import { BankService } from '../../../../core/services/bank/bank.service';
 import {
   AuthService,
@@ -36,9 +38,9 @@ export class SwitchBankComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(
-    @Inject(BankService) private bankService: BankService,
-    @Inject(ConfigService) private configService: ConfigService,
-    @Inject(AuthService) private authService: AuthService
+    private bankService: BankService,
+    private configService: ConfigService,
+    private authService: AuthService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();

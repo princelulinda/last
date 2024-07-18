@@ -1,6 +1,8 @@
-import { Inject, Injectable } from '@angular/core';
-import { ApiService } from '../api/api.service';
+import { Injectable } from '@angular/core';
+
 import { map, Observable } from 'rxjs';
+
+import { ApiService } from '../api/api.service';
 import { nyamuranziCard } from '../../../components/nyamuranzi/models';
 import { WalletCard } from '../../../components/wallet/models';
 
@@ -8,7 +10,7 @@ import { WalletCard } from '../../../components/wallet/models';
   providedIn: 'root',
 })
 export class BankingService {
-  constructor(@Inject(ApiService) private apiService: ApiService) {}
+  constructor(private apiService: ApiService) {}
 
   getDefaultAccount() {
     const url = '/account/current/default/';
