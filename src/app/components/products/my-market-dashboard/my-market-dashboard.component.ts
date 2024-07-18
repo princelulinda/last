@@ -23,10 +23,10 @@ import {
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { UserInfoModel } from '../../../core/db/models/auth';
-import { LookupComponent } from '../../dev/lookup/lookup.component';
-import { ItemModel } from '../../dev/lookup/lookup.model';
 import { objectModel } from '../../dashboards/dashboard.model';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
+import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
+import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
 // import {
 //     OpenMerchantBillPopup,
 //     OpenLandscapeBillPopup,
