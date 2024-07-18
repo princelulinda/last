@@ -15,6 +15,7 @@ import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-mo
 })
 export class MerchantTellerDetailsComponent implements OnInit {
   @Input() tellerInfo!: tellerObjectModel;
+  @Input() get_tellerInfo!: boolean;
   //   @Output() isActionDone: EventEmitter<boolean> = new EventEmitter();
 
   canReceiveNotifications = false;

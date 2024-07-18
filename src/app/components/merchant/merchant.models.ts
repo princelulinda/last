@@ -1,5 +1,5 @@
 export interface tellersModel {
-  objects: tellerObjectModel;
+  objects: tellerObjectModel[];
 }
 export interface tellerModel {
   object: tellerObjectModel;
@@ -81,16 +81,20 @@ export interface updateMerchantDetailsModel {
   merchant_logo: string;
 }
 
-// export interface merchantInfoModel {
-//     id: number;
-//     merchant_title: string;
-//     accepts_simple_payment: boolean;
-//     accepts_cart: boolean;
-//     visible: any;
-//     slug: string;
-//     api_plug_name: string;
-//     client_visibility_activated: boolean;
-// }
+export interface merchantInfObjectModel {
+  object: merchantInfoModel;
+}
+
+export interface merchantInfoModel {
+  id: string;
+  merchant_title: string;
+  accepts_simple_payment: boolean;
+  accepts_cart: boolean;
+  visible: boolean;
+  slug: string;
+  api_plug_name: string;
+  client_visibility_activated: boolean;
+}
 
 export interface searchTellerModel {
   merchant: string;
