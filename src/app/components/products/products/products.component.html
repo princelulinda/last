@@ -1,0 +1,149 @@
+<div class="mt-4">
+  <section>
+    <div class="row sec">
+      <div class="col-lg-7 col-md-11 col-sm-10 mb-3 clasy">
+        <!-- slideshow images -->
+        <div
+          id="carouselExampleInterval"
+          class="carousel slide p-1"
+          data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <button
+              class="dot active"
+              type="button"
+              data-bs-target="#carouselExampleInterval"
+              data-bs-slide-to="0"
+              aria-current="true"
+              aria-label="Slide 1"></button>
+            <button
+              class="dot"
+              type="button"
+              data-bs-target="#carouselExampleInterval"
+              data-bs-slide-to="1"
+              aria-label="Slide 2"></button>
+            <button
+              class="dot"
+              type="button"
+              data-bs-target="#carouselExampleInterval"
+              data-bs-slide-to="2"
+              aria-label="Slide 3"></button>
+            <button
+              class="dot"
+              type="button"
+              data-bs-target="#carouselExampleInterval"
+              data-bs-slide-to="3"
+              aria-label="Slide 4"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="3000">
+              <div class="row">
+                <div class="col text-center">
+                  <!-- image -->
+                  <img
+                    src="/images/products/unités appli sombre.jpg"
+                    class="img-fluid"
+                    style="width: 500px; height: 400px; object-fit: contain"
+                    alt="unités appli sombre" />
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <div class="row">
+                <div class="col text-center">
+                  <!-- image -->
+                  <img
+                    src="/images/products/startimes appli.jpg"
+                    class="img-fluid"
+                    style="width: 500px; height: 400px; object-fit: contain"
+                    alt="startimes appli show image" />
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <div class="row">
+                <div class="col text-center">
+                  <!-- image -->
+                  <img
+                    src="/images/products/BUBETappli.jpg"
+                    class="img-fluid"
+                    style="width: 500px; height: 400px; object-fit: contain"
+                    alt="BUBET appli show image" />
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <div class="row">
+                <div class="col text-center">
+                  <!-- image -->
+                  <img
+                    src="/images/products/1XBET appli.jpg"
+                    class="img-fluid"
+                    style="width: 500px; height: 400px; object-fit: contain"
+                    alt="1XBET show image" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col favorite">
+        <!-- favorites -->
+        <div class="row">
+          <h6>
+            <span style="color: #2070b8; font-size: 12px"
+              ><i class="fa-solid fa-star"></i
+            ></span>
+            <span i18n class="text-dark"><b> Favorites</b></span>
+          </h6>
+        </div>
+        <div
+          class="row mb-3 d-flex justify-content-between"
+          *ngIf="!allProduct">
+          <div
+            class="col-5"
+            style="height: 135px"
+            *ngFor="let item of countProductLoader; let i = index"
+            [hidden]="i >= 2">
+            <app-skeleton [height]="'120px'" [width]="'120px'"></app-skeleton>
+            <div>
+              <app-skeleton
+                [height]="'10px'"
+                [width]="'60%'"
+                appearance="line"></app-skeleton>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div
+            class="col"
+            *ngFor="let product of allProduct; let i = index"
+            [hidden]="i >= 2"
+            (click)="selectProduct(product)"
+            tabindex="0">
+            <!-- image -->
+
+            <app-product-card
+              [product]="product"
+              [get_product]="true"></app-product-card>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- All -->
+    <app-all-products
+      [detail]="true"
+      (allProducts)="getAllProduct($event)"
+      (product)="selectProductFromAll($event)"></app-all-products>
+  </section>
+</div>
+
+<!-- <div class="modal fade" id="exampleModal" data-bs-backdrop="static">
+    <div
+        class="modal-dialog modal-dialog-centered"
+        style="min-width: 70%; max-height: 800px"
+    >
+        <div class="modal-content" *ngIf="product">
+            <app-billers-merchants [product]="product"></app-billers-merchants>
+        </div>
+    </div>
+</div> -->
