@@ -85,10 +85,6 @@ export class WalletCardComponent implements OnInit, OnDestroy {
             this.noWalletData = true;
           }
         },
-        // error: (error) => {
-
-        //     error = 'Data not Found';
-        // },
       });
   }
   public ngOnDestroy(): void {
