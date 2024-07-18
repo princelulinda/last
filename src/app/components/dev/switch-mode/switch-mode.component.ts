@@ -20,7 +20,6 @@ export class SwitchModeComponent implements OnInit {
     this.configService.getMode().subscribe({
       next: response => {
         this.mode = response;
-        console.log('mode récupéré:', this.mode);
       },
     });
   }

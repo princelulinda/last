@@ -13,6 +13,7 @@ import {
   phoneNumberVerificaitonResponse,
   resetPasswordResponse,
   otpVerificationResponse,
+  conectedOperatorApiResponseModel,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
@@ -65,12 +66,14 @@ export class AuthService {
       .pipe(map(data => data));
   }
 
-  getConnectedOperator() {
-    return this.apiService.get('/hr/connected/operator/').pipe(
-      map(data => {
-        return data;
-      })
-    );
+  getConnectedOperator(): Observable<conectedOperatorApiResponseModel> {
+    return this.apiService
+      .get<conectedOperatorApiResponseModel>('/hr/connected/operator/')
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
 
   loginCorporate(login_data: { organization_id: string; password: string }) {

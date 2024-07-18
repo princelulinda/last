@@ -229,11 +229,18 @@ export class ConfigService {
   operatorIsAuthenticated(): Observable<boolean> {
     this.getConnectedOperator().subscribe({
       next: operator => {
-        if (operator.operator && operator.organization) {
-          this.isAuthenticatedOperator.next(true);
+        if (operator) {
+          if (operator.operator && operator.organization) {
+            this.isAuthenticatedOperator.next(true);
+          } else {
+            this.isAuthenticatedOperator.next(false);
+          }
         } else {
           this.isAuthenticatedOperator.next(false);
         }
+      },
+      error: () => {
+        this.isAuthenticatedOperator.next(false);
       },
     });
     return this.isAuthenticatedOperator;
@@ -241,8 +248,12 @@ export class ConfigService {
   operatorIsTreasurer(): Observable<boolean> {
     this.getConnectedOperator().subscribe({
       next: operator => {
-        if (operator.operator.isTreasurer) {
-          this.isTreasurerOperator.next(true);
+        if (operator) {
+          if (operator.operator.isTreasurer) {
+            this.isTreasurerOperator.next(true);
+          } else {
+            this.isTreasurerOperator.next(false);
+          }
         } else {
           this.isTreasurerOperator.next(false);
         }

@@ -78,7 +78,7 @@ export interface referenceNumberModel {
 // Corporate Authentification
 export interface connectedOperatorModel {
   operator: {
-    id: string | null;
+    id: string | number;
     isTeller: boolean;
     isTreasurer: boolean;
   };
@@ -116,5 +116,28 @@ export interface organizationModel {
     is_partner_bank: boolean;
     picture: string | null;
     prefered_language: languageModel;
+  };
+}
+
+export interface conectedOperatorApiResponseModel {
+  object: {
+    success: boolean;
+    response_code: string | number;
+    response_message: string;
+    response_data: {
+      user: object;
+      object: {
+        id: number;
+        operator: {
+          id: string | number;
+          username: string;
+          email: string | null;
+          name: string;
+          is_teller: boolean;
+          is_treasurer: boolean;
+        };
+        organization: organizationModel;
+      };
+    };
   };
 }

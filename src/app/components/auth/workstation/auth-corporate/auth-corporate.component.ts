@@ -5,6 +5,7 @@ import {
   DialogService,
 } from '../../../../core/services';
 import { connectedOperatorModel } from '../../auth.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-auth-corporate',
@@ -15,23 +16,44 @@ import { connectedOperatorModel } from '../../auth.model';
 })
 export class AuthCorporateComponent implements OnInit {
   organization: connectedOperatorModel | null = null;
+  operatorIsAuthenticated$: Observable<boolean>;
 
   constructor(
     private authService: AuthService,
     private configService: ConfigService,
     private dialogService: DialogService
-  ) {}
+  ) {
+    this.operatorIsAuthenticated$ =
+      this.configService.operatorIsAuthenticated();
+  }
 
   ngOnInit() {
-    // this.dialogService.dispatchSplashScreen();
-    this.getConnectedOperator();
+    this.dialogService.dispatchSplashScreen();
+    this.operatorIsAuthenticated$.subscribe({
+      next: state => {
+        if (state) {
+          this.dialogService.closeDialog();
+        } else {
+          this.getConnectedOperator();
+        }
+      },
+    });
   }
 
   getConnectedOperator() {
     this.authService.getConnectedOperator().subscribe({
       next: response => {
-        console.log(response);
-        // this.organization = response
+        const data = response.object.response_data.object;
+        const operator: connectedOperatorModel = {
+          organization: data.organization,
+          operator: {
+            id: data.operator.id,
+            isTeller: data.operator.is_teller,
+            isTreasurer: data.operator.is_treasurer,
+          },
+        };
+        this.configService.setOperator(operator);
+        this.dialogService.closeSplashScreen();
       },
       error: err => {
         console.log('Salut les gens', err);
