@@ -14,7 +14,7 @@ export interface WalletList {
   id: string;
   code: string;
   available_balance: number;
-  currency: string;
+  currency: 'BIF';
 }
 
 export interface Walletdetail {

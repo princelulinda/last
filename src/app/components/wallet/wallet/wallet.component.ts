@@ -3,6 +3,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { WalletListComponent } from '../wallet-list/wallet-list.component';
 import { ClientService } from '../../../core/services/client/client.service';
 import { RouterOutlet } from '@angular/router';
+import { WalletList } from '../models';
 @Component({
   selector: 'app-wallet',
   standalone: true,
@@ -30,6 +31,10 @@ export class WalletComponent implements OnInit, OnDestroy {
       .subscribe(value => {
         this.hasWalletList = value;
       });
+  }
+
+  handleWalletSelected(wallet: WalletList) {
+    console.log('Compte sélectionné :', wallet);
   }
 
   ngOnDestroy(): void {

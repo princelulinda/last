@@ -83,16 +83,16 @@ export class WalletListComponent implements OnInit, OnDestroy {
       },
     });
   }
-  clearSelectedAccount() {
+  clearSelectedWallet() {
     this.selectedLoneWallet = null;
   }
 
-  selectLoneAccount(account: WalletList) {
-    this.selectedLoneWallet = account;
+  selectLoneAccount(wallet: WalletList) {
+    this.selectedLoneWallet = wallet;
     this.isLoneWalletSelected = true;
     this.isLoading = false;
     this.closeForm = false;
-    // this.accountSelected.emit(account);
+    this.walletSelected.emit(wallet);
   }
   ngOnDestroy(): void {
     this.onDestroy$.next();
