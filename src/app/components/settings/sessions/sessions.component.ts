@@ -40,7 +40,6 @@ export class SessionsComponent implements OnInit {
   detailButtonActiveSession = 'rotate(0deg)';
   countHistory!: number;
   isLoadingEndSession = false;
-  sessionId!: string;
 
   ngOnInit() {
     this.getActiveSession();
@@ -125,9 +124,9 @@ export class SessionsComponent implements OnInit {
         },
       });
   }
-  endSession(sessionId: string) {
+  endSession(id: string) {
     this.isLoadingEndSession = true;
-    this.SessionsService.endSession(sessionId)
+    this.SessionsService.endSession(id)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (data: activeSessionResponse) => {
