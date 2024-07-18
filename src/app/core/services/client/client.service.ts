@@ -5,7 +5,7 @@ import { ApiService } from '..';
 import {
   AddResponse,
   BodyModel,
-} from '../../../components/settings/setting.model';
+} from '../../../components/settings/settings.models';
 import { Observable } from 'rxjs';
 import { accountsList } from '../../../components/account/models';
 

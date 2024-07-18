@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SavingDetailService } from '../../../core/services/saving/saving.service';
 import { CommonModule } from '@angular/common';
-import { TontineDataModele } from '../saving.model';
+import { TontineDataModele } from '../saving.models';
 @Component({
   selector: 'app-saving-club-details',
   standalone: true,

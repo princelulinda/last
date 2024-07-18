@@ -8,17 +8,14 @@ import {
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import {
-  activeMainConfigModel,
-  AuthService,
-  ConfigService,
-} from '../../../core/services';
+import { AuthService, ConfigService } from '../../../core/services';
 import { ClientService } from '../../../core/services/client/client.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { accountsList } from '../models';
 import { CommonModule } from '@angular/common';
 import { DialogService } from '../../../core/services';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-accounts-list',
   standalone: true,

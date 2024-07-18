@@ -1,7 +1,7 @@
 import { BaseModel, Field, UniqueField, MultiField } from '../base.model';
 import { languageModel } from './user';
 
-export class operator extends BaseModel {
+export class Operator extends BaseModel {
   static tableName = 'operator';
 
   @Field static isTeller: boolean;

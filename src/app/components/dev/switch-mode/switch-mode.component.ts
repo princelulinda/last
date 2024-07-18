@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigService, ModeModel } from '../../../core/services';
 import { CommonModule } from '@angular/common';
+
+import { ConfigService } from '../../../core/services';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-switch-mode',
@@ -9,21 +11,18 @@ import { CommonModule } from '@angular/common';
   templateUrl: './switch-mode.component.html',
   styleUrls: ['./switch-mode.component.scss'],
 })
-
 export class SwitchModeComponent implements OnInit {
-
   mode!: ModeModel;
 
   constructor(private configService: ConfigService) {}
 
   ngOnInit() {
-
     this.configService.getMode().subscribe({
-      next : response => {
+      next: response => {
         this.mode = response;
-        console.log("mode récupéré:",this.mode);
-      }
-    })
+        console.log('mode récupéré:', this.mode);
+      },
+    });
   }
 
   onThemeSwitchChange() {

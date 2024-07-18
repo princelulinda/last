@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
 import { nyamuranziCard } from '../../../components/nyamuranzi/models';
-import { WalletCard } from '../../../components/wallet/models';
+import { WalletCard } from '../../../components/wallet/wallet.models';
 
 @Injectable({
   providedIn: 'root',

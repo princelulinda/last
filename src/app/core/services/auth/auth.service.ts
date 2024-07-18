@@ -15,9 +15,10 @@ import {
   otpVerificationResponse,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
-import { ConfigService, PlateformModel } from '../config/config.service';
+import { ConfigService } from '../config/config.service';
 import { UserInfoModel } from '../../db/models/auth';
 import { DialogService } from '../dialog/dialog.service';
+import { PlateformModel } from '../config/main-config.models';
 
 @Injectable({
   providedIn: 'root',
