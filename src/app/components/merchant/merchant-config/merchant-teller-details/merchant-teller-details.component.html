@@ -1,9 +1,5 @@
 <main>
-  <section
-    class="w-100 px-4 py-4"
-    [ngClass]="{
-      'text-dark': theme === 'dark-mode',
-    }">
+  <section class="w-100 px-4 py-4">
     <span></span>
     <div *ngIf="!tellerInfo">
       <div class="d-grid align-items-center">
@@ -76,10 +72,8 @@
             tabindex="0"
             [ngClass]="{
               'justify-content-end text-primary': tellerInfo.is_active,
-              'justify-content-start t-white':
-                !tellerInfo.is_active && theme === 'light-mode',
-              'justify-content-start t-black':
-                !tellerInfo.is_active && theme === 'dark-mode',
+              'justify-content-start t-white': !tellerInfo.is_active,
+              'justify-content-start t-black': !tellerInfo.is_active,
             }">
             <span class="fa fa-circle"></span>
           </div>
@@ -108,9 +102,9 @@
               'justify-content-end text-primary':
                 tellerInfo.can_receive_notifications,
               'justify-content-start t-white':
-                !tellerInfo.can_receive_notifications && theme === 'light-mode',
+                !tellerInfo.can_receive_notifications,
               'justify-content-start t-black':
-                !tellerInfo.can_receive_notifications && theme === 'dark-mode',
+                !tellerInfo.can_receive_notifications,
             }">
             <span class="fa fa-circle"></span>
           </div>
@@ -131,10 +125,8 @@
             tabindex="0"
             [ngClass]="{
               'justify-content-end text-primary': tellerInfo.can_receive_tip,
-              'justify-content-start t-white':
-                !tellerInfo.can_receive_tip && theme === 'light-mode',
-              'justify-content-start t-black':
-                !tellerInfo.can_receive_tip && theme === 'dark-mode',
+              'justify-content-start t-white': !tellerInfo.can_receive_tip,
+              'justify-content-start t-black': !tellerInfo.can_receive_tip,
             }">
             <span class="fa fa-circle"></span>
           </div>
@@ -158,9 +150,9 @@
               'justify-content-end text-primary':
                 tellerInfo?.teller_type?.value === 'A',
               'justify-content-start t-white':
-                tellerInfo.teller_type.value !== 'A' && theme === 'light-mode',
+                tellerInfo.teller_type.value !== 'A',
               'justify-content-start t-black':
-                tellerInfo.teller_type.value !== 'A' && theme === 'dark-mode',
+                tellerInfo.teller_type.value !== 'A',
             }">
             <span class="fa fa-circle"></span>
           </div>
@@ -183,10 +175,9 @@
               'justify-content-end text-primary':
                 tellerInfo?.teller_type?.value === 'S',
               'justify-content-start t-white':
-                tellerInfo?.teller_type?.value !== 'S' &&
-                theme === 'light-mode',
+                tellerInfo?.teller_type?.value !== 'S',
               'justify-content-start t-black':
-                tellerInfo?.teller_type?.value !== 'S' && theme === 'dark-mode',
+                tellerInfo?.teller_type?.value !== 'S',
             }">
             <span class="fa fa-circle"></span>
           </div>

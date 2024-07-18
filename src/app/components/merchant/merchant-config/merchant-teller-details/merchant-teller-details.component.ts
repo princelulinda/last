@@ -2,7 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { dialogModel, tellerObjectModel } from '../../merchant.models';
+import { tellerObjectModel } from '../../merchant.models';
+import { DialogService } from '../../../../core/services';
+import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 
 @Component({
   selector: 'app-merchant-teller-details',
@@ -17,21 +19,21 @@ export class MerchantTellerDetailsComponent implements OnInit {
 
   canReceiveNotifications = false;
   action = '';
-  dialog!: dialogModel;
-  dialog$!: Observable<dialogModel>;
+  dialog!: DialogResponseModel;
+  dialog$: Observable<DialogResponseModel>;
   actionMessage = '';
-  theme = '';
-  theme$!: Observable<string>;
+  // theme = '';
+  // theme$!: Observable<string>;
 
   isActive = true;
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  constructor() //   private merchantService: MerchantService,
-  // private store: Store,
-  // private variableService: VariableService
-  {
+  constructor(private dialogService: DialogService) {
+    //   private merchantService: MerchantService,
+    // private store: Store,
+    // private variableService: VariableService
     //
-    // this.dialog$ = this.store.select(DialogState.GetDialog);
+    this.dialog$ = this.dialogService.getDialogState();
     // this.theme$ = this.store.select(SwitchThemeState.GetTheme);
   }
 
@@ -43,12 +45,12 @@ export class MerchantTellerDetailsComponent implements OnInit {
 
     this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: result => {
-        const dialog = result as dialogModel;
+        const dialog = result as DialogResponseModel;
         if (dialog) {
           this.dialog = dialog;
           if (this.dialog && this.dialog.response) {
             if (
-              this.dialog.response === 'pin submitted' &&
+              this.dialog.response.pin === 'pin submitted' &&
               this.dialog.action === 'do teller action' &&
               this.action
             ) {
@@ -59,9 +61,9 @@ export class MerchantTellerDetailsComponent implements OnInit {
       },
     });
 
-    this.theme$.subscribe((theme: string) => {
-      this.theme = theme;
-    });
+    // this.theme$.subscribe((theme: string) => {
+    //   this.theme = theme;
+    // });
   }
 
   getTellerDetails() {
