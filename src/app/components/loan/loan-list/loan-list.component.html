@@ -22,8 +22,8 @@
 
             @if (isBalanceShown) {
               <span title="Hide balance">
-                <i class="fa-solid fa-eye-slash"></i
-              ></span>
+                <i class="fa-solid fa-eye-slash"></i>
+              </span>
             }
           </div>
         </b>
@@ -99,14 +99,6 @@
         <hr class="mt-2 w-70" />
       }
     </div>
-    <!-- <div
-            *ngIf="!loans"
-            class="w-100 h-100 d-flex justify-content-center align-items-center"
-        >
-            <span>
-                <i class="spinner-border"></i>
-            </span>
-        </div> -->
 
     @if (loans && loans.length === 0) {
       <div class="w-100 h-100 d-flex justify-content-center align-items-center">
@@ -149,8 +141,7 @@
                   ">
                   <div
                     class="border-l ps-2 d-grid w-100 pe-2 pt-1"
-                    routerLinkActive="cliped t-dark"
-                    [ngClass]="">
+                    routerLinkActive="cliped t-dark">
                     <div
                       class="d-flex justify-content-between align-items-center me-3">
                       <b>{{ selectedBank?.bank_name }}</b>
@@ -270,8 +261,7 @@
                     ">
                     <div
                       class="border-l ps-2 d-grid w-100 pe-2 pt-1"
-                      routerLinkActive="cliped t-dark"
-                      [ngClass]="">
+                      routerLinkActive="cliped t-dark">
                       <div
                         class="d-flex justify-content-between align-items-center me-3">
                         <b>{{ selectedBank?.bank_name }}</b>

@@ -79,21 +79,7 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
   toggleAmount() {
     this.showAmountAccount = !this.showAmountAccount;
   }
-  // copyReferalLink() {
-  //   const reference = this.clipboardService.copyFromContent(
-  //       window.location.origin + '/ihela/sign-up/' + this.clientId
-  //   );
 
-  //   if (reference) {
-  //     this.dialogService.openToast({
-  //       type: 'success',
-  //       title: 'Success',
-  //       message:
-  //         $localize`Referal link copied to clipboard`,
-  //     });
-
-  //   }
-  // }
   public ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();

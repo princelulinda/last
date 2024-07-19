@@ -41,16 +41,12 @@ export class LoanListComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     private _location: Location
   ) {
-    // this.bankId$ = this.store.select(BankState.GetSelectedClientBankId);
     this.selectedBank$ = this.configService.getSelectedBank();
 
     this.isBalanceShown$ = this.dialogService.getAmountState();
-
-    //
   }
 
   ngOnInit() {
-    // console.log('isBalanceSh', this.isBalanceShown);
     this.getLoansList();
 
     this.loanService.showLoanDetails$
@@ -63,14 +59,9 @@ export class LoanListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(isBalanceShown => {
         this.isBalanceShown = isBalanceShown;
-        // console.log('!!!!!!!!!!!!!!!!!!!!!!!!isBalanceSh', this.isBalanceShown);
       });
 
     this.selectedBank$.subscribe((bank: bankModel) => {
-      // console.log(
-      //   'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaankkkkkkkkkkkkkkkkkkkkkk',
-      //   bank
-      // );
       this.selectedBank = bank;
       this.bankId = bank.id;
     });
@@ -90,13 +81,8 @@ export class LoanListComponent implements OnInit, OnDestroy {
       .subscribe(loans => {
         const response = loans as { object: LoanListResponseModel };
         this.loans = response.object.response_data;
-        console.log('HHHHHHHHHHHHHHHHHHHHHHHLLLLLLLLLLLLLLLLLLLLLOANS', loans);
       });
   }
-
-  // ngDoCheck() {
-  //     console.log('screeen', screen.width);
-  // }
 
   goBack() {
     this._location.back();
@@ -117,11 +103,8 @@ export class LoanListComponent implements OnInit, OnDestroy {
   }
 
   selectLoan(loan: LoanListModel) {
-    const response = loan;
-    this.selectedLoan = response;
+    this.selectedLoan = loan;
     this.isLoanSelected = true;
-
-    // console.log('selectLoan', this.selectedLoan);
   }
 
   nextPage() {

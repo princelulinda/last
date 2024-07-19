@@ -1,5 +1,7 @@
 <br />
-<form class="position-relative z-1 scroll" [formGroup]="multiStepForm">
+<form
+  class="position-relative z-1 overflow-auto scroll"
+  [formGroup]="multiStepForm">
   <!-- start step 0 -->
   @if (step === 0) {
     <div
