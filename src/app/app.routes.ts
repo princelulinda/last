@@ -74,8 +74,8 @@ export const routes: Routes = [
   },
 
   {
-    component: WorkstationComponent,
     path: ':plateform',
+    component: WorkstationComponent,
     canActivate: [AuthGuard],
     children: [
       {

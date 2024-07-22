@@ -9,6 +9,7 @@ import {
   DialogService,
 } from '../../../../core/services';
 import { ConnectedOperatorModel, OrganizationModel } from '../../auth.model';
+import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 
 @Component({
   selector: 'app-auth-corporate',
@@ -21,6 +22,7 @@ export class AuthCorporateComponent implements OnInit {
   private operatorOrganizations$: Observable<OrganizationModel[]>;
   operatorOrganizations: OrganizationModel[] | [] | null = [];
   operatorIsAuthenticated$: Observable<boolean>;
+  dialog$: Observable<DialogResponseModel>;
   password = '';
 
   selectedOrganization!: OrganizationModel;
@@ -34,6 +36,7 @@ export class AuthCorporateComponent implements OnInit {
     this.operatorIsAuthenticated$ =
       this.configService.operatorIsAuthenticated();
     this.operatorOrganizations$ = this.configService.getOperatorOrganizations();
+    this.dialog$ = this.dialogService.getDialogState();
   }
 
   ngOnInit() {
@@ -42,6 +45,8 @@ export class AuthCorporateComponent implements OnInit {
     this.operatorIsAuthenticated$.subscribe({
       next: state => {
         if (state) {
+          this.router.navigate(['/w/workstation']);
+          // TODO :: TO REMOVE AND WORKSTATION LAYOUT MANAGE TO CLOSE THIS
           this.dialogService.closeSplashScreen();
         } else {
           this.getOperatorOperator_organization();
@@ -55,7 +60,7 @@ export class AuthCorporateComponent implements OnInit {
         this.operatorOrganizations = organizations;
       },
     });
-    this.dialogService.getDialogState().subscribe({
+    this.dialog$.subscribe({
       next: dialog => {
         if (
           dialog.action === 'Organization login' &&
@@ -75,10 +80,9 @@ export class AuthCorporateComponent implements OnInit {
       password: this.password,
     };
     this.authService.loginCorporate(data).subscribe({
-      next: response => {
-        this.router.navigate(['/w']);
+      next: () => {
+        this.router.navigate(['/w/workstation']);
         this.dialogService.closeLoading();
-        console.log('response', response);
       },
       error: err => {
         this.dialogService.closeLoading();
@@ -133,6 +137,10 @@ export class AuthCorporateComponent implements OnInit {
         },
       });
   }
+
+  // private getOperatorMenus(){
+
+  // }
 
   selectOrganization(data: OrganizationModel) {
     this.selectedOrganization = data;
