@@ -91,6 +91,7 @@ export interface OrganizationModel {
   bank_ihela_code: number;
   company_type_code: string;
   company_type_name: string;
+  picture: string;
   id: number;
   is_active: boolean;
   is_erp: false;

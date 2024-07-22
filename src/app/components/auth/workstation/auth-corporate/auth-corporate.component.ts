@@ -21,6 +21,8 @@ export class AuthCorporateComponent implements OnInit {
   operatorOrganizations: OrganizationModel[] | [] = [];
   operatorIsAuthenticated$: Observable<boolean>;
 
+  selectedOrganization: OrganizationModel | null = null;
+
   constructor(
     private authService: AuthService,
     private configService: ConfigService,
@@ -82,9 +84,13 @@ export class AuthCorporateComponent implements OnInit {
             },
           };
           this.configService.setOperator(operator);
-          this.configService.setOperatorOrganizations(organizations);
           this.dialogService.closeSplashScreen();
+          this.configService.setOperatorOrganizations(organizations);
         },
       });
+  }
+
+  selectOrganization(data: OrganizationModel) {
+    this.selectedOrganization = data;
   }
 }
