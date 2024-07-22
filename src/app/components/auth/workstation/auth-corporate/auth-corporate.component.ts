@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { map, Observable, switchMap } from 'rxjs';
 
@@ -20,13 +21,15 @@ export class AuthCorporateComponent implements OnInit {
   private operatorOrganizations$: Observable<OrganizationModel[]>;
   operatorOrganizations: OrganizationModel[] | [] | null = [];
   operatorIsAuthenticated$: Observable<boolean>;
+  password = '';
 
-  selectedOrganization: OrganizationModel | null = null;
+  selectedOrganization!: OrganizationModel;
 
   constructor(
     private authService: AuthService,
     private configService: ConfigService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private router: Router
   ) {
     this.operatorIsAuthenticated$ =
       this.configService.operatorIsAuthenticated();
@@ -52,16 +55,45 @@ export class AuthCorporateComponent implements OnInit {
         this.operatorOrganizations = organizations;
       },
     });
-
-    this.dialogService.openDialog({
-      action: 'Oraganization',
-      message: 'Enter your password to add a new organisation',
-      title: '',
-      type: 'pin',
+    this.dialogService.getDialogState().subscribe({
+      next: dialog => {
+        if (
+          dialog.action === 'Organization login' &&
+          dialog.response.password
+        ) {
+          this.password = dialog.response.password;
+          this.loginCorporate();
+        }
+      },
     });
   }
 
-  getOperatorOperator_organization() {
+  loginCorporate() {
+    this.dialogService.dispatchLoading();
+    const data: { organization_id: string; password: string } = {
+      organization_id: this.selectedOrganization.id.toString(),
+      password: this.password,
+    };
+    this.authService.loginCorporate(data).subscribe({
+      next: response => {
+        this.router.navigate(['/w']);
+        this.dialogService.closeLoading();
+        console.log('response', response);
+      },
+      error: err => {
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          message:
+            err?.object?.response_message ??
+            $localize`Something went wrong please retry again !`,
+          title: '',
+          type: 'failed',
+        });
+      },
+    });
+  }
+
+  private getOperatorOperator_organization() {
     this.authService
       .getConnectedOperator()
       .pipe(
@@ -104,12 +136,11 @@ export class AuthCorporateComponent implements OnInit {
 
   selectOrganization(data: OrganizationModel) {
     this.selectedOrganization = data;
-    // this.dialogService.openDialog({
-    //   action: 'Oraganization',
-    //   message: '',
-    //   title: '',
-    //   type: 'pin',
-    //   image: data.institution_client.picture ?? '',
-    // });
+    this.dialogService.openDialog({
+      action: 'Organization login',
+      message: $localize`Enter your password to add a new organisation`,
+      title: '',
+      type: 'password',
+    });
   }
 }
