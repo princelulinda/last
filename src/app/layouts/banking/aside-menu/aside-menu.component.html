@@ -2,201 +2,252 @@
   <!-- home menus -->
   @if (mainConfig && mainConfig.activePlateform === 'newsFeed') {
     <section class="mt-2">
-      <div
+      <a
         class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
         (click)="hideAsideMenu()"
-        tabindex="0"
-        routerLink="/n/newsfeed"
-        #rla="routerLinkActive"
-        routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: true }"
-        [ngClass]="{
-          'text-dark': rla.isActive,
-          'text-secondary': !rla.isActive,
-        }">
+        routerLink="/n/newsfeed">
         <div>
           <span
             class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
             <i class="fa-solid fa-house house-color"></i>
           </span>
         </div>
-        <span class="fw-bold" i18n>Publications</span>
-      </div>
+        <span class="fw-bold text-secondary" i18n>Publications</span>
+      </a>
 
-      <div
+      <a
         class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
-        <div
-          class="d-flex align-items-center"
-          routerLink="/m"
-          routerLinkActive="text-dark">
+        <div class="d-flex align-items-center" routerLink="/b/banking/chat">
           <div>
             <span class="bg-secondary text-warning me-3 rounded-pill py-3 px-3"
               ><i class="fa-regular fa-comments chat-color"></i
             ></span>
           </div>
-          <span class="fw-bold text-secondary" i18n>Chats</span>
+          <span class="fw-bold text-secondary" i18n>Chat</span>
         </div>
-        <div>
-          <div
+        <b>
+          <small
             class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
             0
-          </div>
-        </div>
-      </div>
+          </small>
+        </b>
+      </a>
 
-      <div
+      <a
         class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
-        routerLink="/m"
-        routerLinkActive="text-dark">
+        (click)="switchPlateform('marketPlace')"
+        routerLink="/m">
         <div>
           <span class="bg-secondary me-3 rounded-pill py-3 px-3"
             ><i class="fa-solid fa-cart-shopping text-success"></i
           ></span>
         </div>
         <span class="fw-bold text-secondary" i18n>Market</span>
-      </div>
+      </a>
     </section>
   }
   <!-- onlineBanking menus -->
-
   @if (mainConfig && mainConfig.activePlateform === 'onlineBanking') {
     <section class="mt-2">
-      <div
+      <a
         class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
         (click)="hideAsideMenu()"
-        tabindex="0"
-        routerLink="/b/banking"
-        #rla="routerLinkActive"
-        routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: true }"
-        [ngClass]="{
-          'text-dark': rla.isActive,
-          'text-secondary': !rla.isActive,
-        }">
+        routerLink="/b/banking">
         <div>
           <span
             class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
             <i class="fa-solid fa-house house-color"></i>
           </span>
         </div>
-        <span class="fw-bold" i18n>Home</span>
-      </div>
+        <span class="fw-bold text-secondary" i18n>Home</span>
+      </a>
 
-      <div
+      <a
         class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
-        routerLink="/m"
-        routerLinkActive="text-dark">
+        routerLink="/b/banking/tarifs">
         <div>
           <span class="bg-secondary me-3 rounded-pill py-3 px-3">
             <i class="fa-solid fa-calculator text-primary"></i>
           </span>
         </div>
         <span class="fw-bold text-secondary" i18n>Tarif</span>
-      </div>
+      </a>
     </section>
   }
+
   <!--market-->
   @if (mainConfig && mainConfig.activePlateform === 'marketPlace') {
     <div>
       <section class="mt-2">
-        <div
+        <a
           class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
           (click)="hideAsideMenu()"
-          tabindex="0"
-          routerLink="/m/market"
-          #rla="routerLinkActive"
-          routerLinkActive="active-link"
-          [routerLinkActiveOptions]="{ exact: true }"
-          [ngClass]="{
-            'text-dark': rla.isActive,
-            'text-secondary': !rla.isActive,
-          }">
+          routerLink="/m/market">
           <div>
             <span
               class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
               <i class="fa-solid fa-house"></i>
             </span>
           </div>
-          <span class="fw-bold fs-normal font-calibri" i18n>Dashboard</span>
-        </div>
+          <span class="fw-bold text-secondary" i18n>Home</span>
+        </a>
 
-        <div
+        <a
           class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
-          routerLink="/m"
-          routerLinkActive="text-dark">
+          routerLink="/m/market/products">
           <div>
-            <span class="bg-secondary me-3 rounded-pill py-3 px-3">
-              <i class="fa-solid fa-credit-card text-all-goldenrod"></i>
+            <span class="bg-secondary me-3 text-success rounded-pill py-3 px-3">
+              <i class="fa-solid fa-basket-shopping"></i>
             </span>
           </div>
-          <span class="fw-bold text-secondary fs-normal font-calibri" i18n
-            >Purchase Statement</span
-          >
-        </div>
+          <span class="fw-bold text-secondary" i18n>Products</span>
+        </a>
 
-        <div
-          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
-          <div
-            class="d-flex align-items-center"
-            routerLink="/m"
-            routerLinkActive="text-dark">
-            <div>
-              <span class="bg-secondary me-3 rounded-pill py-3 px-3">
-                <i class="fa-solid fa-chalkboard-user text-primary"></i>
-              </span>
-            </div>
-            <span class="fw-bold text-secondary" i18n>Slats</span>
-          </div>
+        <a
+          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center"
+          routerLink="/m/market/merchants">
           <div>
-            <div
-              class="bg-secondary px-2 d-flex justify-content-center sm-radius text-primary fw-bold">
-              0
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
-          <div
-            class="d-flex align-items-center"
-            routerLink="/m"
-            routerLinkActive="text-dark">
-            <div>
-              <span class="bg-secondary me-3 rounded-pill py-3 px-3">
-                <i class="fa-solid fa-file-invoice-dollar text-all-blue"></i>
-              </span>
-            </div>
-            <span class="fw-bold text-secondary" i18n> Bills Reports </span>
-          </div>
-          <div>
-            <div
-              class="bg-secondary px-2 d-flex justify-content-center sm-radius text-all-blue fw-bold">
-              0
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
-          routerLink="/m"
-          routerLinkActive="text-dark">
-          <div>
-            <span class="bg-secondary me-3 rounded-pill py-3 px-3">
-              <i class="fa-solid fa-receipt text-all-blue-sky"></i>
+            <span
+              class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
+              <i class="fa-solid fa-shop"></i>
             </span>
           </div>
-          <span class="fw-bold text-secondary" i18n>Payment Reports</span>
-        </div>
+          <span class="fw-bold text-secondary" i18n>Merchants</span>
+        </a>
 
-        <div
-          class="mt-4 d-flex align-items-center clickable border p-2 px-3 rounded bg-hover-secondary p-3 sm-radius"
-          routerLink="/m/my-market"
-          routerLinkActive="text-dark">
-          <span class="me-3">
-            <i class="fa-solid fa-store fs-2 text-primary"></i>
+        <a
+          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center" routerLink="/m/market/carts">
+            <div>
+              <span
+                class="bg-secondary text-success me-3 rounded-pill py-3 px-3"
+                ><i class="fa-solid fa-cart-shopping"></i
+              ></span>
+            </div>
+            <span class="fw-bold text-secondary" i18n>Carts</span>
+          </div>
+          <b>
+            <small
+              class="bg-secondary px-2 d-flex justify-content-center sm-radius text-success">
+              0
+            </small>
+          </b>
+        </a>
+
+        <a
+          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center"
+          routerLink="/m/market/bills">
+          <div>
+            <span class="bg-secondary me-3 rounded-pill py-3 px-3">
+              <i class="fa-solid fa-file-invoice-dollar text-all-blue"></i>
+            </span>
+          </div>
+          <span class="fw-bold text-secondary" i18n> Bills </span>
+        </a>
+
+        @if (userInfo.client.is_merchant) {
+          <a
+            class="mt-4 d-flex align-items-center clickable border sm-radius bg-hover-secondary p-3 sm-radius"
+            routerLink="/m/mymarket"
+            (click)="switchPlateform('myMarket')">
+            <span class="me-3">
+              <i class="fa-solid fa-store fs-2 text-primary"></i>
+            </span>
+            <span class="fw-bold text-secondary" i18n>My Market</span>
+          </a>
+        }
+      </section>
+    </div>
+  }
+
+  <!--market-->
+  @if (mainConfig && mainConfig.activePlateform === 'myMarket') {
+    <div>
+      <section class="mt-2">
+        <a
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+          (click)="hideAsideMenu()"
+          routerLink="/m/mymarket">
+          <div>
+            <span
+              class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
+              <i class="fa-solid fa-house"></i>
+            </span>
+          </div>
+          <span class="fw-bold text-secondary" i18n>Home</span>
+        </a>
+
+        <a
+          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center" routerLink="/m/market/carts">
+            <div>
+              <span
+                class="bg-secondary text-danger me-3 rounded-pill py-3 px-3">
+                <i class="fa-solid fa-store"></i>
+              </span>
+            </div>
+            <span class="fw-bold text-secondary" i18n>Orders</span>
+          </div>
+          <b>
+            <small
+              class="bg-secondary px-2 d-flex justify-content-center sm-radius text-danger">
+              0
+            </small>
+          </b>
+        </a>
+
+        <a
+          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center" routerLink="/m/market/carts">
+            <div>
+              <span
+                class="bg-secondary text-success me-3 rounded-pill py-3 px-3">
+                <i class="fa-solid fa-cart-arrow-down"></i
+              ></span>
+            </div>
+            <span class="fw-bold text-secondary" i18n>Carts</span>
+          </div>
+          <b>
+            <small
+              class="bg-secondary px-2 d-flex justify-content-center sm-radius text-success">
+              0
+            </small>
+          </b>
+        </a>
+
+        <a
+          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center"
+          routerLink="/m/market/bills">
+          <div>
+            <span
+              class="bg-secondary me-3 text-magis-primary rounded-pill py-3 px-3">
+              <i class="fa-solid fa-file-invoice-dollar"></i>
+            </span>
+          </div>
+          <span class="fw-bold text-secondary" i18n> Bills Reports</span>
+        </a>
+        <a
+          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center"
+          routerLink="/m/market/bills">
+          <div>
+            <span
+              class="bg-secondary text-erp-primary me-3 rounded-pill py-3 px-3">
+              <i class="fa-solid fa-receipt"></i>
+            </span>
+          </div>
+          <span class="fw-bold text-secondary" i18n> Payment Reports</span>
+        </a>
+
+        <a
+          class="d-flex align-items-center clickable bg-hover-secondary sm-radius border col-11 col-md-12 col-xxl-11 flex-wrap p-3 mt-4"
+          (click)="switchPlateform('marketPlace'); hideAsideMenu()"
+          routerLink="/m/market">
+          <span class="me-3 fs-large">
+            <i class="text-dark fa-solid fa-cart-shopping"></i>
           </span>
-          <span class="fw-bold text-secondary" i18n>My Market</span>
-        </div>
+
+          <b class="text-secondary fs-large" i18n>Market Place</b>
+        </a>
       </section>
     </div>
   }
