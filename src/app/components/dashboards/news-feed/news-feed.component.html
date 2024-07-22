@@ -180,8 +180,64 @@
         <span class="fw-bold text-dark" i18n>Announcement</span>
       </div>
       <div class="row mx-0" style="gap: 2rem 0">
-        <div class="shadow mx-auto announce-box bg-white sm-radius py-1">
-          <span class="fw-bold fs-5 text-dark" i18n>ONAMOB / IHELA</span>
+        <div
+          class="shadow mx-auto announce-box sm-radius py-1 position-relative overflow-hidden">
+          <div
+            class="px-2 rounded-pill overflow-hidden position-absolute z-2 overflow-hidden bg-all-white">
+            <div class="position-relative h-100">
+              <span class="fw-bold fs-5 text-all-dark" i18n
+                >ONAMOB / IHELA</span
+              >
+              <!-- <div
+                class="h-100 w-100 bg-all-white position-absolute top-0 start-0"></div> -->
+            </div>
+          </div>
+          <!-- <div
+            class="h-100 w-100 bg-all-white position-absolute opacity-50 top-0 start-0 z-1"></div> -->
+          <!-- Slider -->
+          <div class="slider-container">
+            @for (slide of slides; track $index) {
+              <div
+                class="slide d-inline-block h-100 w-100 position-absolute top-0 start-0"
+                [ngClass]="{ active: currentIndex === $index }">
+                <img [src]="slide" alt="" class="image" />
+              </div>
+
+              <div
+                class="indicators position-absolute bottom-0 start-0 w-100 d-flex justify-content-center">
+                @for (slide of slides; track $index) {
+                  @if ($index !== currentIndex) {
+                    <span
+                      class="me-1"
+                      role="button"
+                      tabindex="0"
+                      (click)="setCurrent($index)">
+                      <i class="fa fs-x-small fa-circle text-secondary"></i>
+                    </span>
+                  }
+                  @if ($index === currentIndex) {
+                    <span class="me-1">
+                      <img src="./images/onamob/slide-rect.svg" alt="" />
+                    </span>
+                  }
+                }
+              </div>
+            }
+          </div>
+
+          <!-- Navigation slider -->
+          <div
+            class="position-absolute end-0 top-0 h-100 d-flex align-items-center">
+            <div class="p-1" role="button" tabindex="0" (click)="next()">
+              <i class="fa fa-arrow-right text-all-dark fs-3 me-1"></i>
+            </div>
+          </div>
+          <div
+            class="position-absolute z-1 start-0 top-0 text-all-dark h-100 d-flex align-items-center">
+            <div class="p-1" role="button" tabindex="0" (click)="prev()">
+              <i class="fa fa-arrow-left fs-3 ms-1"></i>
+            </div>
+          </div>
         </div>
         <div
           class="shadow mx-auto announce-box sm-radius bg-white d-flex assurance-box pe-0 position-relative">

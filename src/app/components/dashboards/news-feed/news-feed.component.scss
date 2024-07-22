@@ -30,3 +30,15 @@
 .max-width-600 {
   max-width: 500px;
 }
+
+.slide {
+  transition: transform 1s ease;
+}
+
+.slide.active {
+  transform: translateX(0);
+}
+
+.slide:not(.active) {
+  transform: translateX(-100%);
+}
