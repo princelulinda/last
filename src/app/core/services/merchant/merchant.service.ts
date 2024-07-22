@@ -7,7 +7,13 @@ import { ApiService } from '../api/api.service';
 import { map, Observable, retry } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
-import { Favorite } from './model';
+import { Favorite, Pagination } from './model';
+import {
+  AllProductModel,
+  MerchantInfoModel,
+  MerchantObjectModel,
+  MerchantObjectsModel,
+} from '../../../components/products/products.model';
 import {
   searchTellerModel,
   updateMerchantDetailsModel,
@@ -171,7 +177,7 @@ export class MerchantService {
   }
   getConnectedMerchantInfo() {
     const url = '/dbs/merchant/info/';
-    return this.apiService.get(url).pipe(
+    return this.apiService.get<MerchantObjectModel>(url).pipe(
       map(data => {
         return data;
       })
@@ -179,7 +185,7 @@ export class MerchantService {
   }
   getMerchantInfos(merchantId: string) {
     const url = '/dbs/merchant/merchant-info/' + merchantId + '/';
-    return this.apiService.get(url).pipe(
+    return this.apiService.get<MerchantInfoModel>(url).pipe(
       map(data => {
         return data;
       })
@@ -187,7 +193,7 @@ export class MerchantService {
   }
   getMerchantMultipleInfo() {
     const url = '/dbs/merchant/multiple-info/';
-    return this.apiService.get(url).pipe(
+    return this.apiService.get<MerchantObjectsModel>(url).pipe(
       map(data => {
         return data;
       })
@@ -356,22 +362,22 @@ export class MerchantService {
       '';
     return this.apiService.get(apiUrl).pipe(map(data => data));
   }
-  // searchProduct(pagination: Pagination = {}, search = '') {
-  //     let pagination_: any;
-  //     if (pagination.filters) {
-  //         pagination_ =
-  //             'limit=' +
-  //             pagination.filters.limit +
-  //             '&offset=' +
-  //             pagination.filters.offset;
-  //     }
-  //     const url =
-  //         '/dbs/merchant-product/objects_autocomplete/?' +
-  //         pagination_ +
-  //         '&search=' +
-  //         search;
-  //     return this.apiService.get(url).pipe(map((data) => data));
-  // }
+  searchProduct(pagination: Pagination = {}, search = '') {
+    let pagination_!: string;
+    if (pagination.filters) {
+      pagination_ =
+        'limit=' +
+        pagination.filters.limit +
+        '&offset=' +
+        pagination.filters.offset;
+    }
+    const url =
+      '/dbs/merchant-product/objects_autocomplete/?' +
+      pagination_ +
+      '&search=' +
+      search;
+    return this.apiService.get<AllProductModel>(url).pipe(map(data => data));
+  }
   //needed in market-dashboard
   getBIllers(biller: boolean) {
     const url = '/dbs/merchant/manage/objects_autocomplete/?is_biller=';

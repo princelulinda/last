@@ -2,11 +2,8 @@ import { AfterViewInit, Component, effect, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import {
-  ConfigService,
-  DialogService,
-  PlateformModel,
-} from '../../core/services';
+import { ConfigService, DialogService } from '../../core/services';
+import { PlateformModel } from '../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-splash-screen',

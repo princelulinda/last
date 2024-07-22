@@ -4,11 +4,11 @@ import { RouterModule } from '@angular/router';
 
 import { Observable, Subject } from 'rxjs';
 
+import { ConfigService } from '../../../core/services';
 import {
-  ConfigService,
-  PlateformModel,
   activeMainConfigModel,
-} from '../../../core/services';
+  PlateformModel,
+} from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-switch-plateform-icons',

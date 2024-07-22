@@ -1,9 +1,11 @@
-import { Component, Inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Inject } from '@angular/core';
+import { CommonModule, NgClass } from '@angular/common';
+
+import { Subject, Observable, takeUntil } from 'rxjs';
+
 import { WalletCardComponent } from '../../wallet/wallet-card/wallet-card.component';
 import { NyamuranziCardComponent } from '../../nyamuranzi/nyamuranzi-card/nyamuranzi-card.component';
-import { Subject, Observable, takeUntil } from 'rxjs';
-import { AuthService, ConfigService, ModeModel } from '../../../core/services';
-import { CommonModule, NgClass } from '@angular/common';
+import { AuthService, ConfigService } from '../../../core/services';
 import { BankService } from '../../../core/services/bank/bank.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
@@ -11,6 +13,8 @@ import { MerchantService } from '../../../core/services/merchant/merchant.servic
 import { MenuGroup, MerchantLookup, PayMerchant } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { ModeModel } from '../../../core/services/config/main-config.models';
+
 @Component({
   selector: 'app-online-banking',
   standalone: true,

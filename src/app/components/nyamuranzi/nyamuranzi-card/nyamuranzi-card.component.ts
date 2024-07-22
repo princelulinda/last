@@ -1,12 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BankingService } from '../../../core/services/dashboards/banking.service';
-import { Subject, Observable, takeUntil } from 'rxjs';
-import { ModeModel, ConfigService, AuthService } from '../../../core/services';
-import { CommonModule, NgClass } from '@angular/common';
-import { UserInfoModel } from '../../../core/db/models/auth';
 import { RouterLink } from '@angular/router';
+import { CommonModule, NgClass } from '@angular/common';
+
+import { Subject, Observable, takeUntil } from 'rxjs';
+
+import { BankingService } from '../../../core/services/dashboards/banking.service';
+import { ConfigService, AuthService } from '../../../core/services';
+import { UserInfoModel } from '../../../core/db/models/auth';
 import { nyamuranziCard } from '../models';
 import { userInfoModel } from '../../../layouts/header/model';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-nyamuranzi-card',

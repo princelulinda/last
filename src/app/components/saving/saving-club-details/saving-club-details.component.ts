@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SavingDetailService } from '../../../core/services/saving/saving.service';
 import { CommonModule } from '@angular/common';
-import { TontineDataModele } from '../saving.model';
+import { TontineDataModele } from '../saving.models';
 @Component({
   selector: 'app-saving-club-details',
   standalone: true,
@@ -26,8 +26,6 @@ export class SavingClubDetailsComponent implements OnInit {
   getSavingData() {
     this.savingDetailService.getSavingData(this.tontineId).subscribe({
       next: (response: { tontine: TontineDataModele }) => {
-        // Puisque 'response.tontine' est un objet, vous pouvez l'assigner directement
-        // à 'this.savingData' si 'this.savingData' est de type 'TontineDataModele | null'
         this.savingData = response.tontine;
         console.log('Données de tontine:', this.savingData);
       },

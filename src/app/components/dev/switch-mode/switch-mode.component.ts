@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigService, ModeModel } from '../../../core/services';
 import { CommonModule } from '@angular/common';
+
+import { ConfigService } from '../../../core/services';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-switch-mode',
@@ -10,6 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./switch-mode.component.scss'],
 })
 export class SwitchModeComponent implements OnInit {
+  mode!: ModeModel;
   isDarkModetheme: boolean;
 
   constructor(private configService: ConfigService) {
@@ -17,6 +20,11 @@ export class SwitchModeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.configService.getMode().subscribe({
+      next: response => {
+        this.mode = response;
+      },
+    });
     // Récupération de la valeur de isDarkModetheme depuis le Local Storage
     this.isDarkModetheme = localStorage.getItem('isDarkModetheme') === 'true';
 

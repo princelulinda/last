@@ -1,36 +1,47 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
 import {
-  activeMainConfigModel,
-  AuthService,
-  ConfigService,
-} from '../../../core/services';
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  OnDestroy,
+} from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+
+import { AuthService, ConfigService } from '../../../core/services';
 import { ClientService } from '../../../core/services/client/client.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { accountsList } from '../models';
 import { CommonModule } from '@angular/common';
+
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-accounts-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AmountVisibilityComponent],
   templateUrl: './accounts-list.component.html',
   styleUrl: './accounts-list.component.scss',
 })
-export class AccountsListComponent implements OnInit {
+export class AccountsListComponent implements OnInit, OnDestroy {
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
   private userInfo$: Observable<UserInfoModel>;
   clientInfo!: UserInfoModel;
   clientId!: number;
   isLoading = false;
-  accountsOnlineBanking: accountsList[] | [] | null = null;
-  accountsWorkStation: accountsList[] | [] | null = null;
-  selectedLoneAccount!: accountsList;
+  accountsListData: accountsList[] | [] | null = null;
+
+  selectedLoneAccount: accountsList | null = null;
   selectedAccount!: accountsList[];
   isLoneAccountSelected = false;
+
   // close the account's creation form
   closeForm = false;
+  @Input() Type: 'transfer' | 'list' = 'transfer';
   @Output() accountSelected = new EventEmitter<accountsList>();
+
+  private onDestroy$ = new Subject<void>();
 
   constructor(
     private configService: ConfigService,
@@ -47,11 +58,11 @@ export class AccountsListComponent implements OnInit {
         this.clientInfo = userinfo;
         this.clientId = this.clientInfo.client.id;
         if (this.clientId) {
-          this.getClientAccountsOnlineBanking();
-          this.getClientAccountsWorkstation();
+          this.getClientAccounts();
         }
       },
     });
+
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
@@ -59,11 +70,16 @@ export class AccountsListComponent implements OnInit {
     });
   }
 
-  getClientAccountsOnlineBanking() {
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
+
+  getClientAccounts() {
     this.isLoading = true;
     this.clientService.getClientAccounts(this.clientId).subscribe({
       next: response => {
-        this.accountsOnlineBanking = response.objects;
+        this.accountsListData = response.objects;
         this.isLoading = false;
       },
       error: err => {
@@ -73,18 +89,8 @@ export class AccountsListComponent implements OnInit {
     });
   }
 
-  getClientAccountsWorkstation() {
-    this.isLoading = true;
-    this.clientService.getClientAccounts(this.clientId).subscribe({
-      next: response => {
-        this.accountsWorkStation = response.objects;
-        this.isLoading = false;
-      },
-      error: err => {
-        console.error('Erreur :', err);
-        this.isLoading = false;
-      },
-    });
+  clearSelectedAccount() {
+    this.selectedLoneAccount = null;
   }
 
   selectLoneAccount(account: accountsList) {
@@ -94,9 +100,10 @@ export class AccountsListComponent implements OnInit {
     this.closeForm = false;
     this.accountSelected.emit(account);
   }
+
   refresh() {
-    this.accountsOnlineBanking = null;
+    this.accountsListData = null;
     this.isLoading = true;
-    this.getClientAccountsOnlineBanking();
+    this.getClientAccounts();
   }
 }
