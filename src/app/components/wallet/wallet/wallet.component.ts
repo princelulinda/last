@@ -3,7 +3,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { WalletListComponent } from '../wallet-list/wallet-list.component';
 import { ClientService } from '../../../core/services/client/client.service';
 import { RouterOutlet } from '@angular/router';
-import { WalletList } from '../models';
+import { WalletList } from '../wallet.models';
 @Component({
   selector: 'app-wallet',
   standalone: true,

@@ -7,16 +7,13 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import {
-  activeMainConfigModel,
-  AuthService,
-  ConfigService,
-} from '../../../core/services';
+import { AuthService, ConfigService } from '../../../core/services';
 import { ClientService } from '../../../core/services/client/client.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
-import { WalletList } from '../models';
 import { CommonModule } from '@angular/common';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import { WalletList } from '../wallet.models';
 @Component({
   selector: 'app-wallet-list',
   standalone: true,

@@ -1,13 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BankingService } from '../../../core/services/dashboards/banking.service';
 import { Subject, Observable, takeUntil } from 'rxjs';
-import { AuthService, ConfigService, ModeModel } from '../../../core/services';
+import { AuthService, ConfigService } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 
 import { NgClass, CommonModule } from '@angular/common';
-import { WalletCard } from '../models';
+import { WalletCard } from '../wallet.models';
 import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-wallet-card',
@@ -85,10 +86,6 @@ export class WalletCardComponent implements OnInit, OnDestroy {
             this.noWalletData = true;
           }
         },
-        // error: (error) => {
-
-        //     error = 'Data not Found';
-        // },
       });
   }
   public ngOnDestroy(): void {

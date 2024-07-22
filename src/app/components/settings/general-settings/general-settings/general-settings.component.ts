@@ -3,13 +3,13 @@ import { AuthService } from '../../../../core/services';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { SettingsService } from '../../../../core/services/settings/settings.service';
-import { AddResponse, MailModel } from '../../setting.model';
+import { AddResponse, MailModel } from '../../settings.models';
 import { FormControl, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DialogService } from '../../../../core/services';
 import { ClientService } from '../../../../core/services/client/client.service';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
-import { BodyModel } from '../../setting.model';
+import { BodyModel } from '../../settings.models';
 // { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-general-settings',

@@ -5,7 +5,7 @@ import { PaginationConfig } from '../../../global/global.model';
 import {
   activeSessionResponse,
   historySessionResponse,
-} from '../../../components/settings/setting.model';
+} from '../../../components/settings/settings.models';
 @Injectable({
   providedIn: 'root',
 })
@@ -34,5 +34,9 @@ export class SessionsService {
   ): Observable<historySessionResponse> {
     const url = `/erp/session/?active=false&search=${search}&limit=${pagination.filters.limit}&offset=${pagination.filters.offset}`;
     return this.apiService.get(url);
+  }
+  endSession(sessionId: string): Observable<activeSessionResponse> {
+    const url = `/erp/session/${sessionId}/close/`;
+    return this.apiService.post(url);
   }
 }

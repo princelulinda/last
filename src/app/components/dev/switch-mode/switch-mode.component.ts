@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigService, ModeModel } from '../../../core/services';
 import { CommonModule } from '@angular/common';
+
+import { ConfigService } from '../../../core/services';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-switch-mode',
@@ -18,7 +20,6 @@ export class SwitchModeComponent implements OnInit {
     this.configService.getMode().subscribe({
       next: response => {
         this.mode = response;
-        console.log('mode récupéré:', this.mode);
       },
     });
   }

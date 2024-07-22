@@ -1,4 +1,7 @@
-import { PlateformModel, ThemeModel } from '../app/core/services';
+import {
+  PlateformModel,
+  ThemeModel,
+} from '../app/core/services/config/main-config.models';
 
 export const VERSION = '2.0.1';
 export const APPDBVERSION = 1;

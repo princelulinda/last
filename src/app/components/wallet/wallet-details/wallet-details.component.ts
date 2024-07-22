@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { activeMainConfigModel } from '../../../core/services';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../../core/services/client/client.service';
-import { WalletList } from '../models';
+import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import { WalletList } from '../wallet.models';
 
 @Component({
   selector: 'app-wallet-details',

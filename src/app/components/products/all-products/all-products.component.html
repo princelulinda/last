@@ -5,78 +5,80 @@
       <i class="fa-solid fa-circle"></i>
     </span>
     <span i18n class="text-dark">
-      <b *ngIf="url === ''"> All products</b>
-      <b *ngIf="url !== ''"> Recent products</b>
+      @if (url === '') {
+        <b> All products</b>
+      }
+      @if (url !== '') {
+        <b> Recent products</b>
+      }
     </span>
   </span>
 </div>
 <div>
   <!-- style="border: 0.5px solid whitesmoke; border-radius: 5px" -->
-  <div class="row mt-2 d-flex justify-content-between" *ngIf="!loader">
-    <div
-      class="col-lg-3 col-md-3 col mb-3"
-      *ngFor="let item of countProductLoader">
-      <app-skeleton [height]="'150px'" [width]="'150px'"></app-skeleton>
-      <div>
-        <app-skeleton
-          [height]="'10px'"
-          [width]="'60%'"
-          appearance="line"></app-skeleton>
-      </div>
-      <div>
-        <app-skeleton
-          [height]="'10px'"
-          [width]="'40%'"
-          appearance="line"></app-skeleton>
-      </div>
+  @if (!loader) {
+    <div class="row mt-2 d-flex justify-content-between">
+      @for (item of countProductLoader; track $index) {
+        <div class="col-lg-3 col-md-3 col mb-3">
+          <app-skeleton [height]="'150px'" [width]="'150px'"></app-skeleton>
+          <div>
+            <app-skeleton [height]="'10px'" [width]="'60%'" appearance="line">
+            </app-skeleton>
+          </div>
+          <div>
+            <app-skeleton [height]="'10px'" [width]="'40%'" appearance="line">
+            </app-skeleton>
+          </div>
+        </div>
+      }
     </div>
-  </div>
+  }
   <!-- search bar for all products -->
-
-  <div class="mb-2 mb-md-4" *ngIf="loader && searchBar">
-    <div class="d-flex search-container justify-content-center">
-      <span
-        role="button"
-        class="btn bg-transparent position-relative search-btn"
-        type="submit">
-        <i
-          class="fa-solid fa-search fs-7"
-          style="color: rgb(167, 164, 164)"></i>
-      </span>
-      <input
-        class="form-control ps-5 search-input"
-        type="text"
-        [ngClass]="{
-          'search-background': !isWhite,
-          'level-2': isWhite,
-        }"
-        placeholder="Search product"
-        [formControl]="searchInput"
-        (input)="searchFor()" />
-      <style>
-        /* Règle de style pour le texte du placeholder */
-        .form-control::placeholder {
-          color: rgb(204, 197, 197);
-        }
-      </style>
+  @if (loader && searchBar) {
+    <div class="mb-2 mb-md-4">
+      <div class="d-flex search-container justify-content-center">
+        <span
+          role="button"
+          class="btn bg-transparent position-relative search-btn"
+          type="submit">
+          <i class="fa-solid fa-search fs-7 text-secondary"></i>
+        </span>
+        <input
+          class="form-control ps-5 search-input"
+          type="text"
+          [ngClass]="{
+            'search-background': !isWhite,
+            'level-2': isWhite,
+          }"
+          placeholder="Search product"
+          [formControl]="searchInput"
+          (input)="searchFor()" />
+        <style>
+          /* Règle de style pour le texte du placeholder */
+          .form-control::placeholder {
+            color: rgb(204, 197, 197);
+          }
+        </style>
+      </div>
     </div>
-  </div>
+  }
   <div class="row mt-3">
+    @for (product of products; track $index) {
+      <div
+        class="d-flex col-lg-3 col-md-4 col mb-3 sm-radius"
+        (click)="selectProduct(product)"
+        tabindex="0">
+        <!-- image -->
+        <app-product-card [product]="product" [get_product]="true">
+        </app-product-card>
+      </div>
+    }
+  </div>
+  @if (productsNumber === 0) {
     <div
-      class="d-flex col-lg-3 col-md-4 col mb-3 sm-radius"
-      *ngFor="let product of products; let i = index"
-      (click)="selectProduct(product)"
-      tabindex="0">
-      <!-- image -->
-      <app-product-card
-        [product]="product"
-        [get_product]="true"></app-product-card>
+      i18n
+      class="row text-dark mt-3 d-flex justify-content-center align-items-center">
+      No recent products available
     </div>
-  </div>
-  <div
-    i18n
-    class="row text-dark mt-3 d-flex justify-content-center align-items-center"
-    *ngIf="productsNumber === 0">
-    No recent products available
-  </div>
+  }
 </div>

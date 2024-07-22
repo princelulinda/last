@@ -1,18 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BankingService } from '../../../core/services/dashboards/banking.service';
+import { RouterLink } from '@angular/router';
+import { CommonModule, NgClass } from '@angular/common';
+
 import { Subject, Observable, takeUntil } from 'rxjs';
+
+import { BankingService } from '../../../core/services/dashboards/banking.service';
 import {
-  ModeModel,
   ConfigService,
   AuthService,
   DialogService,
 } from '../../../core/services';
-import { CommonModule, NgClass } from '@angular/common';
 import { UserInfoModel } from '../../../core/db/models/auth';
-import { RouterLink } from '@angular/router';
 import { nyamuranziCard } from '../models';
 import { userInfoModel } from '../../../layouts/header/model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-nyamuranzi-card',
@@ -77,21 +79,7 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
   toggleAmount() {
     this.showAmountAccount = !this.showAmountAccount;
   }
-  // copyReferalLink() {
-  //   const reference = this.clipboardService.copyFromContent(
-  //       window.location.origin + '/ihela/sign-up/' + this.clientId
-  //   );
 
-  //   if (reference) {
-  //     this.dialogService.openToast({
-  //       type: 'success',
-  //       title: 'Success',
-  //       message:
-  //         $localize`Referal link copied to clipboard`,
-  //     });
-
-  //   }
-  // }
   public ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();

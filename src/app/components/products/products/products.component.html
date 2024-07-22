@@ -96,36 +96,36 @@
             <span i18n class="text-dark"><b> Favorites</b></span>
           </h6>
         </div>
-        <div
-          class="row mb-3 d-flex justify-content-between"
-          *ngIf="!allProduct">
-          <div
-            class="col-5"
-            style="height: 135px"
-            *ngFor="let item of countProductLoader; let i = index"
-            [hidden]="i >= 2">
-            <app-skeleton [height]="'120px'" [width]="'120px'"></app-skeleton>
-            <div>
-              <app-skeleton
-                [height]="'10px'"
-                [width]="'60%'"
-                appearance="line"></app-skeleton>
-            </div>
+        @if (!allProduct) {
+          <div class="row mb-3 d-flex justify-content-between">
+            @for (item of countProductLoader; track $index) {
+              <div class="col-5" style="height: 135px" [hidden]="$index >= 2">
+                <app-skeleton
+                  [height]="'120px'"
+                  [width]="'120px'"></app-skeleton>
+                <div>
+                  <app-skeleton
+                    [height]="'10px'"
+                    [width]="'60%'"
+                    appearance="line"></app-skeleton>
+                </div>
+              </div>
+            }
           </div>
-        </div>
+        }
         <div class="row">
-          <div
-            class="col"
-            *ngFor="let product of allProduct; let i = index"
-            [hidden]="i >= 2"
-            (click)="selectProduct(product)"
-            tabindex="0">
-            <!-- image -->
+          @for (product of allProduct; track $index) {
+            <div
+              class="col"
+              [hidden]="$index >= 2"
+              (click)="selectProduct(product)"
+              tabindex="0">
+              <!-- image -->
 
-            <app-product-card
-              [product]="product"
-              [get_product]="true"></app-product-card>
-          </div>
+              <app-product-card [product]="product" [get_product]="true">
+              </app-product-card>
+            </div>
+          }
         </div>
       </div>
     </div>

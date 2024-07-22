@@ -2,19 +2,18 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 // import { Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import { MarketService } from '../../../core/services/market/market.service';
 import { VariableService } from '../../../core/services/variable/variable.service';
-import { AuthService, ConfigService, ModeModel } from '../../../core/services';
+import { AuthService, ConfigService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
-
 import { AllProductsComponent } from '../all-products/all-products.component';
 import {
   Account,
-  ClientModel,
   MerchantInfoModel,
   MerchantModel,
   MerchantObjectModel,
@@ -24,6 +23,11 @@ import {
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { UserInfoModel } from '../../../core/db/models/auth';
+import { objectModel } from '../../dashboards/dashboard.model';
+import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
+import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
+import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 // import {
 //     OpenMerchantBillPopup,
 //     OpenLandscapeBillPopup,
@@ -43,7 +47,13 @@ import { UserInfoModel } from '../../../core/db/models/auth';
 @Component({
   selector: 'app-my-market-dashboard',
   standalone: true,
-  imports: [SkeletonComponent, CommonModule, AllProductsComponent],
+  imports: [
+    SkeletonComponent,
+    CommonModule,
+    AllProductsComponent,
+    LookupComponent,
+    AmountFieldComponent,
+  ],
   templateUrl: './my-market-dashboard.component.html',
   styleUrl: './my-market-dashboard.component.scss',
 })
@@ -52,8 +62,8 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
 
   clientInfo: UserInfoModel[] | [] | null = null;
   clientInfo$: Observable<UserInfoModel>;
-  amount: string | number = 0;
-  selectedClient!: ClientModel | null;
+  amount: string | number | null = 0;
+  selectedClient!: ItemModel | null;
   isLoadingInfo = false;
   datas: object[] = [
     {
@@ -85,14 +95,13 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   merchant!: MerchantModel | null;
   merchantMult!: MerchantModel[];
   merchantInfo!: MerchantModel | null;
-  count = 0;
 
   stat!: MerchantModel | null;
   account!: Account;
   merchantAccountId = '';
   billForm = new FormGroup({
     description: new FormControl(''),
-    amount: new FormControl('', Validators.required),
+    amount: new FormControl(0, Validators.required),
   });
   dialog!: DialogResponseModel;
   dialog$: Observable<DialogResponseModel>;
@@ -177,13 +186,13 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   generateBill() {
     this.openBillPopup = true;
 
-    // const body = {
-    //     amount: this.billForm.value.amount,
-    //     client: (this.selectedClient as ClientModel).id,
-    //     description: this.billForm.value.description,
-    //     merchant_id: this.merchantId,
-    //     pin_code: this.variableService.pin,
-    // };
+    const body = {
+      amount: this.billForm.value.amount,
+      client: (this.selectedClient as ItemModel).id,
+      description: this.billForm.value.description,
+      merchant_id: this.merchantId,
+      pin_code: this.variableService.pin,
+    };
 
     //   const response = {
     //       title: '',
@@ -198,110 +207,112 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       message: '',
     });
 
-    // this.marketService
-    //     .generateBill(body)
-    //     .pipe(takeUntil(this.onDestroy$))
-    //     .subscribe({
-    //         next: (response: any) => {
-    //             const data = response.object.response_data;
-    //             if (
-    //                 response.object['success'] !== undefined &&
-    //                 !response.object.success
-    //             ) {
-    //             //   this.store.dispatch(
-    //             //       new CloseDialog({ response: 'close' })
-    //             //   );
+    this.marketService
+      .generateBill(body)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (response: objectModel) => {
+          // const data = response.object.response_data;
+          if (
+            response.object['success'] !== undefined &&
+            !response.object.success
+          ) {
+            //   this.store.dispatch(
+            //       new CloseDialog({ response: 'close' })
+            //   );
+            this.dialogService.closeToast();
+            this.variableService.pin = '';
 
-    //                 this.variableService.pin = '';
+            //   const notification = {
+            //       title: '',
+            //       type: 'failed',
+            //       message: response.object.response_message,
+            //   };
+            //   this.store.dispatch(new OpenDialog(notification));
 
-    //             //   const notification = {
-    //             //       title: '',
-    //             //       type: 'failed',
-    //             //       message: response.object.response_message,
-    //             //   };
-    //             //   this.store.dispatch(new OpenDialog(notification));
+            this.dialogService.openToast({
+              title: '',
+              type: 'failed',
+              message: 'Something went wrong, please try again',
+            });
+            return;
+          }
+          // this.successMessage = {
+          //     data: {
+          //         debit_account: '',
+          //         name: this.selectedClient.lookup_title,
+          //         merchantName: this.merchant.client.client_full_name,
 
-    //             this.dialogService.openToast({
-    //                 title: '',
-    //                 type: 'failed',
-    //                 message: response.object.response_message,
-    //             })
-    //                 return;
-    //             }
-    //             this.successMessage = {
-    //                 data: {
-    //                     debit_account: '',
-    //                     name: this.selectedClient.lookup_title,
-    //                     merchantName: this.merchant.client.client_full_name,
+          //         date: Date.now(),
+          //         printable_text: '',
+          //         amount: this.amount,
+          //         code: data.code,
+          //         product: {
+          //             name: '',
+          //             value: '',
+          //         },
+          //         description: this.billForm.value.description,
+          //         adress: '',
+          //         receipt_date: '',
+          //         credit_account: this.merchant.merchant_code,
+          //     },
+          // };
+          this.openBillPopup = false;
 
-    //                     date: Date.now(),
-    //                     printable_text: '',
-    //                     amount: this.amount,
-    //                     code: data.code,
-    //                     product: {
-    //                         name: '',
-    //                         value: '',
-    //                     },
-    //                     description: this.billForm.value.description,
-    //                     adress: '',
-    //                     receipt_date: '',
-    //                     credit_account: this.merchant.merchant_code,
-    //                 },
-    //             };
-    //             this.openBillPopup = false;
+          this.billForm.reset();
+          this.selectedClient = null;
+          this.amount = null;
+          this.amount = 0;
+          // this.store.dispatch(new CloseDialog({ response: 'close' }));
+          this.dialogService.closeDialog();
+          // this.dialogService.closeToast()
+          this.variableService.pin = '';
 
-    //             this.billForm.reset();
-    //             this.selectedClient = null;
-    //             //   this.amount = null;
-    //             this.amount = 0;
-    //             // this.store.dispatch(new CloseDialog({ response: 'close' }));
-    //             this.dialogService.closeDialog()
-    //             this.variableService.pin = '';
+          // const notification = {
+          //     title: '',
+          //     type: 'success',
+          //     message: response.object.response_message,
+          // };
 
-    //             // const notification = {
-    //             //     title: '',
-    //             //     type: 'success',
-    //             //     message: response.object.response_message,
-    //             // };
+          this.dialogService.openToast({
+            title: '',
+            type: 'success',
+            message: 'success',
+          });
+          //   this.store.dispatch(new OpenDialog(notification));
+          //   this.store.dispatch(
+          //       new OpenMerchantBillPopup(this.successMessage.data)
+          //   );
+          // this.closeModal.nativeElement.click();
+          this.billForm.reset();
+        },
+        error: msg => {
+          //   this.store.dispatch(new CloseDialog({ response: 'close' }));
+          this.dialogService.closeDialog();
 
-    //             this.dialogService.openToast({
-    //                 title: '',
-    //                 type: 'failed',
-    //                 message: response.object.response_message,
-    //             })
-    //         //   this.store.dispatch(new OpenDialog(notification));
-    //         //   this.store.dispatch(
-    //         //       new OpenMerchantBillPopup(this.successMessage.data)
-    //         //   );
-    //             this.closeModal.nativeElement.click();
-    //             this.billForm.reset();
-    //         },
-    //         error: (msg) => {
-    //         //   this.store.dispatch(new CloseDialog({ response: 'close' }));
-    //             this.dialogService.closeDialog()
+          this.variableService.pin = '';
 
-    //             this.variableService.pin = '';
-
-    //             // const notification = {
-    //             //     title: '',
-    //             //     type: 'failed',
-    //             //     message:
-    //             //         msg?.object?.response_message ??
-    //             //         'Something went wrong, please try again',
-    //             // };
-    //         //   this.store.dispatch(new OpenDialog(notification));
-    //             this.dialogService.openToast({
-    //                 title: '',
-    //                 type: 'failed',
-    //                 message: msg?.object?.response_message ??
-    //                 'Something went wrong, please try again',
-    //             })
-    //         },
-    //     });
+          // const notification = {
+          //     title: '',
+          //     type: 'failed',
+          //     message:
+          //         msg?.object?.response_message ??
+          //         'Something went wrong, please try again',
+          // };
+          //   this.store.dispatch(new OpenDialog(notification));
+          this.dialogService.openToast({
+            title: '',
+            type: 'failed',
+            message:
+              msg?.object?.response_message ??
+              'Something went wrong, please try again',
+          });
+        },
+      });
   }
-  selectClient(event: ClientModel) {
+  selectClient(event: ItemModel | null) {
     console.log(event);
-    // $event ? (this.selectedClient = $event) : (this.selectedClient = null);
+    // event ? (this.selectedClient = event) : (this.selectedClient = null);
   }
 
   getConnectedMerchantInfo() {
@@ -409,7 +420,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     this.merchant = null;
     this.merchantInfo = null;
     this.stat = null;
-    //   this.closeMerchantsModal.nativeElement.click();
+    // this.closeMerchantsModal.nativeElement.click();
 
     this.merchantService.getMerchantInfos(merchantId as string).subscribe({
       next: (data: MerchantInfoModel) => {
@@ -463,7 +474,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  getAmount(event: { amount: string }) {
+  getAmount(event: { amount: number | null }) {
     this.amount = event.amount;
     this.billForm.patchValue({
       amount: event.amount,

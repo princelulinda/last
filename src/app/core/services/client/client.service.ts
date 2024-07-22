@@ -5,11 +5,10 @@ import { ApiService } from '..';
 import {
   AddResponse,
   BodyModel,
-} from '../../../components/settings/setting.model';
+} from '../../../components/settings/settings.models';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { WalletList } from '../../../components/wallet/models';
-
 import { accountsList } from '../../../components/account/models';
+import { WalletList } from '../../../components/wallet/wallet.models';
 
 @Injectable({
   providedIn: 'root',
