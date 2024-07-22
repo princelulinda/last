@@ -7,9 +7,9 @@
         <span class="me-4">
           <button
             [ngClass]="{
-              'bg-primary text-all-white': actifSection === 'internalBank',
+              'bg-primary': actifSection === 'internalBank',
             }"
-            class="btn border border-dark px-4"
+            class="btn fw-bold text-all-white border border-dark px-4"
             (click)="setActifSection('internalBank')"
             i18n>
             Internal
@@ -17,9 +17,9 @@
         >
         <span>
           <button
-            class="btn border border-dark px-4"
+            class="btn fw-bold text-all-white border border-dark px-4"
             [ngClass]="{
-              'bg-primary text-all-white': actifSection === 'externalBank',
+              'bg-primary ': actifSection === 'externalBank',
             }"
             (click)="setActifSection('externalBank')"
             i18n>
@@ -266,25 +266,25 @@
             @for (fees of feesData; track fees) {
               <tr>
                 <td class="">
-                  <b class="text-dark">{{ fees.amount_range.lower }}</b>
+                  <b class="text-all-black">{{ fees.amount_range.lower }}</b>
                 </td>
                 <td>
-                  <b class="text-dark">-</b>
+                  <b class="text-all-black">-</b>
                 </td>
                 <td>
-                  <b class="text-dark">{{ fees.amount_range.upper }}</b>
+                  <b class="text-all-black">{{ fees.amount_range.upper }}</b>
                 </td>
                 <td class="border-start">
                   @if (tarifName !== 'agent deposit') {
-                    <b class="text-dark">{{ fees.total_commission }}</b>
+                    <b class="text-all-black">{{ fees.total_commission }}</b>
                   }
                   @if (tarifName === 'agent deposit') {
-                    <b class="text-dark">-----</b>
+                    <b class="text-all-black">-----</b>
                   }
                 </td>
                 @if (isAgent) {
                   <td class="border-start">
-                    <b class="text-dark">{{ fees.agent_commission }}</b>
+                    <b class="text-all-black">{{ fees.agent_commission }}</b>
                   </td>
                 }
               </tr>
@@ -353,11 +353,15 @@
                 ></app-amount-words>
             </span> -->
 
-          <input
-            class="form-control me-2"
-            formControlName="amount"
-            placeholder="Amount"
-            type="text" />
+          <div class="form-floating mb-3">
+            <input
+              type="email"
+              class="form-control"
+              id="floatingInput"
+              formControlName="amount"
+              placeholder="Amount" />
+            <label for="floatingInput">Amount</label>
+          </div>
 
           <span class="ms-3">
             <button

@@ -11,6 +11,7 @@ import { MerchantService } from '../../../core/services/merchant/merchant.servic
 import { MenuGroup, MerchantLookup, PayMerchant } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { TarifComponent } from '../../tarif/tarif.component';
 
 @Component({
   selector: 'app-online-banking',
@@ -24,6 +25,7 @@ import { bankModel } from '../../../core/db/models/bank/bank.model';
     SkeletonComponent,
     CommonModule,
     WalletCardComponent,
+    TarifComponent,
   ],
 })
 export class OnlineBankingComponent implements OnInit, OnDestroy {
