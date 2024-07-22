@@ -5,7 +5,7 @@ import { PaginationConfig } from '../../../global/global.model';
 import {
   activeSessionResponse,
   historySessionResponse,
-} from '../../../components/settings/setting.model';
+} from '../../../components/settings/settings.models';
 @Injectable({
   providedIn: 'root',
 })

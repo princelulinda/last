@@ -7,11 +7,11 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Params, RouterLink } from '@angular/router';
 import { SavingDetailService } from '../../../core/services/saving/saving.service';
-import { TontineDataModele } from '../saving.model';
-import { activeMainConfigModel } from '../../../core/services';
+import { TontineDataModele } from '../saving.models';
 import { Observable } from 'rxjs';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-club-adhesion',
   standalone: true,

@@ -2,6 +2,7 @@
     background-image: url('/images/wallet-card.svg');
     width: 365px;
     height: 210px;
+    background-size: cover;
 }
 .africa {
     transform: translate(53%, 7%);
@@ -21,7 +22,4 @@
 .short {
     width: 30px;
     height: 28px;
-}
-.b-light {
-    background-color: #ffffff36;
 }

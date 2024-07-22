@@ -1,7 +1,7 @@
 <div class="mb-3">
   <div>
     <!--cards ( wallet and nyamuranzi )-->
-    <section class="d-flex overflow-x-auto p-3 w-100">
+    <section class="d-flex overflow-x-auto pb-3 w-100">
       <!--wallet card-->
       <div>
         <app-wallet-card></app-wallet-card>
@@ -15,7 +15,7 @@
 
     <!-- Menus list-->
     <section class="pe-lg-3">
-      <div class="bg-secondary lg-radius p-4 border w-resp mt-4">
+      <div class="bg-secondary lg-radius p-4 border col-lg-9 col-md-12 mt-4">
         <div class="accordion" id="accordionExample">
           @for (menuGroup of menuGroups; track $index; let i = $index) {
             <div class="accordion-item mb-3 p-2 sm-radius border bg-white">
@@ -30,7 +30,7 @@
                 [attr.aria-controls]="'collapse-' + i">
                 <div
                   class="d-flex align-items-center w-100 justify-content-between ps-1 pe-3">
-                  <div class="d-flex">
+                  <div class="d-flex align-items-center">
                     <span
                       class="rounded-circle circ-badge me-2 bg-secondary justify-content-center d-flex align-items-center">
                       <i
@@ -71,12 +71,11 @@
                       <!-- Contenu pour les banques (boucle *ngFor) -->
 
                       @if (banks && banks.length > 0) {
-                        <div class="p-2 row" style="gap: 2rem 0">
+                        <div class="p-2 row mb-4">
                           <!-- Bloc de banque -->
                           @for (bank of banks; track $index) {
                             <div
                               (click)="selectBank(bank)"
-                              routerLink="/b/onlineBanking/banking/home"
                               role="button"
                               tabindex="0"
                               class="d-grid col-6 col-sm-4 col-md-3 justify-content-center">
@@ -266,7 +265,7 @@
             @for (bank of banksFiltered; track $index) {
               <div
                 role="button"
-                (click)="getAddedBankId(bank.organization_id)"
+                (click)="openPinPopup(); getAddedBankId(bank.organization_id)"
                 class="d-grid col-3 justify-content-center"
                 tabindex="0">
                 <div class="d-flex w-100 mb-2 justify-content-center">
@@ -275,7 +274,7 @@
                     <img
                       class="bank-image"
                       [src]="bank?.company?.image"
-                      alt="" />
+                      alt="{{ bank?.company?.fullname }} Logo" />
                   </div>
                 </div>
 
@@ -287,7 +286,7 @@
               </div>
             }
           </div>
-        } @else {
+        } @else if (!banksFiltered) {
           <div class="d-flex pt-3 ps-3">
             @for (_ of [1, 2, 3]; track $index) {
               <div class="d-grid mt-1 me-5">
@@ -304,16 +303,8 @@
               </div>
             }
           </div>
-        }
-
-        @if (banksFiltered && banksFiltered.length === 0) {
-          <div
-            class="p-2 text-center text-l fw-bold"
-            [ngClass]="{
-              'text-primary': mode === 'light',
-              'text-light': mode === 'dark',
-            }"
-            i18n>
+        } @else {
+          <div class="p-2 text-center text-l fw-bold" i18n>
             You are already in all the available banks
           </div>
         }

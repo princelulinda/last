@@ -5,7 +5,7 @@ import {
   SuggestedTontinesModel,
   TontineDataModele,
   TontineModel,
-} from '../../../components/saving/saving.model';
+} from '../../../components/saving/saving.models';
 
 @Injectable({
   providedIn: 'root',

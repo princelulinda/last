@@ -3,7 +3,7 @@ import { SessionsService } from '../../../core/services/sessions/sessions.servic
 import {
   activeSessionResponse,
   historySessionResponse,
-} from '../setting.model';
+} from '../settings.models';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { DatePipe } from '@angular/common';

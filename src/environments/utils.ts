@@ -1,4 +1,7 @@
-import { PlateformModel, ThemeModel } from '../app/core/services';
+import {
+  PlateformModel,
+  ThemeModel,
+} from '../app/core/services/config/main-config.models';
 
 export const VERSION = '2.0.1';
 export const APPDBVERSION = 1;
@@ -80,7 +83,7 @@ export const environmentConfig: {
         name: 'workstation',
         uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
         theme: { name: 'erp' },
-        baseHref: '/w/workstation',
+        baseHref: '/auth/corporate',
       },
       {
         name: 'systemAdmin',
@@ -148,7 +151,7 @@ export const environmentConfig: {
         name: 'workstation',
         uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
         theme: { name: 'erp' },
-        baseHref: '/w/workstation',
+        baseHref: '/auth/corporate',
       },
       {
         name: 'systemAdmin',

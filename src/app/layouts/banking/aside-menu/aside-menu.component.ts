@@ -1,12 +1,18 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-
-import { Observable } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { RouterLinkActive } from '@angular/router';
 
-import { ConfigService, activeMainConfigModel } from '../../../core/services';
+import { Observable } from 'rxjs';
+
+import { AuthService, ConfigService } from '../../../core/services';
 import { MenuService } from '../../../core/services/menu/menu.service';
+import {
+  activeMainConfigModel,
+  PlateformModel,
+} from '../../../core/services/config/main-config.models';
+import { UserInfoModel } from '../../../core/db/models/auth';
+
 @Component({
   selector: 'app-aside-menu',
   standalone: true,
@@ -18,11 +24,16 @@ export class AsideMenuComponent implements OnInit {
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
 
+  userInfo!: UserInfoModel;
+  userInfo$: Observable<UserInfoModel>;
+
   constructor(
     private configService: ConfigService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private authService: AuthService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
+    this.userInfo$ = this.authService.getUserInfo();
   }
 
   ngOnInit(): void {
@@ -31,9 +42,18 @@ export class AsideMenuComponent implements OnInit {
         this.mainConfig = configs;
       },
     });
+    this.userInfo$.subscribe({
+      next: userInfo => {
+        this.userInfo = userInfo;
+      },
+    });
   }
 
   hideAsideMenu() {
     this.menuService.toggleAsideMenu(true);
+  }
+
+  switchPlateform(plateform: PlateformModel) {
+    this.configService.switchPlateform(plateform);
   }
 }

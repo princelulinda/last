@@ -10,6 +10,9 @@ import { BankingComponent } from './layouts/banking/banking.component';
 import { bankingSettingsRoutes } from './components/settings/settings.routes';
 import { NotFound404Component } from './global/components/errors/not-found-404/not-found-404.component';
 import { OnamobDashboardComponent } from './components/dashboards/onamob-dashboard/onamob-dashboard.component';
+import { AuthCorporateLayoutComponent } from './layouts/auth-corporate-layout/auth-corporate-layout.component';
+import { AuthCorporateComponent } from './components/auth/workstation/auth-corporate/auth-corporate.component';
+import { myMarketRoutes } from './routes/my-market/mymarket.routes';
 
 export const routes: Routes = [
   // authentification routes
@@ -18,6 +21,17 @@ export const routes: Routes = [
     component: AuthLayoutComponent,
     canActivate: [NoAuthGuard],
     children: AuthRoutes,
+  },
+  {
+    path: 'auth/corporate',
+    component: AuthCorporateLayoutComponent,
+    // canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: AuthCorporateComponent,
+      },
+    ],
   },
 
   // banking Routes
@@ -47,6 +61,12 @@ export const routes: Routes = [
         path: 'onamob',
         component: OnamobDashboardComponent,
       },
+
+      {
+        path: 'mymarket',
+        children: myMarketRoutes,
+      },
+
       { path: '**', component: NotFound404Component },
     ],
   },

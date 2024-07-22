@@ -9,15 +9,11 @@ import { AsideMenuComponent } from './aside-menu/aside-menu.component';
 import { SubHeaderComponent } from '../header/sub-header/sub-header.component';
 import { HeaderComponent } from '../header/header.component';
 import { SwitchPlateformIconsComponent } from '../header/switch-plateform-icons/switch-plateform-icons.component';
-import {
-  AuthService,
-  ConfigService,
-  DialogService,
-  PlateformModel,
-} from '../../core/services';
+import { AuthService, ConfigService, DialogService } from '../../core/services';
 import { SettingsAsideMenuComponent } from './settings/settings-aside-menu/settings-aside-menu.component';
 import { DbService } from '../../core/db';
 import { UserInfoModel } from '../../core/db/models/auth';
+import { PlateformModel } from '../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-banking',

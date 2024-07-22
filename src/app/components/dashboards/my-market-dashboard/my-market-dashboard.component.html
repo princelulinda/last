@@ -1,0 +1,523 @@
+<!-- <p>my-market-dashboard works!</p> -->
+@if (isLoadingInfo && !merchant) {
+  <span
+    class="text-center w-100 h-100 d-flex row justify-content-center align-items-center text-dark"
+    title="Loading  ...">
+    <i class="fa-solid fa-spin fa-circle-notch fs-2"></i>
+  </span>
+}
+
+@if (!isLoadingInfo) {
+  <div
+    class="text-end me-5 opacity-50 text-dark"
+    role="button"
+    tabindex="0"
+    (click)="refresh()">
+    Refresh
+    <i class="fa-solid fa-arrows-rotate"></i>
+  </div>
+}
+
+@if (!isLoadingInfo && !merchant) {
+  <div
+    class="row text-center d-inline-block mt-5 pt-5 fs-7 w-100 h-100 text-dark opacity-75">
+    <i class="fa-solid fa-face-meh empty-state-icon pt-5 mt-5 fs-1"></i>
+    <span class="ms-4 fw-bold opacity-50 text-md"
+      >No merchant details available</span
+    >
+  </div>
+}
+
+@if (!isLoadingInfo && merchant) {
+  <div class="ms-5 ps-3">
+    <div
+      class="d-lg-flex d-none position-relative shadow me-5 ms-2 border-top border-primary border-4"
+      style="height: 120px">
+      <img
+        src="/images/products/Rectangle 1235.svg"
+        class="mt-2 pt-4 position-absolute opacity-8"
+        style="width: 65%; margin-left: 35%"
+        alt="Rectangle image" />
+      <div style="width: 10%">
+        @if (merchant && !merchant.merchant_logo) {
+          <img
+            src="/images/products/userprofile.png"
+            class="img-fluid mt-3 ms-3 border"
+            style="width: 80%; border-radius: 50%"
+            alt="userprofile show image" />
+        }
+        @if (merchant && merchant.merchant_logo) {
+          <img
+            [src]="merchant.merchant_logo"
+            class="img-fluid image"
+            style="width: 80%; border-radius: 50%"
+            alt="merchant logo show image" />
+        }
+      </div>
+      <div class="d-block ms-4 pt-4">
+        <span class="text-dark fw-bold text-md">{{
+          merchant.merchant_title
+        }}</span>
+        <br />
+        <span class="text-dark text-sm">{{ merchant.merchant_code }}</span>
+        <br />
+        <span class="text-dark text-sm">{{ merchant.merchant_location }}</span>
+        <br />
+      </div>
+      <div style="height: 35px; width: 1px" class="ms-4 level-3 mt-5"></div>
+      <div class="d-block ms-5 pt-4">
+        <span class="text-dark text-md"
+          ><span class="fw-bold opacity-50" i18n>Available balance :</span
+          ><span class="fw-bold ms-2"
+            >BIF {{ (merchant.available_balance | number) ?? '---' }}</span
+          ></span
+        >
+        <br />
+        <span class="text-dark text-sm opacity-50">{{
+          merchant.client_category
+        }}</span>
+        <br />
+        <span class="text-dark text-sm">{{
+          merchant.merchant_main_account
+        }}</span>
+        <br />
+      </div>
+      <div class="ms-auto me-4 mt-5 pt-3" style="z-index: 999">
+        <button
+          (click)="openMerchantsPopup()"
+          data-bs-toggle="modal"
+          data-bs-target="#merchantsModal"
+          class="btn badge-design bg-danger text-danger fw-bold"
+          style="height: 35px; width: 80px"
+          i18n>
+          Switch
+        </button>
+      </div>
+    </div>
+
+    <section class="row d-flex mt-4">
+      <div
+        class="col-lg-3 col-md-5 col-sm-6 mb-2 ms-3 me-4 dashboardBox rounded shadow level-1">
+        <Span class="float-start fs-5 ms-2 mt-3 text-dark">
+          <small i18n>Sales </small> <br />
+          @if (stat) {
+            <b>
+              {{ (stat.merchant_bills_payment_number | number) ?? '---' }}
+            </b>
+          }
+          @if (!stat) {
+            <span>
+              <i class="fa-solid fa-spinner fa-pulse text-dark"></i>
+            </span>
+          }
+        </Span>
+        <span class="float-end">
+          <img
+            class="img-fluid me-2 mt-3"
+            src="/images/products/sales.svg"
+            style="height: 70px"
+            alt="our sales show image" />
+        </span>
+      </div>
+      <div
+        class="col-lg-3 col-md-5 col-sm-6 mb-2 ms-3 me-4 dashboardBox rounded shadow level-1">
+        <Span class="float-start fs-5 ms-2 text-dark mt-3"
+          ><small i18n>Clients </small> <br /><b> ---</b></Span
+        ><span class="float-end"
+          ><img
+            class="img-fluid me-2 mt-3"
+            src="/images/products/2 60.svg"
+            style="height: 70px"
+            alt="our clients show image"
+        /></span>
+      </div>
+      <div
+        class="col-lg-3 col-md-5 col-sm-6 mb-2 ms-3 me-4 dashboardBox rounded shadow level-1">
+        <Span class="float-start fs-5 ms-2 text-dark mt-3">
+          <small i18n>Products </small> <br />
+          @if (stat) {
+            <b> {{ (stat.merchant_products_number | number) ?? '---' }}</b>
+          }
+          @if (!stat) {
+            <span>
+              <i class="fa-solid fa-spinner fa-pulse text-dark"></i>
+            </span>
+          }
+        </Span>
+        <span class="float-end">
+          <img
+            class="img-fluid me-2 mt-3"
+            src="/images/products/49364_box_crate_delivery_entrega_inventory_icon 2.svg"
+            style="height: 50px"
+            alt="our products show image" />
+        </span>
+      </div>
+      <div
+        class="col-lg-3 col-md-5 col-sm-6 mb-2 ms-3 me-4 dashboardBox rounded shadow level-1">
+        <Span class="float-start fs-5 mt-3 text-dark">
+          <small i18n>Revenue </small> <br />
+          @if (!merchantInfo) {
+            <span>
+              <i class="fa-solid fa-spinner fa-pulse text-dark"></i>
+            </span>
+          }
+          @if (merchantInfo) {
+            <b class="text-md"
+              >{{ (merchantInfo.available_balance | number) ?? '---' }}
+              {{ merchantInfo.balance_currency }}</b
+            >
+          }
+        </Span>
+        <span class="float-end">
+          <img
+            class="img-fluid mt-4 me-1"
+            src="/images/products/4 9365.svg"
+            style="height: 55px"
+            alt="our income show image" />
+        </span>
+      </div>
+    </section>
+
+    <section class="mt-2 row justify-content-between">
+      <span
+        ><i class="fa-solid fa-chart-simple text-primary-light"></i
+        ><b class="text-dark" i18n> Chart</b></span
+      ><br />
+      <div class="row">
+        <div class="col-md-5 mt-3 mt-md-0">
+          <!-- <app-pie-chart
+              style="font-size: small"
+              [datas]="datas"
+  
+          ></app-pie-chart> -->
+
+          <div class="w-100 d-flex justify-content-center text-align-center">
+            <div
+              class="pie-chart text-opacity-5 position-relative"
+              style="margin-left: -40%">
+              <div class="pie-text text1 position-absolute fw-bold"></div>
+              <div class="pie-text text2 position-absolute fw-bold"></div>
+              <div class="pie-text text3 position-absolute fw-bold"></div>
+            </div>
+          </div>
+
+          <div
+            class="align-items-center text-center pt-5 position-relative"
+            style="top: -55%; right: 15%">
+            <span i18n class="fs-5 text-dark opacity-50"
+              ><i class="fa fa-face-meh"></i> Section unavailable at this
+              moment</span
+            >
+          </div>
+        </div>
+        <div
+          class="col-md-6 mt-3 mt-md-0 border-start ms-auto text-center"
+          style="border-left: 1px solid rgb(182, 179, 179); height: 250px">
+          <div
+            class="d-flex justify-content-center justify-content-md-start px-5">
+            <div class="col-md-auto">
+              <div
+                routerLink="/m/market/product/configuration"
+                class="pt-1 level-1 ms-3 mt-2 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
+                role="button">
+                <b class="text-dark" i18n>Manage product</b>
+                <i class="fa-solid fa-box text-dark ms-3 opacity-75"></i>
+              </div>
+              <div
+                routerLink="/m/market/merchant/configuration"
+                role="button"
+                class="pt-1 level-1 ms-3 mt-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary">
+                <b class="text-dark" i18n>Merchant config</b>
+                <i class="fa-solid fa-sliders ms-3 text-dark opacity-75"> </i>
+              </div>
+
+              <div
+                class="level-1 pt-1 mt-3 ms-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
+                role="button"
+                routerLink="/m/market/transfer">
+                <div>
+                  <b class="text-dark" i18n>Transfer</b>
+                  <i class="fa-solid fa-paper-plane ms-3 text-dark opacity-75">
+                  </i>
+                </div>
+              </div>
+            </div>
+
+            <div class="ms-auto">
+              <div
+                role="button"
+                class="pt-1 level-1 ms-3 mt-2 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
+                routerLink="/m/market/bills">
+                <b class="text-dark" i18n>Bills Report</b>
+                <i class="fa-solid fa-file-excel ms-3 text-success"></i>
+              </div>
+              <div
+                role="button"
+                class="pt-1 level-1 ms-3 mt-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
+                data-bs-toggle="modal"
+                data-bs-target="#statementModal">
+                <b class="text-dark" i18n>Statements</b>
+                <i class="fa-solid fa-history ms-3 text-dark opacity-75"> </i>
+              </div>
+              <div
+                role="button"
+                (click)="openPopup()"
+                tabindex="0"
+                data-bs-toggle="modal"
+                data-bs-target="#billsModal"
+                #closeModal
+                class="pt-1 level-1 ms-3 mt-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary">
+                <b class="text-dark" i18n>Generate Bill</b>
+                <i class="fa-solid fa-file-invoice ms-3 text-dark opacity-75">
+                </i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="row justify-content-between">
+      <div class="col-4 col-md-3 level-1 roundBox shadow text-center ms-auto">
+        @if (stat) {
+          <div class="fw-bold mt-lg-4 pt-4 text-dark">
+            {{ stat.merchant_tellers_number }}
+          </div>
+        }
+        @if (!stat) {
+          <div class="fw-bold mt-lg-4 pt-4 text-dark">
+            <i class="fa-solid fa-spinner fa-pulse text-dark text-xsm"></i>
+          </div>
+        }
+        <div class="text-center elementPosition bg-primary">
+          <span class="text-light fw-bold" i18n>Tellers</span>
+        </div>
+      </div>
+      <div
+        class="col-4 col-md-3 level-1 roundBox shadow text-center ms-auto me-auto">
+        <div class="fw-bold mt-lg-4 text-dark pt-4">---</div>
+        <div class="text-center elementPosition bg-primary">
+          <span class="text-light fw-bold" i18n>Operations</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="row justify-content-between mt-2" style="width: 90%">
+      @if (merchant) {
+        <app-all-products
+          class="text-dark"
+          [detail]="true"
+          url="/dbs/merchant-product/objects_autocomplete/?merchant={{
+            merchantId
+          }}">
+        </app-all-products>
+      }
+    </section>
+  </div>
+}
+
+<div class="modal fade" id="statementModal" data-bs-backdrop="static">
+  @if (merchantAccountId && account) {
+    <div class="modal-dialog modal-dialog-centered statement-dialog">
+      <!-- <div class="modal-content">
+        <app-statements
+            [accountId]="merchantAccountId"
+            [account]="account"
+        ></app-statements>
+    </div> -->
+    </div>
+  }
+</div>
+<div class="modal fade" id="billsModal" data-mdb-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content" style="margin-top: 35%">
+      <div class="modal-body">
+        <div class="text-end">
+          <span
+            role="button"
+            class="text-dark"
+            data-bs-dismiss="modal"
+            aria-label="Close">
+            <i class="fa-solid fa-xmark fs-4"></i>
+          </span>
+        </div>
+        <div class="text-dark fw-bold fs-5 text-center p-2" i18n>
+          Bill Generator
+        </div>
+        <div class="mt-2 pt-3">
+          <div class="d-flex p-3 ms-2 sm-radius">
+            <span class="text-dark pt-2" i18n>Send to :</span>
+            <div class="lookup col ms-4 me-3">
+              <app-lookup
+                option="lookup"
+                url="/clients/list/all/object_lookup/?lookup_data="
+                label="Search By client ID"
+                (selectedItemEvent)="selectClient($event)"></app-lookup>
+            </div>
+          </div>
+          <form>
+            <div class="col mt-4 ms-4 me-4 text-dark">
+              <app-amount-field
+                [isFormFloating]="true"
+                (amountEvent)="getAmount($event)"></app-amount-field>
+            </div>
+            <div class="col ms-4 me-4 mt-3 text-dark">
+              <input
+                type="text"
+                class="form-control input w-100"
+                style="height: 60px"
+                placeholder="description"
+                formControlName="description" />
+            </div>
+            <div class="text-center mt-5 mb-4">
+              <button
+                (click)="enterPin()"
+                class="text-all-white btn bg-primary px-4"
+                i18n>
+                Confirm
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="merchantsModal" data-mdb-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content merchantsModal">
+      <div class="modal-body">
+        <div class="text-end">
+          <span
+            role="button"
+            class="text-dark"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            #closeMerchantsModal>
+            <i class="fa-solid fa-xmark fs-4"></i>
+          </span>
+        </div>
+
+        <div class="mt-1 d-flex ms-5 me-3 mt-2">
+          <span
+            class="text-dark text-l p-2 text-center bg-primary sm-radius"
+            style="height: 45px; width: 45px"
+            ><i class="fa-solid fa-bars text-light"></i
+          ></span>
+          <!-- <span class="ms-auto ps-4 pe-4">
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        class="form-control input not-clickable"
+                    />
+                </span> -->
+        </div>
+        @if (!merchantMult) {
+          <div class="row mt-4 ps-5 ms-1">
+            @for (_ of [1, 2, 3, 4]; track $index) {
+              <div class="col-lg-2 col-md-2 col-sm-4 col mb-2">
+                <app-skeleton
+                  [height]="'100px'"
+                  [width]="'100px'"></app-skeleton>
+                <div>
+                  <app-skeleton
+                    [height]="'10px'"
+                    [width]="'30%'"
+                    appearance="line"></app-skeleton>
+                </div>
+                <div>
+                  <app-skeleton
+                    [height]="'10px'"
+                    [width]="'50%'"
+                    appearance="line"></app-skeleton>
+                </div>
+              </div>
+            }
+          </div>
+        }
+        @if (merchantMult) {
+          <div class="row mt-4 ps-5 ms-1">
+            @for (merchant of merchantMult; track $index) {
+              <div
+                class="col-2 border sm-radius p-2 me-4"
+                role="button"
+                tabindex="0"
+                (click)="switchMerchant(merchant.id)">
+                <div
+                  class="text-center d-flex justify-content-center align-items-center merchant mb-1 position-relative"
+                  [ngClass]="{
+                    'level-1': theme === 'light',
+                  }">
+                  @if (merchant && !merchant.merchant_logo) {
+                    <span
+                      class="d-flex justify-content-center align-items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="78"
+                        height="57"
+                        viewBox="0 0 78 57"
+                        fill="none">
+                        <g opacity="0.5">
+                          <path
+                            d="M22.3651 21.1809C23.8852 20.0711 23.6046 17.9695 23.0124 16.3773C22.7772 15.7453 23.2145 15 23.8889 15H27.6549C29.5023 15 31 16.4977 31 18.3451C31 19.9813 29.8173 21.3842 28.1953 21.5983C24.6485 22.0665 20.7817 22.337 22.3651 21.1809Z"
+                            fill="#D9D9D9" />
+                          <path
+                            d="M63.5 41C62.0787 40.1472 62.2566 38.5706 62.7776 37.3109C63.0176 36.7307 62.6278 36 62 36H57.6696C56.1952 36 55 37.1953 55 38.6697C55 40.0047 55.9858 41.1379 57.3123 41.2879C60.9147 41.6954 65.1257 41.9755 63.5 41Z"
+                            fill="#D9D9D9" />
+                          <rect
+                            x="15"
+                            width="56"
+                            height="16"
+                            rx="8"
+                            fill="#D9D9D9" />
+                          <rect
+                            x="12"
+                            y="41"
+                            width="66"
+                            height="16"
+                            rx="8"
+                            fill="#D9D9D9" />
+                          <rect
+                            y="21"
+                            width="74"
+                            height="16"
+                            rx="8"
+                            fill="#D9D9D9" />
+                        </g>
+                      </svg>
+                      <span class="cardShopping text-dark position-absolute">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                      </span>
+                    </span>
+                  }
+                  @if (merchant && merchant.merchant_logo) {
+                    <span>
+                      <img
+                        class="ing-fluid image"
+                        style="height: 100px; width: 130px"
+                        [src]="merchant.merchant_logo"
+                        alt="merchant logo show image" />
+                    </span>
+                  }
+                </div>
+                <div class="card-body m-0 p-2 text-dark" style="height: 59px">
+                  <p
+                    class="m-0 p-0 d-flex align-items-center text-truncate"
+                    title="{{ merchant.merchant_title }}">
+                    <span class="text-center" i18n>
+                      <b>{{ merchant.merchant_title }}</b>
+                    </span>
+                  </p>
+                  <p class="m-0 p-0 d-flex align-items-center">
+                    <span class="text-center" i18n>
+                      {{ merchant.merchant_code }}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
