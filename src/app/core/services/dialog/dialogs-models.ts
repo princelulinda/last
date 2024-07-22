@@ -20,7 +20,7 @@ export interface DialogModel {
   type: dialogTypeModel | '';
   action: string;
   active: boolean;
-  image: string;
+  image: string | '';
 }
 
 export interface DialogPayloadModel {

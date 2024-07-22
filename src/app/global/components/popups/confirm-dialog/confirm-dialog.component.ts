@@ -75,6 +75,9 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
     this.clientInfo$ = this.authService.getUserInfo();
     effect(() => {
       this.dialog = this.dialogService.dialog();
+      if (!this.dialog.image) {
+        this.dialog.image = '/images/logo/magis-erp.png';
+      }
       this.loading = this.dialogService.loading();
 
       if (this.dialog.active || this.loading.active) {

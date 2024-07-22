@@ -52,6 +52,13 @@ export class AuthCorporateComponent implements OnInit {
         this.operatorOrganizations = organizations;
       },
     });
+
+    this.dialogService.openDialog({
+      action: 'Oraganization',
+      message: 'Enter your password to add a new organisation',
+      title: '',
+      type: 'pin',
+    });
   }
 
   getOperatorOperator_organization() {
@@ -97,12 +104,12 @@ export class AuthCorporateComponent implements OnInit {
 
   selectOrganization(data: OrganizationModel) {
     this.selectedOrganization = data;
-    this.dialogService.openDialog({
-      action: 'Oraganization',
-      message: '',
-      title: '',
-      type: 'pin',
-      image: data.institution_client.picture ?? '',
-    });
+    // this.dialogService.openDialog({
+    //   action: 'Oraganization',
+    //   message: '',
+    //   title: '',
+    //   type: 'pin',
+    //   image: data.institution_client.picture ?? '',
+    // });
   }
 }
