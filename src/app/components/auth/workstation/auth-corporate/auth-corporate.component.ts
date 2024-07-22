@@ -18,7 +18,7 @@ import { ConnectedOperatorModel, OrganizationModel } from '../../auth.model';
 })
 export class AuthCorporateComponent implements OnInit {
   private operatorOrganizations$: Observable<OrganizationModel[]>;
-  operatorOrganizations: OrganizationModel[] | [] = [];
+  operatorOrganizations: OrganizationModel[] | [] | null = [];
   operatorIsAuthenticated$: Observable<boolean>;
 
   selectedOrganization: OrganizationModel | null = null;
@@ -68,24 +68,29 @@ export class AuthCorporateComponent implements OnInit {
       )
       .subscribe({
         next: response => {
-          const connectedOperator =
-            response.operator.object.response_data.object;
+          // NOTE :: IF OPERATOR IS ALLREADY CONNECTED
+          if (response.operator.object.response_data.object) {
+            const connectedOperator =
+              response.operator.object.response_data.object;
+            const operator: ConnectedOperatorModel = {
+              organization: connectedOperator.organization,
+              operator: {
+                id: connectedOperator.operator.id,
+                isTeller: connectedOperator.operator.is_teller,
+                isTreasurer: connectedOperator.operator.is_treasurer,
+              },
+            };
+            this.configService.setOperator(operator);
+          }
+
           const organizations: OrganizationModel[] = [];
           response.organizations.objects.map(data => {
-            organizations.push(data.organisation);
+            organizations.push(data.organization);
           });
-
-          const operator: ConnectedOperatorModel = {
-            organization: connectedOperator.organization,
-            operator: {
-              id: connectedOperator.operator.id,
-              isTeller: connectedOperator.operator.is_teller,
-              isTreasurer: connectedOperator.operator.is_treasurer,
-            },
-          };
-          this.configService.setOperator(operator);
-          this.dialogService.closeSplashScreen();
           this.configService.setOperatorOrganizations(organizations);
+          setTimeout(() => {
+            this.dialogService.closeSplashScreen();
+          }, 2000);
         },
       });
   }

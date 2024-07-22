@@ -81,14 +81,14 @@
           class="row mx-0 mt-3 justify-content-center justify-content-sm-start"
           style="gap: 2rem 0">
           @for (item of operatorOrganizations; track $index) {
-            <div
-              class="d-flex flex-column align-items-center col-5 col-sm-4"
-              tabindex="0"
-              (click)="selectOrganization(item)">
+            <div class="d-flex flex-column align-items-center col-5 col-sm-4">
               <div
+                role="button"
+                tabindex="0"
+                (click)="selectOrganization(item)"
                 class="sm-radius organization-logo d-flex justify-content-center align-items-center p-3 bg-white">
                 <img
-                  [src]="item.picture"
+                  [src]="item.institution_client.picture"
                   class="image"
                   alt="organization logo" />
               </div>
