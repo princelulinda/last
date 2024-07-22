@@ -1,3 +1,5 @@
+import { bankModel } from '../../core/db/models/bank/bank.model';
+
 export interface BillersModel {
   id: string;
   lookup_image: string;
@@ -11,6 +13,10 @@ export interface BillersModel {
 
 export interface objectsModel {
   objects: BillersModel[];
+}
+
+export interface objectModel {
+  object: BillersModel;
 }
 
 export interface MerchantModel {
@@ -32,20 +38,32 @@ export interface MerchantLookup {
   lookup_title: string;
   lookup_image: string;
 }
-
-export interface bankModel {
-  company: {
-    image: string;
-    fullname: string;
+export interface addBankResponse {
+  object: {
+    success: boolean;
+    response_message: string;
+    response_code: string;
   };
-
-  organization_id: number;
 }
-
 export interface PayMerchant {
   id: number;
 }
+export interface BankOptions {
+  selectedDebitAccountType: string | null;
+  debitAccount: string | null;
+  debitWallet: string | null;
+  banks: bankModel[];
+  creditAccountType: string | null;
+  accounts: Account[] | null;
+  wallets: Wallet[] | null;
+}
+export interface Account {
+  id: number;
+}
 
+export interface Wallet {
+  id: number;
+}
 export interface MenuGroup {
   icon: string;
 
@@ -92,7 +110,17 @@ export interface PublicationModel {
   total_shares: number;
 }
 
-// export interface favorite_merchant_makingModel {
-//   id: string;
-//   success: string;
-// }
+export interface productCategoryModel {
+  id: number;
+  icon: string;
+  image: string;
+  is_active: true;
+  name: string;
+  ordering: number;
+  slug: string;
+  value_added_tax_rate: string;
+}
+
+export interface productCategoryArray {
+  objects: productCategoryModel[];
+}

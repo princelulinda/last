@@ -11,8 +11,8 @@ import { CommonModule } from '@angular/common';
 export class ProductCardComponent {
   @Input() product = '';
   @Input() merchant = '';
-  @Input() get_merchant = [];
-  @Input() get_product = [];
+  @Input() get_merchant!: boolean;
+  @Input() get_product!: boolean;
   // @Output() payMerchant = new EventEmitter<any>();
 
   // theme$: Observable<any>;

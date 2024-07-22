@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BankingService } from '../../../core/services/dashboards/banking.service';
 import { Subject, Observable, takeUntil } from 'rxjs';
 import { AuthService, ConfigService, ModeModel } from '../../../core/services';
@@ -7,15 +7,16 @@ import { UserInfoModel } from '../../../core/db/models/auth';
 import { NgClass, CommonModule } from '@angular/common';
 import { WalletCard } from '../models';
 import { userInfoModel } from '../../../layouts/header/model';
+import { bankModel } from '../../../core/db/models/bank/bank.model';
 
 @Component({
-  selector: 'app-card',
+  selector: 'app-wallet-card',
   standalone: true,
   imports: [NgClass, CommonModule],
-  templateUrl: './card.component.html',
-  styleUrl: './card.component.scss',
+  templateUrl: './wallet-card.component.html',
+  styleUrl: './wallet-card.component.scss',
 })
-export class CardComponent implements OnInit, OnDestroy {
+export class WalletCardComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
   showAmountWallet = false;
@@ -24,18 +25,23 @@ export class CardComponent implements OnInit, OnDestroy {
   mode$!: Observable<ModeModel>;
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
+  selectedBank!: bankModel;
+  selectedBank$!: Observable<bankModel>;
   private userInfo$: Observable<UserInfoModel>;
 
   defaultWallet!: WalletCard;
   noWalletData = false;
+  clientId: number | null = null;
+  bankId: number | null = null;
 
   constructor(
-    @Inject(BankingService) private bankingService: BankingService,
-    @Inject(ConfigService) private configService: ConfigService,
-    @Inject(AuthService) private authService: AuthService
+    private bankingService: BankingService,
+    private configService: ConfigService,
+    private authService: AuthService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
+    this.selectedBank$ = this.configService.getSelectedBank();
   }
   ngOnInit(): void {
     this.mode$.subscribe({
@@ -46,8 +52,21 @@ export class CardComponent implements OnInit, OnDestroy {
     this.userInfo$.subscribe({
       next: userinfo => {
         this.clientInfo = userinfo;
+        this.clientId = this.clientInfo.client.id;
+        if (this.clientId) {
+          this.selectedBank$.subscribe({
+            next: datas => {
+              this.selectedBank = datas;
+              this.bankId = this.selectedBank?.id;
+              if (this.bankId) {
+                this.getDefaultWallet();
+              }
+            },
+          });
+        }
       },
     });
+
     this.getDefaultWallet();
   }
 

@@ -7,11 +7,21 @@
     <title>iHel&aacute; Rya&#771;nje</title>
   }
 </head>
+<!-- TODO :: GLOBAL TAG FOR APP BACKGROUND -->
+<span
+  id="app-global-bg"
+  class="position-absolute zn-1"
+  [ngClass]="{
+    'opacity-25': activeMode === 'light',
+    'opacity-50': activeMode === 'dark',
+  }"></span>
+
+<!-- TODO :: GLOBAL SPLASH SCREEN -->
+<Section>
+  <app-splash-screen></app-splash-screen>
+</Section>
+
 <main class="app-container position-relative">
-  <!-- TODO :: GLOBAL SPLASH SCREEN -->
-  <Section>
-    <app-splash-screen></app-splash-screen>
-  </Section>
   <!-- TODO :: GLOBAL POPUPS ON THE PROJECT -->
   <section>
     <app-confirm-dialog></app-confirm-dialog>

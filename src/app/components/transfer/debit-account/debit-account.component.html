@@ -1,1 +1,379 @@
-<div>Hello debit</div>
+<div class="container h-100">
+  <h3>Transfer</h3>
+
+  <div class="rounded p-2 w-100 d-grid text-dark">
+    <!-- If there is no bank selected -->
+
+    @if (
+      mainConfig &&
+      mainConfig.activePlateform !== 'workstation' &&
+      !selectedBank.id
+    ) {
+      <div class="expand-collapse-section">
+        <div>
+          <i class="fa fa-circle text-primary fa-xs me-2"></i>
+          <b class="text-dark" i18n>Select a bank :</b>
+        </div>
+
+        <div>
+          @if (clientBanks) {
+            <div class="p-2 row" style="gap: 2rem 0">
+              @for (bank of clientBanks; track $index) {
+                <div
+                  (click)="selectBank(bank)"
+                  tabindex="0"
+                  role="button"
+                  class="d-grid col-6 col-sm-4 col-md-3 justify-content-center">
+                  <div class="d-flex w-100 mb-2 justify-content-center">
+                    <div
+                      class="d-grid justify-content-center align-items-center img-container border lg-radius">
+                      <img
+                        class="bank-image"
+                        alt=""
+                        [src]="bank?.company?.image" />
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <span>{{ bank?.company?.fullname?.toUpperCase() }}</span>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+
+          @if (!clientBanks) {
+            <div class="d-flex pt-3">
+              @for (_ of [1, 2, 3]; track $index) {
+                <div class="d-grid mt-1 me-5">
+                  <span class="text-center">
+                    <app-skeleton [height]="'60px'" [width]="'60px'">
+                    </app-skeleton>
+                  </span>
+                  <span>
+                    <app-skeleton [height]="'7px'" [width]="'100px'">
+                    </app-skeleton>
+                  </span>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- this section is showed if we have selectedBank or wallet is showed -->
+    <!--Title description-->
+    @if (isWalletShown) {
+      <div class="d-flex align-items-center justify-content-between">
+        @if (title !== '') {
+          <div>
+            <i class="fa fa-circle fa-xs me-2 text-primary"></i>
+            <b class="text-dark">{{ title }}</b>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- this section is showed if we have selectedBank or wallet is showed -->
+    @if (isWalletShown) {
+      <div
+        class="d-flex align-items-start"
+        [ngClass]="{
+          'overflow-scroll':
+            mainConfig && mainConfig.activePlateform === 'workstation',
+        }">
+        <div
+          class="d-grid mt-2"
+          [ngClass]="{
+            'w-100': mainConfig && mainConfig.activePlateform === 'workstation',
+          }">
+          @if (
+            mainConfig &&
+            mainConfig.activePlateform !== 'workstation' &&
+            selectedBank &&
+            selectedBank.id
+          ) {
+            <div class="mb-3" style="height: 50px">
+              <app-switch-bank
+                (bankOptions)="getSwitchBankOptions($event)"></app-switch-bank>
+            </div>
+          }
+
+          <!-- *Debit accounts type  -->
+          <div
+            style="height: 50px"
+            [ngClass]="{
+              ' px-2':
+                mainConfig && mainConfig.activePlateform !== 'workstation',
+              'w-75':
+                mainConfig &&
+                mainConfig.activePlateform === 'workstation' &&
+                !isTermDeposit,
+            }"
+            class="d-flex">
+            <div
+              class="d-flex me-4 p-1 justify-content-between rounded align-items-center"
+              [ngClass]="{
+                'bg-secondary': mode === 'light',
+                'bg-primary-2': mode === 'dark',
+                'w-auto': isTermDeposit,
+
+                'w-100':
+                  mainConfig && mainConfig.activePlateform === 'workstation',
+              }">
+              @if (mainConfig && mainConfig.activePlateform !== 'workstation') {
+                @if (isAccountShown) {
+                  <div
+                    role="button"
+                    (click)="selectDebitAccountType('account')"
+                    style="transition: all 0.2s ease-in-out"
+                    tabindex="0"
+                    [ngClass]="{
+                      'd-none': selectedBank && !selectedBank.id,
+                      'bg-primary  text-all-white rounded px-1 py-2 me-1':
+                        selectedDebitAccountType === 'account',
+                    }"
+                    class="text-center px-1 py-2 ms-1 width">
+                    <b i18n>Account</b>
+                  </div>
+                }
+
+                @if (isWalletShown) {
+                  <div
+                    role="button"
+                    tabindex="0"
+                    (click)="selectDebitAccountType('wallet')"
+                    style="transition: all 0.2s ease-in-out"
+                    [ngClass]="{
+                      'bg-primary text-all-white  rounded px-1 py-2 me-1':
+                        selectedDebitAccountType === 'wallet',
+                    }"
+                    class="text-center pe-3 width">
+                    <b i18n>Wallet</b>
+                  </div>
+                }
+              }
+            </div>
+            <div
+              (click)="toggleBalance()"
+              role="button"
+              tabindex="0"
+              class="mb-2">
+              @if (!isBalanceShown) {
+                <span title="Show balance">
+                  <i class="fa-solid fa-eye mt-3"></i
+                ></span>
+              } @else {
+                <span title="Hide balance">
+                  <i class="fa-solid fa-eye-slash mt-3"></i
+                ></span>
+              }
+            </div>
+          </div>
+
+          <!-- *END OF DEBIT ACCOUNTS TYPES-->
+
+          <!-- *Accounts list container-->
+          @if (
+            mainConfig &&
+            mainConfig.activePlateform !== 'workstation' &&
+            selectedDebitAccountType === 'account'
+          ) {
+            <app-accounts-list [listType]="'transfer'"></app-accounts-list>
+          }
+
+          <!--* ___END OF ACCOUNTS LIST CONTAINER___-->
+
+          <!--* wallets list container-->
+          @if (
+            mainConfig &&
+            mainConfig.activePlateform !== 'workstation' &&
+            selectedDebitAccountType === 'wallet'
+          ) {
+            <div
+              class="border border-secondary b-right mt-2 ms-2 p-3 lg-radius overflow-y-auto">
+              <!--* spinner when there are no wallets yet-->
+              <!-- @if (!wallets) {
+                  <span
+                    class="text-center w-100 h-100 align-items-center d-flex justify-content-center text-dark"
+                    title="Loading wallets...">
+                    <i class="spinner-border"></i>
+                  </span>
+                } -->
+
+              <!--* No wallets found message-->
+              <!-- @if (wallets && wallets.length === 0) {
+                  <span
+                    class="text-center w-100 h-100 align-items-center d-flex justify-content-center text-dark">
+                    <span class="text-secondary">
+                      <i class="fa fa-ban me-1"></i>
+                      <b>You don't have any wallet</b>
+                    </span>
+                  </span>
+                } -->
+
+              <!--* wallets list loop-->
+              <!-- @if (wallets && wallets.length > 0) {
+                  <div>
+                    @for (wallet of wallets; track $index; let i = $index) {
+                      <div>
+                        <div
+                          (click)="selectDebitWallet(i)"
+                          tabindex="0"
+                          class="d-grid ps-3 py-0 w-100 account b-left rounded"
+                          role="button">
+                          <b>{{ wallet.title }}</b>
+                          <span>{{ wallet.account.account_holder }}</span>
+                          <span
+                   class="text-success">
+                            @if (isBalanceShown) {
+                              <span>{{
+                                wallet.available_balance | currency: ' '
+                              }}</span>
+                            } @else {
+                              <span>*** ***</span>
+                            }
+  
+                            {{ wallet.currency }}</span
+                          >
+                        </div>
+                        <hr class="mx-4" />
+                      </div>
+                    }
+                  </div>
+                }
+   -->
+              <!--* __END OF WALLETS LIST LOOP-->
+            </div>
+          }
+
+          <!--* END OF WALLETS LIST CONTAINER-->
+
+          <!--* selected account container-->
+          @if (
+            debitAccount &&
+            mainConfig &&
+            mainConfig.activePlateform !== 'workstation' &&
+            selectedDebitAccountType === 'account' &&
+            !isAmountChanging
+          ) {
+            <div class="mt-3 w-100 lg-radius">
+              <div class="p-2 ms-2 lg-radius">
+                <div
+                  class="d-flex align-items-start justify-content-between ps-2 py-0 border-left border-4 border-primary">
+                  <div class="d-grid">
+                    <b>{{ debitAccount.acc_get_title }}</b>
+                    <span>{{ debitAccount.acc_holder }}</span>
+                    <span>{{ debitAccount.acc_short_number }}</span>
+                    <span class="text-success">
+                      @if (isBalanceShown) {
+                        <span>{{
+                          debitAccount.acc_available_balance | currency: ' '
+                        }}</span>
+                      } @else {
+                        <span>*** ***</span>
+                      }
+
+                      {{ debitAccount.acc_currency }}</span
+                    >
+                  </div>
+
+                  <div>
+                    <span
+                      role="button"
+                      tabindex="0"
+                      (click)="deselectDebitAccount()"
+                      class="bg-danger text-white ms-5 pt-1 px-1"
+                      style="border-radius: 50%">
+                      <i class="fa fa-xmark"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+
+          @if (
+            debitAccount &&
+            mainConfig &&
+            mainConfig.activePlateform !== 'workstation' &&
+            selectedDebitAccountType === 'account' &&
+            isAmountChanging
+          ) {
+            <span class="mt-3">
+              <app-skeleton [height]="'100px'" [width]="'364px'">
+              </app-skeleton>
+            </span>
+          }
+
+          <!-- * __END OF SELECTED ACCOUNT__ -->
+
+          <!--*selected wallet container-->
+          @if (
+            debitWallet &&
+            mainConfig &&
+            mainConfig.activePlateform !== 'workstation' &&
+            selectedDebitAccountType === 'wallet' &&
+            !isAmountChanging
+          ) {
+            <div class="mt-3 w-100">
+              <div class="p-2 ms-2 lg-radius">
+                <div
+                  class="d-flex align-items-start justify-content-between ps-2 py-0"
+                  style="border-left: 4px solid #810019">
+                  <div class="d-grid">
+                    <b>{{ debitWallet.title }}</b>
+                    <b style="font-weight: 400">{{
+                      debitWallet.account?.account_holder
+                    }}</b>
+                    <b style="font-weight: 400" class="text-success">
+                      @if (isBalanceShown) {
+                        <span>{{
+                          debitWallet.available_balance | currency: ' '
+                        }}</span>
+                      } @else {
+                        <span>*** ***</span>
+                      }
+
+                      {{ debitWallet.currency }}</b
+                    >
+                  </div>
+
+                  <div>
+                    <span
+                      role="button"
+                      tabindex="0"
+                      (click)="deselectDebitAccount()"
+                      class="bg-danger text-white rounded-circle ms-5 pt-1 px-1">
+                      <i class="fa fa-xmark"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+
+          @if (
+            debitWallet &&
+            mainConfig &&
+            mainConfig.activePlateform !== 'workstation' &&
+            selectedDebitAccountType === 'wallet' &&
+            isAmountChanging
+          ) {
+            <span class="mt-3">
+              <app-skeleton [height]="'100px'" [width]="'364px'">
+              </app-skeleton>
+            </span>
+          }
+
+          <!-- *END OF SELECTED WALLET CONTAINER-->
+        </div>
+
+        <!--* switch bank component-->
+
+        <!--* END OF switch bank component-->
+      </div>
+    }
+  </div>
+</div>

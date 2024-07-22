@@ -1,4 +1,12 @@
-@import '../mixins/mixins';
+@import './mixins/mixins';
+@import 'bootstrap/scss/variables';
+
+.app-container {
+  @media screen and (min-width: 1700px) {
+    margin: 0 auto;
+    max-width: 1700px;
+  }
+}
 
 // global inchanges color
 $globalColors: (
@@ -156,14 +164,15 @@ a {
     border-radius: 0 !important;
   }
 }
+// $utilities: (
+//   'z-index': (
+//     property: z-index,
+//     class: z,
+//     values: $zindex-levels,
+//   ),
+// );
 
-.app-container {
-  @media screen and (min-width: 1700px) {
-    margin: 0 auto;
-    max-width: 1700px;
-  }
-}
-
-@import '../colors/erp-theme';
-@import '../colors/ihela-theme';
-@import '../colors/magis-theme';
+@import './colors/erp-theme';
+@import './colors/ihela-theme';
+@import './colors/magis-theme';
+@import './colors/onamob-theme';

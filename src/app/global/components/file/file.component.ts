@@ -4,7 +4,7 @@ import { ChangeDetectorRef } from '@angular/core';
 
 import { FormControl } from '@angular/forms';
 import { FileService } from '../../../core/services/file/file.service';
-import { fileResponse } from '../../global.model';
+import { fileResponse } from './file.model';
 @Component({
   selector: 'app-file',
   standalone: true,
@@ -118,7 +118,7 @@ export class FileComponent {
   private uploadFile(oneFile: File[]): void {
     const filesToUpload = oneFile.map(file => {
       return Object.assign(file, {
-        progress: 0,
+        progress: 1,
         thumbnail: undefined,
         isLoadingFile: true,
       });

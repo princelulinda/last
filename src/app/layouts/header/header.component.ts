@@ -298,9 +298,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.configService.switchPlateform(plateform);
   }
 
-  // logout() {
-  //     this.store.dispatch(new Logout());
-  // }
+  logout() {
+    this.authService.logout();
+  }
 
   // displayCorporatesSection() {
   //   if (this.showCorporatesSection) {
