@@ -13,6 +13,8 @@ import { OnamobDashboardComponent } from './components/dashboards/onamob-dashboa
 import { AuthCorporateLayoutComponent } from './layouts/auth-corporate-layout/auth-corporate-layout.component';
 import { AuthCorporateComponent } from './components/auth/workstation/auth-corporate/auth-corporate.component';
 import { myMarketRoutes } from './routes/my-market/mymarket.routes';
+import { WorkstationComponent } from './layouts/workstation/workstation.component';
+import { workstationRoutes } from './routes/workstation/workstation.routes';
 
 export const routes: Routes = [
   // authentification routes
@@ -68,6 +70,18 @@ export const routes: Routes = [
       },
 
       { path: '**', component: NotFound404Component },
+    ],
+  },
+
+  {
+    component: WorkstationComponent,
+    path: ':plateform',
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'workstation',
+        children: workstationRoutes,
+      },
     ],
   },
 
