@@ -97,5 +97,12 @@ export class AuthCorporateComponent implements OnInit {
 
   selectOrganization(data: OrganizationModel) {
     this.selectedOrganization = data;
+    this.dialogService.openDialog({
+      action: 'Oraganization',
+      message: '',
+      title: '',
+      type: 'pin',
+      image: data.institution_client.picture ?? '',
+    });
   }
 }

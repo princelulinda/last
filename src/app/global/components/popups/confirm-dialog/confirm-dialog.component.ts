@@ -30,6 +30,7 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
     title: '',
     type: '',
     action: '',
+    image: '',
   };
   toast: ToastModel = {
     active: false,
