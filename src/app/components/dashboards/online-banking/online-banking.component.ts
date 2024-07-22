@@ -5,16 +5,18 @@ import {
   OnDestroy,
   ElementRef,
 } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule, NgClass } from '@angular/common';
+
+import { Subject, Observable, takeUntil } from 'rxjs';
+
 import { WalletCardComponent } from '../../wallet/wallet-card/wallet-card.component';
 import { NyamuranziCardComponent } from '../../nyamuranzi/nyamuranzi-card/nyamuranzi-card.component';
-import { Subject, Observable, takeUntil } from 'rxjs';
 import {
   AuthService,
   ConfigService,
   DialogService,
-  ModeModel,
 } from '../../../core/services';
-import { CommonModule, NgClass } from '@angular/common';
 import { BankService } from '../../../core/services/bank/bank.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
@@ -27,9 +29,8 @@ import {
 } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
-
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { Router } from '@angular/router';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-online-banking',

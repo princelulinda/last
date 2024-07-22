@@ -3,7 +3,7 @@ import { SessionsService } from '../../../core/services/sessions/sessions.servic
 import {
   activeSessionResponse,
   historySessionResponse,
-} from '../setting.model';
+} from '../settings.models';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { DatePipe } from '@angular/common';
@@ -18,8 +18,13 @@ import { takeUntil, Subject } from 'rxjs';
   styleUrl: './sessions.component.scss',
 })
 export class SessionsComponent implements OnInit {
+  private onDestroy$: Subject<void> = new Subject<void>();
   activeSessions!: activeSessionResponse[];
   historySessions!: historySessionResponse[];
+  endActiveSession!: activeSessionResponse[];
+  lim!: number;
+  osFamily!: string;
+
   countActive!: number;
   activeSessionLoading = false;
   isLoadingHistorySessions = false;
@@ -34,6 +39,7 @@ export class SessionsComponent implements OnInit {
   selectedId = '';
   detailButtonActiveSession = 'rotate(0deg)';
   countHistory!: number;
+  isLoadingEndSession = false;
 
   ngOnInit() {
     this.getActiveSession();
@@ -42,11 +48,6 @@ export class SessionsComponent implements OnInit {
   constructor(private SessionsService: SessionsService) {
     //
   }
-
-  lim!: number;
-  osFamily!: string;
-  private onDestroy$: Subject<void> = new Subject<void>();
-
   getActiveSession(searchValue?: string) {
     this.activeSessionLoading = true;
     this.pagination.filters.limit = 15;
@@ -89,13 +90,10 @@ export class SessionsComponent implements OnInit {
     } else {
       this.currentPage -= 1;
     }
-
-    // condition just for typescript
     if (this.pagination.filters.limit) {
       this.pagination.filters.offset =
         this.pagination.filters.limit * this.currentPage;
       this.getHystorySession();
-      // console.log(this.currentPage);
     }
   }
   onButtonClick() {
@@ -120,6 +118,21 @@ export class SessionsComponent implements OnInit {
         },
         error: () => {
           this.isLoadingHistorySessions = false;
+        },
+      });
+  }
+  endSession(id: string) {
+    this.isLoadingEndSession = true;
+    this.SessionsService.endSession(id)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (data: activeSessionResponse) => {
+          this.endActiveSession = data.objects;
+          this.isLoadingEndSession = false;
+          this.getActiveSession();
+        },
+        error: () => {
+          this.isLoadingEndSession = false;
         },
       });
   }

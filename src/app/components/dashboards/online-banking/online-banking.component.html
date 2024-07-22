@@ -30,7 +30,7 @@
                 [attr.aria-controls]="'collapse-' + i">
                 <div
                   class="d-flex align-items-center w-100 justify-content-between ps-1 pe-3">
-                  <div class="d-flex">
+                  <div class="d-flex align-items-center">
                     <span
                       class="rounded-circle circ-badge me-2 bg-secondary justify-content-center d-flex align-items-center">
                       <i
@@ -41,7 +41,7 @@
                         "></i>
                     </span>
                     <div class="d-grid align-items-center">
-                      <b class="text-all-dark">{{ menuGroup.name }}</b>
+                      <b class="text-dark">{{ menuGroup.name }}</b>
                       @if (!menuGroup.is_active) {
                         <span class="text-secondary">{{
                           menuGroup.description
@@ -51,11 +51,11 @@
                   </div>
                   @if (!menuGroup.is_active) {
                     <span>
-                      <i class="fa fa-chevron-right text-all-dark"></i>
+                      <i class="fa fa-chevron-right text-dark"></i>
                     </span>
                   } @else {
                     <span>
-                      <i class="fa fa-chevron-down text-all-dark"></i>
+                      <i class="fa fa-chevron-down text-dark"></i>
                     </span>
                   }
                 </div>
@@ -66,8 +66,7 @@
                 [ngClass]="{ show: menuGroup.is_active }"
                 aria-labelledby="headingOne"
                 data-bs-parent="#accordionExample">
-                <div
-                  class="accordion-body text-all-dark expand-collapse-section">
+                <div class="accordion-body text-dark expand-collapse-section">
                   <!-- Ajoutez ici le contenu spécifique à ce menuGroup -->
                   @if (i === 0 && menuGroup.is_active) {
                     <div>
@@ -116,7 +115,7 @@
                               </div>
                             </div>
                             <div class="text-center">
-                              <span class="text-sm text-all-dark" i18n
+                              <span class="text-sm text-dark" i18n
                                 >CREATE ACCOUNT</span
                               >
                             </div>
@@ -253,7 +252,7 @@
         <div class="text-end">
           <span
             role="button"
-            class="text-all-dark"
+            class="text-dark"
             data-bs-dismiss="modal"
             aria-label="Close">
             <i class="fa-solid fa-xmark fs-large"></i>
@@ -278,7 +277,7 @@
                     <img
                       class="bank-image"
                       [src]="bank?.company?.image"
-                      alt="" />
+                      alt="{{ bank?.company?.fullname }} Logo" />
                   </div>
                 </div>
 

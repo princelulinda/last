@@ -6,8 +6,8 @@ import {
   PasswordChangeResponse,
   PasswordModel,
   PinChangeResponse,
-} from '../../../components/settings/setting.model';
-import { PinModel } from '../../../components/settings/setting.model';
+} from '../../../components/settings/settings.models';
+import { PinModel } from '../../../components/settings/settings.models';
 
 @Injectable({
   providedIn: 'root',

@@ -1,16 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Inject, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+
 import { Observable, Subject, takeUntil } from 'rxjs';
+
 import { BankService } from '../../../../core/services/bank/bank.service';
-import {
-  AuthService,
-  ConfigService,
-  ModeModel,
-} from '../../../../core/services';
+import { AuthService, ConfigService } from '../../../../core/services';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { userInfoModel } from '../../../../layouts/header/model';
 import { BankOptions } from '../../../../components/dashboards/dashboard.model';
 import { bankModel } from '../../../../core/db/models/bank/bank.model';
+import { ModeModel } from '../../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-switch-bank',
   standalone: true,
@@ -36,9 +35,9 @@ export class SwitchBankComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(
-    @Inject(BankService) private bankService: BankService,
-    @Inject(ConfigService) private configService: ConfigService,
-    @Inject(AuthService) private authService: AuthService
+    private bankService: BankService,
+    private configService: ConfigService,
+    private authService: AuthService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();

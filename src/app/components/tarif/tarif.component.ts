@@ -186,6 +186,5 @@ export class TarifComponent implements OnInit {
     name: 'internalBank' | 'externalBank' | 'tarif' | 'simulate'
   ) {
     this.actifSection = name;
-    console.log(this.actifSection);
   }
 }

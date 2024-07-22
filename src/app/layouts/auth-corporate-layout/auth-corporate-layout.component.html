@@ -1,0 +1,18 @@
+<main
+  class="bg-white layout-height d-flex flex-column position-relative overflow-y-auto">
+  <span class="auth-bg position-absolute z-0"></span>
+  <section class="z-2">
+    <div>
+      <app-header></app-header>
+    </div>
+    <div class="font-montserrat">
+      <app-sub-header></app-sub-header>
+    </div>
+  </section>
+  <main class="flex-grow-1 font-montserrat z-1">
+    <router-outlet />
+  </main>
+  <section class="z-1">
+    <app-footer></app-footer>
+  </section>
+</main>

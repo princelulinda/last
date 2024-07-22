@@ -7,7 +7,7 @@
     @if (
       mainConfig &&
       mainConfig.activePlateform !== 'workstation' &&
-      !selectedBank.id
+      selectedBank && !selectedBank.id
     ) {
       <div class="expand-collapse-section">
         <div>
@@ -180,7 +180,7 @@
             mainConfig.activePlateform !== 'workstation' &&
             selectedDebitAccountType === 'account'
           ) {
-            <app-accounts-list [listType]="'transfer'"></app-accounts-list>
+            <app-accounts-list [Type]="'transfer'"></app-accounts-list>
           }
 
           <!--* ___END OF ACCOUNTS LIST CONTAINER___-->
@@ -191,61 +191,7 @@
             mainConfig.activePlateform !== 'workstation' &&
             selectedDebitAccountType === 'wallet'
           ) {
-            <div
-              class="border border-secondary b-right mt-2 ms-2 p-3 lg-radius overflow-y-auto">
-              <!--* spinner when there are no wallets yet-->
-              <!-- @if (!wallets) {
-                  <span
-                    class="text-center w-100 h-100 align-items-center d-flex justify-content-center text-dark"
-                    title="Loading wallets...">
-                    <i class="spinner-border"></i>
-                  </span>
-                } -->
-
-              <!--* No wallets found message-->
-              <!-- @if (wallets && wallets.length === 0) {
-                  <span
-                    class="text-center w-100 h-100 align-items-center d-flex justify-content-center text-dark">
-                    <span class="text-secondary">
-                      <i class="fa fa-ban me-1"></i>
-                      <b>You don't have any wallet</b>
-                    </span>
-                  </span>
-                } -->
-
-              <!--* wallets list loop-->
-              <!-- @if (wallets && wallets.length > 0) {
-                  <div>
-                    @for (wallet of wallets; track $index; let i = $index) {
-                      <div>
-                        <div
-                          (click)="selectDebitWallet(i)"
-                          tabindex="0"
-                          class="d-grid ps-3 py-0 w-100 account b-left rounded"
-                          role="button">
-                          <b>{{ wallet.title }}</b>
-                          <span>{{ wallet.account.account_holder }}</span>
-                          <span
-                   class="text-success">
-                            @if (isBalanceShown) {
-                              <span>{{
-                                wallet.available_balance | currency: ' '
-                              }}</span>
-                            } @else {
-                              <span>*** ***</span>
-                            }
-  
-                            {{ wallet.currency }}</span
-                          >
-                        </div>
-                        <hr class="mx-4" />
-                      </div>
-                    }
-                  </div>
-                }
-   -->
-              <!--* __END OF WALLETS LIST LOOP-->
-            </div>
+            <app-wallet-list [Type]="'transfer'"></app-wallet-list>
           }
 
           <!--* END OF WALLETS LIST CONTAINER-->

@@ -1,4 +1,7 @@
-import { ModeModel, ThemeModel } from '../../../services';
+import {
+  ModeModel,
+  ThemeModel,
+} from '../../../services/config/main-config.models';
 import { BaseModel, UniqueField } from '../base.model';
 
 export interface mainConfigModel {

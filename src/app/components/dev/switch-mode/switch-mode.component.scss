@@ -11,9 +11,9 @@
   }
   .forMoonIcon {
     transition: opacity 0s, right 0.3s;
-    right: 39px;
+    right: 0;
     &.active {
-      right: 0;
+      right: 39px;
     }
   }
 }

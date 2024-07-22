@@ -1,6 +1,9 @@
 dialog::backdrop {
   background: rgba(17, 17, 17, 0.5);
 }
+dialog {
+  z-index: -1;
+}
 dialog[open] {
   animation: show 0.5s ease normal;
 }

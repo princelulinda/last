@@ -9,6 +9,9 @@ import { TransferComponent } from '../../components/transfer/transfer/transfer.c
 import { AccountComponent } from '../../components/account/account/account.component';
 import { DebitAccountComponent } from '../../components/transfer/debit-account/debit-account.component';
 
+import { WalletComponent } from '../../components/wallet/wallet/wallet.component';
+import { WalletDetailsComponent } from '../../components/wallet/wallet-details/wallet-details.component';
+import { TarifComponent } from '../../components/tarif/tarif.component';
 export const bankingRoutes: Routes = [
   {
     path: '',
@@ -17,6 +20,17 @@ export const bankingRoutes: Routes = [
   {
     path: 'saving',
     children: bankingSavingRoutes,
+  },
+
+  {
+    path: 'wallets',
+    component: WalletComponent,
+    children: [
+      {
+        path: 'details/:walletId',
+        component: WalletDetailsComponent,
+      },
+    ],
   },
   {
     path: 'loan',
@@ -29,6 +43,10 @@ export const bankingRoutes: Routes = [
   {
     path: 'transfer',
     component: TransferComponent,
+  },
+  {
+    path: 'tarifs',
+    component: TarifComponent,
   },
 
   {

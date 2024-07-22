@@ -1,22 +1,29 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
 import {
-  activeMainConfigModel,
-  AuthService,
-  ConfigService,
-} from '../../../core/services';
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  OnDestroy,
+} from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+
+import { AuthService, ConfigService } from '../../../core/services';
 import { ClientService } from '../../../core/services/client/client.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { accountsList } from '../models';
 import { CommonModule } from '@angular/common';
+
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-accounts-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AmountVisibilityComponent],
   templateUrl: './accounts-list.component.html',
   styleUrl: './accounts-list.component.scss',
 })
-export class AccountsListComponent implements OnInit {
+export class AccountsListComponent implements OnInit, OnDestroy {
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
   private userInfo$: Observable<UserInfoModel>;
@@ -28,10 +35,13 @@ export class AccountsListComponent implements OnInit {
   selectedLoneAccount: accountsList | null = null;
   selectedAccount!: accountsList[];
   isLoneAccountSelected = false;
+
   // close the account's creation form
   closeForm = false;
-  @Input() listType: 'transfer' | 'list' = 'list';
+  @Input() Type: 'transfer' | 'list' = 'transfer';
   @Output() accountSelected = new EventEmitter<accountsList>();
+
+  private onDestroy$ = new Subject<void>();
 
   constructor(
     private configService: ConfigService,
@@ -52,11 +62,17 @@ export class AccountsListComponent implements OnInit {
         }
       },
     });
+
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   getClientAccounts() {
@@ -84,6 +100,7 @@ export class AccountsListComponent implements OnInit {
     this.closeForm = false;
     this.accountSelected.emit(account);
   }
+
   refresh() {
     this.accountsListData = null;
     this.isLoading = true;

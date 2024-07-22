@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -14,17 +14,21 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
 import { Subject, Observable } from 'rxjs';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import {
-  activeMainConfigModel,
-  ModeModel,
   BankService,
   ConfigService,
   AuthService,
+  DialogService,
 } from '../../../core/services';
 import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { SwitchBankComponent } from '../../../global/components/popups/switch-bank/switch-bank.component';
 import { AccountsListComponent } from '../../account/accounts-list/accounts-list.component';
 import { DebitEvent, DebitOptions, SwitchBankEvent } from '../transfer.model';
+import { WalletListComponent } from '../../wallet/wallet-list/wallet-list.component';
+import {
+  activeMainConfigModel,
+  ModeModel,
+} from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-debit-account',
@@ -36,6 +40,8 @@ import { DebitEvent, DebitOptions, SwitchBankEvent } from '../transfer.model';
     SkeletonComponent,
     SwitchBankComponent,
     AccountsListComponent,
+    WalletListComponent,
+    NgClass,
   ],
   templateUrl: './debit-account.component.html',
   styleUrl: './debit-account.component.scss',
@@ -66,6 +72,8 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
   index = 0;
   isBanksListShown = false;
   isBalanceShown = false;
+  isBalanceShown$: Observable<boolean>;
+
   lookupType = '';
   @Output() debitOptions = new EventEmitter<DebitOptions>();
   @Output() amount = new EventEmitter<number>();
@@ -91,12 +99,14 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
   constructor(
     private bankService: BankService,
     private configService: ConfigService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialogService: DialogService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
     this.mainConfig$ = this.configService.getMainConfig();
     this.selectedBank$ = this.configService.getSelectedBank();
+    this.isBalanceShown$ = this.dialogService.getAmountState();
   }
   ngOnInit() {
     this.mainConfig$.subscribe({
@@ -108,6 +118,9 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
       next: datas => {
         this.mode = datas;
       },
+    });
+    this.isBalanceShown$.subscribe(isBalanceShown => {
+      this.isBalanceShown = isBalanceShown;
     });
     this.userInfo$.subscribe({
       next: userinfo => {
@@ -396,7 +409,7 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   toggleBalance() {
-    this.isBalanceShown = !this.isBalanceShown;
+    this.dialogService.displayAmount();
   }
   getIndividualClient(event: DebitEvent) {
     const options: DebitOptions = {
