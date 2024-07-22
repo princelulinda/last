@@ -10,11 +10,17 @@ import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.servi
 import { ShowMoreDirective } from '../../../global/directives/show-more/show-more.directive';
 import { PublicationsComponent } from '../../publications/publications.component';
 import { PlateformModel } from '../../../core/services/config/main-config.models';
+import { ProductCardComponent } from '../../dev/product-card/product-card.component';
 
 @Component({
   selector: 'app-news-feed',
   standalone: true,
-  imports: [SkeletonComponent, ShowMoreDirective, PublicationsComponent],
+  imports: [
+    SkeletonComponent,
+    ShowMoreDirective,
+    PublicationsComponent,
+    ProductCardComponent,
+  ],
   templateUrl: './news-feed.component.html',
   styleUrl: './news-feed.component.scss',
 })

@@ -272,44 +272,44 @@
           >Top Products</span
         >
       </div>
-      <!-- @if (loadingProducts) { -->
-      <div class="cont-preloader mb-3" style="min-height: 200px">
-        <div class="row" style="gap: 1.5rem 0">
-          @for (item of countProductLoader; track $index) {
-            <div class="col-md-6" style="height: 180px">
-              <app-skeleton
-                [height]="'57%'"
-                [classes]="'rounded-2'"></app-skeleton>
-              <div>
+      @if (loadingProducts) {
+        <div class="cont-preloader mb-3" style="min-height: 200px">
+          <div class="row" style="gap: 1.5rem 0">
+            @for (item of countProductLoader; track $index) {
+              <div class="col-md-6" style="height: 180px">
                 <app-skeleton
-                  [height]="'10px'"
-                  [width]="'60%'"
-                  [classes]="'rounded'"></app-skeleton>
+                  [height]="'57%'"
+                  [classes]="'rounded-2'"></app-skeleton>
+                <div>
+                  <app-skeleton
+                    [height]="'10px'"
+                    [width]="'60%'"
+                    [classes]="'rounded'"></app-skeleton>
+                </div>
+                <div>
+                  <app-skeleton
+                    [height]="'10px'"
+                    [width]="'40%'"
+                    [classes]="'rounded'"></app-skeleton>
+                </div>
               </div>
-              <div>
-                <app-skeleton
-                  [height]="'10px'"
-                  [width]="'40%'"
-                  [classes]="'rounded'"></app-skeleton>
-              </div>
-            </div>
-          }
+            }
+          </div>
         </div>
-      </div>
-      <!-- } -->
+      }
 
       <!-- TODO : add product card and topProducts -->
 
-      <!-- @if (!loadingProducts) {
+      @if (!loadingProducts) {
         <div class="row" style="gap: 1.5rem 0">
           @for (product of topProducts; track $index) {
-            <div class="product sm-radius col-md-6 role="button">
-              <app-product-merchant-card [product]="product" [get_product]="true">
-              </app-product-merchant-card>
+            <div class="product sm-radius col-md-6" role="button">
+              <app-product-card [product]="product" [get_product]="true">
+              </app-product-card>
             </div>
           }
         </div>
-      } -->
+      }
     </section>
     <section class="mobile-app-download mt-4">
       <div
