@@ -5,8 +5,9 @@ import { Observable } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { RouterLinkActive } from '@angular/router';
 
-import { ConfigService, activeMainConfigModel } from '../../../core/services';
+import { ConfigService } from '../../../core/services';
 import { MenuService } from '../../../core/services/menu/menu.service';
+import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-aside-menu',
   standalone: true,

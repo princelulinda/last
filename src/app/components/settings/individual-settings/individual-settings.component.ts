@@ -13,7 +13,7 @@ import {
   PasswordModel,
   PinChangeResponse,
   PinModel,
-} from '../setting.model';
+} from '../settings.models';
 import { DialogService } from '../../../core/services';
 @Component({
   selector: 'app-individual-settings',

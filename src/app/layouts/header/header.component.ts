@@ -11,12 +11,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { Observable, Subject } from 'rxjs';
 
-import {
-  AuthService,
-  ConfigService,
-  PlateformModel,
-  activeMainConfigModel,
-} from '../../core/services';
+import { AuthService, ConfigService } from '../../core/services';
 import { UserInfoModel } from '../../core/db/models/auth';
 import {
   corporatesModel,
@@ -25,6 +20,10 @@ import {
   userInfoModel,
 } from './model';
 import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-plateform-icons.component';
+import {
+  activeMainConfigModel,
+  PlateformModel,
+} from '../../core/services/config/main-config.models';
 
 export interface organizationModel {
   company_type_code: string;
@@ -130,7 +129,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //     this.onlineBankingHeaderImage =
     //         '../../../assets/images/ihela_christmas.png';
     // } else {
-    //     this.onlineBankingHeaderImage = '../../../assets/images/ihela3.png';
+    //     this.onlineBankingHeaderImage = '../../../assets/images/ihela-ryanje.png';
     // }
 
     // this.eyeStatus$.subscribe({

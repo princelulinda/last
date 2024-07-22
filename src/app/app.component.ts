@@ -11,13 +11,15 @@ import {
   AuthService,
   ConfigService,
   DialogService,
-  ModeModel,
-  PlateformModel,
   // PlateformModel,
 } from './core/services';
 import { ConfirmDialogComponent } from './global/components/popups/confirm-dialog/confirm-dialog.component';
 import { SplashScreenComponent } from './layouts/splash-screen/splash-screen.component';
 import { CommonModule } from '@angular/common';
+import {
+  ModeModel,
+  PlateformModel,
+} from './core/services/config/main-config.models';
 // import { environment } from '../environments/environment';
 
 @Component({

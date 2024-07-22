@@ -7,6 +7,7 @@
     <title>iHel&aacute; Rya&#771;nje</title>
   }
 </head>
+<!-- NOTE :: GLOBAL TAG FOR APP BACKGROUND -->
 <span
   id="app-global-bg"
   class="position-absolute zn-1"
@@ -14,16 +15,18 @@
     'opacity-25': activeMode === 'light',
     'opacity-50': activeMode === 'dark',
   }"></span>
+
+<!-- NOTE :: GLOBAL SPLASH SCREEN -->
+<Section>
+  <app-splash-screen></app-splash-screen>
+</Section>
+
 <main class="app-container position-relative">
-  <!-- TODO :: GLOBAL SPLASH SCREEN -->
-  <Section>
-    <app-splash-screen></app-splash-screen>
-  </Section>
-  <!-- TODO :: GLOBAL POPUPS ON THE PROJECT -->
+  <!-- NOTE :: GLOBAL POPUPS ON THE PROJECT -->
   <section>
     <app-confirm-dialog></app-confirm-dialog>
   </section>
 
-  <!-- TODO :: OTHER COMPONENT WITH ROUTER -->
+  <!-- NOTE :: OTHER COMPONENT WITH ROUTER -->
   <router-outlet />
 </main>

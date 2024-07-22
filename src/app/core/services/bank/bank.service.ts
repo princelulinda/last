@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable, map } from 'rxjs';
-
+import { bankListResponse } from '../../../components/auth/auth.model';
 import { ApiService, ConfigService } from '..';
 import { bankModel } from '../../db/models/bank/bank.model';
+import { addBankResponse } from '../../../components/dashboards/dashboard.model';
 
 @Injectable({
   providedIn: 'root',
@@ -67,9 +68,11 @@ export class BankService {
         })
       );
   }
-  addBank(body: []) {
+  addBank(body: object): Observable<addBankResponse> {
     const url = '/client/clientorganization/';
-    return this.apiService.post(url, body).pipe(map(response => response));
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as addBankResponse));
   }
   // withdrawFromAgent(withdraw: any) {
   //     return this.apiService.post('/dbs/agent/withdrawal/', withdraw).pipe(
@@ -92,6 +95,10 @@ export class BankService {
     );
   }
 
+  getAllBanks(): Observable<{ objects: bankListResponse[] }> {
+    const url = '/banks/list/?externel_request=true&bank_type=MFI';
+    return this.apiService.get<{ objects: bankListResponse[] }>(url);
+  }
   // getBankStatusPing(body: any) {
   //     const url = `${environment.websocketUrl}ws/dbsapp/partners-ping/`;
 

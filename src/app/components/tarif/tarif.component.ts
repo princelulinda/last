@@ -25,23 +25,11 @@ import { NgStyle, NgClass } from '@angular/common';
   styleUrl: './tarif.component.scss',
 })
 export class TarifComponent implements OnInit {
-  toggleTheme = false;
   theme = 'light';
   bankList: bankListResponse[] | null = null;
   simulates: simulateResponse[] | null = null;
-  getclientType = false;
   isAgent = false;
   selectedType = 'internal';
-  showInternalTarif = true;
-  showExternalTarif = false;
-  showSimulate = false;
-  showTarifList = false;
-
-  buttonInternalClicked = false;
-  buttonExternalClicked = false;
-  buttonSimulateClicked = false;
-  tariffClicked = false;
-
   isLoadingTarif = false;
   isLoadingBank = true;
   isLoadingTariffType = false;
@@ -56,40 +44,6 @@ export class TarifComponent implements OnInit {
   bankId!: number;
   tarifTable!: number;
   tarifName!: string;
-
-  onButtonInternalClick(): void {
-    this.showInternalTarif = true;
-    this.showExternalTarif = false;
-
-    this.buttonInternalClicked = !this.buttonInternalClicked;
-    this.buttonExternalClicked = false;
-    this.showSimulate = false;
-  }
-
-  onButtonExternalClick(): void {
-    this.showInternalTarif = false;
-    this.showExternalTarif = true;
-    this.buttonExternalClicked = !this.buttonExternalClicked;
-    this.buttonInternalClicked = false;
-  }
-  onButtonSimulateClick(): void {
-    this.showInternalTarif = false;
-    this.showExternalTarif = false;
-    this.showSimulate = true;
-    this.tariffClicked = false;
-    this.buttonExternalClicked = false;
-    this.buttonInternalClicked = false;
-  }
-  onTariffClick(): void {
-    this.tariffClicked = true;
-    this.showInternalTarif = false;
-    this.showExternalTarif = false;
-    this.showSimulate = false;
-
-    this.buttonExternalClicked = false;
-    this.buttonInternalClicked = false;
-  }
-
   constructor(
     private TarifService: TarifService,
     private authService: AuthService
@@ -115,7 +69,7 @@ export class TarifComponent implements OnInit {
         this.bankList = response.objects;
         this.isLoadingBank = false;
         if (this.bankList.length === 0) {
-          //                 //
+          //
         }
       },
       error: (error: Error) =>
@@ -189,13 +143,7 @@ export class TarifComponent implements OnInit {
     this.simulates = null;
     this.simulateForm.reset();
   }
-  backOnTarifHome(): void {
-    this.tariffClicked = false;
-    this.showInternalTarif = true;
-    this.showExternalTarif = false;
-    this.showSimulate = false;
-    this.buttonInternalClicked = true;
-  }
+
   selectBank(selectedBank: bankListResponse) {
     this.bankList?.forEach(bank => {
       bank.isSelected = bank === selectedBank;
@@ -227,4 +175,16 @@ export class TarifComponent implements OnInit {
   simulateForm = new FormGroup({
     amount: new FormControl('', Validators.required),
   });
+
+  actifSection:
+    | 'internalBank'
+    | 'tarif'
+    | 'externalBank'
+    | 'simulate'
+    | 'internalBank' = 'internalBank';
+  setActifSection(
+    name: 'internalBank' | 'externalBank' | 'tarif' | 'simulate'
+  ) {
+    this.actifSection = name;
+  }
 }

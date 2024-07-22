@@ -1,151 +1,117 @@
 <div>
-  <!-- loader for OnlineBanking -->
-  @if (
-    !accountsOnlineBanking && mainConfig.activePlateform === 'onlineBanking'
-  ) {
+  <!-- loader f -->
+  @if (!accountsListData && Type === 'list') {
     <span
       class="text-center w-100 d-flex position-absolute justify-content-center h-100 align-items-center text-dark"
       title="Loading...">
       <i class="spinner-border"></i>
     </span>
   }
-
-  <!-- loader for workStation -->
-  @if (!accountsWorkStation && mainConfig.activePlateform === 'workstation') {
+  @if (!accountsListData && Type === 'transfer') {
     <div
-      class="text-center w-100 d-flex justify-content-center align-items-center text-dark"
-      style="height: 80vh"
-      title="Loading...">
-      <i class="spinner-border"></i>
+      class="bg-white p-3 border border-secondary border-2 mt-2 lg-radius"
+      style="min-width: 300px">
+      <span
+        class="text-center w-100 h-100 align-items-center d-flex justify-content-center text-dark"
+        title="Loading accounts...">
+        <i class="spinner-border"></i>
+      </span>
     </div>
   }
 
-  <!-- list for OnlineBanking -->
-  @if (
-    accountsOnlineBanking && mainConfig.activePlateform === 'onlineBanking'
-  ) {}
-  <div
-    class="position-relative overflow-x-hidden overflow-y-auto"
-    style="min-width: 220px; height: 80vh">
+  <!-- list -->
+  @if (accountsListData && accountsListData.length > 0) {
     <div
-      class="row p-2 d-flex justify-content-between align-items-center"
-      style="height: 35px">
-      <div style="margin-right: 10px" class="col pt-1 text-dark">
-        <b i18n>Accounts</b>
-        <b
-          class="ms-2 text-dark"
-          role="button"
-          title="Refresh accounts list"
-          (click)="refresh()"
-          tabindex="0"
-          ><i class="fa-solid fa-rotate-right"></i
-        ></b>
-      </div>
-
-      <div class="col-1 pt-1 me-3" role="button">
-        <span title="Show balances">
-          <i class="fa-solid fa-eye text-dark"></i
-        ></span>
-      </div>
-
-      <hr class="mt-1 ms-3" style="width: 93%; color: #8e8b8b" />
-    </div>
-
-    <!--*Accounts loop for large screens-->
-    @for (account of accountsOnlineBanking; track $index) {
-      <div
-        class="fig is-hoverable d-none d-lg-block overflow-auto"
-        role="button"
-        style="border-bottom: 1px solid #ccc">
-        <div class="mt-2 px-2 borders" routerLinkActive="cliped">
-          <small
-            ><b class="">{{ account.acc_account_type }}</b></small
-          ><br />
-
-          <div class="rounded mb-2 mt-0" style="line-height: 0.8em">
-            <small
-              ><span class="mt-0 text-sm"
-                >{{ account.acc_holder }}
-              </span></small
-            ><br />
-            <small>
-              <span class="mt-0 mb-0 text-sm">
-                {{ account.acc_number }}
-              </span>
-            </small>
-            <br />
-            <small
-              ><b class="text-success"
-                >{{ account.acc_available_balance | number }}
-                {{ account.acc_currency }}</b
-              ></small
-            >
-          </div>
-        </div>
-      </div>
-    }
-    <!--* Accounts loop for medium and small screen-->
-    @for (account of accountsOnlineBanking; track $index) {
-      <div>
+      class="position-relative overflow-x-hidden overflow-y-auto"
+      style="min-width: 220px; height: 80vh">
+      @if (Type === 'list') {
+        <hr class="my-1" />
+      }
+      <!--*Accounts loop for large screens-->
+      @if (Type === 'list' || (Type === 'transfer' && !selectedLoneAccount)) {
         <div
-          class="fig is-hoverable d-lg-none d-sm-block d-md-block overflow-auto"
-          role="button"
-          style="border-bottom: 1px solid #ccc">
-          <div class="mt-2 px-2 borders">
-            <small
-              ><b class="">{{ account.acc_account_type }}</b></small
-            ><br />
+          [ngClass]="{
+            'bg-white p-2 border border-secondary border-2 mt-2 ms-2 lg-radius overflow-y-auto':
+              Type === 'transfer',
+          }">
+          @for (account of accountsListData; track $index) {
+            <div
+              (click)="selectLoneAccount(account)"
+              tabindex="0"
+              class="d-grid ps-3 py-0 rounded b-left"
+              [ngClass]="{
+                account: Type === 'transfer',
+                cliped: selectedLoneAccount === account && Type === 'list',
+                'not-clickable':
+                  account.acc_status.status_code === 'B' ||
+                  account.acc_status.status_code === 'C',
+                'opacity-50':
+                  account.acc_status.status_code === 'B' ||
+                  account.acc_status.status_code === 'C',
+                'border-gray':
+                  account.acc_status.status_code === 'B' ||
+                  account.acc_status.status_code === 'C',
+              }"
+              role="button">
+              <b class="fw-bold">{{ account.acc_account_type }}</b>
+              <b class="fw-normal">{{ account.acc_holder }}</b>
+              <b class="fw-normal">{{ account.acc_number }}</b>
+              <b>
+                <app-amount-visibility
+                  [amount]="account.acc_available_balance"
+                  [currency]="account.acc_currency"
+                  [ngClass]="
+                    'fw-normal text-success fw-bold'
+                  "></app-amount-visibility>
+              </b>
+            </div>
+            <hr class="my-1" />
+          }
+        </div>
+      }
 
-            <div class="rounded mb-2 mt-0" style="line-height: 0.8em">
-              <small
-                ><span class="mt-0 text-sm"
-                  >{{ account.acc_holder }}
-                </span></small
-              ><br />
-              <small>
-                <span class="mt-0 mb-0 text-sm">
-                  {{ account.acc_number }}
+      @if (Type === 'transfer' && selectedLoneAccount) {
+        <div class="mt-3 w-100 lg-radius">
+          <div class="p-2 ms-2 lg-radius bg-white">
+            <div
+              class="d-flex align-items-start justify-content-between ps-2 py-0 b-left">
+              <div class="d-grid ps-3 py-0">
+                <b>{{ selectedLoneAccount.acc_holder }}</b>
+                <b class="fw-normal">{{ selectedLoneAccount.acc_number }}</b>
+                <b>
+                  <span>
+                    <app-amount-visibility
+                      [amount]="selectedLoneAccount.acc_available_balance"
+                      [currency]="selectedLoneAccount.acc_currency"
+                      [ngClass]="
+                        'fw-normal text-success'
+                      "></app-amount-visibility>
+                  </span>
+                </b>
+              </div>
+
+              <div>
+                <span
+                  role="button"
+                  class="bg-danger text-white ms-5 pt-1 px-1 rounded-circle"
+                  (click)="clearSelectedAccount()"
+                  tabindex="0">
+                  <i class="fa fa-xmark"></i>
                 </span>
-              </small>
-              <br />
-              <small
-                ><b class="text-success"
-                  >{{ account.acc_available_balance | number }}
-                  {{ account.acc_currency }}</b
-                ></small
-              >
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    }
-
-    <!--*selected account for small and medium screens-->
-    @for (account of accountsOnlineBanking; track $index) {
-      <div
-        class="mt-4 px-2 d-lg-none d-sm-block d-md-block cliped text-dark w-100 borders">
-        <small
-          ><b class="">{{ account.acc_account_type }}</b></small
-        ><br />
-
-        <div class="rounded mb-2 mt-0" style="line-height: 0.8em">
-          <small
-            ><span class="mt-0 text-sm">{{ account.acc_holder }} </span></small
-          ><br />
-          <small>
-            <span class="mt-0 mb-0 text-sm">
-              {{ account.acc_number }}
-            </span>
-          </small>
-          <br />
-          <small
-            ><b class="text-success"
-              >{{ account.acc_available_balance | number }}
-              {{ account.acc_currency }}</b
-            ></small
-          >
-        </div>
-      </div>
-    }
-  </div>
+      }
+    </div>
+  }
+  <!--*No accounts message-->
+  <span
+    *ngIf="accountsListData && accountsListData.length === 0"
+    class="text-center w-100 h-100 align-items-center d-flex justify-content-center text-dark">
+    <span class="text-secondary">
+      <i class="fa fa-ban me-1"></i>
+      <b>You don't have any account</b>
+    </span>
+  </span>
 </div>

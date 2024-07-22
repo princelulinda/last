@@ -1,10 +1,10 @@
 <div class="mb-3">
   <div>
     <!--cards ( wallet and nyamuranzi )-->
-    <section class="d-flex overflow-x-auto p-3 w-100">
+    <section class="d-flex overflow-x-auto pb-3 w-100">
       <!--wallet card-->
       <div>
-        <app-card></app-card>
+        <app-wallet-card></app-wallet-card>
       </div>
 
       <!-- nyamuranzi card-->
@@ -15,7 +15,7 @@
 
     <!-- Menus list-->
     <section class="pe-lg-3">
-      <div class="bg-secondary lg-radius p-4 border w-resp mt-4">
+      <div class="bg-secondary lg-radius p-4 border col-lg-9 col-md-12 mt-4">
         <div class="accordion" id="accordionExample">
           @for (menuGroup of menuGroups; track $index; let i = $index) {
             <div class="accordion-item mb-3 p-2 sm-radius border bg-white">
@@ -35,11 +35,11 @@
                       class="rounded-circle circ-badge me-2 bg-secondary justify-content-center d-flex align-items-center">
                       <i
                         [class]="
-                          'fa fa-' + menuGroup.icon + ' text-l-md text-dark'
+                          'fa fa-' + menuGroup.icon + ' text-l-md text-all-dark'
                         "></i>
                     </span>
                     <div class="d-grid align-items-center">
-                      <b class="text-dark">{{ menuGroup.name }}</b>
+                      <b class="text-all-dark">{{ menuGroup.name }}</b>
                       @if (!menuGroup.is_active) {
                         <span class="text-secondary">{{
                           menuGroup.description
@@ -49,11 +49,11 @@
                   </div>
                   @if (!menuGroup.is_active) {
                     <span>
-                      <i class="fa fa-chevron-right text-dark"></i>
+                      <i class="fa fa-chevron-right text-all-dark"></i>
                     </span>
                   } @else {
                     <span>
-                      <i class="fa fa-chevron-down text-dark"></i>
+                      <i class="fa fa-chevron-down text-all-dark"></i>
                     </span>
                   }
                 </div>
@@ -64,19 +64,19 @@
                 [ngClass]="{ show: menuGroup.is_active }"
                 aria-labelledby="headingOne"
                 data-bs-parent="#accordionExample">
-                <div class="accordion-body text-dark expand-collapse-section">
+                <div
+                  class="accordion-body text-all-dark expand-collapse-section">
                   <!-- Ajoutez ici le contenu spécifique à ce menuGroup -->
                   @if (i === 0 && menuGroup.is_active) {
                     <div>
                       <!-- Contenu pour les banques (boucle *ngFor) -->
 
                       @if (banks && banks.length > 0) {
-                        <div class="p-2 row" style="gap: 2rem 0">
+                        <div class="p-2 row mb-4">
                           <!-- Bloc de banque -->
                           @for (bank of banks; track $index) {
                             <div
                               (click)="selectBank(bank)"
-                              routerLink="/b/onlineBanking/banking/home"
                               role="button"
                               tabindex="0"
                               class="d-grid col-6 col-sm-4 col-md-3 justify-content-center">
@@ -114,7 +114,7 @@
                               </div>
                             </div>
                             <div class="text-center">
-                              <span class="text-sm text-dark" i18n
+                              <span class="text-sm text-all-dark" i18n
                                 >CREATE ACCOUNT</span
                               >
                             </div>
@@ -250,13 +250,13 @@
         <div class="text-end">
           <span
             role="button"
-            class="text-dark"
+            class="text-all-dark"
             data-bs-dismiss="modal"
             aria-label="Close">
             <i class="fa-solid fa-xmark fs-4"></i>
           </span>
         </div>
-        <div class="text-dark fs-5 text-center p-2" i18n>
+        <div class="text-all-dark fs-5 text-center p-2" i18n>
           Create an account by choosing one of the banks bellow
         </div>
         <br />
@@ -266,7 +266,7 @@
             @for (bank of banksFiltered; track $index) {
               <div
                 role="button"
-                (click)="getAddedBankId(bank.organization_id)"
+                (click)="openPinPopup(); getAddedBankId(bank.organization_id)"
                 class="d-grid col-3 justify-content-center"
                 tabindex="0">
                 <div class="d-flex w-100 mb-2 justify-content-center">
@@ -287,7 +287,7 @@
               </div>
             }
           </div>
-        } @else {
+        } @else if (!banksFiltered) {
           <div class="d-flex pt-3 ps-3">
             @for (_ of [1, 2, 3]; track $index) {
               <div class="d-grid mt-1 me-5">
@@ -304,9 +304,7 @@
               </div>
             }
           </div>
-        }
-
-        @if (banksFiltered && banksFiltered.length === 0) {
+        } @else {
           <div
             class="p-2 text-center text-l fw-bold"
             [ngClass]="{

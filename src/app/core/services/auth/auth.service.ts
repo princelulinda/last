@@ -11,14 +11,16 @@ import {
   EmailVerificationResponse,
   createAccountResponse,
   phoneNumberVerificaitonResponse,
-  bankListResponse,
   resetPasswordResponse,
   otpVerificationResponse,
+  ConectedOperatorApiResponseModel,
+  OrganizationModel,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
-import { ConfigService, PlateformModel } from '../config/config.service';
+import { ConfigService } from '../config/config.service';
 import { UserInfoModel } from '../../db/models/auth';
 import { DialogService } from '../dialog/dialog.service';
+import { PlateformModel } from '../config/main-config.models';
 
 @Injectable({
   providedIn: 'root',
@@ -59,18 +61,34 @@ export class AuthService {
     return localToken !== null;
   }
 
-  populateOperator() {
+  getOperatorOrganizations(): Observable<{
+    objects: {
+      id: number;
+      operator: object;
+      organisation: OrganizationModel;
+    }[];
+    count: number;
+  }> {
     return this.apiService
-      .get('/hr/access/operator/organizations/?populate=true')
+      .get<{
+        objects: {
+          id: number;
+          operator: object;
+          organisation: OrganizationModel;
+        }[];
+        count: number;
+      }>('/hr/access/operator/organizations/?populate=true')
       .pipe(map(data => data));
   }
 
-  getConnectedOperator() {
-    return this.apiService.get('/hr/connected/operator/').pipe(
-      map(data => {
-        return data;
-      })
-    );
+  getConnectedOperator(): Observable<ConectedOperatorApiResponseModel> {
+    return this.apiService
+      .get<ConectedOperatorApiResponseModel>('/hr/connected/operator/')
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
 
   loginCorporate(login_data: { organization_id: string; password: string }) {
@@ -195,11 +213,6 @@ export class AuthService {
   //   return this.apiService.get(url);
 
   // }
-
-  getBanksList(): Observable<{ objects: bankListResponse[] }> {
-    const url = '/banks/list/?externel_request=true&bank_type=MFI';
-    return this.apiService.get<{ objects: bankListResponse[] }>(url);
-  }
 
   verifyEmail(email: string): Observable<EmailVerificationResponse> {
     const url = `/extid/verification/?externel_request=true&type=email&value=${email}`;

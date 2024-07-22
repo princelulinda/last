@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ConfigService,
-  activeMainConfigModel,
-} from '../../../../core/services';
+import { ConfigService } from '../../../../core/services';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { SettingsService } from '../../../../core/services/settings/settings.service';
 import { CommonModule } from '@angular/common';
+import { activeMainConfigModel } from '../../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-settings-aside-menu',
   standalone: true,
@@ -40,8 +38,8 @@ export class SettingsAsideMenuComponent implements OnInit {
       this.selectedMenu = 'general';
       this.selectedSubMenu = 'account';
       this.isGeneralSubMensShown = true;
-    } else if (this.router.url === '/b/settings/session') {
-      this.selectedMenu = 'session';
+    } else if (this.router.url === '/b/settings/sessions') {
+      this.selectedMenu = 'sessions';
       this.isSessionMenusShown = true;
     }
     this.selectSubMenu(this.selectedMenu, this.selectedSubMenu);
@@ -68,7 +66,7 @@ export class SettingsAsideMenuComponent implements OnInit {
       this.router.navigateByUrl('/b/settings');
     }
     if (selectedMenu === 'session') {
-      this.router.navigateByUrl('b/settings/session');
+      this.router.navigateByUrl('/b/settings/session');
     }
   }
 }

@@ -181,19 +181,6 @@ export class DbService {
       await this.addOnce(User.tableName, data);
     }
   }
-
-  setLocalStorageUserToken(token: string) {
-    this.apiService.setLocalToken(token);
-  }
-
-  setLocalStorageClientId(clientId: string) {
-    this.apiService.setLocalClientId(clientId);
-  }
-
-  setLocalStorageBankId(bankId: number) {
-    this.apiService.setLocalBankId(bankId);
-  }
-
   async getDbUser(): Promise<UserInfoModel | null> {
     try {
       const userDb = await this.getOnce(User.tableName);
@@ -238,6 +225,15 @@ export class DbService {
     this.db.table(tableName).where(data);
   }
 
+  async checkTable(tableName: string): Promise<boolean> {
+    try {
+      this.db.table(tableName).toArray();
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   add(tableName: string, data: object) {
     return this.db.table(tableName).add(data);
   }
@@ -264,7 +260,24 @@ export class DbService {
   update(tableName: string, id: number, data: object) {
     return this.db.table(tableName).update(id, data);
   }
+
   clearTable(tableName: string) {
     this.db.table(tableName).clear();
+  }
+
+  // localStorage utilities Methods
+  setLocalStorageUserToken(token: string) {
+    this.apiService.setLocalToken(token);
+  }
+
+  setLocalStorageClientId(clientId: string) {
+    this.apiService.setLocalClientId(clientId);
+  }
+
+  setLocalStorageBankId(bankId: number) {
+    this.apiService.setLocalBankId(bankId);
+  }
+  removeLocalStorageBankId() {
+    this.apiService.removeItem('iHelaRyanjeBankId');
   }
 }

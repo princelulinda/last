@@ -1,19 +1,17 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
 
-import {
-  activeMainConfigModel,
-  AuthService,
-  ConfigService,
-} from '../../../core/services';
+import { AuthService, ConfigService } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { userInfoModel } from '../model';
+import { CommonModule } from '@angular/common';
+import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-sub-header',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
 
   templateUrl: './sub-header.component.html',
   styleUrl: './sub-header.component.scss',
@@ -30,8 +28,8 @@ export class SubHeaderComponent implements OnInit, OnDestroy {
   private userInfo$: Observable<UserInfoModel>;
 
   constructor(
-    @Inject(AuthService) private authService: AuthService,
-    @Inject(ConfigService) private configService: ConfigService
+    private authService: AuthService,
+    private configService: ConfigService
   ) {
     this.userInfo$ = this.authService.getUserInfo();
     this.mainConfig$ = this.configService.getMainConfig();
