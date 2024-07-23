@@ -118,7 +118,7 @@ export class FileComponent {
   private uploadFile(oneFile: File[]): void {
     const filesToUpload = oneFile.map(file => {
       return Object.assign(file, {
-        progress: 0,
+        progress: 1,
         thumbnail: undefined,
         isLoadingFile: true,
       });
@@ -142,8 +142,6 @@ export class FileComponent {
             this.updateProgress(file, newProgress);
           } else if (data.type === HttpEventType.Response) {
             const responseObject = data.body;
-            // const fileSizeKB = Math.round(file.size / 1024);
-            // responseObject.size =fileSizeKB.toLocaleString() + ' kB';
             this.uploadedFile.push(responseObject as fileResponse);
             // const uuidFile = this.uploadedFile;
             this.uploadOneFileEvent.emit(this.uploadedFile);
@@ -156,16 +154,6 @@ export class FileComponent {
           }
         },
         error: () => {
-          // Handle error
-          // this.store.dispatch(new CloseDialog({ response: 'clear' }));
-          // const data = {
-          //     title: '',
-          //     type: 'failed',
-          //     message:
-          //         error?.object?.response_message ??
-          //         'Something went wrong, please retry again',
-          // };
-          // this.store.dispatch(new OpenDialog(data));
           const index = this.oneFile.findIndex(f => f === file);
           if (index !== -1) {
             this.oneFile.splice(index, 1);
@@ -245,16 +233,6 @@ export class FileComponent {
           }
         },
         error: () => {
-          // Handle error
-          // this.store.dispatch(new CloseDialog({ response: 'clear' }));
-          // const data = {
-          //     title: '',
-          //     type: 'failed',
-          //     message:
-          //         error?.object?.response_message ??
-          //         'Something went wrong, please retry again',
-          // };
-          // this.store.dispatch(new OpenDialog(data));
           const index = this.fileList.findIndex(f => f === file);
           if (index !== -1) {
             this.fileList.splice(index, 1);
@@ -269,7 +247,6 @@ export class FileComponent {
     this.uploadedFiles[index].isLoadingDelete = true;
     if (index !== -1) {
       this.fileService.deleteImage(id).subscribe(() => {
-        //   console.log('Image deleted successfully');
         this.uploadedFiles.splice(index, 1);
         this.uploadedFiles[index].isLoadingDelete = false;
       });

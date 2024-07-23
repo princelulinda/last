@@ -1,12 +1,17 @@
 dialog::backdrop {
   background: rgba(17, 17, 17, 0.5);
 }
+dialog {
+  z-index: -1;
+  opacity: 0;
+}
 dialog[open] {
   animation: show 0.5s ease normal;
+  opacity: 1;
 }
 
 .popup-size {
-  min-width: 300px;
+  width: 425px;
   min-height: 200px;
 }
 .loader-size {

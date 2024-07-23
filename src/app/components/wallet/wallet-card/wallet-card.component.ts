@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BankingService } from '../../../core/services/dashboards/banking.service';
 import { Subject, Observable, takeUntil } from 'rxjs';
-import { AuthService, ConfigService, ModeModel } from '../../../core/services';
+import { AuthService, ConfigService } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 
 import { NgClass, CommonModule } from '@angular/common';
-import { WalletCard } from '../models';
+import { WalletCard } from '../wallet.models';
 import { userInfoModel } from '../../../layouts/header/model';
+import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-wallet-card',
@@ -24,10 +26,14 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   mode$!: Observable<ModeModel>;
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
+  selectedBank!: bankModel;
+  selectedBank$!: Observable<bankModel>;
   private userInfo$: Observable<UserInfoModel>;
 
   defaultWallet!: WalletCard;
   noWalletData = false;
+  clientId: number | null = null;
+  bankId: number | null = null;
 
   constructor(
     private bankingService: BankingService,
@@ -36,6 +42,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
+    this.selectedBank$ = this.configService.getSelectedBank();
   }
   ngOnInit(): void {
     this.mode$.subscribe({
@@ -46,8 +53,21 @@ export class WalletCardComponent implements OnInit, OnDestroy {
     this.userInfo$.subscribe({
       next: userinfo => {
         this.clientInfo = userinfo;
+        this.clientId = this.clientInfo.client.id;
+        if (this.clientId) {
+          this.selectedBank$.subscribe({
+            next: datas => {
+              this.selectedBank = datas;
+              this.bankId = this.selectedBank?.id;
+              if (this.bankId) {
+                this.getDefaultWallet();
+              }
+            },
+          });
+        }
       },
     });
+
     this.getDefaultWallet();
   }
 
@@ -66,10 +86,6 @@ export class WalletCardComponent implements OnInit, OnDestroy {
             this.noWalletData = true;
           }
         },
-        // error: (error) => {
-
-        //     error = 'Data not Found';
-        // },
       });
   }
   public ngOnDestroy(): void {

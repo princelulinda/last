@@ -1,0 +1,69 @@
+// @media screen and (max-width:900px) {
+//     .fol
+//     {
+//       width: 250px;
+//       height: 250px;
+//       border-radius: .3rem;
+//     }
+// }
+  
+  // .disabled {
+  //   pointer-events:none;
+  // }
+  
+  // .selectedLimitLightBg {
+  //   background-color: #f1f1f1
+  // }
+  
+  // .selectedLimitDarkBg {
+  //   background-color: #3E4F69;
+  // }
+  
+  // .sortLightBg {
+  //   background-color: #d9d9d9;
+  // }
+  
+  // .sortDarkBg {
+  //   background-color: #0C1627
+  // }
+  
+  // .longHeight {
+  //   height: calc(100vh - 300px); 
+  //   overflow-y: auto; 
+  //   overflow-x: hidden;
+  // }
+  
+  // .shortHeight { 
+  //   height: calc(100vh - 440px);
+  //   overflow-y: auto; 
+  //   overflow-x: hidden;
+  // }
+  
+  // .arrow-width {
+  //   width: 20px;
+  // }
+  
+  .search-container {
+    .search-input {
+        width: 300px;
+        border-radius: 15px;
+        color: black !important;
+        border: none;
+        @media screen and (max-width: 768px) {
+            width: 260px;
+        }
+    }
+    .search-background {
+      background: rgb(223, 219, 219);
+    }
+    .search-btn {
+        right: -4%;
+        bottom: -2px;
+    }
+    @media (max-width: 576px) {
+      .search-btn {
+        right: -11%;
+      }
+    }
+  }
+  

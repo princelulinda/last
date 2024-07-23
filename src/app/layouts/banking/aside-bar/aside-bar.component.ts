@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { ConfigService, activeMainConfigModel } from '../../../core/services';
+import { ConfigService } from '../../../core/services';
+import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-aside-bar',

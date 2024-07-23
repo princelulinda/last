@@ -31,6 +31,11 @@ export interface ProductModel {
   price: number;
   icon: string;
   merchant: MerchantModel;
+  lookup_icon: string;
+  lookup_image: string;
+  lookup_title: string;
+  lookup_subtitle: string;
+  lookup_description: string;
 }
 
 export interface MerchantLookup {
@@ -38,7 +43,13 @@ export interface MerchantLookup {
   lookup_title: string;
   lookup_image: string;
 }
-
+export interface addBankResponse {
+  object: {
+    success: boolean;
+    response_message: string;
+    response_code: string;
+  };
+}
 export interface PayMerchant {
   id: number;
 }
@@ -107,9 +118,14 @@ export interface PublicationModel {
 export interface productCategoryModel {
   id: number;
   icon: string;
+  image: string;
   is_active: true;
   name: string;
   ordering: number;
   slug: string;
   value_added_tax_rate: string;
+}
+
+export interface productCategoryArray {
+  objects: productCategoryModel[];
 }

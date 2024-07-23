@@ -7,6 +7,9 @@
     max-width: 1700px;
   }
 }
+.layout-height {
+  height: 100dvh;
+}
 
 // global inchanges color
 $globalColors: (
@@ -28,6 +31,7 @@ $fontSizes: (
   'l-medium': 20px,
   'medium': 18px,
   'normal': 16px,
+  'l-small': 15px,
   'small': 14px,
   'x-small': 12px,
 );

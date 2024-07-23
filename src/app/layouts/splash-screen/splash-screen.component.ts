@@ -2,11 +2,8 @@ import { AfterViewInit, Component, effect, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import {
-  ConfigService,
-  DialogService,
-  PlateformModel,
-} from '../../core/services';
+import { ConfigService, DialogService } from '../../core/services';
+import { PlateformModel } from '../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-splash-screen',
@@ -22,7 +19,7 @@ export class SplashScreenComponent implements OnInit, AfterViewInit {
   splashScreenElement: HTMLElement | null = null;
   splashScreenState = false;
 
-  imageUrl = '/images/auth/ihela3.png';
+  imageUrl = '/images/logo/ihela-ryanje.png';
 
   constructor(
     private configService: ConfigService,
@@ -46,7 +43,7 @@ export class SplashScreenComponent implements OnInit, AfterViewInit {
       next: plateform => {
         this.plateform = plateform;
         if (plateform === 'workstation') {
-          this.imageUrl = '/images/magis.png';
+          this.imageUrl = '/images/logo/magis-erp.png';
         }
       },
     });

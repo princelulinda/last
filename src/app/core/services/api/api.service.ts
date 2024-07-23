@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { PlateformModel } from '../config/config.service';
+import { PlateformModel } from '../config/main-config.models';
 
 @Injectable({
   providedIn: 'root',
@@ -87,6 +87,9 @@ export class ApiService {
 
   clearLocalData() {
     localStorage.clear();
+  }
+  removeItem(itemKey: string) {
+    localStorage.removeItem(itemKey);
   }
 
   get<T>(

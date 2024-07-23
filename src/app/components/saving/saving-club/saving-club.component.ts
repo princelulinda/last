@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SavingDetailService } from '../../../core/services/saving/saving.service';
-import { SuggestedTontinesModel, TontineModel } from '../saving.model';
+import { SuggestedTontinesModel, TontineModel } from '../saving.models';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { RouterLink } from '@angular/router';
 @Component({

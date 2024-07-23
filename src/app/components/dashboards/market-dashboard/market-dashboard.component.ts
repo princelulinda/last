@@ -8,6 +8,7 @@ import {
   BillersModel,
   objectModel,
   objectsModel,
+  productCategoryArray,
   productCategoryModel,
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
@@ -88,11 +89,12 @@ export class MarketDashboardComponent implements OnInit {
   merchants!: BillersModel[];
   products!: BillersModel[];
   biller: [] | null = null;
-  productCategory!: productCategoryModel;
+  productCategory!: productCategoryModel[];
   // sector: any;
   last4!: BillersModel[];
   first6!: BillersModel[];
   first5!: BillersModel[];
+  first4!: productCategoryModel[];
   start = 0;
   end = 4;
   clearData = true;
@@ -203,6 +205,20 @@ export class MarketDashboardComponent implements OnInit {
   //     this.merchantDetail = false;
   //     this.categorySections = false;
   // }
+  nextMerchant() {
+    if (this.end < this.merchants.length) {
+      this.start++;
+      this.end++;
+      this.first6 = this.merchants.slice(this.start, this.end);
+    }
+  }
+  previousMerchant() {
+    if (this.start > 0) {
+      this.start--;
+      this.end--;
+      this.first6 = this.merchants.slice(this.start, this.end);
+    }
+  }
 
   getMerchants(search: string) {
     this.merchantService
@@ -214,7 +230,14 @@ export class MarketDashboardComponent implements OnInit {
           this.merchants = response.objects;
           // this.merchant = this.merchants;
           this.last4 = this.merchants.slice(-4);
-          this.first6 = this.merchants.slice(0, 4);
+          const navigationBtn = document.getElementById(
+            'navigationButtonMerchant'
+          );
+          this.first6 = this.merchants.slice(this.start, this.end);
+          navigationBtn?.addEventListener('click', () => {
+            this.nextMerchant();
+            this.previousMerchant();
+          });
           this.favorite_merchant_making = null;
         },
       });
@@ -279,9 +302,13 @@ export class MarketDashboardComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: result => {
-          const response = result as productCategoryModel;
-          this.productCategory = response;
-          console.log('productCategory:', this.productCategory);
+          const response = result as productCategoryArray;
+          this.productCategory = response.objects;
+          console.log(
+            '===============??productCategory:',
+            this.productCategory
+          );
+          this.first4 = this.productCategory.slice(0, 4);
         },
       });
   }

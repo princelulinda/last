@@ -6,9 +6,10 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { AuthService, ConfigService, PlateformModel } from '../../services';
+import { AuthService, ConfigService } from '../../services';
 import { environment } from '../../../../environments/environment';
 import { Injectable } from '@angular/core';
+import { PlateformModel } from '../../services/config/main-config.models';
 
 @Injectable({
   providedIn: 'root',
