@@ -39,8 +39,20 @@
       <small>POINT OF SALE</small>
     </a>
   </section>
-  <section class="d-flex flex-column">
-    <section>Salut les gens</section>
-    <main class="flex-grow-1"><router-outlet></router-outlet></main>
+  <section class="d-flex flex-column flex-grow-1">
+    <section class="row mx-0 bg-secondary p-4">
+      <div class="col-md-6 text-end">
+        <form class="d-flex align-items-center col-md-10 ms-auto">
+          <input type="text" class="form-control col me-2" />
+          <button type="submit" class="px-4 btn bg-primary">
+            <b class="text-all-white fs-medium">Search Merchant</b>
+          </button>
+        </form>
+      </div>
+      <div class="col-5 text-end">
+        <b class="text-primary fs-large">My Market</b>
+      </div>
+    </section>
+    <main class="w-100 h-100 ms-1"><router-outlet></router-outlet></main>
   </section>
 </div>
