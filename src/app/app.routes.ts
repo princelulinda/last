@@ -15,6 +15,8 @@ import { AuthCorporateComponent } from './components/auth/workstation/auth-corpo
 import { myMarketRoutes } from './routes/my-market/mymarket.routes';
 import { WorkstationComponent } from './layouts/workstation/workstation.component';
 import { workstationRoutes } from './routes/workstation/workstation.routes';
+import { workstationBankingRoutes } from './routes/banking/workstation-banking.routes';
+import { workstationMarketRoutes } from './routes/my-market/workstation-market.routes';
 
 export const routes: Routes = [
   // authentification routes
@@ -44,6 +46,14 @@ export const routes: Routes = [
       {
         path: 'workstation',
         children: workstationRoutes,
+      },
+      {
+        path: 'banking',
+        children: workstationBankingRoutes,
+      },
+      {
+        path: 'market',
+        children: workstationMarketRoutes,
       },
     ],
   },

@@ -24,6 +24,14 @@
     </a>
     <a
       class="d-flex flex-column align-items-center text-secondary mb-4 sm-radius text-secondary py-2 p-1 w-100"
+      [ngClass]="{
+        'text-secondary': !isActivated.isActive,
+        'text-all-white': isActivated.isActive,
+      }"
+      routerLink="/w/banking/"
+      [routerLinkActiveOptions]="{ exact: true }"
+      #isActivated="routerLinkActive"
+      routerLinkActive="bg-primary"
       role="button">
       <span class="fs-medium">
         <i class="fa-solid fa-building-columns"></i>
@@ -32,6 +40,14 @@
     </a>
     <a
       class="d-flex flex-column align-items-center text-secondary mb-4 sm-radiustext-secondary py-2 p-1 w-100"
+      [ngClass]="{
+        'text-secondary': !isActivated.isActive,
+        'text-all-white': isActivated.isActive,
+      }"
+      routerLink="/w/market/"
+      [routerLinkActiveOptions]="{ exact: true }"
+      #isActivated="routerLinkActive"
+      routerLinkActive="bg-primary"
       role="button">
       <span class="fs-medium">
         <i class="fa-solid fa-store"></i>
