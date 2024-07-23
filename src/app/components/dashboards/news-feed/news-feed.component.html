@@ -183,11 +183,15 @@
         <div
           class="shadow mx-auto announce-box sm-radius py-1 position-relative overflow-hidden">
           <div
-            class="px-2 rounded-pill overflow-hidden position-absolute z-2 overflow-hidden bg-all-white border border-primary">
-            <div class="position-relative h-100">
-              <span class="fw-bold fs-5 text-all-dark" i18n
-                >ONAMOB / IHELA</span
-              >
+            class="px-2 rounded-4 overflow-hidden position-absolute z-2 overflow-hidden blury">
+            <div class="position-relative h-100 d-flex">
+              <div class="flex-grow-1 m-2 rounded-2 onamobColor"></div>
+              <div class="d-flex flex-column gap-0">
+                <span class="fw-bold fs-5 text-all-dark p-0 m-0" i18n
+                  >ONAMOB / IHELA</span
+                >
+                <span class="fw-bold text-all-dark p-0 m-0">Partner</span>
+              </div>
               <!-- <div
                 class="h-100 w-100 bg-all-white position-absolute top-0 start-0"></div> -->
             </div>
@@ -223,20 +227,6 @@
                 }
               </div>
             }
-          </div>
-
-          <!-- Navigation slider -->
-          <div
-            class="position-absolute end-0 top-0 h-100 d-flex align-items-center">
-            <div class="p-1" role="button" tabindex="0" (click)="next()">
-              <i class="fa fa-arrow-right text-all-dark fs-3 me-1"></i>
-            </div>
-          </div>
-          <div
-            class="position-absolute z-1 start-0 top-0 text-all-dark h-100 d-flex align-items-center">
-            <div class="p-1" role="button" tabindex="0" (click)="prev()">
-              <i class="fa fa-arrow-left fs-3 ms-1"></i>
-            </div>
           </div>
         </div>
         <div

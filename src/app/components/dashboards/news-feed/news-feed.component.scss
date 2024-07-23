@@ -42,3 +42,16 @@
 .slide:not(.active) {
   transform: translateX(-100%);
 }
+
+.onamobColor {
+  background: #f06f22;
+  width: 10px;
+}
+
+.blury {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 204, 204, 0.1) 0%,
+    rgba(255, 204, 204, 0.4) 100%
+  );
+}

@@ -115,11 +115,6 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
     }
   }
 
-  prev() {
-    this.currentIndex =
-      (this.currentIndex - 1 + this.slides.length) % this.slides.length;
-  }
-
   next() {
     this.currentIndex = (this.currentIndex + 1) % this.slides.length;
   }
