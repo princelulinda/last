@@ -1,47 +1,145 @@
-<aside class="w-aside bg-white p-2 h-100">
-  <span class="bg-primary lg-radius" style="height: 9px"></span>
-  <section class="mt-4 d-flex flex-column align-items-center">
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
+<aside
+  class="w-aside bg-white p-2 overflow-y-auto d-flex flex-column align-items-center h-100 overflow-x-hidden">
+  <span class="bg-primary lg-radius w-75 my-2 mx-auto" style="height: 9px"
+    ><b class="opacity-0">s</b></span
+  >
+  <section class="mt-4 d-flex flex-column align-items-center flex-grow-1">
+    <a
+      class="d-flex flex-column align-items-center text-secondary mb-4 sm-radius text-all-white py-2 p-1 w-100"
+      [ngClass]="{
+        'text-secondary': !dashboard.isActive,
+        'text-all-white': dashboard.isActive,
+      }"
+      routerLink="/w/workstation"
+      [routerLinkActiveOptions]="{ exact: true }"
+      #dashboard="routerLinkActive"
+      routerLinkActive="bg-primary"
+      role="button">
       <span class="icon">
-        <img class="image" src="/icons/dashboard.png" alt="" />
+        <img
+          class="image"
+          src="/icons/dashboard-{{
+            dashboard.isActive ? 'white' : 'secondary'
+          }}.svg"
+          alt="" />
       </span>
-      <b class="fs-x-small" i18n> Dashboard </b>
+      <b class="fs-x-small mt-2" i18n>Dashboard </b>
     </a>
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
-      <span>
-        <i class="fa-solid fa-gauge"></i>
+    <a
+      class="d-flex flex-column align-items-center mb-4 sm-radius py-2 p-1 w-100"
+      routerLink="/w/workstation/banking/"
+      [routerLinkActiveOptions]="{ exact: true }"
+      #banking="routerLinkActive"
+      routerLinkActive="bg-primary"
+      role="button"
+      [ngClass]="{
+        'text-secondary': !banking.isActive,
+        'text-all-white': banking.isActive,
+      }">
+      <span class="fs-medium">
+        <i class="fa-solid fa-building-columns"></i>
       </span>
       <b class="fs-x-small" i18n> Banking </b>
     </a>
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
+    <a
+      class="d-flex flex-column align-items-center mb-4 sm-radius py-2 p-1 w-100"
+      [ngClass]="{
+        'text-secondary': !market.isActive,
+        'text-all-white': market.isActive,
+      }"
+      routerLink="/w/workstation/market/"
+      [routerLinkActiveOptions]="{ exact: true }"
+      #market="routerLinkActive"
+      routerLinkActive="bg-primary"
+      role="button">
       <span class="fs-medium">
         <i class="fa-solid fa-store"></i>
       </span>
       <b class="fs-x-small" i18n> Market </b>
     </a>
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
+    <a
+      class="d-flex flex-column align-items-center mb-4 sm-radius py-2 p-1 w-100"
+      [ngClass]="{
+        'text-secondary': !intranet.isActive,
+        'text-all-white': intranet.isActive,
+      }"
+      routerLink="/w/workstation/intranet/"
+      [routerLinkActiveOptions]="{ exact: true }"
+      #intranet="routerLinkActive"
+      routerLinkActive="bg-primary"
+      role="button">
       <span class="icon">
-        <img class="image" src="/icons/intranet.png" alt="" />
+        <img
+          class="image"
+          src="/icons/intranet-{{
+            intranet.isActive ? 'white' : 'secondary'
+          }}.svg"
+          alt="" />
       </span>
       <b class="fs-x-small" i18n> Intranet </b>
     </a>
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
+    <a
+      class="d-flex flex-column align-items-center mb-4 sm-radius py-2 p-1 w-100"
+      [ngClass]="{
+        'text-secondary': !desk.isActive,
+        'text-all-white': desk.isActive,
+      }"
+      routerLink="/w/workstation/desk/"
+      [routerLinkActiveOptions]="{ exact: true }"
+      #desk="routerLinkActive"
+      routerLinkActive="bg-primary"
+      role="button">
       <span class="icon">
-        <img class="image" src="/icons/desk.png" alt="" />
+        <img
+          class="image"
+          src="/icons/desk-{{ desk.isActive ? 'white' : 'secondary' }}.svg"
+          alt="" />
       </span>
-      <b class="fs-x-small" i18n> Desk </b>
+      <b class="fs-x-small mt-2" i18n> Desk </b>
     </a>
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
+    <a
+      class="d-flex flex-column align-items-center mb-4 sm-radius py-2 p-1 w-100"
+      [ngClass]="{
+        'text-secondary': !reporting.isActive,
+        'text-all-white': reporting.isActive,
+      }"
+      routerLink="/w/workstation/reporting/"
+      [routerLinkActiveOptions]="{ exact: true }"
+      #reporting="routerLinkActive"
+      routerLinkActive="bg-primary"
+      role="button">
       <span class="icon">
-        <img class="image" src="/icons/reporting.png" alt="" />
+        <img
+          class="image"
+          src="/icons/reporting-{{
+            reporting.isActive ? 'white' : 'secondary'
+          }}.svg"
+          alt="" />
       </span>
-      <b class="fs-x-small" i18n> Reporting </b>
+      <b class="fs-x-small mt-2" i18n> Reporting </b>
     </a>
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
+    <a
+      class="d-flex flex-column align-items-center mb-4 sm-radius py-2 p-1 w-100"
+      [ngClass]="{
+        'text-secondary': !admin.isActive,
+        'text-all-white': admin.isActive,
+      }"
+      routerLink="/w/workstation/admin/"
+      [routerLinkActiveOptions]="{ exact: true }"
+      #admin="routerLinkActive"
+      routerLinkActive="bg-primary"
+      role="button">
       <span class="fs-medium">
         <i class="fa-solid fa-chalkboard-user"></i>
       </span>
       <b class="fs-x-small" i18n> Admin </b>
     </a>
+  </section>
+  <section class="mb-3">
+    <span class="p-3 bg-erp rounded-circle" role="button">
+      <span class="text-primary">
+        <i class="fa-solid fa-door-open"></i>
+      </span>
+    </span>
   </section>
 </aside>
