@@ -381,18 +381,30 @@
               class="d-flex mb-3 align-items-center col-auto">
               <div class="d-grid me-3">
                 <span>
-                  <app-skeleton height="130px" width="130px"></app-skeleton>
+                  <app-skeleton
+                    classes="sm-radius"
+                    height="130px"
+                    width="130px"></app-skeleton>
                 </span>
               </div>
               <div class="d-grid">
                 <span class="">
-                  <app-skeleton height="10px" width="100px"></app-skeleton>
+                  <app-skeleton
+                    classes="sm-radius"
+                    height="10px"
+                    width="100px"></app-skeleton>
                 </span>
                 <span class="">
-                  <app-skeleton height="10px" width="100px"></app-skeleton>
+                  <app-skeleton
+                    classes="sm-radius"
+                    height="10px"
+                    width="100px"></app-skeleton>
                 </span>
                 <span class="">
-                  <app-skeleton height="10px" width="100px"></app-skeleton>
+                  <app-skeleton
+                    classes="sm-radius"
+                    height="10px"
+                    width="100px"></app-skeleton>
                 </span>
               </div>
             </div>
@@ -478,7 +490,7 @@
         [get_tellerInfo]="get_selectedTeller"
         (isActionDone)="getTellerOptions($event)"></app-merchant-teller-details>
 
-      <!-- <router-outlet></router-outlet> -->
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>
@@ -595,9 +607,9 @@
         [tellerInfo]="selectedTeller"
         (isActionDone)="getTellerOptions($event)"></app-merchant-teller-details>
 
-      <!-- <router-outlet></router-outlet> -->
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>
 
-<!-- <router-outlet></router-outlet> -->
+<router-outlet></router-outlet>

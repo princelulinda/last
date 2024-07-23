@@ -40,6 +40,7 @@ export interface tellerClien_typeModel {
 export interface tellerMerchantModel {
   id: number;
   merchant_title: string;
+  name: string;
   code: string;
   accepts_simple_payment: boolean;
   accepts_cart: boolean;
@@ -68,12 +69,14 @@ export interface doTellerActionModel {
 export interface doTellerActionObjectModel {
   success: boolean;
   response_message: string;
-  // teller: number;
-  // action: string;
 }
 
+export interface doTellerBodyModel {
+  teller: string;
+  action: string;
+}
 export interface updateMerchantDetailsModel {
-  merchant: number;
+  merchant: string;
   merchant_title: string;
   slug: string;
   action: string[];
@@ -81,22 +84,47 @@ export interface updateMerchantDetailsModel {
   merchant_logo: string;
 }
 
+// export interface getMerchantInfosObjectModel {
+//  object: merchantInfoModel;
+// }
+
+export interface getMerchantInfosModel {
+  object: merchantInfObjectModel;
+}
+
 export interface merchantInfObjectModel {
-  object: merchantInfoModel;
+  response_data: merchantInfoModel;
+  success: boolean;
+  response_code: string;
+  response_message: string;
 }
 
 export interface merchantInfoModel {
   id: string;
   merchant_title: string;
+  merchant_code: string;
+  merchant_logo: string;
+  merchant_location: string;
+  action: string[];
+  client: tellerClienModel;
   accepts_simple_payment: boolean;
   accepts_cart: boolean;
+  client_visibility_activated: boolean;
+  merchant_category: tellerMerchantModel;
+  is_favorite_merchant: boolean;
   visible: boolean;
   slug: string;
   api_plug_name: string;
-  client_visibility_activated: boolean;
 }
 
 export interface searchTellerModel {
   merchant: string;
   search: string;
+}
+
+export interface newTellerModel {
+  client: number | undefined;
+  merchant: string;
+  can_receive_notifications: boolean;
+  alias: string;
 }
