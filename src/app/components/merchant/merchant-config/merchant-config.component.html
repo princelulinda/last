@@ -6,14 +6,7 @@
           <span class="fs-5 me-2">
             <i class="fa fa-sliders text-primary"></i>
           </span>
-          <b
-            class="sub-title me-3"
-            [ngClass]="{
-              'text-dark': theme === 'dark-mode',
-            }"
-            i18n
-            >Merchant configuration</b
-          >
+          <b class="text-dark me-3" i18n>Merchant configuration</b>
           <span
             [ngClass]="merchantInfo ? 'clickable' : 'not-clickable'"
             (click)="switchMenu('detail')"
@@ -98,39 +91,46 @@
               <div
                 style="width: 96px; height: 96px"
                 class="overflow-hidden lg-radius">
-                <img
-                  *ngIf="!merchantInfo.merchant_logo"
-                  src="../../../../assets/images/userprofile.png"
-                  alt=""
-                  class="img-fluid lg-radius" />
-
-                <img
-                  *ngIf="merchantInfo.merchant_logo"
-                  [src]="merchantInfo.merchant_logo"
-                  alt=""
-                  class="img-fluid lg-radius" />
+                @if (!merchantInfo.merchant_logo) {
+                  <img
+                    *ngIf=""
+                    src="../../../../assets/images/userprofile.png"
+                    alt=""
+                    class="img-fluid lg-radius" />
+                } @else if (merchantInfo.merchant_logo) {
+                  <img
+                    [src]="merchantInfo.merchant_logo"
+                    alt=""
+                    class="img-fluid lg-radius" />
+                }
               </div>
             </div>
             <div class="mt-2">
               <div class="text-secondary" i18n>Accept simple payment</div>
               <div>
-                <span *ngIf="merchantInfo.accepts_simple_payment">
-                  <i class="fa-solid fa-circle-check text-success"></i>
-                </span>
-                <span *ngIf="!merchantInfo.accepts_simple_payment">
-                  <i class="fa-solid fa-circle-xmark text-success"></i>
-                </span>
+                @if (merchantInfo.accepts_simple_payment) {
+                  <span>
+                    <i class="fa-solid fa-circle-check text-success"></i>
+                  </span>
+                } @else if (!merchantInfo.accepts_simple_payment) {
+                  <span>
+                    <i class="fa-solid fa-circle-xmark text-success"></i>
+                  </span>
+                }
               </div>
             </div>
             <div class="mt-2">
               <div class="text-secondary" i18n>Incognito</div>
               <div>
-                <span *ngIf="merchantInfo.client_visibility_activated">
-                  <i class="fa-solid fa-circle-check text-success"></i>
-                </span>
-                <span *ngIf="!merchantInfo.client_visibility_activated">
-                  <i class="fa-solid fa-circle-xmark text-danger"></i>
-                </span>
+                @if (merchantInfo.client_visibility_activated) {
+                  <span>
+                    <i class="fa-solid fa-circle-check text-success"></i>
+                  </span>
+                } @else if (!merchantInfo.client_visibility_activated) {
+                  <span>
+                    <i class="fa-solid fa-circle-xmark text-danger"></i>
+                  </span>
+                }
               </div>
             </div>
           </div>
@@ -243,11 +243,11 @@
                         )
                       "
                       tabindex="0"
-                      class="switch d-flex align-items-center px-1 text-all-white"
+                      class="d-flex align-items-center px-2 py-1 border lg-radius text-all-white"
                       [ngClass]="
                         merchantConfigForm.value.simplePayment
-                          ? 'justify-content-end bg-primary'
-                          : 'justify-content-start'
+                          ? 'justify-content-end bg-primary ps-5'
+                          : 'justify-content-start bg-secondary pe-5'
                       ">
                       <span class="fa fa-circle"></span>
                     </div>
@@ -268,11 +268,11 @@
                         )
                       "
                       tabindex="0"
-                      class="switch d-flex align-items-center px-1 text-all-white"
+                      class="switch d-flex align-items-center px-2 py-1 border lg-radius text-all-white"
                       [ngClass]="
                         merchantConfigForm.value.cart
-                          ? 'justify-content-end bg-primary'
-                          : 'justify-content-start'
+                          ? 'justify-content-end bg-primary ps-5'
+                          : 'justify-content-start bg-secondary pe-5'
                       ">
                       <span class="fa fa-circle"></span>
                     </div>
@@ -293,11 +293,11 @@
                         )
                       "
                       tabindex="0"
-                      class="switch d-flex align-items-center px-1 text-all-white"
+                      class="switch d-flex align-items-center px-2 py-1 border lg-radius text-all-white"
                       [ngClass]="
                         merchantConfigForm.value.incognito
-                          ? 'justify-content-end bg-primary'
-                          : 'justify-content-start'
+                          ? 'justify-content-end bg-primary ps-5'
+                          : 'justify-content-start bg-secondary pe-5'
                       ">
                       <span class="fa fa-circle"></span>
                     </div>
@@ -578,7 +578,7 @@
                 [ngClass]="{
                   'not-clickable': newTellerForm.invalid,
                 }"
-                class="btn btn-primary px-4-5">
+                class="btn btn-primary bg-primary px-4">
                 <span *ngIf="isTellerLoading" class="">
                   <i class="fa-solid fa-spin fa-circle-notch fs-4"></i>
                 </span>
