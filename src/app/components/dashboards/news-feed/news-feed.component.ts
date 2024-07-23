@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { interval, Subject, Subscription, takeUntil, takeWhile } from 'rxjs';
+import { interval, Subject, takeUntil, takeWhile } from 'rxjs';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillersModel, ProductModel } from '../dashboard.model';
@@ -28,7 +28,8 @@ import { CommonModule } from '@angular/common';
 })
 export class NewsFeedComponent implements OnDestroy, OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
-  private timerSub: Subscription | null = null;
+  private interval$ = interval(5000);
+
   countProductLoader = [1, 2, 3, 4];
   search = '';
 
@@ -57,7 +58,7 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.getMerchantProducts();
-    this.timerSub = interval(5000)
+    this.interval$
       .pipe(takeWhile(() => !this.isDestroyed))
       .subscribe(() => this.next());
   }
