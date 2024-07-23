@@ -9,6 +9,7 @@ import { AccountComponent } from '../../components/account/account/account.compo
 import { WalletComponent } from '../../components/wallet/wallet/wallet.component';
 import { WalletDetailsComponent } from '../../components/wallet/wallet-details/wallet-details.component';
 import { TarifComponent } from '../../components/tarif/tarif.component';
+
 export const bankingRoutes: Routes = [
   {
     path: '',

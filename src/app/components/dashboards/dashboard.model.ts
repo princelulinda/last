@@ -31,12 +31,25 @@ export interface ProductModel {
   price: number;
   icon: string;
   merchant: MerchantModel;
+  lookup_icon: string;
+  lookup_image: string;
+  lookup_title: string;
+  lookup_subtitle: string;
+  lookup_description: string;
 }
 
 export interface MerchantLookup {
   id: number;
   lookup_title: string;
   lookup_image: string;
+}
+
+export interface addBankResponse {
+  object: {
+    success: boolean;
+    response_message: string;
+    response_code: string;
+  };
 }
 
 export interface PayMerchant {

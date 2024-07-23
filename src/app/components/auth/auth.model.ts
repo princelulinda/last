@@ -82,7 +82,7 @@ export interface ConnectedOperatorModel {
     isTeller: boolean;
     isTreasurer: boolean;
   };
-  organization: OrganizationModel;
+  organization: OrganizationModel | null;
 }
 
 export interface OrganizationModel {
@@ -126,7 +126,7 @@ export interface ConectedOperatorApiResponseModel {
     response_message: string;
     response_data: {
       user: object;
-      object: {
+      object?: {
         id: number;
         operator: {
           id: string | number;

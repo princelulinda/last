@@ -19,7 +19,7 @@ export class SplashScreenComponent implements OnInit, AfterViewInit {
   splashScreenElement: HTMLElement | null = null;
   splashScreenState = false;
 
-  imageUrl = '/images/auth/ihela3.png';
+  imageUrl = '/images/logo/ihela-ryanje.png';
 
   constructor(
     private configService: ConfigService,

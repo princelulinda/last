@@ -1,18 +1,36 @@
-import { Component, OnInit, ViewChild, OnDestroy, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  ElementRef,
+} from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule, NgClass } from '@angular/common';
 
 import { Subject, Observable, takeUntil } from 'rxjs';
 
 import { WalletCardComponent } from '../../wallet/wallet-card/wallet-card.component';
 import { NyamuranziCardComponent } from '../../nyamuranzi/nyamuranzi-card/nyamuranzi-card.component';
-import { AuthService, ConfigService } from '../../../core/services';
+import {
+  AuthService,
+  ConfigService,
+  DialogService,
+} from '../../../core/services';
 import { BankService } from '../../../core/services/bank/bank.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import { MenuGroup, MerchantLookup, PayMerchant } from '../dashboard.model';
+import {
+  addBankResponse,
+  MenuGroup,
+  MerchantLookup,
+  PayMerchant,
+} from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { TarifComponent } from '../../tarif/tarif.component';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 
 @Component({
@@ -27,6 +45,7 @@ import { ModeModel } from '../../../core/services/config/main-config.models';
     SkeletonComponent,
     CommonModule,
     WalletCardComponent,
+    TarifComponent,
   ],
 })
 export class OnlineBankingComponent implements OnInit, OnDestroy {
@@ -34,33 +53,28 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
 
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
-
+  selectedBank!: bankModel;
+  selectedBank$!: Observable<bankModel>;
   isLoading = false;
 
   clientVerified = '&filter_for_client=true';
-
-  //  clientId$: Observable<any>;
-  //  clientId: any;
-  //  client$: Observable<any>;
-  //  client: any;
-  //  selectedBankId$: Observable<any>;
-  //  selectedBankId: any;
-
+  dialog$: Observable<DialogResponseModel>;
   banks: bankModel[] = [];
   banksFiltered: bankModel[] = [];
 
   clientId: number | null = null;
   merchantId: number | null = null;
-  selectedBank: object | undefined;
   payMerchant: PayMerchant | null = null;
   merchants: MerchantLookup[] = [];
   openBankListPopup = false;
   selectedNewBank: number | null = null;
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
+  pin!: string;
+
   private userInfo$: Observable<UserInfoModel>;
 
-  @ViewChild('closeModal') closeModal = '';
+  @ViewChild('closeModal') closeModal!: ElementRef;
 
   menuGroups: MenuGroup[] = [
     {
@@ -127,13 +141,17 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    @Inject(BankService) private bankService: BankService,
-    @Inject(ConfigService) private configService: ConfigService,
-    @Inject(AuthService) private authService: AuthService,
-    @Inject(MerchantService) private merchantService: MerchantService
+    private bankService: BankService,
+    private configService: ConfigService,
+    private authService: AuthService,
+    private merchantService: MerchantService,
+    private dialogService: DialogService,
+    private router: Router
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
+    this.selectedBank$ = this.configService.getSelectedBank();
+    this.dialog$ = this.dialogService.getDialogState();
   }
   ngOnInit(): void {
     this.mode$.subscribe({
@@ -147,39 +165,22 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         this.clientId = this.clientInfo.client.id;
       },
     });
+
+    this.selectedBank$.subscribe({
+      next: datas => {
+        this.selectedBank = datas;
+      },
+    });
     this.getPublicServicesMerchants();
-
-    //   this.clientId$.pipe(takeUntil(this.onDestroy$)).subscribe({
-    //     next: (clientId) => {
-    //         this.clientId = clientId;
-    //         if (this.clientId) {
-    //             this.selectedBankId$.pipe(takeUntil(this.onDestroy$)).subscribe({
-    //                 next: (bankId) => {
-    //                     if (bankId) {
-    //                         this.getDefaultAccount();
-    //                         this.getTontineData();
-    //                         this.getDefaultWallet();
-
-    //                         const period = {
-    //                             start_date: '',
-    //                             end_date: '',
-    //                         };
-    //                         this.transferService
-    //                             .getRecentTransactions(
-    //                                 '',
-    //                                 period,
-    //                                 this.clientVerified
-    //                             )
-    //                             .subscribe((recentTransactions: any) => {
-    //                                 this.recentTransactions =
-    //                                     recentTransactions.objects;
-    //                             });
-    //                     }
-    //                 },
-    //             });
-    //         }
-    //     },
-    // });
+    this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: (dialogResponse: DialogResponseModel) => {
+        console.log('PIN reçu:', this.pin);
+        if (dialogResponse.response.pin) {
+          this.pin = dialogResponse.response.pin;
+          this.addBank();
+        }
+      },
+    });
 
     this.getBanks();
     this.bankService
@@ -213,81 +214,72 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   }
 
   addBank() {
-    // const body = {
-    //     client: this.clientInfo.client.id,
-    //     organization: this.selectedNewBank,
-    //     // pin_code: this.variableService.pin,
-    // };
-    // const response = {
-    //     title: '',
-    //     type: 'loading',
-    //     message: '',
-    // };
-    // this.store.dispatch(new OpenDialog(response));
-    // this.bankService
-    //     .addBank(body)
-    //     .pipe(takeUntil(this.onDestroy$))
-    //     .subscribe({
-    //         next: (response) => {
-    //             console.log(response);
-    //             // this.store.dispatch(new CloseDialog({ response: 'close' }));
-    //             // if (response || response.object.success === true) {
-    //             //     this.banks = null;
-    //             //     this.getBanks();
-    //             //     // this.variableService.pin = '';
-    //             //     // const notification = {
-    //             //     //     title: '',
-    //             //     //     type: 'success',
-    //             //     //     message: 'Bank added successfully',
-    //             //     // };
-    //             //     // this.store.dispatch(new OpenDialog(notification));
-    //             //     this.closeModal.nativeElement.click();
-    //             // } else if (response.object.success === false) {
-    //             //     // this.store.dispatch(
-    //             //     //     new CloseDialog({ response: 'close' })
-    //             //     // );
-    //             //     this.openBankListPopup = false;
-    //             //     // this.variableService.pin = '';
-    //             //     // const notification = {
-    //             //     //     title: '',
-    //             //     //     type: 'failed',
-    //             //     //     message: response.object.response_message,
-    //             //     // };
-    //             //     // this.store.dispatch(new OpenDialog(notification));
-    //             // }
-    //         },
-    //         error: (msg) => {
-    //             console.log('error', msg);
-    //             // this.store.dispatch(new CloseDialog({ response: 'close' }));
-    //             this.openBankListPopup = false;
-    //             // this.variableService.pin = '';
-    //             // const notification = {
-    //             //     title: '',
-    //             //     type: 'failed',
-    //             //     message: 'Something went wrong, please try again',
-    //             // };
-    //             // this.store.dispatch(new OpenDialog(notification));
-    //         },
-    //     });
+    const body = {
+      client: this.clientInfo.client.id,
+      organization: this.selectedNewBank,
+      pin_code: this.pin,
+    };
+    this.dialogService.dispatchLoading();
+
+    this.bankService
+      .addBank(body)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (response: addBankResponse) => {
+          console.log(response);
+          this.dialogService.closeLoading();
+
+          if (response && response.object && response.object.success === true) {
+            this.banks = [];
+            this.getBanks();
+            this.pin = '';
+
+            this.dialogService.openToast({
+              type: 'success',
+              title: '',
+              message:
+                response.object.response_message ??
+                $localize`Bank added successfully`,
+            });
+            this.closeModal.nativeElement.click();
+          } else if (response.object.success === false) {
+            this.dialogService.closeLoading();
+
+            this.openBankListPopup = false;
+            this.pin = '';
+            this.dialogService.openToast({
+              type: 'failed',
+              title: 'Échec',
+              message:
+                response?.object?.response_message ??
+                $localize`Something went wrong please retry again !`,
+            });
+          }
+        },
+        error: error => {
+          this.dialogService.closeLoading();
+
+          this.openBankListPopup = false;
+          this.pin = '';
+
+          this.dialogService.openToast({
+            type: 'failed',
+            title: '',
+            message:
+              error?.object?.response_message ??
+              $localize`Something went wrong please retry again `,
+          });
+        },
+      });
   }
   getAddedBankId(bankId: number) {
     this.selectedNewBank = bankId;
   }
-  selectBank(bank: object | undefined) {
-    this.selectedBank = bank;
-
-    // this.store.dispatch(
-    //     new SelectClientBank({
-    //         id: this.selectedBank.id,
-    //         name: this.selectedBank.name,
-    //         slug: this.selectedBank.slug,
-    //         bank_type: this.selectedBank.bank_type,
-    //         bank_code: this.selectedBank.bank_code,
-    //         is_active: this.selectedBank.is_active,
-    //         is_default: this.selectedBank.is_default,
-    //         company: this.selectedBank.company,
-    //     })
-    // );
+  selectBank(bank: bankModel) {
+    this.configService.setSelectedBank(bank);
+    if (bank) {
+      this.router.navigate(['']);
+    }
   }
   getMerchant(data: PayMerchant, event: MouseEvent) {
     event.stopPropagation();
@@ -324,21 +316,15 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         },
       });
   }
-  // copyReferalLink() {
-  //   const reference = this.clipboardService.copyFromContent(
-  //       window.location.origin + '/ihela/sign-up/' + this.clientId
-  //   );
 
-  //   // if (reference) {
-  //   //     const data = {
-  //   //         title: '',
-  //   //         type: 'success',
-  //   //         message: 'Referal link copied to clipboard',
-  //   //     };
-  //   //     this.store.dispatch(new OpenDialog(data));
-  //   // }
-  // }
-
+  openPinPopup() {
+    this.dialogService.openDialog({
+      type: 'pin',
+      title: 'Enter your PIN code',
+      message: 'Please enter your PIN code to continue.',
+      action: 'confirmation',
+    });
+  }
   public ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();

@@ -27,26 +27,24 @@ export class MenuService {
   }
 
   getMenu(group: string) {
-    return this.apiService.get('/menugroup/list/?group_type=' + group).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get('/menugroup/list/?group_type=' + group)
+      .pipe(map(data => data));
   }
 
   getMenuGroup(menu_id: string) {
-    return this.apiService.get('/menu/list/?menu_group=' + menu_id).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get('/menu/list/?menu_group=' + menu_id)
+      .pipe(map(data => data));
   }
 
   getAllMenu() {
-    return this.apiService.get('/menugroup/list/').pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService.get('/menugroup/list/').pipe(map(data => data));
+  }
+
+  getTypeMenuGroups() {
+    return this.apiService
+      .get('/type_menu_groups/list ')
+      .pipe(map(data => data));
   }
 }
