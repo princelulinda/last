@@ -7,18 +7,23 @@ import { IntranetRoutes } from './intranet.routes';
 import { DeskRoutes } from './desk.routes';
 import { AdminRoutes } from './admin.routes';
 import { ReportingRoutes } from './reporting.routes';
+import { BankingLayoutComponent } from '../../layouts/workstation/banking-layout/banking-layout.component';
+import { MarketLayoutComponent } from '../../layouts/workstation/market-layout/market-layout.component';
 
 export const workstationRoutes: Routes = [
+  //Dashboards
   {
     path: '',
     component: WorkstationDashboardComponent,
   },
   {
     path: 'banking',
+    component: BankingLayoutComponent,
     children: workstationBankingRoutes,
   },
   {
     path: 'market',
+    component: MarketLayoutComponent,
     children: workstationMarketRoutes,
   },
   {
