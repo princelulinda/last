@@ -199,6 +199,8 @@ export class AuthSignUpComponent implements OnInit {
           token: response.object.user.token,
         };
         this.dbService.setLocalStorageUserToken(userData.token);
+        this.dbService.setLocalStorageUserToken(userData.email);
+        this.dbService.setLocalStorageUserToken(userData.username);
         this.step = this.step = 5;
         this.dialogService.closeLoading();
       },
