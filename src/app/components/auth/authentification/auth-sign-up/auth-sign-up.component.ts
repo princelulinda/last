@@ -329,4 +329,7 @@ export class AuthSignUpComponent implements OnInit {
       this.id = event.id;
     }
   }
+  logout() {
+    this.authService.logout();
+  }
 }
