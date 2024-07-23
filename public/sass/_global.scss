@@ -10,6 +10,9 @@
 .layout-height {
   height: 100dvh;
 }
+.h-without-header {
+  height: calc(100dvh - 60px);
+}
 
 // global inchanges color
 $globalColors: (
