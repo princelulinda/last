@@ -36,6 +36,18 @@ export const routes: Routes = [
     ],
   },
 
+  {
+    path: 'w',
+    component: WorkstationComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'workstation',
+        children: workstationRoutes,
+      },
+    ],
+  },
+
   // banking Routes
   {
     path: ':plateform',
@@ -70,18 +82,6 @@ export const routes: Routes = [
       },
 
       { path: '**', component: NotFound404Component },
-    ],
-  },
-
-  {
-    path: ':plateform',
-    component: WorkstationComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'workstation',
-        children: workstationRoutes,
-      },
     ],
   },
 
