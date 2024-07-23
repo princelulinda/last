@@ -129,3 +129,16 @@ export interface productCategoryModel {
 export interface productCategoryArray {
   objects: productCategoryModel[];
 }
+
+export interface StatModel {
+  agents_number: number;
+  clients_created: number;
+  merchants_number: number;
+}
+
+export interface StatResModel {
+  response_code: number;
+  response_data: StatModel;
+  response_message: string;
+  success: boolean;
+}
