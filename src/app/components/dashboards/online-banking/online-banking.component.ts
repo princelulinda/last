@@ -29,6 +29,7 @@ import {
 } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { TarifComponent } from '../../tarif/tarif.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 
@@ -44,6 +45,7 @@ import { ModeModel } from '../../../core/services/config/main-config.models';
     SkeletonComponent,
     CommonModule,
     WalletCardComponent,
+    TarifComponent,
   ],
 })
 export class OnlineBankingComponent implements OnInit, OnDestroy {
