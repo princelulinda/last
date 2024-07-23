@@ -194,11 +194,13 @@ export class AuthSignUpComponent implements OnInit {
         this.isLoadingCreation = false;
         this.userInfo = response;
         const userData = {
-          username: response.object.user.username,
-          email: response.object.user.email,
+          // username: response.object.user.username,
+          // email: response.object.user.email,
           token: response.object.user.token,
+          clientId: response.object.client.client_id,
         };
         this.dbService.setLocalStorageUserToken(userData.token);
+        this.dbService.setLocalStorageClientId(userData.clientId);
         this.step = this.step = 5;
         this.dialogService.closeLoading();
       },
