@@ -7,9 +7,9 @@
         <span class="me-4">
           <button
             [ngClass]="{
-              'bg-primary': actifSection === 'internalBank',
+              'bg-primary text-all-white': actifSection === 'internalBank',
             }"
-            class="btn fw-bold text-all-white border border-dark px-4"
+            class="btn text-dark fw-bold border border-dark px-4"
             (click)="setActifSection('internalBank')"
             i18n>
             Internal
@@ -17,9 +17,9 @@
         >
         <span>
           <button
-            class="btn fw-bold text-all-white border border-dark px-4"
+            class="btn text-dark fw-bold border border-dark px-4"
             [ngClass]="{
-              'bg-primary ': actifSection === 'externalBank',
+              'bg-primary text-all-white': actifSection === 'externalBank',
             }"
             (click)="setActifSection('externalBank')"
             i18n>
