@@ -14,10 +14,12 @@ import { CommonModule } from '@angular/common';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
 import { WalletList } from '../wallet.models';
+import { RouterLink } from '@angular/router';
+
 @Component({
   selector: 'app-wallet-list',
   standalone: true,
-  imports: [CommonModule, AmountVisibilityComponent],
+  imports: [CommonModule, AmountVisibilityComponent, RouterLink],
   templateUrl: './wallet-list.component.html',
   styleUrl: './wallet-list.component.scss',
 })
@@ -40,6 +42,7 @@ export class WalletListComponent implements OnInit, OnDestroy {
   @Output() walletSelected = new EventEmitter<WalletList>();
 
   private onDestroy$ = new Subject<void>();
+  isWalletDetailsShown = false;
 
   constructor(
     private configService: ConfigService,

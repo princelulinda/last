@@ -23,11 +23,11 @@
   @if (walletsListData && walletsListData.length > 0) {
     <div
       class="position-relative overflow-x-hidden overflow-y-auto"
-      style="min-width: 220px; height: 80vh">
+      style="min-width: 220px; height: 50vh">
       @if (Type === 'list') {
-        <hr class="my-1" />
+        <hr class="my-0 ms-3" />
       }
-      <!--*Accounts loop for large screens-->
+
       @if (Type === 'list' || (Type === 'transfer' && !selectedLoneWallet)) {
         <div
           [ngClass]="{
@@ -37,6 +37,11 @@
           @for (wallet of walletsListData; track $index) {
             <div
               (click)="selectLoneAccount(wallet)"
+              [routerLink]="
+                Type === 'list'
+                  ? '/b/banking/wallets/details/' + wallet.id
+                  : null
+              "
               tabindex="0"
               class="d-grid ps-3 py-0 rounded b-left"
               [ngClass]="{

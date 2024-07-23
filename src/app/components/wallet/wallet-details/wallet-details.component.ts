@@ -3,12 +3,14 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../../core/services/client/client.service';
 import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
-import { WalletList } from '../wallet.models';
-
+import { Walletdetail, WalletList } from '../wallet.models';
+import { WalletListComponent } from '../wallet-list/wallet-list.component';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-wallet-details',
   standalone: true,
-  imports: [],
+  imports: [WalletListComponent, AmountVisibilityComponent, CommonModule],
   templateUrl: './wallet-details.component.html',
   styleUrl: './wallet-details.component.scss',
 })
@@ -17,8 +19,9 @@ export class WalletDetailsComponent implements OnInit {
   isLoading = false;
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
-  wallet: WalletList[] | [] | null = null;
+  wallet: Walletdetail | null = null;
   hasWalletList = false;
+
   constructor(
     private clientService: ClientService,
 
@@ -33,24 +36,29 @@ export class WalletDetailsComponent implements OnInit {
         }
       },
     });
-    this.clientService.hasWalletList$.subscribe(value => {
-      this.hasWalletList = value;
-    });
   }
 
   getClientWalletDetails() {
     this.isLoading = true;
     this.wallet = null;
-
     this.clientService.getWalletDetails(this.walletId).subscribe({
-      next: response => {
+      next: (response: { object: Walletdetail }) => {
         this.wallet = response.object;
-        this.isLoading = false;
+        console.log('Données de tontine:', this.wallet);
       },
-      error: err => {
-        console.error('Erreur lors de la récupération des emails:', err);
-        this.isLoading = false;
-      },
+      error: (error: Error) =>
+        console.error('Erreur lors de la récupération des tontines:', error),
     });
+  }
+
+  handleWalletSelected(wallet: WalletList) {
+    console.log('Compte sélectionné :', wallet);
+  }
+  refresh() {
+    this.wallet = null;
+
+    this.isLoading = true;
+
+    this.getClientWalletDetails();
   }
 }

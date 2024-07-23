@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { WalletListComponent } from '../wallet-list/wallet-list.component';
-import { ClientService } from '../../../core/services/client/client.service';
+
 import { RouterOutlet } from '@angular/router';
 import { WalletList } from '../wallet.models';
+import { DialogService } from '../../../core/services';
 @Component({
   selector: 'app-wallet',
   standalone: true,
@@ -16,30 +17,31 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   hasWalletList = false;
   isWalletDetailsShown = false;
+  showAmounts = false; // Variable to store the visibility state of amounts
+  showAmounts$: Observable<boolean>; // Observable for the visibility state
+  selectedWallet: WalletList | null = null;
 
-  constructor(private clientService: ClientService) {}
+  constructor(private dialogService: DialogService) {
+    this.showAmounts$ = this.dialogService.getAmountState();
+  }
 
   ngOnInit(): void {
-    this.clientService.isDetailsWalletShown$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(isDetailWalletShown => {
-        this.isWalletDetailsShown = isDetailWalletShown;
-      });
-
-    this.clientService.hasWalletList$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(value => {
-        this.hasWalletList = value;
-      });
+    this.showAmounts$.subscribe(state => {
+      this.showAmounts = state;
+    });
   }
 
   handleWalletSelected(wallet: WalletList) {
+    this.selectedWallet = wallet;
+    this.isWalletDetailsShown = true;
     console.log('Compte sélectionné :', wallet);
+  }
+  toggleAmountVisibility() {
+    this.dialogService.displayAmount();
   }
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
-    this.clientService.isWalletList(false);
   }
 }

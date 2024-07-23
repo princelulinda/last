@@ -1,34 +1,35 @@
 <div
-  class="d-lg-flex lg-radius p-2 bg-secondary position-relative"
-  style="min-height: 65vh; border: 2px solid #dad8d8">
-  <div>
+  class="d-lg-flex lg-radius p-3 bg-secondary position-relative border border-2 border-secondary height">
+  <div class="">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="fs-medium fw-bold font-calibri">wallets</div>
+      <div (click)="toggleAmountVisibility()" tabindex="0" class="me-3">
+        @if (showAmounts) {
+          <span class="text-dark fw-bold fs-normal font-calibri text-end" i18n>
+            <i class="fa-solid fa-eye-slash"></i>
+          </span>
+        }
+        @if (!showAmounts) {
+          <span class="text-dark fw-bold fs-normal font-calibri text-end" i18n>
+            <i class="fa-solid fa-eye"></i>
+          </span>
+        }
+      </div>
+    </div>
     <app-wallet-list
-      Type="transfer"
+      Type="list"
       (walletSelected)="handleWalletSelected($event)">
     </app-wallet-list>
   </div>
-  <!---- <div class="bg-secondary w-100" >
-        <div
-            *ngIf="!isAccountDetailsShown"
-            class="text-end me-4 p-1"
-            routerLink="/b/onlineBanking/banking/home"
-            role="button"
-        >
-            <span class="text-dark fw-bold" i18n
-                ><i class="fa-solid fa-arrow-left"></i> Back</span
-            >
-        </div>
-        <div
-            class="fw-bold fs-3 position-absolute text-center d-none d-lg-block"
-            *ngIf="!isAccountDetailsShown"
-            style="color: #3b31316e; top: 45%; margin-left: 22%"
-            [ngClass]="theme === 'dark-mode' ? 'text-dark' : ''"
-        >
-            <i class="fa fa-face-meh"></i> No account selected yet, <br />
-            Please Select one...
-        </div>
-        <div>
-            <router-outlet></router-outlet>
-        </div>
-    </div>-->
+  <div class="w-100">
+    @if (!isWalletDetailsShown) {
+      <div class="text-dark">noo selected</div>
+    }
+
+    @if (selectedWallet) {
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+    }
+  </div>
 </div>
