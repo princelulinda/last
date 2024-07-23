@@ -1,43 +1,70 @@
-<aside class="w-aside bg-white p-2 h-100">
+<aside class="w-aside bg-white p-2 h-100 overflow-y-auto">
   <span class="bg-primary lg-radius" style="height: 9px"></span>
   <section class="mt-4 d-flex flex-column align-items-center">
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
+    <a
+      class="d-flex flex-column align-items-center text-secondary mb-4 sm-radius text-all-white py-2 p-1 w-100"
+      [ngClass]="{
+        'text-secondary': !isActivated.isActive,
+        'text-all-white': isActivated.isActive,
+      }"
+      routerLink="/w/workstation"
+      [routerLinkActiveOptions]="{ exact: true }"
+      #isActivated="routerLinkActive"
+      routerLinkActive="bg-primary"
+      role="button">
       <span class="icon">
-        <img class="image" src="/icons/dashboard.png" alt="" />
+        <img
+          class="image"
+          src="/icons/dashboard-{{
+            isActivated.isActive ? 'white' : 'secondary'
+          }}.svg"
+          alt="" />
       </span>
-      <b class="fs-x-small" i18n> Dashboard </b>
+      <b class="fs-x-small mt-2" i18n>Dashboard </b>
     </a>
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
-      <span>
-        <i class="fa-solid fa-gauge"></i>
+    <a
+      class="d-flex flex-column align-items-center text-secondary mb-4 sm-radius text-secondary py-2 p-1 w-100"
+      role="button">
+      <span class="fs-medium">
+        <i class="fa-solid fa-building-columns"></i>
       </span>
       <b class="fs-x-small" i18n> Banking </b>
     </a>
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
+    <a
+      class="d-flex flex-column align-items-center text-secondary mb-4 sm-radiustext-secondary py-2 p-1 w-100"
+      role="button">
       <span class="fs-medium">
         <i class="fa-solid fa-store"></i>
       </span>
       <b class="fs-x-small" i18n> Market </b>
     </a>
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
+    <a
+      class="d-flex flex-column align-items-center text-secondary mb-4 sm-radiustext-secondary py-2 p-1 w-100"
+      role="button">
       <span class="icon">
-        <img class="image" src="/icons/intranet.png" alt="" />
+        <img class="image" src="/icons/intranet-secondary.svg" alt="" />
       </span>
       <b class="fs-x-small" i18n> Intranet </b>
     </a>
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
+    <a
+      class="d-flex flex-column align-items-center text-secondary mb-4 sm-radius text-secondary py-2 p-1 w-100"
+      role="button">
       <span class="icon">
-        <img class="image" src="/icons/desk.png" alt="" />
+        <img class="image" src="/icons/desk-secondary.svg" alt="" />
       </span>
-      <b class="fs-x-small" i18n> Desk </b>
+      <b class="fs-x-small mt-2" i18n> Desk </b>
     </a>
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
+    <a
+      class="d-flex flex-column align-items-center text-secondary mb-4 sm-radiustext-secondary py-2 p-1 w-100"
+      role="button">
       <span class="icon">
-        <img class="image" src="/icons/reporting.png" alt="" />
+        <img class="image" src="/icons/reporting-secondary.svg" alt="" />
       </span>
-      <b class="fs-x-small" i18n> Reporting </b>
+      <b class="fs-x-small mt-2" i18n> Reporting </b>
     </a>
-    <a class="d-flex flex-column align-items-center text-secondary mb-3">
+    <a
+      class="d-flex flex-column align-items-center text-secondary mb-4 sm-radius text-all-white py-2 p-1 w-100"
+      role="button">
       <span class="fs-medium">
         <i class="fa-solid fa-chalkboard-user"></i>
       </span>
