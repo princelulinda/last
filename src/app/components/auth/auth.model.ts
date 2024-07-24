@@ -33,7 +33,7 @@ export interface createAccountResponse {
     response_message: string;
     success: boolean;
     client: {
-      client_id: number;
+      client_id: string;
     };
     user: {
       username: string;

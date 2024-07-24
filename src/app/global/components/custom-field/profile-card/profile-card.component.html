@@ -1,10 +1,13 @@
 <div
-  class="d-flex justify-content-center align-items-center rounded-circle bg-info square">
+  class="d-flex justify-content-center align-items-center rounded-circle square"
+  [ngClass]="{
+    'bg-info ': !imageUrl,
+  }">
   @if (imageUrl) {
     <ng-container>
-      <img [src]="imageUrl" alt="" class="rounded-circle img-fluid" />
+      <img [src]="imageUrl" alt="" class="rounded-circle image" />
     </ng-container>
   } @else {
-    <span class="fw-bold">{{ initials }}</span>
+    <span class="fw-bold text-all-white">{{ initials }}</span>
   }
 </div>
