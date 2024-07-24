@@ -28,6 +28,7 @@ import { AmountFieldComponent } from '../../../global/components/custom-field/am
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
+import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
 // import {
 //     OpenMerchantBillPopup,
 //     OpenLandscapeBillPopup,
@@ -54,6 +55,7 @@ import { ModeModel } from '../../../core/services/config/main-config.models';
     LookupComponent,
     AmountFieldComponent,
     RouterLink,
+    MerchantCardComponent,
   ],
   templateUrl: './my-market-dashboard.component.html',
   styleUrl: './my-market-dashboard.component.scss',

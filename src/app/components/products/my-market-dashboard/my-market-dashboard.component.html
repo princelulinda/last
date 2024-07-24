@@ -441,16 +441,16 @@
           <div class="row mt-4 ps-5 ms-1">
             @for (merchant of merchantMult; track $index) {
               <div
-                class="col-2 border sm-radius p-2 me-4"
+                class="col-2"
                 role="button"
                 tabindex="0"
                 (click)="switchMerchant(merchant.id)">
                 <div
-                  class="text-center d-flex justify-content-center align-items-center merchant mb-1 position-relative"
+                  class="text-center d-flex justify-content-center align-items-center merchant position-relative"
                   [ngClass]="{
                     'level-1': theme === 'light',
                   }">
-                  @if (merchant && !merchant.merchant_logo) {
+                  <!-- @if (merchant && !merchant.merchant_logo) {
                     <span
                       class="d-flex justify-content-center align-items-center">
                       <svg
@@ -514,7 +514,11 @@
                     <span class="text-center" i18n>
                       {{ merchant.merchant_code }}
                     </span>
-                  </p>
+                  </p> -->
+
+                  <app-merchant-card
+                    [merchants]="merchant"
+                    [get_merchant]="true"></app-merchant-card>
                 </div>
               </div>
             }
