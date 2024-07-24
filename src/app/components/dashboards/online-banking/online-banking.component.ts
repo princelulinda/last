@@ -36,6 +36,7 @@ import {
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
 
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-online-banking',
   standalone: true,
@@ -49,6 +50,7 @@ import {
     CommonModule,
     WalletCardComponent,
     TarifComponent,
+    RouterLink,
   ],
 })
 export class OnlineBankingComponent implements OnInit, OnDestroy {
@@ -57,6 +59,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
   selectedBank!: bankModel;
+  selected!: bankModel;
   selectedBank$!: Observable<bankModel>;
   isLoading = false;
 
@@ -293,6 +296,13 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
       this.router.navigate(['']);
     }
   }
+
+  getselectBank(bank: bankModel) {
+    this.configService.getSelectedBank();
+    this.selected = bank;
+    console.log('la bank selectionne', this.selected);
+  }
+
   getMerchant(data: PayMerchant, event: MouseEvent) {
     event.stopPropagation();
     // add data-bs after click on favorite star

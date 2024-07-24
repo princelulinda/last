@@ -1,0 +1,76 @@
+<div>
+  <div class="text-dark">
+    <div class="d-flex justify-content-end mb-5">
+      <div class="d-flex align-items-center">
+        <div class="me-2">
+          <span routerLink="/b/banking" role="button" class="fs-2">
+            <i class="fa fa-chevron-left"></i>
+          </span>
+        </div>
+        <div>
+          <app-switch-bank></app-switch-bank>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="row mt-4 justify-content-around">
+        @for (bankMenu of bankMenus; track $index) {
+          <div
+            role="button"
+            [routerLink]="bankMenu.link"
+            class="d-grid col-auto justify-content-center">
+            <div class="d-flex w-100 mb-2 justify-content-center">
+              <div
+                class="d-grid justify-content-center align-items-center menu-container rounded-circle bg-secondary">
+                @if (bankMenu.icon) {
+                  <span>
+                    <i [class]="'fs-2 fa fa-' + bankMenu.icon"></i>
+                  </span>
+                }
+
+                @if (bankMenu.image) {
+                  <span>
+                    <img [src]="'' + bankMenu.image[0]" src="" alt="" />
+                  </span>
+                }
+              </div>
+            </div>
+
+            <div class="text-center">
+              <b>{{ bankMenu.name }}</b>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="overflow-x-hidden overflow-y-hidden">
+    <!-- * Recent transactions-->
+    <section>
+      <div class="mt-5 pt-5 text-dark w-100 d-flex justify-content-between">
+        <b i18n>Recent Transactions</b>
+        <span
+          role="button"
+          routerLink="/b/onlineBanking/banking/menuBanking/general-statement/transactions"
+          class="text-primary"
+          >View more transactions</span
+        >
+      </div>
+      <div class="rounded ps-4 border lg-radius p-3">
+        <div class="d-grid">
+          @for (_ of [1, 2, 3]; track $index) {
+            <span class="w-100 mb-2">
+              <app-skeleton
+                [width]="'100%'"
+                [height]="'90px'"
+                classes="sm-radius">
+              </app-skeleton>
+            </span>
+          }
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<router-outlet></router-outlet>

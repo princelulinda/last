@@ -9,7 +9,7 @@ import { AccountComponent } from '../../components/account/account/account.compo
 import { WalletComponent } from '../../components/wallet/wallet/wallet.component';
 import { WalletDetailsComponent } from '../../components/wallet/wallet-details/wallet-details.component';
 import { TarifComponent } from '../../components/tarif/tarif.component';
-
+import { BankHomeComponent } from '../../components/bank-home/bank-home.component';
 export const bankingRoutes: Routes = [
   {
     path: '',
@@ -45,6 +45,11 @@ export const bankingRoutes: Routes = [
   {
     path: 'tarifs',
     component: TarifComponent,
+  },
+
+  {
+    path: 'home',
+    component: BankHomeComponent,
   },
 
   {

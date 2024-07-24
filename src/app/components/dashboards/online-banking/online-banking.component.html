@@ -80,7 +80,8 @@
                           <!-- Bloc de banque -->
                           @for (bank of banks; track $index) {
                             <div
-                              (click)="selectBank(bank)"
+                              (click)="getselectBank(bank)"
+                              routerLink="/b/banking/home"
                               role="button"
                               tabindex="0"
                               class="d-grid col-6 col-sm-4 col-md-3 justify-content-center">
