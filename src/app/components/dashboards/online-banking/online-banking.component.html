@@ -1,4 +1,9 @@
-<div class="mb-3">
+<div
+  class="mb-3"
+  [ngClass]="{
+    'bg-ihela': plateform !== 'workstation',
+    'bg-erp': plateform === 'workstation',
+  }">
   <div>
     <!--cards ( wallet and nyamuranzi )-->
     <section class="d-flex overflow-x-auto pb-3 w-100">
@@ -30,16 +35,16 @@
                 [attr.aria-controls]="'collapse-' + i">
                 <div
                   class="d-flex align-items-center w-100 justify-content-between ps-1 pe-3">
-                  <div class="d-flex">
+                  <div class="d-flex align-items-center">
                     <span
                       class="rounded-circle circ-badge me-2 bg-secondary justify-content-center d-flex align-items-center">
                       <i
                         [class]="
-                          'fa fa-' + menuGroup.icon + ' text-l-md text-all-dark'
+                          'fa fa-' + menuGroup.icon + ' text-l-md text-dark'
                         "></i>
                     </span>
                     <div class="d-grid align-items-center">
-                      <b class="text-all-dark">{{ menuGroup.name }}</b>
+                      <b class="text-dark">{{ menuGroup.name }}</b>
                       @if (!menuGroup.is_active) {
                         <span class="text-secondary">{{
                           menuGroup.description
@@ -49,11 +54,11 @@
                   </div>
                   @if (!menuGroup.is_active) {
                     <span>
-                      <i class="fa fa-chevron-right text-all-dark"></i>
+                      <i class="fa fa-chevron-right text-dark"></i>
                     </span>
                   } @else {
                     <span>
-                      <i class="fa fa-chevron-down text-all-dark"></i>
+                      <i class="fa fa-chevron-down text-dark"></i>
                     </span>
                   }
                 </div>
@@ -64,8 +69,7 @@
                 [ngClass]="{ show: menuGroup.is_active }"
                 aria-labelledby="headingOne"
                 data-bs-parent="#accordionExample">
-                <div
-                  class="accordion-body text-all-dark expand-collapse-section">
+                <div class="accordion-body text-dark expand-collapse-section">
                   <!-- Ajoutez ici le contenu spécifique à ce menuGroup -->
                   @if (i === 0 && menuGroup.is_active) {
                     <div>
@@ -114,7 +118,7 @@
                               </div>
                             </div>
                             <div class="text-center">
-                              <span class="text-sm text-all-dark" i18n
+                              <span class="text-sm text-dark" i18n
                                 >CREATE ACCOUNT</span
                               >
                             </div>
@@ -250,13 +254,13 @@
         <div class="text-end">
           <span
             role="button"
-            class="text-all-dark"
+            class="text-dark"
             data-bs-dismiss="modal"
             aria-label="Close">
             <i class="fa-solid fa-xmark fs-4"></i>
           </span>
         </div>
-        <div class="text-all-dark fs-5 text-center p-2" i18n>
+        <div class="text-dark fs-5 text-center p-2" i18n>
           Create an account by choosing one of the banks bellow
         </div>
         <br />
@@ -275,7 +279,7 @@
                     <img
                       class="bank-image"
                       [src]="bank?.company?.image"
-                      alt="" />
+                      alt="{{ bank?.company?.fullname }} Logo" />
                   </div>
                 </div>
 
@@ -305,13 +309,7 @@
             }
           </div>
         } @else {
-          <div
-            class="p-2 text-center text-l fw-bold"
-            [ngClass]="{
-              'text-primary': mode === 'light',
-              'text-light': mode === 'dark',
-            }"
-            i18n>
+          <div class="p-2 text-center text-l fw-bold" i18n>
             You are already in all the available banks
           </div>
         }

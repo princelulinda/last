@@ -20,6 +20,7 @@ import { UploadedFileModel } from '../../auth.model';
 import { BankService } from '../../../../core/services/bank/bank.service';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
+import { DbService } from '../../../../core/db';
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,
@@ -69,6 +70,7 @@ export class AuthSignUpComponent implements OnInit {
   uuid!: string;
   docFile!: string;
   id!: number;
+
   // event!: referenceNumberModel[];
 
   ngOnInit(): void {
@@ -102,7 +104,8 @@ export class AuthSignUpComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private bankService: BankService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private dbService: DbService
   ) {
     this.dialog$ = this.dialogService.getDialogState();
   }
@@ -190,12 +193,14 @@ export class AuthSignUpComponent implements OnInit {
       next: (response: createAccountResponse) => {
         this.isLoadingCreation = false;
         this.userInfo = response;
-        //   const userData = {
-        //     username: response.object.user.username,
-        //     email: response.object.user.email,
-        //     token: response.object.user.token,
-        // };
-        // this.store.dispatch(new ConnectUser(userData));
+        const userData = {
+          // username: response.object.user.username,
+          // email: response.object.user.email,
+          token: response.object.user.token,
+          clientId: response.object.client.client_id,
+        };
+        this.dbService.setLocalStorageUserToken(userData.token);
+        this.dbService.setLocalStorageClientId(userData.clientId);
         this.step = this.step = 5;
         this.dialogService.closeLoading();
       },
@@ -328,5 +333,8 @@ export class AuthSignUpComponent implements OnInit {
     if (event) {
       this.id = event.id;
     }
+  }
+  logout() {
+    this.authService.logout();
   }
 }

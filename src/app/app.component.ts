@@ -20,6 +20,7 @@ import {
   ModeModel,
   PlateformModel,
 } from './core/services/config/main-config.models';
+import { environment } from '../environments/environment';
 // import { environment } from '../environments/environment';
 
 @Component({
@@ -39,6 +40,7 @@ export class AppComponent implements OnInit {
   plateform$: Observable<PlateformModel>;
   activeMode!: ModeModel;
   activeMode$: Observable<ModeModel>;
+  mainBackground = 'bg-ihela';
 
   constructor(
     private dbService: DbService,
@@ -55,9 +57,7 @@ export class AppComponent implements OnInit {
     if (localToken) {
       this.dialogService.dispatchSplashScreen();
       this.dbService.dbIsReady.subscribe(() => {
-        setTimeout(() => {
-          this.dialogService.closeSplashScreen();
-        }, 2000);
+        this.dialogService.closeSplashScreen();
       });
     }
 
@@ -68,6 +68,10 @@ export class AppComponent implements OnInit {
     this.plateform$.subscribe({
       next: plateform => {
         this.plateform = plateform;
+        const plateformData = environment.plateformsUuid.filter(
+          plateformData => plateformData.name === plateform
+        )[0];
+        this.mainBackground = `bg-${plateformData.theme.name}`;
       },
     });
     this.activeMode$.subscribe({

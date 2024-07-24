@@ -15,7 +15,6 @@ import { MerchantModel } from '../../products/products.model';
   styleUrl: './merchant-card.component.scss',
 })
 export class MerchantCardComponent {
-  @Input() product = '';
   @Input() merchant!: BillersModel;
   @Input() get_merchant!: boolean;
   @Input() get_product = [];

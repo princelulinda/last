@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-// import { Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
@@ -11,7 +10,6 @@ import { MarketService } from '../../../core/services/market/market.service';
 import { VariableService } from '../../../core/services/variable/variable.service';
 import { AuthService, ConfigService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
-import { AllProductsComponent } from '../all-products/all-products.component';
 import {
   Account,
   MerchantInfoModel,
@@ -19,7 +17,7 @@ import {
   MerchantObjectModel,
   MerchantObjectsModel,
   StatsModel,
-} from '../products.model';
+} from '../../products/products.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { UserInfoModel } from '../../../core/db/models/auth';
@@ -29,6 +27,8 @@ import { LookupComponent } from '../../../global/components/lookups/lookup/looku
 import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
+import { AllProductsComponent } from '../../products/all-products/all-products.component';
+
 // import {
 //     OpenMerchantBillPopup,
 //     OpenLandscapeBillPopup,
