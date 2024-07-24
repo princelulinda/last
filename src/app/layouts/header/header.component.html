@@ -150,10 +150,10 @@
 
         <!--*user profile card-->
         @if (clientInfo) {
-          <div class="dropdown-menu bg-transparent">
+          <div class="dropdown-menu bg-transparent pt-4 border-0">
             <div
-              class="float-end m-0 lg-radius profile-card text-dark pe-3 ps-1 dropdown-item bg-white"
-              style="width: 302px">
+              class="float-end m-0 profile-card text-dark pe-3 ps-1 dropdown-item bg-white"
+              style="width: 302px; height: 89vh">
               <!-- first section for user info -->
               <section>
                 <div
@@ -308,6 +308,10 @@
                       </span>
                       <b i18n>Logout</b>
                     </span>
+                  </div>
+                  <div
+                    class="col text-center d-flex justify-content-center mt-2">
+                    <app-footer></app-footer>
                   </div>
                 </section>
 

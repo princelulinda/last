@@ -24,7 +24,7 @@ import {
   activeMainConfigModel,
   PlateformModel,
 } from '../../core/services/config/main-config.models';
-
+import { FooterComponent } from '../footer/footer.component';
 export interface organizationModel {
   company_type_code: string;
   institution_client: {
@@ -36,7 +36,12 @@ export interface organizationModel {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SwitchPlateformIconsComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    SwitchPlateformIconsComponent,
+    FooterComponent,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -477,5 +482,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   toggleEyeStatus() {
     // this.store.dispatch(new displayAmount({ show: !this.eyeShowed }));
+  }
+  showUserInfo = false;
+  showMenu = false;
+  displayUserInfo() {
+    if (this.showUserInfo) {
+      this.showUserInfo = false;
+    } else {
+      this.showUserInfo = true;
+      this.chatNotFoundPopup = false;
+      this.notificationNotFoundPopup = false;
+      this.showMenu = false;
+      this.showPlateformPopup = false;
+    }
   }
 }
