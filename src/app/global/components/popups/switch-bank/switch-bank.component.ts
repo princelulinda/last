@@ -56,11 +56,11 @@ export class SwitchBankComponent implements OnInit {
         this.clientInfo = userinfo;
         this.clientId = this.clientInfo.client.client_id;
 
-        this.selectedBank$.subscribe({
-          next: datas => {
-            this.selectedBank = datas;
-          },
-        });
+        // this.selectedBank$.subscribe({
+        //   next: datas => {
+        //     this.selectedBank = datas;
+        //   },
+        // });
 
         this.bankService
           .getBanksList()
@@ -81,6 +81,12 @@ export class SwitchBankComponent implements OnInit {
 
             this.defaultBank = banks.find(bank => bank.is_default === true);
           });
+      },
+    });
+
+    this.selectedBank$.subscribe({
+      next: bank => {
+        this.selectedBank = bank;
       },
     });
   }
@@ -104,7 +110,7 @@ export class SwitchBankComponent implements OnInit {
       wallets: null,
     };
     this.bankOptions.emit(options);
-    this.selectedBank = this.banks[index];
+    // this.selectedBank = this.banks[index];
 
     // this.store.dispatch(
     //     new SelectClientBank({

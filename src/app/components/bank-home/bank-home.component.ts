@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SwitchBankComponent } from '../../global/components/popups/switch-bank/switch-bank.component';
 import { RouterLink } from '@angular/router';
 import { SkeletonComponent } from '../../global/components/loaders/skeleton/skeleton.component';
 import { bankModel } from '../../core/db/models/bank/bank.model';
 import { BankOptions } from '../dashboards/dashboard.model';
+
 @Component({
   selector: 'app-bank-home',
   standalone: true,
@@ -12,7 +13,7 @@ import { BankOptions } from '../dashboards/dashboard.model';
   templateUrl: './bank-home.component.html',
   styleUrl: './bank-home.component.scss',
 })
-export class BankHomeComponent implements OnInit {
+export class BankHomeComponent {
   bankMenus = [
     {
       name: 'Accounts',
@@ -45,16 +46,18 @@ export class BankHomeComponent implements OnInit {
       link: '',
     },
   ];
-  selectedbank!: bankModel;
+  @Output() backToPreviousState = new EventEmitter<void>();
+  selectedBank!: bankModel;
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+  handleBankOptions(options: BankOptions) {
+    // console.log('Options de banque reçues :', options);
+    if (options.banks && options.banks.length > 0) {
+      this.selectedBank = options.banks[0]; // Sélectionne la première banque comme exemple
+      //console.log('Banque sélectionnée :', this.selectedBank);
+    }
   }
 
-  handlebankSelected(options: BankOptions) {
-    if (options.banks && options.banks.length > 0) {
-      this.selectedbank = options.banks[0]; // Sélectionne la première banque comme exemple
-      console.log('Compte sélectionné :', this.selectedbank);
-    }
+  goBack() {
+    this.backToPreviousState.emit();
   }
 }
