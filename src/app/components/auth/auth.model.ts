@@ -133,10 +133,10 @@ export interface ConectedOperatorApiResponseModel {
           username: string;
           email: string | null;
           name: string;
-          is_teller: boolean;
-          is_treasurer: boolean;
         };
         organization: OrganizationModel;
+        is_teller: boolean;
+        is_treasurer: boolean;
       };
     };
   };

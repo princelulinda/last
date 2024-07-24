@@ -219,7 +219,7 @@ export class ConfigService {
   // NOTE :: operator methods
 
   setOperator(operator: ConnectedOperatorModel) {
-    this.dbService.addOnce(Operator.tableName, operator);
+    this.dbService.addOnceUpdate(Operator.tableName, operator);
   }
   resetOperator(): void {
     this.dbService.clearTable(Operator.tableName);
