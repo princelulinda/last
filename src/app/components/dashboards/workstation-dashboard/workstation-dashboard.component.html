@@ -3,27 +3,47 @@
 
   <div
     class="bg-white d-flex justify-content-between px-2 flex-column flex-lg-row border-bottom me-2">
-    <span class="text-primary fw-bold fs-xx-large pt-4 ps-4"
+    <span class="text-primary fw-bold fs-xx-large pt-4 ps-4" i18n
       >Magis Dashboard</span
     >
     <div class="rounded-2 d-flex flex-wrap p-3 gap-5 pe-5 me-3 mt-1">
       <div class="d-flex flex-column gap-3 ps-2">
         <div class="d-flex flex-column">
-          <span class="fs-bold text-primary">User</span>
-          <span>Magis</span>
+          <span class="fs-bold text-primary" i18n>User</span>
+
+          @if (!session) {
+            <div>
+              <i class="fa-solid fa-spinner fa-pulse"></i>
+            </div>
+          } @else {
+            <span>{{ session.user.username }}</span>
+          }
         </div>
         <div class="d-flex flex-column">
-          <span class="fs-bold text-primary">Session Time</span>
+          <span class="fs-bold text-primary" i18n>Session Time</span>
           <div>
             <i class="fa-solid fa-hourglass-end me-2"></i>
-            <span>7:12:52</span>
+            @if (!session) {
+              <span>
+                <i class="fa-solid fa-spinner fa-pulse"></i>
+              </span>
+            } @else {
+              <!-- <span>{{ session.session_duration | date: 'mediumTime' }}</span> -->
+              <span>--:--:--</span>
+            }
           </div>
         </div>
       </div>
 
       <div class="d-flex flex-column pe-5 ps-3">
-        <span class="fs-bold text-primary">Shared Ip Adress</span>
-        <span>10.30.0.12</span>
+        <span class="fs-bold text-primary" i18n>Shared Ip Adress</span>
+        @if (!session) {
+          <div>
+            <i class="fa-solid fa-spinner fa-pulse"></i>
+          </div>
+        } @else {
+          <span>{{ session.ip_address.ip_address }}</span>
+        }
       </div>
     </div>
   </div>
@@ -37,7 +57,7 @@
       <!----------------------Cards section------------------------->
       <div
         class="p-2 rounded-2 bg-white d-flex flex-column border ps-4 py-3 shadow-sm card">
-        <span class="fw-bold fs-medium text-dark">Capital</span>
+        <span class="fw-bold fs-medium text-dark" i18n>Capital</span>
         <span class="fs-1 text-primary fw-bold text-nowrap"
           >BIF45,678,475,987.90</span
         >
@@ -48,7 +68,7 @@
 
       <div
         class="p-2 rounded-2 bg-white d-flex flex-column border ps-4 py-3 card shadow-sm justify-content-between">
-        <span class="fw-bold fs-medium text-dark">Clients</span>
+        <span class="fw-bold fs-medium text-dark" i18n>Clients</span>
 
         @if (!statistics) {
           <div class="text-dark" role="status">
@@ -67,7 +87,7 @@
 
       <div
         class="p-2 rounded-2 bg-white d-flex flex-column border ps-4 py-3 card shadow-sm justify-content-between">
-        <span class="fw-bold fs-medium text-dark">Agents</span>
+        <span class="fw-bold fs-medium text-dark" i18n>Agents</span>
 
         @if (!statistics) {
           <div class="text-dark" role="status">
@@ -86,7 +106,7 @@
 
       <div
         class="p-2 rounded-2 bg-white d-flex flex-column border ps-4 py-3 card shadow-sm justify-content-between">
-        <span class="fw-bold fs-medium text-dark">Merchants</span>
+        <span class="fw-bold fs-medium text-dark" i18n>Merchants</span>
         @if (!statistics) {
           <div class="text-dark" role="status">
             <i class="fa-solid fa-spinner fa-pulse fs-x-large"></i>
@@ -117,7 +137,7 @@
         <div class="col-4">
           <div
             class="py-2 bg-primary-2 border border-primary mx-2 rounded-2 text-center">
-            <span class="text-white fw-bold">Alerte</span>
+            <span class="text-white fw-bold" i18n>Alerte</span>
           </div>
 
           <!-- alarms -->

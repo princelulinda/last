@@ -142,3 +142,17 @@ export interface StatResModel {
   response_message: string;
   success: boolean;
 }
+
+export interface SessionName {
+  username: string;
+}
+
+export interface SessionIP {
+  ip_address: string;
+}
+
+export interface SessionToShow {
+  session_duration: string;
+  ip_address: SessionIP;
+  user: SessionName;
+}
