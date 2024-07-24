@@ -122,8 +122,8 @@ export class AuthCorporateComponent implements OnInit {
               organization: connectedOperator.organization,
               operator: {
                 id: connectedOperator.operator.id,
-                isTeller: connectedOperator.operator.is_teller,
-                isTreasurer: connectedOperator.operator.is_treasurer,
+                isTeller: connectedOperator.is_teller,
+                isTreasurer: connectedOperator.is_treasurer,
               },
             };
             this.configService.setOperator(operator);
@@ -161,8 +161,8 @@ export class AuthCorporateComponent implements OnInit {
           const operator: ConnectedOperatorModel = {
             operator: {
               id: operatorData?.operator.id as string,
-              isTeller: operatorData?.operator.is_teller as boolean,
-              isTreasurer: operatorData?.operator.is_treasurer as boolean,
+              isTeller: operatorData?.is_teller as boolean,
+              isTreasurer: operatorData?.is_treasurer as boolean,
             },
             organization: operatorData?.organization as OrganizationModel,
           };
@@ -176,18 +176,19 @@ export class AuthCorporateComponent implements OnInit {
   }
 
   private getAllMenusTypes() {
-    return this.menuService.getTypeMenuGroups().pipe(
-      switchMap(data =>
-        this.menuService.getMenuGroup('D').pipe(
-          map(menuGroup => {
-            return {
-              menuTypes: data,
-              menuGroup: menuGroup,
-            };
-          })
-        )
-      )
-    );
+    return this.menuService.getTypeMenuGroups();
+    // .pipe(
+    //   switchMap(data =>
+    //     this.menuService.getMenuGroup('I').pipe(
+    //       map(menuGroup => {
+    //         return {
+    //           menuTypes: data,
+    //           menuGroup: menuGroup,
+    //         };
+    //       })
+    //     )
+    //   )
+    // );
   }
 
   selectOrganization(data: OrganizationModel) {
