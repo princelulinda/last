@@ -7,6 +7,7 @@ import {
   AuthService,
   ConfigService,
   DialogService,
+  MenuService,
 } from '../../../../core/services';
 import { ConnectedOperatorModel, OrganizationModel } from '../../auth.model';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
@@ -31,6 +32,7 @@ export class AuthCorporateComponent implements OnInit {
     private authService: AuthService,
     private configService: ConfigService,
     private dialogService: DialogService,
+    private menuService: MenuService,
     private router: Router
   ) {
     this.operatorIsAuthenticated$ =
@@ -49,7 +51,7 @@ export class AuthCorporateComponent implements OnInit {
           // TODO :: TO REMOVE AND WORKSTATION LAYOUT MANAGE TO CLOSE THIS
           this.dialogService.closeSplashScreen();
         } else {
-          this.getOperatorOperator_organization();
+          this.getConnectedOperator_organizations();
         }
       },
     });
@@ -81,8 +83,9 @@ export class AuthCorporateComponent implements OnInit {
     };
     this.authService.loginCorporate(data).subscribe({
       next: () => {
-        this.router.navigate(['/w/workstation']);
         this.dialogService.closeLoading();
+        this.getConnectedOperator_menus();
+        this.router.navigate(['/w/workstation']);
       },
       error: err => {
         this.dialogService.closeLoading();
@@ -97,7 +100,7 @@ export class AuthCorporateComponent implements OnInit {
     });
   }
 
-  private getOperatorOperator_organization() {
+  private getConnectedOperator_organizations() {
     this.authService
       .getConnectedOperator()
       .pipe(
@@ -119,8 +122,8 @@ export class AuthCorporateComponent implements OnInit {
               organization: connectedOperator.organization,
               operator: {
                 id: connectedOperator.operator.id,
-                isTeller: connectedOperator.operator.is_teller,
-                isTreasurer: connectedOperator.operator.is_treasurer,
+                isTeller: connectedOperator.is_teller,
+                isTreasurer: connectedOperator.is_treasurer,
               },
             };
             this.configService.setOperator(operator);
@@ -131,16 +134,62 @@ export class AuthCorporateComponent implements OnInit {
             organizations.push(data.organization);
           });
           this.configService.setOperatorOrganizations(organizations);
-          setTimeout(() => {
-            this.dialogService.closeSplashScreen();
-          }, 2000);
+          this.dialogService.closeSplashScreen();
         },
       });
   }
 
-  // private getOperatorMenus(){
+  private getConnectedOperator_menus() {
+    this.dialogService.dispatchSplashScreen();
+    this.authService
+      .getConnectedOperator()
+      // .pipe(
+      //   switchMap(operator =>
+      //     this.getAllMenusTypes().pipe(
+      //       map(menus => {
+      //         return {
+      //           menus: menus,
+      //           operator: operator,
+      //         };
+      //       })
+      //     )
+      //   )
+      // )
+      .subscribe({
+        next: response => {
+          const operatorData = response.object.response_data.object;
+          const operator: ConnectedOperatorModel = {
+            operator: {
+              id: operatorData?.operator.id as string,
+              isTeller: operatorData?.is_teller as boolean,
+              isTreasurer: operatorData?.is_treasurer as boolean,
+            },
+            organization: operatorData?.organization as OrganizationModel,
+          };
+          this.configService.setOperator(operator);
+          this.dialogService.closeSplashScreen();
+        },
+        error: () => {
+          // salut les gens
+        },
+      });
+  }
 
-  // }
+  private getAllMenusTypes() {
+    return this.menuService.getTypeMenuGroups();
+    // .pipe(
+    //   switchMap(data =>
+    //     this.menuService.getMenuGroup('I').pipe(
+    //       map(menuGroup => {
+    //         return {
+    //           menuTypes: data,
+    //           menuGroup: menuGroup,
+    //         };
+    //       })
+    //     )
+    //   )
+    // );
+  }
 
   selectOrganization(data: OrganizationModel) {
     this.selectedOrganization = data;

@@ -1,12 +1,14 @@
 <!-- NOTE :: DIALOGS FOR PASSWORD , PIN , CONFIRMATION , LOADING -->
 <dialog
   id="favDialog"
-  class="bg-white border sm-radius is-dialog d-flex justify-content-center align-items-center popup-size font-montserrat">
+  class="bg-white border sm-radius is-dialog d-flex justify-content-center align-items-center font-montserrat">
   <!-- NOTE :: CONFIRMATION DIALOG -->
   @if (dialog.active && dialog.type === 'confirm') {
     <div
-      class="w-100 d-flex align-items-center flex-column justify-content-center popup-size font-montserrat">
-      <span class="text-center text-primary-2 mb-0" style="font-size: 60px">
+      class="d-flex align-items-center flex-column justify-content-center popup-size font-montserrat">
+      <span
+        class="text-center text-primary-2 mb-0 text-secondary"
+        style="font-size: 60px">
         <i class="fa-regular fa-circle-question"></i>
       </span>
       <p
@@ -33,7 +35,7 @@
   }
 
   @if (dialog.active && (dialog.type === 'password' || dialog.type === 'pin')) {
-    <section class="d-flex flex-column align-items-center">
+    <section class="d-flex flex-column align-items-center popup-size">
       <div class="text-center w-50 mb-4">
         <img [src]="dialog.image" alt="" class="image sm-radius" />
       </div>
