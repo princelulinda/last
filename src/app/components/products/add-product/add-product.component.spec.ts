@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 
 import { AddProductComponent } from './add-product.component';
 import { provideHttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
 
 describe('AddProductComponent', () => {
   let component: AddProductComponent;
@@ -11,7 +11,15 @@ describe('AddProductComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AddProductComponent],
-      providers: [provideHttpClient(), ActivatedRoute],
+      providers: [
+        provideHttpClient(),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {},
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AddProductComponent);
