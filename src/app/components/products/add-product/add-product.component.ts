@@ -14,11 +14,17 @@ import {
   inputAmountModel,
   MerchantModel,
 } from '../products.model';
+import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 
 @Component({
   selector: 'app-add-product',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    AmountFieldComponent,
+  ],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.scss',
 })
