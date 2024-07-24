@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BankHomeComponent } from './bank-home.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('BankHomeComponent', () => {
   let component: BankHomeComponent;
@@ -10,7 +11,7 @@ describe('BankHomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BankHomeComponent],
+      imports: [BankHomeComponent, RouterTestingModule],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
