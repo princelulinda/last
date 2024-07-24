@@ -1,1 +1,77 @@
-<p>add-product works!</p>
+<main class="p-4 col-10">
+  <div class="row fs-4"><b i18n>Add new product</b></div>
+  <div class="float-end">
+    <b
+      class="fs-5"
+      role="button"
+      routerLink="/m/market/product/configuration/"
+      i18n
+      ><i class="fa fa-arrow-left"></i> Back</b
+    >
+  </div>
+  <div class="d-flex">
+    <div class="col-6">
+      <div class="fs-5"><b>Product Description</b></div>
+      <div
+        class="sm-radius py-3 ps-3 pe-4 mb-4"
+        style="max-height: 256px; border: 1px solid #c4c4c4; width: 81%">
+        <form class="" [formGroup]="productForm">
+          <div class="mb-2 form-floating">
+            <input
+              type="text"
+              class="form-control field input"
+              placeholder="Product Name"
+              style="height: 45px"
+              formControlName="name" />
+            <label for="product Name" class="fs-5 text-dark" i18n
+              ><small> Product Name</small> <code>*</code></label
+            >
+          </div>
+          <div class="mb-2 form-floating">
+            <textarea
+              i18n
+              name="description"
+              id=""
+              style="height: 101px"
+              class="form-control sm-radius"
+              formControlName="description">
+            </textarea>
+            <label for="Description" class="fs-5 text-dark" i18n
+              ><small> Description</small> <code>*</code></label
+            >
+          </div>
+        </form>
+      </div>
+      <div class="fs-5"><b i18n>Pricing</b></div>
+      <div
+        class="sm-radius py-3 ps-3 pe-4 mt-2"
+        style="height: 107px; border: 1px solid #c4c4c4; width: 84%">
+        <div class="mb-3 sm-radius" style="width: 100%">
+          <!-- <app-amount-words
+                        (amountEvent)="inputAmount($event)"
+                    ></app-amount-words> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center mt-4">
+    <button class="btn me-3" routerLink="/m/market/product/configuration/">
+      <b class="text-dark">Discard</b>
+    </button>
+    <button
+      class="btn bg-primary"
+      style="width: 125px; color: #ffffff"
+      (click)="addProduct()"
+      [disabled]="!productForm.valid">
+      @if (!productAdded) {
+        <span class=""><b i18n>Save</b></span>
+      } @else if (productAdded) {
+        <span
+          ><i
+            class="fa-solid fa-spin fa-circle-notch fs-4"
+            style="color: white"></i
+        ></span>
+      }
+    </button>
+  </div>
+</main>

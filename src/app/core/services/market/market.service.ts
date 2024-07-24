@@ -5,11 +5,11 @@ import { map } from 'rxjs/operators';
 import { ApiService } from '..';
 // import { GeneralService } from '..';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { objectModel } from '../../../components/dashboards/dashboard.model';
 import {
-  objectModel,
-  ProductModel,
-} from '../../../components/dashboards/dashboard.model';
-import { StatsModel } from '../../../components/products/products.model';
+  addProductByMerchantModel,
+  StatsModel,
+} from '../../../components/products/products.model';
 import { Pagination } from '../merchant/model';
 // import { offset } from '@popperjs/core';
 
@@ -45,7 +45,7 @@ export class MarketService {
         })
       );
   }
-  addProductByMerchant(product: ProductModel) {
+  addProductByMerchant(product: addProductByMerchantModel) {
     return this.apiService
       .post('/dbs/merchant-product/', product)
       .pipe(map(response => response));
