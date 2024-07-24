@@ -76,6 +76,14 @@
                   </span>
                 </div>
               }
+
+              <!-- Price -->
+              @if (product.price) {
+                <span
+                  class="position-absolute fs-small px-1 text-primary bottom-0 priceBG start-1">
+                  {{ product.price }} BIF
+                </span>
+              }
             </div>
           </div>
           <div class="row ms-0">
@@ -130,6 +138,14 @@
                       class="fa-solid fa-mountain-sun fa-3x my-5 text-secondary"></i>
                   </span>
                 </div>
+              }
+
+              <!-- Price -->
+              @if (product.price) {
+                <span
+                  class="position-absolute fs-small px-1 text-primary bottom-0 priceBG start-1">
+                  {{ product.price }} BIF
+                </span>
               }
             </div>
           </div>
