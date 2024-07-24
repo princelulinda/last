@@ -57,9 +57,7 @@ export class AppComponent implements OnInit {
     if (localToken) {
       this.dialogService.dispatchSplashScreen();
       this.dbService.dbIsReady.subscribe(() => {
-        setTimeout(() => {
-          this.dialogService.closeSplashScreen();
-        }, 2000);
+        this.dialogService.closeSplashScreen();
       });
     }
 

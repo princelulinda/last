@@ -134,9 +134,7 @@ export class AuthCorporateComponent implements OnInit {
             organizations.push(data.organization);
           });
           this.configService.setOperatorOrganizations(organizations);
-          setTimeout(() => {
-            this.dialogService.closeSplashScreen();
-          }, 2000);
+          this.dialogService.closeSplashScreen();
         },
       });
   }

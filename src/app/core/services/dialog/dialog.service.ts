@@ -131,7 +131,9 @@ export class DialogService {
     this.splashScreen.set(true);
   }
   closeSplashScreen() {
-    this.splashScreen.set(false);
+    setTimeout(() => {
+      this.splashScreen.set(false);
+    }, 2000);
   }
 
   // Amount Methods
