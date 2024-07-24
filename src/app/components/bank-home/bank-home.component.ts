@@ -3,6 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { SwitchBankComponent } from '../../global/components/popups/switch-bank/switch-bank.component';
 import { RouterLink } from '@angular/router';
 import { SkeletonComponent } from '../../global/components/loaders/skeleton/skeleton.component';
+import { bankModel } from '../../core/db/models/bank/bank.model';
+import { BankOptions } from '../dashboards/dashboard.model';
 @Component({
   selector: 'app-bank-home',
   standalone: true,
@@ -43,8 +45,16 @@ export class BankHomeComponent implements OnInit {
       link: '',
     },
   ];
+  selectedbank!: bankModel;
 
   ngOnInit(): void {
     throw new Error('Method not implemented.');
+  }
+
+  handlebankSelected(options: BankOptions) {
+    if (options.banks && options.banks.length > 0) {
+      this.selectedbank = options.banks[0]; // Sélectionne la première banque comme exemple
+      console.log('Compte sélectionné :', this.selectedbank);
+    }
   }
 }

@@ -8,7 +8,8 @@
           </span>
         </div>
         <div>
-          <app-switch-bank></app-switch-bank>
+          <app-switch-bank
+            (bankOptions)="handlebankSelected($event)"></app-switch-bank>
         </div>
       </div>
     </div>
