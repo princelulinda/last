@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 // import { Store } from '@ngxs/store';
@@ -53,6 +53,7 @@ import { ModeModel } from '../../../core/services/config/main-config.models';
     AllProductsComponent,
     LookupComponent,
     AmountFieldComponent,
+    RouterLink,
   ],
   templateUrl: './my-market-dashboard.component.html',
   styleUrl: './my-market-dashboard.component.scss',
@@ -109,8 +110,10 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   isLoading = false;
   openBillPopup = false;
   isMerchantPopupOpened = false;
-  @ViewChild('closeModal') closeModal = '';
-  @ViewChild('closeMerchantsModal') closeMerchantsModal = false;
+  @ViewChild('closeModal') closeModal!: { nativeElement: HTMLElement };
+  @ViewChild('closeMerchantsModal') closeMerchantsModal!: {
+    nativeElement: HTMLElement;
+  };
 
   successMessage!: string;
   indexMerchant = 0;
@@ -171,9 +174,9 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     //   };
     //   this.store.dispatch(new OpenActionDialog(data));
     this.dialogService.openDialog({
-      title: 'confirm',
-      message: 'Please enter your pin to continue',
       type: 'pin',
+      title: 'pin',
+      message: 'Please enter your pin to continue',
       action: 'confirm pin',
     });
   }
@@ -283,7 +286,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
           //   this.store.dispatch(
           //       new OpenMerchantBillPopup(this.successMessage.data)
           //   );
-          // this.closeModal.nativeElement.click();
+          this.closeModal.nativeElement.click();
           this.billForm.reset();
         },
         error: msg => {
@@ -313,6 +316,11 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   selectClient(event: ItemModel | null) {
     console.log(event);
     // event ? (this.selectedClient = event) : (this.selectedClient = null);
+    if (event) {
+      this.selectedClient = event;
+    } else {
+      this.selectedClient = null;
+    }
   }
 
   getConnectedMerchantInfo() {
@@ -420,7 +428,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     this.merchant = null;
     this.merchantInfo = null;
     this.stat = null;
-    // this.closeMerchantsModal.nativeElement.click();
+    this.closeMerchantsModal.nativeElement.click();
 
     this.merchantService.getMerchantInfos(merchantId as string).subscribe({
       next: (data: MerchantInfoModel) => {

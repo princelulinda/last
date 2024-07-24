@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BeneficiariesComponent } from '../beneficiaries/beneficiaries/beneficiaries.component';
 
 @Component({
@@ -8,4 +8,7 @@ import { BeneficiariesComponent } from '../beneficiaries/beneficiaries/beneficia
   styleUrl: './transfer.component.scss',
   imports: [BeneficiariesComponent],
 })
-export class TransferComponent {}
+export class TransferComponent {
+  @Input() isMerchantTransfer!: boolean;
+  @Input() simpleTransferTitle!: boolean;
+}

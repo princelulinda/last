@@ -193,7 +193,7 @@
 
           <div class="w-100 d-flex justify-content-center text-align-center">
             <div
-              class="pie-chart text-opacity-5 position-relative"
+              class="pie-chart text-opacity-5 position-relative rounded-circle"
               style="margin-left: -40%">
               <div class="pie-text text1 position-absolute fw-bold"></div>
               <div class="pie-text text2 position-absolute fw-bold"></div>
@@ -371,6 +371,9 @@
             <div class="text-center mt-5 mb-4">
               <button
                 (click)="enterPin()"
+                [disabled]="
+                  !billForm.valid || isLoading || !selectClient || !amount
+                "
                 class="text-all-white btn bg-primary px-4"
                 i18n>
                 Confirm

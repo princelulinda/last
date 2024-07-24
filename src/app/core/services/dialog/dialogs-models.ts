@@ -57,7 +57,7 @@ export interface MerchantBillModel {
   date: string;
   printable_text: string;
   merchantName: string;
-  amount: string;
+  amount: string | number;
   code: string;
   product?: {
     name: string;
