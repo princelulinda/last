@@ -1,0 +1,39 @@
+<div class="d-flex h-100">
+  <section class="bg-white w-aside p-2 pt-4 d-flex flex-column">
+    <a
+      class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+      role="button"
+      routerLink="/w/workstation/banking/"
+      routerLinkActive="text-all-dark bg-primary-3"
+      i18n>
+      Home
+    </a>
+    <a
+      class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+      role="button"
+      i18n>
+      Tarifs
+    </a>
+    <a
+      class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+      role="button"
+      i18n>
+      Petty Cash
+    </a>
+    <a
+      class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+      role="button"
+      i18n>
+      Transfer
+    </a>
+    <a
+      class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+      role="button"
+      i18n>
+      Statement
+    </a>
+  </section>
+  <main class="flex-grow-1 px-2 px-md-4 py-2 overflow-y-auto ms-1">
+    <router-outlet></router-outlet>
+  </main>
+</div>

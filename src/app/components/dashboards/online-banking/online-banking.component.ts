@@ -31,7 +31,10 @@ import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { TarifComponent } from '../../tarif/tarif.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { ModeModel } from '../../../core/services/config/main-config.models';
+import {
+  ModeModel,
+  PlateformModel,
+} from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-online-banking',
@@ -71,6 +74,9 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   pin!: string;
+
+  plateform!: PlateformModel;
+  plateform$: Observable<PlateformModel>;
 
   private userInfo$: Observable<UserInfoModel>;
 
@@ -152,11 +158,17 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     this.userInfo$ = this.authService.getUserInfo();
     this.selectedBank$ = this.configService.getSelectedBank();
     this.dialog$ = this.dialogService.getDialogState();
+    this.plateform$ = this.configService.getPlateform();
   }
   ngOnInit(): void {
     this.mode$.subscribe({
       next: datas => {
         this.mode = datas;
+      },
+    });
+    this.plateform$.subscribe({
+      next: plateform => {
+        this.plateform = plateform;
       },
     });
     this.userInfo$.subscribe({
