@@ -15,7 +15,6 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
 import {
   AccountModel,
   BillsModel,
-  DataModel,
   ErrorModel,
   OptionModel,
   paymentBillsModel,
@@ -35,7 +34,7 @@ import {
 // } from 'src/app/shared';
 
 @Component({
-  selector: 'app-bills-details',
+  selector: 'app-bill-details',
   standalone: true,
   imports: [
     CommonModule,
@@ -171,7 +170,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
       type: 'info',
       message: '',
     });
-    const data: DataModel = {
+    const data = {
       payment_id: this.billId,
       pin_code: this.variableService.pin,
       merchant_id: this.billDetails.merchant_teller.merchant.id,
