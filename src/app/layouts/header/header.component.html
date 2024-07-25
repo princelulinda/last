@@ -150,10 +150,10 @@
 
         <!--*user profile card-->
         @if (clientInfo) {
-          <div class="dropdown-menu bg-transparent pt-4 border-0">
+          <div class="dropdown-menu bg-transparent h-100 mt-3 border-0">
             <div
-              class="float-end m-0 profile-card text-dark pe-3 ps-1 dropdown-item bg-white"
-              style="width: 302px; height: 89vh">
+              class="float-end m-0 lg-radius profile-card text-dark ps-1 dropdown-item bg-white"
+              style="width: 302px">
               <!-- first section for user info -->
               <section>
                 <div
@@ -216,9 +216,9 @@
               </section>
 
               <section
-                class="px-3 overflow-y-auto d-flex flex-column h-100"
+                class="px-3 overflow-y-auto d-flex flex-column h-75"
                 style="margin-top: -20%">
-                <section class="flex-grow-1 d-flex flex-column">
+                <section class="flex-grow-1">
                   <div
                     class="w-100 my-3 d-flex justify-content-between align-items-center">
                     <a>
@@ -266,19 +266,29 @@
                   <div
                     class="w-100 d-flex my-3 justify-content-between align-items-center">
                     <div class="d-flex align-items-center fs-medium">
-                      <span class="me-2"
-                        ><img src="{{ lightModeImage }}" alt="light logo"
-                      /></span>
-                      <b class="text-dark" i18n>Light Mode</b>
+                      <span class="me-2">
+                        @if (theme === 'light') {
+                          <img src="/images/light-icon.svg" alt="" />
+                          <b class="text-dark" i18n> Light Mode</b>
+                        }
+                        @if (theme === 'dark') {
+                          <i class="fa-solid fs-4 fa-moon text-secondary"></i>
+                          <b> Dark mode </b>
+                        }
+
+                        <!-- <img src="{{ lightModeImage }}" alt="light logo"
+                      /> -->
+                      </span>
                     </div>
-                    <div>
-                      <a
+                    <div class="me-2">
+                      <app-switch-mode />
+                      <!-- <a
                         class="clickable"
                         title="Switch Theme"
                         (click)="switchMode()"
                         tabindex="0">
                         <img [src]="themeLogo" alt="themeLogo" />
-                      </a>
+                      </a> -->
                     </div>
                   </div>
                   <div
@@ -309,22 +319,21 @@
                       <b i18n>Logout</b>
                     </span>
                   </div>
-                  <div
-                    class="col text-center d-flex justify-content-center mt-2">
-                    <app-footer></app-footer>
-                  </div>
                 </section>
-
-                <div class="mt-3">
-                  <!--user profile footer-->
+                <div
+                  class="col mb-2 d-flex justify-content-between align-items-end">
+                  <app-footer></app-footer>
+                </div>
+                <!-- <div class="mt-3">
+                
                   <div class="mt-2 px-2 bg-white text-secondary text-sm-md">
                     <div class="d-flex justify-content-center flex-wrap">
-                      <!-- <app-footer
+                      <app-footer
                                             [showCopyRight]="false"
-                                        ></app-footer> -->
+                                        ></app-footer>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </section>
 
               <!--*shwitchPlateform card-->
@@ -334,7 +343,11 @@
       </span>
 
       <!-- platform icon -->
-      <span role="button" class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1">
+      <span
+        tabindex="0"
+        (click)="showPlateform()"
+        role="button"
+        class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1">
         <img
           src="/icons/grid-fill.svg"
           class="mb-1 show-plateform image"
@@ -377,7 +390,7 @@
 <!-- Plateforms switch Icons DropDown  -->
 <section>
   <div
-    class="float-end plateforn-card lg-radius border border-primary-2 border-10 bg-white"
+    class="float-end plateforn-card lg-radius border border-primary-2 mt-2 border-10 bg-white"
     *ngIf="showPlateformPopup">
     <div class="h-100 p-3 py-4 overflow-y-auto">
       <div class="d-flex flex-column h-100">
@@ -423,14 +436,11 @@
               tabindex="0">
               <div class="d-flex justify-content-center">
                 <div>
-                  <img
-                    *ngIf="mainConfig.activePlateform === 'onlineBanking'"
-                    src="assets/images/ihela-b.svg"
-                    alt="onlineBanking" />
-                  <img
-                    *ngIf="mainConfig.activePlateform !== 'onlineBanking'"
-                    src="assets/images/ihelap.svg"
-                    alt="" />
+                  <img src="/images/ihela-b.svg" alt="onlineBanking" />
+                  <!-- <img
+                    
+                    src="/images/ihelab.svg"
+                    alt="" /> -->
                 </div>
               </div>
               <div
@@ -541,15 +551,31 @@
             <div class="text-md text-dark text-center">
               <b i18n>Download Mobiles Apps</b>
             </div>
-            <div class="d-flex justify-content-between col-lg-10 mx-auto mt-4">
+            <div class="col mt-3 d-flex justify-content-center">
+              <span class="me-4"
+                ><a
+                  target="_blank"
+                  href="https://apps.apple.com/fr/app/ihel%C3%A1-ryanje-app/id6470385289"
+                  ><img
+                    src="/images/auth/Download-On-The-App-Store-PNG-Transparent-Image.png"
+                    width="100"
+                    alt="" /></a
+              ></span>
+              <span
+                ><a
+                  href="https://play.google.com/store/apps/details?id=com.ubuviz.ihera_mobile"
+                  ><img
+                    src="/images/auth/playstore.svg"
+                    width="100"
+                    alt="" /></a
+              ></span>
+            </div>
+            <!-- <div class="d-flex justify-content-between col-lg-10 mx-auto mt-4">
               <div>
                 <a
                   href="https://apps.apple.com/fr/app/ihel%C3%A1-ryanje-app/id6470385289"
                   target="_blank">
-                  <img
-                    class="image"
-                    src="assets/images/app-store.svg"
-                    alt="Go to ihela app-store" />
+                  <span></span>
                 </a>
               </div>
               <div>
@@ -557,12 +583,12 @@
                   href="https://play.google.com/store/apps/details?id=com.ubuviz.ihera_mobile"
                   target="_blank">
                   <img
-                    class="image"
-                    src="assets/images/playstore.svg"
+                    class="image" width="100"
+                    src="/images/auth/playstore.svg"
                     alt="Go to ihela playstore" />
                 </a>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
