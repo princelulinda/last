@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  OnInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
@@ -37,7 +43,8 @@ export class SwitchBankComponent implements OnInit {
   constructor(
     private bankService: BankService,
     private configService: ConfigService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cd: ChangeDetectorRef
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
@@ -56,11 +63,11 @@ export class SwitchBankComponent implements OnInit {
         this.clientInfo = userinfo;
         this.clientId = this.clientInfo.client.client_id;
 
-        this.selectedBank$.subscribe({
-          next: datas => {
-            this.selectedBank = datas;
-          },
-        });
+        // this.selectedBank$.subscribe({
+        //   next: datas => {
+        //     this.selectedBank = datas;
+        //   },
+        // });
 
         this.bankService
           .getBanksList()
@@ -83,43 +90,19 @@ export class SwitchBankComponent implements OnInit {
           });
       },
     });
+
+    this.selectedBank$.subscribe({
+      next: bank => {
+        this.selectedBank = bank;
+      },
+    });
   }
 
   switchBank(index: number) {
-    // this.loanService
-    //     .getLoansList()
-    //     .pipe(takeUntil(this.onDestroy$))
-    //     .subscribe((loans: any) => {
-    //         this.loans = loans.object.response_data;
-    //         // console.log('loans', this.loans.length);
-    //         this.loanService.getLoansLength(this.loans.length);
-    //     });
-    const options: BankOptions = {
-      selectedDebitAccountType: null,
-      debitAccount: null,
-      debitWallet: null,
-      banks: this.banks,
-      creditAccountType: null,
-      accounts: null,
-      wallets: null,
-    };
-    this.bankOptions.emit(options);
     this.selectedBank = this.banks[index];
-
-    // this.store.dispatch(
-    //     new SelectClientBank({
-    //         id: this.selectedBank.id,
-    //         name: this.selectedBank.name,
-    //         slug: this.selectedBank.slug,
-    //         bank_type: this.selectedBank.bank_type,
-    //         bank_code: this.selectedBank.bank_code,
-    //         is_active: this.selectedBank.is_active,
-    //         is_default: this.selectedBank.is_default,
-    //         company: this.selectedBank.company,
-    //     })
-    // );
+    this.configService.setSelectedBank(this.selectedBank);
     this.isModalShown = false;
-    console.log(index);
+    this.cd.detectChanges();
   }
 
   closeModal(event: MouseEvent): void {
