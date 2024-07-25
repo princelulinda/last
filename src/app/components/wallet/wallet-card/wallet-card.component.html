@@ -1,6 +1,12 @@
 <div class="border-end border-1 border-dark pe-5">
   <div class="text-dark d-flex align-items-center">
-    <b class="me-2 fs-4">Wallet</b>
+    <b class="me-2 fs-4">
+      @if (activePlatform === 'workstation') {
+        Petty Cash
+      } @else {
+        Wallet
+      }
+    </b>
     <b
       role="button"
       tabindex="0"
@@ -19,7 +25,7 @@
       }
     </b>
   </div>
-  <div
+  <!-- <div
     class="mt-2 lg-radius position-relative shadow p-2 pb-4 wallet-card bg-primary">
     <span class="africa position-absolute">
       <img src="/images/africa.svg" alt="" />
@@ -138,6 +144,113 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div
+    class="wallCard lg-radius bg-primary mt-2 overflow-hidden position-relative">
+    <div class="secondCard h-100">
+      <img
+        src="./images/wallet/walletMask.svg"
+        class="h-100 w-100 position-absolute mask top-0 z-1"
+        alt="" />
+      <img
+        src="./images/wallet/rectangle.svg"
+        class="position-absolute top-0 h-100 reference"
+        alt="" />
+
+      <div class="circ1 rounded-circle z-2 position-absolute"></div>
+      <div class="circ2 rounded-circle z-2 position-absolute"></div>
+      <div
+        class="text z-3 position-absolute h-100 w-100 p-2 ps-3 top-0 text-all-white">
+        <div class="d-flex flex-column g-0">
+          <span class="p-0 m-0 fs-small">Name</span>
+          <!-- <span class="p-0 m-0 fw-bold mt-0">Bibentyo Bundi</span> -->
+          @if (clientInfo) {
+            <span class="fw-bold">{{
+              clientInfo.client.client_full_name
+            }}</span>
+          } @else if (!clientInfo) {
+            <span><i class="fa-solid fa-pulse fa-spinner"></i></span>
+          }
+        </div>
+
+        <div class="d-flex flex-column g-0 pt-2">
+          <!-- <span class="p-0 m-0 fs-small">Balance</span>
+        <span class="p-0 m-0 fw-bold mt-0">BIF *****</span> -->
+
+          @if (!noWalletData) {
+            <span class="fs-small">Balance</span>
+            @if (defaultWallet) {
+              @if (showAmountWallet) {
+                <span class="fw-bold"
+                  >{{ defaultWallet.response_data.currency
+                  }}{{
+                    defaultWallet.response_data.available_balance | number
+                  }}</span
+                >
+              } @else {
+                <span class="fw-bold"
+                  >{{ defaultWallet.response_data.currency }}*** ***</span
+                >
+              }
+            }
+
+            @if (!defaultWallet) {
+              <span> <i class="fa-solid fa-pulse fa-spinner"></i></span>
+            }
+          }
+
+          @if (noWalletData) {
+            <span> No default wallet found</span>
+          }
+        </div>
+
+        <div class="d-flex flex-column g-0 pt-2">
+          <span class="p-0 m-0 fs-small">Wallet</span>
+          @if (defaultWallet) {
+            <span class="fw-bold">{{ defaultWallet.response_data.code }}</span>
+          }
+          @if (!defaultWallet && !noWalletData) {
+            <!-- <span class="p-0 m-0 fw-bold mt-0">IWA •••• •••• •••• 1456</span> -->
+            <span> <i class="fa-solid fa-pulse fa-spinner"></i></span>
+          }
+        </div>
+
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn px-1 p-0 btnBack">
+            <i class="fa-solid fa-list text-all-white"></i>
+          </button>
+
+          <button class="btn px-1 p-0 btnBack">
+            <img class="topup" src="/images/wallet-topup-light.svg" alt="" />
+          </button>
+
+          <button class="btn px-1 p-0 btnBack">
+            <i class="fa-solid fa-history text-all-white"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="button position-absolute shadow-lg position-relative d-flex align-items-center">
+      <div class="circle rounded-circle bg-white ms-1"></div>
+      <img
+        src="./images/wallet/buttonStitch.svg"
+        class="position-absolute end-0"
+        alt="" />
+    </div>
+
+    <div class="h-100 w-100 p-2 overflow-hidden">
+      <div
+        class="m-2 bg-white position-absolute card rounded-4 shadow-lg end-0 top-0 pe-0 pt-3 position-relative">
+        <div
+          class="logo position-absolute d-flex align-items-center justify-content-center">
+          <img src="./images/wallet/ihela.svg" alt="" />
+        </div>
+        <div></div>
       </div>
     </div>
   </div>
