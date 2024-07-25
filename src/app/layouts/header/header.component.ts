@@ -25,6 +25,7 @@ import {
   PlateformModel,
 } from '../../core/services/config/main-config.models';
 import { FooterComponent } from '../footer/footer.component';
+import { SwitchModeComponent } from '../../components/dev/switch-mode/switch-mode.component';
 export interface organizationModel {
   company_type_code: string;
   institution_client: {
@@ -41,6 +42,7 @@ export interface organizationModel {
     ReactiveFormsModule,
     SwitchPlateformIconsComponent,
     FooterComponent,
+    SwitchModeComponent,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
