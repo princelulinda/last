@@ -80,22 +80,27 @@
         <div
           class="row mx-0 mt-3 justify-content-center justify-content-sm-start"
           style="gap: 2rem 0">
-          @for (_ of [0, 2, 2]; track $index) {
+          @for (item of operatorOrganizations; track $index) {
             <div class="d-flex flex-column align-items-center col-5 col-sm-4">
               <div
+                role="button"
+                tabindex="0"
+                (click)="selectOrganization(item)"
                 class="sm-radius organization-logo d-flex justify-content-center align-items-center p-3 bg-white">
                 <img
-                  src="/images/logo/ihela-ryanje.png"
+                  [src]="item.institution_client.picture"
                   class="image"
                   alt="organization logo" />
               </div>
               <div class="mt-1 text-center">
-                <small><b>iHela Microfinance</b></small>
+                <small
+                  ><b>{{ item.institution_client.client_full_name }}</b></small
+                >
               </div>
             </div>
           }
           <!-- add organization -->
-          <div class="d-flex flex-column align-items-center col-5 col-sm-4">
+          <a class="d-flex flex-column align-items-center col-5 col-sm-4">
             <div
               class="sm-radius organization-logo d-flex justify-content-center align-items-center bg-white">
               <span class="text-primary fs-x-large"
@@ -105,7 +110,7 @@
             <div class="mt-1 text-center">
               <small> <b i18n>Add Organization</b></small>
             </div>
-          </div>
+          </a>
         </div>
       </section>
 

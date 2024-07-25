@@ -26,6 +26,7 @@ export class DialogService {
     title: '',
     action: '',
     type: '',
+    image: '',
   });
 
   loading: WritableSignal<{
@@ -81,6 +82,7 @@ export class DialogService {
       message: payload.message,
       action: payload.action,
       active: true,
+      image: payload.image ?? '',
     });
   }
   closeDialog() {
@@ -90,6 +92,7 @@ export class DialogService {
       title: '',
       type: '',
       action: '',
+      image: '',
     });
   }
 
@@ -128,7 +131,9 @@ export class DialogService {
     this.splashScreen.set(true);
   }
   closeSplashScreen() {
-    this.splashScreen.set(false);
+    setTimeout(() => {
+      this.splashScreen.set(false);
+    }, 2000);
   }
 
   // Amount Methods

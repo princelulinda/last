@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductModel } from '../../products/products.model';
+import { ProductModel } from '../../dashboards/dashboard.model';
+// import { ProductModel } from '../../products/products.model';
 
 @Component({
   selector: 'app-product-card',
@@ -11,8 +12,6 @@ import { ProductModel } from '../../products/products.model';
 })
 export class ProductCardComponent {
   @Input() product!: ProductModel;
-  @Input() merchant = '';
-  @Input() get_merchant!: boolean;
   @Input() get_product!: boolean;
   // @Output() payMerchant = new EventEmitter<any>();
 

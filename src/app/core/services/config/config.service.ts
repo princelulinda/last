@@ -38,7 +38,7 @@ export class ConfigService {
   private selectedBank$: unknown | Observable<bankModel>;
 
   private connectedOperator$: unknown | Observable<ConnectedOperatorModel>;
-  private operatorOrganization = new Subject<OrganizationModel>();
+  private operatorOrganization = new Subject<OrganizationModel | null>();
   private isAuthenticatedOperator = new Subject<boolean>();
   private isTreasurerOperator = new Subject<boolean>();
 
@@ -221,7 +221,7 @@ export class ConfigService {
   // NOTE :: operator methods
 
   setOperator(operator: ConnectedOperatorModel) {
-    this.dbService.addOnce(Operator.tableName, operator);
+    this.dbService.addOnceUpdate(Operator.tableName, operator);
   }
   resetOperator(): void {
     this.dbService.clearTable(Operator.tableName);
@@ -230,10 +230,10 @@ export class ConfigService {
   getConnectedOperator(): Observable<ConnectedOperatorModel> {
     return this.connectedOperator$ as Observable<ConnectedOperatorModel>;
   }
-  getSelectedOrganization(): Observable<OrganizationModel> {
+  getSelectedOrganization(): Observable<OrganizationModel | null> {
     this.getConnectedOperator().subscribe({
       next: operator => {
-        this.operatorOrganization.next(operator.organization);
+        this.operatorOrganization.next(operator.organization ?? null);
       },
     });
     return this.operatorOrganization;
