@@ -1,8 +1,8 @@
 <!-- <p>all-products works!</p> -->
 <div class="row mt-4">
   <span>
-    <span style="color: #2070b8; font-size: 10px">
-      <i class="fa-solid fa-circle"></i>
+    <span>
+      <i class="fa-solid fa-circle text-info fs-x-small"></i>
     </span>
     <span i18n class="text-dark">
       @if (url === '') {
@@ -53,12 +53,12 @@
           placeholder="Search product"
           [formControl]="searchInput"
           (input)="searchFor()" />
-        <style>
+        <!-- <style>
           /* Règle de style pour le texte du placeholder */
-          /* .form-control::placeholder {
+          .form-control::placeholder {
             color: rgb(204, 197, 197);
-          } */
-        </style>
+          }
+        </style> -->
       </div>
     </div>
   }
