@@ -90,7 +90,6 @@ export class AmountFieldComponent implements OnInit {
   // getFees() {
   //     this.isLoading = true;
   //     if (this.typeCode && this.amountInput.value && this.bankId) {
-  //         alert('asdlad get fees executed');
   //         this.tarifService
   //             .getSimulate(this.typeCode, this.amount, this.bankId)
   //             .subscribe({

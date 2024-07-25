@@ -10,6 +10,9 @@
 .layout-height {
   height: 100dvh;
 }
+.h-without-header {
+  height: calc(100dvh - 60px);
+}
 
 // global inchanges color
 $globalColors: (
@@ -31,6 +34,7 @@ $fontSizes: (
   'l-medium': 20px,
   'medium': 18px,
   'normal': 16px,
+  'l-small': 15px,
   'small': 14px,
   'x-small': 12px,
 );
@@ -65,6 +69,12 @@ a {
   color: #c4c4c4;
 }
 //global border radius
+.xx-lg-radius {
+  border-radius: 20px;
+}
+.x-lg-radius {
+  border-radius: 15px;
+}
 .lg-radius {
   border-radius: 10px;
 }

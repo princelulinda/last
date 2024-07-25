@@ -62,20 +62,24 @@ export class AuthService {
   }
 
   getOperatorOrganizations(): Observable<{
-    objects: {
-      id: number;
-      operator: object;
-      organisation: OrganizationModel;
-    }[];
+    objects:
+      | {
+          id: number;
+          operator: object;
+          organization: OrganizationModel;
+        }[]
+      | [];
     count: number;
   }> {
     return this.apiService
       .get<{
-        objects: {
-          id: number;
-          operator: object;
-          organisation: OrganizationModel;
-        }[];
+        objects:
+          | {
+              id: number;
+              operator: object;
+              organization: OrganizationModel;
+            }[]
+          | [];
         count: number;
       }>('/hr/access/operator/organizations/?populate=true')
       .pipe(map(data => data));
@@ -139,9 +143,7 @@ export class AuthService {
             this.formatPopulateClientData(populateData);
           this.dbService.setUser(userInfo);
           this.configService.switchPlateform(switchOn);
-          setTimeout(() => {
-            this.dialogService.closeSplashScreen();
-          }, 1000);
+          this.dialogService.closeSplashScreen();
         },
         error: err => {
           console.log('err', err);

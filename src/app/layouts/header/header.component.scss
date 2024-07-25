@@ -149,16 +149,18 @@
     .profile-card {
         right: 2px;
         z-index: 20;
-        position: relative;
+        position: absolute;
+        height: calc(100vh - 65px);
         border: 0.5px solid rgb(172, 170, 170);
         // display: flex;
         // flex-direction: column;
         //transition: all 1s;
-        overflow-y: scroll;
-        overflow-x: hidden;
+        // overflow-y: scroll;
+        // overflow-x: hidden;
         animation: slidein 100ms 1 linear;
         -webkit-animation: slidein 100ms 1 linear;
         min-width: 328px;
+        border-radius: 10px 0px 0px 10px;
     }
 }
 
@@ -189,6 +191,7 @@ a {
 .plateforn-card {
     width: auto;
     height: calc(100vh - 70px);
+   
     position: absolute;
     right: 2px;
     top: 55px;
@@ -200,9 +203,10 @@ a {
     animation: slidein 100ms 1 linear;
     //-webkit-animation:slidein 100ms 1 linear;
     // overflow-y: scroll;
-    overflow-x: hidden;
+    // overflow-x: hidden;
     -webkit-animation: slidein 100ms 1 linear;
     min-width: 328px;
+    
 }
 .icons-color {
     color: #d9d9d9;
@@ -213,3 +217,4 @@ a {
 .bg-onamob-2 {
     background-color: #e4c5c3 !important;
 }
+

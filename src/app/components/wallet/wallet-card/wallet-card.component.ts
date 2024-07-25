@@ -10,6 +10,12 @@ import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
+
+interface mainConfigModel {
+  activeMode: string;
+  activePlateform: string;
+  activeTheme: string;
+}
 @Component({
   selector: 'app-wallet-card',
   standalone: true,
@@ -29,6 +35,8 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   selectedBank!: bankModel;
   selectedBank$!: Observable<bankModel>;
   private userInfo$: Observable<UserInfoModel>;
+  mainConfig$!: Observable<mainConfigModel>;
+  activePlatform: string | null = null;
 
   defaultWallet!: WalletCard;
   noWalletData = false;
@@ -43,6 +51,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
     this.selectedBank$ = this.configService.getSelectedBank();
+    this.mainConfig$ = this.configService.getMainConfig();
   }
   ngOnInit(): void {
     this.mode$.subscribe({
@@ -50,6 +59,13 @@ export class WalletCardComponent implements OnInit, OnDestroy {
         this.mode = datas;
       },
     });
+
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.activePlatform = configs.activePlateform;
+      },
+    });
+
     this.userInfo$.subscribe({
       next: userinfo => {
         this.clientInfo = userinfo;
