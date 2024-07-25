@@ -1,17 +1,16 @@
 <div class="container h-100">
-  <h3>Transfer</h3>
-
   <div class="rounded p-2 w-100 d-grid text-dark">
     <!-- If there is no bank selected -->
 
     @if (
       mainConfig &&
       mainConfig.activePlateform !== 'workstation' &&
-      selectedBank && !selectedBank.id
+      selectedBank &&
+      !selectedBank.id
     ) {
       <div class="expand-collapse-section">
         <div>
-          <i class="fa fa-circle text-primary fa-xs me-2"></i>
+          <i class="fa fa-circle text-primary fs-x-small me-2"></i>
           <b class="text-dark" i18n>Select a bank :</b>
         </div>
 
@@ -68,15 +67,15 @@
       <div class="d-flex align-items-center justify-content-between">
         @if (title !== '') {
           <div>
-            <i class="fa fa-circle fa-xs me-2 text-primary"></i>
-            <b class="text-dark">{{ title }}</b>
+            <i class="fa fa-circle fs-x-small me-2 text-primary"></i>
+            <b class="text-all-dark">{{ title }}</b>
           </div>
         }
       </div>
     }
 
     <!-- this section is showed if we have selectedBank or wallet is showed -->
-    @if (isWalletShown) {
+    @if (isWalletShown || selectedBank) {
       <div
         class="d-flex align-items-start"
         [ngClass]="{
@@ -194,131 +193,8 @@
             <app-wallet-list [Type]="'transfer'"></app-wallet-list>
           }
 
-          <!--* END OF WALLETS LIST CONTAINER-->
-
-          <!--* selected account container-->
-          @if (
-            debitAccount &&
-            mainConfig &&
-            mainConfig.activePlateform !== 'workstation' &&
-            selectedDebitAccountType === 'account' &&
-            !isAmountChanging
-          ) {
-            <div class="mt-3 w-100 lg-radius">
-              <div class="p-2 ms-2 lg-radius">
-                <div
-                  class="d-flex align-items-start justify-content-between ps-2 py-0 border-left border-4 border-primary">
-                  <div class="d-grid">
-                    <b>{{ debitAccount.acc_get_title }}</b>
-                    <span>{{ debitAccount.acc_holder }}</span>
-                    <span>{{ debitAccount.acc_short_number }}</span>
-                    <span class="text-success">
-                      @if (isBalanceShown) {
-                        <span>{{
-                          debitAccount.acc_available_balance | currency: ' '
-                        }}</span>
-                      } @else {
-                        <span>*** ***</span>
-                      }
-
-                      {{ debitAccount.acc_currency }}</span
-                    >
-                  </div>
-
-                  <div>
-                    <span
-                      role="button"
-                      tabindex="0"
-                      (click)="deselectDebitAccount()"
-                      class="bg-danger text-white ms-5 pt-1 px-1"
-                      style="border-radius: 50%">
-                      <i class="fa fa-xmark"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          }
-
-          @if (
-            debitAccount &&
-            mainConfig &&
-            mainConfig.activePlateform !== 'workstation' &&
-            selectedDebitAccountType === 'account' &&
-            isAmountChanging
-          ) {
-            <span class="mt-3">
-              <app-skeleton [height]="'100px'" [width]="'364px'">
-              </app-skeleton>
-            </span>
-          }
-
-          <!-- * __END OF SELECTED ACCOUNT__ -->
-
-          <!--*selected wallet container-->
-          @if (
-            debitWallet &&
-            mainConfig &&
-            mainConfig.activePlateform !== 'workstation' &&
-            selectedDebitAccountType === 'wallet' &&
-            !isAmountChanging
-          ) {
-            <div class="mt-3 w-100">
-              <div class="p-2 ms-2 lg-radius">
-                <div
-                  class="d-flex align-items-start justify-content-between ps-2 py-0"
-                  style="border-left: 4px solid #810019">
-                  <div class="d-grid">
-                    <b>{{ debitWallet.title }}</b>
-                    <b style="font-weight: 400">{{
-                      debitWallet.account?.account_holder
-                    }}</b>
-                    <b style="font-weight: 400" class="text-success">
-                      @if (isBalanceShown) {
-                        <span>{{
-                          debitWallet.available_balance | currency: ' '
-                        }}</span>
-                      } @else {
-                        <span>*** ***</span>
-                      }
-
-                      {{ debitWallet.currency }}</b
-                    >
-                  </div>
-
-                  <div>
-                    <span
-                      role="button"
-                      tabindex="0"
-                      (click)="deselectDebitAccount()"
-                      class="bg-danger text-white rounded-circle ms-5 pt-1 px-1">
-                      <i class="fa fa-xmark"></i>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          }
-
-          @if (
-            debitWallet &&
-            mainConfig &&
-            mainConfig.activePlateform !== 'workstation' &&
-            selectedDebitAccountType === 'wallet' &&
-            isAmountChanging
-          ) {
-            <span class="mt-3">
-              <app-skeleton [height]="'100px'" [width]="'364px'">
-              </app-skeleton>
-            </span>
-          }
-
           <!-- *END OF SELECTED WALLET CONTAINER-->
         </div>
-
-        <!--* switch bank component-->
-
-        <!--* END OF switch bank component-->
       </div>
     }
   </div>

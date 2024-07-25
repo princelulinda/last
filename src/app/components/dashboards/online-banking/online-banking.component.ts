@@ -172,7 +172,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     this.getPublicServicesMerchants();
     this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (dialogResponse: DialogResponseModel) => {
-        console.log('PIN reçu:', this.pin);
         if (dialogResponse.response.pin) {
           this.pin = dialogResponse.response.pin;
           this.addBank();
@@ -188,9 +187,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         next: data => {
           this.banksFiltered = data.objects;
         },
-        error: () => {
-          // code
-        },
       });
   }
 
@@ -201,9 +197,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
       .subscribe({
         next: data => {
           this.banks = data;
-        },
-        error: () => {
-          // code
         },
       });
   }

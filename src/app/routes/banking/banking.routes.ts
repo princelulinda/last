@@ -7,7 +7,7 @@ import { NyamuranziDetailsComponent } from '../../components/nyamuranzi/nyamuran
 import { TransferComponent } from '../../components/transfer/transfer/transfer.component';
 
 import { AccountComponent } from '../../components/account/account/account.component';
-import { DebitAccountComponent } from '../../components/transfer/debit-account/debit-account.component';
+import { CreditAccountComponent } from '../../components/transfer/credit-account/credit-account.component';
 
 import { WalletComponent } from '../../components/wallet/wallet/wallet.component';
 import { WalletDetailsComponent } from '../../components/wallet/wallet-details/wallet-details.component';
@@ -50,8 +50,8 @@ export const bankingRoutes: Routes = [
   },
 
   {
-    path: 'debitAccount',
-    component: DebitAccountComponent,
+    path: 'creditAccount',
+    component: CreditAccountComponent,
   },
   {
     path: 'accounts',

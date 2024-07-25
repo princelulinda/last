@@ -361,21 +361,13 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       .getMerchantInfos(this.merchantId as string)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: MerchantObjectModel) => {
+        next: data => {
           this.merchantInfo = data.object.response_data;
           this.merchantId = (this.merchantInfo as MerchantModel).id;
 
           this.getMerchantStats();
         },
-        error: msg => {
-          console.log('error', msg);
-
-          // const notification = {
-          //     title: '',
-          //     type: 'failed',
-          //     message: 'something went wrong, please try again',
-          // };
-          // this.store.dispatch(new OpenDialog(notification));
+        error: () => {
           this.dialogService.openToast({
             title: '',
             type: 'failed',
@@ -392,16 +384,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
         next: (data: MerchantObjectsModel) => {
           this.merchantMult = data.object.response_data;
         },
-        error: msg => {
-          console.log('error', msg);
-
-          // const notification = {
-          //     title: '',
-          //     type: 'failed',
-          //     message: 'something went wrong, please try again',
-          // };
-          // this.store.dispatch(new OpenDialog(notification));
-
+        error: () => {
           this.dialogService.openToast({
             title: '',
             type: 'failed',
@@ -455,15 +438,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
         next: (data: StatsModel) => {
           this.stat = data.object.response_data;
         },
-        error: msg => {
-          console.log(msg);
-          // const notification = {
-          //     title: '',
-          //     type: 'failed',
-          //     message: 'something went wrong, please try again',
-          // };
-          //   this.store.dispatch(new OpenDialog(notification));
-
+        error: () => {
           this.dialogService.openToast({
             title: '',
             type: 'failed',

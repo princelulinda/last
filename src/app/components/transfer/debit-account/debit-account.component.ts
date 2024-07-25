@@ -60,7 +60,7 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
   lookupDebitAccountUrl = '/clients/list/all/object_lookup?lookup_data=';
   clientId: number | null = null;
 
-  isLoading = false;
+  debitAccounts: DebitOptions[] = [];
   debitWallet: DebitOptions | null = null;
   defaultBank: string | undefined;
   selectedBank!: bankModel;
@@ -70,20 +70,18 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
   clientBanks: bankModel[] = [];
 
   index = 0;
-  isBanksListShown = false;
   isBalanceShown = false;
   isBalanceShown$: Observable<boolean>;
 
   lookupType = '';
   @Output() debitOptions = new EventEmitter<DebitOptions>();
-  @Output() amount = new EventEmitter<number>();
+
   @Output() lookupOptions = new EventEmitter<{
     id?: string;
     acc_holder?: string;
     acc_number?: string;
   }>();
   @Input() isTransactionDone = false;
-  @Input() isGrey = false;
   @Input() title = 'Debit Account';
   @Input() creditAccountType = '';
   @Input() selectedInstitutionType = '';
@@ -94,7 +92,6 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
   @Input() isAccountShown = true;
   @Input() isTermDeposit = false;
   @Input() isOperation = false;
-  @Input() isAmountChanging = false;
   lookup = new FormControl('');
   constructor(
     private bankService: BankService,
@@ -134,9 +131,6 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
       },
     });
 
-    if (this.closedModal === true) {
-      this.deselectDebitAccount();
-    }
     this.getBanks();
   }
   ngDoCheck() {
@@ -162,13 +156,7 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
       client_id: this.clientId,
       access_bank_id: this.selectedBank.id,
     };
-    // this.transferService
-    //     .getAccountsList()
-    //     .pipe(takeUntil(this.onDestroy$))
-    //     .subscribe((accounts: any) => {
-    //         this.accounts = accounts.objects;
-    //         //
-    //     });
+
     console.log(data);
   }
   getBanks() {
@@ -194,28 +182,6 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
       access_bank_id: this.selectedBank.id,
     };
     console.log(data);
-    // this.transferService
-    //     .getAccountsList()
-    //     .pipe(takeUntil(this.onDestroy$))
-    //     .subscribe((accounts: any) => {
-    //         this.accounts = accounts.objects;
-    //         this.selectDebitAccount(this.index);
-    //         this.isTransactionDone = false;
-    //         this.isAmountChanging = false;
-    //         this.bankService.updateTransaction(true);
-    //         const options = {
-    //             account: this.debitAccount,
-    //             wallet: null,
-    //             selectedDebitOption: this.selectedDebitAccountType,
-    //             creditAccountType: this.creditAccountType,
-    //             isTransferDone: this.isTransactionDone,
-    //             isAmountChanging: false,
-    //             selectedInstitutionType: this.selectedInstitutionType,
-    //             selectedInstitution: this.selectedInstitution,
-    //         };
-    //         this.debitOptions.emit(options);
-    //         //
-    //     });
   }
   getWalletsListByClick() {
     // this.transferService
@@ -239,27 +205,6 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
       selectedInstitution: this.selectedInstitution,
     };
     this.debitOptions.emit(options);
-    // this.transferService
-    //     .getWalletsList(this.clientId)
-    //     .pipe(takeUntil(this.onDestroy$))
-    //     .subscribe((wallets: any) => {
-    //         this.wallets = wallets.objects;
-    //         this.isAmountChanging = false;
-    //         //
-    //         this.selectDebitWallet(this.index);
-    //         this.isTransactionDone = false;
-    //         const options = {
-    //             account: null,
-    //             wallet: this.debitWallet,
-    //             selectedDebitOption: this.selectedDebitAccountType,
-    //             creditAccountType: this.creditAccountType,
-    //             isTransferDone: this.isTransactionDone,
-    //             isAmountChanging: false,
-    //             selectedInstitutionType: this.selectedInstitutionType,
-    //             selectedInstitution: this.selectedInstitution,
-    //         };
-    //         this.debitOptions.emit(options);
-    //     });
   }
   selectBank(bank: bankModel) {
     this.configService.setSelectedBank(bank);
@@ -324,35 +269,7 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
       this.debitAccount = null;
     }
   }
-  deselectDebitAccount() {
-    this.debitAccount = null;
-    this.debitWallet = null;
-    const options = {
-      account: null,
-      wallet: null,
-      selectedDebitOption: this.selectedDebitAccountType,
-      creditAccountType: null,
-      isTransferDone: this.isTransactionDone,
-      isAmountChanging: false,
-      selectedInstitutionType: this.selectedInstitutionType,
-      selectedInstitution: this.selectedInstitution,
-    };
-    this.debitOptions.emit(options);
-  }
-  selectDebitAccount(index: number) {
-    this.index = index;
-    const options: DebitOptions = {
-      account: this.debitAccount ? this.debitAccount.account : null,
-      wallet: null,
-      selectedDebitOption: this.selectedDebitAccountType,
-      creditAccountType: null,
-      isTransferDone: this.isTransactionDone,
-      isAmountChanging: false,
-      selectedInstitutionType: this.selectedInstitutionType,
-      selectedInstitution: this.selectedInstitution,
-    };
-    this.debitOptions.emit(options);
-  }
+
   updateAccount() {
     const options: DebitOptions = {
       account: this.debitAccount ? this.debitAccount.account : null,
@@ -371,23 +288,6 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
     if (this.selectedDebitAccountType === 'wallet') {
       this.getWalletsListAutomatically();
     }
-  }
-  selectDebitWallet(index: number) {
-    this.index = index;
-    const options: DebitOptions = {
-      account: null,
-      wallet: this.debitWallet ? this.debitWallet.wallet : null,
-      selectedDebitOption: this.selectedDebitAccountType,
-      creditAccountType: null,
-      isTransferDone: this.isTransactionDone,
-      isAmountChanging: false,
-      selectedInstitutionType: this.selectedInstitutionType,
-      selectedInstitution: this.selectedInstitution,
-    };
-    this.debitOptions.emit(options);
-  }
-  toggleBanksList() {
-    this.isBanksListShown = !this.isBanksListShown;
   }
 
   getSwitchBankOptions(event: SwitchBankEvent) {

@@ -5,7 +5,6 @@ import { Inject, Injectable } from '@angular/core';
 
 import { ApiService } from '../api/api.service';
 import { map, Observable, retry } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
 import { Favorite, Pagination } from './model';
 import {
@@ -18,15 +17,13 @@ import {
   searchTellerModel,
   updateMerchantDetailsModel,
 } from '../../../components/merchant/merchant.models';
+import { TransferResponseModel } from '../../../components/transfer/transfer.model';
 // import { Pagination } from './model';
 @Injectable({
   providedIn: 'root',
 })
 export class MerchantService {
-  constructor(
-    @Inject(ApiService) private apiService: ApiService,
-    @Inject(HttpClient) private http: HttpClient
-  ) {}
+  constructor(@Inject(ApiService) private apiService: ApiService) {}
   getMerchantList() {
     return this.apiService.get('/dbs/merchant/list/?').pipe(
       map(data => {
@@ -175,7 +172,7 @@ export class MerchantService {
       })
     );
   }
-  getConnectedMerchantInfo() {
+  getConnectedMerchantInfo(): Observable<MerchantObjectModel> {
     const url = '/dbs/merchant/info/';
     return this.apiService.get<MerchantObjectModel>(url).pipe(
       map(data => {
@@ -391,9 +388,11 @@ export class MerchantService {
       })
     );
   }
-  merchantCashin(data: []) {
+  merchantCashin(data: object): Observable<TransferResponseModel> {
     const url = '/dbs/merchant/cashin/';
-    return this.apiService.post(url, data).pipe(map(data => data));
+    return this.apiService
+      .post(url, data)
+      .pipe(map(data => data as TransferResponseModel));
   }
   getTellersByMerchant(merchantId: string) {
     const url = `/dbs/merchant-teller/?merchant=${merchantId}`;
