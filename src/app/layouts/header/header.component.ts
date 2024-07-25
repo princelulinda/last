@@ -124,9 +124,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.next = $localize`next`;
-    // this.theme = $localize`theme`;
-
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
@@ -510,6 +507,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.showUserInfo = false;
       this.chatNotFoundPopup = false;
       this.notificationNotFoundPopup = false;
+    }
+  }
+
+  displayUserInfo() {
+    if (this.showUserInfo) {
+      this.showUserInfo = false;
+    } else {
+      this.showUserInfo = true;
+      this.chatNotFoundPopup = false;
+      this.notificationNotFoundPopup = false;
+      this.showMenu = false;
+      this.showPlateformPopup = false;
     }
   }
 }
