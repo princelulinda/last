@@ -136,13 +136,16 @@ export interface ErrorModel {
   };
 }
 
-// export interface DataModel {
-//   payment_id: string;
-//   pin_code: string;
-//   merchant_id: number;
-//   amount: string;
-//   debit_account: string;
-//   debit_bank: number;
-//   debit_type: string;
-//   description: string | null;
-// }
+export interface ObjectBillModel {
+  object: generateBillModel;
+}
+
+export interface generateBillModel {
+  response_message: string;
+  response_code: string;
+  response_data: {
+    code: string;
+    refence: string;
+  };
+  success: boolean;
+}

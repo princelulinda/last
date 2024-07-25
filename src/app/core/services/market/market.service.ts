@@ -5,11 +5,9 @@ import { map } from 'rxjs/operators';
 import { ApiService } from '..';
 // import { GeneralService } from '..';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { ProductModel } from '../../../components/dashboards/dashboard.model';
 import {
-  objectModel,
-  ProductModel,
-} from '../../../components/dashboards/dashboard.model';
-import {
+  ObjectBillModel,
   paymentBillsModel,
   StatsModel,
 } from '../../../components/products/products.model';
@@ -89,7 +87,7 @@ export class MarketService {
   generateBill(body: object) {
     const url = '/dbs/merchant/bill-init/';
     return this.apiService
-      .post<objectModel>(url, body)
+      .post<ObjectBillModel>(url, body)
       .pipe(map(response => response));
   }
 

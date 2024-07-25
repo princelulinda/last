@@ -31,7 +31,7 @@
 @if (!isLoadingInfo && merchant) {
   <div class="ms-5 ps-3">
     <div
-      class="d-lg-flex d-none position-relative shadow me-5 ms-2 border-top border-primary border-4"
+      class="d-lg-flex d-none position-relative shadow me-5 ms-2 border-top-4 border-start-0 border-end-0 border-bottom-0 border-primary border-4"
       style="height: 120px">
       <img
         src="/images/products/Rectangle 1235.svg"
@@ -354,7 +354,7 @@
                 (selectedItemEvent)="selectClient($event)"></app-lookup>
             </div>
           </div>
-          <form>
+          <form [formGroup]="billForm">
             <div class="col mt-4 ms-4 me-4 text-dark">
               <app-amount-field
                 [isFormFloating]="true"

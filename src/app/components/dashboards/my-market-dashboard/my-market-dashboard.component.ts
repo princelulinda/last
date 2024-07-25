@@ -1,13 +1,19 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import { MarketService } from '../../../core/services/market/market.service';
-import { VariableService } from '../../../core/services/variable/variable.service';
+// import { VariableService } from '../../../core/services/variable/variable.service';
 import { AuthService, ConfigService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
 import {
@@ -16,18 +22,22 @@ import {
   MerchantModel,
   MerchantObjectModel,
   MerchantObjectsModel,
+  ObjectBillModel,
   StatsModel,
 } from '../../products/products.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import {
+  DialogResponseModel,
+  MerchantBillModel,
+} from '../../../core/services/dialog/dialogs-models';
 import { UserInfoModel } from '../../../core/db/models/auth';
-import { objectModel } from '../../dashboards/dashboard.model';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
 import { AllProductsComponent } from '../../products/all-products/all-products.component';
+import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
 
 // import {
 //     OpenMerchantBillPopup,
@@ -56,6 +66,9 @@ import { AllProductsComponent } from '../../products/all-products/all-products.c
     AmountFieldComponent,
     RouterLink,
     MerchantCardComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    MerchantBillComponent,
   ],
   templateUrl: './my-market-dashboard.component.html',
   styleUrl: './my-market-dashboard.component.scss',
@@ -117,7 +130,8 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     nativeElement: HTMLElement;
   };
 
-  successMessage!: string;
+  successMessage!: MerchantBillModel[] | null;
+  pin!: string;
   indexMerchant = 0;
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
@@ -126,7 +140,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private merchantService: MerchantService,
     private marketService: MarketService,
-    private variableService: VariableService,
+    // private variableService: VariableService,
     private authService: AuthService,
     private dialogService: DialogService,
     private configService: ConfigService
@@ -156,9 +170,10 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
           this.dialog = dialog;
           if (this.dialog && this.dialog.response) {
             if (
-              this.dialog.response.pin === 'pin submitted' &&
-              this.dialog.action === 'confirm pin'
+              this.dialog.action === 'confirm pin' &&
+              this.dialog.response.pin
             ) {
+              this.pin = dialog.response.pin;
               this.generateBill();
             }
           }
@@ -177,7 +192,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     //   this.store.dispatch(new OpenActionDialog(data));
     this.dialogService.openDialog({
       type: 'pin',
-      title: 'pin',
+      title: '',
       message: 'Please enter your pin to continue',
       action: 'confirm pin',
     });
@@ -196,7 +211,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       client: (this.selectedClient as ItemModel).id,
       description: this.billForm.value.description,
       merchant_id: this.merchantId,
-      pin_code: this.variableService.pin,
+      pin_code: this.pin,
     };
 
     //   const response = {
@@ -206,17 +221,13 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     //   };
 
     //   this.store.dispatch(new OpenDialog(response));
-    this.dialogService.openToast({
-      title: '',
-      type: 'info',
-      message: '',
-    });
+    this.dialogService.dispatchLoading();
 
     this.marketService
       .generateBill(body)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: objectModel) => {
+        next: (response: ObjectBillModel) => {
           // const data = response.object.response_data;
           if (
             response.object['success'] !== undefined &&
@@ -225,8 +236,8 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
             //   this.store.dispatch(
             //       new CloseDialog({ response: 'close' })
             //   );
-            this.dialogService.closeToast();
-            this.variableService.pin = '';
+            this.dialogService.closeLoading();
+            this.pin = '';
 
             //   const notification = {
             //       title: '',
@@ -238,7 +249,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
             this.dialogService.openToast({
               title: '',
               type: 'failed',
-              message: 'Something went wrong, please try again',
+              message: response.object.response_message,
             });
             return;
           }
@@ -269,9 +280,8 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
           this.amount = null;
           this.amount = 0;
           // this.store.dispatch(new CloseDialog({ response: 'close' }));
-          this.dialogService.closeDialog();
-          // this.dialogService.closeToast()
-          this.variableService.pin = '';
+          this.dialogService.closeLoading();
+          this.pin = '';
 
           // const notification = {
           //     title: '',
@@ -282,7 +292,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
           this.dialogService.openToast({
             title: '',
             type: 'success',
-            message: 'success',
+            message: response.object.response_message,
           });
           //   this.store.dispatch(new OpenDialog(notification));
           //   this.store.dispatch(
@@ -293,9 +303,10 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
         },
         error: msg => {
           //   this.store.dispatch(new CloseDialog({ response: 'close' }));
-          this.dialogService.closeDialog();
+          this.dialogService.closeLoading();
+          console.log('WESDF');
 
-          this.variableService.pin = '';
+          this.pin = '';
 
           // const notification = {
           //     title: '',
