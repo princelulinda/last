@@ -25,128 +25,6 @@
       }
     </b>
   </div>
-  <!-- <div
-    class="mt-2 lg-radius position-relative shadow p-2 pb-4 wallet-card bg-primary">
-    <span class="africa position-absolute">
-      <img src="/images/africa.svg" alt="" />
-    </span>
-    <div class="m-2">
-      <div class="d-grid">
-        <div class="d-grid index">
-          <div class="d-flex justify-content-between">
-            <div class="d-grid mb-2 text-all-white">
-              <span>Name</span>
-              @if (clientInfo) {
-                <span class="text-light">{{
-                  clientInfo.client.client_full_name
-                }}</span>
-              } @else if (!clientInfo) {
-                <span
-                  ><i class="fa-solid fa-pulse fa-spinner text-light"></i
-                ></span>
-              }
-            </div>
-            <div class="ihela-image">
-              <img
-                class="img-fluid"
-                src="/images/logo/ihela-ryanje.png"
-                alt="" />
-            </div>
-          </div>
-
-          @if (!noWalletData) {
-            <div class="d-grid mb-2">
-              <span class="text-light">Balance</span>
-              @if (defaultWallet) {
-                <b class="text-light d-flex align-items-center">
-                  <span class="me-1">{{
-                    defaultWallet.response_data.currency
-                  }}</span>
-                  @if (showAmountWallet) {
-                    <span>{{
-                      defaultWallet.response_data.available_balance | number
-                    }}</span>
-                  } @else {
-                    <span>*** ***</span>
-                  }
-                </b>
-              }
-
-              @if (!defaultWallet && !noWalletData) {
-                <span>
-                  <i class="fa-solid fa-pulse fa-spinner text-light"></i
-                ></span>
-              }
-            </div>
-          }
-
-          @if (noWalletData) {
-            <span class="text-secondary fs-l-medium my-4">
-              No default wallet found</span
-            >
-          }
-
-          <div class="d-grid mb-2">
-            @if (defaultWallet) {
-              <span class="text-light">{{
-                defaultWallet.response_data.code
-              }}</span>
-            }
-
-            @if (!defaultWallet && !noWalletData) {
-              <span>
-                <i class="fa-solid fa-pulse fa-spinner text-light"></i>
-              </span>
-            }
-          </div>
-          <div
-            class="d-flex justify-content-between"
-            [ngClass]="{
-              'mt-2': defaultWallet,
-              'mt-0': !defaultWallet,
-            }">
-            <div class="d-flex">
-              <b
-                class="px-2 py-1 bg-light bg-opacity-25 short rounded me-2 d-flex align-items-center justify-content-center text-light"
-                role="button"
-                title="Create new wallet">
-                <i class="fa fa-plus fs-l-medium"></i>
-              </b>
-              <b
-                class="px-2 py-1 bg-light bg-opacity-25 short rounded me-2 d-flex align-items-center justify-content-center text-light"
-                role="button"
-                title="Redirect to the wallets list">
-                <i class="fa fa-bars-staggered fs-l-medium"></i>
-              </b>
-              <b
-                title="Top up Wallet"
-                class="bg-light bg-opacity-25 short rounded me-2 d-flex align-items-center justify-content-center text-light"
-                role="button">
-                <img
-                  class="topup"
-                  src="/images/wallet-topup-light.svg"
-                  alt="" />
-              </b>
-              <b
-                class="px-2 py-1 short bg-light bg-opacity-25 rounded me-2 z-5 d-flex align-items-center justify-content-center text-light"
-                role="button"
-                title="Wallet statements">
-                <i class="fa fa-history fs-l-medium"></i>
-              </b>
-            </div>
-            <div>
-              <b
-                class="px-2 py-1 bg-light bg-opacity-25 short rounded me-2 z-5 justify-self-end d-flex align-items-center justify-content-center text-light"
-                role="button"
-                title="Wallet details">
-                <i class="fa fa-info-circle fs-l-medium"></i>
-              </b>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
 
   <div
     class="wallCard lg-radius bg-primary mt-2 overflow-hidden position-relative">
@@ -177,9 +55,6 @@
         </div>
 
         <div class="d-flex flex-column g-0 pt-2">
-          <!-- <span class="p-0 m-0 fs-small">Balance</span>
-        <span class="p-0 m-0 fw-bold mt-0">BIF *****</span> -->
-
           @if (!noWalletData) {
             <span class="fs-small">Balance</span>
             @if (defaultWallet) {
@@ -220,15 +95,18 @@
 
         <div class="d-flex gap-2 mt-3">
           <button class="btn px-1 p-0 btnBack">
-            <i class="fa-solid fa-list text-all-white"></i>
+            <i class="fa-solid fa-list fs-normal pt-1 text-all-white"></i>
           </button>
 
           <button class="btn px-1 p-0 btnBack">
-            <img class="topup" src="/images/wallet-topup-light.svg" alt="" />
+            <img
+              class="topup opacity-75"
+              src="/images/wallet-topup-light.svg"
+              alt="" />
           </button>
 
           <button class="btn px-1 p-0 btnBack">
-            <i class="fa-solid fa-history text-all-white"></i>
+            <i class="fa-solid fa-history fs-normal pt-1 text-all-white"></i>
           </button>
         </div>
       </div>
