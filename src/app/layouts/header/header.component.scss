@@ -1,4 +1,39 @@
+#black-bar {
+    height: 75px;
+}
 
+.workStation {
+    margin-left: 122px;
+}
+
+.onlineBanking {
+    width: 188px;
+}
+.border-light {
+    border: 2px solid #fff;
+}
+
+@keyframes anim {
+    0% {
+        top: 0px;
+    }
+    100% {
+        left: -2px;
+    }
+}
+
+a {
+    text-decoration: none;
+}
+#close {
+    transition: all 1s;
+    position: relative;
+    top: 0px;
+    animation: anim 1s infinite;
+}
+#cont {
+    transition: all 2s ease-in-out;
+}
 .white {
     color: white;
     @media screen and (max-width: 991px) {
@@ -53,56 +88,56 @@
     transition: all 0.3s;
 }
 
-// .checkbox:checked + .switch::after {
-//     left: 20px;
-// }
-// .checkbox:checked + .switch {
-//     background-color: transparent;
-// }
-// .checkbox {
-//     display: none;
-// }
+.checkbox:checked + .switch::after {
+    left: 20px;
+}
+.checkbox:checked + .switch {
+    background-color: transparent;
+}
+.checkbox {
+    display: none;
+}
 
-// .workstationHeaderWidth {
-//     width: 100vw;
-// }
+.workstationHeaderWidth {
+    width: 100vw;
+}
 
-// .onlineBankingHeaderWidth {
-//     width: 100vw;
-// }
-// .clickable {
-//     cursor: pointer;
-// }
+.onlineBankingHeaderWidth {
+    width: 100vw;
+}
+.clickable {
+    cursor: pointer;
+}
 
-// .padding {
-//     padding: 5px 0px 0px 0px;
-// }
+.padding {
+    padding: 5px 0px 0px 0px;
+}
 
-// .margin-top {
-//     margin-top: -35px;
-// }
+.margin-top {
+    margin-top: -35px;
+}
 
-// .unselectedIcon-b {
-//     color: #b86b6b;
-// }
+.unselectedIcon-b {
+    color: #b86b6b;
+}
 
-// .selectedIcon-b {
-//     border-bottom: 3px solid #b86b6b;
-//     padding-bottom: 8px;
-//     width: 150%;
-//     color: #ffff;
-// }
+.selectedIcon-b {
+    border-bottom: 3px solid #b86b6b;
+    padding-bottom: 8px;
+    width: 150%;
+    color: #ffff;
+}
 
-// .unselectedIcon-w {
-//     color: #bddaf6;
-// }
+.unselectedIcon-w {
+    color: #bddaf6;
+}
 
-// .selectedIcon-w {
-//     border-bottom: 3px solid #2070b8;
-//     padding-bottom: 8px;
-//     width: 150%;
-//     color: #2070b8;
-// }
+.selectedIcon-w {
+    border-bottom: 3px solid #2070b8;
+    padding-bottom: 8px;
+    width: 150%;
+    color: #2070b8;
+}
 
 
 .margin-right {
@@ -119,49 +154,51 @@
 //     display: flex;
 //     flex-direction: column;
 // }
-.clientProfile {
-    border-radius: 50%; 
-    height: 25px; 
-    width: 25px
-}
+
 .profile-picture-container {
     width: 87px;
     height: 87px;
 }
-// @media (max-width: 991px) {
-//     .profile-card {
-//         height: calc(100% - 110px);
-//         right: 2px;
-//         z-index: 20;
-//         border: 0.5px solid rgb(172, 170, 170);
-//         // display: flex;
-//         // flex-direction: column;
-//         //transition: all 2s;
-//         animation: slidein 100ms 1 linear;
-//         //-webkit-animation:slidein 100ms 1 linear;
-//         overflow-y: scroll;
-//         overflow-x: hidden;
-//         -webkit-animation: slidein 100ms 1 linear;
-//         min-width: 328px;
-//     }
-// }
-@media (min-width: 991px) {
+@media (max-width: 991px) {
     .profile-card {
-        right: 2px;
+        width: auto;
+        height: calc(100% - 110px);
+        position: absolute;
+        right:-37%;
         z-index: 20;
-        position: relative;
         border: 0.5px solid rgb(172, 170, 170);
-        // display: flex;
-        // flex-direction: column;
-        //transition: all 1s;
+        display: flex;
+        flex-direction: column;
+        //transition: all 2s;
+        animation: slidein 100ms 1 linear;
+        //-webkit-animation:slidein 100ms 1 linear;
         overflow-y: scroll;
         overflow-x: hidden;
-        animation: slidein 100ms 1 linear;
         -webkit-animation: slidein 100ms 1 linear;
         min-width: 328px;
     }
 }
+@media (min-width: 991px) {
+    .profile-card {
+        width: auto;
+        height: calc(100% - 60px);
+        position: absolute;
+        right:-37%;
+        z-index: 20;
+        border: 0.5px solid rgb(172, 170, 170);
+        display: flex;
+        flex-direction: column;
+        //transition: all 1s;
+        animation: slidein 100ms 1 linear;
+        -webkit-animation: slidein 100ms 1 linear;
+        min-width: 328px;
+        border-radius: 10px 0px 0px 10px;
+    }
+}
 
+.mt-6 {
+    margin-top: 3.5rem;
+}
 
 #right-side-menu-icons {
     @media screen and (max-width: 991px) {
@@ -190,7 +227,7 @@ a {
     width: auto;
     height: calc(100vh - 70px);
     position: absolute;
-    right: 2px;
+    right:-80%;
     top: 55px;
     z-index: 20;
     // border: 10px solid #C98986;
@@ -203,6 +240,7 @@ a {
     overflow-x: hidden;
     -webkit-animation: slidein 100ms 1 linear;
     min-width: 328px;
+    
 }
 .icons-color {
     color: #d9d9d9;
