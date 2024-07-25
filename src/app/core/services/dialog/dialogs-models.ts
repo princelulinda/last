@@ -20,6 +20,7 @@ export interface DialogModel {
   type: dialogTypeModel | '';
   action: string;
   active: boolean;
+  image: string | '';
 }
 
 export interface DialogPayloadModel {
@@ -27,6 +28,7 @@ export interface DialogPayloadModel {
   message: string;
   type: dialogTypeModel;
   action: string;
+  image?: string;
 }
 
 export type dialogTypeModel = 'confirm' | 'password' | 'pin';

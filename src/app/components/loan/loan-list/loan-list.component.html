@@ -146,7 +146,7 @@
                       class="d-flex justify-content-between align-items-center me-3">
                       <b>{{ selectedBank?.bank_name }}</b>
                       @if (loan.cred_status.value === 'PE') {
-                        <b class="text-dark less-danger px-1 rounded" i18n
+                        <b class="text-all-dark less-danger px-1 rounded" i18n
                           >Pending</b
                         >
                       }
@@ -158,9 +158,7 @@
                       </span>
                     </div>
                     <div class="">
-                      <b class="text-dark level-1 p-1 rounded">{{
-                        loan.cred_mode
-                      }}</b>
+                      <b class="level-1 p-1 rounded">{{ loan.cred_mode }}</b>
                     </div>
                     <div>
                       <span class="text-success">
@@ -220,7 +218,9 @@
                 class="d-flex justify-content-between align-items-center me-3">
                 <b>{{ selectedBank?.bank_name }}</b>
                 @if (selectedLoan && selectedLoan.cred_status.value === 'PE') {
-                  <b class="text-dark less-danger px-1 rounded" i18n>Pending</b>
+                  <b class="text-all-dark less-danger px-1 rounded" i18n
+                    >Pending</b
+                  >
                 }
               </div>
               <div class="">
@@ -230,9 +230,7 @@
                 </span>
               </div>
               <div class="">
-                <b class="text-dark level-1 p-1 rounded">{{
-                  selectedLoan?.cred_mode
-                }}</b>
+                <b class="level-1 p-1 rounded">{{ selectedLoan?.cred_mode }}</b>
               </div>
               <div>
                 <span class="text-success">
@@ -268,7 +266,7 @@
 
                         @if (loan.cred_status.value === 'PE') {
                           <b
-                            class="text-dark bg-info text-info badge-design px-1 rounded"
+                            class="text-all-dark bg-info text-info badge-design px-1 rounded"
                             i18n
                             >Pending</b
                           >
@@ -281,9 +279,7 @@
                         </span>
                       </div>
                       <div class="">
-                        <b class="text-dark level-1 p-1 rounded">{{
-                          loan.cred_mode
-                        }}</b>
+                        <b class="level-1 p-1 rounded">{{ loan.cred_mode }}</b>
                       </div>
                       <div>
                         <span class="text-success">

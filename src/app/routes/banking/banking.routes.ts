@@ -12,6 +12,7 @@ import { CreditAccountComponent } from '../../components/transfer/credit-account
 import { WalletComponent } from '../../components/wallet/wallet/wallet.component';
 import { WalletDetailsComponent } from '../../components/wallet/wallet-details/wallet-details.component';
 import { TarifComponent } from '../../components/tarif/tarif.component';
+import { BankHomeComponent } from '../../components/bank-home/bank-home.component';
 export const bankingRoutes: Routes = [
   {
     path: '',
@@ -53,6 +54,11 @@ export const bankingRoutes: Routes = [
     path: 'creditAccount',
     component: CreditAccountComponent,
   },
+  {
+    path: 'home',
+    component: BankHomeComponent,
+  },
+
   {
     path: 'accounts',
     component: AccountComponent,

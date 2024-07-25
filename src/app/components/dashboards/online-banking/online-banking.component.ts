@@ -29,9 +29,16 @@ import {
 } from '../dashboard.model';
 import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { TarifComponent } from '../../tarif/tarif.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { ModeModel } from '../../../core/services/config/main-config.models';
+import {
+  ModeModel,
+  PlateformModel,
+} from '../../../core/services/config/main-config.models';
 
+import { RouterLink } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
+import { BankHomeComponent } from '../../bank-home/bank-home.component';
 @Component({
   selector: 'app-online-banking',
   standalone: true,
@@ -44,6 +51,10 @@ import { ModeModel } from '../../../core/services/config/main-config.models';
     SkeletonComponent,
     CommonModule,
     WalletCardComponent,
+    TarifComponent,
+    RouterLink,
+    RouterOutlet,
+    BankHomeComponent,
   ],
 })
 export class OnlineBankingComponent implements OnInit, OnDestroy {
@@ -52,8 +63,10 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
   selectedBank!: bankModel;
+  selected!: bankModel;
   selectedBank$!: Observable<bankModel>;
   isLoading = false;
+  showBankHome = false;
 
   clientVerified = '&filter_for_client=true';
   dialog$: Observable<DialogResponseModel>;
@@ -69,6 +82,9 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   pin!: string;
+
+  plateform!: PlateformModel;
+  plateform$: Observable<PlateformModel>;
 
   private userInfo$: Observable<UserInfoModel>;
 
@@ -150,11 +166,17 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     this.userInfo$ = this.authService.getUserInfo();
     this.selectedBank$ = this.configService.getSelectedBank();
     this.dialog$ = this.dialogService.getDialogState();
+    this.plateform$ = this.configService.getPlateform();
   }
   ngOnInit(): void {
     this.mode$.subscribe({
       next: datas => {
         this.mode = datas;
+      },
+    });
+    this.plateform$.subscribe({
+      next: plateform => {
+        this.plateform = plateform;
       },
     });
     this.userInfo$.subscribe({
@@ -188,6 +210,13 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
           this.banksFiltered = data.objects;
         },
       });
+  }
+  toggleBankHome() {
+    this.showBankHome = !this.showBankHome;
+  }
+
+  handleBackToPreviousState() {
+    this.showBankHome = false;
   }
 
   getBanks() {
@@ -268,10 +297,8 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   }
   selectBank(bank: bankModel) {
     this.configService.setSelectedBank(bank);
-    if (bank) {
-      this.router.navigate(['']);
-    }
   }
+
   getMerchant(data: PayMerchant, event: MouseEvent) {
     event.stopPropagation();
     // add data-bs after click on favorite star

@@ -1,323 +1,334 @@
-<div class="mb-3">
+@if (!showBankHome) {
   <div>
-    <!--cards ( wallet and nyamuranzi )-->
-    <section class="d-flex overflow-x-auto pb-3 w-100">
-      <!--wallet card-->
+    <div
+      class="mb-3"
+      [ngClass]="{
+        'bg-ihela': plateform !== 'workstation',
+        'bg-erp': plateform === 'workstation',
+      }">
       <div>
-        <app-wallet-card></app-wallet-card>
-      </div>
-
-      <!-- nyamuranzi card-->
-      <div class="ps-5">
-        <app-nyamuranzi-card></app-nyamuranzi-card>
-      </div>
-    </section>
-
-    <!-- Menus list-->
-    <section class="pe-lg-3">
-      <div class="bg-secondary lg-radius p-4 border col-lg-9 col-md-12 mt-4">
-        <div class="accordion" id="accordionExample">
-          @for (menuGroup of menuGroups; track $index; let i = $index) {
-            <div class="accordion-item mb-3 p-2 sm-radius border bg-all-white">
-              <div
-                class="accordion-header"
-                (click)="showMenus(i)"
-                role="button"
-                tabindex="0"
-                data-bs-toggle="collapse"
-                [attr.data-bs-target]="'#collapse-' + i"
-                aria-expanded="false"
-                [attr.aria-controls]="'collapse-' + i">
-                <div
-                  class="d-flex align-items-center w-100 justify-content-between ps-1 pe-3">
-                  <div class="d-flex align-items-center">
-                    <span
-                      class="rounded-circle circ-badge me-2 bg-secondary justify-content-center d-flex align-items-center">
-                      <i
-                        [class]="
-                          'fa fa-' +
-                          menuGroup.icon +
-                          ' fs-l-medium text-all-dark'
-                        "></i>
-                    </span>
-                    <div class="d-grid align-items-center">
-                      <b class="text-dark">{{ menuGroup.name }}</b>
-                      @if (!menuGroup.is_active) {
-                        <span class="text-secondary">{{
-                          menuGroup.description
-                        }}</span>
-                      }
-                    </div>
-                  </div>
-                  @if (!menuGroup.is_active) {
-                    <span>
-                      <i class="fa fa-chevron-right text-dark"></i>
-                    </span>
-                  } @else {
-                    <span>
-                      <i class="fa fa-chevron-down text-dark"></i>
-                    </span>
-                  }
-                </div>
-              </div>
-              <div
-                [id]="'collapse-' + i"
-                class="accordion-collapse collapse"
-                [ngClass]="{ show: menuGroup.is_active }"
-                aria-labelledby="headingOne"
-                data-bs-parent="#accordionExample">
-                <div class="accordion-body text-dark expand-collapse-section">
-                  <!-- Ajoutez ici le contenu spécifique à ce menuGroup -->
-                  @if (i === 0 && menuGroup.is_active) {
-                    <div>
-                      <!-- Contenu pour les banques (boucle *ngFor) -->
-
-                      @if (banks && banks.length > 0) {
-                        <div class="p-2 row mb-4">
-                          <!-- Bloc de banque -->
-                          @for (bank of banks; track $index) {
-                            <div
-                              (click)="selectBank(bank)"
-                              role="button"
-                              tabindex="0"
-                              class="d-grid col-6 col-sm-4 col-md-3 justify-content-center">
-                              <div
-                                class="d-flex w-100 mb-2 justify-content-center">
-                                <div
-                                  class="d-grid justify-content-center align-items-center img-container border lg-radius">
-                                  <img
-                                    class="bank-image"
-                                    [src]="bank?.company?.image"
-                                    alt="" />
-                                </div>
-                              </div>
-                              <div class="text-center">
-                                <span class="text-uppercase">{{
-                                  bank?.company?.fullname
-                                }}</span>
-                              </div>
-                            </div>
-                          }
-
-                          <!-- Création de compte -->
-                          <div
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#banksModal"
-                            #closeModal
-                            class="d-grid col-6 col-sm-4 col-md-3 justify-content-center">
-                            <div
-                              class="d-flex w-100 mb-2 justify-content-center">
-                              <div
-                                class="d-grid justify-content-center align-items-center img-container border lg-radius">
-                                <i
-                                  class="fa-solid fa-plus fw-bold text-primary fs-4"></i>
-                              </div>
-                            </div>
-                            <div class="text-center">
-                              <span class="text-sm text-dark" i18n
-                                >CREATE ACCOUNT</span
-                              >
-                            </div>
-                          </div>
-                        </div>
-                      }
-
-                      <!-- Bloc de chargement -->
-                      @else {
-                        <div class="d-flex pt-3 ps-3">
-                          @for (_ of [1, 2, 3]; track $index) {
-                            <div class="d-grid mt-1 me-5">
-                              <span class="text-center">
-                                <app-skeleton
-                                  [height]="'60px'"
-                                  [width]="'60px'"
-                                  [classes]="'rounded'"></app-skeleton>
-                              </span>
-                              <span>
-                                <app-skeleton
-                                  [height]="'7px'"
-                                  [width]="'80px'"
-                                  [classes]="'rounded'"></app-skeleton>
-                              </span>
-                            </div>
-                          }
-                        </div>
-                      }
-                    </div>
-                  }
-
-                  @if (i === 2 && menuGroup.is_active) {
-                    <div>
-                      <!-- Bloc de marchands -->
-                      @if (merchants && merchants.length > 0) {
-                        <div class="p-2 row">
-                          @for (merchant of merchants; track $index) {
-                            <div
-                              (click)="getMerchant(merchant, $event)"
-                              data-bs-toggle="modal"
-                              data-bs-target="#publicService"
-                              role="button"
-                              class="d-grid col-3 justify-content-center"
-                              tabindex="0">
-                              <div
-                                class="d-flex w-100 mb-2 justify-content-center">
-                                <div
-                                  class="d-grid justify-content-center align-items-center img-container border lg-radius">
-                                  <img
-                                    class="bank-image"
-                                    [src]="merchant.lookup_image"
-                                    alt="" />
-                                </div>
-                              </div>
-                              <div class="text-center">
-                                <span>{{
-                                  merchant.lookup_title.toUpperCase()
-                                }}</span>
-                              </div>
-                            </div>
-                          }
-                        </div>
-                      }
-                      <!-- Contenu pour les marchands (boucle *ngFor) -->
-                      @else {
-                        <div class="d-flex pt-3 ps-3">
-                          @for (_ of [1, 2, 3]; track $index) {
-                            <div class="d-grid mt-1 me-5">
-                              <span class="text-center">
-                                <app-skeleton
-                                  [height]="'60px'"
-                                  [width]="'60px'"
-                                  [classes]="'rounded'"></app-skeleton>
-                              </span>
-                              <span>
-                                <app-skeleton
-                                  [height]="'7px'"
-                                  [width]="'80px'"
-                                  [classes]="'rounded'"></app-skeleton>
-                              </span>
-                            </div>
-                          }
-                        </div>
-                      }
-                    </div>
-                  }
-
-                  @if (i !== 0 && i !== 2 && menuGroup.is_active) {
-                    <div>
-                      @for (menu of menuGroup.menus; track $index) {
-                        <div
-                          role="button"
-                          class="d-grid col-3 justify-content-center">
-                          <div class="d-flex w-100 mb-2 justify-content-center">
-                            <div
-                              class="d-grid justify-content-center align-items-center img-container border lg-radius">
-                              <span>
-                                <i
-                                  [class]="'fs-x-large fa fa-' + menu.icon"></i>
-                              </span>
-                            </div>
-                          </div>
-                          <div class="text-center">
-                            <span>{{ menu.name.toUpperCase() }}</span>
-                          </div>
-                        </div>
-                      }
-                    </div>
-                  }
-                  @if (i !== 0 && i !== 2 && !menuGroup.menus) {
-                    <div class="d-grid align-items-center opacity-50">
-                      <span class="text-center mb-3">
-                        <i class="fa fa-face-meh empty-icon"></i>
-                      </span>
-                      <b i18n class="fs-l-medium text-secondary text-center"
-                        >This section is not available at the moment</b
-                      >
-                    </div>
-                  }
-                </div>
-              </div>
-            </div>
-          }
-        </div>
-      </div>
-    </section>
-  </div>
-</div>
-
-<div class="modal fade" id="banksModal" data-mdb-backdrop="false">
-  <div class="modal-dialog inner-container overflow-auto">
-    <div class="modal-content" style="margin-top: 35%">
-      <main class="p-4">
-        <div class="text-end">
-          <span
-            role="button"
-            class="text-dark"
-            data-bs-dismiss="modal"
-            aria-label="Close">
-            <i class="fa-solid fa-xmark fs-large"></i>
-          </span>
-        </div>
-        <div class="text-all-dark fs-l-medium text-center p-2" i18n>
-          Create an account by choosing one of the banks bellow
-        </div>
-        <br />
-
-        @if (banksFiltered && banksFiltered.length > 0) {
-          <div class="p-2 row">
-            @for (bank of banksFiltered; track $index) {
-              <div
-                role="button"
-                (click)="openPinPopup(); getAddedBankId(bank.organization_id)"
-                class="d-grid col-3 justify-content-center"
-                tabindex="0">
-                <div class="d-flex w-100 mb-2 justify-content-center">
-                  <div
-                    class="d-grid justify-content-center align-items-center img-container border lg-radius">
-                    <img
-                      class="bank-image"
-                      [src]="bank?.company?.image"
-                      alt="{{ bank?.company?.fullname }} Logo" />
-                  </div>
-                </div>
-
-                <div class="text-center">
-                  <span class="text-uppercase">{{
-                    bank?.company?.fullname
-                  }}</span>
-                </div>
-              </div>
-            }
+        <!--cards ( wallet and nyamuranzi )-->
+        <section class="d-flex overflow-x-auto pb-3 w-100">
+          <!--wallet card-->
+          <div>
+            <app-wallet-card></app-wallet-card>
           </div>
-        } @else if (!banksFiltered) {
-          <div class="d-flex pt-3 ps-3">
-            @for (_ of [1, 2, 3]; track $index) {
-              <div class="d-grid mt-1 me-5">
-                <span class="text-center">
-                  <app-skeleton
-                    [height]="'60px'"
-                    [width]="'60px'"></app-skeleton>
-                </span>
-                <span>
-                  <app-skeleton
-                    [height]="'7px'"
-                    [width]="'100px'"></app-skeleton>
-                </span>
-              </div>
-            }
+
+          <!-- nyamuranzi card-->
+          <div class="ps-5">
+            <app-nyamuranzi-card></app-nyamuranzi-card>
           </div>
-        } @else {
+        </section>
+
+        <!-- Menus list-->
+        <section class="pe-lg-3">
           <div
-            class="p-2 text-center fs-large fw-bold"
-            [ngClass]="{
-              'text-primary': mode === 'light',
-              'text-all-white': mode === 'dark',
-            }"
-            i18n>
-            You are already in all the available banks
+            class="bg-secondary lg-radius p-4 border col-lg-9 col-md-12 mt-4">
+            <div class="accordion" id="accordionExample">
+              @for (menuGroup of menuGroups; track $index; let i = $index) {
+                <div class="accordion-item mb-3 p-2 sm-radius border bg-white">
+                  <div
+                    class="accordion-header"
+                    (click)="showMenus(i)"
+                    role="button"
+                    tabindex="0"
+                    data-bs-toggle="collapse"
+                    [attr.data-bs-target]="'#collapse-' + i"
+                    aria-expanded="false"
+                    [attr.aria-controls]="'collapse-' + i">
+                    <div
+                      class="d-flex align-items-center w-100 justify-content-between ps-1 pe-3">
+                      <div class="d-flex align-items-center">
+                        <span
+                          class="rounded-circle circ-badge me-2 bg-secondary justify-content-center d-flex align-items-center">
+                          <i
+                            [class]="
+                              'fa fa-' + menuGroup.icon + ' text-l-md text-dark'
+                            "></i>
+                        </span>
+                        <div class="d-grid align-items-center">
+                          <b class="text-dark">{{ menuGroup.name }}</b>
+                          @if (!menuGroup.is_active) {
+                            <span class="text-secondary">{{
+                              menuGroup.description
+                            }}</span>
+                          }
+                        </div>
+                      </div>
+                      @if (!menuGroup.is_active) {
+                        <span>
+                          <i class="fa fa-chevron-right text-dark"></i>
+                        </span>
+                      } @else {
+                        <span>
+                          <i class="fa fa-chevron-down text-dark"></i>
+                        </span>
+                      }
+                    </div>
+                  </div>
+                  <div
+                    [id]="'collapse-' + i"
+                    class="accordion-collapse collapse"
+                    [ngClass]="{ show: menuGroup.is_active }"
+                    aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div
+                      class="accordion-body text-dark expand-collapse-section">
+                      <!-- Ajoutez ici le contenu spécifique à ce menuGroup -->
+                      @if (i === 0 && menuGroup.is_active) {
+                        <div>
+                          <!-- Contenu pour les banques (boucle *ngFor) -->
+
+                          @if (banks && banks.length > 0) {
+                            <div class="p-2 row mb-4">
+                              <!-- Bloc de banque -->
+                              @for (bank of banks; track $index) {
+                                <div
+                                  (click)="toggleBankHome(); selectBank(bank)"
+                                  role="button"
+                                  tabindex="0"
+                                  class="d-grid col-6 col-sm-4 col-md-3 justify-content-center">
+                                  <div
+                                    class="d-flex w-100 mb-2 justify-content-center">
+                                    <div
+                                      class="d-grid justify-content-center align-items-center img-container border lg-radius">
+                                      <img
+                                        class="bank-image"
+                                        [src]="bank?.company?.image"
+                                        alt="" />
+                                    </div>
+                                  </div>
+                                  <div class="text-center">
+                                    <span class="text-uppercase">{{
+                                      bank?.company?.fullname
+                                    }}</span>
+                                  </div>
+                                </div>
+                              }
+
+                              <!-- Création de compte -->
+                              <div
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#banksModal"
+                                #closeModal
+                                class="d-grid col-6 col-sm-4 col-md-3 justify-content-center">
+                                <div
+                                  class="d-flex w-100 mb-2 justify-content-center">
+                                  <div
+                                    class="d-grid justify-content-center align-items-center img-container border lg-radius">
+                                    <i
+                                      class="fa-solid fa-plus fw-bold text-primary fs-4"></i>
+                                  </div>
+                                </div>
+                                <div class="text-center">
+                                  <span class="text-sm text-dark" i18n
+                                    >CREATE ACCOUNT</span
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          }
+
+                          <!-- Bloc de chargement -->
+                          @else {
+                            <div class="d-flex pt-3 ps-3">
+                              @for (_ of [1, 2, 3]; track $index) {
+                                <div class="d-grid mt-1 me-5">
+                                  <span class="text-center">
+                                    <app-skeleton
+                                      [height]="'60px'"
+                                      [width]="'60px'"
+                                      [classes]="'rounded'"></app-skeleton>
+                                  </span>
+                                  <span>
+                                    <app-skeleton
+                                      [height]="'7px'"
+                                      [width]="'80px'"
+                                      [classes]="'rounded'"></app-skeleton>
+                                  </span>
+                                </div>
+                              }
+                            </div>
+                          }
+                        </div>
+                      }
+
+                      @if (i === 2 && menuGroup.is_active) {
+                        <div>
+                          <!-- Bloc de marchands -->
+                          @if (merchants && merchants.length > 0) {
+                            <div class="p-2 row">
+                              @for (merchant of merchants; track $index) {
+                                <div
+                                  (click)="getMerchant(merchant, $event)"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#publicService"
+                                  role="button"
+                                  class="d-grid col-3 justify-content-center"
+                                  tabindex="0">
+                                  <div
+                                    class="d-flex w-100 mb-2 justify-content-center">
+                                    <div
+                                      class="d-grid justify-content-center align-items-center img-container border lg-radius">
+                                      <img
+                                        class="bank-image"
+                                        [src]="merchant.lookup_image"
+                                        alt="" />
+                                    </div>
+                                  </div>
+                                  <div class="text-center">
+                                    <span>{{
+                                      merchant.lookup_title.toUpperCase()
+                                    }}</span>
+                                  </div>
+                                </div>
+                              }
+                            </div>
+                          }
+                          <!-- Contenu pour les marchands (boucle *ngFor) -->
+                          @else {
+                            <div class="d-flex pt-3 ps-3">
+                              @for (_ of [1, 2, 3]; track $index) {
+                                <div class="d-grid mt-1 me-5">
+                                  <span class="text-center">
+                                    <app-skeleton
+                                      [height]="'60px'"
+                                      [width]="'60px'"
+                                      [classes]="'rounded'"></app-skeleton>
+                                  </span>
+                                  <span>
+                                    <app-skeleton
+                                      [height]="'7px'"
+                                      [width]="'80px'"
+                                      [classes]="'rounded'"></app-skeleton>
+                                  </span>
+                                </div>
+                              }
+                            </div>
+                          }
+                        </div>
+                      }
+
+                      @if (i !== 0 && i !== 2 && menuGroup.is_active) {
+                        <div>
+                          @for (menu of menuGroup.menus; track $index) {
+                            <div
+                              role="button"
+                              class="d-grid col-3 justify-content-center">
+                              <div
+                                class="d-flex w-100 mb-2 justify-content-center">
+                                <div
+                                  class="d-grid justify-content-center align-items-center img-container border lg-radius">
+                                  <span>
+                                    <i [class]="'fs-3 fa fa-' + menu.icon"></i>
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="text-center">
+                                <span>{{ menu.name.toUpperCase() }}</span>
+                              </div>
+                            </div>
+                          }
+                        </div>
+                      }
+                      @if (i !== 0 && i !== 2 && !menuGroup.menus) {
+                        <div class="d-grid align-items-center opacity-50">
+                          <span class="text-center mb-3">
+                            <i class="fa fa-face-meh empty-icon"></i>
+                          </span>
+                          <b i18n class="fs-5 text-secondary text-center"
+                            >This section is not available at the moment</b
+                          >
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
           </div>
-        }
-      </main>
+        </section>
+      </div>
+    </div>
+
+    <div class="modal fade" id="banksModal" data-mdb-backdrop="false">
+      <div class="modal-dialog inner-container overflow-auto">
+        <div class="modal-content" style="margin-top: 35%">
+          <main class="p-4">
+            <div class="text-end">
+              <span
+                role="button"
+                class="text-dark"
+                data-bs-dismiss="modal"
+                aria-label="Close">
+                <i class="fa-solid fa-xmark fs-4"></i>
+              </span>
+            </div>
+            <div class="text-dark fs-5 text-center p-2" i18n>
+              Create an account by choosing one of the banks bellow
+            </div>
+            <br />
+
+            @if (banksFiltered && banksFiltered.length > 0) {
+              <div class="p-2 row">
+                @for (bank of banksFiltered; track $index) {
+                  <div
+                    role="button"
+                    (click)="
+                      openPinPopup(); getAddedBankId(bank.organization_id)
+                    "
+                    class="d-grid col-3 justify-content-center"
+                    tabindex="0">
+                    <div class="d-flex w-100 mb-2 justify-content-center">
+                      <div
+                        class="d-grid justify-content-center align-items-center img-container border lg-radius">
+                        <img
+                          class="bank-image"
+                          [src]="bank?.company?.image"
+                          alt="{{ bank?.company?.fullname }} Logo" />
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <span class="text-uppercase">{{
+                        bank?.company?.fullname
+                      }}</span>
+                    </div>
+                  </div>
+                }
+              </div>
+            } @else if (!banksFiltered) {
+              <div class="d-flex pt-3 ps-3">
+                @for (_ of [1, 2, 3]; track $index) {
+                  <div class="d-grid mt-1 me-5">
+                    <span class="text-center">
+                      <app-skeleton
+                        [height]="'60px'"
+                        [width]="'60px'"></app-skeleton>
+                    </span>
+                    <span>
+                      <app-skeleton
+                        [height]="'7px'"
+                        [width]="'100px'"></app-skeleton>
+                    </span>
+                  </div>
+                }
+              </div>
+            } @else {
+              <div class="p-2 text-center text-l fw-bold" i18n>
+                You are already in all the available banks
+              </div>
+            }
+          </main>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+}
+
+@if (showBankHome) {
+  <app-bank-home
+    (backToPreviousState)="handleBackToPreviousState()"></app-bank-home>
+}
+<router-outlet></router-outlet>

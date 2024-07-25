@@ -353,7 +353,7 @@
             </div>
           </div>
 
-          <form class="position-relative z-1">
+          <div class="position-relative z-1">
             <div class="row mb-3 mt-5 position-relative z-1">
               <div class="col-md-6">
                 <div class="form-floating">
@@ -448,7 +448,7 @@
                 Continue
               </button>
             </div>
-          </form>
+          </div>
         </div>
         <div
           class="col-md-5 p-4 bg text-white d-flex align-items-center justify-content-center text-center">
@@ -502,7 +502,7 @@
             </div>
           </div>
 
-          <form class="position-relative z-1">
+          <div class="position-relative z-1">
             <div class="col mb-3 position-relative z-1">
               <div class="form-floating">
                 <select
@@ -591,7 +591,7 @@
                 Continue
               </button>
             </div>
-          </form>
+          </div>
         </div>
         <div
           class="col-md-5 p-4 bg text-white d-flex align-items-center justify-content-center text-center">
@@ -646,7 +646,7 @@
             </div>
           </div>
 
-          <form class="position-relative z-1">
+          <div class="position-relative z-1">
             <div class="row position-relative z-1">
               <div class="col d-flex justify-content-start align-items-center">
                 <div>
@@ -718,7 +718,7 @@
                 </div>
               }
             </div>
-          </form>
+          </div>
         </div>
         <div
           class="col-md-5 p-4 bg text-white d-flex align-items-center justify-content-center text-center">
@@ -748,89 +748,97 @@
       </div>
     </div>
   }
-</form>
-<!--end step 4 -->
+  <!--end step 4 -->
 
-<!--start step 5 -->
-@if (step === 5) {
-  <div class="container font-montserrat d-flex justify-content-center pt-5 p-5">
-    <div class="row border border-1 lg-radius col-md-9 bg-white mt-5">
-      <div class="col-md-7 px-5 p-3">
-        <div class="row mb-4">
-          <div class="col fw-bold"><span i18n>Success</span></div>
-        </div>
+  <!--start step 5 -->
+  @if (step === 5) {
+    <div
+      class="container font-montserrat d-flex justify-content-center pt-5 p-5">
+      <div class="row border border-1 lg-radius col-md-9 bg-white mt-5">
+        <div class="col-md-7 px-5 p-3">
+          <div class="row mb-4">
+            <div class="col fw-bold"><span i18n>Success</span></div>
+          </div>
 
-        <form class="position-relative z-1">
-          <div class="row position-relative z-1">
-            <div class="col d-flex align-items-center">
-              <span class="fs-normal" i18n
-                ><span class="fw-bold fs-l-medium">
-                  {{ firstName }} {{ lastName }}</span
+          <div class="position-relative z-1">
+            <div class="row position-relative z-1">
+              <div class="col d-flex align-items-center">
+                <span class="fs-normal" i18n
+                  ><span class="fw-bold fs-l-medium">
+                    {{ firstName }} {{ lastName }}</span
+                  >
+                  <br />
+                  {{ Email }}</span
                 >
-                <br />
-                {{ Email }}</span
-              >
-            </div>
-            <div class="col d-flex justify-content-end">
-              <div
-                class="rounded-circle border border-5 d-flex justify-content-center align-items-center">
-                <span i18n>
-                  <img
-                    src="{{ docFile }}"
-                    width="85"
-                    height="85"
-                    class="rounded-circle"
-                    alt=""
-                /></span>
+              </div>
+              <div class="col d-flex justify-content-end">
+                <div
+                  class="rounded-circle border border-5 d-flex justify-content-center align-items-center">
+                  <span i18n>
+                    <img
+                      src="{{ docFile }}"
+                      width="85"
+                      height="85"
+                      class="rounded-circle"
+                      alt=""
+                  /></span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col mt-4">
-            <span i18n class="fs-normal">Your customer code number is</span>
-          </div>
-          <div class="col-md-4 mb-1">
-            <hr />
-            <div class="d-flex justify-content-center">
-              <span i18n class="fw-bold fs-normal text-primary">
-                {{ userInfo.object.client.client_id }}
+            <div class="col mt-4">
+              <span i18n class="fs-normal">Your customer code number is</span>
+            </div>
+            <div class="col-md-4 mb-1">
+              <hr />
+              <div class="d-flex justify-content-center">
+                <span i18n class="fw-bold fs-normal text-primary">
+                  {{ userInfo.object.client.client_id }}
+                </span>
+              </div>
+              <hr />
+            </div>
+            <div class="col"><span i18n>Click bellow to start.</span></div>
+            <div class="d-flex justify-content-center pt-3">
+              <button
+                class="btn bg-primary fw-bold text-all-white px-5 mt-5 mb-4"
+                routerLink="/b/banking">
+                Start
+              </button>
+            </div>
+            <div class="col d-flex justify-content-center">
+              <span
+                class="text-primary"
+                role="button"
+                tabindex="0"
+                i18n
+                (click)="logout()">
+                Logout
               </span>
             </div>
-            <hr />
           </div>
-          <div class="col"><span i18n>Click bellow to start.</span></div>
-          <div class="d-flex justify-content-center pt-3">
-            <button
-              class="btn bg-primary fw-bold text-all-white px-5 mt-5 mb-4"
-              routerLink="/b">
-              Start
-            </button>
-          </div>
-          <div class="col d-flex justify-content-center">
-            <span i18n> <a class="text-primary">Logout</a></span>
-          </div>
-        </form>
-      </div>
-      <div
-        class="col-md-5 p-4 bg text-white d-flex align-items-center justify-content-center text-center">
-        <div>
-          <span>
-            <span i18n class="fs-l-medium text-all-white fw-bold"
-              >Last step</span
-            >
-            <br />
-            <br />
-            <span i18n class="fs-normal text-all-white"
-              >Chose one of the banks to create <br />
-              a bank account or click continue <br />
-              to create a wallet only.<br />
-              <button
-                class="btn bg-primary fw-bold border border-white mt-4 text-all-white px-5">
-                Continue
-              </button>
+        </div>
+        <div
+          class="col-md-5 p-4 bg text-white d-flex align-items-center justify-content-center text-center">
+          <div>
+            <span>
+              <span i18n class="fs-l-medium text-all-white fw-bold"
+                >Last step</span
+              >
+              <br />
+              <br />
+              <span i18n class="fs-normal text-all-white"
+                >Chose one of the banks to create <br />
+                a bank account or click continue <br />
+                to create a wallet only.<br />
+                <button
+                  class="btn bg-primary fw-bold border border-white mt-4 text-all-white px-5">
+                  Continue
+                </button>
+              </span>
             </span>
-          </span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-}
+  }
+</form>
