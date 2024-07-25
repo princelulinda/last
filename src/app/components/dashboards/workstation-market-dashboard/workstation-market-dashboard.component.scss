@@ -1,0 +1,20 @@
+.bgCard {
+  background: linear-gradient(270deg, #f6f7f9 0%, #fad4d6 99.84%);
+}
+
+.recent {
+  background: #ffcccc;
+  height: 427px;
+  width: 427px;
+}
+
+.rectangle {
+  width: 350px;
+  height: 350px;
+  top: 50px;
+  left: -10px;
+  border-radius: 70px;
+  opacity: 0.2;
+  transform: rotate(76deg);
+  background: #e5f2ff;
+}

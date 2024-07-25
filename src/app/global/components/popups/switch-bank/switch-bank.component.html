@@ -31,7 +31,7 @@
         </div>
 
         <div class="m-3 mt-5">
-          @if (banks) {
+          @if (banks && banks.length > 0) {
             <div class="mt-1 px-5">
               <div class="w-100 d-flex justify-content-between">
                 <b>Banks</b>
@@ -61,7 +61,7 @@
                 </div>
               }
             </div>
-          } @else if (!banks) {
+          } @else {
             <div class="d-flex align-items-center m-3 justify-content-center">
               <span class="fs-5 me-2">
                 <i class="fa-solid fa-pulse fa-circle-notch"></i>

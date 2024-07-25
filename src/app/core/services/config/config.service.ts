@@ -204,7 +204,8 @@ export class ConfigService {
     this.dbService.addOnce(Bank.tableName, banks);
   }
   setSelectedBank(selectedBank: bankModel) {
-    this.dbService.addOnce(SelectedBank.tableName, selectedBank);
+    this.dbService.addOnceUpdate(SelectedBank.tableName, selectedBank);
+    this.dbService.setLocalStorageBankId(selectedBank.id);
   }
   resetSelectedBank(): void {
     this.dbService.clearTable(SelectedBank.tableName);
