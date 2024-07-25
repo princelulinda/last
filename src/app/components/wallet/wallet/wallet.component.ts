@@ -5,10 +5,11 @@ import { WalletListComponent } from '../wallet-list/wallet-list.component';
 import { RouterOutlet } from '@angular/router';
 import { WalletList } from '../wallet.models';
 import { DialogService } from '../../../core/services';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-wallet',
   standalone: true,
-  imports: [RouterOutlet, WalletListComponent],
+  imports: [RouterOutlet, WalletListComponent, RouterLink],
   templateUrl: './wallet.component.html',
   styleUrl: './wallet.component.scss',
 })
@@ -16,11 +17,11 @@ export class WalletComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
   hasWalletList = false;
-  isWalletDetailsShown = false;
+
   showAmounts = false; // Variable to store the visibility state of amounts
   showAmounts$: Observable<boolean>; // Observable for the visibility state
   selectedWallet: WalletList | null = null;
-
+  dataLoaded = false;
   constructor(private dialogService: DialogService) {
     this.showAmounts$ = this.dialogService.getAmountState();
   }
@@ -33,8 +34,12 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   handleWalletSelected(wallet: WalletList) {
     this.selectedWallet = wallet;
-    this.isWalletDetailsShown = true;
+
     console.log('Compte sélectionné :', wallet);
+  }
+
+  handleDataLoaded(loaded: boolean) {
+    this.dataLoaded = loaded;
   }
   toggleAmountVisibility() {
     this.dialogService.displayAmount();

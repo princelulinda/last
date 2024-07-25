@@ -7,10 +7,16 @@ import { Walletdetail, WalletList } from '../wallet.models';
 import { WalletListComponent } from '../wallet-list/wallet-list.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-wallet-details',
   standalone: true,
-  imports: [WalletListComponent, AmountVisibilityComponent, CommonModule],
+  imports: [
+    WalletListComponent,
+    AmountVisibilityComponent,
+    CommonModule,
+    RouterLink,
+  ],
   templateUrl: './wallet-details.component.html',
   styleUrl: './wallet-details.component.scss',
 })

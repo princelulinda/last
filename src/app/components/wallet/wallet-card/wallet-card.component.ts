@@ -9,11 +9,11 @@ import { WalletCard } from '../wallet.models';
 import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
-
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-wallet-card',
   standalone: true,
-  imports: [NgClass, CommonModule],
+  imports: [NgClass, CommonModule, RouterLink],
   templateUrl: './wallet-card.component.html',
   styleUrl: './wallet-card.component.scss',
 })

@@ -41,6 +41,8 @@ export class WalletListComponent implements OnInit, OnDestroy {
   @Input() Type: 'transfer' | 'list' = 'transfer';
   @Output() walletSelected = new EventEmitter<WalletList>();
 
+  @Output() dataLoaded = new EventEmitter<boolean>();
+
   private onDestroy$ = new Subject<void>();
   isWalletDetailsShown = false;
 
@@ -76,10 +78,12 @@ export class WalletListComponent implements OnInit, OnDestroy {
       next: response => {
         this.walletsListData = response.objects;
         this.isLoading = false;
+        this.dataLoaded.emit(true); // Émet l'événement lorsque les données sont chargées
       },
       error: err => {
         console.error('Erreur :', err);
         this.isLoading = false;
+        this.dataLoaded.emit(false); // Émet l'événement en cas d'erreur
       },
     });
   }
