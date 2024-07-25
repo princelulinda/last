@@ -43,13 +43,15 @@
 }
 
 .circ1 {
-  height: 150px;
-  width: 150px;
-  background: linear-gradient(
-    159.8deg,
-    #830019 5.54%,
-    rgba(27, 0, 5, 0.3) 78.86%
-  );
+  height: 160px;
+  width: 160px;
+  // background: linear-gradient(
+  //   159.8deg,
+  //   #da002a 5.54%,
+  //   rgba(27, 0, 5, 0) 78.86%
+  // );
+  // background: linear-gradient(to bottom, #DA002A, #1B0005);
+  background: linear-gradient(159.8deg, #da002a, #1b0005);
   top: 75px;
   left: -20px;
 }
@@ -59,7 +61,7 @@
   width: 35px;
   background: linear-gradient(
     159.8deg,
-    #830019 5.54%,
+    #da002a 5.54%,
     rgba(27, 0, 5, 0.3) 78.86%
   );
   top: 30px;
