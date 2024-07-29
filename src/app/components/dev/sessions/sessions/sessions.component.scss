@@ -1,0 +1,29 @@
+.popup{
+    width:auto;
+    height:auto;
+    background-color: white;
+    position: absolute;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px 1px #0000001A;
+    margin-left: 280px;
+    z-index: 5;
+
+}
+.accordion-button::after {
+    display: none;
+   
+  }
+  .accordion-button:not(.collapsed) {
+    background-color:transparent;
+  }
+  @media screen and (max-width: 850px) {
+    .col{
+        padding-bottom:10px; 
+    }
+    .fw-bold{   
+        text-align:center;
+        display: inline-block;
+    }
+  }
+ 
+  

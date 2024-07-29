@@ -88,9 +88,6 @@ export class ApiService {
   clearLocalData() {
     localStorage.clear();
   }
-  removeItem(itemKey: string) {
-    localStorage.removeItem(itemKey);
-  }
 
   get<T>(
     path: string,

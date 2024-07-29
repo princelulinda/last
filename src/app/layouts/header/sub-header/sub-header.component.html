@@ -1,20 +1,13 @@
 @if (mainConfig && mainConfig.activePlateform !== 'workstation') {
   <div
     class="d-none d-lg-flex fs-4 justify-content-center text-primary justify-content-lg-start h-25">
-    <span
-      [ngClass]="{
-        'pt-1': mainConfig.activePlateform === 'onamob',
-      }">
+    <span>
       @if (mainConfig.activePlateform !== 'onamob') {
         <img
           src="/icons/favicon/ihela-fav.ico"
-          class="img-fluid clickable h-30"
+          class="img-fluid clickable"
+          style="height: 30px"
           alt="iHela Banking Image" />
-      } @else {
-        <img
-          src="/images/onamob-dashboard.svg"
-          class="img-fluid clickable h-30"
-          alt="Onamob" />
       }
     </span>
     @switch (mainConfig.activePlateform) {
@@ -36,9 +29,6 @@
         <span class="opacity-50 ms-1 p-1" i18n
           >Digital Financial Services
         </span>
-      }
-      @case ('onamob') {
-        <span class="opacity-50 ms-1 p-1" i18n>Onamob </span>
       }
     }
   </div>

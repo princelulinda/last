@@ -5,8 +5,9 @@ import { map } from 'rxjs/operators';
 import { ApiService } from '..';
 // import { GeneralService } from '..';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ProductModel } from '../../../components/dashboards/dashboard.model';
+
 import {
+  addProductByMerchantModel,
   ObjectBillModel,
   paymentBillsModel,
   StatsModel,
@@ -46,7 +47,7 @@ export class MarketService {
         })
       );
   }
-  addProductByMerchant(product: ProductModel) {
+  addProductByMerchant(product: addProductByMerchantModel) {
     return this.apiService
       .post('/dbs/merchant-product/', product)
       .pipe(map(response => response));

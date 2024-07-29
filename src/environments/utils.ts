@@ -83,7 +83,7 @@ export const environmentConfig: {
         name: 'workstation',
         uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
         theme: { name: 'erp' },
-        baseHref: '/auth/corporate',
+        baseHref: '/w/workstation',
       },
       {
         name: 'systemAdmin',
@@ -151,7 +151,7 @@ export const environmentConfig: {
         name: 'workstation',
         uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
         theme: { name: 'erp' },
-        baseHref: '/auth/corporate',
+        baseHref: '/w/workstation',
       },
       {
         name: 'systemAdmin',

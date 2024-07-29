@@ -1,27 +1,32 @@
-<div
-  (click)="onThemeSwitchChange()"
-  tabindex="0"
+<input
+  id="themeSwitch"
+  class="switch position-relative d-none rounded-pill"
+  type="checkbox"
+  [checked]="isDarkModetheme"
+  (change)="onThemeSwitchChange()" />
+<label
+  for="themeSwitch"
   class="row justify-content-between border checkbox-label bg-secondary position-relative rounded-pill"
   role="button"
-  [ngClass]="{ 'bg-secondary': mode === 'dark' }">
+  [ngClass]="{ 'bg-secondary': isDarkModetheme }">
   <div
-    class="col-4 h-100 forMoonIcon bg-dark position-absolute rounded-pill"
+    class="col-4 h-100 forMoonIcon bg-dark border position-absolute rounded-pill"
     [ngClass]="{
-      'opacity-100 active': mode === 'dark',
-      'opacity-0': mode === 'light',
+      'opacity-0 active': !isDarkModetheme,
+      'opacity-100': isDarkModetheme,
     }">
     <div class="d-flex h-100 justify-content-center align-items-center">
       <i class="fa-solid fa-moon moonIcon fs-6 text-white"></i>
     </div>
   </div>
   <div
-    class="col-4 h-100 forSunIcon bg-white border position-absolute rounded-pill"
+    class="col-4 h-100 forSunIcon bg-light border position-absolute rounded-pill"
     [ngClass]="{
-      'opacity-0': mode === 'dark',
-      'opacity-100 active': mode === 'light',
+      'opacity-100 active': !isDarkModetheme,
+      'opacity-0': isDarkModetheme,
     }">
     <div class="d-flex h-100 justify-content-center align-items-center">
       <i class="far fa-sun sunIcon fs-6 text-black"></i>
     </div>
   </div>
-</div>
+</label>

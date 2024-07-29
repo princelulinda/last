@@ -1,10 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { tellerObjectModel } from '../../merchant.models';
-import { DialogService } from '../../../../core/services';
+import { doTellerActionModel, tellerObjectModel } from '../../merchant.models';
+import { DialogService, MerchantService } from '../../../../core/services';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-merchant-teller-details',
@@ -13,9 +21,12 @@ import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-mo
   templateUrl: './merchant-teller-details.component.html',
   styleUrl: './merchant-teller-details.component.scss',
 })
-export class MerchantTellerDetailsComponent implements OnInit {
+export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
   @Input() tellerInfo!: tellerObjectModel;
-  //   @Output() isActionDone: EventEmitter<boolean> = new EventEmitter();
+  @Input() get_tellerInfo!: boolean;
+  // this   @Output() isActionDone: EventEmitter<boolean> = new EventEmitter(); was replaced
+
+  @Output() isActionDone = new EventEmitter<boolean>();
 
   canReceiveNotifications = false;
   action = '';
@@ -28,8 +39,10 @@ export class MerchantTellerDetailsComponent implements OnInit {
   isActive = true;
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  constructor(private dialogService: DialogService) {
-    //   private merchantService: MerchantService,
+  constructor(
+    private dialogService: DialogService,
+    private merchantService: MerchantService
+  ) {
     // private store: Store,
     // private variableService: VariableService
     //
@@ -38,7 +51,7 @@ export class MerchantTellerDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    //   this.isActionDone.emit(false);
+    this.isActionDone.emit(false);
     // console.log('iniiittt', this.canReceiveNotifications);
     // if (this.tellerInfo) {
     // }
@@ -151,72 +164,75 @@ export class MerchantTellerDetailsComponent implements OnInit {
     };
     console.log(body);
 
-    //   this.merchantService.doTellerAction(body).subscribe({
-    //       next: answer => {
-    //         const response = answer as doTellerActionModel;
-    //           // this.store.dispatch(new CloseDialog({ response: 'close' }));
+    this.merchantService.doTellerAction(body).subscribe({
+      next: answer => {
+        const response = answer as doTellerActionModel;
+        // this.store.dispatch(new CloseDialog({ response: 'close' }));
 
-    //           if (!response.object.success) {
-    //               const data = {
-    //                   title: '',
-    //                   type: 'failed',
-    //                   message: response.object.response_message,
-    //               };
-    //               console.log(data);
+        if (!response.object.success) {
+          const data = {
+            title: '',
+            type: 'failed',
+            message: response.object.response_message,
+          };
+          console.log(data);
 
-    //               // this.store.dispatch(new OpenDialog(data));
-    //           } else {
-    //               this.isActionDone.emit(true);
+          // this.store.dispatch(new OpenDialog(data));
+        } else {
+          this.isActionDone.emit(true);
 
-    //               const data = {
-    //                   title: '',
-    //                   type: 'success',
-    //                   message: response.object.response_message,
-    //               }; console.log(data);
+          const data = {
+            title: '',
+            type: 'success',
+            message: response.object.response_message,
+          };
+          console.log(data);
 
-    //               // this.store.dispatch(new OpenDialog(data));
-    //           }
-    //       },
-    //       error: (error: HttpErrorResponse) => {
-    //           this.isActionDone.emit(true);
+          // this.store.dispatch(new OpenDialog(data));
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        this.isActionDone.emit(true);
 
-    //           // this.store.dispatch(new CloseDialog({ response: 'close' }));
+        // this.store.dispatch(new CloseDialog({ response: 'close' }));
 
-    //           if (error.error.response_message) {
-    //               const data = {
-    //                   title: '',
-    //                   type: 'failed',
-    //                   message: error.error.response_message,
-    //               }; console.log(data);
+        if (error.error.response_message) {
+          const data = {
+            title: '',
+            type: 'failed',
+            message: error.error.response_message,
+          };
+          console.log(data);
 
-    //               // this.store.dispatch(new OpenDialog(data));
-    //           } else {
-    //               const data = {
-    //                   title: '',
-    //                   type: 'failed',
-    //                   message: 'An error occurred while doing action',
-    //               }; console.log(data);
+          // this.store.dispatch(new OpenDialog(data));
+        } else {
+          const data = {
+            title: '',
+            type: 'failed',
+            message: 'An error occurred while doing action',
+          };
+          console.log(data);
 
-    //               // this.store.dispatch(new OpenDialog(data));
-    //           }
-    //       },
-    //   });
+          // this.store.dispatch(new OpenDialog(data));
+        }
+      },
+    });
   }
 
-  // toggleNotifactionsCheckbox() {
-  //     this.canReceiveNotifications = !this.canReceiveNotifications;
+  toggleNotifactionsCheckbox() {
+    this.canReceiveNotifications = !this.canReceiveNotifications;
 
-  //     console.log('nooott', this.canReceiveNotifications);
-  // }
+    console.log('nooott', this.canReceiveNotifications);
+  }
 
-  // toggleIsActiveCheckbox() {
-  //     this.isActive = !this.isActive;
+  toggleIsActiveCheckbox() {
+    this.isActive = !this.isActive;
 
-  //     console.log('is active ?=', this.isActive);
-  // }
+    console.log('is active ?=', this.isActive);
+  }
 
-  // ngOnDestroy(): void {
-  //     this.onDestroy$.next();
-  //     this.onDestroy$.complete();
-  // }
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
 }
