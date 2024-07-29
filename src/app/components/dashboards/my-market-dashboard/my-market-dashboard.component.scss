@@ -1,7 +1,7 @@
-.is-disabled {
-    pointer-events: none;
-    opacity: 0.8;
-}
+// .is-disabled {
+//     pointer-events: none;
+//     opacity: 0.8;
+// }
 
 $color1: #a9dee5;
 $color2: #acd0db;
@@ -29,9 +29,9 @@ $pie-dimensions: $body-max-width;
   // position: relative;
   width: $pie-dimensions;
   height: $pie-dimensions;
-  border-radius: 50%;
+  // border-radius: 50%;
   background: $color3;
-  background-image: linear-gradient(to right, transparent 50%, $color2 0);
+  // background-image: linear-gradient(to right, transparent 50%, $color2 0);
   &::before,
   &::after {
     content: "";

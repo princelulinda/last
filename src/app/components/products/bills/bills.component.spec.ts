@@ -1,23 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WalletComponent } from './wallet.component';
+import { BillsComponent } from './bills.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 
-describe('WalletComponent', () => {
-  let component: WalletComponent;
-  let fixture: ComponentFixture<WalletComponent>;
+describe('BillsComponent', () => {
+  let component: BillsComponent;
+  let fixture: ComponentFixture<BillsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WalletComponent, RouterTestingModule],
       providers: [provideHttpClient(), provideHttpClientTesting()],
+      imports: [BillsComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(WalletComponent);
+    fixture = TestBed.createComponent(BillsComponent);
     component = fixture.componentInstance;
-    // fixture.detectChanges();
+    fixture.detectChanges();
   });
 
   it('should create', () => {
