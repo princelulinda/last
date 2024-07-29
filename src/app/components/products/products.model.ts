@@ -83,14 +83,30 @@ export interface updateProdcutInfoModel {
 export interface productConfigObjectModel {
   objects: productConfigModel;
   object: productConfigModel;
+  lookup_icon: string;
+  lookup_title: string;
+  lookup_subtitle: string;
+  price: string;
+  icon: string;
+  name: string;
 }
 
 export interface productConfigModel {
-  object: updateProdcutInfoModel;
+  // object: updateProdcutInfoModel;
+  product: number;
+  merchant: number;
+  action: string[];
+  price: number;
+  name: string;
+  minimun_payment_amount: number;
+  maximum_payment_amount: number;
+  metadata: number[];
+  pin_code: string;
   mininun_payment_amount: number;
   accepts_cart: boolean;
   is_stockable: boolean;
   incognito_mode: boolean;
+  voucher_type: string;
 }
 
 export interface searchProductByMerchantModel {

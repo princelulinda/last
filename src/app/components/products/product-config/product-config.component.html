@@ -129,8 +129,7 @@
         <span
           *ngIf="product.icon"
           class="text-center d-flex p-3 prod-card rounded justify-content-center align-items-center"
-          style="font-size: 60px"
-          [ngClass]="theme === 'light-mode' ? 'level-2' : 'level-1'">
+          style="font-size: 60px">
           <i class="t-white fa-solid fa-{{ product.icon }}"></i>
         </span>
         <b class="text-md text-card">{{ product.name }}</b>
@@ -145,15 +144,13 @@
         <span
           *ngIf="!product.lookup_icon"
           class="text-center d-flex prod-card p-3 rounded justify-content-center align-items-center"
-          style="font-size: 60px"
-          [ngClass]="theme === 'light-mode' ? 'level-2' : 'level-1'">
+          style="font-size: 60px">
           <i class="fa-solid t-white fa-box-open"></i>
         </span>
         <span
           *ngIf="product.lookup_icon"
           class="text-center d-flex p-3 rounded prod-card justify-content-center align-items-center"
-          style="font-size: 60px"
-          [ngClass]="theme === 'light-mode' ? 'level-2' : 'level-1'">
+          style="font-size: 60px">
           <i class="t-white fa-solid fa-{{ product.lookup_icon }}"></i>
         </span>
         <b class="text-md text-card">{{ product.lookup_title }}</b>
@@ -488,11 +485,7 @@
         class="bg-primary btn text-white px-3 ms-4"
         (click)="verifyPinProductUpdate()"
         tabindex="0"
-        [disabled]="!productConfigForm.dirty && selectedFields.length === 0"
-        [ngClass]="{
-          'text-white': theme === 'light-mode',
-          ' text-dark ': theme === 'dark-mode',
-        }">
+        [disabled]="!productConfigForm.dirty && selectedFields.length === 0">
         <b *ngIf="!isLoading" i18n>Save</b>
         <span *ngIf="isLoading">
           <i class="fa-solid fa-spin fa-circle-notch fs-4"></i>
@@ -516,7 +509,7 @@
               aria-label="search"
               aria-describedby="basic-addon1"
               [formControl]="searchMetadata" />
-            <span
+            <!-- <span
               role="button"
               class="position-relative"
               style="top: -45%; right: -85%"
@@ -529,18 +522,13 @@
               <span *ngIf="loadingData">
                 <i class="fas fa-spinner fa-pulse"></i>
               </span>
-            </span>
+            </span> -->
           </div>
 
           <button
             class="bg-primary btn text-white px-3 ms-2"
             (click)="toggleMetadata = false; addNewField()"
-            tabindex="0"
-            style="max-height: 38px"
-            [ngClass]="{
-              'text-white': theme === 'light-mode',
-              ' text-dark ': theme === 'dark-mode',
-            }">
+            tabindex="0">
             <b i18n>New</b>
           </button>
         </div>

@@ -64,8 +64,8 @@ export class ProductConfigComponent implements OnInit {
   canMoveToPrev = false;
   canMoveToNext = true;
   currentPage = 0;
-  // pages: any;
-  // count: any;
+  pages!: number;
+  count!: number;
   metadata: metadataModel | null = null;
   loadingData = false;
   isHover: boolean[] = [];
@@ -288,11 +288,11 @@ export class ProductConfigComponent implements OnInit {
         this.product = product.object;
 
         this.productConfigForm.patchValue({
-          name: this.product.object.name,
-          price: this.product.object.price,
-          min_payment: this.product.object.minimun_payment_amount,
-          max_payment: this.product.object.maximum_payment_amount,
-          position: this.product.object.voucher_type,
+          name: this.product.name,
+          price: this.product.price,
+          min_payment: this.product.minimun_payment_amount,
+          max_payment: this.product.maximum_payment_amount,
+          position: this.product.voucher_type,
           cart: this.product.accepts_cart,
           stockable: this.product.is_stockable,
           incognito: this.product.incognito_mode,
@@ -304,11 +304,11 @@ export class ProductConfigComponent implements OnInit {
     this.selectedMenu = 'configuration';
 
     this.productConfigForm.patchValue({
-      name: this.product.object.name,
-      price: this.product.object.price,
+      name: this.product.name,
+      price: this.product.price,
       min_payment: this.product.mininun_payment_amount,
-      max_payment: this.product.object.maximum_payment_amount,
-      position: this.product.object.voucher_type,
+      max_payment: this.product.maximum_payment_amount,
+      position: this.product.voucher_type,
       cart: this.product.accepts_cart,
       stockable: this.product.is_stockable,
       incognito: this.product.incognito_mode,
