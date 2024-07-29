@@ -62,10 +62,8 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
   selectedBank!: bankModel;
-  selected!: bankModel;
   selectedBank$!: Observable<bankModel>;
   isLoading = false;
-  showBankHome = false;
 
   clientVerified = '&filter_for_client=true';
   dialog$: Observable<DialogResponseModel>;
@@ -193,7 +191,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     this.getPublicServicesMerchants();
     this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (dialogResponse: DialogResponseModel) => {
-        console.log('PIN reçu:', this.pin);
         if (dialogResponse.response.pin) {
           this.pin = dialogResponse.response.pin;
           this.addBank();
@@ -214,13 +211,13 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         },
       });
   }
-  toggleBankHome() {
-    this.showBankHome = !this.showBankHome;
-  }
+  // toggleBankHome() {
+  //   this.showBankHome = !this.showBankHome;
+  // }
 
-  handleBackToPreviousState() {
-    this.showBankHome = false;
-  }
+  // handleBackToPreviousState() {
+  //   this.showBankHome = false;
+  // }
 
   getBanks() {
     this.bankService

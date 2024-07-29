@@ -8,7 +8,10 @@ import {
 } from '../../../components/settings/settings.models';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { accountsList } from '../../../components/account/models';
-import { WalletList } from '../../../components/wallet/wallet.models';
+import {
+  Walletdetail,
+  WalletList,
+} from '../../../components/wallet/wallet.models';
 
 @Injectable({
   providedIn: 'root',
@@ -17,22 +20,10 @@ export class ClientService {
   constructor(private apiService: ApiService) {
     //
   }
-  private _hasWalletList: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
 
-  get hasWalletList$(): Observable<boolean> {
-    return this._hasWalletList.asObservable();
-  }
+  private selectedWalletSubject = new BehaviorSubject<WalletList | null>(null);
+  selectedWallet$ = this.selectedWalletSubject.asObservable();
 
-  isWalletList(arg: boolean) {
-    this._hasWalletList.next(arg);
-  }
-  private _isDetailsWalletShown: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
-
-  get isDetailsWalletShown$(): Observable<boolean> {
-    return this._isDetailsWalletShown.asObservable();
-  }
   addAphoneNumber(body: BodyModel): Observable<AddResponse> {
     const url = '/extid/creation/';
     return this.apiService.post(url, body).pipe(
@@ -49,9 +40,9 @@ export class ClientService {
 
   getWalletDetails(
     selectedWallet: string
-  ): Observable<{ object: WalletList[] }> {
+  ): Observable<{ object: Walletdetail }> {
     const url = '/dbs/wallets/' + selectedWallet + '/';
-    return this.apiService.get<{ object: WalletList[] }>(url);
+    return this.apiService.get<{ object: Walletdetail }>(url);
   }
 
   getClientAccounts(clientId: number): Observable<{ objects: accountsList[] }> {
