@@ -1,0 +1,63 @@
+<section
+  class="h-100 w-100 bg-all-white d-flex align-items-center justify-content-center position-relative overflow-hidden"
+  (click)="animationStart()"
+  (mousemove)="animationStart()"
+  (keydown)="animationStart()"
+  tabindex="0">
+  <img
+    src="./images/standby/globe.svg"
+    class="position-absolute globe"
+    alt="" />
+
+  <img
+    src="./images/standby/print.svg"
+    class="position-absolute top-0 start-0"
+    alt="" />
+  <img
+    src="./images/standby/print.svg"
+    class="position-absolute print"
+    alt="" />
+  <div class="position-absolute">
+    <img src="./images/standby/iHelaRyanje.svg" id="toAnimate" alt="" />
+  </div>
+  <div class="hidDiv">
+    <div class="h-100 d-flex align-items-center flex-column mb-3">
+      <div class="mb-2 profile rounded-circle overflow-hidden">
+        <img
+          src="https://cdn.vox-cdn.com/thumbor/zaoSLDXQRuHmTTpWL7esp3jNvWA=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/24300718/1450131991.jpg"
+          class="image"
+          alt="" />
+      </div>
+
+      <span class="fw-bold">Bibentyo Bundi</span>
+    </div>
+
+    <div class="input-group z-1">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="password"
+        aria-label="Recipient's username"
+        aria-describedby="button-addon2" />
+      <!-- <button
+        class="btn border-0 bg-transparent"
+        type="button"
+        id="button-addon2">
+        Button
+      </button> -->
+      <div
+        id="button-addon2"
+        class="fill d-flex align-items-center px-2"
+        type="button">
+        <i class="fa-regular fa-eye"></i>
+      </div>
+    </div>
+  </div>
+  <div class=""></div>
+  <div class="wave-cont position-absolute bottom-0 w-100">
+    <div class="wave"></div>
+    <!-- <div class="wave wave2"></div>
+    <div class="wave wave3"></div>
+    <div class="wave wave4"></div> -->
+  </div>
+</section>
