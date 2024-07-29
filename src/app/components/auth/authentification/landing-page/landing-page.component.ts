@@ -9,11 +9,4 @@ import { ClipboardDirective } from '../../../dev/clipboard.directive';
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss',
 })
-export class LandingPageComponent {
-  title = 'copy';
-
-  updateTitle() {
-    this.title = 'copied';
-    console.log('valeur title:', this.title);
-  }
-}
+export class LandingPageComponent {}

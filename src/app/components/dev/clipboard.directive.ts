@@ -11,19 +11,28 @@ import { Tooltip } from 'bootstrap';
   standalone: true,
 })
 export class ClipboardDirective implements AfterViewInit {
+  private tooltip!: Tooltip;
+
   constructor(private element: ElementRef) {}
 
   @HostListener('click', ['$event'])
   public onClick(event: MouseEvent): void {
     event.preventDefault();
-    const Text_a_Copier = this.element.nativeElement.textContent;
-    if (!Text_a_Copier) {
+    const TextACopier = this.element.nativeElement.textContent;
+
+    if (!TextACopier) {
       return;
     }
+
     navigator.clipboard
-      .writeText(Text_a_Copier)
+      .writeText(TextACopier)
       .then(() => {
-        console.log('texte est copie.');
+        this.updateTooltipTitle('Copied');
+
+        setTimeout(() => {
+          this.updateTooltipTitle('Copy');
+          this.tooltip.hide();
+        }, 1500);
       })
       .catch(err => {
         console.error('le text est pas copié', err);
@@ -32,6 +41,11 @@ export class ClipboardDirective implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const tooltipTriggerEl = this.element.nativeElement;
-    new Tooltip(tooltipTriggerEl);
+    this.tooltip = new Tooltip(tooltipTriggerEl);
+  }
+
+  private updateTooltipTitle(newTitle: string): void {
+    this.element.nativeElement.setAttribute('data-bs-original-title', newTitle);
+    this.tooltip.show();
   }
 }
