@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LandscpeBillModel } from '../../../../../core/services/dialog/dialogs-models';
 
@@ -10,7 +10,8 @@ import { LandscpeBillModel } from '../../../../../core/services/dialog/dialogs-m
   styleUrls: ['./landscape-bill.component.scss'],
 })
 export class LandscapeBillComponent implements AfterViewInit {
-  @Input({ required: true }) successMessage: LandscpeBillModel = {
+  // @Input({ required: true })
+  successMessage: LandscpeBillModel = {
     logo_url: '',
     printable_text: '',
     receipt_date: new Date(),
