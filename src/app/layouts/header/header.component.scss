@@ -145,24 +145,24 @@
 //         min-width: 328px;
 //     }
 // }
-@media (min-width: 991px) {
-    .profile-card {
-        right: 2px;
-        z-index: 20;
-        position: absolute;
-        height: calc(100vh - 65px);
-        border: 0.5px solid rgb(172, 170, 170);
-        // display: flex;
-        // flex-direction: column;
-        //transition: all 1s;
-        // overflow-y: scroll;
-        // overflow-x: hidden;
-        animation: slidein 100ms 1 linear;
-        -webkit-animation: slidein 100ms 1 linear;
-        min-width: 328px;
-        border-radius: 10px 0px 0px 10px;
-    }
-}
+// @media (min-width: 991px) {
+//     .profile-card {
+//         right: 2px;
+//         z-index: 20;
+//         position: absolute;
+//         height: calc(100vh - 65px);
+//         // border: 0.5px solid rgb(172, 170, 170);
+//         // display: flex;
+//         // flex-direction: column;
+//         //transition: all 1s;
+//         // overflow-y: scroll;
+//         // overflow-x: hidden;
+//         animation: slidein 100ms 1 linear;
+//         -webkit-animation: slidein 100ms 1 linear;
+//         min-width: 328px;
+//         border-radius: 10px 0px 0px 10px;
+//     }
+// }
 
 
 #right-side-menu-icons {
@@ -191,7 +191,6 @@ a {
 .plateforn-card {
     width: auto;
     height: calc(100vh - 70px);
-   
     position: absolute;
     right: 2px;
     top: 55px;
@@ -207,6 +206,13 @@ a {
     -webkit-animation: slidein 100ms 1 linear;
     min-width: 328px;
     
+}
+.plateform{
+    border:10px #c98986 solid;
+}
+.userInfo{
+    margin-right:7px;
+    border-radius: 10px 0px 0px 10px;
 }
 .icons-color {
     color: #d9d9d9;

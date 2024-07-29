@@ -209,7 +209,6 @@ export class ConfigService {
   }
   resetSelectedBank(): void {
     this.dbService.clearTable(SelectedBank.tableName);
-    this.dbService.removeLocalStorageBankId();
   }
   getUserBanks(): Observable<bankModel[]> {
     return this.userBanks$ as Observable<bankModel[]>;

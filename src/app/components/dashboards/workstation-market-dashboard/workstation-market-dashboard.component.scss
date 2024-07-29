@@ -1,11 +1,22 @@
-.bgCard {
+.bgCardLight {
   background: linear-gradient(270deg, #f6f7f9 0%, #fad4d6 99.84%);
 }
 
+.bgCardDark {
+  background: linear-gradient(270deg, rgba(36, 37, 38, 0.2) 0%, #000000 99.84%);
+}
+
 .recent {
-  background: #ffcccc;
   height: 427px;
   width: 427px;
+}
+
+.recentLight {
+  background: #ffcccc;
+}
+
+.recentDark {
+  background: rgba(24, 25, 26, 1);
 }
 
 .rectangle {
@@ -16,5 +27,12 @@
   border-radius: 70px;
   opacity: 0.2;
   transform: rotate(76deg);
+}
+
+.rectangleLight {
   background: #e5f2ff;
+}
+
+.rectangleDark {
+  background: rgba(36, 37, 38, 1);
 }
