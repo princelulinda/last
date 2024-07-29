@@ -31,7 +31,7 @@
 @if (!isLoadingInfo && merchant) {
   <div class="ms-5 ps-3">
     <div
-      class="d-lg-flex d-none position-relative shadow me-5 ms-2 border-top border-primary border-4"
+      class="d-lg-flex d-none position-relative shadow me-5 ms-2 border-top-4 border-start-0 border-end-0 border-bottom-0 border-primary border-4"
       style="height: 120px">
       <img
         src="/images/products/Rectangle 1235.svg"
@@ -193,7 +193,7 @@
 
           <div class="w-100 d-flex justify-content-center text-align-center">
             <div
-              class="pie-chart text-opacity-5 position-relative"
+              class="pie-chart text-opacity-5 position-relative rounded-circle"
               style="margin-left: -40%">
               <div class="pie-text text1 position-absolute fw-bold"></div>
               <div class="pie-text text2 position-absolute fw-bold"></div>
@@ -247,7 +247,7 @@
               <div
                 role="button"
                 class="pt-1 level-1 ms-3 mt-2 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
-                routerLink="/m/market/bills">
+                routerLink="/m/market/bill">
                 <b class="text-dark" i18n>Bills Report</b>
                 <i class="fa-solid fa-file-excel ms-3 text-success"></i>
               </div>
@@ -329,7 +329,7 @@
 </div>
 <div class="modal fade" id="billsModal" data-mdb-backdrop="false">
   <div class="modal-dialog">
-    <div class="modal-content" style="margin-top: 35%">
+    <div class="modal-content mt-5 pt-5 pb-5 mb-5">
       <div class="modal-body">
         <div class="text-end">
           <span
@@ -354,7 +354,7 @@
                 (selectedItemEvent)="selectClient($event)"></app-lookup>
             </div>
           </div>
-          <form>
+          <form [formGroup]="billForm">
             <div class="col mt-4 ms-4 me-4 text-dark">
               <app-amount-field
                 [isFormFloating]="true"
@@ -371,6 +371,9 @@
             <div class="text-center mt-5 mb-4">
               <button
                 (click)="enterPin()"
+                [disabled]="
+                  !billForm.valid || isLoading || !selectClient || !amount
+                "
                 class="text-all-white btn bg-primary px-4"
                 i18n>
                 Confirm
@@ -438,16 +441,15 @@
           <div class="row mt-4 ps-5 ms-1">
             @for (merchant of merchantMult; track $index) {
               <div
-                class="col-2 border sm-radius p-2 me-4"
+                class="col-3"
                 role="button"
                 tabindex="0"
                 (click)="switchMerchant(merchant.id)">
                 <div
-                  class="text-center d-flex justify-content-center align-items-center merchant mb-1 position-relative"
                   [ngClass]="{
                     'level-1': theme === 'light',
                   }">
-                  @if (merchant && !merchant.merchant_logo) {
+                  <!-- @if (merchant && !merchant.merchant_logo) {
                     <span
                       class="d-flex justify-content-center align-items-center">
                       <svg
@@ -511,7 +513,11 @@
                     <span class="text-center" i18n>
                       {{ merchant.merchant_code }}
                     </span>
-                  </p>
+                  </p> -->
+
+                  <app-merchant-card
+                    [merchants]="merchant"
+                    [get_merchant]="true"></app-merchant-card>
                 </div>
               </div>
             }

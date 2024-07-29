@@ -47,6 +47,7 @@ export interface tellerMerchantModel {
   slug: string;
   api_plug_name: string;
   client_visibility_activated: boolean;
+  merchant_code: string;
 }
 
 export interface teller_typeModel {

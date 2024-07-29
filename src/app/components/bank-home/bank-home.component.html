@@ -2,21 +2,24 @@
   <div class="text-dark">
     <div class="d-flex justify-content-end mb-5">
       <div class="d-flex align-items-center">
-        <div class="me-2" (click)="goBack()" tabindex="0">
+        <div
+          class="me-2"
+          (click)="deselectBank()"
+          title="Deselect Bank"
+          tabindex="0">
           <span role="button" class="fs-2">
             <i class="fa fa-chevron-left"></i>
           </span>
         </div>
         <div>
-          <app-switch-bank
-            (bankOptions)="handleBankOptions($event)"></app-switch-bank>
+          <app-switch-bank></app-switch-bank>
         </div>
       </div>
     </div>
     <div>
       <div class="row mt-4 justify-content-around">
         @for (bankMenu of bankMenus; track $index) {
-          <div
+          <a
             role="button"
             [routerLink]="bankMenu.link"
             class="d-grid col-auto justify-content-center">
@@ -43,7 +46,7 @@
             <div class="text-center">
               <b>{{ bankMenu.name }}</b>
             </div>
-          </div>
+          </a>
         }
       </div>
     </div>
@@ -72,4 +75,4 @@
     </section>
   </div>
 </div>
-<router-outlet></router-outlet>
+<!-- <router-outlet></router-outlet> -->
