@@ -80,6 +80,65 @@
           @if (noWalletData) {
             <span> No default wallet found</span>
           }
+
+          <div class="d-grid mb-2">
+            @if (defaultWallet) {
+              <span class="text-light">{{
+                defaultWallet.response_data.code
+              }}</span>
+            }
+
+            @if (!defaultWallet && !noWalletData) {
+              <span>
+                <i class="fa-solid fa-pulse fa-spinner text-light"></i>
+              </span>
+            }
+          </div>
+          <div
+            class="d-flex justify-content-between"
+            [ngClass]="{
+              'mt-2': defaultWallet,
+              'mt-0': !defaultWallet,
+            }">
+            <div class="d-flex">
+              <b
+                class="px-2 py-1 bg-light bg-opacity-25 short rounded me-2 d-flex align-items-center justify-content-center text-light"
+                role="button"
+                title="Create new wallet">
+                <i class="fa fa-plus fs-l-medium"></i>
+              </b>
+              <b
+                routerLink="/b/banking/wallets/"
+                class="px-2 py-1 bg-light bg-opacity-25 short rounded me-2 d-flex align-items-center justify-content-center text-light"
+                role="button"
+                title="Redirect to the wallets list">
+                <i class="fa fa-bars-staggered fs-l-medium"></i>
+              </b>
+              <b
+                title="Top up Wallet"
+                class="bg-light bg-opacity-25 short rounded me-2 d-flex align-items-center justify-content-center text-light"
+                role="button">
+                <img
+                  class="topup"
+                  src="/images/wallet-topup-light.svg"
+                  alt="" />
+              </b>
+              <b
+                class="px-2 py-1 short bg-light bg-opacity-25 rounded me-2 z-5 d-flex align-items-center justify-content-center text-light"
+                role="button"
+                title="Wallet statements">
+                <i class="fa fa-history fs-l-medium"></i>
+              </b>
+            </div>
+            <div>
+              <b
+                class="px-2 py-1 bg-light bg-opacity-25 short rounded me-2 z-5 justify-self-end d-flex align-items-center justify-content-center text-light"
+                role="button"
+                title="Wallet details">
+                <i class="fa fa-info-circle fs-l-medium"></i>
+              </b>
+            </div>
+          </div>
         </div>
 
         <div class="d-flex flex-column g-0 pt-2">

@@ -18,11 +18,12 @@ export interface WalletList {
 }
 
 export interface Walletdetail {
+  actual_balance: number;
   title: string;
   code: string;
   available_balance: number;
-  currency: string;
+  currency: 'BIF';
   account: {
-    account_holder: string;
+    acc_holder: string;
   };
 }
