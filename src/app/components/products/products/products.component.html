@@ -92,7 +92,7 @@
             <span i18n class="text-dark"><b> Favorites</b></span>
           </h6>
         </div>
-        @if (!allProduct) {
+        @if (!isLoading) {
           <div class="row mb-3 d-flex justify-content-between">
             @for (item of countProductLoader; track $index) {
               <div class="col-5" style="height: 135px" [hidden]="$index >= 2">

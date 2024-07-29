@@ -2,6 +2,7 @@
 
 import { tellerObjectModel } from '../merchant/merchant.models';
 import { ClientApiResponse } from '../../core/db/models/auth';
+import { MerchantBillModel } from '../../core/services/dialog/dialogs-models';
 
 export interface ProductModel {
   id: number;
@@ -31,6 +32,7 @@ export interface MerchantModel {
   available_balance: number;
   balance_currency: number;
   client_category: string;
+  client: ClientModel;
 }
 
 export interface MerchantObjectModel {
@@ -47,6 +49,19 @@ export interface MerchantObjectsModel {
 }
 export interface ClientModel {
   id: number;
+  client_id: number | string;
+  client_code: string;
+  client_full_name: string;
+  client_email: string;
+  client_phone_number: string;
+}
+
+export interface MerchantBillDataModel {
+  data: MerchantBillModel;
+  active?: {
+    isActive: boolean | false;
+    type: string;
+  };
 }
 
 export interface MerchantInfoModel {
