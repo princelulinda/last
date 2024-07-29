@@ -39,7 +39,7 @@ export class BankHomeComponent implements OnInit, OnDestroy {
       name: 'Loans',
       icon: '',
       image: ['loan-black.svg', 'loan-white.svg'],
-      link: '',
+      link: '/b/banking/loan',
     },
     {
       name: 'Withdrawals',
