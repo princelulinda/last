@@ -1,0 +1,50 @@
+.size-40 {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    z-index: 2;
+  }
+  .withdrawal-icon{
+    z-index: 2;
+    width: 27px;
+    border-radius: 50%;
+    background-color: rgb(129, 0, 25);
+    right: 7%;
+}
+.withdrawal-content {
+    z-index: -10;
+    opacity: 0;
+    border-radius: 20px;
+    font-size: 14px;
+    right: 15%;
+    width: 105px;
+
+}
+.withdrawal-icon:hover + .withdrawal-content {
+    opacity: 1;
+    z-index: 1;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.transfer-icon{
+  z-index: 2;
+  border-radius: 23px;
+  right: 7%;
+  height: 30px;
+  background-color: rgb(129, 0, 25);
+  z-index: 999;
+}
+.transfer-content {
+  z-index: -10;
+  opacity: 0;
+  border-radius: 20px;
+  font-size: 14px;
+  right: 14%;
+  width: 77px;
+
+}
+.transfer-icon:hover + .transfer-content {
+  opacity: 1;
+  z-index: 1;
+  transition: opacity 0.4s ease-in-out;
+}
