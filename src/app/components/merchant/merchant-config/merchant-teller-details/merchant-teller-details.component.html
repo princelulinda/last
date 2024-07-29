@@ -1,188 +1,199 @@
 <main>
-  <section class="w-100 px-4 py-4">
-    <span></span>
-    <div *ngIf="!tellerInfo">
-      <div class="d-grid align-items-center">
-        <div
-          class="d-flex w-100 justify-content-center"
-          style="width: 91px; height: 96px">
-          <app-skeleton height="96px" width="91px"></app-skeleton>
-        </div>
-        <div class="d-flex w-100 justify-content-center mt-2">
-          <app-skeleton height="10px" width="250px"></app-skeleton>
-        </div>
-        <div class="d-flex w-100 justify-content-center my-1">
-          <app-skeleton height="10px" width="150px"></app-skeleton>
-        </div>
-        <div class="d-flex w-100 justify-content-center mb-2">
-          <app-skeleton height="10px" width="200px"></app-skeleton>
-        </div>
-        <hr />
-        <div class="d-flex w-100 justify-content-center mt-2">
-          <app-skeleton height="30px" width="250px"></app-skeleton>
-        </div>
-        <div class="d-flex w-100 justify-content-center mt-2">
-          <app-skeleton height="30px" width="250px"></app-skeleton>
-        </div>
-        <div class="d-flex w-100 justify-content-center mt-2">
-          <app-skeleton height="30px" width="250px"></app-skeleton>
-        </div>
-      </div>
-    </div>
-    <div class="" *ngIf="tellerInfo">
-      <div class="d-grid align-items-center">
-        <div class="d-flex justify-content-center w-100">
-          <div
-            class="d-grid align-items-center overflow-hidden round"
-            style="width: 91px; height: 96px">
-            <img
-              *ngIf="!tellerInfo.client.picture"
-              src="../../../../../assets/images/userprofile.png"
-              alt=""
-              class="image round" />
-            <img
-              *ngIf="tellerInfo.client.picture"
-              [src]="tellerInfo.client.picture"
-              alt=""
-              class="image round" />
-          </div>
-        </div>
-        <div class="d-flex w-100 justify-content-center my-1">
-          <b class="p-dark-sm">{{ tellerInfo.client.client_full_name }}</b>
-        </div>
-        <div class="d-flex w-100 justify-content-center mb-2">
-          <b class="p-dark-sm">{{ tellerInfo.client.client_code }}</b>
-        </div>
-        <!-- <div class="d-flex w-100 justify-content-center">
-                    <b class="p-dark-md">--- --- BIF</b>
-                </div> -->
-      </div>
-
-      <hr />
-
+  <section class="w-100 px-4 py-4 bg-white">
+    @if (!tellerInfo) {
       <div>
-        <div
-          class="d-flex w-100 justify-content-between align-items-center mb-3">
-          <b class="p-dark-md">Activate</b>
-
+        <div class="d-grid align-items-center">
           <div
-            role="button"
-            class="switch d-flex align-items-center px-1"
-            (click)="showModal('activate', 'deactivate', 'active')"
-            tabindex="0"
-            [ngClass]="{
-              'justify-content-end text-primary': tellerInfo.is_active,
-              'justify-content-start t-white': !tellerInfo.is_active,
-              'justify-content-start t-black': !tellerInfo.is_active,
-            }">
-            <span class="fa fa-circle"></span>
+            class="d-flex w-100 justify-content-center"
+            style="width: 91px; height: 96px">
+            <app-skeleton height="96px" width="91px"></app-skeleton>
           </div>
-        </div>
-        <div
-          [ngClass]="tellerInfo.is_active ? '' : 'not-clickable'"
-          [title]="
-            tellerInfo.is_active
-              ? ''
-              : 'Please active this teller first and then do this action'
-          "
-          class="d-flex w-100 justify-content-between align-items-center mb-3">
-          <b class="p-dark-md">Notification</b>
-          <div
-            role="button"
-            class="switch d-flex align-items-center px-1"
-            (click)="
-              showModal(
-                'set_notifications',
-                'cancel_notifications',
-                'notification'
-              )
-            "
-            tabindex="0"
-            [ngClass]="{
-              'justify-content-end text-primary':
-                tellerInfo.can_receive_notifications,
-              'justify-content-start t-white':
-                !tellerInfo.can_receive_notifications,
-              'justify-content-start t-black':
-                !tellerInfo.can_receive_notifications,
-            }">
-            <span class="fa fa-circle"></span>
+          <div class="d-flex w-100 justify-content-center mt-2">
+            <app-skeleton height="10px" width="250px"></app-skeleton>
           </div>
-        </div>
-        <div
-          class="d-flex w-100 justify-content-between align-items-center mb-3"
-          [ngClass]="tellerInfo.is_active ? '' : 'not-clickable'"
-          [title]="
-            tellerInfo.is_active
-              ? ''
-              : 'Please active this teller first and then do this action'
-          ">
-          <b class="p-dark-md">Tip</b>
-          <div
-            role="button"
-            class="switch d-flex align-items-center px-1"
-            (click)="showModal('set_tip', 'revoke_tip', 'tip')"
-            tabindex="0"
-            [ngClass]="{
-              'justify-content-end text-primary': tellerInfo.can_receive_tip,
-              'justify-content-start t-white': !tellerInfo.can_receive_tip,
-              'justify-content-start t-black': !tellerInfo.can_receive_tip,
-            }">
-            <span class="fa fa-circle"></span>
+          <div class="d-flex w-100 justify-content-center my-1">
+            <app-skeleton height="10px" width="150px"></app-skeleton>
           </div>
-        </div>
-
-        <div
-          [ngClass]="tellerInfo.is_active ? '' : 'not-clickable'"
-          [title]="
-            tellerInfo.is_active
-              ? ''
-              : 'Please active this teller first and then do this action'
-          "
-          class="d-flex w-100 justify-content-between align-items-center mb-3">
-          <b class="p-dark-md">Admin</b>
-          <div
-            class="switch d-flex align-items-center px-1"
-            role="button"
-            (click)="showModal('make_admin', 'revoke_admin', 'admin')"
-            tabindex="0"
-            [ngClass]="{
-              'justify-content-end text-primary':
-                tellerInfo?.teller_type?.value === 'A',
-              'justify-content-start t-white':
-                tellerInfo.teller_type.value !== 'A',
-              'justify-content-start t-black':
-                tellerInfo.teller_type.value !== 'A',
-            }">
-            <span class="fa fa-circle"></span>
+          <div class="d-flex w-100 justify-content-center mb-2">
+            <app-skeleton height="10px" width="200px"></app-skeleton>
           </div>
-        </div>
-        <div
-          [ngClass]="tellerInfo.is_active ? '' : 'not-clickable'"
-          [title]="
-            tellerInfo.is_active
-              ? ''
-              : 'Please active this teller first and then do this action'
-          "
-          class="d-flex w-100 justify-content-between align-items-center mb-3">
-          <b class="p-dark-md">Super Admin</b>
-          <div
-            role="button"
-            class="switch d-flex align-items-center px-1"
-            (click)="showModal('make_superadmin', 'revoke_admin', 'superadmin')"
-            tabindex="0"
-            [ngClass]="{
-              'justify-content-end text-primary':
-                tellerInfo?.teller_type?.value === 'S',
-              'justify-content-start t-white':
-                tellerInfo?.teller_type?.value !== 'S',
-              'justify-content-start t-black':
-                tellerInfo?.teller_type?.value !== 'S',
-            }">
-            <span class="fa fa-circle"></span>
+          <hr />
+          <div class="d-flex w-100 justify-content-center mt-2">
+            <app-skeleton height="30px" width="250px"></app-skeleton>
+          </div>
+          <div class="d-flex w-100 justify-content-center mt-2">
+            <app-skeleton height="30px" width="250px"></app-skeleton>
+          </div>
+          <div class="d-flex w-100 justify-content-center mt-2">
+            <app-skeleton height="30px" width="250px"></app-skeleton>
           </div>
         </div>
       </div>
-    </div>
+    } @else if (tellerInfo) {
+      <div class="">
+        <div class="d-grid align-items-center">
+          <div class="d-flex justify-content-center w-100">
+            <div
+              class="d-grid align-items-center overflow-hidden round"
+              style="width: 91px; height: 96px">
+              @if (!tellerInfo.client.picture) {
+                <!-- <img
+                src="../../../../../assets/images/userprofile.png"
+                alt=""
+                class="image round" /> -->
+                <span
+                  class="d-flex justify-content-center sm-radius bg-secondary">
+                  <i class="fa-solid fa-user fa-3x text-white mb-4 mt-3"></i>
+                </span>
+              } @else if (tellerInfo.client.picture) {
+                <img
+                  [src]="tellerInfo.client.picture"
+                  alt=""
+                  class="image round" />
+              }
+            </div>
+          </div>
+          <div class="d-flex w-100 justify-content-center my-1">
+            <b class="text-dark">{{ tellerInfo.client.client_full_name }}</b>
+          </div>
+          <div class="d-flex w-100 justify-content-center mb-2">
+            <b class="text-dark">{{ tellerInfo.client.client_code }}</b>
+          </div>
+          <!-- <div class="d-flex w-100 justify-content-center">
+                      <b class="p-dark-md">--- --- BIF</b>
+                  </div> -->
+        </div>
+
+        <hr />
+
+        <div>
+          <div
+            class="d-flex w-100 justify-content-between align-items-center mb-3">
+            <b class="text-dark" i18n>Activate</b>
+
+            <div
+              role="button"
+              class="d-flex align-items-center bg-secondary border lg-radius px-2 py-1"
+              (click)="showModal('activate', 'deactivate', 'active')"
+              tabindex="0"
+              [ngClass]="{
+                'justify-content-end text-primary ps-5': tellerInfo.is_active,
+                'justify-content-start text-white pe-5': !tellerInfo.is_active,
+                'justify-content-start t-black': !tellerInfo.is_active,
+              }">
+              <span class="fa fa-circle"></span>
+            </div>
+          </div>
+          <div
+            [ngClass]="tellerInfo.is_active ? '' : 'not-clickable'"
+            [title]="
+              tellerInfo.is_active
+                ? ''
+                : 'Please active this teller first and then do this action'
+            "
+            class="d-flex w-100 justify-content-between align-items-center mb-3">
+            <b class="text-dark" i18n>Notification</b>
+            <div
+              role="button"
+              class="switch d-flex align-items-center bg-secondary border lg-radius px-2 py-1"
+              (click)="
+                showModal(
+                  'set_notifications',
+                  'cancel_notifications',
+                  'notification'
+                )
+              "
+              tabindex="0"
+              [ngClass]="{
+                'justify-content-end text-primary ps-5':
+                  tellerInfo.can_receive_notifications,
+                'justify-content-start text-white pe-5':
+                  !tellerInfo.can_receive_notifications,
+                'justify-content-start t-black':
+                  !tellerInfo.can_receive_notifications,
+              }">
+              <span class="fa fa-circle"></span>
+            </div>
+          </div>
+          <div
+            class="d-flex w-100 justify-content-between align-items-center mb-3"
+            [ngClass]="tellerInfo.is_active ? '' : 'not-clickable'"
+            [title]="
+              tellerInfo.is_active
+                ? ''
+                : 'Please active this teller first and then do this action'
+            ">
+            <b class="text-dark" i18n>Tip</b>
+            <div
+              role="button"
+              class="switch d-flex align-items-center bg-secondary border lg-radius px-2 py-1"
+              (click)="showModal('set_tip', 'revoke_tip', 'tip')"
+              tabindex="0"
+              [ngClass]="{
+                'justify-content-end text-primary ps-5':
+                  tellerInfo.can_receive_tip,
+                'justify-content-start text-white pe-5':
+                  !tellerInfo.can_receive_tip,
+                'justify-content-start t-black': !tellerInfo.can_receive_tip,
+              }">
+              <span class="fa fa-circle"></span>
+            </div>
+          </div>
+
+          <div
+            [ngClass]="tellerInfo.is_active ? '' : 'not-clickable'"
+            [title]="
+              tellerInfo.is_active
+                ? ''
+                : 'Please active this teller first and then do this action'
+            "
+            class="d-flex w-100 justify-content-between align-items-center mb-3">
+            <b class="text-dark" i18n>Admin</b>
+            <div
+              class="switch d-flex align-items-center bg-secondary border lg-radius px-2 py-1"
+              role="button"
+              (click)="showModal('make_admin', 'revoke_admin', 'admin')"
+              tabindex="0"
+              [ngClass]="{
+                'justify-content-end text-primary ps-5':
+                  tellerInfo?.teller_type?.value === 'A',
+                'justify-content-start text-white pe-5':
+                  tellerInfo.teller_type.value !== 'A',
+                'justify-content-start t-black':
+                  tellerInfo.teller_type.value !== 'A',
+              }">
+              <span class="fa fa-circle"></span>
+            </div>
+          </div>
+          <div
+            [ngClass]="tellerInfo.is_active ? '' : 'not-clickable'"
+            [title]="
+              tellerInfo.is_active
+                ? ''
+                : 'Please active this teller first and then do this action'
+            "
+            class="d-flex w-100 justify-content-between align-items-center mb-3">
+            <b class="text-dark" i18n>Super Admin</b>
+            <div
+              role="button"
+              class="switch d-flex align-items-center bg-secondary border lg-radius px-2 py-1"
+              (click)="
+                showModal('make_superadmin', 'revoke_admin', 'superadmin')
+              "
+              tabindex="0"
+              [ngClass]="{
+                'justify-content-end text-primary ps-5':
+                  tellerInfo?.teller_type?.value === 'S',
+                'justify-content-start text-white pe-5':
+                  tellerInfo?.teller_type?.value !== 'S',
+                'justify-content-start t-black':
+                  tellerInfo?.teller_type?.value !== 'S',
+              }">
+              <span class="fa fa-circle"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
   </section>
 </main>

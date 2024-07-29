@@ -107,8 +107,8 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
     this.product = product;
   }
 
-  switchPlateform(plateform: PlateformModel, url?: string) {
-    this.configService.switchPlateform(plateform);
+  async switchPlateform(plateform: PlateformModel, url?: string) {
+    await this.configService.switchPlateform(plateform);
 
     if (url) {
       this.router.navigate([url]);

@@ -1,6 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductModel } from '../../dashboards/dashboard.model';
+import { ModeModel } from '../../../core/services/config/main-config.models';
+import { Observable } from 'rxjs';
+import { ConfigService } from '../../../core/services';
 // import { ProductModel } from '../../products/products.model';
 
 @Component({
@@ -10,25 +13,23 @@ import { ProductModel } from '../../dashboards/dashboard.model';
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
 })
-export class ProductCardComponent {
+export class ProductCardComponent implements OnInit {
   @Input() product!: ProductModel;
   @Input() get_product!: boolean;
-  // @Output() payMerchant = new EventEmitter<any>();
+  currentMode$: Observable<ModeModel>;
+  currentMode!: ModeModel;
 
-  // theme$: Observable<any>;
-  // theme: any;
-
-  constructor(/**private store: Store */) {
-    // this.theme$ = this.store.select(SwitchThemeState.GetTheme);
+  constructor(private configService: ConfigService) {
+    this.currentMode$ = this.configService.getMode();
   }
 
-  // ngOnInit(): void {
-  //     this.theme$.subscribe({
-  //         next: (theme) => {
-  //             this.theme = theme;
-  //         },
-  //     });
-  // }
+  ngOnInit(): void {
+    this.currentMode$.subscribe({
+      next: theme => {
+        this.currentMode = theme;
+      },
+    });
+  }
   /**  was already commented */
   // openmodal(data: any) {
   //     this.payMerchant.emit(data);
