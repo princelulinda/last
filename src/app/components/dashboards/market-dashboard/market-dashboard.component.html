@@ -356,13 +356,40 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        @for (item of [1, 2, 3, 4]; track $index) {
-          <div class="col-3">
-            <app-product-card></app-product-card>
-          </div>
-        }
-      </div>
+      @if (!products) {
+        <div class="row ms-2">
+          @for (items of [1, 2, 3, 4]; track $index) {
+            <div class="col-lg-3 col-md-2 col-sm-4 col mb-2">
+              <app-skeleton
+                height="140px"
+                width="170px"
+                classes="sm-radius"></app-skeleton>
+              <div>
+                <app-skeleton
+                  height="10px"
+                  width="30px"
+                  classes="sm-radius"
+                  appearance="line"></app-skeleton>
+              </div>
+              <div>
+                <app-skeleton
+                  height="10px"
+                  width="50px"
+                  classes="sm-radius"
+                  appearance="line"></app-skeleton>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="row">
+          @for (item of [1, 2, 3, 4]; track $index) {
+            <div class="col-3">
+              <app-product-card></app-product-card>
+            </div>
+          }
+        </div>
+      }
     </section>
   </div>
 
