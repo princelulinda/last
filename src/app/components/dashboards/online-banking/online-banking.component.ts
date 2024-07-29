@@ -35,8 +35,9 @@ import {
   ModeModel,
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
-import { ReusableListComponent } from "../../../global/components/reusable-list/reusable-list.component";
-
+import { RouterLink } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
+import { BankHomeComponent } from '../../bank-home/bank-home.component';
 @Component({
   selector: 'app-online-banking',
   standalone: true,
@@ -50,8 +51,10 @@ import { ReusableListComponent } from "../../../global/components/reusable-list/
     CommonModule,
     WalletCardComponent,
     TarifComponent,
-    ReusableListComponent
-],
+    RouterLink,
+    RouterOutlet,
+    BankHomeComponent,
+  ],
 })
 export class OnlineBankingComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
@@ -59,8 +62,10 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
   selectedBank!: bankModel;
+  selected!: bankModel;
   selectedBank$!: Observable<bankModel>;
   isLoading = false;
+  showBankHome = false;
 
   clientVerified = '&filter_for_client=true';
   dialog$: Observable<DialogResponseModel>;
@@ -209,6 +214,13 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         },
       });
   }
+  toggleBankHome() {
+    this.showBankHome = !this.showBankHome;
+  }
+
+  handleBackToPreviousState() {
+    this.showBankHome = false;
+  }
 
   getBanks() {
     this.bankService
@@ -295,6 +307,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
       this.router.navigate(['']);
     }
   }
+
   getMerchant(data: PayMerchant, event: MouseEvent) {
     event.stopPropagation();
     // add data-bs after click on favorite star
