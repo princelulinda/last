@@ -1,0 +1,45 @@
+<svg width="100%" height="100%" id="svg" viewBox="0 0 1440 390" xmlns="http://www.w3.org/2000/svg" class="transition duration-300 ease-in-out delay-150"><style>
+.path-0{
+animation:pathAnim-0 15s;
+animation-timing-function: linear;
+animation-iteration-count: infinite;
+}
+@keyframes pathAnim-0{
+0%{
+d: path("M 0,400 L 0,0 C 274.5,33.5 549,67 789,67 C 1029,67 1234.5,33.5 1440,0 L 1440,400 L 0,400 Z");
+}
+25%{
+d: path("M 0,400 L 0,0 C 299,56 598,112 838,112 C 1078,112 1259,56 1440,0 L 1440,400 L 0,400 Z");
+}
+50%{
+d: path("M 0,400 L 0,0 C 222.5,27 445,54 685,54 C 925,54 1182.5,27 1440,0 L 1440,400 L 0,400 Z");
+}
+75%{
+d: path("M 0,400 L 0,0 C 216,38.5 432,77 672,77 C 912,77 1176,38.5 1440,0 L 1440,400 L 0,400 Z");
+}
+100%{
+d: path("M 0,400 L 0,0 C 274.5,33.5 549,67 789,67 C 1029,67 1234.5,33.5 1440,0 L 1440,400 L 0,400 Z");
+}
+}</style><defs><linearGradient id="gradient" x1="1%" y1="61%" x2="99%" y2="39%"><stop offset="5%" stop-color="#d9d9d9"></stop><stop offset="95%" stop-color="#737373"></stop></linearGradient></defs><path d="M 0,400 L 0,0 C 274.5,33.5 549,67 789,67 C 1029,67 1234.5,33.5 1440,0 L 1440,400 L 0,400 Z" stroke="none" stroke-width="0" fill="url(#gradient)" fill-opacity="0.53" class="transition-all duration-300 ease-in-out delay-150 path-0"></path><style>
+.path-1{
+animation:pathAnim-1 13s;
+animation-timing-function: linear;
+animation-iteration-count: infinite;
+}
+@keyframes pathAnim-1{
+0%{
+d: path("M 0,400 L 0,0 C 194,92 388,184 628,184 C 868,184 1154,92 1440,0 L 1440,400 L 0,400 Z");
+}
+25%{
+d: path("M 0,400 L 0,0 C 204.5,140 409,280 649,280 C 889,280 1164.5,140 1440,0 L 1440,400 L 0,400 Z");
+}
+50%{
+d: path("M 0,400 L 0,0 C 228.5,133.5 457,267 697,267 C 937,267 1188.5,133.5 1440,0 L 1440,400 L 0,400 Z");
+}
+75%{
+d: path("M 0,400 L 0,0 C 187,140 374,280 614,280 C 854,280 1147,140 1440,0 L 1440,400 L 0,400 Z");
+}
+100%{
+d: path("M 0,400 L 0,0 C 194,92 388,184 628,184 C 868,184 1154,92 1440,0 L 1440,400 L 0,400 Z");
+}
+}</style><defs><linearGradient id="gradient" x1="1%" y1="61%" x2="99%" y2="39%"><stop offset="5%" stop-color="#d9d9d9"></stop><stop offset="95%" stop-color="#737373"></stop></linearGradient></defs><path d="M 0,400 L 0,0 C 194,92 388,184 628,184 C 868,184 1154,92 1440,0 L 1440,400 L 0,400 Z" stroke="none" stroke-width="0" fill="url(#gradient)" fill-opacity="1" class="transition-all duration-300 ease-in-out delay-150 path-1"></path></svg>
