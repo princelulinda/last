@@ -30,9 +30,12 @@
                 }
 
                 @if (bankMenu.image) {
-                  <span>
-                    <img [src]="'/images/' + bankMenu.image[0]" src="" alt="" />
-                  </span>
+                  @if (theme === 'light') {
+                    <img [src]="'/images/' + bankMenu.image[0]" alt="" />
+                  }
+                  @if (theme === 'dark') {
+                    <img [src]="'/images/' + bankMenu.image[1]" alt="" />
+                  }
                 }
               </div>
             </div>
@@ -51,12 +54,7 @@
     <section>
       <div class="mt-5 pt-5 text-dark w-100 d-flex justify-content-between">
         <b i18n>Recent Transactions</b>
-        <span
-          role="button"
-          routerLink="/b/onlineBanking/banking/menuBanking/general-statement/transactions"
-          class="text-primary"
-          >View more transactions</span
-        >
+        <span role="button" class="text-primary">View more transactions</span>
       </div>
       <div class="rounded ps-4 border lg-radius p-3">
         <div class="d-grid">
