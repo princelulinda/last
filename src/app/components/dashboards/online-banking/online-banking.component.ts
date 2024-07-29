@@ -35,6 +35,7 @@ import {
   ModeModel,
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
+import { ReusableListComponent } from "../../../global/components/reusable-list/reusable-list.component";
 
 @Component({
   selector: 'app-online-banking',
@@ -49,7 +50,8 @@ import {
     CommonModule,
     WalletCardComponent,
     TarifComponent,
-  ],
+    ReusableListComponent
+],
 })
 export class OnlineBankingComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
