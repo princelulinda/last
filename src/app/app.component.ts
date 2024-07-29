@@ -21,7 +21,6 @@ import {
   PlateformModel,
 } from './core/services/config/main-config.models';
 import { environment } from '../environments/environment';
-import { StandByComponent } from './components/dev/stand-by/stand-by.component';
 // import { environment } from '../environments/environment';
 
 @Component({
@@ -34,7 +33,6 @@ import { StandByComponent } from './components/dev/stand-by/stand-by.component';
     RouterOutlet,
     ConfirmDialogComponent,
     SplashScreenComponent,
-    StandByComponent,
   ],
 })
 export class AppComponent implements OnInit {
