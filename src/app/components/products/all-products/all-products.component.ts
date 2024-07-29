@@ -171,7 +171,7 @@ export class AllProductsComponent implements OnInit {
     // condition just for typescript
     if (this.productPagination.filters!.limit) {
       this.productPagination.filters!.offset =
-        this.productPagination.filters!.limit * this.currentPage;
+        (this.productPagination.filters!.limit as number) * this.currentPage;
       this.getAllProducts(this.search);
     }
   }
