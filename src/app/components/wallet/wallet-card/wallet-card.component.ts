@@ -7,8 +7,14 @@ import { UserInfoModel } from '../../../core/db/models/auth';
 import { NgClass, CommonModule } from '@angular/common';
 import { WalletCard } from '../wallet.models';
 import { userInfoModel } from '../../../layouts/header/model';
+import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 
+interface mainConfigModel {
+  activeMode: string;
+  activePlateform: string;
+  activeTheme: string;
+}
 @Component({
   selector: 'app-wallet-card',
   standalone: true,
@@ -25,10 +31,16 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   mode$!: Observable<ModeModel>;
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
+  selectedBank!: bankModel;
+  selectedBank$!: Observable<bankModel>;
   private userInfo$: Observable<UserInfoModel>;
+  mainConfig$!: Observable<mainConfigModel>;
+  activePlatform: string | null = null;
 
   defaultWallet!: WalletCard;
   noWalletData = false;
+  clientId: number | null = null;
+  bankId: number | null = null;
 
   constructor(
     private bankingService: BankingService,
@@ -37,6 +49,8 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
+    this.selectedBank$ = this.configService.getSelectedBank();
+    this.mainConfig$ = this.configService.getMainConfig();
   }
   ngOnInit(): void {
     this.mode$.subscribe({
@@ -44,11 +58,31 @@ export class WalletCardComponent implements OnInit, OnDestroy {
         this.mode = datas;
       },
     });
+
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.activePlatform = configs.activePlateform;
+      },
+    });
+
     this.userInfo$.subscribe({
       next: userinfo => {
         this.clientInfo = userinfo;
+        this.clientId = this.clientInfo.client.id;
+        if (this.clientId) {
+          this.selectedBank$.subscribe({
+            next: datas => {
+              this.selectedBank = datas;
+              this.bankId = this.selectedBank?.id;
+              if (this.bankId) {
+                this.getDefaultWallet();
+              }
+            },
+          });
+        }
       },
     });
+
     this.getDefaultWallet();
   }
 

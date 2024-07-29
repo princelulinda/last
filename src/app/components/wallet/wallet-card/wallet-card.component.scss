@@ -1,27 +1,115 @@
-.wallet-card {
-    background-image: url('/images/wallet-card.svg');
-    width: 365px;
-    height: 210px;
-}
-.africa {
-    transform: translate(53%, 7%);
-    -webkit-transform: translate(53%, 7%);
-    -moz-transform: translate(53%, 7%);
-    -ms-transform: translate(53%, 7%);
-    -o-transform: translate(53%, 7%);
-}
+// .wallet-card {
+//     background-image: url('/images/wallet-card.svg');
+//     width: 365px;
+//     height: 210px;
+//     background-size: cover;
+// }
+// .africa {
+//     transform: translate(53%, 7%);
+//     -webkit-transform: translate(53%, 7%);
+//     -moz-transform: translate(53%, 7%);
+//     -ms-transform: translate(53%, 7%);
+//     -o-transform: translate(53%, 7%);
+// }
 
 .topup {
-    width: 20px;
+  width: 20px;
 }
-.ihela-image {
-    width: 70px;
-    height: 35px;
+// .ihela-image {
+//     width: 70px;
+//     height: 35px;
+// }
+// .short {
+//     width: 30px;
+//     height: 28px;
+// }
+
+.wallCard {
+  height: 210px;
+  width: 365px;
 }
-.short {
-    width: 30px;
-    height: 28px;
+
+.reference {
+  left: -5px;
+  z-index: 2;
 }
-.b-light {
-    background-color: #ffffff36;
+
+.mask {
+  left: -37px;
+}
+
+.secondCard {
+  max-width: 285px;
+}
+
+.circ1 {
+  height: 160px;
+  width: 160px;
+  // background: linear-gradient(
+  //   159.8deg,
+  //   #da002a 5.54%,
+  //   rgba(27, 0, 5, 0) 78.86%
+  // );
+  // background: linear-gradient(to bottom, #DA002A, #1B0005);
+  background: linear-gradient(159.8deg, #da002a, #1b0005);
+  top: 75px;
+  left: -20px;
+}
+
+.circ2 {
+  height: 35px;
+  width: 35px;
+  background: linear-gradient(
+    159.8deg,
+    #da002a 5.54%,
+    rgba(27, 0, 5, 0.3) 78.86%
+  );
+  top: 30px;
+  left: 200px;
+}
+
+.card {
+  height: 92.5%;
+  width: 100%;
+}
+
+.button {
+  width: 48px;
+  height: 35px;
+  background: #810019;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  z-index: 1;
+}
+
+.circle {
+  height: 20px;
+  width: 20px;
+}
+
+.logo {
+  right: -1px;
+  top: 10.7px;
+  width: 80px;
+  height: 40px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  background: linear-gradient(
+    270.45deg,
+    rgba(218, 0, 42, 0.3) 0.3%,
+    rgba(255, 255, 255, 0.17) 70.72%
+  );
+}
+
+.btnBack {
+  background: rgba(255, 255, 255, 0.21);
+}
+
+.btnBack:hover {
+  background: rgba(255, 255, 255, 0.35);
 }

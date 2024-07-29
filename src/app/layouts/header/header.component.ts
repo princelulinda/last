@@ -9,7 +9,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { AuthService, ConfigService } from '../../core/services';
 import { UserInfoModel } from '../../core/db/models/auth';
@@ -22,9 +22,12 @@ import {
 import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-plateform-icons.component';
 import {
   activeMainConfigModel,
+  ModeModel,
   PlateformModel,
 } from '../../core/services/config/main-config.models';
 import { FooterComponent } from '../footer/footer.component';
+import { SwitchModeComponent } from '../../components/dev/switch-mode/switch-mode.component';
+
 export interface organizationModel {
   company_type_code: string;
   institution_client: {
@@ -41,11 +44,14 @@ export interface organizationModel {
     ReactiveFormsModule,
     SwitchPlateformIconsComponent,
     FooterComponent,
+    SwitchModeComponent,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  theme$: Observable<ModeModel>;
+  theme!: ModeModel;
   private onDestroy$: Subject<void> = new Subject<void>();
   // public variableService = inject(VariableService);
   // public themeService = inject(ThemeService);
@@ -105,11 +111,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userInfo$ = this.authService.getUserInfo();
     this.clientId$ = this.authService.getUserClientId();
     this.isAgent$ = this.authService.getUserIsAgent();
+    this.theme$ = this.configService.getMode();
   }
 
   ngOnInit(): void {
-    this.next = $localize`next`;
-    // this.theme = $localize`theme`;
+    this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: theme => {
+        this.theme = theme;
+      },
+      error: err => {
+        console.error('Error fetching theme:', err);
+      },
+    });
 
     this.mainConfig$.subscribe({
       next: configs => {
@@ -483,8 +496,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleEyeStatus() {
     // this.store.dispatch(new displayAmount({ show: !this.eyeShowed }));
   }
-  showUserInfo = false;
   showMenu = false;
+  showUserInfo = false;
+  showPlateform() {
+    if (this.showPlateformPopup) {
+      this.showPlateformPopup = false;
+    } else {
+      this.showPlateformPopup = true;
+      this.showMenu = false;
+      this.showUserInfo = false;
+      this.chatNotFoundPopup = false;
+      this.notificationNotFoundPopup = false;
+    }
+  }
+
   displayUserInfo() {
     if (this.showUserInfo) {
       this.showUserInfo = false;
