@@ -67,3 +67,51 @@ export interface Account {
   acc_holder: string;
   acc_number: string;
 }
+
+export interface updateProdcutInfoModel {
+  product: number;
+  merchant: number;
+  action: string[];
+  price: number;
+  name: string;
+  minimun_payment_amount: number;
+  maximum_payment_amount: number;
+  voucher_type: string;
+  metadata: number[];
+  pin_code: string;
+}
+export interface productConfigObjectModel {
+  objects: productConfigModel;
+  object: productConfigModel;
+}
+
+export interface productConfigModel {
+  object: updateProdcutInfoModel;
+  mininun_payment_amount: number;
+  accepts_cart: boolean;
+  is_stockable: boolean;
+  incognito_mode: boolean;
+}
+
+export interface searchProductByMerchantModel {
+  merchant: number;
+  search: string | null;
+}
+
+export interface metadataModel {
+  objects: metadataObjectModel[];
+}
+export interface updateProductInfoObjectModel {
+  object: metadataObjectModel;
+}
+export interface metadataObjectModel {
+  success: boolean;
+  response_message: string;
+  name: string;
+  id: number;
+}
+
+export interface selectedProductModel {
+  id: number;
+  icon: string;
+}
