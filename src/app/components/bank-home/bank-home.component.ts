@@ -1,19 +1,15 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SwitchBankComponent } from '../../global/components/popups/switch-bank/switch-bank.component';
 import { RouterLink } from '@angular/router';
+
+import { Observable, Subject, takeUntil } from 'rxjs';
+
+import { SwitchBankComponent } from '../../global/components/popups/switch-bank/switch-bank.component';
 import { SkeletonComponent } from '../../global/components/loaders/skeleton/skeleton.component';
 import { bankModel } from '../../core/db/models/bank/bank.model';
-import { BankOptions } from '../dashboards/dashboard.model';
 import { ConfigService } from '../../core/services';
 import { ModeModel } from '../../core/services/config/main-config.models';
-import { Observable, Subject, takeUntil } from 'rxjs';
+
 @Component({
   selector: 'app-bank-home',
   standalone: true,
@@ -45,7 +41,7 @@ export class BankHomeComponent implements OnInit, OnDestroy {
       name: 'Withdrawals',
       icon: '',
       image: ['withdrawal-black.svg', 'withdrawal-white.svg'],
-      link: '',
+      link: '/b/banking/withdrawal',
     },
     {
       name: 'Transfer',
@@ -54,11 +50,10 @@ export class BankHomeComponent implements OnInit, OnDestroy {
       link: '',
     },
   ];
-  @Output() backToPreviousState = new EventEmitter<void>();
+  private onDestroy$: Subject<void> = new Subject<void>();
   selectedBank!: bankModel;
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
-  private onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(private configService: ConfigService) {
     this.theme$ = this.configService.getMode();
@@ -68,9 +63,6 @@ export class BankHomeComponent implements OnInit, OnDestroy {
       next: theme => {
         this.theme = theme;
       },
-      error: err => {
-        console.error('Error fetching theme:', err);
-      },
     });
   }
 
@@ -79,15 +71,7 @@ export class BankHomeComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  handleBankOptions(options: BankOptions) {
-    // console.log('Options de banque reçues :', options);
-    if (options.banks && options.banks.length > 0) {
-      this.selectedBank = options.banks[0]; // Sélectionne la première banque comme exemple
-      //console.log('Banque sélectionnée :', this.selectedBank);
-    }
-  }
-
-  goBack() {
-    this.backToPreviousState.emit();
+  deselectBank() {
+    this.configService.resetSelectedBank();
   }
 }
