@@ -93,6 +93,7 @@ export interface productConfigObjectModel {
 
 export interface productConfigModel {
   // object: updateProdcutInfoModel;
+  selectedProduct: selectedProductModel;
   product: number;
   merchant: number;
   action: string[];

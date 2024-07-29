@@ -535,7 +535,7 @@
         <div class="level-1 mt-2 p-2">
           <div
             class="d-flex flex-column align-items-center mt-5 empty-state-icon"
-            *ngIf="!loadingData && metadata.length === 0">
+            *ngIf="!loadingData && metadata && metadata.length === 0">
             <span class="" style="font-size: 50px; opacity: 0.5">
               <i class="fa-solid fa-face-meh"></i>
             </span>

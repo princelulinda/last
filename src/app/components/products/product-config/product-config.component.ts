@@ -213,8 +213,8 @@ export class ProductConfigComponent implements OnInit {
       });
   }
 
-  selectProduct(product: selectedProductModel) {
-    this.selectedProduct = product;
+  selectProduct(product: productConfigObjectModel) {
+    this.selectedProduct = product.objects.selectedProduct;
     this.selectedMenu = 'details';
     this.getProductDetails();
   }
