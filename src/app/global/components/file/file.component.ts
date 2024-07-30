@@ -118,7 +118,7 @@ export class FileComponent {
   private uploadFile(oneFile: File[]): void {
     const filesToUpload = oneFile.map(file => {
       return Object.assign(file, {
-        progress: 1,
+        progress: 0,
         thumbnail: undefined,
         isLoadingFile: true,
       });
