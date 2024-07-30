@@ -8,20 +8,20 @@
     ><i class="fa-solid fa-arrow-left"></i> Back</span
   >
 </div>
-<div *ngIf="isLoading" class="" style="width: 600px; height: 280px">
+<div *ngIf="isLoading" class="ms-5 ps-5" style="width: 600px; height: 280px">
   <app-skeleton [height]="'80%'"></app-skeleton>
 </div>
 
 <section *ngIf="!isLoading && billDetails">
   <div class="shadow lg-radius level-1 col-lg-7 ms-5 ps-5 p-3">
     <div class="d-flex justify-content-between">
-      <span class="d-flex text-dark" style="flex-grow: 1">
+      <span class="d-flex text-dark flex-grow-1">
         <span style="width: 40%" class=""
-          ><small style="opacity: 0.7">Merchant name</small><br />
+          ><small class="opacity-75">Merchant name</small><br />
           <b>{{ billDetails.merchant_teller.merchant.merchant_title }}</b></span
         >
         <span style="width: 52%" class=""
-          ><small style="opacity: 0.7">Merchant code</small><br /><b>{{
+          ><small class="opacity-75">Merchant code</small><br /><b>{{
             billDetails.merchant_teller.merchant.merchant_code
           }}</b></span
         >
@@ -34,11 +34,9 @@
     <div class="my-2">
       <span
         class="d-flex mt-1 text-dark justify-content-between active-border-none p-0">
-        <span style="opacity: 0.7" class=""> Description</span
+        <span class="opacity-75"> Description</span
         ><button class="me-4 btn" role="button" printSectionId="bill" ngxPrint>
-          <i
-            class="fa-solid fa-print fs-4"
-            style="color: #2070b8; opacity: 0.7"></i>
+          <i class="fa-solid fa-print fs-4 opacity-75 text-info"></i>
         </button>
       </span>
       @if (billDetails.description) {
@@ -53,7 +51,7 @@
     </div>
     <div class="d-flex text-dark">
       <span style="width: 40%" class=""
-        ><small style="opacity: 0.7">Status</small><br />
+        ><small class="opacity-75">Status</small><br />
         <span
           class="p-2 text-light sm-radius fw-bold process-bill"
           [ngClass]="{
@@ -65,15 +63,15 @@
         ></span
       >
       <span style="width: 52%" class="ms-2"
-        ><small style="opacity: 0.7">Bill code</small><br /><b>{{
+        ><small class="opacity-75">Bill code</small><br /><b>{{
           billDetails.code
         }}</b></span
       >
     </div>
     <hr style="width: 90%" class="" />
     <span class="d-flex text-dark"
-      ><span class="" style="opacity: 0.7; flex-grow: 7">Amount</span>
-      <span style="flex-grow: 1" class="fw-bold fs-5">{{
+      ><span class="opacity-75 flex-grow-7">Amount</span>
+      <span class="fw-bold fs-5 flex-grow-1">{{
         billDetails.total_amount | currency: 'BIF '
       }}</span></span
     >
