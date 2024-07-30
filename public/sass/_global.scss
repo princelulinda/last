@@ -178,25 +178,28 @@ a {
   }
 }
 
-.myModal {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
+dialog::backdrop {
+  background: rgba(17, 17, 17, 0.5);
+}
+dialog {
+  z-index: -1;
+  opacity: 0;
+}
+dialog[open] {
+  animation: show 0.5s ease normal;
+  opacity: 1;
+}
 
-  .modal-overlay {
-    width: 100%;
-    height: 100%;
-    background-color: #000000c4;
-    z-index: 20;
-    position: relative;
+@keyframes show {
+  from {
+    scale: 1.1;
+    opacity: 0.5;
+    transform: translateY(-50%);
   }
-  .modal-content {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 40;
-    width: auto;
+  to {
+    scale: 1;
+    opacity: 1;
+    transform: translateY(0%);
   }
 }
 
