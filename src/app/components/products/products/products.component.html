@@ -95,7 +95,7 @@
         @if (!isLoading) {
           <div class="row mb-3 d-flex justify-content-between">
             @for (item of countProductLoader; track $index) {
-              <div class="col-5" style="height: 135px" [hidden]="$index >= 2">
+              <div class="col" style="height: 135px" [hidden]="$index >= 2">
                 <app-skeleton
                   [height]="'120px'"
                   [width]="'120px'"></app-skeleton>

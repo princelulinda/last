@@ -31,7 +31,7 @@
       @if (paymentRequestBills && paymentRequestBills.length !== 0) {
         <div class="d-flex mt-3 flex-wrap">
           <div
-            class="row mx-0 mt-4 justify-content-around col-10 flex-grow-1 gap-3">
+            class="row mx-0 mt-4 justify-content-around col-10 flex-grow-1 gap-2">
             @for (bill of paymentRequestBills; track $index) {
               <div
                 class="all-bill-card col-11 col-sm-8 col-md-5 shadow card p-0 level-1"
@@ -192,7 +192,7 @@
         </div>
       }
       @if (!isLoading && merchantBills) {
-        <section class="row mx-0 mt-4 justify-content-around gap-3">
+        <section class="row mx-0 mt-4 justify-content-around gap-2">
           @for (bill of merchantBills; track $index) {
             <div
               class="all-bill-card border-0 shadow rounded-0 rounded-bottom card p-0 level-1 col-11 col-sm-8 col-md-5"
