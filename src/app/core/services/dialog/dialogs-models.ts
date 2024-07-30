@@ -98,5 +98,5 @@ export interface TransfertBillModel {
   bank_reference: string;
   amount: string;
   transfer_fees: string;
-  bill_date: string | Date;
+  bill_date: Date;
 }

@@ -87,49 +87,38 @@
   </section>
 }
 
-@if (!isLoading && billDetails.payment_status.value === 'Q') {
-  <section class="mt-4 col-md-7">
-    <!-- <app-my-accounts
-        [isGrey]="true"
-        (debitOptions)="selectedDebitOption($event)"
-    ></app-my-accounts> -->
-    @if (selectedAccount || selectedWallet) {
-      <div class="col-9 ms-4">
-        <div class="form-floating mt-3 col-md-8">
-          <input
-            type="text"
-            class="level-2 p-1 px-3 form-control input sm-radius text-dark form-control"
-            id="description"
-            [formControl]="description"
-            placeholder="cool" />
-          <label for="description" class="form-label">Description</label>
-        </div>
+<section
+  class="mt-4 col-md-7"
+  *ngIf="!isLoading && billDetails.payment_status.value === 'Q'">
+  <!-- <app-my-accounts
+      [isGrey]="true"
+      (debitOptions)="selectedDebitOption($event)"
+  ></app-my-accounts> -->
+  <div class="col-9 ms-4" *ngIf="selectedAccount || selectedWallet">
+    <div class="form-floating mt-3 col-md-8">
+      <input
+        type="text"
+        class="level-2 p-1 px-3 form-control input sm-radius text-dark form-control"
+        id="description"
+        [formControl]="description"
+        placeholder="cool" />
+      <label for="description" class="form-label">Description</label>
+    </div>
 
-        <div class="col-md-8 mt-3 text-center">
-          <button
-            class="bg-primary btn px-5 text-light sm-radius p-1"
-            (click)="enterPin()"
-            [disabled]="
-              !description.valid ||
-              (!selectedAccount && !selectedWallet) ||
-              paymentLoading
-            ">
-            @if (!paymentLoading) {
-              <span> confirm </span>
-            }
-            @if (paymentLoading) {
-              <span class="text-light fs-5">
-                <i class="fa-solid fa-pulse fa-circle-notch"></i
-              ></span>
-            }
-          </button>
-        </div>
-      </div>
-    }
-  </section>
-}
-@if (!isLoading && billData) {
-  <section id="bill" class="d-none">
-    <app-merchant-bill [successMessage]="billData"></app-merchant-bill>
-  </section>
-}
+    <div class="col-md-8 mt-3 text-center">
+      <button
+        class="bg-primary btn px-5 text-light sm-radius p-1"
+        (click)="enterPin()"
+        [disabled]="
+          !description.valid ||
+          (!selectedAccount && !selectedWallet) ||
+          paymentLoading
+        ">
+        <span *ngIf="!paymentLoading"> confirm </span>
+        <span class="text-light fs-5" *ngIf="paymentLoading">
+          <i class="fa-solid fa-pulse fa-circle-notch"></i
+        ></span>
+      </button>
+    </div>
+  </div>
+</section>
