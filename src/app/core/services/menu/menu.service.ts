@@ -26,19 +26,19 @@ export class MenuService {
     }
   }
 
-  getMenu(group: string) {
+  getMenuByGroupType(type: string) {
     return this.apiService
-      .get('/menugroup/list/?group_type=' + group)
+      .get('/menugroup/list/?group_type=' + type)
       .pipe(map(data => data));
   }
 
-  getMenuGroup(menu_id: string) {
-    return this.apiService
-      .get('/menu/list/?menu_group=' + menu_id)
-      .pipe(map(data => data));
-  }
+  // getMenuGroup(menu_id: string) {
+  //   return this.apiService
+  //     .get('/menu/list/?menu_group=' + menu_id)
+  //     .pipe(map(data => data));
+  // }
 
-  getAllMenu() {
+  getAllMenuGroup() {
     return this.apiService.get('/menugroup/list/').pipe(map(data => data));
   }
 
