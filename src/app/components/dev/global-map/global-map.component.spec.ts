@@ -1,23 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MerchantComponent } from './merchant.component';
+import { GlobalMapComponent } from './global-map.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { GlobalMapComponent } from '../../dev/global-map/global-map.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-describe('MerchantComponent', () => {
-  let component: MerchantComponent;
-  let fixture: ComponentFixture<MerchantComponent>;
+describe('GlobalMapComponent', () => {
+  let component: GlobalMapComponent;
+  let fixture: ComponentFixture<GlobalMapComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MerchantComponent, GlobalMapComponent],
+      imports: [GlobalMapComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MerchantComponent);
+    fixture = TestBed.createComponent(GlobalMapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
