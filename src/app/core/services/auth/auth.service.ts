@@ -116,7 +116,8 @@ export class AuthService {
     this.apiService.post('/users/logout/').subscribe({
       next: async () => {
         await this.configService.clearDB();
-        this.configService.switchPlateform('authentification');
+        // this.configService.switchPlateform('authentification');
+        window.location.reload();
         this.dialogService.closeLoading();
       },
       error: err => {

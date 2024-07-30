@@ -251,26 +251,27 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
             });
             return;
           }
-          // this.successMessage = {
-          //     data: {
-          //         debit_account: '',
-          //         name: (this.selectedClient as ItemModel).lookup_title,
-          //         merchantName: (this.merchant as MerchantModel).client.client_full_name,
+          this.successMessage = {
+            data: {
+              debit_account: '',
+              name: (this.selectedClient as ItemModel).lookup_title,
+              merchantName: (this.merchant as MerchantModel).client
+                .client_full_name,
 
-          //         date: Date.now(),
-          //         printable_text: '',
-          //         amount: this.amount,
-          //         code: (this.merchant as MerchantModel).merchant_code,
-          //         product: {
-          //             name: '',
-          //             value: '',
-          //         },
-          //         description: (this.billForm.value.description as string),
-          //         adress: '',
-          //         // receipt_date: '',
-          //         credit_account: (this.merchant as MerchantModel).merchant_code,
-          //     },
-          // };
+              date: Date.now(),
+              printable_text: '',
+              amount: this.amount,
+              code: (this.merchant as MerchantModel).merchant_code,
+              product: {
+                name: '',
+                value: '',
+              },
+              description: this.billForm.value.description as string,
+              adress: '',
+              // receipt_date: '',
+              credit_account: (this.merchant as MerchantModel).merchant_code,
+            },
+          };
           this.openBillPopup = false;
 
           this.billForm.reset();
@@ -296,7 +297,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
           // this.store.dispatch(
           //   new OpenMerchantBillPopup(this.successMessage.data)
           // );
-          // this.dialogService.OpenMerchantBillPopup(this.successMessage.data);
+          this.dialogService.OpenMerchantBillPopup(this.successMessage.data);
           this.closeModal.nativeElement.click();
           this.billForm.reset();
         },
