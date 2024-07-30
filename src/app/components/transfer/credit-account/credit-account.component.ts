@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -24,9 +31,7 @@ import {
 import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import {
-  CreditAccountModel,
   DebitAccountModel,
-  DebitEventModel,
   DebitWalletModel,
   InstitutionInfoModel,
   LookupResponseModel,
@@ -45,46 +50,62 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   isModalShown = false;
   debitAccount: DebitAccountModel | null = null;
-  selectedDebitAccountType: DebitAccountModel | string = '';
-  // eslint-disable-next-line
-  selectedCreditAccountType: any;
 
   // eslint-disable-next-line
-  selectedInstitutionType: any;
+  @Input() selectedDebitAccountType: any;
+  // eslint-disable-next-line
+  @Input() walletBankId: any;
+
+  selectedCreditAccountType = '';
+  selectedInstitutionType = '';
   totalAmount = 0;
   lookupDebitAccountUrl = '/clients/list/all/object_lookup?lookup_data=';
+
   // eslint-disable-next-line
   institutionsList: any;
+
   // eslint-disable-next-line
   selectedInstitution: any;
 
-  isTransferDone = false;
+  @Output() isTransferDone = new EventEmitter<boolean>();
 
   client: DebitAccountModel | null = null;
 
-  accounts: [] = [];
-  wallets: [] = [];
+  // eslint-disable-next-line
+  accounts: any;
+  // eslint-disable-next-line
+  wallets: any;
   isLoading = false;
   debitWallet: DebitWalletModel | null = null;
+
   // eslint-disable-next-line
   defaultBank: any;
 
   banks: bankModel[] = [];
+
   // eslint-disable-next-line
-  debitNumber: any;
+  @Input() debitNumber: any;
+
+  // eslint-disable-next-line
+  @Input() debitHolder: any;
   amount: number | string = '';
   amountToSend: number | string = '';
   clientId: number | null = null;
-  bankId?: number | string = '';
+  // eslint-disable-next-line
+  @Input() bankId: any;
   isPopupShown = false;
   isAmountChanging = false;
   isBanksListShown = false;
+
   // eslint-disable-next-line
   transferResponse: any;
+
   // eslint-disable-next-line
   successMessage: any;
+
   // eslint-disable-next-line
   creditNumber: any;
+
   // eslint-disable-next-line
   creditName: any;
   pendingTransfers: {
@@ -94,7 +115,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     amount: number | string;
   }[] = [];
   lookup = new FormControl<LookupResponseModel | string>('');
-  creditAccount: CreditAccountModel | null = null;
+  // eslint-disable-next-line
+  creditAccount: any;
   transferForm = new FormGroup({
     accountNumber: new FormControl('', Validators.required),
     accountHolder: new FormControl('', Validators.required),
@@ -105,8 +127,10 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
   dialog$: Observable<DialogResponseModel>;
   pin = '';
+
   // eslint-disable-next-line
   lookupData: any;
+
   // eslint-disable-next-line
   transferData: any;
   @Input() isMerchantTransfer = false;
@@ -121,6 +145,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   private userInfo$: Observable<UserInfoModel>;
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
+
   // eslint-disable-next-line
   merchantInfo: any;
   selectedBank!: bankModel;
@@ -146,6 +171,11 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.transferService.handleTransfer(true);
+    this.selectedBank$.subscribe({
+      next: datas => {
+        this.selectedBank = datas;
+      },
+    });
     this.userInfo$.subscribe({
       next: userinfo => {
         this.clientInfo = userinfo;
@@ -156,10 +186,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
           .subscribe(banks => {
             this.banks = banks;
             this.defaultBank = banks.find(bank => bank.is_default === true);
-
-            this.bankId = this.selectedBank?.id;
-
-            this.selectedBank = this.defaultBank;
           });
       },
     });
@@ -179,6 +205,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
           dialogResponse.response.pin &&
           dialogResponse.action === 'confirm transfer'
         ) {
+          this.pin = dialogResponse.response.pin;
           if (!this.isMerchantTransfer) {
             this.validateTransfer();
           } else {
@@ -211,8 +238,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     this.debitAccount = client;
 
     if (!this.debitAccount) {
-      this.selectedInstitutionType = [];
-      this.selectedInstitution = [];
+      this.selectedInstitutionType = '';
+      this.selectedInstitution = '';
     }
   }
 
@@ -224,46 +251,46 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     });
   }
 
-  // eslint-disable-next-line
-  selectCreditAccountType(accountType: any) {
-    this.creditAccount = null;
+  selectCreditAccountType(accountType: string) {
+    this.creditAccount = undefined;
     this.selectedCreditAccountType = accountType;
     if (accountType !== this.selectedCreditAccountType) {
-      this.selectedCreditAccountType = [];
+      this.selectedCreditAccountType = '';
     }
     if (accountType === 'account') {
-      this.selectedInstitution = [];
-      this.selectedInstitutionType = [];
+      this.selectedInstitution = '';
+      this.selectedInstitutionType = '';
     }
     if (accountType === 'wallet') {
-      this.selectedInstitution = [];
-      this.selectedInstitutionType = [];
+      this.selectedInstitution = '';
+      this.selectedInstitutionType = '';
     }
   }
 
-  // eslint-disable-next-line
-  selectInstitutionType(institutionType: any) {
-    this.institutionsList = [];
+  selectInstitutionType(institutionType: string) {
+    this.institutionsList = undefined;
     this.selectedInstitutionType = institutionType;
     if (institutionType !== this.selectedInstitutionType) {
-      this.selectedInstitution = [];
+      this.selectedInstitution = '';
     }
     this.transferService
       .getInstitutionsList(institutionType)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(list => {
-        this.institutionsList = list.objects;
-        console.log(this.institutionsList);
-      });
+      .subscribe(
+        // eslint-disable-next-line
+        (list: any) => {
+          this.institutionsList = list.objects;
+        }
+      );
   }
 
   // eslint-disable-next-line
   selectInstitution(institution: any) {
     this.selectedInstitution = institution;
     this.lookup.setValue('');
-    this.creditAccount = null;
+    this.creditAccount = undefined;
     this.transferForm.patchValue({
-      accountNumber: null,
+      accountNumber: '',
       accountHolder: '',
       debit_description: '',
       amount: '',
@@ -272,11 +299,11 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   }
 
   changeInstitutionType() {
-    this.selectedInstitutionType = [];
-    this.selectedInstitution = [];
-    this.creditAccount = null;
+    this.selectedInstitutionType = '';
+    this.selectedInstitution = '';
+    this.creditAccount = undefined;
     this.transferForm.patchValue({
-      accountNumber: null,
+      accountNumber: '',
       accountHolder: '',
       debit_description: '',
       amount: '',
@@ -285,11 +312,11 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   }
 
   changeInstitution() {
-    this.selectedInstitution = [];
-    this.creditAccount = null;
+    this.selectedInstitution = '';
+    this.creditAccount = undefined;
     this.lookup.setValue('');
     this.transferForm.patchValue({
-      accountNumber: null,
+      accountNumber: '',
       accountHolder: '',
       debit_description: '',
       amount: '',
@@ -379,16 +406,10 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
 
-    if (this.selectedDebitAccountType === 'account') {
-      this.debitNumber = this.debitAccount?.acc_short_number;
-    }
-    if (this.selectedDebitAccountType === 'wallet') {
-      this.debitNumber = this.debitWallet?.code;
-    }
-
     if (this.selectedCreditAccountType === 'wallet') {
       this.selectedInstitution = this.defaultBank;
     }
+
     // eslint-disable-next-line
     let data: any = {
       amount: this.amount,
@@ -397,30 +418,13 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
       credit_bank: this.selectedInstitution?.id,
       credit_type: this.selectedCreditAccountType,
       debit_account: this.debitNumber,
-      debit_bank: '',
+      debit_bank: this.selectedBank.id ?? this.walletBankId ?? '',
       debit_type: this.selectedDebitAccountType,
       pin_code: this.pin,
       debit_description: this.transferForm.value.debit_description,
       credit_description: this.transferForm.value.debit_description,
     };
 
-    if (this.selectedDebitAccountType === 'account') {
-      data = {
-        ...data,
-        debit_bank:
-          this.mainConfig.activePlateform !== 'workstation'
-            ? this.debitAccount?.acc_bank_id
-            : this.selectedBank?.organization_id,
-      };
-    } else if (this.selectedDebitAccountType === 'wallet') {
-      data = {
-        ...data,
-        debit_bank:
-          this.mainConfig.activePlateform !== 'workstation'
-            ? this.debitWallet?.bank_id
-            : this.selectedBank?.organization_id,
-      };
-    }
     this.dialogService.dispatchLoading();
 
     if (this.selectedCreditAccountType === 'wallet') {
@@ -440,34 +444,45 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
           this.isLoading = false;
           this.pin = '';
-          if (response.object.success === true) {
-            this.isTransferDone = true;
+
+          if (response.object.success === false) {
+            this.isAmountChanging = false;
+
+            this.dialogService.openToast({
+              type: 'failed',
+              title: '',
+              message:
+                response?.object?.response_message ??
+                $localize`Something went wrong please retry again !`,
+            });
+          } else {
+            this.isTransferDone.emit(true);
             this.isAmountChanging = true;
             this.transferResponse = response.object.response_data;
-            this.selectedInstitutionType = [];
-            this.selectedCreditAccountType = [];
+            this.selectedInstitutionType = '';
+            this.selectedCreditAccountType = '';
 
-            this.successMessage = {
-              data: {
-                debit_account: this.debitNumber,
-                credit_account: this.creditNumber,
-                credit_bank: this.selectedInstitution.name,
-                credit_account_holder: this.transferForm.value.accountHolder,
-                reference: this.transferResponse.reference,
-                bank_reference: this.transferResponse.bank_reference,
-                amount: this.amountToSend,
-                transfer_fees: 0,
-                bill_date: new Date(Date.now()),
-                debit_bank:
-                  this.debitAccount?.acc_branch_object?.organization_tenant
-                    ?.institution_client?.client_full_name ?? '',
-                debit_account_holder:
-                  this.selectedDebitAccountType === 'wallet'
-                    ? this.debitWallet?.account?.account_holder
-                    : this.debitAccount?.acc_holder,
-                description: this.transferForm.value.debit_description,
-              },
-            };
+            // this.successMessage = {
+            //   data: {
+            //     debit_account: this.debitNumber,
+            //     credit_account: this.creditNumber,
+            //     credit_bank: this.selectedInstitution.name,
+            //     credit_account_holder: this.transferForm.value.accountHolder,
+            //     reference: this.transferResponse.reference,
+            //     bank_reference: this.transferResponse.bank_reference,
+            //     amount: this.amountToSend,
+            //     transfer_fees: 0,
+            //     bill_date: new Date(Date.now()),
+            //     debit_bank:
+            //       this.debitAccount?.acc_branch_object?.organization_tenant
+            //         ?.institution_client?.client_full_name ?? '',
+            //     debit_account_holder:
+            //       this.selectedDebitAccountType === 'wallet'
+            //         ? this.debitWallet?.account?.account_holder
+            //         : this.debitAccount?.acc_holder,
+            //     description: this.transferForm.value.debit_description,
+            //   },
+            // };
 
             this.isAmountChanging = false;
             this.lookup.setValue('');
@@ -483,16 +498,12 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
             });
 
             this.bankService.updateTransaction(true);
-          }
-          if (response.object.success === false) {
-            this.isAmountChanging = false;
-
             this.dialogService.openToast({
-              type: 'failed',
+              type: 'success',
               title: '',
               message:
                 response?.object?.response_message ??
-                $localize`Something went wrong please retry again !`,
+                $localize`Transaction made successfully !`,
             });
           }
         },
@@ -549,7 +560,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
           this.pin = '';
 
           if (response.object.success === true) {
-            this.isTransferDone = true;
+            this.isTransferDone.emit(true);
 
             this.isAmountChanging = false;
             this.transferResponse = response.object.response_data;
@@ -610,6 +621,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   toggleBanksList() {
     this.isBanksListShown = !this.isBanksListShown;
   }
+
   // eslint-disable-next-line
   switchBank(index: any) {
     this.selectedBank = this.banks[index];
@@ -620,8 +632,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     this.debitAccount = null;
     this.debitWallet = null;
     this.selectedCreditAccountType = '';
-    this.selectedInstitution = [];
-    this.selectedInstitutionType = [];
+    this.selectedInstitution = '';
+    this.selectedInstitutionType = '';
   }
 
   deselectCreditAccount() {
@@ -632,7 +644,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     });
   }
 
-  getDebitOptions(event: DebitEventModel) {
+  // eslint-disable-next-line
+  getDebitOptions(event: any) {
     this.debitAccount = event.account;
     this.debitWallet = event.wallet;
     this.selectedDebitAccountType = event.selectedDebitOptions;
@@ -644,15 +657,13 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
     if (!this.selectedCreditAccountType) {
       this.selectedCreditAccountType = '';
-      this.selectedInstitution = [];
-      this.selectedInstitutionType = [];
+      this.selectedInstitution = '';
+      this.selectedInstitutionType = '';
       this.creditAccount = null;
     }
   }
 
   showModal() {
-    let debitHolder;
-
     if (this.selectedCreditAccountType !== 'wallet') {
       if (this.selectedInstitution) {
         if (!this.selectedInstitution.api_values.has_lookup) {
@@ -668,14 +679,14 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
       this.creditName = this.creditAccount?.name;
     }
 
-    if (this.selectedDebitAccountType === 'account') {
-      this.debitNumber = this.debitAccount?.acc_short_number;
-      debitHolder = this.debitAccount?.acc_holder;
-    }
-    if (this.selectedDebitAccountType === 'wallet') {
-      this.debitNumber = this.debitWallet?.code;
-      debitHolder = this.debitWallet?.account.account_holder;
-    }
+    // if (this.selectedDebitAccountType === 'account') {
+    //   this.debitNumber = this.debitAccount?.acc_short_number;
+    //   this.debitHolder = this.debitAccount?.acc_holder;
+    // }
+    // if (this.selectedDebitAccountType === 'wallet') {
+    //   this.debitNumber = this.debitWallet?.code;
+    //   this.debitHolder = this.debitWallet?.account.account_holder;
+    // }
 
     if (!this.isMerchantTransfer) {
       this.dialogService.openDialog({
@@ -684,7 +695,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
         message: ` Account 
              <b>${this.debitNumber}</b>
                of
-             <b>${debitHolder}</b>  <br>  will be debited with 
+             <b>${this.debitHolder}</b>  <br>  will be debited with 
                BIF 
             <b>${this.amount} </b>  <br>
                for the benefit of  account <br>

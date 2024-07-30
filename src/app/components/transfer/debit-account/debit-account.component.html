@@ -11,7 +11,7 @@
       <div class="expand-collapse-section">
         <div>
           <i class="fa fa-circle text-primary fs-x-small me-2"></i>
-          <b class="text-dark" i18n>Select a bank :</b>
+          <b i18n>Select a bank :</b>
         </div>
 
         <div>
@@ -68,7 +68,7 @@
         @if (title !== '') {
           <div>
             <i class="fa fa-circle fs-x-small me-2 text-primary"></i>
-            <b class="text-all-dark">{{ title }}</b>
+            <b>{{ title }}</b>
           </div>
         }
       </div>
@@ -179,7 +179,12 @@
             mainConfig.activePlateform !== 'workstation' &&
             selectedDebitAccountType === 'account'
           ) {
-            <app-accounts-list [Type]="'transfer'"></app-accounts-list>
+            <app-accounts-list
+              [Type]="'transfer'"
+              [isTransferDone]="isTransactionDone"
+              (accountSelected)="
+                getAccountSelected($event)
+              "></app-accounts-list>
           }
 
           <!--* ___END OF ACCOUNTS LIST CONTAINER___-->
@@ -190,7 +195,10 @@
             mainConfig.activePlateform !== 'workstation' &&
             selectedDebitAccountType === 'wallet'
           ) {
-            <app-wallet-list [Type]="'transfer'"></app-wallet-list>
+            <app-wallet-list
+              [Type]="'transfer'"
+              [isTransferDone]="isTransactionDone"
+              (walletSelected)="getAccountSelected($event)"></app-wallet-list>
           }
 
           <!-- *END OF SELECTED WALLET CONTAINER-->

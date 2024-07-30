@@ -5,8 +5,9 @@ import {
   Input,
   Output,
   OnInit,
-  DoCheck,
   OnDestroy,
+  SimpleChanges,
+  OnChanges,
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -46,7 +47,7 @@ import {
   templateUrl: './debit-account.component.html',
   styleUrl: './debit-account.component.scss',
 })
-export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
+export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
   private onDestroy$: Subject<void> = new Subject<void>();
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
@@ -56,14 +57,14 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
   debitAccount: DebitOptions | null = null;
-  selectedDebitAccountType = '';
+  @Input() selectedDebitAccountType = '';
   lookupDebitAccountUrl = '/clients/list/all/object_lookup?lookup_data=';
   clientId: number | null = null;
 
   debitAccounts: DebitOptions[] = [];
   debitWallet: DebitOptions | null = null;
   defaultBank: string | undefined;
-  selectedBank!: bankModel;
+  @Input() selectedBank!: bankModel;
   selectedBank$!: Observable<bankModel>;
 
   banks: bankModel[] = [];
@@ -74,7 +75,24 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
   isBalanceShown$: Observable<boolean>;
 
   lookupType = '';
-  @Output() debitOptions = new EventEmitter<DebitOptions>();
+  @Output() debitOptions = new EventEmitter<{
+    // eslint-disable-next-line
+    account: any;
+    // eslint-disable-next-line
+    wallet: any;
+    // eslint-disable-next-line
+    selectedDebitOption: any;
+    // eslint-disable-next-line
+    creditAccountType: any;
+    isTransferDone: boolean;
+    isAmountChanging: boolean;
+    selectedInstitutionType: string;
+    selectedInstitution: string;
+  }>();
+  // eslint-disable-next-line
+  @Output() selectedAccount = new EventEmitter<any>();
+  // eslint-disable-next-line
+  @Output() selectedWallet = new EventEmitter<any>();
 
   @Output() lookupOptions = new EventEmitter<{
     id?: string;
@@ -93,6 +111,8 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
   @Input() isTermDeposit = false;
   @Input() isOperation = false;
   lookup = new FormControl('');
+  //eslint-disable-next-line
+  wallets: any;
   constructor(
     private bankService: BankService,
     private configService: ConfigService,
@@ -133,11 +153,31 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
 
     this.getBanks();
   }
-  ngDoCheck() {
-    if (this.isTransactionDone) {
+
+  // ngDoCheck() {
+  //   if (this.isTransactionDone) {
+  //     this.updateAccount();
+  //   }
+  //   if (this.isModalClosed) {
+  //     const options = {
+  //       account: null,
+  //       wallet: null,
+  //       selectedDebitOption: '',
+  //       creditAccountType: null,
+  //       isTransferDone: this.isTransactionDone,
+  //       isAmountChanging: false,
+  //       selectedInstitutionType: '',
+  //       selectedInstitution: '',
+  //     };
+  //     this.debitOptions.emit(options);
+  //   }
+  // }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['isTransactionDone'] && this.isTransactionDone) {
       this.updateAccount();
     }
-    if (this.isModalClosed) {
+
+    if (changes['isModalClosed'] && this.isModalClosed) {
       const options = {
         account: null,
         wallet: null,
@@ -164,48 +204,7 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
       this.clientBanks = banks;
     });
   }
-  getAccountsListAutomatically() {
-    this.isTransactionDone = false;
-    const options: DebitOptions = {
-      account: this.debitAccount ? this.debitAccount.account : null,
-      wallet: null,
-      selectedDebitOption: this.selectedDebitAccountType,
-      creditAccountType: this.creditAccountType,
-      isTransferDone: this.isTransactionDone,
-      isAmountChanging: true,
-      selectedInstitutionType: this.selectedInstitutionType,
-      selectedInstitution: this.selectedInstitution,
-    };
-    this.debitOptions.emit(options);
-    const data = {
-      client_id: this.clientId,
-      access_bank_id: this.selectedBank.id,
-    };
-    console.log(data);
-  }
-  getWalletsListByClick() {
-    // this.transferService
-    //     .getWalletsList(this.clientId)
-    //     .pipe(takeUntil(this.onDestroy$))
-    //     .subscribe((wallets: any) => {
-    //         this.wallets = wallets.objects;
-    //         //
-    //     });
-  }
-  getWalletsListAutomatically() {
-    this.isTransactionDone = false;
-    const options: DebitOptions = {
-      account: null,
-      wallet: this.debitWallet ? this.debitWallet.wallet : null,
-      selectedDebitOption: this.selectedDebitAccountType,
-      creditAccountType: this.creditAccountType,
-      isTransferDone: this.isTransactionDone,
-      isAmountChanging: true,
-      selectedInstitutionType: this.selectedInstitutionType,
-      selectedInstitution: this.selectedInstitution,
-    };
-    this.debitOptions.emit(options);
-  }
+
   selectBank(bank: bankModel) {
     this.configService.setSelectedBank(bank);
   }
@@ -243,29 +242,8 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
       }
       this.debitAccount = null;
     } else if (accountType == 'wallet') {
-      if (this.mainConfig.activePlateform !== 'workstation') {
-        this.getWalletsListByClick();
-      }
       this.lookupType = 'lookup';
       this.lookupDebitAccountUrl = '/dbs/wallets/object_lookup?lookup_data=';
-      this.debitAccount = null;
-    } else if (accountType == 'internal') {
-      this.lookupType = 'autocomplete';
-      this.lookupDebitAccountUrl = '/ledger/objects_autocomplete?search=';
-      this.debitAccount = null;
-    } else if (accountType == 'treasury') {
-      this.lookupType = 'autocomplete';
-      this.lookupDebitAccountUrl =
-        '/treasury/institutions/manage/objects_autocomplete?search=';
-      this.debitAccount = null;
-    } else if (accountType == 'agent') {
-      this.lookupType = 'lookup';
-      this.lookupDebitAccountUrl = '/dbs/agents/object_lookup?lookup_data=';
-      this.debitAccount = null;
-    } else if (accountType == 'merchant') {
-      this.lookupType = 'lookup';
-      this.lookupDebitAccountUrl =
-        '/dbs/merchant/manage/object_lookup?lookup_data=';
       this.debitAccount = null;
     }
   }
@@ -282,12 +260,6 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
       selectedInstitution: this.selectedInstitution,
     };
     this.debitOptions.emit(options);
-    if (this.selectedDebitAccountType === 'account') {
-      this.getAccountsListAutomatically();
-    }
-    if (this.selectedDebitAccountType === 'wallet') {
-      this.getWalletsListAutomatically();
-    }
   }
 
   getSwitchBankOptions(event: SwitchBankEvent) {
@@ -325,6 +297,14 @@ export class DebitAccountComponent implements OnInit, DoCheck, OnDestroy {
     this.debitOptions.emit(options);
   }
 
+  // eslint-disable-next-line
+  getAccountSelected(event: any) {
+    if (this.selectedDebitAccountType === 'account') {
+      this.selectedAccount.emit(event);
+    } else {
+      this.selectedWallet.emit(event);
+    }
+  }
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();

@@ -23,7 +23,8 @@
   @if (accountsListData && accountsListData.length > 0) {
     <div
       class="position-relative overflow-x-hidden overflow-y-auto"
-      style="min-width: 220px; height: 80vh">
+      style="min-width: 220px"
+      [ngStyle]="{ height: Type !== 'transfer' ? '80vh' : '' }">
       @if (Type === 'list') {
         <hr class="my-1" />
       }
@@ -56,6 +57,7 @@
               <b class="fw-bold">{{ account.acc_account_type }}</b>
               <b class="fw-normal">{{ account.acc_holder }}</b>
               <b class="fw-normal">{{ account.acc_number }}</b>
+
               <b>
                 <app-amount-visibility
                   [amount]="account.acc_available_balance"

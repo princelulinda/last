@@ -1,36 +1,30 @@
 <div class="container w-100">
   <h3>Transfer</h3>
-  @if (!isNewTransfer) {
-    <div>
-      <app-beneficiaries></app-beneficiaries>
-    </div>
 
-    <div
-      role="button"
-      tabindex="0"
-      (click)="isNewTransfer = true"
-      class="btn bg-primary text-light w-100 rounded m-4 mw">
-      <span class="fs-4">New Transfer</span>
-      <span class="ms-2 fs-medium"
-        ><i class="fa-solid fa-paper-plane"></i
-      ></span>
-    </div>
-  } @else {
-    <div>
-      <app-debit-account
-        [selectedInstitution]="selectedInstitution"
-        [selectedInstitutionType]="selectedInstitutionType"
-        [isTransactionDone]="isTransferDone"
-        [creditAccountType]="selectedCreditAccountType"
-        (debitOptions)="getDebitOptions($event)"></app-debit-account>
+  <div>
+    <app-debit-account
+      [selectedInstitution]="selectedInstitution"
+      [selectedInstitutionType]="selectedInstitutionType"
+      [isTransactionDone]="isTransferDone"
+      [creditAccountType]="selectedCreditAccountType"
+      (debitOptions)="getDebitOptions($event)"
+      (selectedAccount)="getSelectedAccount($event)"
+      (selectedWallet)="getSelectedAccount($event)"
+      [selectedDebitAccountType]="selectedDebitType"
+      [selectedBank]="bankId"></app-debit-account>
+  </div>
+  @if (accountSelected) {
+    <div class="mt-3">
+      <app-credit-account
+        (selectedInstitution)="setSelectedInstitution($event)"
+        (selectedInstitutionType)="setSelectedInstitutionType($event)"
+        (selectedCreditAccountType)="setSelectedCreditAccountType($event)"
+        (isTransferDone)="getTransferResponse($event)"
+        [bankId]="bankId"
+        [selectedDebitAccountType]="selectedDebitType"
+        [debitNumber]="debitNumber"
+        [debitHolder]="debitHolder"
+        [walletBankId]="walletBankId"></app-credit-account>
     </div>
   }
-  <div>
-    <app-credit-account
-      (selectedInstitution)="setSelectedInstitution($event)"
-      (selectedInstitutionType)="setSelectedInstitutionType($event)"
-      (selectedCreditAccountType)="
-        setSelectedCreditAccountType($event)
-      "></app-credit-account>
-  </div>
 </div>

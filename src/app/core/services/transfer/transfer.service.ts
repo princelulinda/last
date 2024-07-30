@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { ApiService } from '../api/api.service';
-import {
-  InstitutionInfoModel,
-  TransferResponseModel,
-} from '../../../components/transfer/transfer.model';
+import { TransferResponseModel } from '../../../components/transfer/transfer.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +13,7 @@ export class TransferService {
   // get currentBalance$(): Observable<any> {
   //     return this._currentBalance.asObservable();
   // }
+
   private _transfersLength: BehaviorSubject<number> =
     new BehaviorSubject<number>(0);
   get transfersLength$(): Observable<number> {
@@ -54,11 +52,10 @@ export class TransferService {
   handleTransfer(arg: boolean) {
     this._isTransfer.next(arg);
   }
-  getInstitutionsList(
-    type: object
-  ): Observable<{ objects: InstitutionInfoModel }> {
+  //eslint-disable-next-line
+  getInstitutionsList(type: any) {
     const url = '/banks/list?bank_type=' + type;
-    return this.apiService.get<{ objects: InstitutionInfoModel }>(url).pipe(
+    return this.apiService.get(url).pipe(
       map(data => {
         return data;
       })
@@ -72,6 +69,7 @@ export class TransferService {
   //         })
   //     );
   // }
+
   // getWalletsList(clientId: any) {
   //     const url = '/dbs/wallet/list/';
   //     return this.apiService.get(url).pipe(

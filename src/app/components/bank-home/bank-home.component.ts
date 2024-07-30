@@ -51,7 +51,7 @@ export class BankHomeComponent implements OnInit, OnDestroy {
       name: 'Transfer',
       icon: 'paper-plane',
       image: '',
-      link: '',
+      link: '/b/banking/transfer',
     },
   ];
   @Output() backToPreviousState = new EventEmitter<void>();

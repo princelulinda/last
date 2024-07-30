@@ -19,10 +19,18 @@
     }
   </div>
   @if (showAmountwords) {
-    <div class="text-center py-1 d-flex align-items-center ms-3 mt-2">
+    <div
+      class="text-center py-1 d-flex align-items-center ms-3 mt-2"
+      [ngClass]="{
+        'text-primary': isTransfer,
+      }">
       @if (amountWords) {
-        <small class="text-dark me-3"><i class="fa-solid fa-play"></i></small>
-        <small class="text-dark text-capitalize fw-bold">
+        <small class="me-3"><i class="fa-solid fa-play fs-large"></i></small>
+        <small
+          class="text-capitalize"
+          [ngClass]="{
+            'fw-bold': !isTransfer,
+          }">
           {{ amountWords }}
         </small>
       }

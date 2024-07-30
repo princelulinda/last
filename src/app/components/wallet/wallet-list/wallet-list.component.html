@@ -23,7 +23,8 @@
   @if (walletsListData && walletsListData.length > 0) {
     <div
       class="position-relative overflow-x-hidden overflow-y-auto"
-      style="min-width: 220px; height: 50vh">
+      style="min-width: 220px"
+      [ngStyle]="{ height: Type !== 'transfer' ? '50vh' : '' }">
       @if (Type === 'list') {
         <hr class="my-1 ms-3" />
       }
@@ -51,9 +52,9 @@
               role="button">
               <b class="fw-bold">{{ wallet.title }}</b>
               <b class="fw-normal">{{ wallet.account.account_holder }}</b>
-              @if (Type === 'list') {
-                <b class="fw-normal">{{ wallet.code }}</b>
-              }
+
+              <b class="fw-normal">{{ wallet.code }}</b>
+
               <b>
                 <app-amount-visibility
                   [amount]="wallet.available_balance"
@@ -75,9 +76,12 @@
               class="d-flex align-items-start justify-content-between ps-2 py-0 b-left">
               <div class="d-grid ps-3 py-0">
                 <b>{{ selectedLoneWallet.title }}</b>
+
                 <b class="fw-normal">{{
                   selectedLoneWallet.account.account_holder
                 }}</b>
+                <b class="fw-normal">{{ selectedLoneWallet.code }}</b>
+
                 <b>
                   <span>
                     <app-amount-visibility
