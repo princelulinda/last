@@ -6,13 +6,16 @@ import {
   Output,
   OnDestroy,
 } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { AuthService, ConfigService } from '../../../core/services';
 import { ClientService } from '../../../core/services/client/client.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { CommonModule } from '@angular/common';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
-import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import {
+  activeMainConfigModel,
+  ModeModel,
+} from '../../../core/services/config/main-config.models';
 import { WalletList } from '../wallet.models';
 import { RouterLink } from '@angular/router';
 
@@ -35,7 +38,8 @@ export class WalletListComponent implements OnInit, OnDestroy {
   selectedLoneWallet: WalletList | null = null;
   selectedWallet!: WalletList[];
   isLoneWalletSelected = false;
-
+  theme$: Observable<ModeModel>;
+  theme!: ModeModel;
   // close the account's creation form
   closeForm = false;
   @Input() Type: 'transfer' | 'list' = 'transfer';
@@ -53,8 +57,16 @@ export class WalletListComponent implements OnInit, OnDestroy {
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.userInfo$ = this.authService.getUserInfo();
+    this.theme$ = this.configService.getMode();
   }
   ngOnInit(): void {
+    this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: theme => {
+        this.theme = theme;
+        //console.log('themmeee',this.theme)
+      },
+    });
+
     this.userInfo$.subscribe({
       next: userinfo => {
         this.clientInfo = userinfo;
