@@ -35,7 +35,6 @@ import {
   ModeModel,
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
-
 import { RouterLink } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
 import { BankHomeComponent } from '../../bank-home/bank-home.component';

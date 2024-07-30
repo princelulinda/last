@@ -5,15 +5,10 @@ import { CommonModule, NgClass } from '@angular/common';
 import { Subject, Observable, takeUntil } from 'rxjs';
 
 import { BankingService } from '../../../core/services/dashboards/banking.service';
-import {
-  ConfigService,
-  AuthService,
-  DialogService,
-} from '../../../core/services';
+import { ConfigService, AuthService } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { nyamuranziCard } from '../models';
 import { userInfoModel } from '../../../layouts/header/model';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 
 @Component({
@@ -30,22 +25,19 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
   mode$!: Observable<ModeModel>;
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
-  clientId: number | null = null;
   showAmountAccount = false;
   referees!: nyamuranziCard;
   noRefereed = false;
-  dialog$: Observable<DialogResponseModel>;
+
   private userInfo$: Observable<UserInfoModel>;
 
   constructor(
     private bankingService: BankingService,
     private configService: ConfigService,
-    private authService: AuthService,
-    private dialogService: DialogService
+    private authService: AuthService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
-    this.dialog$ = this.dialogService.getDialogState();
   }
   ngOnInit(): void {
     this.mode$.subscribe({
@@ -56,7 +48,6 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
     this.userInfo$.subscribe({
       next: userinfo => {
         this.clientInfo = userinfo;
-        this.clientId = this.clientInfo.client.id;
       },
     });
 
