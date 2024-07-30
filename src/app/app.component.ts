@@ -79,21 +79,6 @@ export class AppComponent implements OnInit {
       },
     });
 
-    this.dialogService.OpenTransfertBillPopup({
-      amount: '123',
-      bank_reference: '',
-      bill_date: new Date(Date.now()),
-      credit_account: 'adada',
-      credit_account_holder: '',
-      credit_bank: '',
-      debit_account: '',
-      debit_account_holder: '',
-      debit_bank: '',
-      description: 'asdad',
-      reference: 'adad',
-      transfer_fees: 'adad',
-    });
-
     // TODO :: TRY TO CHANGE PLATEFORM BY URL !! CAN GOT PROBLEME WITH SOME GUARDS
     // this.router.events
     //   .pipe(filter(event => event instanceof NavigationEnd))
