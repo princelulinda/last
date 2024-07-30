@@ -4,7 +4,7 @@ import { Inject, Injectable } from '@angular/core';
 // import { map, retry } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
-import { map, Observable, retry } from 'rxjs';
+import { BehaviorSubject, map, Observable, retry } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
 import { Favorite, Pagination } from './model';
@@ -20,6 +20,7 @@ import {
   searchTellerModel,
   updateMerchantDetailsModel,
 } from '../../../components/merchant/merchant.models';
+import { Coords2Model } from '../../../components/dev/global-map/map.model';
 // import { Pagination } from './model';
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,26 @@ export class MerchantService {
     @Inject(ApiService) private apiService: ApiService,
     @Inject(HttpClient) private http: HttpClient
   ) {}
+
+  private _coords: BehaviorSubject<Coords2Model> =
+    new BehaviorSubject<Coords2Model>({
+      accuracy: 0,
+      altitude: null,
+      altitudeAccuracy: null,
+      heading: null,
+      latitude: 0,
+      longitude: 0,
+      speed: null,
+    });
+
+  get coords$(): Observable<Coords2Model> {
+    return this._coords.asObservable();
+  }
+
+  getUserCoords(coords: Coords2Model) {
+    this._coords.next(coords);
+  }
+
   getMerchantList() {
     return this.apiService.get('/dbs/merchant/list/?').pipe(
       map(data => {
