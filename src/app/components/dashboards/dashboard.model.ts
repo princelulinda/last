@@ -43,6 +43,7 @@ export interface MerchantLookup {
   lookup_title: string;
   lookup_image: string;
 }
+
 export interface addBankResponse {
   object: {
     success: boolean;
@@ -50,6 +51,7 @@ export interface addBankResponse {
     response_code: string;
   };
 }
+
 export interface PayMerchant {
   id: number;
 }

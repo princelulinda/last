@@ -27,6 +27,7 @@ import {
 } from '../../core/services/config/main-config.models';
 import { FooterComponent } from '../footer/footer.component';
 import { SwitchModeComponent } from '../../components/dev/switch-mode/switch-mode.component';
+import { ProfileCardComponent } from '../../global/components/custom-field/profile-card/profile-card.component';
 
 export interface organizationModel {
   company_type_code: string;
@@ -45,6 +46,7 @@ export interface organizationModel {
     SwitchPlateformIconsComponent,
     FooterComponent,
     SwitchModeComponent,
+    ProfileCardComponent,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -147,7 +149,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //     this.onlineBankingHeaderImage =
     //         '../../../assets/images/ihela_christmas.png';
     // } else {
-    //     this.onlineBankingHeaderImage = '../../../assets/images/ihela-ryanje.png';
+    //     this.onlineBankingHeaderImage = '../../../assets/images/ihela3.png';
     // }
 
     // this.eyeStatus$.subscribe({

@@ -18,7 +18,7 @@ export interface AllProductModel {
 }
 
 export interface MerchantModel {
-  id: number;
+  id: number | string;
   slug: string;
   merchant_title: string;
   merchant_code: string;
@@ -148,4 +148,24 @@ export interface generateBillModel {
     refence: string;
   };
   success: boolean;
+}
+
+export interface addProductByMerchantModel {
+  name: string;
+  merchant: MerchantModel;
+  price: number | null;
+  short_description: string;
+  accepts_cart: boolean;
+  is_stockable: boolean;
+}
+
+export interface addProductByMerchantDataModel {
+  object: {
+    success: boolean;
+    response_message: string;
+  };
+}
+
+export interface inputAmountModel {
+  amount: number | null;
 }
