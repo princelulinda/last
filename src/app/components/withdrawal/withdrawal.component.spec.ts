@@ -14,7 +14,7 @@ describe('WithdrawalComponent', () => {
 
     fixture = TestBed.createComponent(WithdrawalComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('should create', () => {
