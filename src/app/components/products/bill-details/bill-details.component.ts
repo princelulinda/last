@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
@@ -41,6 +41,7 @@ import {
     MerchantBillComponent,
     SkeletonComponent,
     ReactiveFormsModule,
+    RouterLink,
   ],
   templateUrl: './bill-details.component.html',
   styleUrl: './bill-details.component.scss',

@@ -28,6 +28,7 @@ export class ProductsComponent implements OnInit {
 
   allProduct = [];
   product = [];
+  isLoading!: boolean;
 
   itemQuantity = 1;
   merchant = '';
@@ -62,6 +63,7 @@ export class ProductsComponent implements OnInit {
     console.log('PRoducts', event);
   }
   getAllProduct(event: AllProductModel[]) {
+    this.isLoading = true;
     (this.allProduct as AllProductModel[]) = event;
     console.log('allproducts', this.allProduct);
   }

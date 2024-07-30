@@ -126,9 +126,15 @@
                   <div
                     class="row d-flex justify-content-between align-items-center">
                     <div class="col-5 fw-bold text-all-dark">
-                      {{ $index + 1 }}. {{ email.ident }}
+                      {{ $index + 1 }}.<span
+                        appClipboard
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title="copy"
+                        role="button"
+                        >{{ email.ident }}</span
+                      >
                     </div>
-
                     <div
                       class="col-3 d-flex align-items-center text-all-blue-sky"
                       i18n>
@@ -281,7 +287,14 @@
                   <div
                     class="row d-flex justify-content-between align-items-center">
                     <div class="col-5 fw-bold text-all-dark">
-                      {{ $index + 1 }}. {{ number.ident }}
+                      {{ $index + 1 }}.<span
+                        appClipboard
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        title="copy"
+                        role="button"
+                        >{{ number.ident }}</span
+                      >
                     </div>
 
                     <div
