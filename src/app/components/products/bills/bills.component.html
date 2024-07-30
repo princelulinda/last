@@ -24,7 +24,7 @@
         <div
           class="all-bill-card col-11 col-sm-8 col-md-5"
           style="height: 300px">
-          <app-skeleton height="90%"></app-skeleton>
+          <app-skeleton [height]="'90%'"></app-skeleton>
         </div>
       </div>
 
@@ -34,7 +34,7 @@
         <div
           class="row mx-0 mt-4 justify-content-around col-10 flex-grow-1 gap-3">
           <div
-            class="all-bill-card col-11 col-sm-8 col-md-5 shadow card p-0 level-1 cursor-pointer"
+            class="all-bill-card col-11 col-sm-8 col-md-5 shadow card p-0 level-1 clickable"
             *ngFor="let bill of paymentRequestBills; let index = index"
             [hidden]="index >= 3 && !seeMore"
             routerLink="/m/market/bill/{{ bill.id }}">
@@ -177,18 +177,18 @@
           class="all-bill-bill col-11 col-sm-8 col-md-5 col-lg-4"
           style="height: 300px"
           *ngFor="let item of [1, 2, 3, 4, 5, 6]">
-          <app-skeleton height="80%"></app-skeleton>
+          <app-skeleton [height]="'80%'"></app-skeleton>
         </div>
-        <div
+        <!-- <div
           class="all-bill-bill col-11 col-sm-8 col-md-5 col-lg-4"
-          style="height: 300px"></div>
+          style="height: 300px"></div> -->
       </div>
 
       <section
         *ngIf="!isLoading && merchantBills"
         class="row mx-0 mt-4 justify-content-around gap-3">
         <div
-          class="all-bill-card border-0 shadow rounded-0 rounded-bottom card p-0 level-1 cursor-pointer col-11 col-sm-8 col-md-5"
+          class="all-bill-card border-0 shadow rounded-0 rounded-bottom card p-0 level-1 clickable col-11 col-sm-8 col-md-5"
           routerLink="/m/market/bill/{{ bill.id }}"
           *ngFor="let bill of merchantBills">
           <div class="card-body p-2">
