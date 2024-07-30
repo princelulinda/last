@@ -1,0 +1,90 @@
+.backdrop {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(65, 62, 62, 0.418);
+  position: fixed;
+  top: 0px;
+  z-index: 50;
+}
+.merchant {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+}
+.favorite_fav {
+  z-index: 10;
+  background-color: #d9d9d9;
+  border-radius: 50%;
+  top: 3%;
+  width: 30px;
+  height: 30px;
+}
+.favorite_icon {
+  position: relative;
+  top: -30%;
+  left: -13%;
+}
+.map {
+  width: 100%;
+}
+
+@media (max-width: 576px) {
+  .map {
+    width: 80%;
+    margin-left: 10%;
+  }
+}
+
+form {
+  left: 88%;
+  transform: translate(-50%, -50%);
+  transition: all 0.5s;
+  width: 50px;
+  height: 50px;
+  box-sizing: border-box;
+  border-radius: 25px;
+
+  padding: 5px;
+}
+form.active {
+  width: 220px;
+}
+.search-input {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 42.5px;
+  line-height: 30px;
+  outline: 0;
+  border: 0;
+  display: none;
+  font-size: 1em;
+  border-radius: 20px;
+  padding: 0 20px;
+  .bg-in-light {
+    background: #ffffff !important;
+  }
+}
+.search-button {
+  box-sizing: border-box;
+  padding: 12px;
+  width: 23px;
+  height: 23px;
+
+  top: 0;
+  right: 0;
+  border-radius: 50%;
+  font-size: 1.2em;
+  transform: all 0.5s;
+}
+form:hover {
+  width: 220px;
+  cursor: pointer;
+}
+form:hover .search-input {
+  display: block;
+}
+form:hover .search-input {
+  background-color: white;
+}

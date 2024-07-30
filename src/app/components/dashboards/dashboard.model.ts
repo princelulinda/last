@@ -9,6 +9,8 @@ export interface BillersModel {
   lookup_subtitle: string;
   is_favorite_merchant: boolean;
   success: string;
+  merchant_category_name: string;
+  accepts_simple_payment: boolean;
 }
 
 export interface objectsModel {
