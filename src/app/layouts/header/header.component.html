@@ -375,7 +375,7 @@
 <!-- Plateforms switch Icons DropDown  -->
 <section>
   <div
-    class="float-end plateforn-card lg-radius border border-primary-2 mt-2 border-10 bg-white"
+    class="float-end plateforn-card lg-radius mt-2 bg-white plateform"
     *ngIf="showPlateformPopup">
     <div class="h-100 p-3 py-4 overflow-y-auto">
       <div class="d-flex flex-column h-100">
@@ -402,7 +402,7 @@
                 </span>
               </div>
               <div
-                class="text-xsm text-center text-dark mt-2"
+                class="fs-x-small text-center text-dark mt-2"
                 [ngClass]="{
                   'text-all-dark': mainConfig.activePlateform === 'newsFeed',
                 }"
@@ -421,7 +421,15 @@
               tabindex="0">
               <div class="d-flex justify-content-center">
                 <div>
-                  <img src="/images/ihela-b.svg" alt="onlineBanking" />
+                  @if (mainConfig.activePlateform !== 'onlineBanking') {
+                    <img
+                      src="/images/ihela-black.svg"
+                      width="35"
+                      alt="onlineBanking" />
+                  }
+                  @if (mainConfig.activePlateform === 'onlineBanking') {
+                    <img src="/images/ihela-b.svg" alt="onlineBanking" />
+                  }
                   <!-- <img
                     
                     src="/images/ihelab.svg"
@@ -429,7 +437,7 @@
                 </div>
               </div>
               <div
-                class="text-xsm text-center mt-2"
+                class="fs-x-small text-center mt-2"
                 [ngClass]="{
                   'text-all-dark':
                     mainConfig.activePlateform === 'onlineBanking',
@@ -458,7 +466,7 @@
               </div>
 
               <div
-                class="text-xsm text-center mt-2"
+                class="fs-x-small text-center mt-2"
                 [ngClass]="{
                   'text-all-dark': mainConfig.activePlateform === 'marketPlace',
                 }"
@@ -488,7 +496,7 @@
                   <i class="fa-solid fa-desktop fs-1"></i>
                 </span>
               </div>
-              <div class="text-xsm text-center mt-2" i18n>WorkStation</div>
+              <div class="fs-x-small text-center mt-2" i18n>WorkStation</div>
             </div>
 
             <div
@@ -510,7 +518,7 @@
                 </span>
               </div>
               <div
-                class="text-xsm text-center mt-2"
+                class="fs-x-small text-center mt-2"
                 [ngClass]="{
                   'text-all-dark': mainConfig.activePlateform === 'onamob',
                 }"
@@ -584,15 +592,14 @@
 <!-- Plateforms switch Icons DropDown  -->
 <section>
   <div
-    class="float-end plateforn-card lg-radius border border-primary-2 mt-2 border-10 bg-white"
-    style="margin-right: 70px"
+    class="float-end plateforn-card border mt-2 bg-white userInfo"
     *ngIf="showUserInfo">
-    <div class="h-100 p-3 py-4 overflow-y-auto">
+    <div class="h-100 p-2 overflow-y-auto">
       <div class="d-flex flex-column h-100">
         <div class="px-1 flex-grow-2">
           <section>
             <div
-              class="pt-2 pb-2 d-flex justify-content-end"
+              class="pb-2 d-flex justify-content-end"
               style="border-radius: 5px 5px 0px 0px">
               <span
                 (click)="displayUserInfo()"
