@@ -5,6 +5,7 @@ import { ProductsMarketPlaceRoutes } from '../../components/products/products.ro
 import { MerchantTransferComponent } from '../../components/products/merchant-transfer/merchant-transfer.component';
 import { BillsComponent } from '../../components/products/bills/bills.component';
 import { BillDetailsComponent } from '../../components/products/bill-details/bill-details.component';
+import { MerchantConfigComponent } from '../../components/merchant/merchant-config/merchant-config.component';
 
 export const marketPlaceRoutes: Routes = [
   { path: '', component: MarketDashboardComponent },
@@ -12,4 +13,5 @@ export const marketPlaceRoutes: Routes = [
   { path: 'transfer', component: MerchantTransferComponent },
   { path: 'bills', component: BillsComponent },
   { path: 'bill/:id', component: BillDetailsComponent },
+  { path: 'merchant-config', component: MerchantConfigComponent },
 ];
