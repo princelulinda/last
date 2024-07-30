@@ -48,6 +48,10 @@ export class TransferBillComponent implements AfterViewInit {
   //   transfer_fees: '',
   // };
 
+  closeBillDialog() {
+    this.dialogService.closeBillDialog();
+  }
+
   ngAfterViewInit() {
     this.dialogElement = document.getElementById(
       'transfer-bill'

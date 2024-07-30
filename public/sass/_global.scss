@@ -188,6 +188,7 @@ dialog {
 dialog[open] {
   animation: show 0.5s ease normal;
   opacity: 1;
+  background: none;
 }
 
 @keyframes show {
