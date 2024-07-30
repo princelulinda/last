@@ -8,6 +8,7 @@
           <button
             [ngClass]="{
               'bg-primary text-white': actifSection === 'internalBank',
+              'bg-white text-dark': actifSection !== 'internalBank',
             }"
             class="btn fw-bold border border-dark px-4"
             (click)="setActifSection('internalBank')"
@@ -20,6 +21,7 @@
             class="btn fw-bold border border-dark px-4"
             [ngClass]="{
               'bg-primary text-white': actifSection === 'externalBank',
+              'bg-white text-dark': actifSection !== 'externalBank',
             }"
             (click)="setActifSection('externalBank')"
             i18n>
