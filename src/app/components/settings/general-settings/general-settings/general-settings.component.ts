@@ -10,11 +10,12 @@ import { DialogService } from '../../../../core/services';
 import { ClientService } from '../../../../core/services/client/client.service';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { BodyModel } from '../../settings.models';
+import { ClipboardDirective } from '../../../dev/clipboard.directive';
 // { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-general-settings',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ClipboardDirective],
   templateUrl: './general-settings.component.html',
   styleUrl: './general-settings.component.scss',
 })
