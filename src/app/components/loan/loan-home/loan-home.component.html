@@ -5,6 +5,13 @@
         <span class="sub-title-loan fw-bold" i18n>Apply for a loan</span>
       </div>
       <button
+        [routerLink]="
+          activePlatform === 'workstation'
+            ? '/w/workstation/banking/'
+            : activePlatform === 'onlineBanking'
+              ? '/b/banking/'
+              : ''
+        "
         class="dflex align-items-center bg-transparent btn"
         (click)="goBack()">
         <span>

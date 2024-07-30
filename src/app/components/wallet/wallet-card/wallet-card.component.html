@@ -97,7 +97,15 @@
           <button class="btn px-1 p-0 btnBack">
             <i class="fa-solid fa-plus fs-normal pt-1 text-all-white"></i>
           </button>
-          <button class="btn px-1 p-0 btnBack" routerLink="/b/banking/wallets">
+          <button
+            class="btn px-1 p-0 btnBack"
+            [routerLink]="
+              activePlatform === 'workstation'
+                ? '/w/workstation/banking/wallets'
+                : activePlatform === 'onlineBanking'
+                  ? '/b/banking/wallets'
+                  : ''
+            ">
             <i class="fa-solid fa-list fs-normal pt-1 text-all-white"></i>
           </button>
 

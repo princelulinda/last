@@ -29,7 +29,13 @@
         </div>
         <div
           class="text-l-md text-dark fw-bold text-secondary"
-          routerLink="/b/banking/">
+          [routerLink]="
+            activePlatform === 'workstation'
+              ? '/w/workstation/banking/'
+              : activePlatform === 'onlineBanking'
+                ? '/b/banking/'
+                : ''
+          ">
           Back
         </div>
       </div>
