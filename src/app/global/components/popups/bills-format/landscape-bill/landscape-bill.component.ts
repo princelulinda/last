@@ -1,6 +1,7 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LandscpeBillModel } from '../../../../../core/services/dialog/dialogs-models';
+import { DialogService } from '../../../../../core/services';
 
 @Component({
   selector: 'app-landscape-bill',
@@ -11,19 +12,46 @@ import { LandscpeBillModel } from '../../../../../core/services/dialog/dialogs-m
 })
 export class LandscapeBillComponent implements AfterViewInit {
   // @Input({ required: true })
-  successMessage: LandscpeBillModel = {
-    logo_url: '',
-    printable_text: '',
-    receipt_date: new Date(),
-  };
-
+  // successMessage: LandscpeBillModel = {
+  //   logo_url: '',
+  //   printable_text: '',
+  //   receipt_date: new Date(),
+  // };
   billContent!: HTMLElement;
+
+  landscapeBillDialog: { active: boolean; payload: LandscpeBillModel | null } =
+    {
+      active: false,
+      payload: null,
+    };
+  private dialogElement!: HTMLDialogElement | null;
+
+  constructor(private dialogService: DialogService) {
+    effect(() => {
+      this.landscapeBillDialog = this.dialogService.landscapeBill();
+
+      if (this.landscapeBillDialog.active && this.landscapeBillDialog.payload) {
+        if (this.dialogElement) {
+          this.dialogElement.showModal();
+        }
+      } else if (!this.landscapeBillDialog.active) {
+        this.dialogElement?.close();
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.billContent = document.getElementById('bill-content') as HTMLElement;
 
-    if (this.successMessage.printable_text) {
-      this.billContent.innerHTML = this.successMessage.printable_text;
+    if (
+      this.landscapeBillDialog.active &&
+      this.landscapeBillDialog.payload?.printable_text
+    ) {
+      this.billContent.innerHTML =
+        this.landscapeBillDialog.payload.printable_text;
     }
+    this.dialogElement = document.getElementById(
+      'landscape-bill'
+    ) as HTMLDialogElement;
   }
 }

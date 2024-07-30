@@ -55,22 +55,34 @@ export class DialogService {
   splashScreen = signal(false);
   private isShowed = signal(false);
 
-  merchantBill!: WritableSignal<{
+  merchantBill: WritableSignal<{
     active: boolean;
     payload: MerchantBillModel | null;
-  }>;
-  landscapeBill!: WritableSignal<{
+  }> = signal({
+    active: false,
+    payload: null,
+  });
+  landscapeBill: WritableSignal<{
     active: boolean;
     payload: LandscpeBillModel | null;
-  }>;
-  transferBill!: WritableSignal<{
+  }> = signal({
+    active: false,
+    payload: null,
+  });
+  transferBill: WritableSignal<{
     active: boolean;
     payload: TransfertBillModel | null;
-  }>;
-  obrBill!: WritableSignal<{
+  }> = signal({
+    active: false,
+    payload: null,
+  });
+  obrBill: WritableSignal<{
     active: boolean;
     payload: ObrBillModel | null;
-  }>;
+  }> = signal({
+    active: false,
+    payload: null,
+  });
 
   // Toast Methods
   openToast(payload: ToastPaylodModel) {

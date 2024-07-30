@@ -1,100 +1,112 @@
-<div
-  class="card lg-radius overflow-hidden border-0 d-none"
-  style="width: 351px">
-  <div
-    class="card-header bg-green py-2 px-4 d-flex justify-content-between align-items-center border-bottom-0">
-    <div class="" style="height: 80px; width: 157px">
-      <img class="img-fluid" src="/assets/images/ihela3.png" alt="IHELA Logo" />
-    </div>
-    <div class="text-light" style="width: 70px; height: 70px">
-      <i class="h-100 w-100 fa-regular fa-circle-check"></i>
-    </div>
-  </div>
-  <div class="card-body py-1 level-1 pe-4 position-relative">
-    <span
-      class="position-absolute d-flex justify-content-center align-items-center"
-      style="inset: 0; opacity: 0.1">
-      <img style="height: 53%" src="/assets/images/ihela-black.svg" alt="" />
-    </span>
-    <section>
-      <div class="d-flex flex-column mb-1 text-dark">
-        <b class="small text-gray" i18n>Originator</b>
-        <b class="ms-2"
-          ><span
-            >{{ successMessage.debit_account_holder }}
-            <small class="small-2 text-gray">{{
-              successMessage.debit_account
-            }}</small></span
-          ></b
-        >
+<dialog id="transfer-bill">
+  @if (transferBillDialog.active && transferBillDialog.payload) {
+    <div class="card lg-radius overflow-hidden border-0" style="width: 351px">
+      <div
+        class="card-header bg-green py-2 px-4 d-flex justify-content-between align-items-center border-bottom-0">
+        <div class="" style="height: 80px; width: 157px">
+          <img
+            class="img-fluid"
+            src="/assets/images/ihela3.png"
+            alt="IHELA Logo" />
+        </div>
+        <div class="text-light" style="width: 70px; height: 70px">
+          <i class="h-100 w-100 fa-regular fa-circle-check"></i>
+        </div>
+      </div>
+      <div class="card-body py-1 level-1 pe-4 position-relative">
+        <span
+          class="position-absolute d-flex justify-content-center align-items-center"
+          style="inset: 0; opacity: 0.1">
+          <img
+            style="height: 53%"
+            src="/assets/images/ihela-black.svg"
+            alt="" />
+        </span>
+        <section>
+          <div class="d-flex flex-column mb-1 text-dark">
+            <b class="small text-gray" i18n>Originator</b>
+            <b class="ms-2"
+              ><span
+                >{{ transferBillDialog.payload.debit_account_holder }}
+                <small class="small-2 text-gray">{{
+                  transferBillDialog.payload.debit_account
+                }}</small></span
+              ></b
+            >
+          </div>
+          <div
+            class="d-flex flex-column mb-1 text-dark"
+            *ngIf="transferBillDialog.payload.debit_bank">
+            <b class="small text-gray" i18n>Debit Bank</b>
+            <b class="ms-2">{{ transferBillDialog.payload.debit_bank }}</b>
+          </div>
+          <div class="d-flex flex-column mb-1 text-dark">
+            <b class="small text-gray" i18n>Beneficiary</b>
+            <b class="ms-2"
+              ><span
+                >{{ transferBillDialog.payload.credit_account_holder }}
+                <small class="text-gray small-2">{{
+                  transferBillDialog.payload.credit_account
+                }}</small></span
+              ></b
+            >
+          </div>
+          <div class="d-flex flex-column mb-1 text-dark">
+            <b class="small-2 text-gray" i18n>Credit Bank</b>
+            <b class="ms-2">{{ transferBillDialog.payload.credit_bank }}</b>
+          </div>
+          <div class="d-flex flex-column mb-1 text-dark">
+            <b class="small-2 text-gray" i18n>Description</b>
+            <b class="ms-2">{{ transferBillDialog.payload.description }}</b>
+          </div>
+          <div class="d-flex flex-column mb-1 text-dark">
+            <b class="small text-gray" i18n>Reference</b>
+            <b class="ms-2"
+              ><span>{{ transferBillDialog.payload.reference }}</span></b
+            >
+          </div>
+          <div class="d-flex flex-column mb-2 text-dark">
+            <b class="small text-gray" i18n>Bank reference</b>
+            <b class="ms-2"
+              ><span>{{ transferBillDialog.payload.bank_reference }}</span></b
+            >
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex flex-column text-dark">
+              <b class="small-2 text-gray" i18n>Total</b>
+              <b style="font-size: 20px">{{
+                transferBillDialog.payload.amount | currency: 'BIF '
+              }}</b>
+            </div>
+            <div class="d-flex flex-column text-dark">
+              <b class="small-2 text-gray" i18n>Transfer fees</b>
+              <b style="font-size: 20px">{{
+                transferBillDialog.payload.transfer_fees
+              }}</b>
+            </div>
+          </div>
+        </section>
       </div>
       <div
-        class="d-flex flex-column mb-1 text-dark"
-        *ngIf="successMessage.debit_bank">
-        <b class="small text-gray" i18n>Debit Bank</b>
-        <b class="ms-2">{{ successMessage.debit_bank }}</b>
-      </div>
-      <div class="d-flex flex-column mb-1 text-dark">
-        <b class="small text-gray" i18n>Beneficiary</b>
-        <b class="ms-2"
-          ><span
-            >{{ successMessage.credit_account_holder }}
-            <small class="text-gray small-2">{{
-              successMessage.credit_account
-            }}</small></span
-          ></b
-        >
-      </div>
-      <div class="d-flex flex-column mb-1 text-dark">
-        <b class="small-2 text-gray" i18n>Credit Bank</b>
-        <b class="ms-2">{{ successMessage.credit_bank }}</b>
-      </div>
-      <div class="d-flex flex-column mb-1 text-dark">
-        <b class="small-2 text-gray" i18n>Description</b>
-        <b class="ms-2">{{ successMessage.description }}</b>
-      </div>
-      <div class="d-flex flex-column mb-1 text-dark">
-        <b class="small text-gray" i18n>Reference</b>
-        <b class="ms-2"
-          ><span>{{ successMessage.reference }}</span></b
-        >
-      </div>
-      <div class="d-flex flex-column mb-2 text-dark">
-        <b class="small text-gray" i18n>Bank reference</b>
-        <b class="ms-2"
-          ><span>{{ successMessage.bank_reference }}</span></b
-        >
-      </div>
-
-      <div class="d-flex align-items-center justify-content-between">
-        <div class="d-flex flex-column text-dark">
-          <b class="small-2 text-gray" i18n>Total</b>
-          <b style="font-size: 20px">{{
-            successMessage.amount | currency: 'BIF '
-          }}</b>
+        class="card-footer bg-primary border-top-0 py-2 px-4 d-flex justify-content-between align-items-center">
+        <div
+          class=""
+          style="height: 50px; width: 50px; opacity: 0; pointer-events: none">
+          <i class="fa-solid fa-qrcode h-100 w-100"></i>
         </div>
-        <div class="d-flex flex-column text-dark">
-          <b class="small-2 text-gray" i18n>Transfer fees</b>
-          <b style="font-size: 20px">{{ successMessage.transfer_fees }}</b>
+        <div class="d-flex flex-column align-items-end text-all-white">
+          <b
+            ><small>{{
+              transferBillDialog.payload.bill_date | date: 'medium'
+            }}</small></b
+          >
+          <b class="d-flex justify-content-end"
+            ><small class="me-3">ihela.bi</small><small>76434444</small></b
+          >
+          <b><small>Q. Asiatique Bujumbura </small></b>
         </div>
       </div>
-    </section>
-  </div>
-  <div
-    class="card-footer bg-primary border-top-0 py-2 px-4 d-flex justify-content-between align-items-center">
-    <div
-      class=""
-      style="height: 50px; width: 50px; opacity: 0; pointer-events: none">
-      <i class="fa-solid fa-qrcode h-100 w-100"></i>
     </div>
-    <div class="d-flex flex-column align-items-end text-all-white">
-      <b
-        ><small>{{ successMessage.bill_date | date: 'medium' }}</small></b
-      >
-      <b class="d-flex justify-content-end"
-        ><small class="me-3">ihela.bi</small><small>76434444</small></b
-      >
-      <b><small>Q. Asiatique Bujumbura </small></b>
-    </div>
-  </div>
-</div>
+  }
+</dialog>
