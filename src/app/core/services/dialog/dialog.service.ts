@@ -5,6 +5,10 @@ import {
   DialogResponseModel,
   ToastModel,
   ToastPaylodModel,
+  MerchantBillModel,
+  TransfertBillModel,
+  LandscpeBillModel,
+  ObrBillModel,
 } from './dialogs-models';
 import { Observable } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -50,6 +54,23 @@ export class DialogService {
 
   splashScreen = signal(false);
   private isShowed = signal(false);
+
+  merchantBill!: WritableSignal<{
+    active: boolean;
+    payload: MerchantBillModel | null;
+  }>;
+  landscapeBill!: WritableSignal<{
+    active: boolean;
+    payload: LandscpeBillModel | null;
+  }>;
+  transferBill!: WritableSignal<{
+    active: boolean;
+    payload: TransfertBillModel | null;
+  }>;
+  obrBill!: WritableSignal<{
+    active: boolean;
+    payload: ObrBillModel | null;
+  }>;
 
   // Toast Methods
   openToast(payload: ToastPaylodModel) {
@@ -142,5 +163,50 @@ export class DialogService {
   }
   getAmountState(): Observable<boolean> {
     return toObservable(this.isShowed);
+  }
+
+  // Bills format Dispatcher
+  OpenTransfertBillPopup(payload: TransfertBillModel) {
+    this.transferBill.set({
+      active: true,
+      payload: payload,
+    });
+  }
+  OpenMerchantBillPopup(payload: MerchantBillModel) {
+    this.merchantBill.set({
+      active: true,
+      payload: payload,
+    });
+  }
+
+  OpenObrBillPopup(payload: ObrBillModel) {
+    this.obrBill.set({
+      active: true,
+      payload: payload,
+    });
+  }
+  OpenLandscapeBillPopup(payload: LandscpeBillModel) {
+    this.landscapeBill.set({
+      active: true,
+      payload: payload,
+    });
+  }
+  closeBillDialog() {
+    this.transferBill.set({
+      active: false,
+      payload: null,
+    });
+    this.merchantBill.set({
+      active: false,
+      payload: null,
+    });
+    this.obrBill.set({
+      active: false,
+      payload: null,
+    });
+    this.landscapeBill.set({
+      active: false,
+      payload: null,
+    });
   }
 }
