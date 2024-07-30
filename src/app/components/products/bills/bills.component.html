@@ -10,146 +10,152 @@
 
     <!-- payment Request -->
     <section class="paymentRequest">
-      <div
-        class="title d-flex"
-        *ngIf="
-          paymentRequestBillsLoading ||
-          (paymentRequestBills && paymentRequestBills.length !== 0)
-        ">
-        <span class="fw-bold me-3 text-dark" i18n> Payment Request </span>
-        <span class="border-bottom mb-2 border-2 flex-grow-1"></span>
-      </div>
-
-      <div class="skeletons mt-4 row mx-0" *ngIf="paymentRequestBillsLoading">
-        <div
-          class="all-bill-card col-11 col-sm-8 col-md-5"
-          style="height: 300px">
-          <app-skeleton height="90%"></app-skeleton>
+      @if (
+        paymentRequestBillsLoading ||
+        (paymentRequestBills && paymentRequestBills.length !== 0)
+      ) {
+        <div class="title d-flex">
+          <span class="fw-bold me-3 text-dark" i18n> Payment Request </span>
+          <span class="border-bottom mb-2 border-2 flex-grow-1"></span>
         </div>
-      </div>
-
-      <div
-        *ngIf="paymentRequestBills && paymentRequestBills.length !== 0"
-        class="d-flex mt-3 flex-wrap">
-        <div
-          class="row mx-0 mt-4 justify-content-around col-10 flex-grow-1 gap-3">
+      }
+      @if (paymentRequestBillsLoading) {
+        <div class="skeletons mt-4 row mx-0">
           <div
-            class="all-bill-card col-11 col-sm-8 col-md-5 shadow card p-0 level-1 cursor-pointer"
-            *ngFor="let bill of paymentRequestBills; let index = index"
-            [hidden]="index >= 3 && !seeMore"
-            routerLink="/m/market/bill/{{ bill.id }}">
-            <div
-              class="card-header bg-primary px-2 py-1"
-              style="min-height: 60px">
-              <div class="d-flex ms-3 h-100 justify-content-between">
-                <div style="width: 50px; height: 50px">
-                  <img
-                    *ngIf="bill.created_by.picture_url"
-                    src="{{ bill.created_by.picture_url }}"
-                    alt="{{ bill.created_by.client_full_name }} Photo"
-                    class="image rounded-circle" />
-
-                  <span
-                    *ngIf="!bill.created_by.picture_url"
-                    class="d-flex justify-content-center align-items-center position-relative">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="78"
-                      height="57"
-                      viewBox="0 0 78 57"
-                      fill="none">
-                      <g opacity="0.5">
-                        <path
-                          d="M22.3651 21.1809C23.8852 20.0711 23.6046 17.9695 23.0124 16.3773C22.7772 15.7453 23.2145 15 23.8889 15H27.6549C29.5023 15 31 16.4977 31 18.3451C31 19.9813 29.8173 21.3842 28.1953 21.5983C24.6485 22.0665 20.7817 22.337 22.3651 21.1809Z"
-                          fill="#D9D9D9" />
-                        <path
-                          d="M63.5 41C62.0787 40.1472 62.2566 38.5706 62.7776 37.3109C63.0176 36.7307 62.6278 36 62 36H57.6696C56.1952 36 55 37.1953 55 38.6697C55 40.0047 55.9858 41.1379 57.3123 41.2879C60.9147 41.6954 65.1257 41.9755 63.5 41Z"
-                          fill="#D9D9D9" />
-                        <rect
-                          x="15"
-                          width="56"
-                          height="16"
-                          rx="8"
-                          fill="#D9D9D9" />
-                        <rect
-                          x="12"
-                          y="41"
-                          width="66"
-                          height="16"
-                          rx="8"
-                          fill="#D9D9D9" />
-                        <rect
-                          y="21"
-                          width="74"
-                          height="16"
-                          rx="8"
-                          fill="#D9D9D9" />
-                      </g>
-                    </svg>
-                    <span class="fs-4 mt-1 position-absolute">
-                      <i
-                        class="fa-solid fa-cart-shopping text-black opacity-50 ms-2 me-3"></i>
+            class="all-bill-card col-11 col-sm-8 col-md-5"
+            style="height: 300px">
+            <app-skeleton [height]="'90%'"></app-skeleton>
+          </div>
+        </div>
+      }
+      @if (paymentRequestBills && paymentRequestBills.length !== 0) {
+        <div class="d-flex mt-3 flex-wrap">
+          <div
+            class="row mx-0 mt-4 justify-content-around col-10 flex-grow-1 gap-2">
+            @for (bill of paymentRequestBills; track $index) {
+              <div
+                class="all-bill-card col-11 col-sm-8 col-md-5 shadow card p-0 level-1"
+                [hidden]="$index >= 3 && !seeMore"
+                routerLink="/m/market/bill/{{ bill.id }}">
+                <div
+                  class="card-header bg-primary px-2 py-1"
+                  style="min-height: 60px">
+                  <div class="d-flex ms-3 h-100 justify-content-between">
+                    <div style="width: 50px; height: 50px">
+                      @if (bill.created_by.picture_url) {
+                        <img
+                          src="{{ bill.created_by.picture_url }}"
+                          alt="{{ bill.created_by.client_full_name }} Photo"
+                          class="image rounded-circle" />
+                      }
+                      @if (!bill.created_by.picture_url) {
+                        <span
+                          class="d-flex justify-content-center align-items-center position-relative">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="78"
+                            height="57"
+                            viewBox="0 0 78 57"
+                            fill="none">
+                            <g opacity="0.5">
+                              <path
+                                d="M22.3651 21.1809C23.8852 20.0711 23.6046 17.9695 23.0124 16.3773C22.7772 15.7453 23.2145 15 23.8889 15H27.6549C29.5023 15 31 16.4977 31 18.3451C31 19.9813 29.8173 21.3842 28.1953 21.5983C24.6485 22.0665 20.7817 22.337 22.3651 21.1809Z"
+                                fill="#D9D9D9" />
+                              <path
+                                d="M63.5 41C62.0787 40.1472 62.2566 38.5706 62.7776 37.3109C63.0176 36.7307 62.6278 36 62 36H57.6696C56.1952 36 55 37.1953 55 38.6697C55 40.0047 55.9858 41.1379 57.3123 41.2879C60.9147 41.6954 65.1257 41.9755 63.5 41Z"
+                                fill="#D9D9D9" />
+                              <rect
+                                x="15"
+                                width="56"
+                                height="16"
+                                rx="8"
+                                fill="#D9D9D9" />
+                              <rect
+                                x="12"
+                                y="41"
+                                width="66"
+                                height="16"
+                                rx="8"
+                                fill="#D9D9D9" />
+                              <rect
+                                y="21"
+                                width="74"
+                                height="16"
+                                rx="8"
+                                fill="#D9D9D9" />
+                            </g>
+                          </svg>
+                          <span class="fs-4 mt-1 position-absolute">
+                            <i
+                              class="fa-solid fa-cart-shopping text-black opacity-50 ms-2 me-3"></i>
+                          </span>
+                        </span>
+                      }
+                    </div>
+                    <div
+                      class="d-flex flex-column text-light align-items-end text-end">
+                      <span class="fs-5">{{
+                        bill.created_by.client_full_name
+                      }}</span>
+                      <!-- <small>inforegideso@test.com</small> -->
+                      <!-- <small>{{ bill.partner_reference }}</small> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body p-2">
+                  <div class="fw-bold fs-4 ms-2 text-dark">
+                    {{ bill.total_amount | currency: 'BIF ' }}
+                  </div>
+                  <div class="d-flex my-2">
+                    <span class="d-flex flex-column flex-grow-2">
+                      <small class="text-secondary" i18n>Merchant</small>
+                      <span class="fs-5 text-dark">{{
+                        bill.merchant_teller.merchant.merchant_title
+                      }}</span>
                     </span>
-                  </span>
+                  </div>
+                  <div class="d-flex flex-column">
+                    <small class="text-secondary" i18n>Code</small>
+                    <span class="fs-5 text-dark">{{ bill.code }}</span>
+                  </div>
+                  <div class="text-end">
+                    <small class="fw-bold text-dark">{{
+                      bill.created_at | date: 'medium'
+                    }}</small>
+                  </div>
                 </div>
                 <div
-                  class="d-flex flex-column text-light align-items-end text-end">
-                  <span class="fs-5">{{
-                    bill.created_by.client_full_name
-                  }}</span>
-                  <!-- <small>inforegideso@test.com</small> -->
-                  <!-- <small>{{ bill.partner_reference }}</small> -->
-                </div>
+                  class="card-footer bg-primary"
+                  style="min-height: 40px"></div>
               </div>
-            </div>
-            <div class="card-body p-2">
-              <div class="fw-bold fs-4 ms-2 text-dark">
-                {{ bill.total_amount | currency: 'BIF ' }}
-              </div>
-              <div class="d-flex my-2">
-                <span class="d-flex flex-column flex-grow-2">
-                  <small class="text-secondary" i18n>Merchant</small>
-                  <span class="fs-5 text-dark">{{
-                    bill.merchant_teller.merchant.merchant_title
-                  }}</span>
-                </span>
-              </div>
-              <div class="d-flex flex-column">
-                <small class="text-secondary" i18n>Code</small>
-                <span class="fs-5 text-dark">{{ bill.code }}</span>
-              </div>
-              <div class="text-end">
-                <small class="fw-bold text-dark">{{
-                  bill.created_at | date: 'medium'
-                }}</small>
-              </div>
-            </div>
-            <div class="card-footer bg-primary" style="min-height: 40px"></div>
+            }
+            <div class="all-bill-card col-11 col-sm-8 col-md-5"></div>
+            <div class="all-bill-card col-11 col-sm-8 col-md-5"></div>
           </div>
-          <div class="all-bill-card col-11 col-sm-8 col-md-5"></div>
-          <div class="all-bill-card col-11 col-sm-8 col-md-5"></div>
+          <div class="d-flex justify-content-end align-items-end mt-2 col-1">
+            @if (!seeMore) {
+              <span
+                (click)="seeMore = true"
+                role="button"
+                tabindex="0"
+                class="border-bottom border-dark text-dark fw-bold"
+                i18n
+                >More</span
+              >
+            }
+            @if (seeMore) {
+              <span
+                (click)="seeMore = false"
+                role="button"
+                tabindex="0"
+                class="border-bottom border-dark text-dark fw-bold"
+                i18n
+                >Less</span
+              >
+            }
+          </div>
         </div>
-        <div class="d-flex justify-content-end align-items-end mt-2 col-1">
-          <span
-            *ngIf="!seeMore"
-            (click)="seeMore = true"
-            role="button"
-            tabindex="0"
-            class="border-bottom cursor-pointer border-dark text-dark fw-bold"
-            i18n
-            >More</span
-          >
-          <span
-            *ngIf="seeMore"
-            (click)="seeMore = false"
-            role="button"
-            tabindex="0"
-            class="border-bottom cursor-pointer border-dark text-dark fw-bold"
-            i18n
-            >Less</span
-          >
-        </div>
-      </div>
+      }
     </section>
 
     <!-- all bills -->
@@ -160,115 +166,125 @@
       </div>
 
       <!-- not found message -->
-      <div
-        class="d-flex flex-column align-items-center mt-5"
-        *ngIf="merchantBills && merchantBills.length === 0">
-        <span class="text-secondary opacity-50" style="font-size: 90px">
-          <i class="fa-solid fa-face-meh"></i>
-        </span>
-        <b class="text-secondary fs-2 opacity-50" i18n> No Bills </b>
-      </div>
+      @if (merchantBills && merchantBills.length === 0) {
+        <div class="d-flex flex-column align-items-center mt-5">
+          <span class="text-secondary opacity-50" style="font-size: 90px">
+            <i class="fa-solid fa-face-meh"></i>
+          </span>
+          <b class="text-secondary fs-2 opacity-50" i18n> No Bills </b>
+        </div>
+      }
 
       <!-- skeleton loader -->
-      <div
-        class="skeletons row mx-0 mt-4 justify-content-around justify-content-lg-start"
-        *ngIf="isLoading && !merchantBills">
+      @if (isLoading && !merchantBills) {
         <div
-          class="all-bill-bill col-11 col-sm-8 col-md-5 col-lg-4"
-          style="height: 300px"
-          *ngFor="let item of [1, 2, 3, 4, 5, 6]">
-          <app-skeleton height="80%"></app-skeleton>
+          class="skeletons row mx-0 mt-4 justify-content-around justify-content-lg-start">
+          @for (item of [1, 2, 3, 4, 5, 6]; track $index) {
+            <div
+              class="all-bill-bill col-11 col-sm-8 col-md-5 col-lg-4"
+              style="height: 300px">
+              <app-skeleton [height]="'80%'"></app-skeleton>
+            </div>
+          }
+          <!-- <div
+            class="all-bill-bill col-11 col-sm-8 col-md-5 col-lg-4"
+            style="height: 300px"></div> -->
         </div>
+      }
+      @if (!isLoading && merchantBills) {
+        <section class="row mx-0 mt-4 justify-content-around gap-2">
+          @for (bill of merchantBills; track $index) {
+            <div
+              class="all-bill-card border-0 shadow-sm rounded-0 rounded-bottom card p-0 level-1 col-11 col-sm-8 col-md-5 bg-white"
+              routerLink="/m/market/bill/{{ bill.id }}"
+              role="button"
+              tabindex="0">
+              <div class="card-body p-2">
+                <div class="fw-bold fs-4 ms-2 text-dark">
+                  {{ bill.total_amount | currency: 'BIF ' }}
+                </div>
+                <div class="d-flex my-2">
+                  <span class="d-flex flex-column flex-grow-2">
+                    <small class="text-secondary" i18n>Merchant</small>
+                    <span class="fs-5 text-dark">{{
+                      bill.merchant_teller.merchant.merchant_title
+                    }}</span>
+                  </span>
+                  <span class="d-flex flex-column flex-grow-4">
+                    <small class="text-secondary" i18n>ID</small>
+                    <span class="fs-5 text-dark">{{
+                      bill.merchant_teller.merchant.id
+                    }}</span>
+                  </span>
+                </div>
+                <div class="d-flex flex-column">
+                  <small class="text-secondary" i18n>Code</small>
+                  <span class="fs-5 text-dark">{{ bill.code }}</span>
+                </div>
+                <div class="text-end">
+                  <small class="fw-bold text-dark">{{
+                    bill.created_at | date: 'mediumDate'
+                  }}</small>
+                </div>
+              </div>
+              <div
+                class="card-footer border-0 text-light text-center fw-bold fs-5 text-capitalize"
+                [ngClass]="{
+                  'initial-bill': bill.payment_status.value === 'I',
+                  'paid-bill': bill.payment_status.value === 'P',
+                  'process-bill': bill.payment_status.value === 'R',
+                }">
+                {{ bill.payment_status.title }}
+              </div>
+            </div>
+          }
+          <div class="col-11 col-sm-8 col-md-5"></div>
+        </section>
+      }
+      @if (!isLoading && merchantBills && merchantBills.length !== 0) {
         <div
-          class="all-bill-bill col-11 col-sm-8 col-md-5 col-lg-4"
-          style="height: 300px"></div>
-      </div>
-
-      <section
-        *ngIf="!isLoading && merchantBills"
-        class="row mx-0 mt-4 justify-content-around gap-3">
-        <div
-          class="all-bill-card border-0 shadow rounded-0 rounded-bottom card p-0 level-1 cursor-pointer col-11 col-sm-8 col-md-5"
-          routerLink="/m/market/bill/{{ bill.id }}"
-          *ngFor="let bill of merchantBills">
-          <div class="card-body p-2">
-            <div class="fw-bold fs-4 ms-2 text-dark">
-              {{ bill.total_amount | currency: 'BIF ' }}
-            </div>
-            <div class="d-flex my-2">
-              <span class="d-flex flex-column flex-grow-2">
-                <small class="text-secondary" i18n>Merchant</small>
-                <span class="fs-5 text-dark">{{
-                  bill.merchant_teller.merchant.merchant_title
-                }}</span>
-              </span>
-              <span class="d-flex flex-column flex-grow-4">
-                <small class="text-secondary" i18n>ID</small>
-                <span class="fs-5 text-dark">{{
-                  bill.merchant_teller.merchant.id
-                }}</span>
-              </span>
-            </div>
-            <div class="d-flex flex-column">
-              <small class="text-secondary" i18n>Code</small>
-              <span class="fs-5 text-dark">{{ bill.code }}</span>
-            </div>
-            <div class="text-end">
-              <small class="fw-bold text-dark">{{
-                bill.created_at | date: 'mediumDate'
-              }}</small>
-            </div>
-          </div>
-          <div
-            class="card-footer border-0 text-light text-center fw-bold fs-5 text-capitalize"
+          class="mt-4 d-flex align-items-center justify-content-center text-light mb-5">
+          <span
+            title="Previous"
+            (click)="getPagination('prev')"
+            tabindex="0"
+            role="button"
+            class="me-2 d-inline-flex align-items-center rounded p-2"
             [ngClass]="{
-              'initial-bill': bill.payment_status.value === 'I',
-              'paid-bill': bill.payment_status.value === 'P',
-              'process-bill': bill.payment_status.value === 'R',
-            }">
-            {{ bill.payment_status.title }}
-          </div>
+              'bg-blue': canMoveToPrevious,
+              'level-2 disabled': !canMoveToPrevious && theme === 'light',
+              'level-3 disabled': !canMoveToPrevious && theme === 'dark',
+            }"
+            ><i class="fa-solid fa-play fa-rotate-180 fs-l-medium"></i
+          ></span>
+          <span
+            (click)="getPagination('next')"
+            [ngClass]="{
+              'bg-blue': canMoveToNext,
+              'level-2 disabled': !canMoveToNext && theme === 'light',
+              'level-3 disabled': !canMoveToNext && theme === 'dark',
+            }"
+            tabindex="0"
+            title="Next"
+            role="button"
+            class="ms-2 fs-5 d-inline-flex align-items-center rounded p-2"
+            ><i class="fa-solid fa-play"></i
+          ></span>
         </div>
-        <div class="col-11 col-sm-8 col-md-5"></div>
-      </section>
-      <div
-        *ngIf="!isLoading && merchantBills && merchantBills.length !== 0"
-        class="mt-4 d-flex align-items-center justify-content-center text-light">
-        <span
-          title="Previous"
-          (click)="getPagination('prev')"
-          tabindex="0"
-          class="cursor-pointer me-2 d-inline-flex align-items-center rounded p-2"
-          [ngClass]="{
-            'bg-blue': canMoveToPrevious,
-            'level-2 disabled': !canMoveToPrevious && theme === 'light',
-            'level-3 disabled': !canMoveToPrevious && theme === 'dark',
-          }"
-          ><i class="fa-solid fa-play fa-rotate-180 fs-l-medium"></i
-        ></span>
-        <span
-          (click)="getPagination('next')"
-          [ngClass]="{
-            'bg-blue': canMoveToNext,
-            'level-2 disabled': !canMoveToNext && theme === 'light',
-            'level-3 disabled': !canMoveToNext && theme === 'dark',
-          }"
-          tabindex="0"
-          title="Next"
-          class="cursor-pointer ms-2 fs-5 d-inline-flex align-items-center rounded p-2"
-          ><i class="fa-solid fa-play"></i
-        ></span>
-      </div>
+      }
     </section>
   </div>
 </section>
-
-<section class="merchant" *ngIf="selectedMarket === 'myMarket' && isMerchant">
-  <!-- <div style="height: inherit; overflow-y: auto" class="p-3 rounded">
-        <app-list
-            url="/dbs/merchant/bills/?requested=true&report=true&"
-            title="Bills"
-            [headers]="billsHeaders"
-        ></app-list>
-    </div> -->
-</section>
+<!-- 
+@if (selectedMarket === 'myMarket' && isMerchant) {
+  <section class="merchant">
+    <div style="height: inherit; overflow-y: auto" class="p-3 rounded">
+          <app-list
+              url="/dbs/merchant/bills/?requested=true&report=true&"
+              title="Bills"
+              [headers]="billsHeaders"
+          ></app-list>
+      </div> 
+  </section>
+}
+  -->

@@ -1,15 +1,3 @@
-dialog::backdrop {
-  background: rgba(17, 17, 17, 0.5);
-}
-dialog {
-  z-index: -1;
-  opacity: 0;
-}
-dialog[open] {
-  animation: show 0.5s ease normal;
-  opacity: 1;
-}
-
 .popup-size {
   width: 425px;
   min-height: 200px;
@@ -22,19 +10,6 @@ dialog[open] {
   }
   height: 100px;
   width: 150px;
-}
-
-@keyframes show {
-  from {
-    scale: 1.1;
-    opacity: 0.5;
-    transform: translateY(-50%);
-  }
-  to {
-    scale: 1;
-    opacity: 1;
-    transform: translateY(0%);
-  }
 }
 
 #alert {
