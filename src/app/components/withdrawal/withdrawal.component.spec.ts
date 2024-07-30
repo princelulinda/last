@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WithdrawalComponent } from './withdrawal.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('WithdrawalComponent', () => {
   let component: WithdrawalComponent;
@@ -8,7 +9,7 @@ describe('WithdrawalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WithdrawalComponent],
+      imports: [WithdrawalComponent, RouterTestingModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WithdrawalComponent);
