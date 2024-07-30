@@ -46,6 +46,10 @@ export class ObrBillComponent implements AfterViewInit {
     });
   }
 
+  closeBillDialog() {
+    this.dialogService.closeBillDialog();
+  }
+
   ngAfterViewInit() {
     this.dialogElement = document.getElementById(
       'obr-bill'

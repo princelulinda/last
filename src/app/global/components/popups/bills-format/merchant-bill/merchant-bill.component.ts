@@ -32,6 +32,10 @@ export class MerchantBillComponent implements AfterViewInit {
     });
   }
 
+  closeBillDialog() {
+    this.dialogService.closeBillDialog();
+  }
+
   ngAfterViewInit() {
     this.cardContent = document.getElementById('printable_text') as HTMLElement;
     this.dialogElement = document.getElementById(

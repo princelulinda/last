@@ -1,49 +1,68 @@
-<dialog id="landscape-bill" class="border-0 p-0" style="width: 800px">
-  <div class="card lg-radius overflow-hidden border-0 bg-white">
-    <div
-      class="card-header bg-primary border-bottom-0 py-2 px-5 d-flex justify-content-between align-items-center">
-      <div class="" style="height: 80px; width: 157px">
-        <img
-          class="img-fluid"
-          src="/images/logo/ihela-ryanje.png"
-          alt="iHela Logo" />
-      </div>
-      <div class="" style="height: 80px; width: 157px">
-        <img
-          class="image"
-          [src]="landscapeBillDialog.payload?.logo_url"
-          alt="Success Icon" />
-      </div>
-    </div>
-    <div class="card-body py-1 level-1 position-relative">
-      <span
-        class="position-absolute d-flex justify-content-center align-items-center"
-        style="inset: 0; opacity: 0.1">
-        <img
-          style="height: 53%"
-          src="/images/logo/ihela-ryanje.svg"
-          alt="iHela logo" />
-      </span>
-      <section id="bill-content" class="text-dark">
-        <!-- content injected in TS -->
-      </section>
-    </div>
-    <div
-      class="card-footer border-top-0 bg-primary py-2 px-5 d-flex justify-content-between align-items-center">
+<dialog id="landscape-bill" class="border-0 p-0">
+  @if (landscapeBillDialog.active && landscapeBillDialog.payload) {
+    <div class="myModal" role="dialog" tabindex="0">
       <div
-        class=""
-        style="height: 50px; width: 50px; opacity: 0; pointer-events: none">
-        <i class="fa-solid fa-qrcode h-100 w-100"></i>
-      </div>
-      <div class="d-flex flex-column align-items-end text-all-white">
-        <b
-          ><small>{{ landscapeBillDialog.payload?.receipt_date }}</small></b
-        >
-        <b class="d-flex justify-content-end"
-          ><small class="me-3">ihela.bi</small><small>76434444</small></b
-        >
-        <b><small>Q. Asiatique Bujumbura </small></b>
+        class="modal-overlay"
+        tabindex="-1"
+        (click)="closeBillDialog()"></div>
+      <div class="modal-content">
+        <div
+          class="card lg-radius overflow-hidden border-0 bg-white"
+          style="width: 800px">
+          <div
+            class="card-header bg-primary border-bottom-0 py-2 px-5 d-flex justify-content-between align-items-center">
+            <div class="" style="height: 80px; width: 157px">
+              <img
+                class="img-fluid"
+                src="/images/logo/ihela-ryanje.png"
+                alt="iHela Logo" />
+            </div>
+            <div class="" style="height: 80px; width: 157px">
+              <img
+                class="image"
+                [src]="landscapeBillDialog.payload.logo_url"
+                alt="Success Icon" />
+            </div>
+          </div>
+          <div class="card-body py-1 level-1 position-relative">
+            <span
+              class="position-absolute d-flex justify-content-center align-items-center"
+              style="inset: 0; opacity: 0.1">
+              <img
+                style="height: 53%"
+                src="/images/logo/ihela-ryanje.svg"
+                alt="iHela logo" />
+            </span>
+            <section id="bill-content" class="text-dark">
+              <!-- content injected in TS -->
+            </section>
+          </div>
+          <div
+            class="card-footer border-top-0 bg-primary py-2 px-5 d-flex justify-content-between align-items-center">
+            <div
+              class=""
+              style="
+                height: 50px;
+                width: 50px;
+                opacity: 0;
+                pointer-events: none;
+              ">
+              <i class="fa-solid fa-qrcode h-100 w-100"></i>
+            </div>
+            <div class="d-flex flex-column align-items-end text-all-white">
+              <b
+                ><small>{{
+                  landscapeBillDialog.payload.receipt_date
+                }}</small></b
+              >
+              <b class="d-flex justify-content-end"
+                ><small class="me-3">ihela.bi</small><small>76434444</small></b
+              >
+              <b><small>Q. Asiatique Bujumbura </small></b>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </dialog>

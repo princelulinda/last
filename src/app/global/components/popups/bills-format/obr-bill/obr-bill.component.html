@@ -1,141 +1,149 @@
-<dialog id="obr-bill" class="border-0 p-0" style="width: 800px">
-  <div class="card lg-radius overflow-hidden border-0 bg-white">
-    <div
-      class="card-header bg-primary border-bottom-0 py-2 px-5 d-flex justify-content-between align-items-center">
-      <div class="" style="height: 80px; width: 157px">
-        <img
-          class="img-fluid"
-          src="/images/logo/ihela-ryanje.png"
-          alt="IHELA Logo" />
-      </div>
-      <div class="" style="width: 100px; height: 57px">
-        <img
-          class="img-fluid lg-radius"
-          src="/images/logo/obr.png"
-          alt="OBR Logo" />
-      </div>
-    </div>
-    <div class="card-body py-1 level-1 position-relative">
-      <span
-        class="position-absolute d-flex justify-content-center align-items-center"
-        style="inset: 0; opacity: 0.1">
-        <img style="height: 53%" src="/images/logo/ihela-ryanje.svg" alt="" />
-      </span>
-      <section>
-        <div
-          class="col-9 mx-auto d-flex justify-content-between align-items-center mt-1">
-          <strong class="text-dark"
-            ><span i18n>Quitance N<sup>o</sup> :</span>
-            <span>
-              {{ obrBillDialog.payload?.receipt_num }}
-            </span>
-          </strong>
-          <strong class="text-dark"
-            ><span i18n>BUREAU :</span>
-            <span> {{ obrBillDialog.payload?.office }}</span>
-          </strong>
-        </div>
-
-        <section class="d-flex flex-column px-4 mt-3">
-          <div
-            class="d-flex justify-content-between align-items-center border-bottom mb-3 text-dark">
-            <div>
-              <strong i18n>Délivrée à : </strong>
-              <span>{{ obrBillDialog.payload?.deliver_to }}</span>
-            </div>
-            <div>
-              <strong i18n>Date de la quittance : </strong>
-              <span>{{ obrBillDialog.payload?.receipt_date }}</span>
-            </div>
-          </div>
-          <div class="d-flex justify-content-between">
-            <div>
-              <div class="mb-1 text-dark">
-                <strong class="me-2" i18n>NIF de l'entreprise : </strong>
-                <small>{{ obrBillDialog.payload?.nif }}</small>
-              </div>
-              <div class="text-dark">
-                <strong class="mb-1" i18n>Nom de l'entreprise : </strong>
-                <div style="display: flex; flex-direction: column">
-                  <small>LIFELINE COMPANY</small>
-                  <small>AV.DES SCIENCES</small>
-                  <small>Q.ROHERO</small>
-                  <small>ROHERO</small>
-                  <small>BURUNDI</small>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="text-dark">
-                <strong i18n class="me-53 mb-1 me-2"
-                  >Code du declarant :
-                </strong>
-                <small>{{ obrBillDialog.payload?.declarant_code }}</small>
-              </div>
-              <div class="text-dark">
-                <strong class="mb-1" i18n>Nom du declarant : </strong>
-                <div style="display: flex; flex-direction: column">
-                  <small>NAST CLEARING AGENCY</small>
-                  <small>PORT DE BUJUMBURA</small>
-                  <small>Q.INDUSTRIEL</small>
-                </div>
-              </div>
-            </div>
-
-            <div class="text-dark">
-              <div class="mb-1">
-                <strong class="me-2" i18n>Agence : </strong>
-                <span>{{ obrBillDialog.payload?.agence }}</span>
-              </div>
-              <div class="mb-1">
-                <strong class="me-2" i18n>Ref. Bordereau : </strong>
-                <small>{{ obrBillDialog.payload?.ref }}</small>
-              </div>
-              <div class="mb-1">
-                <strong class="me-2" i18n>Montant : </strong>
-                <small>{{ obrBillDialog.payload?.amount }}</small>
-              </div>
-              <div class="mb-1">
-                <strong class="me-3" i18n>Deposant : </strong>
-                <small>{{ obrBillDialog.payload?.name }}</small>
-              </div>
-              <div class="mb-1">
-                <strong class="me-2" i18n>Type : </strong>
-                <small>{{ obrBillDialog.payload?.type }}</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="text-center mt-5 mb-1 text-dark">
-            <b i18n
-              >La Banque IHELA CREDIT UNION Affirme avoir recu une somme de cinq
-              cent vingt-quatre mille quatre cent soixante-dix francs({{
-                obrBillDialog.payload?.amount
-              }}
-              BIF)</b
-            >
-          </div>
-        </section>
-      </section>
-    </div>
-    <div
-      class="card-footer border-top-0 bg-primary py-2 px-5 d-flex justify-content-between align-items-center">
+@if (obrBillDialog.active && obrBillDialog.payload) {
+  <div class="myModal" role="dialog" tabindex="0">
+    <div class="modal-overlay" tabindex="-1" (click)="closeBillDialog()"></div>
+    <div class="modal-content">
       <div
-        class=""
-        style="height: 50px; width: 50px; opacity: 0; pointer-events: none">
-        <i class="fa-solid fa-qrcode h-100 w-100"></i>
-      </div>
-      <div class="d-flex flex-column align-items-end text-all-white">
-        <b
-          ><small>{{
-            obrBillDialog.payload?.receipt_date | date: 'medium'
-          }}</small></b
-        >
-        <b class="d-flex justify-content-end"
-          ><small class="me-3">ihela.bi</small><small>76434444</small></b
-        >
-        <b><small>Q. Asiatique Bujumbura </small></b>
+        class="card lg-radius overflow-hidden border-0 bg-white"
+        style="width: 800px">
+        <div
+          class="card-header bg-primary border-bottom-0 py-2 px-5 d-flex justify-content-between align-items-center">
+          <div class="" style="height: 80px; width: 157px">
+            <img
+              class="img-fluid"
+              src="/images/logo/ihela-ryanje.png"
+              alt="IHELA Logo" />
+          </div>
+          <div class="" style="width: 100px; height: 57px">
+            <img
+              class="img-fluid lg-radius"
+              src="/images/logo/obr.png"
+              alt="OBR Logo" />
+          </div>
+        </div>
+        <div class="card-body py-1 level-1 position-relative">
+          <span
+            class="position-absolute d-flex justify-content-center align-items-center"
+            style="inset: 0; opacity: 0.1">
+            <img
+              style="height: 53%"
+              src="/images/logo/ihela-ryanje.svg"
+              alt="" />
+          </span>
+          <section>
+            <div
+              class="col-9 mx-auto d-flex justify-content-between align-items-center mt-1">
+              <strong class="text-dark"
+                ><span i18n>Quitance N<sup>o</sup> :</span>
+                <span>
+                  {{ obrBillDialog.payload.receipt_num }}
+                </span>
+              </strong>
+              <strong class="text-dark"
+                ><span i18n>BUREAU :</span>
+                <span> {{ obrBillDialog.payload.office }}</span>
+              </strong>
+            </div>
+
+            <section class="d-flex flex-column px-4 mt-3">
+              <div
+                class="d-flex justify-content-between align-items-center border-bottom mb-3 text-dark">
+                <div>
+                  <strong i18n>Délivrée à : </strong>
+                  <span>{{ obrBillDialog.payload.deliver_to }}</span>
+                </div>
+                <div>
+                  <strong i18n>Date de la quittance : </strong>
+                  <span>{{ obrBillDialog.payload.receipt_date }}</span>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div>
+                  <div class="mb-1 text-dark">
+                    <strong class="me-2" i18n>NIF de l'entreprise : </strong>
+                    <small>{{ obrBillDialog.payload.nif }}</small>
+                  </div>
+                  <div class="text-dark">
+                    <strong class="mb-1" i18n>Nom de l'entreprise : </strong>
+                    <div style="display: flex; flex-direction: column">
+                      <small>LIFELINE COMPANY</small>
+                      <small>AV.DES SCIENCES</small>
+                      <small>Q.ROHERO</small>
+                      <small>ROHERO</small>
+                      <small>BURUNDI</small>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="text-dark">
+                    <strong i18n class="me-53 mb-1 me-2"
+                      >Code du declarant :
+                    </strong>
+                    <small>{{ obrBillDialog.payload.declarant_code }}</small>
+                  </div>
+                  <div class="text-dark">
+                    <strong class="mb-1" i18n>Nom du declarant : </strong>
+                    <div style="display: flex; flex-direction: column">
+                      <small>NAST CLEARING AGENCY</small>
+                      <small>PORT DE BUJUMBURA</small>
+                      <small>Q.INDUSTRIEL</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="text-dark">
+                  <div class="mb-1">
+                    <strong class="me-2" i18n>Agence : </strong>
+                    <span>{{ obrBillDialog.payload.agence }}</span>
+                  </div>
+                  <div class="mb-1">
+                    <strong class="me-2" i18n>Ref. Bordereau : </strong>
+                    <small>{{ obrBillDialog.payload.ref }}</small>
+                  </div>
+                  <div class="mb-1">
+                    <strong class="me-2" i18n>Montant : </strong>
+                    <small>{{ obrBillDialog.payload.amount }}</small>
+                  </div>
+                  <div class="mb-1">
+                    <strong class="me-3" i18n>Deposant : </strong>
+                    <small>{{ obrBillDialog.payload.name }}</small>
+                  </div>
+                  <div class="mb-1">
+                    <strong class="me-2" i18n>Type : </strong>
+                    <small>{{ obrBillDialog.payload.type }}</small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center mt-5 mb-1 text-dark">
+                <b i18n
+                  >La Banque IHELA CREDIT UNION Affirme avoir recu une somme de
+                  cinq cent vingt-quatre mille quatre cent soixante-dix
+                  francs({{ obrBillDialog.payload.amount }} BIF)</b
+                >
+              </div>
+            </section>
+          </section>
+        </div>
+        <div
+          class="card-footer border-top-0 bg-primary py-2 px-5 d-flex justify-content-between align-items-center">
+          <div
+            class=""
+            style="height: 50px; width: 50px; opacity: 0; pointer-events: none">
+            <i class="fa-solid fa-qrcode h-100 w-100"></i>
+          </div>
+          <div class="d-flex flex-column align-items-end text-all-white">
+            <b
+              ><small>{{
+                obrBillDialog.payload.receipt_date | date: 'medium'
+              }}</small></b
+            >
+            <b class="d-flex justify-content-end"
+              ><small class="me-3">ihela.bi</small><small>76434444</small></b
+            >
+            <b><small>Q. Asiatique Bujumbura </small></b>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</dialog>
+}

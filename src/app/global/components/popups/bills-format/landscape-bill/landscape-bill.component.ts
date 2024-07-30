@@ -40,6 +40,10 @@ export class LandscapeBillComponent implements AfterViewInit {
     });
   }
 
+  closeBillDialog() {
+    this.dialogService.closeBillDialog();
+  }
+
   ngAfterViewInit() {
     this.billContent = document.getElementById('bill-content') as HTMLElement;
 
