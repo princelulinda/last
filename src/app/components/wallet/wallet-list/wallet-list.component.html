@@ -39,7 +39,11 @@
               (click)="selectLoneAccount(wallet)"
               [routerLink]="
                 Type === 'list'
-                  ? '/b/banking/wallets/details/' + wallet.id
+                  ? activePlatform === 'workstation'
+                    ? '/w/workstation/banking/wallets/details/' + wallet.id
+                    : activePlatform === 'onlineBanking'
+                      ? '/b/banking/wallets/details/' + wallet.id
+                      : null
                   : null
               "
               tabindex="0"

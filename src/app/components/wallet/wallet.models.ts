@@ -16,7 +16,11 @@ export interface WalletList {
   available_balance: number;
   currency: 'BIF';
 }
-
+export interface mainConfigModel {
+  activeMode: string;
+  activePlateform: string;
+  activeTheme: string;
+}
 export interface Walletdetail {
   actual_balance: number;
   title: string;
