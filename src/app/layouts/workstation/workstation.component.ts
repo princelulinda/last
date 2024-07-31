@@ -41,6 +41,8 @@ export class WorkstationComponent implements OnInit {
 
   ngOnInit() {
     this.getOperatorMenusTypes_groups();
+    this.dialogService.closeDialog();
+    this.dialogService.closeSplashScreen();
   }
 
   // private getConnectedOperator_menus() {

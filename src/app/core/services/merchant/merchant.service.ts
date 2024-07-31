@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 // import { ApiService } from '..';
 // import { GeneralSe } from '..';
 // import { map, retry } from 'rxjs';
@@ -29,8 +29,8 @@ import { Coords2Model } from '../../../components/dev/global-map/map.model';
 })
 export class MerchantService {
   constructor(
-    @Inject(ApiService) private apiService: ApiService,
-    @Inject(HttpClient) private http: HttpClient
+    private apiService: ApiService,
+    private http: HttpClient
   ) {}
 
   private _coords: BehaviorSubject<Coords2Model> =

@@ -15,6 +15,9 @@ import { OnamobDashboardComponent } from './components/dashboards/onamob-dashboa
 import { myMarketRoutes } from './routes/my-market/mymarket.routes';
 import { WorkstationComponent } from './layouts/workstation/workstation.component';
 import { workstationRoutes } from './routes/workstation/workstation.routes';
+import { AuthCorporateLayoutComponent } from './layouts/auth-corporate-layout/auth-corporate-layout.component';
+import { AuthCorporateComponent } from './components/auth/workstation/auth-corporate/auth-corporate.component';
+import { authWorkstationGuard } from './core/guards/auth/auth-workstation.guard';
 
 export const routes: Routes = [
   // authentification routes
@@ -26,9 +29,21 @@ export const routes: Routes = [
   },
 
   {
+    path: 'auth/corporate',
+    component: AuthCorporateLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        component: AuthCorporateComponent,
+      },
+    ],
+  },
+
+  {
     path: 'w',
     component: WorkstationComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, authWorkstationGuard],
     children: [
       {
         path: 'workstation',

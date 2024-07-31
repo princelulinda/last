@@ -8,7 +8,7 @@
           <div
             class="col-12 col-sm-9 col-md-8 col-lg-9 col-xl-8 col-xxl-8 mt-5">
             <div
-              class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-12 col-xxl-12 mx-auto">
+              class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-12 col-xxl-9 mx-auto">
               <div class="row">
                 <div
                   class="text-all-white fw-bold fs-xx-large text-center text-sm-start">
@@ -31,11 +31,11 @@
             </div>
           </div>
           <div
-            class="col col-sm-3 col-md-4 col-lg-3 col-xl-4 col-xxl-4 mt-sm-5 mt-md-0 mt-lg-5 mt-xl-2 mt-xxl-4 d-none d-sm-block">
+            class="col col-sm-3 col-md-4 col-lg-3 col-xl-4 col-xxl-3 mt-sm-5 mt-md-0 mt-lg-5 mt-xl-2 mt-xxl-3 mb-xxl-4 d-none d-sm-block">
             <div>
               <img
-                src="https://images.unsplash.com/photo-1604275181488-5b07db328373?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                class="w-100 mt-3 sm-radius"
+                src="images/market/Add_to_Cart.svg"
+                class="w-100 sm-radius"
                 alt="logo" />
             </div>
           </div>
@@ -47,8 +47,7 @@
   <div>
     <div class="row mt-4">
       <div class="col-lg-4 col-xl-4 col-xxl-4">
-        <div
-          class="bg-white border border-right shadow-sm py-3 ps-xxl-3 sm-radius">
+        <div class="bg-white shadow py-3 ps-xxl-3 sm-radius">
           <div class="col-lg-12 col-xl-11 col-xxl-12 mx-auto">
             <div class="row g-0">
               <div class="col-lg-9 col-xl-9 col-xxl-8">
@@ -63,9 +62,9 @@
               </div>
               <div
                 class="col-lg-3 col-xl-3 col-xxl-3 mt-lg-2 mt-xl-1 mt-xxl-0 ms-xxl-1">
-                <div>
+                <div class="col-11">
                   <img
-                    src="https://media.istockphoto.com/id/1154261491/photo/social-media-concept-communication-network.jpg?s=1024x1024&w=is&k=20&c=yET1GbEuFiIv8wjbxKvO8CmagQm2n3u70sNHsKo7hL4="
+                    src="images/market/creditCard.svg"
                     class="w-100"
                     alt="logoPhone" />
                 </div>
@@ -75,7 +74,7 @@
         </div>
       </div>
       <div class="col-lg-4 col-xl-4 col-xxl-4">
-        <div class="bg-white border shadow-sm py-3 ps-3 sm-radius">
+        <div class="bg-white shadow py-3 ps-3 sm-radius">
           <div class="col-lg-11 col-xl-11 col-xxl-12 mx-auto">
             <div class="row g-0">
               <div class="col-lg-9 col-xl-9 col-xxl-8">
@@ -92,7 +91,7 @@
                 class="col-lg-3 col-xl-3 col-xxl-3 mt-xl-2 mt-xxl-0 ms-xxl-1">
                 <div>
                   <img
-                    src="https://media.istockphoto.com/id/1154261491/photo/social-media-concept-communication-network.jpg?s=1024x1024&w=is&k=20&c=yET1GbEuFiIv8wjbxKvO8CmagQm2n3u70sNHsKo7hL4="
+                    src="images/market/phone.svg"
                     class="w-100"
                     alt="logoPhone" />
                 </div>
@@ -102,7 +101,7 @@
         </div>
       </div>
       <div class="col-lg-4 col-xl-4 col-xxl-4">
-        <div class="bg-white border border-right shadow-sm py-3 ps-3 sm-radius">
+        <div class="bg-white shadow py-3 ps-3 sm-radius">
           <div class="col-lg-11 col-xl-11 col-xxl-12 mx-auto">
             <div class="row g-0">
               <div class="col-lg-9 col-xl-9 col-xxl-8">
@@ -116,9 +115,9 @@
                 </div>
               </div>
               <div class="col-lg-3 col-xl-3 col-xxl-3">
-                <div>
+                <div class="col-11">
                   <img
-                    src="https://media.istockphoto.com/id/1154261491/photo/social-media-concept-communication-network.jpg?s=1024x1024&w=is&k=20&c=yET1GbEuFiIv8wjbxKvO8CmagQm2n3u70sNHsKo7hL4="
+                    src="images/market/people.svg"
                     class="w-100"
                     alt="logoPhone" />
                 </div>
@@ -302,15 +301,14 @@
               }
             </div>
           } @else {
-            <div class="card bg-secondary text-white">
-              <span class="">
+            <div class="card bg-secondary">
+              <span class="d-flex justify-content-center">
                 <i
-                  class="fa-solid fa-mountain-sun fa-2x my-3 ps-5"
-                  style="color: #838383"></i>
+                  class="fa-solid fa-mountain-sun fa-2x text-secondary my-3"></i>
               </span>
               @if (item.name) {
                 <div class="card-img-overlay">
-                  <p class="card-text text-center fw-bold mt-2">
+                  <p class="card-text text-center text-white fw-bold mt-2">
                     {{ item.name }}
                   </p>
                 </div>
@@ -399,35 +397,37 @@
       <div class="col-10 col-sm-11">
         <span class="fs-medium text-dark fw-bold mb-3">Recent billers</span>
       </div>
-      <div class="col-sm-1 col-2 p-0 pe-2 m-0 float-end">
+      <div class="z-3 col-sm-1 col-2 p-0 pe-2 m-0 float-end">
         <div class="col ms-4">
           <div class="row">
             <div class="col-3 me-4">
-              <div class="border rounded-circle py-2 px-3">
+              <div
+                class="border rounded-circle py-2 px-3"
+                (click)="previousBiller()"
+                tabindex="0">
                 <span
                   class="d-flex justify-content-center"
                   [ngClass]="{
                     'opacity-50 text-secondary': start === 0,
                     'text-dark opacity-100': end >= 5,
                   }"
-                  id="navigationButton"
-                  (click)="previousBiller()"
-                  tabindex="0">
+                  id="navigationButton">
                   <i class="fa-solid fa-arrow-left fa-xs"></i>
                 </span>
               </div>
             </div>
             <div class="col-3">
-              <div class="border rounded-circle py-2 px-3">
+              <div
+                class="border rounded-circle py-2 px-3"
+                (click)="nextBiller()"
+                tabindex="0">
                 <span
                   class="d-flex justify-content-center"
                   [ngClass]="{
-                    'opacity-50 text-secondary': end === 13,
-                    'text-dark opacity-100': end < 13,
+                    'opacity-50 text-secondary': end === 14,
+                    'text-dark opacity-100': end < 14,
                   }"
-                  id="navigationButton"
-                  (click)="nextBiller()"
-                  tabindex="0">
+                  id="navigationButton">
                   <i class="fa-solid fa-arrow-right fa-xs"></i>
                 </span>
               </div>
@@ -516,44 +516,46 @@
     </div>
   </div>
   <!-- recent merchant -->
-  <div>
-    <section>
+  <div class="mb-5">
+    <section class="mb-5">
       <div class="row mt-4 pe-0 d-flex justify-content-between">
-        <div class="col-sm-11 col-10">
+        <div class="col-sm-10 col-10">
           <p>
             <span class="text-primary" style="font-size: 10px"> </span>
             <span class="fs-5 text-dark"><b> Recent merchants</b></span>
           </p>
         </div>
-        <div class="col-sm-1 col-2 p-0 pe-2 m-0 float-end">
+        <div class="z-3 col-sm-1 col-2 p-0 pe-2 m-0 float-end">
           <div class="col ms-4">
             <div class="row">
               <div class="col-3 me-4">
-                <div class="border rounded-circle py-2 px-3">
+                <div
+                  class="border rounded-circle py-2 px-3"
+                  (click)="previousMerchant()"
+                  tabindex="0">
                   <span
                     class="d-flex justify-content-center"
                     [ngClass]="{
                       'opacity-50 text-secondary': start === 0,
                       'text-dark opacity-100': end >= 5,
                     }"
-                    id="navigationButtonMerchant"
-                    (click)="previousMerchant()"
-                    tabindex="0">
+                    id="navigationButtonMerchant">
                     <i class="fa-solid fa-arrow-left fa-xs"></i>
                   </span>
                 </div>
               </div>
               <div class="col-3">
-                <div class="border rounded-circle py-2 px-3">
+                <div
+                  class="border rounded-circle py-2 px-3"
+                  (click)="nextMerchant()"
+                  tabindex="0">
                   <span
                     class="d-flex justify-content-center"
                     [ngClass]="{
                       'opacity-50 text-secondary': end === 20,
                       'text-dark opacity-100': end < 20,
                     }"
-                    id="navigationButtonMerchant"
-                    (click)="nextMerchant()"
-                    tabindex="0">
+                    id="navigationButtonMerchant">
                     <i class="fa-solid fa-arrow-right fa-xs"></i>
                   </span>
                 </div>
@@ -580,45 +582,11 @@
           (click)="openModal(merchant, $event)"
           tabindex="0">
           <div class="col-2 w-100">
-            <span
-              type="button"
-              (click)="makeFavoriteMerchants(merchant, $event)"
-              *ngIf="
-                merchant.is_favorite_merchant &&
-                (favorite_merchant_making === null ||
-                  favorite_merchant_making.id !== merchant.id)
-              "
-              tabindex="0"
-              title="Revoke Favorite"
-              class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
-              <span class="text-primary"><i class="fa-solid fa-star"></i></span>
-            </span>
-            <span
-              type="button"
-              (click)="makeFavoriteMerchants(merchant, $event)"
-              tabindex="0"
-              title="Make Favorite"
-              *ngIf="
-                !merchant.is_favorite_merchant &&
-                (favorite_merchant_making === null ||
-                  favorite_merchant_making.id !== merchant.id)
-              "
-              class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
-              <span class="text-primary"
-                ><i class="fa-regular fa-star"></i
-              ></span>
-            </span>
-            <span
-              *ngIf="
-                favorite_merchant_making !== null &&
-                favorite_merchant_making.id === merchant.id
-              "
-              class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
-              <span class="text-primary"
-                ><i class="fas fa-spinner fa-pulse"></i
-              ></span>
-            </span>
-            <app-merchant-card [merchant]="merchant" [get_merchant]="true">
+            <app-merchant-card
+              [merchant]="merchant"
+              [get_merchant]="true"
+              [favorite_merchant_making]="favorite_merchant_making"
+              (merchantInfoOutput)="getMakeFavoriteResponse($event)">
             </app-merchant-card>
           </div>
         </div>
