@@ -285,7 +285,9 @@
     </div>
     <div class="row g-0">
       @for (item of first4; track $index) {
-        <div class="col-2 me-4" id="{{ item.id }}">
+        <div
+          class="col-2 me-4 position-relative bg-dark bg-opacity-50 lg-radius"
+          id="{{ item.id }}">
           @if (item.icon) {
             <div class="card bg-all-dark text-white">
               <img
@@ -301,20 +303,21 @@
               }
             </div>
           } @else {
-            <div class="card bg-secondary">
+            <div class="">
               <span class="d-flex justify-content-center">
-                <i
-                  class="fa-solid fa-mountain-sun fa-2x text-secondary my-3"></i>
+                <i class="fa-solid fa-mountain-sun fa-2x text-dark my-4"></i>
               </span>
               @if (item.name) {
-                <div class="card-img-overlay">
-                  <p class="card-text text-center text-white fw-bold mt-2">
+                <div
+                  class="position-absolute top-50 start-50 translate-middle mt-2">
+                  <p class="z-3 text-center text-white fw-bold mt-2">
                     {{ item.name }}
                   </p>
                 </div>
               }
             </div>
           }
+          <!-- <div class="card-img-overlay bgBrowse sm-radius position-absolute top-0"></div> -->
         </div>
       }
     </div>
