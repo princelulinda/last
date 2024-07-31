@@ -14,6 +14,8 @@ import {
   MerchantObjectsModel,
 } from '../../../components/products/products.model';
 import {
+  doTellerBodyModel,
+  newTellerModel,
   searchTellerModel,
   updateMerchantDetailsModel,
 } from '../../../components/merchant/merchant.models';
@@ -274,14 +276,14 @@ export class MerchantService {
       })
     );
   }
-  // createNewTeller(body: any) {
-  //   const url = '/dbs/merchant-teller/';
-  //   return this.apiService.post(url, body).pipe(
-  //     map(data => {
-  //       return data;
-  //     })
-  //   );
-  // }
+  createNewTeller(body: newTellerModel) {
+    const url = '/dbs/merchant-teller/';
+    return this.apiService.post(url, body).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
   createNewMerchant(body: []) {
     const url = '/dbs/merchant/creation/';
     return this.apiService.post(url, body).pipe(
@@ -402,14 +404,14 @@ export class MerchantService {
       })
     );
   }
-  // doTellerAction(body: any) {
-  //   const url = '/dbs/merchant-teller/teller/action/';
-  //   return this.apiService.post(url, body).pipe(
-  //     map(data => {
-  //       return data;
-  //     })
-  //   );
-  // }
+  doTellerAction(body: doTellerBodyModel) {
+    const url = '/dbs/merchant-teller/teller/action/';
+    return this.apiService.post(url, body).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
   getMerchantsByCategoriesSlug(
     slug: string
   ): Observable<{ objects: MerchantLookup[]; count: number }> {

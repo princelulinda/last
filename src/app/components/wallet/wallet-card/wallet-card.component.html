@@ -27,7 +27,7 @@
   </div>
 
   <div
-    class="wallCard lg-radius bg-primary mt-2 overflow-hidden position-relative">
+    class="wallCard lg-radius bg-primary mt-2 overflow-hidden position-relative shadow">
     <div class="secondCard h-100">
       <img
         src="./images/wallet/walletMask.svg"
@@ -94,6 +94,9 @@
         </div>
 
         <div class="d-flex gap-2 mt-3">
+          <button class="btn px-1 p-0 btnBack">
+            <i class="fa-solid fa-plus fs-normal pt-1 text-all-white"></i>
+          </button>
           <button class="btn px-1 p-0 btnBack" routerLink="/b/banking/wallets">
             <i class="fa-solid fa-list fs-normal pt-1 text-all-white"></i>
           </button>
@@ -123,12 +126,33 @@
 
     <div class="h-100 w-100 p-2 overflow-hidden">
       <div
-        class="m-2 bg-white position-absolute card rounded-4 shadow-lg end-0 top-0 pe-0 pt-3 position-relative">
+        class="m-2 bg-white position-absolute card rounded-4 shadow-lg end-0 top-0 pe-0 pt-3 position-relative overflow-hidden">
         <div
           class="logo position-absolute d-flex align-items-center justify-content-center">
           <img src="./images/wallet/ihela.svg" alt="" />
         </div>
-        <div></div>
+
+        <div class="position-absolute mosaic">
+          <div class="top d-flex flex-row">
+            <div class="top-rectangle me-1"></div>
+            <div class="top-rectangle"></div>
+          </div>
+          <div class="middle d-flex flex-row">
+            <div class="middle-rectangle1 me-2"></div>
+            <div class="middle-rectangle2 me-2"></div>
+            <div class="middle-rectangle3"></div>
+          </div>
+          <div class="middle-2 d-flex flex-row">
+            <div class="middle-rectangle4 me-3"></div>
+            <div class="middle-rectangle5 me-2"></div>
+            <div class="middle-rectangle6"></div>
+          </div>
+          <div class="bottom d-flex flex-row">
+            <div class="bottom-rectangle1 me-2"></div>
+            <div class="bottom-rectangle2 me-2"></div>
+            <div class="bottom-rectangle3"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

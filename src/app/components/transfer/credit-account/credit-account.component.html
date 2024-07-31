@@ -370,11 +370,11 @@
                 : 'look-b'
             ">
             @if (!isLoading) {
-              <span>
+              <span class="pt-2">
                 <i class="fa fa-search fs-5"></i>
               </span>
             } @else {
-              <span>
+              <span class="pt-2">
                 <i class="fa fs-5 fa-pulse fa-circle-notch"></i>
               </span>
             }
@@ -385,7 +385,7 @@
       <!--lookup input on wallet-->
 
       @if (!creditAccount && selectedCreditAccountType === 'wallet') {
-        <div class="d-flex me-3">
+        <div class="d-flex me-3 mt-3 mb-2">
           <input
             type="text"
             class="lg-radius form-control pe-5 ps-2 lookup-transfer-input"
@@ -464,7 +464,7 @@
 
       <!-- * Credit account lookup result on wallet-->
       @if (creditAccount && selectedCreditAccountType === 'wallet') {
-        <div class="bg-secondary sm-radius" class="mt-3 w-100">
+        <div class="bg-secondary sm-radius mt-3 w-100 mb-2">
           <div
             class="lg-radius p-2"
             [ngClass]="{
@@ -705,6 +705,10 @@
         </div>
       }
     </div>
-    <div class="p-2 rounded h-100"></div>
+
+    <!-- <div class="p-2 rounded h-100 border">
+
+
+    </div> -->
   </section>
 </div>

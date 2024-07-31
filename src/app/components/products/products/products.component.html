@@ -9,26 +9,26 @@
           data-bs-ride="carousel">
           <div class="carousel-indicators">
             <button
-              class="dot active"
+              class="dot rounded-circle d-inline-block cursor-pointer active"
               type="button"
               data-bs-target="#carouselExampleInterval"
               data-bs-slide-to="0"
               aria-current="true"
               aria-label="Slide 1"></button>
             <button
-              class="dot"
+              class="dot rounded-circle d-inline-block cursor-pointer"
               type="button"
               data-bs-target="#carouselExampleInterval"
               data-bs-slide-to="1"
               aria-label="Slide 2"></button>
             <button
-              class="dot"
+              class="dot rounded-circle d-inline-block cursor-pointer"
               type="button"
               data-bs-target="#carouselExampleInterval"
               data-bs-slide-to="2"
               aria-label="Slide 3"></button>
             <button
-              class="dot"
+              class="dot rounded-circle d-inline-block cursor-pointer"
               type="button"
               data-bs-target="#carouselExampleInterval"
               data-bs-slide-to="3"
@@ -41,8 +41,7 @@
                   <!-- image -->
                   <img
                     src="/images/products/unités appli sombre.jpg"
-                    class="img-fluid"
-                    style="width: 500px; height: 400px; object-fit: contain"
+                    class="img-fluid w-100 h-75 object-fit-contain"
                     alt="unités appli sombre" />
                 </div>
               </div>
@@ -53,8 +52,7 @@
                   <!-- image -->
                   <img
                     src="/images/products/startimes appli.jpg"
-                    class="img-fluid"
-                    style="width: 500px; height: 400px; object-fit: contain"
+                    class="img-fluid w-100 h-75 object-fit-contain"
                     alt="startimes appli show image" />
                 </div>
               </div>
@@ -65,8 +63,7 @@
                   <!-- image -->
                   <img
                     src="/images/products/BUBETappli.jpg"
-                    class="img-fluid"
-                    style="width: 500px; height: 400px; object-fit: contain"
+                    class="img-fluid w-100 h-75 object-fit-contain"
                     alt="BUBET appli show image" />
                 </div>
               </div>
@@ -77,8 +74,7 @@
                   <!-- image -->
                   <img
                     src="/images/products/1XBET appli.jpg"
-                    class="img-fluid"
-                    style="width: 500px; height: 400px; object-fit: contain"
+                    class="img-fluid w-100 h-75 object-fit-contain"
                     alt="1XBET show image" />
                 </div>
               </div>
@@ -90,16 +86,16 @@
         <!-- favorites -->
         <div class="row">
           <h6>
-            <span style="color: #2070b8; font-size: 12px"
-              ><i class="fa-solid fa-star"></i
-            ></span>
+            <span>
+              <i class="fa-solid fa-star text-info fs-x-small"></i>
+            </span>
             <span i18n class="text-dark"><b> Favorites</b></span>
           </h6>
         </div>
-        @if (!allProduct) {
+        @if (!isLoading) {
           <div class="row mb-3 d-flex justify-content-between">
             @for (item of countProductLoader; track $index) {
-              <div class="col-5" style="height: 135px" [hidden]="$index >= 2">
+              <div class="col" style="height: 135px" [hidden]="$index >= 2">
                 <app-skeleton
                   [height]="'120px'"
                   [width]="'120px'"></app-skeleton>

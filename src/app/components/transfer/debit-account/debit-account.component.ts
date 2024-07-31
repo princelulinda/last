@@ -154,24 +154,6 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     this.getBanks();
   }
 
-  // ngDoCheck() {
-  //   if (this.isTransactionDone) {
-  //     this.updateAccount();
-  //   }
-  //   if (this.isModalClosed) {
-  //     const options = {
-  //       account: null,
-  //       wallet: null,
-  //       selectedDebitOption: '',
-  //       creditAccountType: null,
-  //       isTransferDone: this.isTransactionDone,
-  //       isAmountChanging: false,
-  //       selectedInstitutionType: '',
-  //       selectedInstitution: '',
-  //     };
-  //     this.debitOptions.emit(options);
-  //   }
-  // }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isTransactionDone'] && this.isTransactionDone) {
       this.updateAccount();

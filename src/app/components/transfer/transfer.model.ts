@@ -27,7 +27,12 @@ export interface DebitOptions {
 
   title?: string;
 }
-
+export interface CreditDetail {
+  account: string | undefined;
+  acc_holder: string | undefined;
+  description: string | null | undefined;
+  amount: number | string | undefined;
+}
 export interface DebitEvent {
   account: Account | null;
   creditAccountType: string | null;

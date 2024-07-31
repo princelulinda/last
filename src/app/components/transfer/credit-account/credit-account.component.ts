@@ -31,6 +31,7 @@ import {
 import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import {
+  CreditDetail,
   DebitAccountModel,
   DebitWalletModel,
   InstitutionInfoModel,
@@ -53,8 +54,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
   // eslint-disable-next-line
   @Input() selectedDebitAccountType: any;
-  // eslint-disable-next-line
-  @Input() walletBankId: any;
+
+  @Input() walletBankId: string | number = '';
 
   selectedCreditAccountType = '';
   selectedInstitutionType = '';
@@ -83,25 +84,21 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
   banks: bankModel[] = [];
 
-  // eslint-disable-next-line
-  @Input() debitNumber: any;
+  @Input() debitNumber = '';
 
-  // eslint-disable-next-line
-  @Input() debitHolder: any;
+  @Input() debitHolder = '';
   amount: number | string = '';
   amountToSend: number | string = '';
   clientId: number | null = null;
-  // eslint-disable-next-line
-  @Input() bankId: any;
+
   isPopupShown = false;
   isAmountChanging = false;
   isBanksListShown = false;
 
-  // eslint-disable-next-line
-  transferResponse: any;
+  values: CreditDetail[] = [];
 
   // eslint-disable-next-line
-  successMessage: any;
+  transferResponse: any;
 
   // eslint-disable-next-line
   creditNumber: any;
@@ -136,7 +133,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   @Input() isMerchantTransfer = false;
   @Input() isOperation = false;
   @Input() showBack = false;
-
+  @Input() bankId!: bankModel;
   @Input() simpleTransferTitle = true;
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
@@ -400,8 +397,32 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
       });
   }
 
+  deleteFields(index: number) {
+    this.values.splice(index, 1);
+  }
+
+  addFields() {
+    if (this.transferForm.valid) {
+      const object: CreditDetail = {
+        account: this.creditAccount?.account_number,
+        acc_holder: this.creditAccount?.name,
+        description: this.transferForm.value.debit_description,
+        amount: this.amount,
+      };
+
+      this.values.push(object);
+
+      this.transferForm.controls['accountNumber'].reset();
+      this.transferForm.controls['accountHolder'].reset();
+      this.transferForm.controls['debit_description'].reset();
+      this.transferForm.controls['amount'].reset();
+      this.transferForm.controls['merchant_reference'].reset();
+
+      this.creditAccount = null;
+      this.amount = '';
+    }
+  }
   validateTransfer() {
-    // this.isAmountChanging = true;
     this.amountToSend = this.amount;
 
     this.isLoading = true;
@@ -410,8 +431,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
       this.selectedInstitution = this.defaultBank;
     }
 
-    // eslint-disable-next-line
-    let data: any = {
+    const data = {
       amount: this.amount,
       credit_account: this.transferForm.value.accountNumber,
       credit_account_holder: this.transferForm.value.accountHolder,
@@ -461,28 +481,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
             this.transferResponse = response.object.response_data;
             this.selectedInstitutionType = '';
             this.selectedCreditAccountType = '';
-
-            // this.successMessage = {
-            //   data: {
-            //     debit_account: this.debitNumber,
-            //     credit_account: this.creditNumber,
-            //     credit_bank: this.selectedInstitution.name,
-            //     credit_account_holder: this.transferForm.value.accountHolder,
-            //     reference: this.transferResponse.reference,
-            //     bank_reference: this.transferResponse.bank_reference,
-            //     amount: this.amountToSend,
-            //     transfer_fees: 0,
-            //     bill_date: new Date(Date.now()),
-            //     debit_bank:
-            //       this.debitAccount?.acc_branch_object?.organization_tenant
-            //         ?.institution_client?.client_full_name ?? '',
-            //     debit_account_holder:
-            //       this.selectedDebitAccountType === 'wallet'
-            //         ? this.debitWallet?.account?.account_holder
-            //         : this.debitAccount?.acc_holder,
-            //     description: this.transferForm.value.debit_description,
-            //   },
-            // };
 
             this.isAmountChanging = false;
             this.lookup.setValue('');
@@ -564,22 +562,22 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
             this.isAmountChanging = false;
             this.transferResponse = response.object.response_data;
-            this.successMessage = {
-              data: {
-                credit_account: this.creditNumber,
-                credit_bank: this.selectedInstitution.name,
-                credit_account_holder: this.transferForm.value.accountHolder,
-                reference: this.transferResponse.reference,
-                bank_reference: this.transferResponse.bank_reference,
-                amount: this.amount,
-                transfer_fees: 0,
-                bill_date: Date.now(),
-                debit_bank: this.defaultBank?.name,
-                debit_account_holder:
-                  this.merchantInfo.response_data.merchant_title,
-                description: this.transferForm.value.debit_description,
-              },
-            };
+            // this.successMessage = {
+            //   data: {
+            //     credit_account: this.creditNumber,
+            //     credit_bank: this.selectedInstitution.name,
+            //     credit_account_holder: this.transferForm.value.accountHolder,
+            //     reference: this.transferResponse.reference,
+            //     bank_reference: this.transferResponse.bank_reference,
+            //     amount: this.amount,
+            //     transfer_fees: 0,
+            //     bill_date: Date.now(),
+            //     debit_bank: this.defaultBank?.name,
+            //     debit_account_holder:
+            //       this.merchantInfo.response_data.merchant_title,
+            //     description: this.transferForm.value.debit_description,
+            //   },
+            // };
 
             // this.store.dispatch(
             //     new OpenTransfertBillPopup(this.successMessage.data)
@@ -678,15 +676,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
       this.creditNumber = this.creditAccount?.account_number;
       this.creditName = this.creditAccount?.name;
     }
-
-    // if (this.selectedDebitAccountType === 'account') {
-    //   this.debitNumber = this.debitAccount?.acc_short_number;
-    //   this.debitHolder = this.debitAccount?.acc_holder;
-    // }
-    // if (this.selectedDebitAccountType === 'wallet') {
-    //   this.debitNumber = this.debitWallet?.code;
-    //   this.debitHolder = this.debitWallet?.account.account_holder;
-    // }
 
     if (!this.isMerchantTransfer) {
       this.dialogService.openDialog({

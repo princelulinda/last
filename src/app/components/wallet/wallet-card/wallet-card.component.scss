@@ -43,8 +43,8 @@
 }
 
 .circ1 {
-  height: 160px;
-  width: 160px;
+  height: 200px;
+  width: 200px;
   // background: linear-gradient(
   //   159.8deg,
   //   #da002a 5.54%,
@@ -52,13 +52,13 @@
   // );
   // background: linear-gradient(to bottom, #DA002A, #1B0005);
   background: linear-gradient(159.8deg, #da002a, #1b0005);
-  top: 75px;
+  top: 70px;
   left: -20px;
 }
 
 .circ2 {
-  height: 35px;
-  width: 35px;
+  height: 40px;
+  width: 40px;
   background: linear-gradient(
     159.8deg,
     #da002a 5.54%,
@@ -106,10 +106,143 @@
   );
 }
 
+.mosaic {
+  bottom: 0;
+  right: 0;
+  width: 100px;
+  height: 45px;
+}
+
 .btnBack {
   background: rgba(255, 255, 255, 0.21);
 }
 
 .btnBack:hover {
   background: rgba(255, 255, 255, 0.35);
+}
+
+.top {
+  padding-left: 13px;
+}
+
+.middle {
+  padding-left: 30px;
+}
+
+.middle-2 {
+  padding-left: 33px;
+}
+
+.bottom {
+  padding-left: 15px;
+}
+
+.top-rectangle {
+  width: 26.4px;
+  height: 12px;
+  opacity: 0.15;
+  background: linear-gradient(
+    3.83deg,
+    rgba(129, 0, 25, 0.7) 2.94%,
+    rgba(129, 0, 25, 0.6) 60.34%,
+    rgba(129, 0, 25, 0) 101.75%
+  );
+}
+
+.middle-rectangle1 {
+  width: 27px;
+  height: 12px;
+  opacity: 0.2;
+  background: linear-gradient(
+    92.66deg,
+    #810019 1.78%,
+    rgba(129, 0, 25, 0.65) 95.95%
+  );
+}
+
+.middle-rectangle2 {
+  width: 20px;
+  height: 12px;
+  opacity: 0.15;
+  background: linear-gradient(
+    92.66deg,
+    #810019 1.78%,
+    rgba(129, 0, 25, 0.65) 95.95%
+  );
+}
+
+.middle-rectangle3 {
+  width: 26.4px;
+  height: 12px;
+  opacity: 0.15;
+  background: linear-gradient(
+    3.83deg,
+    rgba(129, 0, 25, 0.7) 2.94%,
+    rgba(129, 0, 25, 0.6) 60.34%,
+    rgba(129, 0, 25, 0) 101.75%
+  );
+}
+
+.middle-rectangle4 {
+  width: 28px;
+  height: 12px;
+  opacity: 0.3;
+  background: linear-gradient(
+    92.66deg,
+    #810019 1.78%,
+    rgba(129, 0, 25, 0.65) 95.95%
+  );
+}
+
+.middle-rectangle5 {
+  width: 18px;
+  height: 12px;
+  opacity: 0.15;
+  background: linear-gradient(
+    92.66deg,
+    #810019 1.78%,
+    rgba(129, 0, 25, 0.65) 95.95%
+  );
+}
+
+.middle-rectangle6 {
+  width: 23.1px;
+  height: 12px;
+  opacity: 0.2;
+  background: linear-gradient(
+    92.66deg,
+    #810019 1.78%,
+    rgba(129, 0, 25, 0.65) 95.95%
+  );
+}
+
+.bottom-rectangle1 {
+  width: 24px;
+  height: 12px;
+  opacity: 0.3;
+  background: linear-gradient(
+    92.66deg,
+    #810019 1.78%,
+    rgba(129, 0, 25, 0.65) 95.95%
+  );
+}
+.bottom-rectangle2 {
+  width: 24px;
+  height: 12px;
+  opacity: 0.3;
+  background: linear-gradient(
+    92.66deg,
+    #810019 1.78%,
+    rgba(129, 0, 25, 0.65) 95.95%
+  );
+}
+.bottom-rectangle3 {
+  width: 14px;
+  height: 12px;
+  opacity: 0.3;
+  background: linear-gradient(
+    92.66deg,
+    #810019 1.78%,
+    rgba(129, 0, 25, 0.65) 95.95%
+  );
 }

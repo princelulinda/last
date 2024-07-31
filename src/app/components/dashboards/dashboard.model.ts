@@ -9,6 +9,8 @@ export interface BillersModel {
   lookup_subtitle: string;
   is_favorite_merchant: boolean;
   success: string;
+  merchant_category_name: string;
+  accepts_simple_payment: boolean;
 }
 
 export interface objectsModel {
@@ -43,6 +45,7 @@ export interface MerchantLookup {
   lookup_title: string;
   lookup_image: string;
 }
+
 export interface addBankResponse {
   object: {
     success: boolean;
@@ -50,6 +53,7 @@ export interface addBankResponse {
     response_code: string;
   };
 }
+
 export interface PayMerchant {
   id: number;
 }

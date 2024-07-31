@@ -38,8 +38,8 @@ export class SettingsAsideMenuComponent implements OnInit {
       this.selectedMenu = 'general';
       this.selectedSubMenu = 'account';
       this.isGeneralSubMensShown = true;
-    } else if (this.router.url === '/b/settings/sessions') {
-      this.selectedMenu = 'sessions';
+    } else if (this.router.url === '/b/settings/session') {
+      this.selectedMenu = 'session';
       this.isSessionMenusShown = true;
     }
     this.selectSubMenu(this.selectedMenu, this.selectedSubMenu);
@@ -66,7 +66,7 @@ export class SettingsAsideMenuComponent implements OnInit {
       this.router.navigateByUrl('/b/settings');
     }
     if (selectedMenu === 'session') {
-      this.router.navigateByUrl('/b/settings/session');
+      this.router.navigateByUrl('b/settings/session');
     }
   }
 }

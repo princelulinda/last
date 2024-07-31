@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Output,
-  OnInit,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
@@ -43,8 +37,7 @@ export class SwitchBankComponent implements OnInit {
   constructor(
     private bankService: BankService,
     private configService: ConfigService,
-    private authService: AuthService,
-    private cd: ChangeDetectorRef
+    private authService: AuthService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
@@ -102,7 +95,6 @@ export class SwitchBankComponent implements OnInit {
     this.selectedBank = this.banks[index];
     this.configService.setSelectedBank(this.selectedBank);
     this.isModalShown = false;
-    this.cd.detectChanges();
   }
 
   closeModal(event: MouseEvent): void {

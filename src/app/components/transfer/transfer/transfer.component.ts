@@ -1,9 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+
 import { BeneficiariesComponent } from '../beneficiaries/beneficiaries/beneficiaries.component';
-import { Subject } from 'rxjs';
+
 import { DebitAccountComponent } from '../debit-account/debit-account.component';
 import { CreditAccountComponent } from '../credit-account/credit-account.component';
 import { CommonModule } from '@angular/common';
+import { bankModel } from '../../../core/db/models/bank/bank.model';
 // import { InstitutionInfoModel } from '../transfer.model';
 
 @Component({
@@ -18,42 +20,30 @@ import { CommonModule } from '@angular/common';
     CommonModule,
   ],
 })
-export class TransferComponent implements OnInit, OnDestroy {
-  private onDestroy$: Subject<void> = new Subject<void>();
-
+export class TransferComponent {
   isNewTransfer = false;
 
   // eslint-disable-next-line
   selectedInstitution: any;
 
-  // eslint-disable-next-line
-  debitNumber: any;
+  debitNumber = '';
 
-  // eslint-disable-next-line
-  debitHolder: any;
-  // eslint-disable-next-line
-  bankId: any;
-  // eslint-disable-next-line
-  selectedInstitutionType: any;
+  debitHolder = '';
 
-  // eslint-disable-next-line
-  selectedCreditAccountType: any;
-  // eslint-disable-next-line
-  selectedDebitType: any;
+  bankId!: bankModel;
+
+  selectedCreditAccountType = '';
+  selectedInstitutionType = '';
+
+  selectedDebitType = '';
 
   // eslint-disable-next-line
   accountSelected: any;
-  // eslint-disable-next-line
-  walletBankId: any;
+
+  walletBankId: string | number = '';
   // eslint-disable-next-line
   debitOption: any;
   isTransferDone = false;
-  constructor() {
-    console.log('transfer');
-  }
-  ngOnInit(): void {
-    console.log('transfer');
-  }
 
   // eslint-disable-next-line
   setSelectedInstitution(institution: any) {
@@ -106,10 +96,5 @@ export class TransferComponent implements OnInit, OnDestroy {
       this.accountSelected = null;
       this.debitOption.isAmountChanging = true;
     }
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
   }
 }

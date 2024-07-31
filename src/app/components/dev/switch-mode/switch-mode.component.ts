@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ConfigService } from '../../../core/services';
 import { ModeModel } from '../../../core/services/config/main-config.models';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-switch-mode',
@@ -13,11 +14,14 @@ import { ModeModel } from '../../../core/services/config/main-config.models';
 })
 export class SwitchModeComponent implements OnInit {
   mode!: ModeModel;
+  activeMode$: Observable<ModeModel>;
 
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService) {
+    this.activeMode$ = this.configService.getMode();
+  }
 
   ngOnInit() {
-    this.configService.getMode().subscribe({
+    this.activeMode$.subscribe({
       next: response => {
         this.mode = response;
       },

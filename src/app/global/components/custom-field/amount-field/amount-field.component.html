@@ -13,7 +13,7 @@
       placeholder="Amount"
       min="1" />
     @if (isFormFloating) {
-      <label for="amount" class="form-label fs-normal" i18n
+      <label for="amount" class="form-label fs-6" i18n
         >Amount <code>*</code></label
       >
     }
@@ -25,11 +25,12 @@
         'text-primary': isTransfer,
       }">
       @if (amountWords) {
-        <small class="me-3"><i class="fa-solid fa-play fs-large"></i></small>
+        <small class="me-3"><i class="fa-solid fa-play"></i></small>
         <small
           class="text-capitalize"
           [ngClass]="{
             'fw-bold': !isTransfer,
+            'fs-medium': isTransfer,
           }">
           {{ amountWords }}
         </small>

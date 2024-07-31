@@ -4,7 +4,9 @@
   <div class="row justify-content-center mx-0" style="gap: 1rem">
     <div
       class="col-5 col-md-3 bg-secondary sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
-      role="button">
+      role="button"
+      (click)="switchPlateform('onlineBanking', '/b/banking')"
+      tabindex="0">
       <div class="icon mb-2" style="width: 45px; height: 60px">
         <img
           src="/images/ihela-b.svg"
@@ -15,7 +17,9 @@
     </div>
     <div
       class="col-5 col-md-3 bg-secondary sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
-      role="button">
+      role="button"
+      (click)="switchPlateform('workstation', 'w/workstation')"
+      tabindex="0">
       <div class="icon mb-2 text-magis" style="font-size: 2.5rem">
         <i class="fa-solid fa-desktop"></i>
       </div>
@@ -23,7 +27,9 @@
     </div>
     <div
       class="col-5 col-md-3 bg-secondary sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
-      role="button">
+      role="button"
+      (click)="switchPlateform('marketPlace', '/m/market')"
+      tabindex="0">
       <div class="icon text-success mb-2" style="font-size: 2.5rem">
         <i class="fa-solid fa-cart-shopping"></i>
       </div>
@@ -32,7 +38,8 @@
     <div
       class="col-5 col-md-3 bg-secondary sm-radius d-flex flex-column align-items-center justify-content-center py-3 px-2 text-center text-dark"
       role="button"
-      routerLink="/h/home/chat">
+      (click)="switchPlateform('newsFeed', '/n/newsfeed/chat')"
+      tabindex="0">
       <div class="icon text-info mb-2" style="font-size: 2.5rem">
         <i class="fa-regular fa-comments"></i>
       </div>
@@ -275,8 +282,7 @@
           </div>
         </div>
 
-        <div
-          class="shadow d-flex mx-auto announce-box bg-secondary sm-radius ps-1">
+        <div class="shadow d-flex mx-auto announce-box bg-white sm-radius ps-1">
           <div class="h-100 py-1" style="width: 53%">
             <img
               style="height: 100%; object-fit: cover"
@@ -299,10 +305,12 @@
             </button>
           </div>
         </div>
-        <!-- (click)="switchPlateform('onlineBanking', '/b/onlineBanking/tarifs')" in next div -->
+
         <div
           class="bg-white lg-radius p-3 px-4 d-flex align-items-center justify-content-between mt-2 mb-4"
           role="button"
+          (click)="switchPlateform('onlineBanking', '/b/banking/tarifs')"
+          tabindex="0"
           style="box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1)">
           <b class="text-dark ms-2 fs-5" i18n>Tarifs</b>
           <span class="text-dark fs-3">
@@ -343,8 +351,6 @@
           </div>
         </div>
       }
-
-      <!-- TODO : add product card and topProducts -->
 
       @if (!loadingProducts) {
         <div class="row" style="gap: 1.5rem 0">

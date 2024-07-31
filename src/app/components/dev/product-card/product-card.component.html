@@ -51,10 +51,11 @@
     product.lookup_description ||
     product.lookup_subtitle)
 ) {
-  <div class="justify-content-center position-relative">
-    <div style="width: 200px">
+  <div
+    class="justify-content-center position-relative bg-white lg-radius shadow overflow-hidden">
+    <div style="width: 150px">
       <div class="col-12">
-        <div class="border sm-radius">
+        <div>
           <div class="row">
             <div class="position-relative">
               @if (product.lookup_image) {
@@ -72,7 +73,7 @@
                   </span>
                   <span class="d-flex justify-content-center">
                     <i
-                      class="fa-solid fa-mountain-sun fa-5x my-5 text-secondary"></i>
+                      class="fa-solid fa-mountain-sun fa-3x my-5 text-secondary"></i>
                   </span>
                 </div>
               }
@@ -99,7 +100,7 @@
           <!-- <div class="row col-11 ms-0" >
             <h1 class="text-secondary font-calibri fs-normal mb-1 fw-bold">{{ product.lookup_subtitle}}</h1>
           </div> -->
-          <div class="row ms-0">
+          <div class="row ms-0" style="height: 50px">
             <div class="col-8">
               <p class="text-secondary fs-small font-calibri">
                 {{ product.lookup_subtitle }}
@@ -116,10 +117,11 @@
 }
 
 @if (get_product === true && product.merchant) {
-  <div class="justify-content-center position-relative overflow-hidden">
+  <div
+    class="justify-content-center bg-white lg-radius shadow position-relative overflow-hidden">
     <div>
       <div class="col-12">
-        <div class="border sm-radius">
+        <div>
           <div class="row">
             <div class="position-relative">
               @if (product.icon) {
@@ -143,7 +145,10 @@
               <!-- Price -->
               @if (product.price) {
                 <span
-                  class="position-absolute fs-small px-1 text-primary bottom-0 priceBG start-1">
+                  class="position-absolute fs-small px-1 text-primary bottom-0 start-1"
+                  [ngClass]="
+                    currentMode === 'light' ? 'priceBGLight' : 'priceBGDark'
+                  ">
                   {{ product.price }} BIF
                 </span>
               }

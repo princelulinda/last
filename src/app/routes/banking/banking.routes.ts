@@ -7,12 +7,13 @@ import { NyamuranziDetailsComponent } from '../../components/nyamuranzi/nyamuran
 import { TransferComponent } from '../../components/transfer/transfer/transfer.component';
 
 import { AccountComponent } from '../../components/account/account/account.component';
-import { CreditAccountComponent } from '../../components/transfer/credit-account/credit-account.component';
 
 import { WalletComponent } from '../../components/wallet/wallet/wallet.component';
 import { WalletDetailsComponent } from '../../components/wallet/wallet-details/wallet-details.component';
 import { TarifComponent } from '../../components/tarif/tarif.component';
 import { BankHomeComponent } from '../../components/bank-home/bank-home.component';
+import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.component';
+import { ReusableListComponent } from '../../global/components/reusable-list/reusable-list.component';
 export const bankingRoutes: Routes = [
   {
     path: '',
@@ -51,9 +52,10 @@ export const bankingRoutes: Routes = [
   },
 
   {
-    path: 'creditAccount',
-    component: CreditAccountComponent,
+    path: 'withdrawal',
+    component: WithdrawalComponent,
   },
+
   {
     path: 'home',
     component: BankHomeComponent,
@@ -65,5 +67,9 @@ export const bankingRoutes: Routes = [
     children: [
       // { path: 'statement', component: GeneralStatementComponent },
     ],
+  },
+  {
+    path: 'test',
+    component: ReusableListComponent,
   },
 ];

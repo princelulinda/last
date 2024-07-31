@@ -87,8 +87,9 @@ export class ConfigService {
       this.setMainConfig(newActiveMainConfig);
     };
 
-    this.dbService.dbIsReady.subscribe((value: boolean) => {
-      console.log(`INITIALIZING ALL CONFIG FOR DB READY ${value}`);
+    this.dbService.dbIsReady.subscribe(() => {
+      // value: boolean
+      // console.log(`INITIALIZING ALL CONFIG FOR DB READY ${value}`);
       initFn();
     });
   }
@@ -192,10 +193,11 @@ export class ConfigService {
 
   async clearDB() {
     // DELETE DATABASE
-    // await this.dbService.db.delete();
+    this.dbService.db.close();
+    await this.dbService.db.delete();
     this.apiService.clearLocalData();
-    // await this.dbService.initializeModels();
-    // this.initAll();
+    await this.dbService.initializeModels();
+    this.initAll();
   }
 
   // NOTE :: Banks methods
@@ -209,7 +211,6 @@ export class ConfigService {
   }
   resetSelectedBank(): void {
     this.dbService.clearTable(SelectedBank.tableName);
-    this.dbService.removeLocalStorageBankId();
   }
   getUserBanks(): Observable<bankModel[]> {
     return this.userBanks$ as Observable<bankModel[]>;

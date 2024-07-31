@@ -56,10 +56,10 @@ export interface LandscpeBillModel {
 export interface MerchantBillModel {
   name: string;
   debit_account: string;
-  date: string;
+  date: string | number;
   printable_text: string;
   merchantName: string;
-  amount: string;
+  amount: string | number | null;
   code: string;
   product?: {
     name: string;
@@ -98,5 +98,5 @@ export interface TransfertBillModel {
   bank_reference: string;
   amount: string;
   transfer_fees: string;
-  bill_date: string | Date;
+  bill_date: Date;
 }

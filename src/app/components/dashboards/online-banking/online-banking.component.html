@@ -1,4 +1,4 @@
-@if (!showBankHome) {
+@if (!selectedBank) {
   <div>
     <div
       class="mb-3"
@@ -84,7 +84,7 @@
                               <!-- Bloc de banque -->
                               @for (bank of banks; track $index) {
                                 <div
-                                  (click)="toggleBankHome(); selectBank(bank)"
+                                  (click)="selectBank(bank)"
                                   role="button"
                                   tabindex="0"
                                   class="d-grid col-6 col-sm-4 col-md-3 justify-content-center">
@@ -330,10 +330,7 @@
       </div>
     </div>
   </div>
+} @else if (selectedBank) {
+  <app-bank-home></app-bank-home>
 }
-
-@if (showBankHome) {
-  <app-bank-home
-    (backToPreviousState)="handleBackToPreviousState()"></app-bank-home>
-}
-<router-outlet></router-outlet>
+<!-- <router-outlet></router-outlet> -->
