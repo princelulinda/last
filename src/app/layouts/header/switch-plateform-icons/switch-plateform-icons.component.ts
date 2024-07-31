@@ -71,7 +71,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       image: '',
       icon: 'fa-solid fa-desktop fa-xl',
       is_selected: false,
-      link: '/w/workstation',
+      link: '/auth/corporate',
     },
   ];
 
