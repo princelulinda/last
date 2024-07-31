@@ -39,7 +39,11 @@
               (click)="selectLoneAccount(wallet)"
               [routerLink]="
                 Type === 'list'
-                  ? '/b/banking/wallets/details/' + wallet.id
+                  ? activePlatform === 'workstation'
+                    ? '/w/workstation/banking/wallets/details/' + wallet.id
+                    : activePlatform === 'onlineBanking'
+                      ? '/b/banking/wallets/details/' + wallet.id
+                      : null
                   : null
               "
               tabindex="0"
@@ -47,6 +51,15 @@
               [ngClass]="{
                 account: Type === 'transfer',
                 cliped: selectedLoneWallet === wallet && Type === 'list',
+                'text-all-dark':
+                  selectedLoneWallet === wallet &&
+                  Type === 'list' &&
+                  theme === 'dark',
+
+                'text-dark':
+                  selectedLoneWallet === wallet &&
+                  Type === 'list' &&
+                  theme === 'light',
               }"
               role="button">
               <b class="fw-bold">{{ wallet.title }}</b>

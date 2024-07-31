@@ -300,9 +300,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   }
   selectBank(bank: bankModel) {
     this.configService.setSelectedBank(bank);
-    if (bank) {
-      this.router.navigate(['']);
-    }
   }
 
   getMerchant(data: PayMerchant, event: MouseEvent) {

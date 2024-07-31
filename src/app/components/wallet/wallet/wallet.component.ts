@@ -6,6 +6,8 @@ import { RouterOutlet } from '@angular/router';
 import { WalletList } from '../wallet.models';
 import { DialogService } from '../../../core/services';
 import { RouterLink } from '@angular/router';
+import { ConfigService } from '../../../core/services';
+import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-wallet',
   standalone: true,
@@ -22,11 +24,23 @@ export class WalletComponent implements OnInit, OnDestroy {
   showAmounts$: Observable<boolean>; // Observable for the visibility state
   selectedWallet: WalletList | null = null;
   dataLoaded = false;
-  constructor(private dialogService: DialogService) {
+  activePlatform: string | null = null;
+  mainConfig$!: Observable<activeMainConfigModel>;
+  constructor(
+    private dialogService: DialogService,
+    private configService: ConfigService
+  ) {
     this.showAmounts$ = this.dialogService.getAmountState();
+    this.mainConfig$ = this.configService.getMainConfig();
   }
 
   ngOnInit(): void {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.activePlatform = configs.activePlateform;
+      },
+    });
+
     this.showAmounts$.subscribe(state => {
       this.showAmounts = state;
     });
