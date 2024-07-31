@@ -582,45 +582,11 @@
           (click)="openModal(merchant, $event)"
           tabindex="0">
           <div class="col-2 w-100">
-            <!-- <span
-              type="button"
-              (click)="makeFavoriteMerchants(merchant, $event)"
-              *ngIf="
-                merchant.is_favorite_merchant &&
-                (favorite_merchant_making === null ||
-                  favorite_merchant_making.id !== merchant.id)
-              "
-              tabindex="0"
-              title="Revoke Favorite"
-              class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
-              <span class="text-primary"><i class="fa-solid fa-star"></i></span>
-            </span>
-            <span
-              type="button"
-              (click)="makeFavoriteMerchants(merchant, $event)"
-              tabindex="0"
-              title="Make Favorite"
-              *ngIf="
-                !merchant.is_favorite_merchant &&
-                (favorite_merchant_making === null ||
-                  favorite_merchant_making.id !== merchant.id)
-              "
-              class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
-              <span class="text-primary"
-                ><i class="fa-regular fa-star"></i
-              ></span>
-            </span>
-            <span
-              *ngIf="
-                favorite_merchant_making !== null &&
-                favorite_merchant_making.id === merchant.id
-              "
-              class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
-              <span class="text-primary"
-                ><i class="fas fa-spinner fa-pulse"></i
-              ></span>
-            </span> -->
-            <app-merchant-card [merchant]="merchant" [get_merchant]="true">
+            <app-merchant-card
+              [merchant]="merchant"
+              [get_merchant]="true"
+              [favorite_merchant_making]="favorite_merchant_making"
+              (merchantInfoOutput)="getMakeFavoriteResponse($event)">
             </app-merchant-card>
           </div>
         </div>
