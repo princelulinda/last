@@ -89,7 +89,6 @@ export class LoanPendingComponent implements OnInit, OnDestroy {
       .subscribe(loans => {
         const response = loans as { objects: LoanPendingModel[] };
         this.loans = response.objects;
-        console.log('$$$$$$$$$$$$$$$$$$$$$@@@@@@@@@@@@@Loans', this.loans);
       });
   }
 
