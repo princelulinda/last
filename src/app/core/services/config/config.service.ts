@@ -165,6 +165,9 @@ export class ConfigService {
       if (redirectToBaseHref) {
         this.router.navigate([baseHref]);
       }
+      if (plateform === 'workstation') {
+        this.resetSelectedBank();
+      }
     }
   }
   async switchMode() {

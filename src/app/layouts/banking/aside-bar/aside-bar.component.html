@@ -1,4 +1,4 @@
-@if (mainConfig && mainConfig.activePlateform === 'onlineBanking') {
+@if (plateform === 'onlineBanking') {
   <div>
     <div class="d-grid">
       <!--* offers section, the one shown by default && !isBaking-->
@@ -46,7 +46,7 @@
     </div>
   </div>
 }
-@if (mainConfig && mainConfig.activePlateform === 'newsFeed') {
+@if (plateform === 'newsFeed') {
   <div style="overflow-y: auto">
     <div>
       <div class="d-flex mb-2 justify-content-center">
@@ -282,7 +282,7 @@
     </div>
   </div>
 }
-@if (mainConfig && mainConfig.activePlateform === 'marketPlace') {
+@if (plateform === 'marketPlace' || plateform === 'myMarket') {
   <div>
     <div class="row justify-content-center mx-0">
       <div class="col-10 shadow sm-radius">
