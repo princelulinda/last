@@ -1,12 +1,15 @@
 <div class="map">
   <google-map height="100%" width="100%" [center]="mapCenter" [zoom]="mapZoom">
-    <map-marker
-      *ngFor="let coord of coords"
-      [position]="{
-        lat: coord.geometry.coordinates[0],
-        lng: coord.geometry.coordinates[0],
-      }"
-      [options]="markerOptions"></map-marker>
+    @for (coord of coords; track coord) {
+      @if (coord.geometry) {
+        <map-marker
+          [position]="{
+            lat: coord.geometry.coordinates[0],
+            lng: coord.geometry.coordinates[0],
+          }"
+          [options]="markerOptions"></map-marker>
+      }
+    }
     <!-- (mapClick)="markerClick($event, coord)" -->
   </google-map>
 </div>

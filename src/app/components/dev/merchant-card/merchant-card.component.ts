@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { BillersModel } from '../../dashboards/dashboard.model';
+import { BillersModel, objectModel } from '../../dashboards/dashboard.model';
 import { MerchantModel } from '../../products/products.model';
-// import { MerchantService } from '../../../core/services/merchant/merchant.service';
-// import { takeUntil } from 'rxjs/operators';
-// import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { Favorite } from '../../../core/services/merchant/model';
+import { MerchantService } from '../../../core/services';
 
 @Component({
   selector: 'app-merchant-card',
@@ -19,22 +19,68 @@ export class MerchantCardComponent {
   @Input() get_merchant!: boolean;
   @Input() get_product = [];
   @Input() merchants!: MerchantModel;
+  @Output() first6Output = new EventEmitter<BillersModel[]>();
+  first6!: BillersModel[];
+  @Input() favorite_merchant_making!: BillersModel | null;
+  favorite_making!: boolean;
+  favoriteMerchants!: BillersModel[];
+  favoriteMerchantsNumber!: number;
+  favoriteMerchantLoading!: boolean;
+  merchantsDetail!: BillersModel[];
+  @Output() merchantInfoOutput = new EventEmitter<string>();
+  last4!: BillersModel[];
+  start = 0;
+  end = 4;
 
-  // theme$: Observable<any>;
-  // theme: any;
+  merchantInfo!: BillersModel[];
 
-  // constructor(private store: Store) {
-  //     this.theme$ = this.store.select(SwitchThemeState.GetTheme);
-  // }
+  private onDestroy$: Subject<void> = new Subject<void>();
 
-  // ngOnInit(): void {
-  //     this.theme$.subscribe({
-  //         next: (theme) => {
-  //             this.theme = theme;
-  //         },
-  //     });
-  // }
+  constructor(private merchantService: MerchantService) {}
 
+  makeFavoriteMerchants(favorite: BillersModel, event: Event) {
+    event.stopPropagation();
+    // const productCard: HTMLElement =
+    //     event.target?.parentElement.parentElement.parentElement.parentElement
+    //         .parentElement;
+    // remove data-bs for bootstrap modal
+    // productCard.removeAttribute('data-bs-target');
+    // productCard.removeAttribute('data-bs-toggle');
+    this.favorite_merchant_making = favorite;
+    this.favorite_making = false;
+    let body!: Favorite;
+    if (!favorite.is_favorite_merchant) {
+      body = {
+        merchant: favorite.id,
+        merchant_action: 'make_favorite',
+      };
+    } else if (favorite.is_favorite_merchant) {
+      body = {
+        merchant: favorite.id,
+        merchant_action: 'revoke_favorite',
+      };
+    }
+
+    // add data-bs after click on favorite star
+    // productCard.setAttribute('data-bs-target', '#myModal');
+    // productCard.setAttribute('data-bs-toggle', 'modal');
+    this.merchantService
+      .makeFavoriteMerchants(body)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: result => {
+          const data = result as objectModel;
+          const response = data.object;
+          if (response.success) {
+            this.merchantInfoOutput.emit(response.success);
+          }
+        },
+      });
+    console.log(
+      '====================================> merchant',
+      this.merchant
+    );
+  }
   closeModal() {
     const modal = document.getElementById('modal');
     if (modal !== null) {

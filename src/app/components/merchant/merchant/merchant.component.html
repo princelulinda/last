@@ -1,10 +1,10 @@
 <div>
   <form
     id="searchForm"
-    class="mt-4 shadow position-relative bg-white"
+    class="mt-4 shadow position-relative bg-white overflow-hidden"
     [ngClass]="{ 'active ': isSearchInputNotEmpty() || isInputFocused }">
     <input
-      class="ps-4 search-input position-absolute text-all-dark"
+      class="ps-4 search-input form-control h-100 position-absolute text-all-dark"
       [ngClass]="{
         'bg-in-light': theme === 'light',
         'd-block': isInputFocused,
