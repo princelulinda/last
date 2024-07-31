@@ -82,6 +82,7 @@ export class AuthCorporateComponent implements OnInit {
     this.authService.loginCorporate(data).subscribe({
       next: () => {
         this.router.navigate(['/w/workstation']);
+        this.dialogService.closeLoading();
       },
       error: err => {
         this.dialogService.closeLoading();

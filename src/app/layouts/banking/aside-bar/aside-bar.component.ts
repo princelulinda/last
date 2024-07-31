@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { ConfigService } from '../../../core/services';
-import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import { PlateformModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-aside-bar',
@@ -14,17 +14,17 @@ import { activeMainConfigModel } from '../../../core/services/config/main-config
   styleUrl: './aside-bar.component.scss',
 })
 export class AsideBarComponent implements OnInit {
-  mainConfig$!: Observable<activeMainConfigModel>;
-  mainConfig!: activeMainConfigModel;
+  plateform$!: Observable<PlateformModel>;
+  plateform!: PlateformModel;
 
   constructor(private configService: ConfigService) {
-    this.mainConfig$ = this.configService.getMainConfig();
+    this.plateform$ = this.configService.getPlateform();
   }
 
   ngOnInit(): void {
-    this.mainConfig$.subscribe({
-      next: configs => {
-        this.mainConfig = configs;
+    this.plateform$.subscribe({
+      next: plateform => {
+        this.plateform = plateform;
       },
     });
   }
