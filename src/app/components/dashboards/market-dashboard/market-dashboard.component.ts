@@ -6,15 +6,11 @@ import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.com
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import {
   BillersModel,
-  objectModel,
   objectsModel,
   productCategoryArray,
   productCategoryModel,
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { Favorite } from '../../../core/services/merchant/model';
-// import { Subject, Observable, takeUntil } from 'rxjs';
-// import { MerchantService } from '../../../core/services/merchant/merchant.service';
 
 @Component({
   selector: 'app-market-dashboard',
@@ -137,6 +133,15 @@ export class MarketDashboardComponent implements OnInit {
     //         this.getMerchants(search);
     //     },
     // });
+  }
+  getMakeFavoriteResponse(response: string) {
+    const success = response;
+    this.getMerchants('');
+    this.getFavoriteMerchants('');
+    console.log(
+      '============================================>success value',
+      success
+    );
   }
   getFavoriteMerchants(search: string, activeLoading = true) {
     // activeLoading ? (this.favoriteMerchantLoading = true) : false;
@@ -325,94 +330,47 @@ export class MarketDashboardComponent implements OnInit {
   //               // },
   //           });
   //   }
-  /************************************************************************ */
-  //     makeFavoriteMerchants(favorite: BillersModel, event: any) {
 
-  //     event.stopPropagation();
-  //     console.log('merchant value is:', favorite);
-  // console.log('is_favorite_merchant_making:', favorite.is_favorite_merchant);
-
-  //     const productCard: HTMLElement =
-  //         event.target?.parentElement.parentElement.parentElement.parentElement.parentElement;
-
-  //     // remove data-bs for bootstrap modal
-
-  //     productCard.removeAttribute('data-bs-target');
-  //     productCard.removeAttribute('data-bs-toggle');
-  //     this.favorite_merchant_making = favorite;
-
-  //     let body;
-  //     if (!favorite.is_favorite_merchant) {
-  //         body = {
-  //             merchant: favorite.id,
-  //             merchant_action: 'make_favorite',
-  //         };
-  //     } else if (favorite.is_favorite_merchant) {
-  //         body = {
-  //             merchant: favorite.id,
-  //             merchant_action: 'revoke_favorite',
-  //         };
-  //     }
-
-  //     // add data-bs after click on favorite star
-  //     productCard.setAttribute('data-bs-target', '#myModal');
-  //     productCard.setAttribute('data-bs-toggle', 'modal');
-  //     this.merchantService
-  //         .makeFavoriteMerchants(body)
-  //         .pipe(takeUntil(this.onDestroy$))
-  //         .subscribe({
-  //             next: (data) => {
-  //               console.log(data)
-  //                 // this.favorite_merchants = data.object;
-  //                 if (this.favorite_merchants.success) {
-  //                     this.getMerchants('');
-  //                     this.getFavoriteMerchants('', false);
-  //                 }
-  //             },
-  //         });
-
-  // }
   /********************************************************************** */
-  makeFavoriteMerchants(favorite: BillersModel, event: Event) {
-    event.stopPropagation();
-    // const productCard: HTMLElement =
-    //     event.target?.parentElement.parentElement.parentElement.parentElement
-    //         .parentElement;
-    // remove data-bs for bootstrap modal
-    // productCard.removeAttribute('data-bs-target');
-    // productCard.removeAttribute('data-bs-toggle');
-    this.favorite_merchant_making = favorite;
-    this.favorite_making = false;
-    let body!: Favorite;
-    if (!favorite.is_favorite_merchant) {
-      body = {
-        merchant: favorite.id,
-        merchant_action: 'make_favorite',
-      };
-    } else if (favorite.is_favorite_merchant) {
-      body = {
-        merchant: favorite.id,
-        merchant_action: 'revoke_favorite',
-      };
-    }
+  // makeFavoriteMerchants(favorite: BillersModel, event: Event) {
+  //   event.stopPropagation();
+  //   // const productCard: HTMLElement =
+  //   //     event.target?.parentElement.parentElement.parentElement.parentElement
+  //   //         .parentElement;
+  //   // remove data-bs for bootstrap modal
+  //   // productCard.removeAttribute('data-bs-target');
+  //   // productCard.removeAttribute('data-bs-toggle');
+  //   this.favorite_merchant_making = favorite;
+  //   this.favorite_making = false;
+  //   let body!: Favorite;
+  //   if (!favorite.is_favorite_merchant) {
+  //     body = {
+  //       merchant: favorite.id,
+  //       merchant_action: 'make_favorite',
+  //     };
+  //   } else if (favorite.is_favorite_merchant) {
+  //     body = {
+  //       merchant: favorite.id,
+  //       merchant_action: 'revoke_favorite',
+  //     };
+  //   }
 
-    // add data-bs after click on favorite star
-    // productCard.setAttribute('data-bs-target', '#myModal');
-    // productCard.setAttribute('data-bs-toggle', 'modal');
-    this.merchantService
-      .makeFavoriteMerchants(body)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: result => {
-          const data = result as objectModel;
-          const response = data.object;
-          if (response.success) {
-            this.getMerchants('');
-            this.getFavoriteMerchants('');
-          }
-        },
-      });
-  }
+  //   // add data-bs after click on favorite star
+  //   // productCard.setAttribute('data-bs-target', '#myModal');
+  //   // productCard.setAttribute('data-bs-toggle', 'modal');
+  //   this.merchantService
+  //     .makeFavoriteMerchants(body)
+  //     .pipe(takeUntil(this.onDestroy$))
+  //     .subscribe({
+  //       next: result => {
+  //         const data = result as objectModel;
+  //         const response = data.object;
+  //         if (response.success) {
+  //           this.getMakeFavoriteResponse(response.success);
+  //         }
+  //       },
+  //     });
+  // }
   /*********call product api **********************************************************/
   // getSearchProduct(data: any) {
   //   this.merchantService.searchProductByMerchant(data).pipe(takeUntil(this.onDestroy$)).subscribe({
