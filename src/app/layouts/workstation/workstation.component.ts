@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { map, switchMap } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 
 import { HeaderComponent } from '../header/header.component';
 import { AsideMenuComponent } from './aside-menu/aside-menu.component';
@@ -13,6 +13,8 @@ import {
   DialogService,
   MenuService,
 } from '../../core/services';
+import { DbService } from '../../core/db';
+import { ConnectedOperatorModel } from '../../components/auth/auth.model';
 // import {
 //   ConnectedOperatorModel,
 //   OrganizationModel,
@@ -32,14 +34,31 @@ import {
   styleUrl: './workstation.component.scss',
 })
 export class WorkstationComponent implements OnInit {
+  connectedOperator$: Observable<ConnectedOperatorModel>;
+  connectedOperator: ConnectedOperatorModel | null = null;
+
   constructor(
     private dialogService: DialogService,
+    private dbService: DbService,
     private authService: AuthService,
     private menuService: MenuService,
     private configService: ConfigService
-  ) {}
+  ) {
+    this.connectedOperator$ = this.configService.getConnectedOperator();
+  }
 
   ngOnInit() {
+    this.connectedOperator$.subscribe({
+      next: operator => {
+        console.log('CHECK :: WORKSTATION LOCAL STORAGE CLIENT ID ');
+        if (operator.organization) {
+          this.dbService.setLocalStorageClientId(
+            operator.organization.id.toString()
+          );
+        }
+      },
+    });
+
     this.getOperatorMenusTypes_groups();
     this.dialogService.closeDialog();
     this.dialogService.closeSplashScreen();

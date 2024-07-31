@@ -9,11 +9,11 @@ import { AsideMenuComponent } from './aside-menu/aside-menu.component';
 import { SubHeaderComponent } from '../header/sub-header/sub-header.component';
 import { HeaderComponent } from '../header/header.component';
 import { SwitchPlateformIconsComponent } from '../header/switch-plateform-icons/switch-plateform-icons.component';
-import { AuthService, ConfigService, DialogService } from '../../core/services';
+import { AuthService, ConfigService } from '../../core/services';
 import { SettingsAsideMenuComponent } from './settings/settings-aside-menu/settings-aside-menu.component';
-import { DbService } from '../../core/db';
-import { UserInfoModel } from '../../core/db/models/auth';
 import { PlateformModel } from '../../core/services/config/main-config.models';
+import { UserInfoModel } from '../../core/db/models/auth';
+import { DbService } from '../../core/db';
 
 @Component({
   selector: 'app-banking',
@@ -37,66 +37,30 @@ export class BankingComponent implements OnInit {
   plateform: PlateformModel = 'newsFeed';
   plateform$: Observable<PlateformModel>;
 
-  localToken: string | null;
-  localClientId: string | null = null;
-  dbUser: Promise<UserInfoModel | null>;
+  userInfo!: UserInfoModel;
+  userInfo$: Observable<UserInfoModel>;
 
   constructor(
     private configService: ConfigService,
     private authService: AuthService,
-    private dbService: DbService,
-    private dialogService: DialogService
+    private dbService: DbService
   ) {
     this.plateform$ = this.configService.getPlateform();
-    this.localToken = this.authService.getLocalAuthToken();
-    this.localClientId = this.authService.getLocalClientId();
-    this.dbUser = this.dbService.getDbUser();
+    this.userInfo$ = this.authService.getUserInfo();
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.plateform$.subscribe({
       next: plateform => {
         this.plateform = plateform;
       },
     });
-    await this.dbUser;
+    this.userInfo$.subscribe({
+      next: userInfo => {
+        this.dbService.setLocalStorageClientId(
+          userInfo.client.client_id.toString()
+        );
+      },
+    });
   }
-
-  // populate() {
-  //   this.dialogService.dispatchSplashScreen();
-  //   this.authService.populateClient().subscribe({
-  //     next: (data: { object: UserInfoModel }) => {
-  //       const populateData = data.object;
-  //       console.log('TODO :: POPULATE USER DATA', populateData);
-  //       const userInfo: UserInfoModel = {
-  //         user: {
-  //           username: populateData.user.username,
-  //           token: populateData.user.token,
-  //           fcm_data: {},
-  //           device_data: {},
-  //         },
-  //         client: {
-  //           id: populateData.client.id,
-  //           client_id: populateData.client.client_id,
-  //           client_code: populateData.client.client_code,
-  //           client_email: populateData.client.client_email,
-  //           client_full_name: populateData.client.client_full_name,
-  //           client_phone_number: populateData.client.client_phone_number,
-  //           client_type: populateData.client.client_type,
-  //           has_pin: populateData.client.has_pin,
-  //           is_agent: populateData.client.is_agent,
-  //           is_merchant: populateData.client.is_merchant,
-  //           is_partner_bank: populateData.client.is_partner_bank,
-  //           picture_url: populateData.client.picture_url,
-  //           prefered_language: populateData.client.prefered_language,
-  //         },
-  //       };
-  //       this.dbService.setUser(userInfo);
-  //       this.dialogService.closeSplashScreen();
-  //     },
-  //     error: err => {
-  //       console.log(err);
-  //     },
-  //   });
-  // }
 }
