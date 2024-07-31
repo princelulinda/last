@@ -488,4 +488,9 @@ export class MerchantService {
       })
     );
   }
+
+  getBestOffer() {
+    const url = '/dbs/price-mutations/';
+    return this.apiService.get(url).pipe(map(data => data));
+  }
 }

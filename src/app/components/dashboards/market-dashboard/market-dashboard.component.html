@@ -62,7 +62,7 @@
               </div>
               <div
                 class="col-2 col-lg-3 col-xl-3 col-xxl-3 mt-lg-2 mt-xl-1 mt-xxl-0 ms-xxl-1 d-flex">
-                <div class="col-11 d-flex">
+                <div class="col-11 col-xxl-10 d-flex">
                   <img
                     src="images/market/creditCard.svg"
                     class="d-flex align-self-center w-100"
@@ -152,7 +152,7 @@
         </div> -->
       </div>
       <div class="row">
-        @for (item of shoeCardInfo; track item.id) {
+        @for (item of first2; track item.id) {
           <div class="col-6">
             <div class="bg-primary sm-radius">
               <div class="col-11 mx-auto">
@@ -161,20 +161,21 @@
                     <div class="row">
                       <h4
                         class="fw-bold text-all-white mt-4 mt-md-5 mt-lg-4 mt-xl-5">
-                        {{ item.offerPourcent }}
+                        {{ item.product.price }}
                       </h4>
                     </div>
                     <div class="row mb-md-3 mb-lg-1 mb-xl-3">
                       <p class="fs-small text-all-white">
-                        {{ item.offerInfo }}
+                        {{ item.product.name }} <br />
+                        {{ item.product.merchant.merchant_title }}
                       </p>
                     </div>
                   </div>
                   <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
-                    <img
+                    <!-- <img
                       src="{{ item.image }}"
                       class="d-flex align-self-center object-fit-cover w-100"
-                      alt="shoe" />
+                      alt="shoe" /> -->
                   </div>
                 </div>
               </div>

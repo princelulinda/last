@@ -5,12 +5,15 @@ import { ProductCardComponent } from '../../dev/product-card/product-card.compon
 import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import {
+  BestOfferModel,
+  BestOfferObjectModel,
   BillersModel,
   objectsModel,
   productCategoryArray,
   productCategoryModel,
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-market-dashboard',
@@ -106,6 +109,8 @@ export class MarketDashboardComponent implements OnInit {
   categorySelected!: null;
   // category: { sector: any; category: any } = { sector: null, category: null };
   // payment: any;
+  offerData: BestOfferModel[] = [];
+  first2: BestOfferModel[] = [];
 
   constructor(private merchantService: MerchantService) {
     // private store: Store
@@ -117,6 +122,7 @@ export class MarketDashboardComponent implements OnInit {
     this.getMerchants('');
     this.getFavoriteMerchants('');
     this.getBrowseByCategory();
+    this.getBestOfferData();
     // this.getSearchProduct('');
     // this.getSectorsAndCategories();
     this.getBillers();
@@ -314,6 +320,28 @@ export class MarketDashboardComponent implements OnInit {
             this.productCategory
           );
           this.first4 = this.productCategory.slice(0, 4);
+        },
+      });
+  }
+
+  getBestOfferData() {
+    this.merchantService
+      .getBestOffer()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          const data = response as BestOfferObjectModel;
+          this.offerData = data.Object;
+          console.log(
+            '==================================================> best offer data:',
+            this.offerData
+          );
+          this.first2 = this.offerData.slice(0, 2);
+        },
+        error: (err: HttpErrorResponse) => {
+          if (this.offerData.length === 0) {
+            console.log('erreur sur best offer', err);
+          }
         },
       });
   }
