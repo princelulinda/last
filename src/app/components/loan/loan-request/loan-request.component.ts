@@ -232,10 +232,6 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
   getLoansType() {
     this.loanService.getLoanType().subscribe(loansType => {
       const response = loansType as { objects: LoanTypeModel };
-      // console.log(
-      //   '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<',
-      //   response
-      // );
       this.loansType = response.objects;
     });
   }
