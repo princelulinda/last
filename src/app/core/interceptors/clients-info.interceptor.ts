@@ -33,8 +33,8 @@ export function clientInfoInterceptor(
       .set('X-iHela-Access-Client-Id', CLIENT_ID ?? '')
       .set('X-iHela-Access-Bank-Id', BANK_ID ?? '')
       .set('X-iHela-AppSubject', appSubject)
-      .set('X-iHela-AppInfo', environment.appInfo)
-      .set('X-iHela-Access-Menu-id', ''),
+      .set('X-iHela-AppInfo', environment.appInfo),
+    // .set('X-iHela-Access-Menu-id', ''),
   });
   return next(newReq);
 }
