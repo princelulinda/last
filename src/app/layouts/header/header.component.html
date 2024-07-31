@@ -13,15 +13,23 @@
     <!-- First section with iHela Ryanje Logo OR Organization list with Access -->
     <section class="d-none d-lg-block">
       <!-- iHela Ryanje logo for onlineBanking, market, newsFeed Plateforms -->
-      <div
-        class="col-8 h-100"
-        style="max-width: 260px"
-        *ngIf="mainConfig.activePlateform !== 'workstation'">
-        <img
-          class="bg-primary-2 img-fluid border border-3 px-4 py-1 sm-radius h-100"
-          src="/images/auth/ihela3.png"
-          alt="iHela Ryanje Logo" />
-      </div>
+      @if (mainConfig.activePlateform !== 'workstation') {
+        <div class="col-8 h-100" style="max-width: 260px">
+          <img
+            class="bg-primary-2 img-fluid border border-3 px-4 py-1 sm-radius h-100"
+            src="/images/auth/ihela3.png"
+            alt="iHela Ryanje Logo" />
+        </div>
+      } @else {
+        @if (organization) {
+          <div class="col-8 h-100" style="max-width: 260px">
+            <img
+              class="bg-primary-2 img-fluid border border-3 px-4 py-1 sm-radius h-100"
+              [src]="organization.institution_client.picture"
+              alt="iHela Ryanje Logo" />
+          </div>
+        }
+      }
 
       <!--* Organization list with Access for workstation plateform -->
       <!-- <div

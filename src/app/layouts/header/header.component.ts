@@ -24,13 +24,10 @@ import { FooterComponent } from '../footer/footer.component';
 import { SwitchModeComponent } from '../../components/dev/switch-mode/switch-mode.component';
 import { ProfileCardComponent } from '../../global/components/custom-field/profile-card/profile-card.component';
 import { DialogService } from '../../core/services';
-export interface organizationModel {
-  company_type_code: string;
-  institution_client: {
-    client_full_name: string;
-    picture: string;
-  };
-}
+import {
+  ConnectedOperatorModel,
+  OrganizationModel,
+} from '../../components/auth/auth.model';
 
 @Component({
   selector: 'app-header',
@@ -57,8 +54,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
 
-  // organization$!: Observable<organizationModel>;
-  organization!: organizationModel;
+  organization$!: Observable<ConnectedOperatorModel>;
+  organization!: OrganizationModel | null;
 
   // showUserInfo = false;
   // userInfo$: Observable<any>;
@@ -105,6 +102,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userInfo$ = this.authService.getUserInfo();
     this.clientId$ = this.authService.getUserClientId();
     this.theme$ = this.configService.getMode();
+    this.organization$ = this.configService.getConnectedOperator();
   }
 
   ngOnInit(): void {
@@ -139,6 +137,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       next: user => {
         this.userInfo = user;
       },
+    });
+
+    this.organization$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: (org: ConnectedOperatorModel) => {
+        this.organization = org.organization;
+      },
+      error: err => console.log(err),
     });
 
     // if (this.generalService.isCurrentDateInChristMassPeriod()) {
