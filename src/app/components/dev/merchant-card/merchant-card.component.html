@@ -39,82 +39,84 @@
             </span> -->
 
   <div class="justify-content-center position-relative">
-    <div class="row">
-      <div class="col-11">
-        <div class="border sm-radius">
-          <div class="row">
-            <div class="position-relative">
-              <div class="bg-input m-1 sm-radius">
-                @if (merchant.lookup_image) {
-                  <div class="merchant">
-                    <div style="height: 150px">
-                      <img
-                        [src]="merchant.lookup_image"
-                        alt="merchantImg"
-                        class="image object-fit-cover" />
+    @if (merchant) {
+      <div class="row">
+        <div class="col-11">
+          <div class="border sm-radius">
+            <div class="row">
+              <div class="position-relative">
+                <div class="bg-input m-1 sm-radius">
+                  @if (merchant.lookup_image) {
+                    <div class="merchant">
+                      <div style="height: 150px">
+                        <img
+                          [src]="merchant.lookup_image"
+                          alt="merchantImg"
+                          class="image object-fit-cover" />
+                      </div>
                     </div>
+                  } @else if (
+                    merchant && !merchant.lookup_icon && !merchant.lookup_image
+                  ) {
+                    <span class="d-flex justify-content-center">
+                      <i
+                        class="fa-solid fa-box-open fa-5x my-4 mt-5"
+                        style="color: #ffffff"></i>
+                    </span>
+                  }
+                </div>
+              </div>
+            </div>
+            <div class="row ms-0 mt-2" title="{{ merchant.lookup_title }}">
+              <h6 class="fs-x-small">{{ merchant.lookup_title }}</h6>
+            </div>
+
+            <div class="row ms-0">
+              <div class="col-8">
+                <p class="text-secondary fs-x-small mb-2">
+                  {{ merchant.lookup_subtitle }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else if (merchants) {
+      <div class="border sm-radius">
+        <div class="row">
+          <div class="position-relative">
+            <div class="bg-input m-1 sm-radius">
+              @if (merchants.merchant_logo) {
+                <div class="merchant">
+                  <div style="height: 100%">
+                    <img
+                      [src]="merchants.merchant_logo"
+                      alt="merchantImg"
+                      class="image" />
                   </div>
-                } @else if (
-                  merchant && !merchant.lookup_icon && !merchant.lookup_image
-                ) {
-                  <span class="d-flex justify-content-center">
-                    <i
-                      class="fa-solid fa-box-open fa-5x my-4 mt-5"
-                      style="color: #ffffff"></i>
-                  </span>
-                }
-              </div>
-            </div>
-          </div>
-          <div class="row ms-0 mt-2" title="{{ merchant.lookup_title }}">
-            <h6 class="fs-x-small">{{ merchant.lookup_title }}</h6>
-          </div>
-
-          <div class="row ms-0">
-            <div class="col-8">
-              <p class="text-secondary fs-x-small mb-2">
-                {{ merchant.lookup_subtitle }}
-              </p>
+                </div>
+              } @else if (merchants && !merchants.merchant_logo) {
+                <span class="d-flex justify-content-center">
+                  <i
+                    class="fa-solid fa-box-open fa-5x my-4 mt-5"
+                    style="color: #ffffff"></i>
+                </span>
+              }
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-} @else if (merchants) {
-  <div class="border sm-radius">
-    <div class="row">
-      <div class="position-relative">
-        <div class="bg-input m-1 sm-radius">
-          @if (merchants.merchant_logo) {
-            <div class="merchant">
-              <div style="height: 100%">
-                <img
-                  [src]="merchants.merchant_logo"
-                  alt="merchantImg"
-                  class="image" />
-              </div>
-            </div>
-          } @else if (merchants && !merchants.merchant_logo) {
-            <span class="d-flex justify-content-center">
-              <i
-                class="fa-solid fa-box-open fa-5x my-4 mt-5"
-                style="color: #ffffff"></i>
-            </span>
-          }
+        <div class="row ms-0 mt-2" title="{{ merchants.merchant_title }}">
+          <h6 class="fs-x-small">{{ merchants.merchant_title }}</h6>
+        </div>
+
+        <div class="row ms-0">
+          <div class="col-8">
+            <p class="text-secondary fs-x-small mb-2">
+              {{ merchants.merchant_code }}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row ms-0 mt-2" title="{{ merchants.merchant_title }}">
-      <h6 class="fs-x-small">{{ merchants.merchant_title }}</h6>
-    </div>
-
-    <div class="row ms-0">
-      <div class="col-8">
-        <p class="text-secondary fs-x-small mb-2">
-          {{ merchants.merchant_code }}
-        </p>
-      </div>
-    </div>
+    }
   </div>
 }

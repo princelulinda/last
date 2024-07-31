@@ -1,17 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, Subject, takeUntil } from 'rxjs';
 import { RouterLink } from '@angular/router';
+
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { MarketService } from '../../../core/services/market/market.service';
 import { AuthService, ConfigService } from '../../../core/services';
-// import { AuthState, MenuState, SwitchThemeState } from 'src/app/shared';
-
 import { Pagination } from '../../../core/services/merchant/model';
-import {
-  ModeModel,
-  PlateformModel,
-} from '../../../core/services/config/main-config.models';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { BillsModel, paymentBillsModel } from '../products.model';
 
@@ -34,7 +30,6 @@ export class BillsComponent implements OnInit, OnDestroy {
 
   merchantBills!: BillsModel[] | null;
   paymentRequestBills!: BillsModel[];
-  // billsReport: any;
   countBills!: string | number;
   isLoading = true;
   paymentRequestBillsLoading = true;
@@ -42,53 +37,53 @@ export class BillsComponent implements OnInit, OnDestroy {
   clientInfo$: Observable<UserInfoModel>;
   isMerchant!: boolean;
 
-  billsHeaders = [
-    // {
-    //     name: 'Merchant',
-    //     field: ['merchant_teller.merchant.merchant_title'],
-    //     size: '',
-    // },
-    {
-      name: 'Date',
-      field: ['created_at'],
-      size: '',
-      format: 'date',
-    },
-    {
-      name: 'Total Amount',
-      field: ['total_amount'],
-      size: '',
-      format: 'currency',
-    },
-    {
-      name: 'Account',
-      field: ['created_by.client_full_name', 'created_by.client_code'],
-      size: '',
-    },
-    {
-      name: 'Reference',
-      field: ['payment_reference'],
-      size: '',
-    },
-    {
-      name: 'Merchant reference',
-      field: ['partner_reference'],
-      size: '',
-    },
-    {
-      name: 'Status',
-      field: ['payment_status.title'],
-      css: 'payment_status.css',
-      class: 'badge',
-      size: '',
-    },
-    {
-      name: 'Description',
-      field: ['description'],
-      size: '4',
-      canBeDisplayed: false,
-    },
-  ];
+  // billsHeaders = [
+  //   // {
+  //   //     name: 'Merchant',
+  //   //     field: ['merchant_teller.merchant.merchant_title'],
+  //   //     size: '',
+  //   // },
+  //   {
+  //     name: 'Date',
+  //     field: ['created_at'],
+  //     size: '',
+  //     format: 'date',
+  //   },
+  //   {
+  //     name: 'Total Amount',
+  //     field: ['total_amount'],
+  //     size: '',
+  //     format: 'currency',
+  //   },
+  //   {
+  //     name: 'Account',
+  //     field: ['created_by.client_full_name', 'created_by.client_code'],
+  //     size: '',
+  //   },
+  //   {
+  //     name: 'Reference',
+  //     field: ['payment_reference'],
+  //     size: '',
+  //   },
+  //   {
+  //     name: 'Merchant reference',
+  //     field: ['partner_reference'],
+  //     size: '',
+  //   },
+  //   {
+  //     name: 'Status',
+  //     field: ['payment_status.title'],
+  //     css: 'payment_status.css',
+  //     class: 'badge',
+  //     size: '',
+  //   },
+  //   {
+  //     name: 'Description',
+  //     field: ['description'],
+  //     size: '4',
+  //     canBeDisplayed: false,
+  //   },
+  // ];
   billsPagination: Pagination = {
     filters: {
       limit: 15,
@@ -101,21 +96,13 @@ export class BillsComponent implements OnInit, OnDestroy {
   pages = 1;
   activePage = 1;
 
-  selectedMarket!: PlateformModel;
-  selectedMarket$: Observable<PlateformModel>;
-
   constructor(
     private marketService: MarketService,
     private configService: ConfigService,
     private authService: AuthService
-    //   private menuService: MenuService
   ) {
-    // this.theme$ = this.store.select(SwitchThemeState.GetTheme);
     this.theme$ = this.configService.getMode();
-    // this.clientInfo$ = this.store.select(AuthState.GetClientInfo);
     this.clientInfo$ = this.authService.getUserInfo();
-    // this.selectedMarket$ = this.store.select(MenuState.GetSelectedMarket);
-    this.selectedMarket$ = this.configService.getPlateform();
   }
 
   ngOnInit() {
@@ -125,20 +112,8 @@ export class BillsComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.clientInfo$.subscribe({
-      next: (response: UserInfoModel) => {
-        if (response.client.is_merchant) {
-          this.isMerchant = response.client.is_merchant;
-          this.getBills();
-          this.getPaymentRequestBills();
-        }
-      },
-    });
-    this.selectedMarket$.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: (market: PlateformModel) => {
-        this.selectedMarket = market;
-      },
-    });
+    this.getBills();
+    this.getPaymentRequestBills();
   }
 
   getBills() {

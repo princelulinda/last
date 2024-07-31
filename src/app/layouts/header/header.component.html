@@ -99,9 +99,23 @@
           'text-all-white': mainConfig.activePlateform !== 'workstation',
           'text-dark': mainConfig.activePlateform === 'workstation',
         }">
-        <span title="ctrl + shift + v to toggle Amount View" tabindex="0">
-          <i class="fa-solid fa-eye"></i>
-        </span>
+        @if (eyeShowed === true) {
+          <span
+            [tabIndex]="0"
+            (click)="toggleEyeStatus()"
+            title="ctrl + shift + v to toggle Amount View"
+            tabindex="0">
+            <i class="fa-solid fa-eye"></i>
+          </span>
+        } @else {
+          <span
+            [tabIndex]="0"
+            (click)="toggleEyeStatus()"
+            title="ctrl + shift + v to toggle Amount View"
+            tabindex="0">
+            <i class="fa-solid fa-eye-slash"></i>
+          </span>
+        }
       </span>
 
       <!-- chats icon -->
@@ -622,7 +636,7 @@
                   <!--user profile picture-->
                   <div
                     class="text-center border border-secondary d-flex flex-column align-items-center justify-content-center rounded-circle profile-picture-container">
-                    @if (clientInfo && clientInfo.client.picture_url) {
+                    <!-- @if (clientInfo && clientInfo.client.picture_url) {
                       <img
                         [src]="clientInfo.client.picture_url"
                         class="image border border-secondary rounded-circle"
@@ -632,6 +646,18 @@
                         src="/images/userprofile.png"
                         class="image border border-secondary rounded-circle"
                         alt="userprofile" />
+                    } -->
+                    @if (userInfo) {
+                      <span class="text-center d-flex justify-content-center">
+                        <app-profile-card
+                          [imageUrl]="userInfo.client.picture_url"
+                          [fullName]="
+                            userInfo.client.client_full_name
+                          "></app-profile-card>
+                      </span>
+                      <!-- <b class="text-center fs-medium">
+                          {{ userInfo.client.client_full_name }}
+                        </b> -->
                     }
                   </div>
                 </div>

@@ -13,12 +13,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { AuthService, ConfigService } from '../../core/services';
 import { UserInfoModel } from '../../core/db/models/auth';
-import {
-  corporatesModel,
-  selectedCorporateModel,
-  clientInfoModel,
-  userInfoModel,
-} from './model';
+import { corporatesModel, selectedCorporateModel } from './model';
 import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-plateform-icons.component';
 import {
   activeMainConfigModel,
@@ -28,7 +23,7 @@ import {
 import { FooterComponent } from '../footer/footer.component';
 import { SwitchModeComponent } from '../../components/dev/switch-mode/switch-mode.component';
 import { ProfileCardComponent } from '../../global/components/custom-field/profile-card/profile-card.component';
-
+import { DialogService } from '../../core/services';
 export interface organizationModel {
   company_type_code: string;
   institution_client: {
@@ -68,9 +63,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // showUserInfo = false;
   // userInfo$: Observable<any>;
 
-  userInfo!: userInfoModel;
-
-  private corporates$!: Observable<corporatesModel>;
+  userInfo!: UserInfoModel;
+  userInfo$: Observable<UserInfoModel>;
 
   corporates: corporatesModel[] = [];
   showCorporatesSection = false;
@@ -86,8 +80,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   themeLogo = '';
   showPlateformPopup = false;
 
-  private clientInfo$!: Observable<clientInfoModel>;
-
   @Output() toggleAsideMenuEvent = new EventEmitter<boolean>();
   asideMenuIsActive = false;
 
@@ -98,21 +90,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   gridFill = '';
   onlineBankingHeaderImage = '';
   //eyeShowed was any
-  eyeShowed!: [];
+  eyeShowed = true;
   // eyeStatus$: Observable<any>;
   clientInfo!: UserInfoModel;
-  private userInfo$: Observable<UserInfoModel>;
+
   private clientId$: Observable<number>;
-  private isAgent$: Observable<boolean>;
 
   constructor(
+    private dialogService: DialogService,
     private configService: ConfigService,
     private authService: AuthService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.userInfo$ = this.authService.getUserInfo();
     this.clientId$ = this.authService.getUserClientId();
-    this.isAgent$ = this.authService.getUserIsAgent();
     this.theme$ = this.configService.getMode();
   }
 
@@ -142,6 +133,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.clientId$.subscribe({
       next: clientId => {
         console.info('OBSERVABLE POPULATE CLIENT ID', clientId);
+      },
+    });
+    this.userInfo$.subscribe({
+      next: user => {
+        this.userInfo = user;
       },
     });
 
@@ -494,9 +490,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       (currentMonth == 0 && currentDateDate <= 5)
     );
   }
-
   toggleEyeStatus() {
-    // this.store.dispatch(new displayAmount({ show: !this.eyeShowed }));
+    this.dialogService.displayAmount();
+    this.eyeShowed = !this.eyeShowed;
   }
   showMenu = false;
   showUserInfo = false;
