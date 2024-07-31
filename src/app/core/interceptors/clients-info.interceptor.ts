@@ -1,7 +1,9 @@
 import { HttpRequest, HttpHandlerFn, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
 import { inject } from '@angular/core';
+
+import { Observable } from 'rxjs';
+
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../services';
 
 export function clientInfoInterceptor(
@@ -31,7 +33,8 @@ export function clientInfoInterceptor(
       .set('X-iHela-Access-Client-Id', CLIENT_ID ?? '')
       .set('X-iHela-Access-Bank-Id', BANK_ID ?? '')
       .set('X-iHela-AppSubject', appSubject)
-      .set('X-iHela-AppInfo', environment.appInfo),
+      .set('X-iHela-AppInfo', environment.appInfo)
+      .set('X-iHela-Access-Menu-id', ''),
   });
   return next(newReq);
 }
