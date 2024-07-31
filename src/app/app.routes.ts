@@ -17,6 +17,7 @@ import { WorkstationComponent } from './layouts/workstation/workstation.componen
 import { workstationRoutes } from './routes/workstation/workstation.routes';
 import { AuthCorporateLayoutComponent } from './layouts/auth-corporate-layout/auth-corporate-layout.component';
 import { AuthCorporateComponent } from './components/auth/workstation/auth-corporate/auth-corporate.component';
+import { authWorkstationGuard } from './core/guards/auth/auth-workstation.guard';
 
 export const routes: Routes = [
   // authentification routes
@@ -42,7 +43,7 @@ export const routes: Routes = [
   {
     path: 'w',
     component: WorkstationComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, authWorkstationGuard],
     children: [
       {
         path: 'workstation',
