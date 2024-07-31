@@ -225,6 +225,13 @@
               </div>
               <div
                 routerLink="/m/market/merchant-config"
+                [routerLink]="
+                  activePlatform === 'workstation'
+                    ? '/w/workstation/banking/'
+                    : activePlatform === 'onlineBanking'
+                      ? '/m/market/merchant-config'
+                      : ''
+                "
                 role="button"
                 class="pt-1 level-1 ms-3 mt-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary">
                 <b class="text-dark" i18n>Merchant config</b>

@@ -32,7 +32,10 @@ import { UserInfoModel } from '../../../core/db/models/auth';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
-import { ModeModel } from '../../../core/services/config/main-config.models';
+import {
+  activeMainConfigModel,
+  ModeModel,
+} from '../../../core/services/config/main-config.models';
 import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
 import { AllProductsComponent } from '../../products/all-products/all-products.component';
 import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
@@ -133,6 +136,8 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   indexMerchant = 0;
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
+  activePlatform: string | null = null;
+  mainConfig$!: Observable<activeMainConfigModel>;
   constructor(
     // private store: Store,
     private route: ActivatedRoute,
@@ -146,8 +151,15 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     this.clientInfo$ = this.authService.getUserInfo();
     this.dialog$ = this.dialogService.getDialogState();
     this.theme$ = this.configService.getMode();
+    this.mainConfig$ = this.configService.getMainConfig();
   }
   ngOnInit(): void {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.activePlatform = configs.activePlateform;
+      },
+    });
+
     if (this.route.params) {
       this.route.params.subscribe({
         next: data => {
