@@ -4,7 +4,7 @@
     class="mt-4 shadow position-relative bg-white"
     [ngClass]="{ 'active ': isSearchInputNotEmpty() || isInputFocused }">
     <input
-      class="ps-4 search-input position-absolute text-all-dark"
+      class="ps-4 search-input form-control position-absolute text-all-dark"
       [ngClass]="{
         'bg-in-light': theme === 'light',
         'd-block': isInputFocused,
