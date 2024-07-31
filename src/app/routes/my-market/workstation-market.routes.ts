@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import { MarketDashboardComponent } from '../../components/dashboards/market-dashboard/market-dashboard.component';
+
+import { MyMarketDashboardComponent } from '../../components/dashboards/my-market-dashboard/my-market-dashboard.component';
 
 export const workstationMarketRoutes: Routes = [
-  { path: '', component: MarketDashboardComponent },
+  { path: '', component: MyMarketDashboardComponent },
 ];
