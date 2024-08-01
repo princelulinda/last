@@ -139,7 +139,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.organization$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (org: OrganizationModel | null) => {
         this.organization = org;
-        console.log('77777777777777777777777777777777777', this.organization);
       },
       error: err => console.log(err),
     });

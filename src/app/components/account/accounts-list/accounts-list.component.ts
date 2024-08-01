@@ -6,13 +6,13 @@ import {
   Output,
   OnDestroy,
 } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { CommonModule } from '@angular/common';
+
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { AuthService, ConfigService } from '../../../core/services';
 import { ClientService } from '../../../core/services/client/client.service';
-import { UserInfoModel } from '../../../core/db/models/auth';
 import { accountsList } from '../models';
-import { CommonModule } from '@angular/common';
 
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
@@ -26,9 +26,9 @@ import { activeMainConfigModel } from '../../../core/services/config/main-config
 export class AccountsListComponent implements OnInit, OnDestroy {
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
-  private userInfo$: Observable<UserInfoModel>;
-  clientInfo!: UserInfoModel;
+  private client_id$: Observable<number>;
   clientId!: number;
+
   isLoading = false;
   accountsListData: accountsList[] | [] | null = null;
 
@@ -49,19 +49,22 @@ export class AccountsListComponent implements OnInit, OnDestroy {
     private clientService: ClientService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
-    this.userInfo$ = this.authService.getUserInfo();
+    this.client_id$ = this.authService.getUserClientId();
   }
 
   ngOnInit(): void {
-    this.userInfo$.subscribe({
-      next: userinfo => {
-        this.clientInfo = userinfo;
-        this.clientId = this.clientInfo.client.id;
+    this.client_id$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: client_id => {
+        this.clientId = client_id;
         if (this.clientId) {
           this.getClientAccounts();
         }
       },
     });
+    // this.clientId = Number(this.authService.getLocalClientId())
+    // if(this.clientId){
+    //    this.getClientAccounts();
+    // }
 
     this.mainConfig$.subscribe({
       next: configs => {
@@ -77,16 +80,19 @@ export class AccountsListComponent implements OnInit, OnDestroy {
 
   getClientAccounts() {
     this.isLoading = true;
-    this.clientService.getClientAccounts(this.clientId).subscribe({
-      next: response => {
-        this.accountsListData = response.objects;
-        this.isLoading = false;
-      },
-      error: err => {
-        console.error('Erreur :', err);
-        this.isLoading = false;
-      },
-    });
+    this.clientService
+      .getClientAccounts(this.clientId)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          this.accountsListData = response.objects;
+          this.isLoading = false;
+        },
+        error: err => {
+          console.error('Erreur :', err);
+          this.isLoading = false;
+        },
+      });
   }
 
   clearSelectedAccount() {
