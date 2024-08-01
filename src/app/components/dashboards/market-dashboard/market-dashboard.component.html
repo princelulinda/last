@@ -152,7 +152,7 @@
         </div> -->
       </div>
       <div class="row">
-        @for (item of first2; track item.id) {
+        @for (item of shoeCardInfo; track item.id) {
           <div class="col-6">
             <div class="bg-primary sm-radius">
               <div class="col-11 mx-auto">
@@ -161,21 +161,21 @@
                     <div class="row">
                       <h4
                         class="fw-bold text-all-white mt-4 mt-md-5 mt-lg-4 mt-xl-5">
-                        {{ item.product.price }}
+                        {{ item.offerPourcent }}
                       </h4>
                     </div>
                     <div class="row mb-md-3 mb-lg-1 mb-xl-3">
                       <p class="fs-small text-all-white">
-                        {{ item.product.name }} <br />
-                        {{ item.product.merchant.merchant_title }}
+                        {{ item.offerInfo }} <br />
+                        <!-- {{ item.product.merchant.merchant_title }} -->
                       </p>
                     </div>
                   </div>
                   <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
-                    <!-- <img
+                    <img
                       src="{{ item.image }}"
                       class="d-flex align-self-center object-fit-cover w-100"
-                      alt="shoe" /> -->
+                      alt="shoe" />
                   </div>
                 </div>
               </div>

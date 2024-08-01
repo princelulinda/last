@@ -13,7 +13,6 @@ import {
   productCategoryModel,
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-market-dashboard',
@@ -331,18 +330,22 @@ export class MarketDashboardComponent implements OnInit {
       .subscribe({
         next: response => {
           const data = response as BestOfferObjectModel;
-          this.offerData = data.Object;
+          this.offerData = data.Object.objects.Object;
           console.log(
             '==================================================> best offer data:',
             this.offerData
           );
           this.first2 = this.offerData.slice(0, 2);
+          console.log(
+            '=======================================================> first2:',
+            this.first2
+          );
         },
-        error: (err: HttpErrorResponse) => {
-          if (this.offerData.length === 0) {
-            console.log('erreur sur best offer', err);
-          }
-        },
+        // error: (err: HttpErrorResponse) => {
+        //   if (this.offerData.length === 0) {
+        //     console.log('erreur sur best offer', err);
+        //   }
+        // },
       });
   }
 
