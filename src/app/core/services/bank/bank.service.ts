@@ -37,14 +37,6 @@ export class BankService {
     this._isBankingAndServicesSelected.next(arg);
   }
 
-  // private getUserBank(refreshBanks: false): Observable<bankModel[]> {
-  //   if (refreshBanks) {
-  //     return this.getBanksList();
-  //   } else {
-  //     return this.configService.getUserBanks();
-  //   }
-  // }
-
   getBanksList(): Observable<bankModel[]> {
     const url = '/banks/clientlist/?';
     return this.apiService
@@ -99,13 +91,4 @@ export class BankService {
     const url = '/banks/list/?externel_request=true&bank_type=MFI';
     return this.apiService.get<{ objects: bankListResponse[] }>(url);
   }
-  // getBankStatusPing(body: any) {
-  //     const url = `${environment.websocketUrl}ws/dbsapp/partners-ping/`;
-
-  //     return this.httpClient.post(url, body).pipe(
-  //         map((data) => {
-  //             return data;
-  //         })
-  //     );
-  // }
 }

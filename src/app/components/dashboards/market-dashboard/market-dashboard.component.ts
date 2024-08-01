@@ -17,6 +17,7 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
 @Component({
   selector: 'app-market-dashboard',
   standalone: true,
+
   imports: [
     CommonModule,
     SkeletonComponent,
