@@ -53,7 +53,7 @@ export class WorkstationComponent implements OnInit {
         console.log('CHECK :: WORKSTATION LOCAL STORAGE CLIENT ID ');
         if (operator.organization) {
           this.dbService.setLocalStorageClientId(
-            operator.organization.id.toString()
+            operator.organization.institution_client.id.toString()
           );
         }
       },
