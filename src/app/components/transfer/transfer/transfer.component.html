@@ -5,7 +5,13 @@
       class="ms-auto fw-bold me-4 btn border-0"
       role="button "
       tabindex="0"
-      routerLink="/b/banking">
+      [routerLink]="
+        activePlatform === 'workstation'
+          ? '/w/workstation/banking/'
+          : activePlatform === 'onlineBanking'
+            ? '/b/banking/'
+            : ''
+      ">
       <span><i class="fa-solid fa-arrow-left"></i></span>
       <span class="ms-1">Back</span>
     </div>

@@ -22,6 +22,7 @@ import {
   ThemeModel,
 } from './main-config.models';
 import { Organizations } from '../../db/models/organisations/organizations';
+import { MenuGroupModel } from '../../db/models/menu/menu.models';
 
 @Injectable({
   providedIn: 'root',
@@ -43,7 +44,6 @@ export class ConfigService {
   private isTreasurerOperator = new Subject<boolean>();
 
   private allOrganizations$: unknown | Observable<OrganizationModel[]>;
-  // private organizations_without_Selected$ = new Subject<OrganizationModel[]>();
 
   constructor(
     private dbService: DbService,
@@ -88,8 +88,6 @@ export class ConfigService {
     };
 
     this.dbService.dbIsReady.subscribe(() => {
-      // value: boolean
-      // console.log(`INITIALIZING ALL CONFIG FOR DB READY ${value}`);
       initFn();
     });
   }
@@ -167,6 +165,9 @@ export class ConfigService {
       if (redirectToBaseHref) {
         this.router.navigate([baseHref]);
       }
+      if (plateform === 'workstation') {
+        this.resetSelectedBank();
+      }
     }
   }
   async switchMode() {
@@ -192,7 +193,6 @@ export class ConfigService {
   }
 
   async clearDB() {
-    // DELETE DATABASE
     this.dbService.db.close();
     await this.dbService.db.delete();
     this.apiService.clearLocalData();
@@ -211,6 +211,7 @@ export class ConfigService {
   }
   resetSelectedBank(): void {
     this.dbService.clearTable(SelectedBank.tableName);
+    this.apiService.resetLocalBankId();
   }
   getUserBanks(): Observable<bankModel[]> {
     return this.userBanks$ as Observable<bankModel[]>;
@@ -286,6 +287,15 @@ export class ConfigService {
   getOperatorOrganizations(): Observable<OrganizationModel[]> {
     return this.allOrganizations$ as Observable<OrganizationModel[]>;
   }
+
+  // NOTE :: MENUS METHODS
+  async getMenusConfig(): Promise<{ type: object; groups: MenuGroupModel }> {
+    return await this.dbService.getOnce('menus');
+  }
+
+  // setOperatorMenuGroup(payload: MenuGroupModel) {
+  //   let menu = await this.getMenusConfig()
+  // }
 
   // NOTE :: PRIVATE CONFIG METHODS
 

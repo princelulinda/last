@@ -490,7 +490,7 @@ export class MerchantConfigComponent implements OnInit {
 
   goBack() {
     if (!this.selected) {
-      // this.router.navigateByUrl('/m/market/mymarket');
+      this.router.navigateByUrl('/m/mymarket');
     } else if (this.selected === 'detail') {
       this.selected = '';
     }

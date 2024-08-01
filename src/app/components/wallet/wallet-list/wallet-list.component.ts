@@ -37,6 +37,7 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
   isLoading = false;
   walletsListData: WalletList[] | [] | null = null;
 
+  activePlatform: string | null = null;
   selectedLoneWallet: WalletList | null = null;
   selectedWallet!: WalletList[];
   isLoneWalletSelected = false;
@@ -71,6 +72,12 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
     this.theme$ = this.configService.getMode();
   }
   ngOnInit(): void {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.activePlatform = configs.activePlateform;
+      },
+    });
+
     this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: theme => {
         this.theme = theme;

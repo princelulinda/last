@@ -1,18 +1,20 @@
 <div>
   <form
     id="searchForm"
-    class="mt-4 shadow position-relative bg-white"
-    [ngClass]="{ 'active ': isSearchInputNotEmpty() }">
+    class="mt-4 shadow position-relative bg-white overflow-hidden"
+    [ngClass]="{ 'active ': isSearchInputNotEmpty() || isInputFocused }">
     <input
-      class="ps-4 search-input position-absolute"
+      class="ps-4 search-input form-control h-100 position-absolute text-all-dark"
       [ngClass]="{
         'bg-in-light': theme === 'light',
-        'd-block ': isSearchInputNotEmpty(),
+        'd-block': isInputFocused,
       }"
       type="text"
       placeholder="Search merchant"
       [formControl]="searchInput"
-      (input)="searchFor()" />
+      (input)="searchFor()"
+      (focus)="isInputFocused = true"
+      (blur)="isInputFocused = false" />
     <span
       role="button"
       (click)="searchFor()"
@@ -186,15 +188,19 @@
           <b class="empty-state-icon fs-2 text-center" i18n>
             Activate your location to see the merchants around you
           </b>
-          <button class="btn bg-primary" style="color: white">
+          <button
+            class="btn bg-primary"
+            style="color: white"
+            (click)="getLocation()">
             <b i18n *ngIf="!getting">Activate</b>
             <span *ngIf="getting">
               <i class="fa-solid fa-spin fa-circle-notch fs-4"></i>
             </span>
           </button>
         </div>
-        <!-- *ngIf="!merchants && location" -->
-        <div class="row mt-2 d-flex justify-content-between">
+        <div
+          class="row mt-2 d-flex justify-content-between"
+          *ngIf="!merchants && location">
           <div
             class="col-6"
             *ngFor="let item of countProductLoader; let i = index"
@@ -211,74 +217,63 @@
             </div>
           </div>
         </div>
-        <!-- <div class="row mt-2" *ngIf="location">
-                    <div
-                        class="col-6 mb-3 position-relative"
-                        *ngFor="let merchant of merchants; let i = index"
-                        [hidden]="i >= 4"
-                    >
-                        <div
-                            class="col-5 w-100"
-                            (click)="getMerchant(merchant, $event)"
-                        >
-                            <span
-                                type="button"
-                                (click)="
-                                    makeFavoriteMerchants(merchant, $event)
-                                "
-                                *ngIf="
-                                    merchant.is_favorite_merchant &&
-                                    (favorite_merchant_making === null ||
-                                        favorite_merchant_making.id !==
-                                            merchant.id)
-                                "
-                                title="Revoke Favorite"
-                                class="position-absolute favorite_fav level-3 text-primary p-2"
-                                style="right: 18%"
-                            >
-                                <span class="favorite_icon"
-                                    ><i class="fa-solid fa-star"></i
-                                ></span>
-                            </span>
-                            <span
-                                type="button"
-                                (click)="
-                                    makeFavoriteMerchants(merchant, $event)
-                                "
-                                title="Make Favorite"
-                                *ngIf="
-                                    !merchant.is_favorite_merchant &&
-                                    (favorite_merchant_making === null ||
-                                        favorite_merchant_making.id !==
-                                            merchant.id)
-                                "
-                                class="position-absolute favorite_fav level-3 text-primary p-2"
-                                style="right: 18%"
-                            >
-                                <span class="favorite_icon"
-                                    ><i class="fa-regular fa-star"></i
-                                ></span>
-                            </span>
-                            <span
-                                *ngIf="
-                                    favorite_merchant_making !== null &&
-                                    favorite_merchant_making.id === merchant.id
-                                "
-                                class="position-absolute favorite_fav level-3 text-primary p-2"
-                                style="right: 18%"
-                            >
-                                <span class="favorite_icon"
-                                    ><i class="fas fa-spinner fa-pulse"></i
-                                ></span>
-                            </span>
-                            <app-merchant-card
-                                [merchant]="merchant"
-                                [get_merchant]="true"
-                            >
-                            </app-merchant-card>
-                        </div>
-                    </div>
-                </div> -->
+        <div class="row mt-2" *ngIf="location">
+          <div
+            class="col-6 mb-3 position-relative"
+            *ngFor="let merchant of merchants; let i = index"
+            [hidden]="i >= 4">
+            <div
+              class="col-5 w-100"
+              (click)="getMerchant(merchant, $event)"
+              tabindex="0">
+              <span
+                type="button"
+                tabindex="0"
+                (click)="makeFavoriteMerchants(merchant, $event)"
+                *ngIf="
+                  merchant.is_favorite_merchant &&
+                  (favorite_merchant_making === null ||
+                    favorite_merchant_making.id !== merchant.id)
+                "
+                title="Revoke Favorite"
+                class="position-absolute favorite_fav level-3 text-primary p-2"
+                style="right: 18%">
+                <span class="favorite_icon"
+                  ><i class="fa-solid fa-star"></i
+                ></span>
+              </span>
+              <span
+                type="button"
+                (click)="makeFavoriteMerchants(merchant, $event)"
+                title="Make Favorite"
+                tabindex="0"
+                *ngIf="
+                  !merchant.is_favorite_merchant &&
+                  (favorite_merchant_making === null ||
+                    favorite_merchant_making.id !== merchant.id)
+                "
+                class="position-absolute favorite_fav level-3 text-primary p-2"
+                style="right: 18%">
+                <span class="favorite_icon"
+                  ><i class="fa-regular fa-star"></i
+                ></span>
+              </span>
+              <span
+                *ngIf="
+                  favorite_merchant_making !== null &&
+                  favorite_merchant_making.id === merchant.id
+                "
+                class="position-absolute favorite_fav level-3 text-primary p-2"
+                style="right: 18%">
+                <span class="favorite_icon"
+                  ><i class="fas fa-spinner fa-pulse"></i
+                ></span>
+              </span>
+              <app-merchant-card [merchant]="merchant" [get_merchant]="true">
+              </app-merchant-card>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-lg-7 col p-0 m-0">
         <!-- Merchant Location -->
@@ -289,7 +284,7 @@
         </div>
 
         <div class="map d-flex align-items-center position-relative">
-          <!-- <app-global-map></app-global-map> -->
+          <app-global-map></app-global-map>
         </div>
       </div>
     </div>

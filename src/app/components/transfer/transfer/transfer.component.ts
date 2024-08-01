@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { BeneficiariesComponent } from '../beneficiaries/beneficiaries/beneficiaries.component';
 
@@ -9,6 +9,9 @@ import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { RouterLink } from '@angular/router';
 import { accountsList } from '../../account/models';
 import { DebitOptions } from '../transfer.model';
+import { Observable, Subject } from 'rxjs';
+import { ConfigService } from '../../../core/services';
+import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
 // import { InstitutionInfoModel } from '../transfer.model';
 
 @Component({
@@ -20,14 +23,12 @@ import { DebitOptions } from '../transfer.model';
   imports: [
     BeneficiariesComponent,
     DebitAccountComponent,
-    CreditAccountComponent,
     CommonModule,
     RouterLink,
+    CreditAccountComponent,
   ],
 })
-export class TransferComponent {
-  isNewTransfer = false;
-
+export class TransferComponent implements OnInit, OnDestroy {
   // eslint-disable-next-line
   selectedInstitution: any;
 
@@ -47,7 +48,20 @@ export class TransferComponent {
   walletBankId: string | number = '';
 
   isTransferDone = false;
+  activePlatform: string | null = null;
+  mainConfig$!: Observable<activeMainConfigModel>;
+  constructor(private configService: ConfigService) {
+    this.mainConfig$ = this.configService.getMainConfig();
+  }
 
+  private onDestroy$: Subject<void> = new Subject<void>();
+  ngOnInit(): void {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.activePlatform = configs.activePlateform;
+      },
+    });
+  }
   // eslint-disable-next-line
   setSelectedInstitution(institution: any) {
     this.selectedInstitution = institution;
@@ -107,5 +121,9 @@ export class TransferComponent {
     if (this.isTransferDone) {
       this.accountSelected = null;
     }
+  }
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

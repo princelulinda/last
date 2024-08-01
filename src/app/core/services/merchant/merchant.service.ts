@@ -1,10 +1,10 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 // import { ApiService } from '..';
 // import { GeneralSe } from '..';
 // import { map, retry } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
-import { map, Observable, retry } from 'rxjs';
+import { BehaviorSubject, map, Observable, retry } from 'rxjs';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
 import { Favorite, Pagination } from './model';
 import {
@@ -20,12 +20,33 @@ import {
   updateMerchantDetailsModel,
 } from '../../../components/merchant/merchant.models';
 import { TransferResponseModel } from '../../../components/transfer/transfer.model';
+import { Coords2Model } from '../../../components/dev/global-map/map.model';
 // import { Pagination } from './model';
 @Injectable({
   providedIn: 'root',
 })
 export class MerchantService {
-  constructor(@Inject(ApiService) private apiService: ApiService) {}
+  constructor(private apiService: ApiService) {}
+
+  private _coords: BehaviorSubject<Coords2Model> =
+    new BehaviorSubject<Coords2Model>({
+      accuracy: 0,
+      altitude: null,
+      altitudeAccuracy: null,
+      heading: null,
+      latitude: 0,
+      longitude: 0,
+      speed: null,
+    });
+
+  get coords$(): Observable<Coords2Model> {
+    return this._coords.asObservable();
+  }
+
+  getUserCoords(coords: Coords2Model) {
+    this._coords.next(coords);
+  }
+
   getMerchantList() {
     return this.apiService.get('/dbs/merchant/list/?').pipe(
       map(data => {
@@ -465,5 +486,10 @@ export class MerchantService {
         return data;
       })
     );
+  }
+
+  getBestOffer() {
+    const url = '/dbs/price-mutations/';
+    return this.apiService.get(url).pipe(map(data => data));
   }
 }

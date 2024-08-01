@@ -26,7 +26,7 @@
       style="min-width: 220px"
       [ngStyle]="{ height: Type !== 'transfer' ? '80vh' : '' }">
       @if (Type === 'list') {
-        <hr class="my-1" />
+        <hr class="my-2" />
       }
       <!--*Accounts loop for large screens-->
       @if (Type === 'list' || (Type === 'transfer' && !selectedLoneAccount)) {
@@ -67,7 +67,7 @@
                   "></app-amount-visibility>
               </b>
             </div>
-            <hr class="my-1" />
+            <hr class="my-2" />
           }
         </div>
       }

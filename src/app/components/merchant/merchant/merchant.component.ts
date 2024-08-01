@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillersModel } from '../../dashboards/dashboard.model';
 import { MerchantResFav } from './merchant.models';
+import { GlobalMapComponent } from '../../dev/global-map/global-map.component';
 
 @Component({
   selector: 'app-merchant',
@@ -24,6 +25,7 @@ import { MerchantResFav } from './merchant.models';
     FormsModule,
     ReactiveFormsModule,
     SkeletonComponent,
+    GlobalMapComponent,
   ],
   templateUrl: './merchant.component.html',
   styleUrl: './merchant.component.scss',
@@ -44,13 +46,14 @@ export class MerchantComponent implements OnInit, OnDestroy {
   // merchantDetails: any;
   countProductLoader = [1, 2, 3, 4, 5, 6, 7, 8];
   favoriteDisplay = false;
-  // location: any;
+  location!: boolean;
   getting = false;
   searchInput = new FormControl('');
   isLoading = false;
   isSearchExpanded = false;
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
+  isInputFocused = false;
 
   favoriteMerchantLoading = false;
   constructor(
@@ -239,49 +242,49 @@ export class MerchantComponent implements OnInit, OnDestroy {
     }
   }
 
-  // getLocation() {
-  //   // Check if geolocation is available in the browser
-  //   if ('geolocation' in navigator) {
-  //     // Get the user's current location
-  //     this.getting = true;
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position: GeolocationPosition) => {
-  //         this.location = true;
-  //         this.getting = false;
-  //         // The user's latitude and longitude are in position.coords.latitude and position.coords.longitude
-  //         const latitude: number = position.coords.latitude;
-  //         const longitude: number = position.coords.longitude;
-  //         console.log(
-  //           `Latitude: ${latitude}, Longitude: ${longitude}`,
-  //           position
-  //         );
+  getLocation() {
+    // Check if geolocation is available in the browser
+    if ('geolocation' in navigator) {
+      // Get the user's current location
+      this.getting = true;
+      navigator.geolocation.getCurrentPosition(
+        (position: GeolocationPosition) => {
+          this.location = true;
+          this.getting = false;
+          // The user's latitude and longitude are in position.coords.latitude and position.coords.longitude
+          const latitude: number = position.coords.latitude;
+          const longitude: number = position.coords.longitude;
+          console.log(
+            `Latitude: ${latitude}, Longitude: ${longitude}`,
+            position
+          );
 
-  //         this.merchantService.getUserCoords(position.coords);
-  //       },
-  //       (error: GeolocationPositionError) => {
-  //         // Handle errors, if any
-  //         this.location = false;
-  //         this.getting = false;
-  //         switch (error.code) {
-  //           case error.PERMISSION_DENIED:
-  //             console.error('User denied the request for geolocation.');
-  //             break;
-  //           case error.POSITION_UNAVAILABLE:
-  //             console.error('Location information is unavailable.');
-  //             break;
-  //           case error.TIMEOUT:
-  //             console.error('The request to get user location timed out.');
-  //             break;
-  //           // case error.UNKNOWN_ERROR:
-  //           //     console.error("An unknown error occurred.");
-  //           //     break;
-  //         }
-  //       }
-  //     );
-  //   } else {
-  //     console.error('Geolocation is not available in this browser.');
-  //   }
-  // }
+          this.merchantService.getUserCoords(position.coords);
+        },
+        (error: GeolocationPositionError) => {
+          // Handle errors, if any
+          this.location = false;
+          this.getting = false;
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              console.error('User denied the request for geolocation.');
+              break;
+            case error.POSITION_UNAVAILABLE:
+              console.error('Location information is unavailable.');
+              break;
+            case error.TIMEOUT:
+              console.error('The request to get user location timed out.');
+              break;
+            // case error.UNKNOWN_ERROR:
+            //     console.error("An unknown error occurred.");
+            //     break;
+          }
+        }
+      );
+    } else {
+      console.error('Geolocation is not available in this browser.');
+    }
+  }
 
   ngOnDestroy(): void {
     this.onDestroy$.next();

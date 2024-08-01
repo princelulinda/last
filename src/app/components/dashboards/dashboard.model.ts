@@ -160,3 +160,24 @@ export interface SessionToShow {
   ip_address: SessionIP;
   user: SessionName;
 }
+export interface BestOfferObjectModel {
+  Object: BestOfferobjectsModel;
+}
+export interface BestOfferobjectsModel {
+  objects: BestOfferobjectModel;
+}
+export interface BestOfferobjectModel {
+  Object: BestOfferModel[];
+}
+
+export interface BestOfferModel {
+  id: number;
+  product: productOfferModel;
+}
+
+export interface productOfferModel {
+  id: number;
+  name: string;
+  price: string;
+  merchant: MerchantModel;
+}

@@ -8,7 +8,10 @@ import { SwitchBankComponent } from '../../global/components/popups/switch-bank/
 import { SkeletonComponent } from '../../global/components/loaders/skeleton/skeleton.component';
 import { bankModel } from '../../core/db/models/bank/bank.model';
 import { ConfigService } from '../../core/services';
-import { ModeModel } from '../../core/services/config/main-config.models';
+import {
+  activeMainConfigModel,
+  ModeModel,
+} from '../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-bank-home',
@@ -23,42 +26,50 @@ export class BankHomeComponent implements OnInit, OnDestroy {
       name: 'Accounts',
       icon: 'user-circle',
       image: '',
-      link: '/b/banking/accounts',
+      link: ['/b/banking/accounts', '/w/workstation/banking/accounts'],
     },
     {
       name: 'Savings',
       icon: 'piggy-bank',
       image: '',
-      link: '/b/banking/saving',
+      link: ['/b/banking/saving', '/w/workstation/banking/saving'],
     },
     {
       name: 'Loans',
       icon: '',
       image: ['loan-black.svg', 'loan-white.svg'],
-      link: '/b/banking/loan',
+      link: ['/b/banking/loan', '/w/workstation/banking/loan'],
     },
     {
       name: 'Withdrawals',
       icon: '',
       image: ['withdrawal-black.svg', 'withdrawal-white.svg'],
-      link: '/b/banking/withdrawal',
+      link: ['/b/banking/withdrawal', '/w/workstation/banking/withdrawal'],
     },
     {
       name: 'Transfer',
       icon: 'paper-plane',
       image: '',
-      link: '/b/banking/transfer',
+      link: ['/b/banking/transfer', '/w/workstation/banking/transfer'],
     },
   ];
   private onDestroy$: Subject<void> = new Subject<void>();
   selectedBank!: bankModel;
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
+  activePlatform: string | null = null;
+  mainConfig$!: Observable<activeMainConfigModel>;
 
   constructor(private configService: ConfigService) {
     this.theme$ = this.configService.getMode();
+    this.mainConfig$ = this.configService.getMainConfig();
   }
   ngOnInit(): void {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.activePlatform = configs.activePlateform;
+      },
+    });
     this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: theme => {
         this.theme = theme;

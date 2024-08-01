@@ -1,0 +1,13 @@
+.map {
+  height: 400px; /* Default height */
+  width: 600px; /* Default width */
+  z-index: 5;
+  border-radius: 5px;
+}
+
+/* Media query for 110% zoom */
+@media (min-width: 1538px) and (max-width: 1800px) {
+  .map {
+    width: 570px;
+  }
+}
