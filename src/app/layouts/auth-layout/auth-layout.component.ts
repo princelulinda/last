@@ -38,9 +38,11 @@ export class AuthLayoutComponent implements OnInit {
   ngOnInit() {
     this.userInfo$.subscribe({
       next: userInfo => {
-        this.dbService.setLocalStorageClientId(
-          userInfo.client.client_id.toString()
-        );
+        if (userInfo) {
+          this.dbService.setLocalStorageClientId(
+            userInfo.client.client_id.toString()
+          );
+        }
       },
     });
   }
