@@ -50,7 +50,7 @@ export class BankHomeComponent implements OnInit, OnDestroy {
       name: 'Transfer',
       icon: 'paper-plane',
       image: '',
-      link: '',
+      link: ['/b/banking/transfer', '/w/workstation/banking/transfer'],
     },
   ];
   private onDestroy$: Subject<void> = new Subject<void>();

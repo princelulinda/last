@@ -5,6 +5,8 @@ import {
   OnInit,
   Output,
   OnDestroy,
+  SimpleChanges,
+  OnChanges,
 } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { AuthService, ConfigService } from '../../../core/services';
@@ -26,7 +28,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './wallet-list.component.html',
   styleUrl: './wallet-list.component.scss',
 })
-export class WalletListComponent implements OnInit, OnDestroy {
+export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
   private userInfo$: Observable<UserInfoModel>;
@@ -50,6 +52,15 @@ export class WalletListComponent implements OnInit, OnDestroy {
 
   private onDestroy$ = new Subject<void>();
   isWalletDetailsShown = false;
+  @Input() isTransferDone = false;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['isTransferDone']) {
+      if (this.isTransferDone) {
+        this.clearSelectedWallet();
+      }
+    }
+  }
 
   constructor(
     private configService: ConfigService,

@@ -232,7 +232,12 @@
                           }
                         </div>
                       }
-                      @if (i !== 0 && i !== 2 && !menuGroup.menus) {
+                      @if (
+                        i !== 0 &&
+                        i !== 2 &&
+                        !menuGroup.menus &&
+                        menuGroup.is_active
+                      ) {
                         <div class="d-grid align-items-center opacity-50">
                           <span class="text-center mb-3">
                             <i class="fa fa-face-meh empty-icon"></i>
