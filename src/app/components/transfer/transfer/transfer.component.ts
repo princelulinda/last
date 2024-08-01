@@ -20,17 +20,16 @@ import { activeMainConfigModel } from '../../../core/services/config/main-config
   templateUrl: './transfer.component.html',
   styleUrl: './transfer.component.scss',
 
-
   imports: [
     BeneficiariesComponent,
     DebitAccountComponent,
     CommonModule,
     RouterLink,
-    CreditAccountComponent
-],
-
+    CreditAccountComponent,
+  ],
 })
 export class TransferComponent implements OnInit, OnDestroy {
+  // eslint-disable-next-line
   selectedInstitution: any;
 
   debitNumber = '';
@@ -123,7 +122,7 @@ export class TransferComponent implements OnInit, OnDestroy {
       this.accountSelected = null;
     }
   }
-    ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
