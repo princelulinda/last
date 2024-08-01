@@ -81,7 +81,10 @@
               <!-- Price -->
               @if (product.price) {
                 <span
-                  class="position-absolute fs-small px-1 text-primary bottom-0 priceBG start-1">
+                  class="position-absolute fs-small px-1 text-primary bottom-0 start-1"
+                  [ngClass]="
+                    currentMode === 'light' ? 'priceBGLight' : 'priceBGDark'
+                  ">
                   {{ product.price }} BIF
                 </span>
               }
