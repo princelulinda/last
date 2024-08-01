@@ -24,12 +24,19 @@ import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { SwitchBankComponent } from '../../../global/components/popups/switch-bank/switch-bank.component';
 import { AccountsListComponent } from '../../account/accounts-list/accounts-list.component';
-import { DebitEvent, DebitOptions, SwitchBankEvent } from '../transfer.model';
+import {
+  DebitEvent,
+  DebitOptions,
+  InstitutionInfoModel,
+} from '../transfer.model';
 import { WalletListComponent } from '../../wallet/wallet-list/wallet-list.component';
 import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
+import { accountsList } from '../../account/models';
+import { WalletList } from '../../wallet/wallet.models';
+import { BankOptions } from '../../dashboards/dashboard.model';
 
 @Component({
   selector: 'app-debit-account',
@@ -61,7 +68,6 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
   lookupDebitAccountUrl = '/clients/list/all/object_lookup?lookup_data=';
   clientId: number | null = null;
 
-  debitAccounts: DebitOptions[] = [];
   debitWallet: DebitOptions | null = null;
   defaultBank: string | undefined;
   @Input() selectedBank!: bankModel;
@@ -76,23 +82,22 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
 
   lookupType = '';
   @Output() debitOptions = new EventEmitter<{
-    // eslint-disable-next-line
-    account: any;
-    // eslint-disable-next-line
-    wallet: any;
-    // eslint-disable-next-line
-    selectedDebitOption: any;
-    // eslint-disable-next-line
-    creditAccountType: any;
+    account: string;
+
+    wallet: string;
+
+    selectedDebitOption: string;
+
+    creditAccountType: string;
     isTransferDone: boolean;
     isAmountChanging: boolean;
     selectedInstitutionType: string;
-    selectedInstitution: string;
+    selectedInstitution: InstitutionInfoModel | string;
   }>();
-  // eslint-disable-next-line
-  @Output() selectedAccount = new EventEmitter<any>();
-  // eslint-disable-next-line
-  @Output() selectedWallet = new EventEmitter<any>();
+
+  @Output() selectedAccount = new EventEmitter<accountsList>();
+
+  @Output() selectedWallet = new EventEmitter<WalletList>();
 
   @Output() lookupOptions = new EventEmitter<{
     id?: string;
@@ -103,7 +108,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
   @Input() title = 'Debit Account';
   @Input() creditAccountType = '';
   @Input() selectedInstitutionType = '';
-  @Input() selectedInstitution = '';
+  @Input() selectedInstitution: InstitutionInfoModel | string = '';
   @Input() closedModal = false;
   @Input() isModalClosed = false;
   @Input() isWalletShown = true;
@@ -111,8 +116,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
   @Input() isTermDeposit = false;
   @Input() isOperation = false;
   lookup = new FormControl('');
-  //eslint-disable-next-line
-  wallets: any;
+
   constructor(
     private bankService: BankService,
     private configService: ConfigService,
@@ -161,10 +165,10 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
 
     if (changes['isModalClosed'] && this.isModalClosed) {
       const options = {
-        account: null,
-        wallet: null,
+        account: '',
+        wallet: '',
         selectedDebitOption: '',
-        creditAccountType: null,
+        creditAccountType: '',
         isTransferDone: this.isTransactionDone,
         isAmountChanging: false,
         selectedInstitutionType: '',
@@ -202,10 +206,10 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
   selectDebitAccountType(accountType: string) {
     this.selectedDebitAccountType = accountType;
     const options = {
-      account: null,
-      wallet: null,
+      account: '',
+      wallet: '',
       selectedDebitOption: this.selectedDebitAccountType,
-      creditAccountType: null,
+      creditAccountType: '',
       isTransferDone: this.isTransactionDone,
       isAmountChanging: false,
       selectedInstitutionType: this.selectedInstitutionType,
@@ -231,9 +235,9 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   updateAccount() {
-    const options: DebitOptions = {
-      account: this.debitAccount ? this.debitAccount.account : null,
-      wallet: this.debitWallet ? this.debitWallet.wallet : null,
+    const options = {
+      account: this.debitAccount ? this.debitAccount.account : '',
+      wallet: this.debitWallet ? this.debitWallet.wallet : '',
       selectedDebitOption: this.selectedDebitAccountType,
       creditAccountType: this.creditAccountType,
       isTransferDone: this.isTransactionDone,
@@ -244,10 +248,10 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     this.debitOptions.emit(options);
   }
 
-  getSwitchBankOptions(event: SwitchBankEvent) {
+  getSwitchBankOptions(event: BankOptions) {
     const options = {
-      account: null,
-      wallet: null,
+      account: '',
+      wallet: '',
       selectedDebitOption: '',
       creditAccountType: event.creditAccountType || '',
       isTransferDone: this.isTransactionDone,
@@ -257,8 +261,8 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     };
     this.debitOptions.emit(options);
     this.selectedDebitAccountType = event.selectedDebitAccountType ?? '';
-    this.debitAccount = event.debitAccount as DebitOptions;
-    this.debitWallet = event.debitWallet as DebitOptions;
+    this.debitAccount = event.debitAccount as unknown as DebitOptions;
+    this.debitWallet = event.debitWallet as unknown as DebitOptions;
     this.banks = event.banks;
   }
 
@@ -266,11 +270,11 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     this.dialogService.displayAmount();
   }
   getIndividualClient(event: DebitEvent) {
-    const options: DebitOptions = {
+    const options = {
       account: event.account,
-      wallet: null,
+      wallet: '',
       selectedDebitOption: this.selectedDebitAccountType,
-      creditAccountType: event.creditAccountType,
+      creditAccountType: event.creditAccountType ?? '',
       isTransferDone: this.isTransactionDone,
       isAmountChanging: false,
       selectedInstitutionType: this.selectedInstitutionType,
@@ -279,22 +283,21 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     this.debitOptions.emit(options);
   }
 
-  // eslint-disable-next-line
-  getAccountSelected(event: any) {
+  getAccountSelected(event: accountsList | WalletList) {
     if (this.selectedDebitAccountType === 'account') {
-      this.selectedAccount.emit(event);
+      this.selectedAccount.emit(event as accountsList);
     } else {
-      this.selectedWallet.emit(event);
+      this.selectedWallet.emit(event as WalletList);
     }
   }
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
     const options = {
-      account: null,
-      wallet: null,
+      account: '',
+      wallet: '',
       selectedDebitOption: '',
-      creditAccountType: null,
+      creditAccountType: '',
       isTransferDone: this.isTransactionDone,
       isAmountChanging: false,
       selectedInstitutionType: '',

@@ -6,6 +6,9 @@ import { DebitAccountComponent } from '../debit-account/debit-account.component'
 import { CreditAccountComponent } from '../credit-account/credit-account.component';
 import { CommonModule } from '@angular/common';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { RouterLink } from '@angular/router';
+import { accountsList } from '../../account/models';
+import { DebitOptions } from '../transfer.model';
 // import { InstitutionInfoModel } from '../transfer.model';
 
 @Component({
@@ -13,11 +16,13 @@ import { bankModel } from '../../../core/db/models/bank/bank.model';
   standalone: true,
   templateUrl: './transfer.component.html',
   styleUrl: './transfer.component.scss',
+
   imports: [
     BeneficiariesComponent,
     DebitAccountComponent,
     CreditAccountComponent,
     CommonModule,
+    RouterLink,
   ],
 })
 export class TransferComponent {
@@ -37,31 +42,36 @@ export class TransferComponent {
 
   selectedDebitType = '';
 
-  // eslint-disable-next-line
-  accountSelected: any;
+  accountSelected: accountsList | null = null;
 
   walletBankId: string | number = '';
-  // eslint-disable-next-line
-  debitOption: any;
+
   isTransferDone = false;
 
   // eslint-disable-next-line
   setSelectedInstitution(institution: any) {
     this.selectedInstitution = institution;
   }
+  onChange(event: Event, type: 'institution' | 'credit'): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedValue = selectElement.value;
 
-  // eslint-disable-next-line
-  setSelectedInstitutionType(type: any) {
+    if (type === 'institution') {
+      this.setSelectedInstitutionType(selectedValue);
+    } else if (type === 'credit') {
+      this.setSelectedCreditAccountType(selectedValue);
+    }
+  }
+
+  setSelectedInstitutionType(type: string) {
     this.selectedInstitutionType = type;
   }
 
-  // eslint-disable-next-line
-  setSelectedCreditAccountType(type: any) {
+  setSelectedCreditAccountType(type: string) {
     this.selectedCreditAccountType = type;
   }
 
-  // eslint-disable-next-line
-  setSelectedDebitAccountType(type: any) {
+  setSelectedDebitAccountType(type: string) {
     this.selectedDebitType = type;
     this.resetAccountSelection();
   }
@@ -70,10 +80,12 @@ export class TransferComponent {
     this.accountSelected = null;
   }
 
-  // eslint-disable-next-line
-  getDebitOptions(event: any) {
-    this.selectedDebitType = event.selectedDebitOption;
-    this.debitOption = event;
+  getDebitOptions(event: string | DebitOptions) {
+    if (typeof event === 'string') {
+      this.selectedDebitType = event;
+    } else {
+      this.selectedDebitType = event.selectedDebitOption;
+    }
     this.resetAccountSelection();
   }
 
@@ -94,7 +106,6 @@ export class TransferComponent {
     this.isTransferDone = event;
     if (this.isTransferDone) {
       this.accountSelected = null;
-      this.debitOption.isAmountChanging = true;
     }
   }
 }

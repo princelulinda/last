@@ -8,14 +8,14 @@ export interface DebitOptions {
   id?: string;
   lookup_title?: string;
   lookup_sub_title?: string;
-  account: Account | null;
-  wallet: string | null;
+  account: string;
+  wallet: string;
   selectedDebitOption: string;
-  creditAccountType: string | null;
+  creditAccountType: string;
   isTransferDone: boolean;
   isAmountChanging: boolean;
   selectedInstitutionType: string;
-  selectedInstitution: string;
+  selectedInstitution: string | InstitutionInfoModel;
   acc_get_title?: string;
 
   acc_short_number?: string;
@@ -28,17 +28,17 @@ export interface DebitOptions {
   title?: string;
 }
 export interface CreditDetail {
-  account: string | undefined;
-  acc_holder: string | undefined;
+  account: string;
+  acc_holder: string;
   description: string | null | undefined;
-  amount: number | string | undefined;
+  amount: number | string;
 }
 export interface DebitEvent {
-  account: Account | null;
-  creditAccountType: string | null;
+  account: string;
+  creditAccountType?: string;
 }
 export interface SwitchBankEvent {
-  creditAccountType: string | null;
+  creditAccountType?: string;
   selectedDebitAccountType: string | null;
   debitAccount: string | null | DebitOptions;
   debitWallet: string | null | DebitOptions;

@@ -95,7 +95,8 @@
           ) {
             <div class="mb-3" style="height: 50px">
               <app-switch-bank
-                (bankOptions)="getSwitchBankOptions($event)"></app-switch-bank>
+                (bankOptions)="getSwitchBankOptions($event)"
+                [isTransfer]="true"></app-switch-bank>
             </div>
           }
 

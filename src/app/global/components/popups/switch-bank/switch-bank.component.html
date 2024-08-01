@@ -5,6 +5,9 @@
         class="me-2 rounded is-hoverable selected"
         tabindex="0"
         role="button"
+        [ngClass]="{
+          'not-clickable opacity-100': isTransfer,
+        }"
         (click)="showModal()"
         [src]="selectedBank.company.image"
         [alt]="selectedBank.company.fullname"
