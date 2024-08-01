@@ -46,7 +46,7 @@ export class ClientService {
   }
 
   getClientAccounts(clientId: number): Observable<{ objects: accountsList[] }> {
-    const url = '/accounts/' + clientId + '/?limit=5';
+    const url = '/accounts/' + clientId + '/?limit=1';
     return this.apiService.get<{ objects: accountsList[] }>(url);
   }
 }
