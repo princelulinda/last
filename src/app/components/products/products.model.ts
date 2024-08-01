@@ -7,6 +7,8 @@ import { MerchantBillModel } from '../../core/services/dialog/dialogs-models';
 export interface ProductModel {
   id: number;
   name: string;
+  price: number;
+  icon: string;
   lookup_icon: string;
   lookup_image: string;
   lookup_title: string;
