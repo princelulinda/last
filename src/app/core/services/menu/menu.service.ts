@@ -41,13 +41,12 @@ export class MenuService {
 
   getAllMenuGroup(): Observable<{ objects: MenuGroupModel[]; count: number }> {
     return this.apiService
-      .get<{ objects: MenuGroupModel[]; count: number }>('/menugroup/list/')
+      .get<{ objects: MenuGroupModel[]; count: number }>('/menu-group/list')
+
       .pipe(map(data => data));
   }
 
   getTypeMenuGroups() {
-    return this.apiService
-      .get('/type_menu_groups/list ')
-      .pipe(map(data => data));
+    return this.apiService.get('/type_menugroup/list').pipe(map(data => data));
   }
 }
