@@ -38,6 +38,7 @@ export interface ProductModel {
   lookup_title: string;
   lookup_subtitle: string;
   lookup_description: string;
+  gallery_pictures: string[];
 }
 
 export interface MerchantLookup {
@@ -159,15 +160,6 @@ export interface SessionToShow {
   session_duration: string;
   ip_address: SessionIP;
   user: SessionName;
-}
-export interface BestOfferObjectModel {
-  Object: BestOfferobjectsModel;
-}
-export interface BestOfferobjectsModel {
-  objects: BestOfferobjectModel;
-}
-export interface BestOfferobjectModel {
-  Object: BestOfferModel[];
 }
 
 export interface BestOfferModel {

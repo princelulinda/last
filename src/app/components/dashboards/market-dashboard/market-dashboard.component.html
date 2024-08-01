@@ -152,35 +152,138 @@
         </div> -->
       </div>
       <div class="row">
-        @for (item of shoeCardInfo; track item.id) {
+        @if (!offerData || offerData.length === 0) {
+          @for (i of [1, 2]; track i) {
+            <div class="col-6">
+              <div class="bg-primary sm-radius">
+                <div class="col-11 mx-auto">
+                  <div class="row">
+                    <div class="col-8 col-sm-7 col-lg-7 col-xl-7">
+                      <div class="row">
+                        <app-skeleton
+                          height="20px"
+                          width="110px"
+                          classes=" mt-4 mt-md-5 mt-lg-4 mt-xl-5 rounded-4"></app-skeleton>
+                      </div>
+                      <div class="row mb-md-3 mb-lg-1 mb-xl-3">
+                        <app-skeleton
+                          height="10px"
+                          width="90px"
+                          classes="rounded-3"></app-skeleton>
+                        <app-skeleton
+                          height="10px"
+                          width="100px"
+                          classes="rounded-3"></app-skeleton>
+                      </div>
+                    </div>
+                    <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
+                      <!-- <img
+                        src="{{ item.image }}"
+                        class="d-flex align-self-center object-fit-cover w-100"
+                        alt="shoe" /> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        }
+
+        @if (offerData.length === 1) {
+          @for (item of offerData; track item.id) {
+            <div class="col-6">
+              <div class="bg-primary sm-radius">
+                <div class="col-11 mx-auto">
+                  <div class="row">
+                    <div class="col-8 col-sm-7 col-lg-7 col-xl-7">
+                      <div class="row">
+                        <h4
+                          class="fw-bold text-all-white mt-4 mt-md-5 mt-lg-4 mt-xl-5">
+                          {{ item.product.price }}
+                        </h4>
+                      </div>
+                      <div class="row mb-md-3 mb-lg-1 mb-xl-3">
+                        <p class="fs-small text-all-white">
+                          {{ item.product.name }} <br />
+                          {{ item.product.merchant.merchant_title }}
+                          <!-- {{ item.product.merchant.merchant_title }} -->
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
+                      <!-- <img
+                        src="{{ item.image }}"
+                        class="d-flex align-self-center object-fit-cover w-100"
+                        alt="shoe" /> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+
           <div class="col-6">
             <div class="bg-primary sm-radius">
               <div class="col-11 mx-auto">
                 <div class="row">
                   <div class="col-8 col-sm-7 col-lg-7 col-xl-7">
                     <div class="row">
-                      <h4
-                        class="fw-bold text-all-white mt-4 mt-md-5 mt-lg-4 mt-xl-5">
-                        {{ item.offerPourcent }}
-                      </h4>
+                      <app-skeleton
+                        height="10px"
+                        width="100px"
+                        classes=" mt-4 mt-md-5 mt-lg-4 mt-xl-5"></app-skeleton>
                     </div>
                     <div class="row mb-md-3 mb-lg-1 mb-xl-3">
                       <p class="fs-small text-all-white">
-                        {{ item.offerInfo }} <br />
-                        <!-- {{ item.product.merchant.merchant_title }} -->
+                        ------- <br />
+                        -----------
                       </p>
                     </div>
                   </div>
                   <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
-                    <img
-                      src="{{ item.image }}"
-                      class="d-flex align-self-center object-fit-cover w-100"
-                      alt="shoe" />
+                    <!-- <img
+                        src="{{ item.image }}"
+                        class="d-flex align-self-center object-fit-cover w-100"
+                        alt="shoe" /> -->
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        }
+
+        @if (offerData.length > 0 || offerData.length === 2) {
+          @for (item of offerData; track item.id) {
+            <div class="col-6">
+              <div class="bg-primary sm-radius">
+                <div class="col-11 mx-auto">
+                  <div class="row">
+                    <div class="col-8 col-sm-7 col-lg-7 col-xl-7">
+                      <div class="row">
+                        <h4
+                          class="fw-bold text-all-white mt-4 mt-md-5 mt-lg-4 mt-xl-5">
+                          {{ item.product.price }}
+                        </h4>
+                      </div>
+                      <div class="row mb-md-3 mb-lg-1 mb-xl-3">
+                        <p class="fs-small text-all-white">
+                          {{ item.product.name }} <br />
+                          {{ item.product.merchant.merchant_title }}
+                          <!-- {{ item.product.merchant.merchant_title }} -->
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
+                      <!-- <img
+                        src="{{ item.image }}"
+                        class="d-flex align-self-center object-fit-cover w-100"
+                        alt="shoe" /> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
         }
       </div>
     </div>
@@ -389,9 +492,11 @@
         </div>
       } @else {
         <div class="row">
-          @for (item of [1, 2, 3, 4]; track $index) {
+          @for (product of products; track $index) {
             <div class="col-3">
-              <app-product-card></app-product-card>
+              <app-product-card
+                [product]="product"
+                [get_product]="true"></app-product-card>
             </div>
           }
         </div>
@@ -448,7 +553,7 @@
 
     @if (billers) {
       <div
-        class="row d-flex justify-content-center d-md-flex justify-content-sm-start">
+        class="row d-flex justify-content-center w-100 d-md-flex justify-content-sm-start">
         @for (item of first5; track $index) {
           @if (item) {
             <div

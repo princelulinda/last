@@ -62,9 +62,7 @@
                 <div>
                   <img [src]="product.lookup_title" alt="product image" />
                 </div>
-              } @else if (
-                product && !product.lookup_icon && !product.lookup_image
-              ) {
+              } @else if (product && !product.lookup_image) {
                 <div class="bg-secondary">
                   <span
                     class="favorite-star bg-all-white p-1 rounded-circle position-absolute end-0 me-4 mt-3 d-flex"
@@ -121,17 +119,24 @@
 
 @if (get_product === true && product.merchant) {
   <div
-    class="justify-content-center bg-white lg-radius shadow position-relative overflow-hidden">
+    class="justify-content-center bg-white lg-radius shadow position-relative overflow-hidden h-100"
+    style="width: 170px">
     <div>
       <div class="col-12">
         <div>
           <div class="row">
             <div class="position-relative">
-              @if (product.icon) {
+              @if (product.gallery_pictures.length > 0) {
                 <div>
-                  <img [src]="product.icon" alt="product image" />
+                  <img
+                    [src]="product.gallery_pictures[0]"
+                    alt="product image" />
                 </div>
-              } @else if (product && !product.icon) {
+              } @else if (
+                product &&
+                (product.gallery_pictures.length === 0 ||
+                  !product.gallery_pictures)
+              ) {
                 <div class="bg-secondary overflow-hidden">
                   <span
                     class="favorite-star bg-all-white p-1 rounded-circle position-absolute end-0 me-4 mt-3 d-flex"
