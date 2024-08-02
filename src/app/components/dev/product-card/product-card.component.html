@@ -52,63 +52,60 @@
     product.lookup_subtitle)
 ) {
   <div
-    class="justify-content-center position-relative bg-white lg-radius shadow overflow-hidden">
-    <div style="width: 170px">
-      <div class="col-12">
-        <div>
-          <div class="row">
-            <div class="position-relative">
-              @if (product.lookup_image) {
-                <div>
-                  <img [src]="product.lookup_title" alt="product image" />
-                </div>
-              } @else if (
-                product && !product.lookup_icon && !product.lookup_image
-              ) {
-                <div class="bg-secondary">
-                  <span
-                    class="favorite-star bg-all-white p-1 rounded-circle position-absolute end-0 me-4 mt-3 d-flex"
-                    data-id="123">
-                    <i class="fa-solid fa-star text-primary"></i>
-                  </span>
-                  <span class="d-flex justify-content-center">
-                    <i
-                      class="fa-solid fa-mountain-sun fa-3x my-5 text-secondary"></i>
-                  </span>
-                </div>
-              }
+    class="justify-content-center bg-white lg-radius shadow-sm position-relative h-100 overflow-hidden"
+    style="width: 170px">
+    <div class="col-12 h-100 d-flex flex-column">
+      <div class="row">
+        <div class="position-relative">
+          @if (product.lookup_image) {
+            <div>
+              <img [src]="product.lookup_title" alt="product image" />
+            </div>
+          } @else if (product && !product.lookup_image) {
+            <div class="bg-secondary">
+              <span
+                class="favorite-star bg-all-white p-1 rounded-circle position-absolute end-0 me-4 mt-3 d-flex"
+                data-id="123">
+                <i class="fa-solid fa-star text-primary"></i>
+              </span>
+              <span class="d-flex justify-content-center">
+                <i
+                  class="fa-solid fa-mountain-sun fa-3x my-5 text-secondary"></i>
+              </span>
+            </div>
+          }
 
-              <!-- Price -->
-              @if (product.price) {
-                <span
-                  class="position-absolute fs-small px-1 text-primary bottom-0 priceBG start-1">
-                  {{ product.price }} BIF
-                </span>
-              }
-            </div>
+          <!-- Price -->
+          @if (product.price) {
+            <span
+              class="position-absolute fs-small px-1 text-primary bottom-0 start-1"
+              [ngClass]="
+                currentMode === 'light' ? 'priceBGLight' : 'priceBGDark'
+              ">
+              {{ product.price }} BIF
+            </span>
+          }
+        </div>
+      </div>
+      <div
+        class="d-flex flex-column justify-content-between row flex-grow-1 overflow-hidden position-relative">
+        <div class="ms-0 d-flex flex-row justify-content-between">
+          <div class="col-9" title="{{ product.lookup_title }}">
+            <h1 class="text-secondary font-calibri fs-normal mb-1 fw-bold">
+              {{ product.lookup_title }}
+            </h1>
           </div>
-          <div class="row ms-0">
-            <div class="col-9" title="{{ product.lookup_title }}">
-              <h1 class="text-secondary font-calibri fs-normal mb-1 fw-bold">
-                {{ product.lookup_title }}
-              </h1>
-            </div>
-            <div class="col-3">
-              <div class="sideCircle bg-primary"></div>
-            </div>
+          <div class="col-3"></div>
+        </div>
+        <div class="position-absolute bg-primary rounded-circle redConer"></div>
+        <div class="ms-0 d-flex flex-row justify-content-between">
+          <div class="col-8">
+            <p class="text-secondary fs-small font-calibri">
+              {{ product.lookup_subtitle }}
+            </p>
           </div>
-          <!-- <div class="row col-11 ms-0" >
-            <h1 class="text-secondary font-calibri fs-normal mb-1 fw-bold">{{ product.lookup_subtitle}}</h1>
-          </div> -->
-          <div class="row ms-0" style="height: 50px">
-            <div class="col-8">
-              <p class="text-secondary fs-small font-calibri">
-                {{ product.lookup_subtitle }}
-              </p>
-            </div>
-            <div class="col-2">
-              <i class="fa-solid fa-cart-arrow-down fa-lg text-primary"></i>
-            </div>
+          <div class="col-2">
+            <i class="fa-solid fa-cart-arrow-down fa-lg text-primary"></i>
           </div>
         </div>
       </div>
@@ -118,60 +115,62 @@
 
 @if (get_product === true && product.merchant) {
   <div
-    class="justify-content-center bg-white lg-radius shadow position-relative overflow-hidden">
-    <div>
-      <div class="col-12">
-        <div>
-          <div class="row">
-            <div class="position-relative">
-              @if (product.icon) {
-                <div>
-                  <img [src]="product.icon" alt="product image" />
-                </div>
-              } @else if (product && !product.icon) {
-                <div class="bg-secondary overflow-hidden">
-                  <span
-                    class="favorite-star bg-all-white p-1 rounded-circle position-absolute end-0 me-4 mt-3 d-flex"
-                    data-id="123">
-                    <i class="fa-solid fa-star text-primary"></i>
-                  </span>
-                  <span class="d-flex justify-content-center">
-                    <i
-                      class="fa-solid fa-mountain-sun fa-3x my-5 text-secondary"></i>
-                  </span>
-                </div>
-              }
+    class="justify-content-center bg-white lg-radius shadow-sm position-relative h-100 overflow-hidden"
+    style="width: 170px">
+    <div class="col-12 h-100 d-flex flex-column">
+      <div class="row">
+        <div class="position-relative">
+          @if (product.gallery_pictures.length > 0) {
+            <div>
+              <img [src]="product.gallery_pictures[0]" alt="product image" />
+            </div>
+          } @else if (
+            product &&
+            (product.gallery_pictures.length === 0 || !product.gallery_pictures)
+          ) {
+            <div class="bg-secondary overflow-hidden">
+              <span
+                class="favorite-star bg-all-white p-1 rounded-circle position-absolute end-0 me-4 mt-3 d-flex"
+                data-id="123">
+                <i class="fa-solid fa-star text-primary"></i>
+              </span>
+              <span class="d-flex justify-content-center">
+                <i
+                  class="fa-solid fa-mountain-sun fa-3x my-5 text-secondary"></i>
+              </span>
+            </div>
+          }
 
-              @if (product.price) {
-                <span
-                  class="position-absolute fs-small px-1 text-primary bottom-0 start-1"
-                  [ngClass]="
-                    currentMode === 'light' ? 'priceBGLight' : 'priceBGDark'
-                  ">
-                  {{ product.price }} BIF
-                </span>
-              }
-            </div>
+          @if (product.price) {
+            <span
+              class="position-absolute fs-small px-1 text-primary bottom-0 start-1"
+              [ngClass]="
+                currentMode === 'light' ? 'priceBGLight' : 'priceBGDark'
+              ">
+              {{ product.price }} BIF
+            </span>
+          }
+        </div>
+      </div>
+      <div
+        class="d-flex flex-column justify-content-between row flex-grow-1 overflow-hidden position-relative">
+        <div class="ms-0 d-flex flex-row justify-content-between">
+          <div class="col-9" title="{{ product.name }}">
+            <h1 class="text-secondary font-calibri fs-normal mb-1 fw-bold">
+              {{ product.name }}
+            </h1>
           </div>
-          <div class="row ms-0">
-            <div class="col-9" title="{{ product.name }}">
-              <h1 class="text-secondary font-calibri fs-normal mb-1 fw-bold">
-                {{ product.name }}
-              </h1>
-            </div>
-            <div class="col-3">
-              <div class="sideCircle bg-primary"></div>
-            </div>
+          <div class="col-3"></div>
+        </div>
+        <div class="position-absolute bg-primary rounded-circle redConer"></div>
+        <div class="ms-0 d-flex flex-row justify-content-between">
+          <div class="col-8">
+            <p class="text-secondary fs-small font-calibri">
+              {{ product.merchant.merchant_title }}
+            </p>
           </div>
-          <div class="row ms-0">
-            <div class="col-8">
-              <p class="text-secondary fs-small font-calibri">
-                {{ product.merchant.merchant_title }}
-              </p>
-            </div>
-            <div class="col-2">
-              <i class="fa-solid fa-cart-arrow-down fa-lg text-primary"></i>
-            </div>
+          <div class="col-2">
+            <i class="fa-solid fa-cart-arrow-down fa-lg text-primary"></i>
           </div>
         </div>
       </div>

@@ -6,11 +6,11 @@ import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.com
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import {
   BestOfferModel,
-  BestOfferObjectModel,
   BillersModel,
   objectsModel,
   productCategoryArray,
   productCategoryModel,
+  ProductModel,
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 
@@ -28,22 +28,6 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
   styleUrl: './market-dashboard.component.scss',
 })
 export class MarketDashboardComponent implements OnInit {
-  shoeCardInfo = [
-    {
-      id: '1',
-      offerPourcent: '15% Discount',
-      offerInfo: 'Buy new Nike Air Jordan and get up to 15% discount',
-      image:
-        'https://images.pexels.com/photos/786003/pexels-photo-786003.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-    {
-      id: '2',
-      offerPourcent: '15% Discount',
-      offerInfo: 'Buy new Nike Air Jordan and get up to 15% discount',
-      image:
-        'https://images.pexels.com/photos/786003/pexels-photo-786003.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-  ];
   newArrivalInfo = [
     {
       id: '1',
@@ -86,7 +70,7 @@ export class MarketDashboardComponent implements OnInit {
 
   // activities: any = [];
   merchants!: BillersModel[];
-  products!: BillersModel[];
+  products!: ProductModel[];
   biller: [] | null = null;
   productCategory!: productCategoryModel[];
   // sector: any;
@@ -126,6 +110,7 @@ export class MarketDashboardComponent implements OnInit {
     // this.getSearchProduct('');
     // this.getSectorsAndCategories();
     this.getBillers();
+    this.getRecentProducts();
 
     // this.clientId$.pipe(takeUntil(this.onDestroy$)).subscribe({
     //   next: (id: string) => {
@@ -315,10 +300,6 @@ export class MarketDashboardComponent implements OnInit {
         next: result => {
           const response = result as productCategoryArray;
           this.productCategory = response.objects;
-          console.log(
-            '===============??productCategory:',
-            this.productCategory
-          );
           this.first4 = this.productCategory.slice(0, 4);
         },
       });
@@ -330,23 +311,26 @@ export class MarketDashboardComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          const data = response as BestOfferObjectModel;
-          this.offerData = data.Object.objects.Object;
-          console.log(
-            '==================================================> best offer data:',
-            this.offerData
-          );
-          this.first2 = this.offerData.slice(0, 2);
-          console.log(
-            '=======================================================> first2:',
-            this.first2
-          );
+          const data = response as { objects: BestOfferModel[] };
+          this.offerData = data.objects.slice(0, 2);
         },
         // error: (err: HttpErrorResponse) => {
         //   if (this.offerData.length === 0) {
         //     console.log('erreur sur best offer', err);
         //   }
         // },
+      });
+  }
+
+  getRecentProducts() {
+    this.merchantService
+      .getRecentProducts()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: data => {
+          const response = data as { objects: ProductModel[] };
+          this.products = response.objects.slice(0, 4);
+        },
       });
   }
 

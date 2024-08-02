@@ -492,4 +492,9 @@ export class MerchantService {
     const url = '/dbs/price-mutations/';
     return this.apiService.get(url).pipe(map(data => data));
   }
+
+  getRecentProducts() {
+    const url = '/dbs/merchant-product/?is_recent=true';
+    return this.apiService.get(url).pipe(map(data => data));
+  }
 }
