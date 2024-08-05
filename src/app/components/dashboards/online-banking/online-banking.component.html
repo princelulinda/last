@@ -215,7 +215,14 @@
                           @for (menu of menuGroup.menus; track $index) {
                             <div
                               role="button"
-                              class="d-grid col-3 justify-content-center">
+                              class="d-grid col-3 justify-content-center"
+                              [routerLink]="
+                                activePlatform === 'workstation'
+                                  ? menu.link[1]
+                                  : activePlatform === 'onlineBanking'
+                                    ? menu.link[0]
+                                    : ''
+                              ">
                               <div
                                 class="d-flex w-100 mb-2 justify-content-center">
                                 <div
@@ -232,6 +239,7 @@
                           }
                         </div>
                       }
+
                       @if (
                         i !== 0 &&
                         i !== 2 &&

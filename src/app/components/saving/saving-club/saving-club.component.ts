@@ -3,6 +3,7 @@ import { SavingDetailService } from '../../../core/services/saving/saving.servic
 import { SuggestedTontinesModel, TontineModel } from '../saving.models';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-saving-club',
   standalone: true,
@@ -15,13 +16,19 @@ export class SavingClubComponent implements OnInit {
   suggestedTontines: SuggestedTontinesModel[] | [] | null = null;
   thirdSuggestedTontines: SuggestedTontinesModel[] | [] | null = null;
   selected = '';
-  constructor(private savingDetailService: SavingDetailService) {}
+  constructor(
+    private savingDetailService: SavingDetailService,
+    private location: Location
+  ) {}
 
   ngOnInit() {
     this.getClientTontines();
     this.getSuggestedTontines();
   }
 
+  goBack(): void {
+    this.location.back();
+  }
   getClientTontines() {
     this.savingDetailService.getClientTontines().subscribe({
       next: (response: { objects: TontineModel[] }) => {

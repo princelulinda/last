@@ -86,12 +86,12 @@ export interface MenuGroup {
   is_active: boolean;
 }
 
-interface Menu {
+export interface Menu {
   name: string;
 
   icon: string;
 
-  link: string;
+  link: string | string[];
 }
 
 export interface PublisherModel {
