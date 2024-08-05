@@ -4,12 +4,11 @@ import { Observable } from 'rxjs';
 
 import { ConfigService, DialogService } from '../../core/services';
 import { PlateformModel } from '../../core/services/config/main-config.models';
-import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-splash-screen',
   standalone: true,
-  imports: [NgOptimizedImage],
+  imports: [],
   templateUrl: './splash-screen.component.html',
   styleUrl: './splash-screen.component.scss',
 })
