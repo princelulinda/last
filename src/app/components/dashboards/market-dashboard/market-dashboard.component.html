@@ -494,9 +494,7 @@
         <div class="row">
           @for (product of products; track $index) {
             <div class="col-3">
-              <app-product-card
-                [product]="product"
-                [get_product]="true"></app-product-card>
+              <app-product-card [product]="product"></app-product-card>
             </div>
           }
         </div>

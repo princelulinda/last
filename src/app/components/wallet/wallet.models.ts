@@ -1,7 +1,9 @@
+import { CurrencyModel } from '../../global/components/custom-field/currency.model';
+
 export interface WalletCard {
   response_data: {
     code: string;
-    currency: string;
+    currency: CurrencyModel;
     available_balance: number;
   };
   success: boolean;

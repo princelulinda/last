@@ -8,3 +8,21 @@
 
 
 
+.number-action-container {
+  .actions-popup {
+      position: absolute;
+      z-index: 10;
+      top: -45%;
+      left: 43px;
+      .close-btn {
+          position: absolute;
+          top: -9%;
+          right: -6%;
+          cursor: pointer;
+      }
+  }
+}
+
+.is-clickable {
+  cursor: pointer;
+}
