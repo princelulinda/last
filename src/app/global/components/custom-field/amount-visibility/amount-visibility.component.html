@@ -1,8 +1,5 @@
-<!-- <p>amount-visibility works!</p> -->
-
 <div class="d-flex gap-2 align-items-center">
-  <!-- Show amounts if showAmounts is true -->
-  @if (showAmounts) {
+  @if (showAmounts && amount) {
     <div class="d-flex align-items-center {{ customClasses }}">
       @if (currency) {
         {{ amount | currency: currency + ' ' }}
@@ -11,12 +8,17 @@
         {{ amount | currency: ' ' }}
       }
     </div>
+  } @else if (showAmounts && !amount) {
+    <div class="d-flex gap align-items-center text-secondary">
+      <div title="You do not have access to this amount">
+        {{ currency }} *** ***
+      </div>
+    </div>
   }
 
-  <!-- Show placeholder if showAmounts is false -->
   @if (!showAmounts) {
     <div class="d-flex gap align-items-center {{ customClasses }}">
-      <div>{{ currency }} **********</div>
+      <div>{{ currency }} *** ***</div>
     </div>
   }
 </div>

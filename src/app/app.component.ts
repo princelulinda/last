@@ -1,27 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  // NavigationEnd,
-  RouterOutlet,
-} from '@angular/router';
+import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 import { Observable } from 'rxjs';
 
 import { DbService } from './core/db/db.service';
-import {
-  AuthService,
-  ConfigService,
-  DialogService,
-  // PlateformModel,
-} from './core/services';
+import { AuthService, ConfigService, DialogService } from './core/services';
 import { ConfirmDialogComponent } from './global/components/popups/confirm-dialog/confirm-dialog.component';
 import { SplashScreenComponent } from './layouts/splash-screen/splash-screen.component';
-import { CommonModule } from '@angular/common';
 import {
   ModeModel,
   PlateformModel,
 } from './core/services/config/main-config.models';
 import { environment } from '../environments/environment';
-// import { environment } from '../environments/environment';
+import { TransferBillComponent } from './global/components/popups/bills-format/transfer-bill/transfer-bill.component';
+import { LandscapeBillComponent } from './global/components/popups/bills-format/landscape-bill/landscape-bill.component';
+import { ObrBillComponent } from './global/components/popups/bills-format/obr-bill/obr-bill.component';
+import { MerchantBillComponent } from './global/components/popups/bills-format/merchant-bill/merchant-bill.component';
 
 @Component({
   selector: 'app-root',
@@ -33,6 +28,10 @@ import { environment } from '../environments/environment';
     RouterOutlet,
     ConfirmDialogComponent,
     SplashScreenComponent,
+    TransferBillComponent,
+    LandscapeBillComponent,
+    ObrBillComponent,
+    MerchantBillComponent,
   ],
 })
 export class AppComponent implements OnInit {
@@ -79,27 +78,5 @@ export class AppComponent implements OnInit {
         this.activeMode = mode;
       },
     });
-
-    // TODO :: TRY TO CHANGE PLATEFORM BY URL !! CAN GOT PROBLEME WITH SOME GUARDS
-    // this.router.events
-    //   .pipe(filter(event => event instanceof NavigationEnd))
-    //   .subscribe({
-    //     next: events => {
-    //       let navigationInfo: NavigationEnd = events as NavigationEnd;
-    //     },
-    //   });
   }
-
-  // private managePlateformByURL() {
-  //   let url = this.router.url;
-  //   let plateformData = environment.plateformsUuid.find(item =>
-  //     item.baseHref.includes(url)
-  //   );
-  //   if (
-  //     plateformData &&
-  //     plateformData.name !== this.mainConfig.activePlateform
-  //   ) {
-  //     this.configService.switchPlateform(plateformData?.name);
-  //   }
-  // }
 }

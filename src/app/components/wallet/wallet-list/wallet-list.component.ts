@@ -5,14 +5,19 @@ import {
   OnInit,
   Output,
   OnDestroy,
+  SimpleChanges,
+  OnChanges,
 } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { AuthService, ConfigService } from '../../../core/services';
 import { ClientService } from '../../../core/services/client/client.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { CommonModule } from '@angular/common';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
-import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import {
+  activeMainConfigModel,
+  ModeModel,
+} from '../../../core/services/config/main-config.models';
 import { WalletList } from '../wallet.models';
 import { RouterLink } from '@angular/router';
 
@@ -23,7 +28,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './wallet-list.component.html',
   styleUrl: './wallet-list.component.scss',
 })
-export class WalletListComponent implements OnInit, OnDestroy {
+export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
   private userInfo$: Observable<UserInfoModel>;
@@ -32,10 +37,12 @@ export class WalletListComponent implements OnInit, OnDestroy {
   isLoading = false;
   walletsListData: WalletList[] | [] | null = null;
 
+  activePlatform: string | null = null;
   selectedLoneWallet: WalletList | null = null;
   selectedWallet!: WalletList[];
   isLoneWalletSelected = false;
-
+  theme$: Observable<ModeModel>;
+  theme!: ModeModel;
   // close the account's creation form
   closeForm = false;
   @Input() Type: 'transfer' | 'list' = 'transfer';
@@ -45,6 +52,15 @@ export class WalletListComponent implements OnInit, OnDestroy {
 
   private onDestroy$ = new Subject<void>();
   isWalletDetailsShown = false;
+  @Input() isTransferDone = false;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['isTransferDone']) {
+      if (this.isTransferDone) {
+        this.clearSelectedWallet();
+      }
+    }
+  }
 
   constructor(
     private configService: ConfigService,
@@ -53,8 +69,22 @@ export class WalletListComponent implements OnInit, OnDestroy {
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.userInfo$ = this.authService.getUserInfo();
+    this.theme$ = this.configService.getMode();
   }
   ngOnInit(): void {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.activePlatform = configs.activePlateform;
+      },
+    });
+
+    this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: theme => {
+        this.theme = theme;
+        //console.log('themmeee',this.theme)
+      },
+    });
+
     this.userInfo$.subscribe({
       next: userinfo => {
         this.clientInfo = userinfo;

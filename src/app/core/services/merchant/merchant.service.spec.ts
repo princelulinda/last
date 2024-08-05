@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-// import { HttpClientModule } from '@angular/common/http';
 
 import { MerchantService } from './merchant.service';
 import { provideHttpClient } from '@angular/common/http';

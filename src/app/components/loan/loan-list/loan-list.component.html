@@ -28,7 +28,7 @@
           </div>
         </b>
 
-        <div role="button" class="mt-1 mb-2 me-4">
+        <div role="button" class="mb-2 me-4">
           <span
             title="Refresh loans list"
             (click)="refreshLoansList()"
@@ -104,7 +104,7 @@
       <div class="w-100 h-100 d-flex justify-content-center align-items-center">
         <h4 class="text-secondary" i18n>
           <i class="fa fa-ban"></i>
-          You don't have any loan in {{ selectedBank?.bank_name }}
+          You don't have any loan in {{ selectedBank?.name }}
         </h4>
       </div>
     }
@@ -144,7 +144,7 @@
                     routerLinkActive="cliped t-dark">
                     <div
                       class="d-flex justify-content-between align-items-center me-3">
-                      <b>{{ selectedBank?.bank_name }}</b>
+                      <b>{{ selectedBank?.name }}</b>
                       @if (loan.cred_status.value === 'PE') {
                         <b class="text-all-dark less-danger px-1 rounded" i18n
                           >Pending</b
@@ -216,7 +216,7 @@
               [ngClass]="">
               <div
                 class="d-flex justify-content-between align-items-center me-3">
-                <b>{{ selectedBank?.bank_name }}</b>
+                <b>{{ selectedBank?.name }}</b>
                 @if (selectedLoan && selectedLoan.cred_status.value === 'PE') {
                   <b class="text-all-dark less-danger px-1 rounded" i18n
                     >Pending</b
@@ -262,7 +262,7 @@
                       routerLinkActive="cliped t-dark">
                       <div
                         class="d-flex justify-content-between align-items-center me-3">
-                        <b>{{ selectedBank?.bank_name }}</b>
+                        <b>{{ selectedBank?.name }}</b>
 
                         @if (loan.cred_status.value === 'PE') {
                           <b

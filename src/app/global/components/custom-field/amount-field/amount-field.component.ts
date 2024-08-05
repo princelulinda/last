@@ -26,7 +26,7 @@ export class AmountFieldComponent implements OnInit {
   @Input() background = '';
   @Input() activeBorder = false;
   @Input() isFormFloating = true;
-
+  @Input() isTransfer = false;
   // input for fees
   @Input() showFees = false;
   @Input() showAmountwords = true;

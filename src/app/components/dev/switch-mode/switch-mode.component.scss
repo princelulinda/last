@@ -1,19 +1,23 @@
 .checkbox-label {
   width: 68px;
-  height: 30px;
+  height: 27px;
 
   .forSunIcon {
-    transition: opacity 0s, left 0.3s;
+    transition:
+      opacity 0s,
+      left 0.3s;
     left: 0;
     &.active {
       left: 39px;
     }
   }
   .forMoonIcon {
-    transition: opacity 0s, right 0.3s;
-    right: 39px;
+    transition:
+      opacity 0s,
+      right 0.3s;
+    right: 0;
     &.active {
-      right: 0;
+      right: 39px;
     }
   }
 }

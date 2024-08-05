@@ -1,12 +1,15 @@
 export interface bankModel {
   id: number;
   slug: string;
-  bank_name: string;
+  name: string;
   bank_type: string;
   bank_code: string;
   is_active: boolean;
   is_default: boolean;
   organization_id: number;
+  swift_code: string | null;
+  is_mappable: boolean;
+
   company: {
     about: string;
     fullname: string;

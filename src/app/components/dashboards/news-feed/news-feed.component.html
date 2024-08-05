@@ -356,8 +356,7 @@
         <div class="row" style="gap: 1.5rem 0">
           @for (product of topProducts; track $index) {
             <div class="product sm-radius col-md-6" role="button">
-              <app-product-card [product]="product" [get_product]="true">
-              </app-product-card>
+              <app-product-card [product]="product"> </app-product-card>
             </div>
           }
         </div>

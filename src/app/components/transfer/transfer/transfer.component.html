@@ -1,3 +1,44 @@
-<div>
-  <app-beneficiaries></app-beneficiaries>
+<div class="container w-100">
+  <div class="d-flex">
+    <h3>Transfer</h3>
+    <div
+      class="ms-auto fw-bold me-4 btn border-0"
+      role="button "
+      tabindex="0"
+      [routerLink]="
+        activePlatform === 'workstation'
+          ? '/w/workstation/banking/'
+          : activePlatform === 'onlineBanking'
+            ? '/b/banking/'
+            : ''
+      ">
+      <span><i class="fa-solid fa-arrow-left"></i></span>
+      <span class="ms-1">Back</span>
+    </div>
+  </div>
+
+  <div>
+    <app-debit-account
+      [selectedInstitutionType]="selectedInstitutionType"
+      [isTransactionDone]="isTransferDone"
+      [creditAccountType]="selectedCreditAccountType"
+      (debitOptions)="getDebitOptions($event)"
+      (selectedAccount)="getSelectedAccount($event)"
+      (selectedWallet)="getSelectedAccount($event)"
+      [selectedDebitAccountType]="selectedDebitType"
+      [selectedBank]="bankId"></app-debit-account>
+  </div>
+  @if (accountSelected) {
+    <div class="mt-3">
+      <app-credit-account
+        (selectedInstitutionType)="onChange($event, 'institution')"
+        (selectedCreditAccountType)="onChange($event, 'credit')"
+        (isTransferDone)="getTransferResponse($event)"
+        [bankId]="bankId"
+        [selectedDebitAccountType]="selectedDebitType"
+        [debitNumber]="debitNumber"
+        [debitHolder]="debitHolder"
+        [walletBankId]="walletBankId"></app-credit-account>
+    </div>
+  }
 </div>

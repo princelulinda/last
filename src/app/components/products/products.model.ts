@@ -2,10 +2,14 @@
 
 import { tellerObjectModel } from '../merchant/merchant.models';
 import { ClientApiResponse } from '../../core/db/models/auth';
+import { MerchantBillModel } from '../../core/services/dialog/dialogs-models';
+import { Merchant_AutocompleteModel } from '../dev/merchant-card/merchant.model';
 
 export interface ProductModel {
   id: number;
   name: string;
+  price: number;
+  icon: string;
   lookup_icon: string;
   lookup_image: string;
   lookup_title: string;
@@ -31,22 +35,40 @@ export interface MerchantModel {
   available_balance: number;
   balance_currency: number;
   client_category: string;
+  client: ClientModel;
 }
 
 export interface MerchantObjectModel {
   // objects: MerchantModel,
   object: {
     response_data: MerchantModel;
+    response_message: string;
+    success: boolean;
   };
 }
 export interface MerchantObjectsModel {
   // objects: MerchantModel,
   object: {
-    response_data: MerchantModel[];
+    response_message: string;
+    success: boolean;
+    response_data: Merchant_AutocompleteModel[];
   };
 }
 export interface ClientModel {
   id: number;
+  client_id: number | string;
+  client_code: string;
+  client_full_name: string;
+  client_email: string;
+  client_phone_number: string;
+}
+
+export interface MerchantBillDataModel {
+  data: MerchantBillModel;
+  active?: {
+    isActive: boolean | false;
+    type: string;
+  };
 }
 
 export interface MerchantInfoModel {
@@ -168,4 +190,42 @@ export interface addProductByMerchantDataModel {
 
 export interface inputAmountModel {
   amount: number | null;
+}
+
+export interface TransactionModel {
+  id: number;
+  created_at: string;
+  operation_type: {
+    id: number;
+    code: string;
+    description: string;
+  };
+  reference: string;
+  pending_reference: string;
+  extourne_reference: string;
+  external_reference: string;
+  description: string;
+  account: {
+    account_number: string;
+    account_holder: string;
+  };
+  code: string;
+  amount: number;
+  // period: {
+  //   start_date: Date;
+  //   end_date: Date;
+  // };
+}
+
+export interface TransactionObjectModel {
+  objects: TransactionModel[];
+  // period: {
+  //   start_date: Date;
+  //   end_date: Date;
+  // };
+}
+
+export interface PeriodModel {
+  start_date: string;
+  end_date: string;
 }

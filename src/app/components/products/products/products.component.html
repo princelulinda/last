@@ -82,8 +82,7 @@
           </div>
         </div>
       </div>
-      <div class="col favorite">
-        <!-- favorites -->
+      <!-- <div class="col favorite">
         <div class="row">
           <h6>
             <span>
@@ -92,10 +91,10 @@
             <span i18n class="text-dark"><b> Favorites</b></span>
           </h6>
         </div>
-        @if (!allProduct) {
+        @if (!isLoading) {
           <div class="row mb-3 d-flex justify-content-between">
             @for (item of countProductLoader; track $index) {
-              <div class="col-5" style="height: 135px" [hidden]="$index >= 2">
+              <div class="col" style="height: 135px" [hidden]="$index >= 2">
                 <app-skeleton
                   [height]="'120px'"
                   [width]="'120px'"></app-skeleton>
@@ -116,14 +115,13 @@
               [hidden]="$index >= 2"
               (click)="selectProduct(product)"
               tabindex="0">
-              <!-- image -->
 
-              <app-product-card [product]="product" [get_product]="true">
+              <app-product-card [product]="product">
               </app-product-card>
             </div>
           }
         </div>
-      </div>
+      </div> -->
     </div>
     <!-- All -->
     <app-all-products
