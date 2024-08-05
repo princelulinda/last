@@ -44,11 +44,8 @@ $fontSizes: (
 
 // global color
 $globalTextColors: (
-  'all-white': #d9d9d9,
+  'all-white': #ffffff,
   'all-dark': #414141,
-  'all-goldenrod': #c99100,
-  'all-blue': #172b4d,
-  'all-blue-sky': #2070b8,
 );
 @each $name, $value in $globalTextColors {
   @include generateTextClass($name, $value);
