@@ -7,23 +7,6 @@
         Wallet
       }
     </b>
-    <b
-      role="button"
-      tabindex="0"
-      [ngClass]="{
-        'not-clickable': !defaultWallet,
-      }"
-      (click)="toggleAmount()">
-      @if (amountState) {
-        <span title="show balance">
-          <i class="fa fa-eye-slash fs-normal"></i>
-        </span>
-      } @else {
-        <span title="show balance">
-          <i class="fa fa-eye fs-normal"></i>
-        </span>
-      }
-    </b>
   </div>
 
   <div
@@ -58,7 +41,7 @@
           @if (!noWalletData) {
             <span class="fs-small">Balance</span>
             @if (defaultWallet) {
-              @if (amountState) {
+              <!-- @if (amountState) {
                 <span class="fw-bold"
                   >{{ defaultWallet.response_data.currency
                   }}{{
@@ -69,7 +52,14 @@
                 <span class="fw-bold"
                   >{{ defaultWallet.response_data.currency }}*** ***</span
                 >
-              }
+              } -->
+              <span class="fw-bold">
+                <app-amount-visibility
+                  [currency]="defaultWallet.response_data.currency"
+                  [amount]="
+                    defaultWallet.response_data.available_balance
+                  "></app-amount-visibility>
+              </span>
             }
 
             @if (!defaultWallet) {
