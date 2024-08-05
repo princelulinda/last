@@ -5,12 +5,11 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { ProfileCardComponent } from '../../../global/components/custom-field/profile-card/profile-card.component';
-import { ClipboardDirective } from '../../dev/clipboard.directive';
 
 @Component({
   selector: 'app-onamob-dashboard',
   standalone: true,
-  imports: [ProfileCardComponent, ClipboardDirective],
+  imports: [ProfileCardComponent],
   templateUrl: './onamob-dashboard.component.html',
   styleUrl: './onamob-dashboard.component.scss',
 })
