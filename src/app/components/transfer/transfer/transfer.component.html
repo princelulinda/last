@@ -19,7 +19,6 @@
 
   <div>
     <app-debit-account
-      [selectedInstitution]="selectedInstitution"
       [selectedInstitutionType]="selectedInstitutionType"
       [isTransactionDone]="isTransferDone"
       [creditAccountType]="selectedCreditAccountType"
@@ -32,7 +31,6 @@
   @if (accountSelected) {
     <div class="mt-3">
       <app-credit-account
-        (selectedInstitution)="setSelectedInstitution($event)"
         (selectedInstitutionType)="onChange($event, 'institution')"
         (selectedCreditAccountType)="onChange($event, 'credit')"
         (isTransferDone)="getTransferResponse($event)"

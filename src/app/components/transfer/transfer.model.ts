@@ -97,7 +97,7 @@ export interface InstitutionInfoModel {
   slug?: string;
 }
 export interface AmountEventModel {
-  amount: string | number;
+  amount: string;
 }
 export interface PopupEventModel {
   isPopupShown: boolean;
@@ -112,4 +112,18 @@ export interface DebitEventModel {
   creditAccountType: string | CreditAccountModel | InstitutionInfoModel;
 
   selectedInstitution: InstitutionInfoModel[];
+}
+export interface accountsList {
+  acc_short_number: string;
+  acc_holder: string;
+}
+
+export interface WalletAccount {
+  account_holder: string;
+}
+
+export interface WalletList {
+  code: string;
+  account: WalletAccount;
+  bank_id: string;
 }

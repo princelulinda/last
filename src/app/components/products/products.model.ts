@@ -3,6 +3,7 @@
 import { tellerObjectModel } from '../merchant/merchant.models';
 import { ClientApiResponse } from '../../core/db/models/auth';
 import { MerchantBillModel } from '../../core/services/dialog/dialogs-models';
+import { Merchant_AutocompleteModel } from '../dev/merchant-card/merchant.model';
 
 export interface ProductModel {
   id: number;
@@ -50,7 +51,7 @@ export interface MerchantObjectsModel {
   object: {
     response_message: string;
     success: boolean;
-    response_data: MerchantModel[];
+    response_data: Merchant_AutocompleteModel[];
   };
 }
 export interface ClientModel {
