@@ -15,7 +15,15 @@ import { ConfigService } from '../../../core/services';
   styleUrl: './product-card.component.scss',
 })
 export class ProductCardComponent implements OnInit {
-  @Input({ required: true }) product!: ProductModel;
+  @Input({ required: true }) product: ProductModel = {
+    id: 0,
+    lookup_description: '',
+    lookup_icon: '',
+    lookup_image: '',
+    lookup_subtitle: '',
+    lookup_title: '',
+    price: 0,
+  };
   currentMode$: Observable<ModeModel>;
   currentMode!: ModeModel;
 
