@@ -190,3 +190,41 @@ export interface addProductByMerchantDataModel {
 export interface inputAmountModel {
   amount: number | null;
 }
+
+export interface TransactionModel {
+  id: number;
+  created_at: string;
+  operation_type: {
+    id: number;
+    code: string;
+    description: string;
+  };
+  reference: string;
+  pending_reference: string;
+  extourne_reference: string;
+  external_reference: string;
+  description: string;
+  account: {
+    account_number: string;
+    account_holder: string;
+  };
+  code: string;
+  amount: number;
+  // period: {
+  //   start_date: Date;
+  //   end_date: Date;
+  // };
+}
+
+export interface TransactionObjectModel {
+  objects: TransactionModel[];
+  // period: {
+  //   start_date: Date;
+  //   end_date: Date;
+  // };
+}
+
+export interface PeriodModel {
+  start_date: string;
+  end_date: string;
+}
