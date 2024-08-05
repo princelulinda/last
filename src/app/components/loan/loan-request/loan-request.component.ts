@@ -21,11 +21,17 @@ import {
   // ResponseDataModel,
 } from '../loan.models';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
+import { DebitAccountComponent } from '../../transfer/debit-account/debit-account.component';
 
 @Component({
   selector: 'app-loan-request',
   standalone: true,
-  imports: [ReactiveFormsModule, LookupComponent, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    LookupComponent,
+    CommonModule,
+    DebitAccountComponent,
+  ],
   providers: [DatePipe],
   templateUrl: './loan-request.component.html',
   styleUrl: './loan-request.component.scss',

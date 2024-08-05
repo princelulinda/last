@@ -93,6 +93,13 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     isAmountChanging: boolean;
     selectedInstitutionType: string;
     selectedInstitution: InstitutionInfoModel | string;
+    id?: number;
+    lookup_description?: string;
+    lookup_has_image_or_icon?: boolean;
+    lookup_icon?: string | null;
+    lookup_image?: string;
+    lookup_subtitle?: string;
+    lookup_title?: string;
   }>();
 
   @Output() selectedAccount = new EventEmitter<accountsList>();
