@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { BillersModel, objectModel } from '../../dashboards/dashboard.model';
-import { MerchantModel } from '../../products/products.model';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
+
+import { BillersModel } from '../../dashboards/dashboard.model';
 import { Favorite } from '../../../core/services/merchant/model';
 import { MerchantService } from '../../../core/services';
+import { Merchant_AutocompleteModel } from './merchant.model';
 
 @Component({
   selector: 'app-merchant-card',
@@ -15,24 +16,35 @@ import { MerchantService } from '../../../core/services';
   styleUrl: './merchant-card.component.scss',
 })
 export class MerchantCardComponent {
-  @Input() merchant!: BillersModel;
-  @Input() get_merchant!: boolean;
-  @Input() get_product = [];
-  @Input() merchants!: MerchantModel;
-  @Output() first6Output = new EventEmitter<BillersModel[]>();
-  first6!: BillersModel[];
-  @Input() favorite_merchant_making!: BillersModel | null;
-  favorite_making!: boolean;
-  favoriteMerchants!: BillersModel[];
-  favoriteMerchantsNumber!: number;
-  favoriteMerchantLoading!: boolean;
-  merchantsDetail!: BillersModel[];
-  @Output() merchantInfoOutput = new EventEmitter<string>();
-  last4!: BillersModel[];
-  start = 0;
-  end = 4;
+  @Input({ required: true }) merchant: Merchant_AutocompleteModel = {
+    accepts_simple_payment: false,
+    id: 0,
+    is_favorite_merchant: false,
+    lookup_description: '',
+    lookup_has_image_or_icon: false,
+    lookup_icon: '',
+    lookup_image: '',
+    lookup_subtitle: '',
+    lookup_title: '',
+    merchant_category_name: '',
+  };
+  // @Input() get_merchant!: boolean
+  // @Input() get_product = [];
+  // @Input() merchants!: MerchantModel;
+  // @Output() first6Output = new EventEmitter<BillersModel[]>();
+  // first6!: BillersModel[];
+  // @Input() favorite_merchant_making!: BillersModel | null;
+  // favorite_making!: boolean;
+  // favoriteMerchants!: BillersModel[];
+  // favoriteMerchantsNumber!: number;
+  // favoriteMerchantLoading!: boolean;
+  // merchantsDetail!: BillersModel[];
+  // @Output() merchantInfoOutput = new EventEmitter<string>();
+  // last4!: BillersModel[];
+  // start = 0;
+  // end = 4;
 
-  merchantInfo!: BillersModel[];
+  // merchantInfo!: BillersModel[];
 
   private onDestroy$: Subject<void> = new Subject<void>();
 
@@ -46,8 +58,8 @@ export class MerchantCardComponent {
     // remove data-bs for bootstrap modal
     // productCard.removeAttribute('data-bs-target');
     // productCard.removeAttribute('data-bs-toggle');
-    this.favorite_merchant_making = favorite;
-    this.favorite_making = false;
+    // this.favorite_merchant_making = favorite;
+    // this.favorite_making = false;
     let body!: Favorite;
     if (!favorite.is_favorite_merchant) {
       body = {
@@ -60,31 +72,22 @@ export class MerchantCardComponent {
         merchant_action: 'revoke_favorite',
       };
     }
+    console.log(body);
 
     // add data-bs after click on favorite star
     // productCard.setAttribute('data-bs-target', '#myModal');
     // productCard.setAttribute('data-bs-toggle', 'modal');
-    this.merchantService
-      .makeFavoriteMerchants(body)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: result => {
-          const data = result as objectModel;
-          const response = data.object;
-          if (response.success) {
-            this.merchantInfoOutput.emit(response.success);
-          }
-        },
-      });
-    console.log(
-      '====================================> merchant',
-      this.merchant
-    );
-  }
-  closeModal() {
-    const modal = document.getElementById('modal');
-    if (modal !== null) {
-      modal.style.display = 'none';
-    }
+    //   this.merchantService
+    //     .makeFavoriteMerchants(body)
+    //     .pipe(takeUntil(this.onDestroy$))
+    //     .subscribe({
+    //       next: result => {
+    //         const data = result as objectModel;
+    //         const response = data.object;
+    //         if (response.success) {
+    //           this.merchantInfoOutput.emit(response.success);
+    //         }
+    //       },
+    //     });
   }
 }
