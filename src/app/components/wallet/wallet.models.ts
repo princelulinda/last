@@ -17,6 +17,7 @@ export interface WalletList {
   code: string;
   available_balance: number;
   currency: 'BIF';
+  bank_id: string;
 }
 export interface mainConfigModel {
   activeMode: string;

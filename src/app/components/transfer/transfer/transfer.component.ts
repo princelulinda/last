@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BeneficiariesComponent } from '../beneficiaries/beneficiaries/beneficiaries.component';
 
 import { DebitAccountComponent } from '../debit-account/debit-account.component';
-import { CreditAccountComponent } from '../credit-account/credit-account.component';
+
 import { CommonModule } from '@angular/common';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { RouterLink } from '@angular/router';
@@ -12,6 +12,8 @@ import { DebitOptions } from '../transfer.model';
 import { Observable, Subject } from 'rxjs';
 import { ConfigService } from '../../../core/services';
 import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import { CreditAccountComponent } from '../credit-account/credit-account.component';
+import { WalletList } from '../../wallet/wallet.models';
 // import { InstitutionInfoModel } from '../transfer.model';
 
 @Component({
@@ -19,7 +21,6 @@ import { activeMainConfigModel } from '../../../core/services/config/main-config
   standalone: true,
   templateUrl: './transfer.component.html',
   styleUrl: './transfer.component.scss',
-
   imports: [
     BeneficiariesComponent,
     DebitAccountComponent,
@@ -97,19 +98,21 @@ export class TransferComponent implements OnInit, OnDestroy {
     this.resetAccountSelection();
   }
 
-  // eslint-disable-next-line
-  getSelectedAccount(event: any) {
+  getSelectedAccount(event: accountsList | WalletList) {
     if (this.selectedDebitType === 'account') {
-      this.debitNumber = event.acc_short_number;
-      this.debitHolder = event.acc_holder;
+      const accountEvent = event as accountsList;
+      this.debitNumber = accountEvent.acc_short_number;
+      this.debitHolder = accountEvent.acc_holder;
     } else if (this.selectedDebitType === 'wallet') {
-      this.debitNumber = event.code;
-      this.debitHolder = event.account.account_holder;
-      this.walletBankId = event.bank_id;
+      const walletEvent = event as WalletList;
+      this.debitNumber = walletEvent.code;
+      this.debitHolder = walletEvent.account.account_holder;
+      this.walletBankId = walletEvent.bank_id;
     }
 
-    this.accountSelected = event;
+    this.accountSelected = event as accountsList | null;
   }
+
   getTransferResponse(event: boolean) {
     this.isTransferDone = event;
     if (this.isTransferDone) {
