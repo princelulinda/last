@@ -1,45 +1,31 @@
 <div
   class="merchant-card position-relative d-flex flex-column bg-white p-1 sm-radius border">
   <!-- NOTE :: MAKE OR REVOKE FAVORITE SECTION -->
-  <section class="position-absolute bg-white rounded-circle border">
-    <!-- z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex -->
-    <!-- <span
-  type="button"
-  (click)="makeFavoriteMerchants(merchant, $event)"
-  *ngIf="
-    merchant &&
-    merchant.is_favorite_merchant &&
-    (favorite_merchant_making === null ||
-      favorite_merchant_making?.id !== merchant?.id)
-  "
-  tabindex="0"
-  title="Revoke Favorite"
-  class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
-  <span class="text-primary"><i class="fa-solid fa-star"></i></span>
-</span>
-<span
-  type="button"
-  (click)="makeFavoriteMerchants(merchant, $event)"
-  tabindex="0"
-  title="Make Favorite"
-  *ngIf="
-    merchant &&
-    !merchant.is_favorite_merchant &&
-    (favorite_merchant_making === null ||
-      favorite_merchant_making?.id !== merchant.id)
-  "
-  class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
-  <span class="text-primary"><i class="fa-regular fa-star"></i></span>
-</span>
-<span
-  *ngIf="
-    merchant &&
-    favorite_merchant_making !== null &&
-    favorite_merchant_making?.id === merchant.id
-  "
-  class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
-  <span class="text-primary"><i class="fas fa-spinner fa-pulse"></i></span>
-</span> -->
+  <section
+    class="position-absolute bg-white rounded-circle border z-3 end-0 me-2 mt-2 p-1 d-flex px-2"
+    role="button"
+    tabindex="2">
+    @if (!isLoading) {
+      @if (merchant.is_favorite_merchant) {
+        <span
+          type="button"
+          (click)="makeFavoriteMerchants(merchant, $event)"
+          tabindex="0"
+          title="Revoke Favorite">
+          <span class="text-primary"><i class="fa-solid fa-star"></i></span>
+        </span>
+      } @else if (!merchant.is_favorite_merchant) {
+        <span
+          type="button"
+          (click)="makeFavoriteMerchants(merchant, $event)"
+          tabindex="0"
+          title="Make Favorite">
+          <span class="text-primary"><i class="fa-regular fa-star"></i></span>
+        </span>
+      }
+    } @else {
+      <span class="text-primary"><i class="fas fa-spinner fa-pulse"></i></span>
+    }
   </section>
 
   <!-- NOTE :: IMAGE SECTION -->

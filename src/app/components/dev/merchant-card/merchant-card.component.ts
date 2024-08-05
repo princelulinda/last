@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
-import { BillersModel } from '../../dashboards/dashboard.model';
+import { objectModel } from '../../dashboards/dashboard.model';
 import { Favorite } from '../../../core/services/merchant/model';
 import { MerchantService } from '../../../core/services';
 import { Merchant_AutocompleteModel } from './merchant.model';
@@ -28,6 +28,8 @@ export class MerchantCardComponent {
     lookup_title: '',
     merchant_category_name: '',
   };
+  isLoading = false;
+
   // @Input() get_merchant!: boolean
   // @Input() get_product = [];
   // @Input() merchants!: MerchantModel;
@@ -50,7 +52,8 @@ export class MerchantCardComponent {
 
   constructor(private merchantService: MerchantService) {}
 
-  makeFavoriteMerchants(favorite: BillersModel, event: Event) {
+  makeFavoriteMerchants(favorite: Merchant_AutocompleteModel, event: Event) {
+    this.isLoading = true;
     event.stopPropagation();
     // const productCard: HTMLElement =
     //     event.target?.parentElement.parentElement.parentElement.parentElement
@@ -63,31 +66,37 @@ export class MerchantCardComponent {
     let body!: Favorite;
     if (!favorite.is_favorite_merchant) {
       body = {
-        merchant: favorite.id,
+        merchant: favorite.id.toString(),
         merchant_action: 'make_favorite',
       };
     } else if (favorite.is_favorite_merchant) {
       body = {
-        merchant: favorite.id,
+        merchant: favorite.id.toString(),
         merchant_action: 'revoke_favorite',
       };
     }
-    console.log(body);
-
     // add data-bs after click on favorite star
     // productCard.setAttribute('data-bs-target', '#myModal');
     // productCard.setAttribute('data-bs-toggle', 'modal');
-    //   this.merchantService
-    //     .makeFavoriteMerchants(body)
-    //     .pipe(takeUntil(this.onDestroy$))
-    //     .subscribe({
-    //       next: result => {
-    //         const data = result as objectModel;
-    //         const response = data.object;
-    //         if (response.success) {
-    //           this.merchantInfoOutput.emit(response.success);
-    //         }
-    //       },
-    //     });
+    this.merchantService
+      .makeFavoriteMerchants(body)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: result => {
+          const data = result as objectModel;
+          const response = data.object;
+          if (response.success) {
+            if (!favorite.is_favorite_merchant) {
+              this.merchant.is_favorite_merchant = true;
+            } else {
+              this.merchant.is_favorite_merchant = false;
+            }
+          }
+          this.isLoading = false;
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });
   }
 }
