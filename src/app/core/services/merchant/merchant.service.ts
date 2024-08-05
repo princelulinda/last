@@ -494,7 +494,7 @@ export class MerchantService {
   }
 
   getRecentProducts() {
-    const url = '/dbs/merchant-product/?is_recent=true';
+    const url = '/dbs/merchant-product/objects_autocomplete/?is_recent=true';
     return this.apiService.get(url).pipe(map(data => data));
   }
 }
