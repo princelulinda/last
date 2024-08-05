@@ -11,7 +11,7 @@ import { WalletDetailsComponent } from '../../components/wallet/wallet-details/w
 import { TarifComponent } from '../../components/tarif/tarif.component';
 import { BankHomeComponent } from '../../components/bank-home/bank-home.component';
 import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.component';
-import { ReusableListComponent } from '../../global/components/reusable-list/reusable-list.component';
+import { TestListComponent } from '../../components/dashboards/test-list/test-list.component';
 export const bankingRoutes: Routes = [
   {
     path: '',
@@ -68,6 +68,6 @@ export const bankingRoutes: Routes = [
   },
   {
     path: 'test',
-    component: ReusableListComponent,
+    component: TestListComponent,
   },
 ];
