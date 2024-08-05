@@ -1,7 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BankingService } from '../../../core/services/dashboards/banking.service';
 import { Subject, Observable, takeUntil } from 'rxjs';
-import { AuthService, ConfigService } from '../../../core/services';
+import {
+  AuthService,
+  ConfigService,
+  DialogService,
+} from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 
 import { NgClass, CommonModule } from '@angular/common';
@@ -26,7 +30,8 @@ interface mainConfigModel {
 export class WalletCardComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  showAmountWallet = false;
+  amountState = false;
+  amountState$: Observable<boolean>;
 
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
@@ -46,12 +51,14 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   constructor(
     private bankingService: BankingService,
     private configService: ConfigService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialogService: DialogService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
     this.selectedBank$ = this.configService.getSelectedBank();
     this.mainConfig$ = this.configService.getMainConfig();
+    this.amountState$ = this.dialogService.getAmountState();
   }
   ngOnInit(): void {
     this.mode$.subscribe({
@@ -84,11 +91,17 @@ export class WalletCardComponent implements OnInit, OnDestroy {
       },
     });
 
+    this.amountState$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: state => {
+        this.amountState = state;
+      },
+    });
+
     this.getDefaultWallet();
   }
 
   toggleAmount() {
-    this.showAmountWallet = !this.showAmountWallet;
+    this.dialogService.displayAmount();
   }
   getDefaultWallet() {
     this.bankingService

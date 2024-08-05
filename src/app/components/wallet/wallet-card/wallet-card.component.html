@@ -14,7 +14,7 @@
         'not-clickable': !defaultWallet,
       }"
       (click)="toggleAmount()">
-      @if (showAmountWallet) {
+      @if (amountState) {
         <span title="show balance">
           <i class="fa fa-eye-slash fs-normal"></i>
         </span>
@@ -58,7 +58,7 @@
           @if (!noWalletData) {
             <span class="fs-small">Balance</span>
             @if (defaultWallet) {
-              @if (showAmountWallet) {
+              @if (amountState) {
                 <span class="fw-bold"
                   >{{ defaultWallet.response_data.currency
                   }}{{

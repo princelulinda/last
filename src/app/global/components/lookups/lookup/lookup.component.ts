@@ -47,11 +47,13 @@ export class LookupComponent implements OnInit {
     this.getAdminMenus();
     this.search.setValue('');
     if (this.option === 'autocomplete') {
+      console.log('IIIIIIIIIIIIIIIIIIIIIIDDDDDDDDDDDDDDDDDDDDDDD');
       this.initAutocomplete();
     }
-    if (this.option === 'autocomplete' && this.selectedId) {
-      this.initAutocomplete();
-    }
+
+    // if (this.option === 'autocomplete' && this.selectedId) {
+    //   this.initAutocomplete();
+    // }
   }
 
   inputFocused() {
@@ -89,24 +91,24 @@ export class LookupComponent implements OnInit {
   }
 
   initAutocomplete() {
-    console.log('!!!!!!!!!!!!!!!!!!!Items', this.items);
-    console.log('!!!!!!!!!!!!!!!!!!!>>>>>>search', this.search.value);
-    if (this.items.length === 0 && this.search.value === '') {
+    if ((this.items.length === 0 || !this.items) && this.search.value === '') {
       this.isLoading = true;
-
-      console.log('inside IIIIIIIFFFFFFF', this.isLoading);
 
       this.generalService.DoAutocomplete(this.url, '').subscribe(value => {
         const res = value as { objects: ItemModel[] };
         this.items = res.objects;
         this.isLoading = false;
+        console.log('..............................AAAAAAAAAAA', this.items);
         if (this.selectedId) {
           const items: ItemModel[] = this.items;
-
           this.selectedItem = items.filter(item => {
             if (item.id === this.selectedId) {
               return item;
             }
+            console.log(
+              '..............................BBBBBBBBBBBBBBB',
+              this.selectedItem
+            );
             return null;
           })[0];
           if (this.selectedItem) {

@@ -5,7 +5,10 @@ import { Observable, takeUntil, Subject } from 'rxjs';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import {
   ApiService,
+  AuthService,
+  BankService,
   ConfigService,
+  DialogService,
   MerchantService,
 } from '../../../core/services';
 import { PlateformModel } from '../../../core/services/config/main-config.models';
@@ -14,6 +17,8 @@ import { Pagination } from '../../../core/services/merchant/model';
 import {
   AllProductModel,
   ProductModel,
+  TransactionModel,
+  TransactionObjectModel,
 } from '../../../components/products/products.model';
 import { ProductCardComponent } from '../../../components/dev/product-card/product-card.component';
 
@@ -46,30 +51,30 @@ export class AsideBarComponent implements OnInit {
     },
   };
 
-  // recentTransactions: any;
-  // isTransactionDone = false;
-  // // lastTransfers: any;
-  // isTransfer = false;
-  // isBalanceShown = false;
-  // isBalanceShown$!: Observable<boolean>;
-  // favoriteBeneficiaries: any;
+  recentTransactions!: TransactionModel[] | undefined | null;
+  isTransactionDone = false;
+  lastTransfers!: TransactionModel[] | undefined;
+  isTransfer = false;
+  isBalanceShown = false;
+  isBalanceShown$!: Observable<boolean>;
+  favoriteBeneficiaries!: TransactionModel[] | undefined;
 
-  // clientId$: Observable<any>;
-  // clientId!: string;
-  // selectedBankId$!: Observable<any>;
-  // clientVerified = '&filter_for_client=true';
+  clientId$: Observable<number>;
+  clientId!: string;
+  selectedBankId$!: Observable<string>;
+  clientVerified = '&filter_for_client=true';
 
   constructor(
     private configService: ConfigService,
     private merchantService: MerchantService,
-    private apiService: ApiService
-    // private authService: AuthService,
-    // private bankService: BankService,
-    // private dialogService: DialogService,
+    private apiService: ApiService,
+    private authService: AuthService,
+    private bankService: BankService,
+    private dialogService: DialogService
   ) {
     this.plateform$ = this.configService.getPlateform();
-    // this.clientId$ = this.authService.getUserClientId();
-    // this.isBalanceShown$ = this.dialogService.getAmountState();
+    this.clientId$ = this.authService.getUserClientId();
+    this.isBalanceShown$ = this.dialogService.getAmountState();
   }
 
   ngOnInit(): void {
@@ -80,12 +85,12 @@ export class AsideBarComponent implements OnInit {
     });
     this.getAllProducts('');
 
-    // this.isBalanceShown$
-    // .pipe(takeUntil(this.onDestroy$))
-    // .subscribe((isShowed: boolean) => {
-    //     this.isBalanceShown = isShowed;
-    // });
-    // this.getRecentTransactions();
+    this.isBalanceShown$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((isShowed: boolean) => {
+        this.isBalanceShown = isShowed;
+      });
+    this.getRecentTransactions();
   }
 
   getAllProducts(search: string) {
@@ -123,50 +128,52 @@ export class AsideBarComponent implements OnInit {
     console.log('PRoducts', this.product);
   }
 
-  // handleTransfer() {
-  //   this.bankService.isTransfer$.subscribe((data) => {
-  //       this.isTransfer = data;
+  handleTransfer() {
+    this.bankService.isTransfer$.subscribe(data => {
+      this.isTransfer = data;
 
-  //       this.getFavoriteBeneficiaries();
-  //       this.getLastTransfers();
-  //   });
-  // }
+      this.getFavoriteBeneficiaries();
+      this.getLastTransfers();
+    });
+  }
 
-  // getRecentTransactions() {
-  //   this.bankService.updateTransaction(false);
-  //   this.isTransactionDone = false;
-  //   this.recentTransactions = undefined;
+  getRecentTransactions() {
+    this.bankService.updateTransaction(false);
+    this.isTransactionDone = false;
+    this.recentTransactions = undefined;
 
-  //   const period = {
-  //       start_date: '',
-  //       end_date: '',
-  //   };
+    const period = {
+      start_date: '',
+      end_date: '',
+    };
 
-  //   this.bankService
-  //     .getRecentTransactions('', period, this.clientVerified)
-  //     .subscribe((transfers:any) => {
-  //         this.recentTransactions = transfers.objects;
-  //         this.bankService.updateTransaction(false);
-  //   });
-  // }
+    this.bankService
+      .getRecentTransactions('', period, this.clientVerified)
+      .subscribe((transfers: TransactionObjectModel) => {
+        this.recentTransactions = transfers.objects;
+        this.bankService.updateTransaction(false);
+      });
+  }
 
-  // getLastTransfers() {
-  //   this.bankService.updateTransaction(false);
-  //   this.isTransactionDone = false;
-  //   this.lastTransfers = undefined;
-  //   this.bankService.getTransfersList().subscribe((transfers: any) => {
-  //       this.lastTransfers = transfers.objects;
-  //       this.bankService.updateTransaction(false);
-  //   });
-  // }
+  getLastTransfers() {
+    this.bankService.updateTransaction(false);
+    this.isTransactionDone = false;
+    this.lastTransfers = undefined;
+    this.bankService
+      .getTransfersList()
+      .subscribe((transfers: TransactionObjectModel) => {
+        this.lastTransfers = transfers.objects;
+        this.bankService.updateTransaction(false);
+      });
+  }
 
-  // getFavoriteBeneficiaries() {
-  //     this.bankService.updateTransaction(false);
-  //     this.isTransactionDone = false;
-  //     this.favoriteBeneficiaries = undefined;
-  //     this.bankService.getLastBeneficiary().subscribe((beneficiaries) => {
-  //         this.favoriteBeneficiaries = beneficiaries.objects;
-  //         this.bankService.updateTransaction(false);
-  //     });
-  // }
+  getFavoriteBeneficiaries() {
+    this.bankService.updateTransaction(false);
+    this.isTransactionDone = false;
+    this.favoriteBeneficiaries = undefined;
+    this.bankService.getLastBeneficiary().subscribe(beneficiaries => {
+      this.favoriteBeneficiaries = beneficiaries.objects;
+      this.bankService.updateTransaction(false);
+    });
+  }
 }
