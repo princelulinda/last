@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -28,6 +28,7 @@ import { OrganizationModel } from '../../components/auth/auth.model';
     SwitchModeComponent,
     ProfileCardComponent,
     ReactiveFormsModule,
+    NgOptimizedImage,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
