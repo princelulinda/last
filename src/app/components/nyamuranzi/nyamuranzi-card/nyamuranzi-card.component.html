@@ -1,23 +1,6 @@
 <div>
   <div class="text-dark d-flex align-items-center">
     <b class="me-2 fs-4">Nyamuranzi</b>
-    <b
-      tabindex="0"
-      (click)="toggleAmount()"
-      [ngClass]="{
-        'not-clickable': !referees,
-      }"
-      role="button">
-      @if (!showAmountAccount) {
-        <span title="show balance">
-          <i class="fa fa-eye fs-6"></i>
-        </span>
-      } @else {
-        <span title="show balance">
-          <i class="fa fa-eye-slash fs-6"></i>
-        </span>
-      }
-    </b>
   </div>
   <div
     class="mt-2 lg-radius position-relative p-2 shadow nyamu-card"

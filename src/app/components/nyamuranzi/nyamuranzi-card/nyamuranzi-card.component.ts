@@ -5,7 +5,11 @@ import { CommonModule, NgClass } from '@angular/common';
 import { Subject, Observable, takeUntil } from 'rxjs';
 
 import { BankingService } from '../../../core/services/dashboards/banking.service';
-import { ConfigService, AuthService } from '../../../core/services';
+import {
+  ConfigService,
+  AuthService,
+  DialogService,
+} from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { nyamuranziCard } from '../models';
 import { userInfoModel } from '../../../layouts/header/model';
@@ -29,6 +33,7 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   showAmountAccount = false;
+  showAmountAccount$!: Observable<boolean>;
   referees!: nyamuranziCard;
   noRefereed = false;
   activePlatform: string | null = null;
@@ -38,11 +43,13 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
   constructor(
     private bankingService: BankingService,
     private configService: ConfigService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialogService: DialogService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
     this.mainConfig$ = this.configService.getMainConfig();
+    this.showAmountAccount$ = this.dialogService.getAmountState();
   }
   ngOnInit(): void {
     this.mainConfig$.subscribe({
@@ -76,10 +83,10 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
           // code
         },
       });
-  }
 
-  toggleAmount() {
-    this.showAmountAccount = !this.showAmountAccount;
+    this.showAmountAccount$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: state => (this.showAmountAccount = state),
+    });
   }
 
   public ngOnDestroy(): void {

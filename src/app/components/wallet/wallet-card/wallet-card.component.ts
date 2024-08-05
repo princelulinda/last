@@ -100,9 +100,10 @@ export class WalletCardComponent implements OnInit, OnDestroy {
     this.getDefaultWallet();
   }
 
-  toggleAmount() {
-    this.dialogService.displayAmount();
-  }
+  // toggleAmount() {
+  //   this.dialogService.displayAmount();
+  // }
+
   getDefaultWallet() {
     this.bankingService
       .getDefaultWallet()
