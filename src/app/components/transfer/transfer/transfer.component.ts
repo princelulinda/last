@@ -29,9 +29,6 @@ import { activeMainConfigModel } from '../../../core/services/config/main-config
   ],
 })
 export class TransferComponent implements OnInit, OnDestroy {
-  // eslint-disable-next-line
-  selectedInstitution: any;
-
   debitNumber = '';
 
   debitHolder = '';
@@ -62,10 +59,7 @@ export class TransferComponent implements OnInit, OnDestroy {
       },
     });
   }
-  // eslint-disable-next-line
-  setSelectedInstitution(institution: any) {
-    this.selectedInstitution = institution;
-  }
+
   onChange(event: Event, type: 'institution' | 'credit'): void {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
