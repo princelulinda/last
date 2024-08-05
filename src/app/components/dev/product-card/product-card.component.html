@@ -1,55 +1,9 @@
-<!-- recent product -->
-<!-- <div class="col-9" *ngIf="get_product === true">
-  <div class="row mb-1 ms-3">
-      <div
-          class="text-center d-flex align-items-center mb-0"
-          title="{{ product.lookup_title }}"
-          style="
-              height: 100px;
-              width: 100px;
-              cursor: pointer;
-              opacity: 0.6;
-              color: white;
-              background-color: grey;
-              border-radius: 0.3rem;
-          "
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-      >
-          <span
-              *ngIf="product.icon"
-              class="text-center d-flex align-items-center"
-              style="font-size: 60px"
-          >
-              <i class="fa-solid fa-{{ product.icon }}"></i>
-          </span>
-          <span
-              *ngIf="!product.icon"
-              class="text-center d-flex align-items-center"
-              style="font-size: 60px"
-          >
-              <i class="fa-solid fa-box-open"></i>
-          </span>
-      </div>
-      
-  </div>
-  <div class="text-dark row ms-1" title="{{ product.lookup_title }}">
-      <span class="ms-0 text-truncate" style="font-size: 18px"
-          ><b>{{ product.lookup_title }}</b></span
-      ><br />
-      <span class="ms-0" style="font-size: 16px">
-          {{ product.lookup_subtitle }}</span
-      ><br />
-      
-  </div>
-</div> -->
 @if (
-  get_product === true &&
-  (product.lookup_title ||
-    product.lookup_icon ||
-    product.lookup_image ||
-    product.lookup_description ||
-    product.lookup_subtitle)
+  product.lookup_title ||
+  product.lookup_icon ||
+  product.lookup_image ||
+  product.lookup_description ||
+  product.lookup_subtitle
 ) {
   <div
     class="justify-content-center bg-white lg-radius shadow-sm position-relative h-100 overflow-hidden"
@@ -57,17 +11,18 @@
     <div class="col-12 h-100 d-flex flex-column">
       <div class="row">
         <div class="position-relative">
+          <!-- TODO :: FAVORITE STAR WAIT FOR IS FAVORITE BOOLEAN ON API-->
+          <!-- <span
+            class="favorite-star bg-white p-1 rounded-circle position-absolute end-0 me-4 mt-2 d-flex"
+            data-id="123">
+            <i class="fa-solid fa-star text-primary"></i>
+          </span> -->
           @if (product.lookup_image) {
             <div>
               <img [src]="product.lookup_title" alt="product image" />
             </div>
           } @else if (product && !product.lookup_image) {
             <div class="bg-secondary">
-              <span
-                class="favorite-star bg-all-white p-1 rounded-circle position-absolute end-0 me-4 mt-3 d-flex"
-                data-id="123">
-                <i class="fa-solid fa-star text-primary"></i>
-              </span>
               <span class="d-flex justify-content-center">
                 <i
                   class="fa-solid fa-mountain-sun fa-3x my-5 text-secondary"></i>
@@ -75,7 +30,7 @@
             </div>
           }
 
-          <!-- Price -->
+          <!-- NOTE :: Price -->
           @if (product.price) {
             <span
               class="position-absolute fs-small px-1 text-primary bottom-0 start-1"
@@ -112,7 +67,7 @@
     </div>
   </div>
 }
-
+<!-- 
 @if (get_product === true && product.merchant) {
   <div
     class="justify-content-center bg-white lg-radius shadow-sm position-relative h-100 overflow-hidden"
@@ -176,4 +131,4 @@
       </div>
     </div>
   </div>
-}
+} -->
