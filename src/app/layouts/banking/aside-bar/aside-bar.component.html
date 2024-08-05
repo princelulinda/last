@@ -76,9 +76,11 @@
               <span class="amount">
                 <span *ngIf="!transaction.amount">---</span>
                 <span *ngIf="transaction.amount">
-                  <span *ngIf="isBalanceShown"
-                    >BIF {{ transaction.amount | number }}</span
-                  >
+                  <span *ngIf="isBalanceShown">
+                    <app-amount-visibility
+                      [amount]="transaction.amount"
+                      [currency]="'BIF'"></app-amount-visibility>
+                  </span>
                   <span *ngIf="!isBalanceShown">BIF * *</span>
                 </span>
               </span>
