@@ -1,11 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BankingService } from '../../../core/services/dashboards/banking.service';
 import { Subject, Observable, takeUntil } from 'rxjs';
-import {
-  AuthService,
-  ConfigService,
-  DialogService,
-} from '../../../core/services';
+import { AuthService, ConfigService } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 
 import { NgClass, CommonModule } from '@angular/common';
@@ -50,8 +46,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   constructor(
     private bankingService: BankingService,
     private configService: ConfigService,
-    private authService: AuthService,
-    private dialogService: DialogService
+    private authService: AuthService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
