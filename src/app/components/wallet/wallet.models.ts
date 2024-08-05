@@ -27,3 +27,13 @@ export interface Walletdetail {
     acc_holder: string;
   };
 }
+export interface Accountdetail {
+  actual_balance: number;
+  title: string;
+  code: string;
+  available_balance: number;
+  currency: 'BIF';
+  account: {
+    acc_holder: string;
+  };
+}

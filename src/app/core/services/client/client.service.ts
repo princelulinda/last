@@ -9,6 +9,7 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { accountsList } from '../../../components/account/models';
 import {
+  Accountdetail,
   Walletdetail,
   WalletList,
 } from '../../../components/wallet/wallet.models';
@@ -48,5 +49,12 @@ export class ClientService {
   getClientAccounts(clientId: number): Observable<{ objects: accountsList[] }> {
     const url = '/accounts/' + clientId + '/';
     return this.apiService.get<{ objects: accountsList[] }>(url);
+  }
+
+  getClientAccountDetails(
+    selectedAccount: string
+  ): Observable<{ object: Accountdetail }> {
+    const url = '/clients/manage/accounts/' + selectedAccount + '/';
+    return this.apiService.get<{ object: Accountdetail }>(url);
   }
 }
