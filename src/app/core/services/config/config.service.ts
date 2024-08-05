@@ -235,7 +235,11 @@ export class ConfigService {
   getSelectedOrganization(): Observable<OrganizationModel | null> {
     this.getConnectedOperator().subscribe({
       next: operator => {
-        this.operatorOrganization.next(operator.organization ?? null);
+        if (operator) {
+          this.operatorOrganization.next(operator.organization ?? null);
+        } else {
+          this.operatorOrganization.next(null);
+        }
       },
     });
     return this.operatorOrganization;
