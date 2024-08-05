@@ -37,7 +37,7 @@
                 <span class="fs-5 text-secondary">Earnings</span>
                 <b class="fs-4 d-flex text-dark">
                   @if (referees) {
-                    <span class="me-1">{{
+                    <!-- <span class="me-1">{{
                       referees.response_data.currency
                     }}</span>
                   }
@@ -47,7 +47,13 @@
                     </span>
                   }
                   @if (!showAmountAccount && referees) {
-                    <b>*** ***</b>
+                    <b>*** ***</b> -->
+
+                    <app-amount-visibility
+                      [amount]="referees.response_data.commissions"
+                      [currency]="
+                        referees.response_data.currency
+                      "></app-amount-visibility>
                   }
                 </b>
                 @if (!referees) {

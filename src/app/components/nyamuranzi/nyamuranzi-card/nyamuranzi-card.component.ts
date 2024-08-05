@@ -17,11 +17,12 @@ import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({
   selector: 'app-nyamuranzi-card',
   standalone: true,
-  imports: [NgClass, CommonModule, RouterLink],
+  imports: [NgClass, CommonModule, RouterLink, AmountVisibilityComponent],
   templateUrl: './nyamuranzi-card.component.html',
   styleUrl: './nyamuranzi-card.component.scss',
 })

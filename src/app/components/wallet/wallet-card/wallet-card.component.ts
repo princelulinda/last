@@ -14,6 +14,7 @@ import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 interface mainConfigModel {
   activeMode: string;
@@ -23,15 +24,12 @@ interface mainConfigModel {
 @Component({
   selector: 'app-wallet-card',
   standalone: true,
-  imports: [NgClass, CommonModule, RouterLink],
+  imports: [NgClass, CommonModule, RouterLink, AmountVisibilityComponent],
   templateUrl: './wallet-card.component.html',
   styleUrl: './wallet-card.component.scss',
 })
 export class WalletCardComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
-
-  amountState = false;
-  amountState$: Observable<boolean>;
 
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
@@ -47,6 +45,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   noWalletData = false;
   clientId: number | null = null;
   bankId: number | null = null;
+  mouseHover = false;
 
   constructor(
     private bankingService: BankingService,
@@ -58,7 +57,6 @@ export class WalletCardComponent implements OnInit, OnDestroy {
     this.userInfo$ = this.authService.getUserInfo();
     this.selectedBank$ = this.configService.getSelectedBank();
     this.mainConfig$ = this.configService.getMainConfig();
-    this.amountState$ = this.dialogService.getAmountState();
   }
   ngOnInit(): void {
     this.mode$.subscribe({
@@ -90,13 +88,6 @@ export class WalletCardComponent implements OnInit, OnDestroy {
         }
       },
     });
-
-    this.amountState$.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: state => {
-        this.amountState = state;
-      },
-    });
-
     this.getDefaultWallet();
   }
 
