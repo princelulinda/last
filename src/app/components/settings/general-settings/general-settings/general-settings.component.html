@@ -65,7 +65,7 @@
       </div>
       <!-- Additional Accounts-->
 
-      <div class="bg-white lg-radius mt-4 p-3">
+      <!-- <div class="bg-white lg-radius mt-4 p-3">
         <div class="row">
           <div class="col">
             <span class="fw-bold text-dark text-md" i18n>
@@ -223,7 +223,7 @@
             </div>
           </div>
         }
-      </div>
+      </div>-->
       <!-- Additional Number-->
 
       <div class="bg-white lg-radius mt-4 p-3">
@@ -326,14 +326,39 @@
                         }
                       </div>
 
-                      <div>
-                        <span class="position-relative">
-                          <span class="text-primary-light pe-2" role="button">
+                      <div role="button">
+                        <span class="position-relative number-action-container">
+                          <span
+                            class="text-primary-light is-clickable pe-2"
+                            (click)="toggleActionPopup(number)"
+                            tabindex="0">
                             <i
                               class="fas fa-ellipsis-v"
                               style="margin-left: 20px"
                               title="Actions"></i>
                           </span>
+                          @if (showActionPopupAt === number.ident) {
+                            <span
+                              class="actions-popup sm-radius d-flex flex-column p-3"
+                              style="
+                                box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.15);
+                              ">
+                              <div
+                                class="d-flex text-dark align-items-center is-clickable"
+                                data-bs-toggle="modal"
+                                data-bs-target="#mapping-modal"
+                                (click)="
+                                  showActionPopupAt = '';
+                                  selectedNumberToMap = number.ident
+                                "
+                                tabindex="0">
+                                <span class="me-2">
+                                  <i class="fa-solid fa-link"></i
+                                ></span>
+                                <span>Mapping</span>
+                              </div>
+                            </span>
+                          }
                         </span>
                       </div>
                     </div>
@@ -365,7 +390,8 @@
                   i18n
                   class="btn bg-primary text-light"
                   [disabled]="!phoneNumber.valid || isLoading"
-                  (click)="openPinPopup('phoneNumber')">
+                  (click)="openPinPopup('phoneNumber')"
+                  tabindex="0">
                   @if (!loading) {
                     <span> Add</span>
                   }
@@ -514,17 +540,12 @@
     </div>
   }
 
-  <!---- <div class="modal fade" id="mapping-modal">
+  <div class="modal fade" id="mapping-modal">
     <div class="modal-dialog modal-dialog-centered" style="min-width: 60%">
-        <div
-            class="modal-content w-100 h-100"
-          
-            style="min-height: 70vh"
-        >
-            <app-global-mapping
-                [contact]="selectedNumberToMap"
-            ></app-global-mapping>
-        </div>
+      <div class="modal-content w-100 h-100" style="min-height: 70vh">
+        <app-global-mapping
+          [contact]="selectedNumberToMap"></app-global-mapping>
+      </div>
     </div>
-</div>-->
+  </div>
 </div>
