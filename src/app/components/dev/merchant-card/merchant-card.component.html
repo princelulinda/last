@@ -3,7 +3,8 @@
     type="button"
     (click)="makeFavoriteMerchants(merchant, $event)"
     *ngIf="
-      merchant?.is_favorite_merchant &&
+      merchant &&
+      merchant.is_favorite_merchant &&
       (favorite_merchant_making === null ||
         favorite_merchant_making?.id !== merchant?.id)
     "
@@ -27,6 +28,7 @@
   </span>
   <span
     *ngIf="
+      merchant &&
       favorite_merchant_making !== null &&
       favorite_merchant_making?.id === merchant?.id
     "

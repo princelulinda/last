@@ -11,11 +11,12 @@ import { ClientService } from '../../../../core/services/client/client.service';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { BodyModel } from '../../settings.models';
 import { ClipboardDirective } from '../../../dev/clipboard.directive';
+import { GlobalMappingComponent } from '../../../dev/global-mapping/global-mapping.component';
 // { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-general-settings',
   standalone: true,
-  imports: [ReactiveFormsModule, ClipboardDirective],
+  imports: [ReactiveFormsModule, ClipboardDirective, GlobalMappingComponent],
   templateUrl: './general-settings.component.html',
   styleUrl: './general-settings.component.scss',
 })
@@ -29,8 +30,10 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
   id!: number;
   loading = false;
   emailsLoading = true;
+  selectedNumberToMap!: string;
   phoneNumbersLoading = true;
   phoneNumbers: MailModel[] | null = null;
+  showActionPopupAt!: string;
   private userInfo$: Observable<UserInfoModel>;
   //showActionPopupAt:any
   //selectedNumberToMap!: string;
@@ -89,6 +92,15 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
         }
       },
     });
+  }
+  toggleActionPopup(number: MailModel) {
+    // this.showActionPopupAt = number.ident;
+    if (this.showActionPopupAt && this.showActionPopupAt === number.ident) {
+      this.showActionPopupAt = '';
+    } else {
+      this.showActionPopupAt = number.ident;
+      // console.log('hello',this.showActionPopupAt)
+    }
   }
 
   getEmails() {
