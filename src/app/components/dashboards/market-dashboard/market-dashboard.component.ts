@@ -13,6 +13,7 @@ import {
   ProductModel,
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.model';
 
 @Component({
   selector: 'app-market-dashboard',
@@ -69,13 +70,13 @@ export class MarketDashboardComponent implements OnInit {
   favorite_merchant_making!: BillersModel | null;
 
   // activities: any = [];
-  merchants!: BillersModel[];
+  merchants!: Merchant_AutocompleteModel[];
   products!: ProductModel[];
   biller: [] | null = null;
   productCategory!: productCategoryModel[];
   // sector: any;
-  last4!: BillersModel[];
-  first6!: BillersModel[];
+  last4!: Merchant_AutocompleteModel[];
+  recentMerchant!: Merchant_AutocompleteModel[];
   first5!: BillersModel[];
   first4!: productCategoryModel[];
   start = 0;
@@ -205,14 +206,14 @@ export class MarketDashboardComponent implements OnInit {
     if (this.end < this.merchants.length) {
       this.start++;
       this.end++;
-      this.first6 = this.merchants.slice(this.start, this.end);
+      this.recentMerchant = this.merchants.slice(this.start, this.end);
     }
   }
   previousMerchant() {
     if (this.start > 0) {
       this.start--;
       this.end--;
-      this.first6 = this.merchants.slice(this.start, this.end);
+      this.recentMerchant = this.merchants.slice(this.start, this.end);
     }
   }
 
@@ -222,14 +223,14 @@ export class MarketDashboardComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as objectsModel;
+          const response = data as { objects: Merchant_AutocompleteModel[] };
           this.merchants = response.objects;
           // this.merchant = this.merchants;
           this.last4 = this.merchants.slice(-4);
           const navigationBtn = document.getElementById(
             'navigationButtonMerchant'
           );
-          this.first6 = this.merchants.slice(this.start, this.end);
+          this.recentMerchant = this.merchants.slice(this.start, this.end);
           navigationBtn?.addEventListener('click', () => {
             this.nextMerchant();
             this.previousMerchant();
@@ -273,21 +274,17 @@ export class MarketDashboardComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          console.log('============response:', response);
           const result = response as objectsModel;
           this.billers = result.objects;
-          console.log('=========this.billers:', this.billers);
 
           const nextBtn = document.getElementById('navigationButton');
           this.first5 = this.billers.slice(this.start, this.end);
-          console.log('==================this.first5:', this.first6);
           nextBtn?.addEventListener('click', () => {
             this.nextBiller();
             this.previousBiller();
           });
         },
-        error: error => {
-          console.log('========error:', error);
+        error: () => {
           this.loadingmerchants = false;
         },
       });

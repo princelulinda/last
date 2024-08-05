@@ -39,6 +39,7 @@ import {
 import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
 import { AllProductsComponent } from '../../products/all-products/all-products.component';
 import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
+import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.model';
 
 // import {
 //     OpenMerchantBillPopup,
@@ -110,7 +111,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   ];
   merchantId!: string | number;
   merchant!: MerchantModel | null;
-  merchantMult!: MerchantModel[];
+  merchantMult!: Merchant_AutocompleteModel[];
   merchantInfo!: MerchantModel | null;
 
   stat!: MerchantModel | null;

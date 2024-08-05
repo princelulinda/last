@@ -1,120 +1,53 @@
-@if (get_merchant === true) {
-  <span
-    type="button"
-    (click)="makeFavoriteMerchants(merchant, $event)"
-    *ngIf="
-      merchant &&
-      merchant.is_favorite_merchant &&
-      (favorite_merchant_making === null ||
-        favorite_merchant_making?.id !== merchant?.id)
-    "
-    tabindex="0"
-    title="Revoke Favorite"
-    class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
-    <span class="text-primary"><i class="fa-solid fa-star"></i></span>
-  </span>
-  <span
-    type="button"
-    (click)="makeFavoriteMerchants(merchant, $event)"
-    tabindex="0"
-    title="Make Favorite"
-    *ngIf="
-      !merchant?.is_favorite_merchant &&
-      (favorite_merchant_making === null ||
-        favorite_merchant_making?.id !== merchant?.id)
-    "
-    class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
-    <span class="text-primary"><i class="fa-regular fa-star"></i></span>
-  </span>
-  <span
-    *ngIf="
-      merchant &&
-      favorite_merchant_making !== null &&
-      favorite_merchant_making?.id === merchant?.id
-    "
-    class="z-3 position-absolute bg-all-white rounded-circle end-0 me-5 mt-3 p-0 px-1 d-flex">
-    <span class="text-primary"><i class="fas fa-spinner fa-pulse"></i></span>
-  </span>
-
-  <div class="justify-content-center position-relative">
-    @if (merchant) {
-      <div class="row">
-        <div class="col-11">
-          <div class="border sm-radius">
-            <div class="row">
-              <div class="position-relative">
-                <div class="bg-input m-1 sm-radius">
-                  @if (merchant.lookup_image) {
-                    <div class="merchant">
-                      <div style="height: 150px">
-                        <img
-                          [src]="merchant.lookup_image"
-                          alt="merchantImg"
-                          class="image object-fit-cover" />
-                      </div>
-                    </div>
-                  } @else if (
-                    merchant && !merchant.lookup_icon && !merchant.lookup_image
-                  ) {
-                    <span class="d-flex justify-content-center">
-                      <i
-                        class="fa-solid fa-box-open fa-5x my-4 mt-5"
-                        style="color: #ffffff"></i>
-                    </span>
-                  }
-                </div>
-              </div>
-            </div>
-            <div class="row ms-0 mt-2" title="{{ merchant.lookup_title }}">
-              <h6 class="fs-x-small">{{ merchant.lookup_title }}</h6>
-            </div>
-
-            <div class="row ms-0">
-              <div class="col-8">
-                <p class="text-secondary fs-x-small mb-2">
-                  {{ merchant.lookup_subtitle }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    } @else if (merchants) {
-      <div class="border sm-radius">
-        <div class="row">
-          <div class="position-relative">
-            <div class="bg-input m-1 sm-radius">
-              @if (merchants.merchant_logo) {
-                <div class="merchant">
-                  <div style="height: 100%">
-                    <img
-                      [src]="merchants.merchant_logo"
-                      alt="merchantImg"
-                      class="image" />
-                  </div>
-                </div>
-              } @else if (merchants && !merchants.merchant_logo) {
-                <span class="d-flex justify-content-center">
-                  <i
-                    class="fa-solid fa-box-open fa-5x my-4 mt-5"
-                    style="color: #ffffff"></i>
-                </span>
-              }
-            </div>
-          </div>
-        </div>
-        <div class="row ms-0 mt-2" title="{{ merchants.merchant_title }}">
-          <h6 class="fs-x-small">{{ merchants.merchant_title }}</h6>
-        </div>
-
-        <div class="row ms-0">
-          <div class="col-8">
-            <p class="text-secondary fs-x-small mb-2">
-              {{ merchants.merchant_code }}
-            </p>
-          </div>
-        </div>
-      </div>
+<div
+  class="merchant-card position-relative d-flex flex-column bg-white p-1 sm-radius border">
+  <!-- NOTE :: MAKE OR REVOKE FAVORITE SECTION -->
+  <section
+    class="position-absolute bg-white rounded-circle border z-3 end-0 me-2 mt-2 p-1 d-flex px-2"
+    role="button"
+    tabindex="2">
+    @if (!isLoading) {
+      @if (merchant.is_favorite_merchant) {
+        <span
+          type="button"
+          (click)="makeFavoriteMerchants(merchant, $event)"
+          tabindex="0"
+          title="Revoke Favorite">
+          <span class="text-primary"><i class="fa-solid fa-star"></i></span>
+        </span>
+      } @else if (!merchant.is_favorite_merchant) {
+        <span
+          type="button"
+          (click)="makeFavoriteMerchants(merchant, $event)"
+          tabindex="0"
+          title="Make Favorite">
+          <span class="text-primary"><i class="fa-regular fa-star"></i></span>
+        </span>
+      }
+    } @else {
+      <span class="text-primary"><i class="fas fa-spinner fa-pulse"></i></span>
     }
-  </div>
-}
+  </section>
+
+  <!-- NOTE :: IMAGE SECTION -->
+  <section
+    class="image-section d-flex justify-content-center align-items-center bg-input sm-radius flex-grow-1">
+    @if (merchant.lookup_image) {
+      <img
+        [src]="merchant.lookup_image"
+        alt="merchantImg"
+        class="image object-fit-cover" />
+    } @else {
+      <span class="text-all-white">
+        <i class="fa-solid fa-box-open fa-5x"></i>
+      </span>
+    }
+  </section>
+  <section class="d-flex flex-column mt-2 pb-2">
+    <small>{{ merchant.lookup_title }} ({{ merchant.lookup_subtitle }})</small>
+
+    <!-- TODO :: TO REMOVE AND SHOW MERCHANT CATEGORY  -->
+    <small class="fs-x-small text-secondary mt-1">{{
+      merchant.merchant_category_name
+    }}</small>
+  </section>
+</div>
