@@ -14,7 +14,6 @@ import { ConfigService } from '../../../core/services';
 import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
 import { CreditAccountComponent } from '../credit-account/credit-account.component';
 import { WalletList } from '../../wallet/wallet.models';
-// import { InstitutionInfoModel } from '../transfer.model';
 
 @Component({
   selector: 'app-transfer',

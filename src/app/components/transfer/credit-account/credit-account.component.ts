@@ -31,12 +31,15 @@ import {
 import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import {
+  CreditAccountModel,
   CreditDetail,
   DebitAccountModel,
+  DebitOptions,
   DebitWalletModel,
   InstitutionInfoModel,
   LookupResponseModel,
   PopupEventModel,
+  TransferResponseModel,
 } from '../transfer.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 
@@ -61,8 +64,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   totalAmount = 0;
   lookupDebitAccountUrl = '/clients/list/all/object_lookup?lookup_data=';
 
-  // eslint-disable-next-line
-  institutionsList: any;
+  institutionsListCount = 0;
+  institutionsList: InstitutionInfoModel[] | undefined;
 
   // eslint-disable-next-line
   selectedInstitution: any;
@@ -71,10 +74,9 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
   client: DebitAccountModel | null = null;
 
-  // eslint-disable-next-line
-  accounts: any;
-  // eslint-disable-next-line
-  wallets: any;
+  accounts: DebitAccountModel[] = [];
+
+  wallets: DebitWalletModel[] = [];
   isLoading = false;
   debitWallet: DebitWalletModel | null = null;
 
@@ -96,8 +98,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
   values: CreditDetail[] = [];
 
-  // eslint-disable-next-line
-  transferResponse: any;
+  transferResponse!: TransferResponseModel;
 
   creditNumber: string | null | undefined;
 
@@ -109,8 +110,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     amount: number | string;
   }[] = [];
   lookup = new FormControl<LookupResponseModel | string>('');
-  // eslint-disable-next-line
-  creditAccount: any;
+
+  creditAccount: CreditAccountModel | null | undefined;
   transferForm = new FormGroup({
     accountNumber: new FormControl('', Validators.required),
     accountHolder: new FormControl('', Validators.required),
@@ -125,8 +126,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   // eslint-disable-next-line
   lookupData: any;
 
-  // eslint-disable-next-line
-  transferData: any;
   @Input() isMerchantTransfer = false;
   @Input() isOperation = false;
   @Input() showBack = false;
@@ -261,21 +260,19 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectInstitutionType(institutionType: string) {
+  selectInstitutionType(institutionType: InstitutionInfoModel | string) {
     this.institutionsList = undefined;
-    this.selectedInstitutionType = institutionType;
+    this.selectedInstitutionType = institutionType as string;
     if (institutionType !== this.selectedInstitutionType) {
       this.selectedInstitution = '';
     }
     this.transferService
-      .getInstitutionsList(institutionType)
+      .getInstitutionsList(institutionType as InstitutionInfoModel)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(
-        // eslint-disable-next-line
-        (list: any) => {
-          this.institutionsList = list.objects;
-        }
-      );
+      .subscribe(list => {
+        this.institutionsList = list.objects;
+        this.institutionsListCount = this.institutionsList.length;
+      });
   }
 
   // eslint-disable-next-line
@@ -329,7 +326,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const dataAccount = {
       account_number: this.lookup.value,
-      bank_slug: this.selectedInstitution.slug,
+      bank_slug: this.selectedInstitution?.slug,
       account_type: this.selectedCreditAccountType,
     };
 
@@ -394,31 +391,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
       });
   }
 
-  deleteFields(index: number) {
-    this.values.splice(index, 1);
-  }
-
-  addFields() {
-    if (this.transferForm.valid) {
-      const object: CreditDetail = {
-        account: this.creditAccount?.account_number,
-        acc_holder: this.creditAccount?.name,
-        description: this.transferForm.value.debit_description,
-        amount: this.amount,
-      };
-
-      this.values.push(object);
-
-      this.transferForm.controls['accountNumber'].reset();
-      this.transferForm.controls['accountHolder'].reset();
-      this.transferForm.controls['debit_description'].reset();
-      this.transferForm.controls['amount'].reset();
-      this.transferForm.controls['merchant_reference'].reset();
-
-      this.creditAccount = null;
-      this.amount = '';
-    }
-  }
   validateTransfer() {
     this.amountToSend = this.amount;
 
@@ -475,7 +447,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
           } else {
             this.isTransferDone.emit(true);
             this.isAmountChanging = true;
-            this.transferResponse = response.object.response_data;
+            this.transferResponse = response.object
+              .response_data as unknown as TransferResponseModel;
             this.selectedInstitutionType = '';
             this.selectedCreditAccountType = '';
 
@@ -558,7 +531,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
             this.isTransferDone.emit(true);
 
             this.isAmountChanging = false;
-            this.transferResponse = response.object.response_data;
+            this.transferResponse = response.object
+              .response_data as unknown as TransferResponseModel;
             // this.successMessage = {
             //   data: {
             //     credit_account: this.creditNumber,
@@ -617,11 +591,10 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     this.isBanksListShown = !this.isBanksListShown;
   }
 
-  // eslint-disable-next-line
-  switchBank(index: any) {
+  switchBank(index: number) {
     this.selectedBank = this.banks[index];
 
-    this.configService.setSelectedBank(index);
+    this.configService.setSelectedBank(index as unknown as bankModel);
 
     this.selectedDebitAccountType = '';
     this.debitAccount = null;
@@ -639,13 +612,12 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     });
   }
 
-  // eslint-disable-next-line
-  getDebitOptions(event: any) {
-    this.debitAccount = event.account;
-    this.debitWallet = event.wallet;
-    this.selectedDebitAccountType = event.selectedDebitOptions;
+  getDebitOptions(event: DebitOptions) {
+    this.debitAccount = event.account as unknown as DebitAccountModel | null;
+    this.debitWallet = event.wallet as unknown as DebitWalletModel | null;
+    this.selectedDebitAccountType = event.selectedDebitOption;
     this.selectedCreditAccountType = event.creditAccountType;
-    this.isTransferDone = event.isTransferDone;
+    this.isTransferDone.emit(event.isTransferDone);
     this.isAmountChanging = event.isAmountChanging;
     this.selectedInstitutionType = event.selectedInstitutionType;
     this.selectedInstitution = event.selectedInstitution;
