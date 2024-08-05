@@ -5,6 +5,8 @@ import {
   OnInit,
   Output,
   OnDestroy,
+  SimpleChanges,
+  OnChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -23,7 +25,7 @@ import { activeMainConfigModel } from '../../../core/services/config/main-config
   templateUrl: './accounts-list.component.html',
   styleUrl: './accounts-list.component.scss',
 })
-export class AccountsListComponent implements OnInit, OnDestroy {
+export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
   private client_id$: Observable<number>;
@@ -40,6 +42,15 @@ export class AccountsListComponent implements OnInit, OnDestroy {
   closeForm = false;
   @Input() Type: 'transfer' | 'list' = 'transfer';
   @Output() accountSelected = new EventEmitter<accountsList>();
+  @Input() isTransferDone = false;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['isTransferDone']) {
+      if (this.isTransferDone) {
+        this.clearSelectedAccount();
+      }
+    }
+  }
 
   private onDestroy$ = new Subject<void>();
 

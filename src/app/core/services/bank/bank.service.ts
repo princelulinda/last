@@ -37,14 +37,6 @@ export class BankService {
     this._isBankingAndServicesSelected.next(arg);
   }
 
-  // private getUserBank(refreshBanks: false): Observable<bankModel[]> {
-  //   if (refreshBanks) {
-  //     return this.getBanksList();
-  //   } else {
-  //     return this.configService.getUserBanks();
-  //   }
-  // }
-
   getBanksList(): Observable<bankModel[]> {
     const url = '/banks/clientlist/?';
     return this.apiService
@@ -107,5 +99,38 @@ export class BankService {
   //             return data;
   //         })
   //     );
+  // }
+
+  // getRecentTransactions(type: string, period: any = {}, client: any) {
+  //   return this.apiService
+  //     .get(
+  //         `/operations/pending/logic/?req_type=${type}&=date_from=${period.start_date}&=date_to=${period.end_date}` +
+  //             client
+  //     )
+  //     .pipe(map((data) => data));
+  // }
+
+  // private _isTransfer: BehaviorSubject<boolean> =
+  //   new BehaviorSubject<boolean>(false);
+
+  // get isTransfer$(): Observable<boolean> {
+  //   return this._isTransfer.asObservable();
+  // }
+
+  // getLastBeneficiary() {
+  //   const url = '/operations/beneficiary/';
+  //   return this.apiService.get(url).pipe(
+  //       map((data: any) => {
+  //           return data;
+  //       })
+  //   );
+  // }
+
+  // getTransfersList() {
+  //   return this.apiService
+  //     .get(
+  //         '/operations/pending/logic/?req_type=transfers&filter_for_client=true'
+  //     )
+  //     .pipe(map((data) => data));
   // }
 }

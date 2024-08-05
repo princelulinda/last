@@ -206,9 +206,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         next: data => {
           this.banksFiltered = data.objects;
         },
-        error: () => {
-          // code
-        },
       });
   }
   // toggleBankHome() {
@@ -226,9 +223,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
       .subscribe({
         next: data => {
           this.banks = data;
-        },
-        error: () => {
-          // code
         },
       });
   }

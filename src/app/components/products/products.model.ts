@@ -7,6 +7,8 @@ import { MerchantBillModel } from '../../core/services/dialog/dialogs-models';
 export interface ProductModel {
   id: number;
   name: string;
+  price: number;
+  icon: string;
   lookup_icon: string;
   lookup_image: string;
   lookup_title: string;
@@ -39,11 +41,15 @@ export interface MerchantObjectModel {
   // objects: MerchantModel,
   object: {
     response_data: MerchantModel;
+    response_message: string;
+    success: boolean;
   };
 }
 export interface MerchantObjectsModel {
   // objects: MerchantModel,
   object: {
+    response_message: string;
+    success: boolean;
     response_data: MerchantModel[];
   };
 }

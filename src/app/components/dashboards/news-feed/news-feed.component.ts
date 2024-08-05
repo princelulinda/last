@@ -72,7 +72,6 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
           const prodResponse = res as { objects: ProductModel[] };
           this.topProducts = prodResponse.objects;
           this.loadingProducts = false;
-          console.log('**********TOP******* PRODUCTS : ', this.topProducts);
         },
         error: err => {
           this.loadingProducts = false;
@@ -90,7 +89,6 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
           const billersResponse = res as { objects: BillersModel[] };
           this.billers = billersResponse.objects;
           this.billersLoading = false;
-          console.log('**********BILLERS******* : ', this.billers[0]);
         },
         error: err => {
           this.billersLoading = false;

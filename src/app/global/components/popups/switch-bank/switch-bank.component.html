@@ -5,6 +5,9 @@
         class="me-2 rounded is-hoverable selected"
         tabindex="0"
         role="button"
+        [ngClass]="{
+          'not-clickable opacity-100': isTransfer,
+        }"
         (click)="showModal()"
         [src]="selectedBank.company.image"
         [alt]="selectedBank.company.fullname"
@@ -26,7 +29,7 @@
             class="float-end"
             role="button"
             (click)="isModalShown = false">
-            <i class="fa fa-circle-xmark text-danger fs-4"></i>
+            <i class="fa fa-circle-xmark text-primary fs-4"></i>
           </span>
         </div>
 
@@ -35,7 +38,7 @@
             <div class="mt-1 px-5">
               <div class="w-100 d-flex justify-content-between">
                 <b>Banks</b>
-                <span class="px-2 rounded-circle bg-primary-3">
+                <span class="px-2 rounded-circle text-all-dark bg-primary-3">
                   <b>{{ banks.length }}</b>
                 </span>
               </div>
