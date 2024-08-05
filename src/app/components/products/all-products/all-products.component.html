@@ -53,12 +53,12 @@
           placeholder="Search product"
           [formControl]="searchInput"
           (input)="searchFor()" />
-        <!-- <style>
+        <style>
           /* Règle de style pour le texte du placeholder */
           .form-control::placeholder {
             color: rgb(204, 197, 197);
           }
-        </style> -->
+        </style>
       </div>
     </div>
   }
@@ -69,8 +69,7 @@
         (click)="selectProduct(product)"
         tabindex="0">
         <!-- image -->
-        <app-product-card [product]="product" [get_product]="true">
-        </app-product-card>
+        <app-product-card [product]="product"> </app-product-card>
       </div>
     }
   </div>

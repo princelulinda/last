@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ConfigService } from '../../../core/services';
 import { Observable, Subject } from 'rxjs';
-import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import { PlateformModel } from '../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-loan-home',
   standalone: true,
@@ -16,16 +16,16 @@ export class LoanHomeComponent implements OnInit, OnDestroy {
     private _location: Location,
     private configService: ConfigService
   ) {
-    this.mainConfig$ = this.configService.getMainConfig();
+    this.activePlatform$ = this.configService.getPlateform();
   }
-  activePlatform: string | null = null;
-  mainConfig$!: Observable<activeMainConfigModel>;
+  activePlatform!: PlateformModel;
+  activePlatform$!: Observable<PlateformModel>;
   private onDestroy$: Subject<void> = new Subject<void>();
 
   ngOnInit(): void {
-    this.mainConfig$.subscribe({
-      next: configs => {
-        this.activePlatform = configs.activePlateform;
+    this.activePlatform$.subscribe({
+      next: plateform => {
+        this.activePlatform = plateform;
       },
     });
   }

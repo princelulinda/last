@@ -29,10 +29,7 @@ export interface MerchantModel {
 
 export interface ProductModel {
   id: number;
-  name: string;
   price: number;
-  icon: string;
-  merchant: MerchantModel;
   lookup_icon: string;
   lookup_image: string;
   lookup_title: string;
@@ -85,12 +82,12 @@ export interface MenuGroup {
   is_active: boolean;
 }
 
-interface Menu {
+export interface Menu {
   name: string;
 
   icon: string;
 
-  link: string;
+  link: string | string[];
 }
 
 export interface PublisherModel {
@@ -159,15 +156,6 @@ export interface SessionToShow {
   session_duration: string;
   ip_address: SessionIP;
   user: SessionName;
-}
-export interface BestOfferObjectModel {
-  Object: BestOfferobjectsModel;
-}
-export interface BestOfferobjectsModel {
-  objects: BestOfferobjectModel;
-}
-export interface BestOfferobjectModel {
-  Object: BestOfferModel[];
 }
 
 export interface BestOfferModel {

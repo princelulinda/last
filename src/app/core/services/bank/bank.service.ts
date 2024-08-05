@@ -5,6 +5,10 @@ import { bankListResponse } from '../../../components/auth/auth.model';
 import { ApiService, ConfigService } from '..';
 import { bankModel } from '../../db/models/bank/bank.model';
 import { addBankResponse } from '../../../components/dashboards/dashboard.model';
+import {
+  PeriodModel,
+  TransactionObjectModel,
+} from '../../../components/products/products.model';
 
 @Injectable({
   providedIn: 'root',
@@ -90,5 +94,48 @@ export class BankService {
   getAllBanks(): Observable<{ objects: bankListResponse[] }> {
     const url = '/banks/list/?externel_request=true&bank_type=MFI';
     return this.apiService.get<{ objects: bankListResponse[] }>(url);
+  }
+  // getBankStatusPing(body: any) {
+  //     const url = `${environment.websocketUrl}ws/dbsapp/partners-ping/`;
+
+  //     return this.httpClient.post(url, body).pipe(
+  //         map((data) => {
+  //             return data;
+  //         })
+  //     );
+  // }
+
+  getRecentTransactions(type: string, period: PeriodModel, client: string) {
+    return this.apiService
+      .get<TransactionObjectModel>(
+        `/operations/pending/logic/?req_type=${type}&=date_from=${period.start_date}&=date_to=${period.end_date}` +
+          client
+      )
+      .pipe(map(data => data));
+  }
+
+  private _isTransfer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+
+  get isTransfer$(): Observable<boolean> {
+    return this._isTransfer.asObservable();
+  }
+
+  getLastBeneficiary() {
+    const url = '/operations/beneficiary/';
+    return this.apiService.get<TransactionObjectModel>(url).pipe(
+      map((data: TransactionObjectModel) => {
+        return data;
+      })
+    );
+  }
+
+  getTransfersList() {
+    return this.apiService
+      .get<TransactionObjectModel>(
+        '/operations/pending/logic/?req_type=transfers&filter_for_client=true'
+      )
+      .pipe(map(data => data));
   }
 }

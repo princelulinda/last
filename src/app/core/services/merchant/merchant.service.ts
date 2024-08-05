@@ -212,7 +212,7 @@ export class MerchantService {
     );
   }
   getMerchantMultipleInfo() {
-    const url = '/dbs/merchant/multiple-info/';
+    const url = '/dbs/merchant/multiple-info/objects_autocomplete/';
     return this.apiService.get<MerchantObjectsModel>(url).pipe(
       map(data => {
         return data;
@@ -490,6 +490,11 @@ export class MerchantService {
 
   getBestOffer() {
     const url = '/dbs/price-mutations/';
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getRecentProducts() {
+    const url = '/dbs/merchant-product/objects_autocomplete/?is_recent=true';
     return this.apiService.get(url).pipe(map(data => data));
   }
 }

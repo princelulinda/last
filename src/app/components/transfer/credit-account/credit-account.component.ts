@@ -52,8 +52,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   isModalShown = false;
   debitAccount: DebitAccountModel | null = null;
 
-  // eslint-disable-next-line
-  @Input() selectedDebitAccountType: any;
+  @Input() selectedDebitAccountType = '';
 
   @Input() walletBankId: string | number = '';
 
@@ -100,11 +99,9 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   // eslint-disable-next-line
   transferResponse: any;
 
-  // eslint-disable-next-line
-  creditNumber: any;
+  creditNumber: string | null | undefined;
 
-  // eslint-disable-next-line
-  creditName: any;
+  creditName: string | null | undefined;
   pendingTransfers: {
     account_holder: string;
     institution: InstitutionInfoModel;
