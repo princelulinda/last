@@ -25,7 +25,6 @@ export class AsideMenuComponent implements OnInit {
     this.typeMenus$.subscribe({
       next: menus => {
         this.typeMenus = menus;
-        console.log('TYPE MENU', this.typeMenus);
       },
     });
   }

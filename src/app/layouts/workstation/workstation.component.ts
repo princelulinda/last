@@ -52,7 +52,6 @@ export class WorkstationComponent implements OnInit {
     });
     this.typeMenuExist$.subscribe({
       next: state => {
-        // alert(state);
         if (state) {
           this.dialogService.closeDialog();
           this.dialogService.closeSplashScreen();
