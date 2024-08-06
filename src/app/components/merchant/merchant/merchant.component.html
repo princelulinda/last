@@ -115,7 +115,7 @@
       </div>
     </div>
 
-    <div class="row mt-4" *ngIf="!this.searchInput.value">
+    <div class="row mt-4 mapped" *ngIf="!this.searchInput.value">
       <div class="col-lg-5 col-sm- col-md-">
         <div class="row">
           <span>
@@ -169,13 +169,14 @@
       </div>
       <div class="col-lg-7 col p-0 m-0">
         <!-- Merchant Location -->
-        <div class="row ms-2">
+        <div class="row ms-2 w-100 text-align center">
           <span i18n class="text-dark">
             <b> Merchant Location</b>
           </span>
         </div>
 
-        <div class="map d-flex align-items-center position-relative">
+        <div
+          class="map d-flex align-items-center position-relative w-100 justify-content-center">
           <app-global-map></app-global-map>
         </div>
       </div>
