@@ -20,7 +20,7 @@
         </div>
       }
       @if (paymentRequestBillsLoading) {
-        <div class="skeletons mt-4 row mx-0">
+        <div class="skeletons mt-4 row me-5 me-md-0">
           <div
             class="all-bill-card col-11 col-sm-8 col-md-5"
             style="height: 300px">
@@ -31,7 +31,7 @@
       @if (paymentRequestBills && paymentRequestBills.length !== 0) {
         <div class="d-flex mt-3 flex-wrap">
           <div
-            class="row mx-0 mt-4 justify-content-around col-10 flex-grow-1 gap-2">
+            class="row mx-0 mt-4 justify-content-around col-10 flex-grow-1 gap-2 me-3 me-md-0">
             @for (bill of paymentRequestBills; track $index) {
               <div
                 class="all-bill-card col-11 col-sm-8 col-md-5 shadow card p-0 level-1 bg-white"
@@ -203,7 +203,7 @@
       <!-- skeleton loader -->
       @if (isLoading && !merchantBills) {
         <div
-          class="skeletons row mx-0 mt-4 justify-content-around justify-content-lg-start">
+          class="skeletons row me-5 me-md-0 mt-4 justify-content-around justify-content-md-start">
           @for (item of [1, 2, 3, 4, 5, 6]; track $index) {
             <div
               class="all-bill-bill col-11 col-sm-8 col-md-5 col-lg-4"
@@ -217,7 +217,8 @@
         </div>
       }
       @if (!isLoading && merchantBills) {
-        <section class="row mx-0 mt-4 gap-2">
+        <section
+          class="row mx-0 mt-4 gap-2 gap-xxl-3 justify-content-around justify-content-md-start me-4 me-md-0 pe-3 pe-md-0">
           @for (bill of merchantBills; track $index) {
             <div
               class="all-bill-card border-0 shadow-sm rounded-0 rounded-bottom card p-0 level-1 col-11 col-sm-8 col-md-5 bg-white"

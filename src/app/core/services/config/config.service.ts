@@ -211,6 +211,7 @@ export class ConfigService {
   }
   resetSelectedBank(): void {
     this.dbService.clearTable(SelectedBank.tableName);
+    this.apiService.resetLocalBankId();
   }
   getUserBanks(): Observable<bankModel[]> {
     return this.userBanks$ as Observable<bankModel[]>;
@@ -234,7 +235,11 @@ export class ConfigService {
   getSelectedOrganization(): Observable<OrganizationModel | null> {
     this.getConnectedOperator().subscribe({
       next: operator => {
-        this.operatorOrganization.next(operator.organization ?? null);
+        if (operator) {
+          this.operatorOrganization.next(operator.organization ?? null);
+        } else {
+          this.operatorOrganization.next(null);
+        }
       },
     });
     return this.operatorOrganization;

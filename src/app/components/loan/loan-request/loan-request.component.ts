@@ -92,7 +92,6 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
 
     this.plateform$.subscribe(plateform => {
       this.plateform = plateform.activePlateform;
-      // console.log('!@@!!!!@@@@@@@!!!!!!!!@@!!!@!@!@!@@@@@!@', this.plateform);
     });
 
     this.getLoansType();

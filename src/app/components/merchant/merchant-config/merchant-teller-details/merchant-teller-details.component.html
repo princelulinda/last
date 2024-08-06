@@ -156,7 +156,7 @@
               tabindex="0"
               [ngClass]="{
                 'justify-content-end text-primary ps-5':
-                  tellerInfo?.teller_type?.value === 'A',
+                  tellerInfo.teller_type.value === 'A',
                 'justify-content-start text-white pe-5':
                   tellerInfo.teller_type.value !== 'A',
                 'justify-content-start t-black':
@@ -183,11 +183,11 @@
               tabindex="0"
               [ngClass]="{
                 'justify-content-end text-primary ps-5':
-                  tellerInfo?.teller_type?.value === 'S',
+                  tellerInfo.teller_type.value === 'S',
                 'justify-content-start text-white pe-5':
-                  tellerInfo?.teller_type?.value !== 'S',
+                  tellerInfo.teller_type.value !== 'S',
                 'justify-content-start t-black':
-                  tellerInfo?.teller_type?.value !== 'S',
+                  tellerInfo.teller_type.value !== 'S',
               }">
               <span class="fa fa-circle"></span>
             </div>

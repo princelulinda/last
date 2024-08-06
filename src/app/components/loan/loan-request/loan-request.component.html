@@ -20,7 +20,10 @@
         @if (plateform === 'onlineBanking') {
           <div class="col-lg-6 row">
             <div class="d-grid">
-              <!-- <app-my-accounts (debitOptions)="geAccountOptions($event)" title="Account to credit" [isWallerShown]="isWallerShown"></app-my-accounts> -->
+              <!-- <app-debit-account
+                (debitOptions)="getAccount($event)"
+                title="Account to credit"
+                [isWalletShown]="isWalletShown"></app-debit-account> -->
             </div>
           </div>
         }
@@ -57,7 +60,7 @@
                   option="autocomplete"
                   (selectedItemEvent)="getCreditType($event)"
                   url="/loans/loan-type/objects_autocomplete?search="
-                  label="Accounts"></app-lookup>
+                  label="Credit type"></app-lookup>
               </div>
             </div>
           </div>

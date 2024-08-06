@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 
 import { Observable } from 'rxjs';
 
@@ -32,6 +32,7 @@ import { MerchantBillComponent } from './global/components/popups/bills-format/m
     LandscapeBillComponent,
     ObrBillComponent,
     MerchantBillComponent,
+    NgOptimizedImage,
   ],
 })
 export class AppComponent implements OnInit {
@@ -78,27 +79,5 @@ export class AppComponent implements OnInit {
         this.activeMode = mode;
       },
     });
-
-    // TODO :: TRY TO CHANGE PLATEFORM BY URL !! CAN GOT PROBLEME WITH SOME GUARDS
-    // this.router.events
-    //   .pipe(filter(event => event instanceof NavigationEnd))
-    //   .subscribe({
-    //     next: events => {
-    //       let navigationInfo: NavigationEnd = events as NavigationEnd;
-    //     },
-    //   });
   }
-
-  // private managePlateformByURL() {
-  //   let url = this.router.url;
-  //   let plateformData = environment.plateformsUuid.find(item =>
-  //     item.baseHref.includes(url)
-  //   );
-  //   if (
-  //     plateformData &&
-  //     plateformData.name !== this.mainConfig.activePlateform
-  //   ) {
-  //     this.configService.switchPlateform(plateformData?.name);
-  //   }
-  // }
 }
