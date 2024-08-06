@@ -78,7 +78,7 @@ export class MarketDashboardComponent implements OnInit {
   last4Merchant!: Merchant_AutocompleteModel[];
   recentMerchant!: Merchant_AutocompleteModel[];
   recentBillers!: BillersModel[];
-  first4!: productCategoryModel[];
+  first4ProductCategory!: productCategoryModel[];
   start = 0;
   end = 4;
   clearData = true;
@@ -297,7 +297,7 @@ export class MarketDashboardComponent implements OnInit {
         next: result => {
           const response = result as productCategoryArray;
           this.productCategory = response.objects;
-          this.first4 = this.productCategory.slice(0, 4);
+          this.first4ProductCategory = this.productCategory.slice(0, 4);
         },
       });
   }
