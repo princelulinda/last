@@ -134,141 +134,81 @@ export class ReusableListComponent implements OnInit, OnDestroy {
           if (data.objects) {
             for (const row of data.objects) {
               const line = [];
+
               for (const header of this.headers) {
-                // make field as list so we can separate the '.'
                 const fields = header['field'];
-                // this variable is created just for protected row values in loop, Please if you have a suggestion let me know
-                let row1 = row;
+                let value = row;
                 let css = '';
                 let icon = '';
                 let detail = '';
-                let full_field = '';
                 let class_type = '';
 
-                // loop for separating fields
-                //   for (const field in fields) {
-                //       row1 = row;
-                //       const all_fields = fields[field].split('.');
-
-                //       for (const all_field in all_fields) {
-                //           if (row1) {
-                //               row1 = row1[all_fields[all_field]];
-                //           } else {
-                //               row1 = '------';
-                //           }
-                //       }
-                //       if (row1) {
-                //           full_field += row1 + ' ';
-                //       }
-                //   }
                 for (const field of fields) {
-                  row1 = row;
-                  const all_fields = field.split('.');
-
-                  for (const all_field in all_fields) {
-                    if (row1) {
-                      row1 = row1[all_field];
-                    } else {
-                      row1 = '------';
-                    }
-                  }
-                  if (row1) {
-                    full_field += row1 + ' ';
+                  if (value && typeof value === 'object' && field in value) {
+                    value = value[field];
+                  } else {
+                    value = '------';
+                    break;
                   }
                 }
 
-                row1 = full_field;
-
-                // loop for separating css
-                //   if (header['css']) {
-                //       let css_fields = header['css'];
-                //       css = row;
-                //       css_fields = css_fields.split('.');
-                //       for (const css_field in css_fields) {
-                //           css = css[css_fields[css_field]];
-                //       }
-                //   }
-
                 if (header['css']) {
-                  const css_fields: string[] = header['css'].split('.');
-                  // let css: RowData = { ...row };
+                  const css_fields = header['css'].split('.');
+                  let cssValue = row;
                   for (const css_field of css_fields) {
                     if (
-                      typeof css === 'object' &&
-                      css !== null &&
-                      css_field in css
+                      cssValue &&
+                      typeof cssValue === 'object' &&
+                      css_field in cssValue
                     ) {
-                      css = css[css_field];
+                      cssValue = cssValue[css_field];
                     } else {
                       css = '------';
                       break;
                     }
                   }
-                  if (typeof css === 'string') {
-                    // Do something with the CSS value
+                  if (typeof cssValue === 'string') {
+                    css = cssValue;
                   }
                 }
 
-                // loop for separating icon
-                //   if (header['icon']) {
-                //       let icon_fields = header['icon'];
-                //       icon = row;
-                //       icon_fields = icon_fields.split('.');
-                //       for (const icon_field in icon_fields) {
-                //           icon = icon[icon_fields[icon_field]];
-                //       }
-                //   }
                 if (header['icon']) {
-                  const icon_fields: string[] = header['icon'].split('.');
-                  // let icon: RowData = { ...row };
+                  const icon_fields = header['icon'].split('.');
+                  let iconValue = row;
                   for (const icon_field of icon_fields) {
                     if (
-                      typeof icon === 'object' &&
-                      icon !== null &&
-                      icon_field in icon
+                      iconValue &&
+                      typeof iconValue === 'object' &&
+                      icon_field in iconValue
                     ) {
-                      icon = icon[icon_field];
+                      iconValue = iconValue[icon_field];
                     } else {
                       icon = '------';
                       break;
                     }
                   }
-                  if (typeof icon === 'string') {
-                    // Do something with the icon value
+                  if (typeof iconValue === 'string') {
+                    icon = iconValue;
                   }
                 }
 
-                //get link url
-                //   if (header['detail']) {
-                //       const link = header['detail']['link'];
-                //       let detail_fields =
-                //           header['detail']['field'];
-                //       detail = row;
-                //       detail_fields = detail_fields.split('.');
-                //       for (const detail_field in detail_fields) {
-                //           detail =
-                //               detail[detail_fields[detail_field]];
-                //       }
-                //       detail = link + detail;
-                //   }
                 if (header['detail']) {
                   const link = header['detail']['link'];
-                  const detail_fields: string[] =
-                    header['detail']['field'].split('.');
-                  // let detail: RowData = { ...row };
+                  const detail_fields = header['detail']['field'].split('.');
+                  let detailValue = row;
                   for (const detail_field of detail_fields) {
                     if (
-                      typeof detail === 'object' &&
-                      detail !== null &&
-                      detail_field in detail
+                      detailValue &&
+                      typeof detailValue === 'object' &&
+                      detail_field in detailValue
                     ) {
-                      detail = detail[detail_field];
+                      detailValue = detailValue[detail_field];
                     } else {
                       detail = '------';
                       break;
                     }
                   }
-                  detail = link + detail;
+                  detail = link + detailValue;
                 }
 
                 if (header['boolean']) {
@@ -281,26 +221,25 @@ export class ReusableListComponent implements OnInit, OnDestroy {
                   class_type = 'badge bg-' + css + ' text-' + css;
                 }
 
-                // data of a one row
                 const data = {
-                  value: row1,
-                  size: header['size'] as string,
+                  value: value || '',
+                  size: header['size'] || '',
                   css: css,
                   icon: icon,
                   detail: detail,
                   boolean: this.boolean,
-                  format: header['format'],
+                  format: header['format'] || '',
                   class: class_type,
-                  canBeDisplayed: header['canBeDisplayed'],
-                  option1: header['option1'],
-                  option2: header['option2'],
-                  value1: header['value1'],
-                  value2: header['value2'],
+                  canBeDisplayed: header['canBeDisplayed'] ? 'true' : 'false',
+                  option1: header['option1'] || '',
+                  option2: header['option2'] || '',
+                  value1: header['value1'] || '',
+                  value2: header['value2'] || '',
                 };
                 line.push(data);
               }
-              // this.data_list.push(line);
-              console.log('this is line:', data);
+              this.data_list.push(line);
+              console.log('this is line:', line);
             }
           }
         },

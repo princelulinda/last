@@ -22,19 +22,19 @@ export interface selectedPeriodModel {
 }
 export interface Header {
   field: string[];
-  css?: string;
-  icon?: string;
-  detail?: {
+  css: string;
+  icon: string;
+  detail: {
     link: string;
     field: string;
   };
-  boolean?: boolean;
-  class?: string;
-  size?: string;
-  format?: string;
-  canBeDisplayed?: boolean;
-  option1?: string;
-  option2?: string;
-  value1?: string;
-  value2?: string;
+  boolean: boolean;
+  class: string;
+  size: string;
+  format: string;
+  canBeDisplayed: string;
+  option1: string;
+  option2: string;
+  value1: string;
+  value2: string;
 }
