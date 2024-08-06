@@ -35,7 +35,7 @@ export interface SimulationResModel {
 
 export interface ResponseDataModel {
   response_code: string;
-  response_data: SimulationResModel;
+  response_data: SimulationResModel | DefaultValuesLoan;
   response_message: string;
   success: boolean;
 }
@@ -146,6 +146,7 @@ export interface LoanPendingModel {
   penalities_rate: string;
   period: number;
   status: CredStatusModel;
+  success?: boolean;
 }
 
 export interface LoanListResponseModel {
@@ -153,4 +154,56 @@ export interface LoanListResponseModel {
   response_data: LoanListModel[];
   response_message: string;
   success: boolean;
+}
+
+export interface BodyLoanModel {
+  main_account?: number | string;
+  amount?: number;
+  payment_number?: string;
+  period?: string;
+  first_date?: string | Date;
+  interests_rate?: string;
+  penalities_rate?: string;
+  fees_amount?: string;
+  cred_defaults?: number;
+}
+
+export interface DefaultValuesLoan {
+  branch: number;
+  client_category: number;
+  fees_account: number;
+  fees_rate: string;
+  fixed_amount_insurance: string;
+  guarantee_rate: string | number;
+  id: number;
+  insurance_rate: string;
+  max_amount: string;
+  max_amount_fees: string;
+  loan_type: LoanTypeModel;
+  max_amount_guarantee: string;
+  max_amount_insurance: string;
+  max_interest_rate: string;
+  max_month_duration: number;
+  min_amount: string;
+  min_amount_fees: string;
+  min_amount_guarantee: string;
+  min_amount_insurance: string;
+  min_interest_rate: string;
+  min_month_duration: number;
+  penalities_account: number;
+  penalities_rate: string;
+  periodicity: number;
+  profit_account: number;
+  rattachement_cap_imp: number;
+  rattachement_cap_imp_a_surveiller: number;
+  rattachement_cap_imp_compromis: number;
+  rattachement_cap_imp_cont: number;
+  rattachement_cap_imp_doute: number;
+  rattachement_cap_imp_pre_doute: number;
+  rattachement_financement: number;
+  rattachement_financement_a_surveiller: number;
+  rattachement_financement_compromis: number;
+  rattachement_financement_cont: number;
+  rattachement_financement_doute: number;
+  rattachement_financement_pre_doute: number;
 }

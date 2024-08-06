@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '..';
 import { BehaviorSubject, map } from 'rxjs';
 import {
+  BodyLoanModel,
   ResponseDataModel,
   SimulateLoanModel,
   SimulationResModel,
@@ -68,9 +69,9 @@ export class LoanService {
   // payLoan(body: any) {
   //   return this.apiService.post('/loans/clients/plan/payment/', body);
   // }
-  // requestLoan(body: any) {
-  //   return this.apiService.post('/loans/request/', body);
-  // }
+  requestLoan(body: BodyLoanModel) {
+    return this.apiService.post('/loans/request/', body);
+  }
   getLoanType() {
     return this.apiService.get('/loans/loan-type/');
   }

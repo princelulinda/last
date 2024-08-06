@@ -65,7 +65,8 @@ export class LoanSimulatorComponent implements OnDestroy {
               type: 'success',
               message: res.object.response_message,
             });
-            this.simulationResult = res.object.response_data;
+            this.simulationResult = res.object
+              .response_data as SimulationResModel;
             this.showResults = true;
           } else if (res.object.success === false) {
             this.dialogService.openToast({
