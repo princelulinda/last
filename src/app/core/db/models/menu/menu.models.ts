@@ -1,7 +1,12 @@
 export interface TypeMenuModel {
   id: number;
   name: string;
-  icon: string;
+  icon: string | null;
+  image: {
+    active: string;
+    disabled: string;
+  } | null;
+  url: string;
   menu_active_icon: string;
   menu_disabled_icon: string;
   active: boolean;

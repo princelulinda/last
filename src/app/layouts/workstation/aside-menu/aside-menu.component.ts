@@ -14,7 +14,7 @@ import { TypeMenuModel } from '../../../core/db/models/menu/menu.models';
   styleUrl: './aside-menu.component.scss',
 })
 export class AsideMenuComponent implements OnInit {
-  typeMenu: TypeMenuModel[] = [];
+  typeMenus: TypeMenuModel[] = [];
   typeMenus$: Observable<TypeMenuModel[]>;
 
   constructor(private configService: ConfigService) {
@@ -24,7 +24,30 @@ export class AsideMenuComponent implements OnInit {
   ngOnInit() {
     this.typeMenus$.subscribe({
       next: menus => {
-        console.log('TYPE MENU GROUP', menus);
+        this.typeMenus = menus;
+        this.typeMenus.map(menu => {
+          switch (menu.id) {
+            case 1:
+              menu.url = '/w/workstation';
+              break;
+            case 2:
+              menu.url = '/w/workstation/banking';
+              break;
+            case 3:
+              menu.url = '/w/workstation/market';
+              break;
+            case 4:
+              menu.url = '/w/workstation/intranet';
+              break;
+            case 5:
+              menu.url = '/w/workstation/reporting';
+              break;
+            case 6:
+              menu.url = '/w/workstation/admin';
+              break;
+          }
+        });
+        console.log('TYPE MENU', this.typeMenus);
       },
     });
   }
