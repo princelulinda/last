@@ -189,7 +189,7 @@ export class MerchantService {
       })
     );
   }
-  getMerchantsProductsDetails(id: string) {
+  getMerchantsProductsDetails(id: number) {
     const url = '/dbs/merchant-product/' + id + '/';
     return this.apiService.get(url).pipe(
       map(data => {

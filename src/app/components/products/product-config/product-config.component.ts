@@ -6,14 +6,14 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Subject, Observable, takeUntil } from 'rxjs';
-import { MerchantService } from '../../../core/services';
+import { DialogService, MerchantService } from '../../../core/services';
 import { MarketService } from '../../../core/services/market/market.service';
 import { VariableService } from '../../../core/services/variable/variable.service';
 import { PaginationConfig } from '../../../global/global.model';
-import { dialogModel } from '../../merchant/merchant.models';
+
 import {
   MerchantModel,
-  metadataModel,
+  ProductConfigDetailModel,
   productConfigModel,
   productConfigObjectModel,
   selectedProductModel,
@@ -21,6 +21,7 @@ import {
 } from '../products.model';
 import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 
 @Component({
   selector: 'app-product-config',
@@ -41,8 +42,8 @@ export class ProductConfigComponent implements OnInit {
   // theme$: Observable<string>;
   // crumbs: any;
   acceptsSimplePayment = false;
-  dialog$!: Observable<dialogModel>;
-  dialog!: dialogModel;
+  dialog$!: Observable<DialogResponseModel>;
+  dialog!: DialogResponseModel;
   // tellers: any;
   selectedTeller: undefined;
   // tellerId: any;
@@ -66,7 +67,7 @@ export class ProductConfigComponent implements OnInit {
   currentPage = 0;
   pages!: number;
   count!: number;
-  metadata: metadataModel | null = null;
+  // metadata: metadataModel | null = null;
   loadingData = false;
   isHover: boolean[] = [];
   values: { field: string }[] = [];
@@ -77,11 +78,13 @@ export class ProductConfigComponent implements OnInit {
     // private store: Store,
     private fb: FormBuilder,
     private variableService: VariableService,
-    private marketService: MarketService
+    private marketService: MarketService,
+    private dialogService: DialogService
     // private menuService: MenuService
   ) {
     // this.theme$ = this.store.select(SwitchThemeState.GetTheme);
     // this.dialog$ = this.store.select(DialogState.GetDialog);
+    this.dialog$ = this.dialogService.getDialogState();
 
     this.productConfigForm = new FormGroup({
       name: new FormControl(''),
@@ -97,12 +100,12 @@ export class ProductConfigComponent implements OnInit {
 
   ngOnInit(): void {
     this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: (dialog: { action: string; response: string }) => {
+      next: (dialog: DialogResponseModel) => {
         if (dialog) {
           this.dialog = dialog;
           if (this.dialog && this.dialog.response) {
             if (
-              this.dialog.response === 'pin submitted' &&
+              this.dialog.response.pin &&
               this.dialog.action === 'update_product_info'
             ) {
               this.updateProductInfo();
@@ -120,14 +123,25 @@ export class ProductConfigComponent implements OnInit {
     this.pagination.filters.limit = 15;
     // this.getMetadata();
 
-    this.isHover = new Array(this.metadata?.objects?.length).fill(false);
+    // this.isHover = new Array(this.metadata?.objects?.length).fill(false);
     // this.getTellers();
   }
 
   getConnectedMerchantInfo() {
+    console.log(
+      '=====================================Getting connected merchant info...'
+    );
     this.merchantService.getConnectedMerchantInfo().subscribe(merchantInfo => {
+      console.log(
+        '===================================Received merchant info:',
+        merchantInfo
+      );
       this.merchant = merchantInfo.object.response_data;
-      this.marketService.getConnectedMerchantId(this.merchant.id.toString());
+      console.log(
+        '=========================********Merchant info:',
+        this.merchant
+      );
+      this.marketService.getConnectedMerchantId(this.merchant.id);
 
       this.getProducts();
     });
@@ -179,7 +193,7 @@ export class ProductConfigComponent implements OnInit {
     if (updates === 'success') {
       this.toggleMetadata = true;
 
-      this.metadata = null;
+      // this.metadata = null;
       // this.getMetadata();
     } else if (updates === 'list') {
       this.toggleMetadataForm = false;
@@ -187,18 +201,24 @@ export class ProductConfigComponent implements OnInit {
     }
   }
   getProducts() {
+    console.log('===================********getProducts method called');
     this.search.patchValue('');
     this.isProductsSearch = false;
     this.products = undefined;
     this.merchantService
-      .getProductsByMerchant(this.merchant.id.toString())
+      .getProductsByMerchant(this.merchant.id)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: result => {
+          console.log(
+            '=================Response received from getProductsByMerchant'
+          );
           const products = result as productConfigObjectModel[];
           this.products = products;
+          console.log('products:', this.products);
         },
         error: error => {
+          console.log('Error occurred in getProductsByMerchant', error);
           this.isLoading = false;
           console.log(error);
 
@@ -214,7 +234,7 @@ export class ProductConfigComponent implements OnInit {
   }
 
   selectProduct(product: productConfigObjectModel) {
-    this.selectedProduct = product.objects.selectedProduct;
+    this.selectedProduct = product.objects.Object.selectedProduct;
     this.selectedMenu = 'details';
     this.getProductDetails();
   }
@@ -282,9 +302,9 @@ export class ProductConfigComponent implements OnInit {
   getProductDetails() {
     // this.product = undefined;
     this.merchantService
-      .getMerchantsProductsDetails(this.selectedProduct.id.toString())
+      .getMerchantsProductsDetails(this.selectedProduct.id)
       .subscribe(response => {
-        const product = response as productConfigObjectModel;
+        const product = response as ProductConfigDetailModel;
         this.product = product.object;
 
         this.productConfigForm.patchValue({
@@ -315,15 +335,14 @@ export class ProductConfigComponent implements OnInit {
     });
   }
 
-  verifyPinProductUpdate() {
-    const response = {
-      title: '',
+  verifyPinProductUpdate(actionValue: string) {
+    this.dialogService.openDialog({
+      title: 'Enter your pin',
       type: 'pin',
       message: 'Enter your pin',
-      action: 'update_product_info',
-    };
+      action: actionValue,
+    });
     // this.store.dispatch(new OpenDialog(response));
-    console.log(response);
   }
 
   updateProductInfo() {

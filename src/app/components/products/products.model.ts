@@ -22,7 +22,7 @@ export interface AllProductModel {
 }
 
 export interface MerchantModel {
-  id: number | string;
+  id: string;
   slug: string;
   merchant_title: string;
   merchant_code: string;
@@ -42,6 +42,7 @@ export interface MerchantObjectModel {
   // objects: MerchantModel,
   object: {
     response_data: MerchantModel;
+    response_code: string;
     response_message: string;
     success: boolean;
   };
@@ -232,7 +233,7 @@ export interface PeriodModel {
 
 export interface updateProdcutInfoModel {
   product: number;
-  merchant: number;
+  merchant: string | number;
   action: string[];
   price: number;
   name: string;
@@ -242,17 +243,16 @@ export interface updateProdcutInfoModel {
   metadata: number[];
   pin_code: string;
 }
+
 export interface productConfigObjectModel {
-  objects: productConfigModel;
-  object: productConfigModel;
-  lookup_icon: string;
-  lookup_title: string;
-  lookup_subtitle: string;
-  price: string;
-  icon: string;
-  name: string;
+  objects: {
+    Object: productConfigModel;
+  };
 }
 
+export interface ProductConfigDetailModel {
+  object: productConfigModel;
+}
 export interface productConfigModel {
   // object: updateProdcutInfoModel;
   selectedProduct: selectedProductModel;
@@ -270,10 +270,16 @@ export interface productConfigModel {
   is_stockable: boolean;
   incognito_mode: boolean;
   voucher_type: string;
+
+  object: productConfigModel;
+  lookup_icon: string;
+  lookup_title: string;
+  lookup_subtitle: string;
+  icon: string;
 }
 
 export interface searchProductByMerchantModel {
-  merchant: number;
+  merchant: string | number;
   search: string | null;
 }
 
