@@ -21,6 +21,7 @@ import { BankService } from '../../../core/services/bank/bank.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
+
 import {
   addBankResponse,
   MenuGroup,
@@ -32,6 +33,7 @@ import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { TarifComponent } from '../../tarif/tarif.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import {
+  activeMainConfigModel,
   ModeModel,
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
@@ -82,6 +84,8 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
 
   plateform!: PlateformModel;
   plateform$: Observable<PlateformModel>;
+  activePlatform: string | null = null;
+  mainConfig$!: Observable<activeMainConfigModel>;
 
   private userInfo$: Observable<UserInfoModel>;
 
@@ -109,7 +113,10 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         {
           name: 'Saving clubs',
           icon: 'users',
-          link: '/b/onlineBanking/banking/menuBanking/saving/club',
+          link: [
+            '/b/banking/saving/saving-club',
+            '/w/workstation/banking/saving/saving-club',
+          ],
         },
       ],
       is_active: false,
@@ -164,8 +171,14 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     this.selectedBank$ = this.configService.getSelectedBank();
     this.dialog$ = this.dialogService.getDialogState();
     this.plateform$ = this.configService.getPlateform();
+    this.mainConfig$ = this.configService.getMainConfig();
   }
   ngOnInit(): void {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.activePlatform = configs.activePlateform;
+      },
+    });
     this.mode$.subscribe({
       next: datas => {
         this.mode = datas;
@@ -206,9 +219,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         next: data => {
           this.banksFiltered = data.objects;
         },
-        error: () => {
-          // code
-        },
       });
   }
   // toggleBankHome() {
@@ -226,9 +236,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
       .subscribe({
         next: data => {
           this.banks = data;
-        },
-        error: () => {
-          // code
         },
       });
   }
@@ -300,9 +307,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   }
   selectBank(bank: bankModel) {
     this.configService.setSelectedBank(bank);
-    if (bank) {
-      this.router.navigate(['']);
-    }
   }
 
   getMerchant(data: PayMerchant, event: MouseEvent) {

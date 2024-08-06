@@ -1,4 +1,302 @@
 <div>
   <!-- loader firn onlineBanking -->
-  helllo
+  @if (!account) {
+    <span
+      class="text-center w-100 d-flex justify-content-center text-dark"
+      title="Loading wallet details ..."
+      style="margin-top: 25%">
+      <i class="spinner-border"></i>
+    </span>
+  }
+
+  @if (account) {
+    <div class="d-flex align-items-center">
+      <div
+        class="fw-bold fs-medium font-calibri border-start border-secondary ps-3">
+        Details
+      </div>
+    </div>
+    <hr class="my-1" />
+    <div class="ms-3 mt-2">
+      <div class="d-flex">
+        <span
+          role="button"
+          class="mt-2 text-dark"
+          (click)="refresh()"
+          tabindex="0"
+          >Refresh <i class="fa-solid fa-arrows-rotate"></i
+        ></span>
+      </div>
+      <div class="px-1 text-center" style="line-height: 1em">
+        <b class="mt-2 text-dark text-md" i18n
+          >{{ account.acc_short_number }} </b
+        ><br />
+        <b class="text-dark text-md-sm" style="opacity: 0.75"
+          >{{ account.acc_holder ?? '---' }} </b
+        ><br />
+        <span class="ms-lg-5 text-dark text-sm" style="opacity: 0.7"
+          >{{ account.acc_get_title ?? '---' }}
+        </span>
+        <div class="float-end">
+          <div>
+            <span
+              [class]="
+                'p-2 xlRadius text-' +
+                account.acc_status.status_css +
+                ' bg-primary-3 rounded-pill '
+              "
+              i18n>
+              {{ account.acc_status.status_title }}
+              <i
+                [class]="
+                  'fa-solid fa-' +
+                  account.acc_status.status_icon +
+                  ' ms-1 text-' +
+                  account.acc_status.status_css
+                "></i>
+            </span>
+          </div>
+          <div class="mt-5">
+            <div class="position-relative">
+              <span
+                class="p-2 transfer-icon position-absolute"
+                role="button"
+                routerLink="/b/onlineBanking/banking/menuBanking/transfer"
+                ><i class="fa-solid mb-1 fa-paper-plane text-light text-sm"></i
+              ></span>
+              <span
+                class="transfer-content anim position-absolute text-dark fw-bold p-1 ps-2 pe-3 bg-primary-3"
+                i18n
+                >Transfer</span
+              ><br />
+            </div>
+
+            <div class="mt-4 position-relative">
+              <span>
+                <img
+                  src="/images/withdrawal-white.svg"
+                  alt=""
+                  role="button"
+                  routerLink="/b/onlineBanking/withdrawal"
+                  class="withdrawal-icon img-fluid position-absolute p-1" />
+                <span
+                  class="withdrawal-content anim position-absolute text-dark fw-bold p-1 ps-2 pe-3 bg-primary-3"
+                  i18n
+                  >Withdrawal</span
+                ></span
+              ><br />
+            </div>
+            <div class="mt-4 position-relative">
+              <span>
+                <span
+                  role="button"
+                  class="more-icon img-fluid position-absolute p-1 text-light text-center">
+                  <i class="fa-solid fa-ellipsis-vertical"></i
+                ></span>
+                <span
+                  class="more-content anim position-absolute text-dark fw-bold p-1 ps-2 pe-3 bg-primary-3"
+                  i18n
+                  >More</span
+                ></span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-between mt-4 text-dark">
+        <div class="mt-3 ms-3 d-flex gap-4">
+          <div class="d-flex align-items-center gap-3">
+            <div class="">
+              <div class="mt-2">
+                <div>
+                  <span i18n>Monthly transactions </span>
+                </div>
+              </div>
+              <div class="mt-2">
+                <div>
+                  <span i18n>Fees </span>
+                </div>
+              </div>
+              <div class="mt-2">
+                <div>
+                  <span i18n>Available balance </span>
+                </div>
+              </div>
+              <div class="mt-2">
+                <div>
+                  <span i18n>Credit limit </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="ms-3">
+              <div class="mt-2">
+                <div>
+                  <span>
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_actual_balance"
+                        [currency]="account.acc_currency"
+                        [ngClass]="
+                          'fw-normal  fw-bold'
+                        "></app-amount-visibility>
+                    </b>
+                  </span>
+                </div>
+              </div>
+
+              <div class="mt-2">
+                <div>
+                  <span>
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_actual_interests"
+                        [currency]="account.acc_currency"
+                        [ngClass]="
+                          'fw-normal  fw-bold'
+                        "></app-amount-visibility>
+                    </b>
+                  </span>
+                </div>
+              </div>
+              <div class="mt-2">
+                <div>
+                  <span>
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_available_balance"
+                        [currency]="account.acc_currency"
+                        [ngClass]="
+                          'fw-normal  fw-bold'
+                        "></app-amount-visibility>
+                    </b>
+                  </span>
+                </div>
+              </div>
+              <div class="mt-2">
+                <div>
+                  <span>
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_credit_limit"
+                        [currency]="account.acc_currency"
+                        [ngClass]="
+                          'fw-normal  fw-bold'
+                        "></app-amount-visibility>
+                    </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex gap-3 c">
+            <div>
+              <div class="mt-2">
+                <div>
+                  <span i18n>Monthly transactions </span>
+                </div>
+              </div>
+              <div class="mt-2">
+                <div>
+                  <span i18n> Fees</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="ms-3">
+              <div class="mt-2">
+                <div>
+                  <span>
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_monthly_transactions_count"
+                        [currency]="account.acc_currency"
+                        [ngClass]="
+                          'fw-normal  fw-bold'
+                        "></app-amount-visibility>
+                    </b>
+                  </span>
+                </div>
+              </div>
+
+              <div class="mt-2">
+                <div>
+                  <span>
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_calculated_monthly_fees"
+                        [currency]="account.acc_currency"
+                        [ngClass]="
+                          'fw-normal  fw-bold'
+                        "></app-amount-visibility>
+                    </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center mt-lg-4 position-relative">
+        <div class="d-flex">
+          <b
+            class="bg-white p-1 text-sm justify-content-center position-absolute rounded top-0 start-0 ms-5 mt-n3"
+            style="opacity: 0.78"
+            i18n>
+            Credit line
+          </b>
+        </div>
+        <div
+          class="col-11 lg-radius bg-white border text-dark justify-content-between align-self-center d-flex p-2 mt-4">
+          <div class="col-6 d-flex mt-1 p-2 ms-2">
+            <div class="text-start col-5">
+              <span class="fw-bold" i18n>Id</span>
+              <br />
+              <span class="fw-bold" i18n>Credit limit</span>
+              <br />
+              <span class="fw-bold" i18n>Expiration Date</span>
+              <br />
+            </div>
+            <div class="text-center col-5">
+              <span>---</span>
+              <br />
+              <span class="text-danger">---</span>
+              <br />
+              <span>---</span>
+              <br />
+            </div>
+          </div>
+          <div class="col-5 d-flex mt-1 p-2 ms-2">
+            <div class="text-start col-6">
+              <span class="fw-bold" i18n>Id</span>
+              <br />
+              <span class="fw-bold" i18n>Credit limit</span>
+              <br />
+              <span class="fw-bold" i18n>Expiration Date</span>
+              <br />
+            </div>
+            <div class="text-center col-5">
+              <span>---</span>
+              <br />
+              <span class="text-danger">---</span>
+              <br />
+              <span>---</span>
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="btn bg-primary text-light ms-lg-4 mt-3 mb-2"
+        data-bs-toggle="modal"
+        data-bs-target="#statementModal"
+        i18n>
+        See full statement
+      </button>
+    </div>
+  }
+  <div></div>
 </div>

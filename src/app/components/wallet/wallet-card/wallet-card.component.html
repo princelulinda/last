@@ -7,23 +7,6 @@
         Wallet
       }
     </b>
-    <b
-      role="button"
-      tabindex="0"
-      [ngClass]="{
-        'not-clickable': !defaultWallet,
-      }"
-      (click)="toggleAmount()">
-      @if (showAmountWallet) {
-        <span title="show balance">
-          <i class="fa fa-eye-slash fs-normal"></i>
-        </span>
-      } @else {
-        <span title="show balance">
-          <i class="fa fa-eye fs-normal"></i>
-        </span>
-      }
-    </b>
   </div>
 
   <div
@@ -41,7 +24,7 @@
       <div class="circ1 rounded-circle z-2 position-absolute"></div>
       <div class="circ2 rounded-circle z-2 position-absolute"></div>
       <div
-        class="text z-3 position-absolute h-100 w-100 p-2 ps-3 top-0 text-all-white">
+        class="text z-3 position-absolute h-100 w-100 p-2 ps-3 top-0 text-all-white position-relative">
         <div class="d-flex flex-column g-0">
           <span class="p-0 m-0 fs-small">Name</span>
           <!-- <span class="p-0 m-0 fw-bold mt-0">Bibentyo Bundi</span> -->
@@ -58,7 +41,7 @@
           @if (!noWalletData) {
             <span class="fs-small">Balance</span>
             @if (defaultWallet) {
-              @if (showAmountWallet) {
+              <!-- @if (amountState) {
                 <span class="fw-bold"
                   >{{ defaultWallet.response_data.currency
                   }}{{
@@ -69,7 +52,14 @@
                 <span class="fw-bold"
                   >{{ defaultWallet.response_data.currency }}*** ***</span
                 >
-              }
+              } -->
+              <span class="fw-bold">
+                <app-amount-visibility
+                  [currency]="defaultWallet.response_data.currency"
+                  [amount]="
+                    defaultWallet.response_data.available_balance
+                  "></app-amount-visibility>
+              </span>
             }
 
             @if (!defaultWallet) {
@@ -83,18 +73,31 @@
         </div>
 
         <div class="d-flex flex-column g-0 pt-2">
-          <span class="p-0 m-0 fs-small">Wallet</span>
-          @if (defaultWallet) {
+          <span class="p-0 m-0 fs-small" i18n>Wallet</span>
+          @if (defaultWallet && !noWalletData) {
             <span class="fw-bold">{{ defaultWallet.response_data.code }}</span>
           }
-          @if (!defaultWallet && !noWalletData) {
-            <!-- <span class="p-0 m-0 fw-bold mt-0">IWA •••• •••• •••• 1456</span> -->
+          @if (!defaultWallet) {
             <span> <i class="fa-solid fa-pulse fa-spinner"></i></span>
+          }
+          @if (noWalletData) {
+            <span class="p-0 m-0 fw-bold mt-0">IWA •••• •••• •••• 1456</span>
           }
         </div>
 
-        <div class="d-flex gap-2 mt-3">
-          <button class="btn px-1 p-0 btnBack" routerLink="/b/banking/wallets">
+        <div class="d-flex gap-2 position-absolute cardButtons">
+          <button class="btn px-1 p-0 btnBack">
+            <i class="fa-solid fa-plus fs-normal pt-1 text-all-white"></i>
+          </button>
+          <button
+            class="btn px-1 p-0 btnBack"
+            [routerLink]="
+              activePlatform === 'workstation'
+                ? '/w/workstation/banking/wallets'
+                : activePlatform === 'onlineBanking'
+                  ? '/b/banking/wallets'
+                  : ''
+            ">
             <i class="fa-solid fa-list fs-normal pt-1 text-all-white"></i>
           </button>
 

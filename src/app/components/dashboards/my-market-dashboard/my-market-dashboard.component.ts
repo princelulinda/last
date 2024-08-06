@@ -18,6 +18,7 @@ import { AuthService, ConfigService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
 import {
   Account,
+  MerchantBillDataModel,
   MerchantInfoModel,
   MerchantModel,
   MerchantObjectModel,
@@ -26,15 +27,15 @@ import {
   StatsModel,
 } from '../../products/products.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import {
-  DialogResponseModel,
-  MerchantBillModel,
-} from '../../../core/services/dialog/dialogs-models';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
-import { ModeModel } from '../../../core/services/config/main-config.models';
+import {
+  activeMainConfigModel,
+  ModeModel,
+} from '../../../core/services/config/main-config.models';
 import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
 import { AllProductsComponent } from '../../products/all-products/all-products.component';
 import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
@@ -130,11 +131,13 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     nativeElement: HTMLElement;
   };
 
-  successMessage!: MerchantBillModel[] | null;
+  successMessage!: MerchantBillDataModel | null;
   pin!: string;
   indexMerchant = 0;
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
+  activePlatform: string | null = null;
+  mainConfig$!: Observable<activeMainConfigModel>;
   constructor(
     // private store: Store,
     private route: ActivatedRoute,
@@ -148,8 +151,15 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     this.clientInfo$ = this.authService.getUserInfo();
     this.dialog$ = this.dialogService.getDialogState();
     this.theme$ = this.configService.getMode();
+    this.mainConfig$ = this.configService.getMainConfig();
   }
   ngOnInit(): void {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.activePlatform = configs.activePlateform;
+      },
+    });
+
     if (this.route.params) {
       this.route.params.subscribe({
         next: data => {
@@ -253,26 +263,27 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
             });
             return;
           }
-          // this.successMessage = {
-          //     data: {
-          //         debit_account: '',
-          //         name: this.selectedClient.lookup_title,
-          //         merchantName: this.merchant.client.client_full_name,
+          this.successMessage = {
+            data: {
+              debit_account: '',
+              name: (this.selectedClient as ItemModel).lookup_title,
+              merchantName: (this.merchant as MerchantModel).client
+                .client_full_name,
 
-          //         date: Date.now(),
-          //         printable_text: '',
-          //         amount: this.amount,
-          //         code: data.code,
-          //         product: {
-          //             name: '',
-          //             value: '',
-          //         },
-          //         description: this.billForm.value.description,
-          //         adress: '',
-          //         receipt_date: '',
-          //         credit_account: this.merchant.merchant_code,
-          //     },
-          // };
+              date: Date.now(),
+              printable_text: '',
+              amount: this.amount,
+              code: (this.merchant as MerchantModel).merchant_code,
+              product: {
+                name: '',
+                value: '',
+              },
+              description: this.billForm.value.description as string,
+              adress: '',
+              // receipt_date: '',
+              credit_account: (this.merchant as MerchantModel).merchant_code,
+            },
+          };
           this.openBillPopup = false;
 
           this.billForm.reset();
@@ -295,9 +306,10 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
             message: response.object.response_message,
           });
           //   this.store.dispatch(new OpenDialog(notification));
-          //   this.store.dispatch(
-          //       new OpenMerchantBillPopup(this.successMessage.data)
-          //   );
+          // this.store.dispatch(
+          //   new OpenMerchantBillPopup(this.successMessage.data)
+          // );
+          this.dialogService.OpenMerchantBillPopup(this.successMessage.data);
           this.closeModal.nativeElement.click();
           this.billForm.reset();
         },
@@ -383,21 +395,13 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       .getMerchantInfos(this.merchantId as string)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: MerchantObjectModel) => {
+        next: data => {
           this.merchantInfo = data.object.response_data;
           this.merchantId = (this.merchantInfo as MerchantModel).id;
 
           this.getMerchantStats();
         },
-        error: msg => {
-          console.log('error', msg);
-
-          // const notification = {
-          //     title: '',
-          //     type: 'failed',
-          //     message: 'something went wrong, please try again',
-          // };
-          // this.store.dispatch(new OpenDialog(notification));
+        error: () => {
           this.dialogService.openToast({
             title: '',
             type: 'failed',
@@ -414,16 +418,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
         next: (data: MerchantObjectsModel) => {
           this.merchantMult = data.object.response_data;
         },
-        error: msg => {
-          console.log('error', msg);
-
-          // const notification = {
-          //     title: '',
-          //     type: 'failed',
-          //     message: 'something went wrong, please try again',
-          // };
-          // this.store.dispatch(new OpenDialog(notification));
-
+        error: () => {
           this.dialogService.openToast({
             title: '',
             type: 'failed',
@@ -477,15 +472,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
         next: (data: StatsModel) => {
           this.stat = data.object.response_data;
         },
-        error: msg => {
-          console.log(msg);
-          // const notification = {
-          //     title: '',
-          //     type: 'failed',
-          //     message: 'something went wrong, please try again',
-          // };
-          //   this.store.dispatch(new OpenDialog(notification));
-
+        error: () => {
           this.dialogService.openToast({
             title: '',
             type: 'failed',

@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  EventEmitter,
-  Output,
-  OnDestroy,
-  HostListener,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -13,12 +6,6 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { AuthService, ConfigService } from '../../core/services';
 import { UserInfoModel } from '../../core/db/models/auth';
-import {
-  corporatesModel,
-  selectedCorporateModel,
-  clientInfoModel,
-  userInfoModel,
-} from './model';
 import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-plateform-icons.component';
 import {
   activeMainConfigModel,
@@ -28,101 +15,61 @@ import {
 import { FooterComponent } from '../footer/footer.component';
 import { SwitchModeComponent } from '../../components/dev/switch-mode/switch-mode.component';
 import { ProfileCardComponent } from '../../global/components/custom-field/profile-card/profile-card.component';
-
-export interface organizationModel {
-  company_type_code: string;
-  institution_client: {
-    client_full_name: string;
-    picture: string;
-  };
-}
+import { DialogService } from '../../core/services';
+import { OrganizationModel } from '../../components/auth/auth.model';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     SwitchPlateformIconsComponent,
     FooterComponent,
     SwitchModeComponent,
     ProfileCardComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  private onDestroy$: Subject<void> = new Subject<void>();
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
-  private onDestroy$: Subject<void> = new Subject<void>();
-  // public variableService = inject(VariableService);
-  // public themeService = inject(ThemeService);
-  // showMenu = false;
 
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
 
-  // organization$!: Observable<organizationModel>;
-  organization!: organizationModel;
+  organization$!: Observable<OrganizationModel | null>;
+  organization!: OrganizationModel | null;
 
-  // showUserInfo = false;
-  // userInfo$: Observable<any>;
+  userInfo!: UserInfoModel;
+  userInfo$: Observable<UserInfoModel>;
 
-  userInfo!: userInfoModel;
+  amountState = false;
+  amountState$: Observable<boolean>;
 
-  private corporates$!: Observable<corporatesModel>;
-
-  corporates: corporatesModel[] = [];
-  showCorporatesSection = false;
-  // dialog$: Observable<any>;
-  dialog = '';
-
-  selectedCorporate!: selectedCorporateModel;
-  // operator$: Observable<any>;
-  operator = '';
-  otherCorporates = '';
   selectedLanguage = new FormControl('fr');
-  next = '';
-  themeLogo = '';
+
   showPlateformPopup = false;
-
-  private clientInfo$!: Observable<clientInfoModel>;
-
-  @Output() toggleAsideMenuEvent = new EventEmitter<boolean>();
-  asideMenuIsActive = false;
-
-  chatNotFoundPopup = false;
-  notificationNotFoundPopup = false;
-  lightModeImage = '';
-
-  gridFill = '';
-  onlineBankingHeaderImage = '';
-  //eyeShowed was any
-  eyeShowed!: [];
-  // eyeStatus$: Observable<any>;
-  clientInfo!: UserInfoModel;
-  private userInfo$: Observable<UserInfoModel>;
-  private clientId$: Observable<number>;
-  private isAgent$: Observable<boolean>;
+  showUserInfoPopup = false;
 
   constructor(
+    private dialogService: DialogService,
     private configService: ConfigService,
     private authService: AuthService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.userInfo$ = this.authService.getUserInfo();
-    this.clientId$ = this.authService.getUserClientId();
-    this.isAgent$ = this.authService.getUserIsAgent();
     this.theme$ = this.configService.getMode();
+    this.organization$ = this.configService.getSelectedOrganization();
+    this.amountState$ = this.dialogService.getAmountState();
   }
 
   ngOnInit(): void {
     this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: theme => {
         this.theme = theme;
-      },
-      error: err => {
-        console.error('Error fetching theme:', err);
       },
     });
 
@@ -133,181 +80,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
 
     this.userInfo$.subscribe({
-      next: userinfo => {
-        this.clientInfo = userinfo;
-        console.log('OBSERVABLE POPULATE USER DATA ', userinfo);
+      next: user => {
+        this.userInfo = user;
       },
     });
 
-    this.clientId$.subscribe({
-      next: clientId => {
-        console.info('OBSERVABLE POPULATE CLIENT ID', clientId);
+    this.organization$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: org => {
+        this.organization = org;
       },
     });
-
-    // if (this.generalService.isCurrentDateInChristMassPeriod()) {
-    //     this.onlineBankingHeaderImage =
-    //         '../../../assets/images/ihela_christmas.png';
-    // } else {
-    //     this.onlineBankingHeaderImage = '../../../assets/images/ihela3.png';
-    // }
-
-    // this.eyeStatus$.subscribe({
-    //     next: (status) => {
-    //         this.eyeShowed = status;
-    //     },
-    // });
-
-    // this.organization$.pipe(takeUntil(this.onDestroy$)).subscribe({
-    //     next: (organization) => {
-    //         this.corporates$.pipe(takeUntil(this.onDestroy$)).subscribe({
-    //             next: (corporates) => {
-    //                 this.corporates = [];
-    //                 this.organization = organization;
-    //                 this.corporates = [];
-    //                 if (this.organization) {
-    //                     for (let i = 0; i < corporates.length; i++) {
-    //                         if (
-    //                             corporates[i].organization
-    //                                 .institution_client.client_full_name !==
-    //                             this.organization.institution_client
-    //                                 .client_full_name
-    //                         ) {
-    //                             this.corporates.push(corporates[i]);
-    //                         }
-    //                     }
-    //                 }
-    //             },
-    //         });
-    //     },
-    // });
-
-    // this.userInfo$.pipe(takeUntil(this.onDestroy$)).subscribe({
-    //     next: (userInfo) => {
-    //         this.userInfo = userInfo;
-    //     },
-    // });
-
-    // this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
-    //     next: (theme: any) => {
-    //         this.theme = theme;
-    //         if (
-    //             this.theme === 'magis-light' ||
-    //             this.theme === 'light-mode'
-    //         ) {
-    //             this.themeLogo = '/assets/images/light-active.svg';
-    //         } else if (
-    //             this.theme === 'magis-dark' ||
-    //             this.theme === 'dark-mode'
-    //         ) {
-    //             this.themeLogo = '/assets/images/dark-active.svg';
-    //         }
-    //     },
-    // });
-
-    // this.menuService.getAsideMenuStatus$
-    //     .pipe(takeUntil(this.onDestroy$))
-    //     .subscribe((value) => {
-    //         this.asideMenuIsActive = value;
-    //     });
-
-    // this.operator$.pipe(takeUntil(this.onDestroy$)).subscribe({
-    //     next: (operator) => {
-    //         this.operator = operator;
-    //     },
-    // });
-    // this.clientInfo$.subscribe({
-    //     next: (clientInfo) => {
-    //         this.clientInfo = clientInfo;
-    //     },
-    // });
-
-    // this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
-    //     next: (dialog) => {
-    //         this.dialog = dialog;
-    //         if (this.dialog && this.dialog.response) {
-    //             if (
-    //                 this.dialog.response === 'Yes' &&
-    //                 this.dialog.action === 'logoutCorporate'
-    //             ) {
-    //                 this.store.dispatch(new LogoutCorporate());
-    //                 // this.store.dispatch))
-    //             } else if (this.dialog.response === 'No') {
-    //                 // console.log('Mugumize aho');
-    //                 // this.showSettingMenu = false;
-    //             } else if (
-    //                 this.dialog.response === 'password submitted' &&
-    //                 this.dialog.action === 'switch corporate'
-    //             ) {
-    //                 this.loginCorporate();
-    //             }
-    //         }
-    //     },
-    // });
+    this.amountState$.subscribe({
+      next: state => {
+        this.amountState = state;
+      },
+    });
   }
 
   // eye amount keyshortcuts
   @HostListener('window:keyup.control.shift.v', ['$event'])
-  handleKeyDown(event: KeyboardEvent) {
+  handleKeyDown() {
     this.toggleEyeStatus();
-    console.log(event);
   }
-
-  // doShowMenu() {
-  //   if (this.showMenu) {
-  //     this.showMenu = false;
-  //   } else {
-  //     this.showMenu = true;
-  //   }
-  // }
 
   public ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
-  }
-
-  // getOtherCorporates(corporate:any){
-  //     this.otherCorporates=corporate.
-  // }
-
-  // showPlateformMenu() {
-  //   if (this.showMenu) {
-  //     this.showMenu = false;
-  //   } else {
-  //     this.showMenu = true;
-  //     this.showUserInfo = false;
-  //     this.chatNotFoundPopup = false;
-  //     this.notificationNotFoundPopup = false;
-  //     this.showPlateformPopup = false;
-  //   }
-  // }
-
-  // showPlateform() {
-  //   if (this.showPlateformPopup) {
-  //     this.showPlateformPopup = false;
-  //   } else {
-  //     this.showPlateformPopup = true;
-  //     this.showMenu = false;
-  //     this.showUserInfo = false;
-  //     this.chatNotFoundPopup = false;
-  //     this.notificationNotFoundPopup = false;
-  //   }
-  // }
-
-  // displayUserInfo() {
-  //   if (this.showUserInfo) {
-  //     this.showUserInfo = false;
-  //   } else {
-  //     this.showUserInfo = true;
-  //     this.chatNotFoundPopup = false;
-  //     this.notificationNotFoundPopup = false;
-  //     this.showMenu = false;
-  //     this.showPlateformPopup = false;
-  //   }
-  // }
-
-  toggleMarket() {
-    // this.store.dispatch(new SelectMarket({ marketName: 'market' }));
   }
 
   switchMode() {
@@ -319,101 +117,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   logout() {
     this.authService.logout();
-  }
-
-  // displayCorporatesSection() {
-  //   if (this.showCorporatesSection) {
-  //     this.showCorporatesSection = false;
-  //   } else {
-  //     this.showCorporatesSection = true;
-  //   }
-  // }
-
-  // openModal() {
-  //   const data = {
-  //     title: '',
-  //     type: 'confirm',
-  //     message:
-  //       'This action will disconnect you in ' +
-  //       this.organization.institution_client.client_full_name +
-  //       '  Are you sure you want to Logout ?',
-  //     action: 'logoutCorporate',
-  //   };
-  //   // this.store.dispatch(new OpenConfirmDialog(data));
-  //   // this.showSettingMenu = true;
-  // }
-  //corporate was any
-  // eslint-disable-next-line
-  switchCorporate(corporate: any) {
-    this.selectedCorporate = corporate;
-    const data = {
-      title: '',
-      type: 'password',
-      message:
-        'Login in ' +
-        this.selectedCorporate.organization.institution_client.client_full_name,
-      action: 'switch corporate',
-    };
-    console.log('the openAction data:' + data);
-    // this.store.dispatch(new OpenActionDialog(data));
-  }
-
-  loginCorporate() {
-    const data = {
-      title: '',
-      type: 'loading',
-      message: '',
-    };
-    console.log('the data:' + data);
-    // this.store.dispatch(new OpenDialog(data));
-    // this.authService
-    //   .logoutCorporate()
-    //   .pipe(takeUntil(this.onDestroy$))
-    //   .subscribe({
-    // next: (data) => {
-    //     // if (data.object.success === true) {
-    //     //     const login_data = {
-    //     //         password: this.variableService.password,
-    //     //         organization_id:
-    //     //             this.selectedCorporate.organization.id,
-    //     //     };
-    //     //     this.authService.loginCorporate(login_data).subscribe({
-    //     //         next: (data) => {
-    //     //             this.store.dispatch(
-    //     //                 new CloseDialog({ response: 'close' })
-    //     //             );
-    //     //             this.variableService.password = '';
-    //     //             if (data.object.success === true) {
-    //     //                 window.location.href = '/w';
-    //     //             } else if (data.object.response_code === '07') {
-    //     //                 this.displayCorporatesSection();
-    //     //                 const dataModal = {
-    //     //                     title: '',
-    //     //                     type: 'failed',
-    //     //                     message: data.object.response_message,
-    //     //                 };
-    //     //                 this.store.dispatch(
-    //     //                     new OpenDialog(dataModal)
-    //     //                 );
-    //     //             }
-    //     //         },
-    //     //         error: (err) => {
-    //     //             console.log('errrrrss', err);
-    //     //             this.variableService.password = '';
-    //     //             // this.showPassword = true;
-    //     //             // this.isLoading = false;
-    //     //             const data = {
-    //     //                 title: '',
-    //     //                 type: 'failed',
-    //     //                 message: 'Could not Login',
-    //     //             };
-    //     //             this.store.dispatch(new OpenDialog(data));
-    //     //         },
-    //     //     });
-    //     // }
-    // },
-    // });
-    // this.store.dispatch( new LogoutCorporate({ corporateOnly: true }));
   }
 
   changeLanguage() {
@@ -437,51 +140,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleAsideMenu() {
-    // this.menuService.toggleAsideMenu(hidden);
-  }
-
-  // toggleNotFoundPopup(action: string) {
-  //   switch (action) {
-  //     case 'notification':
-  //       if (this.notificationNotFoundPopup) {
-  //         this.notificationNotFoundPopup = false;
-  //       } else {
-  //         this.notificationNotFoundPopup = true;
-  //         this.showMenu = false;
-  //         this.showUserInfo = false;
-  //         this.chatNotFoundPopup = false;
-  //         this.showPlateformPopup = false;
-  //       }
-  //       break;
-  //     case 'chat':
-  //       if (this.chatNotFoundPopup) {
-  //         this.chatNotFoundPopup = false;
-  //       } else {
-  //         this.chatNotFoundPopup = true;
-  //         this.showMenu = false;
-  //         this.showUserInfo = false;
-  //         this.notificationNotFoundPopup = false;
-  //         this.showPlateformPopup = false;
-  //       }
-  //       break;
-  //   }
-  // }
-
-  // Get close event from not-found-page
-  // getPopupEvent(event: any) {
-  //     console.log('event', event);
-
-  //     //Ensure that we close the right popup, the one that is currently open
-  //     if (this.notificationNotFoundPopup) {
-  //         this.notificationNotFoundPopup = event;
-  //     }
-
-  //     if (this.chatNotFoundPopup) {
-  //         this.chatNotFoundPopup = event;
-  //     }
-  // }
-
   isCurrentDateInChristMassPeriod() {
     // Get the current date
     const currentDate = new Date();
@@ -496,31 +154,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   toggleEyeStatus() {
-    // this.store.dispatch(new displayAmount({ show: !this.eyeShowed }));
+    this.dialogService.displayAmount();
   }
-  showMenu = false;
-  showUserInfo = false;
-  showPlateform() {
-    if (this.showPlateformPopup) {
-      this.showPlateformPopup = false;
-    } else {
-      this.showPlateformPopup = true;
-      this.showMenu = false;
-      this.showUserInfo = false;
-      this.chatNotFoundPopup = false;
-      this.notificationNotFoundPopup = false;
-    }
+  toggleUserInfo() {
+    this.showUserInfoPopup = !this.showUserInfoPopup;
   }
-
-  displayUserInfo() {
-    if (this.showUserInfo) {
-      this.showUserInfo = false;
-    } else {
-      this.showUserInfo = true;
-      this.chatNotFoundPopup = false;
-      this.notificationNotFoundPopup = false;
-      this.showMenu = false;
-      this.showPlateformPopup = false;
-    }
+  togglePlateformIconsPopup() {
+    this.showPlateformPopup = !this.showPlateformPopup;
   }
 }

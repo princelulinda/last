@@ -1,56 +1,59 @@
-
 .white {
-    color: white;
-    @media screen and (max-width: 991px) {
-        color: #9d9d9d;
-        .show-plateform {
-            filter: invert(70%) !important;
-        }
+  color: white;
+  @media screen and (max-width: 991px) {
+    color: #9d9d9d;
+    .show-plateform {
+      filter: invert(70%) !important;
     }
+  }
+}
+
+.textWhite {
+  color: #fff;
 }
 
 .dark {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-    background-color: transparent;
-    border: 2px solid #000;
-    border-radius: 20px;
-    transition: all 0.3s;
-    padding: 2px 0px 5px 2px;
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  background-color: transparent;
+  border: 2px solid #000;
+  border-radius: 20px;
+  transition: all 0.3s;
+  padding: 2px 0px 5px 2px;
 }
 
 .light {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-    background-color: transparent;
-    border: 2px solid #fff;
-    border-radius: 20px;
-    transition: all 0.3s;
-    padding: 2px 0px 5px 2px;
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  background-color: transparent;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  transition: all 0.3s;
+  padding: 2px 0px 5px 2px;
 }
 
 .light::after {
-    content: '';
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    background-color: #fff;
-    transition: all 0.3s;
+  content: '';
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: all 0.3s;
 }
 .dark::after {
-    content: '';
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    margin: 0px -5px 0px 0px;
-    background-color: black;
-    transition: all 0.3s;
+  content: '';
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  margin: 0px -5px 0px 0px;
+  background-color: black;
+  transition: all 0.3s;
 }
 
 // .checkbox:checked + .switch::after {
@@ -104,9 +107,8 @@
 //     color: #2070b8;
 // }
 
-
 .margin-right {
-    margin-right: 100px;
+  margin-right: 100px;
 }
 
 // .profile-card {
@@ -120,13 +122,13 @@
 //     flex-direction: column;
 // }
 .clientProfile {
-    border-radius: 50%; 
-    height: 25px; 
-    width: 25px
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
 }
 .profile-picture-container {
-    width: 87px;
-    height: 87px;
+  width: 87px;
+  height: 87px;
 }
 // @media (max-width: 991px) {
 //     .profile-card {
@@ -164,63 +166,60 @@
 //     }
 // }
 
-
 #right-side-menu-icons {
-    @media screen and (max-width: 991px) {
-        flex-grow: 1;
-    }
-    @media screen and (min-width: 992px) {
-        flex-grow: 0;
-    }
+  @media screen and (max-width: 991px) {
+    flex-grow: 1;
+  }
+  @media screen and (min-width: 992px) {
+    flex-grow: 0;
+  }
 }
 
 a {
-    text-decoration: none !important;
+  text-decoration: none !important;
 }
 
 @keyframes slidein {
-    from {
-        transform: translateX(100%);
-    }
+  from {
+    transform: translateX(100%);
+  }
 
-    to {
-        transform: translateX(0%);
-    }
+  to {
+    transform: translateX(0%);
+  }
 }
 
 .plateforn-card {
-    width: auto;
-    height: calc(100vh - 70px);
-    position: absolute;
-    right: 2px;
-    top: 55px;
-    z-index: 20;
-    // border: 10px solid #C98986;
-    // display: flex;
-    // flex-direction: column;
-    //transition: all 2s;
-    animation: slidein 100ms 1 linear;
-    //-webkit-animation:slidein 100ms 1 linear;
-    // overflow-y: scroll;
-    // overflow-x: hidden;
-    -webkit-animation: slidein 100ms 1 linear;
-    min-width: 328px;
-    
+  width: auto;
+  height: calc(100vh - 70px);
+  position: absolute;
+  right: 2px;
+  top: 55px;
+  z-index: 20;
+  // border: 10px solid #C98986;
+  // display: flex;
+  // flex-direction: column;
+  //transition: all 2s;
+  animation: slidein 100ms 1 linear;
+  //-webkit-animation:slidein 100ms 1 linear;
+  // overflow-y: scroll;
+  // overflow-x: hidden;
+  -webkit-animation: slidein 100ms 1 linear;
+  min-width: 328px;
 }
-.plateform{
-    border:10px #c98986 solid;
+.plateform {
+  border: 10px #c98986 solid;
 }
-.userInfo{
-    margin-right:7px;
-    border-radius: 10px 0px 0px 10px;
+.userInfo {
+  margin-right: 7px;
+  border-radius: 10px 0px 0px 10px;
 }
 .icons-color {
-    color: #d9d9d9;
+  color: #d9d9d9;
 }
 .border-primary-onamob {
-    border-color: #e4c5c3 !important;
+  border-color: #e4c5c3 !important;
 }
 .bg-onamob-2 {
-    background-color: #e4c5c3 !important;
+  background-color: #e4c5c3 !important;
 }
-

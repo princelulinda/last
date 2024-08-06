@@ -1,11 +1,10 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 // import { ApiService } from '..';
 // import { GeneralSe } from '..';
 // import { map, retry } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
-import { map, Observable, retry } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, map, Observable, retry } from 'rxjs';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
 import { Favorite, Pagination } from './model';
 import {
@@ -20,15 +19,34 @@ import {
   searchTellerModel,
   updateMerchantDetailsModel,
 } from '../../../components/merchant/merchant.models';
+import { TransferResponseModel } from '../../../components/transfer/transfer.model';
+import { Coords2Model } from '../../../components/dev/global-map/map.model';
 // import { Pagination } from './model';
 @Injectable({
   providedIn: 'root',
 })
 export class MerchantService {
-  constructor(
-    @Inject(ApiService) private apiService: ApiService,
-    @Inject(HttpClient) private http: HttpClient
-  ) {}
+  constructor(private apiService: ApiService) {}
+
+  private _coords: BehaviorSubject<Coords2Model> =
+    new BehaviorSubject<Coords2Model>({
+      accuracy: 0,
+      altitude: null,
+      altitudeAccuracy: null,
+      heading: null,
+      latitude: 0,
+      longitude: 0,
+      speed: null,
+    });
+
+  get coords$(): Observable<Coords2Model> {
+    return this._coords.asObservable();
+  }
+
+  getUserCoords(coords: Coords2Model) {
+    this._coords.next(coords);
+  }
+
   getMerchantList() {
     return this.apiService.get('/dbs/merchant/list/?').pipe(
       map(data => {
@@ -177,7 +195,7 @@ export class MerchantService {
       })
     );
   }
-  getConnectedMerchantInfo() {
+  getConnectedMerchantInfo(): Observable<MerchantObjectModel> {
     const url = '/dbs/merchant/info/';
     return this.apiService.get<MerchantObjectModel>(url).pipe(
       map(data => {
@@ -393,9 +411,11 @@ export class MerchantService {
       })
     );
   }
-  merchantCashin(data: []) {
+  merchantCashin(data: object): Observable<TransferResponseModel> {
     const url = '/dbs/merchant/cashin/';
-    return this.apiService.post(url, data).pipe(map(data => data));
+    return this.apiService
+      .post(url, data)
+      .pipe(map(data => data as TransferResponseModel));
   }
   getTellersByMerchant(merchantId: string) {
     const url = `/dbs/merchant-teller/?merchant=${merchantId}`;
@@ -466,5 +486,15 @@ export class MerchantService {
         return data;
       })
     );
+  }
+
+  getBestOffer() {
+    const url = '/dbs/price-mutations/';
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getRecentProducts() {
+    const url = '/dbs/merchant-product/objects_autocomplete/?is_recent=true';
+    return this.apiService.get(url).pipe(map(data => data));
   }
 }

@@ -1,17 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, Subject, takeUntil } from 'rxjs';
 import { RouterLink } from '@angular/router';
+
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { MarketService } from '../../../core/services/market/market.service';
 import { AuthService, ConfigService } from '../../../core/services';
-// import { AuthState, MenuState, SwitchThemeState } from 'src/app/shared';
-
 import { Pagination } from '../../../core/services/merchant/model';
-import {
-  ModeModel,
-  PlateformModel,
-} from '../../../core/services/config/main-config.models';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { BillsModel, paymentBillsModel } from '../products.model';
 
@@ -34,7 +30,6 @@ export class BillsComponent implements OnInit, OnDestroy {
 
   merchantBills!: BillsModel[] | null;
   paymentRequestBills!: BillsModel[];
-  // billsReport: any;
   countBills!: string | number;
   isLoading = true;
   paymentRequestBillsLoading = true;
@@ -101,21 +96,13 @@ export class BillsComponent implements OnInit, OnDestroy {
   pages = 1;
   activePage = 1;
 
-  selectedMarket!: PlateformModel;
-  selectedMarket$: Observable<PlateformModel>;
-
   constructor(
     private marketService: MarketService,
     private configService: ConfigService,
     private authService: AuthService
-    //   private menuService: MenuService
   ) {
-    // this.theme$ = this.store.select(SwitchThemeState.GetTheme);
     this.theme$ = this.configService.getMode();
-    // this.clientInfo$ = this.store.select(AuthState.GetClientInfo);
     this.clientInfo$ = this.authService.getUserInfo();
-    // this.selectedMarket$ = this.store.select(MenuState.GetSelectedMarket);
-    this.selectedMarket$ = this.configService.getPlateform();
   }
 
   ngOnInit() {
@@ -125,20 +112,8 @@ export class BillsComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.clientInfo$.subscribe({
-      next: (response: UserInfoModel) => {
-        if (response.client.is_merchant) {
-          this.isMerchant = response.client.is_merchant;
-          this.getBills();
-          this.getPaymentRequestBills();
-        }
-      },
-    });
-    this.selectedMarket$.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: (market: PlateformModel) => {
-        this.selectedMarket = market;
-      },
-    });
+    this.getBills();
+    this.getPaymentRequestBills();
   }
 
   getBills() {
@@ -193,7 +168,7 @@ export class BillsComponent implements OnInit, OnDestroy {
         parseInt(this.billsPagination.filters?.limit as string) *
         (this.activePage - 1)
       ).toString();
-      (this.billsPagination.filters as string) = _offset;
+      this.billsPagination.filters!.offset = _offset;
       if (action === 'next') {
         this.getBills();
       } else if (action === 'prev') {
@@ -203,7 +178,7 @@ export class BillsComponent implements OnInit, OnDestroy {
       this.canMoveToPrevious = true;
     }
     if (this.activePage - 1 < 1) {
-      (this.billsPagination.filters as string) = '';
+      this.billsPagination.filters!.offset = '';
       this.canMoveToPrevious = false;
       this.canMoveToNext = false;
     } else if (this.activePage + 1 > this.pages) {

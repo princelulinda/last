@@ -29,9 +29,9 @@
 }
 
 @if (!isLoadingInfo && merchant) {
-  <div class="ms-5 ps-3">
+  <div class="ms-0 ms-md-1 ms-xxl-5 ps-0 ps-xl-3 overflow-hidden">
     <div
-      class="d-lg-flex d-none position-relative shadow me-5 ms-2 border-top-4 border-start-0 border-end-0 border-bottom-0 border-primary border-4"
+      class="d-lg-flex d-none position-relative shadow me-5 ms-3 border-top-4 border-start-0 border-end-0 border-bottom-0 border-primary border-4"
       style="height: 120px">
       <img
         src="/images/products/Rectangle 1235.svg"
@@ -95,9 +95,9 @@
       </div>
     </div>
 
-    <section class="row d-flex mt-4">
+    <section class="row d-flex mt-4 ms-5 ms-sm-0">
       <div
-        class="col-lg-3 col-md-5 col-sm-6 mb-2 ms-3 me-4 dashboardBox rounded shadow level-1">
+        class="col-lg-3 col-md-5 col-sm-6 mb-2 ms-3 me-3 dashboardBox rounded shadow level-1">
         <Span class="float-start fs-5 ms-2 mt-3 text-dark">
           <small i18n>Sales </small> <br />
           @if (stat) {
@@ -120,7 +120,7 @@
         </span>
       </div>
       <div
-        class="col-lg-3 col-md-5 col-sm-6 mb-2 ms-3 me-4 dashboardBox rounded shadow level-1">
+        class="col-lg-3 col-md-5 col-sm-6 mb-2 ms-3 me-3 dashboardBox rounded shadow level-1">
         <Span class="float-start fs-5 ms-2 text-dark mt-3"
           ><small i18n>Clients </small> <br /><b> ---</b></Span
         ><span class="float-end"
@@ -132,7 +132,7 @@
         /></span>
       </div>
       <div
-        class="col-lg-3 col-md-5 col-sm-6 mb-2 ms-3 me-4 dashboardBox rounded shadow level-1">
+        class="col-lg-3 col-md-5 col-sm-6 mb-2 ms-3 me-3 dashboardBox rounded shadow level-1">
         <Span class="float-start fs-5 ms-2 text-dark mt-3">
           <small i18n>Products </small> <br />
           @if (stat) {
@@ -153,7 +153,7 @@
         </span>
       </div>
       <div
-        class="col-lg-3 col-md-5 col-sm-6 mb-2 ms-3 me-4 dashboardBox rounded shadow level-1">
+        class="col-lg-3 col-md-5 col-sm-6 mb-2 ms-3 me-3 dashboardBox rounded shadow level-1">
         <Span class="float-start fs-5 mt-3 text-dark">
           <small i18n>Revenue </small> <br />
           @if (!merchantInfo) {
@@ -183,7 +183,7 @@
         ><i class="fa-solid fa-chart-simple text-primary-light"></i
         ><b class="text-dark" i18n> Chart</b></span
       ><br />
-      <div class="row">
+      <div class="row justify-content-lg-center justify-content-xxl-start">
         <div class="col-md-5 mt-3 mt-md-0">
           <!-- <app-pie-chart
               style="font-size: small"
@@ -211,7 +211,7 @@
           </div>
         </div>
         <div
-          class="col-md-6 mt-3 mt-md-0 border-start ms-auto text-center"
+          class="col-md-6 col-lg-8 col-xxl-6 mt-3 mt-md-0 border-start ms-0 ms-xl-auto text-center"
           style="border-left: 1px solid rgb(182, 179, 179); height: 250px">
           <div
             class="d-flex justify-content-center justify-content-md-start px-5">
@@ -224,7 +224,7 @@
                 <i class="fa-solid fa-box text-dark ms-3 opacity-75"></i>
               </div>
               <div
-                routerLink="/m/market/merchant/configuration"
+                routerLink="/m/market/merchant-config"
                 role="button"
                 class="pt-1 level-1 ms-3 mt-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary">
                 <b class="text-dark" i18n>Merchant config</b>
@@ -301,7 +301,7 @@
       </div>
     </section>
 
-    <section class="row justify-content-between mt-2" style="width: 90%">
+    <section class="row justify-content-between mt-2 w-100">
       @if (merchant) {
         <app-all-products
           class="text-dark"
@@ -329,7 +329,7 @@
 </div>
 <div class="modal fade" id="billsModal" data-mdb-backdrop="false">
   <div class="modal-dialog">
-    <div class="modal-content mt-5 pt-5 pb-5 mb-5">
+    <div class="modal-content bg-white">
       <div class="modal-body">
         <div class="text-end">
           <span
@@ -387,7 +387,7 @@
 </div>
 <div class="modal fade" id="merchantsModal" data-mdb-backdrop="false">
   <div class="modal-dialog">
-    <div class="modal-content merchantsModal">
+    <div class="modal-content merchantsModal bg-white">
       <div class="modal-body">
         <div class="text-end">
           <span

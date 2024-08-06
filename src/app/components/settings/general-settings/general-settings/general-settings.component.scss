@@ -1,4 +1,13 @@
 
+.profifPicture {
+  width: 146px;
+  height: 154px;
+  margin-left: 25px;
+}
+
+
+
+
 .number-action-container {
   .actions-popup {
       position: absolute;
@@ -14,10 +23,6 @@
   }
 }
 
-.profifPicture {
-  width: 146px;
-  height: 154px;
-  margin-left: 25px;
+.is-clickable {
+  cursor: pointer;
 }
-
-

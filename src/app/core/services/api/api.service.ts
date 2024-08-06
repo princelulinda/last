@@ -75,6 +75,9 @@ export class ApiService {
   setLocalBankId(bankId: number) {
     localStorage.setItem(this.localBankIdKey, bankId.toString());
   }
+  resetLocalBankId() {
+    localStorage.removeItem(this.localBankIdKey);
+  }
 
   getLocalPlateform(): PlateformModel {
     const plateform = localStorage.getItem(this.localPlateformKey);

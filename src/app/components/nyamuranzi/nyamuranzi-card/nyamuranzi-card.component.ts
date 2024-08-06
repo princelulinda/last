@@ -9,12 +9,16 @@ import { ConfigService, AuthService } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { nyamuranziCard } from '../models';
 import { userInfoModel } from '../../../layouts/header/model';
-import { ModeModel } from '../../../core/services/config/main-config.models';
+import {
+  activeMainConfigModel,
+  ModeModel,
+} from '../../../core/services/config/main-config.models';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({
   selector: 'app-nyamuranzi-card',
   standalone: true,
-  imports: [NgClass, CommonModule, RouterLink],
+  imports: [NgClass, CommonModule, RouterLink, AmountVisibilityComponent],
   templateUrl: './nyamuranzi-card.component.html',
   styleUrl: './nyamuranzi-card.component.scss',
 })
@@ -25,10 +29,10 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
   mode$!: Observable<ModeModel>;
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
-  showAmountAccount = false;
   referees!: nyamuranziCard;
   noRefereed = false;
-
+  activePlatform: string | null = null;
+  mainConfig$!: Observable<activeMainConfigModel>;
   private userInfo$: Observable<UserInfoModel>;
 
   constructor(
@@ -38,8 +42,15 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
+    this.mainConfig$ = this.configService.getMainConfig();
   }
   ngOnInit(): void {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.activePlatform = configs.activePlateform;
+      },
+    });
+
     this.mode$.subscribe({
       next: datas => {
         this.mode = datas;
@@ -65,10 +76,6 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
           // code
         },
       });
-  }
-
-  toggleAmount() {
-    this.showAmountAccount = !this.showAmountAccount;
   }
 
   public ngOnDestroy(): void {

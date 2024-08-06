@@ -9,7 +9,7 @@
   }
   @if (!walletsListData && Type === 'transfer') {
     <div
-      class="bg-white p-3 border border-secondary border-2 mt-2 lg-radius"
+      class="bg-white p-3 border border-2 mt-2 lg-radius"
       style="min-width: 300px">
       <span
         class="text-center w-100 h-100 align-items-center d-flex justify-content-center text-dark"
@@ -23,7 +23,8 @@
   @if (walletsListData && walletsListData.length > 0) {
     <div
       class="position-relative overflow-x-hidden overflow-y-auto"
-      style="min-width: 220px; height: 50vh">
+      style="min-width: 220px"
+      [ngStyle]="{ height: Type !== 'transfer' ? '50vh' : '' }">
       @if (Type === 'list') {
         <hr class="my-1 ms-3" />
       }
@@ -31,7 +32,7 @@
       @if (Type === 'list' || (Type === 'transfer' && !selectedLoneWallet)) {
         <div
           [ngClass]="{
-            'bg-white p-3 border border-secondary border-2 mt-2 ms-2 lg-radius overflow-y-auto':
+            'bg-white p-3 border  border-2 mt-2 ms-2 lg-radius overflow-y-auto':
               Type === 'transfer',
           }">
           @for (wallet of walletsListData; track $index) {
@@ -39,7 +40,11 @@
               (click)="selectLoneAccount(wallet)"
               [routerLink]="
                 Type === 'list'
-                  ? '/b/banking/wallets/details/' + wallet.id
+                  ? activePlatform === 'workstation'
+                    ? '/w/workstation/banking/wallets/details/' + wallet.id
+                    : activePlatform === 'onlineBanking'
+                      ? '/b/banking/wallets/details/' + wallet.id
+                      : null
                   : null
               "
               tabindex="0"
@@ -47,13 +52,22 @@
               [ngClass]="{
                 account: Type === 'transfer',
                 cliped: selectedLoneWallet === wallet && Type === 'list',
+                'text-all-dark':
+                  selectedLoneWallet === wallet &&
+                  Type === 'list' &&
+                  theme === 'dark',
+
+                'text-dark':
+                  selectedLoneWallet === wallet &&
+                  Type === 'list' &&
+                  theme === 'light',
               }"
               role="button">
               <b class="fw-bold">{{ wallet.title }}</b>
               <b class="fw-normal">{{ wallet.account.account_holder }}</b>
-              @if (Type === 'list') {
-                <b class="fw-normal">{{ wallet.code }}</b>
-              }
+
+              <b class="fw-normal">{{ wallet.code }}</b>
+
               <b>
                 <app-amount-visibility
                   [amount]="wallet.available_balance"
@@ -75,9 +89,12 @@
               class="d-flex align-items-start justify-content-between ps-2 py-0 b-left">
               <div class="d-grid ps-3 py-0">
                 <b>{{ selectedLoneWallet.title }}</b>
+
                 <b class="fw-normal">{{
                   selectedLoneWallet.account.account_holder
                 }}</b>
+                <b class="fw-normal">{{ selectedLoneWallet.code }}</b>
+
                 <b>
                   <span>
                     <app-amount-visibility

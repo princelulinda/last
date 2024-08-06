@@ -37,7 +37,9 @@ export class AuthService {
     private configService: ConfigService,
     private dialogService: DialogService
   ) {
-    this.userInfo$ = liveQuery(() => this.dbService.getOnce(User.tableName));
+    this.userInfo$ = liveQuery<UserInfoModel>(() =>
+      this.dbService.getOnce(User.tableName)
+    );
   }
 
   login(login_data: {
@@ -116,7 +118,8 @@ export class AuthService {
     this.apiService.post('/users/logout/').subscribe({
       next: async () => {
         await this.configService.clearDB();
-        this.configService.switchPlateform('authentification');
+        // this.configService.switchPlateform('authentification');
+        window.location.reload();
         this.dialogService.closeLoading();
       },
       error: err => {
@@ -232,15 +235,29 @@ export class AuthService {
   }
 
   getUserClientId(): Observable<number> {
-    this.getUserInfo().subscribe({
-      next: userInfo => {
-        if (userInfo) {
-          this.userClientId$.next(userInfo.client.client_id);
-        }
-      },
-    });
+    const localPlateform: PlateformModel = this.getLocalPlateform();
+    if (localPlateform !== 'workstation') {
+      this.getUserInfo().subscribe({
+        next: userInfo => {
+          if (userInfo) {
+            this.userClientId$.next(userInfo.client.client_id);
+          }
+        },
+      });
+    } else {
+      this.configService.getConnectedOperator().subscribe({
+        next: response => {
+          if (response.organization) {
+            this.userClientId$.next(
+              response.organization.institution_client.id
+            );
+          }
+        },
+      });
+    }
     return this.userClientId$;
   }
+
   getUserIsAgent(): Observable<boolean> {
     this.getUserInfo().subscribe({
       next: userInfo => {
@@ -253,13 +270,27 @@ export class AuthService {
   }
 
   getUserId(): Observable<number> {
-    this.getUserInfo().subscribe({
-      next: userInfo => {
-        if (userInfo) {
-          this.userId$.next(userInfo.client.id);
-        }
-      },
-    });
+    const localPlateform: PlateformModel = this.getLocalPlateform();
+    if (localPlateform !== 'workstation') {
+      this.getUserInfo().subscribe({
+        next: userInfo => {
+          if (userInfo) {
+            this.userId$.next(userInfo.client.id);
+          }
+        },
+      });
+    } else {
+      this.configService.getConnectedOperator().subscribe({
+        next: response => {
+          if (response.organization) {
+            this.userClientId$.next(
+              response.organization.institution_client.id
+            );
+          }
+        },
+      });
+    }
+
     return this.userId$;
   }
 
@@ -274,7 +305,7 @@ export class AuthService {
   getLocalBankId(): string | null {
     return this.apiService.getLocalBankId();
   }
-  getLocalPlateform(): string {
+  getLocalPlateform(): PlateformModel {
     return this.apiService.getLocalPlateform();
   }
 }

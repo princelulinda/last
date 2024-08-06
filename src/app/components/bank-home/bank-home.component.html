@@ -21,7 +21,13 @@
         @for (bankMenu of bankMenus; track $index) {
           <a
             role="button"
-            [routerLink]="bankMenu.link"
+            [routerLink]="
+              activePlatform === 'workstation'
+                ? bankMenu.link[1]
+                : activePlatform === 'onlineBanking'
+                  ? bankMenu.link[0]
+                  : ''
+            "
             class="d-grid col-auto justify-content-center">
             <div class="d-flex w-100 mb-2 justify-content-center">
               <div

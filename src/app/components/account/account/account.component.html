@@ -1,8 +1,16 @@
 <div
-  class="d-lg-flex lg-radius p-2 bg-secondary position-relative"
-  style="min-height: 65vh; border: 2px solid #dad8d8">
+  class="d-lg-flex lg-radius p-3 bg-secondary position-relative border height">
   <div class="position-absolute top-0 end-0 me-3 mt-3" role="button">
-    <div class="text-dark fw-bold fs-normal font-calibri text-end">
+    <div
+      class="text-dark fw-bold fs-normal font-calibri text-end"
+      routerLink="/b/banking/"
+      [routerLink]="
+        activePlatform === 'workstation'
+          ? '/w/workstation/banking/'
+          : activePlatform === 'onlineBanking'
+            ? '/b/banking/'
+            : ''
+      ">
       <div class="d-flex align-items-center gap-2">
         <div>
           <i class="fa-solid fa-arrow-left"></i>
@@ -11,35 +19,48 @@
       </div>
     </div>
   </div>
-  <div>
+
+  <div class="">
+    @if (dataLoaded) {
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="fs-medium fw-bold font-calibri">Accounts</div>
+        <div (click)="toggleAmountVisibility()" tabindex="0" class="me-3">
+          @if (showAmounts) {
+            <span
+              class="text-dark fw-bold fs-normal font-calibri text-end"
+              i18n>
+              <i class="fa-solid fa-eye-slash"></i>
+            </span>
+          }
+          @if (!showAmounts) {
+            <span
+              class="text-dark fw-bold fs-normal font-calibri text-end"
+              i18n>
+              <i class="fa-solid fa-eye"></i>
+            </span>
+          }
+        </div>
+      </div>
+    }
     <app-accounts-list
       Type="list"
-      (accountSelected)="handleAccountSelected($event)">
+      (accountSelected)="handleWalletSelected($event)"
+      (dataLoaded)="handleDataLoaded($event)">
     </app-accounts-list>
   </div>
+  <div class="w-100">
+    @if (dataLoaded && !selectedAccount) {
+      <div
+        class="fw-bold fs-3 position-absolute top-50 start-50 translate-middle text-center text-dark d-none d-lg-block opacity-50">
+        <i class="fa fa-face-meh"></i> No account selected yet, <br />
+        Please Select one...
+      </div>
+    }
 
-  <!---- <div class="bg-secondary w-100" >
-        <div
-            *ngIf="!isAccountDetailsShown"
-            class="text-end me-4 p-1"
-            routerLink="/b/onlineBanking/banking/home"
-            role="button"
-        >
-            <span class="text-dark fw-bold" i18n
-                ><i class="fa-solid fa-arrow-left"></i> Back</span
-            >
-        </div>
-        <div
-            class="fw-bold fs-3 position-absolute text-center d-none d-lg-block"
-            *ngIf="!isAccountDetailsShown"
-            style="color: #3b31316e; top: 45%; margin-left: 22%"
-            [ngClass]="theme === 'dark-mode' ? 'text-dark' : ''"
-        >
-            <i class="fa fa-face-meh"></i> No account selected yet, <br />
-            Please Select one...
-        </div>
-        <div>
-            <router-outlet></router-outlet>
-        </div>
-    </div>-->
+    @if (selectedAccount) {
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+    }
+  </div>
 </div>

@@ -5,6 +5,10 @@ import { bankListResponse } from '../../../components/auth/auth.model';
 import { ApiService, ConfigService } from '..';
 import { bankModel } from '../../db/models/bank/bank.model';
 import { addBankResponse } from '../../../components/dashboards/dashboard.model';
+import {
+  PeriodModel,
+  TransactionObjectModel,
+} from '../../../components/products/products.model';
 
 @Injectable({
   providedIn: 'root',
@@ -36,14 +40,6 @@ export class BankService {
   handleBanking(arg: boolean) {
     this._isBankingAndServicesSelected.next(arg);
   }
-
-  // private getUserBank(refreshBanks: false): Observable<bankModel[]> {
-  //   if (refreshBanks) {
-  //     return this.getBanksList();
-  //   } else {
-  //     return this.configService.getUserBanks();
-  //   }
-  // }
 
   getBanksList(): Observable<bankModel[]> {
     const url = '/banks/clientlist/?';
@@ -108,4 +104,38 @@ export class BankService {
   //         })
   //     );
   // }
+
+  getRecentTransactions(type: string, period: PeriodModel, client: string) {
+    return this.apiService
+      .get<TransactionObjectModel>(
+        `/operations/pending/logic/?req_type=${type}&=date_from=${period.start_date}&=date_to=${period.end_date}` +
+          client
+      )
+      .pipe(map(data => data));
+  }
+
+  private _isTransfer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+
+  get isTransfer$(): Observable<boolean> {
+    return this._isTransfer.asObservable();
+  }
+
+  getLastBeneficiary() {
+    const url = '/operations/beneficiary/';
+    return this.apiService.get<TransactionObjectModel>(url).pipe(
+      map((data: TransactionObjectModel) => {
+        return data;
+      })
+    );
+  }
+
+  getTransfersList() {
+    return this.apiService
+      .get<TransactionObjectModel>(
+        '/operations/pending/logic/?req_type=transfers&filter_for_client=true'
+      )
+      .pipe(map(data => data));
+  }
 }
