@@ -52,6 +52,10 @@
               [ngClass]="{
                 account: Type === 'transfer',
                 cliped: selectedLoneAccount === account && Type === 'list',
+                'text-all-dark':
+                  selectedLoneAccount === account &&
+                  Type === 'list' &&
+                  theme === 'dark',
                 'not-clickable':
                   account.acc_status.status_code === 'B' ||
                   account.acc_status.status_code === 'C',
