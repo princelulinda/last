@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { OnlineBankingComponent } from '../../components/dashboards/online-banking/online-banking.component';
 import { bankingSavingRoutes } from '../../components/saving/saving.routes';
 import { loanRoutes } from '../../components/loan/loan.routes';
 import { NyamuranziDetailsComponent } from '../../components/nyamuranzi/nyamuranzi-details/nyamuranzi-details.component';
@@ -15,10 +14,14 @@ import { BankHomeComponent } from '../../components/bank-home/bank-home.componen
 import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.component';
 import { ReusableListComponent } from '../../global/components/reusable-list/reusable-list.component';
 import { AccountDetailsComponent } from '../../components/account/account-details/account-details.component';
+
 export const bankingRoutes: Routes = [
   {
     path: '',
-    component: OnlineBankingComponent,
+    loadComponent: () =>
+      import(
+        '../../components/dashboards/online-banking/online-banking.component'
+      ).then(m => m.OnlineBankingComponent),
   },
   {
     path: 'saving',

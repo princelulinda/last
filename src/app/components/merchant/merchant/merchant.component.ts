@@ -15,6 +15,7 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
 import { BillersModel } from '../../dashboards/dashboard.model';
 import { MerchantResFav } from './merchant.models';
 import { GlobalMapComponent } from '../../dev/global-map/global-map.component';
+import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.model';
 
 @Component({
   selector: 'app-merchant',
@@ -34,10 +35,10 @@ export class MerchantComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   private variableService = inject(VariableService);
 
-  merchants!: BillersModel[] | null;
+  merchants!: Merchant_AutocompleteModel[] | null;
   // merchant: any;
   favorite_merchants!: MerchantResFav;
-  favoriteMerchants!: BillersModel[];
+  favoriteMerchants!: Merchant_AutocompleteModel[];
   favoriteMerchantsNumber!: number;
   favorite_merchant_making!: BillersModel | null;
   // favorite: any;
@@ -99,7 +100,7 @@ export class MerchantComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as { objects: BillersModel[] };
+          const response = data as { objects: Merchant_AutocompleteModel[] };
           this.isLoading = false;
           this.merchants = response.objects;
           this.favorite_merchant_making = null;
@@ -127,7 +128,10 @@ export class MerchantComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as { objects: BillersModel[]; count: number };
+          const response = data as {
+            objects: Merchant_AutocompleteModel[];
+            count: number;
+          };
           this.favoriteMerchants = response.objects;
           this.favoriteMerchantsNumber = response.count;
           this.favoriteMerchantLoading = false;

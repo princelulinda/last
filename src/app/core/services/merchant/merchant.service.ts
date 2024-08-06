@@ -212,7 +212,7 @@ export class MerchantService {
     );
   }
   getMerchantMultipleInfo() {
-    const url = '/dbs/merchant/multiple-info/';
+    const url = '/dbs/merchant/multiple-info/objects_autocomplete/';
     return this.apiService.get<MerchantObjectsModel>(url).pipe(
       map(data => {
         return data;
