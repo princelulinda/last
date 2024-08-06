@@ -57,6 +57,7 @@ export class ConfigService {
 
   private typeMenus$: unknown | Observable<TypeMenuModel[]>;
   private menuGroups$: unknown | Observable<MenuGroupsModel[]>;
+  private typeMenusExist = new Subject<boolean>();
 
   constructor(
     private dbService: DbService,
@@ -329,6 +330,21 @@ export class ConfigService {
   clearAllMenu() {
     this.dbService.clearTable(TypeMenu.tableName);
     this.dbService.clearTable(MenuGroup.tableName);
+  }
+  checkTypeMenus(): Observable<boolean> {
+    this.getTypeMenus().subscribe({
+      next: menus => {
+        if (!menus || menus.length === 0) {
+          this.typeMenusExist.next(false);
+        } else {
+          this.typeMenusExist.next(true);
+        }
+      },
+      error: () => {
+        this.typeMenusExist.next(false);
+      },
+    });
+    return this.typeMenusExist;
   }
 
   // NOTE :: PRIVATE CONFIG METHODS

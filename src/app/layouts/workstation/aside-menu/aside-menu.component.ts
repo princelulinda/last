@@ -1,7 +1,10 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SwitchModeComponent } from '../../../components/dev/switch-mode/switch-mode.component';
+import { ConfigService } from '../../../core/services';
+import { Observable } from 'rxjs';
+import { TypeMenuModel } from '../../../core/db/models/menu/menu.models';
 
 @Component({
   selector: 'app-aside-menu',
@@ -10,4 +13,19 @@ import { SwitchModeComponent } from '../../../components/dev/switch-mode/switch-
   templateUrl: './aside-menu.component.html',
   styleUrl: './aside-menu.component.scss',
 })
-export class AsideMenuComponent {}
+export class AsideMenuComponent implements OnInit {
+  typeMenu: TypeMenuModel[] = [];
+  typeMenus$: Observable<TypeMenuModel[]>;
+
+  constructor(private configService: ConfigService) {
+    this.typeMenus$ = this.configService.getTypeMenus();
+  }
+
+  ngOnInit() {
+    this.typeMenus$.subscribe({
+      next: menus => {
+        console.log('TYPE MENU GROUP', menus);
+      },
+    });
+  }
+}
