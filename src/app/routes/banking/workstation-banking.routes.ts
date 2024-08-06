@@ -11,6 +11,7 @@ import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.comp
 import { BankHomeComponent } from '../../components/bank-home/bank-home.component';
 import { AccountComponent } from '../../components/account/account/account.component';
 import { bankingSavingRoutes } from '../../components/saving/saving.routes';
+import { AccountDetailsComponent } from '../../components/account/account-details/account-details.component';
 
 export const workstationBankingRoutes: Routes = [
   {
@@ -63,7 +64,10 @@ export const workstationBankingRoutes: Routes = [
     path: 'accounts',
     component: AccountComponent,
     children: [
-      // { path: 'statement', component: GeneralStatementComponent },
+      {
+        path: 'details/:accountId',
+        component: AccountDetailsComponent,
+      },
     ],
   },
 ];

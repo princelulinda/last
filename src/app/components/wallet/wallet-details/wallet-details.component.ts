@@ -50,7 +50,7 @@ export class WalletDetailsComponent implements OnInit {
     this.clientService.getWalletDetails(this.walletId).subscribe({
       next: (response: { object: Walletdetail }) => {
         this.wallet = response.object;
-        console.log('Données de tontine:', this.wallet);
+        // console.log('Données de tontine:', this.wallet);
       },
       error: (error: Error) =>
         console.error('Erreur lors de la récupération des tontines:', error),

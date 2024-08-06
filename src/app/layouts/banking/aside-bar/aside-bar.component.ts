@@ -21,11 +21,17 @@ import {
   TransactionObjectModel,
 } from '../../../components/products/products.model';
 import { ProductCardComponent } from '../../../components/dev/product-card/product-card.component';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({
   selector: 'app-aside-bar',
   standalone: true,
-  imports: [SkeletonComponent, CommonModule, ProductCardComponent],
+  imports: [
+    SkeletonComponent,
+    CommonModule,
+    ProductCardComponent,
+    AmountVisibilityComponent,
+  ],
   templateUrl: './aside-bar.component.html',
   styleUrl: './aside-bar.component.scss',
 })

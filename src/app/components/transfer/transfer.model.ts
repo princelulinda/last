@@ -27,6 +27,16 @@ export interface DebitOptions {
 
   title?: string;
 }
+export interface MerchantInfoModel {
+  object: {
+    success: boolean;
+  };
+}
+export interface LookupData {
+  account_number: string | null | undefined;
+  bank_slug: string | null | undefined;
+  account_type: string | null | undefined;
+}
 export interface CreditDetail {
   account: string;
   acc_holder: string;
@@ -87,6 +97,8 @@ export interface DebitWalletModel {
   bank_id: string | number;
 }
 export interface InstitutionInfoModel {
+  id: number | string;
+  name: string;
   company: {
     logo: string;
     name: string;
@@ -97,7 +109,7 @@ export interface InstitutionInfoModel {
   slug?: string;
 }
 export interface AmountEventModel {
-  amount: string;
+  amount: number | null;
 }
 export interface PopupEventModel {
   isPopupShown: boolean;
@@ -112,18 +124,4 @@ export interface DebitEventModel {
   creditAccountType: string | CreditAccountModel | InstitutionInfoModel;
 
   selectedInstitution: InstitutionInfoModel[];
-}
-export interface accountsList {
-  acc_short_number: string;
-  acc_holder: string;
-}
-
-export interface WalletAccount {
-  account_holder: string;
-}
-
-export interface WalletList {
-  code: string;
-  account: WalletAccount;
-  bank_id: string;
 }
