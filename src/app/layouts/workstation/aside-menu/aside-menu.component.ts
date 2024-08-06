@@ -51,4 +51,7 @@ export class AsideMenuComponent implements OnInit {
       },
     });
   }
+  setLocalSelectedMenu(menu: number) {
+    this.configService.setLocalSelectedMenu(menu.toString());
+  }
 }

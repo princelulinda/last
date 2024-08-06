@@ -346,6 +346,9 @@ export class ConfigService {
     });
     return this.typeMenusExist;
   }
+  setLocalSelectedMenu(menu: string) {
+    this.apiService.setLocalSelectedMenu(menu);
+  }
 
   // NOTE :: PRIVATE CONFIG METHODS
 

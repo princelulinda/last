@@ -14,6 +14,7 @@ export class ApiService {
   private localUserClientIdKey = 'iHelaRyanjeUserClientId';
   private localBankIdKey = 'iHelaRyanjeBankId';
   private localPlateformKey = 'iHelaRyanjePlaform';
+  private localSelectedMenuKey = 'iHelaRyanjeMenu';
 
   private headers = new HttpHeaders()
     .set('Content-Type', 'application/json')
@@ -83,9 +84,15 @@ export class ApiService {
     const plateform = localStorage.getItem(this.localPlateformKey);
     return plateform as PlateformModel;
   }
-
   setLocalPlateform(plateform: PlateformModel) {
     localStorage.setItem(this.localPlateformKey, plateform);
+  }
+
+  setLocalSelectedMenu(menu: string) {
+    localStorage.setItem(this.localSelectedMenuKey, menu);
+  }
+  getLocalSelectedMenu(): string | null {
+    return localStorage.getItem(this.localSelectedMenuKey);
   }
 
   clearLocalData() {

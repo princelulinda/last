@@ -7,6 +7,7 @@
     @for (menu of typeMenus; track $index) {
       <a
         class="d-flex flex-column align-items-center mb-4 sm-radius py-2 p-1 w-100"
+        (click)="setLocalSelectedMenu(menu.id)"
         [ngClass]="{
           'text-secondary': !link.isActive,
           'text-all-white': link.isActive,
@@ -21,14 +22,14 @@
             <i class="fa-solid fa-{{ menu.icon }}"></i>
           </span>
         } @else if (menu.image) {
-          <span class="icon">
+          <span class="icon mb-2">
             <img
               class="image"
               [src]="link.isActive ? menu.image.active : menu.image.disabled"
               alt="{{ menu.name }} icon" />
           </span>
         }
-        <b class="fs-x-small mt-2" i18n>{{ menu.name }}</b>
+        <b class="fs-x-small" i18n>{{ menu.name }}</b>
       </a>
     }
   </section>
