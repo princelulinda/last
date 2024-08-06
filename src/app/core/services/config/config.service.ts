@@ -22,7 +22,7 @@ import {
   ThemeModel,
 } from './main-config.models';
 import { Organizations } from '../../db/models/organisations/organizations';
-import { MenuGroupModel } from '../../db/models/menu/menu.models';
+import { MenuGroupsModel } from '../../db/models/menu/menu.models';
 
 @Injectable({
   providedIn: 'root',
@@ -293,7 +293,7 @@ export class ConfigService {
   }
 
   // NOTE :: MENUS METHODS
-  async getMenusConfig(): Promise<{ type: object; groups: MenuGroupModel }> {
+  async getMenusConfig(): Promise<{ type: object; groups: MenuGroupsModel }> {
     return await this.dbService.getOnce('menus');
   }
 
