@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AccountDetailsComponent } from './account-details.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AccountDetailsComponent', () => {
   let component: AccountDetailsComponent;
@@ -10,7 +11,7 @@ describe('AccountDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AccountDetailsComponent],
+      imports: [AccountDetailsComponent, RouterTestingModule],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
