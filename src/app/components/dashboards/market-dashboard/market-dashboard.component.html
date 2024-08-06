@@ -10,19 +10,20 @@
               class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-12 col-xxl-9 mx-auto">
               <div class="row">
                 <div
-                  class="text-all-white fw-bold fs-xx-large text-center text-sm-start">
+                  class="text-all-white fw-bold fs-xx-large text-center text-sm-start"
+                  i18n>
                   Your online marketplace
                 </div>
               </div>
               <div class="row mb-5">
                 <ul class="text-center text-sm-start">
-                  <li class="list-group text-all-white">
+                  <li class="list-group text-all-white" i18n>
                     ⦁ Sell and buy your products online with ease
                   </li>
-                  <li class="list-group text-all-white">
+                  <li class="list-group text-all-white" i18n>
                     ⦁ Find unique products from local and international sellers
                   </li>
-                  <li class="list-group text-all-white">
+                  <li class="list-group text-all-white" i18n>
                     ⦁ Join a vibrant community of buyers and sellers
                   </li>
                 </ul>
@@ -51,10 +52,10 @@
             <div class="row g-0">
               <div class="col-10 col-md-10 col-lg-9 col-xl-9 col-xxl-8">
                 <div class="row">
-                  <h5 class="text-right fw-bold">Secure payments</h5>
+                  <h5 class="text-right fw-bold" i18n>Secure payments</h5>
                 </div>
                 <div class="row">
-                  <p class="text-right lh-sm my-0 fs-small">
+                  <p class="text-right lh-sm my-0 fs-small" i18n>
                     We ensure 100% secure <br />payment with iHela Ryanje
                   </p>
                 </div>
@@ -78,10 +79,10 @@
             <div class="row g-0">
               <div class="col-10 col-md-10 col-lg-9 col-xl-9 col-xxl-8">
                 <div class="row">
-                  <h5 class="fw-bold">Home delivery</h5>
+                  <h5 class="fw-bold" i18n>Home delivery</h5>
                 </div>
                 <div class="row">
-                  <p class="lh-sm my-0 fs-small">
+                  <p class="lh-sm my-0 fs-small" i18n>
                     We deliver your product <br />wherever you want
                   </p>
                 </div>
@@ -105,10 +106,10 @@
             <div class="row g-0">
               <div class="col-10 col-md-10 col-lg-9 col-xl-9 col-xxl-8">
                 <div class="row">
-                  <h5 class="fw-bold">Easy return</h5>
+                  <h5 class="fw-bold" i18n>Easy return</h5>
                 </div>
                 <div class="row">
-                  <p class="lh-sm my-0 fs-small">
+                  <p class="lh-sm my-0 fs-small" i18n>
                     Return any defective<br />product within 15 days
                   </p>
                 </div>
@@ -133,7 +134,7 @@
     <div class="mt-4">
       <div class="row">
         <div class="col-10">
-          <h4 class="fs-medium fw-bold">Best offers</h4>
+          <h4 class="fs-medium fw-bold" i18n>Best offers</h4>
         </div>
         <!-- <div class="col ms-4">
           <div class="row">
@@ -202,7 +203,7 @@
                         </h4>
                       </div>
                       <div class="row mb-md-3 mb-lg-1 mb-xl-3">
-                        <p class="fs-small text-all-white">
+                        <p class="fs-small text-all-white" i18n>
                           {{ item.product.name }} <br />
                           {{ item.product.merchant.merchant_title }}
                           <!-- {{ item.product.merchant.merchant_title }} -->
@@ -265,7 +266,7 @@
                         </h4>
                       </div>
                       <div class="row mb-md-3 mb-lg-1 mb-xl-3">
-                        <p class="fs-small text-all-white">
+                        <p class="fs-small text-all-white" i18n>
                           {{ item.product.name }} <br />
                           {{ item.product.merchant.merchant_title }}
                           <!-- {{ item.product.merchant.merchant_title }} -->
@@ -293,7 +294,7 @@
     <div class="mt-5">
       <div class="row mb-3">
         <div class="col-12 col-md-10">
-          <h5 class="fs-medium fw-bold text-center text-md-start">
+          <h5 class="fs-medium fw-bold text-center text-md-start" i18n>
             New arrivals
           </h5>
         </div>
@@ -328,7 +329,8 @@
               <div class="row">
                 <div class="col-9 col-xl-10 col-xxl-9 mx-auto">
                   <h3
-                    class="fw-bold text-all-white text-center mt-5 mb-4 mt-xxl-4">
+                    class="fw-bold text-all-white text-center mt-5 mb-4 mt-xxl-4"
+                    i18n>
                     Samsung Galaxy <br />
                     S24 Pro
                   </h3>
@@ -351,13 +353,15 @@
                     </div>
                     <div class="col-5">
                       <div class="row">
-                        <h5 class="fs-medium">{{ item.name }}</h5>
+                        <h5 class="fs-medium" i18n>{{ item.name }}</h5>
                       </div>
                       <div class="row">
-                        <p class="text-primary-light m-0">{{ item.storage }}</p>
+                        <p class="text-primary-light m-0" i18n>
+                          {{ item.storage }}
+                        </p>
                       </div>
                       <div class="row">
-                        <h5 class="fw-bold">{{ item.cost }}</h5>
+                        <h5 class="fw-bold" i18n>{{ item.cost }}</h5>
                       </div>
                     </div>
                   </div>
@@ -374,7 +378,7 @@
   <div class="mt-5">
     <div class="row mb-2">
       <div class="col-10">
-        <h4 class="fs-medium fw-bold">Browse by category</h4>
+        <h4 class="fs-medium fw-bold" i18n>Browse by category</h4>
       </div>
       <!-- <div class="col ms-4">
         <div class="row">
@@ -404,7 +408,7 @@
                 alt="" />
               @if (item.name) {
                 <div class="card-img-overlay">
-                  <p class="card-text text-center fw-bold mt-2">
+                  <p class="card-text text-center fw-bold mt-2" i18n>
                     {{ item.name }}
                   </p>
                 </div>
@@ -418,7 +422,7 @@
               @if (item.name) {
                 <div
                   class="position-absolute top-50 start-50 translate-middle mt-2">
-                  <p class="z-3 text-center text-white fw-bold mt-2">
+                  <p class="z-3 text-center text-white fw-bold mt-2" i18n>
                     {{ item.name }}
                   </p>
                 </div>
@@ -447,7 +451,7 @@
     <section>
       <div class="row">
         <div class="col-10">
-          <h5 class="fs-medium fw-bold mt-4">Recent product</h5>
+          <h5 class="fs-medium fw-bold mt-4" i18n>Recent product</h5>
         </div>
         <!-- <div class="col ms-4">
           <div class="row">
@@ -506,7 +510,9 @@
   <section class="mt-5">
     <div class="row mb-3">
       <div class="col-9 col-lg-10 col-xl-11">
-        <span class="fs-medium text-dark fw-bold mb-3">Recent billers</span>
+        <span class="fs-medium text-dark fw-bold mb-3" i18n
+          >Recent billers</span
+        >
       </div>
       <div class="z-3 col-2 col-xl-1 p-0 pe-2 m-0 float-end">
         <div class="col-12">
@@ -585,14 +591,14 @@
                   </div>
                 </div>
                 <div class="row ms-0 mt-2">
-                  <h6 class="fs-x-small">
+                  <h6 class="fs-x-small" i18n>
                     {{ item.lookup_title }} ({{ item.lookup_subtitle }})
                   </h6>
                 </div>
 
                 <div class="row ms-0">
                   <div class="col-8">
-                    <p class="text-secondary fs-x-small">Category</p>
+                    <p class="text-secondary fs-x-small" i18n>Category</p>
                   </div>
                 </div>
               </div>
@@ -638,7 +644,7 @@
         <div class="col-9 col-lg-10 col-xxl-11">
           <p>
             <span class="text-primary" style="font-size: 10px"> </span>
-            <span class="fs-5 text-dark"><b> Recent merchants</b></span>
+            <span class="fs-5 text-dark" i18n><b> Recent merchants</b></span>
           </p>
         </div>
         <div class="z-3 col-2 col-xl-1 p-0 pe-2 m-0 float-end">
