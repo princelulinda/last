@@ -25,28 +25,6 @@ export class AsideMenuComponent implements OnInit {
     this.typeMenus$.subscribe({
       next: menus => {
         this.typeMenus = menus;
-        this.typeMenus.map(menu => {
-          switch (menu.id) {
-            case 1:
-              menu.url = '/w/workstation';
-              break;
-            case 2:
-              menu.url = '/w/workstation/banking';
-              break;
-            case 3:
-              menu.url = '/w/workstation/market';
-              break;
-            case 4:
-              menu.url = '/w/workstation/intranet';
-              break;
-            case 5:
-              menu.url = '/w/workstation/reporting';
-              break;
-            case 6:
-              menu.url = '/w/workstation/admin';
-              break;
-          }
-        });
         console.log('TYPE MENU', this.typeMenus);
       },
     });
