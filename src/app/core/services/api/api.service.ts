@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
 
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
 import { environment } from '../../../../environments/environment';
 import { PlateformModel } from '../config/main-config.models';
 
@@ -140,20 +141,6 @@ export class ApiService {
     if (headers['lazyUpdate']) {
       this.headers = headers;
     }
-
-    console.log(
-      'CHECK POST : ',
-      path,
-      body,
-      this.headers,
-      ' OTHER : ',
-      this.http
-        .post(`${environment.apiUrl}${path}`, JSON.stringify(body), {
-          headers: this.headers,
-        })
-        .pipe(catchError(this.formatErrors))
-    );
-
     return this.http
       .post<T>(`${environment.apiUrl}${path}`, JSON.stringify(body), {
         headers: this.headers,
