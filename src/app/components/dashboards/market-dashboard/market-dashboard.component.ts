@@ -75,9 +75,9 @@ export class MarketDashboardComponent implements OnInit {
   biller: [] | null = null;
   productCategory!: productCategoryModel[];
   // sector: any;
-  last4!: Merchant_AutocompleteModel[];
+  last4Merchant!: Merchant_AutocompleteModel[];
   recentMerchant!: Merchant_AutocompleteModel[];
-  first5!: BillersModel[];
+  recentBillers!: BillersModel[];
   first4!: productCategoryModel[];
   start = 0;
   end = 4;
@@ -226,7 +226,7 @@ export class MarketDashboardComponent implements OnInit {
           const response = data as { objects: Merchant_AutocompleteModel[] };
           this.merchants = response.objects;
           // this.merchant = this.merchants;
-          this.last4 = this.merchants.slice(-4);
+          this.last4Merchant = this.merchants.slice(-4);
           const navigationBtn = document.getElementById(
             'navigationButtonMerchant'
           );
@@ -257,14 +257,14 @@ export class MarketDashboardComponent implements OnInit {
     if (this.end < this.billers.length) {
       this.start++;
       this.end++;
-      this.first5 = this.billers.slice(this.start, this.end);
+      this.recentBillers = this.billers.slice(this.start, this.end);
     }
   }
   previousBiller() {
     if (this.start > 0) {
       this.start--;
       this.end--;
-      this.first5 = this.billers.slice(this.start, this.end);
+      this.recentBillers = this.billers.slice(this.start, this.end);
     }
   }
   getBillers() {
@@ -278,7 +278,7 @@ export class MarketDashboardComponent implements OnInit {
           this.billers = result.objects;
 
           const nextBtn = document.getElementById('navigationButton');
-          this.first5 = this.billers.slice(this.start, this.end);
+          this.recentBillers = this.billers.slice(this.start, this.end);
           nextBtn?.addEventListener('click', () => {
             this.nextBiller();
             this.previousBiller();

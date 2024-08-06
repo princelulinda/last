@@ -558,7 +558,7 @@
     @if (billers) {
       <div
         class="row d-flex justify-content-center w-100 d-md-flex justify-content-sm-start">
-        @for (item of first5; track $index) {
+        @for (item of recentBillers; track $index) {
           @if (item) {
             <div
               class="col-5 col-sm-4 col-md-3 col-lg-4 col-xl-3 mb-2"
