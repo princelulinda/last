@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { NoAuthGuard, AuthGuard, AuthWorkstationGuard } from './core/guards';
+import { NoAuthGuard, AuthGuard } from './core/guards';
 import { AuthRoutes } from './components/auth/auth.routes';
 import { bankingRoutes } from './routes/banking/banking.routes';
 import { newsFeedRoutes } from './routes/newsFeed/newsFeed.routes';
@@ -47,7 +47,7 @@ export const routes: Routes = [
       import('./layouts/workstation/workstation.component').then(
         m => m.WorkstationComponent
       ),
-    canActivate: [AuthGuard, AuthWorkstationGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'workstation',
