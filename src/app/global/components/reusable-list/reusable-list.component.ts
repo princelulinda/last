@@ -7,9 +7,9 @@ import { GeneralService } from '../../../core/services';
 import { NgClass } from '@angular/common';
 import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
 import {
-  Header,
   ParamModel,
   getdataModal,
+  Header,
   selectedPeriodModel,
 } from './reusable.model';
 
@@ -24,9 +24,7 @@ export class ReusableListComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
   @Input() headers!: Header[];
-
-  //   @Input() headers: any;
-
+  // @Input() headers!:any;
   @Input() url = '';
   @Input() title = '';
   showAmount = false;
@@ -82,7 +80,6 @@ export class ReusableListComponent implements OnInit, OnDestroy {
 
   constructor(private generalService: GeneralService) {
     this.data_list = [];
-    // this.headers = [];
   }
 
   ngOnInit(): void {
@@ -137,22 +134,36 @@ export class ReusableListComponent implements OnInit, OnDestroy {
           if (data.objects) {
             for (const row of data.objects) {
               const line = [];
-
               for (const header of this.headers) {
                 // make field as list so we can separate the '.'
                 const fields = header['field'];
                 // this variable is created just for protected row values in loop, Please if you have a suggestion let me know
                 let row1 = row;
                 let css = '';
-                const icon = '';
-                const detail = '';
+                let icon = '';
+                let detail = '';
                 let full_field = '';
                 let class_type = '';
 
                 // loop for separating fields
-                for (const field in fields) {
+                //   for (const field in fields) {
+                //       row1 = row;
+                //       const all_fields = fields[field].split('.');
+
+                //       for (const all_field in all_fields) {
+                //           if (row1) {
+                //               row1 = row1[all_fields[all_field]];
+                //           } else {
+                //               row1 = '------';
+                //           }
+                //       }
+                //       if (row1) {
+                //           full_field += row1 + ' ';
+                //       }
+                //   }
+                for (const field of fields) {
                   row1 = row;
-                  const all_fields = fields[field].split('.');
+                  const all_fields = field.split('.');
 
                   for (const all_field in all_fields) {
                     if (row1) {
@@ -165,6 +176,7 @@ export class ReusableListComponent implements OnInit, OnDestroy {
                     full_field += row1 + ' ';
                   }
                 }
+
                 row1 = full_field;
 
                 // loop for separating css
@@ -179,9 +191,21 @@ export class ReusableListComponent implements OnInit, OnDestroy {
 
                 if (header['css']) {
                   const css_fields: string[] = header['css'].split('.');
-                  css = row;
-                  for (const css_field in css_fields) {
-                    css = css[css_field];
+                  // let css: RowData = { ...row };
+                  for (const css_field of css_fields) {
+                    if (
+                      typeof css === 'object' &&
+                      css !== null &&
+                      css_field in css
+                    ) {
+                      css = css[css_field];
+                    } else {
+                      css = '------';
+                      break;
+                    }
+                  }
+                  if (typeof css === 'string') {
+                    // Do something with the CSS value
                   }
                 }
 
@@ -194,6 +218,25 @@ export class ReusableListComponent implements OnInit, OnDestroy {
                 //           icon = icon[icon_fields[icon_field]];
                 //       }
                 //   }
+                if (header['icon']) {
+                  const icon_fields: string[] = header['icon'].split('.');
+                  // let icon: RowData = { ...row };
+                  for (const icon_field of icon_fields) {
+                    if (
+                      typeof icon === 'object' &&
+                      icon !== null &&
+                      icon_field in icon
+                    ) {
+                      icon = icon[icon_field];
+                    } else {
+                      icon = '------';
+                      break;
+                    }
+                  }
+                  if (typeof icon === 'string') {
+                    // Do something with the icon value
+                  }
+                }
 
                 //get link url
                 //   if (header['detail']) {
@@ -208,28 +251,40 @@ export class ReusableListComponent implements OnInit, OnDestroy {
                 //       }
                 //       detail = link + detail;
                 //   }
+                if (header['detail']) {
+                  const link = header['detail']['link'];
+                  const detail_fields: string[] =
+                    header['detail']['field'].split('.');
+                  // let detail: RowData = { ...row };
+                  for (const detail_field of detail_fields) {
+                    if (
+                      typeof detail === 'object' &&
+                      detail !== null &&
+                      detail_field in detail
+                    ) {
+                      detail = detail[detail_field];
+                    } else {
+                      detail = '------';
+                      break;
+                    }
+                  }
+                  detail = link + detail;
+                }
 
-                //   if (header['boolean']) {
-                //       this.boolean = true;
-                //   } else {
-                //       this.boolean = false;
-                //   }
+                if (header['boolean']) {
+                  this.boolean = true;
+                } else {
+                  this.boolean = false;
+                }
 
                 if (header['class'] && header['class'] === 'badge') {
                   class_type = 'badge bg-' + css + ' text-' + css;
                 }
 
-                // Display or not the field
-                //   if (header['canBeDisplayed'] === false) {
-                //       header['canBeDisplayed'];
-                //   } else {
-                //       header['canBeDisplayed'] = true;
-                //   }
-
                 // data of a one row
                 const data = {
                   value: row1,
-                  size: header['size'],
+                  size: header['size'] as string,
                   css: css,
                   icon: icon,
                   detail: detail,
@@ -237,14 +292,15 @@ export class ReusableListComponent implements OnInit, OnDestroy {
                   format: header['format'],
                   class: class_type,
                   canBeDisplayed: header['canBeDisplayed'],
-                  //   option1: header['option1'],
-                  //   option2: header['option2'],
-                  //   value1: header['value1'],
-                  //   value2: header['value2'],
+                  option1: header['option1'],
+                  option2: header['option2'],
+                  value1: header['value1'],
+                  value2: header['value2'],
                 };
                 line.push(data);
               }
-              //   this.data_list.push(line);
+              // this.data_list.push(line);
+              console.log('this is line:', data);
             }
           }
         },

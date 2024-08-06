@@ -21,11 +21,20 @@ export interface selectedPeriodModel {
   startDate: string;
 }
 export interface Header {
-  label: string;
   field: string[];
-  size: string;
-  format?: string;
   css?: string;
+  icon?: string;
+  detail?: {
+    link: string;
+    field: string;
+  };
+  boolean?: boolean;
   class?: string;
+  size?: string;
+  format?: string;
   canBeDisplayed?: boolean;
+  option1?: string;
+  option2?: string;
+  value1?: string;
+  value2?: string;
 }
