@@ -24,7 +24,9 @@ export class AsideMenuComponent implements OnInit {
   ngOnInit() {
     this.typeMenus$.subscribe({
       next: menus => {
-        this.typeMenus = menus;
+        if (menus) {
+          this.typeMenus = menus;
+        }
       },
     });
   }
