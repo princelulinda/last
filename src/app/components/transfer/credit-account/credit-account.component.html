@@ -224,7 +224,7 @@
       }
 
       @if (
-        institutionsList?.length > 0 &&
+        institutionsListCount > 0 &&
         selectedInstitutionType &&
         !selectedInstitution
       ) {
@@ -298,9 +298,9 @@
             </div>
             <div class="d-flex align-items-start">
               <img
-                [src]="selectedInstitution?.company?.logo"
+                [src]="selectedInstitution.company.logo"
                 style="width: 70px; height: 35px"
-                [alt]="selectedInstitution?.company?.name" />
+                [alt]="selectedInstitution.company.name" />
               <span>
                 <i class="fa-solid fa-circle text-success fs-x-small"></i>
               </span>
@@ -348,7 +348,7 @@
         !creditAccount &&
         selectedCreditAccountType !== 'wallet' &&
         selectedInstitution &&
-        selectedInstitution?.api_values?.has_lookup
+        selectedInstitution.api_values.has_lookup
       ) {
         <div class="d-flex me-3 mb-2">
           <input
@@ -449,9 +449,9 @@
                       }}</span
                       ><span class="ms-auto">
                         <img
-                          [src]="selectedInstitution?.company?.logo"
+                          [src]="selectedInstitution.company.logo"
                           style="width: 70px; height: 35px"
-                          [alt]="selectedInstitution?.company?.name"
+                          [alt]="selectedInstitution.company.name"
                       /></span>
                     </div>
                   </div>

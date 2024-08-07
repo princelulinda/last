@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
-// import { ApiService } from '..';
-// import { GeneralSe } from '..';
-// import { map, retry } from 'rxjs';
+import { BehaviorSubject, map, Observable, retry } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
-import { BehaviorSubject, map, Observable, retry } from 'rxjs';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
 import { Favorite, Pagination } from './model';
 import {
   AllProductModel,
   MerchantInfoModel,
   MerchantObjectModel,
-  MerchantObjectsModel,
   searchProductByMerchantModel,
   updateProdcutInfoModel,
 } from '../../../components/products/products.model';
@@ -23,7 +19,8 @@ import {
 } from '../../../components/merchant/merchant.models';
 import { TransferResponseModel } from '../../../components/transfer/transfer.model';
 import { Coords2Model } from '../../../components/dev/global-map/map.model';
-// import { Pagination } from './model';
+import { Merchant_AutocompleteModel } from '../../../components/dev/merchant-card/merchant.model';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -213,13 +210,18 @@ export class MerchantService {
       })
     );
   }
-  getMerchantMultipleInfo() {
+  getMerchantMultipleInfo(): Observable<{
+    objects: Merchant_AutocompleteModel[];
+    count: number;
+  }> {
     const url = '/dbs/merchant/multiple-info/objects_autocomplete/';
-    return this.apiService.get<MerchantObjectsModel>(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get<{ objects: Merchant_AutocompleteModel[]; count: number }>(url)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
   UpdateMerchantProductsDetails(id: string, data: []) {
     const url = '/dbs/merchant-product/';

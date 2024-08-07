@@ -57,7 +57,9 @@ export class AuthCorporateComponent implements OnInit {
     // NOTE :: OTHER FONCTIONNALITY
     this.operatorOrganizations$.subscribe({
       next: organizations => {
-        this.operatorOrganizations = organizations;
+        if (organizations) {
+          this.operatorOrganizations = organizations;
+        }
       },
     });
     this.dialog$.subscribe({
