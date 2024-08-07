@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { ApiService } from '..';
 import {
   MenuGroupsModel,
+  MenuModel,
   TypeMenuModel,
 } from '../../db/models/menu/menu.models';
 
@@ -27,9 +28,14 @@ export class MenuService {
       .pipe(map(data => data));
   }
 
-  getMenuByGroup(menu_group_id: string) {
+  getMenuByGroup(
+    menu_group_id: string
+  ): Observable<{ objects: MenuModel[]; count: number }> {
     return this.apiService
-      .get('/menu/list/?menu_group=' + menu_group_id)
+      .get<{
+        objects: MenuModel[];
+        count: number;
+      }>('/menu/list/?menu_group=' + menu_group_id)
       .pipe(map(data => data));
   }
 
