@@ -22,8 +22,7 @@
   <!-- list -->
   @if (accountsListData && accountsListData.length > 0) {
     <div
-      class="position-relative overflow-x-hidden overflow-y-auto"
-      style="min-width: 220px"
+      class="position-relative overflow-x-hidden overflow-y-auto account-w"
       [ngStyle]="{ height: Type !== 'transfer' ? '80vh' : '' }">
       @if (Type === 'list') {
         <hr class="my-1" />
