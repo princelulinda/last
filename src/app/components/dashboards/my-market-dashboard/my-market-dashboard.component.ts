@@ -22,7 +22,6 @@ import {
   MerchantInfoModel,
   MerchantModel,
   MerchantObjectModel,
-  MerchantObjectsModel,
   ObjectBillModel,
   StatsModel,
 } from '../../products/products.model';
@@ -39,22 +38,7 @@ import {
 import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
 import { AllProductsComponent } from '../../products/all-products/all-products.component';
 import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
-
-// import {
-//     OpenMerchantBillPopup,
-//     OpenLandscapeBillPopup,
-// } from 'src/app/shared/states/bill/bill.actions';
-
-// import {
-//     AuthState,
-//     BankState,
-//     CloseDialog,
-//     DialogState,
-//     OpenActionDialog,
-//     OpenDialog,
-//     SwitchThemeState,
-// } from 'src/app/shared';
-// import { VariableService } from 'src/app/core';
+import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.model';
 
 @Component({
   selector: 'app-my-market-dashboard',
@@ -110,7 +94,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   ];
   merchantId!: string | number;
   merchant!: MerchantModel | null;
-  merchantMult!: MerchantModel[];
+  merchantMult!: Merchant_AutocompleteModel[];
   merchantInfo!: MerchantModel | null;
 
   stat!: MerchantModel | null;
@@ -193,13 +177,6 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     this.getMerchantMultipleInfo();
   }
   enterPin() {
-    //   const data = {
-    //       title: 'confirm ',
-    //       type: 'pin',
-    //       message: 'Please enter your pin to continue',
-    //       action: 'confirm pin',
-    //   };
-    //   this.store.dispatch(new OpenActionDialog(data));
     this.dialogService.openDialog({
       type: 'pin',
       title: '',
@@ -223,14 +200,6 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       merchant_id: this.merchantId,
       pin_code: this.pin,
     };
-
-    //   const response = {
-    //       title: '',
-    //       type: 'loading',
-    //       message: '',
-    //   };
-
-    //   this.store.dispatch(new OpenDialog(response));
     this.dialogService.dispatchLoading();
 
     this.marketService
@@ -238,23 +207,12 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (response: ObjectBillModel) => {
-          // const data = response.object.response_data;
           if (
             response.object['success'] !== undefined &&
             !response.object.success
           ) {
-            //   this.store.dispatch(
-            //       new CloseDialog({ response: 'close' })
-            //   );
             this.dialogService.closeLoading();
             this.pin = '';
-
-            //   const notification = {
-            //       title: '',
-            //       type: 'failed',
-            //       message: response.object.response_message,
-            //   };
-            //   this.store.dispatch(new OpenDialog(notification));
 
             this.dialogService.openToast({
               title: '',
@@ -290,44 +248,22 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
           this.selectedClient = null;
           this.amount = null;
           this.amount = 0;
-          // this.store.dispatch(new CloseDialog({ response: 'close' }));
           this.dialogService.closeLoading();
           this.pin = '';
-
-          // const notification = {
-          //     title: '',
-          //     type: 'success',
-          //     message: response.object.response_message,
-          // };
 
           this.dialogService.openToast({
             title: '',
             type: 'success',
             message: response.object.response_message,
           });
-          //   this.store.dispatch(new OpenDialog(notification));
-          // this.store.dispatch(
-          //   new OpenMerchantBillPopup(this.successMessage.data)
-          // );
           this.dialogService.OpenMerchantBillPopup(this.successMessage.data);
           this.closeModal.nativeElement.click();
           this.billForm.reset();
         },
         error: msg => {
-          //   this.store.dispatch(new CloseDialog({ response: 'close' }));
           this.dialogService.closeLoading();
-          console.log('WESDF');
-
           this.pin = '';
 
-          // const notification = {
-          //     title: '',
-          //     type: 'failed',
-          //     message:
-          //         msg?.object?.response_message ??
-          //         'Something went wrong, please try again',
-          // };
-          //   this.store.dispatch(new OpenDialog(notification));
           this.dialogService.openToast({
             title: '',
             type: 'failed',
@@ -339,8 +275,6 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       });
   }
   selectClient(event: ItemModel | null) {
-    console.log(event);
-    // event ? (this.selectedClient = event) : (this.selectedClient = null);
     if (event) {
       this.selectedClient = event;
     } else {
@@ -371,17 +305,8 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
           this.getMerchantInfos();
           this.getMerchantStats();
         },
-        error: msg => {
-          console.log('error', msg);
+        error: () => {
           this.isLoadingInfo = false;
-
-          // const notification = {
-          //     title: '',
-          //     type: 'failed',
-          //     message: 'something went wrong, please try again',
-          // };
-          // this.store.dispatch(new OpenDialog(notification));
-
           this.dialogService.openToast({
             title: '',
             type: 'failed',
@@ -415,8 +340,8 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       .getMerchantMultipleInfo()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: MerchantObjectsModel) => {
-          this.merchantMult = data.object.response_data;
+        next: data => {
+          this.merchantMult = data.objects;
         },
         error: () => {
           this.dialogService.openToast({
@@ -445,16 +370,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
         this.merchant = data.object.response_data;
         this.getMerchantInfos();
       },
-      error: msg => {
-        console.log('error', msg);
-
-        // const notification = {
-        //     title: '',
-        //     type: 'failed',
-        //     message: 'something went wrong, please try again',
-        // };
-        // this.store.dispatch(new OpenDialog(notification));
-
+      error: () => {
         this.dialogService.openToast({
           title: '',
           type: 'failed',

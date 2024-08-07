@@ -1,5 +1,4 @@
-<div class="mb-3">
-  <!-- red card -->
+<main class="mb-3">
   <div>
     <div class="bg-primary sm-radius">
       <div
@@ -129,8 +128,8 @@
     </div>
   </div>
 
-  <!-- best offers cards -->
-  <div>
+  <!-- NOTE :: Best offers cards -->
+  <section>
     <div class="mt-4">
       <div class="row">
         <div class="col-10">
@@ -287,10 +286,10 @@
         }
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- new arrival -->
-  <div>
+  <!-- NOTE :: New arrival -->
+  <section>
     <div class="mt-5">
       <div class="row mb-3">
         <div class="col-12 col-md-10">
@@ -369,8 +368,9 @@
         </div>
       </div>
     </div>
-  </div>
-  <!-- browse by category card -->
+  </section>
+
+  <!-- NOTE :: browse by category card -->
   <div class="mt-5">
     <div class="row mb-2">
       <div class="col-10">
@@ -442,8 +442,8 @@
     }
   </div>
 
-  <!-- recent product -->
-  <div>
+  <!-- NOTE :: recent product -->
+  <section>
     <section>
       <div class="row">
         <div class="col-10">
@@ -494,18 +494,16 @@
         <div class="row">
           @for (product of products; track $index) {
             <div class="col-3">
-              <app-product-card
-                [product]="product"
-                [get_product]="true"></app-product-card>
+              <app-product-card [product]="product"></app-product-card>
             </div>
           }
         </div>
       }
     </section>
-  </div>
+  </section>
 
-  <!-- recent billers -->
-  <div class="mt-5">
+  <!-- NOTE :: recent billers -->
+  <section class="mt-5">
     <div class="row mb-3">
       <div class="col-9 col-lg-10 col-xl-11">
         <span class="fs-medium text-dark fw-bold mb-3">Recent billers</span>
@@ -631,9 +629,10 @@
         }
       </div>
     </div>
-  </div>
-  <!-- recent merchant -->
-  <div class="mb-5">
+  </section>
+
+  <!--NOTE :: Recent merchant -->
+  <section class="mb-5">
     <section class="mb-5">
       <div class="row mt-4 pe-0 d-flex justify-content-between">
         <div class="col-9 col-lg-10 col-xxl-11">
@@ -697,16 +696,12 @@
         class="row d-flex justify-content-center d-md-flex justify-content-sm-start">
         <div
           class="col-5 col-sm-4 col-md-3 col-lg-4 col-xl-3 mb-2 position-relative"
-          *ngFor="let merchant of first6; let i = index"
-          (click)="openModal(merchant, $event)"
+          *ngFor="let merchant of recentMerchant; let i = index"
           tabindex="0">
           <div class="w-100">
-            <app-merchant-card
-              [merchant]="merchant"
-              [get_merchant]="true"
-              [favorite_merchant_making]="favorite_merchant_making"
-              (merchantInfoOutput)="getMakeFavoriteResponse($event)">
-            </app-merchant-card>
+            <app-merchant-card [merchant]="merchant"> </app-merchant-card>
+            <!-- (merchantInfoOutput)="getMakeFavoriteResponse($event)"> -->
+            <!-- [favorite_merchant_making]="favorite_merchant_making" -->
           </div>
         </div>
       </div>
@@ -735,7 +730,5 @@
         </div>
       </div>
     </section>
-  </div>
-
-  <!-- end of recent merchant -->
-</div>
+  </section>
+</main>

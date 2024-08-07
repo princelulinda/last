@@ -37,53 +37,53 @@ export class BillsComponent implements OnInit, OnDestroy {
   clientInfo$: Observable<UserInfoModel>;
   isMerchant!: boolean;
 
-  // billsHeaders = [
-  //   // {
-  //   //     name: 'Merchant',
-  //   //     field: ['merchant_teller.merchant.merchant_title'],
-  //   //     size: '',
-  //   // },
-  //   {
-  //     name: 'Date',
-  //     field: ['created_at'],
-  //     size: '',
-  //     format: 'date',
-  //   },
-  //   {
-  //     name: 'Total Amount',
-  //     field: ['total_amount'],
-  //     size: '',
-  //     format: 'currency',
-  //   },
-  //   {
-  //     name: 'Account',
-  //     field: ['created_by.client_full_name', 'created_by.client_code'],
-  //     size: '',
-  //   },
-  //   {
-  //     name: 'Reference',
-  //     field: ['payment_reference'],
-  //     size: '',
-  //   },
-  //   {
-  //     name: 'Merchant reference',
-  //     field: ['partner_reference'],
-  //     size: '',
-  //   },
-  //   {
-  //     name: 'Status',
-  //     field: ['payment_status.title'],
-  //     css: 'payment_status.css',
-  //     class: 'badge',
-  //     size: '',
-  //   },
-  //   {
-  //     name: 'Description',
-  //     field: ['description'],
-  //     size: '4',
-  //     canBeDisplayed: false,
-  //   },
-  // ];
+  billsHeaders = [
+    // {
+    //     name: 'Merchant',
+    //     field: ['merchant_teller.merchant.merchant_title'],
+    //     size: '',
+    // },
+    {
+      name: 'Date',
+      field: ['created_at'],
+      size: '',
+      format: 'date',
+    },
+    {
+      name: 'Total Amount',
+      field: ['total_amount'],
+      size: '',
+      format: 'currency',
+    },
+    {
+      name: 'Account',
+      field: ['created_by.client_full_name', 'created_by.client_code'],
+      size: '',
+    },
+    {
+      name: 'Reference',
+      field: ['payment_reference'],
+      size: '',
+    },
+    {
+      name: 'Merchant reference',
+      field: ['partner_reference'],
+      size: '',
+    },
+    {
+      name: 'Status',
+      field: ['payment_status.title'],
+      css: 'payment_status.css',
+      class: 'badge',
+      size: '',
+    },
+    {
+      name: 'Description',
+      field: ['description'],
+      size: '4',
+      canBeDisplayed: false,
+    },
+  ];
   billsPagination: Pagination = {
     filters: {
       limit: 15,
@@ -168,7 +168,7 @@ export class BillsComponent implements OnInit, OnDestroy {
         parseInt(this.billsPagination.filters?.limit as string) *
         (this.activePage - 1)
       ).toString();
-      (this.billsPagination.filters as string) = _offset;
+      this.billsPagination.filters!.offset = _offset;
       if (action === 'next') {
         this.getBills();
       } else if (action === 'prev') {
@@ -178,7 +178,7 @@ export class BillsComponent implements OnInit, OnDestroy {
       this.canMoveToPrevious = true;
     }
     if (this.activePage - 1 < 1) {
-      (this.billsPagination.filters as string) = '';
+      this.billsPagination.filters!.offset = '';
       this.canMoveToPrevious = false;
       this.canMoveToNext = false;
     } else if (this.activePage + 1 > this.pages) {

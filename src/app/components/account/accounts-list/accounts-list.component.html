@@ -26,7 +26,7 @@
       style="min-width: 220px"
       [ngStyle]="{ height: Type !== 'transfer' ? '80vh' : '' }">
       @if (Type === 'list') {
-        <hr class="my-2" />
+        <hr class="my-1" />
       }
       <!--*Accounts loop for large screens-->
       @if (Type === 'list' || (Type === 'transfer' && !selectedLoneAccount)) {
@@ -38,11 +38,24 @@
           @for (account of accountsListData; track $index) {
             <div
               (click)="selectLoneAccount(account)"
+              [routerLink]="
+                Type === 'list'
+                  ? activePlatform === 'workstation'
+                    ? '/w/workstation/banking/accounts/details/' + account.id
+                    : activePlatform === 'onlineBanking'
+                      ? '/b/banking/accounts/details/' + account.id
+                      : null
+                  : null
+              "
               tabindex="0"
               class="d-grid ps-3 py-0 rounded b-left"
               [ngClass]="{
                 account: Type === 'transfer',
                 cliped: selectedLoneAccount === account && Type === 'list',
+                'text-all-dark':
+                  selectedLoneAccount === account &&
+                  Type === 'list' &&
+                  theme === 'dark',
                 'not-clickable':
                   account.acc_status.status_code === 'B' ||
                   account.acc_status.status_code === 'C',

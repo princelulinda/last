@@ -9,7 +9,7 @@ export class NewsFeedService {
   constructor(private apiService: ApiService) {}
 
   getClientProducts() {
-    const url = `/dbs/merchant-product/?limit=4`;
+    const url = `/dbs/merchant-product/objects_autocomplete/?limit=4`;
     return this.apiService.get(url).pipe(map(data => data));
   }
 

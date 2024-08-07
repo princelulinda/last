@@ -7,7 +7,10 @@ import {
   BodyModel,
 } from '../../../components/settings/settings.models';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { accountsList } from '../../../components/account/models';
+import {
+  accountsList,
+  Accountdetail,
+} from '../../../components/account/models';
 import {
   Walletdetail,
   WalletList,
@@ -46,7 +49,14 @@ export class ClientService {
   }
 
   getClientAccounts(clientId: number): Observable<{ objects: accountsList[] }> {
-    const url = '/accounts/' + clientId + '/?limit=1';
+    const url = '/accounts/' + clientId + '/?limit=3';
     return this.apiService.get<{ objects: accountsList[] }>(url);
+  }
+
+  getClientAccountDetails(
+    selectedAccount: string
+  ): Observable<{ object: Accountdetail }> {
+    const url = '/clients/manage/accounts/' + selectedAccount + '/';
+    return this.apiService.get<{ object: Accountdetail }>(url);
   }
 }
