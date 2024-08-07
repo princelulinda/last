@@ -20,7 +20,10 @@
         @if (plateform === 'onlineBanking') {
           <div class="col-lg-6 row">
             <div class="d-grid">
-              <!-- <app-debit-account (debitOptions)="getAccount($event)" title="Account to credit" [isWalletShown]="isWalletShown"></app-debit-account> -->
+              <app-debit-account
+                (selectedAccount)="getAccountOptions($event)"
+                title="Account to credit"
+                [isWalletShown]="isWalletShown"></app-debit-account>
             </div>
           </div>
         }
@@ -68,7 +71,9 @@
         <div class="w-75 mt-5 pt-2 d-flex justify-content-center">
           <!-- [disabled]="(!account && !accountWorkstation) || !creditType" -->
           <button
-            [disabled]="!accountWorkstation || !creditType"
+            [disabled]="!account || !creditType"
+            (click)="goToForm()"
+            type="submit"
             class="btn px-5 bg-primary d-flex justify-content-center py-2">
             @if (!isLoading) {
               <b class="text-all-white" i18n>Continue</b>
@@ -85,7 +90,7 @@
         <!-- ====================================================================== -->
         <!-- @if (isFormVisible && (account || accountWorkstation) && creditType) { -->
 
-        @if (isFormVisible && accountWorkstation && creditType) {
+        @if (isFormVisible && (account || accountWorkstation) && creditType) {
           <div [formGroup]="requestForm">
             <div class="d-flex"></div>
             @if (plateform === '') {
@@ -124,6 +129,9 @@
                 class="col-lg-6 row align-items-center justify-content-between">
                 <div class="col-lg-8 d-grid">
                   <!-- <app-amount-words [background]="amountBackground" [amountEvent]="getAmount($event)"></app-amount-words>" -->
+                  <app-amount-field
+                    [background]="amountBackground"
+                    (amountEvent)="getAmount($event)"></app-amount-field>
                   <div class="row ms-2">
                     <div class="col-4 d-flex">
                       <b class="leg">Min: </b>
@@ -380,7 +388,7 @@
                     id="period"
                     placeholder="period"
                     formControlName="period"
-                    class="input form-select mb-1 mt-2 fs-4 p-2-3 simulator-input w-100">
+                    class="input form-select mb-1 mt-2 fs-4 p-2-3 simulator-input w-100 form-control">
                     <option value="" selected i18n>Select frequency</option>
                     <option value="1" i18n>Month</option>
                     <option value="3" i18n>Quarter</option>
@@ -406,7 +414,7 @@
 
             <!-- REQUEST BUTTON IN WORKSTATION -->
 
-            <!-- @if (plateform === 'workStation') {
+            @if (plateform === 'workStation') {
               <div class="w-100 mt-5 pt-2 d-flex justify-content-center">
                 <button
                   type="submit"
@@ -423,11 +431,11 @@
                   }
                 </button>
               </div>
-            } -->
+            }
 
             <!-- REQUEST BUTTON IN ONLINE BANKING -->
 
-            <!-- @if (plateform === 'onlineBanking') {
+            @if (plateform === 'onlineBanking') {
               <div class="w-100 mt-5 pt-2 d-flex justify-content-center">
                 <button
                   type="submit"
@@ -448,7 +456,7 @@
                   }
                 </button>
               </div>
-            } -->
+            }
           </div>
         }
       </div>

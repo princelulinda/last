@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { CommonModule } from '@angular/common';
+
 import { Subject, takeUntil } from 'rxjs';
+
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { WorkstationService } from '../../../core/services/dashboards/workstation.service';
 import { SessionToShow, StatResModel } from '../dashboard.model';
 import { SessionsService } from '../../../core/services/sessions/sessions.service';
-import { CommonModule, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-workstation-dashboard',
   standalone: true,
   imports: [SkeletonComponent, CommonModule],
-  providers: [DatePipe],
   templateUrl: './workstation-dashboard.component.html',
   styleUrl: './workstation-dashboard.component.scss',
 })
@@ -21,8 +22,7 @@ export class WorkstationDashboardComponent implements OnInit {
 
   constructor(
     private workstationService: WorkstationService,
-    private sessionsService: SessionsService,
-    private datePipe: DatePipe
+    private sessionsService: SessionsService
   ) {}
 
   ngOnInit() {
@@ -40,7 +40,6 @@ export class WorkstationDashboardComponent implements OnInit {
       .subscribe(data => {
         const res = data as { object: SessionToShow };
         this.session = res.object;
-        console.log('session', this.session);
       });
   }
 }

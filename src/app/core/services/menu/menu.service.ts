@@ -4,7 +4,10 @@ import { map } from 'rxjs/operators';
 
 import { ApiService } from '..';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { MenuGroupModel } from '../../db/models/menu/menu.models';
+import {
+  MenuGroupsModel,
+  TypeMenuModel,
+} from '../../db/models/menu/menu.models';
 
 @Injectable({
   providedIn: 'root',
@@ -33,20 +36,15 @@ export class MenuService {
       .pipe(map(data => data));
   }
 
-  // getMenuGroup(menu_id: string) {
-  //   return this.apiService
-  //     .get('/menu/list/?menu_group=' + menu_id)
-  //     .pipe(map(data => data));
-  // }
-
-  getAllMenuGroup(): Observable<{ objects: MenuGroupModel[]; count: number }> {
+  getAllMenuGroup(): Observable<{ objects: MenuGroupsModel[]; count: number }> {
     return this.apiService
-      .get<{ objects: MenuGroupModel[]; count: number }>('/menu-group/list')
-
+      .get<{ objects: MenuGroupsModel[]; count: number }>('/menu-group/list/')
       .pipe(map(data => data));
   }
 
-  getTypeMenuGroups() {
-    return this.apiService.get('/type_menugroup/list').pipe(map(data => data));
+  getTypeMenuGroups(): Observable<{ objects: TypeMenuModel[]; count: number }> {
+    return this.apiService
+      .get<{ objects: TypeMenuModel[]; count: number }>('/type_menugroup/list/')
+      .pipe(map(data => data));
   }
 }
