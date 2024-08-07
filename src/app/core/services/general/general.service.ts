@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '..';
-import { map, Subject, switchMap, takeUntil } from 'rxjs';
+import { map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+
+import { MobileBanksModel } from '../../../components/dev/global-mapping/glob-mapping.model';
 // import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -175,8 +177,8 @@ export class GeneralService {
   //   return this.apiService.post(url, body).pipe(map(data => data));
   // }
 
-  getMobileBanks() {
+  getMobileBanks(): Observable<{ objects: MobileBanksModel[] }> {
     const url = `/banks/list/?bank_type=MOB&is_mappable=true`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService.get<{ objects: MobileBanksModel[] }>(url);
   }
 }

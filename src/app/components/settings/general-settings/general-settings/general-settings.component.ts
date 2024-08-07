@@ -39,6 +39,7 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
   //selectedNumberToMap!: string;
   emails: MailModel[] | null = null;
   email = new FormControl('', [Validators.required, Validators.email]);
+
   phoneNumber = new FormControl('', [
     Validators.required,
     Validators.pattern('^[0-9]+$'),
@@ -224,13 +225,7 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
       action: contactType,
     });
   }
-  //   toggleActionPopup(number: any) {
-  //     if (this.showActionPopupAt && this.showActionPopupAt === number) {
-  //         this.showActionPopupAt = null;
-  //     } else {
-  //         this.showActionPopupAt = number;
-  //     }
-  // }
+
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
