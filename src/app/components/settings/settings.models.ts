@@ -9,6 +9,14 @@ export interface phoneNumberModel {
   is_verified: boolean;
 }
 
+export interface MobileBanks {
+  name: string;
+  company: {
+    logo: string;
+    name: string;
+  };
+}
+
 export interface BodyModel {
   pin_code: string;
   id_type: string;

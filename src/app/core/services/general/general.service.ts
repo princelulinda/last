@@ -71,10 +71,6 @@ export class GeneralService {
 
   // //onlineBanking
 
-  // getMobileBanks() {
-  //   const url = `/banks/list/?bank_type=MOB&is_mappable=true`;
-  //   return this.apiService.get(url).pipe(map(data => data));
-  // }
   // getMobileLookup(body: any) {
   //   const url = `/banks/clientlookup/`;
   //   return this.apiService.post(url, body).pipe(map(data => data));
@@ -178,4 +174,9 @@ export class GeneralService {
   //   const url = `/client/verify-pin/`;
   //   return this.apiService.post(url, body).pipe(map(data => data));
   // }
+
+  getMobileBanks() {
+    const url = `/banks/list/?bank_type=MOB&is_mappable=true`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
 }
