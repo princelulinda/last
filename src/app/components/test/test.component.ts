@@ -29,16 +29,19 @@ export class TestComponent {
         'other_info.credit_account.data.account_number',
       ],
       size: '',
+      format: 'account',
     },
     {
       name: 'Reference',
       field: ['reference'],
       size: '',
+      format: 'reference',
     },
     {
       name: 'Merchant reference',
       field: ['other_info.merchant_reference.data'],
       size: '',
+      format: 'merchant',
     },
     {
       name: 'Status',
@@ -46,6 +49,7 @@ export class TestComponent {
       css: 'status.css',
       class: 'badge',
       size: '',
+      format: 'status',
     },
     {
       name: 'Description',

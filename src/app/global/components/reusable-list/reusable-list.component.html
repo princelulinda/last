@@ -33,10 +33,13 @@
     </div>
   </div>
 
-  <div class="row w-100 mx-2 mb-2 p-2">
+  <div class="row w-100 p-1 mx-1">
     <div class="col-md-1"><span>Date</span></div>
     <div class="col"><span>Amount</span></div>
-    <div class="col"><span>Account</span></div>
+    <div class="col-md-3"><span>Account</span></div>
+    <div class="col-md-3"><span>Reference</span></div>
+    <div class="col-md-2"><span>Merchant reference </span></div>
+    <div class="col"><span>status</span></div>
   </div>
   @if (!response_data || isLoading) {
     <div class="col justify-content-center">
@@ -50,9 +53,10 @@
   }
 
   @if (response_data && data_list && data_list.length > 0 && !isLoading) {
-    <div>
+    <div class="col p-3">
       @for (item of data_list; track item) {
-        <div class="row w-100 mx-2 border rounded mb-2 p-2">
+        <div
+          class="row p-1 border rounded mb-2 fs-small d-flex align-items-center">
           @for (data of item; track data) {
             @if (data.format === 'date') {
               <div class="col-md-1 text-truncate">
@@ -64,9 +68,27 @@
                 <span>{{ data.value }}</span>
               </div>
             }
-            @if (!data.format || data.format === '') {
-              <div class="col">
+            @if (data.format === 'account') {
+              <div class="col-md-3">
                 <span>{{ data.value }}</span>
+              </div>
+            }
+            @if (data.format === 'reference') {
+              <div class="col-md-3">
+                <span>{{ data.value }}</span>
+              </div>
+            }
+            @if (data.format === 'merchant') {
+              <div class="col-md-2">
+                <span>{{ data.value }}</span>
+              </div>
+            }
+            @if (data.format === 'status') {
+              <div class="col">
+                <span
+                  class="badge-design badge bg-success text-success d-flex justify-content-center align-items-center"
+                  >{{ data.value }}</span
+                >
               </div>
             }
           }

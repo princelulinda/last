@@ -137,20 +137,43 @@ export class ReusableListComponent implements OnInit, OnDestroy {
 
               for (const header of this.headers) {
                 const fields = header['field'];
-                let value = row;
+                let row1 = row;
                 let css = '';
                 let icon = '';
                 let detail = '';
+                let full_field = '';
                 let class_type = '';
 
-                for (const field of fields) {
-                  if (value && typeof value === 'object' && field in value) {
-                    value = value[field];
-                  } else {
-                    value = '------';
-                    break;
+                // for (const field of fields) {
+                //   row1=row;
+                //   if (row1 && typeof row1 === 'object' && field in row1) {
+                //     row1 = row1[field];
+                //   } else {
+                //     row1 = '------';
+
+                //   }
+                // }
+
+                for (const field in fields) {
+                  row1 = row;
+                  const all_fields = fields[field].split('.');
+
+                  for (const all_field in all_fields) {
+                    if (
+                      row1 &&
+                      typeof row1 === 'object' &&
+                      all_field in all_fields
+                    ) {
+                      row1 = row1[all_fields[all_field]];
+                    } else {
+                      row1 = '------';
+                    }
+                  }
+                  if (row1) {
+                    full_field += row1 + ' ';
                   }
                 }
+                row1 = full_field;
 
                 if (header['css']) {
                   const css_fields = header['css'].split('.');
@@ -222,7 +245,7 @@ export class ReusableListComponent implements OnInit, OnDestroy {
                 }
 
                 const data = {
-                  value: value || '',
+                  value: row1 || '',
                   size: header['size'] || '',
                   css: css,
                   icon: icon,
