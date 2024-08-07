@@ -301,6 +301,11 @@ export class MerchantService {
       })
     );
   }
+  // getProductsByMerchant(merchantId: string): Observable<{ objects: productConfigModel[] }> {
+  //   const url = '/dbs/merchant-product/?merchant=' + merchantId + '&';
+  //   return this.apiService.get<{ objects: [] }>(url);
+  // }
+
   createNewTeller(body: newTellerModel) {
     const url = '/dbs/merchant-teller/';
     return this.apiService.post(url, body).pipe(

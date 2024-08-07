@@ -244,18 +244,12 @@ export interface updateProdcutInfoModel {
   pin_code: string;
 }
 
-export interface productConfigObjectModel {
-  objects: {
-    Object: productConfigModel;
-  };
+export interface ProductConfigObjectsModel {
+  objects: productConfigModel[];
 }
 
-export interface ProductConfigDetailModel {
-  object: productConfigModel;
-}
 export interface productConfigModel {
-  // object: updateProdcutInfoModel;
-  selectedProduct: selectedProductModel;
+  id: number;
   product: number;
   merchant: number;
   action: string[];
@@ -294,9 +288,4 @@ export interface metadataObjectModel {
   response_message: string;
   name: string;
   id: number;
-}
-
-export interface selectedProductModel {
-  id: number;
-  icon: string;
 }

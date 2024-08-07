@@ -13,20 +13,19 @@ import { PaginationConfig } from '../../../global/global.model';
 
 import {
   MerchantModel,
-  ProductConfigDetailModel,
   productConfigModel,
-  productConfigObjectModel,
-  selectedProductModel,
+  ProductConfigObjectsModel,
   updateProductInfoObjectModel,
 } from '../products.model';
 import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-config',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SkeletonComponent],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, SkeletonComponent],
   templateUrl: './product-config.component.html',
   styleUrl: './product-config.component.scss',
 })
@@ -48,10 +47,10 @@ export class ProductConfigComponent implements OnInit {
   selectedTeller: undefined;
   // tellerId: any;
   isActionDone = false;
-  products!: productConfigObjectModel[] | undefined;
+  products!: productConfigModel[] | undefined;
   // filteredProducts: any;
-  selectedProduct!: selectedProductModel;
-  product!: productConfigModel;
+  selectedProduct!: productConfigModel;
+  product!: productConfigModel | undefined;
   action: string[] = [];
   search = new FormControl('');
   isProductsSearch = false;
@@ -213,8 +212,8 @@ export class ProductConfigComponent implements OnInit {
           console.log(
             '=================Response received from getProductsByMerchant'
           );
-          const products = result as productConfigObjectModel[];
-          this.products = products;
+          const products = result as ProductConfigObjectsModel;
+          this.products = products.objects;
           console.log('products:', this.products);
         },
         error: error => {
@@ -233,8 +232,13 @@ export class ProductConfigComponent implements OnInit {
       });
   }
 
-  selectProduct(product: productConfigObjectModel) {
-    this.selectedProduct = product.objects.Object.selectedProduct;
+  selectProduct(product: productConfigModel) {
+    this.selectedProduct = product;
+    console.log(
+      '==========================>>selectedProduct:',
+      this.selectedProduct
+    );
+
     this.selectedMenu = 'details';
     this.getProductDetails();
   }
@@ -304,8 +308,11 @@ export class ProductConfigComponent implements OnInit {
     this.merchantService
       .getMerchantsProductsDetails(this.selectedProduct.id)
       .subscribe(response => {
-        const product = response as ProductConfigDetailModel;
+        const product = response as { object: productConfigModel };
+        console.log('==================>>> product:', product);
+
         this.product = product.object;
+        console.log('====>> the product variable:', this.product);
 
         this.productConfigForm.patchValue({
           name: this.product.name,
@@ -324,14 +331,14 @@ export class ProductConfigComponent implements OnInit {
     this.selectedMenu = 'configuration';
 
     this.productConfigForm.patchValue({
-      name: this.product.name,
-      price: this.product.price,
-      min_payment: this.product.mininun_payment_amount,
-      max_payment: this.product.maximum_payment_amount,
-      position: this.product.voucher_type,
-      cart: this.product.accepts_cart,
-      stockable: this.product.is_stockable,
-      incognito: this.product.incognito_mode,
+      name: this.product?.name,
+      price: this.product?.price,
+      min_payment: this.product?.mininun_payment_amount,
+      max_payment: this.product?.maximum_payment_amount,
+      position: this.product?.voucher_type,
+      cart: this.product?.accepts_cart,
+      stockable: this.product?.is_stockable,
+      incognito: this.product?.incognito_mode,
     });
   }
 
@@ -415,9 +422,9 @@ export class ProductConfigComponent implements OnInit {
     this.products = undefined;
     if (search) {
       this.merchantService.searchProductByMerchant(data).subscribe(result => {
-        const products = result as productConfigObjectModel[];
+        const products = result as ProductConfigObjectsModel;
         this.isLoading = false;
-        this.products = products;
+        this.products = products.objects;
       });
     } else {
       this.getProducts();

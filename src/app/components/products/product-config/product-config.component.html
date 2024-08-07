@@ -6,7 +6,7 @@
           <div class="d-flex align-items-center justify-content-between mb-3">
             <span class="text-xl" i18n>Manage Products</span>
             <div
-              routerLink="/m/market/mymarket"
+              routerLink="/m/mymarket"
               role="button"
               class="d-flex align-items-center">
               <span>
@@ -52,7 +52,7 @@
               <div
                 title="Not yet available"
                 role="button"
-                class="d-flex align-items-center round-30 px-4 py-2">
+                class="d-flex align-items-center bg-secondary lg-radius px-4 py-2">
                 <span class="text-md-sm" i18n>Filter</span>
                 <span class="d-flex ms-1">
                   <i class="fa fa-bars-staggered"></i>
@@ -61,8 +61,8 @@
             </div>
             <button
               [disabled]="!products"
-              routerLink="/m/market/add-product"
-              class="btn mt-sm-2 mt bg-primary t-white">
+              routerLink="/m/mymarket/add-product"
+              class="btn mt-sm-2 mt bg-primary text-all-white">
               <b i18n>Add product</b>
             </button>
           </div>
@@ -119,38 +119,32 @@
           }
         </div>
       </div>
-    }
-    @if (products && products.length > 0) {
+    } @else if (products && products.length > 0) {
       <div class="row">
         @for (product of products; track $index) {
-          <div class="d-grid mb-3 col-lg-3 col-md-6 col-sm-12">
+          <div class="d-grid mb-3 col-lg-3 col-md-6 col-sm-5 gx-lg-3">
             @if (!isProductsSearch) {
               <div
-                class="d-grid prod-card-w"
+                class="d-grid me-5"
                 role="button"
                 (click)="selectProduct(product)"
                 tabindex="0">
-                @if (!product.objects.Object.icon) {
+                @if (!product.icon) {
                   <span
-                    class="text-center prod-card d-flex p-3 rounded justify-content-center align-items-center"
+                    class="text-center bg-secondary d-flex me-5 py-5 rounded justify-content-center align-items-center"
                     style="font-size: 60px">
-                    <i class="fa-solid t-white fa-box-open"></i>
+                    <i class="fa-solid text-all-white fa-box-open"></i>
                   </span>
-                } @else if (product.objects.Object.icon) {
+                } @else if (product.icon) {
                   <span
                     class="text-center d-flex p-3 prod-card rounded justify-content-center align-items-center"
                     style="font-size: 60px">
-                    <i
-                      class="t-white fa-solid fa-{{
-                        product.objects.Object.icon
-                      }}"></i>
+                    <i class="t-white fa-solid fa-{{ product.icon }}"></i>
                   </span>
                 }
 
-                <b class="text-md text-card">{{
-                  product.objects.Object.name
-                }}</b>
-                <span>{{ product.objects.Object.price | currency: ' ' }}</span>
+                <b class="text-md text-card">{{ product.name }}</b>
+                <span>{{ product.price | currency: ' ' }}</span>
               </div>
             } @else if (isProductsSearch) {
               <div
@@ -158,29 +152,23 @@
                 role="button"
                 (click)="selectProduct(product)"
                 tabindex="0">
-                @if (!product.objects.Object.lookup_icon) {
+                @if (!product.lookup_icon) {
                   <span
                     class="text-center d-flex prod-card p-3 rounded justify-content-center align-items-center"
                     style="font-size: 60px">
                     <i class="fa-solid t-white fa-box-open"></i>
                   </span>
-                } @else if (product.objects.Object.lookup_icon) {
+                } @else if (product.lookup_icon) {
                   <span
                     class="text-center d-flex p-3 rounded prod-card justify-content-center align-items-center"
                     style="font-size: 60px">
                     <i
-                      class="t-white fa-solid fa-{{
-                        product.objects.Object.lookup_icon
-                      }}"></i>
+                      class="t-white fa-solid fa-{{ product.lookup_icon }}"></i>
                   </span>
                 }
 
-                <b class="text-md text-card">{{
-                  product.objects.Object.lookup_title
-                }}</b>
-                <span>{{
-                  product.objects.Object.lookup_subtitle | currency: ' '
-                }}</span>
+                <b class="text-md text-card">{{ product.lookup_title }}</b>
+                <span>{{ product.lookup_subtitle | currency: ' ' }}</span>
               </div>
             }
           </div>
@@ -205,11 +193,15 @@
       <div class="border sm-radius d-lg-flex">
         <div style="width: 10%; border-left: 4px solid #c4c4c4">
           @if (merchant && !merchant.merchant_logo) {
-            <img
+            <!-- <img
               src="assets/images/userprofile.png"
               class="img-fluid mt-2 ms-2 border rounded-circle mb-2"
               style="width: 60%"
-              alt="profile" />
+              alt="profile" /> -->
+            <span class="">
+              <i
+                class="fa-solid fa-user fa-xl text-white px-3 pt-2 pb-3 mt-2 ms-2 mb-2 rounded-circle bg-secondary"></i>
+            </span>
           } @else if (merchant && merchant.merchant_logo) {
             <img
               [src]="merchant.merchant_logo"
@@ -432,8 +424,8 @@
       <div class="col-lg-5 mb-3">
         <select
           formControlName="position"
-          [value]="product.voucher_type"
-          class="form-select py-3 text-dark"
+          [value]="product?.voucher_type"
+          class="form-select form-control py-3 text-dark"
           aria-label="Default select example">
           <option value="L" selected i18n>Landscape</option>
           <option value="P" i18n>Portrait</option>
@@ -456,7 +448,7 @@
                 )
               "
               tabindex="0"
-              class="switch d-flex align-items-center px-1"
+              class="bg-secondary lg-radius w-50 h-100 border border-secondary d-flex align-items-center px-1"
               [ngClass]="
                 productConfigForm.value.cart
                   ? 'justify-content-end text-primary'
@@ -482,7 +474,7 @@
                 )
               "
               tabindex="0"
-              class="switch d-flex align-items-center px-1"
+              class="bg-secondary lg-radius w-50 h-100 border border-secondary d-flex align-items-center px-1"
               [ngClass]="{
                 'justify-content-end text-primary':
                   productConfigForm.value.stockable,
@@ -509,7 +501,7 @@
                 )
               "
               tabindex="0"
-              class="switch d-flex align-items-center px-1"
+              class="bg-secondary lg-radius w-50 h-100 border border-secondary d-flex align-items-center px-1"
               [ngClass]="{
                 'justify-content-end text-primary':
                   productConfigForm.value.incognito,

@@ -53,7 +53,7 @@ export class AddProductComponent implements OnInit {
     this.marketService.connectedMerchantId$.subscribe((merchantId: string) => {
       this.merchant.id = merchantId;
       if (!merchantId) {
-        this.router.navigate(['/m/market/product/configuration/']);
+        this.router.navigate(['/m/mymarket/product-config']);
       }
     });
   }
