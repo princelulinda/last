@@ -58,9 +58,6 @@ export class DeskLayoutComponent implements OnInit {
   }
 
   selectGroup(group: GroupMenuModel) {
-    if (group === this.selectedGroup) {
-      this.selectedGroup = null;
-    }
     this.selectedGroup = group;
     this.getMenuByGroup(this.selectedGroup.id.toString());
   }

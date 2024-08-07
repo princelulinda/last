@@ -2,10 +2,10 @@
   <section class="bg-white w-aside p-2 pt-4 d-flex flex-column overflow-y-auto">
     @if (intranetMenuGroups && intranetMenuGroups.menu_group.length !== 0) {
       @for (group of intranetMenuGroups.menu_group; track $index) {
-        <a
+        <div
           (click)="selectGroup(group)"
           tabindex="0"
-          class="py-1 mb-3 px-4 xx-lg-radius bg-hover-primary-3"
+          class="py-1 mb-3 d-block px-4 xx-lg-radius bg-hover-primary-3"
           role="button"
           [ngClass]="{
             'text-all-dark bg-primary-3': selectedGroup === group,
@@ -13,10 +13,47 @@
           }"
           routerLinkActive="text-all-dark bg-primary-3">
           {{ group.name }}
-        </a>
+        </div>
+        <div
+          class="mx-2 mb-2 ms-4 text-capitalize border-start border-primary-3"
+          [ngClass]="{
+            ' d-block': selectedGroup === group,
+            'd-none': selectedGroup !== group,
+          }">
+          @if (menus && !loadingMenu) {
+            @for (item of menus; track $index) {
+              <a
+                tabindex="1"
+                [routerLink]="item.component_url"
+                [ngClass]="{
+                  'mb-2': $index === menus.length - 1,
+                }"
+                class="py-1 ms-1 px-3 mb-1 xx-lg-radius bg-hover-primary-3 text-secondary d-block w-100"
+                role="button">
+                {{ item.name }}
+              </a>
+            }
+          } @else {
+            <div class="my-2">
+              <div class="spinner-grow spinner-grow-sm ms-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <div class="spinner-grow spinner-grow-sm ms-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <div class="spinner-grow spinner-grow-sm ms-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          }
+        </div>
       }
     } @else {
-      Not Menu Found
+      <div class="mt-5">
+        <app-empty-state
+          imageClass="w-50 mb-2"
+          messageClass="fs-x-small"></app-empty-state>
+      </div>
     }
   </section>
   <main class="flex-grow-1 px-2 px-md-4 py-2 overflow-y-auto ms-1">
