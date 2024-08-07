@@ -1,15 +1,15 @@
 <div class="container-fluid">
   <ng-container [ngSwitch]="searchType">
-    <ng-container *ngSwitchCase="'SearchTypes.list'">
+    <ng-container *ngIf="searchType === 'list'">
       <div class="text-center">
         <img src="/images/empty-state/empty-list.png" alt="Empty List Image" />
         <p i18n class="font-montserrat fs-l-medium">
-          <b class="fw-bold">The list is currently empty "{{ searchTerm }}".</b>
+          <b class="fw-bold">The list is currently empty.</b>
           Start adding items to fill it up!
         </p>
       </div>
     </ng-container>
-    <ng-container *ngSwitchCase="'SearchTypes.merchant'">
+    <ng-container *ngIf="searchType === 'merchant'">
       <div class="text-center">
         <img
           src="/images/empty-state/market.png"
@@ -22,20 +22,20 @@
         </p>
       </div>
     </ng-container>
-    <ng-container *ngSwitchCase="'SearchTypes.product'">
+    <ng-container *ngIf="searchType === 'product'">
       <div class="text-center">
         <img
           src="/images/empty-state/product.png"
           alt="Empty Product Search Image" />
         <p i18n class="font-montserrat fs-l-medium">
           <b class="fw-bold"
-            >Oops! We couldn't find anything for "{{ searchTerm }}".</b
+            >Oops! We couldn't find anything for "{{ searchTerm }}" .</b
           >
           Try a different search term or browse by category.
         </p>
       </div>
     </ng-container>
-    <ng-container *ngSwitchCase="'SearchTypes.other'">
+    <ng-container *ngIf="searchType === 'other'">
       <div class="text-center">
         <img
           src="/images/empty-state/search-empty.png"
@@ -49,7 +49,7 @@
       </div>
     </ng-container>
     <!-- <ng-container *ngSwitchDefault> -->
-    <ng-container *ngSwitchCase="'SearchTypes.service'">
+    <ng-container *ngIf="searchType === 'service'">
       <div class="text-center">
         <img
           src="/images/empty-state/service-empty.png"
