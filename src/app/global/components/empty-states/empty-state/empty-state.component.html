@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div>
   @switch (searchType) {
     @case ('list') {
       <div class="text-center">
@@ -6,7 +6,7 @@
           src="/images/empty-state/empty-list.png"
           class=" {{ imageClass }} "
           alt="Empty List Image" />
-        <p i18n class="font-montserrat fs-l-medium">
+        <p i18n class="font-montserrat fs-l-medium {{ messageClass }}">
           <b class="fw-bold">The list is currently empty "{{ searchTerm }}".</b>
           Start adding items to fill it up!
         </p>
@@ -18,7 +18,7 @@
           src="/images/empty-state/market.png"
           class=" {{ imageClass }} "
           alt="Empty Merchant Search Image" />
-        <p i18n class="font-montserrat fs-l-medium">
+        <p i18n class="font-montserrat fs-l-medium {{ messageClass }}">
           <b class="fw-bold"
             >Oops! We couldn't find anything for "{{ searchTerm }}".</b
           >
@@ -32,7 +32,7 @@
           src="/images/empty-state/product.png"
           class=" {{ imageClass }} "
           alt="Empty Product Search Image" />
-        <p i18n class="font-montserrat fs-l-medium">
+        <p i18n class="font-montserrat fs-l-medium {{ messageClass }}">
           <b class="fw-bold"
             >Oops! We couldn't find anything for "{{ searchTerm }}".</b
           >
@@ -46,7 +46,7 @@
           src="/images/empty-state/search-empty.png"
           class=" {{ imageClass }} "
           alt="Empty Global Search Image" />
-        <p i18n class="font-montserrat fs-l-medium">
+        <p i18n class="font-montserrat fs-l-medium {{ messageClass }}">
           <b class="fw-bold"
             >Oops! We couldn't find anything for "{{ searchTerm }}".</b
           >
@@ -60,9 +60,8 @@
           src="/images/empty-state/service-empty.png"
           class=" {{ imageClass }} "
           alt="Empty Service Search Image" />
-        <p i18n class="font-montserrat fs-small">
+        <p i18n class="font-montserrat fs-small {{ messageClass }}">
           This service is not available yet, please try again later
-          {{ searchTerm }}".
         </p>
       </div>
     }
