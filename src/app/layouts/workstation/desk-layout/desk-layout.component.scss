@@ -2,12 +2,10 @@
   width: 167px;
 }
 .show-menu {
-  height: auto;
   opacity: 1;
   transition: 0.2s ease-in-out;
 }
 .hide-menu {
-  height: 0px;
   opacity: 0;
   transition: 0.2s ease-in-out;
   padding: 0 !important;
