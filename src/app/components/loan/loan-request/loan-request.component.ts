@@ -17,15 +17,27 @@ import { DialogService } from '../../../core/services';
 import {
   AcccountWorkstationModel,
   CreditTypeModel,
+  DefaultValuesLoan,
+  LoanPendingModel,
   LoanTypeModel,
+  ResponseDataModel,
   // ResponseDataModel,
 } from '../loan.models';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
+import { DebitAccountComponent } from '../../transfer/debit-account/debit-account.component';
+import { accountsList } from '../../account/models';
+import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 
 @Component({
   selector: 'app-loan-request',
   standalone: true,
-  imports: [ReactiveFormsModule, LookupComponent, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    LookupComponent,
+    CommonModule,
+    DebitAccountComponent,
+    AmountFieldComponent,
+  ],
   providers: [DatePipe],
   templateUrl: './loan-request.component.html',
   styleUrl: './loan-request.component.scss',
@@ -35,13 +47,14 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
 
   plateform$ = liveQuery(() => this.dbService.getOnce('mainconfigs'));
   plateform = '';
+  amountBackground = 'rgba(241, 241, 241, 1)';
 
-  // account: any;
+  account!: accountsList;
   accountWorkstation: AcccountWorkstationModel | null = null;
   amount: number | null = 0;
   loansType!: LoanTypeModel;
   creditType: CreditTypeModel | null = null;
-  // defaultValuesLoan: any;
+  defaultValuesLoan!: DefaultValuesLoan;
 
   isFormVisible = false;
 
@@ -101,132 +114,124 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
     this._location.back();
   }
 
-  // getAmount(event: any) {
-  //   this.requestForm.patchValue({
-  //     amount: event.amount,
-  //   });
+  getAmount(evnt: { amount: number | null }) {
+    const event = evnt as { amount: number };
+    this.requestForm.patchValue({
+      amount: event.amount,
+    });
 
-  //   this.guarantee =
-  //     (event.amount * this.defaultValuesLoan.guarantee_rate) / 100;
+    this.guarantee =
+      (event.amount * (this.defaultValuesLoan.guarantee_rate as number)) / 100;
 
-  //   if (this.feesUnit == 'percent') {
-  //     this.fees = (event.amount * this.requestForm.value.fees_amount) / 100;
-  //     this.guarantee =
-  //       (event.amount * this.defaultValuesLoan.guarantee_rate) / 100;
-  //     //
-  //   } else if (this.feesUnit == 'amount') {
-  //     this.fees = this.requestForm.value.fees_amount;
-  //     //
-  //   }
+    if (this.feesUnit == 'percent') {
+      this.fees = (event.amount * this.requestForm.value.fees_amount) / 100;
+      this.guarantee =
+        (event.amount * (this.defaultValuesLoan.guarantee_rate as number)) /
+        100;
+      //
+    } else if (this.feesUnit == 'amount') {
+      this.fees = this.requestForm.value.fees_amount;
+      //
+    }
 
-  //   if (this.insuranceFeesUnit == 'percent') {
-  //     this.insuranceFees =
-  //       (event.amount * this.requestForm.value.insurance_amount) / 100;
-  //     console.log('hello world', this.insurance);
+    if (this.insuranceFeesUnit == 'percent') {
+      this.insuranceFees =
+        (event.amount * this.requestForm.value.insurance_amount) / 100;
 
-  //     //
-  //   } else if (this.insuranceFeesUnit == 'amount') {
-  //     this.insuranceFees = this.requestForm.value.insurance_amount;
-  //     //
-  //   }
+      //
+    } else if (this.insuranceFeesUnit == 'amount') {
+      this.insuranceFees = this.requestForm.value.insurance_amount;
+      //
+    }
 
-  //   if (this.guaranteeFeesUnit == 'percent') {
-  //     this.guaranteeFees =
-  //       (event.amount * this.requestForm.value.guarantee_rate) / 100;
-  //     //
-  //   } else if (this.guaranteeFeesUnit == 'amount') {
-  //     this.guaranteeFees = this.requestForm.value.guarantee_rate;
-  //   }
-  // }
+    if (this.guaranteeFeesUnit == 'percent') {
+      this.guaranteeFees =
+        (event.amount * this.requestForm.value.guarantee_rate) / 100;
+      //
+    } else if (this.guaranteeFeesUnit == 'amount') {
+      this.guaranteeFees = this.requestForm.value.guarantee_rate;
+    }
+  }
 
-  // getAccountOptions(event: any) {
-  //   if (event.account) {
-  //     this.account = event.account;
-  //   }
-  //   if (event.wallet) {
-  //     this.account = event.wallet;
-  //   }
-  // }
+  getAccountOptions(event: accountsList) {
+    this.account = event;
+  }
 
-  // requestLoan() {
-  //   this.isLoading = true;
-  //   let accountId;
-  //   if (this.plateform === 'onlineBanking') {
-  //     if (this.account.acc_client_id) {
-  //       accountId = this.account.acc_client_id;
-  //     }
-  //     if (this.account.code) {
-  //       accountId = this.account.id;
-  //     }
-  //   } else if (this.plateform === 'workstation') {
-  //     accountId = this.accountWorkstation?.id;
-  //   }
+  requestLoan() {
+    this.isLoading = true;
+    let accountId;
+    if (this.plateform === 'workstation') {
+      accountId = this.accountWorkstation?.id;
+    } else {
+      if (this.account.id) {
+        accountId = this.account.id;
+      }
+    }
+    let interests_rate!: string;
+    let penalities_rate!: string;
+    let fees_amount!: string;
 
-  //   let interests_rate: any;
-  //   let penalities_rate: any;
-  //   let fees_amount: any;
+    if (this.plateform === 'workStation') {
+      interests_rate = this.requestForm.value.interest_rate;
+      penalities_rate = this.requestForm.value.penalities_rate;
+      fees_amount = this.requestForm.value.fees_amount;
+    } else if (this.plateform === 'onlineBanking') {
+      interests_rate = this.defaultValuesLoan.max_interest_rate;
+      penalities_rate = this.defaultValuesLoan.penalities_rate;
+      fees_amount = this.defaultValuesLoan.max_amount_fees;
+    }
 
-  //   if (this.plateform === 'workStation') {
-  //     interests_rate = this.requestForm.value.interest_rate;
-  //     penalities_rate = this.requestForm.value.penalities_rate;
-  //     fees_amount = this.requestForm.value.fees_amount;
-  //   } else if (this.plateform === 'onlineBanking') {
-  //     interests_rate == this.defaultValuesLoan.max_interest_rate;
-  //     penalities_rate = this.defaultValuesLoan.penalities_rate;
-  //     fees_amount = this.defaultValuesLoan.max_amount_fees;
-  //   }
+    const body = {
+      main_account: accountId,
+      amount: this.requestForm.value.amount,
+      payment_number: this.requestForm.value.payment_number,
+      period: this.requestForm.value.period,
+      first_date: this.requestForm.value.first_date,
+      interests_rate,
+      penalities_rate,
+      fees_amount,
+      cred_defaults: this.defaultValuesLoan.id,
+    };
 
-  //   const body = {
-  //     main_account: accountId,
-  //     amount: this.requestForm.value.amount,
-  //     payment_number: this.requestForm.value.payment_number,
-  //     period: this.requestForm.value.period,
-  //     first_date: this.requestForm.value.first_date,
-  //     interests_rate,
-  //     penalities_rate,
-  //     fees_amount,
-  //     cred_defaults: this.defaultValuesLoan.id,
-  //   };
+    this.loanService.requestLoan(body).subscribe({
+      next: res => {
+        const response = res as { object: LoanPendingModel };
 
-  //   console.log('BBBBBBBBBBBBBBBBBBBBBBOOOOOOOOOOOOOOOOOO Body request', body);
+        this.isLoading = false;
+        if (response.object.amount || response.object.success) {
+          // if (this.plateform === 'onlineBanking')
 
-  //   this.loanService.requestLoan(body).subscribe({
-  //     next: (res: any) => {
-  //       this.isLoading = false;
-  //       if (res.object.amount || res.object.success) {
-  //         // if (this.plateform === 'onlineBanking')
+          if (this.plateform === 'workstation') {
+            this.router.navigate([
+              '/w/workstation/desk/credit/request/' + response.object.id,
+            ]);
+          } else if (this.plateform === 'onlineBanking') {
+            this.router.navigate(['/b/banking/loan/pending']);
+          }
 
-  //         if (this.plateform === 'workstation') {
-  //           this.router.navigate([
-  //             '/w/workstation/desk/credit/request/' + res.object.id,
-  //           ]);
-  //         } else if (this.plateform === 'onlineBanking') {
-  //           this.router.navigate(['/b/banking/loan/pending']);
-  //         }
-
-  //         this.dialogService.openToast({
-  //           title: '',
-  //           type: 'success',
-  //           message: 'credit request sent successfully',
-  //         });
-  //       } else if (!res.object.amount || !res.object.success) {
-  //         this.dialogService.openToast({
-  //           title: '',
-  //           type: 'failed',
-  //           message: 'unable to request loan, please try again',
-  //         });
-  //       }
-  //     },
-  //     error: () => {
-  //       this.isLoading = false;
-  //       this.dialogService.openToast({
-  //         title: '',
-  //         type: 'failed',
-  //         message: 'unable to request loan, please try again',
-  //       });
-  //     },
-  //   });
-  // }
+          this.dialogService.openToast({
+            title: '',
+            type: 'success',
+            message: 'credit request sent successfully',
+          });
+        } else if (!response.object.amount || !response.object.success) {
+          this.dialogService.openToast({
+            title: '',
+            type: 'failed',
+            message: 'unable to request loan, please try again',
+          });
+        }
+      },
+      error: () => {
+        this.isLoading = false;
+        this.dialogService.openToast({
+          title: '',
+          type: 'failed',
+          message: 'unable to request loan, please try again',
+        });
+      },
+    });
+  }
 
   getLoansType() {
     this.loanService.getLoanType().subscribe(loansType => {
@@ -235,51 +240,52 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
     });
   }
 
-  // goToForm() {
-  //   this.isLoading = true;
+  goToForm() {
+    this.isLoading = true;
 
-  //   const data = {
-  //     account_id: this.account?.id,
-  //     loan_type_id: this.creditType?.id?.toString() || '',
-  //   };
-  //   this.loanService.getLoanTypeInfo(data).subscribe({
-  //     next: loanInfo => {
-  //       const response = loanInfo as { object: ResponseDataModel };
-  //       this.isLoading = false;
+    const data = {
+      account_id: this.account?.id,
+      loan_type_id: this.creditType?.id?.toString() || '',
+    };
+    this.loanService.getLoanTypeInfo(data).subscribe({
+      next: loanInfo => {
+        const response = loanInfo as { object: ResponseDataModel };
+        this.isLoading = false;
 
-  //       if (response.object.success) {
-  //         this.defaultValuesLoan = response.object.response_data;
+        if (response.object.success) {
+          this.defaultValuesLoan = response.object
+            .response_data as DefaultValuesLoan;
 
-  //         this.isFormVisible = true;
+          this.isFormVisible = true;
 
-  //         this.requestForm.patchValue({
-  //           credit_type: this.defaultValuesLoan.loan_type.id,
-  //         });
+          this.requestForm.patchValue({
+            credit_type: this.defaultValuesLoan.loan_type.id,
+          });
 
-  //         if (this.requestForm.value.fees_amount) {
-  //           this.fees = this.requestForm.value.fees_amount;
-  //           this.insuranceFees = this.requestForm.value.insurance_amount;
+          if (this.requestForm.value.fees_amount) {
+            this.fees = this.requestForm.value.fees_amount;
+            this.insuranceFees = this.requestForm.value.insurance_amount;
 
-  //           // console.log('feess', this.fees, this.insuranceFees);
-  //         }
-  //       } else if (!response.object.success) {
-  //         this.dialogService.openToast({
-  //           title: '',
-  //           type: 'failed',
-  //           message: response.object.response_message,
-  //         });
-  //       }
-  //     },
-  //     error: err => {
-  //       this.isLoading = false;
-  //       this.dialogService.openToast({
-  //         title: '',
-  //         type: 'failed',
-  //         message: err.object.response_message,
-  //       });
-  //     },
-  //   });
-  // }
+            // console.log('feess', this.fees, this.insuranceFees);
+          }
+        } else if (!response.object.success) {
+          this.dialogService.openToast({
+            title: '',
+            type: 'failed',
+            message: response.object.response_message,
+          });
+        }
+      },
+      error: err => {
+        this.isLoading = false;
+        this.dialogService.openToast({
+          title: '',
+          type: 'failed',
+          message: err.object.response_message,
+        });
+      },
+    });
+  }
 
   getCreditType(event: CreditTypeModel | null) {
     //
