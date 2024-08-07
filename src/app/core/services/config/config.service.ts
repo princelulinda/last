@@ -335,7 +335,7 @@ export class ConfigService {
   clearAllMenu() {
     this.dbService.clearTable(TypeMenu.tableName);
     this.dbService.clearTable(MenuGroup.tableName);
-    this.dbService.clearTable(SelectedTypeMenu.tableName);
+    // this.dbService.clearTable(SelectedTypeMenu.tableName);
   }
   checkTypeMenus(): Observable<boolean> {
     this.getTypeMenus().subscribe({

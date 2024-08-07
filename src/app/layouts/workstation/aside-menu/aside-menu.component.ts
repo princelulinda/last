@@ -20,6 +20,7 @@ import { TypeMenuModel } from '../../../core/db/models/menu/menu.models';
 export class AsideMenuComponent implements OnInit {
   typeMenus: TypeMenuModel[] = [];
   typeMenus$: Observable<TypeMenuModel[]>;
+  showtooltipLogout = false;
 
   constructor(
     private configService: ConfigService,
@@ -63,5 +64,9 @@ export class AsideMenuComponent implements OnInit {
         });
       },
     });
+  }
+
+  toogleTooltip(status: boolean) {
+    this.showtooltipLogout = status;
   }
 }
