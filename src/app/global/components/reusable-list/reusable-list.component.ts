@@ -1,11 +1,12 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PaginationConfig } from '../../global.model';
 import { GeneralService } from '../../../core/services';
 import { NgClass } from '@angular/common';
 import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
+import { DialogService } from '../../../core/services';
 import {
   ParamModel,
   getdataModal,
@@ -24,7 +25,6 @@ export class ReusableListComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
   @Input() headers!: Header[];
-  // @Input() headers!:any;
   @Input() url = '';
   @Input() title = '';
   showAmount = false;
@@ -66,8 +66,9 @@ export class ReusableListComponent implements OnInit, OnDestroy {
   exportingState = 0;
   isExporting = false;
   showNotification = false;
-
+  amountState = false;
   theme!: string;
+  amountState$: Observable<boolean>;
 
   plateform = '';
   displayPaginationLimit = false;
@@ -78,15 +79,22 @@ export class ReusableListComponent implements OnInit, OnDestroy {
     title: 'Hide the overview',
   };
 
-  constructor(private generalService: GeneralService) {
+  constructor(
+    private generalService: GeneralService,
+    private dialogService: DialogService
+  ) {
+    this.amountState$ = this.dialogService.getAmountState();
     this.data_list = [];
   }
 
   ngOnInit(): void {
     this.clientPagination.filters.limit = this.limit;
     this.getData();
-
-    //   this.showBalaceStatusEye = this.showCurrencyEye(this.headers);
+    this.amountState$.subscribe({
+      next: state => {
+        this.amountState = state;
+      },
+    });
   }
 
   showAmounts() {
@@ -95,6 +103,9 @@ export class ReusableListComponent implements OnInit, OnDestroy {
   }
   // to do add a routerLink
 
+  toggleEyeStatus() {
+    this.dialogService.displayAmount();
+  }
   getData() {
     //   this.response_data = null;
     let params: ParamModel[] = [];

@@ -1,35 +1,53 @@
 <div class="border p-3 mb-3 rounded">
-  <div class="col-lg-6">
-    <div>
-      <input
-        class="form-control form-control-sm ps-5"
-        type="text"
-        style="
-          border-radius: 5px;
+  <div class="row">
+    <div
+      tabindex="0"
+      role="button"
+      (click)="toggleEyeStatus()"
+      class="col mb-2">
+      <b class="text-primary me-3 ms-4">{{ title }}</b>
+      @if (amountState === true) {
+        <span>
+          <i class="fa-solid fa-eye-slash"></i>
+        </span>
+      } @else {
+        <span>
+          <i class="fa-solid fa-eye"></i>
+        </span>
+      }
+    </div>
+    <div class="col d-flex justify-content-end">
+      <span>
+        <input
+          class="form-control form-control-sm ps-5"
+          type="text"
+          style="
+            border-radius: 5px;
 
-          height: 35px;
-          width: 200px;
-          border: 1px #838383 solid;
-        "
-        placeholder="Search"
-        (keydown.enter)="search()"
-        [formControl]="searchName" />
-      @if (!isLoading) {
-        <button
-          style="bottom: 15px"
-          class="btn bg-transparent text-dark position-relative translate-middle-y"
-          type="submit"
-          (click)="search()">
-          <i class="fa-solid fa-search fs-7"></i>
-        </button>
-      }
-      @if (isLoading) {
-        <span
-          style="bottom: 15px"
-          class="btn bg-transparent position-relative translate-middle-y text-dark"
-          ><i class="fas fa-spinner fa-pulse"></i
-        ></span>
-      }
+            height: 35px;
+            width: 200px;
+            border: 1px #838383 solid;
+          "
+          placeholder="Search"
+          (keydown.enter)="search()"
+          [formControl]="searchName" />
+        @if (!isLoading) {
+          <button
+            style="bottom: 15px"
+            class="btn bg-transparent text-dark position-relative translate-middle-y"
+            type="submit"
+            (click)="search()">
+            <i class="fa-solid fa-search fs-7"></i>
+          </button>
+        }
+        @if (isLoading) {
+          <span
+            style="bottom: 15px"
+            class="btn bg-transparent position-relative translate-middle-y text-dark"
+            ><i class="fas fa-spinner fa-pulse"></i
+          ></span>
+        }
+      </span>
     </div>
   </div>
 
@@ -65,7 +83,12 @@
             }
             @if (data.format === 'currency') {
               <div class="col">
-                <span>{{ data.value }}</span>
+                @if (amountState) {
+                  <span>BIF {{ data.value }}</span>
+                }
+                @if (!amountState) {
+                  <span>BIF *** ***</span>
+                }
               </div>
             }
             @if (data.format === 'account') {
