@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { ApiService } from '../api/api.service';
-import { TransferResponseModel } from '../../../components/transfer/transfer.model';
+import {
+  InstitutionInfoModel,
+  TransferResponseModel,
+} from '../../../components/transfer/transfer.model';
 
 @Injectable({
   providedIn: 'root',
@@ -52,14 +55,18 @@ export class TransferService {
   handleTransfer(arg: boolean) {
     this._isTransfer.next(arg);
   }
-  //eslint-disable-next-line
-  getInstitutionsList(type: any) {
+
+  getInstitutionsList(
+    type: object
+  ): Observable<{ objects: InstitutionInfoModel[]; count: number }> {
     const url = '/banks/list?bank_type=' + type;
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get<{ objects: InstitutionInfoModel[]; count: number }>(url)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
   // getAccountsList() {
   //     const url = '/accounts/user/list/';
