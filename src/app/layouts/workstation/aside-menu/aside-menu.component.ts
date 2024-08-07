@@ -1,8 +1,12 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SwitchModeComponent } from '../../../components/dev/switch-mode/switch-mode.component';
-import { ConfigService } from '../../../core/services';
+import {
+  AuthService,
+  ConfigService,
+  DialogService,
+} from '../../../core/services';
 import { Observable } from 'rxjs';
 import { TypeMenuModel } from '../../../core/db/models/menu/menu.models';
 
@@ -17,7 +21,12 @@ export class AsideMenuComponent implements OnInit {
   typeMenus: TypeMenuModel[] = [];
   typeMenus$: Observable<TypeMenuModel[]>;
 
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    private authService: AuthService,
+    private dialogService: DialogService,
+    private router: Router
+  ) {
     this.typeMenus$ = this.configService.getTypeMenus();
   }
 
@@ -32,5 +41,27 @@ export class AsideMenuComponent implements OnInit {
   }
   setLocalSelectedMenu(menu: number) {
     this.configService.setLocalSelectedMenu(menu.toString());
+  }
+
+  logoutCorporate() {
+    this.dialogService.dispatchLoading();
+    this.authService.logoutCorporate().subscribe({
+      next: () => {
+        this.configService.clearAllMenu();
+        this.configService.resetOperator();
+        this.router.navigate(['/auth/corporate']);
+        this.dialogService.closeLoading();
+      },
+      error: err => {
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          type: 'failed',
+          title: '',
+          message:
+            err?.object?.response_message ??
+            'Something went wrong, please retry again!',
+        });
+      },
+    });
   }
 }
