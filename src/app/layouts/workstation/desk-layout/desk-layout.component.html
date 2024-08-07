@@ -14,6 +14,19 @@
           routerLinkActive="text-all-dark bg-primary-3">
           {{ group.name }}
         </a>
+        <div
+          class="mx-2 pb-3 text-capitalize ps-2"
+          [ngClass]="{
+            'show-menu': selectedGroup === group,
+            'hide-menu': selectedGroup !== group,
+          }">
+          <a
+            tabindex="1"
+            class="py-1 mb-3 px-4 xx-lg-radius bg-hover-primary-3 text-secondary"
+            role="button">
+            Operator
+          </a>
+        </div>
       }
     } @else {
       <div class="mt-5">
