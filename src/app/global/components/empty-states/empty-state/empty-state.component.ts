@@ -18,4 +18,5 @@ export type EmptyStateModel =
 export class EmptyStateComponent {
   @Input() searchTerm = '';
   @Input() searchType: EmptyStateModel = 'service';
+  @Input() imageClass = '';
 }

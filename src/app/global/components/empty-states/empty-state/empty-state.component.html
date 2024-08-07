@@ -2,7 +2,10 @@
   @switch (searchType) {
     @case ('list') {
       <div class="text-center">
-        <img src="/images/empty-state/empty-list.png" alt="Empty List Image" />
+        <img
+          src="/images/empty-state/empty-list.png"
+          class=" {{ imageClass }} "
+          alt="Empty List Image" />
         <p i18n class="font-montserrat fs-l-medium">
           <b class="fw-bold">The list is currently empty "{{ searchTerm }}".</b>
           Start adding items to fill it up!
@@ -13,6 +16,7 @@
       <div class="text-center">
         <img
           src="/images/empty-state/market.png"
+          class=" {{ imageClass }} "
           alt="Empty Merchant Search Image" />
         <p i18n class="font-montserrat fs-l-medium">
           <b class="fw-bold"
@@ -26,6 +30,7 @@
       <div class="text-center">
         <img
           src="/images/empty-state/product.png"
+          class=" {{ imageClass }} "
           alt="Empty Product Search Image" />
         <p i18n class="font-montserrat fs-l-medium">
           <b class="fw-bold"
@@ -39,6 +44,7 @@
       <div class="text-center">
         <img
           src="/images/empty-state/search-empty.png"
+          class=" {{ imageClass }} "
           alt="Empty Global Search Image" />
         <p i18n class="font-montserrat fs-l-medium">
           <b class="fw-bold"
@@ -52,6 +58,7 @@
       <div class="text-center">
         <img
           src="/images/empty-state/service-empty.png"
+          class=" {{ imageClass }} "
           alt="Empty Service Search Image" />
         <p i18n class="font-montserrat fs-small">
           This service is not available yet, please try again later
