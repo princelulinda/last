@@ -1,1 +1,24 @@
-<p>intranet-layout works!</p>
+<div class="d-flex h-100">
+  <section class="bg-white w-aside p-2 pt-4 d-flex flex-column">
+    @if (intranetMenuGroups && intranetMenuGroups.menu_group.length !== 0) {
+      @for (group of intranetMenuGroups.menu_group; track $index) {
+        <a
+          (click)="selectGroup(group)"
+          tabindex="0"
+          class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+          role="button"
+          [ngClass]="{
+            'text-all-dark bg-primary-3': selectedGroup === group,
+          }"
+          routerLinkActive="text-all-dark bg-primary-3">
+          {{ group.name }}
+        </a>
+      }
+    } @else {
+      Not Menu Found
+    }
+  </section>
+  <main class="flex-grow-1 px-2 px-md-4 py-2 overflow-y-auto ms-1">
+    <router-outlet></router-outlet>
+  </main>
+</div>

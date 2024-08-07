@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { ApiService } from '..';
-import { BehaviorSubject, Observable } from 'rxjs';
 import {
   MenuGroupsModel,
   TypeMenuModel,
@@ -13,24 +13,9 @@ import {
   providedIn: 'root',
 })
 export class MenuService {
-  private _asideMenuStatus: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
-
-  get getAsideMenuStatus$(): Observable<boolean> {
-    return this._asideMenuStatus.asObservable();
-  }
-
   constructor(private apiService: ApiService) {}
 
-  toggleAsideMenu(ForHidden?: boolean) {
-    if (ForHidden === true) {
-      this._asideMenuStatus.next(false);
-    } else {
-      this._asideMenuStatus.next(!this._asideMenuStatus.value);
-    }
-  }
-
-  getMenuByGroupType(type: string) {
+  getMenuGroupByGroup(type: string) {
     return this.apiService
       .get('/menugroup/list/?group_type=' + type)
       .pipe(map(data => data));
@@ -39,6 +24,12 @@ export class MenuService {
   getAllMenuGroup(): Observable<{ objects: MenuGroupsModel[]; count: number }> {
     return this.apiService
       .get<{ objects: MenuGroupsModel[]; count: number }>('/menu-group/list/')
+      .pipe(map(data => data));
+  }
+
+  getMenuByGroup(menu_group_id: string) {
+    return this.apiService
+      .get('/menu/list/?menu_group=' + menu_group_id)
       .pipe(map(data => data));
   }
 

@@ -11,20 +11,30 @@ export interface TypeMenuModel {
   menu_disabled_icon: string;
   active: boolean;
 }
+export type TypeMenuNamesModel =
+  | 'Dashboard'
+  | 'Banking'
+  | 'Market'
+  | 'Intranet'
+  | 'Desk'
+  | 'Reporting'
+  | 'Admin';
+
+export interface GroupMenuModel {
+  id: number;
+  name: TypeMenuNamesModel;
+  icon: string | null;
+  required_operator_auth: boolean;
+  menu_group_type: {
+    title: TypeMenuNamesModel;
+    value: string;
+  };
+  active: boolean;
+}
 
 export interface MenuGroupsModel {
   id: number;
-  name: string;
-  menu_group: {
-    id: number;
-    name: string;
-    icon: string | null;
-    required_operator_auth: boolean;
-    menu_group_type: {
-      title: string;
-      value: string;
-    };
-    active: boolean;
-  }[];
+  name: TypeMenuNamesModel;
+  menu_group: GroupMenuModel[];
   active: true;
 }
