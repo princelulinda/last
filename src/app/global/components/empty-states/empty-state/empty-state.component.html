@@ -1,6 +1,6 @@
 <div class="container-fluid">
-  <ng-container [ngSwitch]="searchType">
-    <ng-container *ngSwitchCase="'SearchTypes.list'">
+  @switch (searchType) {
+    @case ('list') {
       <div class="text-center">
         <img src="/images/empty-state/empty-list.png" alt="Empty List Image" />
         <p i18n class="font-montserrat fs-l-medium">
@@ -8,8 +8,8 @@
           Start adding items to fill it up!
         </p>
       </div>
-    </ng-container>
-    <ng-container *ngSwitchCase="'SearchTypes.merchant'">
+    }
+    @case ('merchant') {
       <div class="text-center">
         <img
           src="/images/empty-state/market.png"
@@ -21,8 +21,8 @@
           Try a different search term or browse by category.
         </p>
       </div>
-    </ng-container>
-    <ng-container *ngSwitchCase="'SearchTypes.product'">
+    }
+    @case ('product') {
       <div class="text-center">
         <img
           src="/images/empty-state/product.png"
@@ -34,8 +34,8 @@
           Try a different search term or browse by category.
         </p>
       </div>
-    </ng-container>
-    <ng-container *ngSwitchCase="'SearchTypes.other'">
+    }
+    @case ('other') {
       <div class="text-center">
         <img
           src="/images/empty-state/search-empty.png"
@@ -47,9 +47,8 @@
           Try a different search term or browse by category.
         </p>
       </div>
-    </ng-container>
-    <!-- <ng-container *ngSwitchDefault> -->
-    <ng-container *ngSwitchCase="'SearchTypes.service'">
+    }
+    @case ('service') {
       <div class="text-center">
         <img
           src="/images/empty-state/service-empty.png"
@@ -59,6 +58,6 @@
           {{ searchTerm }}".
         </p>
       </div>
-    </ng-container>
-  </ng-container>
+    }
+  }
 </div>

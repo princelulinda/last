@@ -9,11 +9,12 @@ import {
   GroupMenuModel,
   MenuGroupsModel,
 } from '../../../core/db/models/menu/menu.models';
+import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-desk-layout',
   standalone: true,
-  imports: [RouterModule, NgClass],
+  imports: [RouterModule, NgClass, EmptyStateComponent],
   templateUrl: './desk-layout.component.html',
   styleUrl: './desk-layout.component.scss',
 })
