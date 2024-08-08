@@ -206,7 +206,9 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
               '/w/workstation/desk/credit/request/' + response.object.id,
             ]);
           } else if (this.plateform === 'onlineBanking') {
-            this.router.navigate(['/b/banking/loan/pending']);
+            this.router.navigate([
+              '/b/banking/loan/pending' + response.object.id,
+            ]);
           }
 
           this.dialogService.openToast({

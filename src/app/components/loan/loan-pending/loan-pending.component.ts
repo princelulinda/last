@@ -10,12 +10,18 @@ import {
   LoanService,
 } from '../../../core/services';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-loan-pending',
   standalone: true,
-  imports: [CommonModule, SkeletonComponent, RouterLink],
+  imports: [
+    CommonModule,
+    SkeletonComponent,
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+  ],
   templateUrl: './loan-pending.component.html',
   styleUrl: './loan-pending.component.scss',
 })
@@ -51,11 +57,10 @@ export class LoanPendingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getPendingLoansList();
     this.loanService.showLoanDetails$
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(isLoanDetailsShown => {
-        this.isLoanDetailsShown = isLoanDetailsShown;
+      .subscribe(response => {
+        this.isLoanDetailsShown = response;
       });
 
     this.isBalanceShown$
@@ -71,6 +76,7 @@ export class LoanPendingComponent implements OnInit, OnDestroy {
 
     this.clientId$.subscribe((id: number) => {
       this.clientId = id;
+      this.getPendingLoansList();
     });
   }
 
@@ -110,9 +116,9 @@ export class LoanPendingComponent implements OnInit, OnDestroy {
     this.dialogService.displayAmount();
   }
 
-  changeLoan() {
-    this.loanService.switchLoanDetails();
-  }
+  // changeLoan() {
+  //   this.loanService.switchLoanDetails();
+  // }
 
   selectLoan(loan: LoanPendingModel) {
     this.selectedLoan = loan;

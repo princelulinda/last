@@ -1,0 +1,214 @@
+<main
+  [ngClass]="{
+    'd-flex justify-content-center align-items-center': !loan,
+  }">
+  <div
+    *ngIf="!loan || !selectedBank"
+    class="w-100 h-100 d-flex justify-content-center align-items-center">
+    <span class="ms-5 ps-5">
+      <i class="spinner-border"></i>
+    </span>
+  </div>
+  <div class="w-100 mb-3" *ngIf="loan">
+    <div (click)="refreshLoanDetails()" tabindex="0">
+      <b role="button" class="d-flex float-end">
+        <span class="me-1">Refresh</span>
+        <span>
+          <i class="fa-solid fa-refresh"></i>
+        </span>
+      </b>
+    </div>
+  </div>
+
+  <div *ngIf="loan && selectedBank">
+    <section class="d-flex justify-content-center">
+      <div class="d-grid align-items-center fs-4" style="line-height: 30px">
+        <div class="text-center">
+          <img
+            [src]="selectedBank.company.image"
+            style="width: 100px"
+            [alt]="selectedBank.name + '\'s logo'" />
+        </div>
+        <div class="text-center">
+          <b>{{ loan.cred_defaults.loan_type.title }}</b>
+        </div>
+        <div class="text-center">
+          <b style="color: rgb(102, 97, 97); font-size: 1.2rem">{{
+            loan.cred_holder
+          }}</b>
+        </div>
+        <div class="text-center">
+          <b style="color: rgb(138, 127, 127); font-size: 1rem">{{
+            loan.cred_code
+          }}</b>
+        </div>
+        <div class="text-center">
+          <span
+            [class]="'badge-design bg-' + loan.status.css + ' text-all-dark'">
+            {{ loan.status.title }}
+          </span>
+        </div>
+        <!-- <div class="text-center">
+                    <b style="color: #635f5f">{{
+                        loan.cred_amount | currency : ' '
+                    }}</b>
+                </div> -->
+      </div>
+    </section>
+    <section class="mb-3 mt-4" style="font-size: 1.105rem">
+      <div class="ms-3">
+        <div class="row">
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Amount</span>
+              <b *ngIf="!isBalanceShown">*** ***</b>
+              <b *ngIf="isBalanceShown">{{ loan.amount | currency: ' ' }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Fees amount</span>
+              <b *ngIf="!isBalanceShown">*** ***</b>
+              <b *ngIf="isBalanceShown">{{
+                loan.fees_amount | currency: ' '
+              }}</b>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Creation date</span>
+              <b>{{ loan.created_at | date: 'yyyy-MM-dd' }}</b>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>First payment date</span>
+              <b>{{ loan.first_date }}</b>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Interest rate</span>
+              <b>{{ loan.interests_rate | number }} %</b>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Fees rate</span>
+              <b>{{ loan.fees_rate | number }} %</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Penalities rate</span>
+              <b>{{ loan.penalities_rate | number }} %</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-5 ps-3">
+      <div>
+        <button
+          (click)="togglePlan()"
+          data-bs-toggle="modal"
+          data-bs-target="#myModal"
+          class="px-3 py-1 btn bg-primary text-white">
+          <b i18n>View plan</b>
+        </button>
+      </div>
+      <!-- <div class="row justify-content-start align-items-center ms-3">
+                <div
+                    class="col-10 rounded mb-3 position-relative align-self-center p-2 amort-table level-1"
+                >
+                    <div class="ms-2 px-1 rounded legend-t">
+                        <b i18n> Small amortization table </b>
+                    </div>
+                    <div class="mx-4 mt-3">
+                        <div>
+                            <div
+                                class="row d-flex align-items-center justify-content-between w-100"
+                            >
+                                <span class="col-lg-4">2023-09-17 17:37 PM</span>
+                                <div class="col-lg-4 text-center">
+                                    <span>5.000.000 BIF</span>
+                                </div>
+                                <span class="col-lg-4 text-end">
+                                    <i class="fa fa-check fs-3 text-success"></i>
+                                </span>
+                            </div>
+                            <hr />
+                        </div>
+                        <div>
+                            <div
+                                class="row d-flex align-items-center justify-content-between w-100"
+                            >
+                                <span class="col-lg-4">2023-09-17 17:37 PM</span>
+                                <div class="col-lg-4 text-center">
+                                    <span>5.000.000 BIF</span>
+                                </div>
+                                <span class="col-lg-4 text-end">
+                                    <i class="fa fa-xmark fs-3 text-danger"></i>
+                                </span>
+                            </div>
+                            <hr />
+                        </div>
+                        <div>
+                            <div
+                                class="row d-flex align-items-center justify-content-between w-100"
+                            >
+                                <span class="col-lg-4">2023-09-17 17:37 PM</span>
+                                <div class="col-lg-4 text-center">
+                                    <span>5.000.000 BIF</span>
+                                </div>
+                                <span class="col-lg-4 text-end">
+                                    <i class="fa fa-check fs-3 text-success"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <span
+                        (click)="showModal()"
+                        class="text-primary"
+                        style="text-decoration: underline"
+                        role="button"
+                    >
+                        Pay the next installment
+                    </span>
+                </div>
+            </div> -->
+    </section>
+  </div>
+
+  <div class="modal fade" id="myModal" *ngIf="loan">
+    <div
+      class="modal-dialog modal-dialog-centered overflow-auto"
+      style="min-width: 75%">
+      <div class="modal-content">
+        @if (showPlan) {
+          <div>
+            <app-loan-plan [loan]="loan" [isPending]="true"></app-loan-plan>
+          </div>
+        }
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+
+  @if (isSuccessPopupShown) {
+    <!-- <div>
+            <app-success-popup
+                (popupOptions)="getSuccessPopupOptions($event)"
+                [isPopupShown]="isSuccessPopupShown"
+                [successMessage]="successMessage"
+            ></app-success-popup>
+        </div> -->
+  }
+</main>
