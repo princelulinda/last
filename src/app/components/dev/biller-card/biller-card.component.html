@@ -1,1 +1,52 @@
-<p>biller-card works!</p>
+<div
+  class="row d-flex justify-content-center w-100 d-md-flex justify-content-sm-start">
+  @for (item of recentBillers; track $index) {
+    @if (item) {
+      <div
+        class="col-5 col-sm-4 col-md-3 col-lg-4 col-xl-3 mb-2"
+        (click)="openModal(item, $event)"
+        tabindex="0">
+        <div class="border sm-radius">
+          <div class="row">
+            <div class="position-relative">
+              <div class="bg-input m-1 sm-radius">
+                <!-- <span
+                     class="favorite-star bg-all-white p-1 rounded-circle position-absolute end-0 me-4 mt-3 d-flex"
+                     data-id="123">
+                     <i class="fa-solid fa-star text-primary"></i>
+                   </span> -->
+                @if (item.lookup_image) {
+                  <div class="col-12" style="height: 178px">
+                    <img
+                      src="{{ item.lookup_image }}"
+                      class="w-100 h-100 object-fit-cover sm-radius"
+                      alt="billerImg" />
+                  </div>
+                } @else {
+                  <span class="d-flex justify-content-center">
+                    <i
+                      class="fa-solid fa-box-open fa-5x my-5"
+                      style="color: #ffffff"></i>
+                  </span>
+                }
+              </div>
+            </div>
+          </div>
+          <div class="row ms-0 mt-2">
+            <h6 class="fs-x-small" i18n>
+              {{ item.lookup_title }} ({{ item.lookup_subtitle }})
+            </h6>
+          </div>
+
+          <div class="row ms-0">
+            <div class="col-8">
+              <p class="text-secondary fs-x-small" i18n>Category</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  }
+
+  <!-- ********************************* -->
+</div>

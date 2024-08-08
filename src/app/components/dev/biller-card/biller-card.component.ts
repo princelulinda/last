@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { BillersModel } from '../../dashboards/dashboard.model';
 
 @Component({
   selector: 'app-biller-card',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
   templateUrl: './biller-card.component.html',
   styleUrl: './biller-card.component.scss',
 })
-export class BillerCardComponent {}
+export class BillerCardComponent {
+  @Input() billers: BillersModel[] = [];
+}

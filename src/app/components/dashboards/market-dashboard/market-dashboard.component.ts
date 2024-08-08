@@ -14,6 +14,7 @@ import {
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.model';
+import { BillerCardComponent } from '../../dev/biller-card/biller-card.component';
 
 @Component({
   selector: 'app-market-dashboard',
@@ -24,6 +25,7 @@ import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.mod
     SkeletonComponent,
     ProductCardComponent,
     MerchantCardComponent,
+    BillerCardComponent,
   ],
   templateUrl: './market-dashboard.component.html',
   styleUrl: './market-dashboard.component.scss',
