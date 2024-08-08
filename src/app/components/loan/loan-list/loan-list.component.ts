@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
@@ -16,7 +16,13 @@ import { LoanListModel, LoanListResponseModel } from '../loan.models';
 @Component({
   selector: 'app-loan-list',
   standalone: true,
-  imports: [CommonModule, SkeletonComponent, RouterLink, RouterLinkActive],
+  imports: [
+    CommonModule,
+    SkeletonComponent,
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+  ],
   templateUrl: './loan-list.component.html',
   styleUrl: './loan-list.component.scss',
 })
@@ -98,9 +104,9 @@ export class LoanListComponent implements OnInit, OnDestroy {
     this.dialogService.displayAmount();
   }
 
-  changeLoan() {
-    this.loanService.switchLoanDetails();
-  }
+  // changeLoan() {
+  //   this.loanService.switchLoanDetails();
+  // }
 
   selectLoan(loan: LoanListModel) {
     this.selectedLoan = loan;

@@ -4,6 +4,8 @@ import { LoanSimulatorComponent } from './loan-simulator/loan-simulator.componen
 import { LoanRequestComponent } from './loan-request/loan-request.component';
 import { LoanListComponent } from './loan-list/loan-list.component';
 import { LoanPendingComponent } from './loan-pending/loan-pending.component';
+import { LoanPendingDetailsComponent } from './loan-pending-details/loan-pending-details.component';
+import { LoanDetailsComponent } from './loan-details/loan-details.component';
 
 export const loanRoutes: Routes = [
   {
@@ -21,9 +23,21 @@ export const loanRoutes: Routes = [
   {
     path: 'list',
     component: LoanListComponent,
+    children: [
+      {
+        path: ':id',
+        component: LoanDetailsComponent,
+      },
+    ],
   },
   {
     path: 'pending',
     component: LoanPendingComponent,
+    children: [
+      {
+        path: ':id',
+        component: LoanPendingDetailsComponent,
+      },
+    ],
   },
 ];
