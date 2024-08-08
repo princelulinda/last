@@ -276,18 +276,33 @@ export class ConfigService {
         if (operator) {
           if (operator.operator && operator.organization) {
             this.isAuthenticatedOperator.next(true);
+            this.setLocalConnectedOperator('true');
           } else {
             this.isAuthenticatedOperator.next(false);
+            this.setLocalConnectedOperator('false');
           }
         } else {
           this.isAuthenticatedOperator.next(false);
+          this.setLocalConnectedOperator('false');
         }
       },
       error: () => {
         this.isAuthenticatedOperator.next(false);
+        this.setLocalConnectedOperator('false');
       },
     });
     return this.isAuthenticatedOperator;
+  }
+  getLocalConnectedOperator(): boolean {
+    const status = this.apiService.getLocalConnectedOperator();
+    if (status === 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  setLocalConnectedOperator(status: 'true' | 'false') {
+    this.apiService.setLocalConnectedOperator(status);
   }
   operatorIsTreasurer(): Observable<boolean> {
     this.getConnectedOperator().subscribe({
