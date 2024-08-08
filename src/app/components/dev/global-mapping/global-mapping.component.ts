@@ -12,6 +12,7 @@ import {
 } from '../../../core/services/config/main-config.models';
 import { CommonModule } from '@angular/common';
 import { DebitOptions } from '../../transfer/transfer.model';
+import { accountsList } from '../../account/models';
 
 @Component({
   selector: 'app-global-mapping',
@@ -37,6 +38,9 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
   showOpertors = false;
   showPinForm = false;
   selectedDebitType = '';
+  debitId = '';
+  debitHolder = '';
+  accountSelected: accountsList | null = null;
 
   constructor(
     private authService: AuthService,
@@ -78,9 +82,25 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  getDebitOptions(data: DebitOptions) {
-    this.debitOptions = data;
-    console.log('hello', this.debitOptions);
+  getDebitOptions(event: string | DebitOptions) {
+    if (typeof event === 'string') {
+      this.selectedDebitType = event;
+      console.log('ngiyoooo', this.selectedDebitType);
+    } else {
+      this.selectedDebitType = event.selectedDebitOption;
+      console.log('ngiyoooo', this.selectedDebitType);
+    }
+  }
+
+  getSelectedAccount(event: accountsList) {
+    if (this.selectedDebitType === 'account') {
+      const accountEvent = event as accountsList;
+      this.debitId = accountEvent.id;
+      console.log('ngiyooooIDDDDDDDD', this.debitId);
+      this.debitHolder = accountEvent.acc_holder;
+    }
+
+    this.accountSelected = event as accountsList | null;
   }
 
   getMobileBanks() {
