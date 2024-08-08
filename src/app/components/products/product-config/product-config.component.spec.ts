@@ -1,26 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AuthSignUpComponent } from './auth-sign-up.component';
+
+import { ProductConfigComponent } from './product-config.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('AuthSignUpComponent', () => {
-  let component: AuthSignUpComponent;
-  let fixture: ComponentFixture<AuthSignUpComponent>;
+describe('ProductConfigComponent', () => {
+  let component: ProductConfigComponent;
+  let fixture: ComponentFixture<ProductConfigComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AuthSignUpComponent, RouterTestingModule],
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        // RouterModule.forRoot(AuthRoutes),
-      ],
+      imports: [ProductConfigComponent, RouterTestingModule],
+      providers: [provideHttpClient(), provideHttpClientTesting],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AuthSignUpComponent);
+    fixture = TestBed.createComponent(ProductConfigComponent);
     component = fixture.componentInstance;
-    // fixture.detectChanges();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

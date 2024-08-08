@@ -33,7 +33,7 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
   mainConfig$!: Observable<activeMainConfigModel>;
   activePlatform: string | null = null;
   private client_id$: Observable<number>;
-  clientId!: number;
+  userClientId!: number;
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
   isLoading = false;
@@ -71,14 +71,16 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-    this.client_id$.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: client_id => {
-        this.clientId = client_id;
-        if (this.clientId) {
+    this.authService
+      .getUserClientId()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(clientId => {
+        this.userClientId = clientId;
+        console.log('User Client ID:', this.userClientId);
+        if (this.userClientId) {
           this.getClientAccounts();
         }
-      },
-    });
+      });
     this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: theme => {
         this.theme = theme;
@@ -101,7 +103,7 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
   getClientAccounts() {
     this.isLoading = true;
     this.clientService
-      .getClientAccounts(this.clientId)
+      .getClientAccounts(this.userClientId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {

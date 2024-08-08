@@ -75,7 +75,7 @@
       }
     </div>
   }
-  @if (loader && products && products.length >= 8) {
+  @if (loader && products && products.length > 8) {
     <div
       class="mt-4 d-flex align-items-center justify-content-center text-secondary mb-5">
       <span
@@ -111,7 +111,10 @@
     <div
       i18n
       class="row text-dark mt-3 d-flex justify-content-center align-items-center">
-      No recent products available
+      <!-- No recent products available -->
+      <app-empty-state
+        [searchTerm]="searchTerm"
+        searchType="product"></app-empty-state>
     </div>
   }
 </div>

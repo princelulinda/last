@@ -1,28 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
 
-import { ResetPasswordComponent } from './reset-password.component';
+import { LoanPendingDetailsComponent } from './loan-pending-details.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
-describe('ResetPasswordComponent', () => {
-  let component: ResetPasswordComponent;
-  let fixture: ComponentFixture<ResetPasswordComponent>;
+describe('LoanPendingDetailsComponent', () => {
+  let component: LoanPendingDetailsComponent;
+  let fixture: ComponentFixture<LoanPendingDetailsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ResetPasswordComponent],
+      imports: [LoanPendingDetailsComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
-          useValue: {},
+          useValue: {
+            params: of({ id: '123' }),
+          },
         },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ResetPasswordComponent);
+    fixture = TestBed.createComponent(LoanPendingDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

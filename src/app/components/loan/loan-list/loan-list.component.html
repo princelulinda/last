@@ -13,8 +13,7 @@
           'br-right': loans && loans.length > 0,
         }">
         <b i18n style="font-size: 18px" class="d-flex align-items-center">
-          <span class="me-1">Loans</span>
-          <span class="me-3">list</span>
+          <span class="me-2">Loans</span>
           <div (click)="toggleBalance()" role="button" class="" tabindex="0">
             @if (!isBalanceShown) {
               <span title="Show balance"> <i class="fa-solid fa-eye"></i></span>
@@ -135,10 +134,7 @@
                   role="button"
                   (click)="selectLoan(loan)"
                   tabindex="0"
-                  [routerLink]="
-                    '/b/onlineBanking/banking/menuBanking/loan/list/detail/' +
-                    loan.id
-                  ">
+                  [routerLink]="'/b/banking/loan/list/' + loan.id">
                   <div
                     class="border-l ps-2 d-grid w-100 pe-2 pt-1"
                     routerLinkActive="cliped t-dark">
@@ -253,10 +249,7 @@
                     role="button"
                     tabindex="0"
                     (click)="selectLoan(loan)"
-                    [routerLink]="
-                      '/b/onlineBanking/banking/menuBanking/loan/list/detail/' +
-                      loan.id
-                    ">
+                    [routerLink]="'/b/banking/loan/list/detail/' + loan.id">
                     <div
                       class="border-l ps-2 d-grid w-100 pe-2 pt-1"
                       routerLinkActive="cliped t-dark">
@@ -332,12 +325,11 @@
               </div>
             }
           </div>
-          <!-- <div class="w-70 d-none d-lg-flex" *ngIf="loans && loans.length > 0">
-                    <router-outlet></router-outlet>
-                </div> -->
 
           @if (loans && loans.length > 0) {
-            <div class="w-70 d-flex justify-content-center"></div>
+            <div class="w-70 d-flex justify-content-center">
+              <router-outlet></router-outlet>
+            </div>
           }
         </section>
       </div>

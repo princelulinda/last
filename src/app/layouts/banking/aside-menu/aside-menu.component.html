@@ -179,8 +179,10 @@
         </a>
 
         <a
-          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
-          <div class="d-flex align-items-center" routerLink="/m/market/orders">
+          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between"
+          routerLink="/m/market/orders"
+          (click)="hideAsideMenu()">
+          <div class="d-flex align-items-center">
             <div>
               <span
                 class="bg-secondary text-danger me-3 rounded-pill py-3 px-3">
@@ -198,8 +200,10 @@
         </a>
 
         <a
-          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
-          <div class="d-flex align-items-center" routerLink="/m/market/carts">
+          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between"
+          routerLink="/m/market/carts"
+          (click)="hideAsideMenu()">
+          <div class="d-flex align-items-center">
             <div>
               <span
                 class="bg-secondary text-success me-3 rounded-pill py-3 px-3">
@@ -218,7 +222,7 @@
 
         <a
           class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center"
-          routerLink="/m/market/bill">
+          routerLink="/m/mymarket/bill-reports">
           <div>
             <span
               class="bg-secondary me-3 text-magis-primary rounded-pill py-3 px-3">
@@ -229,7 +233,7 @@
         </a>
         <a
           class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center"
-          routerLink="/m/market/bill">
+          routerLink="/m/mymarket/payment-reports">
           <div>
             <span
               class="bg-secondary text-erp-primary me-3 rounded-pill py-3 px-3">

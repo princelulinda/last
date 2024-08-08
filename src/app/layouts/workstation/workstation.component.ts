@@ -47,6 +47,9 @@ export class WorkstationComponent implements OnInit {
           this.dbService.setLocalStorageClientId(
             operator.organization.institution_client.id.toString()
           );
+          this.configService.setLocalConnectedOperator('true');
+        } else {
+          this.configService.setLocalConnectedOperator('false');
         }
       },
     });
@@ -55,7 +58,7 @@ export class WorkstationComponent implements OnInit {
         if (state) {
           this.dialogService.closeDialog();
           this.dialogService.closeSplashScreen();
-        } else {
+        } else if (!state) {
           this.getOperatorMenusTypes_groups();
         }
       },
