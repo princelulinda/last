@@ -22,7 +22,7 @@ export interface AllProductModel {
 }
 
 export interface MerchantModel {
-  id: number | string;
+  id: string;
   slug: string;
   merchant_title: string;
   merchant_code: string;
@@ -42,6 +42,7 @@ export interface MerchantObjectModel {
   // objects: MerchantModel,
   object: {
     response_data: MerchantModel;
+    response_code: string;
     response_message: string;
     success: boolean;
   };
@@ -228,4 +229,63 @@ export interface TransactionObjectModel {
 export interface PeriodModel {
   start_date: string;
   end_date: string;
+}
+
+export interface updateProdcutInfoModel {
+  product: number;
+  merchant: string | number;
+  action: string[];
+  price: number;
+  name: string;
+  minimun_payment_amount: number;
+  maximum_payment_amount: number;
+  voucher_type: string;
+  metadata: number[];
+  pin_code: string;
+}
+
+export interface ProductConfigObjectsModel {
+  objects: productConfigModel[];
+}
+
+export interface productConfigModel {
+  id: number;
+  product: number;
+  merchant: number;
+  action: string[];
+  price: number;
+  name: string;
+  minimun_payment_amount: number;
+  maximum_payment_amount: number;
+  metadata: number[];
+  pin_code: string;
+  mininun_payment_amount: number;
+  accepts_cart: boolean;
+  is_stockable: boolean;
+  incognito_mode: boolean;
+  voucher_type: string;
+
+  object: productConfigModel;
+  lookup_icon: string;
+  lookup_title: string;
+  lookup_subtitle: string;
+  icon: string;
+}
+
+export interface searchProductByMerchantModel {
+  merchant: string | number;
+  search: string | null;
+}
+
+export interface metadataModel {
+  objects: metadataObjectModel[];
+}
+export interface updateProductInfoObjectModel {
+  object: metadataObjectModel;
+}
+export interface metadataObjectModel {
+  success: boolean;
+  response_message: string;
+  name: string;
+  id: number;
 }
