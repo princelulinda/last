@@ -16,7 +16,7 @@ import { takeUntil } from 'rxjs/operators';
 
 // import { MerchantService } from 'src/app/core/services/merchant.service';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import { ApiService } from '../../../core/services';
+import { ApiService, AuthService, ConfigService } from '../../../core/services';
 // import { VariableService } from '../../../core/services/variable/variable.service';
 import { Pagination } from '../../../core/services/merchant/model';
 // import {
@@ -25,7 +25,7 @@ import { Pagination } from '../../../core/services/merchant/model';
 //     GeneralService,
 //     PaginationConfig,
 // } from 'src/app/core';
-import { ActivatedRoute } from '@angular/router';
+// import { ActivatedRoute } from '@angular/router';
 // import { ProductMerchantCardComponent } from '../product-merchant-card/product-merchant-card.component';
 import { ProductCardComponent } from '../../dev/product-card/product-card.component';
 // import { AuthState, SwitchThemeState } from 'src/app/shared';
@@ -33,6 +33,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { AllProductModel, ProductModel } from '../products.model';
 import { MerchantModel } from '../products.model';
+import { ModeModel } from '../../../core/services/config/main-config.models';
+import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-all-products',
@@ -45,6 +47,7 @@ import { MerchantModel } from '../products.model';
     ProductCardComponent,
     FormsModule,
     ReactiveFormsModule,
+    EmptyStateComponent,
   ],
   templateUrl: './all-products.component.html',
   styleUrl: './all-products.component.scss',
@@ -61,18 +64,24 @@ export class AllProductsComponent implements OnInit {
   @Input() clienType = '';
   @Input() searchBar = false;
   @Input() isWhite = false;
+  searchTerm = 'product';
 
   @Input() url = '';
   merchantId = 1;
 
-  // theme$: Observable<any>;
-  // theme: any;
+  theme!: ModeModel;
+  theme$: Observable<ModeModel>;
   searchInput = new FormControl('');
   products = [];
   response_data = 0;
   loader = false;
   productsNumber = 0;
-  productPagination: Pagination = {};
+  productPagination: Pagination = {
+    filters: {
+      limit: 12,
+      offset: 0,
+    },
+  };
   paginationsLimit = [24, 12, 8];
   // pages: any;
   displayPaginationLimit = false;
@@ -88,19 +97,26 @@ export class AllProductsComponent implements OnInit {
 
   search = '';
 
+  canMoveToNext = false;
+  canMoveToPrevious = false;
+  pages = 1;
+  activePage = 1;
+
   constructor(
     private merchantService: MerchantService,
-    private route: ActivatedRoute,
-    private apiService: ApiService
+    // private route: ActivatedRoute,
+    private apiService: ApiService,
+    private configService: ConfigService,
+    private authService: AuthService
     //   private generalService: GeneralService,
     //   private store: Store
   ) {
-    //   this.clientId$ = this.store.select(AuthState.GetClientId);
-    //   this.theme$ = this.store.select(SwitchThemeState.GetTheme);
+    this.clientId$ = this.authService.getUserClientId();
+    this.theme$ = this.configService.getMode();
     // comment
   }
   ngOnInit(): void {
-    //   this.productPagination.filters!.limit = 8;
+    // this.productPagination.filters!.limit = 8;
     // this.productPagination.filters = {
     //    limit: 8,
     //    offset: 0
@@ -127,19 +143,22 @@ export class AllProductsComponent implements OnInit {
 
   getAllProducts(search: string) {
     if (!this.url) {
+      this.loader = false;
       this.merchantService
         .searchProduct(this.productPagination, search)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
           next: (data: AllProductModel) => {
-            this.response_data = data.count;
             (this.products as ProductModel[]) = data.objects;
-            // if (this.productPagination.filters!.limit) {
-            //     // this.pages = (
-            //     //     this.response_data,
-            //     //     this.productPagination.filters!.limit
-            //     // );
-            // }
+            this.response_data = data.count;
+            this.pages = Math.round(this.response_data / 6);
+            if (
+              this.response_data >
+              parseInt(this.productPagination.filters!.limit as string)
+            ) {
+              this.canMoveToNext = true;
+              this.loader = true;
+            }
             this.loader = true;
             this.allProducts.emit(this.products);
           },
@@ -153,9 +172,9 @@ export class AllProductsComponent implements OnInit {
             (this.products as ProductModel[]) = data.objects;
             this.loader = true;
             this.productsNumber = data.count;
-            if (this.productsNumber == 0) {
-              console.log('Loading product');
-            }
+            // if (this.productsNumber == 0) {
+            //   console.log('Loading product');
+            // }
           },
         });
     }
@@ -191,6 +210,36 @@ export class AllProductsComponent implements OnInit {
 
   canMoveNext(limit: number): boolean {
     return this.response_data < (this.currentPage + 1) * limit;
+  }
+
+  getPagination(action = 'next') {
+    if (action === 'next') {
+      this.activePage++;
+    } else {
+      this.activePage--;
+    }
+    // action === 'next' ? this.activePage++ : this.activePage--;
+    if (this.activePage >= 1 && this.activePage <= this.pages) {
+      const _offset = (
+        parseInt(this.productPagination.filters?.limit as string) *
+        (this.activePage - 1)
+      ).toString();
+      this.productPagination.filters!.offset = _offset;
+      if (action === 'next') {
+        this.getAllProducts(this.search);
+      } else if (action === 'prev') {
+        this.getAllProducts(this.search);
+      }
+      this.canMoveToNext = true;
+      this.canMoveToPrevious = true;
+    }
+    if (this.activePage - 1 < 1) {
+      this.productPagination.filters!.offset = '';
+      this.canMoveToPrevious = false;
+      this.canMoveToNext = false;
+    } else if (this.activePage + 1 > this.pages) {
+      this.canMoveToNext = false;
+    }
   }
 
   selectProduct(event: ProductModel[]) {

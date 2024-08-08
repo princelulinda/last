@@ -1,24 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReusableListComponent } from './reusable-list.component';
+import { DeskLayoutComponent } from './desk-layout.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-describe('ReusableListComponent', () => {
-  let component: ReusableListComponent;
-  let fixture: ComponentFixture<ReusableListComponent>;
+describe('DeskLayoutComponent', () => {
+  let component: DeskLayoutComponent;
+  let fixture: ComponentFixture<DeskLayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        // RouterModule.forRoot(AuthRoutes),
-      ],
-      imports: [ReusableListComponent],
+      imports: [DeskLayoutComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ReusableListComponent);
+    fixture = TestBed.createComponent(DeskLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

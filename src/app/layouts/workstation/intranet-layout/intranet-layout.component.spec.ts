@@ -1,24 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReusableListComponent } from './reusable-list.component';
+import { IntranetLayoutComponent } from './intranet-layout.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-describe('ReusableListComponent', () => {
-  let component: ReusableListComponent;
-  let fixture: ComponentFixture<ReusableListComponent>;
+describe('IntranetLayoutComponent', () => {
+  let component: IntranetLayoutComponent;
+  let fixture: ComponentFixture<IntranetLayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        // RouterModule.forRoot(AuthRoutes),
-      ],
-      imports: [ReusableListComponent],
+      imports: [IntranetLayoutComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ReusableListComponent);
+    fixture = TestBed.createComponent(IntranetLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
