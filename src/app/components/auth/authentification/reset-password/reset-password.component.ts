@@ -20,6 +20,7 @@ import { Observable } from 'rxjs';
     ReactiveFormsModule,
     PasswordFieldComponent,
   ],
+
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss',
 })
