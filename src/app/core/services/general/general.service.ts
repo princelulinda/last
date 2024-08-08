@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '..';
 import { map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+
+import { MobileBanksModel } from '../../../components/dev/global-mapping/glob-mapping.model';
 import { ParamModel } from '../../../global/components/reusable-list/reusable.model';
 import { PaginationConfig } from '../admin/paginatioConfig.model';
 import { getdataModal } from '../../../global/components/reusable-list/reusable.model';
@@ -75,10 +77,6 @@ export class GeneralService {
 
   // //onlineBanking
 
-  // getMobileBanks() {
-  //   const url = `/banks/list/?bank_type=MOB&is_mappable=true`;
-  //   return this.apiService.get(url).pipe(map(data => data));
-  // }
   // getMobileLookup(body: any) {
   //   const url = `/banks/clientlookup/`;
   //   return this.apiService.post(url, body).pipe(map(data => data));
@@ -182,4 +180,9 @@ export class GeneralService {
   //   const url = `/client/verify-pin/`;
   //   return this.apiService.post(url, body).pipe(map(data => data));
   // }
+
+  getMobileBanks(): Observable<{ objects: MobileBanksModel[] }> {
+    const url = `/banks/list/?bank_type=MOB&is_mappable=true`;
+    return this.apiService.get<{ objects: MobileBanksModel[] }>(url);
+  }
 }
