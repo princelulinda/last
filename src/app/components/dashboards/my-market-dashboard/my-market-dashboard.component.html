@@ -83,15 +83,17 @@
         <br />
       </div>
       <div class="ms-auto me-4 mt-5 pt-3" style="z-index: 999">
-        <button
-          (click)="openMerchantsPopup()"
-          data-bs-toggle="modal"
-          data-bs-target="#merchantsModal"
-          class="btn badge-design bg-danger text-danger fw-bold"
-          style="height: 35px; width: 80px"
-          i18n>
-          Switch
-        </button>
+        @if (merchantMult && merchantMult.length > 1) {
+          <button
+            (click)="openMerchantsPopup()"
+            data-bs-toggle="modal"
+            data-bs-target="#merchantsModal"
+            class="btn badge-design bg-danger text-danger fw-bold"
+            style="height: 35px; width: 80px"
+            i18n>
+            Switch
+          </button>
+        }
       </div>
     </div>
 
