@@ -11,6 +11,7 @@ import {
   Operator,
   TypeMenu,
   MenuGroup,
+  SelectedTypeMenu,
 } from '../../db/models';
 import { environment } from '../../../../environments/environment';
 
@@ -58,6 +59,7 @@ export class ConfigService {
   private typeMenus$: unknown | Observable<TypeMenuModel[]>;
   private menuGroups$: unknown | Observable<MenuGroupsModel[]>;
   private typeMenusExist = new Subject<boolean>();
+  private selectedTypeMenu$: unknown | Observable<TypeMenuModel>;
 
   constructor(
     private dbService: DbService,
@@ -85,6 +87,9 @@ export class ConfigService {
     );
     this.menuGroups$ = liveQuery(() =>
       this.dbService.getOnce(MenuGroup.tableName)
+    );
+    this.selectedTypeMenu$ = liveQuery(() =>
+      this.dbService.getOnce(SelectedTypeMenu.tableName)
     );
   }
 
@@ -330,6 +335,7 @@ export class ConfigService {
   clearAllMenu() {
     this.dbService.clearTable(TypeMenu.tableName);
     this.dbService.clearTable(MenuGroup.tableName);
+    // this.dbService.clearTable(SelectedTypeMenu.tableName);
   }
   checkTypeMenus(): Observable<boolean> {
     this.getTypeMenus().subscribe({
@@ -348,6 +354,12 @@ export class ConfigService {
   }
   setLocalSelectedMenu(menu: string) {
     this.apiService.setLocalSelectedMenu(menu);
+  }
+  setSelectedTypeMenu(menu: TypeMenuModel) {
+    this.dbService.addOnceUpdate(SelectedTypeMenu.tableName, menu);
+  }
+  getSelectedTypeMenu(): Observable<TypeMenuModel> {
+    return this.selectedTypeMenu$ as Observable<TypeMenuModel>;
   }
 
   // NOTE :: PRIVATE CONFIG METHODS

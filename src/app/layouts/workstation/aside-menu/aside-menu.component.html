@@ -1,5 +1,5 @@
 <aside
-  class="w-aside bg-white py-2 px-1 overflow-y-auto d-flex flex-column align-items-center h-100 overflow-x-hidden position-relative">
+  class="w-aside bg-white py-2 px-1 overflow-y-auto d-flex flex-column align-items-center h-100 overflow-x-hidden">
   <div>
     <app-switch-mode></app-switch-mode>
   </div>
@@ -35,18 +35,36 @@
       }
     }
   </section>
-  <section class="mb-3">
-    <span class="p-3 bg-erp rounded-circle" role="button" tabindex="0">
+
+  <!-- TODO :: TO FIND HOW TO REFACTORY THIS CODE -->
+  <section class="mb-3 position-relative">
+    <span
+      class="p-3 bg-erp rounded-circle"
+      (mouseover)="toogleTooltip(true)"
+      (mouseout)="toogleTooltip(false)"
+      (focus)="(0)"
+      (blur)="(0)"
+      id="logout-button"
+      role="button"
+      tabindex="0">
       <span class="text-primary">
         <i class="fa-solid fa-door-open"></i>
       </span>
-      <!-- <span
-        role="button"
-        tabindex="1"
-        id="logout-tooltip"
-        class="position-absolute p-2 sm-radius bg-white px-3">
-        <b class="fs-x-small" i18n> Log out Corporate</b>
-      </span> -->
     </span>
   </section>
+  <div
+    (mouseover)="toogleTooltip(true)"
+    (mouseout)="toogleTooltip(false)"
+    (focus)="(0)"
+    (blur)="(0)"
+    (click)="logoutCorporate()"
+    role="button"
+    [ngClass]="{
+      active: showtooltipLogout,
+    }"
+    tabindex="1"
+    id="logout-tooltip"
+    class="position-absolute p-2 sm-radius bg-white px-3">
+    <b class="fs-x-small" i18n> Log out Corporate</b>
+  </div>
 </aside>

@@ -50,7 +50,8 @@ export class AsideMenuComponent implements OnInit {
   }
 
   hideAsideMenu() {
-    this.menuService.toggleAsideMenu(true);
+    // TODO :: TO IMPLEMENT RESPONSIVE OF ASIDE MENU
+    console.log('HIDE ASIDE MENU ON MOBILE DEVICE');
   }
 
   switchPlateform(plateform: PlateformModel) {
