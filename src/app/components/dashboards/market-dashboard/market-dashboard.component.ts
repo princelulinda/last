@@ -74,7 +74,7 @@ export class MarketDashboardComponent implements OnInit {
   // activities: any = [];
   merchants!: Merchant_AutocompleteModel[];
   products!: ProductModel[];
-  biller: [] | null = null;
+  // biller: [] | null = null;
   productCategory!: productCategoryModel[];
   // sector: any;
   last4Merchant!: Merchant_AutocompleteModel[];
@@ -181,23 +181,23 @@ export class MarketDashboardComponent implements OnInit {
   // //     this.biller = biller;
   // // }
 
-  openModal(merchant: BillersModel, event: Event) {
-    // this.payMerchant = merchant;
-    console.log(merchant);
-    this.biller = null;
-    this.categorySelected = null;
-    // this.merchantId = this.payMerchant.id;
-    this.clearData = true;
+  // openModal(merchant: BillersModel, event: Event) {
+  //   // this.payMerchant = merchant;
+  //   console.log(merchant);
+  //   this.biller = null;
+  //   this.categorySelected = null;
+  //   // this.merchantId = this.payMerchant.id;
+  //   this.clearData = true;
 
-    event.stopPropagation();
-    // add data-bs after click on favorite star
-    const element = event.target as HTMLButtonElement;
-    element.setAttribute('data-bs-toggle', 'modal');
-    element.setAttribute('data-bs-target', '#merchantModal');
-    element.click();
-    // accepts_simple_payment;
-    // this.getMerchantDetails();
-  }
+  //   event.stopPropagation();
+  //   // add data-bs after click on favorite star
+  //   const element = event.target as HTMLButtonElement;
+  //   element.setAttribute('data-bs-toggle', 'modal');
+  //   element.setAttribute('data-bs-target', '#merchantModal');
+  //   element.click();
+  //   // accepts_simple_payment;
+  //   // this.getMerchantDetails();
+  // }
 
   // goBack() {
   //     this.sector = true;

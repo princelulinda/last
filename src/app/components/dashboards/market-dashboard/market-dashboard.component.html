@@ -556,7 +556,10 @@
     <!-- *** -->
 
     @if (billers) {
-      <app-biller-card [billers]="billers"></app-biller-card>
+      <app-biller-card
+        [recentBillers]="recentBillers"
+        [categorySelected]="categorySelected"
+        [clearData]="clearData"></app-biller-card>
     } @else if (!billers) {
       <div>
         <div class="row ms-2">
