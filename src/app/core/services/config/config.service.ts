@@ -276,19 +276,15 @@ export class ConfigService {
         if (operator) {
           if (operator.operator && operator.organization) {
             this.isAuthenticatedOperator.next(true);
-            this.setLocalConnectedOperator('true');
           } else {
             this.isAuthenticatedOperator.next(false);
-            this.setLocalConnectedOperator('false');
           }
         } else {
           this.isAuthenticatedOperator.next(false);
-          this.setLocalConnectedOperator('false');
         }
       },
       error: () => {
         this.isAuthenticatedOperator.next(false);
-        this.setLocalConnectedOperator('false');
       },
     });
     return this.isAuthenticatedOperator;

@@ -25,7 +25,7 @@ export const AllServices = [
 export const AllGuards = [
   Guards.AuthGuard,
   Guards.NoAuthGuard,
-  Guards.authWorkstationGuard,
+  Guards.AuthWorkstationGuard,
   Guards.bankingGuard,
   Guards.treasurerGuard,
   Guards.windowGuard,
