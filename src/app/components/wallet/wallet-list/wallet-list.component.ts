@@ -33,10 +33,10 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
   mainConfig!: activeMainConfigModel;
   private userInfo$: Observable<UserInfoModel>;
   clientInfo!: UserInfoModel;
-  clientId!: number;
+
   isLoading = false;
   walletsListData: WalletList[] | [] | null = null;
-
+  userClientId!: number;
   activePlatform: string | null = null;
   selectedLoneWallet: WalletList | null = null;
   selectedWallet!: WalletList[];
@@ -52,6 +52,7 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
 
   private onDestroy$ = new Subject<void>();
   isWalletDetailsShown = false;
+
   @Input() isTransferDone = false;
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -72,6 +73,17 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
     this.theme$ = this.configService.getMode();
   }
   ngOnInit(): void {
+    this.authService
+      .getUserClientId()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(clientId => {
+        this.userClientId = clientId;
+        console.log('User Client ID:', this.userClientId);
+        if (this.userClientId) {
+          this.getClientWallet();
+        }
+      });
+
     this.mainConfig$.subscribe({
       next: configs => {
         this.activePlatform = configs.activePlateform;
@@ -85,16 +97,6 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
       },
     });
 
-    this.userInfo$.subscribe({
-      next: userinfo => {
-        this.clientInfo = userinfo;
-        this.clientId = this.clientInfo.client.id;
-        if (this.clientId) {
-          this.getClientAccounts();
-        }
-      },
-    });
-
     this.mainConfig$.subscribe({
       next: configs => {
         this.mainConfig = configs;
@@ -102,9 +104,9 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  getClientAccounts() {
+  getClientWallet() {
     this.isLoading = true;
-    this.clientService.getWallets(this.clientId).subscribe({
+    this.clientService.getWallets(this.userClientId).subscribe({
       next: response => {
         this.walletsListData = response.objects;
         this.isLoading = false;
