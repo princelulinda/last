@@ -13,11 +13,16 @@ import {
 import { CommonModule } from '@angular/common';
 import { DebitOptions } from '../../transfer/transfer.model';
 import { accountsList } from '../../account/models';
-
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 @Component({
   selector: 'app-global-mapping',
   standalone: true,
-  imports: [SkeletonComponent, DebitAccountComponent, CommonModule],
+  imports: [
+    SkeletonComponent,
+    DebitAccountComponent,
+    CommonModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './global-mapping.component.html',
   styleUrl: './global-mapping.component.scss',
 })
@@ -41,7 +46,13 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
   debitId = '';
   debitHolder = '';
   accountSelected: accountsList | null = null;
-
+  isLoading = false;
+  account = new FormControl('');
+  pin = new FormControl('', [
+    Validators.required,
+    Validators.maxLength(4),
+    Validators.minLength(4),
+  ]);
   constructor(
     private authService: AuthService,
     private generalService: GeneralService,
@@ -85,10 +96,11 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
   getDebitOptions(event: string | DebitOptions) {
     if (typeof event === 'string') {
       this.selectedDebitType = event;
+      this.showPinForm = true;
       console.log('ngiyoooo', this.selectedDebitType);
     } else {
       this.selectedDebitType = event.selectedDebitOption;
-      console.log('ngiyoooo', this.selectedDebitType);
+      this.showPinForm = true;
     }
   }
 
@@ -110,8 +122,7 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
         this.mobileBanks = response.objects;
         this.banksLoading = false;
       },
-      error: err => {
-        console.error('Erreur lors de la récupération des bank mobile:', err);
+      error: () => {
         this.banksLoading = false;
       },
     });

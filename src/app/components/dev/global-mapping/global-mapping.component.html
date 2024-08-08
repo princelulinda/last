@@ -126,7 +126,34 @@
         <app-debit-account
           [isWalletShown]="false"
           title="CHOOSE AN ACCOUNT TO LINK"
-          (debitOptions)="getDebitOptions($event)"></app-debit-account>
+          (debitOptions)="getDebitOptions($event)"
+          (selectedAccount)="getSelectedAccount($event)"></app-debit-account>
+      </div>
+
+      <div class="pin-conf_btn mt-4 col-lg-4 mx-3" *ngIf="showPinForm">
+        <div class="col-md-10 form-floating">
+          <input
+            id="pin"
+            class="form-control sm-radius global-border-input"
+            type="password"
+            placeholder="Pin"
+            [formControl]="pin"
+            minlength="4"
+            maxlength="4" />
+          <label for="pin" class="form-label">Pin</label>
+        </div>
+        <div class="text-center mt-4 col-md-10">
+          <button
+            class="btn bg-primary text-light px-4 py-1 fw-bold"
+            [disabled]="!pin.valid"
+            i18n>
+            <span *ngIf="isLoading">
+              <i
+                class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-2"></i>
+            </span>
+            <span *ngIf="!isLoading">Confirm</span>
+          </button>
+        </div>
       </div>
     </section>
   }
