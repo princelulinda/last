@@ -581,7 +581,7 @@
                 <button
                   class="btn px-5 border-primary bg-white"
                   tabindex="0"
-                  [disabled]="!transferForm.valid"
+                  [disabled]="!transferForm.valid || creditAccountAdded"
                   type="button"
                   (click)="addCreditAccount()">
                   <b i18n>Add</b>
@@ -673,7 +673,7 @@
                 class="btn px-5 border-primary bg-white"
                 tabindex="0"
                 type="button"
-                [disabled]="!transferForm.valid"
+                [disabled]="!transferForm.valid || creditAccountAdded"
                 (click)="addCreditAccount()">
                 <b i18n>Add</b>
               </button>
@@ -723,24 +723,27 @@
                     <span class="text-secondary">{{
                       transferForm.value.amount
                     }}</span>
-                    <span class="ms-auto position-relative">
+                    <span
+                      class="ms-auto position-relative"
+                      style="width: 70px; height: 35px"
+                      (mouseenter)="hover = true"
+                      (mouseleave)="hover = false">
                       <!-- Bank Logo -->
                       <img
                         [src]="selectedInstitution.company.logo"
                         class="position-absolute top-0 start-0 w-100 h-100"
-                        style="width: 70px; height: 35px"
                         [alt]="selectedInstitution.company.name"
-                        [ngClass]="{ 'd-none': showTrashIcon }" />
+                        [style.opacity]="hover ? 0 : 1" />
+
                       <!-- Trash Icon -->
                       <span
                         role="button"
                         tabindex="0"
                         class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-                        [ngClass]="{ 'd-none': !showTrashIcon }"
-                        (mouseenter)="showTrashIcon = true"
-                        (mouseleave)="showTrashIcon = false"
+                        [style.opacity]="hover ? 1 : 0"
                         (click)="removeCreditAccount(account.account_number)">
-                        <i class="fa-solid fa-trash"></i>
+                        <i
+                          class="fa-solid fa-trash border-primary text-primary p-2 fs-medium rounded"></i>
                       </span>
                     </span>
                   </div>

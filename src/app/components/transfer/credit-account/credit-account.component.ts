@@ -57,7 +57,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   isModalShown = false;
   debitAccount: DebitAccountModel | null = null;
-  showTrashIcon = false;
+  hover = false;
   @Input() selectedDebitAccountType = '';
 
   @Input() walletBankId: string | number = '';
