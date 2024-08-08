@@ -8,6 +8,8 @@ import {
   AllProductModel,
   MerchantInfoModel,
   MerchantObjectModel,
+  searchProductByMerchantModel,
+  updateProdcutInfoModel,
 } from '../../../components/products/products.model';
 import {
   doTellerBodyModel,
@@ -184,7 +186,7 @@ export class MerchantService {
       })
     );
   }
-  getMerchantsProductsDetails(id: string) {
+  getMerchantsProductsDetails(id: number) {
     const url = '/dbs/merchant-product/' + id + '/';
     return this.apiService.get(url).pipe(
       map(data => {
@@ -299,6 +301,11 @@ export class MerchantService {
       })
     );
   }
+  // getProductsByMerchant(merchantId: string): Observable<{ objects: productConfigModel[] }> {
+  //   const url = '/dbs/merchant-product/?merchant=' + merchantId + '&';
+  //   return this.apiService.get<{ objects: [] }>(url);
+  // }
+
   createNewTeller(body: newTellerModel) {
     const url = '/dbs/merchant-teller/';
     return this.apiService.post(url, body).pipe(
@@ -448,7 +455,7 @@ export class MerchantService {
         })
       );
   }
-  updateProductInfo(body: []) {
+  updateProductInfo(body: updateProdcutInfoModel) {
     const url = '/dbs/merchant/product/configuration/';
     return this.apiService.post(url, body).pipe(
       map(data => {
@@ -456,16 +463,15 @@ export class MerchantService {
       })
     );
   }
-  // searchProductByMerchant(data: any) {
-  //     const url =
-  //         '/dbs/merchant-product/objects_autocomplete/?merchant=' +
-  //         data.merchant +
-  //         '&search=' +
-  //         data.search;
-  //         console.log('the value of the data is :', data);
-  //     return this.apiService.get(url).pipe(map((data) => data));
-
-  // }
+  searchProductByMerchant(data: searchProductByMerchantModel) {
+    const url =
+      '/dbs/merchant-product/objects_autocomplete/?merchant=' +
+      data.merchant +
+      '&search=' +
+      data.search;
+    console.log('the value of the data is :', data);
+    return this.apiService.get(url).pipe(map(data => data));
+  }
 
   /**********************api call of browse by category ******************************/
   getBrowseByCategory() {

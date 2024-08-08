@@ -289,6 +289,17 @@ export class ConfigService {
     });
     return this.isAuthenticatedOperator;
   }
+  getLocalConnectedOperator(): boolean {
+    const status = this.apiService.getLocalConnectedOperator();
+    if (status === 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  setLocalConnectedOperator(status: 'true' | 'false') {
+    this.apiService.setLocalConnectedOperator(status);
+  }
   operatorIsTreasurer(): Observable<boolean> {
     this.getConnectedOperator().subscribe({
       next: operator => {

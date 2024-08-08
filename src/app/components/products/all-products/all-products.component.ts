@@ -64,7 +64,7 @@ export class AllProductsComponent implements OnInit {
   @Input() clienType = '';
   @Input() searchBar = false;
   @Input() isWhite = false;
-  searchTerm = 'product';
+  searchTerm = 'recent products';
 
   @Input() url = '';
   merchantId = 1;
