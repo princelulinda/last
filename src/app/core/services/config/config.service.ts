@@ -11,6 +11,7 @@ import {
   Operator,
   TypeMenu,
   MenuGroup,
+  SelectedTypeMenu,
 } from '../../db/models';
 import { environment } from '../../../../environments/environment';
 
@@ -58,6 +59,7 @@ export class ConfigService {
   private typeMenus$: unknown | Observable<TypeMenuModel[]>;
   private menuGroups$: unknown | Observable<MenuGroupsModel[]>;
   private typeMenusExist = new Subject<boolean>();
+  private selectedTypeMenu$: unknown | Observable<TypeMenuModel>;
 
   constructor(
     private dbService: DbService,
@@ -85,6 +87,9 @@ export class ConfigService {
     );
     this.menuGroups$ = liveQuery(() =>
       this.dbService.getOnce(MenuGroup.tableName)
+    );
+    this.selectedTypeMenu$ = liveQuery(() =>
+      this.dbService.getOnce(SelectedTypeMenu.tableName)
     );
   }
 
@@ -284,6 +289,17 @@ export class ConfigService {
     });
     return this.isAuthenticatedOperator;
   }
+  getLocalConnectedOperator(): boolean {
+    const status = this.apiService.getLocalConnectedOperator();
+    if (status === 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  setLocalConnectedOperator(status: 'true' | 'false') {
+    this.apiService.setLocalConnectedOperator(status);
+  }
   operatorIsTreasurer(): Observable<boolean> {
     this.getConnectedOperator().subscribe({
       next: operator => {
@@ -330,6 +346,7 @@ export class ConfigService {
   clearAllMenu() {
     this.dbService.clearTable(TypeMenu.tableName);
     this.dbService.clearTable(MenuGroup.tableName);
+    // this.dbService.clearTable(SelectedTypeMenu.tableName);
   }
   checkTypeMenus(): Observable<boolean> {
     this.getTypeMenus().subscribe({
@@ -348,6 +365,12 @@ export class ConfigService {
   }
   setLocalSelectedMenu(menu: string) {
     this.apiService.setLocalSelectedMenu(menu);
+  }
+  setSelectedTypeMenu(menu: TypeMenuModel) {
+    this.dbService.addOnceUpdate(SelectedTypeMenu.tableName, menu);
+  }
+  getSelectedTypeMenu(): Observable<TypeMenuModel> {
+    return this.selectedTypeMenu$ as Observable<TypeMenuModel>;
   }
 
   // NOTE :: PRIVATE CONFIG METHODS
