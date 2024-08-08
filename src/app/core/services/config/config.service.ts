@@ -4,7 +4,15 @@ import { liveQuery } from 'dexie';
 import { Observable, Subject } from 'rxjs';
 
 import { DbService } from '../../db';
-import { Bank, MainConfig, SelectedBank, Operator } from '../../db/models';
+import {
+  Bank,
+  MainConfig,
+  SelectedBank,
+  Operator,
+  TypeMenu,
+  MenuGroup,
+  SelectedTypeMenu,
+} from '../../db/models';
 import { environment } from '../../../../environments/environment';
 
 import { ApiService } from '../api/api.service';
@@ -22,7 +30,10 @@ import {
   ThemeModel,
 } from './main-config.models';
 import { Organizations } from '../../db/models/organisations/organizations';
-import { MenuGroupModel } from '../../db/models/menu/menu.models';
+import {
+  MenuGroupsModel,
+  TypeMenuModel,
+} from '../../db/models/menu/menu.models';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +56,11 @@ export class ConfigService {
 
   private allOrganizations$: unknown | Observable<OrganizationModel[]>;
 
+  private typeMenus$: unknown | Observable<TypeMenuModel[]>;
+  private menuGroups$: unknown | Observable<MenuGroupsModel[]>;
+  private typeMenusExist = new Subject<boolean>();
+  private selectedTypeMenu$: unknown | Observable<TypeMenuModel>;
+
   constructor(
     private dbService: DbService,
     private apiService: ApiService,
@@ -64,6 +80,16 @@ export class ConfigService {
     );
     this.allOrganizations$ = liveQuery(() =>
       this.dbService.getOnce(Organizations.tableName)
+    );
+
+    this.typeMenus$ = liveQuery(() =>
+      this.dbService.getOnce(TypeMenu.tableName)
+    );
+    this.menuGroups$ = liveQuery(() =>
+      this.dbService.getOnce(MenuGroup.tableName)
+    );
+    this.selectedTypeMenu$ = liveQuery(() =>
+      this.dbService.getOnce(SelectedTypeMenu.tableName)
     );
   }
 
@@ -263,6 +289,17 @@ export class ConfigService {
     });
     return this.isAuthenticatedOperator;
   }
+  getLocalConnectedOperator(): boolean {
+    const status = this.apiService.getLocalConnectedOperator();
+    if (status === 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  setLocalConnectedOperator(status: 'true' | 'false') {
+    this.apiService.setLocalConnectedOperator(status);
+  }
   operatorIsTreasurer(): Observable<boolean> {
     this.getConnectedOperator().subscribe({
       next: operator => {
@@ -293,13 +330,48 @@ export class ConfigService {
   }
 
   // NOTE :: MENUS METHODS
-  async getMenusConfig(): Promise<{ type: object; groups: MenuGroupModel }> {
-    return await this.dbService.getOnce('menus');
+  getTypeMenus(): Observable<TypeMenuModel[]> {
+    return this.typeMenus$ as Observable<TypeMenuModel[]>;
+  }
+  getMenuGroups(): Observable<MenuGroupsModel[]> {
+    return this.menuGroups$ as Observable<MenuGroupsModel[]>;
   }
 
-  // setOperatorMenuGroup(payload: MenuGroupModel) {
-  //   let menu = await this.getMenusConfig()
-  // }
+  setTypeMenus(payload: TypeMenuModel[]) {
+    this.dbService.addOnceUpdate(TypeMenu.tableName, payload);
+  }
+  setMenuGroup(payload: MenuGroupsModel[]) {
+    this.dbService.addOnceUpdate(MenuGroup.tableName, payload);
+  }
+  clearAllMenu() {
+    this.dbService.clearTable(TypeMenu.tableName);
+    this.dbService.clearTable(MenuGroup.tableName);
+    // this.dbService.clearTable(SelectedTypeMenu.tableName);
+  }
+  checkTypeMenus(): Observable<boolean> {
+    this.getTypeMenus().subscribe({
+      next: menus => {
+        if (!menus || menus.length === 0) {
+          this.typeMenusExist.next(false);
+        } else {
+          this.typeMenusExist.next(true);
+        }
+      },
+      error: () => {
+        this.typeMenusExist.next(false);
+      },
+    });
+    return this.typeMenusExist;
+  }
+  setLocalSelectedMenu(menu: string) {
+    this.apiService.setLocalSelectedMenu(menu);
+  }
+  setSelectedTypeMenu(menu: TypeMenuModel) {
+    this.dbService.addOnceUpdate(SelectedTypeMenu.tableName, menu);
+  }
+  getSelectedTypeMenu(): Observable<TypeMenuModel> {
+    return this.selectedTypeMenu$ as Observable<TypeMenuModel>;
+  }
 
   // NOTE :: PRIVATE CONFIG METHODS
 

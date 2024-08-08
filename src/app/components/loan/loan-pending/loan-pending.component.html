@@ -13,8 +13,8 @@
           'br-right': loans && loans.length > 0,
         }">
         <b i18n style="font-size: 18px" class="d-flex align-items-center">
-          <span class="me-1">Loans</span>
-          <span class="me-3">list</span>
+          <span class="me-1">Pending</span>
+          <span class="me-2">Loans</span>
           <div (click)="toggleBalance()" role="button" class="" tabindex="0">
             @if (!isBalanceShown) {
               <span title="Show balance"> <i class="fa-solid fa-eye"></i></span>
@@ -38,6 +38,15 @@
         </div>
       </div>
       <div class="w-70 d-none ms-2 d-lg-flex justify-content-between">
+        <!-- @if (loans) {
+          @if (loans.length > 0) {
+            @if (isLoanDetailsShown) {
+              <div>
+                <b i18n style="font-size: 18px">Details</b>
+              </div>
+            }
+          }
+        } -->
         @if (loans && loans.length > 0 && isLoanDetailsShown) {
           <div>
             <b i18n style="font-size: 18px">Details</b>
@@ -113,7 +122,7 @@
               role="button"
               tabindex="0"
               title="request new loan"
-              routerLink="/b/onlineBanking/banking/menuBanking/loan/request"
+              routerLink="/b/banking/loan/request"
               class="rounded p-2 my-2 w-50">
               <div
                 class="d-grid text-primary align-items-center justify-content-center">
@@ -130,7 +139,7 @@
 
     @if (!loans) {
       <div class="d-grid px-2 pt-3 w-30">
-        @for (shimmer of [1, 2, 3, 4, 5, 6, 7, 8]; track shimmer) {
+        @for (shimmer of [1, 2, 3, 4, 5, 6, 7, 8]; track $index) {
           <span class="w-100 mb-2">
             <app-skeleton
               height="50px"
@@ -148,16 +157,13 @@
             class="w-30 pe-1 overflow-auto d-none d-lg-block"
             style="border-right: 1px solid grey; max-height: 70vh">
             <div class="">
-              @for (loan of loans; track loan) {
+              @for (loan of loans; track $index) {
                 <div
                   class="w-100"
                   role="button"
                   (click)="selectLoan(loan)"
                   tabindex="0"
-                  [routerLink]="
-                    '/b/onlineBanking/banking/menuBanking/loan/pending/' +
-                    loan.id
-                  ">
+                  [routerLink]="'/b/banking/loan/pending/' + loan.id">
                   <div
                     class="border-l ps-2 d-grid w-100 pe-2 pt-1"
                     routerLinkActive="cliped t-dark">
@@ -282,16 +288,13 @@
             class="w-100 overflow-y-auto pe-1 d-lg-none d-md-block d-sm-block">
             @if (!isLoanSelected) {
               <div class="overflow-auto">
-                @for (loan of loans; track loan) {
+                @for (loan of loans; track $index) {
                   <div
                     class="w-100"
                     role="button"
                     tabindex="0"
                     (click)="selectLoan(loan)"
-                    [routerLink]="
-                      '/b/onlineBanking/banking/menuBanking/loan/pending/' +
-                      loan.id
-                    ">
+                    [routerLink]="'/b/banking/loan/pending/' + loan.id">
                     <div
                       class="border-l ps-2 d-grid w-100 pe-2 pt-1"
                       routerLinkActive="cliped t-dark">
@@ -378,7 +381,9 @@
             </div>
           </div>
           @if (loans && loans.length > 0) {
-            <div class="w-70 d-flex justify-content-center"></div>
+            <div class="w-70 d-flex justify-content-center">
+              <router-outlet></router-outlet>
+            </div>
           }
         </section>
       </div>

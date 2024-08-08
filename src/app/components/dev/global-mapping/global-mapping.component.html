@@ -7,18 +7,154 @@
       <b i18n>PHONE NUMBER</b>
     </div>
 
-    <div class="col-md-4 ms-3">
-      <div
-        class="col-md-7 col-lg-8 sm-radius position-relative p-2 mt-3 text-dark bg-secondary">
-        <div class="d-flex flex-column">
-          <b class="text-primary">{{ userInfo.client.client_full_name }}</b>
-          <b class="text-dark" style="opacity: 0.8">{{ contact }}</b>
+    @if (clientName) {
+      <div class="col-md-4 ms-3">
+        <div
+          class="col-md-7 col-lg-8 sm-radius position-relative p-2 mt-3 text-dark bg-secondary">
+          <div class="d-flex flex-column">
+            <b class="text-primary">{{ clientName }}</b>
+            <b class="text-dark" style="opacity: 0.8">{{ contact }}</b>
+          </div>
         </div>
       </div>
-    </div>
+    }
+    @if (!clientName) {
+      <div class="mt-2 col-md-7 d-flex gap-4">
+        @for (_ of [1, 2, 3]; track $index) {
+          <span>
+            <app-skeleton
+              [width]="'64px'"
+              [height]="'64px'"
+              classes="sm-radius">
+            </app-skeleton>
+          </span>
+        }
+      </div>
+    }
   </section>
 
   <!-- operetor section -->
+  <section class="mx-2 mt-3">
+    @if (contact && !selectedOperator) {
+      <div>
+        <div class="title text-dark">
+          <span class="me-2"
+            ><i class="fa fa-circle fa-xs me-2 text-primary"></i
+          ></span>
+          <b i18n> BANK TO LINK</b>
+        </div>
+        @if (banksLoading) {
+          <div class="d-flex mt-3">
+            @for (_ of [1, 2, 3]; track $index) {
+              <span>
+                <app-skeleton
+                  [width]="'70px'"
+                  [height]="'12px'"
+                  classes="sm-radius">
+                </app-skeleton>
+              </span>
+            }
+          </div>
+        }
+        @if (!banksLoading) {
+          <div class="operators d-flex mt-2 p-1">
+            @for (operator of mobileBanks; track $index) {
+              <div
+                class="me-3 text-center d-inline-block text-dark"
+                (click)="getSelectedOperator(operator)"
+                tabindex="0">
+                <div class="mb-2 clickable" style="width: 109px; height: 44px">
+                  <img
+                    [src]="operator.company.logo"
+                    alt="{{ operator.name }} Logo"
+                    style="object-fit: cover"
+                    class="img-fluid sm-radius" />
+                </div>
+                <b
+                  ><small>{{ operator.name }}</small></b
+                >
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    @if (selectedOperator) {
+      <div class="d-flex mt-3 py-2">
+        <b class="mt-2 me-3 text-dark"
+          ><small style="opacity: 0.8" i18n>Selected bank :</small></b
+        >
+        <div
+          class="me-3 text-center d-inline-block text-dark bg-secondary py-2 sm-radius px-3 pe-4 position-relative">
+          <span
+            (click)="selectedOperator = null"
+            tabindex="0"
+            class="text-danger position-absolute"
+            style="top: -6px; right: -5px; cursor: pointer">
+            <i class="fa-solid fa-circle-xmark"></i>
+          </span>
+          <div
+            class="mb-2 clickable"
+            style="width: 109px; height: 44px"
+            title="Using {{ selectedOperator.name }}">
+            <img
+              [src]="selectedOperator.company.logo"
+              alt="{{ selectedOperator.name }} Logo"
+              style="object-fit: cover"
+              class="img-fluid sm-radius" />
+          </div>
+          <b
+            ><small>{{ selectedOperator.name }}</small></b
+          >
+        </div>
+      </div>
+    }
+  </section>
 
   <!-- account section -->
+
+  <!-- account section -->
+  @if (selectedOperator) {
+    <section class="mt-4">
+      <div
+        class="debit-options"
+        [ngClass]="{
+          'col-lg-4': activePlatform !== 'workStation',
+          'col-lg-9': activePlatform === 'workStation',
+        }">
+        <app-debit-account
+          [isWalletShown]="false"
+          title="CHOOSE AN ACCOUNT TO LINK"
+          (debitOptions)="getDebitOptions($event)"
+          (selectedAccount)="getSelectedAccount($event)"></app-debit-account>
+      </div>
+
+      <div class="pin-conf_btn mt-4 col-lg-4 mx-3" *ngIf="showPinForm">
+        <div class="col-md-10 form-floating">
+          <input
+            id="pin"
+            class="form-control sm-radius global-border-input"
+            type="password"
+            placeholder="Pin"
+            [formControl]="pin"
+            minlength="4"
+            maxlength="4" />
+          <label for="pin" class="form-label">Pin</label>
+        </div>
+        <div class="text-center mt-4 col-md-10">
+          <button
+            class="btn bg-primary text-light px-4 py-1 fw-bold"
+            [disabled]="!pin.valid"
+            i18n>
+            <span *ngIf="isLoading">
+              <i
+                class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-2"></i>
+            </span>
+            <span *ngIf="!isLoading">Confirm</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  }
 </div>

@@ -1,8 +1,60 @@
-export interface MenuGroupModel {
+export interface TypeMenuModel {
   id: number;
   name: string;
   icon: string | null;
-  required_operator_auth: true;
-  menu_group_type: { title: string; value: string };
+  image: {
+    active: string;
+    disabled: string;
+  } | null;
+  url: string;
+  menu_active_icon: string;
+  menu_disabled_icon: string;
   active: boolean;
+}
+export type TypeMenuNamesModel =
+  | 'Dashboard'
+  | 'Banking'
+  | 'Market'
+  | 'Intranet'
+  | 'Desk'
+  | 'Reporting'
+  | 'Admin';
+
+export interface GroupMenuModel {
+  id: number;
+  name: TypeMenuNamesModel;
+  icon: string | null;
+  required_operator_auth: boolean;
+  menu_group_type: {
+    title: TypeMenuNamesModel;
+    value: string;
+  };
+  active: boolean;
+}
+
+export interface MenuGroupsModel {
+  id: number;
+  name: TypeMenuNamesModel;
+  menu_group: GroupMenuModel[];
+  active: true;
+}
+
+export interface MenuModel {
+  id: number;
+  name: string;
+  icon: string | null;
+  component_url: string;
+  mobile_url: string | null;
+  active: boolean;
+  color: string;
+  required_operator_auth: boolean;
+  menu_group: number;
+  menu_group_info: {
+    id: number;
+    name: string;
+    icon: string | null;
+    required_operator_auth: boolean;
+    menu_group_type: { title: TypeMenuNamesModel; value: string };
+    active: boolean;
+  };
 }

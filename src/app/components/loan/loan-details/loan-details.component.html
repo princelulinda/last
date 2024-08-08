@@ -1,0 +1,271 @@
+<main
+  [ngClass]="{
+    'd-flex justify-content-center align-items-center': !loan,
+  }">
+  <div
+    *ngIf="!loan || !selectedBank"
+    class="w-100 h-100 d-flex justify-content-center align-items-center">
+    <span class="ms-5 ps-5">
+      <i class="spinner-border"></i>
+    </span>
+  </div>
+  <div class="w-100 mb-3" *ngIf="loan">
+    <div (click)="refreshLoanDetails()" tabindex="0">
+      <b role="button" class="d-flex float-end">
+        <span class="me-1">Refresh</span>
+        <span>
+          <i class="fa-solid fa-refresh"></i>
+        </span>
+      </b>
+    </div>
+  </div>
+
+  <div *ngIf="loan && selectedBank">
+    <section class="d-flex justify-content-center">
+      <div class="d-grid align-items-center fs-4" style="line-height: 30px">
+        <div class="text-center">
+          <img [src]="selectedBank.company.image" style="width: 100px" alt="" />
+        </div>
+        <div class="text-center">
+          <b>{{ loan.cred_branch_defaults.loan_type.title }}</b>
+        </div>
+        <div class="text-center">
+          <b style="color: rgb(102, 97, 97); font-size: 1.2rem">{{
+            loan.cred_holder
+          }}</b>
+        </div>
+        <div class="text-center">
+          <b style="color: rgb(138, 127, 127); font-size: 1rem">{{
+            loan.cred_code
+          }}</b>
+        </div>
+        <div class="text-center d-flex justify-content-center">
+          <span [class]="'p-1 rounded badge-design bg-' + loan.cred_status.css">
+            {{ loan.cred_status.label }}
+          </span>
+        </div>
+        <!-- <div class="text-center">
+                    <b style="color: #635f5f">{{
+                        loan.cred_amount | currency : ' '
+                    }}</b>
+                </div> -->
+      </div>
+    </section>
+    <section class="mb-3 mt-4" style="font-size: 1.105rem">
+      <div class="ms-3">
+        <div class="row">
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Amount</span>
+              <b *ngIf="!isBalanceShown">*** ***</b>
+              <b *ngIf="isBalanceShown">{{
+                loan.cred_amount | currency: ' '
+              }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Echeance Amount</span>
+              <b *ngIf="!isBalanceShown">*** ***</b>
+              <b *ngIf="isBalanceShown">{{
+                loan.cred_echeance_amount | currency: ' '
+              }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Total amount</span>
+              <b *ngIf="!isBalanceShown">*** ***</b>
+              <b *ngIf="isBalanceShown">{{
+                loan.cred_capital_interests_total | currency: ' '
+              }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Paid amount</span>
+              <b *ngIf="!isBalanceShown">*** ***</b>
+              <b *ngIf="isBalanceShown">{{
+                loan.cred_paid_amount | currency: ' '
+              }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Paid Interests</span>
+              <b *ngIf="!isBalanceShown">*** ***</b>
+              <b *ngIf="isBalanceShown">{{
+                loan.paid_interests | currency: ' '
+              }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Paid fees</span>
+              <b *ngIf="!isBalanceShown">*** ***</b>
+              <b *ngIf="isBalanceShown">{{
+                loan.cred_fees_paid | currency: ' '
+              }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Total interests</span>
+              <b *ngIf="!isBalanceShown">*** ***</b>
+              <b *ngIf="isBalanceShown">{{
+                loan.cred_total_interests | currency: ' '
+              }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Remaining Interests</span>
+              <b *ngIf="!isBalanceShown">*** ***</b>
+              <b *ngIf="isBalanceShown">{{
+                loan.remaining_interests | currency: ' '
+              }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Interest rate</span>
+              <b>{{ loan.cred_interest_rate | number }} %</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Created at</span>
+              <b>{{ loan.created_at | date: 'yyyy-MM-dd' }}</b>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Expiry date</span>
+              <b>{{ loan.cred_expiry_date }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Next payment date</span>
+              <b>{{ loan.cred_next_payment_date }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Remaining Amount</span>
+              <b *ngIf="!isBalanceShown">*** ***</b>
+              <b *ngIf="isBalanceShown">{{
+                loan.remaining_amount | currency: ' '
+              }}</b>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="d-grid text-sm-center text-md-center text-lg-start">
+              <span class="less-grey" i18n>Penalities rate</span>
+              <b>{{ loan.cred_penalities_rate | number }} %</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-5 ps-3">
+      <div>
+        <button
+          [disabled]="!loan"
+          (click)="showPlan = true"
+          data-bs-toggle="modal"
+          data-bs-target="#myModal"
+          class="px-3 py-1 btn bg-primary text-white">
+          <b i18n>View plan</b>
+        </button>
+      </div>
+      <!-- <div class="row justify-content-start align-items-center ms-3">
+                <div
+                    class="col-10 rounded mb-3 position-relative align-self-center p-2 amort-table level-1"
+                >
+                    <div class="ms-2 px-1 rounded legend-t">
+                        <b i18n> Small amortization table </b>
+                    </div>
+                    <div class="mx-4 mt-3">
+                        <div>
+                            <div
+                                class="row d-flex align-items-center justify-content-between w-100"
+                            >
+                                <span class="col-lg-4">2023-09-17 17:37 PM</span>
+                                <div class="col-lg-4 text-center">
+                                    <span>5.000.000 BIF</span>
+                                </div>
+                                <span class="col-lg-4 text-end">
+                                    <i class="fa fa-check fs-3 text-success"></i>
+                                </span>
+                            </div>
+                            <hr />
+                        </div>
+                        <div>
+                            <div
+                                class="row d-flex align-items-center justify-content-between w-100"
+                            >
+                                <span class="col-lg-4">2023-09-17 17:37 PM</span>
+                                <div class="col-lg-4 text-center">
+                                    <span>5.000.000 BIF</span>
+                                </div>
+                                <span class="col-lg-4 text-end">
+                                    <i class="fa fa-xmark fs-3 text-danger"></i>
+                                </span>
+                            </div>
+                            <hr />
+                        </div>
+                        <div>
+                            <div
+                                class="row d-flex align-items-center justify-content-between w-100"
+                            >
+                                <span class="col-lg-4">2023-09-17 17:37 PM</span>
+                                <div class="col-lg-4 text-center">
+                                    <span>5.000.000 BIF</span>
+                                </div>
+                                <span class="col-lg-4 text-end">
+                                    <i class="fa fa-check fs-3 text-success"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <span
+                        (click)="showModal()"
+                        class="text-primary"
+                        style="text-decoration: underline"
+                        role="button"
+                    >
+                        Pay the next installment
+                    </span>
+                </div>
+            </div> -->
+    </section>
+  </div>
+  <div class="modal fade" data-mdb-backdrop="false" id="myModal" *ngIf="loan">
+    <div
+      class="modal-dialog modal-dialog-centered overflow-auto"
+      style="min-width: 75%">
+      <div class="modal-content">
+        <div *ngIf="showPlan">
+          <app-loan-plan
+            (isLoanPaid)="updateLoanDetails($event)"
+            [loan]="loan"></app-loan-plan>
+        </div>
+
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isSuccessPopupShown">
+    <!-- <app-success-popup
+            (popupOptions)="getSuccessPopupOptions($event)"
+            [isPopupShown]="isSuccessPopupShown"
+            [successMessage]="successMessage"
+        ></app-success-popup> -->
+  </div>
+</main>

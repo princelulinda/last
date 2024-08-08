@@ -12,7 +12,7 @@ import { WalletDetailsComponent } from '../../components/wallet/wallet-details/w
 import { TarifComponent } from '../../components/tarif/tarif.component';
 import { BankHomeComponent } from '../../components/bank-home/bank-home.component';
 import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.component';
-import { ReusableListComponent } from '../../global/components/reusable-list/reusable-list.component';
+import { AccountDetailsComponent } from '../../components/account/account-details/account-details.component';
 
 export const bankingRoutes: Routes = [
   {
@@ -68,11 +68,10 @@ export const bankingRoutes: Routes = [
     path: 'accounts',
     component: AccountComponent,
     children: [
-      // { path: 'statement', component: GeneralStatementComponent },
+      {
+        path: 'details/:accountId',
+        component: AccountDetailsComponent,
+      },
     ],
-  },
-  {
-    path: 'test',
-    component: ReusableListComponent,
   },
 ];

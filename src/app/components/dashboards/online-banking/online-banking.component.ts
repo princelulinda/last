@@ -40,6 +40,8 @@ import {
 import { RouterLink } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
 import { BankHomeComponent } from '../../bank-home/bank-home.component';
+import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
+
 @Component({
   selector: 'app-online-banking',
   standalone: true,
@@ -56,6 +58,7 @@ import { BankHomeComponent } from '../../bank-home/bank-home.component';
     RouterLink,
     RouterOutlet,
     BankHomeComponent,
+    ReusableListComponent,
   ],
 })
 export class OnlineBankingComponent implements OnInit, OnDestroy {
@@ -357,4 +360,50 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
+
+  paymentsHeaders = [
+    {
+      name: 'Date',
+      field: ['created_at'],
+      size: '',
+      format: 'date',
+    },
+    {
+      name: 'Amount',
+      field: ['amount'],
+      size: '',
+      format: 'currency',
+    },
+    {
+      name: 'Account',
+      field: [
+        'other_info.credit_account.data.account_holder',
+        'other_info.credit_account.data.account_number',
+      ],
+      size: '',
+    },
+    {
+      name: 'Reference',
+      field: ['reference'],
+      size: '',
+    },
+    {
+      name: 'Merchant reference',
+      field: ['other_info.merchant_reference.data'],
+      size: '',
+    },
+    {
+      name: 'Status',
+      field: ['status.title'],
+      css: 'status.css',
+      class: 'badge',
+      size: '',
+    },
+    {
+      name: 'Description',
+      field: ['comment'],
+      size: '4',
+      canBeDisplayed: false,
+    },
+  ];
 }

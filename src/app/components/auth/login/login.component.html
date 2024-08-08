@@ -25,13 +25,38 @@
             >
           </label>
         </div>
+
         <div class="form-floating">
-          <app-password-field
+          <input
+            [type]="passwordType"
+            class="form-control"
+            id="password"
+            placeholder="Password"
+            name="password"
+            formControlName="password" />
+          <label class="fs-small" i18n for="number"
+            ><span>
+              <img src="images/auth/lock.svg" width="23" alt="" />
+            </span>
+          </label>
+          <!-- <app-password-field
             [labelPassword]="true"
             [pin]="true"
             [labelIcon]="true"
-            (pinValid)="onPasswordChange($event)"></app-password-field>
+            (pinValid)="onPasswordChange($event)"></app-password-field> -->
+          @if (showPassword) {
+            <a tabindex="0" role="button" (click)="changePasswordType()"
+              ><i class="fa-regular fa-eye-slash text-dark"></i
+            ></a>
+          }
+
+          @if (!showPassword) {
+            <a tabindex="0" role="button" (click)="changePasswordType()">
+              <i class="fa-regular fa-eye text-dark"></i
+            ></a>
+          }
         </div>
+
         <div class="col mt-4">
           <span i18n class="text-primary" role="button" routerLink="/reset/"
             >Forgot password?</span
