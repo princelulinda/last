@@ -34,6 +34,7 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
 import { AllProductModel, ProductModel } from '../products.model';
 import { MerchantModel } from '../products.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
+import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-all-products',
@@ -46,6 +47,7 @@ import { ModeModel } from '../../../core/services/config/main-config.models';
     ProductCardComponent,
     FormsModule,
     ReactiveFormsModule,
+    EmptyStateComponent,
   ],
   templateUrl: './all-products.component.html',
   styleUrl: './all-products.component.scss',
@@ -62,6 +64,7 @@ export class AllProductsComponent implements OnInit {
   @Input() clienType = '';
   @Input() searchBar = false;
   @Input() isWhite = false;
+  searchTerm = 'product';
 
   @Input() url = '';
   merchantId = 1;
