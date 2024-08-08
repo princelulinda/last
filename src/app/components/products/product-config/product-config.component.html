@@ -148,15 +148,15 @@
               </div>
             } @else if (isProductsSearch) {
               <div
-                class="d-grid prod-card-w"
+                class="d-grid me-5"
                 role="button"
                 (click)="selectProduct(product)"
                 tabindex="0">
                 @if (!product.lookup_icon) {
                   <span
-                    class="text-center d-flex prod-card p-3 rounded justify-content-center align-items-center"
+                    class="text-center bg-secondary d-flex me-5 py-5 rounded justify-content-center align-items-center"
                     style="font-size: 60px">
-                    <i class="fa-solid t-white fa-box-open"></i>
+                    <i class="fa-solid text-all-white fa-box-open"></i>
                   </span>
                 } @else if (product.lookup_icon) {
                   <span

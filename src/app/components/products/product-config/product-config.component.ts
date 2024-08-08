@@ -20,12 +20,12 @@ import {
 import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product-config',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, SkeletonComponent],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, SkeletonComponent],
   templateUrl: './product-config.component.html',
   styleUrl: './product-config.component.scss',
 })
