@@ -1,17 +1,16 @@
 <div class="border p-3 mb-3 rounded">
   <div class="row">
     <div
-      tabindex="0"
-      role="button"
-      (click)="toggleEyeStatus()"
       class="col mb-2">
       <b i18n class="text-primary me-3 ms-4">{{ title }}</b>
       @if (amountState === true) {
-        <span i18n>
+        <span tabindex="0"
+        role="button" (click)="toggleEyeStatus()" i18n>
           <i class="fa-solid fa-eye-slash"></i>
         </span>
       } @else {
-        <span i18n>
+        <span tabindex="0"
+        role="button" (click)="toggleEyeStatus()" i18n>
           <i class="fa-solid fa-eye"></i>
         </span>
       }

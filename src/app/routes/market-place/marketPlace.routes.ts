@@ -11,6 +11,7 @@ import { myMarketRoutes } from '../my-market/mymarket.routes';
 import { OrdersComponent } from '../../components/dev/orders/orders.component';
 import { CartsComponent } from '../../components/dev/carts/carts.component';
 
+
 export const marketPlaceRoutes: Routes = [
   { path: '', component: MarketDashboardComponent },
   { path: 'products', children: ProductsMarketPlaceRoutes },
@@ -22,4 +23,5 @@ export const marketPlaceRoutes: Routes = [
   { path: 'merchant-config', component: MerchantConfigComponent },
   { path: 'orders', component: OrdersComponent },
   { path: 'carts', component: CartsComponent },
+
 ];
