@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-
+import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
 @Component({
   selector: 'app-payment-reports',
   standalone: true,
-  imports: [],
+  imports: [ReusableListComponent],
   templateUrl: './payment-reports.component.html',
   styleUrl: './payment-reports.component.scss',
 })
@@ -28,16 +28,19 @@ export class PaymentReportsComponent {
         'other_info.credit_account.data.account_number',
       ],
       size: '',
+      format: 'account',
     },
     {
       name: 'Reference',
       field: ['reference'],
       size: '',
+      format: 'reference',
     },
     {
       name: 'Merchant reference',
       field: ['other_info.merchant_reference.data'],
       size: '',
+      format: 'merchant',
     },
     {
       name: 'Status',
@@ -45,6 +48,7 @@ export class PaymentReportsComponent {
       css: 'status.css',
       class: 'badge',
       size: '',
+      format: 'status',
     },
     {
       name: 'Description',

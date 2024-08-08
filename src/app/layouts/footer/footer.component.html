@@ -11,17 +11,24 @@
   </span>
 </div> -->
 
-<div class="colcontainer d-flex justify-content-center footer text-center">
-  <p class="text-dark" style="opacity: 0.4">
+<div
+  class="col container d-flex justify-content-center footer align-items-center pt-2">
+  <p class="text-dark">
     <span
       ><a class="text-dark" href="https://about.ihela.bi ">About</a> . Privacy .
-      Terms and conditions . Jobs . <br />
+      Terms and conditions . Jobs .
+      @if (break) {
+        <br />
+      }
       <a class="text-dark" href=" http://bankingdocs.ihela.bi/">API</a> .
       <a class="text-dark" href=" https://magis.bi">MAGIS</a> . Plus</span
     >
     @if (showCopyRight) {
       <span
-        >Copyright &copy; <br />
+        >Copyright &copy;
+        @if (break) {
+          <br />
+        }
         iHela Credit Union {{ year }} . Provided by
         <a class="text-dark" href=" https://magis.bi">MAGIS</a>
       </span>
