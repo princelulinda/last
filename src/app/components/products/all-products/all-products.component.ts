@@ -34,10 +34,7 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
 import { AllProductModel, ProductModel } from '../products.model';
 import { MerchantModel } from '../products.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
-import {
-  EmptyStateComponent,
-  searchType,
-} from '../../../global/components/empty-states/empty-state/empty-state.component';
+import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-all-products',
@@ -68,7 +65,6 @@ export class AllProductsComponent implements OnInit {
   @Input() searchBar = false;
   @Input() isWhite = false;
   searchTerm = 'product';
-  searchType: searchType = 'product';
 
   @Input() url = '';
   merchantId = 1;
