@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthHeaderComponent } from './auth-header/auth-header.component';
-import { ResetPasswordComponent } from '../../components/auth/authentification/reset-password/reset-password.component';
+import { ResetPasswordComponent } from '../../components/auth/reset-password/reset-password.component';
 import { FooterComponent } from '../footer/footer.component';
 import { UserInfoModel } from '../../core/db/models/auth';
 import { Observable } from 'rxjs';

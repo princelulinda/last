@@ -6,7 +6,7 @@ import { AuthService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
 import { Subject, Observable } from 'rxjs';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-
+import { LookupComponent } from '../../dev/lookup/lookup.component';
 import {
   EmailVerificationResponse,
   phoneNumberVerificaitonResponse,
@@ -18,6 +18,9 @@ import { FileComponent } from '../../../global/components/file/file.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { UploadedFileModel } from '../auth.model';
 import { BankService } from '../../../core/services/bank/bank.service';
+import { DbService } from '../../../core/db/db.service';
+import { ItemModel } from '../../dev/lookup/lookup.model';
+
 @Component({
   selector: 'app-auth-sign-up',
   standalone: true,
@@ -28,6 +31,7 @@ import { BankService } from '../../../core/services/bank/bank.service';
     ReactiveFormsModule,
     FileComponent,
     SkeletonComponent,
+    LookupComponent,
   ],
   templateUrl: './auth-sign-up.component.html',
   styleUrl: './auth-sign-up.component.scss',
@@ -65,6 +69,9 @@ export class AuthSignUpComponent implements OnInit {
   dialog$: Observable<DialogResponseModel>;
   uuid!: string;
   docFile!: string;
+  id!: number;
+
+  // event!: referenceNumberModel[];
 
   ngOnInit(): void {
     this.dialog$.subscribe({
@@ -97,7 +104,8 @@ export class AuthSignUpComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private bankService: BankService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private dbService: DbService
   ) {
     this.dialog$ = this.dialogService.getDialogState();
   }
@@ -134,7 +142,7 @@ export class AuthSignUpComponent implements OnInit {
   createAccount() {
     this.isLoadingCreation = true;
     const data = {
-      // creation_client: this.id,
+      creation_client: this.id,
       organization: this.bankId,
       picture: '',
       write_picture:
@@ -185,12 +193,14 @@ export class AuthSignUpComponent implements OnInit {
       next: (response: createAccountResponse) => {
         this.isLoadingCreation = false;
         this.userInfo = response;
-        //   const userData = {
-        //     username: response.object.user.username,
-        //     email: response.object.user.email,
-        //     token: response.object.user.token,
-        // };
-        // this.store.dispatch(new ConnectUser(userData));
+        const userData = {
+          // username: response.object.user.username,
+          // email: response.object.user.email,
+          token: response.object.user.token,
+          clientId: response.object.client.client_id,
+        };
+        this.dbService.setLocalStorageUserToken(userData.token);
+        this.dbService.setLocalStorageClientId(userData.clientId);
         this.step = this.step = 5;
         this.dialogService.closeLoading();
       },
@@ -229,7 +239,6 @@ export class AuthSignUpComponent implements OnInit {
       next: (response: EmailVerificationResponse) => {
         this.EmailVerificationloader = false;
         this.emailToVerify = response;
-        console.log('Données sélectionnées', this.emailToVerify);
       },
       error: (error: Error) =>
         console.error('Erreur lors de la récupération de email:', error),
@@ -307,7 +316,6 @@ export class AuthSignUpComponent implements OnInit {
   onPictureChange(write_picture: UploadedFileModel[]) {
     this.uuid = write_picture[0]?.object.uuid;
     this.docFile = write_picture[0]?.object.docfile;
-    console.log('picture', write_picture);
     this.multiStepForm.controls.authentificationInformation.patchValue({
       write_picture: this.uuid,
     });
@@ -320,5 +328,13 @@ export class AuthSignUpComponent implements OnInit {
       title: '',
       type: 'confirm',
     });
+  }
+  selectClient(event: ItemModel | null) {
+    if (event) {
+      this.id = event.id;
+    }
+  }
+  logout() {
+    this.authService.logout();
   }
 }
