@@ -54,7 +54,7 @@ export class PaymentReportsComponent {
       name: 'Description',
       field: ['comment'],
       size: '4',
-      canBeDisplayed: false,
+      canBeDisplayed: true,
     },
   ];
 }

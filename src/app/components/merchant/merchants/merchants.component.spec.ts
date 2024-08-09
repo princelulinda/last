@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MerchantsComponent } from './merchants.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('MerchantsComponent', () => {
   let component: MerchantsComponent;
@@ -9,6 +11,7 @@ describe('MerchantsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MerchantsComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MerchantsComponent);

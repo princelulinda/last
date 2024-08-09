@@ -18,7 +18,7 @@ import { GlobalMapComponent } from '../../dev/global-map/global-map.component';
 import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.model';
 
 @Component({
-  selector: 'app-merchant',
+  selector: 'app-merchants',
   standalone: true,
   imports: [
     MerchantCardComponent,
@@ -28,10 +28,10 @@ import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.mod
     SkeletonComponent,
     GlobalMapComponent,
   ],
-  templateUrl: './merchant.component.html',
-  styleUrl: './merchant.component.scss',
+  templateUrl: './merchants.component.html',
+  styleUrl: './merchants.component.scss',
 })
-export class MerchantComponent implements OnInit, OnDestroy {
+export class MerchantsComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   private variableService = inject(VariableService);
 
