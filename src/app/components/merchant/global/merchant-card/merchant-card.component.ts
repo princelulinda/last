@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { objectModel } from '../../../../components/dashboards/dashboard.model';
+import { objectModel } from '../../../dashboards/dashboard.model';
 import { Favorite } from '../../../../core/services/merchant/model';
 import { MerchantService } from '../../../../core/services';
 import { Merchant_AutocompleteModel } from './merchant.model';

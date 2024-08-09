@@ -12,11 +12,11 @@ import {
   MerchantService,
 } from '../../../core/services';
 import { Favorite } from '../../../core/services/merchant/model';
-import { MerchantCardComponent } from '../../../global/components/merchant/merchant-card/merchant-card.component';
+import { MerchantCardComponent } from '../global/merchant-card/merchant-card.component';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillersModel } from '../../dashboards/dashboard.model';
 import { MerchantResFav } from './merchant.models';
-import { Merchant_AutocompleteModel } from '../../../global/components/merchant/merchant-card/merchant.model';
+import { Merchant_AutocompleteModel } from '../global/merchant-card/merchant.model';
 import { GoogleMapComponent } from '../../../global/components/google-map/google-map.component';
 
 @Component({

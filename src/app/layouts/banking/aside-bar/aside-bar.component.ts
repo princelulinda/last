@@ -20,7 +20,7 @@ import {
   TransactionModel,
   TransactionObjectModel,
 } from '../../../components/merchant/products/products.model';
-import { ProductCardComponent } from '../../../global/components/merchant/product-card/product-card.component';
+import { ProductCardComponent } from '../../../components/merchant/global/product-card/product-card.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({

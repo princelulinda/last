@@ -27,9 +27,9 @@ import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
-import { MerchantCardComponent } from '../../../global/components/merchant/merchant-card/merchant-card.component';
+import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
 import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
-import { Merchant_AutocompleteModel } from '../../../global/components/merchant/merchant-card/merchant.model';
+import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
 import { AllProductsComponent } from '../../merchant/products/all-products/all-products.component';
 import {
   Account,

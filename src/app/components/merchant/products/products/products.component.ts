@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 
 // import { MerchantService } from 'src/app/core/services/merchant.service';
 import { MerchantService } from '../../../../core/services/merchant/merchant.service';
-import { ProductCardComponent } from '../../../../global/components/merchant/product-card/product-card.component';
+import { ProductCardComponent } from '../../global/product-card/product-card.component';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { AllProductsComponent } from '../all-products/all-products.component';
 import { AllProductModel, ProductModel } from '../products.model';

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { Observable } from 'rxjs';
 
-import { ProductModel } from '../../../../components/dashboards/dashboard.model';
+import { ProductModel } from '../../../dashboards/dashboard.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { ConfigService } from '../../../../core/services';
 

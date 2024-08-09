@@ -16,7 +16,7 @@ import { AllProductModel, ProductModel } from '../products.model';
 import { MerchantModel } from '../products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
-import { ProductCardComponent } from '../../../../global/components/merchant/product-card/product-card.component';
+import { ProductCardComponent } from '../../global/product-card/product-card.component';
 
 @Component({
   selector: 'app-all-products',
