@@ -9,13 +9,13 @@ import {
   MerchantService,
 } from '../../../core/services';
 import { Favorite } from '../../../core/services/merchant/model';
-import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
+import { MerchantCardComponent } from '../../../global/components/merchant/merchant-card/merchant-card.component';
 import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillersModel } from '../../dashboards/dashboard.model';
 import { MerchantResFav } from './merchant.models';
 import { GlobalMapComponent } from '../../dev/global-map/global-map.component';
-import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.model';
+import { Merchant_AutocompleteModel } from '../../../global/components/merchant/merchant-card/merchant.model';
 
 @Component({
   selector: 'app-merchants',

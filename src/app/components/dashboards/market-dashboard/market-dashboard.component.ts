@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
-import { ProductCardComponent } from '../../dev/product-card/product-card.component';
-import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
+import { ProductCardComponent } from '../../../global/components/merchant/product-card/product-card.component';
+import { MerchantCardComponent } from '../../../global/components/merchant/merchant-card/merchant-card.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import {
   BestOfferModel,
@@ -13,8 +13,8 @@ import {
   ProductModel,
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.model';
-import { BillerCardComponent } from '../../dev/biller-card/biller-card.component';
+import { Merchant_AutocompleteModel } from '../../../global/components/merchant/merchant-card/merchant.model';
+import { BillerCardComponent } from '../../../global/components/merchant/biller-card/biller-card.component';
 
 @Component({
   selector: 'app-market-dashboard',

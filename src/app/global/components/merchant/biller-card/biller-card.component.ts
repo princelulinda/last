@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BillersModel } from '../../dashboards/dashboard.model';
+import { BillersModel } from '../../../../components/dashboards/dashboard.model';
 
 @Component({
   selector: 'app-biller-card',
