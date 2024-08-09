@@ -83,7 +83,6 @@ export const routes: Routes = [
         path: 'onamob',
         component: OnamobDashboardComponent,
       },
-
       {
         path: 'mymarket',
         children: myMarketRoutes,
