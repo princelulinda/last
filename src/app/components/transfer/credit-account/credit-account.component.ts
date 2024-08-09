@@ -44,7 +44,7 @@ import {
   TransferResponseModel,
 } from '../transfer.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { MerchantObjectModel } from '../../products/products.model';
+import { MerchantObjectModel } from '../../merchant/products/products.model';
 
 @Component({
   selector: 'app-credit-account',

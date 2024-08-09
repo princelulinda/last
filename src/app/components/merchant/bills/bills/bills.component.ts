@@ -4,14 +4,14 @@ import { RouterLink } from '@angular/router';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { MarketService } from '../../../core/services/market/market.service';
-import { AuthService, ConfigService } from '../../../core/services';
-import { Pagination } from '../../../core/services/merchant/model';
-import { ModeModel } from '../../../core/services/config/main-config.models';
-import { UserInfoModel } from '../../../core/db/models/auth';
-import { BillsModel, paymentBillsModel } from '../products.model';
+import { MarketService } from '../../../../core/services/market/market.service';
+import { AuthService, ConfigService } from '../../../../core/services';
+import { Pagination } from '../../../../core/services/merchant/model';
+import { ModeModel } from '../../../../core/services/config/main-config.models';
+import { UserInfoModel } from '../../../../core/db/models/auth';
+import { BillsModel, paymentBillsModel } from '../../products/products.model';
 
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-bills',

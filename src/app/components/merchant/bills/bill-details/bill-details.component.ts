@@ -4,13 +4,13 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
-import { MarketService } from '../../../core/services/market/market.service';
-import { VariableService } from '../../../core/services/variable/variable.service';
-import { SimpleMerchantService } from '../../../core/services/simple-merchant/simple-merchant.service';
-import { DialogService, ConfigService } from '../../../core/services';
+import { MarketService } from '../../../../core/services/market/market.service';
+import { VariableService } from '../../../../core/services/variable/variable.service';
+import { SimpleMerchantService } from '../../../../core/services/simple-merchant/simple-merchant.service';
+import { DialogService, ConfigService } from '../../../../core/services';
 
-import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { MerchantBillComponent } from '../../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 
 import {
   AccountModel,
@@ -19,12 +19,12 @@ import {
   OptionModel,
   paymentBillsModel,
   WalletModel,
-} from '../products.model';
-import { ModeModel } from '../../../core/services/config/main-config.models';
+} from '../../products/products.model';
+import { ModeModel } from '../../../../core/services/config/main-config.models';
 import {
   DialogResponseModel,
   toastTypeModel,
-} from '../../../core/services/dialog/dialogs-models';
+} from '../../../../core/services/dialog/dialogs-models';
 // import {
 //     OpenDialog,
 //     SwitchThemeState,

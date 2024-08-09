@@ -4,9 +4,9 @@ import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 // import { MerchantService } from 'src/app/core/services/merchant.service';
-import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import { ProductCardComponent } from '../../dev/product-card/product-card.component';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { MerchantService } from '../../../../core/services/merchant/merchant.service';
+import { ProductCardComponent } from '../../../dev/product-card/product-card.component';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { AllProductsComponent } from '../all-products/all-products.component';
 import { AllProductModel, ProductModel } from '../products.model';
 

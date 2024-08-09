@@ -8,7 +8,7 @@ import { addBankResponse } from '../../../components/dashboards/dashboard.model'
 import {
   PeriodModel,
   TransactionObjectModel,
-} from '../../../components/products/products.model';
+} from '../../../components/merchant/products/products.model';
 
 @Injectable({
   providedIn: 'root',

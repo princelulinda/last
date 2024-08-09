@@ -6,10 +6,6 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Subject, Observable, takeUntil } from 'rxjs';
-import { DialogService, MerchantService } from '../../../core/services';
-import { MarketService } from '../../../core/services/market/market.service';
-import { VariableService } from '../../../core/services/variable/variable.service';
-import { PaginationConfig } from '../../../global/global.model';
 
 import {
   MerchantModel,
@@ -18,9 +14,13 @@ import {
   updateProductInfoObjectModel,
 } from '../products.model';
 import { CommonModule } from '@angular/common';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { RouterModule } from '@angular/router';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
+import { PaginationConfig } from '../../../../global/global.model';
+import { DialogService, MerchantService } from '../../../../core/services';
+import { VariableService } from '../../../../core/services/variable/variable.service';
+import { MarketService } from '../../../../core/services/market/market.service';
 
 @Component({
   selector: 'app-product-config',

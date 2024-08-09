@@ -10,7 +10,7 @@ import {
   MerchantObjectModel,
   searchProductByMerchantModel,
   updateProdcutInfoModel,
-} from '../../../components/products/products.model';
+} from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
   newTellerModel,

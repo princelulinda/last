@@ -15,10 +15,14 @@ import { takeUntil } from 'rxjs/operators';
 // import { Store } from '@ngxs/store';
 
 // import { MerchantService } from 'src/app/core/services/merchant.service';
-import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import { ApiService, AuthService, ConfigService } from '../../../core/services';
+import { MerchantService } from '../../../../core/services/merchant/merchant.service';
+import {
+  ApiService,
+  AuthService,
+  ConfigService,
+} from '../../../../core/services';
 // import { VariableService } from '../../../core/services/variable/variable.service';
-import { Pagination } from '../../../core/services/merchant/model';
+import { Pagination } from '../../../../core/services/merchant/model';
 // import {
 //     ApiService,
 //     VariableService,
@@ -27,14 +31,14 @@ import { Pagination } from '../../../core/services/merchant/model';
 // } from 'src/app/core';
 // import { ActivatedRoute } from '@angular/router';
 // import { ProductMerchantCardComponent } from '../product-merchant-card/product-merchant-card.component';
-import { ProductCardComponent } from '../../dev/product-card/product-card.component';
+import { ProductCardComponent } from '../../../dev/product-card/product-card.component';
 // import { AuthState, SwitchThemeState } from 'src/app/shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { AllProductModel, ProductModel } from '../products.model';
 import { MerchantModel } from '../products.model';
-import { ModeModel } from '../../../core/services/config/main-config.models';
-import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
+import { ModeModel } from '../../../../core/services/config/main-config.models';
+import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-all-products',

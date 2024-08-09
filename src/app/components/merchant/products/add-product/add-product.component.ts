@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { MarketService } from '../../../core/services/market/market.service';
+import { MarketService } from '../../../../core/services/market/market.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import {
@@ -14,7 +14,7 @@ import {
   inputAmountModel,
   MerchantModel,
 } from '../products.model';
-import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
+import { AmountFieldComponent } from '../../../../global/components/custom-field/amount-field/amount-field.component';
 
 @Component({
   selector: 'app-add-product',
