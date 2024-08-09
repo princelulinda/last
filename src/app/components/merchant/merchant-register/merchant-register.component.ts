@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './merchant-register.component.html',
-  styleUrl: './merchant-register.component.scss'
+  styleUrl: './merchant-register.component.scss',
 })
-export class MerchantRegisterComponent {
-
-}
+export class MerchantRegisterComponent {}
