@@ -14,8 +14,8 @@ import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillersModel } from '../../dashboards/dashboard.model';
 import { MerchantResFav } from './merchant.models';
-import { GlobalMapComponent } from '../../dev/global-map/global-map.component';
 import { Merchant_AutocompleteModel } from '../../../global/components/merchant/merchant-card/merchant.model';
+import { GoogleMapComponent } from '../../dev/google-map/google-map.component';
 
 @Component({
   selector: 'app-merchants',
@@ -26,7 +26,7 @@ import { Merchant_AutocompleteModel } from '../../../global/components/merchant/
     FormsModule,
     ReactiveFormsModule,
     SkeletonComponent,
-    GlobalMapComponent,
+    GoogleMapComponent,
   ],
   templateUrl: './merchants.component.html',
   styleUrl: './merchants.component.scss',

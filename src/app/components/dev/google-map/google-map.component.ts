@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { MerchantService } from '../../../core/services';
 import { CommonModule } from '@angular/common';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
-import { Coords2Model, CoordsModel } from './map.model';
+import { Coords2Model, CoordsModel } from '../google-map/map.model';
 
 @Component({
-  selector: 'app-global-map',
+  selector: 'app-google-map',
   standalone: true,
   imports: [CommonModule, GoogleMap, MapMarker],
-  templateUrl: './global-map.component.html',
-  styleUrl: './global-map.component.scss',
+  templateUrl: './google-map.component.html',
+  styleUrl: './google-map.component.scss',
 })
-export class GlobalMapComponent implements OnInit {
+export class GoogleMapComponent implements OnInit {
   mapCenter = { lat: -3.3816576, lng: 29.360128 };
   mapZoom = 15;
   // coords!: CoordsModel[];

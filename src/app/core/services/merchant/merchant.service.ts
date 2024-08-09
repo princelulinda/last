@@ -18,7 +18,7 @@ import {
   updateMerchantDetailsModel,
 } from '../../../components/merchant/merchant.models';
 import { TransferResponseModel } from '../../../components/transfer/transfer.model';
-import { Coords2Model } from '../../../components/dev/global-map/map.model';
+import { Coords2Model } from '../../../components/dev/google-map/map.model';
 import { Merchant_AutocompleteModel } from '../../../global/components/merchant/merchant-card/merchant.model';
 
 @Injectable({
