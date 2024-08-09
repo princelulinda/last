@@ -1,7 +1,10 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
-import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
-import { VariableService } from '../../../core/services/variable/variable.service';
+import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
+
+import { VariableService } from '../../../core/services/variable/variable.service';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import {
   ConfigService,
@@ -10,12 +13,11 @@ import {
 } from '../../../core/services';
 import { Favorite } from '../../../core/services/merchant/model';
 import { MerchantCardComponent } from '../../../global/components/merchant/merchant-card/merchant-card.component';
-import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillersModel } from '../../dashboards/dashboard.model';
 import { MerchantResFav } from './merchant.models';
 import { Merchant_AutocompleteModel } from '../../../global/components/merchant/merchant-card/merchant.model';
-import { GoogleMapComponent } from '../../dev/google-map/google-map.component';
+import { GoogleMapComponent } from '../../../global/components/google-map/google-map.component';
 
 @Component({
   selector: 'app-merchants',
