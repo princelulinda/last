@@ -4,14 +4,14 @@ import { RouterLink } from '@angular/router';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { SwitchBankComponent } from '../../global/components/popups/switch-bank/switch-bank.component';
-import { SkeletonComponent } from '../../global/components/loaders/skeleton/skeleton.component';
-import { bankModel } from '../../core/db/models/bank/bank.model';
-import { ConfigService } from '../../core/services';
+import { SwitchBankComponent } from '../../../../global/components/popups/switch-bank/switch-bank.component';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { bankModel } from '../../../../core/db/models/bank/bank.model';
+import { ConfigService } from '../../../../core/services';
 import {
   activeMainConfigModel,
   ModeModel,
-} from '../../core/services/config/main-config.models';
+} from '../../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-bank-home',
