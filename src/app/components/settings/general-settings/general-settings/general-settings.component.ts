@@ -11,11 +11,12 @@ import { ClientService } from '../../../../core/services/client/client.service';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { BodyModel } from '../../settings.models';
 import { ClipboardDirective } from '../../../dev/clipboard.directive';
+import { GlobalMappingComponent } from '../../../dev/global-mapping/global-mapping.component';
 // { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-general-settings',
   standalone: true,
-  imports: [ReactiveFormsModule, ClipboardDirective],
+  imports: [ReactiveFormsModule, ClipboardDirective, GlobalMappingComponent],
   templateUrl: './general-settings.component.html',
   styleUrl: './general-settings.component.scss',
 })
@@ -29,13 +30,16 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
   id!: number;
   loading = false;
   emailsLoading = true;
+  selectedNumberToMap!: string;
   phoneNumbersLoading = true;
   phoneNumbers: MailModel[] | null = null;
+  showActionPopupAt!: string;
   private userInfo$: Observable<UserInfoModel>;
   //showActionPopupAt:any
   //selectedNumberToMap!: string;
   emails: MailModel[] | null = null;
   email = new FormControl('', [Validators.required, Validators.email]);
+
   phoneNumber = new FormControl('', [
     Validators.required,
     Validators.pattern('^[0-9]+$'),
@@ -89,6 +93,15 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
         }
       },
     });
+  }
+  toggleActionPopup(number: MailModel) {
+    // this.showActionPopupAt = number.ident;
+    if (this.showActionPopupAt && this.showActionPopupAt === number.ident) {
+      this.showActionPopupAt = '';
+    } else {
+      this.showActionPopupAt = number.ident;
+      // console.log('hello',this.showActionPopupAt)
+    }
   }
 
   getEmails() {
@@ -212,13 +225,7 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
       action: contactType,
     });
   }
-  //   toggleActionPopup(number: any) {
-  //     if (this.showActionPopupAt && this.showActionPopupAt === number) {
-  //         this.showActionPopupAt = null;
-  //     } else {
-  //         this.showActionPopupAt = number;
-  //     }
-  // }
+
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();

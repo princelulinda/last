@@ -1,5 +1,5 @@
 export { User, UserApiResponse } from './auth/user';
-export { Menu } from './menu/menu';
+export { MenuGroup, TypeMenu, SelectedTypeMenu } from './menu';
 export { MainConfig } from './config/main-config';
 export { Bank } from './bank/banks/bank';
 export { SelectedBank } from './bank/selected-bank/selected-bank';

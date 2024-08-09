@@ -1,0 +1,21 @@
+.map {
+  height: 400px; /* Default height */
+  width: 570px; /* Default width */
+  z-index: 5;
+  border-radius: 5px;
+}
+
+@media (max-width: 578px) {
+  .map {
+    width: 350px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+/* Media query for 110% zoom */
+// @media (min-width: 1538px) and (max-width: 1800px) {
+//   .map {
+//     width: 570px;
+//   }
+// }

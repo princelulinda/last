@@ -215,7 +215,14 @@
                           @for (menu of menuGroup.menus; track $index) {
                             <div
                               role="button"
-                              class="d-grid col-3 justify-content-center">
+                              class="d-grid col-3 justify-content-center"
+                              [routerLink]="
+                                activePlatform === 'workstation'
+                                  ? menu.link[1]
+                                  : activePlatform === 'onlineBanking'
+                                    ? menu.link[0]
+                                    : ''
+                              ">
                               <div
                                 class="d-flex w-100 mb-2 justify-content-center">
                                 <div
@@ -232,7 +239,13 @@
                           }
                         </div>
                       }
-                      @if (i !== 0 && i !== 2 && !menuGroup.menus) {
+
+                      @if (
+                        i !== 0 &&
+                        i !== 2 &&
+                        !menuGroup.menus &&
+                        menuGroup.is_active
+                      ) {
                         <div class="d-grid align-items-center opacity-50">
                           <span class="text-center mb-3">
                             <i class="fa fa-face-meh empty-icon"></i>
@@ -254,7 +267,7 @@
 
     <div class="modal fade" id="banksModal" data-mdb-backdrop="false">
       <div class="modal-dialog inner-container overflow-auto">
-        <div class="modal-content" style="margin-top: 35%">
+        <div class="modal-content bg-white" style="margin-top: 35%">
           <main class="p-4">
             <div class="text-end">
               <span

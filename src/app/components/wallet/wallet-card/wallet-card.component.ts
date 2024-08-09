@@ -10,6 +10,7 @@ import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 interface mainConfigModel {
   activeMode: string;
@@ -19,14 +20,12 @@ interface mainConfigModel {
 @Component({
   selector: 'app-wallet-card',
   standalone: true,
-  imports: [NgClass, CommonModule, RouterLink],
+  imports: [NgClass, CommonModule, RouterLink, AmountVisibilityComponent],
   templateUrl: './wallet-card.component.html',
   styleUrl: './wallet-card.component.scss',
 })
 export class WalletCardComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
-
-  showAmountWallet = false;
 
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
@@ -42,6 +41,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   noWalletData = false;
   clientId: number | null = null;
   bankId: number | null = null;
+  mouseHover = false;
 
   constructor(
     private bankingService: BankingService,
@@ -83,13 +83,13 @@ export class WalletCardComponent implements OnInit, OnDestroy {
         }
       },
     });
-
     this.getDefaultWallet();
   }
 
-  toggleAmount() {
-    this.showAmountWallet = !this.showAmountWallet;
-  }
+  // toggleAmount() {
+  //   this.dialogService.displayAmount();
+  // }
+
   getDefaultWallet() {
     this.bankingService
       .getDefaultWallet()

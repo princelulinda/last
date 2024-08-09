@@ -4,7 +4,15 @@ import { liveQuery } from 'dexie';
 import { Observable, Subject } from 'rxjs';
 
 import { DbService } from '../../db';
-import { Bank, MainConfig, SelectedBank, Operator } from '../../db/models';
+import {
+  Bank,
+  MainConfig,
+  SelectedBank,
+  Operator,
+  TypeMenu,
+  MenuGroup,
+  SelectedTypeMenu,
+} from '../../db/models';
 import { environment } from '../../../../environments/environment';
 
 import { ApiService } from '../api/api.service';
@@ -22,6 +30,10 @@ import {
   ThemeModel,
 } from './main-config.models';
 import { Organizations } from '../../db/models/organisations/organizations';
+import {
+  MenuGroupsModel,
+  TypeMenuModel,
+} from '../../db/models/menu/menu.models';
 
 @Injectable({
   providedIn: 'root',
@@ -43,7 +55,11 @@ export class ConfigService {
   private isTreasurerOperator = new Subject<boolean>();
 
   private allOrganizations$: unknown | Observable<OrganizationModel[]>;
-  // private organizations_without_Selected$ = new Subject<OrganizationModel[]>();
+
+  private typeMenus$: unknown | Observable<TypeMenuModel[]>;
+  private menuGroups$: unknown | Observable<MenuGroupsModel[]>;
+  private typeMenusExist = new Subject<boolean>();
+  private selectedTypeMenu$: unknown | Observable<TypeMenuModel>;
 
   constructor(
     private dbService: DbService,
@@ -64,6 +80,16 @@ export class ConfigService {
     );
     this.allOrganizations$ = liveQuery(() =>
       this.dbService.getOnce(Organizations.tableName)
+    );
+
+    this.typeMenus$ = liveQuery(() =>
+      this.dbService.getOnce(TypeMenu.tableName)
+    );
+    this.menuGroups$ = liveQuery(() =>
+      this.dbService.getOnce(MenuGroup.tableName)
+    );
+    this.selectedTypeMenu$ = liveQuery(() =>
+      this.dbService.getOnce(SelectedTypeMenu.tableName)
     );
   }
 
@@ -88,8 +114,6 @@ export class ConfigService {
     };
 
     this.dbService.dbIsReady.subscribe(() => {
-      // value: boolean
-      // console.log(`INITIALIZING ALL CONFIG FOR DB READY ${value}`);
       initFn();
     });
   }
@@ -167,6 +191,9 @@ export class ConfigService {
       if (redirectToBaseHref) {
         this.router.navigate([baseHref]);
       }
+      if (plateform === 'workstation') {
+        this.resetSelectedBank();
+      }
     }
   }
   async switchMode() {
@@ -192,7 +219,6 @@ export class ConfigService {
   }
 
   async clearDB() {
-    // DELETE DATABASE
     this.dbService.db.close();
     await this.dbService.db.delete();
     this.apiService.clearLocalData();
@@ -211,6 +237,7 @@ export class ConfigService {
   }
   resetSelectedBank(): void {
     this.dbService.clearTable(SelectedBank.tableName);
+    this.apiService.resetLocalBankId();
   }
   getUserBanks(): Observable<bankModel[]> {
     return this.userBanks$ as Observable<bankModel[]>;
@@ -234,7 +261,11 @@ export class ConfigService {
   getSelectedOrganization(): Observable<OrganizationModel | null> {
     this.getConnectedOperator().subscribe({
       next: operator => {
-        this.operatorOrganization.next(operator.organization ?? null);
+        if (operator) {
+          this.operatorOrganization.next(operator.organization ?? null);
+        } else {
+          this.operatorOrganization.next(null);
+        }
       },
     });
     return this.operatorOrganization;
@@ -257,6 +288,17 @@ export class ConfigService {
       },
     });
     return this.isAuthenticatedOperator;
+  }
+  getLocalConnectedOperator(): boolean {
+    const status = this.apiService.getLocalConnectedOperator();
+    if (status === 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  setLocalConnectedOperator(status: 'true' | 'false') {
+    this.apiService.setLocalConnectedOperator(status);
   }
   operatorIsTreasurer(): Observable<boolean> {
     this.getConnectedOperator().subscribe({
@@ -285,6 +327,50 @@ export class ConfigService {
   }
   getOperatorOrganizations(): Observable<OrganizationModel[]> {
     return this.allOrganizations$ as Observable<OrganizationModel[]>;
+  }
+
+  // NOTE :: MENUS METHODS
+  getTypeMenus(): Observable<TypeMenuModel[]> {
+    return this.typeMenus$ as Observable<TypeMenuModel[]>;
+  }
+  getMenuGroups(): Observable<MenuGroupsModel[]> {
+    return this.menuGroups$ as Observable<MenuGroupsModel[]>;
+  }
+
+  setTypeMenus(payload: TypeMenuModel[]) {
+    this.dbService.addOnceUpdate(TypeMenu.tableName, payload);
+  }
+  setMenuGroup(payload: MenuGroupsModel[]) {
+    this.dbService.addOnceUpdate(MenuGroup.tableName, payload);
+  }
+  clearAllMenu() {
+    this.dbService.clearTable(TypeMenu.tableName);
+    this.dbService.clearTable(MenuGroup.tableName);
+    // this.dbService.clearTable(SelectedTypeMenu.tableName);
+  }
+  checkTypeMenus(): Observable<boolean> {
+    this.getTypeMenus().subscribe({
+      next: menus => {
+        if (!menus || menus.length === 0) {
+          this.typeMenusExist.next(false);
+        } else {
+          this.typeMenusExist.next(true);
+        }
+      },
+      error: () => {
+        this.typeMenusExist.next(false);
+      },
+    });
+    return this.typeMenusExist;
+  }
+  setLocalSelectedMenu(menu: string) {
+    this.apiService.setLocalSelectedMenu(menu);
+  }
+  setSelectedTypeMenu(menu: TypeMenuModel) {
+    this.dbService.addOnceUpdate(SelectedTypeMenu.tableName, menu);
+  }
+  getSelectedTypeMenu(): Observable<TypeMenuModel> {
+    return this.selectedTypeMenu$ as Observable<TypeMenuModel>;
   }
 
   // NOTE :: PRIVATE CONFIG METHODS

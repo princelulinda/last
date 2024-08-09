@@ -9,6 +9,8 @@ import { AdminRoutes } from './admin.routes';
 import { ReportingRoutes } from './reporting.routes';
 import { BankingLayoutComponent } from '../../layouts/workstation/banking-layout/banking-layout.component';
 import { MarketLayoutComponent } from '../../layouts/workstation/market-layout/market-layout.component';
+import { IntranetLayoutComponent } from '../../layouts/workstation/intranet-layout/intranet-layout.component';
+import { DeskLayoutComponent } from '../../layouts/workstation/desk-layout/desk-layout.component';
 
 export const workstationRoutes: Routes = [
   //Dashboards
@@ -28,10 +30,12 @@ export const workstationRoutes: Routes = [
   },
   {
     path: 'intranet',
+    component: IntranetLayoutComponent,
     children: IntranetRoutes,
   },
   {
     path: 'desk',
+    component: DeskLayoutComponent,
     children: DeskRoutes,
   },
   {

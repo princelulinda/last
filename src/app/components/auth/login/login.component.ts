@@ -31,6 +31,8 @@ import { DialogResponseModel } from '../../../core/services/dialog/dialogs-model
 export class LoginComponent implements OnInit {
   dialog$: Observable<DialogResponseModel>;
   loginLoader = false;
+  showPassword = false;
+  passwordType = 'password';
   loginForm = this.formBuilder.nonNullable.group({
     // username: ['', Validators.required, Validators.minLength(2)],
     // password: ['', Validators.required, Validators.minLength(8)],
@@ -104,6 +106,15 @@ export class LoginComponent implements OnInit {
   }
   onPasswordChange(pin: string) {
     this.loginForm.get('password')?.setValue(pin);
+  }
+  changePasswordType() {
+    if (!this.showPassword) {
+      this.showPassword = true;
+      this.passwordType = 'text';
+    } else {
+      this.showPassword = false;
+      this.passwordType = 'password';
+    }
   }
 
   private managePlateformByURL(url: string) {

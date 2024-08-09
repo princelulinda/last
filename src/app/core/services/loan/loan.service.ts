@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '..';
 import { BehaviorSubject, map } from 'rxjs';
 import {
+  BodyLoanModel,
+  PayLoanModel,
   ResponseDataModel,
   SimulateLoanModel,
   SimulationResModel,
@@ -22,15 +24,19 @@ export class LoanService {
   private _showLoanDetails = new BehaviorSubject<boolean>(false);
   showLoanDetails$ = this._showLoanDetails.asObservable();
 
-  private _loanValue = new BehaviorSubject<number>(0);
-  loanValue$ = this._loanValue.asObservable();
+  // private _loanValue: BehaviorSubject<any> = new BehaviorSubject<any>(
+  //   undefined
+  // );
 
+  // get loanValue$(): Observable<any> {
+  //   return this._loanValue.asObservable();
+  // }
   constructor(private apiService: ApiService) {}
 
-  switchLoanDetails() {
-    this._loanValue.next(0);
-  }
-  toogleLoanDetails(show: boolean) {
+  // switchLoanDetails() {
+  //   this._loanValue.next(undefined);
+  // }
+  toggleLoanDetails(show: boolean) {
     this._showLoanDetails.next(show);
   }
   // getLoansLength(length: number) {
@@ -65,12 +71,12 @@ export class LoanService {
   getAmortizationPlan(id: string) {
     return this.apiService.get(`/loans/plan/${id}`);
   }
-  // payLoan(body: any) {
-  //   return this.apiService.post('/loans/clients/plan/payment/', body);
-  // }
-  // requestLoan(body: any) {
-  //   return this.apiService.post('/loans/request/', body);
-  // }
+  payLoan(body: PayLoanModel) {
+    return this.apiService.post('/loans/clients/plan/payment/', body);
+  }
+  requestLoan(body: BodyLoanModel) {
+    return this.apiService.post('/loans/request/', body);
+  }
   getLoanType() {
     return this.apiService.get('/loans/loan-type/');
   }
@@ -85,6 +91,12 @@ export class LoanService {
       `/loans/defaults-check/?account=${account_id}&loan_type=${loan_type_id}`
     );
   }
+
+  getLoanRequestDetails(loanId: string) {
+    const url = `/loans/request/${loanId}`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
   getPendingLoans({
     limit,
     offset,

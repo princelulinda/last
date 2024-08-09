@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, Input } from '@angular/core';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
@@ -19,12 +19,12 @@ import { ModeModel } from '../../../../core/services/config/main-config.models';
 })
 export class SwitchBankComponent implements OnInit {
   banks: bankModel[] = [];
-  // clientId$: any;
+  @Input() isTransfer = false;
   clientId: number | null = null;
   defaultBank: bankModel | undefined;
   selectedBank!: bankModel;
   selectedBank$!: Observable<bankModel>;
-  // loans: any;
+
   isModalShown = false;
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;

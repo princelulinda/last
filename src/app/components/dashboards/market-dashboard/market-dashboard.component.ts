@@ -5,46 +5,32 @@ import { ProductCardComponent } from '../../dev/product-card/product-card.compon
 import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import {
+  BestOfferModel,
   BillersModel,
-  objectModel,
   objectsModel,
   productCategoryArray,
   productCategoryModel,
+  ProductModel,
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { Favorite } from '../../../core/services/merchant/model';
-// import { Subject, Observable, takeUntil } from 'rxjs';
-// import { MerchantService } from '../../../core/services/merchant/merchant.service';
+import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.model';
+import { BillerCardComponent } from '../../dev/biller-card/biller-card.component';
 
 @Component({
   selector: 'app-market-dashboard',
   standalone: true,
+
   imports: [
     CommonModule,
     SkeletonComponent,
     ProductCardComponent,
     MerchantCardComponent,
+    BillerCardComponent,
   ],
   templateUrl: './market-dashboard.component.html',
   styleUrl: './market-dashboard.component.scss',
 })
 export class MarketDashboardComponent implements OnInit {
-  shoeCardInfo = [
-    {
-      id: '1',
-      offerPourcent: '15% Discount',
-      offerInfo: 'Buy new Nike Air Jordan and get up to 15% discount',
-      image:
-        'https://images.pexels.com/photos/786003/pexels-photo-786003.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-    {
-      id: '2',
-      offerPourcent: '15% Discount',
-      offerInfo: 'Buy new Nike Air Jordan and get up to 15% discount',
-      image:
-        'https://images.pexels.com/photos/786003/pexels-photo-786003.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-  ];
   newArrivalInfo = [
     {
       id: '1',
@@ -86,15 +72,15 @@ export class MarketDashboardComponent implements OnInit {
   favorite_merchant_making!: BillersModel | null;
 
   // activities: any = [];
-  merchants!: BillersModel[];
-  products!: BillersModel[];
-  biller: [] | null = null;
+  merchants!: Merchant_AutocompleteModel[];
+  products!: ProductModel[];
+  // biller: [] | null = null;
   productCategory!: productCategoryModel[];
   // sector: any;
-  last4!: BillersModel[];
-  first6!: BillersModel[];
-  first5!: BillersModel[];
-  first4!: productCategoryModel[];
+  last4Merchant!: Merchant_AutocompleteModel[];
+  recentMerchant!: Merchant_AutocompleteModel[];
+  recentBillers!: BillersModel[];
+  first4ProductCategory!: productCategoryModel[];
   start = 0;
   end = 4;
   clearData = true;
@@ -110,6 +96,8 @@ export class MarketDashboardComponent implements OnInit {
   categorySelected!: null;
   // category: { sector: any; category: any } = { sector: null, category: null };
   // payment: any;
+  offerData: BestOfferModel[] = [];
+  first2: BestOfferModel[] = [];
 
   constructor(private merchantService: MerchantService) {
     // private store: Store
@@ -121,9 +109,11 @@ export class MarketDashboardComponent implements OnInit {
     this.getMerchants('');
     this.getFavoriteMerchants('');
     this.getBrowseByCategory();
+    this.getBestOfferData();
     // this.getSearchProduct('');
     // this.getSectorsAndCategories();
     this.getBillers();
+    this.getRecentProducts();
 
     // this.clientId$.pipe(takeUntil(this.onDestroy$)).subscribe({
     //   next: (id: string) => {
@@ -137,6 +127,15 @@ export class MarketDashboardComponent implements OnInit {
     //         this.getMerchants(search);
     //     },
     // });
+  }
+  getMakeFavoriteResponse(response: string) {
+    const success = response;
+    this.getMerchants('');
+    this.getFavoriteMerchants('');
+    console.log(
+      '============================================>success value',
+      success
+    );
   }
   getFavoriteMerchants(search: string, activeLoading = true) {
     // activeLoading ? (this.favoriteMerchantLoading = true) : false;
@@ -182,23 +181,23 @@ export class MarketDashboardComponent implements OnInit {
   // //     this.biller = biller;
   // // }
 
-  openModal(merchant: BillersModel, event: Event) {
-    // this.payMerchant = merchant;
-    console.log(merchant);
-    this.biller = null;
-    this.categorySelected = null;
-    // this.merchantId = this.payMerchant.id;
-    this.clearData = true;
+  // openModal(merchant: BillersModel, event: Event) {
+  //   // this.payMerchant = merchant;
+  //   console.log(merchant);
+  //   this.biller = null;
+  //   this.categorySelected = null;
+  //   // this.merchantId = this.payMerchant.id;
+  //   this.clearData = true;
 
-    event.stopPropagation();
-    // add data-bs after click on favorite star
-    const element = event.target as HTMLButtonElement;
-    element.setAttribute('data-bs-toggle', 'modal');
-    element.setAttribute('data-bs-target', '#merchantModal');
-    element.click();
-    // accepts_simple_payment;
-    // this.getMerchantDetails();
-  }
+  //   event.stopPropagation();
+  //   // add data-bs after click on favorite star
+  //   const element = event.target as HTMLButtonElement;
+  //   element.setAttribute('data-bs-toggle', 'modal');
+  //   element.setAttribute('data-bs-target', '#merchantModal');
+  //   element.click();
+  //   // accepts_simple_payment;
+  //   // this.getMerchantDetails();
+  // }
 
   // goBack() {
   //     this.sector = true;
@@ -209,14 +208,14 @@ export class MarketDashboardComponent implements OnInit {
     if (this.end < this.merchants.length) {
       this.start++;
       this.end++;
-      this.first6 = this.merchants.slice(this.start, this.end);
+      this.recentMerchant = this.merchants.slice(this.start, this.end);
     }
   }
   previousMerchant() {
     if (this.start > 0) {
       this.start--;
       this.end--;
-      this.first6 = this.merchants.slice(this.start, this.end);
+      this.recentMerchant = this.merchants.slice(this.start, this.end);
     }
   }
 
@@ -226,14 +225,14 @@ export class MarketDashboardComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as objectsModel;
+          const response = data as { objects: Merchant_AutocompleteModel[] };
           this.merchants = response.objects;
           // this.merchant = this.merchants;
-          this.last4 = this.merchants.slice(-4);
+          this.last4Merchant = this.merchants.slice(-4);
           const navigationBtn = document.getElementById(
             'navigationButtonMerchant'
           );
-          this.first6 = this.merchants.slice(this.start, this.end);
+          this.recentMerchant = this.merchants.slice(this.start, this.end);
           navigationBtn?.addEventListener('click', () => {
             this.nextMerchant();
             this.previousMerchant();
@@ -260,14 +259,14 @@ export class MarketDashboardComponent implements OnInit {
     if (this.end < this.billers.length) {
       this.start++;
       this.end++;
-      this.first5 = this.billers.slice(this.start, this.end);
+      this.recentBillers = this.billers.slice(this.start, this.end);
     }
   }
   previousBiller() {
     if (this.start > 0) {
       this.start--;
       this.end--;
-      this.first5 = this.billers.slice(this.start, this.end);
+      this.recentBillers = this.billers.slice(this.start, this.end);
     }
   }
   getBillers() {
@@ -277,21 +276,17 @@ export class MarketDashboardComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          console.log('============response:', response);
           const result = response as objectsModel;
           this.billers = result.objects;
-          console.log('=========this.billers:', this.billers);
 
           const nextBtn = document.getElementById('navigationButton');
-          this.first5 = this.billers.slice(this.start, this.end);
-          console.log('==================this.first5:', this.first6);
+          this.recentBillers = this.billers.slice(this.start, this.end);
           nextBtn?.addEventListener('click', () => {
             this.nextBiller();
             this.previousBiller();
           });
         },
-        error: error => {
-          console.log('========error:', error);
+        error: () => {
           this.loadingmerchants = false;
         },
       });
@@ -304,11 +299,36 @@ export class MarketDashboardComponent implements OnInit {
         next: result => {
           const response = result as productCategoryArray;
           this.productCategory = response.objects;
-          console.log(
-            '===============??productCategory:',
-            this.productCategory
-          );
-          this.first4 = this.productCategory.slice(0, 4);
+          this.first4ProductCategory = this.productCategory.slice(0, 4);
+        },
+      });
+  }
+
+  getBestOfferData() {
+    this.merchantService
+      .getBestOffer()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          const data = response as { objects: BestOfferModel[] };
+          this.offerData = data.objects.slice(0, 2);
+        },
+        // error: (err: HttpErrorResponse) => {
+        //   if (this.offerData.length === 0) {
+        //     console.log('erreur sur best offer', err);
+        //   }
+        // },
+      });
+  }
+
+  getRecentProducts() {
+    this.merchantService
+      .getRecentProducts()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: data => {
+          const response = data as { objects: ProductModel[] };
+          this.products = response.objects.slice(0, 4);
         },
       });
   }
@@ -325,94 +345,47 @@ export class MarketDashboardComponent implements OnInit {
   //               // },
   //           });
   //   }
-  /************************************************************************ */
-  //     makeFavoriteMerchants(favorite: BillersModel, event: any) {
 
-  //     event.stopPropagation();
-  //     console.log('merchant value is:', favorite);
-  // console.log('is_favorite_merchant_making:', favorite.is_favorite_merchant);
-
-  //     const productCard: HTMLElement =
-  //         event.target?.parentElement.parentElement.parentElement.parentElement.parentElement;
-
-  //     // remove data-bs for bootstrap modal
-
-  //     productCard.removeAttribute('data-bs-target');
-  //     productCard.removeAttribute('data-bs-toggle');
-  //     this.favorite_merchant_making = favorite;
-
-  //     let body;
-  //     if (!favorite.is_favorite_merchant) {
-  //         body = {
-  //             merchant: favorite.id,
-  //             merchant_action: 'make_favorite',
-  //         };
-  //     } else if (favorite.is_favorite_merchant) {
-  //         body = {
-  //             merchant: favorite.id,
-  //             merchant_action: 'revoke_favorite',
-  //         };
-  //     }
-
-  //     // add data-bs after click on favorite star
-  //     productCard.setAttribute('data-bs-target', '#myModal');
-  //     productCard.setAttribute('data-bs-toggle', 'modal');
-  //     this.merchantService
-  //         .makeFavoriteMerchants(body)
-  //         .pipe(takeUntil(this.onDestroy$))
-  //         .subscribe({
-  //             next: (data) => {
-  //               console.log(data)
-  //                 // this.favorite_merchants = data.object;
-  //                 if (this.favorite_merchants.success) {
-  //                     this.getMerchants('');
-  //                     this.getFavoriteMerchants('', false);
-  //                 }
-  //             },
-  //         });
-
-  // }
   /********************************************************************** */
-  makeFavoriteMerchants(favorite: BillersModel, event: Event) {
-    event.stopPropagation();
-    // const productCard: HTMLElement =
-    //     event.target?.parentElement.parentElement.parentElement.parentElement
-    //         .parentElement;
-    // remove data-bs for bootstrap modal
-    // productCard.removeAttribute('data-bs-target');
-    // productCard.removeAttribute('data-bs-toggle');
-    this.favorite_merchant_making = favorite;
-    this.favorite_making = false;
-    let body!: Favorite;
-    if (!favorite.is_favorite_merchant) {
-      body = {
-        merchant: favorite.id,
-        merchant_action: 'make_favorite',
-      };
-    } else if (favorite.is_favorite_merchant) {
-      body = {
-        merchant: favorite.id,
-        merchant_action: 'revoke_favorite',
-      };
-    }
+  // makeFavoriteMerchants(favorite: BillersModel, event: Event) {
+  //   event.stopPropagation();
+  //   // const productCard: HTMLElement =
+  //   //     event.target?.parentElement.parentElement.parentElement.parentElement
+  //   //         .parentElement;
+  //   // remove data-bs for bootstrap modal
+  //   // productCard.removeAttribute('data-bs-target');
+  //   // productCard.removeAttribute('data-bs-toggle');
+  //   this.favorite_merchant_making = favorite;
+  //   this.favorite_making = false;
+  //   let body!: Favorite;
+  //   if (!favorite.is_favorite_merchant) {
+  //     body = {
+  //       merchant: favorite.id,
+  //       merchant_action: 'make_favorite',
+  //     };
+  //   } else if (favorite.is_favorite_merchant) {
+  //     body = {
+  //       merchant: favorite.id,
+  //       merchant_action: 'revoke_favorite',
+  //     };
+  //   }
 
-    // add data-bs after click on favorite star
-    // productCard.setAttribute('data-bs-target', '#myModal');
-    // productCard.setAttribute('data-bs-toggle', 'modal');
-    this.merchantService
-      .makeFavoriteMerchants(body)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: result => {
-          const data = result as objectModel;
-          const response = data.object;
-          if (response.success) {
-            this.getMerchants('');
-            this.getFavoriteMerchants('');
-          }
-        },
-      });
-  }
+  //   // add data-bs after click on favorite star
+  //   // productCard.setAttribute('data-bs-target', '#myModal');
+  //   // productCard.setAttribute('data-bs-toggle', 'modal');
+  //   this.merchantService
+  //     .makeFavoriteMerchants(body)
+  //     .pipe(takeUntil(this.onDestroy$))
+  //     .subscribe({
+  //       next: result => {
+  //         const data = result as objectModel;
+  //         const response = data.object;
+  //         if (response.success) {
+  //           this.getMakeFavoriteResponse(response.success);
+  //         }
+  //       },
+  //     });
+  // }
   /*********call product api **********************************************************/
   // getSearchProduct(data: any) {
   //   this.merchantService.searchProductByMerchant(data).pipe(takeUntil(this.onDestroy$)).subscribe({

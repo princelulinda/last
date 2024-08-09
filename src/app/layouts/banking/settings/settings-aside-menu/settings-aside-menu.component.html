@@ -142,4 +142,58 @@
       </div>
     </div>
   </div>
+  <div class="mb-3 ms-3 mt-2">
+    <div
+      class="p-2 rounded-top"
+      [ngClass]="{
+        'bg-secondary': isSessionMenusShown,
+      }"
+      style="width: 256px">
+      <div
+        tabindex="0"
+        (click)="
+          isSessionMenusShown = !isSessionMenusShown;
+          isGeneralSubMensShown = false;
+          isSecurityMenusShown = false;
+          selectSubMenu('session', 'session')
+        "
+        role="button"
+        class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+          <i
+            class="fa-solid fa-business-time"
+            style="color: #9d9d9d; height: 19px; width: 20px"></i>
+          <b
+            class="fw-bold text-dark text-md"
+            style="color: #414141; margin-left: 10px"
+            i18n
+            >Sessions</b
+          >
+        </div>
+        <div class="text-dark">
+          <span>
+            <i class="fa fa-chevron-right"></i>
+          </span>
+          <!-- <span *ngIf="!isSessionMenusShown ">
+                    <i class="fa fa-chevron-right"></i>
+                </span> -->
+        </div>
+      </div>
+      <!-- <div *ngIf="isSessionMenusShown ">
+            <div class="d-grid ms-5">
+                <span
+                    class="mb-1 colors fw-bold text-md-sm"
+                    role="button"
+                    (click)="selectSubMenu('session', 'session')"
+                    [ngClass]="{
+          'text': selectedSubMenu=== 'session',
+          
+      }"
+                    >session</span
+                >
+
+            </div>
+        </div> -->
+    </div>
+  </div>
 </section>

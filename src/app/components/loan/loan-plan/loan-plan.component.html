@@ -1,0 +1,242 @@
+<!-- [ngClass]="{
+    'level-2': theme === 'light-mode' && plateform !=='workStation',
+    'level-1': theme === 'dark-mode' || plateform ==='workStation' ,
+}" -->
+<main class="md-radius p-4 overflow-auto bg-secondary" style="height: 70vh">
+  <div class="">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div class="row">
+        <span class="sub-title-loan" i18n>Loan plan</span>
+        <span class="sub-title-loan-md">{{ loan?.cred_code }}</span>
+      </div>
+      <div class="">
+        <span
+          class="d-flex align-items-center text-dark back-md"
+          data-bs-toggle="modal"
+          data-bs-target="#myModal"
+          role="button">
+          <span class="me-1">
+            <i class="fa fa-arrow-left"></i>
+          </span>
+          <b class="fs-4" i18n>Back</b>
+        </span>
+      </div>
+    </div>
+
+    <div class="me-5">
+      <div *ngIf="!isPending" class="row">
+        <div class="col-lg-4 mb-3">
+          <div class="d-grid text-sm-center text-md-center text-lg-start">
+            <span class="less-grey" i18n>Amount</span>
+            <b>{{ loan?.cred_amount | currency: ' ' }}</b>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+          <div class="d-grid text-sm-center text-md-center text-lg-start">
+            <span class="less-grey" i18n>Echeance Amount</span>
+            <b>{{ loan?.cred_echeance_amount | currency: ' ' }}</b>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+          <div class="d-grid text-sm-center text-md-center text-lg-start">
+            <span class="less-grey" i18n>First Payment</span>
+            <b>{{ loan?.cred_first_date }}</b>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+          <div class="d-grid text-sm-center text-md-center text-lg-start">
+            <span class="less-grey" i18n>Interest Rate</span>
+            <b>{{ loan?.cred_interest_rate }}</b>
+          </div>
+        </div>
+        <!-- <div class="col-lg-4 mb-3">
+<div class="d-grid">
+    <span class="less-grey">Exigible Amount</span>
+    <b>15,000,000.00</b>
+</div>
+</div> -->
+        <div class="col-lg-4 mb-3">
+          <div class="d-grid text-sm-center text-md-center text-lg-start">
+            <span class="less-grey" i18n>Period</span>
+            <b>{{ loan?.cred_period }}</b>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+          <div class="d-grid text-sm-center text-md-center text-lg-start">
+            <span class="less-grey" i18n>Total Interests</span>
+            <b>{{ loan?.cred_total_interests | currency: ' ' }}</b>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+          <div class="d-grid text-sm-center text-md-center text-lg-start">
+            <span class="less-grey" i18n>Payment Number</span>
+            <b>{{ loan?.cred_payment_number | number }}</b>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isPending" class="row">
+        <div class="col-lg-4 mb-3">
+          <div class="d-grid text-sm-center text-md-center text-lg-start">
+            <span class="less-grey" i18n>Amount</span>
+            <b>{{ loan?.amount | currency: ' ' }}</b>
+          </div>
+        </div>
+        <!-- <div class="col-lg-4 mb-3">
+                    <div
+                        class="d-grid text-sm-center text-md-center text-lg-start"
+                    >
+                        <span class="less-grey" i18n>Echeance Amount</span>
+                        <b>{{ loan.echeance_amount??"---" | currency : ' ' }}</b>
+                    </div>
+                </div> -->
+        <div class="col-lg-4 mb-3">
+          <div class="d-grid text-sm-center text-md-center text-lg-start">
+            <span class="less-grey" i18n>First Payment</span>
+            <b>{{ loan?.first_date }}</b>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+          <div class="d-grid text-sm-center text-md-center text-lg-start">
+            <span class="less-grey" i18n>Interest Rate</span>
+            <b>{{ loan?.interests_rate }}</b>
+          </div>
+        </div>
+        <!-- <div class="col-lg-4 mb-3">
+<div class="d-grid">
+    <span class="less-grey">Exigible Amount</span>
+    <b>15,000,000.00</b>
+</div>
+</div> -->
+        <div class="col-lg-4 mb-3">
+          <div class="d-grid text-sm-center text-md-center text-lg-start">
+            <span class="less-grey" i18n>Period</span>
+            <b>{{ loan?.period }}</b>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-3">
+          <div class="d-grid text-sm-center text-md-center text-lg-start">
+            <span class="less-grey" i18n>Payment Number</span>
+            <b>{{ loan?.payment_number | number }}</b>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div *ngIf="!loanPlan" class="d-grid">
+      <span class="w-100 mb-2">
+        <app-skeleton
+          height="100px"
+          width="100%"
+          classes="rounded-3"></app-skeleton
+      ></span>
+      <span class="w-100 mb-2">
+        <app-skeleton
+          height="100px"
+          width="100%"
+          classes="rounded-3"></app-skeleton
+      ></span>
+      <span class="w-100 mb-2">
+        <app-skeleton
+          height="100px"
+          width="100%"
+          classes="rounded-3"></app-skeleton
+      ></span>
+    </div>
+    <div *ngIf="loanPlan && loanPlan.success === false">
+      <div
+        class="d-flex justify-content-center w-100 align-items-center mt-5 pt-2">
+        <div class="text-secondary">
+          <i class="fa fa-ban fs-4 me-2"></i>
+          <span class="fs-2" i18n>No plan found for this loan</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="loanPlan && loanPlan.success === true" style="min-width: 800px">
+      <!-- [ngClass]="{
+            'level-1': theme === 'light-mode' || theme === 'magis-dark',
+            'level-3': theme === 'dark-mode',
+            'level-2': plateform === 'workStation'
+        }" -->
+      <div
+        class="row level-3 rounded p-1 mb-3 overflow-auto d-flex align-items-start">
+        <b class="col-auto" i18n>#</b>
+        <b class="col-1 col-auto" i18n>Echeance Date</b>
+        <b class="col-2 col-auto" i18n>Echeance Amount</b>
+        <b class="col-2 col-auto" i18n>Capital Amount</b>
+        <b class="col-1 col-auto" i18n>Interests</b>
+        <b class="col-2 col-auto" i18n>Due Interests</b>
+        <b class="col-2 col-auto" i18n>Due Capital</b>
+        <b class="col-1 col-auto" i18n>Status</b>
+      </div>
+
+      <div>
+        <!-- 'level-1':
+                    theme === 'light-mode' || theme === 'magis-dark',
+                'level-3': theme === 'dark-mode',
+                'level-2': plateform === 'workStation' -->
+        <div
+          class="row mb-1 rounded p-1 py-2 d-flex align-items-center"
+          *ngFor="let singleRow of loanPlan.response_data"
+          [ngClass]="{}">
+          <div class="col-auto d-grid">
+            <b>{{ singleRow.crep_number }}</b>
+          </div>
+          <div class="col-1 col-auto d-grid">
+            <b>{{ singleRow.crep_echeance_date }}</b>
+            <!-- <b>12:00:00 AM</b> -->
+          </div>
+          <b class="col-2 col-auto" style="word-wrap: break-word"
+            >{{ singleRow.currency }}
+            {{ singleRow.crep_echeance_amount | currency: ' ' }}</b
+          >
+          <b class="col-2 col-auto" style="word-wrap: break-word"
+            >{{ singleRow.currency }}
+            {{ singleRow.crep_capital | currency: ' ' }}</b
+          >
+          <b class="col-1 col-auto" style="word-wrap: break-word">
+            {{ singleRow.currency }}
+            {{ singleRow.crep_interest | currency: ' ' }}</b
+          >
+          <b class="col-2 col-auto" style="word-wrap: break-word"
+            >{{ singleRow.currency }}
+            {{ singleRow.crep_due_interest | currency: ' ' }}</b
+          >
+          <b class="col-2 col-auto" style="word-wrap: break-word">
+            {{ singleRow.currency }}
+            {{ singleRow.crep_due_capital | currency: ' ' }}</b
+          >
+          <b
+            *ngIf="!singleRow.is_payable && !isPending"
+            [class]="
+              'col-1 col-auto text-center rounded badge-design bg-' +
+              singleRow.crep_status.css +
+              ' text-' +
+              singleRow.crep_status.css
+            "
+            style="word-wrap: break-word"
+            >{{ singleRow.crep_status.label }}</b
+          >
+          <b
+            *ngIf="isPending"
+            [class]="
+              'col-1 col-auto text-center rounded badge-design bg-' +
+              singleRow.crep_status.css +
+              ' text-' +
+              singleRow.crep_status.css
+            "
+            style="word-wrap: break-word"
+            >{{ singleRow.crep_status.label }}</b
+          >
+          <button
+            class="btn bg-primary col-1 text-white text-center"
+            *ngIf="singleRow.is_payable && !isPending"
+            (click)="showModal(singleRow)"
+            data-bs-toggle="modal"
+            data-bs-target="#myModal">
+            Pay
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

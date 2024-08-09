@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MerchantCardComponent } from './merchant-card.component';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('MerchantCardComponent', () => {
   let component: MerchantCardComponent;
@@ -9,6 +10,7 @@ describe('MerchantCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MerchantCardComponent],
+      providers: [provideHttpClient()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MerchantCardComponent);

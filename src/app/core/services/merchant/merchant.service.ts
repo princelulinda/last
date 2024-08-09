@@ -1,18 +1,15 @@
-import { Inject, Injectable } from '@angular/core';
-// import { ApiService } from '..';
-// import { GeneralSe } from '..';
-// import { map, retry } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, map, Observable, retry } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
-import { map, Observable, retry } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
 import { Favorite, Pagination } from './model';
 import {
   AllProductModel,
   MerchantInfoModel,
   MerchantObjectModel,
-  MerchantObjectsModel,
+  searchProductByMerchantModel,
+  updateProdcutInfoModel,
 } from '../../../components/products/products.model';
 import {
   doTellerBodyModel,
@@ -20,15 +17,35 @@ import {
   searchTellerModel,
   updateMerchantDetailsModel,
 } from '../../../components/merchant/merchant.models';
-// import { Pagination } from './model';
+import { TransferResponseModel } from '../../../components/transfer/transfer.model';
+import { Coords2Model } from '../../../components/dev/global-map/map.model';
+import { Merchant_AutocompleteModel } from '../../../components/dev/merchant-card/merchant.model';
+
 @Injectable({
   providedIn: 'root',
 })
 export class MerchantService {
-  constructor(
-    @Inject(ApiService) private apiService: ApiService,
-    @Inject(HttpClient) private http: HttpClient
-  ) {}
+  constructor(private apiService: ApiService) {}
+
+  private _coords: BehaviorSubject<Coords2Model> =
+    new BehaviorSubject<Coords2Model>({
+      accuracy: 0,
+      altitude: null,
+      altitudeAccuracy: null,
+      heading: null,
+      latitude: 0,
+      longitude: 0,
+      speed: null,
+    });
+
+  get coords$(): Observable<Coords2Model> {
+    return this._coords.asObservable();
+  }
+
+  getUserCoords(coords: Coords2Model) {
+    this._coords.next(coords);
+  }
+
   getMerchantList() {
     return this.apiService.get('/dbs/merchant/list/?').pipe(
       map(data => {
@@ -169,7 +186,7 @@ export class MerchantService {
       })
     );
   }
-  getMerchantsProductsDetails(id: string) {
+  getMerchantsProductsDetails(id: number) {
     const url = '/dbs/merchant-product/' + id + '/';
     return this.apiService.get(url).pipe(
       map(data => {
@@ -177,7 +194,7 @@ export class MerchantService {
       })
     );
   }
-  getConnectedMerchantInfo() {
+  getConnectedMerchantInfo(): Observable<MerchantObjectModel> {
     const url = '/dbs/merchant/info/';
     return this.apiService.get<MerchantObjectModel>(url).pipe(
       map(data => {
@@ -193,13 +210,18 @@ export class MerchantService {
       })
     );
   }
-  getMerchantMultipleInfo() {
-    const url = '/dbs/merchant/multiple-info/';
-    return this.apiService.get<MerchantObjectsModel>(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+  getMerchantMultipleInfo(): Observable<{
+    objects: Merchant_AutocompleteModel[];
+    count: number;
+  }> {
+    const url = '/dbs/merchant/multiple-info/objects_autocomplete/';
+    return this.apiService
+      .get<{ objects: Merchant_AutocompleteModel[]; count: number }>(url)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
   UpdateMerchantProductsDetails(id: string, data: []) {
     const url = '/dbs/merchant-product/';
@@ -279,6 +301,11 @@ export class MerchantService {
       })
     );
   }
+  // getProductsByMerchant(merchantId: string): Observable<{ objects: productConfigModel[] }> {
+  //   const url = '/dbs/merchant-product/?merchant=' + merchantId + '&';
+  //   return this.apiService.get<{ objects: [] }>(url);
+  // }
+
   createNewTeller(body: newTellerModel) {
     const url = '/dbs/merchant-teller/';
     return this.apiService.post(url, body).pipe(
@@ -393,9 +420,11 @@ export class MerchantService {
       })
     );
   }
-  merchantCashin(data: []) {
+  merchantCashin(data: object): Observable<TransferResponseModel> {
     const url = '/dbs/merchant/cashin/';
-    return this.apiService.post(url, data).pipe(map(data => data));
+    return this.apiService
+      .post(url, data)
+      .pipe(map(data => data as TransferResponseModel));
   }
   getTellersByMerchant(merchantId: string) {
     const url = `/dbs/merchant-teller/?merchant=${merchantId}`;
@@ -426,7 +455,7 @@ export class MerchantService {
         })
       );
   }
-  updateProductInfo(body: []) {
+  updateProductInfo(body: updateProdcutInfoModel) {
     const url = '/dbs/merchant/product/configuration/';
     return this.apiService.post(url, body).pipe(
       map(data => {
@@ -434,16 +463,15 @@ export class MerchantService {
       })
     );
   }
-  // searchProductByMerchant(data: any) {
-  //     const url =
-  //         '/dbs/merchant-product/objects_autocomplete/?merchant=' +
-  //         data.merchant +
-  //         '&search=' +
-  //         data.search;
-  //         console.log('the value of the data is :', data);
-  //     return this.apiService.get(url).pipe(map((data) => data));
-
-  // }
+  searchProductByMerchant(data: searchProductByMerchantModel) {
+    const url =
+      '/dbs/merchant-product/objects_autocomplete/?merchant=' +
+      data.merchant +
+      '&search=' +
+      data.search;
+    console.log('the value of the data is :', data);
+    return this.apiService.get(url).pipe(map(data => data));
+  }
 
   /**********************api call of browse by category ******************************/
   getBrowseByCategory() {
@@ -466,5 +494,15 @@ export class MerchantService {
         return data;
       })
     );
+  }
+
+  getBestOffer() {
+    const url = '/dbs/price-mutations/';
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getRecentProducts() {
+    const url = '/dbs/merchant-product/objects_autocomplete/?is_recent=true';
+    return this.apiService.get(url).pipe(map(data => data));
   }
 }

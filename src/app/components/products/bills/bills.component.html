@@ -20,7 +20,7 @@
         </div>
       }
       @if (paymentRequestBillsLoading) {
-        <div class="skeletons mt-4 row mx-0">
+        <div class="skeletons mt-4 row me-5 me-md-0">
           <div
             class="all-bill-card col-11 col-sm-8 col-md-5"
             style="height: 300px">
@@ -31,10 +31,11 @@
       @if (paymentRequestBills && paymentRequestBills.length !== 0) {
         <div class="d-flex mt-3 flex-wrap">
           <div
-            class="row mx-0 mt-4 justify-content-around col-10 flex-grow-1 gap-2">
+            class="row mx-0 mt-4 justify-content-around col-10 flex-grow-1 gap-2 me-3 me-md-0">
             @for (bill of paymentRequestBills; track $index) {
               <div
-                class="all-bill-card col-11 col-sm-8 col-md-5 shadow card p-0 level-1"
+                class="all-bill-card col-11 col-sm-8 col-md-5 shadow card p-0 level-1 bg-white"
+                role="button"
                 [hidden]="$index >= 3 && !seeMore"
                 routerLink="/m/market/bill/{{ bill.id }}">
                 <div
@@ -125,15 +126,22 @@
                   </div>
                 </div>
                 <div
-                  class="card-footer bg-primary"
-                  style="min-height: 40px"></div>
+                  class="card-footer bg-primary text-light text-center fs-5"
+                  [ngClass]="{
+                    'initial-bill': bill.payment_status.value === 'I',
+                    'paid-bill': bill.payment_status.value === 'P',
+                    'process-bill': bill.payment_status.value === 'R',
+                  }"
+                  style="min-height: 40px">
+                  {{ bill.payment_status.title }}
+                </div>
               </div>
             }
             <div class="all-bill-card col-11 col-sm-8 col-md-5"></div>
             <div class="all-bill-card col-11 col-sm-8 col-md-5"></div>
           </div>
           <div class="d-flex justify-content-end align-items-end mt-2 col-1">
-            @if (!seeMore) {
+            @if (!seeMore && theme === 'light') {
               <span
                 (click)="seeMore = true"
                 role="button"
@@ -142,13 +150,30 @@
                 i18n
                 >More</span
               >
-            }
-            @if (seeMore) {
+            } @else if (!seeMore && theme === 'dark') {
+              <span
+                (click)="seeMore = true"
+                role="button"
+                tabindex="0"
+                class="border-bottom border-light text-dark fw-bold"
+                i18n
+                >More</span
+              >
+            } @else if (seeMore && theme === 'light') {
               <span
                 (click)="seeMore = false"
                 role="button"
                 tabindex="0"
                 class="border-bottom border-dark text-dark fw-bold"
+                i18n
+                >Less</span
+              >
+            } @else if (seeMore && theme === 'dark') {
+              <span
+                (click)="seeMore = false"
+                role="button"
+                tabindex="0"
+                class="border-bottom border-light text-dark fw-bold"
                 i18n
                 >Less</span
               >
@@ -178,7 +203,7 @@
       <!-- skeleton loader -->
       @if (isLoading && !merchantBills) {
         <div
-          class="skeletons row mx-0 mt-4 justify-content-around justify-content-lg-start">
+          class="skeletons row me-5 me-md-0 mt-4 justify-content-around justify-content-md-start">
           @for (item of [1, 2, 3, 4, 5, 6]; track $index) {
             <div
               class="all-bill-bill col-11 col-sm-8 col-md-5 col-lg-4"
@@ -192,10 +217,11 @@
         </div>
       }
       @if (!isLoading && merchantBills) {
-        <section class="row mx-0 mt-4 justify-content-around gap-2">
+        <section
+          class="row mx-0 mt-4 gap-2 gap-xxl-3 justify-content-around justify-content-md-start me-4 me-md-0 pe-3 pe-md-0">
           @for (bill of merchantBills; track $index) {
             <div
-              class="all-bill-card border-0 shadow rounded-0 rounded-bottom card p-0 level-1 col-11 col-sm-8 col-md-5"
+              class="all-bill-card border-0 shadow-sm rounded-0 rounded-bottom card p-0 level-1 col-11 col-sm-8 col-md-5 bg-white"
               routerLink="/m/market/bill/{{ bill.id }}"
               role="button"
               tabindex="0">
@@ -243,13 +269,13 @@
       }
       @if (!isLoading && merchantBills && merchantBills.length !== 0) {
         <div
-          class="mt-4 d-flex align-items-center justify-content-center text-light mb-5">
+          class="mt-4 d-flex align-items-center justify-content-center text-secondary mb-5">
           <span
             title="Previous"
             (click)="getPagination('prev')"
             tabindex="0"
             role="button"
-            class="me-2 d-inline-flex align-items-center rounded p-2"
+            class="me-2 d-inline-flex align-items-center rounded p-2 bg-secondary"
             [ngClass]="{
               'bg-blue': canMoveToPrevious,
               'level-2 disabled': !canMoveToPrevious && theme === 'light',
@@ -275,15 +301,16 @@
     </section>
   </div>
 </section>
-
+<!-- 
 @if (selectedMarket === 'myMarket' && isMerchant) {
   <section class="merchant">
-    <!-- <div style="height: inherit; overflow-y: auto" class="p-3 rounded">
+    <div style="height: inherit; overflow-y: auto" class="p-3 rounded">
           <app-list
               url="/dbs/merchant/bills/?requested=true&report=true&"
               title="Bills"
               [headers]="billsHeaders"
           ></app-list>
-      </div> -->
+      </div> 
   </section>
 }
+  -->

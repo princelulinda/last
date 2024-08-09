@@ -13,8 +13,7 @@
           'br-right': loans && loans.length > 0,
         }">
         <b i18n style="font-size: 18px" class="d-flex align-items-center">
-          <span class="me-1">Loans</span>
-          <span class="me-3">list</span>
+          <span class="me-2">Loans</span>
           <div (click)="toggleBalance()" role="button" class="" tabindex="0">
             @if (!isBalanceShown) {
               <span title="Show balance"> <i class="fa-solid fa-eye"></i></span>
@@ -28,7 +27,7 @@
           </div>
         </b>
 
-        <div role="button" class="mt-1 mb-2 me-4">
+        <div role="button" class="mb-2 me-4">
           <span
             title="Refresh loans list"
             (click)="refreshLoansList()"
@@ -104,7 +103,7 @@
       <div class="w-100 h-100 d-flex justify-content-center align-items-center">
         <h4 class="text-secondary" i18n>
           <i class="fa fa-ban"></i>
-          You don't have any loan in {{ selectedBank?.bank_name }}
+          You don't have any loan in {{ selectedBank?.name }}
         </h4>
       </div>
     }
@@ -135,16 +134,13 @@
                   role="button"
                   (click)="selectLoan(loan)"
                   tabindex="0"
-                  [routerLink]="
-                    '/b/onlineBanking/banking/menuBanking/loan/list/detail/' +
-                    loan.id
-                  ">
+                  [routerLink]="'/b/banking/loan/list/' + loan.id">
                   <div
                     class="border-l ps-2 d-grid w-100 pe-2 pt-1"
                     routerLinkActive="cliped t-dark">
                     <div
                       class="d-flex justify-content-between align-items-center me-3">
-                      <b>{{ selectedBank?.bank_name }}</b>
+                      <b>{{ selectedBank?.name }}</b>
                       @if (loan.cred_status.value === 'PE') {
                         <b class="text-all-dark less-danger px-1 rounded" i18n
                           >Pending</b
@@ -216,7 +212,7 @@
               [ngClass]="">
               <div
                 class="d-flex justify-content-between align-items-center me-3">
-                <b>{{ selectedBank?.bank_name }}</b>
+                <b>{{ selectedBank?.name }}</b>
                 @if (selectedLoan && selectedLoan.cred_status.value === 'PE') {
                   <b class="text-all-dark less-danger px-1 rounded" i18n
                     >Pending</b
@@ -253,16 +249,13 @@
                     role="button"
                     tabindex="0"
                     (click)="selectLoan(loan)"
-                    [routerLink]="
-                      '/b/onlineBanking/banking/menuBanking/loan/list/detail/' +
-                      loan.id
-                    ">
+                    [routerLink]="'/b/banking/loan/list/detail/' + loan.id">
                     <div
                       class="border-l ps-2 d-grid w-100 pe-2 pt-1"
                       routerLinkActive="cliped t-dark">
                       <div
                         class="d-flex justify-content-between align-items-center me-3">
-                        <b>{{ selectedBank?.bank_name }}</b>
+                        <b>{{ selectedBank?.name }}</b>
 
                         @if (loan.cred_status.value === 'PE') {
                           <b
@@ -332,12 +325,11 @@
               </div>
             }
           </div>
-          <!-- <div class="w-70 d-none d-lg-flex" *ngIf="loans && loans.length > 0">
-                    <router-outlet></router-outlet>
-                </div> -->
 
           @if (loans && loans.length > 0) {
-            <div class="w-70 d-flex justify-content-center"></div>
+            <div class="w-70 d-flex justify-content-center">
+              <router-outlet></router-outlet>
+            </div>
           }
         </section>
       </div>

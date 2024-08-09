@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '..';
-import { map, Subject, switchMap, takeUntil } from 'rxjs';
+import { map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+
+import { MobileBanksModel } from '../../../components/dev/global-mapping/glob-mapping.model';
+import { ParamModel } from '../../../global/components/reusable-list/reusable.model';
+import { PaginationConfig } from '../admin/paginatioConfig.model';
+import { getdataModal } from '../../../global/components/reusable-list/reusable.model';
 // import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -11,30 +16,31 @@ export class GeneralService {
   private inputChanged$ = new Subject<string>();
 
   constructor(private apiService: ApiService) {}
-  // getData(url: string, pagination: any = {}, params: any = []) {
-  //   let pagination_: any;
-  //   let params_ = '';
-  //   if (pagination.filters) {
-  //     pagination_ =
-  //       'limit=' +
-  //       pagination.filters.limit +
-  //       '&offset=' +
-  //       pagination.filters.offset;
-  //   }
+  getData(
+    url: string,
+    pagination: PaginationConfig,
+    params: ParamModel[] = []
+  ): Observable<getdataModal> {
+    let paginationString = '';
+    let paramsString = '';
 
-  //   if (params.length > 0) {
-  //     for (const param of params) {
-  //       params_ = params_ + '&' + param.title + '=' + param.value;
-  //     }
-  //   } else {
-  //     params_ = '';
-  //   }
-  //   return this.apiService.get(url + pagination_ + params_).pipe(
-  //     map(data => {
-  //       return data;
-  //     })
-  //   );
-  // }
+    if (pagination.filters) {
+      paginationString =
+        'limit=' +
+        pagination.filters.limit +
+        '&offset=' +
+        pagination.filters.offset;
+    }
+
+    if (params.length > 0) {
+      paramsString = params
+        .map(param => `${param.title}=${param.value}`)
+        .join('&');
+    }
+
+    const queryString = `${paginationString}${paginationString && paramsString ? '&' : ''}${paramsString}`;
+    return this.apiService.get(`${url}${queryString}`);
+  }
 
   DoAutocomplete(url: string, search: string) {
     this.inputChanged$.next(search);
@@ -71,10 +77,6 @@ export class GeneralService {
 
   // //onlineBanking
 
-  // getMobileBanks() {
-  //   const url = `/banks/list/?bank_type=MOB&is_mappable=true`;
-  //   return this.apiService.get(url).pipe(map(data => data));
-  // }
   // getMobileLookup(body: any) {
   //   const url = `/banks/clientlookup/`;
   //   return this.apiService.post(url, body).pipe(map(data => data));
@@ -178,4 +180,9 @@ export class GeneralService {
   //   const url = `/client/verify-pin/`;
   //   return this.apiService.post(url, body).pipe(map(data => data));
   // }
+
+  getMobileBanks(): Observable<{ objects: MobileBanksModel[] }> {
+    const url = `/banks/list/?bank_type=MOB&is_mappable=true`;
+    return this.apiService.get<{ objects: MobileBanksModel[] }>(url);
+  }
 }

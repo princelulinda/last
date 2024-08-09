@@ -43,7 +43,7 @@ export class SplashScreenComponent implements OnInit, AfterViewInit {
       next: plateform => {
         this.plateform = plateform;
         if (plateform === 'workstation') {
-          this.imageUrl = '/images/magis.png';
+          this.imageUrl = '/images/logo/magis-erp.png';
         }
       },
     });
