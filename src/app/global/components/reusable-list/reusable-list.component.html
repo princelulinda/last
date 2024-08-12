@@ -56,12 +56,6 @@
           }
         </div>
       }
-      <!-- <div class="col-md-1"><span i18n>Date</span></div>
-    <div class="col"><span i18n>Amount</span></div>
-    <div class="col-md-3"><span i18n>Account</span></div>
-    <div class="col-md-3"><span i18n>Reference</span></div>
-    <div class="col-md-2"><span i18n>Merchant reference </span></div>
-    <div class="col"><span i18n>status</span></div> -->
     }
   </div>
 
@@ -218,10 +212,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="d-flex">
-                <span class=""></span>
-                <div><i class="fa-solid fa-sort-down"></i> </div>
-            </div> -->
             </div>
           </div>
           <div class="ms-auto">
@@ -246,22 +236,7 @@
           </div>
           <div class="ms-auto">
             @if (!showNotification) {
-              <div class="">
-                <!-- @if (!isExporting) {
-            <b
-                class="text-primary"
-                role="button"
-                
-                
-                >Export Excel</b
-            >} -->
-                <!-- @if (isExporting) {
-            <b
-                >exporting excel ... {{ exportingState }} %
-                <span class="ms-2" title="Refresh"
-                    ><i class="fa-solid fa-arrows-rotate"></i></span
-            ></b>} -->
-              </div>
+              <div class=""></div>
             }
             @if (showNotification) {
               <div
@@ -274,9 +249,6 @@
                         class="fa-solid fa-circle-check me-2 text-success fs-5"></i
                     ></span>
                   </div>
-                  <!-- <div>
-                    <b style="font-size: 14px">Successfully Exported</b>
-                </div> -->
                 </div>
               </div>
             }

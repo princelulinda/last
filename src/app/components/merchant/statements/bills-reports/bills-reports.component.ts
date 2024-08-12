@@ -10,11 +10,6 @@ import { ReusableListComponent } from '../../../../global/components/reusable-li
 })
 export class BillsReportsComponent {
   billsHeaders = [
-    // {
-    //     name: 'Merchant',
-    //     field: ['merchant_teller.merchant.merchant_title'],
-    //     size: '',
-    // },
     {
       name: 'Date',
       field: ['created_at'],
