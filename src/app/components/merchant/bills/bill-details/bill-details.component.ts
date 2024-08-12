@@ -4,10 +4,13 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
-import { MarketService } from '../../../../core/services/market/market.service';
 import { VariableService } from '../../../../core/services/variable/variable.service';
 import { SimpleMerchantService } from '../../../../core/services/simple-merchant/simple-merchant.service';
-import { DialogService, ConfigService } from '../../../../core/services';
+import {
+  DialogService,
+  ConfigService,
+  MerchantService,
+} from '../../../../core/services';
 
 import { MerchantBillComponent } from '../../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
@@ -84,7 +87,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
     // private store: Store,
     private route: ActivatedRoute,
     private router: Router,
-    private marketService: MarketService,
+    private merchantService: MerchantService,
     private dialogService: DialogService,
     private configService: ConfigService,
     private simpleMerchant: SimpleMerchantService
@@ -126,7 +129,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
   }
 
   getBillDetails() {
-    this.marketService
+    this.merchantService
       .getBillDetails(this.billId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({

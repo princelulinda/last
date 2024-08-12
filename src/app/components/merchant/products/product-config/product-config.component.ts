@@ -17,10 +17,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
-import { PaginationConfig } from '../../../../global/global.model';
+import { PaginationConfig } from '../../../../global/models/pagination.models';
 import { DialogService, MerchantService } from '../../../../core/services';
 import { VariableService } from '../../../../core/services/variable/variable.service';
-import { MarketService } from '../../../../core/services/market/market.service';
 
 @Component({
   selector: 'app-product-config',
@@ -77,7 +76,6 @@ export class ProductConfigComponent implements OnInit {
     // private store: Store,
     private fb: FormBuilder,
     private variableService: VariableService,
-    private marketService: MarketService,
     private dialogService: DialogService
     // private menuService: MenuService
   ) {
@@ -140,7 +138,7 @@ export class ProductConfigComponent implements OnInit {
         '=========================********Merchant info:',
         this.merchant
       );
-      this.marketService.getConnectedMerchantId(this.merchant.id);
+      this.merchantService.getConnectedMerchantId(this.merchant.id);
 
       this.getProducts();
     });

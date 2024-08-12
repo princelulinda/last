@@ -14,12 +14,14 @@ export class PaymentReportsComponent {
       field: ['created_at'],
       size: '',
       format: 'date',
+      canBeDisplayed: true,
     },
     {
       name: 'Amount',
       field: ['amount'],
       size: '',
       format: 'currency',
+      canBeDisplayed: true,
     },
     {
       name: 'Account',
@@ -29,18 +31,21 @@ export class PaymentReportsComponent {
       ],
       size: '',
       format: 'account',
+      canBeDisplayed: true,
     },
     {
       name: 'Reference',
       field: ['reference'],
       size: '',
       format: 'reference',
+      canBeDisplayed: true,
     },
     {
       name: 'Merchant reference',
       field: ['other_info.merchant_reference.data'],
       size: '',
       format: 'merchant',
+      canBeDisplayed: true,
     },
     {
       name: 'Status',
@@ -49,12 +54,13 @@ export class PaymentReportsComponent {
       class: 'badge',
       size: '',
       format: 'status',
+      canBeDisplayed: true,
     },
     {
       name: 'Description',
       field: ['comment'],
       size: '4',
-      canBeDisplayed: true,
+      canBeDisplayed: false,
     },
   ];
 }

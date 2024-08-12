@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { MarketService } from '../../../../core/services/market/market.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import {
@@ -15,6 +14,7 @@ import {
   MerchantModel,
 } from '../products.model';
 import { AmountFieldComponent } from '../../../../global/components/custom-field/amount-field/amount-field.component';
+import { MerchantService } from '../../../../core/services';
 
 @Component({
   selector: 'app-add-product',
@@ -38,7 +38,7 @@ export class AddProductComponent implements OnInit {
   productAdded = false;
 
   constructor(
-    private marketService: MarketService,
+    private merchantService: MerchantService,
     private fb: FormBuilder,
     // private store: Store,
     private router: Router
@@ -50,12 +50,14 @@ export class AddProductComponent implements OnInit {
   }
   ngOnInit(): void {
     // comment
-    this.marketService.connectedMerchantId$.subscribe((merchantId: string) => {
-      this.merchant.id = merchantId;
-      if (!merchantId) {
-        this.router.navigate(['/m/mymarket/product-config']);
+    this.merchantService.connectedMerchantId$.subscribe(
+      (merchantId: string) => {
+        this.merchant.id = merchantId;
+        if (!merchantId) {
+          this.router.navigate(['/m/mymarket/product-config']);
+        }
       }
-    });
+    );
   }
   inputAmount(amount: inputAmountModel) {
     this.productPrice = amount.amount;
@@ -72,7 +74,7 @@ export class AddProductComponent implements OnInit {
 
     this.productForm.disable();
     this.productAdded = true;
-    this.marketService
+    this.merchantService
       .addProductByMerchant(product)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
