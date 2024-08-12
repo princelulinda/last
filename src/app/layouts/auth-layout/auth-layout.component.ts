@@ -40,7 +40,7 @@ export class AuthLayoutComponent implements OnInit {
       next: userInfo => {
         if (userInfo) {
           this.dbService.setLocalStorageClientId(
-            userInfo.client.client_id.toString()
+            userInfo.client?.client_id.toString()
           );
         }
       },

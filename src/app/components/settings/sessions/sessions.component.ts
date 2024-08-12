@@ -8,8 +8,8 @@ import {
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { DatePipe } from '@angular/common';
 import { LowerCasePipe } from '@angular/common';
-import { PaginationConfig } from '../../../global/global.model';
 import { takeUntil, Subject } from 'rxjs';
+import { PaginationConfig } from '../../../global/models/pagination.models';
 @Component({
   selector: 'app-sessions',
   standalone: true,

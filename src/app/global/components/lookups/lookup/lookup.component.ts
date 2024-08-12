@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DialogService } from '../../../../core/services';
 import { GeneralService } from '../../../../core/services/general/general.service';
-import { AdminService } from '../../../../core/services/admin/admin.service';
 import { AdminModel, ItemModel } from './lookup.model';
 
 @Component({
@@ -33,8 +32,6 @@ export class LookupComponent implements OnInit {
   // private searchQuerySubject = new Subject<string>();
 
   constructor(
-    private adminService: AdminService,
-    // private clientService: ClientService,
     private generalService: GeneralService,
     private dialogService: DialogService
   ) {}
@@ -44,16 +41,10 @@ export class LookupComponent implements OnInit {
     this.type = $localize`type`;
     this.message = $localize`message`;
 
-    this.getAdminMenus();
     this.search.setValue('');
     if (this.option === 'autocomplete') {
-      console.log('IIIIIIIIIIIIIIIIIIIIIIDDDDDDDDDDDDDDDDDDDDDDD');
       this.initAutocomplete();
     }
-
-    // if (this.option === 'autocomplete' && this.selectedId) {
-    //   this.initAutocomplete();
-    // }
   }
 
   inputFocused() {
@@ -81,15 +72,6 @@ export class LookupComponent implements OnInit {
     this.showAutoComplete = false;
   }
 
-  getAdminMenus() {
-    this.adminService.getAdminMenuGroupList().subscribe({
-      next: admins => {
-        const response = admins as { objects: AdminModel[] };
-        this.adminMenus = response.objects;
-      },
-    });
-  }
-
   initAutocomplete() {
     if ((this.items.length === 0 || !this.items) && this.search.value === '') {
       this.isLoading = true;
@@ -98,17 +80,12 @@ export class LookupComponent implements OnInit {
         const res = value as { objects: ItemModel[] };
         this.items = res.objects;
         this.isLoading = false;
-        console.log('..............................AAAAAAAAAAA', this.items);
         if (this.selectedId) {
           const items: ItemModel[] = this.items;
           this.selectedItem = items.filter(item => {
             if (item.id === this.selectedId) {
               return item;
             }
-            console.log(
-              '..............................BBBBBBBBBBBBBBB',
-              this.selectedItem
-            );
             return null;
           })[0];
           if (this.selectedItem) {
@@ -174,9 +151,5 @@ export class LookupComponent implements OnInit {
         message: 'Please Enter a value',
       });
     }
-  }
-
-  onChangeTest() {
-    console.log('333 444 555');
   }
 }

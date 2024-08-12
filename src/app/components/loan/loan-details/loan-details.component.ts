@@ -16,7 +16,7 @@ import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { VariableService } from '../../../core/services/variable/variable.service';
 import { CommonModule } from '@angular/common';
 import { LoanPlanComponent } from '../loan-plan/loan-plan.component';
-import { LoanModel, PlanModel, ResponseDataModel } from '../loan.models';
+import { LoanModel, PlanModel, ResModel } from '../loan.models';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 
@@ -152,7 +152,7 @@ export class LoanDetailsComponent implements OnInit, OnDestroy, DoCheck {
       next: res => {
         this.dialogService.closeLoading();
 
-        const response = res as { object: ResponseDataModel };
+        const response = res as { object: ResModel };
         if (response.object.success == true) {
           this.getLoanDetails();
 
