@@ -8,7 +8,6 @@ export const AllServices = [
   Services.ConfigService,
   Services.FullpathService,
   Services.DialogService,
-  Services.AdminService,
   Services.BankService,
   Services.ClientService,
   Services.FileService,

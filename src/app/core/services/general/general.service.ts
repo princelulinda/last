@@ -4,8 +4,8 @@ import { map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 
 import { MobileBanksModel } from '../../../components/dev/global-mapping/glob-mapping.model';
 import { ParamModel } from '../../../global/components/reusable-list/reusable.model';
-import { PaginationConfig } from '../admin/paginatioConfig.model';
 import { getdataModal } from '../../../global/components/reusable-list/reusable.model';
+import { PaginationModel } from '../../../global/models/pagination.models';
 // import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class GeneralService {
   constructor(private apiService: ApiService) {}
   getData(
     url: string,
-    pagination: PaginationConfig,
+    pagination: PaginationModel = { filters: { limit: 0, offset: 0 } },
     params: ParamModel[] = []
   ): Observable<getdataModal> {
     let paginationString = '';
