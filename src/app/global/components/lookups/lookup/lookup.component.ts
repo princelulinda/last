@@ -34,7 +34,6 @@ export class LookupComponent implements OnInit {
 
   constructor(
     private adminService: AdminService,
-    // private clientService: ClientService,
     private generalService: GeneralService,
     private dialogService: DialogService
   ) {}
@@ -49,10 +48,6 @@ export class LookupComponent implements OnInit {
     if (this.option === 'autocomplete') {
       this.initAutocomplete();
     }
-
-    // if (this.option === 'autocomplete' && this.selectedId) {
-    //   this.initAutocomplete();
-    // }
   }
 
   inputFocused() {
@@ -169,8 +164,4 @@ export class LookupComponent implements OnInit {
       });
     }
   }
-
-  // onChangeTest() {
-  //   console.log('333 444 555');
-  // }
 }
