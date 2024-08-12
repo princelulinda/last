@@ -47,8 +47,10 @@ export class AuthCorporateComponent implements OnInit {
     this.operatorIsAuthenticated$.subscribe({
       next: state => {
         if (state) {
+          this.configService.setLocalConnectedOperator('true');
           this.router.navigate(['/w/workstation']);
         } else {
+          this.configService.setLocalConnectedOperator('false');
           this.getConnectedOperator_organizations();
         }
       },
@@ -82,7 +84,17 @@ export class AuthCorporateComponent implements OnInit {
       password: this.password,
     };
     this.authService.loginCorporate(data).subscribe({
-      next: () => {
+      next: response => {
+        const operator: ConnectedOperatorModel = {
+          organization: response.object.response_data.organization,
+          operator: {
+            id: response.object.response_data.operator.id,
+            isTeller: response.object.response_data.is_teller,
+            isTreasurer: response.object.response_data.is_treasurer,
+          },
+        };
+        this.configService.setOperator(operator);
+        this.configService.setLocalConnectedOperator('true');
         this.router.navigate(['/w/workstation']);
         this.dialogService.closeLoading();
       },
