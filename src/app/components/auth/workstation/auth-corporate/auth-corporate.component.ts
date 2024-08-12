@@ -21,7 +21,7 @@ import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-mo
 })
 export class AuthCorporateComponent implements OnInit {
   private operatorOrganizations$: Observable<OrganizationModel[]>;
-  operatorOrganizations: OrganizationModel[] | [] | null = [];
+  operatorOrganizations: OrganizationModel[] = [];
   operatorIsAuthenticated$: Observable<boolean>;
   dialog$: Observable<DialogResponseModel>;
   password = '';
