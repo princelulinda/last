@@ -48,21 +48,21 @@
   </div>
 
   <div class="row w-100 p-1 mx-1">
-    <!-- @for (header of headers; track header) {
+    @for (header of headers; track header) {
       @if (header.canBeDisplayed) {
-    <div class="col-md-1">
-     @if (data_list && data_list.length > 0) {
-      <span i18n>{{header.name}}</span>
-     }
-    </div>
-      } -->
-    <div class="col-md-1"><span i18n>Date</span></div>
+        <div class="col">
+          @if (data_list && data_list.length > 0) {
+            <span i18n>{{ header.name }}</span>
+          }
+        </div>
+      }
+      <!-- <div class="col-md-1"><span i18n>Date</span></div>
     <div class="col"><span i18n>Amount</span></div>
     <div class="col-md-3"><span i18n>Account</span></div>
     <div class="col-md-3"><span i18n>Reference</span></div>
     <div class="col-md-2"><span i18n>Merchant reference </span></div>
-    <div class="col"><span i18n>status</span></div>
-    <!-- } -->
+    <div class="col"><span i18n>status</span></div> -->
+    }
   </div>
 
   @if (!response_data || isLoading) {
@@ -83,8 +83,8 @@
           class="row p-1 border rounded mb-2 fs-small d-flex align-items-center">
           @for (data of item; track data) {
             @if (data.format === 'date') {
-              <div class="col-md-1 text-truncate">
-                <span i18n>{{ data.value }}</span>
+              <div class="col">
+                <span i18n>{{ data.value | date: 'medium' }}</span>
               </div>
             }
             @if (data.format === 'currency') {
@@ -98,17 +98,17 @@
               </div>
             }
             @if (data.format === 'account') {
-              <div class="col-md-3">
+              <div class="col">
                 <span i18n>{{ data.value }}</span>
               </div>
             }
             @if (data.format === 'reference') {
-              <div class="col-md-3">
+              <div class="col">
                 <span i18n>{{ data.value }}</span>
               </div>
             }
             @if (data.format === 'merchant') {
-              <div class="col-md-2">
+              <div class="col">
                 <span i18n>{{ data.value }}</span>
               </div>
             }
@@ -116,8 +116,10 @@
               <div class="col">
                 <span
                   i18n
-                  class="badge-design badge bg-success text-success d-flex justify-content-center align-items-center"
-                  >{{ data.value }}</span
+                  class="badge-design bg-{{
+                    data.css
+                  }} p-1 d-flex justify-content-center align-items-center w-100">
+                  {{ data.value }}</span
                 >
               </div>
             }

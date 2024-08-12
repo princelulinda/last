@@ -7,6 +7,7 @@ import { GeneralService } from '../../../core/services';
 import { NgClass } from '@angular/common';
 import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
 import { DialogService } from '../../../core/services';
+import { DatePipe } from '@angular/common';
 import {
   ParamModel,
   getdataModal,
@@ -17,7 +18,7 @@ import {
 @Component({
   selector: 'app-reusable-list',
   standalone: true,
-  imports: [NgClass, ReactiveFormsModule, SkeletonComponent],
+  imports: [NgClass, ReactiveFormsModule, SkeletonComponent, DatePipe],
   templateUrl: './reusable-list.component.html',
   styleUrl: './reusable-list.component.scss',
 })

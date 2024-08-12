@@ -20,30 +20,35 @@ export class BillsReportsComponent {
       field: ['created_at'],
       size: '',
       format: 'date',
+      canBeDisplayed: true,
     },
     {
       name: 'Total Amount',
       field: ['total_amount'],
       size: '',
       format: 'currency',
+      canBeDisplayed: true,
     },
     {
       name: 'Account',
       field: ['created_by.client_full_name', 'created_by.client_code'],
       size: '',
       format: 'account',
+      canBeDisplayed: true,
     },
     {
       name: 'Reference',
       field: ['payment_reference'],
       size: '',
       format: 'reference',
+      canBeDisplayed: true,
     },
     {
       name: 'Merchant reference',
       field: ['partner_reference'],
       size: '',
       format: 'merchant',
+      canBeDisplayed: true,
     },
     {
       name: 'Status',
@@ -52,6 +57,7 @@ export class BillsReportsComponent {
       class: 'badge',
       size: '',
       format: 'status',
+      canBeDisplayed: true,
     },
     {
       name: 'Description',
