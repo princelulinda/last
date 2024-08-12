@@ -8,8 +8,8 @@ import {
   MobileBanksModel,
 } from '../../../components/dev/global-mapping/glob-mapping.model';
 import { ParamModel } from '../../../global/components/reusable-list/reusable.model';
-import { PaginationConfig } from '../admin/paginatioConfig.model';
 import { getdataModal } from '../../../global/components/reusable-list/reusable.model';
+import { PaginationConfig } from '../../../global/models/pagination.models';
 // import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({

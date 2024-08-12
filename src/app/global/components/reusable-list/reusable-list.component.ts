@@ -2,7 +2,6 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { PaginationConfig } from '../../global.model';
 import { GeneralService } from '../../../core/services';
 import { NgClass } from '@angular/common';
 import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
@@ -13,6 +12,7 @@ import {
   Header,
   selectedPeriodModel,
 } from './reusable.model';
+import { PaginationConfig } from '../../models/pagination.models';
 
 @Component({
   selector: 'app-reusable-list',
