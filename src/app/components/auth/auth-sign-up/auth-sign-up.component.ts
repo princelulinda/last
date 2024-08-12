@@ -6,7 +6,6 @@ import { AuthService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
 import { Subject, Observable } from 'rxjs';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { LookupComponent } from '../../dev/lookup/lookup.component';
 import {
   EmailVerificationResponse,
   phoneNumberVerificaitonResponse,
@@ -19,7 +18,8 @@ import { DialogResponseModel } from '../../../core/services/dialog/dialogs-model
 import { UploadedFileModel } from '../auth.model';
 import { BankService } from '../../../core/services/bank/bank.service';
 import { DbService } from '../../../core/db/db.service';
-import { ItemModel } from '../../dev/lookup/lookup.model';
+import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
+import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
 
 @Component({
   selector: 'app-auth-sign-up',

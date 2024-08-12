@@ -14,7 +14,6 @@ import {
 } from '@angular/forms';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { LookupComponent } from '../../dev/lookup/lookup.component';
 import { MerchantTellerDetailsComponent } from './merchant-teller-details/merchant-teller-details.component';
 import {
   dialogModel,
@@ -27,7 +26,8 @@ import {
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import { Router, RouterModule } from '@angular/router';
 import { VariableService } from '../../../core/services/variable/variable.service';
-import { ItemModel } from '../../dev/lookup/lookup.model';
+import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
+import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
 
 @Component({
   selector: 'app-merchant-config',
