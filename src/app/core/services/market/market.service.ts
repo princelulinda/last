@@ -11,7 +11,7 @@ import {
   ObjectBillModel,
   paymentBillsModel,
   StatsModel,
-} from '../../../components/products/products.model';
+} from '../../../components/merchant/products/products.model';
 import { Pagination } from '../merchant/model';
 // import { offset } from '@popperjs/core';
 

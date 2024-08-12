@@ -8,7 +8,6 @@ import { NyamuranziDetailsComponent } from '../../components/nyamuranzi/nyamuran
 import { TransferComponent } from '../../components/transfer/transfer/transfer.component';
 import { TarifComponent } from '../../components/tarif/tarif.component';
 import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.component';
-import { BankHomeComponent } from '../../components/bank-home/bank-home.component';
 import { AccountComponent } from '../../components/account/account/account.component';
 import { bankingSavingRoutes } from '../../components/saving/saving.routes';
 import { AccountDetailsComponent } from '../../components/account/account-details/account-details.component';
@@ -55,11 +54,6 @@ export const workstationBankingRoutes: Routes = [
     path: 'withdrawal',
     component: WithdrawalComponent,
   },
-  {
-    path: 'home',
-    component: BankHomeComponent,
-  },
-
   {
     path: 'accounts',
     component: AccountComponent,

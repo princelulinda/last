@@ -83,15 +83,17 @@
         <br />
       </div>
       <div class="ms-auto me-4 mt-5 pt-3" style="z-index: 999">
-        <button
-          (click)="openMerchantsPopup()"
-          data-bs-toggle="modal"
-          data-bs-target="#merchantsModal"
-          class="btn badge-design bg-danger text-danger fw-bold"
-          style="height: 35px; width: 80px"
-          i18n>
-          Switch
-        </button>
+        @if (merchantMult && merchantMult.length > 1) {
+          <button
+            (click)="openMerchantsPopup()"
+            data-bs-toggle="modal"
+            data-bs-target="#merchantsModal"
+            class="btn badge-design bg-danger text-danger fw-bold"
+            style="height: 35px; width: 80px"
+            i18n>
+            Switch
+          </button>
+        }
       </div>
     </div>
 
@@ -217,14 +219,14 @@
             class="d-flex justify-content-center justify-content-md-start px-5">
             <div class="col-md-auto">
               <div
-                routerLink="/m/market/product/configuration"
+                routerLink="/m/mymarket/product-config"
                 class="pt-1 level-1 ms-3 mt-2 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
                 role="button">
                 <b class="text-dark" i18n>Manage product</b>
                 <i class="fa-solid fa-box text-dark ms-3 opacity-75"></i>
               </div>
               <div
-                routerLink="/m/market/merchant-config"
+                routerLink="/m/mymarket/merchant-config"
                 role="button"
                 class="pt-1 level-1 ms-3 mt-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary">
                 <b class="text-dark" i18n>Merchant config</b>

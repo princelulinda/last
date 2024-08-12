@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { SwitchModeComponent } from '../../../components/dev/switch-mode/switch-mode.component';
+import { SwitchModeComponent } from '../../../global/components/switch-mode/switch-mode.component';
 import {
   AuthService,
   ConfigService,

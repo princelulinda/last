@@ -39,7 +39,7 @@ import {
 } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
-import { BankHomeComponent } from '../../bank-home/bank-home.component';
+import { BankHomeComponent } from './bank-home/bank-home.component';
 import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
 
 @Component({

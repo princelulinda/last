@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
-import { ProductCardComponent } from '../../dev/product-card/product-card.component';
-import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
+import { ProductCardComponent } from '../../merchant/global/product-card/product-card.component';
+import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import {
   BestOfferModel,
@@ -13,7 +13,8 @@ import {
   ProductModel,
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.model';
+import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
+import { BillerCardComponent } from '../../merchant/global/biller-card/biller-card.component';
 
 @Component({
   selector: 'app-market-dashboard',
@@ -24,6 +25,7 @@ import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.mod
     SkeletonComponent,
     ProductCardComponent,
     MerchantCardComponent,
+    BillerCardComponent,
   ],
   templateUrl: './market-dashboard.component.html',
   styleUrl: './market-dashboard.component.scss',
@@ -72,13 +74,13 @@ export class MarketDashboardComponent implements OnInit {
   // activities: any = [];
   merchants!: Merchant_AutocompleteModel[];
   products!: ProductModel[];
-  biller: [] | null = null;
+  // biller: [] | null = null;
   productCategory!: productCategoryModel[];
   // sector: any;
-  last4!: Merchant_AutocompleteModel[];
+  last4Merchant!: Merchant_AutocompleteModel[];
   recentMerchant!: Merchant_AutocompleteModel[];
-  first5!: BillersModel[];
-  first4!: productCategoryModel[];
+  recentBillers!: BillersModel[];
+  first4ProductCategory!: productCategoryModel[];
   start = 0;
   end = 4;
   clearData = true;
@@ -179,23 +181,23 @@ export class MarketDashboardComponent implements OnInit {
   // //     this.biller = biller;
   // // }
 
-  openModal(merchant: BillersModel, event: Event) {
-    // this.payMerchant = merchant;
-    console.log(merchant);
-    this.biller = null;
-    this.categorySelected = null;
-    // this.merchantId = this.payMerchant.id;
-    this.clearData = true;
+  // openModal(merchant: BillersModel, event: Event) {
+  //   // this.payMerchant = merchant;
+  //   console.log(merchant);
+  //   this.biller = null;
+  //   this.categorySelected = null;
+  //   // this.merchantId = this.payMerchant.id;
+  //   this.clearData = true;
 
-    event.stopPropagation();
-    // add data-bs after click on favorite star
-    const element = event.target as HTMLButtonElement;
-    element.setAttribute('data-bs-toggle', 'modal');
-    element.setAttribute('data-bs-target', '#merchantModal');
-    element.click();
-    // accepts_simple_payment;
-    // this.getMerchantDetails();
-  }
+  //   event.stopPropagation();
+  //   // add data-bs after click on favorite star
+  //   const element = event.target as HTMLButtonElement;
+  //   element.setAttribute('data-bs-toggle', 'modal');
+  //   element.setAttribute('data-bs-target', '#merchantModal');
+  //   element.click();
+  //   // accepts_simple_payment;
+  //   // this.getMerchantDetails();
+  // }
 
   // goBack() {
   //     this.sector = true;
@@ -226,7 +228,7 @@ export class MarketDashboardComponent implements OnInit {
           const response = data as { objects: Merchant_AutocompleteModel[] };
           this.merchants = response.objects;
           // this.merchant = this.merchants;
-          this.last4 = this.merchants.slice(-4);
+          this.last4Merchant = this.merchants.slice(-4);
           const navigationBtn = document.getElementById(
             'navigationButtonMerchant'
           );
@@ -257,14 +259,14 @@ export class MarketDashboardComponent implements OnInit {
     if (this.end < this.billers.length) {
       this.start++;
       this.end++;
-      this.first5 = this.billers.slice(this.start, this.end);
+      this.recentBillers = this.billers.slice(this.start, this.end);
     }
   }
   previousBiller() {
     if (this.start > 0) {
       this.start--;
       this.end--;
-      this.first5 = this.billers.slice(this.start, this.end);
+      this.recentBillers = this.billers.slice(this.start, this.end);
     }
   }
   getBillers() {
@@ -278,7 +280,7 @@ export class MarketDashboardComponent implements OnInit {
           this.billers = result.objects;
 
           const nextBtn = document.getElementById('navigationButton');
-          this.first5 = this.billers.slice(this.start, this.end);
+          this.recentBillers = this.billers.slice(this.start, this.end);
           nextBtn?.addEventListener('click', () => {
             this.nextBiller();
             this.previousBiller();
@@ -297,7 +299,7 @@ export class MarketDashboardComponent implements OnInit {
         next: result => {
           const response = result as productCategoryArray;
           this.productCategory = response.objects;
-          this.first4 = this.productCategory.slice(0, 4);
+          this.first4ProductCategory = this.productCategory.slice(0, 4);
         },
       });
   }

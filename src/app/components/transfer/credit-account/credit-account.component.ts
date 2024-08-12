@@ -44,7 +44,7 @@ import {
   TransferResponseModel,
 } from '../transfer.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { MerchantObjectModel } from '../../products/products.model';
+import { MerchantObjectModel } from '../../merchant/products/products.model';
 
 @Component({
   selector: 'app-credit-account',
@@ -57,7 +57,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   isModalShown = false;
   debitAccount: DebitAccountModel | null = null;
-
+  hover = false;
   @Input() selectedDebitAccountType = '';
 
   @Input() walletBankId: string | number = '';
@@ -144,7 +144,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   selectedBank$!: Observable<bankModel>;
   isBalanceShown = false;
   isBalanceShown$: Observable<boolean>;
-
+  creditAccountAdded = false;
   constructor(
     private transferService: TransferService,
     private bankService: BankService,
@@ -390,6 +390,29 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
         },
       });
   }
+  removeCreditAccount(accountNumber: string) {
+    this.pendingTransfers = this.pendingTransfers.filter(
+      account => account.account_number !== accountNumber
+    );
+
+    if (this.pendingTransfers.length === 0) {
+      this.creditAccountAdded = false;
+    }
+  }
+  addCreditAccount() {
+    if (this.pendingTransfers.length >= 1) {
+      return;
+    }
+    if (!this.creditAccountAdded) {
+      this.pendingTransfers.push({
+        account_holder: this.transferForm.value.accountHolder ?? '',
+        institution: this.selectedInstitution!,
+        account_number: this.transferForm.value.accountNumber ?? '',
+        amount: this.transferForm.value.amount!,
+      });
+      this.creditAccountAdded = true;
+    }
+  }
 
   validateTransfer() {
     this.amountToSend = this.amount;
@@ -633,27 +656,29 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     }
   }
 
-  showModal() {
-    if (this.selectedCreditAccountType !== 'wallet') {
-      if (this.selectedInstitution) {
-        if (!this.selectedInstitution.api_values.has_lookup) {
-          this.creditNumber = this.transferForm.value.accountNumber;
-          this.creditName = this.transferForm.value.accountHolder;
-        } else {
-          this.creditNumber = this.creditAccount?.account_number;
-          this.creditName = this.creditAccount?.name;
+  showModal(event: Event) {
+    event.preventDefault();
+    if (this.creditAccountAdded) {
+      if (this.selectedCreditAccountType !== 'wallet') {
+        if (this.selectedInstitution) {
+          if (!this.selectedInstitution.api_values.has_lookup) {
+            this.creditNumber = this.transferForm.value.accountNumber;
+            this.creditName = this.transferForm.value.accountHolder;
+          } else {
+            this.creditNumber = this.creditAccount?.account_number;
+            this.creditName = this.creditAccount?.name;
+          }
         }
+      } else if (this.selectedCreditAccountType === 'wallet') {
+        this.creditNumber = this.creditAccount?.account_number;
+        this.creditName = this.creditAccount?.name;
       }
-    } else if (this.selectedCreditAccountType === 'wallet') {
-      this.creditNumber = this.creditAccount?.account_number;
-      this.creditName = this.creditAccount?.name;
-    }
 
-    if (!this.isMerchantTransfer) {
-      this.dialogService.openDialog({
-        title: 'Confirm transfer',
-        type: 'pin',
-        message: ` Account 
+      if (!this.isMerchantTransfer) {
+        this.dialogService.openDialog({
+          title: 'Confirm transfer',
+          type: 'pin',
+          message: ` Account 
              <b>${this.debitNumber}</b>
                of
              <b>${this.debitHolder}</b>  <br>  will be debited with 
@@ -664,15 +689,16 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
                of 
               <b>${this.creditName}</b>
               `,
-        action: 'confirm transfer',
-      });
-    } else {
-      this.dialogService.openDialog({
-        title: 'Confirm transfer',
-        type: 'pin',
-        message: ` Confirm your transfer of <b>${this.amount} BIF</b> for the benefit of <b>${this.transferForm.value.accountHolder} <small>${this.creditNumber}</small></b> `,
-        action: 'confirm transfer',
-      });
+          action: 'confirm transfer',
+        });
+      } else {
+        this.dialogService.openDialog({
+          title: 'Confirm transfer',
+          type: 'pin',
+          message: ` Confirm your transfer of <b>${this.amount} BIF</b> for the benefit of <b>${this.transferForm.value.accountHolder} <small>${this.creditNumber}</small></b> `,
+          action: 'confirm transfer',
+        });
+      }
     }
   }
 

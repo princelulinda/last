@@ -19,8 +19,8 @@ import {
   ProductModel,
   TransactionModel,
   TransactionObjectModel,
-} from '../../../components/products/products.model';
-import { ProductCardComponent } from '../../../components/dev/product-card/product-card.component';
+} from '../../../components/merchant/products/products.model';
+import { ProductCardComponent } from '../../../components/merchant/global/product-card/product-card.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({

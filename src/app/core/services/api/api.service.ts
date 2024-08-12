@@ -16,6 +16,7 @@ export class ApiService {
   private localBankIdKey = 'iHelaRyanjeBankId';
   private localPlateformKey = 'iHelaRyanjePlaform';
   private localSelectedMenuKey = 'iHelaRyanjeMenu';
+  private localConnectedOperatorKey = 'iHelaRyanjeOperator';
 
   private headers = new HttpHeaders()
     .set('Content-Type', 'application/json')
@@ -94,6 +95,17 @@ export class ApiService {
   }
   getLocalSelectedMenu(): string | null {
     return localStorage.getItem(this.localSelectedMenuKey);
+  }
+
+  setLocalConnectedOperator(status: 'true' | 'false') {
+    if (status === 'true') {
+      localStorage.setItem(this.localConnectedOperatorKey, status);
+    } else {
+      localStorage.removeItem(this.localConnectedOperatorKey);
+    }
+  }
+  getLocalConnectedOperator(): string | null {
+    return localStorage.getItem(this.localConnectedOperatorKey);
   }
 
   clearLocalData() {

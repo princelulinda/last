@@ -10,7 +10,6 @@ import { AccountComponent } from '../../components/account/account/account.compo
 import { WalletComponent } from '../../components/wallet/wallet/wallet.component';
 import { WalletDetailsComponent } from '../../components/wallet/wallet-details/wallet-details.component';
 import { TarifComponent } from '../../components/tarif/tarif.component';
-import { BankHomeComponent } from '../../components/bank-home/bank-home.component';
 import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.component';
 import { AccountDetailsComponent } from '../../components/account/account-details/account-details.component';
 
@@ -58,12 +57,6 @@ export const bankingRoutes: Routes = [
     path: 'withdrawal',
     component: WithdrawalComponent,
   },
-
-  {
-    path: 'home',
-    component: BankHomeComponent,
-  },
-
   {
     path: 'accounts',
     component: AccountComponent,

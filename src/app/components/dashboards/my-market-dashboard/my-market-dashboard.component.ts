@@ -16,15 +16,7 @@ import { MarketService } from '../../../core/services/market/market.service';
 // import { VariableService } from '../../../core/services/variable/variable.service';
 import { AuthService, ConfigService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
-import {
-  Account,
-  MerchantBillDataModel,
-  MerchantInfoModel,
-  MerchantModel,
-  MerchantObjectModel,
-  ObjectBillModel,
-  StatsModel,
-} from '../../products/products.model';
+
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { UserInfoModel } from '../../../core/db/models/auth';
@@ -35,10 +27,19 @@ import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
-import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
-import { AllProductsComponent } from '../../products/all-products/all-products.component';
+import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
 import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
-import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.model';
+import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
+import { AllProductsComponent } from '../../merchant/products/all-products/all-products.component';
+import {
+  Account,
+  MerchantBillDataModel,
+  MerchantInfoModel,
+  MerchantModel,
+  MerchantObjectModel,
+  ObjectBillModel,
+  StatsModel,
+} from '../../merchant/products/products.model';
 
 @Component({
   selector: 'app-my-market-dashboard',
