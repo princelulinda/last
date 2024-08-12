@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DialogService } from '../../../../core/services';
 import { GeneralService } from '../../../../core/services/general/general.service';
-import { AdminService } from '../../../../core/services/admin/admin.service';
 import { AdminModel, ItemModel } from './lookup.model';
 
 @Component({
@@ -33,7 +32,6 @@ export class LookupComponent implements OnInit {
   // private searchQuerySubject = new Subject<string>();
 
   constructor(
-    private adminService: AdminService,
     private generalService: GeneralService,
     private dialogService: DialogService
   ) {}
@@ -43,7 +41,6 @@ export class LookupComponent implements OnInit {
     this.type = $localize`type`;
     this.message = $localize`message`;
 
-    this.getAdminMenus();
     this.search.setValue('');
     if (this.option === 'autocomplete') {
       this.initAutocomplete();
@@ -73,15 +70,6 @@ export class LookupComponent implements OnInit {
 
   close() {
     this.showAutoComplete = false;
-  }
-
-  getAdminMenus() {
-    this.adminService.getAdminMenuGroupList().subscribe({
-      next: admins => {
-        const response = admins as { objects: AdminModel[] };
-        this.adminMenus = response.objects;
-      },
-    });
   }
 
   initAutocomplete() {

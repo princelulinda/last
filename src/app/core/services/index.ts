@@ -3,7 +3,6 @@ export * from './auth/auth.service';
 export * from './config/fullpath.service';
 export * from './config/config.service';
 export * from './dialog/dialog.service';
-export * from './admin/admin.service';
 export * from './bank/bank.service';
 export * from './client/client.service';
 export * from './dashboards/banking.service';

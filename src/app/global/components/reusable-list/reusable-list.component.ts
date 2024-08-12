@@ -51,7 +51,12 @@ export class ReusableListComponent implements OnInit, OnDestroy {
     value2: string;
   }[][];
 
-  clientPagination = new PaginationConfig();
+  clientPagination: PaginationConfig = {
+    filters: {
+      offset: 0,
+      limit: 0,
+    },
+  };
   currentPage = 0;
   response_data!: getdataModal;
   pages!: number;
