@@ -14,6 +14,8 @@ import {
   ObjectBillModel,
   paymentBillsModel,
   StatsModel,
+  ProductFavoriteModel,
+  AllProductsModel,
 } from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
@@ -593,5 +595,28 @@ export class MerchantService {
   getBillers() {
     const url = `/dbs/merchant/manage/objects_autocomplete/?is_biller=true`;
     return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getFavoriteProductAutocomplete(search: string) {
+    const url =
+      '/dbs/merchant-product/objects_autocomplete/?' +
+      search +
+      '&is_favorite_product=true';
+    return this.apiService.get<AllProductsModel>(url).pipe(
+      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
+      map(data => {
+        return data;
+      })
+    );
+  }
+
+  makeFavoriteProduct(favorite: ProductFavoriteModel) {
+    const url = '/dbs/merchant-product/client/favorite/ ';
+    return this.apiService.post(url, favorite).pipe(
+      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
+      map(data => {
+        return data;
+      })
+    );
   }
 }
