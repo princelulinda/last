@@ -450,11 +450,6 @@
                       <div class="row w-100">
                         @if (counters.id) {
                           <div class="col-md-3">
-                            <!-- {{
-                    counters?.last_activity
-                          | date : 'd/M/yyyy'
-                        : '-----'
-                }} -->
                             {{ counters.last_activity | date: 'HH:mm:ss' }}
                           </div>
                         }
