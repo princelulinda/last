@@ -4,8 +4,11 @@ import { CommonModule, NgClass } from '@angular/common';
 
 import { Subject, Observable, takeUntil } from 'rxjs';
 
-import { BankingService } from '../../../core/services/dashboards/banking.service';
-import { ConfigService, AuthService } from '../../../core/services';
+import {
+  ConfigService,
+  AuthService,
+  BankService,
+} from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { nyamuranziCard } from '../models';
 import { userInfoModel } from '../../../layouts/header/model';
@@ -36,7 +39,7 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
   private userInfo$: Observable<UserInfoModel>;
 
   constructor(
-    private bankingService: BankingService,
+    private bankService: BankService,
     private configService: ConfigService,
     private authService: AuthService
   ) {
@@ -62,7 +65,7 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.bankingService
+    this.bankService
       .getRefereePersons()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({

@@ -5,7 +5,6 @@ export * from './config/config.service';
 export * from './dialog/dialog.service';
 export * from './bank/bank.service';
 export * from './client/client.service';
-export * from './dashboards/banking.service';
 export * from './file/file.service';
 export * from './general/general.service';
 export * from './loan/loan.service';

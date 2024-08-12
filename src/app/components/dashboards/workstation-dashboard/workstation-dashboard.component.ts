@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { WorkstationService } from '../../../core/services/dashboards/workstation.service';
 import { SessionToShow, StatResModel } from '../dashboard.model';
 import { SessionsService } from '../../../core/services/sessions/sessions.service';
+import { GeneralService } from '../../../core/services';
 
 @Component({
   selector: 'app-workstation-dashboard',
@@ -21,12 +21,12 @@ export class WorkstationDashboardComponent implements OnInit {
   session: SessionToShow | null = null;
 
   constructor(
-    private workstationService: WorkstationService,
+    private generalService: GeneralService,
     private sessionsService: SessionsService
   ) {}
 
   ngOnInit() {
-    this.workstationService
+    this.generalService
       .getWorkstationStats()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(stat => {

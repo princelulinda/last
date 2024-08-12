@@ -5,10 +5,13 @@ import { bankListResponse } from '../../../components/auth/auth.model';
 import { ApiService, ConfigService } from '..';
 import { bankModel } from '../../db/models/bank/bank.model';
 import { addBankResponse } from '../../../components/dashboards/dashboard.model';
+
+import { WalletCard } from '../../../components/wallet/wallet.models';
 import {
   PeriodModel,
   TransactionObjectModel,
 } from '../../../components/merchant/products/products.model';
+import { nyamuranziCard } from '../../../components/nyamuranzi/models';
 
 @Injectable({
   providedIn: 'root',
@@ -136,6 +139,37 @@ export class BankService {
       .get<TransactionObjectModel>(
         '/operations/pending/logic/?req_type=transfers&filter_for_client=true'
       )
+      .pipe(map(data => data));
+  }
+
+  getDefaultAccount() {
+    const url = '/account/current/default/';
+    return this.apiService.get(url).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+  getDefaultWallet(): Observable<{ object: WalletCard; count: number }> {
+    const url = '/dbs/wallet/default/';
+    return this.apiService.get<{ object: WalletCard; count: number }>(url).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+
+  getClientRecentTransactions() {
+    const url = '/operations/pending/logic/?filter_for_client=true/';
+    return this.apiService.get(url).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+  getRefereePersons(): Observable<{ object: nyamuranziCard }> {
+    return this.apiService
+      .get<{ object: nyamuranziCard }>('/client/refered/')
       .pipe(map(data => data));
   }
 }
