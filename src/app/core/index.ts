@@ -16,7 +16,6 @@ export const AllServices = [
   Services.LoanService,
   Services.MenuService,
   Services.MerchantService,
-  Services.NewsFeedService,
   Services.SavingDetailService,
   Services.SettingsService,
   Services.TarifService,

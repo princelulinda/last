@@ -12,7 +12,6 @@ export * from './general/general.service';
 export * from './loan/loan.service';
 export * from './menu/menu.service';
 export * from './merchant/merchant.service';
-export * from './newsFeed/news-feed.service';
 export * from './saving/saving.service';
 export * from './settings/settings.service';
 export * from './tarif/tarif.service';

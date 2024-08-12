@@ -5,18 +5,8 @@ import { map } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class NewsFeedService {
+export class PublicationService {
   constructor(private apiService: ApiService) {}
-
-  getClientProducts() {
-    const url = `/dbs/merchant-product/objects_autocomplete/?limit=4&top_product=true`;
-    return this.apiService.get(url).pipe(map(data => data));
-  }
-
-  getBillers() {
-    const url = `/dbs/merchant/manage/objects_autocomplete/?is_biller=true`;
-    return this.apiService.get(url).pipe(map(data => data));
-  }
 
   getPublicationType() {
     const url = '/socialnetwork/publication-type/';

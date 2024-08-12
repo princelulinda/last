@@ -12,7 +12,6 @@ import {
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import { MarketService } from '../../../core/services/market/market.service';
 // import { VariableService } from '../../../core/services/variable/variable.service';
 import { AuthService, ConfigService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
@@ -127,7 +126,6 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     // private store: Store,
     private route: ActivatedRoute,
     private merchantService: MerchantService,
-    private marketService: MarketService,
     // private variableService: VariableService,
     private authService: AuthService,
     private dialogService: DialogService,
@@ -203,7 +201,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     };
     this.dialogService.dispatchLoading();
 
-    this.marketService
+    this.merchantService
       .generateBill(body)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
@@ -382,7 +380,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   }
 
   getMerchantStats() {
-    this.marketService
+    this.merchantService
       .getMerchantStats(this.merchantId as string)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
