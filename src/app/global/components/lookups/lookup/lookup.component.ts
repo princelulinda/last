@@ -34,7 +34,6 @@ export class LookupComponent implements OnInit {
 
   constructor(
     private adminService: AdminService,
-    // private clientService: ClientService,
     private generalService: GeneralService,
     private dialogService: DialogService
   ) {}
@@ -47,13 +46,8 @@ export class LookupComponent implements OnInit {
     this.getAdminMenus();
     this.search.setValue('');
     if (this.option === 'autocomplete') {
-      console.log('IIIIIIIIIIIIIIIIIIIIIIDDDDDDDDDDDDDDDDDDDDDDD');
       this.initAutocomplete();
     }
-
-    // if (this.option === 'autocomplete' && this.selectedId) {
-    //   this.initAutocomplete();
-    // }
   }
 
   inputFocused() {
@@ -98,17 +92,12 @@ export class LookupComponent implements OnInit {
         const res = value as { objects: ItemModel[] };
         this.items = res.objects;
         this.isLoading = false;
-        console.log('..............................AAAAAAAAAAA', this.items);
         if (this.selectedId) {
           const items: ItemModel[] = this.items;
           this.selectedItem = items.filter(item => {
             if (item.id === this.selectedId) {
               return item;
             }
-            console.log(
-              '..............................BBBBBBBBBBBBBBB',
-              this.selectedItem
-            );
             return null;
           })[0];
           if (this.selectedItem) {
@@ -174,9 +163,5 @@ export class LookupComponent implements OnInit {
         message: 'Please Enter a value',
       });
     }
-  }
-
-  onChangeTest() {
-    console.log('333 444 555');
   }
 }

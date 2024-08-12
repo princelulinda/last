@@ -20,7 +20,7 @@ import {
   LoanModel,
   LoanPlanResponseModel,
   PlanModel,
-  ResponseDataModel,
+  ResModel,
 } from '../loan.models';
 
 @Component({
@@ -115,7 +115,7 @@ export class LoanPlanComponent implements OnInit, OnDestroy {
           this.dialogService.closeLoading();
 
           // console.log('!!!!!!!!!!!!!!!!RRRRRRRRRRRRRresponse', response);
-          const res = response as { object: ResponseDataModel };
+          const res = response as { object: ResModel };
           if (res.object.success == true) {
             this.dialogService.openToast({
               title: '',
