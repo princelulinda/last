@@ -67,7 +67,7 @@
         @if (title !== '') {
           <div>
             <i class="fa fa-circle fs-x-small me-2 text-primary"></i>
-            <b>{{ title }}</b>
+            <b class="fs-medium">{{ title }}</b>
           </div>
         }
       </div>
@@ -89,8 +89,7 @@
           @if (
             mainConfig &&
             mainConfig.activePlateform !== 'workstation' &&
-            selectedBank &&
-            selectedBank.id
+            selectedBank
           ) {
             <div class="mb-3" style="height: 50px">
               <app-switch-bank
@@ -111,7 +110,7 @@
               class="d-flex me-4 p-1 justify-content-between rounded align-items-center"
               [ngClass]="{
                 'bg-secondary': mode === 'light',
-                'bg-primary-2': mode === 'dark',
+                'bg-primary': mode === 'dark',
                 'w-auto': isTermDeposit,
 
                 'w-100':
@@ -125,9 +124,12 @@
                     style="transition: all 0.2s ease-in-out"
                     tabindex="0"
                     [ngClass]="{
-                      'd-none': selectedBank && !selectedBank.id,
+                      'd-none': !selectedBank,
                       'bg-primary  text-all-white rounded px-1 py-2 me-1':
                         selectedDebitAccountType === 'account',
+                      'bg-white':
+                        selectedDebitAccountType === 'account' &&
+                        mode === 'dark',
                     }"
                     class="text-center px-1 py-2 ms-1 width">
                     <b i18n>Account</b>
@@ -143,6 +145,9 @@
                     [ngClass]="{
                       'bg-primary text-all-white  rounded px-1 py-2 me-1':
                         selectedDebitAccountType === 'wallet',
+                      'bg-white':
+                        selectedDebitAccountType === 'wallet' &&
+                        mode === 'dark',
                     }"
                     class="text-center pe-3 width">
                     <b i18n>Wallet</b>

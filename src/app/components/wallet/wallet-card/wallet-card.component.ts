@@ -1,7 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BankingService } from '../../../core/services/dashboards/banking.service';
 import { Subject, Observable, takeUntil } from 'rxjs';
-import { AuthService, ConfigService } from '../../../core/services';
+import {
+  AuthService,
+  BankService,
+  ConfigService,
+} from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 
 import { NgClass, CommonModule } from '@angular/common';
@@ -44,7 +47,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   mouseHover = false;
 
   constructor(
-    private bankingService: BankingService,
+    private bankService: BankService,
     private configService: ConfigService,
     private authService: AuthService
   ) {
@@ -91,7 +94,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   // }
 
   getDefaultWallet() {
-    this.bankingService
+    this.bankService
       .getDefaultWallet()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({

@@ -6,3 +6,4 @@ export * from './treasurer/treasurer.guard';
 export * from './plateform/plateform.guard';
 export * from './workstation/workstation.guard';
 export * from './banking/banking.guard';
+// export { DbReadyGuard } from './db-ready/db-ready.guard';

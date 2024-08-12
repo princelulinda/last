@@ -146,12 +146,13 @@
           <button
             class="btn bg-primary text-light px-4 py-1 fw-bold"
             [disabled]="!pin.valid"
+            (click)="mapAccount()"
             i18n>
-            <span *ngIf="isLoading">
+            <span *ngIf="loading">
               <i
                 class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-2"></i>
             </span>
-            <span *ngIf="!isLoading">Confirm</span>
+            <span *ngIf="!loading">Confirm</span>
           </button>
         </div>
       </div>

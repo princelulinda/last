@@ -8,7 +8,6 @@ export const AllServices = [
   Services.ConfigService,
   Services.FullpathService,
   Services.DialogService,
-  Services.AdminService,
   Services.BankService,
   Services.ClientService,
   Services.FileService,
@@ -29,7 +28,7 @@ export const AllGuards = [
   Guards.treasurerGuard,
   Guards.windowGuard,
   Guards.workstationGuard,
-  Guards.PlateformGuard,
+  // Guards.DbReadyGuard,
 ];
 
 export const NonDiInterceptors = [

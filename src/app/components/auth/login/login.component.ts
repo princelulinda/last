@@ -34,8 +34,6 @@ export class LoginComponent implements OnInit {
   showPassword = false;
   passwordType = 'password';
   loginForm = this.formBuilder.nonNullable.group({
-    // username: ['', Validators.required, Validators.minLength(2)],
-    // password: ['', Validators.required, Validators.minLength(8)],
     username: ['', Validators.required],
     password: ['', Validators.required],
   });
@@ -84,12 +82,8 @@ export class LoginComponent implements OnInit {
           next: data => {
             this.loginLoader = false;
             console.log(data);
-            // const userData = (data as { user: UserApiResponse }).user;
             this.dialogService.closeLoading();
             this.authService.populateClient(this.router, 'newsFeed');
-            // if (userData.token) {
-            //   this.redirectToNext();
-            // }
           },
           error: () => {
             this.loginLoader = false;

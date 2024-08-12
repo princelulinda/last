@@ -96,6 +96,7 @@ export interface OrganizationModel {
   is_erp: false;
   is_main: boolean;
   org_accounting_type: number;
+  have_merchant_system: boolean;
   share_capital: number | string | null;
   slug: string;
   institution_client: {
@@ -116,6 +117,25 @@ export interface OrganizationModel {
     is_partner_bank: boolean;
     picture: string | null;
     prefered_language: languageModel;
+  };
+}
+
+export interface LoginOperatorApiResponseModel {
+  object: {
+    success: boolean;
+    response_code: string | number;
+    response_message: string;
+    response_data: {
+      id: number;
+      is_teller: boolean;
+      is_treasurer: boolean;
+      operator: {
+        id: number;
+        username: string;
+        name: string;
+      };
+      organization: OrganizationModel;
+    };
   };
 }
 

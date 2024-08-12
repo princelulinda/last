@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
-import { PaginationConfig } from '../../../../global/global.model';
+import { PaginationConfig } from '../../../../global/models/pagination.models';
 import { DialogService, MerchantService } from '../../../../core/services';
 import { VariableService } from '../../../../core/services/variable/variable.service';
 

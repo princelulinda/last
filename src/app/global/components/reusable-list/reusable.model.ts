@@ -1,10 +1,3 @@
-export interface PaginationModel {
-  filters: {
-    limit: number;
-    offset: number;
-  };
-}
-
 export interface ParamModel {
   title: string;
   value: string | null;
@@ -37,4 +30,6 @@ export interface Header {
   option2?: string;
   value1?: string;
   value2?: string;
+
+  name: string;
 }
