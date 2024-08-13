@@ -4,12 +4,15 @@
       class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
       role="button"
       routerLink="/w/workstation/banking/"
+      [routerLinkActiveOptions]="{ exact: true }"
       routerLinkActive="text-all-dark bg-primary-3"
       i18n>
       Home
     </a>
     <a
       class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+      routerLink="/w/workstation/banking/tarifs"
+      routerLinkActive="text-all-dark bg-primary-3"
       role="button"
       i18n>
       Tarifs
@@ -17,17 +20,21 @@
     <a
       class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
       role="button"
+      routerLinkActive="text-all-dark bg-primary-3"
       i18n>
       Petty Cash
     </a>
     <a
       class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+      routerLink="/w/workstation/banking/transfer"
+      routerLinkActive="text-all-dark bg-primary-3"
       role="button"
       i18n>
       Transfer
     </a>
     <a
       class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+      routerLinkActive="text-all-dark bg-primary-3"
       role="button"
       i18n>
       Statement
