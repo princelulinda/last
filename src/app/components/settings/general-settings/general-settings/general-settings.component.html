@@ -12,9 +12,7 @@
 
         <div class="row mt-3 mt-sm-5">
           @if (clientInfo) {
-            <div
-              class="d-flex flex-wrap d-sm-block col-sm-6"
-              style="gap: 1rem 2rem">
+            <div class="d-flex flex-wrap d-sm-block col-sm-6 gap-3">
               <div class="d-flex flex-column">
                 <span class="fw-bold text-dark" i18n>User id</span>
 
@@ -101,9 +99,7 @@
               <div class="col-4 fw-bold px-4" i18n>Status</div>
             </div>
             @if (!emails && emailsLoading) {
-              <div
-                class="row text-center align-items-center d-flex"
-                style="height: 20vh">
+              <div class="row text-center align-items-center d-flex h-20vh">
                 <span>
                   <i
                     class="fa-solid fa-spin text-dark fa-circle-notch fs-4"></i>
@@ -112,8 +108,7 @@
             }
             @if (!emails && !emailsLoading) {
               <div
-                class="fw-bold row ms-5 ps-5 fs-4 align-items-center d-flex text-dark"
-                style="height: 20vh; opacity: 0.4"
+                class="fw-bold row ms-5 ps-5 fs-4 align-items-center d-flex text-dark h-20vh opacity-25"
                 i18n>
                 No email account available
               </div>
@@ -260,9 +255,7 @@
               <div class="col-4 fw-bold px-4" i18n>Status</div>
             </div>
             @if (!phoneNumbers && phoneNumbersLoading) {
-              <div
-                class="row text-center align-items-center d-flex"
-                style="height: 20vh">
+              <div class="row text-center align-items-center d-flex h-20vh">
                 <span>
                   <i
                     class="fa-solid fa-spin text-dark fa-circle-notch fs-4"></i>
@@ -271,10 +264,9 @@
             }
             @if (!phoneNumbers && !phoneNumbersLoading) {
               <div
-                class="fw-bold row ms-5 ps-5 fs-4 align-items-center d-flex text-dark"
-                style="height: 20vh; opacity: 0.4"
+                class="fw-bold row ms-5 ps-5 fs-4 align-items-center d-flex text-dark h-20vh opacity-25"
                 i18n>
-                No email account available
+                No phoneNumbers available
               </div>
             }
             @if (phoneNumbers && !phoneNumbersLoading) {
@@ -331,19 +323,15 @@
                             tabindex="0">
                             <i
                               class="fas fa-ellipsis-v text-secondary"
-                              style="margin-left: 20px"
                               title="Actions"></i>
                           </span>
                           @if (showActionPopupAt === number.ident) {
                             <span
-                              class="actions-popup sm-radius d-flex flex-column p-3"
+                              class="actions-popup sm-radius d-flex flex-column p-3 shadow-lg"
                               [ngClass]="{
                                 'bg-white': theme === 'light',
                                 'bg-secondary': theme === 'dark',
-                              }"
-                              style="
-                                box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.15);
-                              ">
+                              }">
                               <div
                                 class="d-flex text-dark align-items-center is-clickable"
                                 data-bs-toggle="modal"
@@ -420,67 +408,65 @@
   <!-- customization-->
   @if (selectedsubmenu === 'customization') {
     <div>
-      <div class="bg-white p-4">
-        <div class="row d-flex">
-          <div class="row">
-            <span class="text-dark col ms-1 text-md opacity-50">Theme</span
-            ><br />
+      <div class="bg-white p-4 mb-3">
+        <div class="d-grid">
+          <div>
+            <span class="text-dark ms-1 text-md opacity-50">Theme</span>
           </div>
-          <hr class="w-50 mt-3 ms-3 text-dark border" />
-          <div class="row">
-            <div class="col d-flex align-items-center">
-              <span class="fw-bold me-5 text-dark">Choose your theme</span>
-
-              <div
-                tabindex="0"
-                (click)="onThemeSwitchChange()"
-                [ngClass]="{
-                  ' not-clickable': theme === 'light',
-                  '  clickable': theme === 'dark',
-                }"
-                class="rounded d-flex border flex-column justify-content-center p-1 position-relative align-items-center me-4 p-4">
-                <div>
-                  <span class="fw-bold text-dark">Light</span>
-                </div>
-                <div>
-                  <span class="text-sm text-dark" style="font-style: italic"
-                    >Default</span
-                  >
-                </div>
-
-                @if (theme === 'light') {
-                  <div>
-                    <i
-                      class="fa-solid fa-circle-check position-absolute top-0 end-0 mt-1 me-1 text-dark"></i>
-                  </div>
-                }
+          <div>
+            <hr class="w-75 mt-3 ms-3 text-dark border" />
+          </div>
+          <div>
+            <div class="d-flex align-items-center">
+              <div>
+                <span class="fw-bold text-dark">Choose your theme</span>
               </div>
-
-              <div
-                tabindex="0"
-                (click)="onThemeSwitchChange()"
-                class="rounded d-flex border flex-column justify-content-center p-1 position-relative align-items-center me-4 p-3 py-4"
-                [ngClass]="{
-                  'bg-all-dark clickable': theme === 'light',
-                  'bg-secondary  not-clickable': theme === 'dark',
-                }">
-                <div>
-                  <span class="fw-bold text-all-white">Dark</span>
-                </div>
-                <div>
-                  <span
-                    class="text-sm text-all-white"
-                    style="font-style: italic"
-                    >Set default</span
-                  >
-                </div>
-
-                @if (theme !== 'light') {
+              <div class="d-flex align-items-center gap-4 ms-5">
+                <div
+                  tabindex="0"
+                  (click)="onThemeSwitchChange()"
+                  [ngClass]="{
+                    ' not-clickable': theme === 'light',
+                    '  clickable': theme === 'dark',
+                  }"
+                  class="rounded d-flex border flex-column justify-content-center p-1 position-relative align-items-center p-4">
                   <div>
-                    <i
-                      class="fa-solid fa-circle-check position-absolute top-0 end-0 mt-1 me-1 text-dark"></i>
+                    <span class="fw-bold text-dark">Light</span>
                   </div>
-                }
+                  <div>
+                    <i class="text-sm text-dark">Default</i>
+                  </div>
+
+                  @if (theme === 'light') {
+                    <div>
+                      <i
+                        class="fa-solid fa-circle-check position-absolute top-0 end-0 mt-1 me-1 text-dark"></i>
+                    </div>
+                  }
+                </div>
+
+                <div
+                  tabindex="0"
+                  (click)="onThemeSwitchChange()"
+                  class="rounded d-flex border flex-column justify-content-center p-1 position-relative align-items-center me-4 p-3 py-4"
+                  [ngClass]="{
+                    'bg-all-dark clickable': theme === 'light',
+                    'bg-secondary  not-clickable': theme === 'dark',
+                  }">
+                  <div>
+                    <span class="fw-bold text-all-white">Dark</span>
+                  </div>
+                  <div>
+                    <i class="text-sm text-all-white">Set default</i>
+                  </div>
+
+                  @if (theme !== 'light') {
+                    <div>
+                      <i
+                        class="fa-solid fa-circle-check position-absolute top-0 end-0 mt-1 me-1 text-dark"></i>
+                    </div>
+                  }
+                </div>
               </div>
             </div>
           </div>
@@ -488,11 +474,13 @@
       </div>
 
       <div class="bg-white p-4 mb-3 lg-radius">
-        <div class="row d-flex">
-          <div class="row">
-            <span class="text-dark ms-1 col text-md opacity-50" i18n
-              >Language</span
-            ><br />
+        <div class="d-grid">
+          <div class="d-flex">
+            <div>
+              <span class="text-dark ms-1 col text-md opacity-50" i18n
+                >Language</span
+              >
+            </div>
             <div class="col d-flex justify-content-end">
               <span class="not-clickable" i18n>
                 Add
@@ -500,49 +488,46 @@
               ></span>
             </div>
           </div>
-          <hr class="w-50 ms-3 mt-3 border" />
+
           <div>
-            <div>
-              <span
-                class="text-ms-sm text-dark"
-                style="font-style: italic"
-                i18n>
-                Default:</span
-              >
-              @if (clientInfo.client.prefered_language === 'en') {
-                <span
-                  style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
-                  class="text-md-sm"
-                  i18n
-                  >English
-                </span>
-              }
-              @if (clientInfo.client.prefered_language === 'fr') {
-                <span
-                  style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
-                  class="text-md-sm"
-                  i18n
-                  >French
-                </span>
-              }
+            <hr class="w-75 ms-3 mt-3 border" />
+          </div>
+          <div>
+            <div class="d-flex align-items-center">
+              <div class="me-3">
+                <i class="text-ms-sm text-dark" i18n> Default:</i>
+              </div>
+              <div class="ms-5">
+                @if (clientInfo.client.prefered_language === 'en') {
+                  <span
+                    style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
+                    class="text-md-sm"
+                    i18n
+                    >English
+                  </span>
+                }
+                @if (clientInfo.client.prefered_language === 'fr') {
+                  <span class="text-md-sm ms-5" i18n>French </span>
+                }
 
-              @if (clientInfo.client.prefered_language === 'sw') {
-                <span
-                  style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
-                  class="text-md-sm"
-                  i18n
-                  >Swahili</span
-                >
-              }
+                @if (clientInfo.client.prefered_language === 'sw') {
+                  <span
+                    style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
+                    class="text-md-sm"
+                    i18n
+                    >Swahili</span
+                  >
+                }
 
-              @if (clientInfo.client.prefered_language === 'ki') {
-                <span
-                  style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
-                  class="text-md-sm"
-                  i18n
-                  >Kirundi</span
-                >
-              }
+                @if (clientInfo.client.prefered_language === 'ki') {
+                  <span
+                    style="margin-left: 16%; color: rgba(26, 67, 113, 1)"
+                    class="text-md-sm"
+                    i18n
+                    >Kirundi</span
+                  >
+                }
+              </div>
             </div>
 
             <div class="mt-4">
