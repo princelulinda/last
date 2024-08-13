@@ -18,29 +18,4 @@ export class FullpathService {
     }
     return path;
   }
-
-  getBaseRouterLink(): string {
-    let url = '';
-    this.configService.getPlateform().subscribe({
-      next: plateform => {
-        if (plateform !== 'authentification') {
-          switch (plateform) {
-            case 'marketPlace':
-              url = '/m/market';
-              break;
-            case 'myMarket':
-              url = '/m/mymarket';
-              break;
-            case 'onlineBanking':
-              url = '/b/banking';
-              break;
-            case 'workstation':
-              url = '/w/workstation/';
-              break;
-          }
-        }
-      },
-    });
-    return url;
-  }
 }

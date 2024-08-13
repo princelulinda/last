@@ -218,38 +218,38 @@
           <div
             class="d-flex justify-content-center justify-content-md-start px-5">
             <div class="col-md-auto">
-              <div
-                routerLink="/m/mymarket/product-config"
+              <a
+                routerLink="{{ baseRouterLink }}/product-config"
                 class="pt-1 level-1 ms-3 mt-2 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
                 role="button">
                 <b class="text-dark" i18n>Manage product</b>
                 <i class="fa-solid fa-box text-dark ms-3 opacity-75"></i>
-              </div>
-              <div
-                routerLink="/m/mymarket/merchant-config"
+              </a>
+              <a
+                routerLink="{{ baseRouterLink }}/merchant-config"
                 role="button"
                 class="pt-1 level-1 ms-3 mt-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary">
                 <b class="text-dark" i18n>Merchant config</b>
                 <i class="fa-solid fa-sliders ms-3 text-dark opacity-75"> </i>
-              </div>
+              </a>
 
-              <div
+              <a
                 class="level-1 pt-1 mt-3 ms-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
                 role="button"
-                routerLink="/m/market/transfer">
+                routerLink="{{ baseRouterLink }}/transfer">
                 <div>
-                  <b class="text-dark" i18n>Transfer</b>
+                  <b class="text-dark" i18n>Transfer {{ baseRouterLink }}</b>
                   <i class="fa-solid fa-paper-plane ms-3 text-dark opacity-75">
                   </i>
                 </div>
-              </div>
+              </a>
             </div>
 
             <div class="ms-auto">
               <div
                 role="button"
                 class="pt-1 level-1 ms-3 mt-2 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
-                routerLink="/m/market/bill">
+                routerLink="{{ baseRouterLink }}/bill">
                 <b class="text-dark" i18n>Bills Report</b>
                 <i class="fa-solid fa-file-excel ms-3 text-success"></i>
               </div>
