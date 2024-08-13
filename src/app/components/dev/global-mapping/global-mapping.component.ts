@@ -2,7 +2,11 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { AuthService, ConfigService } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { MobileBanksModel } from './glob-mapping.model';
+import {
+  MappingBody,
+  MappingResponse,
+  MobileBanksModel,
+} from './glob-mapping.model';
 import { GeneralService } from '../../../core/services';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { DebitAccountComponent } from '../../transfer/debit-account/debit-account.component';
@@ -14,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { DebitOptions } from '../../transfer/transfer.model';
 import { accountsList } from '../../account/models';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DialogService } from '../../../core/services';
 @Component({
   selector: 'app-global-mapping',
   standalone: true,
@@ -47,6 +52,7 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
   debitHolder = '';
   accountSelected: accountsList | null = null;
   isLoading = false;
+  loading = false;
   account = new FormControl('');
   pin = new FormControl('', [
     Validators.required,
@@ -56,6 +62,7 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private generalService: GeneralService,
+    private dialogService: DialogService,
 
     private configService: ConfigService
   ) {
@@ -129,6 +136,54 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
   }
   getSelectedOperator(operator: MobileBanksModel) {
     this.selectedOperator = operator;
-    //console.log('operatorrrrrrr',this.selectedOperator)
+
+    console.log('operatorrrrrrr', this.selectedOperator);
+  }
+
+  mapAccount() {
+    this.dialogService.dispatchLoading();
+    this.loading = true;
+    if (this.selectedOperator && this.pin.value) {
+      const body: MappingBody = {
+        ident: this.contact,
+        to_client: this.selectedOperator.institution_client, // Assure que selectedOperator n'est pas null
+        account: this.debitId,
+        mapping_type: 'B',
+        pin_code: this.pin.value,
+        id_type: 'P',
+      };
+
+      this.generalService.mappAccount(body).subscribe({
+        next: (response: MappingResponse) => {
+          this.loading = false;
+          this.dialogService.closeLoading();
+          if (response.object.success) {
+            this.dialogService.openToast({
+              type: 'success',
+              title: 'Succès',
+              message: 'success',
+            });
+          } else {
+            this.dialogService.openToast({
+              type: 'failed',
+              title: 'Échec',
+              message: 'failed',
+            });
+          }
+          console.log('Mapping successful', response);
+          // Handle successful mapping
+        },
+        error: error => {
+          console.error('Mapping failed', error);
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            type: 'failed', // Assurez-vous que 'error' est un type valide défini dans toastTypeModel
+            title: 'Échec',
+            message: 'failed please try again',
+          });
+          this.loading = false;
+        },
+      });
+    }
   }
 }
