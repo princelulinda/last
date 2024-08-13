@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from '../../../../core/services';
+import { AuthService, ConfigService } from '../../../../core/services';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { SettingsService } from '../../../../core/services/settings/settings.service';
@@ -12,11 +12,19 @@ import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-mo
 import { BodyModel } from '../../settings.models';
 import { ClipboardDirective } from '../../../dev/clipboard.directive';
 import { GlobalMappingComponent } from '../../../dev/global-mapping/global-mapping.component';
+import { ModeModel } from '../../../../core/services/config/main-config.models';
+import { CommonModule } from '@angular/common';
+
 // { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-general-settings',
   standalone: true,
-  imports: [ReactiveFormsModule, ClipboardDirective, GlobalMappingComponent],
+  imports: [
+    ReactiveFormsModule,
+    ClipboardDirective,
+    GlobalMappingComponent,
+    CommonModule,
+  ],
   templateUrl: './general-settings.component.html',
   styleUrl: './general-settings.component.scss',
 })
@@ -39,7 +47,8 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
   //selectedNumberToMap!: string;
   emails: MailModel[] | null = null;
   email = new FormControl('', [Validators.required, Validators.email]);
-
+  theme$: Observable<ModeModel>;
+  theme!: ModeModel;
   phoneNumber = new FormControl('', [
     Validators.required,
     Validators.pattern('^[0-9]+$'),
@@ -52,13 +61,23 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private settingsService: SettingsService,
     private dialogService: DialogService,
-    private clientService: ClientService
+    private clientService: ClientService,
+
+    private configService: ConfigService
   ) {
+    this.theme$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
     this.dialogState$ = this.dialogService.getDialogState();
   }
 
   ngOnInit(): void {
+    this.theme$.subscribe({
+      next: theme => {
+        this.theme = theme;
+        console.log('themmeee', this.theme);
+      },
+    });
+
     this.settingsService.selectedSubMenu$.subscribe(selected => {
       this.selectedsubmenu = selected;
     });
@@ -224,6 +243,9 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
       message: 'Please enter your PIN code to continue.',
       action: contactType,
     });
+  }
+  onThemeSwitchChange() {
+    this.configService.switchMode();
   }
 
   ngOnDestroy(): void {

@@ -7,8 +7,8 @@ import { PublicationCardComponent } from './publication-card/publication-card.co
 import { SkeletonComponent } from '../../global/components/loaders/skeleton/skeleton.component';
 import { ShowMoreDirective } from '../../global/directives/show-more/show-more.directive';
 import { PublicationModel } from '../dashboards/dashboard.model';
-import { NewsFeedService } from '../../core/services/newsFeed/news-feed.service';
 import { DialogService } from '../../core/services';
+import { PublicationService } from '../../core/services/publication/publication.service';
 
 @Component({
   selector: 'app-publications',
@@ -30,7 +30,7 @@ export class PublicationsComponent implements OnInit, OnDestroy {
   isLoading = false;
 
   constructor(
-    private newsFeedService: NewsFeedService,
+    private publicationService: PublicationService,
     private dialogService: DialogService
   ) {}
 
@@ -40,7 +40,7 @@ export class PublicationsComponent implements OnInit, OnDestroy {
 
   getPublications() {
     this.isLoading = true;
-    this.newsFeedService
+    this.publicationService
       .getPublication()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({

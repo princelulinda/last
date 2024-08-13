@@ -9,6 +9,7 @@ export interface accountsList {
   acc_get_title: string;
   acc_number: number;
   acc_short_number: string;
+  acc_bank_id: string;
 
   acc_status: {
     status_code: string;

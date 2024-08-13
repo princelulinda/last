@@ -79,7 +79,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   accounts: DebitAccountModel[] = [];
 
   wallets: DebitWalletModel[] = [];
-  isLoading = false;
+  @Input() isLoading = false;
   debitWallet: DebitWalletModel | null = null;
 
   defaultBank: bankModel | null | undefined;
@@ -120,7 +120,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     amount: new FormControl(this.amount, Validators.required),
     merchant_reference: new FormControl(''),
   });
-
+  @Input() transferStep = '';
   dialog$: Observable<DialogResponseModel>;
   pin = '';
 
@@ -138,7 +138,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   private userInfo$: Observable<UserInfoModel>;
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
-
+  @Output() transferStepChange = new EventEmitter<string>();
   merchantInfo: MerchantObjectModel | null = null;
   selectedBank!: bankModel;
   selectedBank$!: Observable<bankModel>;
@@ -162,6 +162,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.transferStep = 'first step';
+
     this.transferService.handleTransfer(true);
     this.selectedBank$.subscribe({
       next: datas => {
@@ -391,6 +393,10 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
       });
   }
   removeCreditAccount(accountNumber: string) {
+    if (this.transferStep !== 'first step') {
+      this.transferStep = 'first step';
+      this.transferStepChange.emit('first step');
+    }
     this.pendingTransfers = this.pendingTransfers.filter(
       account => account.account_number !== accountNumber
     );
@@ -398,6 +404,11 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     if (this.pendingTransfers.length === 0) {
       this.creditAccountAdded = false;
     }
+    this.creditAccount = null;
+    this.transferForm.patchValue({
+      debit_description: '',
+      merchant_reference: '',
+    });
   }
   addCreditAccount() {
     if (this.pendingTransfers.length >= 1) {
@@ -414,7 +425,11 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     }
   }
 
-  validateTransfer() {
+  toggleTransferStep(step: string) {
+    this.transferStep = step;
+    this.transferStepChange.emit(this.transferStep);
+  }
+  public validateTransfer() {
     this.amountToSend = this.amount;
 
     this.isLoading = true;
@@ -471,15 +486,17 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
           } else {
             this.isTransferDone.emit(true);
             this.isAmountChanging = true;
+
             this.transferResponse = response.object
               .response_data as unknown as TransferResponseModel;
             this.selectedInstitutionType = '';
             this.selectedCreditAccountType = '';
-
+            this.pendingTransfers = [];
             this.isAmountChanging = false;
             this.lookup.setValue('');
             this.isPopupShown = true;
             this.selectedCreditAccountType = '';
+            this.creditAccountAdded = false;
 
             this.initOperations();
 
@@ -488,7 +505,9 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
               accountHolder: '',
               debit_description: '',
             });
-
+            this.transferStep = 'first step';
+            this.transferStepChange.emit('first step');
+            this.creditAccount = null;
             this.bankService.updateTransaction(true);
             this.dialogService.openToast({
               type: 'success',
@@ -516,7 +535,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
       });
   }
 
-  doMerchantTransfer() {
+  public doMerchantTransfer() {
     this.isAmountChanging = true;
 
     if (this.selectedCreditAccountType === 'wallet') {
@@ -554,33 +573,20 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
           if (response.object.success === true) {
             this.isTransferDone.emit(true);
-
+            this.creditAccountAdded = false;
+            this.transferStep = 'first step';
+            this.transferStepChange.emit('first step');
             this.isAmountChanging = false;
             this.transferResponse = response.object
               .response_data as unknown as TransferResponseModel;
-            // this.successMessage = {
-            //   data: {
-            //     credit_account: this.creditNumber,
-            //     credit_bank: this.selectedInstitution.name,
-            //     credit_account_holder: this.transferForm.value.accountHolder,
-            //     reference: this.transferResponse.reference,
-            //     bank_reference: this.transferResponse.bank_reference,
-            //     amount: this.amount,
-            //     transfer_fees: 0,
-            //     bill_date: Date.now(),
-            //     debit_bank: this.defaultBank?.name,
-            //     debit_account_holder:
-            //       this.merchantInfo.response_data.merchant_title,
-            //     description: this.transferForm.value.debit_description,
-            //   },
-            // };
-
-            // this.store.dispatch(
-            //     new OpenTransfertBillPopup(this.successMessage.data)
-            // );
+            this.pendingTransfers = [];
             this.lookup.setValue('');
             this.isPopupShown = true;
             this.selectedCreditAccountType = '';
+            this.selectedInstitutionType = '';
+
+            this.selectedCreditAccountType = '';
+            this.creditAccount = null;
 
             this.initOperations();
           } else if (response.object.success === false) {
@@ -656,8 +662,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     }
   }
 
-  showModal(event: Event) {
-    event.preventDefault();
+  showModal() {
     if (this.creditAccountAdded) {
       if (this.selectedCreditAccountType !== 'wallet') {
         if (this.selectedInstitution) {

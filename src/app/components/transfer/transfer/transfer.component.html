@@ -17,28 +17,57 @@
     </div>
   </div>
 
-  <div>
-    <app-debit-account
-      [selectedInstitutionType]="selectedInstitutionType"
-      [isTransactionDone]="isTransferDone"
-      [creditAccountType]="selectedCreditAccountType"
-      (debitOptions)="getDebitOptions($event)"
-      (selectedAccount)="getSelectedAccount($event)"
-      (selectedWallet)="getSelectedAccount($event)"
-      [selectedDebitAccountType]="selectedDebitType"
-      [selectedBank]="bankId"></app-debit-account>
-  </div>
-  @if (accountSelected) {
-    <div class="mt-3">
+  <div class="d-flex w-100">
+    <div class="mt-3 col">
       <app-credit-account
+        #transferComponent
         (selectedInstitutionType)="onChange($event, 'institution')"
         (selectedCreditAccountType)="onChange($event, 'credit')"
         (isTransferDone)="getTransferResponse($event)"
-        [bankId]="bankId"
         [selectedDebitAccountType]="selectedDebitType"
         [debitNumber]="debitNumber"
         [debitHolder]="debitHolder"
+        [isMerchantTransfer]="isMerchantTransfer"
+        (transferStepChange)="onTransferStepChange($event)"
         [walletBankId]="walletBankId"></app-credit-account>
     </div>
-  }
+    @if (currentTransferStep === 'second step') {
+      <div class="col mt-3 ps-5 fs-small">
+        <app-debit-account
+          [selectedInstitutionType]="selectedInstitutionType"
+          [isTransactionDone]="isTransferDone"
+          [creditAccountType]="selectedCreditAccountType"
+          (debitOptions)="getDebitOptions($event)"
+          (selectedAccount)="getSelectedAccount($event)"
+          (selectedWallet)="getSelectedAccount($event)"
+          [selectedDebitAccountType]="selectedDebitType"></app-debit-account>
+      </div>
+    }
+  </div>
 </div>
+@if (currentTransferStep === 'second step') {
+  <div class="mt-4 text-center">
+    <button
+      (click)="doTransfer()"
+      class="btn px-5 text-all-white me-4"
+      type="submit"
+      tabindex="0"
+      [disabled]="!accountSelected"
+      [ngClass]="{
+        'primary-light': activePlatform && activePlatform === 'workstation',
+        'bg-primary': activePlatform && activePlatform !== 'workstation',
+      }">
+      <b i18n>Send</b>
+    </button>
+    <button
+      (click)="toggleTransferStep()"
+      class="btn px-5 bg-white border"
+      type="button"
+      tabindex="0"
+      [ngClass]="{
+        'text-light': mode === 'dark',
+      }">
+      <b i18n>Back</b>
+    </button>
+  </div>
+}

@@ -50,7 +50,7 @@ export class AsideMenuComponent implements OnInit {
       next: () => {
         this.configService.clearAllMenu();
         this.configService.resetOperator();
-        this.router.navigate(['/auth/corporate']);
+        this.router.navigate(['/n/newsFeed']);
         this.dialogService.closeLoading();
       },
       error: err => {

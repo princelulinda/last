@@ -35,7 +35,7 @@ import { ProductCardComponent } from '../../global/product-card/product-card.com
 export class AllProductsComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
   @Output() allProducts = new EventEmitter<AllProductModel[]>();
-  @Output() product = new EventEmitter<ProductModel[]>();
+  @Output() product = new EventEmitter<ProductModel>();
 
   @Input() detail = false;
   @Input() clienType = '';
@@ -60,7 +60,6 @@ export class AllProductsComponent implements OnInit {
     },
   };
   paginationsLimit = [24, 12, 8];
-  // pages: any;
   displayPaginationLimit = false;
   currentPage = 0;
 
@@ -190,7 +189,7 @@ export class AllProductsComponent implements OnInit {
     }
   }
 
-  selectProduct(event: ProductModel[]) {
+  selectProduct(event: ProductModel) {
     this.product.emit(event);
     console.log('PRoducts', this.product);
   }
