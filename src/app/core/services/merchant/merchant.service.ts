@@ -15,6 +15,8 @@ import {
   paymentBillsModel,
   StatsModel,
   ProductFavoriteModel,
+  SectorActivityObjectModel,
+  CategoriesPerActivitySectorObjectModel,
 } from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
@@ -352,7 +354,7 @@ export class MerchantService {
   }
   getActivitySectors() {
     const url = '/clients/config/activitysector/';
-    return this.apiService.get(url).pipe(
+    return this.apiService.get<SectorActivityObjectModel>(url).pipe(
       map(data => {
         return data;
       })
@@ -360,11 +362,13 @@ export class MerchantService {
   }
   getCategoriesPerActivitySectors(id: string) {
     const url = '/dbs/merchant-category/?merchant_activity_sector=' + id;
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get<CategoriesPerActivitySectorObjectModel>(url)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
   getMerchantsByCategory(categoryId: string) {
     const url = '/dbs/merchant/list/?category_id=' + categoryId;
