@@ -1,4 +1,4 @@
-<div class="border p-3 mb-3 rounded">
+<div class="border p-4 mb-3 rounded">
   <div class="row">
     <div class="col mb-2">
       <b i18n class="text-primary me-3">{{ title }}</b>
@@ -47,12 +47,12 @@
     </div>
   </div>
 
-  <div class="row w-100 p-1">
+  <div class="row w-100 ms-2">
     @for (header of headers; track header) {
       @if (header.canBeDisplayed) {
-        <div class="col-md-2">
+        <div class="col">
           @if (data_list && data_list.length > 0) {
-            <span i18n>{{ header.name }}</span>
+            <span i18n class="fw-bold"> {{ header.name }}</span>
           }
         </div>
       }
@@ -73,15 +73,15 @@
   @if (response_data && data_list && data_list.length > 0 && !isLoading) {
     @for (line of data_list; track line) {
       <div
-        class="p-1 px-3 border rounded mb-2 fs-small d-flex align-items-center">
+        class="row d-flex align-items-center justify-content-center p-1 px-3 border rounded mb-2 fs-small">
         @for (data of line; track data) {
           @if (data.format === 'date') {
-            <div class="col-md-2">
+            <div class="col">
               <span i18n>{{ data.value | date: 'medium' }}</span>
             </div>
           }
           @if (data.format === 'currency') {
-            <div class="col-md-2">
+            <div class="col">
               @if (amountState) {
                 <span i18n>BIF {{ data.value }}</span>
               }
@@ -93,9 +93,11 @@
 
           @if (data.format === '' && data.canBeDisplayed === 'true') {
             <div
-              class="col-md-2 d-flex align-items-center justify-content-center"
+              class="col d-flex align-items-center"
               [ngClass]="[
-                data.class !== '' ? 'badge-design ' + data.class : '',
+                data.class !== ''
+                  ? ' d-flex justify-content-center badge-design ' + data.class
+                  : '',
               ]">
               @if ((!data.boolean && !data.format) || data.format === '') {
                 <span i18n>{{ data.value }} </span>
