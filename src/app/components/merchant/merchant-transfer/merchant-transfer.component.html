@@ -1,1 +1,37 @@
-<app-not-found-page></app-not-found-page>
+<div class="bg-white min-h p-4">
+  <div class="d-flex w-100 justify-content-between">
+    <div class="d-flex align-items-center ms-2">
+      <i class="fa fa-play me-2 text-primary"></i>
+
+      <b class="fs-5 text-dark" i18n>Merchant Transfer</b>
+    </div>
+
+    <div role="button" class="d-flex align-items-center">
+      <span>
+        <i class="fa fa-arrow-left fs-6"></i>
+      </span>
+      <b class="fs-5 ms-1"> Back</b>
+    </div>
+  </div>
+  <div class="d-grid text-dark ps-4 ms-2 mt-2">
+    @if (merchantInfo) {
+      <span class="fw-bold"
+        >{{ merchantInfo?.object?.response_data?.merchant_title }} (
+        {{ merchantInfo?.object?.response_data?.merchant_code }})</span
+      >
+    }
+    @if (merchantInfo) {
+      <span class="fw-bold opacity-50">
+        {{ merchantInfo?.object?.response_data?.merchant_main_account }}
+      </span>
+    }
+    @if (!merchantInfo) {
+      <span class="fw-bold ps-5">
+        <i class="fa-solid fa-spinner fa-pulse text-sm"></i>
+      </span>
+    }
+  </div>
+  <div class="mt-4">
+    <app-credit-account></app-credit-account>
+  </div>
+</div>
