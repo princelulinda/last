@@ -223,15 +223,27 @@ export class DbService {
   }
 
   getOnce(tableName: string) {
-    return this.db.table(tableName).orderBy(':id').first();
+    try {
+      return this.db.table(tableName).orderBy(':id').first();
+    } catch {
+      return null;
+    }
   }
 
-  getTable(tableName: string): Promise<unknown[]> {
-    return this.db.table(tableName).toArray();
+  getTable(tableName: string): Promise<unknown[]> | null {
+    try {
+      return this.db.table(tableName).toArray();
+    } catch {
+      return null;
+    }
   }
 
-  getTableCount(tableName: string): Promise<number> {
-    return this.db.table(tableName).count();
+  getTableCount(tableName: string): Promise<number> | null {
+    try {
+      return this.db.table(tableName).count();
+    } catch {
+      return null;
+    }
   }
 
   where(tableName: string, data: string | string[]) {

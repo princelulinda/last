@@ -10,14 +10,19 @@
         <!--cards ( wallet and nyamuranzi )-->
         <section class="d-flex overflow-x-auto pb-3 w-100">
           <!--wallet card-->
-          <div>
+          <div
+            [ngClass]="{
+              'border-end border-1  pe-5': plateform === 'onlineBanking',
+            }">
             <app-wallet-card></app-wallet-card>
           </div>
 
-          <!-- nyamuranzi card-->
-          <div class="ps-5">
-            <app-nyamuranzi-card></app-nyamuranzi-card>
-          </div>
+          @if (plateform === 'onlineBanking') {
+            <!-- nyamuranzi card-->
+            <div class="ps-5">
+              <app-nyamuranzi-card></app-nyamuranzi-card>
+            </div>
+          }
         </section>
 
         <!-- Menus list-->

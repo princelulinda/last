@@ -1,6 +1,6 @@
-<div class="border-end border-1 border-dark pe-5">
+<div>
   <div class="text-dark d-flex align-items-center">
-    <b class="me-2 fs-4">
+    <b class="me-2 fs-4" i18n>
       @if (activePlatform === 'workstation') {
         Petty Cash
       } @else {
@@ -41,18 +41,6 @@
           @if (!noWalletData) {
             <span class="fs-small">Balance</span>
             @if (defaultWallet) {
-              <!-- @if (amountState) {
-                <span class="fw-bold"
-                  >{{ defaultWallet.response_data.currency
-                  }}{{
-                    defaultWallet.response_data.available_balance | number
-                  }}</span
-                >
-              } @else {
-                <span class="fw-bold"
-                  >{{ defaultWallet.response_data.currency }}*** ***</span
-                >
-              } -->
               <span class="fw-bold">
                 <app-amount-visibility
                   [currency]="defaultWallet.response_data.currency"
