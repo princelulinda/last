@@ -38,7 +38,7 @@ export class AuthService {
     private configService: ConfigService,
     private dialogService: DialogService
   ) {
-    this.userInfo$ = liveQuery<UserInfoModel>(() =>
+    this.userInfo$ = liveQuery<UserInfoModel>(async () =>
       this.dbService.getOnce(User.tableName)
     );
   }

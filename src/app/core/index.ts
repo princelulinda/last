@@ -28,7 +28,7 @@ export const AllGuards = [
   Guards.treasurerGuard,
   Guards.windowGuard,
   Guards.workstationGuard,
-  // Guards.DbReadyGuard,
+  Guards.DBReadyGuard,
 ];
 
 export const NonDiInterceptors = [
