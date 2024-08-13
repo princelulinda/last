@@ -1,13 +1,16 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
-// import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
-// import { MerchantService } from '../../../../core/services/merchant/merchant.service';
+import { MerchantService } from '../../../../core/services/merchant/merchant.service';
 import { ProductCardComponent } from '../../global/product-card/product-card.component';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { AllProductsComponent } from '../all-products/all-products.component';
 import { AllProductModel, ProductModel } from '../products.model';
+import { ModeModel } from '../../../../core/services/config/main-config.models';
+import { ConfigService } from '../../../../core/services';
+import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-products',
@@ -17,35 +20,45 @@ import { AllProductModel, ProductModel } from '../products.model';
     ProductCardComponent,
     SkeletonComponent,
     AllProductsComponent,
+    EmptyStateComponent,
   ],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
   @Output() cartItem = new EventEmitter<number>();
-  // private onDestroy$: Subject<void> = new Subject<void>();
+  private onDestroy$: Subject<void> = new Subject<void>();
 
   allProduct = [];
-  product = [];
+  products: ProductModel[] = [];
+  product!: ProductModel;
   isLoading!: boolean;
-  // favoriteProducts!: any
-  // products!: ProductModel[];
-  // search = '';
-  // isFavorite = false;
+  favoriteProducts: ProductModel[] = [];
+  theme!: ModeModel;
+  theme$: Observable<ModeModel>;
   seeMore!: boolean;
+  searchTerm = 'favorites products';
 
   itemQuantity = 1;
   merchant = '';
   cartAdding = 0;
   count = 0;
   countProductLoader: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
-  constructor() {
-    // comment
+  constructor(
+    private merchantService: MerchantService,
+    private configService: ConfigService
+  ) {
+    this.theme$ = this.configService.getMode();
   }
   ngOnInit(): void {
     // comment
-    console.log('d product 33', this.product);
-    // this.getFavoriteProducts('');
+    // console.log('d product 33', this.product);
+    this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: response => {
+        this.theme = response;
+      },
+    });
+    this.getFavoriteProducts('');
   }
   addItemQuantity() {
     this.itemQuantity = this.itemQuantity + 1;
@@ -59,12 +72,12 @@ export class ProductsComponent implements OnInit {
   inputDetails() {
     this.cartItem.emit(this.cartAdding);
   }
-  selectProduct(product: ProductModel[]) {
-    (this.product as ProductModel[]) = product;
+  selectProduct(product: ProductModel) {
+    (this.product as ProductModel) = product;
     console.log('PRoduct', product);
   }
-  selectProductFromAll(event: ProductModel[]) {
-    (this.product as ProductModel[]) = event;
+  selectProductFromAll(event: ProductModel) {
+    this.product = event;
     console.log('PRoducts', event);
   }
   getAllProduct(event: AllProductModel[]) {
@@ -73,22 +86,20 @@ export class ProductsComponent implements OnInit {
     console.log('allproducts', this.allProduct);
   }
 
-  //   getFavoriteProducts(search: string, activeLoading = true) {
-  //     activeLoading ? (this.isFavorite = true) : false;
-  //     this.merchantService
-  //         .getFavoriteProductAutocomplete(search)
-  //         .pipe(takeUntil(this.onDestroy$))
-  //         .subscribe({
-  //             next: (data) => {
-  //                 this.favoriteProducts = data.objects;
-  //                 // this.favoriteMerchantsNumber = data.count;
-  //                 this.isFavorite = false;
-  //                 // this.favorite_merchant_making = null;
-  //                 this.favoriteProducts.is_favorite_product = true;
-  //             },
-  //             error: (err) => {
-  //                 this.isLoading = false;
-  //             },
-  //         });
-  // }
+  getFavoriteProducts(search: string) {
+    this.merchantService
+      .getFavoriteProductAutocomplete(search)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (data: AllProductModel) => {
+          (this.products as ProductModel[]) = data.objects;
+          this.favoriteProducts = this.products.filter(
+            product => product.is_favorite_product
+          );
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });
+  }
 }
