@@ -219,19 +219,6 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     if (accountType !== this.selectedDebitAccountType) {
       this.selectedDebitAccountType = '';
     }
-    if (accountType == 'account') {
-      // this.lookupType = 'lookup';
-      if (this.mainConfig.activePlateform !== 'workstation') {
-        this.getAccountsListByClick();
-        this.lookupDebitAccountUrl =
-          '/clients/manage/accounts/object_lookup?lookup_data=';
-      }
-      this.debitAccount = null;
-    } else if (accountType == 'wallet') {
-      this.lookupType = 'lookup';
-      this.lookupDebitAccountUrl = '/dbs/wallets/object_lookup?lookup_data=';
-      this.debitAccount = null;
-    }
   }
 
   updateAccount() {

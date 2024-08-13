@@ -4,8 +4,11 @@ import { RouterLink } from '@angular/router';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { MarketService } from '../../../../core/services/market/market.service';
-import { AuthService, ConfigService } from '../../../../core/services';
+import {
+  AuthService,
+  ConfigService,
+  MerchantService,
+} from '../../../../core/services';
 import { Pagination } from '../../../../core/services/merchant/model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { UserInfoModel } from '../../../../core/db/models/auth';
@@ -97,7 +100,7 @@ export class BillsComponent implements OnInit, OnDestroy {
   activePage = 1;
 
   constructor(
-    private marketService: MarketService,
+    private merchantService: MerchantService,
     private configService: ConfigService,
     private authService: AuthService
   ) {
@@ -119,7 +122,7 @@ export class BillsComponent implements OnInit, OnDestroy {
   getBills() {
     this.isLoading = true;
     this.merchantBills = null;
-    this.marketService
+    this.merchantService
       .getBills(this.billsPagination)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
@@ -142,7 +145,7 @@ export class BillsComponent implements OnInit, OnDestroy {
   }
   getPaymentRequestBills() {
     this.paymentRequestBillsLoading = true;
-    this.marketService
+    this.merchantService
       .getBills(this.billsPagination, 'requestPayments')
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({

@@ -10,6 +10,7 @@ import { bankingSettingsRoutes } from './components/settings/settings.routes';
 import { OnamobDashboardComponent } from './components/dashboards/onamob-dashboard/onamob-dashboard.component';
 import { myMarketRoutes } from './routes/my-market/mymarket.routes';
 import { workstationRoutes } from './routes/workstation/workstation.routes';
+import { DBReadyGuard } from './core/guards/db-ready/db-ready.guard';
 
 export const routes: Routes = [
   // authentification routes
@@ -19,7 +20,7 @@ export const routes: Routes = [
       import('./layouts/auth-layout/auth-layout.component').then(
         m => m.AuthLayoutComponent
       ),
-    canActivate: [NoAuthGuard],
+    canActivate: [NoAuthGuard, DBReadyGuard],
     children: AuthRoutes,
   },
 
@@ -29,7 +30,7 @@ export const routes: Routes = [
       import(
         './layouts/auth-corporate-layout/auth-corporate-layout.component'
       ).then(m => m.AuthCorporateLayoutComponent),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, DBReadyGuard],
     children: [
       {
         path: '',
@@ -47,7 +48,7 @@ export const routes: Routes = [
       import('./layouts/workstation/workstation.component').then(
         m => m.WorkstationComponent
       ),
-    canActivate: [AuthGuard, AuthWorkstationGuard],
+    canActivate: [AuthGuard, AuthWorkstationGuard, DBReadyGuard],
     children: [
       {
         path: 'workstation',
@@ -60,7 +61,7 @@ export const routes: Routes = [
   {
     path: ':plateform',
     component: BankingComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, DBReadyGuard],
     children: [
       {
         path: 'newsfeed',
@@ -90,6 +91,7 @@ export const routes: Routes = [
 
       {
         path: '**',
+        canActivate: [DBReadyGuard],
         loadComponent: () =>
           import(
             './global/components/errors/not-found-404/not-found-404.component'
@@ -100,6 +102,7 @@ export const routes: Routes = [
 
   {
     path: '**',
+    canActivate: [DBReadyGuard],
     loadComponent: () =>
       import(
         './global/components/errors/not-found-404/not-found-404.component'

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '..';
 import { Observable } from 'rxjs';
-import { PaginationConfig } from '../../../global/global.model';
 import {
   activeSessionResponse,
   historySessionResponse,
 } from '../../../components/settings/settings.models';
+import { PaginationConfig } from '../../../global/models/pagination.models';
 @Injectable({
   providedIn: 'root',
 })

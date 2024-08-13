@@ -91,10 +91,11 @@
 }
 @if (!isLoading && billDetails.payment_status.value === 'Q') {
   <section class="mt-4 col-md-7">
-    <!-- <app-my-accounts
-        [isGrey]="true"
-        (debitOptions)="selectedDebitOption($event)"
-    ></app-my-accounts> -->
+    <app-debit-account
+      (debitOptions)="selectedDebitOption($event)"
+      (selectedAccount)="onAccountSelected($event)"
+      (selectedWallet)="onWalletSelected($event)">
+    </app-debit-account>
     @if (selectedAccount || selectedWallet) {
       <div class="col-9 ms-4">
         <div class="form-floating mt-3 col-md-8">

@@ -82,7 +82,7 @@
           </div>
         </div>
       </div>
-      <!-- <div class="col favorite">
+      <div class="col favorite">
         <div class="row">
           <h6>
             <span>
@@ -108,20 +108,63 @@
             }
           </div>
         }
-        <div class="row">
-          @for (product of allProduct; track $index) {
+        <div class="row" *ngIf="isLoading && favoriteProducts.length > 0">
+          @for (product of favoriteProducts; track $index) {
             <div
               class="col"
-              [hidden]="$index >= 2"
+              [hidden]="$index >= 2 && !seeMore"
               (click)="selectProduct(product)"
               tabindex="0">
-
-              <app-product-card [product]="product">
-              </app-product-card>
+              <app-product-card [product]="product"> </app-product-card>
             </div>
           }
         </div>
-      </div> -->
+        @if (isLoading && favoriteProducts.length === 0) {
+          <app-empty-state [searchTerm]="searchTerm" searchType="product">
+          </app-empty-state>
+        }
+        @if (isLoading && favoriteProducts.length > 2) {
+          <div class="d-flex justify-content-end align-items-end mt-2 col-1">
+            @if (!seeMore && theme === 'light') {
+              <span
+                (click)="seeMore = true"
+                role="button"
+                tabindex="0"
+                class="border-bottom border-dark text-dark fw-bold"
+                i18n
+                >More</span
+              >
+            } @else if (!seeMore && theme === 'dark') {
+              <span
+                (click)="seeMore = true"
+                role="button"
+                tabindex="0"
+                class="border-bottom border-light text-dark fw-bold"
+                i18n
+                >More</span
+              >
+            } @else if (seeMore && theme === 'light') {
+              <span
+                (click)="seeMore = false"
+                role="button"
+                tabindex="0"
+                class="border-bottom border-dark text-dark fw-bold"
+                i18n
+                >Less</span
+              >
+            } @else if (seeMore && theme === 'dark') {
+              <span
+                (click)="seeMore = false"
+                role="button"
+                tabindex="0"
+                class="border-bottom border-light text-dark fw-bold"
+                i18n
+                >Less</span
+              >
+            }
+          </div>
+        }
+      </div>
     </div>
     <!-- All -->
     <app-all-products
