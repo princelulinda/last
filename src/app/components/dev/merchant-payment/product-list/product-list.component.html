@@ -1,0 +1,26 @@
+<div class="w-100 h-100">
+  @if (isLoading) {
+    <div class="h-100 w-100 d-flex align-items-center justify-content-center">
+      <i
+        class="fa-solid fs-1 fa-spinner search-button position-absolute text-align-center fa-pulse fs-7 text-dark"></i>
+    </div>
+  }
+
+  @if (!isLoading && products.length === 0) {
+    <div
+      class="w-100 pt-5 mt-2 d-flex align-items-center justify-content-center">
+      <div class="text-secondary">
+        <i class="fa fa-ban fs-4 me-2"></i>
+        <span class="fs-2" i18n>No product found</span>
+      </div>
+    </div>
+  }
+
+  @if (!isLoading && products.length > 0) {
+    <div class="d-flex gap-5 w-100 flex-wrap overflow-scroll pb-2">
+      @for (product of products; track $index) {
+        <app-product-card [product]="product"></app-product-card>
+      }
+    </div>
+  }
+</div>

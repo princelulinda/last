@@ -1,0 +1,106 @@
+<main class="md-radius p-4 overflow-auto bg-white" style="height: 80vh">
+  @if (type === 'merchant' && merchant) {
+    <div class="d-flex flex-column h-100">
+      <!----------------------------------------------------------STEPPER SECTION ----------------------------------------------------------------->
+
+      <div class="mx-auto d-flex flex-row mt-3" style="max-width: max-content">
+        <div *ngIf="merchant" class="stepper-wrapper">
+          @if (selectedSection === 'second') {
+            <div class="stepper-item active">
+              <div class="step-counter text-all-dark border border-dark" i18n>
+                1
+              </div>
+            </div>
+            <div
+              class="stepper-line"
+              [ngClass]="
+                theme === 'light' ? 'bg-all-dark' : 'bg-all-white'
+              "></div>
+          }
+
+          @if (selectedSection === 'first') {
+            <div class="stepper-item completed">
+              <div
+                class="step-counter border border-dark bg-primary fw-bold"
+                i18n>
+                1
+              </div>
+            </div>
+            <div
+              class="stepper-line"
+              [ngClass]="
+                theme === 'light' ? 'bg-all-dark' : 'bg-all-white'
+              "></div>
+            <div class="stepper-item active">
+              <div class="step-counter border text-all-dark border-dark" i18n>
+                2
+              </div>
+            </div>
+          }
+
+          @if (selectedSection === 'second') {
+            <div
+              class="stepper-item completed"
+              *ngIf="selectedSection === 'second'">
+              <div
+                class="step-counter bg-primary fw-bold border border-dark"
+                i18n>
+                2
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!----------------------------------------------------------END OF STEPPER SECTION ----------------------------------------------------------------->
+
+      <div class="d-flex flex-column flex-grow-1 overflow-scroll">
+        <div class="d-flex flex-row ps-2 my-3 align-items-center">
+          <div class="arrow bg-primary"></div>
+          <span class="ms-3 fw-bold fs-l-medium">Social</span>
+          <div
+            class="ms-5 bg-secondary rounded-2 d-flex flex-row overflow-hidden"
+            style="width: 121px; height: 30px">
+            <div
+              class="w-75 h-100 d-flex align-items-center justify-content-center">
+              <span class="">Tv</span>
+            </div>
+            <div
+              class="bg-primary d-flex align-items-center justify-content-center iconSec px-2">
+              <i class="fa-solid fa-building-columns text-all-white"></i>
+            </div>
+          </div>
+        </div>
+        <div
+          class="ps-3 py-2 border rounded-3 d-flex flex-row pe-1 mb-2"
+          style="width: max-content">
+          <div
+            class="rounded-circle border overflow-hidden profile bg-secondary d-flex align-items-center justify-content-center">
+            @if (merchant.lookup_image) {
+              <img
+                src="{{ merchant.lookup_image }}"
+                alt="merchant profile"
+                class="image" />
+            } @else {
+              <i class="fa-solid fa-cart-shopping fs-large text-secondary"></i>
+            }
+          </div>
+          <div class="d-flex flex-column ms-2">
+            <span class="fs-large fw-bold"
+              >{{ merchant.lookup_title }}
+              <span class="fs-normal"
+                >({{ merchant.lookup_subtitle }})</span
+              ></span
+            >
+            <span class="fs-normal text-secondary fw-bold">{{
+              merchant.merchant_category_name
+            }}</span>
+          </div>
+        </div>
+        <div class="pt-4 h-100">
+          <app-product-list [merchantId]="merchant.id"></app-product-list>
+        </div>
+      </div>
+    </div>
+  }
+</main>

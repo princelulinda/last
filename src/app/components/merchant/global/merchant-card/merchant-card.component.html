@@ -33,7 +33,12 @@
 
     <!-- NOTE :: IMAGE SECTION -->
     <section
-      class="image-section d-flex justify-content-center align-items-center bg-input sm-radius flex-grow-1">
+      class="image-section d-flex justify-content-center align-items-center bg-input sm-radius flex-grow-1"
+      data-bs-toggle="modal"
+      [attr.data-bs-target]="'#paymentModal' + merchant.id"
+      (click)="togglePayment()"
+      role="button"
+      tabindex="0">
       @if (merchant.lookup_image) {
         <img
           [src]="merchant.lookup_image"
@@ -45,7 +50,13 @@
         </span>
       }
     </section>
-    <section class="d-flex flex-column mt-2 pb-2">
+    <section
+      class="d-flex flex-column mt-2 pb-2"
+      data-bs-toggle="modal"
+      [attr.data-bs-target]="'#paymentModal' + merchant.id"
+      (click)="togglePayment()"
+      role="button"
+      tabindex="0">
       <small
         >{{ merchant.lookup_title }} ({{ merchant.lookup_subtitle }})</small
       >
@@ -55,5 +66,19 @@
         merchant.merchant_category_name
       }}</small>
     </section>
+
+    <div class="modal fade" [id]="'paymentModal' + merchant.id">
+      <div
+        class="modal-dialog modal-dialog-centered overflow-auto"
+        style="min-width: 75%; max-width: 1500px">
+        @if (payment) {
+          <div class="modal-content xx-lg-radius overflow-hidden">
+            <app-merchant-payment
+              type="merchant"
+              [merchant]="merchant"></app-merchant-payment>
+          </div>
+        }
+      </div>
+    </div>
   </div>
 }
