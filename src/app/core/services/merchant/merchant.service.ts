@@ -15,7 +15,6 @@ import {
   paymentBillsModel,
   StatsModel,
   ProductFavoriteModel,
-  AllProductsModel,
 } from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
@@ -602,7 +601,7 @@ export class MerchantService {
       '/dbs/merchant-product/objects_autocomplete/?' +
       search +
       '&is_favorite_product=true';
-    return this.apiService.get<AllProductsModel>(url).pipe(
+    return this.apiService.get<AllProductModel>(url).pipe(
       retry({ count: 5, delay: 3000, resetOnSuccess: true }),
       map(data => {
         return data;
