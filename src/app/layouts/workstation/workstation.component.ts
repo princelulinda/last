@@ -55,6 +55,7 @@ export class WorkstationComponent implements OnInit {
     });
     this.typeMenuExist$.subscribe({
       next: state => {
+        console.log('CHECK MENU EXIST', state);
         if (state) {
           this.dialogService.closeDialog();
           this.dialogService.closeSplashScreen();
@@ -84,8 +85,8 @@ export class WorkstationComponent implements OnInit {
         next: resp => {
           this.configService.setTypeMenus(resp.menuTypes.objects);
           this.configService.setMenuGroup(resp.menuGroup.objects);
-          this.dialogService.closeDialog();
-          this.dialogService.closeSplashScreen();
+          // this.dialogService.closeDialog();
+          // this.dialogService.closeSplashScreen();
         },
       });
   }

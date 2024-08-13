@@ -35,6 +35,7 @@ export interface ProductModel {
   lookup_title: string;
   lookup_subtitle: string;
   lookup_description: string;
+  is_favorite_product: boolean;
 }
 
 export interface MerchantLookup {

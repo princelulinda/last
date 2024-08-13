@@ -82,8 +82,12 @@ export class LoginComponent implements OnInit {
           next: data => {
             this.loginLoader = false;
             console.log(data);
+            // const userData = (data as { user: UserApiResponse }).user;
             this.dialogService.closeLoading();
             this.authService.populateClient(this.router, 'newsFeed');
+            // if (userData.token) {
+            //   this.redirectToNext();
+            // }
           },
           error: () => {
             this.loginLoader = false;

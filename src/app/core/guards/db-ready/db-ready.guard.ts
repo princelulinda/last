@@ -1,8 +1,22 @@
-import { CanActivateFn } from '@angular/router';
-import { DbService } from '../../db';
-import { inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-export const dbReadyGuard: CanActivateFn = () => {
-  const DBService = inject(DbService);
-  return DBService.dbIsReady;
-};
+import { Observable } from 'rxjs';
+
+import { DbService } from '../../db';
+
+// export const dbReadyGuard: CanActivateFn = () => {
+//   alert('Salut les cons');
+//   const DBService = inject(DbService);
+//   return DBService.dbIsReady;
+// };
+
+@Injectable({
+  providedIn: 'root',
+})
+export class DBReadyGuard {
+  constructor(private DBService: DbService) {}
+
+  canActivate(): Observable<boolean> | boolean {
+    return this.DBService.dbIsReady;
+  }
+}

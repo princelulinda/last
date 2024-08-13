@@ -91,7 +91,9 @@
               class="d-flex align-items-start justify-content-between ps-2 py-0 b-left">
               <div class="d-grid ps-3 py-0">
                 <b>{{ selectedLoneAccount.acc_holder }}</b>
-                <b class="fw-normal">{{ selectedLoneAccount.acc_number }}</b>
+                <b class="fw-normal">{{
+                  selectedLoneAccount.get_acc_number
+                }}</b>
                 <b>
                   <span>
                     <app-amount-visibility
