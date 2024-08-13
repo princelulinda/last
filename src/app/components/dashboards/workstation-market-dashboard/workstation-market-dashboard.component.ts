@@ -5,24 +5,24 @@ import { Observable } from 'rxjs';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { ConfigService } from '../../../core/services';
-import { ModeModel } from '../../../core/services/config/main-config.models';
+import {
+  ModeModel,
+  PlateformModel,
+} from '../../../core/services/config/main-config.models';
 import { mainConfigModel } from '../../wallet/wallet.models';
+import { MyMarketDashboardComponent } from '../my-market-dashboard/my-market-dashboard.component';
 
 @Component({
   selector: 'app-workstation-market-dashboard',
   standalone: true,
-  imports: [
-    SkeletonComponent,
-    CommonModule,
-    WorkstationMarketDashboardComponent,
-  ],
+  imports: [SkeletonComponent, CommonModule, MyMarketDashboardComponent],
   templateUrl: './workstation-market-dashboard.component.html',
   styleUrl: './workstation-market-dashboard.component.scss',
 })
 export class WorkstationMarketDashboardComponent implements OnInit {
-  mainconfig!: mainConfigModel;
   mainConfig$: Observable<mainConfigModel>;
   currentMode!: ModeModel;
+  plateform!: PlateformModel;
 
   isMerchantCorporate = false;
   isMerchantCorporte$: Observable<boolean>;
@@ -36,7 +36,10 @@ export class WorkstationMarketDashboardComponent implements OnInit {
   ngOnInit() {
     this.mainConfig$.subscribe({
       next: configs => {
-        this.mainconfig = configs;
+        if (configs) {
+          this.plateform = configs.activePlateform as PlateformModel;
+          this.currentMode = configs.activeMode as ModeModel;
+        }
       },
     });
     this.isMerchantCorporte$.subscribe({
