@@ -15,7 +15,12 @@ import { MyMarketDashboardComponent } from '../my-market-dashboard/my-market-das
 @Component({
   selector: 'app-workstation-market-dashboard',
   standalone: true,
-  imports: [SkeletonComponent, CommonModule, MyMarketDashboardComponent],
+  imports: [
+    SkeletonComponent,
+    CommonModule,
+    MyMarketDashboardComponent,
+    SkeletonComponent,
+  ],
   templateUrl: './workstation-market-dashboard.component.html',
   styleUrl: './workstation-market-dashboard.component.scss',
 })

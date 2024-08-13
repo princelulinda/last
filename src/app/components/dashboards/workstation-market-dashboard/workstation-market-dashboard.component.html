@@ -1,20 +1,23 @@
 @if (plateform === 'workstation' && !isMerchantCorporate) {
   <main class="h-100 bg-erp">
     <div class="pt-4 mb-4">
-      <span class="text-primary fw-bold fs-x-large">Market</span>
+      <span class="text-primary fw-bold fs-x-large" i18n>Market</span>
     </div>
 
     <!-- TOP CARD -->
-
     <div
-      class="rounded-5 bgCard px-5 pt-4 d-flex flex-row justify-content-between align-items-center"
+      class="lg-radius px-5 pt-4 d-flex flex-row justify-content-between align-items-center"
       [ngClass]="currentMode === 'light' ? 'bgCardLight' : 'bgCardDark'">
       <div class="ps-3">
-        <span class="text-primary fw-bold fs-1">Your online marketplace</span>
+        <span class="text-primary fw-bold fs-xx-large" i18n
+          >Your online marketplace</span
+        >
         <ul class="ps-3 text-primary pt-2 pb-4">
-          <li>Sell ​​and buy your products online with ease</li>
-          <li>Find unique products from local and international sellers</li>
-          <li>Join a vibrant community of buyers and sellers</li>
+          <li i18n>Sell ​​and buy your products online with ease</li>
+          <li i18n>
+            Find unique products from local and international sellers
+          </li>
+          <li i18n>Join a vibrant community of buyers and sellers</li>
         </ul>
 
         <button
@@ -36,85 +39,47 @@
       <div class="w-50">
         <div>
           <span><i class="fa-solid fa-cash-register fs-large"></i></span>
-          <span class="ms-2 fs-x-large">Pay a merchant</span>
+          <span class="ms-2 fs-x-large" i18n>Pay a merchant</span>
         </div>
         <input type="text" class="form-control border py-2 mt-2" />
 
         <button class="btn bg-primary text-all-white px-5 fw-bold mt-4">
-          <span class="px-3 fs-medium"> Search </span>
+          <span class="px-3 fs-medium" i18n> Search </span>
         </button>
       </div>
 
       <!-- RECENT MERCHANT SECTION -->
       <div
-        class="recent rounded-4 position-relative overflow-hidden"
-        [ngClass]="currentMode === 'light' ? 'recentLight' : 'recentDark'">
-        <div
-          class="rectangle position-absolute"
-          [ngClass]="
-            currentMode === 'light' ? 'rectangleLight' : 'rectangleDark'
-          "></div>
+        class="recent rounded-4 position-relative overflow-hidden bg-primary-3">
+        <div class="rectangle position-absolute rectangleLight"></div>
         <div class="position-absolute z-1 top-1 start-0 m-4 fs-large">
-          Recent merchant
-          <div class="d-flex flex-row mt-3">
-            <div
-              class="rounded-3 bg-all-white"
-              style="width: 80px; height: 80px"></div>
+          <span class="text-all-dark">Recent merchant</span>
+          @for (item of [1, 2, 3]; track $index) {
+            <div class="d-flex flex-row mt-4">
+              <div>
+                <div>
+                  <app-skeleton
+                    classes="sm-radius"
+                    height="80px"
+                    width="80px"></app-skeleton>
+                </div>
+              </div>
 
-            <div
-              class="ms-3 d-flex flex-column justify-content-between flex-grow-1 py-1">
               <div
-                class="rounded-3 bg-all-white"
-                style="width: 100px; height: 15px"></div>
-
-              <div
-                class="rounded-3 bg-all-white"
-                style="width: 58px; height: 15px"></div>
-              <div
-                class="rounded-3 bg-all-white"
-                style="width: 58px; height: 15px"></div>
+                class="ms-3 d-flex flex-column justify-content-between flex-grow-1 py-1">
+                <app-skeleton
+                  classes="sm-radius"
+                  height="15px"
+                  width="100px"></app-skeleton>
+                @for (item of [1, 2]; track $index) {
+                  <app-skeleton
+                    classes="sm-radius"
+                    height="15px"
+                    width="58px"></app-skeleton>
+                }
+              </div>
             </div>
-          </div>
-
-          <div class="d-flex flex-row mt-4">
-            <div
-              class="rounded-3 bg-all-white"
-              style="width: 80px; height: 80px"></div>
-
-            <div
-              class="ms-3 d-flex flex-column justify-content-between flex-grow-1 py-1">
-              <div
-                class="rounded-3 bg-all-white"
-                style="width: 100px; height: 15px"></div>
-
-              <div
-                class="rounded-3 bg-all-white"
-                style="width: 58px; height: 15px"></div>
-              <div
-                class="rounded-3 bg-all-white"
-                style="width: 58px; height: 15px"></div>
-            </div>
-          </div>
-
-          <div class="d-flex flex-row mt-4">
-            <div
-              class="rounded-3 bg-all-white"
-              style="width: 80px; height: 80px"></div>
-
-            <div
-              class="ms-3 d-flex flex-column justify-content-between flex-grow-1 py-1">
-              <div
-                class="rounded-3 bg-all-white"
-                style="width: 100px; height: 15px"></div>
-
-              <div
-                class="rounded-3 bg-all-white"
-                style="width: 58px; height: 15px"></div>
-              <div
-                class="rounded-3 bg-all-white"
-                style="width: 58px; height: 15px"></div>
-            </div>
-          </div>
+          }
         </div>
       </div>
     </div>
