@@ -108,8 +108,8 @@
             }
           </div>
         }
-        <div class="row">
-          @for (product of allProduct; track $index) {
+        <div class="row" *ngIf="isLoading && favoriteProducts.length > 0">
+          @for (product of favoriteProducts; track $index) {
             <div
               class="col"
               [hidden]="$index >= 2 && !seeMore"
@@ -119,9 +119,13 @@
             </div>
           }
         </div>
-        @if (isLoading) {
+        @if (isLoading && favoriteProducts.length === 0) {
+          <app-empty-state [searchTerm]="searchTerm" searchType="product">
+          </app-empty-state>
+        }
+        @if (isLoading && favoriteProducts.length > 2) {
           <div class="d-flex justify-content-end align-items-end mt-2 col-1">
-            @if (!seeMore) {
+            @if (!seeMore && theme === 'light') {
               <span
                 (click)="seeMore = true"
                 role="button"
@@ -130,7 +134,7 @@
                 i18n
                 >More</span
               >
-            } @else if (!seeMore) {
+            } @else if (!seeMore && theme === 'dark') {
               <span
                 (click)="seeMore = true"
                 role="button"
@@ -139,7 +143,7 @@
                 i18n
                 >More</span
               >
-            } @else if (seeMore) {
+            } @else if (seeMore && theme === 'light') {
               <span
                 (click)="seeMore = false"
                 role="button"
@@ -148,7 +152,7 @@
                 i18n
                 >Less</span
               >
-            } @else if (seeMore) {
+            } @else if (seeMore && theme === 'dark') {
               <span
                 (click)="seeMore = false"
                 role="button"
