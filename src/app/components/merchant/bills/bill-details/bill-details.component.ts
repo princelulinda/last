@@ -1,10 +1,10 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
-
-import { VariableService } from '../../../../core/services/variable/variable.service';
+// import { MarketService } from '../../../../core/services/market/market.service';
+// import { VariableService } from '../../../../core/services/variable/variable.service';
 import { SimpleMerchantService } from '../../../../core/services/simple-merchant/simple-merchant.service';
 import {
   DialogService,
@@ -16,18 +16,17 @@ import { MerchantBillComponent } from '../../../../global/components/popups/bill
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 
 import {
-  AccountModel,
   BillsModel,
   ErrorModel,
-  OptionModel,
+  ObjectBillModel,
   paymentBillsModel,
-  WalletModel,
 } from '../../products/products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
-import {
-  DialogResponseModel,
-  toastTypeModel,
-} from '../../../../core/services/dialog/dialogs-models';
+import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
+import { DebitAccountComponent } from '../../../transfer/debit-account/debit-account.component';
+import { accountsList } from '../../../account/models';
+import { WalletList } from '../../../wallet/wallet.models';
+import { DebitOptions } from '../../../transfer/transfer.model';
 // import {
 //     OpenDialog,
 //     SwitchThemeState,
@@ -45,13 +44,13 @@ import {
     SkeletonComponent,
     ReactiveFormsModule,
     RouterLink,
+    DebitAccountComponent,
   ],
   templateUrl: './bill-details.component.html',
   styleUrl: './bill-details.component.scss',
 })
 export class BillDetailsComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
-  private variableService = inject(VariableService);
 
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
@@ -60,6 +59,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
   isLoading = true;
   paymentLoading = false;
   billDetails!: BillsModel;
+  pin!: string;
 
   billData!: {
     name: string;
@@ -77,8 +77,8 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
     adress: string;
     credit_account: string;
   };
-  selectedAccount!: AccountModel | null;
-  selectedWallet!: WalletModel | null;
+  selectedAccount!: accountsList | string | null;
+  selectedWallet!: WalletList | string | null;
 
   description = new FormControl('', Validators.required);
   dialog$: Observable<DialogResponseModel>;
@@ -117,10 +117,11 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
         if (dialog) {
           if (dialog && dialog.response) {
             if (
-              dialog.response.pin === 'pin submitted' &&
+              dialog.response.pin &&
               dialog.action === 'confirm merchant payment'
             ) {
               this.submitPaymentRequest();
+              this.pin = dialog.response.pin;
             }
           }
         }
@@ -169,37 +170,40 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
     // this.store.dispatch(
     //     new OpenDialog({ title: '', message: '', type: 'loading' })
     // );
-    this.dialogService.openToast({
-      title: '',
-      type: 'info',
-      message: '',
-    });
+    // this.dialogService.dispatchLoading()
     const data = {
       payment_id: this.billId,
-      pin_code: this.variableService.pin,
+      pin_code: this.pin,
       merchant_id: this.billDetails.merchant_teller.merchant.id,
       amount: parseFloat(this.billDetails.total_amount as string).toFixed(2),
       debit_account: this.selectedAccount
-        ? this.selectedAccount.acc_short_number
-        : (this.selectedWallet as WalletModel).code,
+        ? (this.selectedAccount as accountsList).acc_short_number
+        : (this.selectedWallet as WalletList).code,
       debit_bank: this.selectedAccount
-        ? this.selectedAccount.acc_bank_id
-        : (this.selectedWallet as WalletModel).bank_id,
+        ? (this.selectedAccount as accountsList).acc_bank_id
+        : (this.selectedWallet as WalletList).bank_id,
       debit_type: this.selectedAccount ? 'account' : 'wallet',
       description: this.description.value,
     };
+
+    this.dialogService.dispatchLoading();
     this.simpleMerchant
       .postData(data)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: toastTypeModel) => {
+        next: (response: ObjectBillModel) => {
           // this.store.dispatch(new CloseDialog({ response: 'close' }));
-          this.dialogService.closeDialog();
+          this.dialogService.closeLoading();
           this.paymentLoading = false;
-          if (response === 'success') {
+          if (
+            response.object['success'] !== undefined &&
+            !response.object.success
+          ) {
+            // this.dialogService.closeLoading();
+            // this.pin = '';
             this.dialogService.openToast({
               title: '',
-              message: 'success',
+              message: response.object.response_message,
               type: 'failed',
             });
             // this.store.dispatch(
@@ -215,7 +219,9 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
           this.getBillDetails();
           this.dialogService.openToast({
             title: '',
-            message: 'The bill has been successfully paid',
+            message:
+              response.object?.response_message ??
+              'The bill has been successfully paid',
             type: 'success',
           });
           // this.store.dispatch(
@@ -232,7 +238,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
         },
         error: (err: ErrorModel) => {
           // this.store.dispatch(new CloseDialog({ response: 'close' }));
-          this.dialogService.closeDialog();
+          this.dialogService.closeLoading();
           this.dialogService.openToast({
             title: '',
             message:
@@ -253,18 +259,26 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
         },
       });
   }
+  onAccountSelected(account: accountsList) {
+    this.description.reset();
+    if (account.acc_short_number) {
+      this.selectedAccount = account.id;
+    }
+  }
 
-  selectedDebitOption(option: OptionModel) {
+  onWalletSelected(account: WalletList) {
+    this.description.reset();
+    if (account.account) {
+      this.selectedWallet = account.id;
+    }
+  }
+  selectedDebitOption(option: DebitOptions) {
     this.description.reset();
     if (option.selectedDebitOption === 'account') {
-      console.log('ooooook', option);
-      this.selectedAccount = option.account ?? null;
-      console.log('ooooook selectedAccount', this.selectedAccount);
+      this.selectedAccount = option.account;
       this.selectedWallet = null;
     } else if (option.selectedDebitOption === 'wallet') {
-      console.log('ooooook', option);
       this.selectedWallet = option.wallet ?? null;
-      console.log('ooooook selectedWallet', this.selectedWallet);
       this.selectedAccount = null;
     }
   }
@@ -282,6 +296,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
     // };
 
     // this.store.dispatch(new OpenActionDialog(data));
+    // this.dialogService.dispatchLoading()
     this.dialogService.openDialog({
       title: 'Payment of a bill',
       type: 'pin',

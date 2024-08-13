@@ -17,9 +17,7 @@ export class AuthWorkstationGuard {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | boolean {
-    const operatorAuthenticated =
-      this.configService.getLocalConnectedOperator();
-    if (operatorAuthenticated) {
+    if (this.configService.getLocalConnectedOperator()) {
       return true;
     } else {
       const currentUrl = this.fullpathService.getFullPath(route);

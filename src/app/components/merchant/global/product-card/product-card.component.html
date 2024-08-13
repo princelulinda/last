@@ -11,6 +11,38 @@
             data-id="123">
             <i class="fa-solid fa-star text-primary"></i>
           </span> -->
+          <section
+            class="position-absolute bg-white rounded-circle border z-3 end-0 me-4 mt-2 p-1 d-flex px-2"
+            role="button"
+            tabindex="2">
+            @if (!isLoading && product) {
+              @if (product.is_favorite_product) {
+                <span
+                  type="button"
+                  (click)="makeFavoriteProducts(product, $event)"
+                  tabindex="0"
+                  title="Revoke Favorite">
+                  <span class="text-primary"
+                    ><i class="fa-solid fa-star"></i
+                  ></span>
+                </span>
+              } @else if (!product.is_favorite_product) {
+                <span
+                  type="button"
+                  (click)="makeFavoriteProducts(product, $event)"
+                  tabindex="0"
+                  title="Make Favorite">
+                  <span class="text-primary"
+                    ><i class="fa-regular fa-star"></i
+                  ></span>
+                </span>
+              }
+            } @else {
+              <span class="text-primary"
+                ><i class="fas fa-spinner fa-pulse"></i
+              ></span>
+            }
+          </section>
           @if (product.lookup_image) {
             <div>
               <img [src]="product.lookup_title" alt="product image" />

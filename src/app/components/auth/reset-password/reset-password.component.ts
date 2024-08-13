@@ -61,8 +61,6 @@ export class ResetPasswordComponent {
   });
 
   verifyType() {
-    //   const otpValue =
-    //       this.stepResetPassword.controls.clientEmail.value.email;
     const emailRegex =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (
@@ -94,12 +92,6 @@ export class ResetPasswordComponent {
       error: error => {
         console.log('errrsssss', error);
         this.isLoadingOTP = false;
-        //   const data = {
-        //       title: '',
-        //       type: 'failed',
-        //       message: 'Something went wrong, please retry again!',
-        //   };
-        //   // this.store.dispatch(new OpenDialog(data));
       },
     });
   }

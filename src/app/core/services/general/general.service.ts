@@ -68,7 +68,11 @@ export class GeneralService {
     const url = `/banks/list/?bank_type=MOB&is_mappable=true`;
     return this.apiService.get<{ objects: MobileBanksModel[] }>(url);
   }
-
+  getWorkstationStats() {
+    const url =
+      '/dbs/general/stats/?stats_type=agents_number,merchants_number,clients_created';
+    return this.apiService.get(url).pipe(map(data => data));
+  }
   mappAccount(body: MappingBody): Observable<MappingResponse> {
     const url = `/mappaccount/create/?request_type=ident`;
     return this.apiService
