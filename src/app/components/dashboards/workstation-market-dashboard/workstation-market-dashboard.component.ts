@@ -29,7 +29,7 @@ export class WorkstationMarketDashboardComponent implements OnInit {
   currentMode!: ModeModel;
   plateform!: PlateformModel;
 
-  isMerchantCorporate = false;
+  isMerchantCorporate!: boolean;
   isMerchantCorporte$: Observable<boolean>;
 
   constructor(private configService: ConfigService) {

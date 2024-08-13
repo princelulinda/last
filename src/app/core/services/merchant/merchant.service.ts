@@ -1,9 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { BehaviorSubject, map, Observable, retry } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
-import { Favorite, Pagination } from './model';
+import {
+  Favorite,
+  Pagination,
+  PaymentMerchantModel,
+  PaymentMerchantPayloadModel,
+} from './model';
 import {
   AllProductModel,
   MerchantInfoModel,
@@ -30,7 +35,29 @@ import { Coords2Model } from '../../../global/components/google-map/map.model';
   providedIn: 'root',
 })
 export class MerchantService {
+  private merchantPayment: WritableSignal<PaymentMerchantModel> = signal({
+    active: false,
+    id: null,
+    type: null,
+  });
+
   constructor(private apiService: ApiService) {}
+
+  openMerchantPayment(payload: PaymentMerchantPayloadModel) {
+    const data = {
+      active: true,
+      ...payload,
+    };
+    this.merchantPayment.set(data);
+  }
+
+  closeMerchantPayment() {
+    this.merchantPayment.set({
+      active: false,
+      id: null,
+      type: null,
+    });
+  }
 
   private _coords: BehaviorSubject<Coords2Model> =
     new BehaviorSubject<Coords2Model>({

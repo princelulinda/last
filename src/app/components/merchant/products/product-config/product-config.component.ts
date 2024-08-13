@@ -13,7 +13,11 @@ import { RouterModule } from '@angular/router';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
-import { DialogService, MerchantService } from '../../../../core/services';
+import {
+  ConfigService,
+  DialogService,
+  MerchantService,
+} from '../../../../core/services';
 import { PlateformModel } from '../../../../core/services/config/main-config.models';
 
 @Component({
@@ -62,9 +66,11 @@ export class ProductConfigComponent implements OnInit {
 
   constructor(
     private merchantService: MerchantService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private configService: ConfigService
   ) {
     this.dialog$ = this.dialogService.getDialogState();
+    this.plateform$ = this.configService.getPlateform();
 
     this.productConfigForm = new FormGroup({
       name: new FormControl(''),
@@ -79,7 +85,7 @@ export class ProductConfigComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
+    this.dialog$.subscribe({
       next: (dialog: DialogResponseModel) => {
         if (dialog) {
           this.dialog = dialog;
