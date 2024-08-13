@@ -1,10 +1,11 @@
 <!-- <p>my-market-dashboard works!</p> -->
 @if (isLoadingInfo && !merchant) {
-  <span
-    class="text-center w-100 h-100 d-flex row justify-content-center align-items-center text-dark"
-    title="Loading  ...">
-    <i class="fa-solid fa-spin fa-circle-notch fs-2"></i>
-  </span>
+  <div
+    class="w-100 h-100 d-flex row justify-content-center align-items-center text-dark">
+    <span title="Loading  ..." class="fs-2 text-center">
+      <i class="fa-solid fa-spin fa-circle-notch"></i>
+    </span>
+  </div>
 }
 
 @if (!isLoadingInfo) {
@@ -213,8 +214,7 @@
           </div>
         </div>
         <div
-          class="col-md-6 col-lg-8 col-xxl-6 mt-3 mt-md-0 border-start ms-0 ms-xl-auto text-center"
-          style="border-left: 1px solid rgb(182, 179, 179); height: 250px">
+          class="col-md-6 col-lg-8 col-xxl-6 mt-3 mt-md-0 border-start ms-0 ms-xl-auto text-center border-start">
           <div
             class="d-flex justify-content-center justify-content-md-start px-5">
             <div class="col-md-auto">
