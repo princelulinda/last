@@ -30,7 +30,7 @@ export const routes: Routes = [
       import(
         './layouts/auth-corporate-layout/auth-corporate-layout.component'
       ).then(m => m.AuthCorporateLayoutComponent),
-    canActivate: [AuthGuard, DBReadyGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -48,7 +48,7 @@ export const routes: Routes = [
       import('./layouts/workstation/workstation.component').then(
         m => m.WorkstationComponent
       ),
-    canActivate: [AuthGuard, AuthWorkstationGuard, DBReadyGuard],
+    canActivate: [AuthGuard, AuthWorkstationGuard],
     children: [
       {
         path: 'workstation',
@@ -61,7 +61,7 @@ export const routes: Routes = [
   {
     path: ':plateform',
     component: BankingComponent,
-    canActivate: [AuthGuard, DBReadyGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'newsfeed',
@@ -91,7 +91,6 @@ export const routes: Routes = [
 
       {
         path: '**',
-        canActivate: [DBReadyGuard],
         loadComponent: () =>
           import(
             './global/components/errors/not-found-404/not-found-404.component'
@@ -102,7 +101,6 @@ export const routes: Routes = [
 
   {
     path: '**',
-    canActivate: [DBReadyGuard],
     loadComponent: () =>
       import(
         './global/components/errors/not-found-404/not-found-404.component'
