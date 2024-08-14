@@ -114,7 +114,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     this.merchantService
-      .getMerchantsAutocomplete(search)
+      .getRecentMerchantsAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
