@@ -52,7 +52,7 @@ export class ConfigService {
   private connectedOperator$: unknown | Observable<ConnectedOperatorModel>;
   private operatorOrganization = new Subject<OrganizationModel | null>();
   private isAuthenticatedOperator = new Subject<boolean>();
-  private isTreasurerOperator = new Subject<boolean>();
+  private isMerchantCorporate = new Subject<boolean>();
 
   private allOrganizations$: unknown | Observable<OrganizationModel[]>;
 
@@ -300,23 +300,22 @@ export class ConfigService {
   setLocalConnectedOperator(status: 'true' | 'false') {
     this.apiService.setLocalConnectedOperator(status);
   }
-  operatorIsTreasurer(): Observable<boolean> {
+  organizationIsMerchantCorporate(): Observable<boolean> {
     this.getConnectedOperator().subscribe({
       next: operator => {
-        if (operator) {
-          if (operator.operator.isTreasurer) {
-            this.isTreasurerOperator.next(true);
+        if (operator && operator.organization) {
+          if (operator.organization.have_merchant_system) {
+            this.isMerchantCorporate.next(true);
           } else {
-            this.isTreasurerOperator.next(false);
+            this.isMerchantCorporate.next(false);
           }
         } else {
-          this.isTreasurerOperator.next(false);
+          this.isMerchantCorporate.next(false);
         }
       },
     });
-    return this.isTreasurerOperator;
+    return this.isMerchantCorporate;
   }
-
   // NOTE :: ORGANIZATIONS METHODS
 
   setOperatorOrganizations(organizations: OrganizationModel[]): void {
@@ -351,7 +350,7 @@ export class ConfigService {
   checkTypeMenus(): Observable<boolean> {
     this.getTypeMenus().subscribe({
       next: menus => {
-        if (!menus || menus.length === 0) {
+        if (menus === undefined || menus === null || menus.length === 0) {
           this.typeMenusExist.next(false);
         } else {
           this.typeMenusExist.next(true);
@@ -371,6 +370,15 @@ export class ConfigService {
   }
   getSelectedTypeMenu(): Observable<TypeMenuModel> {
     return this.selectedTypeMenu$ as Observable<TypeMenuModel>;
+  }
+
+  // NOTE :: GENERAL METHOD
+  toArray<T>(data: T[]): T[] {
+    if (Array.isArray(data)) {
+      return data as T[];
+    } else {
+      return Array.from(Object.values(data)) as T[];
+    }
   }
 
   // NOTE :: PRIVATE CONFIG METHODS

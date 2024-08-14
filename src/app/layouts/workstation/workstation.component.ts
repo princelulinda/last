@@ -58,7 +58,7 @@ export class WorkstationComponent implements OnInit {
         if (state) {
           this.dialogService.closeDialog();
           this.dialogService.closeSplashScreen();
-        } else if (!state) {
+        } else {
           this.getOperatorMenusTypes_groups();
         }
       },

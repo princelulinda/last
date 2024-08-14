@@ -1,4 +1,4 @@
-<div class="container bg-white">
+<div class="container bg-white p-4">
   <div class="d-flex align-items-center justify-content-between">
     @if (transferStep === 'first step') {
       <div>
@@ -15,15 +15,12 @@
         <div
           class="p-2 rounded h-100"
           [ngClass]="pendingTransfers.length >= 1 ? 'w-75' : 'w-50'">
-          @if (!debitAccount || !debitWallet || !isMerchantTransfer) {
+          @if (!debitAccount || !debitWallet) {
             <div class="my-4 d-flex align-items-center">
               <div>
                 <div
-                  class="d-flex p-1 ms-2 justify-content-between rounded align-items-center"
-                  style="height: 50px"
+                  class="d-flex p-1 h-50-px bg-secondary ms-2 justify-content-between rounded align-items-center"
                   [ngClass]="{
-                    'bg-secondary': mode === 'light',
-                    'bg-primary': mode === 'dark',
                     'w-100':
                       mainConfig &&
                       mainConfig.activePlateform === 'workstation',
@@ -36,9 +33,6 @@
                     [ngClass]="{
                       'bg-primary  text-all-white rounded px-1 py-2 me-1':
                         selectedCreditAccountType === 'account',
-                      'bg-white':
-                        selectedCreditAccountType === 'account' &&
-                        mode === 'dark',
                     }"
                     class="text-center rounded transition px-1 py-2 ms-1 width">
                     <b i18n>Account</b>
@@ -50,9 +44,6 @@
                     [ngClass]="{
                       'bg-primary  text-all-white rounded px-1 py-2 me-1':
                         selectedCreditAccountType === 'wallet',
-                      'bg-white':
-                        selectedCreditAccountType === 'wallet' &&
-                        mode === 'dark',
                     }"
                     class="text-center rounded px-1 transition py-2 ms-1 width">
                     <b i18n>Wallet</b>
@@ -79,14 +70,7 @@
                     class="px-2 pt-1 d-flex w-60 justify-content-center"
                     [ngClass]="{
                       ' text-all-dark': mode === 'dark',
-                      'bg-primary-2':
-                        selectedInstitutionType === 'BNQ' &&
-                        mainConfig &&
-                        mainConfig.activePlateform === 'workstation',
-                      'bg-primary':
-                        selectedInstitutionType === 'BNQ' &&
-                        mainConfig &&
-                        mainConfig.activePlateform !== 'workstation',
+                      'bg-primary': selectedInstitutionType === 'BNQ',
                     }">
                     <b
                       [ngClass]="{
@@ -98,16 +82,7 @@
                     >
                   </div>
                   <div
-                    class="px-2 pt-1 text-all-white"
-                    [ngClass]="{
-                      'bg-primary':
-                        mainConfig &&
-                        mainConfig.activePlateform !== 'workstation',
-                      'primary-light':
-                        mainConfig &&
-                        mainConfig.activePlateform === 'workstation',
-                    }"
-                    style="border-radius: 0px 3px 3px 0px">
+                    class="px-2 pt-1 bg-primary rad-icon rad-icon text-all-white">
                     <i class="fa fa-landmark"></i>
                   </div>
                 </div>
@@ -117,18 +92,10 @@
                   tabindex="0"
                   (click)="selectInstitutionType('MFI')">
                   <div
-                    class="px-2 pt-1 d-flex w-60 justify-content-center"
+                    class="px-2 pt-1 rad-bank d-flex w-60 justify-content-center"
                     [ngClass]="{
-                      'primary-light':
-                        selectedInstitutionType === 'MFI' &&
-                        mainConfig &&
-                        mainConfig.activePlateform === 'workstation',
-                      'bg-primary':
-                        selectedInstitutionType === 'MFI' &&
-                        mainConfig &&
-                        mainConfig.activePlateform !== 'workstation',
-                    }"
-                    style="border-radius: 3px 0px 0px 3px">
+                      'bg-primary': selectedInstitutionType === 'MFI',
+                    }">
                     <b
                       [ngClass]="{
                         'text-light':
@@ -138,17 +105,7 @@
                       >MIF</b
                     >
                   </div>
-                  <div
-                    class="px-2 pt-1 text-all-white"
-                    [ngClass]="{
-                      'bg-primary':
-                        mainConfig &&
-                        mainConfig.activePlateform !== 'workstation',
-                      'primary-light':
-                        mainConfig &&
-                        mainConfig.activePlateform === 'workstation',
-                    }"
-                    style="border-radius: 0px 3px 3px 0px">
+                  <div class="px-2 pt-1 bg-primary text-all-white rad-icon">
                     <i class="fa fa-landmark"></i>
                   </div>
                 </div>
@@ -159,18 +116,10 @@
                   tabindex="0"
                   (click)="selectInstitutionType('MOB')">
                   <div
-                    class="px-2 pt-1 d-flex w-60 justify-content-center"
+                    class="px-2 pt-1 rad-bank d-flex w-60 justify-content-center"
                     [ngClass]="{
-                      'primary-light':
-                        selectedInstitutionType === 'MOB' &&
-                        mainConfig &&
-                        mainConfig.activePlateform === 'workstation',
-                      'bg-primary':
-                        selectedInstitutionType === 'MOB' &&
-                        mainConfig &&
-                        mainConfig.activePlateform !== 'workstation',
-                    }"
-                    style="border-radius: 3px 0px 0px 3px">
+                      'bg-primary': selectedInstitutionType === 'MOB',
+                    }">
                     <b
                       [ngClass]="{
                         'text-light':
@@ -180,17 +129,7 @@
                       >Mobile</b
                     >
                   </div>
-                  <div
-                    class="px-2 pt-1 text-all-white"
-                    [ngClass]="{
-                      'bg-primary':
-                        mainConfig &&
-                        mainConfig.activePlateform !== 'workstation',
-                      'primary-light':
-                        mainConfig &&
-                        mainConfig.activePlateform === 'workstation',
-                    }"
-                    style="border-radius: 0px 3px 3px 0px">
+                  <div class="px-2 pt-1 text-all-white bg-primary rad-icon">
                     <i class="fa fa-landmark"></i>
                   </div>
                 </div>
@@ -239,8 +178,7 @@
             <div class="w-100 mt-4 mx-2 row d-flex gap-3 align-items-start">
               @for (institution of institutionsList; track $index) {
                 <div
-                  class="col-auto mb-3 d-grid is-hoverable"
-                  style="width: 150px"
+                  class="col-auto h-150-px mb-3 d-grid is-hoverable"
                   role="button"
                   tabindex="0"
                   (click)="selectInstitution(institution)">
@@ -267,9 +205,7 @@
             <div class="my-3 mt-5">
               <div class="d-flex align-items-center">
                 <div class="d-flex me-2" role="button" tabindex="0">
-                  <div
-                    class="px-2 pt-1 text-light"
-                    style="border-radius: 3px 0px 0px 3px">
+                  <div class="px-2 pt-1 text-light rad-bank">
                     <b>
                       @switch (selectedInstitutionType) {
                         @case ('BNQ') {
@@ -285,7 +221,7 @@
                     </b>
                   </div>
                   <div
-                    class="px-2 pt-1"
+                    class="px-2 pt-1 rad-icon"
                     [ngClass]="{
                       'bg-primary':
                         mainConfig &&
@@ -293,8 +229,7 @@
                       'primary-light':
                         mainConfig &&
                         mainConfig.activePlateform === 'workstation',
-                    }"
-                    style="border-radius: 0px 3px 3px 0px">
+                    }">
                     <i class="fa fa-landmark text-all-white"></i>
                   </div>
                 </div>
@@ -357,7 +292,12 @@
             selectedInstitution &&
             selectedInstitution.api_values.has_lookup
           ) {
-            <div class="d-flex me-3 mb-2">
+            <div
+              class="d-flex me-3 mb-2"
+              [ngClass]="{
+                'w-50':
+                  mainConfig && mainConfig.activePlateform === 'workstation',
+              }">
               <input
                 type="text"
                 class="lg-radius form-control pe-5 ps-2 lookup-transfer-input"
@@ -392,7 +332,12 @@
           <!--lookup input on wallet-->
 
           @if (!creditAccount && selectedCreditAccountType === 'wallet') {
-            <div class="d-flex me-3 mt-3 mb-2">
+            <div
+              class="d-flex me-3 mt-3 mb-2"
+              [ngClass]="{
+                'w-50':
+                  mainConfig && mainConfig.activePlateform === 'workstation',
+              }">
               <input
                 type="text"
                 class="lg-radius form-control pe-5 ps-2 lookup-transfer-input"
@@ -591,31 +536,6 @@
                   </button>
                 </div>
               }
-
-              @if (
-                (!selectedInstitution.api_values.has_lookup &&
-                  isMerchantTransfer) ||
-                (creditAccount && isMerchantTransfer)
-              ) {
-                <div
-                  class="mb-2"
-                  [ngClass]="{
-                    'mt-2': selectedInstitution.api_values.has_lookup,
-                  }">
-                  <div class="form-floating">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="merchant_reference"
-                      name="merchant_reference"
-                      formControlName="merchant_reference"
-                      placeholder="Merchant Reference" />
-                    <label for="description" class="form-label fs-6" i18n
-                      >Merchant Reference</label
-                    >
-                  </div>
-                </div>
-              }
             </div>
           }
 
@@ -765,12 +685,7 @@
 
                 <hr />
               </div>
-              <div
-                class="sm-radius m-4"
-                [ngClass]="{
-                  'bg-initial': mode === 'light',
-                  'bg-secondary': mode === 'dark',
-                }">
+              <div class="sm-radius bg-secondary m-4">
                 <div
                   class="text-end me-3 fs-medium pt-2"
                   [ngClass]="{
