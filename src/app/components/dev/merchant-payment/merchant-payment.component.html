@@ -1,20 +1,19 @@
 <main class="md-radius p-4 overflow-auto bg-white h-8 position-relative">
-  <!----------------------------------------------------------BACK SECTION ----------------------------------------------------------------->
-
-  <div class="position-absolute back">
-    <span
-      class="d-flex align-items-center fs-l-medium"
-      data-bs-toggle="modal"
-      [attr.data-bs-target]="'#paymentModal' + merchant.id"
-      role="button">
-      <span class="me-2"><i class="fa fa-arrow-left"></i></span>
-      <b i18n> Back</b>
-    </span>
-  </div>
-
   <!----------------------------------------------------------MERCHANT SECTION ----------------------------------------------------------------->
 
   @if (type === 'merchant' && merchant) {
+    <!----------------------------------------------------------BACK SECTION ----------------------------------------------------------------->
+
+    <div class="position-absolute back">
+      <span
+        class="d-flex align-items-center fs-l-medium"
+        data-bs-toggle="modal"
+        [attr.data-bs-target]="'#paymentModal' + merchant.id"
+        role="button">
+        <span class="me-2"><i class="fa fa-arrow-left"></i></span>
+        <b i18n> Back</b>
+      </span>
+    </div>
     <div class="d-flex flex-column h-100">
       <!----------------------------------------------------------STEPPER SECTION ----------------------------------------------------------------->
 

@@ -12,7 +12,7 @@ import { ProductModel } from '../../../dashboards/dashboard.model';
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent implements OnInit, OnDestroy {
-  @Input() merchantId!: number;
+  @Input() merchantId = 0;
   products!: ProductModel[];
   isLoading = true;
 
