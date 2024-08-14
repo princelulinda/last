@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './agent-creation.component.html',
-  styleUrl: './agent-creation.component.scss'
+  styleUrl: './agent-creation.component.scss',
 })
-export class AgentCreationComponent {
-
-}
+export class AgentCreationComponent {}
