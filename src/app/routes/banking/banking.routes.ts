@@ -12,7 +12,7 @@ import { WalletDetailsComponent } from '../../components/wallet/wallet-details/w
 import { TarifComponent } from '../../components/tarif/tarif.component';
 import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.component';
 import { AccountDetailsComponent } from '../../components/account/account-details/account-details.component';
-import { AgentCreationComponent } from '../../components/dev/agent-creation/agent-creation.component';
+import { AgentListComponent } from '../../components/dev/agent-list/agent-list.component';
 
 export const bankingRoutes: Routes = [
   {
@@ -69,7 +69,7 @@ export const bankingRoutes: Routes = [
     ],
   },
   {
-    path: 'creation',
-    component: AgentCreationComponent,
+    path: 'list',
+    component: AgentListComponent,
   },
 ];
