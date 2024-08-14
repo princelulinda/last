@@ -31,6 +31,7 @@ $pie-dimensions: $body-max-width;
   height: $pie-dimensions;
   // border-radius: 50%;
   background: $color3;
+  margin-left: -40%;
   // background-image: linear-gradient(to right, transparent 50%, $color2 0);
   &::before,
   &::after {
@@ -105,4 +106,47 @@ $pie-dimensions: $body-max-width;
   width: 1000px;
   margin-left: -45%;
   min-height: 50vh;
+}
+
+.rectangleBlockSize {
+  height: 120px;
+}
+
+.userProfileSize {
+  width: 10%;
+}
+
+.merchantLogo {
+  width: 80%; 
+  border-radius: 50%;
+}
+.rectangleImageSize {
+  width: 65%; 
+  margin-left: 35%;
+}
+
+.switchButtonSize {
+  height: 35px; 
+  width: 80px;
+}
+
+.salesSize {
+  height: 70px;
+}
+.deliveryBoxSize {
+  height: 50px;
+}
+
+.revenuSize {
+  height: 55px;
+}
+
+.emojiBlock {
+  top: -55%; 
+  right: 15%;
+}
+
+.faBarsSize {
+  width: 45px;
+  height: 45px;
 }
