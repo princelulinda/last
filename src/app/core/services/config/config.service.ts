@@ -350,7 +350,7 @@ export class ConfigService {
   checkTypeMenus(): Observable<boolean> {
     this.getTypeMenus().subscribe({
       next: menus => {
-        if (!menus || menus.length === 0) {
+        if (menus === undefined || menus === null || menus.length === 0) {
           this.typeMenusExist.next(false);
         } else {
           this.typeMenusExist.next(true);
@@ -370,6 +370,15 @@ export class ConfigService {
   }
   getSelectedTypeMenu(): Observable<TypeMenuModel> {
     return this.selectedTypeMenu$ as Observable<TypeMenuModel>;
+  }
+
+  // NOTE :: GENERAL METHOD
+  toArray<T>(data: T[]): T[] {
+    if (Array.isArray(data)) {
+      return data as T[];
+    } else {
+      return Array.from(Object.values(data)) as T[];
+    }
   }
 
   // NOTE :: PRIVATE CONFIG METHODS

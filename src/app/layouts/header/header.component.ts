@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   organization$!: Observable<OrganizationModel | null>;
   organization!: OrganizationModel | null;
 
-  userInfo!: UserInfoModel;
+  userInfo!: UserInfoModel | null;
   userInfo$: Observable<UserInfoModel>;
 
   amountState = false;
