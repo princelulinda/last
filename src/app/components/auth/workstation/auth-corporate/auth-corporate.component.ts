@@ -7,7 +7,6 @@ import {
   AuthService,
   ConfigService,
   DialogService,
-  MenuService,
 } from '../../../../core/services';
 import { ConnectedOperatorModel, OrganizationModel } from '../../auth.model';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
@@ -32,7 +31,6 @@ export class AuthCorporateComponent implements OnInit {
     private authService: AuthService,
     private configService: ConfigService,
     private dialogService: DialogService,
-    private menuService: MenuService,
     private router: Router
   ) {
     this.operatorIsAuthenticated$ =
@@ -145,7 +143,6 @@ export class AuthCorporateComponent implements OnInit {
             organizations.push(data.organization);
           });
           this.configService.setOperatorOrganizations(organizations);
-          this.dialogService.closeSplashScreen();
         },
       });
   }

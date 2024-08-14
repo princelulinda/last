@@ -350,7 +350,7 @@ export class ConfigService {
   checkTypeMenus(): Observable<boolean> {
     this.getTypeMenus().subscribe({
       next: menus => {
-        if (!menus || menus.length === 0) {
+        if (menus === undefined || menus === null || menus.length === 0) {
           this.typeMenusExist.next(false);
         } else {
           this.typeMenusExist.next(true);
