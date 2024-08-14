@@ -39,7 +39,6 @@ import {
   LookupData,
   LookupResponseModel,
   PopupEventModel,
-  SelectedCreditAccountEvent,
   TransferResponseModel,
 } from '../transfer.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
@@ -109,8 +108,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     amount: number | string;
   }[] = [];
   lookup = new FormControl<LookupResponseModel | string>('');
-  @Output() selectedCreditAccount =
-    new EventEmitter<SelectedCreditAccountEvent>();
+  @Output() selectedCreditAccount = new EventEmitter<FormGroup>();
 
   creditAccount: CreditAccountModel | null | undefined;
   transferForm = new FormGroup({
@@ -267,7 +265,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
   selectInstitution(institution: InstitutionInfoModel) {
     this.selectedInstitution = institution;
-    // this.selectedInstitutionInfos.emit(this.selectedInstitution)
     this.lookup.setValue('');
     this.creditAccount = undefined;
     this.transferForm.patchValue({
@@ -412,17 +409,13 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
         amount: this.transferForm.value.amount!,
       });
       this.creditAccountAdded = true;
+      this.selectedCreditAccount.emit(this.transferForm);
     }
   }
 
   toggleTransferStep(step: string) {
     this.transferStep = step;
     this.transferStepChange.emit(this.transferStep);
-    this.selectedCreditAccount.emit({
-      transferForm: this.transferForm.value as FormGroup,
-      selectedInstitution: this.selectedInstitution as InstitutionInfoModel,
-      selectedCreditAccountType: this.selectedCreditAccountType as string,
-    });
   }
   public validateTransfer() {
     this.amountToSend = this.amount;
