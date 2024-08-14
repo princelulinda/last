@@ -1,10 +1,11 @@
 <!-- <p>my-market-dashboard works!</p> -->
 @if (isLoadingInfo && !merchant) {
-  <span
-    class="text-center w-100 h-100 d-flex row justify-content-center align-items-center text-dark"
-    title="Loading  ...">
-    <i class="fa-solid fa-spin fa-circle-notch fs-2"></i>
-  </span>
+  <div
+    class="w-100 h-100 d-flex row justify-content-center align-items-center text-dark">
+    <span title="Loading  ..." class="fs-2 text-center">
+      <i class="fa-solid fa-spin fa-circle-notch"></i>
+    </span>
+  </div>
 }
 
 @if (!isLoadingInfo) {
@@ -31,26 +32,22 @@
 @if (!isLoadingInfo && merchant) {
   <div class="ms-0 ms-md-1 ms-xxl-5 ps-0 ps-xl-3 overflow-hidden">
     <div
-      class="d-lg-flex d-none position-relative shadow me-5 ms-3 border-top-4 border-start-0 border-end-0 border-bottom-0 border-primary border-4"
-      style="height: 120px">
+      class="d-lg-flex d-none position-relative shadow me-5 ms-3 border-top border-primary border-4 rectangleBlockSize">
       <img
         src="/images/products/Rectangle 1235.svg"
-        class="mt-2 pt-4 position-absolute opacity-8"
-        style="width: 65%; margin-left: 35%"
+        class="mt-2 pt-4 position-absolute opacity-8 rectangleImageSize"
         alt="Rectangle image" />
-      <div style="width: 10%">
+      <div class="userProfileSize">
         @if (merchant && !merchant.merchant_logo) {
           <img
             src="/images/products/userprofile.png"
-            class="img-fluid mt-3 ms-3 border"
-            style="width: 80%; border-radius: 50%"
+            class="img-fluid mt-3 ms-3 border merchantLogo"
             alt="userprofile show image" />
         }
         @if (merchant && merchant.merchant_logo) {
           <img
             [src]="merchant.merchant_logo"
-            class="img-fluid image"
-            style="width: 80%; border-radius: 50%"
+            class="img-fluid image merchantLogo"
             alt="merchant logo show image" />
         }
       </div>
@@ -64,7 +61,7 @@
         <span class="text-dark text-sm">{{ merchant.merchant_location }}</span>
         <br />
       </div>
-      <div style="height: 35px; width: 1px" class="ms-4 level-3 mt-5"></div>
+      <!-- <div style="height: 35px; width: 1px" class="ms-4 level-3 mt-5"></div> -->
       <div class="d-block ms-5 pt-4">
         <span class="text-dark text-md"
           ><span class="fw-bold opacity-50" i18n>Available balance :</span
@@ -82,14 +79,13 @@
         }}</span>
         <br />
       </div>
-      <div class="ms-auto me-4 mt-5 pt-3" style="z-index: 999">
+      <div class="ms-auto me-4 mt-5 pt-3 z-3">
         @if (merchantMult && merchantMult.length > 1) {
           <button
             (click)="openMerchantsPopup()"
             data-bs-toggle="modal"
             data-bs-target="#merchantsModal"
-            class="btn badge-design bg-danger text-danger fw-bold"
-            style="height: 35px; width: 80px"
+            class="btn badge-design bg-danger text-danger fw-bold switchButtonSize"
             i18n>
             Switch
           </button>
@@ -115,9 +111,8 @@
         </Span>
         <span class="float-end">
           <img
-            class="img-fluid me-2 mt-3"
+            class="img-fluid me-2 mt-3 salesSize"
             src="/images/products/sales.svg"
-            style="height: 70px"
             alt="our sales show image" />
         </span>
       </div>
@@ -127,9 +122,8 @@
           ><small i18n>Clients </small> <br /><b> ---</b></Span
         ><span class="float-end"
           ><img
-            class="img-fluid me-2 mt-3"
+            class="img-fluid me-2 mt-3 salesSize"
             src="/images/products/2 60.svg"
-            style="height: 70px"
             alt="our clients show image"
         /></span>
       </div>
@@ -148,9 +142,8 @@
         </Span>
         <span class="float-end">
           <img
-            class="img-fluid me-2 mt-3"
+            class="img-fluid me-2 mt-3 deliveryBoxSize"
             src="/images/products/49364_box_crate_delivery_entrega_inventory_icon 2.svg"
-            style="height: 50px"
             alt="our products show image" />
         </span>
       </div>
@@ -172,9 +165,8 @@
         </Span>
         <span class="float-end">
           <img
-            class="img-fluid mt-4 me-1"
+            class="img-fluid mt-4 me-1 revenuSize"
             src="/images/products/4 9365.svg"
-            style="height: 55px"
             alt="our income show image" />
         </span>
       </div>
@@ -195,8 +187,7 @@
 
           <div class="w-100 d-flex justify-content-center text-align-center">
             <div
-              class="pie-chart text-opacity-5 position-relative rounded-circle"
-              style="margin-left: -40%">
+              class="pie-chart text-opacity-5 position-relative rounded-circle">
               <div class="pie-text text1 position-absolute fw-bold"></div>
               <div class="pie-text text2 position-absolute fw-bold"></div>
               <div class="pie-text text3 position-absolute fw-bold"></div>
@@ -204,8 +195,7 @@
           </div>
 
           <div
-            class="align-items-center text-center pt-5 position-relative"
-            style="top: -55%; right: 15%">
+            class="align-items-center text-center pt-5 position-relative emojiBlock">
             <span i18n class="fs-5 text-dark opacity-50"
               ><i class="fa fa-face-meh"></i> Section unavailable at this
               moment</span
@@ -213,43 +203,42 @@
           </div>
         </div>
         <div
-          class="col-md-6 col-lg-8 col-xxl-6 mt-3 mt-md-0 border-start ms-0 ms-xl-auto text-center"
-          style="border-left: 1px solid rgb(182, 179, 179); height: 250px">
+          class="col-md-6 col-lg-8 col-xxl-6 mt-3 mt-md-0 mb-5 border-start border-1 border-secondary ms-0 ms-xl-auto text-center">
           <div
             class="d-flex justify-content-center justify-content-md-start px-5">
             <div class="col-md-auto">
-              <div
-                routerLink="/m/mymarket/product-config"
+              <a
+                routerLink="{{ baseRouterLink }}/product-config"
                 class="pt-1 level-1 ms-3 mt-2 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
                 role="button">
                 <b class="text-dark" i18n>Manage product</b>
                 <i class="fa-solid fa-box text-dark ms-3 opacity-75"></i>
-              </div>
-              <div
-                routerLink="/m/mymarket/merchant-config"
+              </a>
+              <a
+                routerLink="{{ baseRouterLink }}/merchant-config"
                 role="button"
                 class="pt-1 level-1 ms-3 mt-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary">
                 <b class="text-dark" i18n>Merchant config</b>
                 <i class="fa-solid fa-sliders ms-3 text-dark opacity-75"> </i>
-              </div>
+              </a>
 
-              <div
+              <a
                 class="level-1 pt-1 mt-3 ms-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
                 role="button"
-                routerLink="/m/market/transfer">
+                routerLink="{{ baseRouterLink }}/transfer">
                 <div>
                   <b class="text-dark" i18n>Transfer</b>
                   <i class="fa-solid fa-paper-plane ms-3 text-dark opacity-75">
                   </i>
                 </div>
-              </div>
+              </a>
             </div>
 
             <div class="ms-auto">
               <div
                 role="button"
                 class="pt-1 level-1 ms-3 mt-2 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
-                routerLink="/m/market/bill">
+                routerLink="{{ baseRouterLink }}/bill">
                 <b class="text-dark" i18n>Bills Report</b>
                 <i class="fa-solid fa-file-excel ms-3 text-success"></i>
               </div>
@@ -276,6 +265,7 @@
             </div>
           </div>
         </div>
+        <div class="row"></div>
       </div>
     </section>
     <section class="row justify-content-between">
@@ -365,8 +355,7 @@
             <div class="col ms-4 me-4 mt-3 text-dark">
               <input
                 type="text"
-                class="form-control input w-100"
-                style="height: 60px"
+                class="form-control input w-100 p-3"
                 placeholder="description"
                 formControlName="description" />
             </div>
@@ -390,7 +379,7 @@
 <div class="modal fade" id="merchantsModal" data-mdb-backdrop="false">
   <div class="modal-dialog">
     <div class="modal-content merchantsModal bg-white">
-      <div class="modal-body">
+      <div class="modal-body mb-5">
         <div class="text-end">
           <span
             role="button"
@@ -404,9 +393,8 @@
 
         <div class="mt-1 d-flex ms-5 me-3 mt-2">
           <span
-            class="text-dark text-l p-2 text-center bg-primary sm-radius"
-            style="height: 45px; width: 45px"
-            ><i class="fa-solid fa-bars text-light"></i
+            class="text-dark text-l p-2 text-center bg-primary sm-radius faBarsSize"
+            ><i class="fa-solid fa-bars text-light fs-x-large"></i
           ></span>
           <!-- <span class="ms-auto ps-4 pe-4">
                     <input

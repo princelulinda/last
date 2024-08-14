@@ -1,9 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { BehaviorSubject, map, Observable, retry } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
-import { Favorite, Pagination } from './model';
+import {
+  Favorite,
+  Pagination,
+  PaymentMerchantModel,
+  PaymentMerchantPayloadModel,
+} from './model';
 import {
   AllProductModel,
   MerchantInfoModel,
@@ -14,6 +19,9 @@ import {
   ObjectBillModel,
   paymentBillsModel,
   StatsModel,
+  ProductFavoriteModel,
+  SectorActivityObjectModel,
+  CategoriesPerActivitySectorObjectModel,
 } from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
@@ -29,7 +37,29 @@ import { Coords2Model } from '../../../global/components/google-map/map.model';
   providedIn: 'root',
 })
 export class MerchantService {
+  private merchantPayment: WritableSignal<PaymentMerchantModel> = signal({
+    active: false,
+    id: null,
+    type: null,
+  });
+
   constructor(private apiService: ApiService) {}
+
+  openMerchantPayment(payload: PaymentMerchantPayloadModel) {
+    const data = {
+      active: true,
+      ...payload,
+    };
+    this.merchantPayment.set(data);
+  }
+
+  closeMerchantPayment() {
+    this.merchantPayment.set({
+      active: false,
+      id: null,
+      type: null,
+    });
+  }
 
   private _coords: BehaviorSubject<Coords2Model> =
     new BehaviorSubject<Coords2Model>({
@@ -351,7 +381,7 @@ export class MerchantService {
   }
   getActivitySectors() {
     const url = '/clients/config/activitysector/';
-    return this.apiService.get(url).pipe(
+    return this.apiService.get<SectorActivityObjectModel>(url).pipe(
       map(data => {
         return data;
       })
@@ -359,11 +389,13 @@ export class MerchantService {
   }
   getCategoriesPerActivitySectors(id: string) {
     const url = '/dbs/merchant-category/?merchant_activity_sector=' + id;
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get<CategoriesPerActivitySectorObjectModel>(url)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
   getMerchantsByCategory(categoryId: string) {
     const url = '/dbs/merchant/list/?category_id=' + categoryId;
@@ -593,5 +625,28 @@ export class MerchantService {
   getBillers() {
     const url = `/dbs/merchant/manage/objects_autocomplete/?is_biller=true`;
     return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getFavoriteProductAutocomplete(search: string) {
+    const url =
+      '/dbs/merchant-product/objects_autocomplete/?' +
+      search +
+      '&is_favorite_product=true';
+    return this.apiService.get<AllProductModel>(url).pipe(
+      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
+      map(data => {
+        return data;
+      })
+    );
+  }
+
+  makeFavoriteProduct(favorite: ProductFavoriteModel) {
+    const url = '/dbs/merchant-product/client/favorite/ ';
+    return this.apiService.post(url, favorite).pipe(
+      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
+      map(data => {
+        return data;
+      })
+    );
   }
 }

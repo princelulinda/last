@@ -15,7 +15,7 @@
 
         <div>
           @if (clientBanks) {
-            <div class="p-2 row" style="gap: 2rem 0">
+            <div class="p-2 row gap-2">
               @for (bank of clientBanks; track $index) {
                 <div
                   (click)="selectBank(bank)"
@@ -67,7 +67,7 @@
         @if (title !== '') {
           <div>
             <i class="fa fa-circle fs-x-small me-2 text-primary"></i>
-            <b>{{ title }}</b>
+            <b class="fs-medium">{{ title }}</b>
           </div>
         }
       </div>
@@ -89,10 +89,9 @@
           @if (
             mainConfig &&
             mainConfig.activePlateform !== 'workstation' &&
-            selectedBank &&
-            selectedBank.id
+            selectedBank
           ) {
-            <div class="mb-3" style="height: 50px">
+            <div class="mb-3 h-50-px">
               <app-switch-bank
                 (bankOptions)="getSwitchBankOptions($event)"
                 [isTransfer]="true"></app-switch-bank>
@@ -101,17 +100,14 @@
 
           <!-- *Debit accounts type  -->
           <div
-            style="height: 50px"
             [ngClass]="{
               ' px-2':
                 mainConfig && mainConfig.activePlateform !== 'workstation',
             }"
-            class="d-flex">
+            class="d-flex h-50-px">
             <div
-              class="d-flex me-4 p-1 justify-content-between rounded align-items-center"
+              class="d-flex me-4 p-1 bg-secondary justify-content-between rounded align-items-center"
               [ngClass]="{
-                'bg-secondary': mode === 'light',
-                'bg-primary-2': mode === 'dark',
                 'w-auto': isTermDeposit,
 
                 'w-100':
@@ -122,10 +118,9 @@
                   <div
                     role="button"
                     (click)="selectDebitAccountType('account')"
-                    style="transition: all 0.2s ease-in-out"
                     tabindex="0"
                     [ngClass]="{
-                      'd-none': selectedBank && !selectedBank.id,
+                      'd-none': !selectedBank,
                       'bg-primary  text-all-white rounded px-1 py-2 me-1':
                         selectedDebitAccountType === 'account',
                     }"
@@ -139,7 +134,6 @@
                     role="button"
                     tabindex="0"
                     (click)="selectDebitAccountType('wallet')"
-                    style="transition: all 0.2s ease-in-out"
                     [ngClass]="{
                       'bg-primary text-all-white  rounded px-1 py-2 me-1':
                         selectedDebitAccountType === 'wallet',

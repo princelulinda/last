@@ -12,6 +12,7 @@ import {
   TransactionObjectModel,
 } from '../../../components/merchant/products/products.model';
 import { nyamuranziCard } from '../../../components/nyamuranzi/models';
+import { WithdrawalModel } from '../../../components/withdrawal/withdrawal.models';
 
 @Injectable({
   providedIn: 'root',
@@ -73,13 +74,13 @@ export class BankService {
       .post(url, body)
       .pipe(map(response => response as addBankResponse));
   }
-  // withdrawFromAgent(withdraw: any) {
-  //     return this.apiService.post('/dbs/agent/withdrawal/', withdraw).pipe(
-  //         map((data) => {
-  //             return data;
-  //         })
-  //     );
-  // }
+  withdrawFromAgent(withdraw: WithdrawalModel) {
+    return this.apiService.post('/dbs/agent/withdrawal/', withdraw).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
 
   getAccountStatements(
     accountId: number,

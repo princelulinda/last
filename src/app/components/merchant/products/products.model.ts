@@ -15,9 +15,14 @@ export interface ProductModel {
   lookup_title: string;
   lookup_subtitle: string;
   lookup_description: string;
+  is_favorite_product: boolean;
 }
 export interface AllProductModel {
   objects: ProductModel[];
+  count: number;
+}
+export interface AllProductsModel {
+  objects: ProductModel;
   count: number;
 }
 
@@ -288,4 +293,44 @@ export interface metadataObjectModel {
   response_message: string;
   name: string;
   id: number;
+}
+
+export interface ProductFavoriteModel {
+  product: string;
+  product_action: string;
+}
+
+export interface FavoriteModel {
+  object: {
+    success: boolean;
+    response_code: string;
+    response_data: {
+      client: string;
+      product: string;
+    };
+    response_message: string;
+  };
+}
+
+export interface SectorActivityModel {
+  id: number | string;
+  title: string;
+  text: string;
+  activity_sector_code_reporting: string;
+  comment: string;
+  absolute_url: string;
+}
+
+export interface SectorActivityObjectModel {
+  objects: SectorActivityModel[];
+}
+
+export interface CategoriesPerActivitySectorModel {
+  id: number | string;
+  slug: string;
+  name: string;
+}
+
+export interface CategoriesPerActivitySectorObjectModel {
+  objects: CategoriesPerActivitySectorModel[];
 }

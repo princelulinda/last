@@ -15,6 +15,7 @@ import {
   otpVerificationResponse,
   ConectedOperatorApiResponseModel,
   OrganizationModel,
+  LoginOperatorApiResponseModel,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
@@ -37,7 +38,7 @@ export class AuthService {
     private configService: ConfigService,
     private dialogService: DialogService
   ) {
-    this.userInfo$ = liveQuery<UserInfoModel>(() =>
+    this.userInfo$ = liveQuery<UserInfoModel>(async () =>
       this.dbService.getOnce(User.tableName)
     );
   }
@@ -97,12 +98,20 @@ export class AuthService {
       );
   }
 
-  loginCorporate(login_data: { organization_id: string; password: string }) {
-    return this.apiService.post('/hr/organization/login/', login_data).pipe(
-      map(data => {
-        return data;
-      })
-    );
+  loginCorporate(login_data: {
+    organization_id: string;
+    password: string;
+  }): Observable<LoginOperatorApiResponseModel> {
+    return this.apiService
+      .post<LoginOperatorApiResponseModel>(
+        '/hr/organization/login/',
+        login_data
+      )
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
 
   logoutCorporate() {

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { NoAuthGuard, AuthGuard } from './core/guards';
+import { NoAuthGuard, AuthGuard, AuthWorkstationGuard } from './core/guards';
 import { AuthRoutes } from './components/auth/auth.routes';
 import { bankingRoutes } from './routes/banking/banking.routes';
 import { newsFeedRoutes } from './routes/newsFeed/newsFeed.routes';
@@ -10,6 +10,7 @@ import { bankingSettingsRoutes } from './components/settings/settings.routes';
 import { OnamobDashboardComponent } from './components/dashboards/onamob-dashboard/onamob-dashboard.component';
 import { myMarketRoutes } from './routes/my-market/mymarket.routes';
 import { workstationRoutes } from './routes/workstation/workstation.routes';
+import { DBReadyGuard } from './core/guards/db-ready/db-ready.guard';
 
 export const routes: Routes = [
   // authentification routes
@@ -19,7 +20,7 @@ export const routes: Routes = [
       import('./layouts/auth-layout/auth-layout.component').then(
         m => m.AuthLayoutComponent
       ),
-    canActivate: [NoAuthGuard],
+    canActivate: [NoAuthGuard, DBReadyGuard],
     children: AuthRoutes,
   },
 
@@ -47,7 +48,7 @@ export const routes: Routes = [
       import('./layouts/workstation/workstation.component').then(
         m => m.WorkstationComponent
       ),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, AuthWorkstationGuard],
     children: [
       {
         path: 'workstation',
