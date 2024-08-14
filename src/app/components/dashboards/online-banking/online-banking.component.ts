@@ -194,8 +194,10 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     });
     this.userInfo$.subscribe({
       next: userinfo => {
-        this.clientInfo = userinfo;
-        this.clientId = this.clientInfo.client.id;
+        if (userinfo) {
+          this.clientInfo = userinfo;
+          this.clientId = this.clientInfo.client.id;
+        }
       },
     });
 

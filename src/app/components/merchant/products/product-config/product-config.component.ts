@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormBuilder,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject, Observable, takeUntil } from 'rxjs';
 
 import {
@@ -18,8 +13,12 @@ import { RouterModule } from '@angular/router';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
-import { DialogService, MerchantService } from '../../../../core/services';
-import { VariableService } from '../../../../core/services/variable/variable.service';
+import {
+  ConfigService,
+  DialogService,
+  MerchantService,
+} from '../../../../core/services';
+import { PlateformModel } from '../../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-product-config',
@@ -31,23 +30,14 @@ import { VariableService } from '../../../../core/services/variable/variable.ser
 export class ProductConfigComponent implements OnInit {
   merchant!: MerchantModel;
   clientId!: number;
-  // category: any;
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  // selectedFile: any;
-  // previewUrl: any;
-  // theme = '';
-  // theme$: Observable<string>;
-  // crumbs: any;
   acceptsSimplePayment = false;
   dialog$!: Observable<DialogResponseModel>;
   dialog!: DialogResponseModel;
-  // tellers: any;
   selectedTeller: undefined;
-  // tellerId: any;
   isActionDone = false;
   products!: productConfigModel[] | undefined;
-  // filteredProducts: any;
   selectedProduct!: productConfigModel;
   product!: productConfigModel | undefined;
   action: string[] = [];
@@ -55,7 +45,6 @@ export class ProductConfigComponent implements OnInit {
   isProductsSearch = false;
   productConfigForm: FormGroup;
   selectedMenu = '';
-  // merchantInfo: any;
   isLoading = false;
   toggleMetadata = false;
   searchMetadata = new FormControl('');
@@ -65,23 +54,23 @@ export class ProductConfigComponent implements OnInit {
   currentPage = 0;
   pages!: number;
   count!: number;
-  // metadata: metadataModel | null = null;
   loadingData = false;
   isHover: boolean[] = [];
   values: { field: string }[] = [];
   selectedFields: { name: string; id: number }[] = [];
   toggleMetadataForm = false;
+  pin = '';
+
+  plateform$!: Observable<PlateformModel>;
+  baseRouterLink = '/m/mymarket';
+
   constructor(
     private merchantService: MerchantService,
-    // private store: Store,
-    private fb: FormBuilder,
-    private variableService: VariableService,
-    private dialogService: DialogService
-    // private menuService: MenuService
+    private dialogService: DialogService,
+    private configService: ConfigService
   ) {
-    // this.theme$ = this.store.select(SwitchThemeState.GetTheme);
-    // this.dialog$ = this.store.select(DialogState.GetDialog);
     this.dialog$ = this.dialogService.getDialogState();
+    this.plateform$ = this.configService.getPlateform();
 
     this.productConfigForm = new FormGroup({
       name: new FormControl(''),
@@ -96,7 +85,7 @@ export class ProductConfigComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
+    this.dialog$.subscribe({
       next: (dialog: DialogResponseModel) => {
         if (dialog) {
           this.dialog = dialog;
@@ -105,6 +94,7 @@ export class ProductConfigComponent implements OnInit {
               this.dialog.response.pin &&
               this.dialog.action === 'update_product_info'
             ) {
+              this.pin = this.dialog.response.pin;
               this.updateProductInfo();
             }
           }
@@ -112,34 +102,25 @@ export class ProductConfigComponent implements OnInit {
       },
     });
 
+    this.plateform$.subscribe({
+      next: plateform => {
+        if (plateform === 'workstation') {
+          this.baseRouterLink = '/w/workstation/market';
+        } else if (plateform === 'myMarket') {
+          this.baseRouterLink = '/m/mymarket';
+        }
+      },
+    });
+
     this.getConnectedMerchantInfo();
-
-    // this.theme$.subscribe((theme: string) => {
-    //     this.theme = theme;
-    // });
     this.pagination.filters.limit = 15;
-    // this.getMetadata();
-
-    // this.isHover = new Array(this.metadata?.objects?.length).fill(false);
-    // this.getTellers();
   }
 
   getConnectedMerchantInfo() {
-    console.log(
-      '=====================================Getting connected merchant info...'
-    );
     this.merchantService.getConnectedMerchantInfo().subscribe(merchantInfo => {
-      console.log(
-        '===================================Received merchant info:',
-        merchantInfo
-      );
       this.merchant = merchantInfo.object.response_data;
-      console.log(
-        '=========================********Merchant info:',
-        this.merchant
-      );
-      this.merchantService.getConnectedMerchantId(this.merchant.id);
 
+      this.merchantService.getConnectedMerchantId(this.merchant.id);
       this.getProducts();
     });
   }
@@ -198,7 +179,6 @@ export class ProductConfigComponent implements OnInit {
     }
   }
   getProducts() {
-    console.log('===================********getProducts method called');
     this.search.patchValue('');
     this.isProductsSearch = false;
     this.products = undefined;
@@ -207,35 +187,22 @@ export class ProductConfigComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: result => {
-          console.log(
-            '=================Response received from getProductsByMerchant'
-          );
           const products = result as ProductConfigObjectsModel;
           this.products = products.objects;
-          console.log('products:', this.products);
         },
-        error: error => {
-          console.log('Error occurred in getProductsByMerchant', error);
+        error: () => {
           this.isLoading = false;
-          console.log(error);
-
-          const data = {
-            title: 'failure',
+          this.dialogService.openToast({
+            title: '',
             type: 'failed',
-            message: 'Failed ',
-          };
-          // this.store.dispatch(new OpenDialog(data));
-          console.log(data);
+            message: $localize`Something went wrong please retry again !`,
+          });
         },
       });
   }
 
   selectProduct(product: productConfigModel) {
     this.selectedProduct = product;
-    console.log(
-      '==========================>>selectedProduct:',
-      this.selectedProduct
-    );
 
     this.selectedMenu = 'details';
     this.getProductDetails();
@@ -307,10 +274,8 @@ export class ProductConfigComponent implements OnInit {
       .getMerchantsProductsDetails(this.selectedProduct.id)
       .subscribe(response => {
         const product = response as { object: productConfigModel };
-        console.log('==================>>> product:', product);
 
         this.product = product.object;
-        console.log('====>> the product variable:', this.product);
 
         this.productConfigForm.patchValue({
           name: this.product.name,
@@ -347,7 +312,6 @@ export class ProductConfigComponent implements OnInit {
       message: 'Enter your pin',
       action: actionValue,
     });
-    // this.store.dispatch(new OpenDialog(response));
   }
 
   updateProductInfo() {
@@ -363,7 +327,7 @@ export class ProductConfigComponent implements OnInit {
       maximum_payment_amount: this.productConfigForm.value.max_payment,
       voucher_type: this.productConfigForm.value.position,
       metadata: selectedFieldNames,
-      pin_code: this.variableService.pin,
+      pin_code: this.pin,
     };
 
     this.merchantService.updateProductInfo(body).subscribe({

@@ -18,6 +18,12 @@ import { BillersModel } from '../../dashboards/dashboard.model';
 import { MerchantResFav } from './merchant.models';
 import { Merchant_AutocompleteModel } from '../global/merchant-card/merchant.model';
 import { GoogleMapComponent } from '../../../global/components/google-map/google-map.component';
+import {
+  CategoriesPerActivitySectorModel,
+  CategoriesPerActivitySectorObjectModel,
+  SectorActivityModel,
+  SectorActivityObjectModel,
+} from '../products/products.model';
 
 @Component({
   selector: 'app-merchants',
@@ -57,6 +63,11 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
   isInputFocused = false;
+  sectorActivity!: SectorActivityModel[];
+  selectedSector: SectorActivityModel | null = null;
+  isSectorListVisible = false;
+  sectorId = '';
+  categories!: CategoriesPerActivitySectorModel[];
 
   favoriteMerchantLoading = false;
   constructor(
@@ -80,6 +91,11 @@ export class MerchantsComponent implements OnInit, OnDestroy {
     this.theme$.subscribe({
       next: theme => (this.theme = theme),
     });
+    this.getActivitiesSectors();
+    this.toggleSectorList();
+    this.showSectorList();
+    this.hideSectorList();
+    this.selectSector(this.selectedSector as SectorActivityModel);
   }
 
   toggleSearch(expand: boolean) {
@@ -290,6 +306,55 @@ export class MerchantsComponent implements OnInit, OnDestroy {
     } else {
       console.error('Geolocation is not available in this browser.');
     }
+  }
+
+  getActivitiesSectors() {
+    this.merchantService
+      .getActivitySectors()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (data: SectorActivityObjectModel) => {
+          this.sectorActivity = data.objects;
+          if (this.sectorActivity.length > 0) {
+            this.selectedSector = this.sectorActivity[0];
+            this.getCategoriesPerActivitySectors(
+              this.selectedSector.id as string
+            );
+          }
+        },
+      });
+  }
+
+  toggleSectorList() {
+    this.isSectorListVisible = !this.isSectorListVisible;
+  }
+
+  showSectorList() {
+    this.isSectorListVisible = true;
+  }
+
+  hideSectorList() {
+    this.isSectorListVisible = false;
+  }
+
+  selectSector(sector: SectorActivityModel): void {
+    this.selectedSector = sector;
+    this.isSectorListVisible = false;
+    this.getCategoriesPerActivitySectors(sector.id.toString());
+  }
+
+  getCategoriesPerActivitySectors(sectorId: string): void {
+    this.merchantService
+      .getCategoriesPerActivitySectors(sectorId)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (categories: CategoriesPerActivitySectorObjectModel) => {
+          this.categories = categories.objects;
+        },
+        error: err => {
+          console.error('Error fetching categories', err);
+        },
+      });
   }
 
   ngOnDestroy(): void {

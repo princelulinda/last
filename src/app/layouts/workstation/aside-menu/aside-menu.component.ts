@@ -35,7 +35,7 @@ export class AsideMenuComponent implements OnInit {
     this.typeMenus$.subscribe({
       next: menus => {
         if (menus) {
-          this.typeMenus = menus;
+          this.typeMenus = this.configService.toArray(menus);
         }
       },
     });
@@ -50,7 +50,7 @@ export class AsideMenuComponent implements OnInit {
       next: () => {
         this.configService.clearAllMenu();
         this.configService.resetOperator();
-        this.router.navigate(['/n/newsFeed']);
+        this.router.navigate(['/auth/corporate']);
         this.dialogService.closeLoading();
       },
       error: err => {

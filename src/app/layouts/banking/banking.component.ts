@@ -57,9 +57,11 @@ export class BankingComponent implements OnInit {
     });
     this.userInfo$.subscribe({
       next: userInfo => {
-        this.dbService.setLocalStorageClientId(
-          userInfo.client.client_id.toString()
-        );
+        if (userInfo) {
+          this.dbService.setLocalStorageClientId(
+            userInfo?.client?.client_id.toString()
+          );
+        }
       },
     });
   }

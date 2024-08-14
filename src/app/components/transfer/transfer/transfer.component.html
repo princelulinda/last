@@ -1,5 +1,5 @@
 <div class="container w-100">
-  <div class="d-flex">
+  <div class="d-flex p-2">
     <h3>Transfer</h3>
     <div
       class="ms-auto fw-bold me-4 btn border-0"
@@ -27,7 +27,6 @@
         [selectedDebitAccountType]="selectedDebitType"
         [debitNumber]="debitNumber"
         [debitHolder]="debitHolder"
-        [isMerchantTransfer]="isMerchantTransfer"
         (transferStepChange)="onTransferStepChange($event)"
         [walletBankId]="walletBankId"></app-credit-account>
     </div>
