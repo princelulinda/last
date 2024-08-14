@@ -1,5 +1,5 @@
 import { bankModel } from '../../core/db/models/bank/bank.model';
-
+import { FormGroup } from '@angular/forms';
 export interface Account {
   account_holder: string;
 }
@@ -88,6 +88,11 @@ export interface DebitAccountModel {
     };
   };
   acc_holder: string | number;
+}
+export interface SelectedCreditAccountEvent {
+  transferForm: FormGroup;
+  selectedInstitution: InstitutionInfoModel;
+  selectedCreditAccountType: string;
 }
 export interface DebitWalletModel {
   code: string | number;
