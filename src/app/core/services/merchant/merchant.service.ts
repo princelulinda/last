@@ -111,7 +111,7 @@ export class MerchantService {
   //         })
   //     );
   // }
-  getMerchantsAutocomplete(search: string) {
+  getRecentMerchantsAutocomplete(search?: string) {
     const url =
       '/dbs/merchant/manage/objects_autocomplete/?search=' +
       search +
