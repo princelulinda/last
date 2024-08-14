@@ -6,6 +6,10 @@
   max-width: max-content;
 }
 
+.online {
+  right: -17px;
+}
+
 .profile {
   width: 60px;
   height: 60px;
@@ -15,8 +19,6 @@
 
 .stepper-wrapper {
   font-family: Arial;
-  display: flex;
-  align-items: center;
 }
 .stepper-item {
   position: relative;

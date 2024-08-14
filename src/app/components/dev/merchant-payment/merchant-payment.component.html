@@ -18,7 +18,7 @@
       <!---------------------------------------------------------- STEPPER SECTION ----------------------------------------------------------------->
 
       <div class="mx-auto d-flex flex-row my-1 w-content">
-        <div class="stepper-wrapper">
+        <div class="stepper-wrapper d-flex align-items-center">
           @if (selectedSection === 'second') {
             <div class="stepper-item active">
               <div class="step-counter text-all-dark border border-dark" i18n>
@@ -88,7 +88,11 @@
             </div>
           </div>
           <div
-            class="ps-3 py-2 border rounded-3 d-flex flex-row pe-1 mb-2 w-content">
+            class="ps-3 py-2 border position-relative rounded-3 d-flex flex-row pe-1 mb-2 w-content">
+            <span
+              class="position-absolute top-0 online translate-middle p-2 bg-success border border-light rounded-circle">
+              <span class="visually-hidden">Online status</span>
+            </span>
             <div
               class="rounded-circle border overflow-hidden profile bg-secondary d-flex align-items-center justify-content-center">
               @if (merchant.lookup_image) {
