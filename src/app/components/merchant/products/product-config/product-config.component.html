@@ -6,7 +6,7 @@
           <div class="d-flex align-items-center justify-content-between mb-3">
             <span class="text-xl" i18n>Manage Products</span>
             <div
-              routerLink="/m/mymarket"
+              routerLink="{{ baseRouterLink }}"
               role="button"
               class="d-flex align-items-center">
               <span>
@@ -61,7 +61,7 @@
             </div>
             <button
               [disabled]="!products"
-              routerLink="/m/mymarket/add-product"
+              routerLink="{{ baseRouterLink }}/add-product"
               class="btn mt-sm-2 mt bg-primary text-all-white">
               <b i18n>Add product</b>
             </button>
