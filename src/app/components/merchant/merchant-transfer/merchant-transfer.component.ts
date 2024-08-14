@@ -50,6 +50,6 @@ export class MerchantTransferComponent implements OnInit {
 
   onCreditAccountSelected(creditAccountForm: FormGroup) {
     // Ici, vous pouvez traiter les données du formulaire du compte de crédit sélectionné
-    console.log('Credit account form:', creditAccountForm.value);
+    console.log('Credit account form:', creditAccountForm);
   }
 }
