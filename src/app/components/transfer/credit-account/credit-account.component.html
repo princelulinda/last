@@ -292,7 +292,12 @@
             selectedInstitution &&
             selectedInstitution.api_values.has_lookup
           ) {
-            <div class="d-flex me-3 mb-2">
+            <div
+              class="d-flex me-3 mb-2"
+              [ngClass]="{
+                'w-50':
+                  mainConfig && mainConfig.activePlateform === 'workstation',
+              }">
               <input
                 type="text"
                 class="lg-radius form-control pe-5 ps-2 lookup-transfer-input"
@@ -327,7 +332,12 @@
           <!--lookup input on wallet-->
 
           @if (!creditAccount && selectedCreditAccountType === 'wallet') {
-            <div class="d-flex me-3 mt-3 mb-2">
+            <div
+              class="d-flex me-3 mt-3 mb-2"
+              [ngClass]="{
+                'w-50':
+                  mainConfig && mainConfig.activePlateform === 'workstation',
+              }">
               <input
                 type="text"
                 class="lg-radius form-control pe-5 ps-2 lookup-transfer-input"
