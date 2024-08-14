@@ -43,6 +43,8 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   private variableService = inject(VariableService);
 
+  // @Output() sector = new EventEmitter<SectorActivityModel>()
+
   merchants!: Merchant_AutocompleteModel[] | null;
   // merchant: any;
   favorite_merchants!: MerchantResFav;
@@ -64,7 +66,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   theme$: Observable<ModeModel>;
   isInputFocused = false;
   sectorActivity!: SectorActivityModel[];
-  selectedSector: SectorActivityModel | null = null;
+  selectedSector!: SectorActivityModel | null;
   isSectorListVisible = false;
   sectorId = '';
   categories!: CategoriesPerActivitySectorModel[];
@@ -92,10 +94,6 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       next: theme => (this.theme = theme),
     });
     this.getActivitiesSectors();
-    this.toggleSectorList();
-    this.showSectorList();
-    this.hideSectorList();
-    this.selectSector(this.selectedSector as SectorActivityModel);
   }
 
   toggleSearch(expand: boolean) {
@@ -114,7 +112,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     this.merchantService
-      .getMerchantsAutocomplete(search)
+      .getRecentMerchantsAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
@@ -309,6 +307,9 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   }
 
   getActivitiesSectors() {
+    this.isLoading = true;
+    this.sectorActivity = [];
+    this.selectedSector = null;
     this.merchantService
       .getActivitySectors()
       .pipe(takeUntil(this.onDestroy$))
@@ -320,7 +321,13 @@ export class MerchantsComponent implements OnInit, OnDestroy {
             this.getCategoriesPerActivitySectors(
               this.selectedSector.id as string
             );
+            this.isLoading = false;
           }
+          this.isLoading = false;
+        },
+        error: err => {
+          console.error('Error fetching categories', err);
+          this.isLoading = false;
         },
       });
   }
@@ -338,21 +345,25 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   }
 
   selectSector(sector: SectorActivityModel): void {
+    // this.sector.emit(sector)
     this.selectedSector = sector;
     this.isSectorListVisible = false;
-    this.getCategoriesPerActivitySectors(sector.id.toString());
+    this.getCategoriesPerActivitySectors(sector.id as string);
   }
 
   getCategoriesPerActivitySectors(sectorId: string): void {
+    this.isLoading = true;
     this.merchantService
       .getCategoriesPerActivitySectors(sectorId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (categories: CategoriesPerActivitySectorObjectModel) => {
           this.categories = categories.objects;
+          this.isLoading = false;
         },
         error: err => {
           console.error('Error fetching categories', err);
+          this.isLoading = false;
         },
       });
   }

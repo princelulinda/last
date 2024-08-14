@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   organization$!: Observable<OrganizationModel | null>;
   organization!: OrganizationModel | null;
 
-  userInfo!: UserInfoModel;
+  userInfo!: UserInfoModel | null;
   userInfo$: Observable<UserInfoModel>;
 
   amountState = false;
@@ -158,8 +158,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   toggleUserInfo() {
     this.showUserInfoPopup = !this.showUserInfoPopup;
+    this.showPlateformPopup = false;
   }
   togglePlateformIconsPopup() {
     this.showPlateformPopup = !this.showPlateformPopup;
+    this.showUserInfoPopup = false;
   }
 }
