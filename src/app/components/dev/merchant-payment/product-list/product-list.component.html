@@ -17,7 +17,7 @@
   }
 
   @if (!isLoading && products.length > 0) {
-    <div class="d-flex gap-5 w-100 flex-wrap overflow-scroll pb-2">
+    <div class="d-flex gap-4 w-100 flex-wrap pb-2">
       @for (product of products; track $index) {
         <app-product-card [product]="product"></app-product-card>
       }
