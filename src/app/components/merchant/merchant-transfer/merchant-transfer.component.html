@@ -32,6 +32,9 @@
     }
   </div>
   <div class="mt-4">
-    <app-credit-account></app-credit-account>
+    <app-credit-account
+      (selectedCreditAccount)="
+        onCreditAccountSelected($event)
+      "></app-credit-account>
   </div>
 </div>

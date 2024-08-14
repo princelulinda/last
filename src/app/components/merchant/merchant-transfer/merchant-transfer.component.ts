@@ -5,6 +5,7 @@ import { MerchantService } from '../../../core/services';
 import { MerchantObjectModel } from '../products/products.model';
 import { DialogService } from '../../../core/services';
 import { CreditAccountComponent } from '../../transfer/credit-account/credit-account.component';
+import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-merchant-transfer',
   standalone: true,
@@ -45,5 +46,10 @@ export class MerchantTransferComponent implements OnInit {
         });
       },
     });
+  }
+
+  onCreditAccountSelected(creditAccountForm: FormGroup) {
+    // Ici, vous pouvez traiter les données du formulaire du compte de crédit sélectionné
+    console.log('Credit account form:', creditAccountForm);
   }
 }
