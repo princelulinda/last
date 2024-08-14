@@ -71,18 +71,20 @@ export class WalletCardComponent implements OnInit, OnDestroy {
 
     this.userInfo$.subscribe({
       next: userinfo => {
-        this.clientInfo = userinfo;
-        this.clientId = this.clientInfo.client.id;
-        if (this.clientId) {
-          this.selectedBank$.subscribe({
-            next: datas => {
-              this.selectedBank = datas;
-              this.bankId = this.selectedBank?.id;
-              if (this.bankId) {
-                this.getDefaultWallet();
-              }
-            },
-          });
+        if (userinfo) {
+          this.clientInfo = userinfo;
+          this.clientId = this.clientInfo.client.id;
+          if (this.clientId) {
+            this.selectedBank$.subscribe({
+              next: datas => {
+                this.selectedBank = datas;
+                this.bankId = this.selectedBank?.id;
+                if (this.bankId) {
+                  this.getDefaultWallet();
+                }
+              },
+            });
+          }
         }
       },
     });

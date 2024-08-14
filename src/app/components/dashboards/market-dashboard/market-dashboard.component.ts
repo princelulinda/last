@@ -221,7 +221,7 @@ export class MarketDashboardComponent implements OnInit {
 
   getMerchants(search: string) {
     this.merchantService
-      .getMerchantsAutocomplete(search)
+      .getRecentMerchantsAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {

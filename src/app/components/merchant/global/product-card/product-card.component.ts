@@ -29,6 +29,8 @@ export class ProductCardComponent implements OnInit {
     price: 0,
     is_favorite_product: false,
   };
+  @Input() type: 'row' | 'column' = 'column';
+
   currentMode$: Observable<ModeModel>;
   currentMode!: ModeModel;
   isLoading!: boolean;

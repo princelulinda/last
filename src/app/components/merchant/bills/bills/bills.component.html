@@ -21,9 +21,7 @@
       }
       @if (paymentRequestBillsLoading) {
         <div class="skeletons mt-4 row me-5 me-md-0">
-          <div
-            class="all-bill-card col-11 col-sm-8 col-md-5"
-            style="height: 300px">
+          <div class="all-bill-card col-11 col-sm-8 col-md-5 skeletonsSize">
             <app-skeleton [height]="'90%'"></app-skeleton>
           </div>
         </div>
@@ -38,11 +36,9 @@
                 role="button"
                 [hidden]="$index >= 3 && !seeMore"
                 routerLink="/m/market/bill/{{ bill.id }}">
-                <div
-                  class="card-header bg-primary px-2 py-1"
-                  style="min-height: 60px">
+                <div class="card-header bg-primary px-2 py-1 cardHeaderSize">
                   <div class="d-flex ms-3 h-100 justify-content-between">
-                    <div style="width: 50px; height: 50px">
+                    <div class="pictureUrlBlock">
                       @if (bill.created_by.picture_url) {
                         <img
                           src="{{ bill.created_by.picture_url }}"
@@ -126,13 +122,12 @@
                   </div>
                 </div>
                 <div
-                  class="card-footer bg-primary text-light text-center fs-5"
+                  class="card-footer bg-primary text-light text-center fs-5 statusBlock"
                   [ngClass]="{
                     'initial-bill': bill.payment_status.value === 'I',
                     'paid-bill': bill.payment_status.value === 'P',
                     'process-bill': bill.payment_status.value === 'R',
-                  }"
-                  style="min-height: 40px">
+                  }">
                   {{ bill.payment_status.title }}
                 </div>
               </div>
@@ -193,7 +188,7 @@
       <!-- not found message -->
       @if (merchantBills && merchantBills.length === 0) {
         <div class="d-flex flex-column align-items-center mt-5">
-          <span class="text-secondary opacity-50" style="font-size: 90px">
+          <span class="text-secondary opacity-50 fs-xx-large">
             <i class="fa-solid fa-face-meh"></i>
           </span>
           <b class="text-secondary fs-2 opacity-50" i18n> No Bills </b>
@@ -206,8 +201,7 @@
           class="skeletons row me-5 me-md-0 mt-4 justify-content-around justify-content-md-start">
           @for (item of [1, 2, 3, 4, 5, 6]; track $index) {
             <div
-              class="all-bill-bill col-11 col-sm-8 col-md-5 col-lg-4"
-              style="height: 300px">
+              class="all-bill-bill col-11 col-sm-8 col-md-5 col-lg-4 skeletonsSize">
               <app-skeleton [height]="'80%'"></app-skeleton>
             </div>
           }

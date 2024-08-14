@@ -1,11 +1,10 @@
 
 .lookup-btn{
   height: 40px !important;
- 
+  margin-left: -13%;
 }
 
-.look-b{
-  margin-left: -13%;}
+
 
 @media (max-width: 500px) {
   .width {
@@ -47,4 +46,10 @@
 }
 .w-100-px{
   width: 100px;
+}
+.h-375{
+  height: 375px;
+}
+button{
+  width:150px
 }

@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 
 import { BeneficiariesComponent } from '../beneficiaries/beneficiaries/beneficiaries.component';
 
@@ -50,6 +56,7 @@ export class TransferComponent implements OnInit, OnDestroy {
   isTransferDone = false;
   activePlatform: string | null = null;
   mainConfig$!: Observable<activeMainConfigModel>;
+
   constructor(private configService: ConfigService) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.mode$ = this.configService.getMode();
@@ -96,13 +103,23 @@ export class TransferComponent implements OnInit, OnDestroy {
     this.resetAccountSelection();
   }
   doTransfer() {
-    this.transferComponent.showModal();
+    if (
+      this.transferComponent.transferStep !== 'first step' &&
+      this.accountSelected
+    ) {
+      this.transferComponent.showModal();
+    }
+  }
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnterKey(event: KeyboardEvent) {
+    if (this.currentTransferStep === 'second step' && this.accountSelected) {
+      this.doTransfer();
+    }
+    console.log(event);
   }
   toggleTransferStep() {
-    if (this.currentTransferStep !== 'second step') {
-      this.transferComponent.transferStepChange.emit('first step');
-      this.transferComponent.transferStep = 'first step';
-    }
+    this.transferComponent.transferStepChange.emit('first step');
+    this.transferComponent.transferStep = 'first step';
   }
   resetAccountSelection() {
     this.accountSelected = null;
