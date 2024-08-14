@@ -311,3 +311,26 @@ export interface FavoriteModel {
     response_message: string;
   };
 }
+
+export interface SectorActivityModel {
+  id: number | string;
+  title: string;
+  text: string;
+  activity_sector_code_reporting: string;
+  comment: string;
+  absolute_url: string;
+}
+
+export interface SectorActivityObjectModel {
+  objects: SectorActivityModel[];
+}
+
+export interface CategoriesPerActivitySectorModel {
+  id: number | string;
+  slug: string;
+  name: string;
+}
+
+export interface CategoriesPerActivitySectorObjectModel {
+  objects: CategoriesPerActivitySectorModel[];
+}
