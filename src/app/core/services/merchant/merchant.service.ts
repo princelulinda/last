@@ -1,16 +1,28 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { BehaviorSubject, map, Observable, retry } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
-import { Favorite, Pagination } from './model';
+import {
+  Favorite,
+  Pagination,
+  PaymentMerchantModel,
+  PaymentMerchantPayloadModel,
+} from './model';
 import {
   AllProductModel,
   MerchantInfoModel,
   MerchantObjectModel,
   searchProductByMerchantModel,
   updateProdcutInfoModel,
-} from '../../../components/products/products.model';
+  addProductByMerchantModel,
+  ObjectBillModel,
+  paymentBillsModel,
+  StatsModel,
+  ProductFavoriteModel,
+  SectorActivityObjectModel,
+  CategoriesPerActivitySectorObjectModel,
+} from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
   newTellerModel,
@@ -18,14 +30,36 @@ import {
   updateMerchantDetailsModel,
 } from '../../../components/merchant/merchant.models';
 import { TransferResponseModel } from '../../../components/transfer/transfer.model';
-import { Coords2Model } from '../../../components/dev/global-map/map.model';
-import { Merchant_AutocompleteModel } from '../../../components/dev/merchant-card/merchant.model';
+import { Merchant_AutocompleteModel } from '../../../components/merchant/global/merchant-card/merchant.model';
+import { Coords2Model } from '../../../global/components/google-map/map.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MerchantService {
+  private merchantPayment: WritableSignal<PaymentMerchantModel> = signal({
+    active: false,
+    id: null,
+    type: null,
+  });
+
   constructor(private apiService: ApiService) {}
+
+  openMerchantPayment(payload: PaymentMerchantPayloadModel) {
+    const data = {
+      active: true,
+      ...payload,
+    };
+    this.merchantPayment.set(data);
+  }
+
+  closeMerchantPayment() {
+    this.merchantPayment.set({
+      active: false,
+      id: null,
+      type: null,
+    });
+  }
 
   private _coords: BehaviorSubject<Coords2Model> =
     new BehaviorSubject<Coords2Model>({
@@ -40,6 +74,13 @@ export class MerchantService {
 
   get coords$(): Observable<Coords2Model> {
     return this._coords.asObservable();
+  }
+
+  private _connectedMerchantId: BehaviorSubject<string> =
+    new BehaviorSubject<string>('');
+
+  get connectedMerchantId$(): Observable<string> {
+    return this._connectedMerchantId.asObservable();
   }
 
   getUserCoords(coords: Coords2Model) {
@@ -340,7 +381,7 @@ export class MerchantService {
   }
   getActivitySectors() {
     const url = '/clients/config/activitysector/';
-    return this.apiService.get(url).pipe(
+    return this.apiService.get<SectorActivityObjectModel>(url).pipe(
       map(data => {
         return data;
       })
@@ -348,11 +389,13 @@ export class MerchantService {
   }
   getCategoriesPerActivitySectors(id: string) {
     const url = '/dbs/merchant-category/?merchant_activity_sector=' + id;
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get<CategoriesPerActivitySectorObjectModel>(url)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
   getMerchantsByCategory(categoryId: string) {
     const url = '/dbs/merchant/list/?category_id=' + categoryId;
@@ -504,5 +547,106 @@ export class MerchantService {
   getRecentProducts() {
     const url = '/dbs/merchant-product/objects_autocomplete/?is_recent=true';
     return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getConnectedMerchantId(merchantId: string) {
+    this._connectedMerchantId.next(merchantId);
+  }
+
+  getMerchantStats(merchantId: string) {
+    return this.apiService
+      .get<StatsModel>(
+        `/dbs/general/stats/?filter_merchant=${merchantId} &stats_type=merchant_tellers_number,merchant_bills_payment_number,merchant_products_number`
+      )
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+  addProductByMerchant(product: addProductByMerchantModel) {
+    return this.apiService
+      .post('/dbs/merchant-product/', product)
+      .pipe(map(response => response));
+  }
+
+  getBills(pagination: Pagination, dataType = 'all') {
+    if (!pagination) {
+      pagination = { filters: { limit: 0, offset: 0 } };
+    }
+    let url = ``;
+    switch (dataType) {
+      case 'all':
+        url = `/dbs/merchant/bills/?limit=${pagination.filters?.limit}&offset=${pagination.filters?.offset}`;
+        break;
+      case 'requestPayments':
+        url = `/dbs/merchant/bills/?payment_status=Q&limit=${pagination.filters?.limit}&offset=${pagination.filters?.offset}`;
+        break;
+      case 'reports':
+        url = `/dbs/merchant/bills/?report=true&limit=${pagination.filters?.limit}&offset=${pagination.filters?.offset}`;
+        break;
+      default:
+        break;
+    }
+    return this.apiService.get<paymentBillsModel>(url).pipe(map(data => data));
+  }
+
+  getBillDetails(billId: string) {
+    const url = `/dbs/merchant/bills/${billId}/`;
+    return this.apiService.get<paymentBillsModel>(url).pipe(map(data => data));
+  }
+
+  getBillsReportCount() {
+    const url = '/dbs/merchant/bills/?report=true&limit=1&offset=0';
+    return this.apiService
+      .get<paymentBillsModel>(url)
+      .pipe(map((data: paymentBillsModel) => data.count));
+  }
+  generateBill(body: object) {
+    const url = '/dbs/merchant/bill-init/';
+    return this.apiService
+      .post<ObjectBillModel>(url, body)
+      .pipe(map(response => response));
+  }
+
+  getPaymentReportCount() {
+    const url =
+      '/operations/pending/logic/?req_type=merchant_transfers&limit=1&offset=0';
+    return this.apiService
+      .get<paymentBillsModel>(url)
+      .pipe(map((data: paymentBillsModel) => data.count));
+  }
+
+  getTopProducts() {
+    const url = `/dbs/merchant-product/objects_autocomplete/?limit=4&top_product=true`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getBillers() {
+    const url = `/dbs/merchant/manage/objects_autocomplete/?is_biller=true`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getFavoriteProductAutocomplete(search: string) {
+    const url =
+      '/dbs/merchant-product/objects_autocomplete/?' +
+      search +
+      '&is_favorite_product=true';
+    return this.apiService.get<AllProductModel>(url).pipe(
+      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
+      map(data => {
+        return data;
+      })
+    );
+  }
+
+  makeFavoriteProduct(favorite: ProductFavoriteModel) {
+    const url = '/dbs/merchant-product/client/favorite/ ';
+    return this.apiService.post(url, favorite).pipe(
+      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
+      map(data => {
+        return data;
+      })
+    );
   }
 }

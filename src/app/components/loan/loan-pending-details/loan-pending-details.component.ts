@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import {
   LoanModel,
   PlanModel,
+  ResModel,
   ResponseDataModel,
   SimulationResModel,
 } from '../loan.models';
@@ -133,7 +134,7 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
       next: response => {
         this.dialogService.closeLoading();
 
-        const res = response as { object: ResponseDataModel };
+        const res = response as { object: ResModel };
         if (res.object.success === true) {
           this.getLoanAmmortissmentPlan();
           this.getLoanDetails();

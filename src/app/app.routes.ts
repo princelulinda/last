@@ -10,6 +10,7 @@ import { bankingSettingsRoutes } from './components/settings/settings.routes';
 import { OnamobDashboardComponent } from './components/dashboards/onamob-dashboard/onamob-dashboard.component';
 import { myMarketRoutes } from './routes/my-market/mymarket.routes';
 import { workstationRoutes } from './routes/workstation/workstation.routes';
+import { DBReadyGuard } from './core/guards/db-ready/db-ready.guard';
 
 export const routes: Routes = [
   // authentification routes
@@ -19,7 +20,7 @@ export const routes: Routes = [
       import('./layouts/auth-layout/auth-layout.component').then(
         m => m.AuthLayoutComponent
       ),
-    canActivate: [NoAuthGuard],
+    canActivate: [NoAuthGuard, DBReadyGuard],
     children: AuthRoutes,
   },
 
@@ -83,7 +84,6 @@ export const routes: Routes = [
         path: 'onamob',
         component: OnamobDashboardComponent,
       },
-
       {
         path: 'mymarket',
         children: myMarketRoutes,

@@ -50,6 +50,13 @@ export interface ResponseDataModel {
   success: boolean;
 }
 
+export interface ResModel {
+  response_code: string;
+  response_data: object;
+  response_message: string;
+  success: boolean;
+}
+
 export interface LoanTypeModel {
   active: boolean;
   bank_loan_mode: string;

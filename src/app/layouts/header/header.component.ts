@@ -13,7 +13,7 @@ import {
   PlateformModel,
 } from '../../core/services/config/main-config.models';
 import { FooterComponent } from '../footer/footer.component';
-import { SwitchModeComponent } from '../../components/dev/switch-mode/switch-mode.component';
+import { SwitchModeComponent } from '../../global/components/switch-mode/switch-mode.component';
 import { ProfileCardComponent } from '../../global/components/custom-field/profile-card/profile-card.component';
 import { DialogService } from '../../core/services';
 import { OrganizationModel } from '../../components/auth/auth.model';
@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   organization$!: Observable<OrganizationModel | null>;
   organization!: OrganizationModel | null;
 
-  userInfo!: UserInfoModel;
+  userInfo!: UserInfoModel | null;
   userInfo$: Observable<UserInfoModel>;
 
   amountState = false;

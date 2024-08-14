@@ -2,22 +2,24 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { PaginationConfig } from '../../global.model';
 import { GeneralService } from '../../../core/services';
 import { NgClass } from '@angular/common';
 import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
 import { DialogService } from '../../../core/services';
+import { DatePipe } from '@angular/common';
+
 import {
   ParamModel,
   getdataModal,
   Header,
   selectedPeriodModel,
 } from './reusable.model';
+import { PaginationConfig } from '../../models/pagination.models';
 
 @Component({
   selector: 'app-reusable-list',
   standalone: true,
-  imports: [NgClass, ReactiveFormsModule, SkeletonComponent],
+  imports: [NgClass, ReactiveFormsModule, SkeletonComponent, DatePipe],
   templateUrl: './reusable-list.component.html',
   styleUrl: './reusable-list.component.scss',
 })
@@ -69,7 +71,7 @@ export class ReusableListComponent implements OnInit, OnDestroy {
   amountState = false;
   theme!: string;
   amountState$: Observable<boolean>;
-
+  i!: number;
   plateform = '';
   displayPaginationLimit = false;
   paginationsLimit = [50, 40, 30, 20, 10, 5];
@@ -99,20 +101,15 @@ export class ReusableListComponent implements OnInit, OnDestroy {
 
   showAmounts() {
     this.showAmount = !this.showAmount;
-    // this.store.dispatch(new displayAmount({ show: this.showAmount }));
   }
-  // to do add a routerLink
 
   toggleEyeStatus() {
     this.dialogService.displayAmount();
   }
   getData() {
-    //   this.response_data = null;
     let params: ParamModel[] = [];
     if (this.searchName.value !== '') {
       params = [{ title: 'search', value: this.searchName.value }];
-
-      // reset offset when we search
       if (this.clientPagination?.filters.offset ?? 0 >= 1) {
         this.clientPagination.filters.offset = 0;
         this.currentPage = 0;
@@ -134,11 +131,11 @@ export class ReusableListComponent implements OnInit, OnDestroy {
         next: (data: getdataModal) => {
           this.response_data = data;
           this.data_list = [];
+          console.log('this is the data :', this.data_list);
           if (this.clientPagination.filters.limit) {
             this.pages = ~~(
               this.response_data.count / this.clientPagination.filters.limit
             );
-            // this.canMoveNext = this.response_data.count < (this.currentPage + 1) * this.clientPagination.filters.limit
           }
           this.isLoading = false;
 
@@ -154,16 +151,6 @@ export class ReusableListComponent implements OnInit, OnDestroy {
                 let detail = '';
                 let full_field = '';
                 let class_type = '';
-
-                // for (const field of fields) {
-                //   row1=row;
-                //   if (row1 && typeof row1 === 'object' && field in row1) {
-                //     row1 = row1[field];
-                //   } else {
-                //     row1 = '------';
-
-                //   }
-                // }
 
                 for (const field in fields) {
                   row1 = row;
@@ -255,6 +242,12 @@ export class ReusableListComponent implements OnInit, OnDestroy {
                   class_type = 'badge bg-' + css + ' text-' + css;
                 }
 
+                // Display or not the field
+                if (header['canBeDisplayed'] === false) {
+                  header['canBeDisplayed'] = false;
+                } else {
+                  header['canBeDisplayed'] = true;
+                }
                 const data = {
                   value: row1 || '',
                   size: header['size'] || '',
@@ -273,7 +266,6 @@ export class ReusableListComponent implements OnInit, OnDestroy {
                 line.push(data);
               }
               this.data_list.push(line);
-              console.log('this is line:', line);
             }
           }
         },
@@ -342,20 +334,6 @@ export class ReusableListComponent implements OnInit, OnDestroy {
       this.overviewOption.title = 'Hide the overview';
     }
   }
-
-  //   showCurrencyEye(headers: []): boolean {
-  //       const element = headers.find(
-  //           (object: any) => object['format'] && object.format == 'currency'
-  //       );
-  //       return element ? true : false;
-  //   }
-
-  //   getSelectedPeriod($event: any) {
-  //       this.showFilters = false;
-  //       this.selectedPeriod = $event;
-  //       this.todayDate = false;
-  //       this.getData();
-  //   }
 
   public ngOnDestroy(): void {
     this.onDestroy$.next();

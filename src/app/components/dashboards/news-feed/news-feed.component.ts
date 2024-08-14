@@ -5,12 +5,11 @@ import { interval, Subject, takeUntil, takeWhile } from 'rxjs';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillersModel, ProductModel } from '../dashboard.model';
-import { ConfigService } from '../../../core/services';
-import { NewsFeedService } from '../../../core/services/newsFeed/news-feed.service';
+import { ConfigService, MerchantService } from '../../../core/services';
 import { ShowMoreDirective } from '../../../global/directives/show-more/show-more.directive';
 import { PublicationsComponent } from '../../publications/publications.component';
 import { PlateformModel } from '../../../core/services/config/main-config.models';
-import { ProductCardComponent } from '../../dev/product-card/product-card.component';
+import { ProductCardComponent } from '../../merchant/global/product-card/product-card.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -53,7 +52,7 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
   constructor(
     private configService: ConfigService,
     private router: Router,
-    private newsFeedService: NewsFeedService
+    private merchantService: MerchantService
   ) {}
 
   ngOnInit(): void {
@@ -64,8 +63,8 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
   }
 
   getMerchantProducts() {
-    this.newsFeedService
-      .getClientProducts()
+    this.merchantService
+      .getTopProducts()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: res => {
@@ -81,7 +80,7 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
   }
 
   getBiller() {
-    this.newsFeedService
+    this.merchantService
       .getBillers()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({

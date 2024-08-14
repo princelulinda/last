@@ -1,0 +1,189 @@
+<div class="mt-4">
+  <section>
+    <div class="row sec">
+      <div class="col-lg-7 col-md-11 col-sm-10 mb-3 clasy">
+        <!-- slideshow images -->
+        <div
+          id="carouselExampleInterval"
+          class="carousel slide p-1"
+          data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <button
+              class="dot rounded-circle d-inline-block cursor-pointer active"
+              type="button"
+              data-bs-target="#carouselExampleInterval"
+              data-bs-slide-to="0"
+              aria-current="true"
+              aria-label="Slide 1"></button>
+            <button
+              class="dot rounded-circle d-inline-block cursor-pointer"
+              type="button"
+              data-bs-target="#carouselExampleInterval"
+              data-bs-slide-to="1"
+              aria-label="Slide 2"></button>
+            <button
+              class="dot rounded-circle d-inline-block cursor-pointer"
+              type="button"
+              data-bs-target="#carouselExampleInterval"
+              data-bs-slide-to="2"
+              aria-label="Slide 3"></button>
+            <button
+              class="dot rounded-circle d-inline-block cursor-pointer"
+              type="button"
+              data-bs-target="#carouselExampleInterval"
+              data-bs-slide-to="3"
+              aria-label="Slide 4"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="3000">
+              <div class="row">
+                <div class="col text-center">
+                  <!-- image -->
+                  <img
+                    src="/images/products/unités appli sombre.jpg"
+                    class="img-fluid w-100 h-75 object-fit-contain"
+                    alt="unités appli sombre" />
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <div class="row">
+                <div class="col text-center">
+                  <!-- image -->
+                  <img
+                    src="/images/products/startimes appli.jpg"
+                    class="img-fluid w-100 h-75 object-fit-contain"
+                    alt="startimes appli show image" />
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <div class="row">
+                <div class="col text-center">
+                  <!-- image -->
+                  <img
+                    src="/images/products/BUBETappli.jpg"
+                    class="img-fluid w-100 h-75 object-fit-contain"
+                    alt="BUBET appli show image" />
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="3000">
+              <div class="row">
+                <div class="col text-center">
+                  <!-- image -->
+                  <img
+                    src="/images/products/1XBET appli.jpg"
+                    class="img-fluid w-100 h-75 object-fit-contain"
+                    alt="1XBET show image" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col favorite">
+        <div class="row">
+          <h6>
+            <span>
+              <i class="fa-solid fa-star text-info fs-x-small"></i>
+            </span>
+            <span i18n class="text-dark"><b> Favorites</b></span>
+          </h6>
+        </div>
+        @if (!isLoading) {
+          <div class="row mb-3 d-flex justify-content-between">
+            @for (item of countProductLoader; track $index) {
+              <div class="col" style="height: 135px" [hidden]="$index >= 2">
+                <app-skeleton
+                  [height]="'120px'"
+                  [width]="'120px'"></app-skeleton>
+                <div>
+                  <app-skeleton
+                    [height]="'10px'"
+                    [width]="'60%'"
+                    appearance="line"></app-skeleton>
+                </div>
+              </div>
+            }
+          </div>
+        }
+        <div class="row" *ngIf="isLoading && favoriteProducts.length > 0">
+          @for (product of favoriteProducts; track $index) {
+            <div
+              class="col"
+              [hidden]="$index >= 2 && !seeMore"
+              (click)="selectProduct(product)"
+              tabindex="0">
+              <app-product-card [product]="product"> </app-product-card>
+            </div>
+          }
+        </div>
+        @if (isLoading && favoriteProducts.length === 0) {
+          <app-empty-state
+            [searchTerm]="searchTerm"
+            searchType="product"
+            [imageClass]="'imgSize'">
+          </app-empty-state>
+        }
+        @if (isLoading && favoriteProducts.length > 2) {
+          <div class="d-flex justify-content-end align-items-end mt-2 col-1">
+            @if (!seeMore && theme === 'light') {
+              <span
+                (click)="seeMore = true"
+                role="button"
+                tabindex="0"
+                class="border-bottom border-dark text-dark fw-bold"
+                i18n
+                >More</span
+              >
+            } @else if (!seeMore && theme === 'dark') {
+              <span
+                (click)="seeMore = true"
+                role="button"
+                tabindex="0"
+                class="border-bottom border-light text-dark fw-bold"
+                i18n
+                >More</span
+              >
+            } @else if (seeMore && theme === 'light') {
+              <span
+                (click)="seeMore = false"
+                role="button"
+                tabindex="0"
+                class="border-bottom border-dark text-dark fw-bold"
+                i18n
+                >Less</span
+              >
+            } @else if (seeMore && theme === 'dark') {
+              <span
+                (click)="seeMore = false"
+                role="button"
+                tabindex="0"
+                class="border-bottom border-light text-dark fw-bold"
+                i18n
+                >Less</span
+              >
+            }
+          </div>
+        }
+      </div>
+    </div>
+    <!-- All -->
+    <app-all-products
+      [detail]="true"
+      (allProducts)="getAllProduct($event)"
+      (product)="selectProductFromAll($event)"></app-all-products>
+  </section>
+</div>
+
+<!-- <div class="modal fade" id="exampleModal" data-bs-backdrop="static">
+    <div
+        class="modal-dialog modal-dialog-centered"
+        style="min-width: 70%; max-height: 800px"
+    >
+        <div class="modal-content" *ngIf="product">
+            <app-billers-merchants [product]="product"></app-billers-merchants>
+        </div>
+    </div>
+</div> -->

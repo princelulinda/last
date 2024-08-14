@@ -12,19 +12,14 @@ import {
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import { MarketService } from '../../../core/services/market/market.service';
 // import { VariableService } from '../../../core/services/variable/variable.service';
-import { AuthService, ConfigService } from '../../../core/services';
-import { DialogService } from '../../../core/services';
 import {
-  Account,
-  MerchantBillDataModel,
-  MerchantInfoModel,
-  MerchantModel,
-  MerchantObjectModel,
-  ObjectBillModel,
-  StatsModel,
-} from '../../products/products.model';
+  AuthService,
+  ConfigService,
+  FullpathService,
+} from '../../../core/services';
+import { DialogService } from '../../../core/services';
+
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { UserInfoModel } from '../../../core/db/models/auth';
@@ -34,11 +29,21 @@ import { ItemModel } from '../../../global/components/lookups/lookup/lookup.mode
 import {
   activeMainConfigModel,
   ModeModel,
+  PlateformModel,
 } from '../../../core/services/config/main-config.models';
-import { MerchantCardComponent } from '../../dev/merchant-card/merchant-card.component';
-import { AllProductsComponent } from '../../products/all-products/all-products.component';
+import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
 import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
-import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.model';
+import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
+import { AllProductsComponent } from '../../merchant/products/all-products/all-products.component';
+import {
+  Account,
+  MerchantBillDataModel,
+  MerchantInfoModel,
+  MerchantModel,
+  MerchantObjectModel,
+  ObjectBillModel,
+  StatsModel,
+} from '../../merchant/products/products.model';
 
 @Component({
   selector: 'app-my-market-dashboard',
@@ -60,6 +65,7 @@ import { Merchant_AutocompleteModel } from '../../dev/merchant-card/merchant.mod
 })
 export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
+  baseRouterLink = '/m/mymarket';
 
   clientInfo: UserInfoModel[] | [] | null = null;
   clientInfo$: Observable<UserInfoModel>;
@@ -120,17 +126,15 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   indexMerchant = 0;
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
-  activePlatform: string | null = null;
+  activePlatform!: PlateformModel;
   mainConfig$!: Observable<activeMainConfigModel>;
   constructor(
-    // private store: Store,
     private route: ActivatedRoute,
     private merchantService: MerchantService,
-    private marketService: MarketService,
-    // private variableService: VariableService,
     private authService: AuthService,
     private dialogService: DialogService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private fullPathService: FullpathService
   ) {
     this.clientInfo$ = this.authService.getUserInfo();
     this.dialog$ = this.dialogService.getDialogState();
@@ -141,6 +145,11 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     this.mainConfig$.subscribe({
       next: configs => {
         this.activePlatform = configs.activePlateform;
+        if (this.activePlatform === 'myMarket') {
+          this.baseRouterLink = '/m/mymarket';
+        } else if (this.activePlatform === 'workstation') {
+          this.baseRouterLink = '/w/workstation/';
+        }
       },
     });
 
@@ -148,7 +157,6 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       this.route.params.subscribe({
         next: data => {
           this.merchantId = data['id'];
-          console.log('awdsdgdhgf', data);
         },
       });
     }
@@ -202,7 +210,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     };
     this.dialogService.dispatchLoading();
 
-    this.marketService
+    this.merchantService
       .generateBill(body)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
@@ -381,7 +389,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   }
 
   getMerchantStats() {
-    this.marketService
+    this.merchantService
       .getMerchantStats(this.merchantId as string)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({

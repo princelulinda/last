@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ConfigService } from '../../../core/services';
 import { environment } from '../../../../environments/environment';
-import { SwitchModeComponent } from '../../../components/dev/switch-mode/switch-mode.component';
+import { SwitchModeComponent } from '../../../global/components/switch-mode/switch-mode.component';
 
 @Component({
   selector: 'app-auth-header',

@@ -3,7 +3,7 @@ import { map } from 'rxjs';
 
 // import { ApiService } from './api.service';
 import { ApiService } from '../api/api.service';
-import { toastTypeModel } from '../dialog/dialogs-models';
+import { ObjectBillModel } from '../../../components/merchant/products/products.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class SimpleMerchantService {
 
   postData(data: object) {
     return this._apiService
-      .post<toastTypeModel>('/dbs/merchant/simple/payment/', data)
+      .post<ObjectBillModel>('/dbs/merchant/simple/payment/', data)
       .pipe(map(data => data));
   }
 }
