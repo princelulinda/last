@@ -113,7 +113,7 @@ export class MerchantService {
   //         })
   //     );
   // }
-  getMerchantsAutocomplete(search: string) {
+  getRecentMerchantsAutocomplete(search?: string) {
     const url =
       '/dbs/merchant/manage/objects_autocomplete/?search=' +
       search +
@@ -321,7 +321,7 @@ export class MerchantService {
     );
   }
   getCLients() {
-    const url = '/clients/list/all/objects_autocomplete?search=';
+    const url = '/clients/list/all/objects_autocomplete/?search=';
     return this.apiService.get(url).pipe(
       map(data => {
         return data;
@@ -337,7 +337,10 @@ export class MerchantService {
     );
   }
   getProductsByMerchant(merchantId: string) {
-    const url = '/dbs/merchant-product/?merchant=' + merchantId + '&';
+    const url =
+      '/dbs/merchant-product/objects_autocomplete/?merchant=' +
+      merchantId +
+      '&';
     return this.apiService.get(url).pipe(
       map(data => {
         return data;

@@ -158,8 +158,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   toggleUserInfo() {
     this.showUserInfoPopup = !this.showUserInfoPopup;
+    this.showPlateformPopup = false;
   }
   togglePlateformIconsPopup() {
     this.showPlateformPopup = !this.showPlateformPopup;
+    this.showUserInfoPopup = false;
   }
 }
