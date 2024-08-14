@@ -7,6 +7,7 @@ import { NgClass } from '@angular/common';
 import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
 import { DialogService } from '../../../core/services';
 import { DatePipe } from '@angular/common';
+
 import {
   ParamModel,
   getdataModal,
@@ -70,7 +71,7 @@ export class ReusableListComponent implements OnInit, OnDestroy {
   amountState = false;
   theme!: string;
   amountState$: Observable<boolean>;
-
+  i!: number;
   plateform = '';
   displayPaginationLimit = false;
   paginationsLimit = [50, 40, 30, 20, 10, 5];
@@ -130,6 +131,7 @@ export class ReusableListComponent implements OnInit, OnDestroy {
         next: (data: getdataModal) => {
           this.response_data = data;
           this.data_list = [];
+          console.log('this is the data :', this.data_list);
           if (this.clientPagination.filters.limit) {
             this.pages = ~~(
               this.response_data.count / this.clientPagination.filters.limit
@@ -240,6 +242,12 @@ export class ReusableListComponent implements OnInit, OnDestroy {
                   class_type = 'badge bg-' + css + ' text-' + css;
                 }
 
+                // Display or not the field
+                if (header['canBeDisplayed'] === false) {
+                  header['canBeDisplayed'] = false;
+                } else {
+                  header['canBeDisplayed'] = true;
+                }
                 const data = {
                   value: row1 || '',
                   size: header['size'] || '',

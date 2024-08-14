@@ -16,6 +16,7 @@ import {
 } from '../../../core/services/config/main-config.models';
 import { CreditAccountComponent } from '../credit-account/credit-account.component';
 import { WalletList } from '../../wallet/wallet.models';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-transfer',
@@ -28,6 +29,7 @@ import { WalletList } from '../../wallet/wallet.models';
     CommonModule,
     RouterLink,
     CreditAccountComponent,
+    ReactiveFormsModule,
   ],
 })
 export class TransferComponent implements OnInit, OnDestroy {
@@ -35,7 +37,6 @@ export class TransferComponent implements OnInit, OnDestroy {
 
   debitHolder = '';
 
-  isMerchantTransfer = false;
   selectedCreditAccountType = '';
   selectedInstitutionType = '';
 
@@ -98,10 +99,8 @@ export class TransferComponent implements OnInit, OnDestroy {
     this.transferComponent.showModal();
   }
   toggleTransferStep() {
-    if (this.currentTransferStep !== 'second step') {
-      this.transferComponent.transferStepChange.emit('first step');
-      this.transferComponent.transferStep = 'first step';
-    }
+    this.transferComponent.transferStepChange.emit('first step');
+    this.transferComponent.transferStep = 'first step';
   }
   resetAccountSelection() {
     this.accountSelected = null;

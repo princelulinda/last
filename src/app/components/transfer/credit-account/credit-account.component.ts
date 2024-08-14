@@ -19,7 +19,6 @@ import {
   BankService,
   ConfigService,
   DialogService,
-  MerchantService,
 } from '../../../core/services';
 import { TransferService } from '../../../core/services/transfer/transfer.service';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
@@ -35,16 +34,15 @@ import {
   CreditAccountModel,
   CreditDetail,
   DebitAccountModel,
-  DebitOptions,
   DebitWalletModel,
   InstitutionInfoModel,
   LookupData,
   LookupResponseModel,
   PopupEventModel,
+  SelectedCreditAccountEvent,
   TransferResponseModel,
 } from '../transfer.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { MerchantObjectModel } from '../../merchant/products/products.model';
 
 @Component({
   selector: 'app-credit-account',
@@ -111,6 +109,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     amount: number | string;
   }[] = [];
   lookup = new FormControl<LookupResponseModel | string>('');
+  @Output() selectedCreditAccount =
+    new EventEmitter<SelectedCreditAccountEvent>();
 
   creditAccount: CreditAccountModel | null | undefined;
   transferForm = new FormGroup({
@@ -118,7 +118,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     accountHolder: new FormControl('', Validators.required),
     debit_description: new FormControl('', Validators.required),
     amount: new FormControl(this.amount, Validators.required),
-    merchant_reference: new FormControl(''),
   });
   @Input() transferStep = '';
   dialog$: Observable<DialogResponseModel>;
@@ -126,7 +125,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
   lookupData: LookupData | null = null;
 
-  @Input() isMerchantTransfer = false;
   @Input() isOperation = false;
   @Input() showBack = false;
   @Input() bankId!: bankModel;
@@ -139,7 +137,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
   @Output() transferStepChange = new EventEmitter<string>();
-  merchantInfo: MerchantObjectModel | null = null;
+
   selectedBank!: bankModel;
   selectedBank$!: Observable<bankModel>;
   isBalanceShown = false;
@@ -150,8 +148,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     private bankService: BankService,
     private configService: ConfigService,
     private authService: AuthService,
-    private dialogService: DialogService,
-    private merchantService: MerchantService
+    private dialogService: DialogService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
@@ -200,11 +197,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
           dialogResponse.action === 'confirm transfer'
         ) {
           this.pin = dialogResponse.response.pin;
-          if (!this.isMerchantTransfer) {
-            this.validateTransfer();
-          } else {
-            this.doMerchantTransfer();
-          }
+
+          this.validateTransfer();
         }
       },
     });
@@ -216,10 +210,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     });
 
     this.selectedCreditAccountType = '';
-
-    if (this.isMerchantTransfer) {
-      this.getConnectedMerchantInfo();
-    }
   }
 
   ngOnDestroy(): void {
@@ -277,6 +267,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
   selectInstitution(institution: InstitutionInfoModel) {
     this.selectedInstitution = institution;
+    // this.selectedInstitutionInfos.emit(this.selectedInstitution)
     this.lookup.setValue('');
     this.creditAccount = undefined;
     this.transferForm.patchValue({
@@ -407,7 +398,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     this.creditAccount = null;
     this.transferForm.patchValue({
       debit_description: '',
-      merchant_reference: '',
     });
   }
   addCreditAccount() {
@@ -428,6 +418,11 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   toggleTransferStep(step: string) {
     this.transferStep = step;
     this.transferStepChange.emit(this.transferStep);
+    this.selectedCreditAccount.emit({
+      transferForm: this.transferForm.value as FormGroup,
+      selectedInstitution: this.selectedInstitution as InstitutionInfoModel,
+      selectedCreditAccountType: this.selectedCreditAccountType as string,
+    });
   }
   public validateTransfer() {
     this.amountToSend = this.amount;
@@ -535,89 +530,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
       });
   }
 
-  public doMerchantTransfer() {
-    this.isAmountChanging = true;
-
-    if (this.selectedCreditAccountType === 'wallet') {
-      this.creditNumber = this.creditAccount?.account_number;
-      this.creditName = this.creditAccount?.name;
-      this.selectedInstitution = this
-        .defaultBank as unknown as InstitutionInfoModel;
-    } else {
-      this.creditNumber = this.transferForm.value.accountNumber;
-      this.creditName = this.transferForm.value.accountHolder;
-    }
-
-    const data = {
-      amount: this.amount,
-      credit_account: this.transferForm.value.accountNumber,
-      credit_account_holder: this.transferForm.value.accountHolder,
-      credit_bank: this.selectedInstitution?.slug,
-      credit_type: this.selectedCreditAccountType,
-      pin_code: this.pin,
-      description: this.transferForm.value.debit_description,
-      merchant_reference: this.transferForm.value.merchant_reference,
-    };
-
-    this.dialogService.dispatchLoading();
-
-    this.merchantService
-      .merchantCashin(data)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: response => {
-          this.dialogService.dispatchLoading();
-
-          this.isLoading = false;
-          this.pin = '';
-
-          if (response.object.success === true) {
-            this.isTransferDone.emit(true);
-            this.creditAccountAdded = false;
-            this.transferStep = 'first step';
-            this.transferStepChange.emit('first step');
-            this.isAmountChanging = false;
-            this.transferResponse = response.object
-              .response_data as unknown as TransferResponseModel;
-            this.pendingTransfers = [];
-            this.lookup.setValue('');
-            this.isPopupShown = true;
-            this.selectedCreditAccountType = '';
-            this.selectedInstitutionType = '';
-
-            this.selectedCreditAccountType = '';
-            this.creditAccount = null;
-
-            this.initOperations();
-          } else if (response.object.success === false) {
-            this.isAmountChanging = false;
-            this.transferForm.value.amount = null;
-            this.dialogService.openToast({
-              type: 'failed',
-              title: '',
-              message:
-                response?.object?.response_message ??
-                $localize`Something went wrong please retry again !`,
-            });
-          }
-        },
-        error: err => {
-          this.dialogService.closeLoading();
-
-          this.isAmountChanging = false;
-
-          this.isLoading = false;
-          this.dialogService.openToast({
-            type: 'failed',
-            title: 'Échec',
-            message:
-              err?.object?.response_message ??
-              $localize`Something went wrong please retry again !`,
-          });
-        },
-      });
-  }
-
   toggleBanksList() {
     this.isBanksListShown = !this.isBanksListShown;
   }
@@ -639,27 +551,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     this.creditAccount = null;
     this.transferForm.patchValue({
       debit_description: '',
-      merchant_reference: '',
     });
-  }
-
-  getDebitOptions(event: DebitOptions) {
-    this.debitAccount = event.account as unknown as DebitAccountModel | null;
-    this.debitWallet = event.wallet as unknown as DebitWalletModel | null;
-    this.selectedDebitAccountType = event.selectedDebitOption;
-    this.selectedCreditAccountType = event.creditAccountType;
-    this.isTransferDone.emit(event.isTransferDone);
-    this.isAmountChanging = event.isAmountChanging;
-    this.selectedInstitutionType = event.selectedInstitutionType;
-    this.selectedInstitution =
-      event.selectedInstitution as InstitutionInfoModel;
-
-    if (!this.selectedCreditAccountType) {
-      this.selectedCreditAccountType = '';
-      this.selectedInstitution = null;
-      this.selectedInstitutionType = '';
-      this.creditAccount = null;
-    }
   }
 
   showModal() {
@@ -679,11 +571,10 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
         this.creditName = this.creditAccount?.name;
       }
 
-      if (!this.isMerchantTransfer) {
-        this.dialogService.openDialog({
-          title: 'Confirm transfer',
-          type: 'pin',
-          message: ` Account 
+      this.dialogService.openDialog({
+        title: 'Confirm transfer',
+        type: 'pin',
+        message: ` Account 
              <b>${this.debitNumber}</b>
                of
              <b>${this.debitHolder}</b>  <br>  will be debited with 
@@ -694,16 +585,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
                of 
               <b>${this.creditName}</b>
               `,
-          action: 'confirm transfer',
-        });
-      } else {
-        this.dialogService.openDialog({
-          title: 'Confirm transfer',
-          type: 'pin',
-          message: ` Confirm your transfer of <b>${this.amount} BIF</b> for the benefit of <b>${this.transferForm.value.accountHolder} <small>${this.creditNumber}</small></b> `,
-          action: 'confirm transfer',
-        });
-      }
+        action: 'confirm transfer',
+      });
     }
   }
 
@@ -731,27 +614,5 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
         accountHolder: this.creditAccount?.name,
       });
     }
-  }
-  getConnectedMerchantInfo() {
-    this.merchantService.getConnectedMerchantInfo().subscribe({
-      next: (merchantInfo: MerchantObjectModel) => {
-        if (merchantInfo.object.success) {
-          this.merchantInfo = merchantInfo;
-        } else {
-          this.dialogService.openToast({
-            type: 'failed',
-            title: '',
-            message: $localize`Something went wrong, please retry again`,
-          });
-        }
-      },
-      error: () => {
-        this.dialogService.openToast({
-          type: 'failed',
-          title: '',
-          message: $localize`An error occurred, please try again`,
-        });
-      },
-    });
   }
 }
