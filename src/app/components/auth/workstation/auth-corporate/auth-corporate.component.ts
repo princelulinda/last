@@ -58,7 +58,8 @@ export class AuthCorporateComponent implements OnInit {
     this.operatorOrganizations$.subscribe({
       next: organizations => {
         if (organizations) {
-          this.operatorOrganizations = organizations;
+          this.operatorOrganizations =
+            this.configService.toArray(organizations);
         }
       },
     });

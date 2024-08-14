@@ -372,6 +372,15 @@ export class ConfigService {
     return this.selectedTypeMenu$ as Observable<TypeMenuModel>;
   }
 
+  // NOTE :: GENERAL METHOD
+  toArray<T>(data: T[]): T[] {
+    if (Array.isArray(data)) {
+      return data as T[];
+    } else {
+      return Array.from(Object.values(data)) as T[];
+    }
+  }
+
   // NOTE :: PRIVATE CONFIG METHODS
 
   private async getActiveMainConfig(): Promise<activeMainConfigModel> {
