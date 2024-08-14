@@ -5,7 +5,7 @@ import { WorkstationMarketDashboardComponent } from '../../components/dashboards
 import { ProductConfigComponent } from '../../components/merchant/products/product-config/product-config.component';
 import { AddProductComponent } from '../../components/merchant/products/add-product/add-product.component';
 import { PaymentReportsComponent } from '../../components/merchant/statements/payment-reports/payment-reports.component';
-import { BillsReportsComponent } from '../../components/merchant/statements/bills-reports/bills-reports.component';
+import { TransferReportsComponent } from '../../components/merchant/statements/transfer-reports/transfer-reports.component';
 
 export const workstationMarketRoutes: Routes = [
   { path: '', component: WorkstationMarketDashboardComponent },
@@ -13,5 +13,5 @@ export const workstationMarketRoutes: Routes = [
   { path: 'product-config', component: ProductConfigComponent },
   { path: 'add-product', component: AddProductComponent },
   { path: 'payment-reports', component: PaymentReportsComponent },
-  { path: 'bill-reports', component: BillsReportsComponent },
+  { path: 'transfer-reports', component: TransferReportsComponent },
 ];
