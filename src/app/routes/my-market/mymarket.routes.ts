@@ -4,7 +4,7 @@ import { MerchantConfigComponent } from '../../components/merchant/merchant-conf
 import { ProductConfigComponent } from '../../components/merchant/products/product-config/product-config.component';
 import { AddProductComponent } from '../../components/merchant/products/add-product/add-product.component';
 import { PaymentReportsComponent } from '../../components/merchant/statements/payment-reports/payment-reports.component';
-import { BillsReportsComponent } from '../../components/merchant/statements/bills-reports/bills-reports.component';
+import { TransferReportsComponent } from '../../components/merchant/statements/transfer-reports/transfer-reports.component';
 import { MerchantTransferComponent } from '../../components/merchant/merchant-transfer/merchant-transfer.component';
 
 export const myMarketRoutes: Routes = [
@@ -13,6 +13,6 @@ export const myMarketRoutes: Routes = [
   { path: 'product-config', component: ProductConfigComponent },
   { path: 'add-product', component: AddProductComponent },
   { path: 'payment-reports', component: PaymentReportsComponent },
-  { path: 'bill-reports', component: BillsReportsComponent },
+  { path: 'transfer-reports', component: TransferReportsComponent },
   { path: 'merchant-transfer', component: MerchantTransferComponent },
 ];
