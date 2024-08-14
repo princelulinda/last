@@ -1,3 +1,11 @@
+.h-8 {
+  height: 80vh;
+}
+
+.w-content {
+  max-width: max-content;
+}
+
 .profile {
   width: 60px;
   height: 60px;
@@ -7,11 +15,8 @@
 
 .stepper-wrapper {
   font-family: Arial;
-  margin: -24px auto 20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 60%;
 }
 .stepper-item {
   position: relative;
@@ -24,26 +29,6 @@
     font-size: 12px;
   }
 }
-
-// .stepper-item::before {
-//   position: absolute;
-//   content: '';
-//   border-bottom: 2px solid #ccc;
-//   width: 100%;
-//   top: 20px;
-//   left: -50%;
-//   z-index: 2;
-// }
-
-// .stepper-item::after {
-//   position: absolute;
-//   content: '';
-//   border-bottom: 2px solid #ccc;
-//   width: 100%;
-//   top: 20px;
-//   left: 50%;
-//   z-index: 2;
-// }
 
 .stepper-item .step-counter {
   position: relative;
@@ -89,4 +74,9 @@
   height: 16px;
   width: 16px;
   clip-path: polygon(0 0, 0% 100%, 100% 51%);
+}
+
+.back {
+  top: 30px;
+  right: 30px;
 }
