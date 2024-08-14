@@ -4,13 +4,15 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { ConfigService } from '../../../core/services';
+import { ConfigService, MerchantService } from '../../../core/services';
 import {
   ModeModel,
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
 import { mainConfigModel } from '../../wallet/wallet.models';
 import { MyMarketDashboardComponent } from '../my-market-dashboard/my-market-dashboard.component';
+import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
+import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
 
 @Component({
   selector: 'app-workstation-market-dashboard',
@@ -20,6 +22,7 @@ import { MyMarketDashboardComponent } from '../my-market-dashboard/my-market-das
     CommonModule,
     MyMarketDashboardComponent,
     SkeletonComponent,
+    MerchantCardComponent,
   ],
   templateUrl: './workstation-market-dashboard.component.html',
   styleUrl: './workstation-market-dashboard.component.scss',
@@ -32,7 +35,13 @@ export class WorkstationMarketDashboardComponent implements OnInit {
   isMerchantCorporate!: boolean;
   isMerchantCorporte$: Observable<boolean>;
 
-  constructor(private configService: ConfigService) {
+  isLoading = true;
+  recentMerchants!: Merchant_AutocompleteModel[];
+
+  constructor(
+    private configService: ConfigService,
+    private merchantService: MerchantService
+  ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.isMerchantCorporte$ =
       this.configService.organizationIsMerchantCorporate();
@@ -50,6 +59,14 @@ export class WorkstationMarketDashboardComponent implements OnInit {
     this.isMerchantCorporte$.subscribe({
       next: resp => {
         this.isMerchantCorporate = resp;
+      },
+    });
+
+    this.merchantService.getRecentMerchantsAutocomplete('').subscribe({
+      next: data => {
+        const response = data as { objects: Merchant_AutocompleteModel[] };
+        this.recentMerchants = response.objects;
+        this.isLoading = false;
       },
     });
   }

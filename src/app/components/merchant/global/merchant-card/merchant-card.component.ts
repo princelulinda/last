@@ -28,6 +28,7 @@ export class MerchantCardComponent {
     lookup_title: '',
     merchant_category_name: '',
   };
+  @Input() type: 'column' | 'row' = 'column';
   isLoading = false;
 
   // @Input() get_merchant!: boolean

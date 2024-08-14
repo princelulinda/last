@@ -54,30 +54,44 @@
         <div class="rectangle position-absolute rectangleLight"></div>
         <div class="position-absolute z-1 top-1 start-0 m-4 fs-large">
           <span class="text-all-dark">Recent merchant</span>
-          @for (item of [1, 2, 3]; track $index) {
-            <div class="d-flex flex-row mt-4">
-              <div>
-                <div>
-                  <app-skeleton
-                    classes="sm-radius"
-                    height="80px"
-                    width="80px"></app-skeleton>
-                </div>
-              </div>
 
-              <div
-                class="ms-3 d-flex flex-column justify-content-between flex-grow-1 py-1">
-                <app-skeleton
-                  classes="sm-radius"
-                  height="15px"
-                  width="100px"></app-skeleton>
-                @for (item of [1, 2]; track $index) {
+          @if (isLoading) {
+            @for (item of [1, 2, 3]; track $index) {
+              <div class="d-flex flex-row mt-4">
+                <div>
+                  <div>
+                    <app-skeleton
+                      classes="sm-radius"
+                      height="80px"
+                      width="80px"></app-skeleton>
+                  </div>
+                </div>
+
+                <div
+                  class="ms-3 d-flex flex-column justify-content-between flex-grow-1 py-1">
                   <app-skeleton
                     classes="sm-radius"
                     height="15px"
-                    width="58px"></app-skeleton>
-                }
+                    width="100px"></app-skeleton>
+                  @for (item of [1, 2]; track $index) {
+                    <app-skeleton
+                      classes="sm-radius"
+                      height="15px"
+                      width="58px"></app-skeleton>
+                  }
+                </div>
               </div>
+            }
+          }
+          @if (!isLoading || recentMerchants.length > 0) {
+            <div class="my-4">
+              @for (merchant of recentMerchants.slice(0, 3); track $index) {
+                <div class="mb-4">
+                  <app-merchant-card
+                    [merchant]="merchant"
+                    [type]="'row'"></app-merchant-card>
+                </div>
+              }
             </div>
           }
         </div>
