@@ -183,9 +183,8 @@
                     <div
                       tabindex="0"
                       role="button"
-                      style="box-shadow: none"
                       (click)="rotateActiveSessionButton(counter.id)"
-                      class="accordion-button w-100 collapsed rounded text-secondary d-flex justify-content-center"
+                      class="accordion-button w-100 collapsed rounded text-secondary d-flex justify-content-center shadow-none"
                       data-bs-toggle="collapse"
                       [attr.data-bs-target]="
                         '#flush-collapseOne-' + counter.id
@@ -439,10 +438,9 @@
                     id="flush-headingOne">
                     <div
                       role="button"
-                      style="box-shadow: none"
                       tabindex="0"
                       (click)="rotateHistorySessionButton(counters.id)"
-                      class="accordion-button collapsed rounded text-secondary d-flex justify-content-center"
+                      class="accordion-button collapsed rounded text-secondary d-flex justify-content-center shadow-none"
                       data-bs-toggle="collapse"
                       [attr.data-bs-target]="
                         '#flush-collapseOne' + counters.id
