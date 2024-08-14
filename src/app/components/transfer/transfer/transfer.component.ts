@@ -99,10 +99,8 @@ export class TransferComponent implements OnInit, OnDestroy {
     this.transferComponent.showModal();
   }
   toggleTransferStep() {
-    if (this.currentTransferStep !== 'second step') {
-      this.transferComponent.transferStepChange.emit('first step');
-      this.transferComponent.transferStep = 'first step';
-    }
+    this.transferComponent.transferStepChange.emit('first step');
+    this.transferComponent.transferStep = 'first step';
   }
   resetAccountSelection() {
     this.accountSelected = null;
