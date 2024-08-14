@@ -45,11 +45,11 @@
   </div>
 </div>
 @if (currentTransferStep === 'second step') {
-  <div class="mt-4 text-center">
+  <div class="mt-5 text-center">
     <button
       (click)="doTransfer()"
       class="btn px-5 text-all-white me-4"
-      type="submit"
+      type="button"
       tabindex="0"
       [disabled]="!accountSelected"
       [ngClass]="{
