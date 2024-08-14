@@ -3,11 +3,12 @@ import { MerchantService } from '../../../../core/services';
 import { Subject, takeUntil } from 'rxjs';
 import { ProductCardComponent } from '../../../merchant/global/product-card/product-card.component';
 import { ProductModel } from '../../../dashboards/dashboard.model';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [ProductCardComponent],
+  imports: [ProductCardComponent, SkeletonComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })

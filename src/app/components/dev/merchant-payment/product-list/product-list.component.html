@@ -1,8 +1,24 @@
 <div class="w-100 h-100">
   @if (isLoading) {
-    <div class="h-100 w-100 d-flex align-items-center justify-content-center">
-      <i
-        class="fa-solid fs-1 fa-spinner search-button position-absolute text-align-center fa-pulse fs-7 text-dark"></i>
+    <div class="d-flex gap-4 w-100 flex-wrap pb-2">
+      <!-- <i
+        class="fa-solid fs-1 fa-spinner search-button position-absolute text-align-center fa-pulse fs-7 text-dark"></i> -->
+      @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track $index) {
+        <div class="d-flex flex-column">
+          <app-skeleton
+            height="150px"
+            width="150px"
+            classes="rounded-4"></app-skeleton>
+          <app-skeleton
+            height="10px"
+            width="100px"
+            classes="rounded-3"></app-skeleton>
+          <app-skeleton
+            height="10px"
+            width="80px"
+            classes="rounded-3"></app-skeleton>
+        </div>
+      }
     </div>
   }
 
