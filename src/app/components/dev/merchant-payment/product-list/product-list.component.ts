@@ -23,14 +23,16 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.merchantService
       .getProductsByMerchant(this.merchantId.toString())
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(products => {
-        const results = products as { objects: ProductModel[] };
-        this.products = results.objects;
-        this.isLoading = false;
-        console.log(
-          'PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP',
-          this.products
-        );
+      .subscribe({
+        next: products => {
+          const results = products as { objects: ProductModel[] };
+          this.products = results.objects;
+          this.isLoading = false;
+          console.log(
+            'PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP',
+            this.products
+          );
+        },
       });
   }
 
