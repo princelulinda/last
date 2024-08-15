@@ -74,7 +74,7 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
     this.theme$.subscribe({
       next: theme => {
         this.theme = theme;
-        console.log('themmeee', this.theme);
+        //console.log('themmeee', this.theme);
       },
     });
 

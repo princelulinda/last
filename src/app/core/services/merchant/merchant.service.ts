@@ -9,6 +9,8 @@ import {
   PaymentMerchantModel,
   PaymentMerchantPayloadModel,
 } from './model';
+import { DoMerchantTransferResponseModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
+import { DoMerchantTransferModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import {
   AllProductModel,
   MerchantInfoModel,
@@ -466,12 +468,7 @@ export class MerchantService {
       })
     );
   }
-  merchantCashin(data: object): Observable<TransferResponseModel> {
-    const url = '/dbs/merchant/cashin/';
-    return this.apiService
-      .post(url, data)
-      .pipe(map(data => data as TransferResponseModel));
-  }
+
   getTellersByMerchant(merchantId: string) {
     const url = `/dbs/merchant-teller/?merchant=${merchantId}`;
     return this.apiService.get(url).pipe(
@@ -651,5 +648,21 @@ export class MerchantService {
         return data;
       })
     );
+  }
+
+  doMerchantPaymeny(
+    body: DoMerchantTransferModel
+  ): Observable<DoMerchantTransferResponseModel> {
+    const url = '/dbs/merchant/cashin/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as DoMerchantTransferResponseModel));
+  }
+
+  merchantCashin(data: object): Observable<TransferResponseModel> {
+    const url = '/dbs/merchant/cashin/';
+    return this.apiService
+      .post(url, data)
+      .pipe(map(data => data as TransferResponseModel));
   }
 }
