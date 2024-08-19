@@ -122,12 +122,13 @@
     </div>
   }
   <!--*No accounts message-->
-  <span
-    *ngIf="accountsListData && accountsListData.length === 0"
-    class="text-center w-100 h-100 align-items-center d-flex justify-content-center text-dark">
-    <span class="text-secondary">
-      <i class="fa fa-ban me-1"></i>
-      <b>You don't have any account</b>
+  @if (accountsListData && accountsListData.length === 0) {
+    <span
+      class="text-center w-100 h-100 align-items-center d-flex justify-content-center text-dark">
+      <span class="text-secondary">
+        <i class="fa fa-ban me-1"></i>
+        <b>You don't have any account</b>
+      </span>
     </span>
-  </span>
+  }
 </div>
