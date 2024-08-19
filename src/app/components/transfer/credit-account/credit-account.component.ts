@@ -39,7 +39,7 @@ import {
   LookupData,
   LookupResponseModel,
   PopupEventModel,
-  SelectedCreditAccountEvent,
+  SelectedCreditAccountEventModel,
   TransferResponseModel,
 } from '../transfer.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
@@ -110,7 +110,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   }[] = [];
   lookup = new FormControl<LookupResponseModel | string>('');
   @Output() selectedCreditAccount =
-    new EventEmitter<SelectedCreditAccountEvent>();
+    new EventEmitter<SelectedCreditAccountEventModel>();
 
   creditAccount: CreditAccountModel | null | undefined;
   transferForm = new FormGroup({

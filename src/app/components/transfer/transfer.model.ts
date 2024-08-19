@@ -89,7 +89,7 @@ export interface DebitAccountModel {
   };
   acc_holder: string | number;
 }
-export interface SelectedCreditAccountEvent {
+export interface SelectedCreditAccountEventModel {
   transferForm: {
     accountNumber: string;
     accountHolder: string;
