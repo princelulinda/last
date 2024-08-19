@@ -419,7 +419,12 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     this.transferStep = step;
     this.transferStepChange.emit(this.transferStep);
     this.selectedCreditAccount.emit({
-      transferForm: this.transferForm.value as FormGroup,
+      transferForm: this.transferForm.value as {
+        accountNumber: string;
+        accountHolder: string;
+        debit_description: string;
+        amount: number;
+      },
       selectedInstitution: this.selectedInstitution as InstitutionInfoModel,
       selectedCreditAccountType: this.selectedCreditAccountType as string,
     });
