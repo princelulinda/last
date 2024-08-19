@@ -99,9 +99,9 @@
         } @else if (product && !product.lookup_icon && !product.lookup_image) {
           <div
             class="bg-secondary lg-radius shadow-sm position-relative"
-            style="height: 90px; width: 80px">
+            style="height: 80px; width: 80px">
             <span class="d-flex justify-content-center">
-              <i class="fa-solid fa-mountain-sun fa-3x mt-4 text-secondary"></i>
+              <i class="fa-solid fa-mountain-sun fa-2x mt-4 text-secondary"></i>
             </span>
           </div>
         }
@@ -110,8 +110,7 @@
         <p
           i18n
           title="{{ product.lookup_title }}"
-          class="d-flex flex-column p-0 m-0 ms-2"
-          style="color: grey">
+          class="d-flex flex-column p-0 m-0 ms-2">
           <b class="fs-5 text-truncate">{{ product.lookup_title }}</b>
           <small class="text-truncate">{{ product.lookup_subtitle }}</small>
           <small class="text-truncate">{{ product.lookup_description }}</small>

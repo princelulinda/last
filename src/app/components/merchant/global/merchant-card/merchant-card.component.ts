@@ -7,11 +7,12 @@ import { objectModel } from '../../../dashboards/dashboard.model';
 import { Favorite } from '../../../../core/services/merchant/model';
 import { MerchantService } from '../../../../core/services';
 import { Merchant_AutocompleteModel } from './merchant.model';
+import { MerchantPaymentComponent } from '../../../dev/merchant-payment/merchant-payment.component';
 
 @Component({
   selector: 'app-merchant-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MerchantPaymentComponent],
   templateUrl: './merchant-card.component.html',
   styleUrl: './merchant-card.component.scss',
 })
@@ -30,6 +31,7 @@ export class MerchantCardComponent {
   };
   @Input() type: 'column' | 'row' = 'column';
   isLoading = false;
+  payment = false;
 
   // @Input() get_merchant!: boolean
   // @Input() get_product = [];
@@ -99,5 +101,9 @@ export class MerchantCardComponent {
           this.isLoading = false;
         },
       });
+  }
+
+  togglePayment() {
+    this.payment = true;
   }
 }

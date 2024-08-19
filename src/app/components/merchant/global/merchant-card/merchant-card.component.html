@@ -71,21 +71,21 @@
             alt="merchantImg"
             class="image object-fit-cover" />
         } @else {
-          <i class="fa-solid fa-mountain-sun fa-2x mt-4 text-secondary"></i>
+          <i class="fa-solid fa-mountain-sun fa-2x text-secondary"></i>
         }
       </div>
 
       <div
         class="ms-3 d-flex flex-column justify-content-around flex-grow-1 py-1">
-        <p class="m-0 p-0 fw-bold fs-medium text-all-dark">
+        <b class="fs-medium">
           {{ merchant.lookup_title }}
-        </p>
-        <p class="m-0 p-0 text-secondary fs-normal">
+        </b>
+        <span class="text-secondary">
           {{ merchant.merchant_category_name }}
-        </p>
-        <p class="m-0 p-0 fs-small text-all-dark">
+        </span>
+        <small>
           {{ merchant.lookup_subtitle }}
-        </p>
+        </small>
       </div>
     </div>
   }

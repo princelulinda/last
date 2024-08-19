@@ -1,0 +1,107 @@
+.scrollBar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollBar::-webkit-scrollbar-thumb {
+  background-color: rgba(129, 0, 25, 1);
+  border-radius: 8px;
+}
+
+.scrollBar::-webkit-scrollbar-track {
+  background-color: rgba(129, 0, 25, 0.1);
+}
+
+// .scrollBar {
+//   scrollbar-width: 4px;
+//   scrollbar-color: rgba(129, 0, 25, 1) rgba(129, 0, 25, 0.1);
+// }
+
+.h-8 {
+  height: 80vh;
+}
+
+.w-content {
+  max-width: max-content;
+}
+
+.online {
+  right: -17px;
+}
+
+.profile {
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+}
+
+.stepper-wrapper {
+  font-family: Arial;
+}
+.stepper-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+}
+
+.stepper-item .step-counter {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ccc;
+  margin-bottom: 6px;
+}
+
+.stepper-item.active {
+  font-weight: bold;
+}
+
+.stepper-item.completed .step-counter {
+  // background-color: #810019;
+  color: #fff;
+}
+
+.stepper-item.completed::after {
+  position: absolute;
+  content: '';
+  // border-bottom: 2px solid #810019;
+  opacity: 0.4;
+  width: 100%;
+  top: 20px;
+  left: 50%;
+  z-index: 3;
+}
+
+.stepper-line {
+  height: 2px;
+  min-width: 150px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.arrow {
+  height: 16px;
+  width: 16px;
+  clip-path: polygon(0 0, 0% 100%, 100% 51%);
+}
+
+.back {
+  top: 30px;
+  right: 30px;
+}
+
+.nameCard {
+  width: 121px;
+  height: 30px;
+}
