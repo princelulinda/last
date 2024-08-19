@@ -10,6 +10,7 @@
 </div>
 @if (isLoading) {
   <div class="ms-lg-5 ms-4 me-4 me-lg-0 ps-lg-5 p-3 skeletonsBlok">
+    <span class="fw-bold me-3 text-dark" i18n> Payment Request </span>
     <app-skeleton [height]="'80%'"></app-skeleton>
   </div>
 }
@@ -79,8 +80,8 @@
       </div>
       <hr class="amountBlock" />
       <span class="d-flex text-dark"
-        ><span class="opacity-75 flex-grow-7">Amount</span>
-        <span class="fw-bold fs-5 flex-grow-1">{{
+        ><span class="opacity-75 flex-grow-1">Amount</span>
+        <span class="fw-bold fs-5 me-5 pe-3">{{
           billDetails.total_amount | currency: 'BIF '
         }}</span></span
       >
@@ -88,7 +89,7 @@
   </section>
 }
 @if (!isLoading && billDetails.payment_status.value === 'Q') {
-  <section class="mt-4 col-md-7">
+  <section class="mt-4 col-md-7 ms-4">
     <app-debit-account
       (debitOptions)="selectedDebitOption($event)"
       (selectedAccount)="onAccountSelected($event)"
