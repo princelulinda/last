@@ -1,5 +1,5 @@
 .scrollBar::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 .scrollBar::-webkit-scrollbar-thumb {
@@ -8,8 +8,13 @@
 }
 
 .scrollBar::-webkit-scrollbar-track {
-  background-color: rgba(129, 0, 25, 0.4);
+  background-color: rgba(129, 0, 25, 0.1);
 }
+
+// .scrollBar {
+//   scrollbar-width: 4px;
+//   scrollbar-color: rgba(129, 0, 25, 1) rgba(129, 0, 25, 0.1);
+// }
 
 .h-8 {
   height: 80vh;

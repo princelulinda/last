@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { ConfigService, MerchantService } from '../../../core/services';
@@ -27,7 +27,7 @@ import { MerchantCardComponent } from '../../merchant/global/merchant-card/merch
   templateUrl: './workstation-market-dashboard.component.html',
   styleUrl: './workstation-market-dashboard.component.scss',
 })
-export class WorkstationMarketDashboardComponent implements OnInit {
+export class WorkstationMarketDashboardComponent implements OnInit, OnDestroy {
   mainConfig$: Observable<mainConfigModel>;
   currentMode!: ModeModel;
   plateform!: PlateformModel;
@@ -46,6 +46,7 @@ export class WorkstationMarketDashboardComponent implements OnInit {
     this.isMerchantCorporte$ =
       this.configService.organizationIsMerchantCorporate();
   }
+  private onDestroy$: Subject<void> = new Subject<void>();
 
   ngOnInit() {
     this.mainConfig$.subscribe({
@@ -62,12 +63,20 @@ export class WorkstationMarketDashboardComponent implements OnInit {
       },
     });
 
-    this.merchantService.getRecentMerchantsAutocomplete('').subscribe({
-      next: data => {
-        const response = data as { objects: Merchant_AutocompleteModel[] };
-        this.recentMerchants = response.objects;
-        this.isLoading = false;
-      },
-    });
+    this.merchantService
+      .getRecentMerchantsAutocomplete('')
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: data => {
+          const response = data as { objects: Merchant_AutocompleteModel[] };
+          this.recentMerchants = response.objects;
+          this.isLoading = false;
+        },
+      });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

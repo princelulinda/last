@@ -120,10 +120,7 @@
           }
         </div>
         @if (isLoading && favoriteProducts.length === 0) {
-          <app-empty-state
-            [searchTerm]="searchTerm"
-            searchType="product"
-            [imageClass]="'imgSize'">
+          <app-empty-state [searchTerm]="searchTerm" searchType="product">
           </app-empty-state>
         }
         @if (isLoading && favoriteProducts.length > 2) {
