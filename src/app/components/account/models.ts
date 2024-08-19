@@ -17,6 +17,7 @@ export interface accountsList {
 }
 export interface Accountdetail {
   acc_short_number: string;
+  acc_number?: string;
   acc_holder: string;
   acc_actual_balance: string;
   acc_get_title: string;

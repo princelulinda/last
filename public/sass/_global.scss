@@ -13,6 +13,10 @@
 .h-without-header {
   height: calc(100dvh - 60px);
 }
+.statement-dialog {
+  min-width: 70%;
+}
+
 
 // global inchanges color
 $globalColors: (

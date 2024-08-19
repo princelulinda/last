@@ -60,6 +60,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
   paymentLoading = false;
   billDetails!: BillsModel;
   pin!: string;
+  dialog!: DialogResponseModel;
 
   billData!: {
     name: string;
@@ -120,8 +121,8 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
               dialog.response.pin &&
               dialog.action === 'confirm merchant payment'
             ) {
-              this.submitPaymentRequest();
               this.pin = dialog.response.pin;
+              this.submitPaymentRequest();
             }
           }
         }
@@ -179,9 +180,9 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
       debit_account: this.selectedAccount
         ? (this.selectedAccount as accountsList).acc_short_number
         : (this.selectedWallet as WalletList).code,
-      debit_bank: this.selectedAccount
-        ? (this.selectedAccount as accountsList).acc_bank_id
-        : (this.selectedWallet as WalletList).bank_id,
+      // debit_bank: this.selectedAccount
+      //   ? (this.selectedAccount as accountsList).acc_bank_id
+      //   : (this.selectedWallet as WalletList).bank_id,
       debit_type: this.selectedAccount ? 'account' : 'wallet',
       description: this.description.value,
     };

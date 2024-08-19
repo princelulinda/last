@@ -34,6 +34,7 @@ export interface MerchantModel {
   merchant_logo: string;
   merchant_location: string;
   merchant_main_account: string;
+  merchant_main_account_id: string;
   merchant_tellers_number: number;
   merchant_products_number: number;
   merchant_bills_payment_number: number;
@@ -180,7 +181,7 @@ export interface generateBillModel {
 
 export interface addProductByMerchantModel {
   name: string;
-  merchant: MerchantModel;
+  merchant: string;
   price: number | null;
   short_description: string;
   accepts_cart: boolean;

@@ -108,17 +108,19 @@
             }
           </div>
         }
-        <div class="row" *ngIf="isLoading && favoriteProducts.length > 0">
-          @for (product of favoriteProducts; track $index) {
-            <div
-              class="col"
-              [hidden]="$index >= 2 && !seeMore"
-              (click)="selectProduct(product)"
-              tabindex="0">
-              <app-product-card [product]="product"> </app-product-card>
-            </div>
-          }
-        </div>
+        @if (isLoading && favoriteProducts.length > 0) {
+          <div class="row">
+            @for (product of favoriteProducts; track $index) {
+              <div
+                class="col"
+                [hidden]="$index >= 2 && !seeMore"
+                (click)="selectProduct(product)"
+                tabindex="0">
+                <app-product-card [product]="product"> </app-product-card>
+              </div>
+            }
+          </div>
+        }
         @if (isLoading && favoriteProducts.length === 0) {
           <app-empty-state [searchTerm]="searchTerm" searchType="product">
           </app-empty-state>
@@ -179,8 +181,10 @@
         class="modal-dialog modal-dialog-centered"
         style="min-width: 70%; max-height: 800px"
     >
-        <div class="modal-content" *ngIf="product">
-            <app-billers-merchants [product]="product"></app-billers-merchants>
-        </div>
+      @if(product) {
+        <div class="modal-content">
+              <app-billers-merchants [product]="product"></app-billers-merchants>
+          </div>
+      }
     </div>
 </div> -->

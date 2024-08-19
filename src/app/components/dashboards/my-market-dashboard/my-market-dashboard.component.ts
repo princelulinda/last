@@ -44,6 +44,7 @@ import {
   ObjectBillModel,
   StatsModel,
 } from '../../merchant/products/products.model';
+import { StatementComponent } from '../../statements/statement/statement.component';
 
 @Component({
   selector: 'app-my-market-dashboard',
@@ -59,6 +60,7 @@ import {
     ReactiveFormsModule,
     FormsModule,
     MerchantBillComponent,
+    StatementComponent,
   ],
   templateUrl: './my-market-dashboard.component.html',
   styleUrl: './my-market-dashboard.component.scss',

@@ -84,7 +84,10 @@
                         <div>
                           <!-- Contenu pour les banques (boucle *ngFor) -->
 
-                          @if (banks && banks.length > 0) {
+                          @if (
+                            (banks && banks.length > 0) ||
+                            (banksFiltered && banksFiltered.length > 0)
+                          ) {
                             <div class="p-2 row mb-4">
                               <!-- Bloc de banque -->
                               @for (bank of banks; track $index) {
@@ -112,26 +115,37 @@
                               }
 
                               <!-- Création de compte -->
-                              <div
-                                type="button"
-                                data-bs-toggle="modal"
-                                data-bs-target="#banksModal"
-                                #closeModal
-                                class="d-grid col-6 col-sm-4 col-md-3 justify-content-center">
+
+                              @for (bank of banksFiltered; track $index) {
                                 <div
-                                  class="d-flex w-100 mb-2 justify-content-center">
+                                  role="button"
+                                  title="Click to create account in this bank"
+                                  (click)="
+                                    openPinPopup();
+                                    getAddedBankId(bank.organization_id)
+                                  "
+                                  class="d-grid col-3 justify-content-center"
+                                  tabindex="0">
                                   <div
-                                    class="d-grid justify-content-center align-items-center img-container border lg-radius">
-                                    <i
-                                      class="fa-solid fa-plus fw-bold text-primary fs-4"></i>
+                                    class="d-flex w-100 mb-2 justify-content-center">
+                                    <div
+                                      class="d-grid justify-content-center align-items-center img-container border lg-radius">
+                                      <img
+                                        class="bank-image"
+                                        [src]="bank?.company?.image"
+                                        alt="{{
+                                          bank?.company?.fullname
+                                        }} Logo" />
+                                    </div>
+                                  </div>
+
+                                  <div class="text-center">
+                                    <span class="text-uppercase opacity-50">{{
+                                      bank?.company?.fullname
+                                    }}</span>
                                   </div>
                                 </div>
-                                <div class="text-center">
-                                  <span class="text-sm text-dark" i18n
-                                    >CREATE ACCOUNT</span
-                                  >
-                                </div>
-                              </div>
+                              }
                             </div>
                           }
 
@@ -270,79 +284,6 @@
             </div>
           </div>
         </section>
-      </div>
-    </div>
-
-    <div class="modal fade" id="banksModal" data-mdb-backdrop="false">
-      <div class="modal-dialog inner-container overflow-auto">
-        <div class="modal-content bg-white" style="margin-top: 35%">
-          <main class="p-4">
-            <div class="text-end">
-              <span
-                role="button"
-                class="text-dark"
-                data-bs-dismiss="modal"
-                aria-label="Close">
-                <i class="fa-solid fa-xmark fs-4"></i>
-              </span>
-            </div>
-            <div class="text-dark fs-5 text-center p-2" i18n>
-              Create an account by choosing one of the banks bellow
-            </div>
-            <br />
-
-            @if (banksFiltered && banksFiltered.length > 0) {
-              <div class="p-2 row">
-                @for (bank of banksFiltered; track $index) {
-                  <div
-                    role="button"
-                    (click)="
-                      openPinPopup(); getAddedBankId(bank.organization_id)
-                    "
-                    class="d-grid col-3 justify-content-center"
-                    tabindex="0">
-                    <div class="d-flex w-100 mb-2 justify-content-center">
-                      <div
-                        class="d-grid justify-content-center align-items-center img-container border lg-radius">
-                        <img
-                          class="bank-image"
-                          [src]="bank?.company?.image"
-                          alt="{{ bank?.company?.fullname }} Logo" />
-                      </div>
-                    </div>
-
-                    <div class="text-center">
-                      <span class="text-uppercase">{{
-                        bank?.company?.fullname
-                      }}</span>
-                    </div>
-                  </div>
-                }
-              </div>
-            } @else if (!banksFiltered) {
-              <div class="d-flex pt-3 ps-3">
-                @for (_ of [1, 2, 3]; track $index) {
-                  <div class="d-grid mt-1 me-5">
-                    <span class="text-center">
-                      <app-skeleton
-                        [height]="'60px'"
-                        [width]="'60px'"></app-skeleton>
-                    </span>
-                    <span>
-                      <app-skeleton
-                        [height]="'7px'"
-                        [width]="'100px'"></app-skeleton>
-                    </span>
-                  </div>
-                }
-              </div>
-            } @else {
-              <div class="p-2 text-center text-l fw-bold" i18n>
-                You are already in all the available banks
-              </div>
-            }
-          </main>
-        </div>
       </div>
     </div>
   </div>

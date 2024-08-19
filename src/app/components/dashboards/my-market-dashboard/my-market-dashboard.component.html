@@ -304,12 +304,13 @@
 <div class="modal fade" id="statementModal" data-bs-backdrop="static">
   @if (merchantAccountId && account) {
     <div class="modal-dialog modal-dialog-centered statement-dialog">
-      <!-- <div class="modal-content">
-        <app-statements
-            [accountId]="merchantAccountId"
-            [account]="account"
-        ></app-statements>
-    </div> -->
+      <div class="modal-content">
+        @if (merchant) {
+          <app-statement
+            [accountId]="merchant.merchant_main_account_id"
+            [account]="account"></app-statement>
+        }
+      </div>
     </div>
   }
 </div>
