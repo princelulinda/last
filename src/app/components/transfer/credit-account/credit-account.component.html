@@ -638,7 +638,11 @@
               </div>
             } @else if (pendingTransfers.length >= 1) {
               @for (account of pendingTransfers; track $index) {
-                <div class="ms-4 me-4 mb-4 h-375">
+                <div
+                  class="ms-4 me-4 mb-4 h-375"
+                  [ngClass]="{
+                    'w-50': isMerchantTransfer,
+                  }">
                   <div (mouseenter)="hover = true" (mouseleave)="hover = false">
                     <span>{{ account.account_holder }} </span> <br />
                     <span class="text-secondary">{{

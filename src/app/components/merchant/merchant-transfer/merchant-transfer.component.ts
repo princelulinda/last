@@ -5,10 +5,10 @@ import { MerchantService } from '../../../core/services';
 import { MerchantObjectModel } from '../products/products.model';
 import { DialogService } from '../../../core/services';
 import { CreditAccountComponent } from '../../transfer/credit-account/credit-account.component';
-import { FormGroup } from '@angular/forms';
+
 import {
   InstitutionInfoModel,
-  SelectedCreditAccountEvent,
+  SelectedCreditAccountEventModel,
 } from '../../transfer/transfer.model';
 import {
   DoMerchantTransferModel,
@@ -25,7 +25,14 @@ import { DialogResponseModel } from '../../../core/services/dialog/dialogs-model
 })
 export class MerchantTransferComponent implements OnInit, OnDestroy {
   merchantInfo: MerchantObjectModel | null = null;
-  selectedCreditAccountForm!: FormGroup;
+  selectedCreditAccountForm:
+    | {
+        accountNumber: string;
+        accountHolder: string;
+        debit_description: string;
+        amount: number;
+      }
+    | undefined;
   selectedInstitution!: InstitutionInfoModel;
   selectedCreditAccountType!: string;
   dialogState$!: Observable<DialogResponseModel>;
@@ -76,14 +83,14 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
     });
   }
 
-  handleSelectedCreditAccount(event: SelectedCreditAccountEvent) {
+  handleSelectedCreditAccount(event: SelectedCreditAccountEventModel) {
     this.selectedCreditAccountForm = event.transferForm;
     this.selectedInstitution = event.selectedInstitution;
     this.selectedCreditAccountType = event.selectedCreditAccountType;
-    //console.log('Credit account form:', this.selectedCreditAccountForm);
-    //console.log('Selected institution:', this.selectedInstitution);
-    //console.log('Selected credit account type:', this.selectedCreditAccountType);
-    //console.log('Selected Credit Account Event:', event);
+    // console.log('Credit account form:', this.selectedCreditAccountForm);
+    // console.log('Selected institution:', this.selectedInstitution);
+    // console.log('Selected credit account type:', this.selectedCreditAccountType);
+    // console.log('Selected Credit Account Event:', event);
     // Ici, vous pouvez traiter les données reçues de l'événement
     this.openPinPopup();
   }

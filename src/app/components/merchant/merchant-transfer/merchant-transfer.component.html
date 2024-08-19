@@ -16,13 +16,13 @@
   <div class="d-grid text-dark ps-4 ms-2 mt-2">
     @if (merchantInfo) {
       <span class="fw-bold"
-        >{{ merchantInfo?.object?.response_data?.merchant_title }} (
-        {{ merchantInfo?.object?.response_data?.merchant_code }})</span
+        >{{ merchantInfo.object.response_data.merchant_title }} (
+        {{ merchantInfo.object.response_data.merchant_code }})</span
       >
     }
     @if (merchantInfo) {
       <span class="fw-bold opacity-50">
-        {{ merchantInfo?.object?.response_data?.merchant_main_account }}
+        {{ merchantInfo.object.response_data.merchant_main_account }}
       </span>
     }
     @if (!merchantInfo) {
