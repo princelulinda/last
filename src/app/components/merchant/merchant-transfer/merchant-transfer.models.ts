@@ -1,10 +1,10 @@
 export interface DoMerchantTransferModel {
-  amount: string;
+  amount: number;
   credit_account: string;
   credit_account_holder: string;
   credit_bank: string;
   credit_type: string;
-  pin_code: number;
+  pin_code: string;
   description: string;
   merchant_reference: string;
 }
