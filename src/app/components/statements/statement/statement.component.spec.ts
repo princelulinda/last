@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StatementComponent } from './statement.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('StatementComponent', () => {
   let component: StatementComponent;
@@ -9,6 +11,7 @@ describe('StatementComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [StatementComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StatementComponent);
