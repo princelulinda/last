@@ -5,7 +5,7 @@ import { MerchantService } from '../../../core/services';
 import { MerchantObjectModel } from '../products/products.model';
 import { DialogService } from '../../../core/services';
 import { CreditAccountComponent } from '../../transfer/credit-account/credit-account.component';
-
+import { Location } from '@angular/common';
 import {
   InstitutionInfoModel,
   SelectedCreditAccountEventModel,
@@ -33,6 +33,7 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
         amount: number;
       }
     | undefined;
+
   selectedInstitution!: InstitutionInfoModel;
   selectedCreditAccountType!: string;
   dialogState$!: Observable<DialogResponseModel>;
@@ -41,7 +42,8 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject<void>();
   constructor(
     private merchantService: MerchantService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private location: Location
   ) {
     this.dialogState$ = this.dialogService.getDialogState();
   }
@@ -50,7 +52,6 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
 
     this.dialogState$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (dialogResponse: DialogResponseModel) => {
-        console.log('PIN reçu:', this.pin);
         if (dialogResponse.action === 'pin' && dialogResponse.response.pin) {
           this.pin = dialogResponse.response.pin;
           this.doMerchantPayment();
@@ -82,73 +83,77 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
       },
     });
   }
-
+  goBack(): void {
+    this.location.back();
+  }
   handleSelectedCreditAccount(event: SelectedCreditAccountEventModel) {
     this.selectedCreditAccountForm = event.transferForm;
     this.selectedInstitution = event.selectedInstitution;
     this.selectedCreditAccountType = event.selectedCreditAccountType;
-    // console.log('Credit account form:', this.selectedCreditAccountForm);
-    // console.log('Selected institution:', this.selectedInstitution);
-    // console.log('Selected credit account type:', this.selectedCreditAccountType);
-    // console.log('Selected Credit Account Event:', event);
-    // Ici, vous pouvez traiter les données reçues de l'événement
+
     this.openPinPopup();
   }
 
   doMerchantPayment() {
     this.dialogService.dispatchLoading();
-    // this.loading = true;
 
-    const body: DoMerchantTransferModel = {
-      amount: '2000',
-      credit_account: 'hela',
-      credit_account_holder: 'pierre',
-      credit_bank: this.selectedInstitution.slug,
-      credit_type: this.selectedCreditAccountType,
-      pin_code: 1234,
-      description: 'perso',
-      merchant_reference: '',
-    };
+    if (this.selectedCreditAccountForm) {
+      const body: DoMerchantTransferModel = {
+        amount: this.selectedCreditAccountForm.amount,
+        credit_account: this.selectedCreditAccountForm.accountNumber,
+        credit_account_holder: this.selectedCreditAccountForm.accountHolder,
+        credit_bank: this.selectedInstitution.slug,
+        credit_type: this.selectedCreditAccountType,
+        pin_code: this.pin,
+        description: this.selectedCreditAccountForm.debit_description,
+        merchant_reference: '',
+      };
 
-    this.merchantService
-      .doMerchantPaymeny(body)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: (response: DoMerchantTransferResponseModel) => {
-          // this.loading = false;
-          this.dialogService.closeLoading();
-          if (response.object.success) {
-            this.dialogService.openToast({
-              type: 'success',
-              title: 'Succès',
-              message: 'Le paiement a été effectué avec succès.',
-            });
-          } else {
+      this.merchantService
+        .doMerchantPaymeny(body)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe({
+          next: (response: DoMerchantTransferResponseModel) => {
+            // this.loading = false;
+            this.dialogService.closeLoading();
+            if (response.object.success) {
+              this.dialogService.openToast({
+                type: 'success',
+                title: 'Succès',
+                message: response.object.response_message,
+              });
+            } else {
+              this.dialogService.openToast({
+                type: 'failed',
+                title: 'Échec',
+                message: response.object.response_message,
+              });
+            }
+          },
+          error: () => {
+            this.dialogService.closeLoading();
             this.dialogService.openToast({
               type: 'failed',
               title: 'Échec',
-              message: 'Le paiement a échoué.',
+              message: 'failed',
             });
-          }
-        },
-        error: () => {
-          this.dialogService.closeLoading();
-          this.dialogService.openToast({
-            type: 'failed',
-            title: 'Échec',
-            message: 'Le paiement a échoué, veuillez réessayer.',
-          });
-        },
-      });
+          },
+        });
+    }
   }
 
   openPinPopup() {
-    this.dialogService.openDialog({
-      type: 'pin',
-      title: 'Enter your PIN code',
-      message: 'Please enter your PIN code to continue.',
-      action: 'pin',
-    });
+    if (this.selectedCreditAccountForm) {
+      this.dialogService.openDialog({
+        type: 'pin',
+        title: 'Enter your PIN code',
+        //message: 'Please enter your PIN code to continue.',
+        action: 'pin',
+        message: ` Confirm your transfer of <b>${this.selectedCreditAccountForm.amount} BIF
+      </b> for the benefit of <b>${this.selectedCreditAccountForm.accountHolder} 
+      <small>${this.selectedCreditAccountForm.accountNumber}</small></b> `,
+      });
+    }
   }
   ngOnDestroy(): void {
     this.onDestroy$.next();
