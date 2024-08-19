@@ -296,6 +296,15 @@
         i18n>
         See full statement
       </button>
+      <div class="modal fade" id="statementModal" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered statement-dialog">
+          <div class="modal-content">
+            <app-statement
+              [accountId]="accountId"
+              [account]="account"></app-statement>
+          </div>
+        </div>
+      </div>
     </div>
   }
   <div></div>

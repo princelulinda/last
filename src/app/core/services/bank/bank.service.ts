@@ -13,6 +13,7 @@ import {
 } from '../../../components/merchant/products/products.model';
 import { nyamuranziCard } from '../../../components/nyamuranzi/models';
 import { WithdrawalModel } from '../../../components/withdrawal/withdrawal.models';
+import { DissectedDateModel } from '../../../components/statements/statement.model';
 
 @Injectable({
   providedIn: 'root',
@@ -81,20 +82,24 @@ export class BankService {
       })
     );
   }
-
   getAccountStatements(
-    accountId: number,
-    dateFrom: { year: string; month: string; day: string },
-    dateEnd: { year: string; month: string; day: string }
+    accountId: number | string,
+    dateFrom: { year: number; month: number; day: number },
+    dateEnd: { year: number; month: number; day: number }
   ) {
-    const url = `/operations/statement/?client_acc_id=${accountId}&year=${dateFrom.year}&year_to=${dateEnd.year}&month_from=${dateFrom.month}&day_from=${dateEnd.month}&month_to=${dateFrom.day}&day_to=${dateEnd.day}&limit=50&offset=0`;
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    const url = `/operations/statement/?client_acc_id=${accountId}&year=${dateFrom.year}&year_to=${dateEnd.year}&month_from=${dateFrom.month}&day_from=${dateFrom.day}&month_to=${dateEnd.month}&day_to=${dateEnd.day}&limit=50&offset=0`;
+    return this.apiService.get(url).pipe(map(data => data));
   }
 
+  dissectDate(date: Date): DissectedDateModel {
+    const dissectedDate: DissectedDateModel = {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+    };
+
+    return dissectedDate;
+  }
   getAllBanks(): Observable<{ objects: bankListResponse[] }> {
     const url = '/banks/list/?externel_request=true&bank_type=MFI';
     return this.apiService.get<{ objects: bankListResponse[] }>(url);

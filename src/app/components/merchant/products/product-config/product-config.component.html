@@ -684,22 +684,21 @@
               <span class="text-secondary">No fields selected</span>
             </div>
           }
-
-          <div
-            *ngFor="let field of selectedFields; let i = index"
-            class="pt-3 d-flex ps-2 pe-4">
-            <span
-              ><i class="fa-circle fa-solid text-xsm text-primary"></i
-            ></span>
-            <span class="ms-2">{{ field.name }}</span>
-            <span
-              class="ms-auto text-primary"
-              role="button"
-              (click)="toggleFieldSelection(field.id, field.name)"
-              tabindex="0">
-              <i class="fa-solid fa-minus text-sm sm-radius"></i>
-            </span>
-          </div>
+          @for (field of selectedFields; track $index) {
+            <div class="pt-3 d-flex ps-2 pe-4">
+              <span
+                ><i class="fa-circle fa-solid text-xsm text-primary"></i
+              ></span>
+              <span class="ms-2">{{ field.name }}</span>
+              <span
+                class="ms-auto text-primary"
+                role="button"
+                (click)="toggleFieldSelection(field.id, field.name)"
+                tabindex="0">
+                <i class="fa-solid fa-minus text-sm sm-radius"></i>
+              </span>
+            </div>
+          }
         </div>
       </div>
       <div class="col-12 d-flex justify-content-center align-items-center mt-3">

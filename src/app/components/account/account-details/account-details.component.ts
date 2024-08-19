@@ -6,10 +6,11 @@ import { AmountVisibilityComponent } from '../../../global/components/custom-fie
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { DialogService } from '../../../core/services';
+import { StatementComponent } from '../../statements/statement/statement.component';
 @Component({
   selector: 'app-account-details',
   standalone: true,
-  imports: [AmountVisibilityComponent, CommonModule],
+  imports: [AmountVisibilityComponent, CommonModule, StatementComponent],
   templateUrl: './account-details.component.html',
   styleUrl: './account-details.component.scss',
 })
@@ -34,7 +35,6 @@ export class AccountDetailsComponent implements OnInit {
     this.route.params.subscribe({
       next: data => {
         this.accountId = data['accountId'];
-        //console.log('iddddd',this.accountId)
         if (this.accountId) {
           this.getClientAccountDetails();
         }
