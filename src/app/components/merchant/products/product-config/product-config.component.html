@@ -143,7 +143,7 @@
                   </span>
                 }
 
-                <b class="text-md text-card">{{ product.name }}</b>
+                <b class="text-md text-card">{{ product.lookup_title }}</b>
                 <span>{{ product.price | currency: ' ' }}</span>
               </div>
             } @else if (isProductsSearch) {
