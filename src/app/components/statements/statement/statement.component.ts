@@ -18,7 +18,9 @@ import { BankService } from '../../../core/services';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
-import { StatementModel } from '../statement.model';
+import { AccountModel, StatementModel } from '../statement.model';
+import { Accountdetail } from '../../account/models';
+import { Account } from '../../dashboards/dashboard.model';
 
 @Component({
   standalone: true,
@@ -36,7 +38,7 @@ export class StatementComponent implements OnChanges, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   @Input({ required: true }) accountId = '';
   @Input() ledgerId = '';
-  @Input() account: unknown = null;
+  @Input() account: AccountModel | Account | Accountdetail | null = null;
   dateFrom = new FormControl('', Validators.required);
   dateEnd = new FormControl('', Validators.required);
   isLoadingStatement = false;

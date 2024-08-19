@@ -11,3 +11,7 @@ export interface StatementModel {
   credit: number;
   solde: number;
 }
+export interface AccountModel {
+  acc_number: string;
+  acc_holder: string;
+}
