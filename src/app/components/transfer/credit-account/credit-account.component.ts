@@ -129,6 +129,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   @Input() showBack = false;
   @Input() bankId!: bankModel;
   @Input() simpleTransferTitle = true;
+  @Input() isMerchantTransfer = false;
   userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   mainConfig$!: Observable<activeMainConfigModel>;
