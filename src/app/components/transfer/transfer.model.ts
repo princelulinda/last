@@ -112,11 +112,12 @@ export interface InstitutionInfoModel {
   company: {
     logo: string;
     name: string;
+    fullname: string;
   };
   api_values: {
     has_lookup: boolean;
   };
-  slug?: string;
+  slug: string;
 }
 export interface AmountEventModel {
   amount: number | null;

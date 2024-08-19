@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { ConfigService } from '../../../core/services';
+import { ConfigService, MerchantService } from '../../../core/services';
 import {
   ModeModel,
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
 import { mainConfigModel } from '../../wallet/wallet.models';
 import { MyMarketDashboardComponent } from '../my-market-dashboard/my-market-dashboard.component';
+import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
+import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
 
 @Component({
   selector: 'app-workstation-market-dashboard',
@@ -20,11 +22,12 @@ import { MyMarketDashboardComponent } from '../my-market-dashboard/my-market-das
     CommonModule,
     MyMarketDashboardComponent,
     SkeletonComponent,
+    MerchantCardComponent,
   ],
   templateUrl: './workstation-market-dashboard.component.html',
   styleUrl: './workstation-market-dashboard.component.scss',
 })
-export class WorkstationMarketDashboardComponent implements OnInit {
+export class WorkstationMarketDashboardComponent implements OnInit, OnDestroy {
   mainConfig$: Observable<mainConfigModel>;
   currentMode!: ModeModel;
   plateform!: PlateformModel;
@@ -32,11 +35,18 @@ export class WorkstationMarketDashboardComponent implements OnInit {
   isMerchantCorporate!: boolean;
   isMerchantCorporte$: Observable<boolean>;
 
-  constructor(private configService: ConfigService) {
+  isLoading = true;
+  recentMerchants!: Merchant_AutocompleteModel[];
+
+  constructor(
+    private configService: ConfigService,
+    private merchantService: MerchantService
+  ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.isMerchantCorporte$ =
       this.configService.organizationIsMerchantCorporate();
   }
+  private onDestroy$: Subject<void> = new Subject<void>();
 
   ngOnInit() {
     this.mainConfig$.subscribe({
@@ -52,5 +62,21 @@ export class WorkstationMarketDashboardComponent implements OnInit {
         this.isMerchantCorporate = resp;
       },
     });
+
+    this.merchantService
+      .getRecentMerchantsAutocomplete('')
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: data => {
+          const response = data as { objects: Merchant_AutocompleteModel[] };
+          this.recentMerchants = response.objects;
+          this.isLoading = false;
+        },
+      });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

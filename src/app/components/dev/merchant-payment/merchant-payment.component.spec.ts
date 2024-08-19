@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MerchantTransferComponent } from './merchant-transfer.component';
-import { provideHttpClient } from '@angular/common/http';
+import { MerchantPaymentComponent } from './merchant-payment.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
-describe('MerchantTransferComponent', () => {
-  let component: MerchantTransferComponent;
-  let fixture: ComponentFixture<MerchantTransferComponent>;
+describe('MerchantPaymentComponent', () => {
+  let component: MerchantPaymentComponent;
+  let fixture: ComponentFixture<MerchantPaymentComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MerchantTransferComponent],
+      imports: [MerchantPaymentComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MerchantTransferComponent);
+    fixture = TestBed.createComponent(MerchantPaymentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
