@@ -136,13 +136,12 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
         break;
     }
 
-    const data = {
+    this.dialogService.openDialog({
       title: 'do teller action',
       type: 'pin',
       message: this.actionMessage,
       action: 'do teller action',
-    };
-    console.log(data);
+    });
 
     // this.store.dispatch(new OpenActionDialog(data));
   }

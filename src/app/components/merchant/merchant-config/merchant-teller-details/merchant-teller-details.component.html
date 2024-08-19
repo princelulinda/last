@@ -79,9 +79,8 @@
               [ngClass]="{
                 'justify-content-end text-primary ps-5': tellerInfo.is_active,
                 'justify-content-start text-white pe-5': !tellerInfo.is_active,
-                'justify-content-start t-black': !tellerInfo.is_active,
               }">
-              <span class="fa fa-circle"></span>
+              <span class="fa fa-circle fa-xs"></span>
             </div>
           </div>
           <div
@@ -109,10 +108,8 @@
                   tellerInfo.can_receive_notifications,
                 'justify-content-start text-white pe-5':
                   !tellerInfo.can_receive_notifications,
-                'justify-content-start t-black':
-                  !tellerInfo.can_receive_notifications,
               }">
-              <span class="fa fa-circle"></span>
+              <span class="fa fa-circle fa-xs"></span>
             </div>
           </div>
           <div
@@ -134,9 +131,8 @@
                   tellerInfo.can_receive_tip,
                 'justify-content-start text-white pe-5':
                   !tellerInfo.can_receive_tip,
-                'justify-content-start t-black': !tellerInfo.can_receive_tip,
               }">
-              <span class="fa fa-circle"></span>
+              <span class="fa fa-circle fa-xs"></span>
             </div>
           </div>
 
@@ -159,10 +155,8 @@
                   tellerInfo.teller_type.value === 'A',
                 'justify-content-start text-white pe-5':
                   tellerInfo.teller_type.value !== 'A',
-                'justify-content-start t-black':
-                  tellerInfo.teller_type.value !== 'A',
               }">
-              <span class="fa fa-circle"></span>
+              <span class="fa fa-circle fa-xs"></span>
             </div>
           </div>
           <div
@@ -186,10 +180,8 @@
                   tellerInfo.teller_type.value === 'S',
                 'justify-content-start text-white pe-5':
                   tellerInfo.teller_type.value !== 'S',
-                'justify-content-start t-black':
-                  tellerInfo.teller_type.value !== 'S',
               }">
-              <span class="fa fa-circle"></span>
+              <span class="fa fa-circle fa-xs"></span>
             </div>
           </div>
         </div>

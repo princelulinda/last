@@ -100,14 +100,16 @@
               <div class="d-grid">
                 <div class="d-flex gap-2">
                   <div class="text-secondary" i18n>Logo</div>
-                  <div
-                    style="width: 96px; height: 96px"
-                    class="overflow-hidden lg-radius">
+                  <div class="overflow-hidden lg-radius">
                     @if (!merchantInfo.merchant_logo) {
-                      <img
+                      <!-- <img
                         src="../../../../assets/images/userprofile.png"
                         alt=""
-                        class="img-fluid lg-radius" />
+                        class="img-fluid lg-radius" /> -->
+                      <span class="">
+                        <i
+                          class="fa-regular fa-user text-dark fa-3x p-4 bg-secondary lg-radius"></i>
+                      </span>
                     } @else if (merchantInfo.merchant_logo) {
                       <img
                         [src]="merchantInfo.merchant_logo"
