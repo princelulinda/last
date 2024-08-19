@@ -180,7 +180,7 @@ export interface generateBillModel {
 
 export interface addProductByMerchantModel {
   name: string;
-  merchant: MerchantModel;
+  merchant: string;
   price: number | null;
   short_description: string;
   accepts_cart: boolean;

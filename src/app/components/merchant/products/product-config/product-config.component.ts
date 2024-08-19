@@ -315,6 +315,7 @@ export class ProductConfigComponent implements OnInit {
   }
 
   updateProductInfo() {
+    this.dialogService.dispatchLoading();
     this.isLoading = true;
     const selectedFieldNames = this.getSelectedFieldNames();
     const body = {
@@ -335,27 +336,22 @@ export class ProductConfigComponent implements OnInit {
         const response = result as updateProductInfoObjectModel;
         this.isLoading = false;
 
+        this.dialogService.closeLoading();
         if (!response.object.success) {
-          const failure = {
-            title: '',
+          this.dialogService.openToast({
+            title: 'failed',
             type: 'failed',
-            message:
-              response?.object.response_message ?? 'Failed, please try again',
-          };
-          // this.store.dispatch(new OpenDialog(failure));
-          console.log(failure);
+            message: 'Failed, please try again',
+          });
         } else {
           this.getProductDetails();
           this.getProducts();
           this.selectedMenu = 'details';
-          const data = {
-            title: '',
+          this.dialogService.openToast({
+            title: 'success',
             type: 'success',
-            message:
-              response?.object.response_message ?? 'Updated successfully',
-          };
-          // this.store.dispatch(new OpenDialog(data));
-          console.log(data);
+            message: 'Updated successfully',
+          });
         }
       },
       error: error => {
