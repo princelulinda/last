@@ -66,6 +66,8 @@ export interface BankOptions {
 }
 export interface Account {
   id: number;
+  acc_number?: string;
+  acc_holder?: string;
 }
 
 export interface Wallet {
