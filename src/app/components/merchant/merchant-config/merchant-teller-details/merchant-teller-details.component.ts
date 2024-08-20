@@ -12,7 +12,6 @@ import { SkeletonComponent } from '../../../../global/components/loaders/skeleto
 import { doTellerActionModel, tellerObjectModel } from '../../merchant.models';
 import { DialogService, MerchantService } from '../../../../core/services';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-merchant-teller-details',
@@ -30,6 +29,7 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
 
   canReceiveNotifications = false;
   action = '';
+  pin!: string;
   dialog!: DialogResponseModel;
   dialog$: Observable<DialogResponseModel>;
   actionMessage = '';
@@ -63,10 +63,11 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
           this.dialog = dialog;
           if (this.dialog && this.dialog.response) {
             if (
-              this.dialog.response.pin === 'pin submitted' &&
+              this.dialog.response.pin &&
               this.dialog.action === 'do teller action' &&
               this.action
             ) {
+              this.pin = dialog.response.pin;
               this.doTellerAction();
             }
           }
@@ -147,6 +148,7 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
   }
 
   doTellerAction() {
+    this.dialogService.dispatchLoading();
     const response = {
       title: '',
       type: 'loading',
@@ -159,7 +161,7 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
     const body = {
       teller: this.tellerInfo.id,
       action: this.action,
-      // pin_code: this.variableService.pin,
+      pin_code: this.pin,
     };
     console.log(body);
 
@@ -167,53 +169,59 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
       next: answer => {
         const response = answer as doTellerActionModel;
         // this.store.dispatch(new CloseDialog({ response: 'close' }));
-
+        this.dialogService.closeLoading();
         if (!response.object.success) {
-          const data = {
-            title: '',
+          this.dialogService.openToast({
+            title: 'failed',
             type: 'failed',
             message: response.object.response_message,
-          };
-          console.log(data);
+          });
 
           // this.store.dispatch(new OpenDialog(data));
         } else {
           this.isActionDone.emit(true);
 
-          const data = {
-            title: '',
+          this.dialogService.openToast({
+            title: 'success',
             type: 'success',
             message: response.object.response_message,
-          };
-          console.log(data);
+          });
 
           // this.store.dispatch(new OpenDialog(data));
         }
       },
-      error: (error: HttpErrorResponse) => {
-        this.isActionDone.emit(true);
+      // error: (error: HttpErrorResponse) => {
+      //   this.isActionDone.emit(true);
 
-        // this.store.dispatch(new CloseDialog({ response: 'close' }));
+      //   // this.store.dispatch(new CloseDialog({ response: 'close' }));
 
-        if (error.error.response_message) {
-          const data = {
-            title: '',
-            type: 'failed',
-            message: error.error.response_message,
-          };
-          console.log(data);
+      //   if (error.error.response_message) {
+      //     const data = {
+      //       title: '',
+      //       type: 'failed',
+      //       message: error.error.response_message,
+      //     };
+      //     console.log(data);
 
-          // this.store.dispatch(new OpenDialog(data));
-        } else {
-          const data = {
-            title: '',
-            type: 'failed',
-            message: 'An error occurred while doing action',
-          };
-          console.log(data);
+      //     // this.store.dispatch(new OpenDialog(data));
+      //   } else {
+      //     const data = {
+      //       title: '',
+      //       type: 'failed',
+      //       message: 'An error occurred while doing action',
+      //     };
+      //     console.log(data);
 
-          // this.store.dispatch(new OpenDialog(data));
-        }
+      //     // this.store.dispatch(new OpenDialog(data));
+      //   }
+      // },
+      error: () => {
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          type: 'failed',
+          title: 'Échec',
+          message: 'failed',
+        });
       },
     });
   }

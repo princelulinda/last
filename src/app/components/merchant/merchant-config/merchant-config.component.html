@@ -506,7 +506,7 @@
   <div
     class="modal-dialog w-100 d-flex justify-content-center h-100 align-items-center overflow-auto"
     style="min-width: 75%">
-    <div class="modal-content w-resp">
+    <div class="modal-content w-100">
       <app-merchant-teller-details
         [tellerInfo]="selectedTeller"
         [get_tellerInfo]="get_selectedTeller"
@@ -631,9 +631,10 @@
   <div
     class="modal-dialog w-100 d-flex justify-content-center h-100 align-items-center overflow-auto"
     style="min-width: 5%">
-    <div class="modal-content w-resp">
+    <div class="modal-content w-100 px-5 mx-5">
       <app-merchant-teller-details
         [tellerInfo]="selectedTeller"
+        [get_tellerInfo]="get_selectedTeller"
         (isActionDone)="getTellerOptions($event)"></app-merchant-teller-details>
 
       <router-outlet></router-outlet>
