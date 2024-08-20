@@ -1,15 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
-import { ProductListComponent } from './product-list/product-list.component';
 import { CommonModule } from '@angular/common';
+
+import { Observable } from 'rxjs';
+
+import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
 import { ConfigService } from '../../../core/services';
 import { ModeModel } from '../../../core/services/config/main-config.models';
-import { Observable } from 'rxjs';
+import { MerchantProductsComponent } from './merchant-products/merchant-products.component';
 
 @Component({
   selector: 'app-merchant-payment',
   standalone: true,
-  imports: [ProductListComponent, CommonModule],
+  imports: [MerchantProductsComponent, CommonModule],
   templateUrl: './merchant-payment.component.html',
   styleUrl: './merchant-payment.component.scss',
 })
