@@ -1,5 +1,6 @@
 <dialog
   id="merchant-payment"
+  tabindex="-1"
   class="border-0 p-0 bg-white lg-radius bg-white w-100 h-100 overflow-y-auto p-3">
   <main>
     <!-- NOTE :: STEPPER AND BACK SECTION -->
@@ -83,7 +84,7 @@
     </section>
 
     <!-- NOTE :: MERCHANT SECTION -->
-    <section>
+    <section class="col-sm-11 mx-auto mt-3">
       <div>
         <app-category-merchants [categoryId]="3"></app-category-merchants>
       </div>
