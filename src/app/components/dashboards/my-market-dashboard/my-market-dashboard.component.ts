@@ -268,7 +268,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
             type: 'success',
             message: response.object.response_message,
           });
-          this.dialogService.OpenMerchantBillPopup(this.successMessage.data);
+          this.dialogService.openMerchantBillPopup(this.successMessage.data);
           this.closeModal.nativeElement.click();
           this.billForm.reset();
         },
