@@ -7,7 +7,10 @@ import { MerchantService } from '../../../../core/services/merchant/merchant.ser
 import { ProductCardComponent } from '../../global/product-card/product-card.component';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { AllProductsComponent } from '../all-products/all-products.component';
-import { AllProductModel, ProductModel } from '../products.model';
+import {
+  AllProductAutocompleteModel,
+  ProductAutocompleteModel,
+} from '../products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { ConfigService } from '../../../../core/services';
 import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
@@ -30,10 +33,10 @@ export class ProductsComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
 
   allProduct = [];
-  products: ProductModel[] = [];
-  product!: ProductModel;
+  products: ProductAutocompleteModel[] = [];
+  product!: ProductAutocompleteModel;
   isLoading!: boolean;
-  favoriteProducts: ProductModel[] = [];
+  favoriteProducts: ProductAutocompleteModel[] = [];
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
   seeMore!: boolean;
@@ -72,17 +75,17 @@ export class ProductsComponent implements OnInit {
   inputDetails() {
     this.cartItem.emit(this.cartAdding);
   }
-  selectProduct(product: ProductModel) {
-    (this.product as ProductModel) = product;
+  selectProduct(product: ProductAutocompleteModel) {
+    (this.product as ProductAutocompleteModel) = product;
     console.log('PRoduct', product);
   }
-  selectProductFromAll(event: ProductModel) {
+  selectProductFromAll(event: ProductAutocompleteModel) {
     this.product = event;
     console.log('PRoducts', event);
   }
-  getAllProduct(event: AllProductModel[]) {
+  getAllProduct(event: AllProductAutocompleteModel[]) {
     this.isLoading = true;
-    (this.allProduct as AllProductModel[]) = event;
+    (this.allProduct as AllProductAutocompleteModel[]) = event;
     console.log('allproducts', this.allProduct);
   }
 
@@ -91,8 +94,8 @@ export class ProductsComponent implements OnInit {
       .getFavoriteProductAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: AllProductModel) => {
-          (this.products as ProductModel[]) = data.objects;
+        next: (data: AllProductAutocompleteModel) => {
+          (this.products as ProductAutocompleteModel[]) = data.objects;
           this.favoriteProducts = this.products.filter(
             product => product.is_favorite_product
           );

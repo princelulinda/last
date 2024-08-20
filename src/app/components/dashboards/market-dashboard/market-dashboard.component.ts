@@ -10,11 +10,11 @@ import {
   objectsModel,
   productCategoryArray,
   productCategoryModel,
-  ProductModel,
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
 import { BillerCardComponent } from '../../merchant/global/biller-card/biller-card.component';
+import { ProductAutocompleteModel } from '../../merchant/products/products.model';
+import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
 
 @Component({
   selector: 'app-market-dashboard',
@@ -72,13 +72,13 @@ export class MarketDashboardComponent implements OnInit {
   favorite_merchant_making!: BillersModel | null;
 
   // activities: any = [];
-  merchants!: Merchant_AutocompleteModel[];
-  products!: ProductModel[];
+  merchants!: MerchantAutocompleteModel[];
+  products!: ProductAutocompleteModel[];
   // biller: [] | null = null;
   productCategory!: productCategoryModel[];
   // sector: any;
-  last4Merchant!: Merchant_AutocompleteModel[];
-  recentMerchant!: Merchant_AutocompleteModel[];
+  last4Merchant!: MerchantAutocompleteModel[];
+  recentMerchant!: MerchantAutocompleteModel[];
   recentBillers!: BillersModel[];
   first4ProductCategory!: productCategoryModel[];
   start = 0;
@@ -225,7 +225,7 @@ export class MarketDashboardComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as { objects: Merchant_AutocompleteModel[] };
+          const response = data as { objects: MerchantAutocompleteModel[] };
           this.merchants = response.objects;
           // this.merchant = this.merchants;
           this.last4Merchant = this.merchants.slice(-4);
@@ -327,7 +327,7 @@ export class MarketDashboardComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as { objects: ProductModel[] };
+          const response = data as { objects: ProductAutocompleteModel[] };
           this.products = response.objects.slice(0, 4);
         },
       });

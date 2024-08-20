@@ -33,7 +33,6 @@ import {
 } from '../../../core/services/config/main-config.models';
 import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
 import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
-import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
 import { AllProductsComponent } from '../../merchant/products/all-products/all-products.component';
 import {
   Account,
@@ -45,6 +44,7 @@ import {
   StatsModel,
 } from '../../merchant/products/products.model';
 import { StatementComponent } from '../../statements/statement/statement.component';
+import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
 
 @Component({
   selector: 'app-my-market-dashboard',
@@ -102,7 +102,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   ];
   merchantId!: string | number;
   merchant!: MerchantModel | null;
-  merchantMult!: Merchant_AutocompleteModel[];
+  merchantMult!: MerchantAutocompleteModel[];
   merchantInfo!: MerchantModel | null;
 
   stat!: MerchantModel | null;
@@ -146,11 +146,13 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mainConfig$.subscribe({
       next: configs => {
-        this.activePlatform = configs.activePlateform;
-        if (this.activePlatform === 'myMarket') {
-          this.baseRouterLink = '/m/mymarket';
-        } else if (this.activePlatform === 'workstation') {
-          this.baseRouterLink = '/w/workstation/';
+        if (configs) {
+          this.activePlatform = configs.activePlateform;
+          if (this.activePlatform === 'myMarket') {
+            this.baseRouterLink = '/m/mymarket';
+          } else if (this.activePlatform === 'workstation') {
+            this.baseRouterLink = '/w/workstation/';
+          }
         }
       },
     });
