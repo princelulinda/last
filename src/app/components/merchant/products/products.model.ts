@@ -163,11 +163,11 @@ export interface OptionModel {
   wallet: WalletModel;
 }
 
-export interface ErrorModel {
-  object: {
-    response_message: string;
-  };
-}
+// export interface ErrorModel {
+//   object: {
+//     response_message: string;
+//   };
+// }
 
 export interface ObjectBillModel {
   object: generateBillModel;

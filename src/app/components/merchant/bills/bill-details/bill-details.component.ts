@@ -8,8 +8,6 @@ import {
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
-// import { MarketService } from '../../../../core/services/market/market.service';
-// import { VariableService } from '../../../../core/services/variable/variable.service';
 import { SimpleMerchantService } from '../../../../core/services/simple-merchant/simple-merchant.service';
 import {
   DialogService,
@@ -22,7 +20,6 @@ import { SkeletonComponent } from '../../../../global/components/loaders/skeleto
 
 import {
   BillsModel,
-  ErrorModel,
   ObjectBillModel,
   paymentBillsModel,
 } from '../../products/products.model';
@@ -33,14 +30,6 @@ import { accountsList } from '../../../account/models';
 import { WalletList } from '../../../wallet/wallet.models';
 import { DebitOptions } from '../../../transfer/transfer.model';
 import { bankModel } from '../../../../core/db/models/bank/bank.model';
-// import {
-//     OpenDialog,
-//     SwitchThemeState,
-//     OpenActionDialog,
-//     DialogState,
-//     CloseDialog,
-// } from 'src/app/shared';
-
 @Component({
   selector: 'app-bill-details',
   standalone: true,
@@ -95,7 +84,6 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
   dialog$: Observable<DialogResponseModel>;
 
   constructor(
-    // private store: Store,
     private route: ActivatedRoute,
     private router: Router,
     private merchantService: MerchantService,
@@ -213,21 +201,27 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
               message: response.object.response_message,
               type: 'failed',
             });
-            return;
+            this.selectedAccount = '';
+            this.selectedWallet = '';
+            this.descriptionForm.reset();
+            // return;
           }
-          this.router.navigate(['/m/market/bills']);
-          this.getBillDetails();
-          this.dialogService.openToast({
-            title: '',
-            message:
-              response.object?.response_message ??
-              'The bill has been successfully paid',
-            type: 'success',
-          });
-          this.selectedAccount = '';
-          this.selectedWallet = '';
+          if (response.object.success) {
+            this.router.navigate(['/m/market/bills']);
+            this.getBillDetails();
+            this.dialogService.openToast({
+              title: '',
+              message:
+                response.object?.response_message ??
+                'The bill has been successfully paid',
+              type: 'success',
+            });
+            this.selectedAccount = '';
+            this.selectedWallet = '';
+            this.descriptionForm.reset();
+          }
         },
-        error: (err: ErrorModel) => {
+        error: (err: ObjectBillModel) => {
           this.dialogService.closeLoading();
           this.dialogService.openToast({
             title: '',
@@ -237,6 +231,9 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
             type: 'failed',
           });
           this.paymentLoading = false;
+          this.selectedAccount = '';
+          this.selectedWallet = '';
+          this.descriptionForm.reset();
         },
       });
   }
