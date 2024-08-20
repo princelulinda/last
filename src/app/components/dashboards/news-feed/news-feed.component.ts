@@ -11,7 +11,7 @@ import { PublicationsComponent } from '../../publications/publications.component
 import { PlateformModel } from '../../../core/services/config/main-config.models';
 import { ProductCardComponent } from '../../merchant/global/product-card/product-card.component';
 import { CommonModule } from '@angular/common';
-import { ProductModel } from '../../merchant/products/products.model';
+import { ProductAutocompleteModel } from '../../merchant/products/products.model';
 
 @Component({
   selector: 'app-news-feed',
@@ -33,8 +33,8 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
   countProductLoader = [1, 2, 3, 4];
   search = '';
 
-  topProducts: ProductModel[] | [] | null = null;
-  product: ProductModel | null = null;
+  topProducts: ProductAutocompleteModel[] | [] | null = null;
+  product: ProductAutocompleteModel | null = null;
 
   billers: BillersModel[] | [] | null = null;
   billersLoading = true;
@@ -69,7 +69,7 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: res => {
-          const prodResponse = res as { objects: ProductModel[] };
+          const prodResponse = res as { objects: ProductAutocompleteModel[] };
           this.topProducts = prodResponse.objects;
           this.loadingProducts = false;
         },
@@ -101,7 +101,7 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
     this.selectedBiller = biller;
   }
 
-  selectProduct(product: ProductModel) {
+  selectProduct(product: ProductAutocompleteModel) {
     this.product = product;
   }
 

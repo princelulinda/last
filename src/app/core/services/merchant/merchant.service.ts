@@ -12,7 +12,7 @@ import {
 import { DoMerchantTransferResponseModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import { DoMerchantTransferModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import {
-  AllProductModel,
+  AllProductAutocompleteModel,
   MerchantInfoModel,
   MerchantObjectModel,
   searchProductByMerchantModel,
@@ -453,7 +453,9 @@ export class MerchantService {
       pagination_ +
       '&search=' +
       search;
-    return this.apiService.get<AllProductModel>(url).pipe(map(data => data));
+    return this.apiService
+      .get<AllProductAutocompleteModel>(url)
+      .pipe(map(data => data));
   }
   //needed in market-dashboard
   getBIllers(biller: boolean) {
@@ -632,7 +634,7 @@ export class MerchantService {
       '/dbs/merchant-product/objects_autocomplete/?' +
       search +
       '&is_favorite_product=true';
-    return this.apiService.get<AllProductModel>(url).pipe(
+    return this.apiService.get<AllProductAutocompleteModel>(url).pipe(
       retry({ count: 5, delay: 3000, resetOnSuccess: true }),
       map(data => {
         return data;

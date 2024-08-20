@@ -15,8 +15,8 @@ import { PlateformModel } from '../../../core/services/config/main-config.models
 import { CommonModule } from '@angular/common';
 import { Pagination } from '../../../core/services/merchant/model';
 import {
-  AllProductModel,
-  ProductModel,
+  AllProductAutocompleteModel,
+  ProductAutocompleteModel,
   TransactionModel,
   TransactionObjectModel,
 } from '../../../components/merchant/products/products.model';
@@ -38,15 +38,15 @@ import { AmountVisibilityComponent } from '../../../global/components/custom-fie
 export class AsideBarComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  @Output() topProducts = new EventEmitter<AllProductModel[]>();
-  @Output() product = new EventEmitter<ProductModel>();
+  @Output() topProducts = new EventEmitter<AllProductAutocompleteModel[]>();
+  @Output() product = new EventEmitter<ProductAutocompleteModel>();
 
   @Input() url = '';
   @Input() searchBar = false;
 
   plateform$!: Observable<PlateformModel>;
   plateform!: PlateformModel;
-  products!: ProductModel[];
+  products!: ProductAutocompleteModel[];
   response_data = 0;
   loader = false;
   productsNumber = 0;
@@ -105,20 +105,20 @@ export class AsideBarComponent implements OnInit {
         .searchProduct(this.productPagination, search)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
-          next: (data: AllProductModel) => {
+          next: (data: AllProductAutocompleteModel) => {
             this.response_data = data.count;
-            (this.products as ProductModel[]) = data.objects;
+            (this.products as ProductAutocompleteModel[]) = data.objects;
             this.loader = true;
             // this.topProducts.emit(this.products);
           },
         });
     } else {
       this.apiService
-        .get<AllProductModel>(this.url)
+        .get<AllProductAutocompleteModel>(this.url)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
-          next: (data: AllProductModel) => {
-            (this.products as ProductModel[]) = data.objects;
+          next: (data: AllProductAutocompleteModel) => {
+            (this.products as ProductAutocompleteModel[]) = data.objects;
             this.loader = true;
             this.productsNumber = data.count;
             if (this.productsNumber == 0) {
@@ -129,7 +129,7 @@ export class AsideBarComponent implements OnInit {
     }
   }
 
-  selectProduct(event: ProductModel) {
+  selectProduct(event: ProductAutocompleteModel) {
     this.product.emit(event);
     console.log('PRoducts', this.product);
   }

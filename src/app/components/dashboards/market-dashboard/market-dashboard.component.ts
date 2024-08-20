@@ -13,7 +13,7 @@ import {
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillerCardComponent } from '../../merchant/global/biller-card/biller-card.component';
-import { ProductModel } from '../../merchant/products/products.model';
+import { ProductAutocompleteModel } from '../../merchant/products/products.model';
 import { Merchant_AutocompleteModel } from '../../merchant/merchant.models';
 
 @Component({
@@ -73,7 +73,7 @@ export class MarketDashboardComponent implements OnInit {
 
   // activities: any = [];
   merchants!: Merchant_AutocompleteModel[];
-  products!: ProductModel[];
+  products!: ProductAutocompleteModel[];
   // biller: [] | null = null;
   productCategory!: productCategoryModel[];
   // sector: any;
@@ -327,7 +327,7 @@ export class MarketDashboardComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as { objects: ProductModel[] };
+          const response = data as { objects: ProductAutocompleteModel[] };
           this.products = response.objects.slice(0, 4);
         },
       });

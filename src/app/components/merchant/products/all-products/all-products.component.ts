@@ -12,7 +12,10 @@ import {
 import { Pagination } from '../../../../core/services/merchant/model';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { AllProductModel, ProductModel } from '../products.model';
+import {
+  AllProductAutocompleteModel,
+  ProductAutocompleteModel,
+} from '../products.model';
 import { MerchantModel } from '../products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
@@ -34,8 +37,8 @@ import { ProductCardComponent } from '../../global/product-card/product-card.com
 })
 export class AllProductsComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
-  @Output() allProducts = new EventEmitter<AllProductModel[]>();
-  @Output() product = new EventEmitter<ProductModel>();
+  @Output() allProducts = new EventEmitter<AllProductAutocompleteModel[]>();
+  @Output() product = new EventEmitter<ProductAutocompleteModel>();
 
   @Input() detail = false;
   @Input() clienType = '';
@@ -98,8 +101,8 @@ export class AllProductsComponent implements OnInit {
         .searchProduct(this.productPagination, search)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
-          next: (data: AllProductModel) => {
-            (this.products as ProductModel[]) = data.objects;
+          next: (data: AllProductAutocompleteModel) => {
+            (this.products as ProductAutocompleteModel[]) = data.objects;
             this.response_data = data.count;
             this.pages = Math.round(this.response_data / 6);
             if (
@@ -115,11 +118,11 @@ export class AllProductsComponent implements OnInit {
         });
     } else {
       this.apiService
-        .get<AllProductModel>(this.url)
+        .get<AllProductAutocompleteModel>(this.url)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
-          next: (data: AllProductModel) => {
-            (this.products as ProductModel[]) = data.objects;
+          next: (data: AllProductAutocompleteModel) => {
+            (this.products as ProductAutocompleteModel[]) = data.objects;
             this.loader = true;
             this.productsNumber = data.count;
           },
@@ -189,7 +192,7 @@ export class AllProductsComponent implements OnInit {
     }
   }
 
-  selectProduct(event: ProductModel) {
+  selectProduct(event: ProductAutocompleteModel) {
     this.product.emit(event);
     console.log('PRoducts', this.product);
   }

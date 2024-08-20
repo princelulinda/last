@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { MerchantService } from '../../../../core/services';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { ProductCardComponent } from '../../../merchant/global/product-card/product-card.component';
-import { ProductModel } from '../../../merchant/products/products.model';
+import { ProductAutocompleteModel } from '../../../merchant/products/products.model';
 
 @Component({
   selector: 'app-merchant-products',
@@ -17,7 +17,7 @@ import { ProductModel } from '../../../merchant/products/products.model';
 })
 export class MerchantProductsComponent implements OnInit, OnDestroy {
   @Input() merchantId = 0;
-  products!: ProductModel[];
+  products!: ProductAutocompleteModel[];
   isLoading = true;
 
   constructor(private merchantService: MerchantService) {}
@@ -28,7 +28,7 @@ export class MerchantProductsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: products => {
-          const results = products as { objects: ProductModel[] };
+          const results = products as { objects: ProductAutocompleteModel[] };
           this.products = results.objects;
           this.isLoading = false;
         },

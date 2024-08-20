@@ -1,4 +1,4 @@
-// import { MerchantModel, ProductModel } from "../dashboards/dashboard.model";
+// import { MerchantModel, ProductAutocompleteModel} from "../dashboards/dashboard.model";
 
 import {
   Merchant_AutocompleteModel,
@@ -7,7 +7,7 @@ import {
 import { ClientApiResponse } from '../../../core/db/models/auth';
 import { MerchantBillModel } from '../../../core/services/dialog/dialogs-models';
 
-export interface ProductModel {
+export interface ProductAutocompleteModel {
   id: number;
   price: number;
   lookup_icon: string;
@@ -18,12 +18,12 @@ export interface ProductModel {
   is_favorite_product: boolean;
 }
 
-export interface AllProductModel {
-  objects: ProductModel[];
+export interface AllProductAutocompleteModel {
+  objects: ProductAutocompleteModel[];
   count: number;
 }
 export interface AllProductsModel {
-  objects: ProductModel;
+  objects: ProductAutocompleteModel;
   count: number;
 }
 
