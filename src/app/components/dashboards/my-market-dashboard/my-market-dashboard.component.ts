@@ -146,11 +146,13 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mainConfig$.subscribe({
       next: configs => {
-        this.activePlatform = configs.activePlateform;
-        if (this.activePlatform === 'myMarket') {
-          this.baseRouterLink = '/m/mymarket';
-        } else if (this.activePlatform === 'workstation') {
-          this.baseRouterLink = '/w/workstation/';
+        if (configs) {
+          this.activePlatform = configs.activePlateform;
+          if (this.activePlatform === 'myMarket') {
+            this.baseRouterLink = '/m/mymarket';
+          } else if (this.activePlatform === 'workstation') {
+            this.baseRouterLink = '/w/workstation/';
+          }
         }
       },
     });
