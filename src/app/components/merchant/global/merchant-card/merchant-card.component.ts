@@ -6,8 +6,8 @@ import { Subject, takeUntil } from 'rxjs';
 import { objectModel } from '../../../dashboards/dashboard.model';
 import { Favorite } from '../../../../core/services/merchant/model';
 import { MerchantService } from '../../../../core/services';
-import { Merchant_AutocompleteModel } from './merchant.model';
 import { MerchantPaymentComponent } from '../../../dev/merchant-payment/merchant-payment.component';
+import { Merchant_AutocompleteModel } from '../../merchant.models';
 
 @Component({
   selector: 'app-merchant-card',

@@ -27,12 +27,12 @@ import {
 } from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
+  Merchant_AutocompleteModel,
   newTellerModel,
   searchTellerModel,
   updateMerchantDetailsModel,
 } from '../../../components/merchant/merchant.models';
 import { TransferResponseModel } from '../../../components/transfer/transfer.model';
-import { Merchant_AutocompleteModel } from '../../../components/merchant/global/merchant-card/merchant.model';
 import { Coords2Model } from '../../../global/components/google-map/map.model';
 
 @Injectable({

@@ -11,8 +11,8 @@ import {
 } from '../../../core/services/config/main-config.models';
 import { mainConfigModel } from '../../wallet/wallet.models';
 import { MyMarketDashboardComponent } from '../my-market-dashboard/my-market-dashboard.component';
-import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
 import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
+import { Merchant_AutocompleteModel } from '../../merchant/merchant.models';
 
 @Component({
   selector: 'app-workstation-market-dashboard',

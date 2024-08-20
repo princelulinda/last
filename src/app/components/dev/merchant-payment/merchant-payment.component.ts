@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { Observable } from 'rxjs';
 
-import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
 import { ConfigService } from '../../../core/services';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import { MerchantProductsComponent } from './merchant-products/merchant-products.component';
+import { Merchant_AutocompleteModel } from '../../merchant/merchant.models';
 
 @Component({
   selector: 'app-merchant-payment',
@@ -31,10 +31,5 @@ export class MerchantPaymentComponent implements OnInit {
   }
   ngOnInit() {
     this.theme$.subscribe(mode => (this.theme = mode));
-
-    console.log(
-      '###############################################################',
-      this.merchant
-    );
   }
 }

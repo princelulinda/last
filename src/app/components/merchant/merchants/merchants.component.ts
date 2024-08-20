@@ -16,7 +16,6 @@ import { MerchantCardComponent } from '../global/merchant-card/merchant-card.com
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillersModel } from '../../dashboards/dashboard.model';
 import { MerchantResFav } from './merchant.models';
-import { Merchant_AutocompleteModel } from '../global/merchant-card/merchant.model';
 import { GoogleMapComponent } from '../../../global/components/google-map/google-map.component';
 import {
   CategoriesPerActivitySectorModel,
@@ -24,6 +23,7 @@ import {
   SectorActivityModel,
   SectorActivityObjectModel,
 } from '../products/products.model';
+import { Merchant_AutocompleteModel } from '../merchant.models';
 
 @Component({
   selector: 'app-merchants',

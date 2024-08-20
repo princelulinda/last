@@ -1,9 +1,11 @@
 // import { MerchantModel, ProductModel } from "../dashboards/dashboard.model";
 
-import { tellerObjectModel } from '../merchant.models';
+import {
+  Merchant_AutocompleteModel,
+  tellerObjectModel,
+} from '../merchant.models';
 import { ClientApiResponse } from '../../../core/db/models/auth';
 import { MerchantBillModel } from '../../../core/services/dialog/dialogs-models';
-import { Merchant_AutocompleteModel } from '../global/merchant-card/merchant.model';
 
 export interface ProductModel {
   id: number;

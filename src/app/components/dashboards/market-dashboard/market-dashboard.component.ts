@@ -12,9 +12,9 @@ import {
   productCategoryModel,
 } from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
 import { BillerCardComponent } from '../../merchant/global/biller-card/biller-card.component';
 import { ProductModel } from '../../merchant/products/products.model';
+import { Merchant_AutocompleteModel } from '../../merchant/merchant.models';
 
 @Component({
   selector: 'app-market-dashboard',
