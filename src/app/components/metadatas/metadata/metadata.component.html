@@ -147,6 +147,7 @@
                         class="p-1 attrs bg-secondary pt-2 sm-radius text-secondary ps-4 border"
                         i18n
                         >Maxlength({{ meta.widget_attrs.max_length }})
+
                         @if (meta.widget_attrs.required === true) {
                           <span class="text-danger fs-medium">*</span>
                         }
@@ -184,6 +185,7 @@
               }
 
               <!-- pagination button -->
+
               <div
                 class="mt-4 d-flex align-items-center justify-content-center fs-largeight">
                 <button
@@ -193,6 +195,7 @@
                   class="border-0 me-2 btn d-inline-flex align-items-center rounded p-2 fs-4 text-primary">
                   <i class="fa-solid fa-play fa-rotate-180"></i>
                 </button>
+
                 @if (pagination.filters.limit) {
                   <button
                     title="Next"
