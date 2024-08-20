@@ -16,7 +16,6 @@ import { MerchantCardComponent } from '../global/merchant-card/merchant-card.com
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillersModel } from '../../dashboards/dashboard.model';
 import { MerchantResFav } from './merchant.models';
-import { Merchant_AutocompleteModel } from '../global/merchant-card/merchant.model';
 import { GoogleMapComponent } from '../../../global/components/google-map/google-map.component';
 import {
   CategoriesPerActivitySectorModel,
@@ -24,6 +23,7 @@ import {
   SectorActivityModel,
   SectorActivityObjectModel,
 } from '../products/products.model';
+import { MerchantAutocompleteModel } from '../merchant.models';
 
 @Component({
   selector: 'app-merchants',
@@ -45,10 +45,10 @@ export class MerchantsComponent implements OnInit, OnDestroy {
 
   // @Output() sector = new EventEmitter<SectorActivityModel>()
 
-  merchants!: Merchant_AutocompleteModel[] | null;
+  merchants!: MerchantAutocompleteModel[] | null;
   // merchant: any;
   favorite_merchants!: MerchantResFav;
-  favoriteMerchants!: Merchant_AutocompleteModel[];
+  favoriteMerchants!: MerchantAutocompleteModel[];
   favoriteMerchantsNumber!: number;
   favorite_merchant_making!: BillersModel | null;
   // favorite: any;
@@ -116,7 +116,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as { objects: Merchant_AutocompleteModel[] };
+          const response = data as { objects: MerchantAutocompleteModel[] };
           this.isLoading = false;
           this.merchants = response.objects;
           this.favorite_merchant_making = null;
@@ -145,7 +145,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: data => {
           const response = data as {
-            objects: Merchant_AutocompleteModel[];
+            objects: MerchantAutocompleteModel[];
             count: number;
           };
           this.favoriteMerchants = response.objects;

@@ -1,20 +1,23 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { MerchantService } from '../../../../core/services';
+import { CommonModule } from '@angular/common';
+
 import { Subject, takeUntil } from 'rxjs';
-import { ProductCardComponent } from '../../../merchant/global/product-card/product-card.component';
-import { ProductModel } from '../../../dashboards/dashboard.model';
+
+import { MerchantService } from '../../../../core/services';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { ProductCardComponent } from '../../../merchant/global/product-card/product-card.component';
+import { ProductAutocompleteModel } from '../../../merchant/products/products.model';
 
 @Component({
-  selector: 'app-product-list',
+  selector: 'app-merchant-products',
   standalone: true,
-  imports: [ProductCardComponent, SkeletonComponent],
-  templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.scss',
+  imports: [CommonModule, SkeletonComponent, ProductCardComponent],
+  templateUrl: './merchant-products.component.html',
+  styleUrl: './merchant-products.component.scss',
 })
-export class ProductListComponent implements OnInit, OnDestroy {
+export class MerchantProductsComponent implements OnInit, OnDestroy {
   @Input() merchantId = 0;
-  products!: ProductModel[];
+  products!: ProductAutocompleteModel[];
   isLoading = true;
 
   constructor(private merchantService: MerchantService) {}
@@ -25,13 +28,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: products => {
-          const results = products as { objects: ProductModel[] };
+          const results = products as { objects: ProductAutocompleteModel[] };
           this.products = results.objects;
           this.isLoading = false;
-          console.log(
-            'PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP',
-            this.products
-          );
         },
       });
   }
