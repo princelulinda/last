@@ -23,7 +23,7 @@ import { MerchantProductsComponent } from '../../../../components/dev/merchant-p
 })
 export class MerchantPaymentComponent implements AfterViewInit {
   private merchantPaymentDialog: HTMLDialogElement | null = null;
-  private paymentData: {
+  paymentData: {
     active: boolean;
     payload: MerchantPaymentDialogModel | null;
   } = {
@@ -53,6 +53,10 @@ export class MerchantPaymentComponent implements AfterViewInit {
         this.merchantPaymentDialog?.close();
       }
     });
+  }
+
+  closeMerchantPaymentDialog() {
+    this.dialogService.closeMerchantPaymentDialog();
   }
 
   ngAfterViewInit() {

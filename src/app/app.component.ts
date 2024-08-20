@@ -17,6 +17,7 @@ import { TransferBillComponent } from './global/components/popups/bills-format/t
 import { LandscapeBillComponent } from './global/components/popups/bills-format/landscape-bill/landscape-bill.component';
 import { ObrBillComponent } from './global/components/popups/bills-format/obr-bill/obr-bill.component';
 import { MerchantBillComponent } from './global/components/popups/bills-format/merchant-bill/merchant-bill.component';
+import { MerchantPaymentComponent } from './global/components/popups/merchant-payment/merchant-payment.component';
 
 @Component({
   selector: 'app-root',
@@ -33,6 +34,7 @@ import { MerchantBillComponent } from './global/components/popups/bills-format/m
     ObrBillComponent,
     MerchantBillComponent,
     NgOptimizedImage,
+    MerchantPaymentComponent,
   ],
 })
 export class AppComponent implements OnInit {
@@ -53,6 +55,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dialogService.openMerchantPaymentDialog({ type: 'merchant' });
     const localToken = this.authService.getLocalAuthToken();
     if (localToken) {
       this.dialogService.dispatchSplashScreen();

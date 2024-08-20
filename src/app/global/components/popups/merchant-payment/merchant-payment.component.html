@@ -1,20 +1,20 @@
-<dialog id="merchant-payment" class="border-0 p-0">
-  <main class="md-radius p-4 overflow-auto bg-white h-8 position-relative">
+<dialog
+  id="merchant-payment"
+  class="border-0 p-0 bg-white lg-radius bg-white w-100 h-100 overflow-y-auto p-3">
+  <main>
+    <div
+      class="text-end text-dark"
+      tabindex="0"
+      (click)="closeMerchantPaymentDialog()"
+      role="button">
+      <span class="me-2"><i class="fa fa-arrow-left"></i></span>
+      <b i18n> Back</b>
+    </div>
     <!---------------------------------------------------------- ****####  MERCHANT SECTION  ####**** ----------------------------------------------------------------->
 
     @if (type === 'merchant' && merchant) {
       <!---------------------------------------------------------- BACK SECTION ----------------------------------------------------------------->
 
-      <div class="position-absolute back">
-        <span
-          class="d-flex align-items-center fs-l-medium"
-          data-bs-toggle="modal"
-          [attr.data-bs-target]="'#paymentModal' + merchant.id"
-          role="button">
-          <span class="me-2"><i class="fa fa-arrow-left"></i></span>
-          <b i18n> Back</b>
-        </span>
-      </div>
       <div class="d-flex flex-column h-100">
         <!---------------------------------------------------------- STEPPER SECTION ----------------------------------------------------------------->
 
@@ -118,12 +118,12 @@
                 }}</span>
               </div>
             </div>
-            <div class="pt-4 h-100 mb-4">
+            <div class="pt-4 mb-4">
               <app-merchant-products
                 [merchantId]="merchant.id"></app-merchant-products>
             </div>
           </div>
-          <div class="col-4 h-100"></div>
+          <div class="col-4"></div>
         </div>
       </div>
     }
