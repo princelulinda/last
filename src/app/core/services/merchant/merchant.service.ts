@@ -352,7 +352,7 @@ export class MerchantService {
   getCategoryMerchants(
     categoryId: number
   ): Observable<{ objects: MerchantAutocompleteModel[]; count: number }> {
-    const url = `/dbs/merchant/list/objects_autocomplete/?category_id=${categoryId}/`;
+    const url = `/dbs/merchant/manage/objects_autocomplete/?merchant_category=${categoryId}`;
     return this.apiService
       .get<{ objects: MerchantAutocompleteModel[]; count: number }>(url)
       .pipe(map(data => data));
