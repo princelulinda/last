@@ -9,6 +9,7 @@ import {
   TransfertBillModel,
   LandscpeBillModel,
   ObrBillModel,
+  MerchantPaymentDialogModel,
 } from './dialogs-models';
 import { Observable } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -79,6 +80,14 @@ export class DialogService {
   obrBill: WritableSignal<{
     active: boolean;
     payload: ObrBillModel | null;
+  }> = signal({
+    active: false,
+    payload: null,
+  });
+
+  merchantPaymentDialog: WritableSignal<{
+    active: boolean;
+    payload: MerchantPaymentDialogModel | null;
   }> = signal({
     active: false,
     payload: null,
@@ -178,26 +187,26 @@ export class DialogService {
   }
 
   // Bills format Dispatcher
-  OpenTransfertBillPopup(payload: TransfertBillModel) {
+  openTransfertBillPopup(payload: TransfertBillModel) {
     this.transferBill.set({
       active: true,
       payload: payload,
     });
   }
-  OpenMerchantBillPopup(payload: MerchantBillModel) {
+  openMerchantBillPopup(payload: MerchantBillModel) {
     this.merchantBill.set({
       active: true,
       payload: payload,
     });
   }
 
-  OpenObrBillPopup(payload: ObrBillModel) {
+  openObrBillPopup(payload: ObrBillModel) {
     this.obrBill.set({
       active: true,
       payload: payload,
     });
   }
-  OpenLandscapeBillPopup(payload: LandscpeBillModel) {
+  openLandscapeBillPopup(payload: LandscpeBillModel) {
     this.landscapeBill.set({
       active: true,
       payload: payload,
@@ -217,6 +226,20 @@ export class DialogService {
       payload: null,
     });
     this.landscapeBill.set({
+      active: false,
+      payload: null,
+    });
+  }
+
+  openMerchantPaymentDialog(payload: MerchantPaymentDialogModel) {
+    this.merchantPaymentDialog.set({
+      active: true,
+      payload: payload,
+    });
+  }
+
+  closeMerchantPaymentDialog() {
+    this.merchantPaymentDialog.set({
       active: false,
       payload: null,
     });

@@ -4,8 +4,8 @@ import { Subject, Observable, takeUntil } from 'rxjs';
 
 import {
   MerchantModel,
+  ProductAutocompleteModel,
   productConfigModel,
-  ProductConfigObjectsModel,
   updateProductInfoObjectModel,
 } from '../products.model';
 import { CommonModule } from '@angular/common';
@@ -19,11 +19,18 @@ import {
   MerchantService,
 } from '../../../../core/services';
 import { PlateformModel } from '../../../../core/services/config/main-config.models';
+import { ProductCardComponent } from '../../global/product-card/product-card.component';
 
 @Component({
   selector: 'app-product-config',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, SkeletonComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    SkeletonComponent,
+    ProductCardComponent,
+  ],
   templateUrl: './product-config.component.html',
   styleUrl: './product-config.component.scss',
 })
@@ -37,15 +44,14 @@ export class ProductConfigComponent implements OnInit {
   dialog!: DialogResponseModel;
   selectedTeller: undefined;
   isActionDone = false;
-  products!: productConfigModel[] | undefined;
-  selectedProduct!: productConfigModel;
-  product!: productConfigModel | undefined;
+  products: ProductAutocompleteModel[] = [];
+  selectedProduct!: ProductAutocompleteModel;
+  product: productConfigModel | null = null;
   action: string[] = [];
   search = new FormControl('');
-  isProductsSearch = false;
   productConfigForm: FormGroup;
   selectedMenu = '';
-  isLoading = false;
+  isLoading = true;
   toggleMetadata = false;
   searchMetadata = new FormControl('');
   pagination = new PaginationConfig();
@@ -84,7 +90,7 @@ export class ProductConfigComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.dialog$.subscribe({
       next: (dialog: DialogResponseModel) => {
         if (dialog) {
@@ -121,7 +127,7 @@ export class ProductConfigComponent implements OnInit {
       this.merchant = merchantInfo.object.response_data;
 
       this.merchantService.getConnectedMerchantId(this.merchant.id);
-      this.getProducts();
+      this.getMerchantProducts();
     });
   }
   // getMetadata() {
@@ -178,17 +184,17 @@ export class ProductConfigComponent implements OnInit {
       this.toggleMetadata = true;
     }
   }
-  getProducts() {
+  getMerchantProducts(search?: string) {
+    this.isLoading = true;
     this.search.patchValue('');
-    this.isProductsSearch = false;
-    this.products = undefined;
+    this.products = [];
     this.merchantService
-      .getProductsByMerchant(this.merchant.id)
+      .getMerchantProducts(this.merchant.id, search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: result => {
-          const products = result as ProductConfigObjectsModel;
-          this.products = products.objects;
+          this.products = result.objects;
+          this.isLoading = false;
         },
         error: () => {
           this.isLoading = false;
@@ -201,7 +207,7 @@ export class ProductConfigComponent implements OnInit {
       });
   }
 
-  selectProduct(product: productConfigModel) {
+  selectProduct(product: ProductAutocompleteModel) {
     this.selectedProduct = product;
 
     this.selectedMenu = 'details';
@@ -345,7 +351,7 @@ export class ProductConfigComponent implements OnInit {
           });
         } else {
           this.getProductDetails();
-          this.getProducts();
+          this.getMerchantProducts();
           this.selectedMenu = 'details';
           this.dialogService.openToast({
             title: 'success',
@@ -371,21 +377,24 @@ export class ProductConfigComponent implements OnInit {
   getSelectedFieldNames(): number[] {
     return this.selectedFields.map(field => field.id);
   }
+
   searchProducts(search: string | null) {
-    this.isProductsSearch = true;
-    const data = {
-      search: search,
-      merchant: this.merchant.id,
-    };
-    this.products = undefined;
+    this.isLoading = true;
+    this.products = [];
     if (search) {
-      this.merchantService.searchProductByMerchant(data).subscribe(result => {
-        const products = result as ProductConfigObjectsModel;
-        this.isLoading = false;
-        this.products = products.objects;
-      });
+      this.merchantService
+        .getMerchantProducts(this.merchant.id, search)
+        .subscribe({
+          next: result => {
+            this.products = result.objects;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.isLoading = false;
+          },
+        });
     } else {
-      this.getProducts();
+      this.getMerchantProducts();
     }
   }
   doListMove(action: string) {
