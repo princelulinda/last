@@ -1,0 +1,22 @@
+.square{
+    width: 40px; height: 40px
+}
+.field{
+   height: 50px
+}
+.chosen{
+    animation: transition 0.5s ease-in;
+}
+@keyframes transition {
+    0% {
+        opacity: 0;
+        transform: translatey(100px);
+    }
+    100% {
+        opacity: 1;
+        transtransform: translatey(0px);
+    }
+}
+.w-60{
+    width: 65%
+}

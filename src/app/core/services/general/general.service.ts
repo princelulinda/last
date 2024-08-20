@@ -10,7 +10,11 @@ import {
 import { ParamModel } from '../../../global/components/reusable-list/reusable.model';
 import { getdataModal } from '../../../global/components/reusable-list/reusable.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
-import { MetadataModel } from '../../../components/metadatas/metadata.model';
+import {
+  MetadataBodyModel,
+  MetadataCreationResponseModel,
+  MetadataModel,
+} from '../../../components/metadatas/metadata.model';
 // import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -90,5 +94,13 @@ export class GeneralService {
         return data;
       })
     );
+  }
+  createMetadata(
+    body: MetadataBodyModel
+  ): Observable<MetadataCreationResponseModel> {
+    const url = '/metadata/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as MetadataCreationResponseModel));
   }
 }

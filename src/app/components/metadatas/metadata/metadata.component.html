@@ -215,7 +215,9 @@
 
       @if (selectedMenu === 'add') {
         <div>
-          <app-metadata-form></app-metadata-form>
+          <app-metadata-form
+            (refreshUpdates)="seeUpdates($event)"
+            [selectedMenu]="selectedMenu"></app-metadata-form>
         </div>
       }
     </div>
