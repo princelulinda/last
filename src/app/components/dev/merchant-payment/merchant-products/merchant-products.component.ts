@@ -16,20 +16,28 @@ import { ProductAutocompleteModel } from '../../../merchant/products/products.mo
   styleUrl: './merchant-products.component.scss',
 })
 export class MerchantProductsComponent implements OnInit, OnDestroy {
-  @Input() merchantId = 0;
-  products!: ProductAutocompleteModel[];
+  private onDestroy$: Subject<void> = new Subject<void>();
+
+  @Input({ required: true }) merchantId!: number;
+  products: ProductAutocompleteModel[] = [];
   isLoading = true;
 
   constructor(private merchantService: MerchantService) {}
-  private onDestroy$: Subject<void> = new Subject<void>();
+
   ngOnInit() {
+    this.getMerchantProducts();
+  }
+
+  getMerchantProducts() {
     this.merchantService
-      .getProductsByMerchant(this.merchantId.toString())
+      .getMerchantProducts(this.merchantId?.toString())
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: products => {
-          const results = products as { objects: ProductAutocompleteModel[] };
-          this.products = results.objects;
+          this.products = products.objects;
+          this.isLoading = false;
+        },
+        error: () => {
           this.isLoading = false;
         },
       });
