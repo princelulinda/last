@@ -27,17 +27,6 @@ export interface MerchantModel {
   merchant_title: string;
 }
 
-export interface ProductModel {
-  id: number;
-  price: number;
-  lookup_icon: string;
-  lookup_image: string;
-  lookup_title: string;
-  lookup_subtitle: string;
-  lookup_description: string;
-  is_favorite_product: boolean;
-}
-
 export interface MerchantLookup {
   id: number;
   lookup_title: string;

@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { ProductModel } from '../../../dashboards/dashboard.model';
 import { MerchantService } from '../../../../core/services';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { ProductCardComponent } from '../../../merchant/global/product-card/product-card.component';
+import { ProductModel } from '../../../merchant/products/products.model';
 
 @Component({
   selector: 'app-merchant-products',

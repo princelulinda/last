@@ -7,9 +7,7 @@ import { Merchant_AutocompleteModel } from '../global/merchant-card/merchant.mod
 
 export interface ProductModel {
   id: number;
-  name: string;
   price: number;
-  icon: string;
   lookup_icon: string;
   lookup_image: string;
   lookup_title: string;
@@ -17,6 +15,7 @@ export interface ProductModel {
   lookup_description: string;
   is_favorite_product: boolean;
 }
+
 export interface AllProductModel {
   objects: ProductModel[];
   count: number;
@@ -114,7 +113,10 @@ export interface WalletModel {
 
 export interface OrdersModel {
   id: number;
-  product: ProductModel;
+  product: {
+    name: string;
+    value: string;
+  };
   payment: number;
   number: number;
   amount: number;

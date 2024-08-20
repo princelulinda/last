@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { Observable, takeUntil, Subject } from 'rxjs';
 
-import { ProductModel } from '../../../dashboards/dashboard.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { ConfigService, MerchantService } from '../../../../core/services';
 import {
   FavoriteModel,
   ProductFavoriteModel,
+  ProductModel,
 } from '../../products/products.model';
 
 @Component({
