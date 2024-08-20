@@ -1,0 +1,51 @@
+<div class="bg-secondary sm-radius p-4 py-4">
+  <form [formGroup]="walletForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-lg-4 col-sm-8 col-12">
+        <div class="form-floating mt-5">
+          <input
+            type="text"
+            class="input form-control bg-light text-dark simulator-input"
+            id="name"
+            formControlName="name"
+            placeholder="name" />
+          <label for="name" class="text-dark" i18n>name <code>*</code></label>
+        </div>
+
+        <div class="form-floating mt-3">
+          <input
+            type="text"
+            class="input form-control bg-light text-dark simulator-input"
+            id="description"
+            formControlName="description"
+            placeholder="description" />
+          <label for="description" class="text-dark" i18n>description</label>
+        </div>
+
+        <div class="form-floating mt-3">
+          <input
+            type="text"
+            class="input form-control bg-light text-dark simulator-input"
+            id="pin"
+            formControlName="pin"
+            placeholder="pin"
+            maxlength="4" />
+          <label for="pin" class="text-dark" i18n>pin <code>*</code></label>
+
+          <div
+            *ngIf="walletForm?.get('pin')?.errors?.['pattern']"
+            class="text-danger"
+            i18n>
+            Invalid input. Please enter a valid number.
+          </div>
+          <div
+            *ngIf="walletForm?.get('pin')?.errors?.['maxlength']"
+            class="text-danger"
+            i18n>
+            PIN must not exceed 4 digits.
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -74,7 +74,15 @@
         </div>
 
         <div class="d-flex gap-2 position-absolute cardButtons">
-          <button class="btn px-1 p-0 btnBack">
+          <button
+            class="btn px-1 p-0 btnBack"
+            [routerLink]="
+              activePlatform === 'workstation'
+                ? '/w/workstation/banking/creat-wallet'
+                : activePlatform === 'onlineBanking'
+                  ? '/b/banking/creat-wallet'
+                  : ''
+            ">
             <i class="fa-solid fa-plus fs-normal pt-1 text-all-white"></i>
           </button>
           <button
