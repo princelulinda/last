@@ -15,15 +15,13 @@ import {
   AllProductAutocompleteModel,
   MerchantInfoModel,
   MerchantObjectModel,
-  searchProductByMerchantModel,
   updateProdcutInfoModel,
   addProductByMerchantModel,
   ObjectBillModel,
   paymentBillsModel,
   StatsModel,
   ProductFavoriteModel,
-  SectorActivityObjectModel,
-  CategoriesPerActivitySectorObjectModel,
+  ProductAutocompleteModel,
 } from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
@@ -34,6 +32,10 @@ import {
 } from '../../../components/merchant/merchant.models';
 import { TransferResponseModel } from '../../../components/transfer/transfer.model';
 import { Coords2Model } from '../../../global/components/google-map/map.model';
+import {
+  MerchantCategoriesObjectModel,
+  SectorActivityObjectModel,
+} from '../../../components/merchant/merchants/merchant.models';
 
 @Injectable({
   providedIn: 'root',
@@ -267,8 +269,8 @@ export class MerchantService {
       );
   }
   UpdateMerchantProductsDetails(id: string, data: []) {
-    const url = '/dbs/merchant-product/';
-    return this.apiService.patch(url + id, data).pipe(
+    const url = `/dbs/merchant-product/${id}/`;
+    return this.apiService.patch(url, data).pipe(
       map(data => {
         return data;
       })
@@ -320,37 +322,16 @@ export class MerchantService {
       })
     );
   }
-  getCLients() {
-    const url = '/clients/list/all/objects_autocomplete/?search=';
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+
+  getMerchantProducts(
+    merchantId: string,
+    search?: string
+  ): Observable<{ objects: ProductAutocompleteModel[]; count: number }> {
+    const url = `/dbs/merchant-product/objects_autocomplete/?merchant=${merchantId}&search=${search ?? ''}`;
+    return this.apiService
+      .get<{ objects: ProductAutocompleteModel[]; count: number }>(url)
+      .pipe(map(data => data));
   }
-  getMerchantsProducts() {
-    const url = '/dbs/merchant-product/';
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
-  }
-  getProductsByMerchant(merchantId: string) {
-    const url =
-      '/dbs/merchant-product/objects_autocomplete/?merchant=' +
-      merchantId +
-      '&';
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
-  }
-  // getProductsByMerchant(merchantId: string): Observable<{ objects: productConfigModel[] }> {
-  //   const url = '/dbs/merchant-product/?merchant=' + merchantId + '&';
-  //   return this.apiService.get<{ objects: [] }>(url);
-  // }
 
   createNewTeller(body: newTellerModel) {
     const url = '/dbs/merchant-teller/';
@@ -360,14 +341,7 @@ export class MerchantService {
       })
     );
   }
-  createNewMerchant(body: []) {
-    const url = '/dbs/merchant/creation/';
-    return this.apiService.post(url, body).pipe(
-      map(data => {
-        return data;
-      })
-    );
-  }
+
   createNewCategory(body: []) {
     const url = '/dbs/merchant-category/';
     return this.apiService.post(url, body).pipe(
@@ -394,13 +368,11 @@ export class MerchantService {
   }
   getCategoriesPerActivitySectors(id: string) {
     const url = '/dbs/merchant-category/?merchant_activity_sector=' + id;
-    return this.apiService
-      .get<CategoriesPerActivitySectorObjectModel>(url)
-      .pipe(
-        map(data => {
-          return data;
-        })
-      );
+    return this.apiService.get<MerchantCategoriesObjectModel>(url).pipe(
+      map(data => {
+        return data;
+      })
+    );
   }
   getMerchantsByCategory(categoryId: string) {
     const url = '/dbs/merchant/list/?category_id=' + categoryId;
@@ -507,15 +479,6 @@ export class MerchantService {
         return data;
       })
     );
-  }
-  searchProductByMerchant(data: searchProductByMerchantModel) {
-    const url =
-      '/dbs/merchant-product/objects_autocomplete/?merchant=' +
-      data.merchant +
-      '&search=' +
-      data.search;
-    console.log('the value of the data is :', data);
-    return this.apiService.get(url).pipe(map(data => data));
   }
 
   /**********************api call of browse by category ******************************/

@@ -12,11 +12,20 @@ import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../../core/services/config/main-config.models';
+import { TransferService } from '../../../../core/services/transfer/transfer.service';
+import { RecentTransaction } from '../../dashboard.model';
+import { ReusableListComponent } from '../../../../global/components/reusable-list/reusable-list.component';
 
 @Component({
   selector: 'app-bank-home',
   standalone: true,
-  imports: [RouterOutlet, SwitchBankComponent, RouterLink, SkeletonComponent],
+  imports: [
+    RouterOutlet,
+    SwitchBankComponent,
+    RouterLink,
+    SkeletonComponent,
+    ReusableListComponent,
+  ],
   templateUrl: './bank-home.component.html',
   styleUrl: './bank-home.component.scss',
 })
@@ -53,14 +62,52 @@ export class BankHomeComponent implements OnInit, OnDestroy {
       link: ['/b/banking/transfer', '/w/workstation/banking/transfer'],
     },
   ];
+
+  headers = [
+    {
+      name: 'Date',
+      field: ['created_at'],
+      size: '',
+      format: 'date',
+    },
+    {
+      name: 'Details',
+      field: ['description'],
+      size: '',
+    },
+    {
+      name: 'Amount',
+      field: ['amount'],
+      format: 'currency',
+      size: '',
+    },
+
+    {
+      name: 'Reference',
+      field: ['code'],
+      size: '',
+    },
+    {
+      name: 'Status',
+      field: ['status.title'],
+      css: 'status.css',
+      class: 'badge',
+      size: '',
+    },
+  ];
+
+  clientVerified = '&filter_for_client=true';
   private onDestroy$: Subject<void> = new Subject<void>();
   selectedBank!: bankModel;
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
   activePlatform: string | null = null;
   mainConfig$!: Observable<activeMainConfigModel>;
-
-  constructor(private configService: ConfigService) {
+  recentTransactions!: RecentTransaction;
+  constructor(
+    private configService: ConfigService,
+    private transferService: TransferService
+  ) {
     this.theme$ = this.configService.getMode();
     this.mainConfig$ = this.configService.getMainConfig();
   }
@@ -75,6 +122,7 @@ export class BankHomeComponent implements OnInit, OnDestroy {
         this.theme = theme;
       },
     });
+    // this.getRecentTransactions()
   }
 
   ngOnDestroy(): void {
@@ -84,5 +132,24 @@ export class BankHomeComponent implements OnInit, OnDestroy {
 
   deselectBank() {
     this.configService.resetSelectedBank();
+  }
+
+  getRecentTransactions() {
+    const period = {
+      start_date: '',
+      end_date: '',
+    };
+    this.transferService
+      .getRecentTransactions('', period, this.clientVerified)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (data: RecentTransaction) => {
+          this.recentTransactions = data;
+          console.log('Recent Transactions:', this.recentTransactions);
+        },
+        error: error => {
+          console.error('Error fetching recent transactions:', error);
+        },
+      });
   }
 }

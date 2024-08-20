@@ -5,6 +5,7 @@ import {
   InstitutionInfoModel,
   TransferResponseModel,
 } from '../../../components/transfer/transfer.model';
+import { RecentTransaction } from '../../../components/dashboards/dashboard.model';
 
 @Injectable({
   providedIn: 'root',
@@ -75,5 +76,14 @@ export class TransferService {
         '/operations/pending/logic/?req_type=transfers&filter_for_client=true'
       )
       .pipe(map(data => data));
+  }
+
+  getRecentTransactions(
+    type: string,
+    period: { start_date?: string; end_date?: string } = {},
+    client: string
+  ): Observable<RecentTransaction> {
+    const url = `/operations/pending/logic/?req_type=${type}&date_from=${period.start_date || ''}&date_to=${period.end_date || ''}&client=${client}`;
+    return this.apiService.get<RecentTransaction>(url).pipe(map(data => data));
   }
 }

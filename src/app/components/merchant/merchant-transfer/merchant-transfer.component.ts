@@ -96,7 +96,7 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
 
   doMerchantPayment() {
     this.dialogService.dispatchLoading();
-
+    // this.loading = true;
     if (this.selectedCreditAccountForm) {
       const body: DoMerchantTransferModel = {
         amount: this.selectedCreditAccountForm.amount,
@@ -106,7 +106,6 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
         credit_type: this.selectedCreditAccountType,
         pin_code: this.pin,
         description: this.selectedCreditAccountForm.debit_description,
-        merchant_reference: '',
       };
 
       this.merchantService
