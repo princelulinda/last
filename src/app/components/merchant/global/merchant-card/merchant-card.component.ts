@@ -7,7 +7,7 @@ import { objectModel } from '../../../dashboards/dashboard.model';
 import { Favorite } from '../../../../core/services/merchant/model';
 import { MerchantService } from '../../../../core/services';
 import { MerchantPaymentComponent } from '../../../dev/merchant-payment/merchant-payment.component';
-import { Merchant_AutocompleteModel } from '../../merchant.models';
+import { MerchantAutocompleteModel } from '../../merchant.models';
 
 @Component({
   selector: 'app-merchant-card',
@@ -17,7 +17,7 @@ import { Merchant_AutocompleteModel } from '../../merchant.models';
   styleUrl: './merchant-card.component.scss',
 })
 export class MerchantCardComponent {
-  @Input({ required: true }) merchant: Merchant_AutocompleteModel = {
+  @Input({ required: true }) merchant: MerchantAutocompleteModel = {
     accepts_simple_payment: false,
     id: 0,
     is_favorite_merchant: false,
@@ -55,7 +55,7 @@ export class MerchantCardComponent {
 
   constructor(private merchantService: MerchantService) {}
 
-  makeFavoriteMerchants(favorite: Merchant_AutocompleteModel, event: Event) {
+  makeFavoriteMerchants(favorite: MerchantAutocompleteModel, event: Event) {
     this.isLoading = true;
     event.stopPropagation();
     // const productCard: HTMLElement =

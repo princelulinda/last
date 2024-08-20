@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MerchantCardComponent } from '../../../merchant/global/merchant-card/merchant-card.component';
-import { Merchant_AutocompleteModel } from '../../../merchant/merchant.models';
+import { MerchantAutocompleteModel } from '../../../merchant/merchant.models';
 
 @Component({
   selector: 'app-category-merchants',
@@ -12,6 +12,6 @@ import { Merchant_AutocompleteModel } from '../../../merchant/merchant.models';
 export class CategoryMerchantsComponent {
   @Input({ required: true }) categoryId!: number;
 
-  merchants: Merchant_AutocompleteModel[] = [];
+  merchants: MerchantAutocompleteModel[] = [];
   isLoading = true;
 }

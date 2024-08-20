@@ -27,7 +27,7 @@ import {
 } from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
-  Merchant_AutocompleteModel,
+  MerchantAutocompleteModel,
   newTellerModel,
   searchTellerModel,
   updateMerchantDetailsModel,
@@ -254,12 +254,12 @@ export class MerchantService {
     );
   }
   getMerchantMultipleInfo(): Observable<{
-    objects: Merchant_AutocompleteModel[];
+    objects: MerchantAutocompleteModel[];
     count: number;
   }> {
     const url = '/dbs/merchant/multiple-info/objects_autocomplete/';
     return this.apiService
-      .get<{ objects: Merchant_AutocompleteModel[]; count: number }>(url)
+      .get<{ objects: MerchantAutocompleteModel[]; count: number }>(url)
       .pipe(
         map(data => {
           return data;

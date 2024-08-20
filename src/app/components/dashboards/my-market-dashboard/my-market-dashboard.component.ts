@@ -44,7 +44,7 @@ import {
   StatsModel,
 } from '../../merchant/products/products.model';
 import { StatementComponent } from '../../statements/statement/statement.component';
-import { Merchant_AutocompleteModel } from '../../merchant/merchant.models';
+import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
 
 @Component({
   selector: 'app-my-market-dashboard',
@@ -102,7 +102,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   ];
   merchantId!: string | number;
   merchant!: MerchantModel | null;
-  merchantMult!: Merchant_AutocompleteModel[];
+  merchantMult!: MerchantAutocompleteModel[];
   merchantInfo!: MerchantModel | null;
 
   stat!: MerchantModel | null;

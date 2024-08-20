@@ -1,7 +1,7 @@
 // import { MerchantModel, ProductAutocompleteModel} from "../dashboards/dashboard.model";
 
 import {
-  Merchant_AutocompleteModel,
+  MerchantAutocompleteModel,
   tellerObjectModel,
 } from '../merchant.models';
 import { ClientApiResponse } from '../../../core/db/models/auth';
@@ -59,7 +59,7 @@ export interface MerchantObjectsModel {
   object: {
     response_message: string;
     success: boolean;
-    response_data: Merchant_AutocompleteModel[];
+    response_data: MerchantAutocompleteModel[];
   };
 }
 export interface ClientModel {

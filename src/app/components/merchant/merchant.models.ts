@@ -130,7 +130,7 @@ export interface newTellerModel {
   alias: string;
 }
 
-export interface Merchant_AutocompleteModel {
+export interface MerchantAutocompleteModel {
   id: number;
   lookup_icon: string;
   lookup_image: string;

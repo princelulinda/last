@@ -12,7 +12,7 @@ import {
 import { mainConfigModel } from '../../wallet/wallet.models';
 import { MyMarketDashboardComponent } from '../my-market-dashboard/my-market-dashboard.component';
 import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
-import { Merchant_AutocompleteModel } from '../../merchant/merchant.models';
+import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
 
 @Component({
   selector: 'app-workstation-market-dashboard',
@@ -36,7 +36,7 @@ export class WorkstationMarketDashboardComponent implements OnInit, OnDestroy {
   isMerchantCorporte$: Observable<boolean>;
 
   isLoading = true;
-  recentMerchants!: Merchant_AutocompleteModel[];
+  recentMerchants!: MerchantAutocompleteModel[];
 
   constructor(
     private configService: ConfigService,
@@ -68,7 +68,7 @@ export class WorkstationMarketDashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as { objects: Merchant_AutocompleteModel[] };
+          const response = data as { objects: MerchantAutocompleteModel[] };
           this.recentMerchants = response.objects;
           this.isLoading = false;
         },

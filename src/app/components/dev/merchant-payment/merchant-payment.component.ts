@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { ConfigService } from '../../../core/services';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import { MerchantProductsComponent } from './merchant-products/merchant-products.component';
-import { Merchant_AutocompleteModel } from '../../merchant/merchant.models';
+import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
 
 @Component({
   selector: 'app-merchant-payment',
@@ -22,7 +22,7 @@ export class MerchantPaymentComponent implements OnInit {
     | 'biller'
     | 'category-produict'
     | 'category-merchant' = 'merchant';
-  @Input() merchant!: Merchant_AutocompleteModel;
+  @Input() merchant!: MerchantAutocompleteModel;
   theme$!: Observable<ModeModel>;
   theme!: ModeModel;
   selectedSection = 'first';
