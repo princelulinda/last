@@ -13,11 +13,16 @@ import { ProductAutocompleteModel } from '../../../../components/merchant/produc
 import { CategoryModel } from '../../../../components/dashboards/dashboard.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { MerchantProductsComponent } from '../../../../components/dev/merchant-payment/merchant-products/merchant-products.component';
+import { CategoryMerchantsComponent } from '../../../../components/dev/merchant-payment/category-merchants/category-merchants.component';
 
 @Component({
   selector: 'app-merchant-payment',
   standalone: true,
-  imports: [CommonModule, MerchantProductsComponent],
+  imports: [
+    CommonModule,
+    MerchantProductsComponent,
+    CategoryMerchantsComponent,
+  ],
   templateUrl: './merchant-payment.component.html',
   styleUrl: './merchant-payment.component.scss',
 })

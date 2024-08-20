@@ -1,14 +1,10 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { Injectable } from '@angular/core';
+
 import { BehaviorSubject, map, Observable, retry } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
-import {
-  Favorite,
-  Pagination,
-  PaymentMerchantModel,
-  PaymentMerchantPayloadModel,
-} from './model';
+import { Favorite, Pagination } from './model';
 import { DoMerchantTransferResponseModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import { DoMerchantTransferModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import {
@@ -41,29 +37,7 @@ import {
   providedIn: 'root',
 })
 export class MerchantService {
-  private merchantPayment: WritableSignal<PaymentMerchantModel> = signal({
-    active: false,
-    id: null,
-    type: null,
-  });
-
   constructor(private apiService: ApiService) {}
-
-  openMerchantPayment(payload: PaymentMerchantPayloadModel) {
-    const data = {
-      active: true,
-      ...payload,
-    };
-    this.merchantPayment.set(data);
-  }
-
-  closeMerchantPayment() {
-    this.merchantPayment.set({
-      active: false,
-      id: null,
-      type: null,
-    });
-  }
 
   private _coords: BehaviorSubject<Coords2Model> =
     new BehaviorSubject<Coords2Model>({
@@ -115,6 +89,7 @@ export class MerchantService {
   //         })
   //     );
   // }
+
   getRecentMerchantsAutocomplete(search?: string) {
     const url =
       '/dbs/merchant/manage/objects_autocomplete/?search=' +
@@ -374,13 +349,13 @@ export class MerchantService {
       })
     );
   }
-  getMerchantsByCategory(categoryId: string) {
-    const url = '/dbs/merchant/list/?category_id=' + categoryId;
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+  getCategoryMerchants(
+    categoryId: number
+  ): Observable<{ objects: MerchantAutocompleteModel[]; count: number }> {
+    const url = `/dbs/merchant/list/objects_autocomplete/?category_id=${categoryId}/`;
+    return this.apiService
+      .get<{ objects: MerchantAutocompleteModel[]; count: number }>(url)
+      .pipe(map(data => data));
   }
   getMerchantProductLookup(lookupData: []) {
     const url = '/dbs/merchant/product/lookup/';
