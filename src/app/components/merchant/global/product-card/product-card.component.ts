@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { Observable, takeUntil, Subject } from 'rxjs';
 
-import { ProductModel } from '../../../dashboards/dashboard.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { ConfigService, MerchantService } from '../../../../core/services';
 import {
   FavoriteModel,
   ProductFavoriteModel,
+  ProductAutocompleteModel,
 } from '../../products/products.model';
 
 @Component({
@@ -19,7 +19,7 @@ import {
   styleUrl: './product-card.component.scss',
 })
 export class ProductCardComponent implements OnInit {
-  @Input({ required: true }) product: ProductModel = {
+  @Input({ required: true }) product: ProductAutocompleteModel = {
     id: 0,
     lookup_description: '',
     lookup_icon: '',
@@ -53,7 +53,7 @@ export class ProductCardComponent implements OnInit {
     });
   }
 
-  makeFavoriteProducts(favorite: ProductModel, event: Event) {
+  makeFavoriteProducts(favorite: ProductAutocompleteModel, event: Event) {
     this.isLoading = true;
     event.stopPropagation();
     let body!: ProductFavoriteModel;

@@ -1,15 +1,15 @@
-// import { MerchantModel, ProductModel } from "../dashboards/dashboard.model";
+// import { MerchantModel, ProductAutocompleteModel} from "../dashboards/dashboard.model";
 
-import { tellerObjectModel } from '../merchant.models';
+import {
+  MerchantAutocompleteModel,
+  tellerObjectModel,
+} from '../merchant.models';
 import { ClientApiResponse } from '../../../core/db/models/auth';
 import { MerchantBillModel } from '../../../core/services/dialog/dialogs-models';
-import { Merchant_AutocompleteModel } from '../global/merchant-card/merchant.model';
 
-export interface ProductModel {
+export interface ProductAutocompleteModel {
   id: number;
-  name: string;
   price: number;
-  icon: string;
   lookup_icon: string;
   lookup_image: string;
   lookup_title: string;
@@ -17,12 +17,13 @@ export interface ProductModel {
   lookup_description: string;
   is_favorite_product: boolean;
 }
-export interface AllProductModel {
-  objects: ProductModel[];
+
+export interface AllProductAutocompleteModel {
+  objects: ProductAutocompleteModel[];
   count: number;
 }
 export interface AllProductsModel {
-  objects: ProductModel;
+  objects: ProductAutocompleteModel;
   count: number;
 }
 
@@ -58,7 +59,7 @@ export interface MerchantObjectsModel {
   object: {
     response_message: string;
     success: boolean;
-    response_data: Merchant_AutocompleteModel[];
+    response_data: MerchantAutocompleteModel[];
   };
 }
 export interface ClientModel {
@@ -114,7 +115,10 @@ export interface WalletModel {
 
 export interface OrdersModel {
   id: number;
-  product: ProductModel;
+  product: {
+    name: string;
+    value: string;
+  };
   payment: number;
   number: number;
   amount: number;
