@@ -77,6 +77,12 @@
             </span>
           }
         </div>
+        <app-reusable-list
+          [headers]="headers"
+          [url]="
+            '/operations/pending/logic/?req_type=&=date_from=&=date_to=&filter_for_client=true&'
+          "
+          [title]="'Recent Transactions'"></app-reusable-list>
       </div>
     </section>
   </div>

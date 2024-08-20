@@ -172,3 +172,9 @@ export interface productOfferModel {
   price: string;
   merchant: MerchantModel;
 }
+export interface RecentTransaction {
+  id: number;
+  name: string;
+  price: string;
+  merchant: MerchantModel;
+}

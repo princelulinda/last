@@ -106,7 +106,6 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
         credit_type: this.selectedCreditAccountType,
         pin_code: this.pin,
         description: this.selectedCreditAccountForm.debit_description,
-        merchant_reference: '',
       };
 
       this.merchantService
