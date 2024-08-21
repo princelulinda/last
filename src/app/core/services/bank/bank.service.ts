@@ -14,6 +14,7 @@ import {
 import { nyamuranziCard } from '../../../components/nyamuranzi/models';
 import { WithdrawalModel } from '../../../components/withdrawal/withdrawal.models';
 import { DissectedDateModel } from '../../../components/statements/statement.model';
+import { Pagination } from '../merchant/model';
 
 @Injectable({
   providedIn: 'root',
@@ -114,10 +115,18 @@ export class BankService {
   //     );
   // }
 
-  getRecentTransactions(type: string, period: PeriodModel, client: string) {
+  getRecentTransactions(
+    pagination: Pagination,
+    type: string,
+    period: PeriodModel,
+    client: string
+  ) {
+    if (!pagination) {
+      pagination = { filters: { limit: 0, offset: 0 } };
+    }
     return this.apiService
       .get<TransactionObjectModel>(
-        `/operations/pending/logic/?req_type=${type}&=date_from=${period.start_date}&=date_to=${period.end_date}` +
+        `/operations/pending/logic/?req_type=${type}&=date_from=${period.start_date}&=date_to=${period.end_date}&limit=${pagination.filters?.limit}&offset=${pagination.filters?.offset}` +
           client
       )
       .pipe(map(data => data));
