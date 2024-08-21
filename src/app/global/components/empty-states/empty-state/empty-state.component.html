@@ -7,7 +7,13 @@
           class=" {{ imageClass }} object-fit-cover image"
           alt="Empty List Image" />
         <p i18n class="font-montserrat fs-l-medium {{ messageClass }}">
-          <b class="fw-bold">The list is currently empty "{{ searchTerm }}".</b>
+          <b class="fw-bold"
+            >The list is currently empty
+            @if (searchTerm) {
+              for "{{ searchTerm }}"
+            }
+            .</b
+          >
           <br />
           Start adding items to fill it up!
         </p>
@@ -16,12 +22,16 @@
     @case ('merchant') {
       <div class="text-center">
         <img
-          src="/images/empty-state/market.png"
+          src="/images/empty-state/market-empty.png"
           class=" {{ imageClass }} object-fit-cover image"
           alt="Empty Merchant Search Image" />
         <p i18n class="font-montserrat fs-l-medium {{ messageClass }}">
           <b class="fw-bold"
-            >Oops! We couldn't find anything for "{{ searchTerm }}".</b
+            >Oops! We couldn't find anything
+            @if (searchTerm) {
+              for "{{ searchTerm }}"
+            }
+            .</b
           ><br />
           Try a different search term or browse by category.
         </p>
@@ -35,7 +45,11 @@
           alt="Empty Product Search Image" />
         <p i18n class="font-montserrat fs-l-medium {{ messageClass }}">
           <b class="fw-bold"
-            >Oops! We couldn't find anything for "{{ searchTerm }}" .</b
+            >Oops! We couldn't find anything
+            @if (searchTerm) {
+              for "{{ searchTerm }}"
+            }
+            .</b
           ><br />
           Try a different search term or browse by category.
         </p>
@@ -49,7 +63,11 @@
           alt="Empty Global Search Image" />
         <p i18n class="font-montserrat fs-l-medium {{ messageClass }}">
           <b class="fw-bold"
-            >Oops! We couldn't find anything for "{{ searchTerm }}".</b
+            >Oops! We couldn't find anything
+            @if (searchTerm) {
+              for "{{ searchTerm }}"
+            }
+            .</b
           ><br />
           Try a different search term or browse by category.
         </p>

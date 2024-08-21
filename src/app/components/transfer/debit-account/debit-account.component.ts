@@ -20,7 +20,6 @@ import {
   AuthService,
   DialogService,
 } from '../../../core/services';
-import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { SwitchBankComponent } from '../../../global/components/popups/switch-bank/switch-bank.component';
 import { AccountsListComponent } from '../../account/accounts-list/accounts-list.component';
@@ -56,7 +55,6 @@ import { BankOptions } from '../../dashboards/dashboard.model';
 })
 export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
   private onDestroy$: Subject<void> = new Subject<void>();
-  userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;

@@ -17,7 +17,6 @@
   min-width: 70%;
 }
 
-
 // global inchanges color
 $globalColors: (
   'success': #058519,
@@ -81,6 +80,9 @@ a {
 }
 .sm-radius {
   border-radius: 5px;
+}
+.x-sm-radius {
+  border-radius: 3px;
 }
 
 //global image class

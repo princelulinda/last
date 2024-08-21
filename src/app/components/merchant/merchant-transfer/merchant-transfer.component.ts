@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TransferComponent } from '../../transfer/transfer/transfer.component';
 import { NotFoundPageComponent } from '../../../global/components/empty-states/not-found-page/not-found-page.component';
 import { MerchantService } from '../../../core/services';
-import { MerchantObjectModel } from '../products/products.model';
 import { DialogService } from '../../../core/services';
 import { CreditAccountComponent } from '../../transfer/credit-account/credit-account.component';
 import { Location } from '@angular/common';
@@ -16,6 +15,7 @@ import {
 } from './merchant-transfer.models';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import { MerchantModel } from '../merchant.models';
 @Component({
   selector: 'app-merchant-transfer',
   standalone: true,
@@ -24,7 +24,7 @@ import { DialogResponseModel } from '../../../core/services/dialog/dialogs-model
   styleUrl: './merchant-transfer.component.scss',
 })
 export class MerchantTransferComponent implements OnInit, OnDestroy {
-  merchantInfo: MerchantObjectModel | null = null;
+  merchantInfo: MerchantModel | null = null;
   selectedCreditAccountForm:
     | {
         accountNumber: string;
@@ -62,10 +62,9 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
 
   getConnectedMerchantInfo() {
     this.merchantService.getConnectedMerchantInfo().subscribe({
-      next: (merchantInfo: MerchantObjectModel) => {
-        if (merchantInfo.object.success) {
-          this.merchantInfo = merchantInfo;
-          // console.log ('merchant infoo', this.merchantInfo )
+      next: response => {
+        if (response.object.success) {
+          this.merchantInfo = response.object.response_data;
         } else {
           this.dialogService.openToast({
             type: 'failed',

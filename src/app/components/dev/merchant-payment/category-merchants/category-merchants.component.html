@@ -1,1 +1,38 @@
-<p>category-merchants works!</p>
+<div>
+  @if (isLoading) {
+    <div class="row gap-4 flex-wrap pb-2">
+      @for (i of [1, 2, 3, 4, 5, 6]; track $index) {
+        <div class="col-auto d-flex flex-column">
+          <app-skeleton
+            height="150px"
+            width="150px"
+            classes="sm-radius"></app-skeleton>
+          <app-skeleton
+            height="10px"
+            width="100px"
+            classes="sm-radius"></app-skeleton>
+          <app-skeleton
+            height="10px"
+            width="80px"
+            classes="sm-radius"></app-skeleton>
+        </div>
+      }
+    </div>
+  } @else if (!isLoading && merchants.length === 0) {
+    <div>
+      <app-empty-state searchType="merchant"></app-empty-state>
+    </div>
+  } @else if (!isLoading && merchants.length > 0) {
+    <div class="row flex-wrap gap-4">
+      @for (merchant of merchants; track $index) {
+        <div class="col-auto">
+          <app-merchant-card
+            (selectedMerchantEvent)="getSelectedMerchant($event)"
+            action="output"
+            [disabledFavoriteAction]="true"
+            [merchant]="merchant"></app-merchant-card>
+        </div>
+      }
+    </div>
+  }
+</div>

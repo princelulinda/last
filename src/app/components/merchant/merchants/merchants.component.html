@@ -4,7 +4,7 @@
     class="mt-4 shadow position-relative bg-white overflow-hidden"
     [ngClass]="{ 'active ': isSearchInputNotEmpty() || isInputFocused }">
     <input
-      class="ps-4 search-input form-control h-100 position-absolute text-all-dark"
+      class="ps-4 search-input form-control h-100 position-absolute"
       [ngClass]="{
         'bg-in-light': theme === 'light',
         'd-block': isInputFocused,
@@ -12,12 +12,10 @@
       type="text"
       placeholder="Search merchant"
       [formControl]="searchInput"
-      (input)="searchFor()"
       (focus)="isInputFocused = true"
       (blur)="isInputFocused = false" />
     <span
       role="button"
-      (click)="searchFor()"
       tabindex="0"
       class="btn bg-transparent search-btn"
       type="submit">

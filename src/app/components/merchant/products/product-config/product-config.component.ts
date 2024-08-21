@@ -3,7 +3,6 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject, Observable, takeUntil } from 'rxjs';
 
 import {
-  MerchantModel,
   ProductAutocompleteModel,
   productConfigModel,
   updateProductInfoObjectModel,
@@ -24,6 +23,7 @@ import {
   EmptyStateComponent,
   EmptyStateModel,
 } from '../../../../global/components/empty-states/empty-state/empty-state.component';
+import { MerchantModel } from '../../merchant.models';
 
 @Component({
   selector: 'app-product-config',
