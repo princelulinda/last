@@ -19,6 +19,25 @@ export interface WalletList {
   currency: 'BIF';
   bank_id: string;
 }
+
+export interface WalletTypModel {
+  title: string;
+
+  id: string;
+}
+export interface CreatWalletBodyModel {
+  wallet_type: number;
+  title: string;
+}
+
+export interface creatWalletResponse {
+  object: {
+    response_message: string;
+
+    success: boolean;
+  };
+}
+
 export interface mainConfigModel {
   activeMode: string;
   activePlateform: string;
