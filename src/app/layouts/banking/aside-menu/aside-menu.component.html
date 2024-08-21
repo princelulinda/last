@@ -147,7 +147,7 @@
           <span class="fw-bold text-secondary" i18n> Bills </span>
         </a>
 
-        @if (userInfo.client.is_merchant) {
+        @if (userInfo && userInfo.client.is_merchant) {
           <a
             class="mt-4 d-flex align-items-center clickable border sm-radius bg-hover-secondary p-3 sm-radius"
             routerLink="/m/mymarket"
