@@ -1,16 +1,16 @@
 import { Component, OnInit, DoCheck, OnDestroy } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { bankModel } from '../../../core/db/models/bank/bank.model';
 import {
   ConfigService,
   DialogService,
   LoanService,
 } from '../../../core/services';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { VariableService } from '../../../core/services/variable/variable.service';
-// import { TransferService } from '../../../core/services/transfer/transfer.service';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { CommonModule } from '@angular/common';
+
+import { Observable, Subject, takeUntil } from 'rxjs';
+
+import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import {
   LoanModel,
   PlanModel,
@@ -49,8 +49,6 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
     private configService: ConfigService,
     private loanService: LoanService,
     private _route: ActivatedRoute,
-    private variableService: VariableService,
-    // private transferService: TransferService,
     private dialogService: DialogService
   ) {
     this.selectedBank$ = this.configService.getSelectedBank();
@@ -126,7 +124,7 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
     const data = {
       loan_id: this.loanId,
       loan_plan_id: this.singleLoanPlan.id,
-      pin_code: this.variableService.pin,
+      pin_code: this.pin,
     };
     this.dialogService.dispatchLoading();
 

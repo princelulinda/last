@@ -84,7 +84,7 @@ export class MerchantConfigComponent implements OnInit {
   category!: string;
   clientId: number | null = null;
   pin!: string;
-
+  get_merchantDetails = false;
   constructor(
     private merchantService: MerchantService,
     private dialogService: DialogService,
@@ -151,6 +151,7 @@ export class MerchantConfigComponent implements OnInit {
   }
 
   getConnectedMerchantInfo() {
+    this.get_merchantDetails = false;
     this.merchantService.getConnectedMerchantInfo().subscribe({
       next: response => {
         this.merchantInfo = response.object.response_data;
@@ -164,6 +165,7 @@ export class MerchantConfigComponent implements OnInit {
           cart: this.merchantInfo.accepts_cart,
           incognito: this.merchantInfo.client_visibility_activated,
         });
+        this.get_merchantDetails = true;
       },
       error: err => {
         // TODO :: CODE
@@ -312,14 +314,17 @@ export class MerchantConfigComponent implements OnInit {
 
     this.merchantService.updateMerchantDetails(body).subscribe({
       next: response => {
-        // this.isLoading = false;
+        this.isLoading = false;
         this.dialogService.closeLoading();
+        this.get_merchantDetails = false;
         if (response.object.success) {
           this.dialogService.openToast({
             title: '',
             type: 'success',
             message: response.object.response_message,
           });
+          // this.merchantInfo = null;
+          this.get_merchantDetails = true;
           this.getConnectedMerchantInfo();
           this.selected = '';
           // this.store.dispatch(new OpenDialog(data));
@@ -330,8 +335,6 @@ export class MerchantConfigComponent implements OnInit {
             message: response.object.response_message,
           });
 
-          // this.merchantInfo = null;
-
           // this.return();
           // this.store.dispatch(new OpenDialog(data));
         }
@@ -339,12 +342,11 @@ export class MerchantConfigComponent implements OnInit {
 
       error: err => {
         this.dialogService.closeLoading();
+        const errorMessage = err.error.object.response_message;
         this.dialogService.openToast({
           type: 'failed',
           title: '',
-          message:
-            err?.object?.response_message ??
-            'failed to update merchant details',
+          message: errorMessage || 'failed to update merchant details',
         });
       },
     });
