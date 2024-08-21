@@ -11,17 +11,13 @@ import {
   DialogService,
   MerchantService,
 } from '../../../core/services';
-import { Favorite } from '../../../core/services/merchant/model';
 import { MerchantCardComponent } from '../global/merchant-card/merchant-card.component';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillersModel } from '../../dashboards/dashboard.model';
 import {
   MerchantCategoriesModel,
-  MerchantCategoriesObjectModel,
-  MerchantResFav,
   SectorActivityModel,
-  SectorActivityObjectModel,
-} from './merchant.models';
+} from '../merchant.models';
 import { GoogleMapComponent } from '../../../global/components/google-map/google-map.component';
 import { MerchantAutocompleteModel } from '../merchant.models';
 
@@ -43,18 +39,12 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   private variableService = inject(VariableService);
 
-  // @Output() sector = new EventEmitter<SectorActivityModel>()
-
   merchants!: MerchantAutocompleteModel[] | null;
-  // merchant: any;
-  favorite_merchants!: MerchantResFav;
   favoriteMerchants!: MerchantAutocompleteModel[];
   favoriteMerchantsNumber!: number;
   favorite_merchant_making!: BillersModel | null;
-  // favorite: any;
   payMerchant!: BillersModel | null;
   merchantId!: string;
-  // merchantDetails: any;
   countProductLoader = [1, 2, 3, 4, 5, 6, 7, 8];
   favoriteDisplay = false;
   location!: boolean;
@@ -158,55 +148,6 @@ export class MerchantsComponent implements OnInit, OnDestroy {
           return err;
         },
       });
-  }
-
-  makeFavoriteMerchants(favorite: BillersModel, event: MouseEvent) {
-    event.stopPropagation();
-    let productCard: HTMLElement | null = null;
-    if (event.target) {
-      productCard = event.target as HTMLElement;
-      for (let i = 0; i < 5; i++) {
-        if (productCard) {
-          productCard = productCard.parentElement;
-        }
-      }
-    }
-
-    if (productCard) {
-      productCard.removeAttribute('data-bs-target');
-      productCard.removeAttribute('data-bs-toggle');
-      this.favorite_merchant_making = favorite;
-
-      let body!: Favorite;
-      if (!favorite.is_favorite_merchant) {
-        body = {
-          merchant: favorite.id,
-          merchant_action: 'make_favorite',
-        };
-      } else if (favorite.is_favorite_merchant) {
-        body = {
-          merchant: favorite.id,
-          merchant_action: 'revoke_favorite',
-        };
-      }
-
-      // add data-bs after click on favorite star
-      productCard.setAttribute('data-bs-target', '#myModal');
-      productCard.setAttribute('data-bs-toggle', 'modal');
-      this.merchantService
-        .makeFavoriteMerchants(body)
-        .pipe(takeUntil(this.onDestroy$))
-        .subscribe({
-          next: data => {
-            const response = data as { object: MerchantResFav };
-            this.favorite_merchants = response.object;
-            if (this.favorite_merchants.success) {
-              this.getMerchants('');
-              this.getFavoriteMerchants('', false);
-            }
-          },
-        });
-    }
   }
 
   getMerchant(data: BillersModel, event: MouseEvent) {
@@ -314,7 +255,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       .getActivitySectors()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: SectorActivityObjectModel) => {
+        next: data => {
           this.sectorActivity = data.objects;
           if (this.sectorActivity.length > 0) {
             this.selectedSector = this.sectorActivity[0];
@@ -325,8 +266,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
           }
           this.isLoading = false;
         },
-        error: err => {
-          console.error('Error fetching categories', err);
+        error: () => {
           this.isLoading = false;
         },
       });
@@ -345,7 +285,6 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   }
 
   selectSector(sector: SectorActivityModel): void {
-    // this.sector.emit(sector)
     this.selectedSector = sector;
     this.isSectorListVisible = false;
     this.getCategoriesPerActivitySectors(sector.id as string);
@@ -357,7 +296,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       .getCategoriesPerActivitySectors(sectorId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (categories: MerchantCategoriesObjectModel) => {
+        next: categories => {
           this.categories = categories.objects;
           this.isLoading = false;
         },

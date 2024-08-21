@@ -22,16 +22,14 @@ import {
 import {
   doTellerBodyModel,
   MerchantAutocompleteModel,
+  MerchantCategoriesModel,
   newTellerModel,
   searchTellerModel,
+  SectorActivityModel,
   updateMerchantDetailsModel,
 } from '../../../components/merchant/merchant.models';
 import { TransferResponseModel } from '../../../components/transfer/transfer.model';
 import { Coords2Model } from '../../../global/components/google-map/map.model';
-import {
-  MerchantCategoriesObjectModel,
-  SectorActivityObjectModel,
-} from '../../../components/merchant/merchants/merchant.models';
 
 @Injectable({
   providedIn: 'root',
@@ -333,21 +331,33 @@ export class MerchantService {
       })
     );
   }
-  getActivitySectors() {
+  getActivitySectors(): Observable<{
+    objects: SectorActivityModel[];
+    count: number;
+  }> {
     const url = '/clients/config/activitysector/';
-    return this.apiService.get<SectorActivityObjectModel>(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get<{
+        objects: SectorActivityModel[];
+        count: number;
+      }>(url)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
-  getCategoriesPerActivitySectors(id: string) {
+  getCategoriesPerActivitySectors(
+    id: string
+  ): Observable<{ objects: MerchantCategoriesModel[]; count: number }> {
     const url = '/dbs/merchant-category/?merchant_activity_sector=' + id;
-    return this.apiService.get<MerchantCategoriesObjectModel>(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get<{ objects: MerchantCategoriesModel[]; count: number }>(url)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
   getCategoryMerchants(
     categoryId: number
