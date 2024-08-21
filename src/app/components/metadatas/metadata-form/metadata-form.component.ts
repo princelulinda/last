@@ -49,12 +49,10 @@ export class MetadataFormComponent implements OnInit, OnDestroy {
     { name: 'JSONField', value: 'JSON' },
     { name: 'ChoiceField', value: 'CHOICEFIELD' },
   ];
-  charfield = [{ name: 'Maxlength', value: 'max-length' }];
+  charfield = [{ name: 'Maxlength', value: 'max_length' }];
   decimalfield = [
-    { name: 'Maxdigits', value: 'max-digits' },
-    { name: 'Decimal places', value: 'decimal-places' },
-    { name: 'Minimum', value: 'min' },
-    { name: 'Maximum', value: 'max' },
+    { name: 'Maxdigits', value: 'max_digits' },
+    { name: 'Decimal places', value: 'decimal_places' },
   ];
   FK = [{ name: 'Model', value: 'model' }];
   metaForm = new FormGroup({
@@ -96,9 +94,8 @@ export class MetadataFormComponent implements OnInit, OnDestroy {
 
     const body: MetadataBodyModel = {
       name: this.metaForm.value.field_title,
-      field_name: this.metaForm.value.field_title,
+      field_name: this.metaForm.value.field_name,
       field_type: this.metaForm.value.field_type,
-      meta_type: this.metaForm.value.field_type,
       searchable: this.metaForm.value.searchable,
       widget_attrs: meta,
     };

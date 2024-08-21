@@ -19,7 +19,6 @@ export interface MetadataCreationResponseModel {
 export interface MetadataBodyModel {
   name: string | null | undefined;
   field_name: string | null | undefined;
-  meta_type: string | null | undefined;
   field_type: string | null | undefined;
   searchable: boolean | null | undefined;
   widget_attrs: object;
