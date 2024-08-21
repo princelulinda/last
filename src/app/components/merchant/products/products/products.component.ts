@@ -14,6 +14,7 @@ import {
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { ConfigService } from '../../../../core/services';
 import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
+import { VariableService } from '../../../../core/services/variable/variable.service';
 
 @Component({
   selector: 'app-products',
@@ -49,7 +50,8 @@ export class ProductsComponent implements OnInit {
   countProductLoader: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
   constructor(
     private merchantService: MerchantService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private variableService: VariableService
   ) {
     this.theme$ = this.configService.getMode();
   }
@@ -62,6 +64,15 @@ export class ProductsComponent implements OnInit {
       },
     });
     this.getFavoriteProducts('');
+    this.variableService.favoriteProducts$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(favorites => {
+        this.favoriteProducts = favorites.filter(
+          product => product.is_favorite_product
+        );
+      });
+
+    this.variableService.fetchFavoriteProducts(''); // Chargement initial des produits favoris
   }
   addItemQuantity() {
     this.itemQuantity = this.itemQuantity + 1;

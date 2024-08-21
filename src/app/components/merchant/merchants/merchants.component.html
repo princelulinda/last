@@ -99,10 +99,10 @@
         </div>
 
         <div
-          class="row mx-0"
+          class="row ms-2 gap-3"
           *ngIf="!favoriteMerchantLoading && favoriteMerchants.length !== 0">
           <div
-            class="col-6 position-relative"
+            class="col-5 p-0 position-relative"
             *ngFor="let merchant of favoriteMerchants; let i = index"
             [hidden]="i >= 4">
             <!-- image -->
@@ -182,7 +182,7 @@
     <section class="mt-5 pt-5 position-relative">
       @if (isLoading) {
         <div class="row">
-          <p>
+          <p i18n class="font-calibri fs-normal fw-bold">
             <i class="fa-solid fa-circle text-primary fs-x-small me-1"></i>
             Categories
             <i class="fa-solid fa-caret-down custom-caret ms-1 mt-1"></i>
