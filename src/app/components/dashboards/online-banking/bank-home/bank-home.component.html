@@ -61,16 +61,18 @@
   <div class="overflow-x-hidden overflow-y-hidden">
     <!-- * Recent transactions-->
     <section>
-      <div class="mt-5 pt-5 text-dark w-100 d-flex justify-content-between">
-        <b i18n>Recent Transactions</b>
+      <div class="mt-5 pt-5 text-dark w-100 d-flex justify-content-end">
         <span role="button" class="text-primary">View more transactions</span>
       </div>
 
-      <app-reusable-list
-        [headers]="headers"
-        [url]="
-          '/operations/pending/logic/?req_type=&=date_from=&=date_to=&filter_for_client=true&'
-        "></app-reusable-list>
+      <section class="mt-3">
+        <app-reusable-list
+          [headers]="headers"
+          title="Recent Transactions"
+          [url]="
+            '/operations/pending/logic/?req_type=&=date_from=&=date_to=&filter_for_client=true&'
+          "></app-reusable-list>
+      </section>
     </section>
   </div>
 </div>
