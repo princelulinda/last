@@ -21,7 +21,7 @@ import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-mo
   styleUrl: './merchant-teller-details.component.scss',
 })
 export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
-  @Input() tellerInfo!: tellerObjectModel;
+  @Input() tellerInfo: tellerObjectModel | null = null;
   @Input() get_tellerInfo!: boolean;
   // this   @Output() isActionDone: EventEmitter<boolean> = new EventEmitter(); was replaced
 
@@ -87,32 +87,32 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
   showModal(first_action: string, second_action: string, param: string) {
     switch (param) {
       case 'notification':
-        if (this.tellerInfo.can_receive_notifications) {
+        if (this.tellerInfo?.can_receive_notifications) {
           this.action = second_action;
           this.actionMessage = `Enter your pin to unset notifications for <b>${this.tellerInfo.client.client_full_name}</b>`;
-        } else if (!this.tellerInfo.can_receive_notifications) {
+        } else if (!this.tellerInfo?.can_receive_notifications) {
           this.action = first_action;
-          this.actionMessage = `Enter your pin to set notifications for <b> ${this.tellerInfo.client.client_full_name}</b>`;
+          this.actionMessage = `Enter your pin to set notifications for <b> ${this.tellerInfo?.client.client_full_name}</b>`;
         }
         break;
 
       case 'tip':
-        if (this.tellerInfo.can_receive_tip) {
+        if (this.tellerInfo?.can_receive_tip) {
           this.action = second_action;
           this.actionMessage = `Enter your pin to unset tip for <b>${this.tellerInfo.client.client_full_name}</b>`;
-        } else if (!this.tellerInfo.can_receive_tip) {
+        } else if (!this.tellerInfo?.can_receive_tip) {
           this.action = first_action;
-          this.actionMessage = `Enter your pin to set tip for <b> ${this.tellerInfo.client.client_full_name}</b>`;
+          this.actionMessage = `Enter your pin to set tip for <b> ${this.tellerInfo?.client.client_full_name}</b>`;
         }
         break;
 
       case 'active':
-        if (this.tellerInfo.is_active) {
+        if (this.tellerInfo?.is_active) {
           this.action = second_action;
-          this.actionMessage = `Enter your pin to deactivate <b>${this.tellerInfo.client.client_full_name}</b>`;
-        } else if (!this.tellerInfo.is_active) {
+          this.actionMessage = `Enter your pin to deactivate <b>${this.tellerInfo?.client.client_full_name}</b>`;
+        } else if (!this.tellerInfo?.is_active) {
           this.action = first_action;
-          this.actionMessage = `Enter your pin to activate <b>${this.tellerInfo.client.client_full_name}</b> `;
+          this.actionMessage = `Enter your pin to activate <b>${this.tellerInfo?.client.client_full_name}</b> `;
         }
         break;
 
@@ -122,7 +122,7 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
           this.actionMessage = `Enter your pin to revoke admin privileges for ${this.tellerInfo.client.client_full_name}`;
         } else if (this.tellerInfo?.teller_type?.value !== 'A') {
           this.action = first_action;
-          this.actionMessage = `Enter your pin to grant admin privileges to <b>${this.tellerInfo.client.client_full_name}</b> `;
+          this.actionMessage = `Enter your pin to grant admin privileges to <b>${this.tellerInfo?.client.client_full_name}</b> `;
         }
         break;
 
@@ -132,7 +132,7 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
           this.actionMessage = `Enter your pin to revoke superadmin privileges for <b>${this.tellerInfo.client.client_full_name}</b>`;
         } else if (this.tellerInfo?.teller_type?.value !== 'S') {
           this.action = first_action;
-          this.actionMessage = `Enter your pin to grant superadmin privileges to <b>${this.tellerInfo.client.client_full_name}</b>`;
+          this.actionMessage = `Enter your pin to grant superadmin privileges to <b>${this.tellerInfo?.client.client_full_name}</b>`;
         }
         break;
     }
@@ -159,7 +159,7 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
     // this.store.dispatch(new OpenDialog(response));
 
     const body = {
-      teller: this.tellerInfo.id,
+      teller: this.tellerInfo?.id ?? '',
       action: this.action,
       pin_code: this.pin,
     };

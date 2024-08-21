@@ -37,7 +37,7 @@
     </div>
   </header>
   <div>
-    @if (!merchantInfo) {
+    @if (!get_merchantDetails) {
       <div class="mt-4 ms-4">
         <span
           class="w-100 h-100 d-flex row align-items-center text-dark"
@@ -46,7 +46,7 @@
         </span>
       </div>
     }
-    @if (!selected) {
+    @if (!selected && get_merchantDetails) {
       <section class="mt-4 row">
         @if (merchantInfo) {
           <div class="row">

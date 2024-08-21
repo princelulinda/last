@@ -40,7 +40,7 @@
                 </section> -->
 
                 @if (item.lookup_image) {
-                  <div class="col-12" style="height: 110px">
+                  <div class="col-12 imgHeight">
                     <img
                       src="{{ item.lookup_image }}"
                       class="z-3 w-100 h-100 object-fit-cover sm-radius position-relative"
@@ -50,7 +50,7 @@
                 } @else {
                   <span class="d-flex justify-content-center">
                     <i
-                      class="fa-solid fa-box-open fa-5x mt-4 mb-2"
+                      class="fa-solid fa-box-open fa-5x mt-4 mb-4"
                       style="color: #ffffff"></i>
                   </span>
                   <div class="z-3 clip-path bg-input"></div>
@@ -68,12 +68,6 @@
             <h6 class="fs-x-small" i18n>
               {{ item.lookup_title }} ({{ item.lookup_subtitle }})
             </h6>
-          </div>
-
-          <div class="row ms-0">
-            <div class="col-8">
-              <p class="text-secondary fs-x-small" i18n>Category</p>
-            </div>
           </div>
         </div>
       </div>
