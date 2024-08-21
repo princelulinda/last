@@ -10,6 +10,11 @@ import {
 import { ParamModel } from '../../../global/components/reusable-list/reusable.model';
 import { getdataModal } from '../../../global/components/reusable-list/reusable.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
+import {
+  MetadataBodyModel,
+  MetadataCreationResponseModel,
+  MetadataModel,
+} from '../../../components/metadatas/metadata.model';
 // import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -78,5 +83,24 @@ export class GeneralService {
     return this.apiService
       .post(url, body)
       .pipe(map(response => response as MappingResponse));
+  }
+  getMetadata(
+    search = '',
+    pagination?: PaginationConfig
+  ): Observable<{ objects: MetadataModel[] }> {
+    const url = `/metadata/?search=${search}&limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`;
+    return this.apiService.get<{ objects: MetadataModel[] }>(url).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+  createMetadata(
+    body: MetadataBodyModel
+  ): Observable<MetadataCreationResponseModel> {
+    const url = '/metadata/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as MetadataCreationResponseModel));
   }
 }
