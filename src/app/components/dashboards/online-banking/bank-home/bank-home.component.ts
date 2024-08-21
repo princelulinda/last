@@ -133,23 +133,4 @@ export class BankHomeComponent implements OnInit, OnDestroy {
   deselectBank() {
     this.configService.resetSelectedBank();
   }
-
-  getRecentTransactions() {
-    const period = {
-      start_date: '',
-      end_date: '',
-    };
-    this.transferService
-      .getRecentTransactions('', period, this.clientVerified)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: (data: RecentTransaction) => {
-          this.recentTransactions = data;
-          console.log('Recent Transactions:', this.recentTransactions);
-        },
-        error: error => {
-          console.error('Error fetching recent transactions:', error);
-        },
-      });
-  }
 }
