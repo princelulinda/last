@@ -21,6 +21,7 @@ import { GoogleMapComponent } from '../../../global/components/google-map/google
 import { MerchantAutocompleteModel } from '../merchant.models';
 import { MerchantPaymentDialogModel } from '../../../core/services/dialog/dialogs-models';
 import { VariableService } from '../../../core/services/variable/variable.service';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-merchants',
@@ -63,6 +64,8 @@ export class MerchantsComponent implements OnInit, OnDestroy {
 
   favoriteMerchantLoading = false;
 
+  private refreshFavoriteMerchants$: Observable<boolean>;
+
   constructor(
     private merchantService: MerchantService,
     private configService: ConfigService,
@@ -70,18 +73,28 @@ export class MerchantsComponent implements OnInit, OnDestroy {
     private variableService: VariableService
   ) {
     this.theme$ = this.configService.getMode();
+    this.refreshFavoriteMerchants$ = toObservable(
+      this.variableService.refreshFavoriteMerchants
+    );
   }
 
   ngOnInit() {
     this.getMerchants('');
     this.getFavoriteMerchants('');
+    this.getActivitiesSectors();
 
     this.theme$.subscribe({
       next: theme => (this.theme = theme),
     });
-    this.getActivitiesSectors();
-    this.variableService.isFavorite$.subscribe(() => {
-      this.getFavoriteMerchants('');
+
+    // NOTE :: TO CHECK ACTION ON FAVORITE PRODUCTS
+    this.refreshFavoriteMerchants$.subscribe({
+      next: state => {
+        if (state) {
+          this.getFavoriteMerchants('');
+          this.variableService.refreshFavoriteMerchants.set(false);
+        }
+      },
     });
 
     this.searchInput.valueChanges
