@@ -55,7 +55,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dialogService.openMerchantPaymentDialog({ type: 'merchant' });
     const localToken = this.authService.getLocalAuthToken();
     if (localToken) {
       this.dialogService.dispatchSplashScreen();

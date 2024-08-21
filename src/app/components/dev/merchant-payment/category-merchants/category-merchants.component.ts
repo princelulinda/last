@@ -19,7 +19,7 @@ import { EmptyStateComponent } from '../../../../global/components/empty-states/
   styleUrl: './category-merchants.component.scss',
 })
 export class CategoryMerchantsComponent implements OnInit {
-  @Input({ required: true }) categoryId!: number;
+  @Input({ required: true }) categoryId!: number | string;
 
   merchants: MerchantAutocompleteModel[] = [];
   isLoading = true;
@@ -32,14 +32,16 @@ export class CategoryMerchantsComponent implements OnInit {
 
   getCategoryMerchants() {
     this.isLoading = true;
-    this.merchantService.getCategoryMerchants(this.categoryId).subscribe({
-      next: merchants => {
-        this.merchants = merchants.objects;
-        this.isLoading = false;
-      },
-      error: () => {
-        this.isLoading = false;
-      },
-    });
+    this.merchantService
+      .getCategoryMerchants(Number(this.categoryId))
+      .subscribe({
+        next: merchants => {
+          this.merchants = merchants.objects;
+          this.isLoading = false;
+        },
+        error: () => {
+          this.isLoading = false;
+        },
+      });
   }
 }

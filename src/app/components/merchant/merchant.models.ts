@@ -157,7 +157,7 @@ export interface MerchantCategoriesModel {
   slug: string;
   name: string;
   merchant_visibility: string[];
-  merchant_activity_sector: SectorActivityModel[];
+  merchant_activity_sector: SectorActivityModel;
   icon: string;
   is_active: boolean;
   ordering: number;

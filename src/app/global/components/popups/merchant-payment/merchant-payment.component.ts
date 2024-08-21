@@ -1,4 +1,4 @@
-import { Component, effect, AfterViewInit } from '@angular/core';
+import { Component, effect, AfterViewInit, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
@@ -28,7 +28,7 @@ import { CategoryMerchantsComponent } from '../../../../components/dev/merchant-
   templateUrl: './merchant-payment.component.html',
   styleUrl: './merchant-payment.component.scss',
 })
-export class MerchantPaymentComponent implements AfterViewInit {
+export class MerchantPaymentComponent implements AfterViewInit, OnInit {
   private merchantPaymentDialog: HTMLDialogElement | null = null;
   paymentData: {
     active: boolean;
@@ -56,10 +56,18 @@ export class MerchantPaymentComponent implements AfterViewInit {
       this.paymentData = this.dialogService.merchantPaymentDialog();
       if (this.paymentData.active) {
         this.merchantPaymentDialog?.showModal();
+        this.type = this.paymentData.payload?.type as MerchantPaymentTypesModel;
+        this.merchant = this.paymentData.payload?.merchant ?? null;
+        this.category = this.paymentData.payload?.category ?? null;
+        this.product = this.paymentData.payload?.product ?? null;
       } else {
         this.merchantPaymentDialog?.close();
       }
     });
+  }
+
+  ngOnInit() {
+    console.log('adsadada', this.category, this.type);
   }
 
   closeMerchantPaymentDialog() {

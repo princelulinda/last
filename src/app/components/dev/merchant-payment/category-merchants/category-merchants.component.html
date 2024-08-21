@@ -26,7 +26,10 @@
     <div class="row flex-wrap gap-4">
       @for (merchant of merchants; track $index) {
         <div class="col-auto">
-          <app-merchant-card [merchant]="merchant"></app-merchant-card>
+          <app-merchant-card
+            action="output"
+            [disabledFavoriteAction]="true"
+            [merchant]="merchant"></app-merchant-card>
         </div>
       }
     </div>
