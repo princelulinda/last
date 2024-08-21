@@ -151,8 +151,9 @@
 
 <!-- NOTE :: PLATEFORM SWITCH ICON  -->
 @if (showPlateformPopup) {
-  <section class="end-0 position-absolute">
-    <div class="float-end plateforn-card lg-radius mt-2 bg-white plateform">
+  <section class="end-0 position-absolute z-5">
+    <div
+      class="float-end plateform-card overflow-x-hidden w-auto lg-radius border border-primary-2 mt-2 bg-white plateform">
       <div class="h-100 p-3 py-4 overflow-y-auto">
         <div class="d-flex flex-column h-100">
           <div class="px-1 flex-grow-2">
@@ -353,8 +354,9 @@
 
 <!-- NOTE :: USER PROFILE INFO  -->
 @if (showUserInfoPopup) {
-  <section class="end-0 position-absolute">
-    <div class="float-end plateforn-card border mt-2 bg-white userInfo">
+  <section class="end-0 position-absolute z-5">
+    <div
+      class="float-end plateform-card overflow-hidden w-auto border mt-2 bg-white userInfo">
       <div class="h-100 p-2 overflow-y-auto">
         <div class="d-flex flex-column h-100">
           <div class="px-1 flex-grow-2">
@@ -379,7 +381,7 @@
                 class="d-flex align-items-end justify-content-end ms-4 mb-0">
                 <div class="p-1 rounded-circle">
                   <div
-                    class="d-flex align-items-end me-0 ms-0 p-2 rounded-circle border border-secondary">
+                    class="d-flex align-items-end bg-white me-0 ms-0 p-2 rounded-circle border border-secondary">
                     <!--user profile picture-->
                     <div
                       class="text-center border border-secondary d-flex flex-column align-items-center justify-content-center rounded-circle profile-picture-container">
@@ -400,17 +402,14 @@
                   class="ms-0 d-grid w-100 mb-2"
                   style="line-height: 20px; transform: translateY(-9%)">
                   <span
-                    class="ms-2 mb-2 text-dark w-100 text-sm-md"
-                    style="word-break: break-word"
+                    class="ms-2 mb-2 text-dark w-100 text-sm-md text-break"
                     >{{ userInfo?.user?.username }}</span
                   >
 
-                  <span
-                    style="word-break: break-word"
-                    class="ms-2 text-secondary w-100 text-xsm">
+                  <span class="ms-2 text-secondary w-100 text-break fs-x-small">
                     <span>{{ userInfo?.client?.client_email }}</span> </span
                   ><br />
-                  <span class="ms-2 text-secondary text-xsm">{{
+                  <span class="ms-2 text-secondary fs-x-small">{{
                     userInfo?.client?.client_code
                   }}</span>
                 </div>
@@ -425,8 +424,7 @@
                   <a>
                     <div
                       role="button"
-                      class="d-flex align-items-center"
-                      style="font-size: 18px">
+                      class="d-flex fs-medium align-items-center">
                       <i
                         class="fa-solid text-secondary fa-user-circle me-2"></i>
                       <b class="text-dark ms-1" i18n>Profile</b>
