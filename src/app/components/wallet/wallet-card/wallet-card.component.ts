@@ -9,7 +9,6 @@ import { UserInfoModel } from '../../../core/db/models/auth';
 
 import { NgClass, CommonModule } from '@angular/common';
 import { WalletCard } from '../wallet.models';
-import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
@@ -32,7 +31,6 @@ export class WalletCardComponent implements OnInit, OnDestroy {
 
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
-  userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   selectedBank!: bankModel;
   selectedBank$!: Observable<bankModel>;

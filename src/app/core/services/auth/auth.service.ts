@@ -188,7 +188,8 @@ export class AuthService {
         is_agent: data.client.is_agent,
         is_merchant: data.client.is_merchant,
         is_partner_bank: data.client.is_partner_bank,
-        picture_url: data.client.picture_url,
+        picture: data.client.picture_url,
+        picture_url: '',
         prefered_language: data.client.prefered_language,
       },
     };

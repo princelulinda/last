@@ -4,7 +4,6 @@ import { Observable, Subject } from 'rxjs';
 
 import { AuthService, ConfigService } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
-import { userInfoModel } from '../model';
 import { CommonModule } from '@angular/common';
 import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
 
@@ -20,7 +19,6 @@ export class SubHeaderComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
   dayMoment = 'Morning';
-  userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
@@ -43,7 +41,9 @@ export class SubHeaderComponent implements OnInit, OnDestroy {
     });
     this.userInfo$.subscribe({
       next: userinfo => {
-        this.clientInfo = userinfo;
+        if (userinfo) {
+          this.clientInfo = userinfo;
+        }
       },
     });
     this.dayMoment = this.timeOfDay();

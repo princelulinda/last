@@ -11,7 +11,6 @@ import {
 } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { nyamuranziCard } from '../models';
-import { userInfoModel } from '../../../layouts/header/model';
 import {
   activeMainConfigModel,
   ModeModel,
@@ -30,7 +29,6 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
 
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
-  userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   referees!: nyamuranziCard;
   noRefereed = false;
@@ -61,7 +59,9 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
     });
     this.userInfo$.subscribe({
       next: userinfo => {
-        this.clientInfo = userinfo;
+        if (userinfo) {
+          this.clientInfo = userinfo;
+        }
       },
     });
 

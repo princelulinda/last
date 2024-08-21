@@ -1,131 +1,166 @@
-<dialog id="merchant-payment" class="border-0 p-0">
-  <main class="md-radius p-4 overflow-auto bg-white h-8 position-relative">
-    <!---------------------------------------------------------- ****####  MERCHANT SECTION  ####**** ----------------------------------------------------------------->
-
-    @if (type === 'merchant' && merchant) {
-      <!---------------------------------------------------------- BACK SECTION ----------------------------------------------------------------->
-
-      <div class="position-absolute back">
-        <span
-          class="d-flex align-items-center fs-l-medium"
-          data-bs-toggle="modal"
-          [attr.data-bs-target]="'#paymentModal' + merchant.id"
-          role="button">
-          <span class="me-2"><i class="fa fa-arrow-left"></i></span>
-          <b i18n> Back</b>
-        </span>
-      </div>
-      <div class="d-flex flex-column h-100">
-        <!---------------------------------------------------------- STEPPER SECTION ----------------------------------------------------------------->
-
-        <div class="mx-auto d-flex flex-row my-1 w-content">
-          <div class="stepper-wrapper d-flex align-items-center">
-            @if (selectedSection === 'second') {
-              <div class="stepper-item active">
-                <div class="step-counter text-all-dark border border-dark" i18n>
-                  1
-                </div>
-              </div>
-              <div
-                class="stepper-line"
-                [ngClass]="
-                  theme === 'light' ? 'bg-all-dark' : 'bg-all-white'
-                "></div>
-            }
-
-            @if (selectedSection === 'first') {
-              <div class="stepper-item completed">
-                <div
-                  class="step-counter border border-dark bg-primary fw-bold"
-                  i18n>
-                  1
-                </div>
-              </div>
-              <div
-                class="stepper-line"
-                [ngClass]="
-                  theme === 'light' ? 'bg-all-dark' : 'bg-all-white'
-                "></div>
-              <div class="stepper-item active">
-                <div class="step-counter border text-all-dark border-dark" i18n>
-                  2
-                </div>
-              </div>
-            }
-
-            @if (selectedSection === 'second') {
-              <div
-                class="stepper-item completed"
-                *ngIf="selectedSection === 'second'">
-                <div
-                  class="step-counter bg-primary fw-bold border border-dark"
-                  i18n>
-                  2
-                </div>
-              </div>
-            }
-          </div>
-        </div>
-
-        <!---------------------------------------------------------- END OF STEPPER SECTION ----------------------------------------------------------------->
-
-        <div class="row flex-grow-1 g-4 overflow-hidden">
-          <!---------------------------------------------------------- LEFT SECTION ----------------------------------------------------------------->
-
-          <div class="d-flex flex-column h-100 overflow-scroll scrollBar col-8">
-            <div class="d-flex flex-row ps-2 my-3 align-items-center">
-              <div class="arrow bg-primary"></div>
-              <span class="ms-3 fw-bold fs-l-medium">Social</span>
-              <div
-                class="ms-5 bg-secondary rounded d-flex flex-row overflow-hidden nameCard">
-                <div
-                  class="w-75 h-100 d-flex align-items-center justify-content-center">
-                  <span class="fs-small">Tv</span>
-                </div>
-                <div
-                  class="bg-primary d-flex align-items-center justify-content-center iconSec px-2">
-                  <i class="fa-solid fa-building-columns text-all-white"></i>
-                </div>
+<dialog
+  id="merchant-payment"
+  tabindex="-1"
+  class="border-0 p-0 bg-white lg-radius bg-white w-100 h-100 overflow-y-auto p-4 text-dark">
+  <main>
+    <!-- NOTE :: STEPPER AND BACK SECTION -->
+    <section class="d-flex align-items-center justify-content-center">
+      <!-- <div class="mx-auto d-flex flex-row my-1 w-content flex-grow-1">
+        <div class="stepper-wrapper d-flex align-items-center">
+          @if (selectedSection === 'second') {
+            <div class="stepper-item active">
+              <div class="step-counter text-all-dark border border-dark" i18n>
+                1
               </div>
             </div>
             <div
-              class="ps-3 py-2 border position-relative rounded-3 d-flex flex-row pe-1 mb-2 w-content">
-              <span
-                class="position-absolute top-0 online translate-middle p-2 bg-success border border-light rounded-circle">
-                <span class="visually-hidden">Online status</span>
-              </span>
+              class="stepper-line"
+              [ngClass]="
+                theme === 'light' ? 'bg-all-dark' : 'bg-all-white'
+              "></div>
+          }
+
+          @if (selectedSection === 'first') {
+            <div class="stepper-item completed">
               <div
-                class="rounded-circle border overflow-hidden profile bg-secondary d-flex align-items-center justify-content-center">
-                @if (merchant.lookup_image) {
-                  <img
-                    src="{{ merchant.lookup_image }}"
-                    alt="merchant profile"
-                    class="image" />
-                } @else {
-                  <i
-                    class="fa-solid fa-cart-shopping fs-large text-secondary"></i>
-                }
-              </div>
-              <div class="d-flex flex-column ms-2">
-                <span class="fs-large fw-bold"
-                  >{{ merchant.lookup_title }}
-                  <span class="fs-normal"
-                    >({{ merchant.lookup_subtitle }})</span
-                  ></span
-                >
-                <span class="fs-normal text-secondary fw-bold">{{
-                  merchant.merchant_category_name
-                }}</span>
+                class="step-counter border border-dark bg-primary fw-bold"
+                i18n>
+                1
               </div>
             </div>
-            <div class="pt-4 h-100 mb-4">
-              <app-merchant-products
-                [merchantId]="merchant.id"></app-merchant-products>
+            <div
+              class="stepper-line"
+              [ngClass]="
+                theme === 'light' ? 'bg-all-dark' : 'bg-all-white'
+              "></div>
+            <div class="stepper-item active">
+              <div class="step-counter border text-all-dark border-dark" i18n>
+                2
+              </div>
             </div>
-          </div>
-          <div class="col-4 h-100"></div>
+          }
+
+          @if (selectedSection === 'second') {
+            <div
+              class="stepper-item completed"
+              *ngIf="selectedSection === 'second'">
+              <div
+                class="step-counter bg-primary fw-bold border border-dark"
+                i18n>
+                2
+              </div>
+            </div>
+          }
         </div>
+      </div> -->
+      <div
+        class="text-end text-dark"
+        tabindex="-1"
+        (click)="closeMerchantPaymentDialog()"
+        role="button">
+        <span class="me-2"><i class="fa fa-arrow-left"></i></span>
+        <b i18n> Back</b>
       </div>
+    </section>
+
+    <!-- NOTE :: CATEGORY SECTION -->
+    @if (category) {
+      <section>
+        <section class="d-flex align-items-center">
+          <div class="d-flex align-items-center">
+            <span class="text-primary fs-medium me-3">
+              <i class="fa-solid fa-play"></i>
+            </span>
+            <b class="fs-medium">{{
+              category.merchant_activity_sector.title
+            }}</b>
+          </div>
+          <div class="ms-5 bg-secondary category-card x-sm-radius d-flex">
+            <span class="text-center flex-grow-1 py-1">
+              <small>{{ category.name }}</small>
+            </span>
+            <small class="bg-primary text-all-white px-2 h-100 x-sm-radius">
+              <i class="fa-solid fa-building-columns"></i>
+            </small>
+          </div>
+        </section>
+      </section>
+    }
+
+    <!-- NOTE :: CATEGORY MERCHANTS SECTION -->
+    @if (category && !selectedMerchant) {
+      <section class="px-4 mt-4">
+        <div>
+          <app-category-merchants
+            (selectedMerchant)="getSelectedMerchant($event)"
+            [categoryId]="category.id"></app-category-merchants>
+        </div>
+      </section>
+    }
+    <!-- NOTE :: SELECTED MERCHANT SECTION -->
+    @if (selectedMerchant) {
+      <section class="px-4 mt-4">
+        <div class="row mx-0">
+          <section
+            class="col-auto border position-relative lg-radius d-flex align-items-center py-2 ps-4 pe-3">
+            <div
+              class="rounded-circle border merchant-profile bg-secondary d-flex align-items-center justify-content-center me-2">
+              @if (selectedMerchant.lookup_image) {
+                <img
+                  src="{{ selectedMerchant.lookup_image }}"
+                  alt="{{ selectedMerchant.lookup_title }} Profile"
+                  class="image" />
+              } @else {
+                <span class="fs-large text-secondary mt-2">
+                  <i class="fa-solid fa-cart-shopping"></i>
+                </span>
+              }
+            </div>
+            <div class="d-flex flex-column ms-2">
+              <span class="fs-large fw-bold"
+                >{{ selectedMerchant.lookup_title }}
+                <span class="fs-normal"
+                  >({{ selectedMerchant.lookup_subtitle }})</span
+                ></span
+              >
+              <span class="fs-normal text-secondary fw-bold">{{
+                selectedMerchant.merchant_category_name
+              }}</span>
+            </div>
+          </section>
+        </div>
+
+        <!-- NOTE :: PAYMENT MENUS -->
+        @if (!selectedPaymentMenu) {
+          <section class="mt-4 col-9 col-sm-7 col-md-5 col-lg-4">
+            <div
+              role="button"
+              class="d-flex justify-content-between align-items-center border-bottom mb-3 py-2 px-2"
+              (click)="selectPaymentMenu('Direct-Payment')"
+              tabindex="0">
+              <span class="fs-medium" i18n>Direct Payment</span>
+              <span class="fs-medium">
+                <i class="fa-solid fa-chevron-right"></i>
+              </span>
+            </div>
+            <div
+              role="button"
+              class="d-flex justify-content-between align-items-center border-bottom mb-3 py-2 px-2"
+              (click)="selectPaymentMenu('Product-Payment')"
+              tabindex="0">
+              <span class="fs-medium" i18n>Product Payment</span>
+              <span class="fs-medium">
+                <i class="fa-solid fa-chevron-right"></i>
+              </span>
+            </div>
+          </section>
+        } @else if (selectedPaymentMenu === 'Product-Payment') {
+          <section class="mt-4">
+            <app-merchant-products
+              [merchantId]="selectedMerchant.id"></app-merchant-products>
+          </section>
+        }
+      </section>
     }
   </main>
 </dialog>

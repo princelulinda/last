@@ -12,8 +12,6 @@ import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../../core/services/config/main-config.models';
-import { TransferService } from '../../../../core/services/transfer/transfer.service';
-import { RecentTransaction } from '../../dashboard.model';
 import { ReusableListComponent } from '../../../../global/components/reusable-list/reusable-list.component';
 
 @Component({
@@ -103,11 +101,8 @@ export class BankHomeComponent implements OnInit, OnDestroy {
   theme!: ModeModel;
   activePlatform: string | null = null;
   mainConfig$!: Observable<activeMainConfigModel>;
-  recentTransactions!: RecentTransaction;
-  constructor(
-    private configService: ConfigService,
-    private transferService: TransferService
-  ) {
+
+  constructor(private configService: ConfigService) {
     this.theme$ = this.configService.getMode();
     this.mainConfig$ = this.configService.getMainConfig();
   }

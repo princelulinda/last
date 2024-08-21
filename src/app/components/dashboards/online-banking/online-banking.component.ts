@@ -21,7 +21,6 @@ import {
   MerchantLookup,
   PayMerchant,
 } from '../dashboard.model';
-import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { TarifComponent } from '../../tarif/tarif.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
@@ -74,7 +73,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   merchants: MerchantLookup[] = [];
   openBankListPopup = false;
   selectedNewBank: number | null = null;
-  userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   pin!: string;
 

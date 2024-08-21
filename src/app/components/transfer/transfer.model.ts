@@ -27,11 +27,11 @@ export interface DebitOptions {
 
   title?: string;
 }
-export interface MerchantInfoModel {
-  object: {
-    success: boolean;
-  };
-}
+// export interface MerchantInfoModel {
+//   object: {
+//     success: boolean;
+//   };
+// }
 export interface LookupData {
   account_number: string | null | undefined;
   bank_slug: string | null | undefined;

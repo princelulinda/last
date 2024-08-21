@@ -1,4 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Observable, takeUntil, Subject } from 'rxjs';
@@ -19,7 +26,7 @@ import { VariableService } from '../../../../core/services/variable/variable.ser
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
 })
-export class ProductCardComponent implements OnInit {
+export class ProductCardComponent implements OnInit, OnDestroy {
   @Input({ required: true }) product: ProductAutocompleteModel = {
     id: 0,
     lookup_description: '',
@@ -31,6 +38,9 @@ export class ProductCardComponent implements OnInit {
     is_favorite_product: false,
   };
   @Input() type: 'row' | 'column' = 'column';
+  @Input() action: 'merchant-payment' | 'output' = 'merchant-payment';
+  @Input() disabledFavoriteAction = false;
+  @Output() selectedProductEvent = new EventEmitter<ProductAutocompleteModel>();
 
   currentMode$: Observable<ModeModel>;
   currentMode!: ModeModel;
@@ -80,16 +90,12 @@ export class ProductCardComponent implements OnInit {
           if (response.success) {
             if (!favorite.is_favorite_product) {
               this.product.is_favorite_product = true;
-              this.variableService.updateFavoriteProducts(
-                this.product,
-                this.product.is_favorite_product
-              );
+              this.variableService.isFavorite.next(true);
+              // this.variableService.updateFavoritesSignal.set(true);
             } else {
               this.product.is_favorite_product = false;
-              this.variableService.updateFavoriteProducts(
-                this.product,
-                this.product.is_favorite_product
-              );
+              this.variableService.isFavorite.next(false);
+              // this.variableService.updateFavoritesSignal.set(true);
             }
           }
           this.isLoading = false;
@@ -98,5 +104,18 @@ export class ProductCardComponent implements OnInit {
           this.isLoading = false;
         },
       });
+  }
+
+  selectProduct() {
+    if (this.action === 'merchant-payment') {
+      console.log('DISPACTH MERCHANT PAYMENT');
+    } else if (this.action === 'output') {
+      this.selectedProductEvent.emit(this.product);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
