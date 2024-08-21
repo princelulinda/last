@@ -6,15 +6,16 @@ import {
   OnDestroy,
   DoCheck,
 } from '@angular/core';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
 import { Observable, Subject, takeUntil } from 'rxjs';
+
 import {
   ConfigService,
   DialogService,
   LoanService,
 } from '../../../core/services';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { VariableService } from '../../../core/services/variable/variable.service';
-import { CommonModule } from '@angular/common';
 import { LoanPlanComponent } from '../loan-plan/loan-plan.component';
 import { LoanModel, PlanModel, ResModel } from '../loan.models';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
@@ -44,6 +45,7 @@ export class LoanDetailsComponent implements OnInit, OnDestroy, DoCheck {
   isBalanceShown = false;
   isBalanceShown$: Observable<boolean>;
   showPlan = false;
+  pin = '';
 
   @ViewChild('myModal') myModal!: ElementRef;
 
@@ -51,7 +53,6 @@ export class LoanDetailsComponent implements OnInit, OnDestroy, DoCheck {
     private configService: ConfigService,
     private loanService: LoanService,
     private route: ActivatedRoute,
-    private variableService: VariableService,
     private dialogService: DialogService
   ) {
     this.selectedBank$ = this.configService.getSelectedBank();
@@ -80,6 +81,7 @@ export class LoanDetailsComponent implements OnInit, OnDestroy, DoCheck {
           this.dialog = dialog;
           if (this.dialog.response) {
             if (dialog.action === 'Confirm payment' && dialog.response.pin) {
+              this.pin = dialog.response.pin;
               this.payLoan();
             }
           }
@@ -143,7 +145,7 @@ export class LoanDetailsComponent implements OnInit, OnDestroy, DoCheck {
     const data = {
       loan_id: this.loanId,
       loan_plan_id: this.singleLoanPlan.id,
-      pin_code: this.variableService.pin,
+      pin_code: this.pin,
     };
 
     this.dialogService.dispatchLoading();
