@@ -332,12 +332,11 @@ export class MerchantConfigComponent implements OnInit {
 
       error: err => {
         this.dialogService.closeLoading();
+        const errorMessage = err.error.object.response_message;
         this.dialogService.openToast({
           type: 'failed',
           title: '',
-          message:
-            err?.object?.response_message ??
-            'failed to update merchant details',
+          message: errorMessage || 'failed to update merchant details',
         });
       },
     });
