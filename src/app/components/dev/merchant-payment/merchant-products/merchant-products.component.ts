@@ -7,11 +7,17 @@ import { MerchantService } from '../../../../core/services';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { ProductCardComponent } from '../../../merchant/global/product-card/product-card.component';
 import { ProductAutocompleteModel } from '../../../merchant/products/products.model';
+import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-merchant-products',
   standalone: true,
-  imports: [CommonModule, SkeletonComponent, ProductCardComponent],
+  imports: [
+    CommonModule,
+    SkeletonComponent,
+    ProductCardComponent,
+    EmptyStateComponent,
+  ],
   templateUrl: './merchant-products.component.html',
   styleUrl: './merchant-products.component.scss',
 })

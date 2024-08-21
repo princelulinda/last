@@ -100,7 +100,10 @@
           <small i18n>Sales </small> <br />
           @if (stat) {
             <b>
-              {{ (stat.merchant_bills_payment_number | number) ?? '---' }}
+              {{
+                (stat.response_data.merchant_bills_payment_number | number) ??
+                  '---'
+              }}
             </b>
           }
           @if (!stat) {
@@ -132,7 +135,11 @@
         <Span class="float-start fs-5 ms-2 text-dark mt-3">
           <small i18n>Products </small> <br />
           @if (stat) {
-            <b> {{ (stat.merchant_products_number | number) ?? '---' }}</b>
+            <b>
+              {{
+                (stat.response_data.merchant_products_number | number) ?? '---'
+              }}</b
+            >
           }
           @if (!stat) {
             <span>
@@ -266,7 +273,7 @@
       <div class="col-4 col-md-3 level-1 roundBox shadow text-center ms-auto">
         @if (stat) {
           <div class="fw-bold mt-lg-4 pt-4 text-dark">
-            {{ stat.merchant_tellers_number }}
+            {{ stat.response_data.merchant_tellers_number }}
           </div>
         }
         @if (!stat) {

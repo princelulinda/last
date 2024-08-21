@@ -3,7 +3,6 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject, Observable, takeUntil } from 'rxjs';
 
 import {
-  MerchantModel,
   ProductAutocompleteModel,
   productConfigModel,
   updateProductInfoObjectModel,
@@ -20,6 +19,11 @@ import {
 } from '../../../../core/services';
 import { PlateformModel } from '../../../../core/services/config/main-config.models';
 import { ProductCardComponent } from '../../global/product-card/product-card.component';
+import {
+  EmptyStateComponent,
+  EmptyStateModel,
+} from '../../../../global/components/empty-states/empty-state/empty-state.component';
+import { MerchantModel } from '../../merchant.models';
 
 @Component({
   selector: 'app-product-config',
@@ -30,6 +34,7 @@ import { ProductCardComponent } from '../../global/product-card/product-card.com
     ReactiveFormsModule,
     SkeletonComponent,
     ProductCardComponent,
+    EmptyStateComponent,
   ],
   templateUrl: './product-config.component.html',
   styleUrl: './product-config.component.scss',
@@ -66,6 +71,10 @@ export class ProductConfigComponent implements OnInit {
   selectedFields: { name: string; id: number }[] = [];
   toggleMetadataForm = false;
   pin = '';
+
+  searchType: EmptyStateModel = 'product';
+  searchTypeOther: EmptyStateModel = 'other';
+  imageClass = 'image';
 
   plateform$!: Observable<PlateformModel>;
   baseRouterLink = '/m/mymarket';

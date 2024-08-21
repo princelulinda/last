@@ -8,7 +8,7 @@ import { getAllMetadataKeys } from './models/base.model';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../services/api/api.service';
 import 'reflect-metadata/lite';
-import { ClientApiResponse, UserInfoModel } from './models/auth';
+import { ClientModel, UserInfoModel } from './models/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -174,7 +174,7 @@ export class DbService {
     return liveQuery(() => querier);
   }
 
-  async setUser(data: { user: UserApiResponse; client: ClientApiResponse }) {
+  async setUser(data: { user: UserApiResponse; client: ClientModel }) {
     if (data?.user.token !== null) {
       this.setLocalStorageUserToken(data.user.token);
       this.setLocalStorageClientId(data.client.client_id.toString());

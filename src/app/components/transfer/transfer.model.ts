@@ -27,11 +27,11 @@ export interface DebitOptions {
 
   title?: string;
 }
-export interface MerchantInfoModel {
-  object: {
-    success: boolean;
-  };
-}
+// export interface MerchantInfoModel {
+//   object: {
+//     success: boolean;
+//   };
+// }
 export interface LookupData {
   account_number: string | null | undefined;
   bank_slug: string | null | undefined;
@@ -95,6 +95,7 @@ export interface SelectedCreditAccountEventModel {
     accountHolder: string;
     debit_description: string;
     amount: number;
+    merchant_reference?: string;
   };
   selectedInstitution: InstitutionInfoModel;
   selectedCreditAccountType: string;

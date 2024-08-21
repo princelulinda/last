@@ -1,10 +1,10 @@
-<div>
+<div class="mb-5">
   <form
     id="searchForm"
     class="mt-4 shadow position-relative bg-white overflow-hidden"
     [ngClass]="{ 'active ': isSearchInputNotEmpty() || isInputFocused }">
     <input
-      class="ps-4 search-input form-control h-100 position-absolute text-all-dark"
+      class="ps-4 search-input form-control h-100 position-absolute"
       [ngClass]="{
         'bg-in-light': theme === 'light',
         'd-block': isInputFocused,
@@ -12,23 +12,25 @@
       type="text"
       placeholder="Search merchant"
       [formControl]="searchInput"
-      (input)="searchFor()"
       (focus)="isInputFocused = true"
       (blur)="isInputFocused = false" />
     <span
       role="button"
-      (click)="searchFor()"
       tabindex="0"
       class="btn bg-transparent search-btn"
       type="submit">
-      <span *ngIf="!isLoading"
-        ><i
-          class="fa-solid fa-search search-button position-absolute text-align-center fs-7 text-dark"></i
-      ></span>
-      <span *ngIf="isLoading">
-        <i
-          class="fa-solid fa-spinner search-button position-absolute text-align-center fa-pulse fs-7 text-dark"></i
-      ></span>
+      @if (!isLoading) {
+        <span
+          ><i
+            class="fa-solid fa-search search-button position-absolute text-align-center fs-7 text-dark"></i
+        ></span>
+      }
+      @if (isLoading) {
+        <span>
+          <i
+            class="fa-solid fa-spinner search-button position-absolute text-align-center fa-pulse fs-7 text-dark"></i
+        ></span>
+      }
     </span>
     <!-- <style>
       .form-control::placeholder {
@@ -37,336 +39,341 @@
     </style> -->
   </form>
 
-  <section *ngIf="!this.favoriteDisplay">
-    <div class="row" *ngIf="!this.searchInput.value">
-      <div class="col-lg-7 col-md-11 col-sm-10">
-        <!-- Big image swipable -->
-        <img
-          src="./images/merchant/générique appli.jpg"
-          class="img-fluid mb-3 rounded imgSize"
-          alt="merchant" />
-      </div>
-      <div class="col-lg-5 col-sm- col-md-">
-        <!-- favorites -->
-        <div class="d-flex justify-content-between">
-          <h6>
-            <span class="text-primary font-calibri fs-x-small"
-              ><i class="fa-solid fa-star"></i
-            ></span>
-            <span i18n class="text-dark"><strong> Favorites</strong></span>
-          </h6>
-          <div *ngIf="favoriteMerchants && favoriteMerchantsNumber > 4">
-            <span
-              type="button"
-              i18n
-              class="text-primary fw-bold float-end me-2"
-              (click)="displayFavorites()"
-              tabindex="0"
-              ><u>More</u></span
-            >
+  @if (!this.favoriteDisplay) {
+    <section>
+      @if (!this.searchInput.value) {
+        <div class="row">
+          <div class="col-lg-7 col-md-11 col-sm-10">
+            <!-- Big image swipable -->
+            <img
+              src="./images/merchant/générique appli.jpg"
+              class="img-fluid mb-3 rounded imgSize"
+              alt="merchant" />
+          </div>
+          <div class="col-lg-5 col-sm- col-md-">
+            <!-- favorites -->
+            <div class="d-flex justify-content-between">
+              <h6>
+                <span class="text-primary font-calibri fs-x-small"
+                  ><i class="fa-solid fa-star"></i
+                ></span>
+                <span i18n class="text-dark"><strong> Favorites</strong></span>
+              </h6>
+              @if (favoriteMerchants && favoriteMerchantsNumber > 4) {
+                <div>
+                  <span
+                    type="button"
+                    i18n
+                    class="text-primary fw-bold float-end me-2"
+                    (click)="displayFavorites()"
+                    tabindex="0"
+                    ><u>More</u></span
+                  >
+                </div>
+              }
+            </div>
+            @if (favoriteMerchantLoading) {
+              <div class="row mt-2 d-flex justify-content-between">
+                @for (item of countProductLoader; track $index) {
+                  <div class="col-5 mb-5 skeletonsBlock" [hidden]="$index >= 4">
+                    <app-skeleton
+                      height="150px"
+                      width="150px"
+                      classes="mb-0 rounded-3"></app-skeleton>
+                    <div>
+                      <app-skeleton
+                        height="10px"
+                        width="30%"
+                        classes="rounded-3"></app-skeleton>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- NOTE :: not found message -->
+            @if (!favoriteMerchantLoading && favoriteMerchants.length === 0) {
+              <div class="d-flex flex-column align-items-center mt-5">
+                <span class="empty-state-icon opacity-50 fs-xx-large">
+                  <i class="fa-solid fa-face-meh"></i>
+                </span>
+                <b class="empty-state-icon fs-2 opacity-50" i18n>
+                  No Favorite Merchant
+                </b>
+              </div>
+            }
+            @if (!favoriteMerchantLoading && favoriteMerchants.length !== 0) {
+              <div class="row ms-2 gap-3">
+                @for (merchant of favoriteMerchants; track $index) {
+                  <div
+                    class="col-5 p-0 position-relative"
+                    [hidden]="$index >= 4">
+                    <!-- image -->
+                    <app-merchant-card [merchant]="merchant">
+                    </app-merchant-card>
+                  </div>
+                }
+              </div>
+            }
           </div>
         </div>
-        <div
-          class="row mt-2 d-flex justify-content-between"
-          *ngIf="favoriteMerchantLoading">
-          <div
-            class="col-5 mb-5 skeletonsBlock"
-            *ngFor="let item of countProductLoader; let i = index"
-            [hidden]="i >= 4">
-            <app-skeleton
-              height="150px"
-              width="150px"
-              classes="mb-0 rounded-3"></app-skeleton>
-            <div>
-              <app-skeleton
-                height="10px"
-                width="30%"
-                classes="rounded-3"></app-skeleton>
+      }
+      @if (!this.searchInput.value) {
+        <div class="row mt-4 mapped">
+          <div class="col-lg-5 col-sm- col-md-">
+            <div class="row">
+              <span>
+                <span class="text-primary fs-x-small">
+                  <i class="fa-solid fa-circle"></i>
+                </span>
+                <span i18n class="text-dark">
+                  <b> Merchant nearby</b>
+                </span>
+              </span>
+            </div>
+            <!-- near merchant's info *ngIf="!location"-->
+            <div class="d-flex flex-column align-items-center mt-5">
+              <b class="empty-state-icon fs-2 text-center" i18n>
+                Activate your location to see the merchants around you
+              </b>
+              <button
+                class="btn bg-primary text-all-white"
+                (click)="getLocation()">
+                @if (!getting) {
+                  <b i18n>Activate</b>
+                }
+                @if (getting) {
+                  <span>
+                    <i class="fa-solid fa-spin fa-circle-notch fs-4"></i>
+                  </span>
+                }
+              </button>
+            </div>
+            @if (!merchants && location) {
+              <div class="row mt-2 d-flex justify-content-between">
+                @for (item of countProductLoader; track $index) {
+                  <div class="col-6" [hidden]="$index >= 4">
+                    <app-skeleton
+                      height="130px"
+                      width="130px"
+                      classes="mb-0 rounded-3"></app-skeleton>
+                    <div>
+                      <app-skeleton
+                        height="10px"
+                        width="25%"
+                        classes="rounded-3"></app-skeleton>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+            @if (location) {
+              <div class="row mt-2">
+                @for (merchant of merchants; track $index) {
+                  <div
+                    class="col-6 mb-3 position-relative"
+                    [hidden]="$index >= 4">
+                    <app-merchant-card [merchant]="merchant">
+                    </app-merchant-card>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+          <div class="col-lg-7 col p-0 m-0">
+            <!-- Merchant Location -->
+            <div class="row ms-2 w-100 text-align center">
+              <span i18n class="text-dark">
+                <b> Merchant Location</b>
+              </span>
+            </div>
+
+            <div
+              class="map d-flex align-items-center position-relative w-100 justify-content-center">
+              <app-google-map></app-google-map>
             </div>
           </div>
         </div>
-
-        <!-- NOTE :: not found message -->
-        <div
-          class="d-flex flex-column align-items-center mt-5"
-          *ngIf="!favoriteMerchantLoading && favoriteMerchants.length === 0">
-          <span class="empty-state-icon opacity-50 fs-xx-large">
-            <i class="fa-solid fa-face-meh"></i>
-          </span>
-          <b class="empty-state-icon fs-2 opacity-50" i18n>
-            No Favorite Merchant
-          </b>
-        </div>
-
-        <div
-          class="row ms-2 gap-3"
-          *ngIf="!favoriteMerchantLoading && favoriteMerchants.length !== 0">
-          <div
-            class="col-5 p-0 position-relative"
-            *ngFor="let merchant of favoriteMerchants; let i = index"
-            [hidden]="i >= 4">
-            <!-- image -->
-            <app-merchant-card [merchant]="merchant"> </app-merchant-card>
+      }
+      <!--sector of activities-->
+      <section class="mt-5 pt-5 position-relative">
+        @if (isLoading) {
+          <div class="row">
+            <p i18n class="font-calibri fs-normal fw-bold">
+              <i class="fa-solid fa-circle text-primary fs-x-small me-1"></i>
+              Categories
+              <i class="fa-solid fa-caret-down custom-caret ms-1 mt-1"></i>
+            </p>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row mt-4 mapped" *ngIf="!this.searchInput.value">
-      <div class="col-lg-5 col-sm- col-md-">
-        <div class="row">
+          <div class="w-100">
+            <div class="row">
+              @for (item of countProductLoader; track $index) {
+                <div class="col-2" [hidden]="$index >= 5">
+                  <app-skeleton
+                    [width]="'100%'"
+                    [height]="'30px'"></app-skeleton>
+                </div>
+              }
+            </div>
+            <div class="row">
+              @for (item of countProductLoader; track $index) {
+                <div class="col-2" [hidden]="$index >= 3">
+                  <app-skeleton
+                    [width]="'100%'"
+                    [height]="'30px'"></app-skeleton>
+                </div>
+              }
+            </div>
+          </div>
+        }
+        @if (!isLoading && selectedSector) {
+          <div class="w-100 position-absolute z-5">
+            <p class="mb-0">
+              <i class="fa-solid fa-circle text-primary fs-x-small me-1"></i>
+              <b
+                class="d-inline-block"
+                (click)="toggleSectorList()"
+                (mouseenter)="showSectorList()"
+                (mouseleave)="hideSectorList()"
+                role="button"
+                tabindex="0"
+                >{{ selectedSector.title }}
+                <i class="fa-solid fa-caret-down custom-caret ms-1 mt-1"></i>
+              </b>
+            </p>
+            @if (isSectorListVisible) {
+              <div
+                class="shadow-lg ms-3 p-4 pt-3 bg-white"
+                (mouseenter)="showSectorList()"
+                (mouseleave)="hideSectorList()">
+                @for (sector of sectorActivity; track $index) {
+                  <p
+                    class="mb-0 ms-2 p-0"
+                    role="button"
+                    tabindex="0"
+                    (click)="selectSector(sector)">
+                    {{ sector.title }}
+                  </p>
+                }
+              </div>
+            }
+          </div>
+          <!-- categories -->
+          @if (!isLoading && !categories) {
+            <div class="w-100 mt-4 pt-4">
+              <div class="row">
+                @for (item of countProductLoader; track $index) {
+                  <div class="col-2" [hidden]="$index >= 5">
+                    <app-skeleton
+                      [width]="'100%'"
+                      [height]="'30px'"></app-skeleton>
+                  </div>
+                }
+              </div>
+              <div class="row">
+                @for (item of countProductLoader; track $index) {
+                  <div class="col-2" [hidden]="$index >= 3">
+                    <app-skeleton
+                      [width]="'100%'"
+                      [height]="'30px'"></app-skeleton>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+          @if (selectedSector) {
+            <div class="mt-4 pt-3 ms-3">
+              @for (category of categories; track $index) {
+                <p class="ms-1 border p-1 px-4 d-inline-block rounded">
+                  {{ category.name }}
+                </p>
+              }
+            </div>
+          }
+        }
+      </section>
+      <!-- All -->
+      @if (!this.searchInput.value) {
+        <div class="row mt-4">
           <span>
             <span class="text-primary fs-x-small">
               <i class="fa-solid fa-circle"></i>
             </span>
             <span i18n class="text-dark">
-              <b> Merchant nearby</b>
+              <b> All</b>
             </span>
           </span>
-        </div>
-        <!-- near merchant's info *ngIf="!location"-->
-        <div class="d-flex flex-column align-items-center mt-5">
-          <b class="empty-state-icon fs-2 text-center" i18n>
-            Activate your location to see the merchants around you
-          </b>
-          <button class="btn bg-primary text-all-white" (click)="getLocation()">
-            <b i18n *ngIf="!getting">Activate</b>
-            <span *ngIf="getting">
-              <i class="fa-solid fa-spin fa-circle-notch fs-4"></i>
-            </span>
-          </button>
-        </div>
-        <div
-          class="row mt-2 d-flex justify-content-between"
-          *ngIf="!merchants && location">
-          <div
-            class="col-6"
-            *ngFor="let item of countProductLoader; let i = index"
-            [hidden]="i >= 4">
-            <app-skeleton
-              height="130px"
-              width="130px"
-              classes="mb-0 rounded-3"></app-skeleton>
-            <div>
-              <app-skeleton
-                height="10px"
-                width="25%"
-                classes="rounded-3"></app-skeleton>
-            </div>
-          </div>
-        </div>
-        <div class="row mt-2" *ngIf="location">
-          <div
-            class="col-6 mb-3 position-relative"
-            *ngFor="let merchant of merchants; let i = index"
-            [hidden]="i >= 4">
-            <app-merchant-card [merchant]="merchant"> </app-merchant-card>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-7 col p-0 m-0">
-        <!-- Merchant Location -->
-        <div class="row ms-2 w-100 text-align center">
-          <span i18n class="text-dark">
-            <b> Merchant Location</b>
-          </span>
-        </div>
-
-        <div
-          class="map d-flex align-items-center position-relative w-100 justify-content-center">
-          <app-google-map></app-google-map>
-        </div>
-      </div>
-    </div>
-    <!--sector of activities-->
-    <section class="mt-5 pt-5 position-relative">
-      @if (isLoading) {
-        <div class="row">
-          <p i18n class="font-calibri fs-normal fw-bold">
-            <i class="fa-solid fa-circle text-primary fs-x-small me-1"></i>
-            Categories
-            <i class="fa-solid fa-caret-down custom-caret ms-1 mt-1"></i>
-          </p>
-        </div>
-        <div class="w-100">
-          <div class="row">
-            <div class="col-2">
-              <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-            </div>
-            <div class="col-2">
-              <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-            </div>
-            <div class="col-2">
-              <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-            </div>
-            <div class="col-2">
-              <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-            </div>
-            <div class="col-2">
-              <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-2">
-              <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-            </div>
-            <div class="col-2">
-              <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-            </div>
-            <div class="col-2">
-              <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-            </div>
-          </div>
         </div>
       }
-      @if (!isLoading && selectedSector) {
-        <div class="w-100 position-absolute z-5">
-          <p class="mb-0">
-            <i class="fa-solid fa-circle text-primary fs-x-small me-1"></i>
-            <b
-              class="d-inline-block"
-              (click)="toggleSectorList()"
-              (mouseenter)="showSectorList()"
-              (mouseleave)="hideSectorList()"
-              role="button"
-              tabindex="0"
-              >{{ selectedSector.title }}
-              <i class="fa-solid fa-caret-down custom-caret ms-1 mt-1"></i>
-            </b>
-          </p>
-          @if (isSectorListVisible) {
-            <div
-              class="shadow-lg ms-3 p-4 pt-3 bg-white"
-              (mouseenter)="showSectorList()"
-              (mouseleave)="hideSectorList()">
-              @for (sector of sectorActivity; track $index) {
-                <p
-                  class="mb-0 ms-2 p-0"
-                  role="button"
-                  tabindex="0"
-                  (click)="selectSector(sector)">
-                  {{ sector.title }}
-                </p>
-              }
+      @if (!merchants) {
+        <div class="row mt-2">
+          @for (item of countProductLoader; track $index) {
+            <div class="col-lg-3 col-md-4 col-sm-2 col mb-3">
+              <app-skeleton
+                height="150px"
+                width="150px"
+                classes="mb-0 rounded-3"></app-skeleton>
+              <div>
+                <app-skeleton
+                  height="10px"
+                  width="60%"
+                  classes="rounded-3"></app-skeleton>
+              </div>
+              <div>
+                <app-skeleton
+                  height="10px"
+                  width="40%"
+                  classes="rounded-3"></app-skeleton>
+              </div>
             </div>
           }
         </div>
-        <!-- categories -->
-        @if (!isLoading && !categories) {
-          <div class="w-100 mt-4 pt-4">
-            <div class="row">
-              <div class="col-2">
-                <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-              </div>
-              <div class="col-2">
-                <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-              </div>
-              <div class="col-2">
-                <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-              </div>
-              <div class="col-2">
-                <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-              </div>
-              <div class="col-2">
-                <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-2">
-                <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-              </div>
-              <div class="col-2">
-                <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-              </div>
-              <div class="col-2">
-                <app-skeleton [width]="'100%'" [height]="'30px'"></app-skeleton>
-              </div>
-            </div>
-          </div>
-        }
-        @if (selectedSector) {
-          <div class="mt-4 pt-3 ms-3">
-            <p
-              class="ms-1 border p-1 px-4 d-inline-block rounded"
-              *ngFor="let category of categories">
-              {{ category.name }}
-            </p>
-          </div>
-        }
       }
+      @if (merchants && merchants.length === 0) {
+        <div class="text-center">
+          <i class="fa-solid fa-meh text-dark opacity-50 fs-1"></i><br />
+          <span class="text-l" i18n>Merchant not found</span>
+        </div>
+      }
+      <div class="row mx-0 mt-2">
+        @for (merchant of merchants; track $index) {
+          <div
+            class="col-lg-3 col-md-4 col-sm-6 col mb-3 position-relative"
+            [hidden]="$index >= 8">
+            <app-merchant-card [merchant]="merchant"> </app-merchant-card>
+          </div>
+        }
+      </div>
     </section>
-    <!-- All -->
-    <div class="row mt-4" *ngIf="!this.searchInput.value">
-      <span>
-        <span class="text-primary fs-x-small">
-          <i class="fa-solid fa-circle"></i>
-        </span>
-        <span i18n class="text-dark">
-          <b> All</b>
-        </span>
-      </span>
-    </div>
-    <div class="row mt-2" *ngIf="!merchants">
-      <div
-        class="col-lg-3 col-md-4 col-sm-2 col mb-3"
-        *ngFor="let item of countProductLoader">
-        <app-skeleton
-          height="150px"
-          width="150px"
-          classes="mb-0 rounded-3"></app-skeleton>
+  }
+  @if (this.favoriteDisplay) {
+    <section class="mb-5">
+      <div class="d-flex justify-content-between">
+        <h6>
+          <span class="text-primary fs-x-small"
+            ><i class="fa-solid fa-star"></i
+          ></span>
+          <span i18n class="text-dark"><strong> Favorites</strong></span>
+        </h6>
         <div>
-          <app-skeleton
-            height="10px"
-            width="60%"
-            classes="rounded-3"></app-skeleton>
-        </div>
-        <div>
-          <app-skeleton
-            height="10px"
-            width="40%"
-            classes="rounded-3"></app-skeleton>
+          <span
+            i18n
+            type="button"
+            (click)="displayFavorites()"
+            tabindex="0"
+            class="float-end text-primary fw-bold me-3"
+            ><u>Close</u></span
+          >
         </div>
       </div>
-    </div>
-    <div *ngIf="merchants && merchants.length === 0" class="text-center">
-      <i class="fa-solid fa-meh text-dark opacity-50 fs-1"></i><br />
-      <span class="text-l" i18n>Merchant not found</span>
-    </div>
-    <div class="row mx-0 mt-2">
-      <div
-        class="col-lg-3 col-md-4 col-sm-6 col mb-3 position-relative"
-        *ngFor="let merchant of merchants; let i = index"
-        [hidden]="i >= 8">
-        <app-merchant-card [merchant]="merchant"> </app-merchant-card>
-      </div>
-    </div>
-  </section>
-  <section *ngIf="this.favoriteDisplay">
-    <div class="d-flex justify-content-between">
-      <h6>
-        <span class="text-primary fs-x-small"
-          ><i class="fa-solid fa-star"></i
-        ></span>
-        <span i18n class="text-dark"><strong> Favorites</strong></span>
-      </h6>
-      <div>
-        <span
-          i18n
-          type="button"
-          (click)="displayFavorites()"
-          tabindex="0"
-          class="float-end text-primary fw-bold me-3"
-          ><u>Close</u></span
-        >
-      </div>
-    </div>
 
-    <div class="row mx-0">
-      <div
-        class="col-lg-3 col-md-4 col-sm-6 col mb-3 position-relative"
-        *ngFor="let merchant of favoriteMerchants">
-        <app-merchant-card [merchant]="merchant"> </app-merchant-card>
+      <div class="row mx-0">
+        @for (merchant of favoriteMerchants; track $index) {
+          <div class="col-lg-3 col-md-4 col-sm-6 col mb-3 position-relative">
+            <app-merchant-card [merchant]="merchant"> </app-merchant-card>
+          </div>
+        }
       </div>
-    </div>
-  </section>
+    </section>
+  }
 </div>

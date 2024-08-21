@@ -21,91 +21,102 @@
         <div class="bg-primary d-flex justify-content-center py-2 rounded-top">
           <b class="text-all-white">Last transactions</b>
         </div>
-        <div
-          class="rounded-bottom d-grid border bg-secondary p-2"
-          *ngIf="!recentTransactions">
-          <span class="w-100 mt-2">
-            <app-skeleton
-              [width]="'100%'"
-              [height]="'50px'"
-              classes="sm-radius">
-            </app-skeleton>
-          </span>
+        @if (!recentTransactions) {
+          <div class="rounded-bottom d-grid border bg-secondary p-2">
+            <span class="w-100 mt-2">
+              <app-skeleton
+                [width]="'100%'"
+                [height]="'50px'"
+                classes="sm-radius">
+              </app-skeleton>
+            </span>
 
-          <span class="w-100 mt-2">
-            <app-skeleton
-              [width]="'100%'"
-              [height]="'50px'"
-              classes="sm-radius">
-            </app-skeleton>
-          </span>
+            <span class="w-100 mt-2">
+              <app-skeleton
+                [width]="'100%'"
+                [height]="'50px'"
+                classes="sm-radius">
+              </app-skeleton>
+            </span>
 
-          <span class="w-100 mt-2">
-            <app-skeleton
-              [width]="'100%'"
-              [height]="'50px'"
-              classes="sm-radius">
-            </app-skeleton>
-          </span>
-        </div>
-        <div *ngIf="recentTransactions">
-          <div
-            *ngFor="
-              let transaction of recentTransactions.slice(0, 3);
-              let i = index;
-              let lastIndex = last
-            "
-            class="d-grid mt-2 mx-2">
-            @if (recentTransactions) {
-              <div class="d-flex justify-content-between">
-                <span class="text-dark md-title w-70">
-                  <span *ngIf="!transaction.operation_type.description"
-                    >---</span
-                  >
-                  <span *ngIf="transaction.operation_type.description">{{
-                    transaction.operation_type.description
-                  }}</span></span
-                >
-                <span class="text-dark sm-sec-text">
-                  <span *ngIf="!transaction.created_at">---</span>
-                  <span *ngIf="transaction.created_at">{{
-                    transaction.created_at | date: 'yyyy-MM-dd'
-                  }}</span></span
-                >
+            <span class="w-100 mt-2">
+              <app-skeleton
+                [width]="'100%'"
+                [height]="'50px'"
+                classes="sm-radius">
+              </app-skeleton>
+            </span>
+          </div>
+        }
+        @if (recentTransactions) {
+          <div class="border">
+            @for (transaction of recentTransactions.slice(0, 3); track $index) {
+              <div class="d-grid mt-2 mx-2">
+                @if (recentTransactions) {
+                  <div class="d-flex justify-content-between">
+                    <span class="text-dark md-title w-70">
+                      @if (!transaction.operation_type.description) {
+                        <span>---</span>
+                      }
+                      @if (transaction.operation_type.description) {
+                        <span>{{
+                          transaction.operation_type.description
+                        }}</span>
+                      }
+                    </span>
+                    <span class="text-dark sm-sec-text">
+                      @if (!transaction.created_at) {
+                        <span>---</span>
+                      }
+                      @if (transaction.created_at) {
+                        <span>{{
+                          transaction.created_at | date: 'yyyy-MM-dd'
+                        }}</span>
+                      }
+                    </span>
+                  </div>
+                  <span class="amount">
+                    @if (!transaction.amount) {
+                      <span>---</span>
+                    }
+                    @if (transaction.amount) {
+                      <span>
+                        @if (isBalanceShown) {
+                          <span>
+                            <app-amount-visibility
+                              [amount]="transaction.amount"
+                              [currency]="'BIF'"></app-amount-visibility>
+                          </span>
+                        }
+                        @if (!isBalanceShown) {
+                          <span>
+                            <app-amount-visibility
+                              [currency]="'BIF'"
+                              [amount]="'******'"></app-amount-visibility>
+                          </span>
+                        }
+                      </span>
+                    }
+                  </span>
+                  <span class="text-dark sm-sec-text">
+                    @if (
+                      !transaction.account ||
+                      !transaction.account.account_number
+                    ) {
+                      <span>---</span>
+                    }
+                    @if (
+                      transaction.account && transaction.account.account_number
+                    ) {
+                      <span>{{ transaction.account.account_number }}</span>
+                    }
+                  </span>
+                  <hr class="mb-1 mt-1" />
+                }
               </div>
-              <span class="amount">
-                <span *ngIf="!transaction.amount">---</span>
-                <span *ngIf="transaction.amount">
-                  <span *ngIf="isBalanceShown">
-                    <app-amount-visibility
-                      [amount]="transaction.amount"
-                      [currency]="'BIF'"></app-amount-visibility>
-                  </span>
-                  <span *ngIf="!isBalanceShown">
-                    <app-amount-visibility
-                      [currency]="'BIF'"
-                      [amount]="'******'"></app-amount-visibility>
-                  </span>
-                </span>
-              </span>
-              <span class="text-dark sm-sec-text">
-                <span
-                  *ngIf="
-                    !transaction.account || !transaction.account.account_number
-                  "
-                  >---</span
-                >
-                <span
-                  *ngIf="
-                    transaction.account && transaction.account.account_number
-                  "
-                  >{{ transaction.account.account_number }}</span
-                >
-              </span>
-              <hr class="mb-1 mt-1" *ngIf="!lastIndex" />
             }
           </div>
-        </div>
+        }
       </div>
 
       <div class="bg-secondary mt-4 p-2">

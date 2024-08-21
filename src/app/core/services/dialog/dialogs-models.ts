@@ -1,4 +1,7 @@
-import { MerchantAutocompleteModel } from '../../../components/merchant/merchant.models';
+import {
+  MerchantAutocompleteModel,
+  MerchantCategoriesModel,
+} from '../../../components/merchant/merchant.models';
 import { ProductAutocompleteModel } from '../../../components/merchant/products/products.model';
 
 // Toasts Models
@@ -115,5 +118,5 @@ export interface MerchantPaymentDialogModel {
   type: MerchantPaymentTypesModel;
   merchant?: MerchantAutocompleteModel;
   product?: ProductAutocompleteModel;
-  category?: object;
+  category?: MerchantCategoriesModel;
 }
