@@ -16,7 +16,6 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { MerchantTellerDetailsComponent } from './merchant-teller-details/merchant-teller-details.component';
 import {
-  dialogModel,
   getMerchantInfosModel,
   merchantInfoModel,
   tellerModel,
@@ -28,6 +27,7 @@ import { Router, RouterModule } from '@angular/router';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
 import { DialogService } from '../../../core/services';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 
 @Component({
   selector: 'app-merchant-config',
@@ -47,8 +47,8 @@ export class MerchantConfigComponent implements OnInit {
   merchantInfo!: merchantInfoModel;
   tellers: tellerObjectModel[] = [];
   get_tellers!: boolean;
-  dialog$: Observable<dialogModel> = new Observable<dialogModel>();
-  dialog!: dialogModel;
+  dialogState$!: Observable<DialogResponseModel>;
+  dialog!: DialogResponseModel;
   isActionDone = false;
   selectedTeller!: tellerObjectModel;
   get_selectedTeller!: boolean;
@@ -94,7 +94,7 @@ export class MerchantConfigComponent implements OnInit {
   ) {
     // private store: Store,
     // private cdr: ChangeDetectorRef,
-
+    this.dialogState$ = this.dialogService.getDialogState();
     this.merchantConfigForm = new FormGroup({
       name: new FormControl(''),
       slug: new FormControl(''),
@@ -117,28 +117,25 @@ export class MerchantConfigComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('ngOnInit: MerchantConfigComponent');
     this.getConnectedMerchantInfo();
     this.cdr.detectChanges();
 
     this.theme$.subscribe((theme: string) => {
+      console.log('theme:', theme);
       this.theme = theme;
     });
-    this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: (dialog: dialogModel) => {
-        if (dialog) {
-          this.dialog = dialog;
-          if (this.dialog && this.dialog.response) {
-            if (
-              this.dialog.action === 'update' &&
-              this.dialog.response === 'pin submitted'
-            ) {
-              this.updateMerchantDetails();
-            }
-          }
+
+    this.dialogState$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: (dialogResponse: DialogResponseModel) => {
+        if (dialogResponse.action === 'update' && dialogResponse.response.pin) {
+          this.pin = dialogResponse.response.pin;
+          this.updateMerchantDetails();
         }
       },
     });
 
+    console.log('merchantInfo:', this.merchantInfo);
     this.merchantConfigForm.patchValue({
       name: this.merchantInfo?.merchant_title,
       simplePayment: this.merchantInfo?.accepts_simple_payment,
@@ -149,6 +146,7 @@ export class MerchantConfigComponent implements OnInit {
     });
 
     this.plateform$.subscribe((plateform: string) => {
+      console.log('plateform:', plateform);
       this.plateform = plateform;
     });
   }
@@ -232,43 +230,30 @@ export class MerchantConfigComponent implements OnInit {
         this.dialogService.closeLoading();
         if (response.object.success === false) {
           this.dialogService.openToast({
-            title: 'failed',
+            title: '',
             type: 'failed',
-            message: response?.object?.response_message ?? 'Failed',
+            message: response.object.response_message,
           });
         } else {
           this.getTellersByMerchant();
 
           this.dialogService.openToast({
-            title: 'success',
+            title: '',
             type: 'success',
-            message:
-              response?.object?.response_message ??
-              'New Teller created successfully',
+            message: response.object.response_message,
           });
 
           this.closeModal.nativeElement.click();
         }
       },
-      // error: err => {
-      //   this.isTellerLoading = false;
 
-      //   const data = {
-      //     title: '',
-      //     type: 'failed',
-      //     message:
-      //       err?.object?.response_message ??
-      //       'Failed to create new teller, please try again',
-      //   };
-      //   console.log(data);
-      //   // this.store.dispatch(new OpenDialog(data));
-      // },
       error: () => {
+        this.isTellerLoading = false;
         this.dialogService.closeLoading();
         this.dialogService.openToast({
           type: 'failed',
-          title: 'Échec',
-          message: 'failed',
+          title: '',
+          message: 'failed to create a new teller',
         });
       },
     });
@@ -303,7 +288,8 @@ export class MerchantConfigComponent implements OnInit {
   }
 
   updateMerchantDetails() {
-    this.isLoading = true;
+    this.dialogService.dispatchLoading();
+    // this.isLoading = true;
 
     const body = {
       merchant: this.merchantInfo.id,
@@ -319,57 +305,40 @@ export class MerchantConfigComponent implements OnInit {
     this.merchantService.updateMerchantDetails(body).subscribe({
       next: result => {
         const response = result as getMerchantInfosModel;
-        this.isLoading = false;
-
-        if (response.object.success === false) {
-          const data = {
-            title: 'failed',
-            type: 'failed',
-            message: 'Failed',
-          };
-          console.log('the data values:', data);
-          // this.store.dispatch(new OpenDialog(data));
-        } else {
-          const data = {
+        // this.isLoading = false;
+        this.dialogService.closeLoading();
+        if (response.object.success) {
+          this.dialogService.openToast({
             title: 'success',
             type: 'success',
-            message: 'Merchant details updated successfully',
-          };
-          console.log('the data values:', data);
-          // this.merchantInfo = null;
+            message: response.object.response_message,
+          });
           this.getConnectedMerchantInfo();
           this.selected = '';
+          // this.store.dispatch(new OpenDialog(data));
+        } else {
+          this.dialogService.openToast({
+            title: '',
+            type: 'failed',
+            message: response.object.response_message,
+          });
+
+          // this.merchantInfo = null;
+
           // this.return();
           // this.store.dispatch(new OpenDialog(data));
         }
       },
-      // error: err => {
-      //   this.isLoading = false;
 
-      //   const data = {
-      //     title: '',
-      //     type: 'failed',
-      //     message:
-      //       err?.object?.response_message ??
-      //       'Failed to update merchant details, please try again',
-      //   };
-      //   console.log(data);
-      //   // this.store.dispatch(new OpenDialog(data));
-      // },
       error: err => {
-        this.isLoading = false;
-
-        console.log('Update merchant details error:', err);
-
-        const data = {
-          title: '',
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
           type: 'failed',
+          title: '',
           message:
             err?.object?.response_message ??
-            'Failed to update merchant details, please try again',
-        };
-        console.log(data);
-        // this.store.dispatch(new OpenDialog(data));
+            'failed to update merchant details',
+        });
       },
     });
   }
@@ -379,13 +348,13 @@ export class MerchantConfigComponent implements OnInit {
   }
 
   openModal() {
-    const data = {
+    this.dialogService.openDialog({
       title: 'Enter your pin to update merchant information',
       type: 'pin',
       message: 'Enter your pin to update merchant information',
       action: 'update',
-    };
-    console.log(data);
+    });
+    // console.log(data);
     // this.store.dispatch(new OpenActionDialog(data));
   }
 
