@@ -1,10 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
-// import { MarketService } from '../../../../core/services/market/market.service';
-// import { VariableService } from '../../../../core/services/variable/variable.service';
 import { SimpleMerchantService } from '../../../../core/services/simple-merchant/simple-merchant.service';
 import {
   DialogService,
@@ -17,7 +20,6 @@ import { SkeletonComponent } from '../../../../global/components/loaders/skeleto
 
 import {
   BillsModel,
-  ErrorModel,
   ObjectBillModel,
   paymentBillsModel,
 } from '../../products/products.model';
@@ -27,14 +29,7 @@ import { DebitAccountComponent } from '../../../transfer/debit-account/debit-acc
 import { accountsList } from '../../../account/models';
 import { WalletList } from '../../../wallet/wallet.models';
 import { DebitOptions } from '../../../transfer/transfer.model';
-// import {
-//     OpenDialog,
-//     SwitchThemeState,
-//     OpenActionDialog,
-//     DialogState,
-//     CloseDialog,
-// } from 'src/app/shared';
-
+import { bankModel } from '../../../../core/db/models/bank/bank.model';
 @Component({
   selector: 'app-bill-details',
   standalone: true,
@@ -78,14 +73,17 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
     adress: string;
     credit_account: string;
   };
-  selectedAccount!: accountsList | string | null;
-  selectedWallet!: WalletList | string | null;
+  selectedAccount!: string;
+  selectedWallet!: string;
+  debitBank!: number;
+  bank$: Observable<bankModel>;
 
-  description = new FormControl('', Validators.required);
+  descriptionForm = new FormGroup({
+    description: new FormControl('', Validators.required),
+  });
   dialog$: Observable<DialogResponseModel>;
 
   constructor(
-    // private store: Store,
     private route: ActivatedRoute,
     private router: Router,
     private merchantService: MerchantService,
@@ -93,10 +91,9 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     private simpleMerchant: SimpleMerchantService
   ) {
-    // this.theme$ = this.store.select(SwitchThemeState.GetTheme);
     this.theme$ = this.configService.getMode();
-    // this.dialog$ = this.store.select(DialogState.GetDialog);
     this.dialog$ = this.dialogService.getDialogState();
+    this.bank$ = this.configService.getSelectedBank();
   }
   ngOnInit() {
     this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
@@ -128,6 +125,9 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
         }
       },
     });
+    this.bank$.subscribe((bank: bankModel) => {
+      this.debitBank = bank.id;
+    });
   }
 
   getBillDetails() {
@@ -138,7 +138,9 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
         next: (response: paymentBillsModel) => {
           this.billDetails = response.object;
           this.isLoading = false;
-          this.description.setValue(this.billDetails.description);
+          this.descriptionForm.patchValue({
+            description: this.billDetails.description,
+          });
           this.billData = {
             name: this.billDetails.client.client_full_name,
             debit_account: this.billDetails.payment_account.acc_short_number,
@@ -168,23 +170,17 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
 
   submitPaymentRequest() {
     this.paymentLoading = true;
-    // this.store.dispatch(
-    //     new OpenDialog({ title: '', message: '', type: 'loading' })
-    // );
-    // this.dialogService.dispatchLoading()
     const data = {
       payment_id: this.billId,
       pin_code: this.pin,
       merchant_id: this.billDetails.merchant_teller.merchant.id,
       amount: parseFloat(this.billDetails.total_amount as string).toFixed(2),
       debit_account: this.selectedAccount
-        ? (this.selectedAccount as accountsList).acc_short_number
-        : (this.selectedWallet as WalletList).code,
-      // debit_bank: this.selectedAccount
-      //   ? (this.selectedAccount as accountsList).acc_bank_id
-      //   : (this.selectedWallet as WalletList).bank_id,
+        ? this.selectedAccount
+        : this.selectedWallet,
       debit_type: this.selectedAccount ? 'account' : 'wallet',
-      description: this.description.value,
+      description: this.descriptionForm.value.description,
+      debit_bank: this.debitBank,
     };
 
     this.dialogService.dispatchLoading();
@@ -193,52 +189,39 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (response: ObjectBillModel) => {
-          // this.store.dispatch(new CloseDialog({ response: 'close' }));
           this.dialogService.closeLoading();
           this.paymentLoading = false;
           if (
             response.object['success'] !== undefined &&
             !response.object.success
           ) {
-            // this.dialogService.closeLoading();
-            // this.pin = '';
+            this.pin = '';
             this.dialogService.openToast({
               title: '',
               message: response.object.response_message,
               type: 'failed',
             });
-            // this.store.dispatch(
-            //     new OpenDialog({
-            //         title: '',
-            //         message: response.object.response_message,
-            //         type: 'failed',
-            //     })
-            // );
-            return;
+            this.selectedAccount = '';
+            this.selectedWallet = '';
+            this.descriptionForm.reset();
+            // return;
           }
-          this.router.navigate(['/m/market/bills']);
-          this.getBillDetails();
-          this.dialogService.openToast({
-            title: '',
-            message:
-              response.object?.response_message ??
-              'The bill has been successfully paid',
-            type: 'success',
-          });
-          // this.store.dispatch(
-          //     new OpenDialog({
-          //         title: '',
-          //         message:
-          //             response.object?.response_message ??
-          //             'The bill has been successfully paid',
-          //         type: 'success',
-          //     })
-          // );
-          this.selectedAccount = null;
-          this.selectedWallet = null;
+          if (response.object.success) {
+            this.router.navigate(['/m/market/bills']);
+            this.getBillDetails();
+            this.dialogService.openToast({
+              title: '',
+              message:
+                response.object?.response_message ??
+                'The bill has been successfully paid',
+              type: 'success',
+            });
+            this.selectedAccount = '';
+            this.selectedWallet = '';
+            this.descriptionForm.reset();
+          }
         },
-        error: (err: ErrorModel) => {
-          // this.store.dispatch(new CloseDialog({ response: 'close' }));
+        error: (err: ObjectBillModel) => {
           this.dialogService.closeLoading();
           this.dialogService.openToast({
             title: '',
@@ -247,40 +230,34 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
               'Something went wrong, please retry again',
             type: 'failed',
           });
-          // this.store.dispatch(
-          //     new OpenDialog({
-          //         title: '',
-          //         message:
-          //             err?.object?.response_message ??
-          //             'Something went wrong, please retry again',
-          //         type: 'failed',
-          //     })
-          // );
           this.paymentLoading = false;
+          this.selectedAccount = '';
+          this.selectedWallet = '';
+          this.descriptionForm.reset();
         },
       });
   }
   onAccountSelected(account: accountsList) {
-    this.description.reset();
+    this.descriptionForm.reset();
     if (account.acc_short_number) {
-      this.selectedAccount = account.id;
+      this.selectedAccount = account.acc_short_number;
     }
   }
 
   onWalletSelected(account: WalletList) {
-    this.description.reset();
+    this.descriptionForm.reset();
     if (account.account) {
-      this.selectedWallet = account.id;
+      this.selectedWallet = account.code;
     }
   }
   selectedDebitOption(option: DebitOptions) {
-    this.description.reset();
+    this.descriptionForm.reset();
     if (option.selectedDebitOption === 'account') {
       this.selectedAccount = option.account;
-      this.selectedWallet = null;
+      this.selectedWallet = '';
     } else if (option.selectedDebitOption === 'wallet') {
       this.selectedWallet = option.wallet ?? null;
-      this.selectedAccount = null;
+      this.selectedAccount = '';
     }
   }
 
@@ -289,15 +266,6 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
       style: 'currency',
       currency: 'BIF',
     }).format(this.billDetails.total_amount as number);
-    // const data = {
-    //     title: 'Payment of a bill',
-    //     type: 'pin',
-    //     message: ` Enter your pin to confirm the payment of a bill of <b>${amount}</b> from the merchant <b>${this.billDetails.merchant_teller.merchant.merchant_title}</b> `,
-    //     action: 'confirm merchant payment',
-    // };
-
-    // this.store.dispatch(new OpenActionDialog(data));
-    // this.dialogService.dispatchLoading()
     this.dialogService.openDialog({
       title: 'Payment of a bill',
       type: 'pin',

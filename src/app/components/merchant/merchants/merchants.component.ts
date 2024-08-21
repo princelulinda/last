@@ -15,14 +15,14 @@ import { Favorite } from '../../../core/services/merchant/model';
 import { MerchantCardComponent } from '../global/merchant-card/merchant-card.component';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillersModel } from '../../dashboards/dashboard.model';
-import { MerchantResFav } from './merchant.models';
-import { GoogleMapComponent } from '../../../global/components/google-map/google-map.component';
 import {
-  CategoriesPerActivitySectorModel,
-  CategoriesPerActivitySectorObjectModel,
+  MerchantCategoriesModel,
+  MerchantCategoriesObjectModel,
+  MerchantResFav,
   SectorActivityModel,
   SectorActivityObjectModel,
-} from '../products/products.model';
+} from './merchant.models';
+import { GoogleMapComponent } from '../../../global/components/google-map/google-map.component';
 import { MerchantAutocompleteModel } from '../merchant.models';
 
 @Component({
@@ -69,7 +69,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   selectedSector!: SectorActivityModel | null;
   isSectorListVisible = false;
   sectorId = '';
-  categories!: CategoriesPerActivitySectorModel[];
+  categories!: MerchantCategoriesModel[];
 
   favoriteMerchantLoading = false;
   constructor(
@@ -357,7 +357,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       .getCategoriesPerActivitySectors(sectorId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (categories: CategoriesPerActivitySectorObjectModel) => {
+        next: (categories: MerchantCategoriesObjectModel) => {
           this.categories = categories.objects;
           this.isLoading = false;
         },
