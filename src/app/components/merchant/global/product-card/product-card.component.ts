@@ -80,16 +80,12 @@ export class ProductCardComponent implements OnInit {
           if (response.success) {
             if (!favorite.is_favorite_product) {
               this.product.is_favorite_product = true;
-              this.variableService.updateFavoriteProducts(
-                this.product,
-                this.product.is_favorite_product
-              );
+              this.variableService.isFavorite.next(true);
+              // this.variableService.updateFavoritesSignal.set(true);
             } else {
               this.product.is_favorite_product = false;
-              this.variableService.updateFavoriteProducts(
-                this.product,
-                this.product.is_favorite_product
-              );
+              this.variableService.isFavorite.next(false);
+              // this.variableService.updateFavoritesSignal.set(true);
             }
           }
           this.isLoading = false;

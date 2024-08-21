@@ -95,16 +95,10 @@ export class MerchantCardComponent {
           if (response.success) {
             if (!favorite.is_favorite_merchant) {
               this.merchant.is_favorite_merchant = true;
-              this.variableService.updateFavoriteMerchants(
-                this.merchant,
-                this.merchant.is_favorite_merchant
-              );
+              this.variableService.isFavorite.next(true);
             } else {
               this.merchant.is_favorite_merchant = false;
-              this.variableService.updateFavoriteMerchants(
-                this.merchant,
-                this.merchant.is_favorite_merchant
-              );
+              this.variableService.isFavorite.next(true);
             }
           }
           this.isLoading = false;
