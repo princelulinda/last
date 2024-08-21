@@ -49,7 +49,7 @@ export class TransferService {
   getInstitutionsList(
     type: object
   ): Observable<{ objects: InstitutionInfoModel[]; count: number }> {
-    const url = '/banks/list?bank_type=' + type;
+    const url = `/banks/list/?bank_type=${type}&cashin_only=true`;
     return this.apiService
       .get<{ objects: InstitutionInfoModel[]; count: number }>(url)
       .pipe(
