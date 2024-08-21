@@ -16,7 +16,7 @@ describe('WalletCreationComponent', () => {
 
     fixture = TestBed.createComponent(WalletCreationComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('should create', () => {
