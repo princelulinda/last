@@ -85,7 +85,7 @@ export class MerchantConfigComponent implements OnInit {
   category!: string;
   clientId: number | null = null;
   pin!: string;
-
+  get_merchantDetails = false;
   constructor(
     private merchantService: MerchantService,
     private dialogService: DialogService,
@@ -152,6 +152,7 @@ export class MerchantConfigComponent implements OnInit {
   }
 
   getConnectedMerchantInfo() {
+    this.get_merchantDetails = false;
     this.merchantService.getConnectedMerchantInfo().subscribe(response => {
       const merchantInfo = response as unknown as getMerchantInfosModel;
       this.merchantInfo = merchantInfo.object.response_data;
@@ -165,6 +166,7 @@ export class MerchantConfigComponent implements OnInit {
         cart: this.merchantInfo.accepts_cart,
         incognito: this.merchantInfo.client_visibility_activated,
       });
+      this.get_merchantDetails = true;
     });
   }
 
@@ -305,14 +307,17 @@ export class MerchantConfigComponent implements OnInit {
     this.merchantService.updateMerchantDetails(body).subscribe({
       next: result => {
         const response = result as getMerchantInfosModel;
-        // this.isLoading = false;
+        this.isLoading = false;
         this.dialogService.closeLoading();
+        this.get_merchantDetails = false;
         if (response.object.success) {
           this.dialogService.openToast({
             title: 'success',
             type: 'success',
             message: response.object.response_message,
           });
+          // this.merchantInfo = null;
+          this.get_merchantDetails = true;
           this.getConnectedMerchantInfo();
           this.selected = '';
           // this.store.dispatch(new OpenDialog(data));
@@ -322,8 +327,6 @@ export class MerchantConfigComponent implements OnInit {
             type: 'failed',
             message: response.object.response_message,
           });
-
-          // this.merchantInfo = null;
 
           // this.return();
           // this.store.dispatch(new OpenDialog(data));
