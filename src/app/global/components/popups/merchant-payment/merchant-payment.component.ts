@@ -42,6 +42,8 @@ export class MerchantPaymentComponent implements AfterViewInit, OnInit {
   product: ProductAutocompleteModel | null = null;
   category: MerchantCategoriesModel | null = null;
 
+  selectedMerchant: MerchantAutocompleteModel | null = null;
+
   theme$!: Observable<ModeModel>;
   theme!: ModeModel;
 
@@ -72,6 +74,10 @@ export class MerchantPaymentComponent implements AfterViewInit, OnInit {
 
   closeMerchantPaymentDialog() {
     this.dialogService.closeMerchantPaymentDialog();
+  }
+
+  getSelectedMerchant(merchant: MerchantAutocompleteModel) {
+    this.selectedMerchant = merchant;
   }
 
   ngAfterViewInit() {

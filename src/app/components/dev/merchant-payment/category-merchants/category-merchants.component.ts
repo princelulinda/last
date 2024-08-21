@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MerchantCardComponent } from '../../../merchant/global/merchant-card/merchant-card.component';
 import { MerchantAutocompleteModel } from '../../../merchant/merchant.models';
 import { MerchantService } from '../../../../core/services';
@@ -20,6 +20,7 @@ import { EmptyStateComponent } from '../../../../global/components/empty-states/
 })
 export class CategoryMerchantsComponent implements OnInit {
   @Input({ required: true }) categoryId!: number | string;
+  @Output() selectedMerchant = new EventEmitter<MerchantAutocompleteModel>();
 
   merchants: MerchantAutocompleteModel[] = [];
   isLoading = true;
@@ -43,5 +44,9 @@ export class CategoryMerchantsComponent implements OnInit {
           this.isLoading = false;
         },
       });
+  }
+
+  getSelectedMerchant(merchant: MerchantAutocompleteModel) {
+    this.selectedMerchant.emit(merchant);
   }
 }

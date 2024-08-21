@@ -27,6 +27,7 @@
       @for (merchant of merchants; track $index) {
         <div class="col-auto">
           <app-merchant-card
+            (selectedMerchantEvent)="getSelectedMerchant($event)"
             action="output"
             [disabledFavoriteAction]="true"
             [merchant]="merchant"></app-merchant-card>

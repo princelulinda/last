@@ -75,7 +75,7 @@
               category.merchant_activity_sector.title
             }}</b>
           </div>
-          <div class="ms-5 bg-secondary category x-sm-radius d-flex">
+          <div class="ms-5 bg-secondary category-card x-sm-radius d-flex">
             <span class="text-center flex-grow-1 py-1">
               <small>{{ category.name }}</small>
             </span>
@@ -88,64 +88,49 @@
     }
 
     <!-- NOTE :: CATEGORY MERCHANTS SECTION -->
-    @if (category) {
-      <section class="col-sm-11 mx-auto mt-3">
+    @if (category && !selectedMerchant) {
+      <section class="px-4 mt-4">
         <div>
           <app-category-merchants
+            (selectedMerchant)="getSelectedMerchant($event)"
             [categoryId]="category.id"></app-category-merchants>
         </div>
       </section>
     }
-
-    <!---------------------------------------------------------- ****####  MERCHANT SECTION  ####**** ----------------------------------------------------------------->
-
-    @if (type === 'merchant' && merchant) {
-      <!---------------------------------------------------------- BACK SECTION ----------------------------------------------------------------->
-
-      <div class="d-flex flex-column h-100">
-        <!---------------------------------------------------------- END OF STEPPER SECTION ----------------------------------------------------------------->
-
-        <div class="row flex-grow-1 g-4 overflow-hidden">
-          <!---------------------------------------------------------- LEFT SECTION ----------------------------------------------------------------->
-
-          <div class="d-flex flex-column h-100 overflow-scroll scrollBar col-8">
-            <div
-              class="ps-3 py-2 border position-relative rounded-3 d-flex flex-row pe-1 mb-2 w-content">
-              <span
-                class="position-absolute top-0 online translate-middle p-2 bg-success border border-light rounded-circle">
-                <span class="visually-hidden">Online status</span>
+    <!-- NOTE :: SELECTED MERCHANT SECTION -->
+    @if (selectedMerchant) {
+      <section class="px-4 mt-4">
+        <section
+          class="border position-relative lg-radius d-flex align-items-center py-2 ps-4 pe-3">
+          <div
+            class="rounded-circle border merchant-profile bg-secondary d-flex align-items-center justify-content-center me-2">
+            @if (selectedMerchant.lookup_image) {
+              <img
+                src="{{ selectedMerchant.lookup_image }}"
+                alt="{{ selectedMerchant.lookup_title }} Profile"
+                class="image" />
+            } @else {
+              <span class="fs-large text-secondary mt-2">
+                <i class="fa-solid fa-cart-shopping"></i>
               </span>
-              <div
-                class="rounded-circle border overflow-hidden profile bg-secondary d-flex align-items-center justify-content-center">
-                @if (merchant.lookup_image) {
-                  <img
-                    src="{{ merchant.lookup_image }}"
-                    alt="merchant profile"
-                    class="image" />
-                } @else {
-                  <i
-                    class="fa-solid fa-cart-shopping fs-large text-secondary"></i>
-                }
-              </div>
-              <div class="d-flex flex-column ms-2">
-                <span class="fs-large fw-bold"
-                  >{{ merchant.lookup_title }}
-                  <span class="fs-normal"
-                    >({{ merchant.lookup_subtitle }})</span
-                  ></span
-                >
-                <span class="fs-normal text-secondary fw-bold">{{
-                  merchant.merchant_category_name
-                }}</span>
-              </div>
-            </div>
-            <div class="pt-4 mb-4">
-              <app-merchant-products [merchantId]="91"></app-merchant-products>
-            </div>
+            }
           </div>
-          <div class="col-4"></div>
-        </div>
-      </div>
+          <div class="d-flex flex-column ms-2">
+            <span class="fs-large fw-bold"
+              >{{ selectedMerchant.lookup_title }}
+              <span class="fs-normal"
+                >({{ selectedMerchant.lookup_subtitle }})</span
+              ></span
+            >
+            <span class="fs-normal text-secondary fw-bold">{{
+              selectedMerchant.merchant_category_name
+            }}</span>
+          </div>
+        </section>
+        <section>
+          <app-merchant-products [merchantId]="91"></app-merchant-products>
+        </section>
+      </section>
     }
   </main>
 </dialog>
