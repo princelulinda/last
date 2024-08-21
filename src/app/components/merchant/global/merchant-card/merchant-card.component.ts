@@ -8,6 +8,7 @@ import { Favorite } from '../../../../core/services/merchant/model';
 import { MerchantService } from '../../../../core/services';
 import { MerchantPaymentComponent } from '../../../dev/merchant-payment/merchant-payment.component';
 import { MerchantAutocompleteModel } from '../../merchant.models';
+import { VariableService } from '../../../../core/services/variable/variable.service';
 
 @Component({
   selector: 'app-merchant-card',
@@ -53,7 +54,10 @@ export class MerchantCardComponent {
 
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  constructor(private merchantService: MerchantService) {}
+  constructor(
+    private merchantService: MerchantService,
+    private variableService: VariableService
+  ) {}
 
   makeFavoriteMerchants(favorite: MerchantAutocompleteModel, event: Event) {
     this.isLoading = true;
@@ -91,8 +95,16 @@ export class MerchantCardComponent {
           if (response.success) {
             if (!favorite.is_favorite_merchant) {
               this.merchant.is_favorite_merchant = true;
+              this.variableService.updateFavoriteMerchants(
+                this.merchant,
+                this.merchant.is_favorite_merchant
+              );
             } else {
               this.merchant.is_favorite_merchant = false;
+              this.variableService.updateFavoriteMerchants(
+                this.merchant,
+                this.merchant.is_favorite_merchant
+              );
             }
           }
           this.isLoading = false;

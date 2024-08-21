@@ -94,6 +94,15 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       next: theme => (this.theme = theme),
     });
     this.getActivitiesSectors();
+    this.variableService.favoriteMerchants$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(favorites => {
+        this.favoriteMerchants = favorites.filter(
+          merchant => merchant.is_favorite_merchant
+        );
+      });
+
+    this.variableService.fetchFavoriteMerchants('');
   }
 
   toggleSearch(expand: boolean) {

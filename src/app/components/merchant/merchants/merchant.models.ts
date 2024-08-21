@@ -1,3 +1,5 @@
+import { MerchantAutocompleteModel } from '../merchant.models';
+
 export interface MerchantResFav {
   response_code: string;
   response_data: {
@@ -34,4 +36,9 @@ export interface MerchantCategoriesModel {
 
 export interface MerchantCategoriesObjectModel {
   objects: MerchantCategoriesModel[];
+}
+
+export interface MerchantAutocompleteObjectModel {
+  objects: MerchantAutocompleteModel[];
+  count: number;
 }
