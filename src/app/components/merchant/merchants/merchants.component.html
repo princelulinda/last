@@ -12,12 +12,10 @@
       type="text"
       placeholder="Search merchant"
       [formControl]="searchInput"
-      (input)="searchFor()"
       (focus)="isInputFocused = true"
       (blur)="isInputFocused = false" />
     <span
       role="button"
-      (click)="searchFor()"
       tabindex="0"
       class="btn bg-transparent search-btn"
       type="submit">

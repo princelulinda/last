@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
 
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import {
@@ -78,6 +78,12 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       next: theme => (this.theme = theme),
     });
     this.getActivitiesSectors();
+
+    this.searchInput.valueChanges
+      .pipe(debounceTime(400), takeUntil(this.onDestroy$))
+      .subscribe(value => {
+        this.getMerchants(value ?? '');
+      });
   }
 
   toggleSearch(expand: boolean) {
@@ -94,6 +100,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
 
   getMerchants(search: string) {
     this.isLoading = true;
+    this.merchants = null;
 
     this.merchantService
       .getRecentMerchantsAutocomplete(search)
@@ -172,15 +179,6 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   isSearchInputNotEmpty(): boolean {
     const searchValue = this.searchInput.value;
     return typeof searchValue === 'string' && searchValue.trim() !== '';
-  }
-
-  searchFor() {
-    this.merchants = null;
-
-    if (this.searchInput.value) {
-      const searchTerm = this.searchInput.value.trim();
-      this.getMerchants(searchTerm);
-    }
   }
 
   closeModal() {
