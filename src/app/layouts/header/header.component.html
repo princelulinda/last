@@ -72,7 +72,7 @@
         tabindex="0"
         (click)="toggleEyeStatus()"
         title="ctrl + shift + v to toggle Amount View"
-        class="ms-4 eye-square ms-md-5 ms-lg-2 p-2 me-md-1 d-flex align-items-center justify-content-center"
+        class="ms-4 eye-square ms-md-5 ms-lg-2 p-2 me-md-1"
         [ngClass]="{
           'text-all-white': mainConfig.activePlateform !== 'workstation',
           'text-dark': mainConfig.activePlateform === 'workstation',
@@ -150,8 +150,8 @@
 }
 
 <!-- NOTE :: PLATEFORM SWITCH ICON  -->
-<section>
-  @if (showPlateformPopup) {
+@if (showPlateformPopup) {
+  <section class="end-0 position-absolute">
     <div class="float-end plateforn-card lg-radius mt-2 bg-white plateform">
       <div class="h-100 p-3 py-4 overflow-y-auto">
         <div class="d-flex flex-column h-100">
@@ -348,12 +348,12 @@
         </div>
       </div>
     </div>
-  }
-</section>
+  </section>
+}
 
 <!-- NOTE :: USER PROFILE INFO  -->
-<section>
-  @if (showUserInfoPopup) {
+@if (showUserInfoPopup) {
+  <section class="end-0 position-absolute">
     <div class="float-end plateforn-card border mt-2 bg-white userInfo">
       <div class="h-100 p-2 overflow-y-auto">
         <div class="d-flex flex-column h-100">
@@ -524,5 +524,5 @@
         </div>
       </div>
     </div>
-  }
-</section>
+  </section>
+}
