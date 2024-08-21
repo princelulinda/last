@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 // import { map } from 'rxjs/operators';
 
-import { ApiService } from '..';
+import { ApiService, MerchantService } from '..';
+import { ProductAutocompleteModel } from '../../../components/merchant/products/products.model';
 // import { AuthState } from '../../shared';
 
 @Injectable({
@@ -66,8 +67,15 @@ export class VariableService {
   // search: Observable<string>;
   search = new BehaviorSubject<string>('');
   isPopulatingOperator = new BehaviorSubject<boolean>(false);
+  private favoriteProductsSubject: BehaviorSubject<ProductAutocompleteModel[]> =
+    new BehaviorSubject<ProductAutocompleteModel[]>([]);
+  public favoriteProducts$: Observable<ProductAutocompleteModel[]> =
+    this.favoriteProductsSubject.asObservable();
 
-  constructor(private apiService: ApiService) {
+  constructor(
+    private apiService: ApiService,
+    private merchantService: MerchantService
+  ) {
     // this.search = of('');
     // this.search.next(of(''));
   }
@@ -114,5 +122,26 @@ export class VariableService {
 
   setSelectedCrumb(value: string) {
     this.selectedCrumb.next(value);
+  }
+  updateFavoriteProducts(
+    product: ProductAutocompleteModel,
+    isFavorite: boolean
+  ) {
+    const currentFavorites = this.favoriteProductsSubject.value;
+    if (isFavorite) {
+      this.favoriteProductsSubject.next([...currentFavorites, product]);
+    } else {
+      this.favoriteProductsSubject.next(
+        currentFavorites.filter(p => p.id !== product.id)
+      );
+    }
+  }
+
+  fetchFavoriteProducts(search: string) {
+    this.merchantService
+      .getFavoriteProductAutocomplete(search)
+      .subscribe(data => {
+        this.favoriteProductsSubject.next(data.objects);
+      });
   }
 }
