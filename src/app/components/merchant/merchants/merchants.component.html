@@ -4,7 +4,7 @@
     class="mt-4 shadow position-relative bg-white overflow-hidden"
     [ngClass]="{ 'active ': isSearchInputNotEmpty() || isInputFocused }">
     <input
-      class="ps-4 search-input form-control h-100 position-absolute text-all-dark"
+      class="ps-4 search-input form-control h-100 position-absolute"
       [ngClass]="{
         'bg-in-light': theme === 'light',
         'd-block': isInputFocused,
@@ -285,12 +285,20 @@
           </div>
         }
         @if (selectedSector) {
-          <div class="mt-4 pt-3 ms-3">
-            <p
-              class="ms-1 border p-1 px-4 d-inline-block rounded"
-              *ngFor="let category of categories">
-              {{ category.name }}
-            </p>
+          <div class="mt-4 pt-3 ms-3 d-flex flex-wrap gap-3">
+            @for (category of categories; track $index) {
+              <span
+                tabindex="0"
+                (click)="
+                  dispatchMerchantPayment({
+                    type: 'category-merchant',
+                    category: category,
+                  })
+                "
+                class="border p-1 px-4 x-sm-radius clickable">
+                {{ category.name }}
+              </span>
+            }
           </div>
         }
       }

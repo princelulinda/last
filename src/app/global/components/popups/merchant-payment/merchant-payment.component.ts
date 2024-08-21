@@ -8,9 +8,11 @@ import {
   MerchantPaymentDialogModel,
   MerchantPaymentTypesModel,
 } from '../../../../core/services/dialog/dialogs-models';
-import { MerchantAutocompleteModel } from '../../../../components/merchant/merchant.models';
+import {
+  MerchantAutocompleteModel,
+  MerchantCategoriesModel,
+} from '../../../../components/merchant/merchant.models';
 import { ProductAutocompleteModel } from '../../../../components/merchant/products/products.model';
-import { CategoryModel } from '../../../../components/dashboards/dashboard.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { MerchantProductsComponent } from '../../../../components/dev/merchant-payment/merchant-products/merchant-products.component';
 import { CategoryMerchantsComponent } from '../../../../components/dev/merchant-payment/category-merchants/category-merchants.component';
@@ -38,7 +40,7 @@ export class MerchantPaymentComponent implements AfterViewInit {
   type!: MerchantPaymentTypesModel;
   merchant: MerchantAutocompleteModel | null = null;
   product: ProductAutocompleteModel | null = null;
-  category: CategoryModel | null = null;
+  category: MerchantCategoriesModel | null = null;
 
   theme$!: Observable<ModeModel>;
   theme!: ModeModel;

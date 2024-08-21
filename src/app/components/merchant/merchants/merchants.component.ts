@@ -1,10 +1,9 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { VariableService } from '../../../core/services/variable/variable.service';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import {
   ConfigService,
@@ -20,6 +19,7 @@ import {
 } from '../merchant.models';
 import { GoogleMapComponent } from '../../../global/components/google-map/google-map.component';
 import { MerchantAutocompleteModel } from '../merchant.models';
+import { MerchantPaymentDialogModel } from '../../../core/services/dialog/dialogs-models';
 
 @Component({
   selector: 'app-merchants',
@@ -37,7 +37,6 @@ import { MerchantAutocompleteModel } from '../merchant.models';
 })
 export class MerchantsComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
-  private variableService = inject(VariableService);
 
   merchants!: MerchantAutocompleteModel[] | null;
   favoriteMerchants!: MerchantAutocompleteModel[];
@@ -62,6 +61,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   categories!: MerchantCategoriesModel[];
 
   favoriteMerchantLoading = false;
+
   constructor(
     private merchantService: MerchantService,
     private configService: ConfigService,
@@ -73,12 +73,6 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getMerchants('');
     this.getFavoriteMerchants('');
-
-    this.variableService.search
-      .pipe(debounceTime(400), takeUntil(this.onDestroy$))
-      .subscribe({
-        next: (search: string) => this.getMerchants(search),
-      });
 
     this.theme$.subscribe({
       next: theme => (this.theme = theme),
@@ -185,14 +179,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
 
     if (this.searchInput.value) {
       const searchTerm = this.searchInput.value.trim();
-
-      if (searchTerm) {
-        this.variableService.search.next(searchTerm);
-      }
-    } else {
-      // this.merchant = null;
-
-      this.variableService.search.next('');
+      this.getMerchants(searchTerm);
     }
   }
 
@@ -305,6 +292,10 @@ export class MerchantsComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         },
       });
+  }
+
+  dispatchMerchantPayment(payload: MerchantPaymentDialogModel) {
+    this.dialogService.openMerchantPaymentDialog(payload);
   }
 
   ngOnDestroy(): void {
