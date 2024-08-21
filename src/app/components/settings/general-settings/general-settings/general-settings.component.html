@@ -44,14 +44,14 @@
               @if (clientInfo && clientInfo.client) {
                 <div
                   class="level-2 profifPicture lg-radius d-flex justify-content-center align-items-center">
-                  @if (!clientInfo.client.picture_url) {
+                  @if (!clientInfo.client.picture) {
                     <span class="text-secondary fs-1">
                       <i class="fa-regular fa-user"></i>
                     </span>
                   }
-                  @if (clientInfo.client.picture_url) {
+                  @if (clientInfo.client.picture) {
                     <img
-                      [src]="clientInfo.client.picture_url"
+                      [src]="clientInfo.client.picture"
                       alt="userprofile"
                       class="img-fluid image w-100 h-100 lg-radius" />
                   }

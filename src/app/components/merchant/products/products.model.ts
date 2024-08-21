@@ -1,11 +1,6 @@
-// import { MerchantModel, ProductAutocompleteModel} from "../dashboards/dashboard.model";
-
-import {
-  MerchantAutocompleteModel,
-  tellerObjectModel,
-} from '../merchant.models';
-import { ClientApiResponse } from '../../../core/db/models/auth';
+import { tellerObjectModel } from '../merchant.models';
 import { MerchantBillModel } from '../../../core/services/dialog/dialogs-models';
+import { ClientModel } from '../../../core/db/models/auth';
 
 export interface ProductAutocompleteModel {
   id: number;
@@ -27,74 +22,12 @@ export interface AllProductsModel {
   count: number;
 }
 
-export interface MerchantModel {
-  id: string;
-  slug: string;
-  merchant_title: string;
-  merchant_code: string;
-  merchant_logo: string;
-  merchant_location: string;
-  merchant_main_account: string;
-  merchant_main_account_id: string;
-  merchant_tellers_number: number;
-  merchant_products_number: number;
-  merchant_bills_payment_number: number;
-  available_balance: number;
-  balance_currency: number;
-  client_category: string;
-  client: ClientModel;
-}
-
-export interface MerchantObjectModel {
-  // objects: MerchantModel,
-  object: {
-    response_data: MerchantModel;
-    response_code: string;
-    response_message: string;
-    success: boolean;
-  };
-}
-export interface MerchantObjectsModel {
-  // objects: MerchantModel,
-  object: {
-    response_message: string;
-    success: boolean;
-    response_data: MerchantAutocompleteModel[];
-  };
-}
-export interface ClientModel {
-  id: number;
-  client_id: number | string;
-  client_code: string;
-  client_full_name: string;
-  client_email: string;
-  client_phone_number: string;
-}
-
 export interface MerchantBillDataModel {
   data: MerchantBillModel;
   active?: {
     isActive: boolean | false;
     type: string;
   };
-}
-
-export interface MerchantInfoModel {
-  id: number;
-  available_balance: number;
-  balance_currency: number;
-  object: {
-    response_data: MerchantModel;
-  };
-}
-
-export interface StatsModel {
-  object: {
-    response_data: MerchantModel;
-  };
-  merchant_tellers_number: number;
-  merchant_products_number: number;
-  merchant_bills_payment_number: number;
 }
 
 export interface AccountModel {
@@ -142,8 +75,8 @@ export interface BillsModel {
   created_at: string;
   code: string;
   merchant_teller: tellerObjectModel;
-  created_by: ClientApiResponse;
-  client: ClientApiResponse;
+  created_by: ClientModel;
+  client: ClientModel;
   payment_account: { acc_short_number: string };
   payment_status: PaymentStatusModel;
   total_amount: number | string;

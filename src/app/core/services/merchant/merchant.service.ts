@@ -9,13 +9,10 @@ import { DoMerchantTransferResponseModel } from '../../../components/merchant/me
 import { DoMerchantTransferModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import {
   AllProductAutocompleteModel,
-  MerchantInfoModel,
-  MerchantObjectModel,
   updateProdcutInfoModel,
   addProductByMerchantModel,
   ObjectBillModel,
   paymentBillsModel,
-  StatsModel,
   ProductFavoriteModel,
   ProductAutocompleteModel,
 } from '../../../components/merchant/products/products.model';
@@ -23,6 +20,8 @@ import {
   doTellerBodyModel,
   MerchantAutocompleteModel,
   MerchantCategoriesModel,
+  MerchantInfoModel,
+  MerchantStatsModel,
   newTellerModel,
   searchTellerModel,
   SectorActivityModel,
@@ -132,14 +131,14 @@ export class MerchantService {
       })
     );
   }
-  getMerchantsDetails(id: string) {
-    const url = '/dbs/merchant/manage/';
-    return this.apiService.get(url + id).pipe(
-      map(data => {
-        return data;
-      })
-    );
+
+  getMerchantsDetails(id: number): Observable<{ object: MerchantInfoModel }> {
+    const url = `/dbs/merchant/manage/${id}/`;
+    return this.apiService
+      .get<{ object: MerchantInfoModel }>(url)
+      .pipe(map(data => data));
   }
+
   getTopClientsByAmount(merchantId: string) {
     const url = `/dbs/merchant/top-clients/${merchantId}/?by_amount=true`;
     return this.apiService.get(url).pipe(
@@ -212,21 +211,20 @@ export class MerchantService {
       })
     );
   }
-  getConnectedMerchantInfo(): Observable<MerchantObjectModel> {
+  getConnectedMerchantInfo(): Observable<{ object: MerchantInfoModel }> {
     const url = '/dbs/merchant/info/';
-    return this.apiService.get<MerchantObjectModel>(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get<{ object: MerchantInfoModel }>(url)
+      .pipe(map(data => data));
   }
-  getMerchantInfos(merchantId: string) {
+
+  getMerchantInfos(
+    merchantId: string
+  ): Observable<{ object: MerchantInfoModel }> {
     const url = '/dbs/merchant/merchant-info/' + merchantId + '/';
-    return this.apiService.get<MerchantInfoModel>(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get<{ object: MerchantInfoModel }>(url)
+      .pipe(map(data => data));
   }
   getMerchantMultipleInfo(): Observable<{
     objects: MerchantAutocompleteModel[];
@@ -256,12 +254,14 @@ export class MerchantService {
       })
     );
   }
-  updateMerchantDetails(body: updateMerchantDetailsModel) {
-    return this.apiService.post('/dbs/merchant/configuration/', body).pipe(
-      map(body => {
-        return body;
-      })
-    );
+  updateMerchantDetails(
+    body: updateMerchantDetailsModel
+  ): Observable<{ object: MerchantInfoModel }> {
+    return this.apiService
+      .post<{
+        object: MerchantInfoModel;
+      }>('/dbs/merchant/configuration/', body)
+      .pipe(map(body => body));
   }
   getMerchantsCategories() {
     const url = '/dbs/merchant-category/';
@@ -503,16 +503,16 @@ export class MerchantService {
     this._connectedMerchantId.next(merchantId);
   }
 
-  getMerchantStats(merchantId: string) {
+  getMerchantStats(
+    merchantId: string
+  ): Observable<{ object: MerchantStatsModel }> {
     return this.apiService
-      .get<StatsModel>(
+      .get<{
+        object: MerchantStatsModel;
+      }>(
         `/dbs/general/stats/?filter_merchant=${merchantId} &stats_type=merchant_tellers_number,merchant_bills_payment_number,merchant_products_number`
       )
-      .pipe(
-        map(data => {
-          return data;
-        })
-      );
+      .pipe(map(data => data));
   }
   addProductByMerchant(product: addProductByMerchantModel) {
     return this.apiService

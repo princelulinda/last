@@ -1,9 +1,13 @@
-import { Component, effect, AfterViewInit, OnInit } from '@angular/core';
+import { Component, effect, AfterViewInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 
-import { ConfigService, DialogService } from '../../../../core/services';
+import {
+  ConfigService,
+  DialogService,
+  MerchantService,
+} from '../../../../core/services';
 import {
   MerchantPaymentDialogModel,
   MerchantPaymentTypesModel,
@@ -28,7 +32,7 @@ import { CategoryMerchantsComponent } from '../../../../components/dev/merchant-
   templateUrl: './merchant-payment.component.html',
   styleUrl: './merchant-payment.component.scss',
 })
-export class MerchantPaymentComponent implements AfterViewInit, OnInit {
+export class MerchantPaymentComponent implements AfterViewInit {
   private merchantPaymentDialog: HTMLDialogElement | null = null;
   paymentData: {
     active: boolean;
@@ -42,18 +46,25 @@ export class MerchantPaymentComponent implements AfterViewInit, OnInit {
   product: ProductAutocompleteModel | null = null;
   category: MerchantCategoriesModel | null = null;
 
+  // merchantDetails: any;
+  loadingMerchantDetails = false;
+
   selectedMerchant: MerchantAutocompleteModel | null = null;
+  selectedProduct: ProductAutocompleteModel | null = null;
 
   theme$!: Observable<ModeModel>;
   theme!: ModeModel;
 
-  selectedSection = 'first';
+  selectedPaymentMenu: 'Direct-Payment' | 'Product-Payment' | '' = '';
 
   constructor(
     private dialogService: DialogService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private merchantService: MerchantService
   ) {
     this.theme$ = this.configService.getMode();
+
+    // NOTE :: SIGNAL CHECK CHANGES
     effect(() => {
       this.paymentData = this.dialogService.merchantPaymentDialog();
       if (this.paymentData.active) {
@@ -68,16 +79,27 @@ export class MerchantPaymentComponent implements AfterViewInit, OnInit {
     });
   }
 
-  ngOnInit() {
-    console.log('adsadada', this.category, this.type);
+  getMerchantDetails(merchantId: number) {
+    this.loadingMerchantDetails = true;
+    this.merchantService.getMerchantsDetails(merchantId).subscribe({
+      next: () => {
+        this.loadingMerchantDetails = false;
+      },
+      error: () => {
+        this.loadingMerchantDetails = false;
+      },
+    });
   }
 
   closeMerchantPaymentDialog() {
     this.dialogService.closeMerchantPaymentDialog();
   }
-
   getSelectedMerchant(merchant: MerchantAutocompleteModel) {
     this.selectedMerchant = merchant;
+    this.getMerchantDetails(merchant.id);
+  }
+  selectPaymentMenu(type: 'Direct-Payment' | 'Product-Payment' | '') {
+    this.selectedPaymentMenu = type;
   }
 
   ngAfterViewInit() {

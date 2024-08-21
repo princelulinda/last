@@ -27,7 +27,6 @@ import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
-import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import {
   AmountEventModel,
@@ -130,7 +129,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   @Input() bankId!: bankModel;
   @Input() simpleTransferTitle = true;
   @Input() isMerchantTransfer = false;
-  userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;

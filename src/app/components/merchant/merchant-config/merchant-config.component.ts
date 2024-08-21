@@ -16,8 +16,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { MerchantTellerDetailsComponent } from './merchant-teller-details/merchant-teller-details.component';
 import {
-  getMerchantInfosModel,
-  merchantInfoModel,
+  MerchantModel,
   tellerModel,
   tellerObjectModel,
   tellersModel,
@@ -44,7 +43,7 @@ import { DialogResponseModel } from '../../../core/services/dialog/dialogs-model
   styleUrl: './merchant-config.component.scss',
 })
 export class MerchantConfigComponent implements OnInit {
-  merchantInfo!: merchantInfoModel;
+  merchantInfo!: MerchantModel;
   tellers: tellerObjectModel[] = [];
   get_tellers!: boolean;
   dialogState$!: Observable<DialogResponseModel>;
@@ -152,31 +151,40 @@ export class MerchantConfigComponent implements OnInit {
   }
 
   getConnectedMerchantInfo() {
-    this.merchantService.getConnectedMerchantInfo().subscribe(response => {
-      const merchantInfo = response as unknown as getMerchantInfosModel;
-      this.merchantInfo = merchantInfo.object.response_data;
+    this.merchantService.getConnectedMerchantInfo().subscribe({
+      next: response => {
+        this.merchantInfo = response.object.response_data;
 
-      this.getTellersByMerchant();
+        this.getTellersByMerchant();
 
-      this.merchantConfigForm.patchValue({
-        name: this.merchantInfo.merchant_title,
-        simplePayment: this.merchantInfo.accepts_simple_payment,
-        slug: this.merchantInfo.slug,
-        cart: this.merchantInfo.accepts_cart,
-        incognito: this.merchantInfo.client_visibility_activated,
-      });
+        this.merchantConfigForm.patchValue({
+          name: this.merchantInfo.merchant_title,
+          simplePayment: this.merchantInfo.accepts_simple_payment,
+          slug: this.merchantInfo.slug,
+          cart: this.merchantInfo.accepts_cart,
+          incognito: this.merchantInfo.client_visibility_activated,
+        });
+      },
+      error: err => {
+        // TODO :: CODE
+        console.log(err);
+      },
     });
   }
 
   getTellersByMerchant() {
     this.get_tellers = false;
-    this.merchantService
-      .getTellersByMerchant(this.merchantInfo.id)
-      .subscribe(response => {
+    this.merchantService.getTellersByMerchant(this.merchantInfo.id).subscribe({
+      next: response => {
         this.get_tellers = true;
         const tellers = response as tellersModel;
         this.tellers = tellers.objects;
-      });
+      },
+      error: err => {
+        // TODO :: CODE
+        console.log(err);
+      },
+    });
   }
 
   displayTellerInfo(teller: tellerObjectModel) {
@@ -303,13 +311,12 @@ export class MerchantConfigComponent implements OnInit {
     this.action = [];
 
     this.merchantService.updateMerchantDetails(body).subscribe({
-      next: result => {
-        const response = result as getMerchantInfosModel;
+      next: response => {
         // this.isLoading = false;
         this.dialogService.closeLoading();
         if (response.object.success) {
           this.dialogService.openToast({
-            title: 'success',
+            title: '',
             type: 'success',
             message: response.object.response_message,
           });

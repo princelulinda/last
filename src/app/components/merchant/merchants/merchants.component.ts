@@ -159,22 +159,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
     element.setAttribute('data-bs-toggle', 'modal');
     this.payMerchant = data;
     this.merchantId = this.payMerchant.id;
-    // this.getMerchantDetails();
   }
-
-  // getMerchantDetails() {
-  //   this.merchantDetails = null;
-  //   this.merchantService
-  //     .getMerchantsDetails(this.merchantId)
-  //     .pipe(takeUntil(this.onDestroy$))
-  //     .subscribe({
-  //       next: (data: any) => {
-  //         this.merchantDetails = data.object;
-  //         console.log('!!!!!!!!!!!!!!!!!!!!!!!MERCHANTDETAILS:', data);
-  //         // this.merchant = this.merchantDetails;
-  //       },
-  //     });
-  // }
 
   isSearchInputNotEmpty(): boolean {
     const searchValue = this.searchInput.value;
