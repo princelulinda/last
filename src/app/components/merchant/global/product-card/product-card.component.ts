@@ -10,6 +10,7 @@ import {
   ProductFavoriteModel,
   ProductAutocompleteModel,
 } from '../../products/products.model';
+import { VariableService } from '../../../../core/services/variable/variable.service';
 
 @Component({
   selector: 'app-product-card',
@@ -43,7 +44,8 @@ export class ProductCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private configService: ConfigService,
-    private merchantService: MerchantService
+    private merchantService: MerchantService,
+    private variableService: VariableService
   ) {
     this.currentMode$ = this.configService.getMode();
   }
@@ -81,8 +83,16 @@ export class ProductCardComponent implements OnInit, OnDestroy {
           if (response.success) {
             if (!favorite.is_favorite_product) {
               this.product.is_favorite_product = true;
+              this.variableService.updateFavoriteProducts(
+                this.product,
+                this.product.is_favorite_product
+              );
             } else {
               this.product.is_favorite_product = false;
+              this.variableService.updateFavoriteProducts(
+                this.product,
+                this.product.is_favorite_product
+              );
             }
           }
           this.isLoading = false;
