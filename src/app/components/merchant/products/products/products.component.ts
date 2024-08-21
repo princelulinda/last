@@ -101,6 +101,7 @@ export class ProductsComponent implements OnInit {
   }
 
   getFavoriteProducts(search: string) {
+    this.isLoading = false;
     this.merchantService
       .getFavoriteProductAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
@@ -110,6 +111,7 @@ export class ProductsComponent implements OnInit {
           this.favoriteProducts = this.products.filter(
             product => product.is_favorite_product
           );
+          this.isLoading = true;
         },
         error: () => {
           this.isLoading = false;
