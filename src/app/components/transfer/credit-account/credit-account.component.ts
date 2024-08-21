@@ -117,6 +117,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     accountHolder: new FormControl('', Validators.required),
     debit_description: new FormControl('', Validators.required),
     amount: new FormControl(this.amount, Validators.required),
+    merchant_reference: new FormControl(''),
   });
   @Input() transferStep = '';
   dialog$: Observable<DialogResponseModel>;

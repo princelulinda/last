@@ -95,6 +95,7 @@ export interface SelectedCreditAccountEventModel {
     accountHolder: string;
     debit_description: string;
     amount: number;
+    merchant_reference?: string;
   };
   selectedInstitution: InstitutionInfoModel;
   selectedCreditAccountType: string;
