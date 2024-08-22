@@ -6,9 +6,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable, Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { SimpleMerchantService } from '../../../../core/services/simple-merchant/simple-merchant.service';
+
+import { Observable, Subject, takeUntil } from 'rxjs';
+
 import {
   DialogService,
   ConfigService,
@@ -30,6 +31,7 @@ import { accountsList } from '../../../account/models';
 import { WalletList } from '../../../wallet/wallet.models';
 import { DebitOptions } from '../../../transfer/transfer.model';
 import { bankModel } from '../../../../core/db/models/bank/bank.model';
+
 @Component({
   selector: 'app-bill-details',
   standalone: true,
@@ -88,8 +90,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private merchantService: MerchantService,
     private dialogService: DialogService,
-    private configService: ConfigService,
-    private simpleMerchant: SimpleMerchantService
+    private configService: ConfigService
   ) {
     this.theme$ = this.configService.getMode();
     this.dialog$ = this.dialogService.getDialogState();
@@ -184,8 +185,8 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
     };
 
     this.dialogService.dispatchLoading();
-    this.simpleMerchant
-      .postData(data)
+    this.merchantService
+      .doMerchantSimplePayment(data)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (response: ObjectBillModel) => {

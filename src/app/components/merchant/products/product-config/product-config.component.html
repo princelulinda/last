@@ -122,7 +122,11 @@
       <div class="row flex-wrap">
         @for (product of products; track $index) {
           <div class="mb-3 col-auto">
-            <app-product-card [product]="product"></app-product-card>
+            <app-product-card
+              [product]="product"
+              [disabledFavoriteAction]="disabledFavoriteAction"
+              (selectedProductEvent)="selectProduct($event)"
+              action="output"></app-product-card>
           </div>
         }
       </div>
@@ -217,13 +221,11 @@
       </div>
       <hr class="w-100 mt-2" />
     </div>
-    @if (!product) {
+    @if (!get_productDetails) {
       <div>
-        @if (!product) {
-          <div class="w-100 mt-4 d-flex justify-content-center">
-            <span class="spinner-border"> </span>
-          </div>
-        }
+        <div class="w-100 mt-4 d-flex justify-content-center">
+          <span class="spinner-border"> </span>
+        </div>
       </div>
     } @else if (product) {
       <div class="row">
