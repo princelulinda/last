@@ -6,6 +6,7 @@ export interface DoMerchantTransferModel {
   credit_type: string;
   pin_code: string;
   description: string;
+  merchant_reference?: string;
 }
 
 export interface DoMerchantTransferResponseModel {
