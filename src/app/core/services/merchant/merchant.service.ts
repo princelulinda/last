@@ -602,7 +602,7 @@ export class MerchantService {
     );
   }
 
-  doMerchantPaymeny(
+  MerchantPayment(
     body: DoMerchantTransferModel
   ): Observable<DoMerchantTransferResponseModel> {
     const url = '/dbs/merchant/cashin/';

@@ -87,6 +87,7 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
   }
   handleSelectedCreditAccount(event: SelectedCreditAccountEventModel) {
     this.selectedCreditAccountForm = event.transferForm;
+    console.log('selectedCreditAccountForm', this.selectedCreditAccountForm);
     this.selectedInstitution = event.selectedInstitution;
     this.selectedCreditAccountType = event.selectedCreditAccountType;
 
@@ -108,7 +109,7 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
       };
 
       this.merchantService
-        .doMerchantPaymeny(body)
+        .MerchantPayment(body)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
           next: (response: DoMerchantTransferResponseModel) => {

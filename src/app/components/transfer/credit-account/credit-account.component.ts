@@ -89,10 +89,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   amount: number | null = null;
   amountToSend: number | null = null;
   clientId: number | null = null;
-  @Input() transferType:
-    | 'merchantTransfer'
-    | 'agentTransfer'
-    | 'simpleTransfer' = 'simpleTransfer';
+
   isPopupShown = false;
   isAmountChanging = false;
   isBanksListShown = false;
@@ -131,6 +128,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   @Input() isOperation = false;
   @Input() showBack = false;
   @Input() bankId!: bankModel;
+  @Input() simpleTransferTitle = true;
+  @Input() isMerchantTransfer = false;
   clientInfo!: UserInfoModel;
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
