@@ -186,6 +186,9 @@ export interface updateProdcutInfoModel {
   voucher_type: string;
   metadata: number[];
   pin_code: string;
+  cart: boolean;
+  incognito: boolean;
+  stockable: boolean;
 }
 
 export interface searchProductByMerchantModel {

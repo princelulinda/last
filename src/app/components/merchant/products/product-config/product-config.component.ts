@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -354,6 +360,9 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
       minimun_payment_amount: this.productConfigForm.value.min_payment,
       maximum_payment_amount: this.productConfigForm.value.max_payment,
       voucher_type: this.productConfigForm.value.position,
+      cart: this.productConfigForm.value.accepts_cart,
+      stockable: this.productConfigForm.value.is_stockable,
+      incognito: this.productConfigForm.value.incognito_mode,
       metadata: selectedFieldNames,
       pin_code: this.pin,
     };
