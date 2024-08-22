@@ -424,7 +424,7 @@
                       [isTransfer]="true"></app-amount-field>
                   </div>
                 </div>
-                @if (isMerchantTransfer) {
+                @if (transferType === 'merchantTransfer') {
                   <div
                     class="mb-2 mt-2"
                     [ngClass]="{
@@ -523,7 +523,7 @@
                 <div
                   class="ms-4 me-4 mb-4 h-375"
                   [ngClass]="{
-                    'w-50': isMerchantTransfer,
+                    'w-50': transferType === 'merchantTransfer',
                   }">
                   <div (mouseenter)="hover = true" (mouseleave)="hover = false">
                     <span>{{ account.account_holder }} </span> <br />
