@@ -120,13 +120,19 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
   }
 
   getProductDetails(productId: number) {
+    this.productDetails = null;
+    this.loadingProductDetails = true;
     this.merchantService
       .getProductDetails(productId)
-      .pipe(takeUntil(this.onDestroy$));
-    // .subscribe({
-    //   next: () => {},
-    //   error: () => {},
-    // });
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: () => {
+          this.loadingProductDetails = false;
+        },
+        error: () => {
+          this.loadingProductDetails = false;
+        },
+      });
   }
 
   closeMerchantPaymentDialog() {

@@ -15,6 +15,7 @@ import {
   paymentBillsModel,
   ProductFavoriteModel,
   ProductAutocompleteModel,
+  ProductModel,
 } from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
@@ -205,9 +206,11 @@ export class MerchantService {
     );
   }
 
-  getProductDetails(id: number) {
+  getProductDetails(id: number): Observable<{ object: ProductModel }> {
     const url = `/dbs/merchant-product/${id}/`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ object: ProductModel }>(url)
+      .pipe(map(data => data));
   }
 
   getConnectedMerchantInfo(): Observable<{ object: MerchantInfoModel }> {

@@ -403,7 +403,7 @@
           @if (products) {
             <div class="row ms-2 mb-4 mt-4">
               @for (product of products; track $index) {
-                <div type="button">
+                <div type="button" class="mb-4">
                   <app-product-card
                     [product]="product"
                     type="row"></app-product-card>
