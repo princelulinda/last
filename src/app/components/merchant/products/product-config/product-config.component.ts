@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 import { Subject, Observable, takeUntil } from 'rxjs';
 
 import {
   ProductAutocompleteModel,
-  productConfigModel,
+  ProductModel,
   updateProductInfoObjectModel,
 } from '../products.model';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
@@ -39,7 +40,7 @@ import { MerchantModel } from '../../merchant.models';
   templateUrl: './product-config.component.html',
   styleUrl: './product-config.component.scss',
 })
-export class ProductConfigComponent implements OnInit {
+export class ProductConfigComponent implements OnInit, OnDestroy {
   merchant!: MerchantModel;
   clientId!: number;
   private onDestroy$: Subject<void> = new Subject<void>();
@@ -51,7 +52,7 @@ export class ProductConfigComponent implements OnInit {
   isActionDone = false;
   products: ProductAutocompleteModel[] = [];
   selectedProduct!: ProductAutocompleteModel;
-  product: productConfigModel | null = null;
+  product: ProductModel | null = null;
   action: string[] = [];
   search = new FormControl('');
   productConfigForm: FormGroup;
@@ -284,24 +285,28 @@ export class ProductConfigComponent implements OnInit {
   }
 
   getProductDetails() {
-    // this.product = undefined;
+    this.product = null;
     this.merchantService
-      .getMerchantsProductsDetails(this.selectedProduct.id)
-      .subscribe(response => {
-        const product = response as { object: productConfigModel };
+      .getProductDetails(this.selectedProduct.id)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          this.product = response.object;
 
-        this.product = product.object;
-
-        this.productConfigForm.patchValue({
-          name: this.product.name,
-          price: this.product.price,
-          min_payment: this.product.minimun_payment_amount,
-          max_payment: this.product.maximum_payment_amount,
-          position: this.product.voucher_type,
-          cart: this.product.accepts_cart,
-          stockable: this.product.is_stockable,
-          incognito: this.product.incognito_mode,
-        });
+          this.productConfigForm.patchValue({
+            name: this.product.name,
+            price: this.product.price,
+            min_payment: this.product.minimun_payment_amount,
+            max_payment: this.product.maximum_payment_amount,
+            position: this.product.voucher_type,
+            cart: this.product.accepts_cart,
+            stockable: this.product.is_stockable,
+            incognito: this.product.incognito_mode,
+          });
+        },
+        error: err => {
+          console.log(err);
+        },
       });
   }
 
@@ -311,7 +316,7 @@ export class ProductConfigComponent implements OnInit {
     this.productConfigForm.patchValue({
       name: this.product?.name,
       price: this.product?.price,
-      min_payment: this.product?.mininun_payment_amount,
+      min_payment: this.product?.minimun_payment_amount,
       max_payment: this.product?.maximum_payment_amount,
       position: this.product?.voucher_type,
       cart: this.product?.accepts_cart,
@@ -427,5 +432,10 @@ export class ProductConfigComponent implements OnInit {
     if (this.selectedMenu === 'configuration') {
       this.selectedMenu = 'details';
     }
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
