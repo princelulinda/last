@@ -15,12 +15,14 @@ import {
   paymentBillsModel,
   ProductFavoriteModel,
   ProductAutocompleteModel,
+  ProductModel,
 } from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
   MerchantAutocompleteModel,
   MerchantCategoriesModel,
   MerchantInfoModel,
+  MerchantModel,
   MerchantStatsModel,
   newTellerModel,
   searchTellerModel,
@@ -132,10 +134,10 @@ export class MerchantService {
     );
   }
 
-  getMerchantsDetails(id: number): Observable<{ object: MerchantInfoModel }> {
+  getMerchantsDetails(id: number): Observable<{ object: MerchantModel }> {
     const url = `/dbs/merchant/manage/${id}/`;
     return this.apiService
-      .get<{ object: MerchantInfoModel }>(url)
+      .get<{ object: MerchantModel }>(url)
       .pipe(map(data => data));
   }
 
@@ -203,14 +205,14 @@ export class MerchantService {
       })
     );
   }
-  getMerchantsProductsDetails(id: number) {
-    const url = '/dbs/merchant-product/' + id + '/';
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+
+  getProductDetails(id: number): Observable<{ object: ProductModel }> {
+    const url = `/dbs/merchant-product/${id}/`;
+    return this.apiService
+      .get<{ object: ProductModel }>(url)
+      .pipe(map(data => data));
   }
+
   getConnectedMerchantInfo(): Observable<{ object: MerchantInfoModel }> {
     const url = '/dbs/merchant/info/';
     return this.apiService
