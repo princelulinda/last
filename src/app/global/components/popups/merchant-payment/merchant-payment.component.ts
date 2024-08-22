@@ -24,6 +24,7 @@ import { CategoryMerchantsComponent } from '../../../../components/dev/merchant-
 import { ProductCardComponent } from '../../../../components/merchant/global/product-card/product-card.component';
 import { DebitAccountComponent } from '../../../../components/transfer/debit-account/debit-account.component';
 import { CreditAccountComponent } from '../../../../components/transfer/credit-account/credit-account.component';
+import { LookupComponent } from '../../lookups/lookup/lookup.component';
 
 @Component({
   selector: 'app-merchant-payment',
@@ -35,6 +36,7 @@ import { CreditAccountComponent } from '../../../../components/transfer/credit-a
     ProductCardComponent,
     DebitAccountComponent,
     CreditAccountComponent,
+    LookupComponent,
   ],
   templateUrl: './merchant-payment.component.html',
   styleUrl: './merchant-payment.component.scss',
