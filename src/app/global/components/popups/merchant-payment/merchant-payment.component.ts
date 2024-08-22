@@ -19,6 +19,7 @@ import {
 } from '../../../../components/merchant/merchant.models';
 import {
   ProductAutocompleteModel,
+  ProductLookupBodyModel,
   ProductModel,
 } from '../../../../components/merchant/products/products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
@@ -80,6 +81,8 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
   selectedPaymentMenu: 'Direct-Payment' | 'Product-Payment' | '' = '';
 
   lookupMetadataForm: FormGroup = this.fb.group([]);
+  loadingLookup = false;
+  productLookup: unknown;
 
   constructor(
     private dialogService: DialogService,
@@ -149,7 +152,44 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  initLookupMetadataForm(lookup_metadata: MetadataModel[]) {
+  doProductLookup() {
+    this.loadingLookup = true;
+    const body: ProductLookupBodyModel = {
+      merchant_product_id: this.selectedProduct?.id as number,
+      lookup_data: {
+        ...this.lookupMetadataForm.value,
+      },
+      lookup_extra_data: {},
+    };
+    return;
+    this.merchantService.getMerchantProductLookup(body).subscribe({
+      next: response => {
+        this.productLookup = response;
+        this.loadingLookup = false;
+      },
+      error: () => {
+        this.loadingLookup = false;
+      },
+    });
+  }
+
+  closeMerchantPaymentDialog() {
+    this.dialogService.closeMerchantPaymentDialog();
+  }
+  getSelectedMerchant(merchant: MerchantAutocompleteModel) {
+    this.selectedMerchant = merchant;
+    this.getMerchantDetails(merchant.id);
+  }
+  getSelectedProduct(product: ProductAutocompleteModel) {
+    this.selectedProduct = product;
+    this.getProductDetails(product.id);
+  }
+
+  selectPaymentMenu(type: 'Direct-Payment' | 'Product-Payment' | '') {
+    this.selectedPaymentMenu = type;
+  }
+
+  private initLookupMetadataForm(lookup_metadata: MetadataModel[]) {
     let fields: Record<string, [string, Validators[]?]> = {};
 
     for (const field of lookup_metadata) {
@@ -175,22 +215,6 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
       }
       this.lookupMetadataForm = this.fb.group(fields);
     }
-  }
-
-  closeMerchantPaymentDialog() {
-    this.dialogService.closeMerchantPaymentDialog();
-  }
-  getSelectedMerchant(merchant: MerchantAutocompleteModel) {
-    this.selectedMerchant = merchant;
-    this.getMerchantDetails(merchant.id);
-  }
-  getSelectedProduct(product: ProductAutocompleteModel) {
-    this.selectedProduct = product;
-    this.getProductDetails(product.id);
-  }
-
-  selectPaymentMenu(type: 'Direct-Payment' | 'Product-Payment' | '') {
-    this.selectedPaymentMenu = type;
   }
 
   ngAfterViewInit() {
