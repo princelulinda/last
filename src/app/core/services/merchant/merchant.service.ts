@@ -529,7 +529,7 @@ export class MerchantService {
     return this.apiService.post(url, favorite).pipe(map(data => data));
   }
 
-  doMerchantPaymeny(
+  MerchantPayment(
     body: DoMerchantTransferModel
   ): Observable<DoMerchantTransferResponseModel> {
     const url = '/dbs/merchant/cashin/';

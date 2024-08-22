@@ -12,7 +12,7 @@ import { WalletDetailsComponent } from '../../components/wallet/wallet-details/w
 import { TarifComponent } from '../../components/tarif/tarif.component';
 import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.component';
 import { AccountDetailsComponent } from '../../components/account/account-details/account-details.component';
-import { WalletCreationComponent } from '../../components/wallet/wallet-creation/wallet-creation.component';
+
 export const bankingRoutes: Routes = [
   {
     path: '',
@@ -66,9 +66,5 @@ export const bankingRoutes: Routes = [
         component: AccountDetailsComponent,
       },
     ],
-  },
-  {
-    path: 'creat-wallet',
-    component: WalletCreationComponent,
   },
 ];
