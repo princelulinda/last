@@ -495,9 +495,9 @@
           }
         </div>
       } @else {
-        <div class="row">
+        <div class="d-flex justify-content-start flex-wrap gap-5">
           @for (product of products; track $index) {
-            <div class="col-3">
+            <div class="d-flex justify-content-around">
               <app-product-card [product]="product"></app-product-card>
             </div>
           }
@@ -514,7 +514,7 @@
           >Recent billers</span
         >
       </div>
-      <div class="z-3 col-2 col-xl-1 p-0 pe-2 m-0 float-end">
+      <!-- <div class="z-3 col-2 col-xl-1 p-0 pe-2 m-0 float-end">
         <div class="col-12">
           <div class="row">
             <div class="col-2 me-4">
@@ -553,7 +553,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <!-- *** -->
 
@@ -602,7 +602,7 @@
             <span class="fs-5 text-dark" i18n><b> Recent merchants</b></span>
           </p>
         </div>
-        <div class="z-3 col-2 col-xl-1 p-0 pe-2 m-0 float-end">
+        <!-- <div class="z-3 col-2 col-xl-1 p-0 pe-2 m-0 float-end">
           <div class="col-12">
             <div class="row">
               <div class="col-3 me-4">
@@ -641,7 +641,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <!-- when the search has no outcomings -->
       @if (merchants && merchants.length === 0) {
@@ -657,11 +657,9 @@
 
       @if (merchants) {
         <div
-          class="row d-flex justify-content-center d-md-flex justify-content-sm-start">
+          class="d-flex justify-content-center d-md-flex justify-content-sm-start flex-wrap gap-5">
           @for (merchant of recentMerchant; track $index) {
-            <div
-              class="col-5 col-sm-4 col-md-3 col-lg-4 col-xl-3 mb-2 position-relative"
-              tabindex="0">
+            <div class="d-flex justify-content-between" tabindex="0">
               <div class="w-100">
                 <app-merchant-card [merchant]="merchant"> </app-merchant-card>
                 <!-- (merchantInfoOutput)="getMakeFavoriteResponse($event)"> -->

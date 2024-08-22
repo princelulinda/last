@@ -98,6 +98,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
   // payment: any;
   offerData: BestOfferModel[] = [];
   first2: BestOfferModel[] = [];
+  seeMore = false;
 
   constructor(private merchantService: MerchantService) {
     // private store: Store
