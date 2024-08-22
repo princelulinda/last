@@ -104,21 +104,21 @@
           <section
             class="col-auto border position-relative lg-radius d-flex align-items-center py-2 ps-4 pe-3 position-relative">
             <!-- NOTE :: CONTAINER LOADER -->
-            <!-- @if (loadingMerchantDetails) { -->
-            <span
-              class="position-absolute top-0 end-0 start-0 bottom-0 d-flex align-items-center justify-content-center lg-radius bg-overlay-secondary">
-              <span role="status">Loading</span>
+            @if (loadingMerchantDetails) {
               <span
-                class="spinner-grow spinner-grow-sm ms-2"
-                aria-hidden="true"></span>
-              <span
-                class="spinner-grow spinner-grow-sm ms-2"
-                aria-hidden="true"></span>
-              <span
-                class="spinner-grow spinner-grow-sm ms-2"
-                aria-hidden="true"></span>
-            </span>
-            <!-- } -->
+                class="position-absolute top-0 end-0 start-0 bottom-0 d-flex align-items-center justify-content-center lg-radius bg-overlay-secondary">
+                <span role="status">Loading</span>
+                <span
+                  class="spinner-grow spinner-grow-sm ms-2"
+                  aria-hidden="true"></span>
+                <span
+                  class="spinner-grow spinner-grow-sm ms-2"
+                  aria-hidden="true"></span>
+                <span
+                  class="spinner-grow spinner-grow-sm ms-2"
+                  aria-hidden="true"></span>
+              </span>
+            }
             <div
               class="rounded-circle border merchant-profile bg-secondary d-flex align-items-center justify-content-center me-2">
               @if (selectedMerchant.lookup_image) {
@@ -198,16 +198,16 @@
               @if (loadingProductDetails) {
                 <span
                   class="position-absolute top-0 end-0 start-0 bottom-0 d-flex align-items-center justify-content-center lg-radius bg-overlay-secondary">
+                  <span role="status">Loading</span>
                   <span
-                    class="spinner-grow spinner-grow-sm me-2"
+                    class="spinner-grow spinner-grow-sm ms-2"
                     aria-hidden="true"></span>
                   <span
-                    class="spinner-grow spinner-grow-sm me-2"
+                    class="spinner-grow spinner-grow-sm ms-2"
                     aria-hidden="true"></span>
                   <span
-                    class="spinner-grow spinner-grow-sm me-2"
+                    class="spinner-grow spinner-grow-sm ms-2"
                     aria-hidden="true"></span>
-                  <span role="status">Loading...</span>
                 </span>
               }
               <div>
