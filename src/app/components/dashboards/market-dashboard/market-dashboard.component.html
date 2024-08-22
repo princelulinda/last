@@ -558,10 +558,19 @@
     <!-- *** -->
 
     @if (billers) {
-      <app-biller-card
-        [recentBillers]="recentBillers"
-        [categorySelected]="categorySelected"
-        [clearData]="clearData"></app-biller-card>
+      <div
+        class="row d-flex justify-content-center w-100 d-md-flex justify-content-sm-start">
+        @for (biller of recentBillers; track $index) {
+          <div class="col-5 col-sm-4 col-md-3 col-lg-4 col-xl-3 mb-2">
+            <div class="w-100">
+              <app-biller-card
+                [biller]="biller"
+                [categorySelected]="categorySelected"
+                [clearData]="clearData"></app-biller-card>
+            </div>
+          </div>
+        }
+      </div>
     } @else if (!billers) {
       <div>
         <div class="row ms-2">

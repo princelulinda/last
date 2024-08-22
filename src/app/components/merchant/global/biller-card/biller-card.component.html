@@ -1,16 +1,11 @@
-<div
-  class="row d-flex justify-content-center w-100 d-md-flex justify-content-sm-start">
-  @for (item of recentBillers; track $index) {
-    @if (item) {
-      <div
-        class="col-5 col-sm-4 col-md-3 col-lg-4 col-xl-3 mb-2"
-        (click)="openModal(item, $event)"
-        tabindex="0">
-        <div class="border sm-radius">
-          <div class="row">
-            <div class="position-relative">
-              <div class="bg-input m-1 sm-radius">
-                <!-- @if (!disabledFavoriteAction) {
+@if (biller) {
+  <div class="">
+    <div class="">
+      <div class="border sm-radius">
+        <div class="row">
+          <div class="position-relative">
+            <div class="bg-input m-1 sm-radius">
+              <!-- @if (!disabledFavoriteAction) {
                   <section
                     class="position-absolute bg-white rounded-circle border z-3 end-0 me-2 mt-2 p-1 d-flex px-2"
                     role="button"
@@ -45,40 +40,39 @@
                   </section>
                 } -->
 
-                @if (item.lookup_image) {
-                  <div class="col-12 imgHeight">
-                    <img
-                      src="{{ item.lookup_image }}"
-                      class="z-3 w-100 h-100 object-fit-cover sm-radius position-relative"
-                      alt="billerImg" />
-                  </div>
-                  <div class="z-2 clip-path bg-input"></div>
-                } @else {
-                  <span class="d-flex justify-content-center">
-                    <i
-                      class="fa-solid fa-box-open fa-5x mt-4 mb-3"
-                      style="color: #ffffff"></i>
-                  </span>
-                  <div class="z-3 clip-path bg-input"></div>
-                }
-              </div>
+              @if (biller.lookup_image) {
+                <div class="col-12 imgHeight">
+                  <img
+                    src="{{ biller.lookup_image }}"
+                    class="z-3 w-100 h-100 object-fit-cover sm-radius position-relative"
+                    alt="billerImg" />
+                </div>
+                <div class="z-2 clip-path bg-input"></div>
+              } @else {
+                <span class="d-flex justify-content-center">
+                  <i
+                    class="fa-solid fa-box-open fa-5x mt-4 mb-3"
+                    style="color: #ffffff"></i>
+                </span>
+                <div class="z-3 clip-path bg-input"></div>
+              }
             </div>
-          </div>
-          <div class="row">
-            <div class="col-6">
-              <h6 class="fs-x-small mt-2 ms-1">Billers</h6>
-            </div>
-            <div class="col-4"></div>
-          </div>
-          <div class="row ms-0">
-            <h6 class="fs-x-small" i18n>
-              {{ item.lookup_title }} ({{ item.lookup_subtitle }})
-            </h6>
           </div>
         </div>
+        <div class="row">
+          <div class="col-6">
+            <h6 class="fs-x-small mt-2 ms-1">Billers</h6>
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row ms-0">
+          <h6 class="fs-x-small" i18n>
+            {{ biller.lookup_title }} ({{ biller.lookup_subtitle }})
+          </h6>
+        </div>
       </div>
-    }
-  }
+    </div>
 
-  <!-- ********************************* -->
-</div>
+    <!-- ********************************* -->
+  </div>
+}
