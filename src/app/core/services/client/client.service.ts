@@ -12,8 +12,11 @@ import {
   Accountdetail,
 } from '../../../components/account/models';
 import {
+  CreatWalletBodyModel,
+  creatWalletResponse,
   Walletdetail,
   WalletList,
+  WalletTypModel,
 } from '../../../components/wallet/wallet.models';
 
 @Injectable({
@@ -49,10 +52,23 @@ export class ClientService {
   }
 
   getClientAccounts(clientId: number): Observable<{ objects: accountsList[] }> {
-    const url = '/accounts/' + clientId + '/?limit=6';
+    const url = '/accounts/' + clientId + '/';
     return this.apiService.get<{ objects: accountsList[] }>(url);
   }
 
+  getWalletType(): Observable<{ objects: WalletTypModel[] }> {
+    const url = '/dbs/wallettype/list/';
+    return this.apiService.get<{ objects: WalletTypModel[] }>(url);
+  }
+
+  creatWallet(body: CreatWalletBodyModel): Observable<creatWalletResponse> {
+    const url = '/dbs/wallet/create/';
+    return this.apiService.post(url, body).pipe(
+      map(response => {
+        return response as creatWalletResponse;
+      })
+    );
+  }
   getClientAccountDetails(
     selectedAccount: string
   ): Observable<{ object: Accountdetail }> {

@@ -1,7 +1,8 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { CommonModule } from '@angular/common';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { CommonModule } from '@angular/common';
 
 import { MerchantService } from '../../../../core/services/merchant/merchant.service';
 import { ProductCardComponent } from '../../global/product-card/product-card.component';
@@ -48,31 +49,39 @@ export class ProductsComponent implements OnInit {
   cartAdding = 0;
   count = 0;
   countProductLoader: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
+
+  private refreshFavoriteProducts$: Observable<boolean>;
+
   constructor(
     private merchantService: MerchantService,
     private configService: ConfigService,
     private variableService: VariableService
   ) {
     this.theme$ = this.configService.getMode();
-    //  effect(() => {
-    //   if (this.variableService.isFavorit()) {
-    //     this.getFavoriteProducts('');
-    //     this.variableService.isFavorit.set(false);
-    //   }
-    // });
+    this.refreshFavoriteProducts$ = toObservable(
+      this.variableService.refreshFavoriteProducts
+    );
   }
   ngOnInit(): void {
-    // comment
-    // console.log('d product 33', this.product);
     this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: response => {
         this.theme = response;
       },
     });
-    this.getFavoriteProducts('');
-    this.variableService.isFavorite$.subscribe(() => {
-      this.getFavoriteProducts('');
+
+    // NOTE :: TO CHECK ACTION ON FAVORITE PRODUCTS
+    this.refreshFavoriteProducts$.subscribe({
+      next: state => {
+        if (state) {
+          this.getFavoriteProducts('');
+          this.variableService.refreshFavoriteProducts.set(false);
+        }
+      },
     });
+    this.getFavoriteProducts('');
+    // this.variableService.isFavorite$.subscribe(() => {
+    //   this.getFavoriteProducts('');
+    // });
   }
   addItemQuantity() {
     this.itemQuantity = this.itemQuantity + 1;

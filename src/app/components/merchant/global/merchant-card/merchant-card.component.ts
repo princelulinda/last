@@ -76,10 +76,12 @@ export class MerchantCardComponent implements OnDestroy {
           if (response.success) {
             if (!favorite.is_favorite_merchant) {
               this.merchant.is_favorite_merchant = true;
-              this.variableService.isFavorite.next(true);
+              // this.variableService.isFavorite.next(true);
+              this.variableService.refreshFavoriteMerchants.set(true);
             } else {
               this.merchant.is_favorite_merchant = false;
-              this.variableService.isFavorite.next(true);
+              // this.variableService.isFavorite.next(true);
+              this.variableService.refreshFavoriteMerchants.set(true);
             }
           }
           this.isLoading = false;

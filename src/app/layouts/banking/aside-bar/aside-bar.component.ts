@@ -50,7 +50,7 @@ export class AsideBarComponent implements OnInit {
   response_data = 0;
   loader = false;
   productsNumber = 0;
-  productPagination: Pagination = {
+  pagination: Pagination = {
     filters: {
       limit: 3,
       offset: 0,
@@ -102,7 +102,7 @@ export class AsideBarComponent implements OnInit {
   getAllProducts(search: string) {
     if (!this.url) {
       this.merchantService
-        .searchProduct(this.productPagination, search)
+        .searchProduct(this.pagination, search)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
           next: (data: AllProductAutocompleteModel) => {
@@ -154,7 +154,7 @@ export class AsideBarComponent implements OnInit {
     };
 
     this.bankService
-      .getRecentTransactions('', period, this.clientVerified)
+      .getRecentTransactions(this.pagination, '', period, this.clientVerified)
       .subscribe((transfers: TransactionObjectModel) => {
         this.recentTransactions = transfers.objects;
         this.bankService.updateTransaction(false);
