@@ -15,6 +15,7 @@ import {
 import {
   MerchantAutocompleteModel,
   MerchantCategoriesModel,
+  MerchantModel,
 } from '../../../../components/merchant/merchant.models';
 import { ProductAutocompleteModel } from '../../../../components/merchant/products/products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
@@ -46,7 +47,7 @@ export class MerchantPaymentComponent implements AfterViewInit {
   product: ProductAutocompleteModel | null = null;
   category: MerchantCategoriesModel | null = null;
 
-  // merchantDetails: any;
+  merchantDetails: MerchantModel | null = null;
   loadingMerchantDetails = false;
 
   selectedMerchant: MerchantAutocompleteModel | null = null;
