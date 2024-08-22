@@ -84,7 +84,7 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
   searchTypeOther: EmptyStateModel = 'other';
   imageClass = 'image';
   disabledFavoriteAction = true;
-  get_productDetails = false;
+  loading_productDetails = false;
 
   plateform$!: Observable<PlateformModel>;
   baseRouterLink = '/m/mymarket';
@@ -295,8 +295,8 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
   }
 
   getProductDetails() {
-    this.product = null;
-    this.get_productDetails = false;
+    // this.product = null;
+    this.loading_productDetails = false;
     this.merchantService
       .getProductDetails(this.selectedProduct.id)
       .pipe(takeUntil(this.onDestroy$))
@@ -314,9 +314,10 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
             stockable: this.product.is_stockable,
             incognito: this.product.incognito_mode,
           });
-          this.get_productDetails = true;
+          this.loading_productDetails = true;
         },
         error: err => {
+          this.loading_productDetails = false;
           console.log(err);
         },
       });
@@ -347,7 +348,7 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
   }
 
   updateProductInfo() {
-    this.get_productDetails = false;
+    this.loading_productDetails = false;
     this.dialogService.dispatchLoading();
     this.isLoading = true;
     const selectedFieldNames = this.getSelectedFieldNames();
@@ -380,7 +381,7 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
             message: response.object.response_message,
           });
         } else {
-          this.get_productDetails = false;
+          this.loading_productDetails = false;
           this.getProductDetails();
           this.getMerchantProducts();
           this.selectedMenu = 'details';
