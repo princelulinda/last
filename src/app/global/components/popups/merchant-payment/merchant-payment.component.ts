@@ -1,7 +1,7 @@
-import { Component, effect, AfterViewInit } from '@angular/core';
+import { Component, effect, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import {
   ConfigService,
@@ -33,7 +33,9 @@ import { CategoryMerchantsComponent } from '../../../../components/dev/merchant-
   templateUrl: './merchant-payment.component.html',
   styleUrl: './merchant-payment.component.scss',
 })
-export class MerchantPaymentComponent implements AfterViewInit {
+export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
+  private onDestroy$: Subject<void> = new Subject<void>();
+
   private merchantPaymentDialog: HTMLDialogElement | null = null;
   paymentData: {
     active: boolean;
@@ -82,14 +84,25 @@ export class MerchantPaymentComponent implements AfterViewInit {
 
   getMerchantDetails(merchantId: number) {
     this.loadingMerchantDetails = true;
-    this.merchantService.getMerchantsDetails(merchantId).subscribe({
-      next: () => {
-        this.loadingMerchantDetails = false;
-      },
-      error: () => {
-        this.loadingMerchantDetails = false;
-      },
-    });
+    this.merchantService
+      .getMerchantsDetails(merchantId)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          this.merchantDetails = response.object;
+          this.loadingMerchantDetails = false;
+        },
+        error: err => {
+          this.dialogService.openToast({
+            message:
+              err?.object?.response_message ??
+              $localize`Something went wrong please retry again !`,
+            title: '',
+            type: 'failed',
+          });
+          this.loadingMerchantDetails = false;
+        },
+      });
   }
 
   closeMerchantPaymentDialog() {
@@ -107,5 +120,10 @@ export class MerchantPaymentComponent implements AfterViewInit {
     this.merchantPaymentDialog = document.getElementById(
       'merchant-payment'
     ) as HTMLDialogElement;
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

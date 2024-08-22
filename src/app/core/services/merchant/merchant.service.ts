@@ -21,6 +21,7 @@ import {
   MerchantAutocompleteModel,
   MerchantCategoriesModel,
   MerchantInfoModel,
+  MerchantModel,
   MerchantStatsModel,
   newTellerModel,
   searchTellerModel,
@@ -132,10 +133,10 @@ export class MerchantService {
     );
   }
 
-  getMerchantsDetails(id: number): Observable<{ object: MerchantInfoModel }> {
+  getMerchantsDetails(id: number): Observable<{ object: MerchantModel }> {
     const url = `/dbs/merchant/manage/${id}/`;
     return this.apiService
-      .get<{ object: MerchantInfoModel }>(url)
+      .get<{ object: MerchantModel }>(url)
       .pipe(map(data => data));
   }
 
