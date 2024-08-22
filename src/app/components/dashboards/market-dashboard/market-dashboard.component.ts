@@ -98,6 +98,7 @@ export class MarketDashboardComponent implements OnInit {
   // payment: any;
   offerData: BestOfferModel[] = [];
   first2: BestOfferModel[] = [];
+  seeMore = false;
 
   constructor(private merchantService: MerchantService) {
     // private store: Store

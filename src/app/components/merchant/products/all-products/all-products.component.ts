@@ -58,7 +58,7 @@ export class AllProductsComponent implements OnInit {
   productsNumber = 0;
   productPagination: Pagination = {
     filters: {
-      limit: 12,
+      limit: 10,
       offset: 0,
     },
   };

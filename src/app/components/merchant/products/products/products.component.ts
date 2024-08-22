@@ -79,9 +79,6 @@ export class ProductsComponent implements OnInit {
       },
     });
     this.getFavoriteProducts('');
-    // this.variableService.isFavorite$.subscribe(() => {
-    //   this.getFavoriteProducts('');
-    // });
   }
   addItemQuantity() {
     this.itemQuantity = this.itemQuantity + 1;
