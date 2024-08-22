@@ -5,9 +5,9 @@
         class="justify-content-center bg-white lg-radius shadow-sm position-relative overflow-hidden cardSize">
         <div class="col-12 h-100 d-flex flex-column">
           <!-- NOTE :: MAKE OR REVOKE FAVORITE SECTION -->
-          @if (!disabledFavoriteAction) {
-            <div class="row">
-              <div class="position-relative">
+          <div class="row">
+            <div class="position-relative">
+              @if (!disabledFavoriteAction) {
                 <section
                   class="position-absolute bg-white rounded-circle border z-3 end-0 me-3 mt-2 p-1 d-flex px-2"
                   role="button"
@@ -40,32 +40,33 @@
                     ></span>
                   }
                 </section>
-                @if (product.lookup_image) {
-                  <div>
-                    <img [src]="product.lookup_title" alt="product image" />
-                  </div>
-                } @else if (product && !product.lookup_image) {
-                  <div class="bg-secondary">
-                    <span class="d-flex justify-content-center">
-                      <i
-                        class="fa-solid fa-mountain-sun fa-3x my-5 text-secondary"></i>
-                    </span>
-                  </div>
-                }
-
-                <!-- NOTE :: Price -->
-                @if (product.price) {
-                  <span
-                    class="position-absolute fs-small px-1 text-primary bottom-0 start-1"
-                    [ngClass]="
-                      currentMode === 'light' ? 'priceBGLight' : 'priceBGDark'
-                    ">
-                    {{ product.price }} BIF
+              }
+              @if (product.lookup_image) {
+                <div>
+                  <img [src]="product.lookup_title" alt="product image" />
+                </div>
+              } @else if (product && !product.lookup_image) {
+                <div class="bg-secondary">
+                  <span class="d-flex justify-content-center">
+                    <i
+                      class="fa-solid fa-mountain-sun fa-3x my-5 text-secondary"></i>
                   </span>
-                }
-              </div>
+                </div>
+              }
+
+              <!-- NOTE :: Price -->
+              @if (product.price) {
+                <span
+                  class="position-absolute fs-small px-1 text-primary bottom-0 start-1"
+                  [ngClass]="
+                    currentMode === 'light' ? 'priceBGLight' : 'priceBGDark'
+                  ">
+                  {{ product.price }} BIF
+                </span>
+              }
             </div>
-          }
+          </div>
+
           <div
             class="d-flex flex-column justify-content-end row flex-grow-1 overflow-hidden position-relative p-1">
             <div class="ms-0 d-flex flex-row justify-content-between">
@@ -94,41 +95,29 @@
     }
 
     @if (type === 'row') {
-      <div class="d-flex mb-4">
-        <div class="col-auto m-0 p-0">
+      <div class="d-flex">
+        <div class="product-profile bg-secondary lg-radius shadow-sm">
           @if (product.lookup_image) {
-            <div>
-              <img [src]="product.lookup_title" alt="product image" />
-            </div>
-          } @else if (
-            product && !product.lookup_icon && !product.lookup_image
-          ) {
-            <div
-              class="bg-secondary lg-radius shadow-sm position-relative"
-              style="height: 80px; width: 80px">
-              <span class="d-flex justify-content-center">
-                <i
-                  class="fa-solid fa-mountain-sun fa-2x mt-4 text-secondary"></i>
-              </span>
-            </div>
+            <img
+              [src]="product.lookup_image"
+              alt="{{ product.lookup_title }} Profile" />
+          } @else {
+            <span class="d-flex justify-content-center">
+              <i class="fa-solid fa-mountain-sun fa-2x mt-4 text-secondary"></i>
+            </span>
           }
         </div>
-        <div class="col-7 m-0 p-0 ms-auto">
-          <p
-            i18n
-            title="{{ product.lookup_title }}"
-            class="d-flex flex-column p-0 m-0 ms-2">
-            <b class="fs-5 text-truncate">{{ product.lookup_title }}</b>
-            <small class="text-truncate">{{ product.lookup_subtitle }}</small>
-            <small class="text-truncate">{{
-              product.lookup_description
-            }}</small>
-            @if (product.price) {
-              <span class="fs-small fw-bold text-primary">
-                {{ product.price }} BIF
-              </span>
-            }
-          </p>
+        <div class="ms-3 d-flex flex-column me-2">
+          <b class="fs-medium text-truncate">{{ product.lookup_title }}</b>
+          <span class="text-truncate text-secondary">{{
+            product.lookup_subtitle
+          }}</span>
+          <small class="text-truncate">{{ product.lookup_description }}</small>
+          @if (product.price) {
+            <span class="fs-small fw-bold text-primary">
+              {{ product.price }} BIF
+            </span>
+          }
         </div>
       </div>
     }

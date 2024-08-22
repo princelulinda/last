@@ -1,16 +1,17 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 import { MerchantService } from '../../../../core/services/merchant/merchant.service';
 import {
   ApiService,
   AuthService,
   ConfigService,
 } from '../../../../core/services';
-import { Pagination } from '../../../../core/services/merchant/model';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import {
   AllProductAutocompleteModel,
@@ -20,6 +21,7 @@ import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
 import { ProductCardComponent } from '../../global/product-card/product-card.component';
 import { MerchantModel } from '../../merchant.models';
+import { PaginationConfig } from '../../../../global/models/pagination.models';
 
 @Component({
   selector: 'app-all-products',
@@ -56,7 +58,7 @@ export class AllProductsComponent implements OnInit {
   response_data = 0;
   loader = false;
   productsNumber = 0;
-  productPagination: Pagination = {
+  productPagination: PaginationConfig = {
     filters: {
       limit: 10,
       offset: 0,
@@ -105,10 +107,7 @@ export class AllProductsComponent implements OnInit {
             (this.products as ProductAutocompleteModel[]) = data.objects;
             this.response_data = data.count;
             this.pages = Math.round(this.response_data / 6);
-            if (
-              this.response_data >
-              parseInt(this.productPagination.filters!.limit as string)
-            ) {
+            if (this.response_data > this.productPagination.filters!.limit) {
               this.canMoveToNext = true;
               this.loader = true;
             }
@@ -170,10 +169,8 @@ export class AllProductsComponent implements OnInit {
     }
     // action === 'next' ? this.activePage++ : this.activePage--;
     if (this.activePage >= 1 && this.activePage <= this.pages) {
-      const _offset = (
-        parseInt(this.productPagination.filters?.limit as string) *
-        (this.activePage - 1)
-      ).toString();
+      const _offset =
+        this.productPagination.filters?.limit * (this.activePage - 1);
       this.productPagination.filters!.offset = _offset;
       if (action === 'next') {
         this.getAllProducts(this.search);
@@ -184,7 +181,7 @@ export class AllProductsComponent implements OnInit {
       this.canMoveToPrevious = true;
     }
     if (this.activePage - 1 < 1) {
-      this.productPagination.filters!.offset = '';
+      this.productPagination.filters!.offset = 0;
       this.canMoveToPrevious = false;
       this.canMoveToNext = false;
     } else if (this.activePage + 1 > this.pages) {

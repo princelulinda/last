@@ -1,4 +1,5 @@
 import { bankModel } from '../../core/db/models/bank/bank.model';
+import { MerchantModel } from '../merchant/merchant.models';
 
 export interface BillersModel {
   id: string;
@@ -19,12 +20,6 @@ export interface objectsModel {
 
 export interface objectModel {
   object: BillersModel;
-}
-
-export interface MerchantModel {
-  code: string;
-  id: number;
-  merchant_title: string;
 }
 
 export interface MerchantLookup {

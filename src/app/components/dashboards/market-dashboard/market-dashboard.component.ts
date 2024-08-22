@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { ProductCardComponent } from '../../merchant/global/product-card/product-card.component';
@@ -30,7 +30,7 @@ import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
   templateUrl: './market-dashboard.component.html',
   styleUrl: './market-dashboard.component.scss',
 })
-export class MarketDashboardComponent implements OnInit {
+export class MarketDashboardComponent implements OnInit, OnDestroy {
   newArrivalInfo = [
     {
       id: '1',
@@ -427,8 +427,8 @@ export class MarketDashboardComponent implements OnInit {
   //     this.payMerchant = null;
   //     this.category = { sector: sector, category: category };
   // }
-  // ngOnDestroy(): void {
-  //     this.onDestroy$.next();
-  //     this.onDestroy$.complete();
-  // }
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
 }

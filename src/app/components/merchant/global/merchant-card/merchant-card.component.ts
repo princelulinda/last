@@ -10,7 +10,6 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 
 import { objectModel } from '../../../dashboards/dashboard.model';
-import { Favorite } from '../../../../core/services/merchant/model';
 import { MerchantService } from '../../../../core/services';
 import { MerchantPaymentComponent } from '../../../dev/merchant-payment/merchant-payment.component';
 import { MerchantAutocompleteModel } from '../../merchant.models';
@@ -54,7 +53,7 @@ export class MerchantCardComponent implements OnDestroy {
   makeFavoriteMerchants(favorite: MerchantAutocompleteModel, event: Event) {
     this.isLoading = true;
     event.stopPropagation();
-    let body!: Favorite;
+    let body!: { merchant: string; merchant_action: string };
     if (!favorite.is_favorite_merchant) {
       body = {
         merchant: favorite.id.toString(),
