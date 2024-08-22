@@ -75,6 +75,7 @@ export class ProductConfigComponent implements OnInit {
   searchType: EmptyStateModel = 'product';
   searchTypeOther: EmptyStateModel = 'other';
   imageClass = 'image';
+  disabledFavoriteAction = true;
 
   plateform$!: Observable<PlateformModel>;
   baseRouterLink = '/m/mymarket';

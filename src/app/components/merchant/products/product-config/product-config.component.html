@@ -122,7 +122,11 @@
       <div class="row flex-wrap">
         @for (product of products; track $index) {
           <div class="mb-3 col-auto">
-            <app-product-card [product]="product"></app-product-card>
+            <app-product-card
+              [product]="product"
+              [disabledFavoriteAction]="
+                disabledFavoriteAction
+              "></app-product-card>
           </div>
         }
       </div>

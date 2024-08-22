@@ -5,9 +5,10 @@
         class="justify-content-center bg-white lg-radius shadow-sm position-relative h-100 overflow-hidden cardSize">
         <div class="col-12 h-100 d-flex flex-column">
           <!-- NOTE :: MAKE OR REVOKE FAVORITE SECTION -->
-          @if (!disabledFavoriteAction) {
-            <div class="row">
-              <div class="position-relative">
+
+          <div class="row">
+            <div class="position-relative">
+              @if (!disabledFavoriteAction) {
                 <section
                   class="position-absolute bg-white rounded-circle border z-3 end-0 me-3 mt-2 p-1 d-flex px-2"
                   role="button"
@@ -40,32 +41,33 @@
                     ></span>
                   }
                 </section>
-                @if (product.lookup_image) {
-                  <div>
-                    <img [src]="product.lookup_title" alt="product image" />
-                  </div>
-                } @else if (product && !product.lookup_image) {
-                  <div class="bg-secondary">
-                    <span class="d-flex justify-content-center">
-                      <i
-                        class="fa-solid fa-mountain-sun fa-3x my-5 text-secondary"></i>
-                    </span>
-                  </div>
-                }
-
-                <!-- NOTE :: Price -->
-                @if (product.price) {
-                  <span
-                    class="position-absolute fs-small px-1 text-primary bottom-0 start-1"
-                    [ngClass]="
-                      currentMode === 'light' ? 'priceBGLight' : 'priceBGDark'
-                    ">
-                    {{ product.price }} BIF
+              }
+              @if (product.lookup_image) {
+                <div>
+                  <img [src]="product.lookup_title" alt="product image" />
+                </div>
+              } @else if (product && !product.lookup_image) {
+                <div class="bg-secondary">
+                  <span class="d-flex justify-content-center">
+                    <i
+                      class="fa-solid fa-mountain-sun fa-3x my-5 text-secondary"></i>
                   </span>
-                }
-              </div>
+                </div>
+              }
+
+              <!-- NOTE :: Price -->
+              @if (product.price) {
+                <span
+                  class="position-absolute fs-small px-1 text-primary bottom-0 start-1"
+                  [ngClass]="
+                    currentMode === 'light' ? 'priceBGLight' : 'priceBGDark'
+                  ">
+                  {{ product.price }} BIF
+                </span>
+              }
             </div>
-          }
+          </div>
+
           <div
             class="d-flex flex-column justify-content-end row flex-grow-1 overflow-hidden position-relative p-1">
             <div class="ms-0 d-flex flex-row justify-content-between">
