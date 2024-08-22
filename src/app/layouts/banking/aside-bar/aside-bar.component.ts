@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { Observable, takeUntil, Subject } from 'rxjs';
 
@@ -12,8 +13,6 @@ import {
   MerchantService,
 } from '../../../core/services';
 import { PlateformModel } from '../../../core/services/config/main-config.models';
-import { CommonModule } from '@angular/common';
-import { Pagination } from '../../../core/services/merchant/model';
 import {
   AllProductAutocompleteModel,
   ProductAutocompleteModel,
@@ -22,6 +21,7 @@ import {
 } from '../../../components/merchant/products/products.model';
 import { ProductCardComponent } from '../../../components/merchant/global/product-card/product-card.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { PaginationConfig } from '../../../global/models/pagination.models';
 
 @Component({
   selector: 'app-aside-bar',
@@ -50,7 +50,7 @@ export class AsideBarComponent implements OnInit {
   response_data = 0;
   loader = false;
   productsNumber = 0;
-  pagination: Pagination = {
+  pagination: PaginationConfig = {
     filters: {
       limit: 3,
       offset: 0,

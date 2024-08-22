@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, map, Observable, retry } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
 import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
-import { Favorite, Pagination } from './model';
 import { DoMerchantTransferResponseModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import { DoMerchantTransferModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import {
@@ -29,8 +28,8 @@ import {
   SectorActivityModel,
   updateMerchantDetailsModel,
 } from '../../../components/merchant/merchant.models';
-import { TransferResponseModel } from '../../../components/transfer/transfer.model';
 import { Coords2Model } from '../../../global/components/google-map/map.model';
+import { PaginationConfig } from '../../../global/models/pagination.models';
 
 @Injectable({
   providedIn: 'root',
@@ -65,73 +64,30 @@ export class MerchantService {
   }
 
   getMerchantList() {
-    return this.apiService.get('/dbs/merchant/list/?').pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService.get('/dbs/merchant/list/').pipe(map(data => data));
   }
-  // private _coords: BehaviorSubject<any> = new BehaviorSubject<[] | null>(null);
-  // get coords$(): Observable<[]> {
-  //     return this._coords.asObservable();
-  // }
-  // getUserCoords(coords: string) {
-  //     this._coords.next(coords);
-  //     console.log('coords', coords);
-  // }
-  // getMerchants(data: any) {
-  //     const url = `/dbs/merchant/manage/?limit=${data.limit}&offset=${data.offset}`;
-  //     return this.apiService.get(url).pipe(
-  //         // retry({ count: 5, delay: 3000, resetOnSuccess: true }),
-  //         map((data) => {
-  //             return data;
-  //         })
-  //     );
-  // }
 
   getRecentMerchantsAutocomplete(search?: string) {
-    const url =
-      '/dbs/merchant/manage/objects_autocomplete/?search=' +
-      search +
-      '&is_recent=true';
-    return this.apiService.get(url).pipe(
-      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
-      map(data => {
-        return data;
-      })
-    );
+    const url = `/dbs/merchant/manage/objects_autocomplete/?search=${search}&is_recent=true`;
+    return this.apiService.get(url).pipe(map(data => data));
   }
-  //needed in market-dashboard
+
   getFavoriteMerchantsAutocomplete(search: string) {
-    const url =
-      '/dbs/merchant/manage/objects_autocomplete/?search=' +
-      search +
-      '&is_favorite=true';
-    return this.apiService.get(url).pipe(
-      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
-      map(data => {
-        return data;
-      })
-    );
+    const url = `/dbs/merchant/manage/objects_autocomplete/?search='${search}&is_favorite=true`;
+    return this.apiService.get(url).pipe(map(data => data));
   }
-  //needed in market-dashboard
-  makeFavoriteMerchants(favorite: Favorite) {
+
+  makeFavoriteMerchants(favorite: {
+    merchant: string;
+    merchant_action: string;
+  }) {
     const url = '/dbs/merchant-client/favorite/';
-    return this.apiService.post(url, favorite).pipe(
-      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService.post(url, favorite).pipe(map(data => data));
   }
+
   doBillAction(body: []) {
     const url = '/dbs/merchant/bill/action/perform/';
-    return this.apiService.post(url, body).pipe(
-      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService.post(url, body).pipe(map(data => data));
   }
 
   getMerchantsDetails(id: number): Observable<{ object: MerchantModel }> {
@@ -398,7 +354,7 @@ export class MerchantService {
       '';
     return this.apiService.get(apiUrl).pipe(map(data => data));
   }
-  searchProduct(pagination: Pagination = {}, search = '') {
+  searchProduct(pagination: PaginationConfig, search = '') {
     let pagination_!: string;
     if (pagination.filters) {
       pagination_ =
@@ -522,7 +478,7 @@ export class MerchantService {
       .pipe(map(response => response));
   }
 
-  getBills(pagination: Pagination, dataType = 'all') {
+  getBills(pagination: PaginationConfig, dataType = 'all') {
     if (!pagination) {
       pagination = { filters: { limit: 0, offset: 0 } };
     }
@@ -548,25 +504,11 @@ export class MerchantService {
     return this.apiService.get<paymentBillsModel>(url).pipe(map(data => data));
   }
 
-  getBillsReportCount() {
-    const url = '/dbs/merchant/bills/?report=true&limit=1&offset=0';
-    return this.apiService
-      .get<paymentBillsModel>(url)
-      .pipe(map((data: paymentBillsModel) => data.count));
-  }
   generateBill(body: object) {
     const url = '/dbs/merchant/bill-init/';
     return this.apiService
       .post<ObjectBillModel>(url, body)
       .pipe(map(response => response));
-  }
-
-  getPaymentReportCount() {
-    const url =
-      '/operations/pending/logic/?req_type=merchant_transfers&limit=1&offset=0';
-    return this.apiService
-      .get<paymentBillsModel>(url)
-      .pipe(map((data: paymentBillsModel) => data.count));
   }
 
   getTopProducts() {
@@ -580,26 +522,15 @@ export class MerchantService {
   }
 
   getFavoriteProductAutocomplete(search: string) {
-    const url =
-      '/dbs/merchant-product/objects_autocomplete/?' +
-      search +
-      '&is_favorite_product=true';
-    return this.apiService.get<AllProductAutocompleteModel>(url).pipe(
-      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
-      map(data => {
-        return data;
-      })
-    );
+    const url = `/dbs/merchant-product/objects_autocomplete/?search=${search}&is_favorite_product=true`;
+    return this.apiService
+      .get<AllProductAutocompleteModel>(url)
+      .pipe(map(data => data));
   }
 
   makeFavoriteProduct(favorite: ProductFavoriteModel) {
     const url = '/dbs/merchant-product/client/favorite/ ';
-    return this.apiService.post(url, favorite).pipe(
-      retry({ count: 5, delay: 3000, resetOnSuccess: true }),
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService.post(url, favorite).pipe(map(data => data));
   }
 
   MerchantPayment(
@@ -611,10 +542,9 @@ export class MerchantService {
       .pipe(map(response => response as DoMerchantTransferResponseModel));
   }
 
-  merchantCashin(data: object): Observable<TransferResponseModel> {
-    const url = '/dbs/merchant/cashin/';
+  doMerchantSimplePayment(data: object) {
     return this.apiService
-      .post(url, data)
-      .pipe(map(data => data as TransferResponseModel));
+      .post<ObjectBillModel>('/dbs/merchant/simple/payment/', data)
+      .pipe(map(data => data));
   }
 }
