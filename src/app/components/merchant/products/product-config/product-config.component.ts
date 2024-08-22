@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject, Observable, takeUntil } from 'rxjs';
 
@@ -40,6 +40,7 @@ import { MerchantModel } from '../../merchant.models';
   styleUrl: './product-config.component.scss',
 })
 export class ProductConfigComponent implements OnInit {
+  @Output() get_selectedProduct = new EventEmitter<ProductAutocompleteModel>();
   merchant!: MerchantModel;
   clientId!: number;
   private onDestroy$: Subject<void> = new Subject<void>();
@@ -76,6 +77,7 @@ export class ProductConfigComponent implements OnInit {
   searchTypeOther: EmptyStateModel = 'other';
   imageClass = 'image';
   disabledFavoriteAction = true;
+  get_productDetails = false;
 
   plateform$!: Observable<PlateformModel>;
   baseRouterLink = '/m/mymarket';
@@ -218,6 +220,7 @@ export class ProductConfigComponent implements OnInit {
   }
 
   selectProduct(product: ProductAutocompleteModel) {
+    this.get_selectedProduct.emit(product);
     this.selectedProduct = product;
 
     this.selectedMenu = 'details';
@@ -286,6 +289,7 @@ export class ProductConfigComponent implements OnInit {
 
   getProductDetails() {
     // this.product = undefined;
+    this.get_productDetails = false;
     this.merchantService
       .getMerchantsProductsDetails(this.selectedProduct.id)
       .subscribe(response => {
@@ -303,6 +307,7 @@ export class ProductConfigComponent implements OnInit {
           stockable: this.product.is_stockable,
           incognito: this.product.incognito_mode,
         });
+        this.get_productDetails = true;
       });
   }
 
@@ -331,6 +336,7 @@ export class ProductConfigComponent implements OnInit {
   }
 
   updateProductInfo() {
+    this.get_productDetails = false;
     this.dialogService.dispatchLoading();
     this.isLoading = true;
     const selectedFieldNames = this.getSelectedFieldNames();
@@ -357,30 +363,31 @@ export class ProductConfigComponent implements OnInit {
           this.dialogService.openToast({
             title: 'failed',
             type: 'failed',
-            message: 'Failed, please try again',
+            message: response.object.response_message,
           });
         } else {
+          this.get_productDetails = false;
           this.getProductDetails();
           this.getMerchantProducts();
           this.selectedMenu = 'details';
           this.dialogService.openToast({
             title: 'success',
             type: 'success',
-            message: 'Updated successfully',
+            message: response.object.response_message,
           });
         }
       },
-      error: error => {
+      error: err => {
         this.isLoading = false;
-
-        const data = {
-          title: 'failure',
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          title: '',
           type: 'failed',
           message:
-            error?.object.response_message ?? 'Failed to update product info ',
-        };
+            err?.error?.object.response_message ??
+            'Failed to update product info ',
+        });
         // this.store.dispatch(new OpenDialog(data));
-        console.log(data);
       },
     });
   }
