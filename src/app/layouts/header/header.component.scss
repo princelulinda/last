@@ -12,3 +12,23 @@
   width: 40px;
   height: 40px;
 }
+@keyframes slidein {
+  from {
+      transform: translateX(100%);
+  }
+
+  to {
+      transform: translateX(0%);
+  }
+}
+
+.plateform-card{
+  height: calc(100vh - 70px);
+  animation: slidein 120ms 1 linear;
+
+    -webkit-animation: slidein 120ms 1 linear;
+  min-width: 328px;
+}
+.plateform{
+  border-width:10px !important;;
+}

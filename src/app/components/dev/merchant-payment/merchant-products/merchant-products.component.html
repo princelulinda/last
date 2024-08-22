@@ -26,7 +26,11 @@
     <div class="row flex-wrap gap-4">
       @for (product of products; track $index) {
         <div class="col-auto">
-          <app-product-card [product]="product"></app-product-card>
+          <app-product-card
+            (selectedProductEvent)="setSelectedProduct($event)"
+            action="output"
+            [disabledFavoriteAction]="true"
+            [product]="product"></app-product-card>
         </div>
       }
     </div>

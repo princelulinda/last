@@ -1,6 +1,7 @@
-import { tellerObjectModel } from '../merchant.models';
+import { MerchantModel, tellerObjectModel } from '../merchant.models';
 import { MerchantBillModel } from '../../../core/services/dialog/dialogs-models';
 import { ClientModel } from '../../../core/db/models/auth';
+import { MetadataModel } from '../../metadatas/metadata.model';
 
 export interface ProductAutocompleteModel {
   id: number;
@@ -187,34 +188,6 @@ export interface updateProdcutInfoModel {
   pin_code: string;
 }
 
-export interface ProductConfigObjectsModel {
-  objects: productConfigModel[];
-}
-
-export interface productConfigModel {
-  id: number;
-  product: number;
-  merchant: number;
-  action: string[];
-  price: number;
-  name: string;
-  minimun_payment_amount: number;
-  maximum_payment_amount: number;
-  metadata: number[];
-  pin_code: string;
-  mininun_payment_amount: number;
-  accepts_cart: boolean;
-  is_stockable: boolean;
-  incognito_mode: boolean;
-  voucher_type: string;
-
-  object: productConfigModel;
-  lookup_icon: string;
-  lookup_title: string;
-  lookup_subtitle: string;
-  icon: string;
-}
-
 export interface searchProductByMerchantModel {
   merchant: string | number;
   search: string | null;
@@ -248,4 +221,35 @@ export interface FavoriteModel {
     };
     response_message: string;
   };
+}
+
+export interface ProductModel {
+  id: number;
+  slug: string;
+  name: string;
+  merchant: MerchantModel;
+  short_description: string;
+  icon: string | null;
+  price: string | null;
+  is_active: boolean;
+  lookup_first: boolean;
+  metadata: MetadataModel[];
+  lookup_metadata: [];
+  minimun_payment_amount: string;
+  maximum_payment_amount: string;
+  is_favorite_product: boolean;
+  voucher_type: 'P' | 'L';
+  accepts_multiple_payment: boolean;
+  main_picture: string | null;
+  gallery_pictures: [];
+  product_visibility: string[];
+  commissions_rate: string;
+  fixed_commissions: string;
+  commissions_by_merchant: boolean;
+  has_api: boolean;
+  custom_component: string | null;
+  accepts_cart: boolean;
+  isolated_card: boolean;
+  is_stockable: boolean;
+  incognito_mode: boolean;
 }

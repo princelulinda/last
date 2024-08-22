@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Subject, takeUntil } from 'rxjs';
@@ -28,6 +35,8 @@ export class MerchantProductsComponent implements OnInit, OnDestroy {
   products: ProductAutocompleteModel[] = [];
   isLoading = true;
 
+  @Output() selectedProductEvent = new EventEmitter<ProductAutocompleteModel>();
+
   constructor(private merchantService: MerchantService) {}
 
   ngOnInit() {
@@ -47,6 +56,11 @@ export class MerchantProductsComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         },
       });
+  }
+
+  setSelectedProduct(product: ProductAutocompleteModel) {
+    console.log(product);
+    this.selectedProductEvent.emit(product);
   }
 
   ngOnDestroy() {
