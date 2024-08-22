@@ -1,8 +1,8 @@
 @if (biller) {
   <div class="">
     <div class="">
-      <div class="border sm-radius">
-        <div class="row">
+      <div class="border sm-radius biller-card w-100">
+        <div class=" ">
           <div class="position-relative">
             <div class="bg-input m-1 sm-radius">
               <!-- @if (!disabledFavoriteAction) {
@@ -40,22 +40,22 @@
                   </section>
                 } -->
 
-              @if (biller.lookup_image) {
-                <div class="col-12 imgHeight">
+              <div
+                class="image-section d-flex justify-content-center align-items-center sm-radius flex-grow-1">
+                @if (biller.lookup_image) {
                   <img
                     src="{{ biller.lookup_image }}"
-                    class="z-3 w-100 h-100 object-fit-cover sm-radius position-relative"
+                    class="z-3 image object-fit-cover position-relative"
                     alt="billerImg" />
-                </div>
-                <div class="z-2 clip-path bg-input"></div>
-              } @else {
-                <span class="d-flex justify-content-center">
-                  <i
-                    class="fa-solid fa-box-open fa-5x mt-4 mb-3"
-                    style="color: #ffffff"></i>
-                </span>
-                <div class="z-3 clip-path bg-input"></div>
-              }
+
+                  <div class="z-2 clip-path bg-input"></div>
+                } @else {
+                  <span class="text-all-white">
+                    <i class="fa-solid fa-box-open fa-5x"></i>
+                  </span>
+                  <div class="z-3 clip-path bg-input"></div>
+                }
+              </div>
             </div>
           </div>
         </div>

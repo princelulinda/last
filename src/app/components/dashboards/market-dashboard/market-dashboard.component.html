@@ -472,7 +472,7 @@
       @if (!products) {
         <div class="row ms-2">
           @for (items of [1, 2, 3, 4]; track $index) {
-            <div class="col-lg-3 col-md-2 col-sm-4 col mb-2">
+            <div class="col-6 col-sm-4 col-xl-3 mb-2">
               <app-skeleton
                 height="140px"
                 width="170px"
@@ -497,7 +497,7 @@
       } @else {
         <div class="row">
           @for (product of products; track $index) {
-            <div class="col-3">
+            <div class="col-5 col-sm-4 col-md-3 col-lg-4 col-xl-3">
               <app-product-card [product]="product"></app-product-card>
             </div>
           }
@@ -559,7 +559,7 @@
 
     @if (billers) {
       <div
-        class="row d-flex justify-content-center w-100 d-md-flex justify-content-sm-start">
+        class="row d-flex justify-content-center d-md-flex justify-content-sm-start">
         @for (biller of recentBillers; track $index) {
           <div class="col-5 col-sm-4 col-md-3 col-lg-4 col-xl-3 mb-2">
             <div class="w-100">
@@ -575,7 +575,7 @@
       <div>
         <div class="row ms-2">
           @for (item of [1, 2, 3, 4]; track $index) {
-            <div class="col-lg-3 col-md-2 col-sm-4 col mb-2">
+            <div class="col-6 col-sm-4 col-xl-3 mb-2">
               <app-skeleton
                 height="140px"
                 width="170px"
@@ -684,7 +684,7 @@
       @if (!merchants) {
         <div class="row ms-2 merchant">
           @for (item of [1, 2, 3, 4]; track $index) {
-            <div class="col-lg-3 col-md-2 col-sm-4 col mb-2">
+            <div class="col-6 col-sm-4 col-xl-3 mb-2">
               <app-skeleton
                 height="140px"
                 width="170px"
