@@ -15,6 +15,7 @@ import {
   ProductFavoriteModel,
   ProductAutocompleteModel,
   ProductModel,
+  ProductLookupBodyModel,
 } from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
@@ -311,11 +312,7 @@ export class MerchantService {
     const url = '/dbs/merchant-category/?merchant_activity_sector=' + id;
     return this.apiService
       .get<{ objects: MerchantCategoriesModel[]; count: number }>(url)
-      .pipe(
-        map(data => {
-          return data;
-        })
-      );
+      .pipe(map(data => data));
   }
   getCategoryMerchants(
     categoryId: number
@@ -325,14 +322,12 @@ export class MerchantService {
       .get<{ objects: MerchantAutocompleteModel[]; count: number }>(url)
       .pipe(map(data => data));
   }
-  getMerchantProductLookup(lookupData: []) {
+
+  getMerchantProductLookup(lookupData: ProductLookupBodyModel) {
     const url = '/dbs/merchant/product/lookup/';
-    return this.apiService.post(url, lookupData).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService.post(url, lookupData).pipe(map(data => data));
   }
+
   payMerchant(paymentData: []) {
     const url = '/dbs/merchant/product/payment/';
     return this.apiService.post(url, paymentData).pipe(
@@ -341,6 +336,7 @@ export class MerchantService {
       })
     );
   }
+
   checkMerchantTitle(merchantName: string) {
     const apiUrl = `/dbs/merchant/verify-merchant-title/?merchant_title=${merchantName}`;
     return this.apiService.get(apiUrl).pipe(map(data => data));

@@ -17,14 +17,23 @@ import {
   MerchantCategoriesModel,
   MerchantModel,
 } from '../../../../components/merchant/merchant.models';
-import { ProductAutocompleteModel } from '../../../../components/merchant/products/products.model';
+import {
+  ProductAutocompleteModel,
+  ProductModel,
+} from '../../../../components/merchant/products/products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { MerchantProductsComponent } from '../../../../components/dev/merchant-payment/merchant-products/merchant-products.component';
 import { CategoryMerchantsComponent } from '../../../../components/dev/merchant-payment/category-merchants/category-merchants.component';
 import { ProductCardComponent } from '../../../../components/merchant/global/product-card/product-card.component';
 import { DebitAccountComponent } from '../../../../components/transfer/debit-account/debit-account.component';
 import { CreditAccountComponent } from '../../../../components/transfer/credit-account/credit-account.component';
-import { LookupComponent } from '../../lookups/lookup/lookup.component';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MetadataModel } from '../../../../components/metadatas/metadata.model';
 
 @Component({
   selector: 'app-merchant-payment',
@@ -36,7 +45,7 @@ import { LookupComponent } from '../../lookups/lookup/lookup.component';
     ProductCardComponent,
     DebitAccountComponent,
     CreditAccountComponent,
-    LookupComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './merchant-payment.component.html',
   styleUrl: './merchant-payment.component.scss',
@@ -61,7 +70,7 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
   loadingMerchantDetails = false;
   selectedMerchant: MerchantAutocompleteModel | null = null;
 
-  productDetails: unknown | null = null;
+  productDetails: ProductModel | null = null;
   selectedProduct: ProductAutocompleteModel | null = null;
   loadingProductDetails = false;
 
@@ -70,10 +79,13 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
 
   selectedPaymentMenu: 'Direct-Payment' | 'Product-Payment' | '' = '';
 
+  lookupMetadataForm: FormGroup = this.fb.group([]);
+
   constructor(
     private dialogService: DialogService,
     private configService: ConfigService,
-    private merchantService: MerchantService
+    private merchantService: MerchantService,
+    private fb: FormBuilder
   ) {
     this.theme$ = this.configService.getMode();
 
@@ -126,13 +138,43 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
       .getProductDetails(productId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: () => {
+        next: response => {
+          this.productDetails = response.object;
+          this.initLookupMetadataForm(this.productDetails.lookup_metadata);
           this.loadingProductDetails = false;
         },
         error: () => {
           this.loadingProductDetails = false;
         },
       });
+  }
+
+  initLookupMetadataForm(lookup_metadata: MetadataModel[]) {
+    let fields: Record<string, [string, Validators[]?]> = {};
+
+    for (const field of lookup_metadata) {
+      if (field.widget_attrs.required) {
+        fields = {
+          ...fields,
+          [field.field_name]: [
+            '',
+            [
+              Validators.required,
+              Validators.maxLength(field.widget_attrs.max_length),
+            ],
+          ],
+        };
+      } else {
+        fields = {
+          ...fields,
+          [field.field_name]: [
+            '',
+            [Validators.maxLength(field.widget_attrs.max_length)],
+          ],
+        };
+      }
+      this.lookupMetadataForm = this.fb.group(fields);
+    }
   }
 
   closeMerchantPaymentDialog() {

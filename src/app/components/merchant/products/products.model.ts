@@ -234,7 +234,7 @@ export interface ProductModel {
   is_active: boolean;
   lookup_first: boolean;
   metadata: MetadataModel[];
-  lookup_metadata: [];
+  lookup_metadata: MetadataModel[];
   minimun_payment_amount: string;
   maximum_payment_amount: string;
   is_favorite_product: boolean;
@@ -252,4 +252,10 @@ export interface ProductModel {
   isolated_card: boolean;
   is_stockable: boolean;
   incognito_mode: boolean;
+}
+
+export interface ProductLookupBodyModel {
+  merchant_product_id: number;
+  lookup_data: Record<string, string>;
+  lookup_extra_data: Record<string, string>;
 }

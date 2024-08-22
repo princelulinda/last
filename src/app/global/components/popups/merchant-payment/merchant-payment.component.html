@@ -218,9 +218,55 @@
             </span>
           </div>
           @if (!loadingProductDetails && productDetails) {
-            <div>
-              <app-lookup url="" label="Account" option="lookup"></app-lookup>
-            </div>
+            <form [formGroup]="lookupMetadataForm" class="py-4 col-3">
+              @if (productDetails.lookup_metadata.length === 1) {
+                <!-- NOTE :: ON ONLY ONE LOOKUP METADATA -->
+                <div>
+                  <div class="form-floating position-relative">
+                    <span
+                      class="position-absolute fs-medium text-secondary lookup-search-button">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input
+                      [type]="productDetails.lookup_metadata[0].field_type"
+                      [formGroupName]="
+                        productDetails.lookup_metadata[0].field_name
+                      "
+                      class="form-control"
+                      [id]="productDetails.lookup_metadata[0].field_name"
+                      [placeholder]="
+                        productDetails.lookup_metadata[0].field_name
+                      " />
+                    <label
+                      [for]="productDetails.lookup_metadata[0].field_name"
+                      class="text-capitalize"
+                      >{{ productDetails.lookup_metadata[0].field_name }}</label
+                    >
+                  </div>
+                </div>
+              } @else if (productDetails.lookup_metadata.length > 1) {
+                @for (item of productDetails.lookup_metadata; track $index) {
+                  <div class="mb-3">
+                    <div class="form-floating">
+                      <input
+                        [type]="item.field_type"
+                        [formGroupName]="item.field_name"
+                        class="form-control"
+                        [id]="item.field_name"
+                        [placeholder]="item.field_name" />
+                      <label [for]="item.field_name" class="text-capitalize">{{
+                        item.field_name
+                      }}</label>
+                    </div>
+                  </div>
+                }
+                <div class="text-center">
+                  <button class="btn bg-primary px-5 text-all-white" i18n>
+                    Search
+                  </button>
+                </div>
+              }
+            </form>
           }
         }
       }
