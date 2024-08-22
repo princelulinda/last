@@ -286,7 +286,7 @@ export class ProductConfigComponent implements OnInit {
   getProductDetails() {
     // this.product = undefined;
     this.merchantService
-      .getMerchantsProductsDetails(this.selectedProduct.id)
+      .getProductDetails(this.selectedProduct.id)
       .subscribe(response => {
         const product = response as { object: productConfigModel };
 

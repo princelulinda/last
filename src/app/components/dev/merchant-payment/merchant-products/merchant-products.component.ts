@@ -59,6 +59,7 @@ export class MerchantProductsComponent implements OnInit, OnDestroy {
   }
 
   setSelectedProduct(product: ProductAutocompleteModel) {
+    console.log(product);
     this.selectedProductEvent.emit(product);
   }
 

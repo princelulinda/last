@@ -21,6 +21,9 @@ import { ProductAutocompleteModel } from '../../../../components/merchant/produc
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { MerchantProductsComponent } from '../../../../components/dev/merchant-payment/merchant-products/merchant-products.component';
 import { CategoryMerchantsComponent } from '../../../../components/dev/merchant-payment/category-merchants/category-merchants.component';
+import { ProductCardComponent } from '../../../../components/merchant/global/product-card/product-card.component';
+import { DebitAccountComponent } from '../../../../components/transfer/debit-account/debit-account.component';
+import { CreditAccountComponent } from '../../../../components/transfer/credit-account/credit-account.component';
 
 @Component({
   selector: 'app-merchant-payment',
@@ -29,6 +32,9 @@ import { CategoryMerchantsComponent } from '../../../../components/dev/merchant-
     CommonModule,
     MerchantProductsComponent,
     CategoryMerchantsComponent,
+    ProductCardComponent,
+    DebitAccountComponent,
+    CreditAccountComponent,
   ],
   templateUrl: './merchant-payment.component.html',
   styleUrl: './merchant-payment.component.scss',
@@ -51,9 +57,11 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
 
   merchantDetails: MerchantModel | null = null;
   loadingMerchantDetails = false;
-
   selectedMerchant: MerchantAutocompleteModel | null = null;
+
+  productDetails: unknown | null = null;
   selectedProduct: ProductAutocompleteModel | null = null;
+  loadingProductDetails = false;
 
   theme$!: Observable<ModeModel>;
   theme!: ModeModel;
@@ -83,6 +91,7 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
   }
 
   getMerchantDetails(merchantId: number) {
+    this.merchantDetails = null;
     this.loadingMerchantDetails = true;
     this.merchantService
       .getMerchantsDetails(merchantId)
@@ -90,6 +99,9 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
       .subscribe({
         next: response => {
           this.merchantDetails = response.object;
+          if (!this.merchantDetails.accepts_simple_payment) {
+            this.selectedPaymentMenu = 'Product-Payment';
+          }
           this.loadingMerchantDetails = false;
         },
         error: err => {
@@ -105,6 +117,16 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
       });
   }
 
+  getProductDetails(productId: number) {
+    this.merchantService
+      .getProductDetails(productId)
+      .pipe(takeUntil(this.onDestroy$));
+    // .subscribe({
+    //   next: () => {},
+    //   error: () => {},
+    // });
+  }
+
   closeMerchantPaymentDialog() {
     this.dialogService.closeMerchantPaymentDialog();
   }
@@ -112,6 +134,11 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
     this.selectedMerchant = merchant;
     this.getMerchantDetails(merchant.id);
   }
+  getSelectedProduct(product: ProductAutocompleteModel) {
+    this.selectedProduct = product;
+    this.getProductDetails(product.id);
+  }
+
   selectPaymentMenu(type: 'Direct-Payment' | 'Product-Payment' | '') {
     this.selectedPaymentMenu = type;
   }

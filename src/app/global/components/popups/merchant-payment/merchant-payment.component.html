@@ -125,7 +125,7 @@
                 <img
                   src="{{ selectedMerchant.lookup_image }}"
                   alt="{{ selectedMerchant.lookup_title }} Profile"
-                  class="image" />
+                  class="image rounded-circle" />
               } @else {
                 <span class="fs-large text-secondary mt-2">
                   <i class="fa-solid fa-cart-shopping"></i>
@@ -150,35 +150,79 @@
         @if (
           !selectedPaymentMenu && !loadingMerchantDetails && merchantDetails
         ) {
-          <section class="mt-4 col-9 col-sm-7 col-md-5 col-lg-4">
-            <div
-              role="button"
-              class="d-flex justify-content-between align-items-center border-bottom mb-3 py-2 px-2"
-              (click)="selectPaymentMenu('Direct-Payment')"
-              tabindex="0">
-              <span class="fs-medium" i18n>Direct Payment</span>
-              <span class="fs-medium">
-                <i class="fa-solid fa-chevron-right"></i>
-              </span>
-            </div>
-            <div
-              role="button"
-              class="d-flex justify-content-between align-items-center border-bottom mb-3 py-2 px-2"
-              (click)="selectPaymentMenu('Product-Payment')"
-              tabindex="0">
-              <span class="fs-medium" i18n>Product Payment</span>
-              <span class="fs-medium">
-                <i class="fa-solid fa-chevron-right"></i>
-              </span>
-            </div>
-          </section>
-        } @else if (selectedPaymentMenu === 'Product-Payment') {
-          <section class="mt-4">
-            <app-merchant-products
-              [merchantId]="selectedMerchant.id"></app-merchant-products>
-          </section>
+          @if (merchantDetails.accepts_simple_payment) {
+            <section class="mt-4 col-9 col-sm-7 col-md-5 col-lg-4">
+              <div
+                role="button"
+                class="d-flex justify-content-between align-items-center border-bottom mb-3 py-2 px-2"
+                (click)="selectPaymentMenu('Direct-Payment')"
+                tabindex="0">
+                <span class="fs-medium" i18n>Direct Payment</span>
+                <span class="fs-medium">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </span>
+              </div>
+
+              <div
+                role="button"
+                class="d-flex justify-content-between align-items-center border-bottom mb-3 py-2 px-2"
+                (click)="selectPaymentMenu('Product-Payment')"
+                tabindex="0">
+                <span class="fs-medium" i18n>Product Payment</span>
+                <span class="fs-medium">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </span>
+              </div>
+            </section>
+          }
         }
       </section>
     }
+
+    <!-- NOTE :: ON PRODUCT PAYMENT MENU -->
+    <section class="px-4 mt-4">
+      @if (selectedMerchant && selectedPaymentMenu === 'Product-Payment') {
+        @if (!selectedProduct) {
+          <section>
+            <app-merchant-products
+              (selectedProductEvent)="getSelectedProduct($event)"
+              [merchantId]="selectedMerchant.id"></app-merchant-products>
+          </section>
+        } @else {
+          <div class="row">
+            <span class="position-relative col-auto">
+              <!-- NOTE :: CONTAINER LOADER -->
+              <!-- @if (loadingProductDetails) { -->
+              <span
+                class="position-absolute top-0 end-0 start-0 bottom-0 d-flex align-items-center justify-content-center lg-radius bg-overlay-secondary">
+                <span
+                  class="spinner-grow spinner-grow-sm me-2"
+                  aria-hidden="true"></span>
+                <span
+                  class="spinner-grow spinner-grow-sm me-2"
+                  aria-hidden="true"></span>
+                <span
+                  class="spinner-grow spinner-grow-sm me-2"
+                  aria-hidden="true"></span>
+                <span role="status">Loading...</span>
+              </span>
+              <!-- } -->
+              <div>
+                <app-product-card
+                  [product]="selectedProduct"
+                  type="row"></app-product-card>
+              </div>
+            </span>
+          </div>
+        }
+      }
+    </section>
+
+    <!-- NOTE :: ON DIRECT PAYENT MENU -->
+    <section class="px-4 mt-4">
+      @if (selectedMerchant && selectedPaymentMenu === 'Direct-Payment') {
+        <section></section>
+      }
+    </section>
   </main>
 </dialog>

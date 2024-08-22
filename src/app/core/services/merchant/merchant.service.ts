@@ -204,14 +204,12 @@ export class MerchantService {
       })
     );
   }
-  getMerchantsProductsDetails(id: number) {
-    const url = '/dbs/merchant-product/' + id + '/';
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+
+  getProductDetails(id: number) {
+    const url = `/dbs/merchant-product/${id}/`;
+    return this.apiService.get(url).pipe(map(data => data));
   }
+
   getConnectedMerchantInfo(): Observable<{ object: MerchantInfoModel }> {
     const url = '/dbs/merchant/info/';
     return this.apiService
