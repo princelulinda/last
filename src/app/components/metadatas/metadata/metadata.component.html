@@ -201,7 +201,7 @@
                     title="Next"
                     (click)="doListMove('next')"
                     [disabled]="
-                      count < (currentPage + 1) * pagination.filters.limit
+                      count < (currentPage - 1) * pagination.filters.limit
                     "
                     class="border-0 ms-2 btn fs-4 d-inline-flex align-items-center rounded p-2 text-primary">
                     <i class="fa-solid fa-play"></i>

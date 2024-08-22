@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -41,6 +47,7 @@ import { MerchantModel } from '../../merchant.models';
   styleUrl: './product-config.component.scss',
 })
 export class ProductConfigComponent implements OnInit, OnDestroy {
+  @Output() get_selectedProduct = new EventEmitter<ProductAutocompleteModel>();
   merchant!: MerchantModel;
   clientId!: number;
   private onDestroy$: Subject<void> = new Subject<void>();
@@ -76,6 +83,8 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
   searchType: EmptyStateModel = 'product';
   searchTypeOther: EmptyStateModel = 'other';
   imageClass = 'image';
+  disabledFavoriteAction = true;
+  get_productDetails = false;
 
   plateform$!: Observable<PlateformModel>;
   baseRouterLink = '/m/mymarket';
@@ -218,6 +227,7 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
   }
 
   selectProduct(product: ProductAutocompleteModel) {
+    this.get_selectedProduct.emit(product);
     this.selectedProduct = product;
 
     this.selectedMenu = 'details';
@@ -286,6 +296,7 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
 
   getProductDetails() {
     this.product = null;
+    this.get_productDetails = false;
     this.merchantService
       .getProductDetails(this.selectedProduct.id)
       .pipe(takeUntil(this.onDestroy$))
@@ -303,6 +314,7 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
             stockable: this.product.is_stockable,
             incognito: this.product.incognito_mode,
           });
+          this.get_productDetails = true;
         },
         error: err => {
           console.log(err);
@@ -335,6 +347,7 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
   }
 
   updateProductInfo() {
+    this.get_productDetails = false;
     this.dialogService.dispatchLoading();
     this.isLoading = true;
     const selectedFieldNames = this.getSelectedFieldNames();
@@ -347,6 +360,9 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
       minimun_payment_amount: this.productConfigForm.value.min_payment,
       maximum_payment_amount: this.productConfigForm.value.max_payment,
       voucher_type: this.productConfigForm.value.position,
+      cart: this.productConfigForm.value.accepts_cart,
+      stockable: this.productConfigForm.value.is_stockable,
+      incognito: this.productConfigForm.value.incognito_mode,
       metadata: selectedFieldNames,
       pin_code: this.pin,
     };
@@ -361,30 +377,31 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
           this.dialogService.openToast({
             title: 'failed',
             type: 'failed',
-            message: 'Failed, please try again',
+            message: response.object.response_message,
           });
         } else {
+          this.get_productDetails = false;
           this.getProductDetails();
           this.getMerchantProducts();
           this.selectedMenu = 'details';
           this.dialogService.openToast({
             title: 'success',
             type: 'success',
-            message: 'Updated successfully',
+            message: response.object.response_message,
           });
         }
       },
-      error: error => {
+      error: err => {
         this.isLoading = false;
-
-        const data = {
-          title: 'failure',
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          title: '',
           type: 'failed',
           message:
-            error?.object.response_message ?? 'Failed to update product info ',
-        };
+            err?.error?.object.response_message ??
+            'Failed to update product info ',
+        });
         // this.store.dispatch(new OpenDialog(data));
-        console.log(data);
       },
     });
   }

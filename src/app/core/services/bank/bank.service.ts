@@ -14,7 +14,7 @@ import {
 import { nyamuranziCard } from '../../../components/nyamuranzi/models';
 import { WithdrawalModel } from '../../../components/withdrawal/withdrawal.models';
 import { DissectedDateModel } from '../../../components/statements/statement.model';
-import { Pagination } from '../merchant/model';
+import { PaginationConfig } from '../../../global/models/pagination.models';
 
 @Injectable({
   providedIn: 'root',
@@ -116,7 +116,7 @@ export class BankService {
   // }
 
   getRecentTransactions(
-    pagination: Pagination,
+    pagination: PaginationConfig,
     type: string,
     period: PeriodModel,
     client: string

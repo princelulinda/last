@@ -5,8 +5,14 @@ import {
   OnInit,
   Output,
   OnDestroy,
+  HostListener,
 } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import {
   ConfigService,
@@ -51,16 +57,16 @@ export class MetadataFormComponent implements OnInit, OnDestroy {
   ];
   charfield = [{ name: 'Maxlength', value: 'max_length' }];
   decimalfield = [
-    { name: 'Maxdigits', value: 'max_digits' },
-    { name: 'Decimal places', value: 'decimal_places' },
+    { name: 'Maxdigits', value: 'max_digits', disabled: false },
+    { name: 'Decimal places', value: 'decimal_places', disabled: false },
   ];
   FK = [{ name: 'Model', value: 'model' }];
   metaForm = new FormGroup({
-    field_title: new FormControl(''),
-    field_name: new FormControl(''),
-    field_type: new FormControl(''),
+    field_title: new FormControl('', Validators.required),
+    field_name: new FormControl('', Validators.required),
+    field_type: new FormControl('', Validators.required),
     type: new FormControl(this.metaTypes[0]),
-    searchable: new FormControl(false),
+    required: new FormControl(false),
   });
   attributesForm = new FormGroup({
     keyValue: new FormControl(''),
@@ -70,9 +76,9 @@ export class MetadataFormComponent implements OnInit, OnDestroy {
   plateform = '';
   keyValues: {
     key: string | null | undefined;
-    value: string | null | undefined;
+    value: string | number | null | undefined;
   }[] = [];
-
+  selectedDecimalOptions = new Set<string | null | undefined>();
   constructor(
     private generalService: GeneralService,
     private configService: ConfigService,
@@ -85,18 +91,24 @@ export class MetadataFormComponent implements OnInit, OnDestroy {
     this.plateform$.subscribe(plateform => {
       this.plateform = plateform.activePlateform;
     });
+    this.metaForm
+      .get('field_type')
+      ?.valueChanges.pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.attributesForm.reset();
+      });
   }
   createMetadata() {
     this.isLoading = true;
     const meta: WidgetAttrsModel = {};
+
     meta[`${this.attributesForm.value.keyValue}`] =
       this.attributesForm.value.value;
-
+    meta['required'] = this.metaForm.value.required;
     const body: MetadataBodyModel = {
       name: this.metaForm.value.field_title,
       field_name: this.metaForm.value.field_name,
-      field_type: this.metaForm.value.field_type,
-      searchable: this.metaForm.value.searchable,
+      meta_type: this.metaForm.value.field_type,
       widget_attrs: meta,
     };
     this.generalService
@@ -113,7 +125,7 @@ export class MetadataFormComponent implements OnInit, OnDestroy {
               title: '',
               message:
                 response?.object?.response_message ??
-                $localize`Failed, please try again `,
+                'Failed, please try again ',
             });
           } else {
             this.isLoading = false;
@@ -124,7 +136,7 @@ export class MetadataFormComponent implements OnInit, OnDestroy {
               title: '',
               message:
                 response?.object?.response_message ??
-                $localize`Metadata created successfully !`,
+                'Metadata created successfully !',
             });
             this.refreshUpdates.emit('success');
           }
@@ -136,7 +148,7 @@ export class MetadataFormComponent implements OnInit, OnDestroy {
             title: '',
             message:
               msg?.object?.response_message ??
-              $localize`Something went wrong please retry again `,
+              'Something went wrong please retry again ',
           });
         },
       });
@@ -145,18 +157,41 @@ export class MetadataFormComponent implements OnInit, OnDestroy {
     this.keyValues.splice(index, 1);
   }
 
-  addFields() {
-    const object = {
-      key: this.attributesForm.value.keyValue,
-      value: this.attributesForm.value.value,
-    };
-    this.keyValues.push({
-      key: this.attributesForm.value.keyValue,
-      value: this.attributesForm.value.value,
-    });
-    this.attributesForm.reset();
-    console.log(object);
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnterKey(event: KeyboardEvent) {
+    if (
+      (this.metaForm.value.field_type &&
+        ['CharField', 'ForeignKey', 'ChoiceField'].includes(
+          this.metaForm.value.field_type
+        ) &&
+        (!this.attributesForm.value.keyValue ||
+          !this.attributesForm.value.value)) ||
+      (this.metaForm.value.field_type === 'DecimalField' &&
+        this.getRemainingDecimalFields() === 0)
+    ) {
+      this.createMetadata();
+    }
+
+    console.log(event);
   }
+  addFields() {
+    const key = this.attributesForm.value.keyValue;
+    const value = this.attributesForm.value.value;
+
+    if (key && value) {
+      this.keyValues.push({ key, value });
+
+      this.decimalfield = this.decimalfield.map(option => {
+        return option.value === key ? { ...option, disabled: true } : option;
+      });
+
+      this.attributesForm.reset();
+    }
+  }
+  getRemainingDecimalFields(): number {
+    return this.decimalfield.filter(option => !option.disabled).length;
+  }
+
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
