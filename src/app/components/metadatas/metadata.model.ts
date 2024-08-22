@@ -19,8 +19,7 @@ export interface MetadataCreationResponseModel {
 export interface MetadataBodyModel {
   name: string | null | undefined;
   field_name: string | null | undefined;
-  field_type: string | null | undefined;
-  searchable: boolean | null | undefined;
+  meta_type: string | null | undefined;
   widget_attrs: object;
 }
-export type WidgetAttrsModel = Record<string, string | null | undefined>;
+export type WidgetAttrsModel = Record<string, string | number | boolean | null | undefined>;
