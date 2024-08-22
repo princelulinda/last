@@ -11,7 +11,6 @@ import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.comp
 import { AccountComponent } from '../../components/account/account/account.component';
 import { bankingSavingRoutes } from '../../components/saving/saving.routes';
 import { AccountDetailsComponent } from '../../components/account/account-details/account-details.component';
-import { WalletCreationComponent } from '../../components/wallet/wallet-creation/wallet-creation.component';
 
 export const workstationBankingRoutes: Routes = [
   {
@@ -64,10 +63,5 @@ export const workstationBankingRoutes: Routes = [
         component: AccountDetailsComponent,
       },
     ],
-  },
-
-  {
-    path: 'creat-wallet',
-    component: WalletCreationComponent,
   },
 ];
