@@ -8,7 +8,7 @@ export interface MetadataModel {
     max_length: number;
     max_digits: number;
     required: boolean;
-    choices: [number: string][];
+    choices: [string: string][];
   };
 }
 export interface MetadataCreationResponseModel {

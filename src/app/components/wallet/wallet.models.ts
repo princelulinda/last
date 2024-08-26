@@ -2,6 +2,7 @@ import { CurrencyModel } from '../../global/components/custom-field/currency.mod
 
 export interface WalletCard {
   response_data: {
+    id: string;
     code: string;
     currency: CurrencyModel;
     available_balance: number;
@@ -24,10 +25,6 @@ export interface WalletTypModel {
   title: string;
 
   id: string;
-}
-export interface CreatWalletBodyModel {
-  wallet_type: number;
-  title: string;
 }
 
 export interface creatWalletResponse {

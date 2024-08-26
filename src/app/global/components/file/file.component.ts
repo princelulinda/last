@@ -4,7 +4,7 @@ import { ChangeDetectorRef } from '@angular/core';
 
 import { FormControl } from '@angular/forms';
 import { FileService } from '../../../core/services/file/file.service';
-import { fileResponse } from './file.model';
+import { FileResponseModel } from './file.model';
 @Component({
   selector: 'app-file',
   standalone: true,
@@ -17,7 +17,7 @@ export class FileComponent {
   @Input() uploadOneFile: boolean | undefined;
 
   @Output() uploadMultipleFilesEvent = new EventEmitter<string>();
-  @Output() uploadOneFileEvent = new EventEmitter<fileResponse[]>();
+  @Output() uploadOneFileEvent = new EventEmitter<FileResponseModel[]>();
 
   constructor(
     // private sanitizer: DomSanitizer,
@@ -25,8 +25,8 @@ export class FileComponent {
     // private store: Store,
     private changeDetector: ChangeDetectorRef
   ) {}
-  uploadedFiles: fileResponse[] = [];
-  uploadedFile: fileResponse[] = [];
+  uploadedFiles: FileResponseModel[] = [];
+  uploadedFile: FileResponseModel[] = [];
 
   progress = 0;
   isLoadingFile = false;
@@ -142,7 +142,7 @@ export class FileComponent {
             this.updateProgress(file, newProgress);
           } else if (data.type === HttpEventType.Response) {
             const responseObject = data.body;
-            this.uploadedFile.push(responseObject as fileResponse);
+            this.uploadedFile.push(responseObject as FileResponseModel);
             // const uuidFile = this.uploadedFile;
             this.uploadOneFileEvent.emit(this.uploadedFile);
 
@@ -219,7 +219,7 @@ export class FileComponent {
             this.updateProgress(file, newProgress);
           } else if (event.type === HttpEventType.Response) {
             const responseObject = event.body;
-            this.uploadedFiles.push(responseObject as fileResponse);
+            this.uploadedFiles.push(responseObject as FileResponseModel);
             // const fileSizeKB = Math.round(file.size / 1024);
             this.updateProgress(file, 100);
             file.isLoadingFile = false;

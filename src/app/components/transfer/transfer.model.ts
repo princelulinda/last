@@ -1,10 +1,10 @@
 import { bankModel } from '../../core/db/models/bank/bank.model';
 
-export interface Account {
+export interface AccountModel {
   account_holder: string;
 }
 
-export interface DebitOptions {
+export interface DebitOptionsModel {
   id?: string;
   lookup_title?: string;
   lookup_sub_title?: string;
@@ -27,31 +27,27 @@ export interface DebitOptions {
 
   title?: string;
 }
-// export interface MerchantInfoModel {
-//   object: {
-//     success: boolean;
-//   };
-// }
-export interface LookupData {
+
+export interface LookupDataModel {
   account_number: string | null | undefined;
   bank_slug: string | null | undefined;
   account_type: string | null | undefined;
 }
-export interface CreditDetail {
+export interface CreditDetailsModel {
   account: string;
   acc_holder: string;
   description: string | null | undefined;
   amount: number | string;
 }
-export interface DebitEvent {
+export interface DebitIndividualEventModel {
   account: string;
   creditAccountType?: string;
 }
-export interface SwitchBankEvent {
+export interface SwitchBankEventModel {
   creditAccountType?: string;
   selectedDebitAccountType: string | null;
-  debitAccount: string | null | DebitOptions;
-  debitWallet: string | null | DebitOptions;
+  debitAccount: string | null | DebitOptionsModel;
+  debitWallet: string | null | DebitOptionsModel;
   banks: bankModel[];
 }
 
