@@ -218,6 +218,7 @@
             </span>
           </div>
 
+          <!-- NOTE :: LOOKUP METADATA  -->
           @if (
             !loadingProductDetails &&
             productDetails &&
@@ -362,12 +363,42 @@
                 </section>
               }
             }
-          } @else if (
+          }
+
+          <!-- NOTE :: METADATA -->
+          @if (
+            !loadingProductDetails &&
             productDetails &&
             productDetails.metadata.length !== 0 &&
-            selectedProductLookupChoice
+            ((productDetails.lookup_metadata.length !== 0 && productLookup) ||
+              (productDetails.lookup_metadata.length !== 0 &&
+                productLookupChoices?.length !== 0 &&
+                selectedProductLookupChoice) ||
+              productDetails.lookup_metadata.length === 0)
           ) {
-            Salut les gens
+            <form [formGroup]="metadataForm" class="py-4 col-3">
+              @for (item of productDetails.metadata; track $index) {
+                <div class="mb-3">
+                  <div class="form-floating">
+                    <input
+                      [disabled]="loadingLookup"
+                      [type]="item.field_type"
+                      [formControlName]="item.field_name"
+                      class="form-control"
+                      [id]="item.field_name"
+                      [placeholder]="item.field_name" />
+                    <label [for]="item.field_name" class="text-capitalize">{{
+                      item.field_name
+                    }}</label>
+                  </div>
+                </div>
+              }
+              <div class="text-center">
+                <button class="btn bg-primary px-5 text-all-white fw-bold" i18n>
+                  Add
+                </button>
+              </div>
+            </form>
           }
         }
       }
