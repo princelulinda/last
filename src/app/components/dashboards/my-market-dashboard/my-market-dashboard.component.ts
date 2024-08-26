@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  OnDestroy,
+  SimpleChanges,
+  OnChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import {
@@ -38,6 +46,7 @@ import {
   MerchantBillDataModel,
   ObjectBillModel,
 } from '../../merchant/products/products.model';
+import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
 import { StatementComponent } from '../../statements/statement/statement.component';
 import {
   MerchantAutocompleteModel,
@@ -59,12 +68,15 @@ import {
     ReactiveFormsModule,
     FormsModule,
     MerchantBillComponent,
+    ReusableListComponent,
     StatementComponent,
   ],
   templateUrl: './my-market-dashboard.component.html',
   styleUrl: './my-market-dashboard.component.scss',
 })
-export class MyMarketDashboardComponent implements OnInit, OnDestroy {
+export class MyMarketDashboardComponent
+  implements OnInit, OnDestroy, OnChanges
+{
   private onDestroy$: Subject<void> = new Subject<void>();
   baseRouterLink = '/m/mymarket';
 
@@ -129,6 +141,8 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   theme$: Observable<ModeModel>;
   activePlatform!: PlateformModel;
   mainConfig$!: Observable<activeMainConfigModel>;
+  url = '';
+
   constructor(
     private route: ActivatedRoute,
     private merchantService: MerchantService,
@@ -422,5 +436,64 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+  headers = [
+    {
+      name: 'Date',
+      field: ['date_created'],
+      size: '',
+      format: 'date',
+    },
+    {
+      name: 'Description',
+      field: ['description'],
+      size: '',
+    },
+    {
+      name: 'Reference',
+      field: ['reference'],
+      size: '',
+    },
+    {
+      name: 'Debit amount',
+      field: ['debit'],
+      size: '',
+      format: 'currency',
+    },
+    {
+      name: 'Credit amount',
+      field: ['credit'],
+      size: '',
+      format: 'currency',
+    },
+    {
+      name: 'Balance',
+      field: ['solde'],
+      size: '',
+      format: 'currency',
+    },
+  ];
+
+  @Input() accountId = '';
+  @Input() ledgerId = '';
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propName in changes) {
+      const chng = changes[propName];
+      if (propName === 'accountId') {
+        this.url =
+          '/operations/all/statement/?trans_client_account_obj=' +
+          chng.currentValue +
+          '&';
+        this.accountId = chng.currentValue;
+      }
+      if (propName === 'ledgerId') {
+        this.url =
+          '/operations/all/statement/?trans_ledger_account_obj=' +
+          chng.currentValue +
+          '&';
+        this.ledgerId = chng.currentValue;
+      }
+    }
   }
 }

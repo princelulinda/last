@@ -8,7 +8,7 @@ import {
   MobileBanksModel,
 } from '../../../components/dev/global-mapping/glob-mapping.model';
 import { ParamModel } from '../../../global/components/reusable-list/reusable.model';
-import { getdataModal } from '../../../global/components/reusable-list/reusable.model';
+import { getdataModel } from '../../../global/components/reusable-list/reusable.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import {
   MetadataBodyModel,
@@ -29,7 +29,7 @@ export class GeneralService {
     url: string,
     pagination: PaginationConfig,
     params: ParamModel[] = []
-  ): Observable<getdataModal> {
+  ): Observable<getdataModel> {
     let paginationString = '';
     let paramsString = '';
 

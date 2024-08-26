@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { ApiService } from '..';
 import {
-  AddResponse,
+  AddResponseModel,
   BodyModel,
 } from '../../../components/settings/settings.models';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -30,11 +30,11 @@ export class ClientService {
   private selectedWalletSubject = new BehaviorSubject<WalletList | null>(null);
   selectedWallet$ = this.selectedWalletSubject.asObservable();
 
-  addAphoneNumber(body: BodyModel): Observable<AddResponse> {
+  addAphoneNumber(body: BodyModel): Observable<AddResponseModel> {
     const url = '/extid/creation/';
     return this.apiService.post(url, body).pipe(
       map(response => {
-        return response as AddResponse;
+        return response as AddResponseModel;
       })
     );
   }
