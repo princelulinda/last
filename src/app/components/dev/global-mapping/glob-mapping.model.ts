@@ -7,7 +7,7 @@ export interface MobileBanksModel {
     name: string;
   };
 }
-export interface MappingResponse {
+export interface MappingResponseModel {
   object: {
     response_message: string;
 

@@ -19,18 +19,14 @@ import {
 import { MerchantBillComponent } from '../../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 
-import {
-  BillsModel,
-  ObjectBillModel,
-  paymentBillsModel,
-} from '../../products/products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { DebitAccountComponent } from '../../../transfer/debit-account/debit-account.component';
 import { accountsList } from '../../../account/models';
 import { WalletList } from '../../../wallet/wallet.models';
-import { DebitOptions } from '../../../transfer/transfer.model';
+import { DebitOptionsModel } from '../../../transfer/transfer.model';
 import { bankModel } from '../../../../core/db/models/bank/bank.model';
+import { BillsModel } from '../bills.model';
 
 @Component({
   selector: 'app-bill-details',
@@ -136,7 +132,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
       .getBillDetails(this.billId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: paymentBillsModel) => {
+        next: response => {
           this.billDetails = response.object;
           this.isLoading = false;
           this.descriptionForm.patchValue({
@@ -189,7 +185,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
       .doMerchantSimplePayment(data)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: ObjectBillModel) => {
+        next: response => {
           this.dialogService.closeLoading();
           this.paymentLoading = false;
           if (
@@ -222,7 +218,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
             this.descriptionForm.reset();
           }
         },
-        error: (err: ObjectBillModel) => {
+        error: err => {
           this.dialogService.closeLoading();
           this.dialogService.openToast({
             title: '',
@@ -251,7 +247,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
       this.selectedWallet = account.code;
     }
   }
-  selectedDebitOption(option: DebitOptions) {
+  selectedDebitOption(option: DebitOptionsModel) {
     this.descriptionForm.reset();
     if (option.selectedDebitOption === 'account') {
       this.selectedAccount = option.account;

@@ -3,9 +3,9 @@ import { ApiService } from '..';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import {
   MailModel,
-  PasswordChangeResponse,
+  PasswordChangeResponseModel,
   PasswordModel,
-  PinChangeResponse,
+  PinChangeResponseModel,
 } from '../../../components/settings/settings.models';
 import { PinModel } from '../../../components/settings/settings.models';
 
@@ -41,18 +41,18 @@ export class SettingsService {
     this._selectedSubMenu.next(menu);
   }
 
-  changePin(body: PinModel): Observable<PinChangeResponse> {
+  changePin(body: PinModel): Observable<PinChangeResponseModel> {
     const url = '/client/change-pin/';
     return this.apiService
       .post(url, body)
-      .pipe(map(response => response as PinChangeResponse));
+      .pipe(map(response => response as PinChangeResponseModel));
   }
 
-  changePassword(body: PasswordModel): Observable<PasswordChangeResponse> {
+  changePassword(body: PasswordModel): Observable<PasswordChangeResponseModel> {
     const url = '/client/change-password/';
     return this.apiService
       .post(url, body)
-      .pipe(map(response => response as PasswordChangeResponse));
+      .pipe(map(response => response as PasswordChangeResponseModel));
   }
 
   getClientContact(

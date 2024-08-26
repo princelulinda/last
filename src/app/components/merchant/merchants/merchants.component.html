@@ -103,10 +103,10 @@
               </div>
             }
             @if (!favoriteMerchantLoading && favoriteMerchants.length !== 0) {
-              <div class="row ms-2 gap-3">
+              <div class="d-flex flex-wrap ms-2 gap-3">
                 @for (merchant of favoriteMerchants; track $index) {
                   <div
-                    class="col-5 p-0 position-relative"
+                    class="col-auto p-0 position-relative"
                     [hidden]="$index >= 4">
                     <!-- image -->
                     <app-merchant-card [merchant]="merchant">
@@ -345,7 +345,7 @@
         </div>
       }
       @if (merchants && merchants.length !== 0) {
-        <div class="d-flex justify-content-around flex-wrap gap-4 mx-0 mt-2">
+        <div class="d-flex flex-wrap gap-5 ms-3 mx-0 mt-2">
           @for (merchant of merchants; track $index) {
             <div class="col-auto" [hidden]="$index >= 10 && !seeMore">
               <app-merchant-card [merchant]="merchant"> </app-merchant-card>
@@ -401,9 +401,9 @@
         </div>
       </div>
 
-      <div class="row mx-0">
+      <div class="d-flex flex-wrap gap-5 ms-3 mx-0">
         @for (merchant of favoriteMerchants; track $index) {
-          <div class="col-lg-3 col-md-4 col-sm-6 col mb-3 position-relative">
+          <div class="col-auto mb-3 position-relative">
             <app-merchant-card [merchant]="merchant"> </app-merchant-card>
           </div>
         }

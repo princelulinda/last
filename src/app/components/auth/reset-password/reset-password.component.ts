@@ -3,7 +3,10 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Router } from '@angular/router';
 import { Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { AuthService, DialogService } from '../../../core/services';
-import { resetPasswordResponse, otpVerificationResponse } from '../auth.model';
+import {
+  ResetPasswordResponseModel,
+  OtpVerificationResponseModel,
+} from '../auth.model';
 import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { Observable } from 'rxjs';
@@ -83,7 +86,7 @@ export class ResetPasswordComponent {
     };
 
     this.authService.requestOTP(data).subscribe({
-      next: (response: resetPasswordResponse) => {
+      next: (response: ResetPasswordResponseModel) => {
         this.isLoadingOTP = false;
         if (response.object.success === true) {
           this.step = this.step = 2;
@@ -111,7 +114,7 @@ export class ResetPasswordComponent {
     };
     this.dialogService.dispatchLoading();
     this.authService.OTPverification(data).subscribe({
-      next: (response: otpVerificationResponse) => {
+      next: (response: OtpVerificationResponseModel) => {
         this.isLoadingVerificationOTP = false;
         this.dialogService.closeLoading();
         if (response.object.success === true) {

@@ -243,14 +243,16 @@
                 <b class="text-dark" i18n>Bills Report</b>
                 <i class="fa-solid fa-file-excel ms-3 text-success"></i>
               </div>
+
               <div
                 role="button"
                 class="pt-1 level-1 ms-3 mt-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
                 data-bs-toggle="modal"
-                data-bs-target="#statementModal">
+                data-bs-target="#staticBackdrop">
                 <b class="text-dark" i18n>Statements</b>
                 <i class="fa-solid fa-history ms-3 text-dark opacity-75"> </i>
               </div>
+
               <div
                 role="button"
                 (click)="openPopup()"
@@ -308,19 +310,40 @@
   </div>
 }
 
-<div class="modal fade" id="statementModal" data-bs-backdrop="static">
-  @if (merchantAccountId && account) {
-    <div class="modal-dialog modal-dialog-centered statement-dialog">
+@if (merchantAccountId && account) {
+  <div
+    class="modal modal-xl fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
       <div class="modal-content">
-        @if (merchant) {
-          <app-statement
-            [accountId]="merchant.merchant_main_account_id"
-            [account]="account"></app-statement>
-        }
+        <div class="row">
+          <div class="col"></div>
+          <div class="col d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn-close me-4 mt-4"
+              data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <app-reusable-list
+            title="Statements"
+            [limit]="5"
+            [url]="url"
+            [headers]="headers">
+          </app-reusable-list>
+        </div>
       </div>
     </div>
-  }
-</div>
+  </div>
+}
+
 <div class="modal fade" id="billsModal" data-mdb-backdrop="false">
   <div class="modal-dialog">
     <div class="modal-content bg-white">
