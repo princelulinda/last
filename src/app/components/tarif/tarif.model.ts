@@ -1,4 +1,4 @@
-export interface bankListResponse {
+export interface BankListResponseModel {
   id: number;
   isSelected: boolean;
   company: {
@@ -6,14 +6,14 @@ export interface bankListResponse {
     logo: string;
   };
 }
-export interface tarifResponse {
+export interface TarifResponseModel {
   type_type: string;
   type_code: string;
   type_name: string;
   id: number;
   description: string;
 }
-export interface feesResonse {
+export interface FeesResonseModel {
   id: number;
   total_commission: number;
   agent_commission: number;
@@ -22,7 +22,7 @@ export interface feesResonse {
     upper: string;
   };
 }
-export interface simulateResponse {
+export interface SimulateResponseModel {
   total_commission: string;
   agent_commission: string;
   length: string;

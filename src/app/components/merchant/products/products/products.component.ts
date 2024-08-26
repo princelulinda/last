@@ -8,10 +8,7 @@ import { MerchantService } from '../../../../core/services/merchant/merchant.ser
 import { ProductCardComponent } from '../../global/product-card/product-card.component';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { AllProductsComponent } from '../all-products/all-products.component';
-import {
-  AllProductAutocompleteModel,
-  ProductAutocompleteModel,
-} from '../products.model';
+import { ProductAutocompleteModel } from '../products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { ConfigService } from '../../../../core/services';
 import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
@@ -34,7 +31,7 @@ export class ProductsComponent implements OnInit {
   @Output() cartItem = new EventEmitter<number>();
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  allProduct = [];
+  allProduct!: { objects: ProductAutocompleteModel[]; count: number }[];
   products: ProductAutocompleteModel[] = [];
   product!: ProductAutocompleteModel;
   isLoading!: boolean;
@@ -100,10 +97,11 @@ export class ProductsComponent implements OnInit {
     this.product = event;
     console.log('PRoducts', event);
   }
-  getAllProduct(event: AllProductAutocompleteModel[]) {
+  getAllProduct(
+    event: { objects: ProductAutocompleteModel[]; count: number }[]
+  ) {
     this.isLoading = true;
-    (this.allProduct as AllProductAutocompleteModel[]) = event;
-    console.log('allproducts', this.allProduct);
+    this.allProduct = event;
   }
 
   getFavoriteProducts(search: string) {
@@ -112,7 +110,7 @@ export class ProductsComponent implements OnInit {
       .getFavoriteProductAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: AllProductAutocompleteModel) => {
+        next: data => {
           (this.products as ProductAutocompleteModel[]) = data.objects;
           this.favoriteProducts = this.products.filter(
             product => product.is_favorite_product

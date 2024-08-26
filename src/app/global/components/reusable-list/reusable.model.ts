@@ -2,7 +2,7 @@ export interface ParamModel {
   title: string;
   value: string | null;
 }
-export interface getdataModal {
+export interface getdataModel {
   objects: string;
   count: number;
   response_data: string;

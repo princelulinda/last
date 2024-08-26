@@ -14,7 +14,7 @@ import { Subject, Observable, takeUntil } from 'rxjs';
 import {
   ProductAutocompleteModel,
   ProductModel,
-  updateProductInfoObjectModel,
+  UpdateProdcutInfoModel,
 } from '../products.model';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
@@ -370,7 +370,14 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
 
     this.merchantService.updateProductInfo(body).subscribe({
       next: result => {
-        const response = result as updateProductInfoObjectModel;
+        const response = result as {
+          object: {
+            success: boolean;
+            response_message: string;
+            response_code: string;
+            response_data: UpdateProdcutInfoModel;
+          };
+        };
         this.isLoading = false;
 
         this.dialogService.closeLoading();
