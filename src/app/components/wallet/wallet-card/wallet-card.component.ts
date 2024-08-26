@@ -147,7 +147,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
         next: defaultWallet => {
           this.defaultWallet = defaultWallet.object;
           this.defaultWalletId = this.defaultWallet.response_data.id;
-          console.log('defaultWalletId', this.defaultWalletId);
+          //console.log('defaultWalletId', this.defaultWalletId);
           if (defaultWallet.object.success === false) {
             this.noWalletData = true;
           }

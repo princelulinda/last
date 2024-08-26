@@ -254,11 +254,12 @@
   </div>
 </div>
 <!-- statement modal-->
-
-<div class="modal fade" id="statementModal" data-bs-backdrop="static">
-  <div class="modal-dialog modal-dialog-centered statement-dialog">
-    <div class="modal-content">
-      <app-statement [accountId]="defaultWalletId"></app-statement>
+@if (defaultWalletId) {
+  <div class="modal fade" id="statementModal" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered statement-dialog">
+      <div class="modal-content">
+        <app-statement [accountId]="defaultWalletId"></app-statement>
+      </div>
     </div>
   </div>
-</div>
+}
