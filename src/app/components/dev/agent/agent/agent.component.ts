@@ -23,7 +23,7 @@ export class AgentComponent implements OnInit {
   getDatAgent(): void {
     this.agentService.getAgentInfos().subscribe({
       next: response => {
-        this.data = response;
+        this.data = response.object.response_data ? [response.object.response_data] : [];
         console.log("donnees trouvees :", this.data);
       },
       error: error => {
@@ -31,5 +31,6 @@ export class AgentComponent implements OnInit {
       }
     });
   }
+  
 }
 

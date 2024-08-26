@@ -1,4 +1,4 @@
-<div class="container-fluid h-100">
+<div class="container-fluid h-100" *ngIf="data.length > 0">
   <div class="row" style="height: 40px">
     <div class="col h-75 d-flex justify-content-start justify-content-md-end">
       <div class="d-flex align-items-center" role="button">
@@ -8,7 +8,7 @@
     </div>
   </div>
   <div
-    class="row w-100 mx-auto position-relative border-top border-3 border-primary shadow-sm mb-3 mb-md-5">
+    class="row w-100 mx-auto position-relative border-top border-3 border-primary shadow-sm mb-3 mb-md-5"  *ngFor="let infoAgent of data">
     <img
       src="/images/products/Rectangle 1235.svg"
       class="position-absolute d-none d-md-block opacity-8"
@@ -23,14 +23,16 @@
       <div class="d-flex w-100 my-1 my-md-2">
         <div class="col-4 col-md-5">
           <div
-            class="bg-secondary rounded-pill"
-            style="height: 70px; width: 70px"></div>
+            class="bg-secondary rounded-pill d-flex align-items-center justify-content-center"
+            style="height: 70px; width: 70px">
+            <img [src]="infoAgent.picture" alt="picture" title="profile picture" class="h-100 w-100 image" />
+          </div>
         </div>
         <div
           class="col-7 col-md-6 d-flex flex-column text-start my-auto border-end">
-          <span class="fw-semibold">Bibentyo Bundi</span>
-          <span i18n>Agent</span>
-          <span>1234</span>
+          <span class="fw-semibold overflow-hidden" style="height: 20px;">{{infoAgent.agent_name}}</span>
+          <span i18n>{{infoAgent.agent_type}}</span>
+          <span>{{infoAgent.agent_main_account_id}}</span>
         </div>
       </div>
     </div>
@@ -39,7 +41,7 @@
         <span i18n>Balance</span>
         <span>
           <app-amount-visibility
-            [amount]="12.0"
+            [amount]="infoAgent.agent_balance"
             [currency]="'BIF'"
             [customClasses]="'fw-bolder fs-5 text-success'">
           </app-amount-visibility>
