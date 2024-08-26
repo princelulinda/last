@@ -19,11 +19,6 @@ import {
 import { MerchantBillComponent } from '../../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 
-import {
-  BillsModel,
-  ObjectBillModel,
-  paymentBillsModel,
-} from '../../products/products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { DebitAccountComponent } from '../../../transfer/debit-account/debit-account.component';
@@ -31,6 +26,7 @@ import { accountsList } from '../../../account/models';
 import { WalletList } from '../../../wallet/wallet.models';
 import { DebitOptions } from '../../../transfer/transfer.model';
 import { bankModel } from '../../../../core/db/models/bank/bank.model';
+import { BillsModel, ObjectBillModel, paymentBillsModel } from '../bills.model';
 
 @Component({
   selector: 'app-bill-details',

@@ -33,17 +33,17 @@ import {
 import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
 import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
 import { AllProductsComponent } from '../../merchant/products/all-products/all-products.component';
-import {
-  Account,
-  MerchantBillDataModel,
-  ObjectBillModel,
-} from '../../merchant/products/products.model';
+import { Account } from '../../merchant/products/products.model';
 import { StatementComponent } from '../../statements/statement/statement.component';
 import {
   MerchantAutocompleteModel,
   MerchantModel,
   MerchantStatsModel,
 } from '../../merchant/merchant.models';
+import {
+  MerchantBillDataModel,
+  ObjectBillModel,
+} from '../../merchant/bills/bills.model';
 
 @Component({
   selector: 'app-my-market-dashboard',

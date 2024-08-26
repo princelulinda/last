@@ -11,10 +11,10 @@ import {
 } from '../../../../core/services';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { UserInfoModel } from '../../../../core/db/models/auth';
-import { BillsModel, paymentBillsModel } from '../../products/products.model';
 
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
+import { BillsModel, paymentBillsModel } from '../bills.model';
 
 @Component({
   selector: 'app-bills',

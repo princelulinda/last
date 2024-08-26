@@ -10,8 +10,6 @@ import {
   AllProductAutocompleteModel,
   updateProdcutInfoModel,
   addProductByMerchantModel,
-  ObjectBillModel,
-  paymentBillsModel,
   ProductFavoriteModel,
   ProductAutocompleteModel,
   ProductModel,
@@ -31,6 +29,10 @@ import {
 } from '../../../components/merchant/merchant.models';
 import { Coords2Model } from '../../../global/components/google-map/map.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
+import {
+  ObjectBillModel,
+  paymentBillsModel,
+} from '../../../components/merchant/bills/bills.model';
 
 @Injectable({
   providedIn: 'root',
