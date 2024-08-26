@@ -21,6 +21,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { StatementComponent } from '../../statements/statement/statement.component';
 interface mainConfigModel {
   activeMode: string;
   activePlateform: string;
@@ -35,6 +36,7 @@ interface mainConfigModel {
     RouterLink,
     AmountVisibilityComponent,
     ReactiveFormsModule,
+    StatementComponent,
   ],
   templateUrl: './wallet-card.component.html',
   styleUrl: './wallet-card.component.scss',
@@ -50,7 +52,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   private userInfo$: Observable<UserInfoModel>;
   mainConfig$!: Observable<mainConfigModel>;
   activePlatform: string | null = null;
-
+  defaultWalletId!: string;
   defaultWallet!: WalletCard;
   noWalletData = false;
   clientId: number | null = null;
@@ -144,7 +146,8 @@ export class WalletCardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: defaultWallet => {
           this.defaultWallet = defaultWallet.object;
-
+          this.defaultWalletId = this.defaultWallet.response_data.id;
+          console.log('defaultWalletId', this.defaultWalletId);
           if (defaultWallet.object.success === false) {
             this.noWalletData = true;
           }

@@ -100,7 +100,10 @@
               alt="" />
           </button>
 
-          <button class="btn px-1 p-0 btnBack">
+          <button
+            class="btn px-1 p-0 btnBack"
+            data-bs-toggle="modal"
+            data-bs-target="#statementModal">
             <i class="fa-solid fa-history fs-normal pt-1 text-all-white"></i>
           </button>
         </div>
@@ -149,7 +152,7 @@
     </div>
   </div>
 </div>
-
+<!--creation wallet modal-->
 <div
   class="modal fade"
   id="exampleModal"
@@ -247,6 +250,15 @@
           </form>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+<!-- statement modal-->
+
+<div class="modal fade" id="statementModal" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered statement-dialog">
+    <div class="modal-content">
+      <app-statement [accountId]="defaultWalletId"></app-statement>
     </div>
   </div>
 </div>
