@@ -9,7 +9,7 @@ import { PaginationConfig } from '../../models/pagination.models';
 import {
   Header,
   selectedPeriodModel,
-  getdataModal,
+  getdataModel,
   ParamModel,
 } from '../reusable-list/reusable.model';
 import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
@@ -53,7 +53,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
   clientPagination = new PaginationConfig();
   currentPage = 0;
-  response_data!: getdataModal;
+  response_data!: getdataModel;
   pages!: number;
   boolean = false;
   isLoading = false;
@@ -126,7 +126,7 @@ export class ListComponent implements OnInit, OnDestroy {
       .getData(this.url, this.clientPagination, params)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: getdataModal) => {
+        next: (data: getdataModel) => {
           this.response_data = data;
           this.data_list = [];
           console.log('this is the data :', this.data_list);
