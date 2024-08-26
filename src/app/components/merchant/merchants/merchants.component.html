@@ -344,15 +344,40 @@
           <span class="text-l" i18n>Merchant not found</span>
         </div>
       }
-      <div class="row mx-0 mt-2">
-        @for (merchant of merchants; track $index) {
-          <div
-            class="col-lg-3 col-md-4 col-sm-6 col mb-3 position-relative"
-            [hidden]="$index >= 8">
-            <app-merchant-card [merchant]="merchant"> </app-merchant-card>
+      @if (merchants && merchants.length !== 0) {
+        <div class="d-flex justify-content-around flex-wrap gap-4 mx-0 mt-2">
+          @for (merchant of merchants; track $index) {
+            <div class="col-auto" [hidden]="$index >= 10 && !seeMore">
+              <app-merchant-card [merchant]="merchant"> </app-merchant-card>
+            </div>
+          }
+        </div>
+      }
+      @if (merchants && merchants.length > 10) {
+        <div class="d-flex justify-content-end align-items-end mt-2">
+          <div class="col-auto end-0">
+            @if (!seeMore) {
+              <span
+                (click)="seeMore = true"
+                role="button"
+                tabindex="0"
+                class="text-dark fw-bold"
+                i18n
+                ><u>More</u></span
+              >
+            } @else if (seeMore) {
+              <span
+                (click)="seeMore = false"
+                role="button"
+                tabindex="0"
+                class="text-dark fw-bold"
+                i18n
+                ><u>Less</u></span
+              >
+            }
           </div>
-        }
-      </div>
+        </div>
+      }
     </section>
   }
   @if (this.favoriteDisplay) {

@@ -65,6 +65,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   favoriteMerchantLoading = false;
 
   private refreshFavoriteMerchants$: Observable<boolean>;
+  seeMore!: boolean;
 
   constructor(
     private merchantService: MerchantService,
