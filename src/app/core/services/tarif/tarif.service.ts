@@ -3,10 +3,10 @@ import { ApiService } from '..';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil, switchMap } from 'rxjs';
 import {
-  tarifResponseModel,
-  bankListResponseModel,
-  feesResonseModel,
-  simulateResponseModel,
+  TarifResponseModel,
+  BankListResponseModel,
+  FeesResonseModel,
+  SimulateResponseModel,
 } from '../../../components/tarif/tarif.model';
 
 @Injectable({
@@ -20,14 +20,14 @@ export class TarifService {
     //
   }
 
-  getBanks(): Observable<{ objects: bankListResponseModel[] }> {
+  getBanks(): Observable<{ objects: BankListResponseModel[] }> {
     const url = '/banks/list/?commission_type=I';
-    return this.apiService.get<{ objects: bankListResponseModel[] }>(url);
+    return this.apiService.get<{ objects: BankListResponseModel[] }>(url);
   }
 
-  getTarifType(bank_id: number): Observable<{ objects: tarifResponseModel[] }> {
+  getTarifType(bank_id: number): Observable<{ objects: TarifResponseModel[] }> {
     const url = '/dbs/tariff-table/?bank=' + bank_id;
-    return this.apiService.get<{ objects: tarifResponseModel[] }>(url);
+    return this.apiService.get<{ objects: TarifResponseModel[] }>(url);
   }
   getAllTarifType() {
     const url = '/dbs/tariff-table/';
@@ -38,9 +38,9 @@ export class TarifService {
     );
   }
 
-  getTarifFees(tarif_id: number): Observable<{ objects: feesResonseModel[] }> {
+  getTarifFees(tarif_id: number): Observable<{ objects: FeesResonseModel[] }> {
     const url = '/dbs/tariff-fees/?tarif_table=' + tarif_id;
-    return this.apiService.get<{ objects: feesResonseModel[] }>(url);
+    return this.apiService.get<{ objects: FeesResonseModel[] }>(url);
   }
 
   TarifFees(tarif_id: string) {
@@ -55,9 +55,9 @@ export class TarifService {
   getSimulateWithTarifTable(
     tarifTable: number,
     amount: string
-  ): Observable<{ objects: simulateResponseModel[] }> {
+  ): Observable<{ objects: SimulateResponseModel[] }> {
     const url = `/dbs/tariff-simulation/?tarif_table=${tarifTable}&amount=${amount}`;
-    return this.apiService.get<{ objects: simulateResponseModel[] }>(url);
+    return this.apiService.get<{ objects: SimulateResponseModel[] }>(url);
   }
 
   getSimulate(type_code: string, amount: string, bank: string) {

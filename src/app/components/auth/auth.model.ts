@@ -13,7 +13,7 @@ export interface EmailVerificationResponseModel {
   };
 }
 
-export interface phoneNumberVerificaitonResponseModel {
+export interface PhoneNumberVerificaitonResponseModel {
   object: {
     success: boolean;
     response_message: string;
@@ -25,7 +25,7 @@ export interface phoneNumberVerificaitonResponseModel {
     };
   };
 }
-export interface createAccountResponseModel {
+export interface CreateAccountResponseModel {
   object: {
     picture: string;
     number: number;
@@ -43,19 +43,19 @@ export interface createAccountResponseModel {
   };
 }
 
-export interface bankListResponseModel {
+export interface BankListResponseModel {
   name: string;
   organization_id: number;
   company: {
     logo: string;
   };
 }
-export interface resetPasswordResponseModel {
+export interface ResetPasswordResponseModel {
   object: {
     success: boolean;
   };
 }
-export interface otpVerificationResponseModel {
+export interface OtpVerificationResponseModel {
   object: {
     success: boolean;
   };
@@ -67,10 +67,10 @@ export interface UploadedFileModel {
   };
 }
 
-export interface cardIdDataModel {
+export interface CardIdDataModel {
   expiry_date: string | null | undefined;
 }
-export interface referenceNumberModel {
+export interface ReferenceNumberModel {
   id: number;
   event: string;
 }

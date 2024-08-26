@@ -48,8 +48,8 @@ export interface AddResponseModel {
   };
 }
 
-export interface activeSessionResponseModel {
-  objects: activeSessionResponseModel[];
+export interface ActiveSessionResponseModel {
+  objects: ActiveSessionResponseModel[];
   count: number;
   length: number;
   id: string;
@@ -70,9 +70,9 @@ export interface activeSessionResponseModel {
     };
   };
 }
-export interface historySessionResponseModel {
+export interface HistorySessionResponseModel {
   count: number;
-  objects: historySessionResponseModel[];
+  objects: HistorySessionResponseModel[];
   location: string;
   user_ip_address: string;
   id: string;

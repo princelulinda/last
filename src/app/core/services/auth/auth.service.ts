@@ -9,10 +9,10 @@ import { ApiService } from '../api/api.service';
 import { DbService } from '../../db';
 import {
   EmailVerificationResponseModel,
-  createAccountResponseModel,
-  phoneNumberVerificaitonResponseModel,
-  resetPasswordResponseModel,
-  otpVerificationResponseModel,
+  CreateAccountResponseModel,
+  PhoneNumberVerificaitonResponseModel,
+  ResetPasswordResponseModel,
+  OtpVerificationResponseModel,
   ConectedOperatorApiResponseModel,
   OrganizationModel,
   LoginOperatorApiResponseModel,
@@ -195,24 +195,24 @@ export class AuthService {
     };
   }
 
-  createAccount(body: object): Observable<createAccountResponseModel> {
+  createAccount(body: object): Observable<CreateAccountResponseModel> {
     const url = '/client/';
     return this.apiService
       .post(url, body)
-      .pipe(map(response => response as createAccountResponseModel));
+      .pipe(map(response => response as CreateAccountResponseModel));
   }
 
-  requestOTP(body: object): Observable<resetPasswordResponseModel> {
+  requestOTP(body: object): Observable<ResetPasswordResponseModel> {
     const url = '/otp/request/';
     return this.apiService
       .post(url, body)
-      .pipe(map(response => response as resetPasswordResponseModel));
+      .pipe(map(response => response as ResetPasswordResponseModel));
   }
-  OTPverification(body: object): Observable<otpVerificationResponseModel> {
+  OTPverification(body: object): Observable<OtpVerificationResponseModel> {
     const url = '/otp/verification/';
     return this.apiService
       .post(url, body)
-      .pipe(map(response => response as otpVerificationResponseModel));
+      .pipe(map(response => response as OtpVerificationResponseModel));
   }
 
   getOperatorInvitations(clientId: string) {
@@ -236,7 +236,7 @@ export class AuthService {
 
   verifyPhoneNumber(
     tel: string
-  ): Observable<phoneNumberVerificaitonResponseModel> {
+  ): Observable<PhoneNumberVerificaitonResponseModel> {
     const url = `/extid/verification/?externel_request=true&type=phone_number&value=${tel}`;
     return this.apiService.get(url);
   }

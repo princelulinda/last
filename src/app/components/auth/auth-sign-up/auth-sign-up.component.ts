@@ -8,10 +8,10 @@ import { Subject, Observable } from 'rxjs';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import {
   EmailVerificationResponseModel,
-  phoneNumberVerificaitonResponseModel,
-  createAccountResponseModel,
-  bankListResponseModel,
-  cardIdDataModel,
+  PhoneNumberVerificaitonResponseModel,
+  CreateAccountResponseModel,
+  BankListResponseModel,
+  CardIdDataModel,
 } from '../auth.model';
 import { FileComponent } from '../../../global/components/file/file.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
@@ -49,9 +49,9 @@ export class AuthSignUpComponent implements OnInit {
   phoneNumberVerificationLoader = false;
   isLoadingBank = false;
   // file: bankListResponse[] | [] | null = null;
-  getBanksList: bankListResponseModel[] | [] | null = null;
+  getBanksList: BankListResponseModel[] | [] | null = null;
   emailToVerify!: EmailVerificationResponseModel;
-  phoneNumberToVerify!: phoneNumberVerificaitonResponseModel;
+  phoneNumberToVerify!: PhoneNumberVerificaitonResponseModel;
   showPassword = false;
   passwordType = 'password';
   arePasswordsMatch = false;
@@ -137,7 +137,7 @@ export class AuthSignUpComponent implements OnInit {
       expiryDate: [''],
     }),
   });
-  userInfo!: createAccountResponseModel;
+  userInfo!: CreateAccountResponseModel;
   // expiry_date!:string | null | undefined;
   createAccount() {
     this.isLoadingCreation = true;
@@ -184,13 +184,13 @@ export class AuthSignUpComponent implements OnInit {
       mother_name: '',
     };
     if (this.multiStepForm.controls.cardInformation.value.expiryDate !== '') {
-      (data.card_id as unknown as cardIdDataModel).expiry_date =
+      (data.card_id as unknown as CardIdDataModel).expiry_date =
         this.multiStepForm.controls.cardInformation.value.expiryDate;
     }
 
     this.dialogService.dispatchLoading();
     this.authService.createAccount(data).subscribe({
-      next: (response: createAccountResponseModel) => {
+      next: (response: CreateAccountResponseModel) => {
         this.isLoadingCreation = false;
         this.userInfo = response;
         const userData = {
@@ -251,7 +251,7 @@ export class AuthSignUpComponent implements OnInit {
       this.multiStepForm.controls.authentificationInformation?.value?.number ||
       '';
     this.authService.verifyPhoneNumber(tel).subscribe({
-      next: (response: phoneNumberVerificaitonResponseModel) => {
+      next: (response: PhoneNumberVerificaitonResponseModel) => {
         this.phoneNumberVerificationLoader = false;
         this.phoneNumberToVerify = response;
         console.log('Données sélectionnées', this.phoneNumberToVerify);
@@ -263,7 +263,7 @@ export class AuthSignUpComponent implements OnInit {
   getBankList() {
     this.isLoadingBank = true;
     this.bankService.getAllBanks().subscribe({
-      next: (response: { objects: bankListResponseModel[] }) => {
+      next: (response: { objects: BankListResponseModel[] }) => {
         this.getBanksList = response.objects;
         this.isLoadingBank = false;
       },
