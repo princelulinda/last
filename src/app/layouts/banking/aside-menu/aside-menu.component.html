@@ -125,10 +125,18 @@
               <div>
                 <span
                   class="bg-secondary text-warning me-3 rounded-pill py-3 px-2">
-                  <img
-                    [src]="'/images/loan-black.svg'"
-                    alt=""
-                    class="custom-img text-success" />
+                  @if (theme === 'light') {
+                    <img
+                      [src]="'/images/loan-black.svg'"
+                      alt=""
+                      class="custom-img text-success" />
+                  }
+                  @if (theme === 'dark') {
+                    <img
+                      [src]="'/images/loan-white.svg'"
+                      alt=""
+                      class="custom-img text-success" />
+                  }
                 </span>
               </div>
               <span class="fw-bold text-secondary" i18n>Credits</span>
@@ -145,20 +153,31 @@
             routerLink="/b/banking/withdrawal">
             <div>
               <span class="bg-secondary me-3 rounded-pill py-3 px-2">
-                <img
-                  [src]="'/images/withdrawal-black.svg'"
-                  alt=""
-                  class="custom-img text-magis-primary" />
+                @if (theme === 'light') {
+                  <img
+                    [src]="'/images/withdrawal-black.svg'"
+                    alt=""
+                    class="custom-img text-magis-primary" />
+                }
+                @if (theme === 'dark') {
+                  <img
+                    [src]="'/images/withdrawal-white.svg'"
+                    alt=""
+                    class="custom-img text-magis-primary" />
+                }
               </span>
             </div>
             <span class="fw-bold text-secondary" i18n>Withdrawals </span>
           </a>
+
           <a
-            class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between"
-            routerLink="/b/banking/transfer">
-            <div class="d-flex align-items-center">
+            class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
+            <div
+              class="d-flex align-items-center"
+              routerLink="/b/banking/transfer">
               <div>
-                <span class="bg-secondaryme-3 rounded-pill py-3 px-3">
+                <span
+                  class="bg-secondary text-success me-3 rounded-pill py-3 px-3">
                   <i class="fa-solid fa-paper-plane text-primary"></i>
                 </span>
               </div>
