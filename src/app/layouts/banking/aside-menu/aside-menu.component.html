@@ -73,6 +73,106 @@
         </div>
         <span class="fw-bold text-secondary" i18n>Tarif</span>
       </a>
+
+      @if (selectedBank) {
+        <section class="mt-5">
+          <div class="border sm-radius d-flex align-items-center p-2">
+            <div class="w-25">
+              <img
+                [src]="selectedBank.company.image"
+                class="img-fluid"
+                [alt]="selectedBank.company.fullname" />
+            </div>
+            <div class="ms-3">
+              <div class="d-grid">
+                <span class="fw-bold text-secondary" i18n>
+                  {{ selectedBank.company.fullname }}
+                </span>
+                <span class="fs-x-small">
+                  {{ selectedBank.bank_type }}
+                </span>
+              </div>
+              <div></div>
+            </div>
+          </div>
+
+          <a
+            class="mt-5 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+            routerLink="/b/banking/accounts">
+            <div>
+              <span
+                class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
+                <i class="fa-solid fa-circle-user text-magis-primary"></i>
+              </span>
+            </div>
+            <span class="fw-bold text-secondary" i18n>Accounts</span>
+          </a>
+
+          <a
+            class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+            routerLink="/b/banking/saving">
+            <div>
+              <span class="bg-secondary me-3 rounded-pill py-3 px-3">
+                <i class="fa-solid fa-piggy-bank text-secondary"></i>
+              </span>
+            </div>
+            <span class="fw-bold text-secondary" i18n>Savings</span>
+          </a>
+          <a
+            class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between"
+            routerLink="/b/banking/loan">
+            <div class="d-flex align-items-center">
+              <div>
+                <span
+                  class="bg-secondary text-warning me-3 rounded-pill py-3 px-2">
+                  <img
+                    [src]="'/images/loan-black.svg'"
+                    alt=""
+                    class="custom-img text-success" />
+                </span>
+              </div>
+              <span class="fw-bold text-secondary" i18n>Credits</span>
+            </div>
+            <b>
+              <small
+                class="bg-secondary px-2 d-flex justify-content-center sm-radius text-success">
+                0
+              </small>
+            </b>
+          </a>
+          <a
+            class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+            routerLink="/b/banking/withdrawal">
+            <div>
+              <span class="bg-secondary me-3 rounded-pill py-3 px-2">
+                <img
+                  [src]="'/images/withdrawal-black.svg'"
+                  alt=""
+                  class="custom-img text-magis-primary" />
+              </span>
+            </div>
+            <span class="fw-bold text-secondary" i18n>Withdrawals </span>
+          </a>
+          <a
+            class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between"
+            routerLink="/b/banking/transfer">
+            <div class="d-flex align-items-center">
+              <div>
+                <span class="bg-secondaryme-3 rounded-pill py-3 px-3">
+                  <i class="fa-solid fa-paper-plane text-primary"></i>
+                </span>
+              </div>
+              <span class="fw-bold text-secondary" i18n>Transfer</span>
+            </div>
+            <b>
+              <small
+                class="bg-secondary px-2 d-flex justify-content-center sm-radius text-primary">
+                0
+              </small>
+            </b>
+          </a>
+        </section>
+      }
     </section>
   }
 

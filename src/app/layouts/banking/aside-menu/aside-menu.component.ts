@@ -12,6 +12,7 @@ import {
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
 import { UserInfoModel } from '../../../core/db/models/auth';
+import { bankModel } from '../../../core/db/models/bank/bank.model';
 
 @Component({
   selector: 'app-aside-menu',
@@ -26,7 +27,8 @@ export class AsideMenuComponent implements OnInit {
 
   userInfo!: UserInfoModel;
   userInfo$: Observable<UserInfoModel>;
-
+  selectedBank!: bankModel;
+  selectedBank$!: Observable<bankModel>;
   constructor(
     private configService: ConfigService,
     private menuService: MenuService,
@@ -34,6 +36,7 @@ export class AsideMenuComponent implements OnInit {
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.userInfo$ = this.authService.getUserInfo();
+    this.selectedBank$ = this.configService.getSelectedBank();
   }
 
   ngOnInit(): void {
@@ -47,6 +50,11 @@ export class AsideMenuComponent implements OnInit {
         if (userInfo) {
           this.userInfo = userInfo;
         }
+      },
+    });
+    this.selectedBank$.subscribe({
+      next: bank => {
+        this.selectedBank = bank;
       },
     });
   }
