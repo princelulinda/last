@@ -66,10 +66,10 @@ export class LoanService {
       .pipe(map(data => data as { object: ResponseDataModel }));
   }
   getLoanDetails(id: string) {
-    return this.apiService.get(`/loans/manage/${id}`);
+    return this.apiService.get(`/loans/manage/${id}/`);
   }
   getAmortizationPlan(id: string) {
-    return this.apiService.get(`/loans/plan/${id}`);
+    return this.apiService.get(`/loans/plan/${id}/`);
   }
   payLoan(body: PayLoanModel) {
     return this.apiService.post('/loans/clients/plan/payment/', body);
@@ -93,7 +93,7 @@ export class LoanService {
   }
 
   getLoanRequestDetails(loanId: string) {
-    const url = `/loans/request/${loanId}`;
+    const url = `/loans/request/${loanId}/`;
     return this.apiService.get(url).pipe(map(data => data));
   }
 

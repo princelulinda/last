@@ -45,7 +45,7 @@ export interface SimulationResModel {
 
 export interface ResponseDataModel {
   response_code: string;
-  response_data: SimulationResModel | DefaultValuesLoan;
+  response_data: SimulationResModel | DefaultValuesLoanModel;
   response_message: string;
   success: boolean;
 }
@@ -188,7 +188,7 @@ export interface BodyLoanModel {
   cred_defaults?: number;
 }
 
-export interface DefaultValuesLoan {
+export interface DefaultValuesLoanModel {
   branch: number;
   client_category: number;
   fees_account: number;

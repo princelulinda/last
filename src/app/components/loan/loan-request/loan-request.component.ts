@@ -17,7 +17,7 @@ import { DialogService } from '../../../core/services';
 import {
   AcccountWorkstationModel,
   CreditTypeModel,
-  DefaultValuesLoan,
+  DefaultValuesLoanModel,
   LoanPendingModel,
   LoanTypeModel,
   ResponseDataModel,
@@ -54,7 +54,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
   amount: number | null = 0;
   loansType!: LoanTypeModel;
   creditType: CreditTypeModel | null = null;
-  defaultValuesLoan!: DefaultValuesLoan;
+  defaultValuesLoan!: DefaultValuesLoanModel;
 
   isFormVisible = false;
 
@@ -256,7 +256,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
 
         if (response.object.success) {
           this.defaultValuesLoan = response.object
-            .response_data as DefaultValuesLoan;
+            .response_data as DefaultValuesLoanModel;
 
           this.isFormVisible = true;
 
