@@ -1,8 +1,5 @@
-import { MerchantModel, tellerObjectModel } from '../merchant.models';
-import { MerchantBillModel } from '../../../core/services/dialog/dialogs-models';
-import { ClientModel } from '../../../core/db/models/auth';
+import { MerchantModel } from '../merchant.models';
 import { MetadataModel } from '../../metadatas/metadata.model';
-
 export interface ProductAutocompleteModel {
   id: number;
   price: number;
@@ -13,40 +10,6 @@ export interface ProductAutocompleteModel {
   lookup_description: string;
   is_favorite_product: boolean;
 }
-
-export interface AllProductAutocompleteModel {
-  objects: ProductAutocompleteModel[];
-  count: number;
-}
-export interface AllProductsModel {
-  objects: ProductAutocompleteModel;
-  count: number;
-}
-
-export interface MerchantBillDataModel {
-  data: MerchantBillModel;
-  active?: {
-    isActive: boolean | false;
-    type: string;
-  };
-}
-
-export interface AccountModel {
-  acc_short_number: string;
-  acc_bank_id: number;
-}
-
-export interface Account {
-  acc_holder: string;
-  acc_number: string;
-}
-
-export interface WalletModel {
-  id: number;
-  code: string;
-  bank_id: number;
-}
-
 export interface OrdersModel {
   id: number;
   product: {
@@ -65,58 +28,6 @@ export interface OrdersModel {
   };
   api_sent_reference: string;
 }
-
-export interface PaymentStatusModel {
-  title: string;
-  value: string;
-}
-
-export interface BillsModel {
-  id: number;
-  created_at: string;
-  code: string;
-  merchant_teller: tellerObjectModel;
-  created_by: ClientModel;
-  client: ClientModel;
-  payment_account: { acc_short_number: string };
-  payment_status: PaymentStatusModel;
-  total_amount: number | string;
-  description: string;
-  orders: OrdersModel[];
-}
-
-export interface paymentBillsModel {
-  object: BillsModel;
-  objects: BillsModel[];
-  count: number;
-}
-
-export interface OptionModel {
-  selectedDebitOption: string;
-  account: AccountModel;
-  wallet: WalletModel;
-}
-
-// export interface ErrorModel {
-//   object: {
-//     response_message: string;
-//   };
-// }
-
-export interface ObjectBillModel {
-  object: generateBillModel;
-}
-
-export interface generateBillModel {
-  response_message: string;
-  response_code: string;
-  response_data: {
-    code: string;
-    refence: string;
-  };
-  success: boolean;
-}
-
 export interface addProductByMerchantModel {
   name: string;
   merchant: string;
@@ -156,25 +67,7 @@ export interface TransactionModel {
   };
   code: string;
   amount: number;
-  // period: {
-  //   start_date: Date;
-  //   end_date: Date;
-  // };
 }
-
-export interface TransactionObjectModel {
-  objects: TransactionModel[];
-  // period: {
-  //   start_date: Date;
-  //   end_date: Date;
-  // };
-}
-
-export interface PeriodModel {
-  start_date: string;
-  end_date: string;
-}
-
 export interface UpdateProdcutInfoModel {
   product: number;
   merchant: string | number;
@@ -196,12 +89,19 @@ export interface searchProductByMerchantModel {
   search: string | null;
 }
 
-export interface ProductFavoriteModel {
-  product: string;
-  product_action: string;
+export interface metadataModel {
+  objects: metadataObjectModel[];
 }
-
-export interface FavoriteModel {
+export interface updateProductInfoObjectModel {
+  object: metadataObjectModel;
+}
+export interface metadataObjectModel {
+  success: boolean;
+  response_message: string;
+  name: string;
+  id: number;
+}
+export interface FavoriteProductModel {
   object: {
     success: boolean;
     response_code: string;
