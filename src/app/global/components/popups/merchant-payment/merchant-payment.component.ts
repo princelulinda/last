@@ -175,6 +175,7 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
 
   closeMerchantPaymentDialog() {
     this.dialogService.closeMerchantPaymentDialog();
+    this.resetAllData();
   }
   getSelectedMerchant(merchant: MerchantAutocompleteModel) {
     this.selectedMerchant = merchant;
@@ -215,6 +216,19 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
       }
       this.lookupMetadataForm = this.fb.group(fields);
     }
+  }
+
+  resetAllData() {
+    this.merchant = null;
+    this.product = null;
+    this.category = null;
+    this.merchantDetails = null;
+    this.selectedMerchant = null;
+    this.productDetails = null;
+    this.selectedProduct = null;
+    this.selectedPaymentMenu = '';
+    this.lookupMetadataForm.reset();
+    this.productLookup = null;
   }
 
   ngAfterViewInit() {
