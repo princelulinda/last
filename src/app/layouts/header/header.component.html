@@ -121,10 +121,20 @@
         }">
         <span type="button" data-bs-toggle="" aria-expanded="false">
           <!-- TOD ::  HEADER USER AVATAR IF AVAILABLE IN FUTURE  -->
-
-          <span>
-            <i class="fa-regular fa-circle-user fs-6"></i>
-          </span>
+          @if (userInfo) {
+            <span class="text-center d-flex justify-content-center mb-1">
+              <app-profile-card
+                [imageUrl]="userInfo.client.picture"
+                [fullName]="userInfo.client.client_full_name"
+                height="25px"
+                width="25px"
+                classes="fs-x-small"></app-profile-card>
+            </span>
+          } @else {
+            <span>
+              <i class="fa-regular fa-circle-user fs-6"></i>
+            </span>
+          }
         </span>
       </span>
 
@@ -390,9 +400,10 @@
                         <span class="text-center d-flex justify-content-center">
                           <app-profile-card
                             [imageUrl]="userInfo.client.picture"
-                            [fullName]="
-                              userInfo.client.client_full_name
-                            "></app-profile-card>
+                            [fullName]="userInfo.client.client_full_name"
+                            height="87px"
+                            width="87px"
+                            classes="fs-x-large"></app-profile-card>
                         </span>
                       }
                     </div>

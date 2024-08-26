@@ -29,7 +29,7 @@ import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-mo
 import { DebitAccountComponent } from '../../../transfer/debit-account/debit-account.component';
 import { accountsList } from '../../../account/models';
 import { WalletList } from '../../../wallet/wallet.models';
-import { DebitOptions } from '../../../transfer/transfer.model';
+import { DebitOptionsModel } from '../../../transfer/transfer.model';
 import { bankModel } from '../../../../core/db/models/bank/bank.model';
 
 @Component({
@@ -251,7 +251,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
       this.selectedWallet = account.code;
     }
   }
-  selectedDebitOption(option: DebitOptions) {
+  selectedDebitOption(option: DebitOptionsModel) {
     this.descriptionForm.reset();
     if (option.selectedDebitOption === 'account') {
       this.selectedAccount = option.account;

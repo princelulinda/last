@@ -8,7 +8,7 @@ export interface MetadataModel {
     max_length: number;
     max_digits: number;
     required: boolean;
-    choices: [number: string][];
+    choices: [string: string][];
   };
 }
 export interface MetadataCreationResponseModel {
@@ -24,4 +24,7 @@ export interface MetadataBodyModel {
   meta_type: string | null | undefined;
   widget_attrs: object;
 }
-export type WidgetAttrsModel = Record<string, string | number | boolean | null | undefined>;
+export type WidgetAttrsModel = Record<
+  string,
+  string | number | boolean | null | undefined
+>;

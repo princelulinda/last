@@ -6,7 +6,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { BankService } from '../../../../core/services/bank/bank.service';
 import { AuthService, ConfigService } from '../../../../core/services';
 import { UserInfoModel } from '../../../../core/db/models/auth';
-import { BankOptions } from '../../../../components/dashboards/dashboard.model';
+import { BankOptionsModel } from '../../../../components/dashboards/dashboard.model';
 import { bankModel } from '../../../../core/db/models/bank/bank.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 @Component({
@@ -29,7 +29,7 @@ export class SwitchBankComponent implements OnInit {
   mode$!: Observable<ModeModel>;
   clientInfo!: UserInfoModel;
   private userInfo$: Observable<UserInfoModel>;
-  @Output() bankOptions = new EventEmitter<BankOptions>();
+  @Output() bankOptions = new EventEmitter<BankOptionsModel>();
   private onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(
