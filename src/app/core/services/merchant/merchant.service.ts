@@ -16,6 +16,7 @@ import {
   ProductAutocompleteModel,
   ProductModel,
   ProductLookupBodyModel,
+  ProductLookupModel,
 } from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
@@ -323,9 +324,13 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
-  getMerchantProductLookup(lookupData: ProductLookupBodyModel) {
+  getMerchantProductLookup(
+    lookupData: ProductLookupBodyModel
+  ): Observable<{ object: ProductLookupModel }> {
     const url = '/dbs/merchant/product/lookup/';
-    return this.apiService.post(url, lookupData).pipe(map(data => data));
+    return this.apiService
+      .post<{ object: ProductLookupModel }>(url, lookupData)
+      .pipe(map(data => data));
   }
 
   payMerchant(paymentData: []) {

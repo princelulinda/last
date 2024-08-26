@@ -243,7 +243,7 @@
                     </span>
                     <input
                       [type]="productDetails.lookup_metadata[0].field_type"
-                      [formGroupName]="
+                      [formControlName]="
                         productDetails.lookup_metadata[0].field_name
                       "
                       [disabled]="loadingLookup"
@@ -266,7 +266,7 @@
                       <input
                         [disabled]="loadingLookup"
                         [type]="item.field_type"
-                        [formGroupName]="item.field_name"
+                        [formControlName]="item.field_name"
                         class="form-control"
                         [id]="item.field_name"
                         [placeholder]="item.field_name" />

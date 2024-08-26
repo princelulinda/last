@@ -80,7 +80,9 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
 
   selectedPaymentMenu: 'Direct-Payment' | 'Product-Payment' | '' = '';
 
-  lookupMetadataForm: FormGroup = this.fb.group([]);
+  lookupMetadataForm: FormGroup = this.fb.group({
+    account: [{ value: '', disabled: true }],
+  });
   loadingLookup = false;
   productLookup: unknown;
 
@@ -153,6 +155,7 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
   }
 
   doProductLookup() {
+    console.log('Lookup Metadata Form', this.lookupMetadataForm.value);
     this.loadingLookup = true;
     const body: ProductLookupBodyModel = {
       merchant_product_id: this.selectedProduct?.id as number,
@@ -161,16 +164,18 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
       },
       lookup_extra_data: {},
     };
-    return;
-    this.merchantService.getMerchantProductLookup(body).subscribe({
-      next: response => {
-        this.productLookup = response;
-        this.loadingLookup = false;
-      },
-      error: () => {
-        this.loadingLookup = false;
-      },
-    });
+    this.merchantService
+      .getMerchantProductLookup(body)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          this.productLookup = response;
+          this.loadingLookup = false;
+        },
+        error: () => {
+          this.loadingLookup = false;
+        },
+      });
   }
 
   closeMerchantPaymentDialog() {
@@ -214,7 +219,7 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
           ],
         };
       }
-      this.lookupMetadataForm = this.fb.group(fields);
+      this.lookupMetadataForm = this.fb.group({ ...fields });
     }
   }
 
