@@ -13,7 +13,7 @@ import { DebitAccountComponent } from '../debit-account/debit-account.component'
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { accountsList } from '../../account/models';
-import { DebitOptions } from '../transfer.model';
+import { DebitOptionsModel } from '../transfer.model';
 import { Observable, Subject } from 'rxjs';
 import { ConfigService } from '../../../core/services';
 import {
@@ -125,7 +125,7 @@ export class TransferComponent implements OnInit, OnDestroy {
     this.accountSelected = null;
   }
 
-  getDebitOptions(event: string | DebitOptions) {
+  getDebitOptions(event: string | DebitOptionsModel) {
     if (typeof event === 'string') {
       this.selectedDebitType = event;
     } else {

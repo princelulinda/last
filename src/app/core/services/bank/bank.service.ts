@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { bankListResponse } from '../../../components/auth/auth.model';
+import { BankListResponseModel } from '../../../components/auth/auth.model';
 import { ApiService, ConfigService } from '..';
 import { bankModel } from '../../db/models/bank/bank.model';
 import { addBankResponse } from '../../../components/dashboards/dashboard.model';
 
 import { WalletCard } from '../../../components/wallet/wallet.models';
-import { nyamuranziCard } from '../../../components/nyamuranzi/models';
+import { nyamuranziCardModel } from '../../../components/nyamuranzi/models';
 import { WithdrawalModel } from '../../../components/withdrawal/withdrawal.models';
 import { DissectedDateModel } from '../../../components/statements/statement.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
@@ -98,9 +98,9 @@ export class BankService {
 
     return dissectedDate;
   }
-  getAllBanks(): Observable<{ objects: bankListResponse[] }> {
+  getAllBanks(): Observable<{ objects: BankListResponseModel[] }> {
     const url = '/banks/list/?externel_request=true&bank_type=MFI';
-    return this.apiService.get<{ objects: bankListResponse[] }>(url);
+    return this.apiService.get<{ objects: BankListResponseModel[] }>(url);
   }
   // getBankStatusPing(body: any) {
   //     const url = `${environment.websocketUrl}ws/dbsapp/partners-ping/`;
@@ -127,7 +127,10 @@ export class BankService {
     return this.apiService
       .get<{
         objects: TransactionModel[];
-      }>(`/operations/pending/logic/?req_type=${type}&=date_from=${period.start_date}&=date_to=${period.end_date}&limit=${pagination.filters?.limit}&offset=${pagination.filters?.offset}` + client)
+      }>(
+        `/operations/pending/logic/?req_type=${type}&=date_from=${period.start_date}&=date_to=${period.end_date}&limit=${pagination.filters?.limit}&offset=${pagination.filters?.offset}` +
+          client
+      )
       .pipe(map(data => data));
   }
 
@@ -181,9 +184,9 @@ export class BankService {
       })
     );
   }
-  getRefereePersons(): Observable<{ object: nyamuranziCard }> {
+  getRefereePersons(): Observable<{ object: nyamuranziCardModel }> {
     return this.apiService
-      .get<{ object: nyamuranziCard }>('/client/refered/')
+      .get<{ object: nyamuranziCardModel }>('/client/refered/')
       .pipe(map(data => data));
   }
 }

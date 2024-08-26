@@ -24,8 +24,8 @@ import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { SwitchBankComponent } from '../../../global/components/popups/switch-bank/switch-bank.component';
 import { AccountsListComponent } from '../../account/accounts-list/accounts-list.component';
 import {
-  DebitEvent,
-  DebitOptions,
+  DebitIndividualEventModel,
+  DebitOptionsModel,
   InstitutionInfoModel,
 } from '../transfer.model';
 import { WalletListComponent } from '../../wallet/wallet-list/wallet-list.component';
@@ -35,7 +35,7 @@ import {
 } from '../../../core/services/config/main-config.models';
 import { accountsList } from '../../account/models';
 import { WalletList } from '../../wallet/wallet.models';
-import { BankOptions } from '../../dashboards/dashboard.model';
+import { BankOptionsModel } from '../../dashboards/dashboard.model';
 
 @Component({
   selector: 'app-debit-account',
@@ -61,12 +61,12 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
   private userInfo$: Observable<UserInfoModel>;
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
-  debitAccount: DebitOptions | null = null;
+  debitAccount: DebitOptionsModel | null = null;
   @Input() selectedDebitAccountType = '';
   lookupDebitAccountUrl = '/clients/list/all/object_lookup?lookup_data=';
   clientId: number | null = null;
 
-  debitWallet: DebitOptions | null = null;
+  debitWallet: DebitOptionsModel | null = null;
   defaultBank: string | undefined;
   @Input() selectedBank!: bankModel;
   selectedBank$!: Observable<bankModel>;
@@ -192,7 +192,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
   selectBank(bank: bankModel) {
     this.configService.setSelectedBank(bank);
   }
-  getClient(client: DebitOptions) {
+  getClient(client: DebitOptionsModel) {
     this.debitAccount = client;
     const options = {
       id: this.debitAccount.id,
@@ -233,7 +233,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     this.debitOptions.emit(options);
   }
 
-  getSwitchBankOptions(event: BankOptions) {
+  getSwitchBankOptions(event: BankOptionsModel) {
     const options = {
       account: '',
       wallet: '',
@@ -246,15 +246,15 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     };
     this.debitOptions.emit(options);
     this.selectedDebitAccountType = event.selectedDebitAccountType ?? '';
-    this.debitAccount = event.debitAccount as unknown as DebitOptions;
-    this.debitWallet = event.debitWallet as unknown as DebitOptions;
+    this.debitAccount = event.debitAccount as unknown as DebitOptionsModel;
+    this.debitWallet = event.debitWallet as unknown as DebitOptionsModel;
     this.banks = event.banks;
   }
 
   toggleBalance() {
     this.dialogService.displayAmount();
   }
-  getIndividualClient(event: DebitEvent) {
+  getIndividualClient(event: DebitIndividualEventModel) {
     const options = {
       account: event.account,
       wallet: '',

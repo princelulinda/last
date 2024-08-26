@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { ApiService } from '..';
 import {
-  AddResponse,
+  AddResponseModel,
   BodyModel,
 } from '../../../components/settings/settings.models';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -12,7 +12,6 @@ import {
   Accountdetail,
 } from '../../../components/account/models';
 import {
-  CreatWalletBodyModel,
   creatWalletResponse,
   Walletdetail,
   WalletList,
@@ -30,11 +29,11 @@ export class ClientService {
   private selectedWalletSubject = new BehaviorSubject<WalletList | null>(null);
   selectedWallet$ = this.selectedWalletSubject.asObservable();
 
-  addAphoneNumber(body: BodyModel): Observable<AddResponse> {
+  addAphoneNumber(body: BodyModel): Observable<AddResponseModel> {
     const url = '/extid/creation/';
     return this.apiService.post(url, body).pipe(
       map(response => {
-        return response as AddResponse;
+        return response as AddResponseModel;
       })
     );
   }
@@ -61,14 +60,22 @@ export class ClientService {
     return this.apiService.get<{ objects: WalletTypModel[] }>(url);
   }
 
-  creatWallet(body: CreatWalletBodyModel): Observable<creatWalletResponse> {
+  creatWallet(
+    wallet_type: string,
+    title: string
+  ): Observable<creatWalletResponse> {
     const url = '/dbs/wallet/create/';
+    const body = {
+      wallet_type: wallet_type,
+      title: title,
+    };
     return this.apiService.post(url, body).pipe(
       map(response => {
         return response as creatWalletResponse;
       })
     );
   }
+
   getClientAccountDetails(
     selectedAccount: string
   ): Observable<{ object: Accountdetail }> {

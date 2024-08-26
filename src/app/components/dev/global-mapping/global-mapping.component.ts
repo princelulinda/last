@@ -4,7 +4,7 @@ import { UserInfoModel } from '../../../core/db/models/auth';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import {
   MappingBody,
-  MappingResponse,
+  MappingResponseModel,
   MobileBanksModel,
 } from './glob-mapping.model';
 import { GeneralService } from '../../../core/services';
@@ -15,7 +15,7 @@ import {
   ModeModel,
 } from '../../../core/services/config/main-config.models';
 import { CommonModule } from '@angular/common';
-import { DebitOptions } from '../../transfer/transfer.model';
+import { DebitOptionsModel } from '../../transfer/transfer.model';
 import { accountsList } from '../../account/models';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService } from '../../../core/services';
@@ -44,7 +44,7 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
   private onDestroy$ = new Subject<void>();
-  debitOptions: DebitOptions | null = null;
+  debitOptions: DebitOptionsModel | null = null;
   showOpertors = false;
   showPinForm = false;
   selectedDebitType = '';
@@ -100,7 +100,7 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  getDebitOptions(event: string | DebitOptions) {
+  getDebitOptions(event: string | DebitOptionsModel) {
     if (typeof event === 'string') {
       this.selectedDebitType = event;
       this.showPinForm = true;
@@ -154,7 +154,7 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
       };
 
       this.generalService.mappAccount(body).subscribe({
-        next: (response: MappingResponse) => {
+        next: (response: MappingResponseModel) => {
           this.loading = false;
           this.dialogService.closeLoading();
           if (response.object.success) {

@@ -28,10 +28,11 @@
               i18n>
               Agent </span
             ><br />
-            <p
-              *ngIf="menuSelected === 'agent'"
-              class="bg-primary ms-4 rounded p-0 m-0 pt-2 text-center"
-              style="width: 73%; height: 5px"></p>
+            @if (menuSelected === 'agent') {
+              <p
+                class="bg-primary ms-4 rounded p-0 m-0 pt-2 text-center"
+                style="width: 73%; height: 5px"></p>
+            }
           </div>
           <div class="col-lg-6 col-md-6 col m-0 p-0 text-center">
             <span
@@ -43,10 +44,11 @@
               }">
               Qr Code </span
             ><br />
-            <p
-              *ngIf="menuSelected === 'qrcode'"
-              class="bg-primary ms-4 pe-2 rounded p-0 m-0 pt-2"
-              style="width: 73%; height: 5px"></p>
+            @if (menuSelected === 'qrcode') {
+              <p
+                class="bg-primary ms-4 pe-2 rounded p-0 m-0 pt-2"
+                style="width: 73%; height: 5px"></p>
+            }
           </div>
         </div>
       </div>
@@ -60,53 +62,54 @@
       </app-debit-account>
     </div>
 
-    <div
-      class="col-lg-8 col-md-8 col mt-3 ms-3"
-      *ngIf="menuSelected === 'agent' && account">
-      <div class="ms-2 text-dark">
-        <b i18n>Agent Code</b>
+    @if (menuSelected === 'agent' && account) {
+      <div class="col-lg-8 col-md-8 col mt-3 ms-3">
+        <div class="ms-2 text-dark">
+          <b i18n>Agent Code</b>
+        </div>
+        <div class="mt-2">
+          <app-lookup
+            option="lookup"
+            url="/dbs/agents/object_lookup/?lookup_data="
+            label="Search by Agent code"
+            (selectedItemEvent)="getAgentCode($event)"></app-lookup>
+        </div>
       </div>
-      <div class="mt-2">
-        <app-lookup
-          option="lookup"
-          url="/dbs/agents/object_lookup/?lookup_data="
-          label="Search by Agent code"
-          (selectedItemEvent)="getAgentCode($event)"></app-lookup>
-      </div>
-    </div>
+    }
+
     <!-- </div> -->
-    <div
-      class="col-lg-8 col-md-8 col mt-3"
-      *ngIf="agent || (menuSelected === 'qrcode' && account)">
-      <form [formGroup]="withdrawForm" (ngSubmit)="enterPin()">
-        <div class="ms-3">
-          <div class="mb-3 sm-radius" style="width: 100%">
-            <app-amount-field
-              (amountEvent)="inputAmount($event)"></app-amount-field>
+    @if (agent || (menuSelected === 'qrcode' && account)) {
+      <div class="col-lg-8 col-md-8 col mt-3">
+        <form [formGroup]="withdrawForm" (ngSubmit)="enterPin()">
+          <div class="ms-3">
+            <div class="mb-3 sm-radius" style="width: 100%">
+              <app-amount-field
+                (amountEvent)="inputAmount($event)"></app-amount-field>
+            </div>
+            <div class="mb-3 form-floating">
+              <input
+                type="text"
+                placeholder="Description"
+                class="form-control input sm-radius field"
+                style="width: 100%; height: 60px"
+                formControlName="description" />
+              <label class="fs-5 text-dark" for="description"
+                ><small i18n> Description</small> <code>*</code></label
+              >
+            </div>
           </div>
-          <div class="mb-3 form-floating">
-            <input
-              type="text"
-              placeholder="Description"
-              class="form-control input sm-radius field"
-              style="width: 100%; height: 60px"
-              formControlName="description" />
-            <label class="fs-5 text-dark" for="description"
-              ><small i18n> Description</small> <code>*</code></label
-            >
+          <div class="text-center ms-3">
+            <button
+              class="btn bg-primary text-center"
+              type="submit"
+              [disabled]="!withdrawForm.valid"
+              style="border: none; color: white; width: 100px">
+              <span i18n><strong>Confirm</strong> </span>
+            </button>
           </div>
-        </div>
-        <div class="text-center ms-3">
-          <button
-            class="btn bg-primary text-center"
-            type="submit"
-            [disabled]="!withdrawForm.valid"
-            style="border: none; color: white; width: 100px">
-            <span i18n><strong>Confirm</strong> </span>
-          </button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    }
   </main>
   <div class="d-flex">
     <span class="float-end me-2">

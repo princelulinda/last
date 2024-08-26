@@ -40,7 +40,7 @@ export class AccountDetailsComponent implements OnInit {
         }
       },
     });
-    this.getClientAccountDetails();
+    // this.getClientAccountDetails();
   }
 
   getClientAccountDetails() {

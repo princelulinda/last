@@ -130,16 +130,20 @@ export class LoanDetailsComponent implements OnInit, OnDestroy, DoCheck {
     });
   }
 
-  getLoanAmortizationPlan() {
-    this.loanPlan = undefined;
-    this.loanService
-      .getAmortizationPlan(this.loanId)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(loanPlan => {
-        const res = loanPlan as { object: PlanModel[] };
-        this.loanPlan = res.object;
-      });
-  }
+  // getLoanAmortizationPlan() {
+  //   this.loanPlan = undefined;
+  //   this.loanService
+  //     .getAmortizationPlan(this.loanId)
+  //     .pipe(takeUntil(this.onDestroy$))
+  //     .subscribe(loanPlan => {
+  //       console.log(
+  //         'LLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLOAN',
+  //         loanPlan
+  //       );
+  //       const res = loanPlan as { object: LoanPlanResponseModel };
+  //       this.loanPlan = res.object.response_data;
+  //     });
+  // }
 
   payLoan() {
     const data = {
