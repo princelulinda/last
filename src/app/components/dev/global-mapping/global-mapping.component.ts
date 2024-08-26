@@ -4,7 +4,7 @@ import { UserInfoModel } from '../../../core/db/models/auth';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import {
   MappingBody,
-  MappingResponse,
+  MappingResponseModel,
   MobileBanksModel,
 } from './glob-mapping.model';
 import { GeneralService } from '../../../core/services';
@@ -154,7 +154,7 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
       };
 
       this.generalService.mappAccount(body).subscribe({
-        next: (response: MappingResponse) => {
+        next: (response: MappingResponseModel) => {
           this.loading = false;
           this.dialogService.closeLoading();
           if (response.object.success) {
