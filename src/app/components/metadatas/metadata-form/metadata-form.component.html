@@ -1,0 +1,213 @@
+<form [formGroup]="metaForm" (ngSubmit)="createMetadata()">
+  <div class="mt-2 d-flex ms-4 ps-4 pe-4">
+    <div class="form-floating field">
+      <input
+        type="text"
+        class="form-control input"
+        id="field_title"
+        placeholder=" "
+        formControlName="field_title" />
+      <label for="field_title">Title of the field</label>
+    </div>
+    <div class="form-floating ms-5 field">
+      <input
+        type="text"
+        class="form-control input"
+        id="field_name"
+        placeholder=" "
+        formControlName="field_name" />
+      <label for="field_name">Name of field</label>
+    </div>
+  </div>
+
+  <div class="mt-4 ms-4 ps-4 pe-4 d-flex">
+    <select
+      class="sm-radius border bg-white ps-3 form-select field"
+      formControlName="field_type">
+      <option value="" disabled selected>Field Type</option>
+
+      @for (meta of metaTypes; track $index) {
+        <option [value]="meta.name" i18n>
+          {{ meta.name }}
+        </option>
+      }
+    </select>
+
+    <div class="ms-5 col-3 d-flex align-items-center">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="required"
+        formControlName="required" />
+      <label for="required" class="ms-2 pt-1 text-primary fs-medium"
+        >Required</label
+      >
+    </div>
+  </div>
+  <form [formGroup]="attributesForm">
+    @if (
+      (metaForm.value.field_type &&
+        metaForm.value.field_type === 'CharField') ||
+      metaForm.value.field_type === 'DecimalField' ||
+      metaForm.value.field_type === 'ForeignKey' ||
+      metaForm.value.field_type === 'ChoiceField'
+    ) {
+      <div
+        class="bg-secondary sm-radius ms-4 mt-3 pb-3 chosen"
+        [ngClass]="{
+          'w-75': plateform !== 'workStation',
+          'w-100': plateform === 'workStation',
+        }"
+        style="min-height: 230px">
+        @for (row of keyValues; let i = $index; track $index) {
+          <div class="pt-3 d-flex flex-wrap ps-4 pe-4 align-items-center">
+            <div class="form-control field me-4 mb-2">
+              {{ row.key }}
+            </div>
+            <div class="form-control field me-3 ms-4 mb-2">
+              {{ row.value }}
+            </div>
+
+            <span
+              class="text-center badge-design bg-danger ms-auto me-auto pt-2 square me-3 mb-2"
+              role="button"
+              tabindex="0"
+              (click)="deleteFields(i)"
+              ><i
+                class="fa-solid fa-trash-can fs-large text-danger sm-radius"></i
+            ></span>
+          </div>
+        }
+
+        <div class="pt-3 d-flex flex-wrap ps-2 pe-4 ps-4 align-items-center">
+          @switch (metaForm.value.field_type) {
+            @case ('CharField') {
+              <select
+                class="sm-radius border bg-white ps-3 form-select field opacity-75 flex-grow-0 me-4 mb-2"
+                formControlName="keyValue">
+                <option value="" disabled selected>Make a choice</option>
+
+                @for (char of charfield; track $index) {
+                  <option [value]="char.value" selectedi18n>
+                    {{ char.name }}
+                  </option>
+                }
+              </select>
+            }
+
+            @case ('DecimalField') {
+              @if (getRemainingDecimalFields() > 0) {
+                <select
+                  class="sm-radius border bg-white ps-3 form-select opacity-75 field flex-grow-0 me-4 mb-2"
+                  formControlName="keyValue">
+                  <option value="" disabled selected>Make a choice</option>
+                  @for (dec of decimalfield; track $index) {
+                    <option [value]="dec.value" [disabled]="dec.disabled" i18n>
+                      {{ dec.name }}
+                    </option>
+                  }
+                </select>
+              }
+            }
+
+            @case ('ForeignKey') {
+              <select
+                class="sm-radius border ps-3 form-select bg-white field text-secondary flex-grow-0 me-4 mb-2"
+                formControlName="keyValue">
+                <option value="" disabled selected>Make a choice</option>
+                @for (fk of FK; track $index) {
+                  <option [value]="fk.value" i18n>
+                    {{ fk.name }}
+                  </option>
+                }
+              </select>
+            }
+            @case ('ChoiceField') {
+              <div class="flex-grow-0 me-4 mb-2">
+                <input
+                  type="text"
+                  class="form-control input field"
+                  placeholder="Enter a choice"
+                  formControlName="keyValue" />
+              </div>
+            }
+          }
+
+          <div class="flex-grow-0 me-3 ms-4 mb-2">
+            @if (
+              metaForm.value.field_type === 'CharField' ||
+              metaForm.value.field_type === 'ForeignKey'
+            ) {
+              <input
+                [type]="
+                  metaForm.value.field_type === 'CharField' ? 'number' : 'text'
+                "
+                class="form-control input field"
+                placeholder="Value"
+                (keydown.enter)="createMetadata()"
+                formControlName="value" />
+            } @else {
+              <input
+                [type]="
+                  metaForm.value.field_type === 'ChoiceField' ? 'text' : ''
+                "
+                class="form-control input field"
+                placeholder="Value"
+                (keydown.enter)="addFields()"
+                [ngClass]="{ 'd-none': getRemainingDecimalFields() === 0 }"
+                formControlName="value" />
+            }
+          </div>
+          <span
+            class="badge-design bg-info square ms-auto pt-1 me-auto mb-2"
+            type="button"
+            tabindex="0"
+            (click)="addFields()"
+            [ngClass]="{
+              'not-clickable': !attributesForm.valid,
+              'd-none':
+                metaForm.value.field_type === 'CharField' ||
+                metaForm.value.field_type === 'ForeignKey' ||
+                (metaForm.value.field_type === 'DecimalField' &&
+                  getRemainingDecimalFields() === 0),
+            }"
+            ><i class="fa-solid fa-check fs-x-large text-info sm-radius"></i
+          ></span>
+        </div>
+      </div>
+    }
+  </form>
+
+  <div class="text-center mt-4 w-50">
+    <span
+      type="button"
+      tabindex="0"
+      (click)="refreshUpdates.emit('list')"
+      class="fw-bold fs-medium text-decoration-underline opacity-75 text-primary"
+      i18n>
+      Cancel</span
+    >
+    <button
+      class="btn ms-3 bg-primary text-white"
+      style="width: 125px"
+      type="submit"
+      [disabled]="
+        !metaForm.valid ||
+        (metaForm.value.field_type &&
+          ['CharField', 'DecimalField', 'ForeignKey', 'ChoiceField'].includes(
+            metaForm.value.field_type
+          ) &&
+          (!attributesForm.value.keyValue || !attributesForm.value.value))
+      "
+      [ngClass]="{
+        'not-clickable': isLoading,
+      }"
+      i18n>
+      @if (isLoading) {
+        <span><i class="fa-solid fa-spin fa-circle-notch"></i></span>
+      } @else {
+        <span> Create</span>
+      }
+    </button>
+  </div>
+</form>

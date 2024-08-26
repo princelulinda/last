@@ -54,12 +54,12 @@
           <b i18n> BANK TO LINK</b>
         </div>
         @if (banksLoading) {
-          <div class="d-flex mt-3">
+          <div class="d-flex mt-3 gap-4">
             @for (_ of [1, 2, 3]; track $index) {
               <span>
                 <app-skeleton
-                  [width]="'70px'"
-                  [height]="'12px'"
+                  [width]="'90px'"
+                  [height]="'90px'"
                   classes="sm-radius">
                 </app-skeleton>
               </span>

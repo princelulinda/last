@@ -1,4 +1,5 @@
 import { bankModel } from '../../core/db/models/bank/bank.model';
+import { MerchantModel } from '../merchant/merchant.models';
 
 export interface BillersModel {
   id: string;
@@ -19,23 +20,6 @@ export interface objectsModel {
 
 export interface objectModel {
   object: BillersModel;
-}
-
-export interface MerchantModel {
-  code: string;
-  id: number;
-  merchant_title: string;
-}
-
-export interface ProductModel {
-  id: number;
-  price: number;
-  lookup_icon: string;
-  lookup_image: string;
-  lookup_title: string;
-  lookup_subtitle: string;
-  lookup_description: string;
-  is_favorite_product: boolean;
 }
 
 export interface MerchantLookup {
@@ -66,6 +50,8 @@ export interface BankOptions {
 }
 export interface Account {
   id: number;
+  acc_number?: string;
+  acc_holder?: string;
 }
 
 export interface Wallet {
@@ -165,6 +151,12 @@ export interface BestOfferModel {
 }
 
 export interface productOfferModel {
+  id: number;
+  name: string;
+  price: string;
+  merchant: MerchantModel;
+}
+export interface RecentTransaction {
   id: number;
   name: string;
   price: string;

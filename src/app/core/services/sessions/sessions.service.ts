@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '..';
 import { Observable } from 'rxjs';
 import {
-  activeSessionResponse,
-  historySessionResponse,
+  activeSessionResponseModel,
+  historySessionResponseModel,
 } from '../../../components/settings/settings.models';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 @Injectable({
@@ -23,7 +23,7 @@ export class SessionsService {
   getActiveSession(
     search = '',
     pagination: PaginationConfig
-  ): Observable<activeSessionResponse> {
+  ): Observable<activeSessionResponseModel> {
     const url = `/erp/session/?active=true&search=${search}&limit=${pagination.filters.limit}&offset=${pagination.filters.offset}`;
     return this.apiService.get(url);
   }
@@ -31,7 +31,7 @@ export class SessionsService {
   getHistorySessions(
     search = '',
     pagination: PaginationConfig
-  ): Observable<historySessionResponse> {
+  ): Observable<historySessionResponseModel> {
     const url = `/erp/session/?active=false&search=${search}&limit=${pagination.filters.limit}&offset=${pagination.filters.offset}`;
     return this.apiService.get(url);
   }
@@ -41,7 +41,7 @@ export class SessionsService {
     return this.apiService.get(url);
   }
 
-  endSession(sessionId: string): Observable<activeSessionResponse> {
+  endSession(sessionId: string): Observable<activeSessionResponseModel> {
     const url = `/erp/session/${sessionId}/close/`;
     return this.apiService.post(url);
   }

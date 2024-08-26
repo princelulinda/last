@@ -60,6 +60,41 @@ export class BankHomeComponent implements OnInit, OnDestroy {
       link: ['/b/banking/transfer', '/w/workstation/banking/transfer'],
     },
   ];
+
+  headers = [
+    {
+      name: 'Date',
+      field: ['created_at'],
+      size: '',
+      format: 'date',
+    },
+    {
+      name: 'Details',
+      field: ['description'],
+      size: '',
+    },
+    {
+      name: 'Amount',
+      field: ['amount'],
+      format: 'currency',
+      size: '',
+    },
+
+    {
+      name: 'Reference',
+      field: ['code'],
+      size: '',
+    },
+    {
+      name: 'Status',
+      field: ['status.title'],
+      css: 'status.css',
+      class: 'badge',
+      size: '',
+    },
+  ];
+
+  clientVerified = '&filter_for_client=true';
   private onDestroy$: Subject<void> = new Subject<void>();
   selectedBank!: bankModel;
   theme$: Observable<ModeModel>;
@@ -82,6 +117,7 @@ export class BankHomeComponent implements OnInit, OnDestroy {
         this.theme = theme;
       },
     });
+    // this.getRecentTransactions()
   }
 
   ngOnDestroy(): void {

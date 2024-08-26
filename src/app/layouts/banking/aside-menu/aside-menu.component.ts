@@ -44,7 +44,9 @@ export class AsideMenuComponent implements OnInit {
     });
     this.userInfo$.subscribe({
       next: userInfo => {
-        this.userInfo = userInfo;
+        if (userInfo) {
+          this.userInfo = userInfo;
+        }
       },
     });
   }

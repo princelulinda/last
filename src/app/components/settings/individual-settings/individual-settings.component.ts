@@ -9,9 +9,9 @@ import { SettingsService } from '../../../core/services/settings/settings.servic
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import {
-  PasswordChangeResponse,
+  PasswordChangeResponseModel,
   PasswordModel,
-  PinChangeResponse,
+  PinChangeResponseModel,
   PinModel,
 } from '../settings.models';
 import { DialogService } from '../../../core/services';
@@ -102,7 +102,7 @@ export class IndividualSettingsComponent implements OnInit, OnDestroy {
       .changePin(data)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: PinChangeResponse) => {
+        next: (response: PinChangeResponseModel) => {
           this.isLoadingNewPin = false;
           this.formPin.reset();
 
@@ -157,7 +157,7 @@ export class IndividualSettingsComponent implements OnInit, OnDestroy {
       .changePassword(data)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: PasswordChangeResponse) => {
+        next: (response: PasswordChangeResponseModel) => {
           this.isLoadingNewPassword = false;
           this.formPassword.reset();
 

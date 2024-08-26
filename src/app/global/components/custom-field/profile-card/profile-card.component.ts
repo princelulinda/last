@@ -1,10 +1,10 @@
-import { NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-profile-card',
   standalone: true,
-  imports: [NgClass],
+  imports: [CommonModule],
   templateUrl: './profile-card.component.html',
   styleUrl: './profile-card.component.scss',
 })

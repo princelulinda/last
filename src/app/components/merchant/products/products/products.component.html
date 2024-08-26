@@ -94,7 +94,7 @@
         @if (!isLoading) {
           <div class="row mb-3 d-flex justify-content-between">
             @for (item of countProductLoader; track $index) {
-              <div class="col" style="height: 135px" [hidden]="$index >= 2">
+              <div class="col skeletonsBlock" [hidden]="$index >= 2">
                 <app-skeleton
                   [height]="'120px'"
                   [width]="'120px'"></app-skeleton>
@@ -108,61 +108,42 @@
             }
           </div>
         }
-        <div class="row" *ngIf="isLoading && favoriteProducts.length > 0">
-          @for (product of favoriteProducts; track $index) {
-            <div
-              class="col"
-              [hidden]="$index >= 2 && !seeMore"
-              (click)="selectProduct(product)"
-              tabindex="0">
-              <app-product-card [product]="product"> </app-product-card>
-            </div>
-          }
-        </div>
+        @if (isLoading && favoriteProducts.length > 0) {
+          <div class="d-flex justify-content-around flex-wrap gap-4">
+            @for (product of favoriteProducts; track $index) {
+              <div
+                class="col-auto"
+                [hidden]="$index >= 2 && !seeMore"
+                (click)="selectProduct(product)"
+                tabindex="0">
+                <app-product-card [product]="product"> </app-product-card>
+              </div>
+            }
+          </div>
+        }
         @if (isLoading && favoriteProducts.length === 0) {
-          <app-empty-state
-            [searchTerm]="searchTerm"
-            searchType="product"
-            [imageClass]="'imgSize'">
+          <app-empty-state [searchTerm]="searchTerm" searchType="product">
           </app-empty-state>
         }
         @if (isLoading && favoriteProducts.length > 2) {
           <div class="d-flex justify-content-end align-items-end mt-2 col-1">
-            @if (!seeMore && theme === 'light') {
+            @if (!seeMore) {
               <span
                 (click)="seeMore = true"
                 role="button"
                 tabindex="0"
-                class="border-bottom border-dark text-dark fw-bold"
+                class="text-dark fw-bold"
                 i18n
-                >More</span
+                ><u>More</u></span
               >
-            } @else if (!seeMore && theme === 'dark') {
-              <span
-                (click)="seeMore = true"
-                role="button"
-                tabindex="0"
-                class="border-bottom border-light text-dark fw-bold"
-                i18n
-                >More</span
-              >
-            } @else if (seeMore && theme === 'light') {
+            } @else if (seeMore) {
               <span
                 (click)="seeMore = false"
                 role="button"
                 tabindex="0"
-                class="border-bottom border-dark text-dark fw-bold"
+                class="text-dark fw-bold"
                 i18n
-                >Less</span
-              >
-            } @else if (seeMore && theme === 'dark') {
-              <span
-                (click)="seeMore = false"
-                role="button"
-                tabindex="0"
-                class="border-bottom border-light text-dark fw-bold"
-                i18n
-                >Less</span
+                ><u>Less</u></span
               >
             }
           </div>
@@ -182,8 +163,10 @@
         class="modal-dialog modal-dialog-centered"
         style="min-width: 70%; max-height: 800px"
     >
-        <div class="modal-content" *ngIf="product">
-            <app-billers-merchants [product]="product"></app-billers-merchants>
-        </div>
+      @if(product) {
+        <div class="modal-content">
+              <app-billers-merchants [product]="product"></app-billers-merchants>
+          </div>
+      }
     </div>
 </div> -->

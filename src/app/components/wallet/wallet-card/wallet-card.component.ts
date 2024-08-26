@@ -3,18 +3,29 @@ import { Subject, Observable, takeUntil } from 'rxjs';
 import {
   AuthService,
   BankService,
+  ClientService,
   ConfigService,
+  DialogService,
 } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 
 import { NgClass, CommonModule } from '@angular/common';
-import { WalletCard } from '../wallet.models';
-import { userInfoModel } from '../../../layouts/header/model';
+import {
+  CreatWalletBodyModel,
+  creatWalletResponse,
+  WalletCard,
+  WalletTypModel,
+} from '../wallet.models';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
-
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 interface mainConfigModel {
   activeMode: string;
   activePlateform: string;
@@ -23,7 +34,13 @@ interface mainConfigModel {
 @Component({
   selector: 'app-wallet-card',
   standalone: true,
-  imports: [NgClass, CommonModule, RouterLink, AmountVisibilityComponent],
+  imports: [
+    NgClass,
+    CommonModule,
+    RouterLink,
+    AmountVisibilityComponent,
+    ReactiveFormsModule,
+  ],
   templateUrl: './wallet-card.component.html',
   styleUrl: './wallet-card.component.scss',
 })
@@ -32,7 +49,6 @@ export class WalletCardComponent implements OnInit, OnDestroy {
 
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
-  userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   selectedBank!: bankModel;
   selectedBank$!: Observable<bankModel>;
@@ -45,16 +61,32 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   clientId: number | null = null;
   bankId: number | null = null;
   mouseHover = false;
-
+  walletForm!: FormGroup;
+  isLoading = false;
+  walletsTypeData: WalletTypModel[] | [] | null = null;
   constructor(
     private bankService: BankService,
     private configService: ConfigService,
-    private authService: AuthService
+    private authService: AuthService,
+    private clientService: ClientService,
+    private dialogService: DialogService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
     this.selectedBank$ = this.configService.getSelectedBank();
     this.mainConfig$ = this.configService.getMainConfig();
+
+    this.mainConfig$ = this.configService.getMainConfig();
+    this.walletForm = new FormGroup({
+      name: new FormControl('', Validators.required),
+      description: new FormControl(''),
+      category: new FormControl('', Validators.required),
+      pin: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[0-9]*$'),
+        Validators.maxLength(4),
+      ]),
+    });
   }
   ngOnInit(): void {
     this.mode$.subscribe({
@@ -71,27 +103,44 @@ export class WalletCardComponent implements OnInit, OnDestroy {
 
     this.userInfo$.subscribe({
       next: userinfo => {
-        this.clientInfo = userinfo;
-        this.clientId = this.clientInfo.client.id;
-        if (this.clientId) {
-          this.selectedBank$.subscribe({
-            next: datas => {
-              this.selectedBank = datas;
-              this.bankId = this.selectedBank?.id;
-              if (this.bankId) {
-                this.getDefaultWallet();
-              }
-            },
-          });
+        if (userinfo) {
+          this.clientInfo = userinfo;
+          this.clientId = this.clientInfo.client.id;
+          if (this.clientId) {
+            this.selectedBank$.subscribe({
+              next: datas => {
+                this.selectedBank = datas;
+                this.bankId = this.selectedBank?.id;
+                if (this.bankId) {
+                  this.getDefaultWallet();
+                }
+              },
+            });
+          }
         }
       },
     });
     this.getDefaultWallet();
+    this.getWalletType();
   }
 
   // toggleAmount() {
   //   this.dialogService.displayAmount();
   // }
+
+  getWalletType() {
+    this.isLoading = true;
+    this.clientService.getWalletType().subscribe({
+      next: response => {
+        this.walletsTypeData = response.objects;
+        this.isLoading = false;
+      },
+      error: err => {
+        console.error('Erreur :', err);
+        this.isLoading = false;
+      },
+    });
+  }
 
   getDefaultWallet() {
     this.bankService
@@ -106,6 +155,55 @@ export class WalletCardComponent implements OnInit, OnDestroy {
           }
         },
       });
+  }
+  onSubmit() {
+    if (this.walletForm.valid) {
+      console.log(this.walletForm.value);
+      this.creatWallet();
+    } else {
+      console.log('Form is invalid');
+    }
+  }
+
+  creatWallet() {
+    this.dialogService.dispatchLoading();
+    const selectedCategoryId = this.walletForm.get('category')?.value;
+    // this.loading = true;
+
+    const body: CreatWalletBodyModel = {
+      wallet_type: selectedCategoryId,
+      title: this.walletForm.get('name')?.value,
+    };
+
+    this.clientService.creatWallet(body).subscribe({
+      next: (response: creatWalletResponse) => {
+        //this.loading = false;
+        this.dialogService.closeLoading();
+        if (response.object.success) {
+          this.dialogService.openToast({
+            type: 'success',
+            title: 'Succès',
+            message: response.object.response_message,
+          });
+          this.walletForm.reset();
+        } else {
+          this.dialogService.openToast({
+            type: 'failed',
+            title: 'Échec',
+            message: response.object.response_message,
+          });
+        }
+      },
+      error: error => {
+        console.error('creation  failed', error);
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          type: 'failed',
+          title: 'Échec',
+          message: 'failed please try again',
+        });
+      },
+    });
   }
   public ngOnDestroy(): void {
     this.onDestroy$.next();

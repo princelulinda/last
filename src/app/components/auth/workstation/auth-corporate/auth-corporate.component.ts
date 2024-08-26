@@ -7,7 +7,6 @@ import {
   AuthService,
   ConfigService,
   DialogService,
-  MenuService,
 } from '../../../../core/services';
 import { ConnectedOperatorModel, OrganizationModel } from '../../auth.model';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
@@ -32,7 +31,6 @@ export class AuthCorporateComponent implements OnInit {
     private authService: AuthService,
     private configService: ConfigService,
     private dialogService: DialogService,
-    private menuService: MenuService,
     private router: Router
   ) {
     this.operatorIsAuthenticated$ =
@@ -51,6 +49,7 @@ export class AuthCorporateComponent implements OnInit {
           this.router.navigate(['/w/workstation']);
         } else {
           this.configService.setLocalConnectedOperator('false');
+          // TODO :: TO CALL AFTER CHECK ORGANIZATIONS AND OPERATOR EMPTY IN DB
           this.getConnectedOperator_organizations();
         }
       },
@@ -60,7 +59,8 @@ export class AuthCorporateComponent implements OnInit {
     this.operatorOrganizations$.subscribe({
       next: organizations => {
         if (organizations) {
-          this.operatorOrganizations = organizations;
+          this.operatorOrganizations =
+            this.configService.toArray(organizations);
         }
       },
     });
@@ -125,6 +125,12 @@ export class AuthCorporateComponent implements OnInit {
       )
       .subscribe({
         next: response => {
+          const organizations: OrganizationModel[] = [];
+          response.organizations.objects.map(data => {
+            organizations.push(data.organization);
+          });
+          this.configService.setOperatorOrganizations(organizations);
+
           // NOTE :: IF OPERATOR IS ALLREADY CONNECTED
           if (response.operator.object.response_data.object) {
             const connectedOperator =
@@ -138,14 +144,9 @@ export class AuthCorporateComponent implements OnInit {
               },
             };
             this.configService.setOperator(operator);
+          } else {
+            this.dialogService.closeSplashScreen();
           }
-
-          const organizations: OrganizationModel[] = [];
-          response.organizations.objects.map(data => {
-            organizations.push(data.organization);
-          });
-          this.configService.setOperatorOrganizations(organizations);
-          this.dialogService.closeSplashScreen();
         },
       });
   }

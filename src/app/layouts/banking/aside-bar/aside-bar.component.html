@@ -21,91 +21,88 @@
         <div class="bg-primary d-flex justify-content-center py-2 rounded-top">
           <b class="text-all-white">Last transactions</b>
         </div>
-        <div
-          class="rounded-bottom d-grid border bg-secondary p-2"
-          *ngIf="!recentTransactions">
-          <span class="w-100 mt-2">
-            <app-skeleton
-              [width]="'100%'"
-              [height]="'50px'"
-              classes="sm-radius">
-            </app-skeleton>
-          </span>
-
-          <span class="w-100 mt-2">
-            <app-skeleton
-              [width]="'100%'"
-              [height]="'50px'"
-              classes="sm-radius">
-            </app-skeleton>
-          </span>
-
-          <span class="w-100 mt-2">
-            <app-skeleton
-              [width]="'100%'"
-              [height]="'50px'"
-              classes="sm-radius">
-            </app-skeleton>
-          </span>
-        </div>
-        <div *ngIf="recentTransactions">
-          <div
-            *ngFor="
-              let transaction of recentTransactions.slice(0, 3);
-              let i = index;
-              let lastIndex = last
-            "
-            class="d-grid mt-2 mx-2">
-            @if (recentTransactions) {
-              <div class="d-flex justify-content-between">
-                <span class="text-dark md-title w-70">
-                  <span *ngIf="!transaction.operation_type.description"
-                    >---</span
-                  >
-                  <span *ngIf="transaction.operation_type.description">{{
-                    transaction.operation_type.description
-                  }}</span></span
-                >
-                <span class="text-dark sm-sec-text">
-                  <span *ngIf="!transaction.created_at">---</span>
-                  <span *ngIf="transaction.created_at">{{
-                    transaction.created_at | date: 'yyyy-MM-dd'
-                  }}</span></span
-                >
-              </div>
-              <span class="amount">
-                <span *ngIf="!transaction.amount">---</span>
-                <span *ngIf="transaction.amount">
-                  <span *ngIf="isBalanceShown">
-                    <app-amount-visibility
-                      [amount]="transaction.amount"
-                      [currency]="'BIF'"></app-amount-visibility>
-                  </span>
-                  <span *ngIf="!isBalanceShown">
-                    <app-amount-visibility
-                      [currency]="'BIF'"
-                      [amount]="'******'"></app-amount-visibility>
-                  </span>
-                </span>
+        @if (!recentTransactions) {
+          <div class="rounded-bottom d-grid border bg-secondary p-2">
+            @for (_ of [1, 2, 3]; track $index) {
+              <span class="w-100 mt-2">
+                <app-skeleton
+                  [width]="'100%'"
+                  [height]="'50px'"
+                  classes="sm-radius">
+                </app-skeleton>
               </span>
-              <span class="text-dark sm-sec-text">
-                <span
-                  *ngIf="
-                    !transaction.account || !transaction.account.account_number
-                  "
-                  >---</span
-                >
-                <span
-                  *ngIf="
-                    transaction.account && transaction.account.account_number
-                  "
-                  >{{ transaction.account.account_number }}</span
-                >
-              </span>
-              <hr class="mb-1 mt-1" *ngIf="!lastIndex" />
             }
           </div>
-        </div>
+        }
+        @if (recentTransactions) {
+          <div class="border">
+            @for (transaction of recentTransactions; track $index) {
+              <div class="d-grid mt-2 mx-2">
+                @if (recentTransactions) {
+                  <div class="d-flex justify-content-between">
+                    <span class="text-dark md-title w-70">
+                      @if (!transaction.operation_type.description) {
+                        <span>---</span>
+                      }
+                      @if (transaction.operation_type.description) {
+                        <span>{{
+                          transaction.operation_type.description
+                        }}</span>
+                      }
+                    </span>
+                    <span class="text-dark sm-sec-text">
+                      @if (!transaction.created_at) {
+                        <span>---</span>
+                      }
+                      @if (transaction.created_at) {
+                        <span>{{
+                          transaction.created_at | date: 'yyyy-MM-dd'
+                        }}</span>
+                      }
+                    </span>
+                  </div>
+                  <span class="amount">
+                    @if (!transaction.amount) {
+                      <span>---</span>
+                    }
+                    @if (transaction.amount) {
+                      <span>
+                        @if (isBalanceShown) {
+                          <span>
+                            <app-amount-visibility
+                              [amount]="transaction.amount"
+                              [currency]="'BIF'"></app-amount-visibility>
+                          </span>
+                        }
+                        @if (!isBalanceShown) {
+                          <span>
+                            <app-amount-visibility
+                              [currency]="'BIF'"
+                              [amount]="'******'"></app-amount-visibility>
+                          </span>
+                        }
+                      </span>
+                    }
+                  </span>
+                  <span class="text-dark sm-sec-text">
+                    @if (
+                      !transaction.account ||
+                      !transaction.account.account_number
+                    ) {
+                      <span>---</span>
+                    }
+                    @if (
+                      transaction.account && transaction.account.account_number
+                    ) {
+                      <span>{{ transaction.account.account_number }}</span>
+                    }
+                  </span>
+                  <hr class="mb-1 mt-1" />
+                }
+              </div>
+            }
+          </div>
+        }
       </div>
 
       <div class="bg-secondary mt-4 p-2">
@@ -123,7 +120,7 @@
   </div>
 }
 @if (plateform === 'newsFeed') {
-  <div style="overflow-y: auto">
+  <div style="overflow-y: auto" class="bg-secondary py-4">
     <div>
       <div class="d-flex mb-2 justify-content-center">
         <b class="h4 text-dark" i18n>Advertisment</b>
@@ -406,55 +403,10 @@
           @if (products) {
             <div class="row ms-2 mb-4 mt-4">
               @for (product of products; track $index) {
-                <div class="d-flex mb-4" [hidden]="$index >= 3" type="button">
-                  <div class="col-auto m-0 p-0">
-                    @if (product.lookup_image) {
-                      <div>
-                        <img [src]="product.lookup_title" alt="product image" />
-                      </div>
-                    } @else if (
-                      product && !product.lookup_icon && !product.lookup_image
-                    ) {
-                      <div
-                        class="bg-secondary lg-radius shadow-sm position-relative"
-                        style="height: 90px; width: 80px">
-                        <!-- <span
-                        class="favorite-star bg-all-white rounded-circle position-absolute end-0 mt-2 me-2 d-flex"
-                        data-id="123">
-                        <i class="fa-solid fa-star text-primary"></i>
-                      </span> -->
-                        <span class="d-flex justify-content-center">
-                          <i
-                            class="fa-solid fa-mountain-sun fa-3x mt-4 text-secondary"></i>
-                        </span>
-                      </div>
-                    }
-                  </div>
-                  <div
-                    class="col-7 m-0 p-0 ms-auto"
-                    (click)="selectProduct(product)"
-                    tabindex="0">
-                    <p
-                      i18n
-                      title="{{ product.lookup_title }}"
-                      class="d-flex flex-column p-0 m-0 ms-2"
-                      style="color: grey">
-                      <b class="fs-5 text-truncate">{{
-                        product.lookup_title
-                      }}</b>
-                      <small class="text-truncate">{{
-                        product.lookup_subtitle
-                      }}</small>
-                      <small class="text-truncate">{{
-                        product.lookup_description
-                      }}</small>
-                      @if (product.price) {
-                        <span class="fs-small fw-bold text-primary">
-                          {{ product.price }} BIF
-                        </span>
-                      }
-                    </p>
-                  </div>
+                <div type="button" class="mb-4">
+                  <app-product-card
+                    [product]="product"
+                    type="row"></app-product-card>
                 </div>
               }
             </div>

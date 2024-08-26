@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { bankListResponse } from '../../../components/auth/auth.model';
+import { bankListResponseModel } from '../../../components/auth/auth.model';
 import { ApiService, ConfigService } from '..';
 import { bankModel } from '../../db/models/bank/bank.model';
 import { addBankResponse } from '../../../components/dashboards/dashboard.model';
@@ -13,6 +13,8 @@ import {
 } from '../../../components/merchant/products/products.model';
 import { nyamuranziCard } from '../../../components/nyamuranzi/models';
 import { WithdrawalModel } from '../../../components/withdrawal/withdrawal.models';
+import { DissectedDateModel } from '../../../components/statements/statement.model';
+import { PaginationConfig } from '../../../global/models/pagination.models';
 
 @Injectable({
   providedIn: 'root',
@@ -81,23 +83,27 @@ export class BankService {
       })
     );
   }
-
   getAccountStatements(
-    accountId: number,
-    dateFrom: { year: string; month: string; day: string },
-    dateEnd: { year: string; month: string; day: string }
+    accountId: number | string,
+    dateFrom: { year: number; month: number; day: number },
+    dateEnd: { year: number; month: number; day: number }
   ) {
-    const url = `/operations/statement/?client_acc_id=${accountId}&year=${dateFrom.year}&year_to=${dateEnd.year}&month_from=${dateFrom.month}&day_from=${dateEnd.month}&month_to=${dateFrom.day}&day_to=${dateEnd.day}&limit=50&offset=0`;
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    const url = `/operations/statement/?client_acc_id=${accountId}&year=${dateFrom.year}&year_to=${dateEnd.year}&month_from=${dateFrom.month}&day_from=${dateFrom.day}&month_to=${dateEnd.month}&day_to=${dateEnd.day}&limit=50&offset=0`;
+    return this.apiService.get(url).pipe(map(data => data));
   }
 
-  getAllBanks(): Observable<{ objects: bankListResponse[] }> {
+  dissectDate(date: Date): DissectedDateModel {
+    const dissectedDate: DissectedDateModel = {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+    };
+
+    return dissectedDate;
+  }
+  getAllBanks(): Observable<{ objects: bankListResponseModel[] }> {
     const url = '/banks/list/?externel_request=true&bank_type=MFI';
-    return this.apiService.get<{ objects: bankListResponse[] }>(url);
+    return this.apiService.get<{ objects: bankListResponseModel[] }>(url);
   }
   // getBankStatusPing(body: any) {
   //     const url = `${environment.websocketUrl}ws/dbsapp/partners-ping/`;
@@ -109,10 +115,18 @@ export class BankService {
   //     );
   // }
 
-  getRecentTransactions(type: string, period: PeriodModel, client: string) {
+  getRecentTransactions(
+    pagination: PaginationConfig,
+    type: string,
+    period: PeriodModel,
+    client: string
+  ) {
+    if (!pagination) {
+      pagination = { filters: { limit: 0, offset: 0 } };
+    }
     return this.apiService
       .get<TransactionObjectModel>(
-        `/operations/pending/logic/?req_type=${type}&=date_from=${period.start_date}&=date_to=${period.end_date}` +
+        `/operations/pending/logic/?req_type=${type}&=date_from=${period.start_date}&=date_to=${period.end_date}&limit=${pagination.filters?.limit}&offset=${pagination.filters?.offset}` +
           client
       )
       .pipe(map(data => data));

@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 import { Subject, Observable, takeUntil } from 'rxjs';
 
 import {
-  MerchantModel,
-  productConfigModel,
-  ProductConfigObjectsModel,
+  ProductAutocompleteModel,
+  ProductModel,
   updateProductInfoObjectModel,
 } from '../products.model';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
@@ -19,15 +25,29 @@ import {
   MerchantService,
 } from '../../../../core/services';
 import { PlateformModel } from '../../../../core/services/config/main-config.models';
+import { ProductCardComponent } from '../../global/product-card/product-card.component';
+import {
+  EmptyStateComponent,
+  EmptyStateModel,
+} from '../../../../global/components/empty-states/empty-state/empty-state.component';
+import { MerchantModel } from '../../merchant.models';
 
 @Component({
   selector: 'app-product-config',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, SkeletonComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    SkeletonComponent,
+    ProductCardComponent,
+    EmptyStateComponent,
+  ],
   templateUrl: './product-config.component.html',
   styleUrl: './product-config.component.scss',
 })
-export class ProductConfigComponent implements OnInit {
+export class ProductConfigComponent implements OnInit, OnDestroy {
+  @Output() get_selectedProduct = new EventEmitter<ProductAutocompleteModel>();
   merchant!: MerchantModel;
   clientId!: number;
   private onDestroy$: Subject<void> = new Subject<void>();
@@ -37,15 +57,14 @@ export class ProductConfigComponent implements OnInit {
   dialog!: DialogResponseModel;
   selectedTeller: undefined;
   isActionDone = false;
-  products!: productConfigModel[] | undefined;
-  selectedProduct!: productConfigModel;
-  product!: productConfigModel | undefined;
+  products: ProductAutocompleteModel[] = [];
+  selectedProduct!: ProductAutocompleteModel;
+  product: ProductModel | null = null;
   action: string[] = [];
   search = new FormControl('');
-  isProductsSearch = false;
   productConfigForm: FormGroup;
   selectedMenu = '';
-  isLoading = false;
+  isLoading = true;
   toggleMetadata = false;
   searchMetadata = new FormControl('');
   pagination = new PaginationConfig();
@@ -60,6 +79,12 @@ export class ProductConfigComponent implements OnInit {
   selectedFields: { name: string; id: number }[] = [];
   toggleMetadataForm = false;
   pin = '';
+
+  searchType: EmptyStateModel = 'product';
+  searchTypeOther: EmptyStateModel = 'other';
+  imageClass = 'image';
+  disabledFavoriteAction = true;
+  loading_productDetails = false;
 
   plateform$!: Observable<PlateformModel>;
   baseRouterLink = '/m/mymarket';
@@ -84,7 +109,7 @@ export class ProductConfigComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.dialog$.subscribe({
       next: (dialog: DialogResponseModel) => {
         if (dialog) {
@@ -121,7 +146,7 @@ export class ProductConfigComponent implements OnInit {
       this.merchant = merchantInfo.object.response_data;
 
       this.merchantService.getConnectedMerchantId(this.merchant.id);
-      this.getProducts();
+      this.getMerchantProducts();
     });
   }
   // getMetadata() {
@@ -178,17 +203,17 @@ export class ProductConfigComponent implements OnInit {
       this.toggleMetadata = true;
     }
   }
-  getProducts() {
+  getMerchantProducts(search?: string) {
+    this.isLoading = true;
     this.search.patchValue('');
-    this.isProductsSearch = false;
-    this.products = undefined;
+    this.products = [];
     this.merchantService
-      .getProductsByMerchant(this.merchant.id)
+      .getMerchantProducts(this.merchant.id, search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: result => {
-          const products = result as ProductConfigObjectsModel;
-          this.products = products.objects;
+          this.products = result.objects;
+          this.isLoading = false;
         },
         error: () => {
           this.isLoading = false;
@@ -201,7 +226,8 @@ export class ProductConfigComponent implements OnInit {
       });
   }
 
-  selectProduct(product: productConfigModel) {
+  selectProduct(product: ProductAutocompleteModel) {
+    this.get_selectedProduct.emit(product);
     this.selectedProduct = product;
 
     this.selectedMenu = 'details';
@@ -269,24 +295,31 @@ export class ProductConfigComponent implements OnInit {
   }
 
   getProductDetails() {
-    // this.product = undefined;
+    // this.product = null;
+    this.loading_productDetails = false;
     this.merchantService
-      .getMerchantsProductsDetails(this.selectedProduct.id)
-      .subscribe(response => {
-        const product = response as { object: productConfigModel };
+      .getProductDetails(this.selectedProduct.id)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          this.product = response.object;
 
-        this.product = product.object;
-
-        this.productConfigForm.patchValue({
-          name: this.product.name,
-          price: this.product.price,
-          min_payment: this.product.minimun_payment_amount,
-          max_payment: this.product.maximum_payment_amount,
-          position: this.product.voucher_type,
-          cart: this.product.accepts_cart,
-          stockable: this.product.is_stockable,
-          incognito: this.product.incognito_mode,
-        });
+          this.productConfigForm.patchValue({
+            name: this.product.name,
+            price: this.product.price,
+            min_payment: this.product.minimun_payment_amount,
+            max_payment: this.product.maximum_payment_amount,
+            position: this.product.voucher_type,
+            cart: this.product.accepts_cart,
+            stockable: this.product.is_stockable,
+            incognito: this.product.incognito_mode,
+          });
+          this.loading_productDetails = true;
+        },
+        error: err => {
+          this.loading_productDetails = false;
+          console.log(err);
+        },
       });
   }
 
@@ -296,7 +329,7 @@ export class ProductConfigComponent implements OnInit {
     this.productConfigForm.patchValue({
       name: this.product?.name,
       price: this.product?.price,
-      min_payment: this.product?.mininun_payment_amount,
+      min_payment: this.product?.minimun_payment_amount,
       max_payment: this.product?.maximum_payment_amount,
       position: this.product?.voucher_type,
       cart: this.product?.accepts_cart,
@@ -315,6 +348,8 @@ export class ProductConfigComponent implements OnInit {
   }
 
   updateProductInfo() {
+    this.loading_productDetails = false;
+    this.dialogService.dispatchLoading();
     this.isLoading = true;
     const selectedFieldNames = this.getSelectedFieldNames();
     const body = {
@@ -326,6 +361,9 @@ export class ProductConfigComponent implements OnInit {
       minimun_payment_amount: this.productConfigForm.value.min_payment,
       maximum_payment_amount: this.productConfigForm.value.max_payment,
       voucher_type: this.productConfigForm.value.position,
+      cart: this.productConfigForm.value.accepts_cart,
+      stockable: this.productConfigForm.value.is_stockable,
+      incognito: this.productConfigForm.value.incognito_mode,
       metadata: selectedFieldNames,
       pin_code: this.pin,
     };
@@ -335,61 +373,60 @@ export class ProductConfigComponent implements OnInit {
         const response = result as updateProductInfoObjectModel;
         this.isLoading = false;
 
+        this.dialogService.closeLoading();
         if (!response.object.success) {
-          const failure = {
-            title: '',
+          this.dialogService.openToast({
+            title: 'failed',
             type: 'failed',
-            message:
-              response?.object.response_message ?? 'Failed, please try again',
-          };
-          // this.store.dispatch(new OpenDialog(failure));
-          console.log(failure);
+            message: response.object.response_message,
+          });
         } else {
+          this.loading_productDetails = false;
           this.getProductDetails();
-          this.getProducts();
+          this.getMerchantProducts();
           this.selectedMenu = 'details';
-          const data = {
-            title: '',
+          this.dialogService.openToast({
+            title: 'success',
             type: 'success',
-            message:
-              response?.object.response_message ?? 'Updated successfully',
-          };
-          // this.store.dispatch(new OpenDialog(data));
-          console.log(data);
+            message: response.object.response_message,
+          });
         }
       },
-      error: error => {
+      error: err => {
         this.isLoading = false;
-
-        const data = {
-          title: 'failure',
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          title: '',
           type: 'failed',
           message:
-            error?.object.response_message ?? 'Failed to update product info ',
-        };
+            err?.error?.object.response_message ??
+            'Failed to update product info ',
+        });
         // this.store.dispatch(new OpenDialog(data));
-        console.log(data);
       },
     });
   }
   getSelectedFieldNames(): number[] {
     return this.selectedFields.map(field => field.id);
   }
+
   searchProducts(search: string | null) {
-    this.isProductsSearch = true;
-    const data = {
-      search: search,
-      merchant: this.merchant.id,
-    };
-    this.products = undefined;
+    this.isLoading = true;
+    this.products = [];
     if (search) {
-      this.merchantService.searchProductByMerchant(data).subscribe(result => {
-        const products = result as ProductConfigObjectsModel;
-        this.isLoading = false;
-        this.products = products.objects;
-      });
+      this.merchantService
+        .getMerchantProducts(this.merchant.id, search)
+        .subscribe({
+          next: result => {
+            this.products = result.objects;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.isLoading = false;
+          },
+        });
     } else {
-      this.getProducts();
+      this.getMerchantProducts();
     }
   }
   doListMove(action: string) {
@@ -413,5 +450,10 @@ export class ProductConfigComponent implements OnInit {
     if (this.selectedMenu === 'configuration') {
       this.selectedMenu = 'details';
     }
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

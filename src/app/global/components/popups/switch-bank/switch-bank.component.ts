@@ -6,7 +6,6 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { BankService } from '../../../../core/services/bank/bank.service';
 import { AuthService, ConfigService } from '../../../../core/services';
 import { UserInfoModel } from '../../../../core/db/models/auth';
-import { userInfoModel } from '../../../../layouts/header/model';
 import { BankOptions } from '../../../../components/dashboards/dashboard.model';
 import { bankModel } from '../../../../core/db/models/bank/bank.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
@@ -28,7 +27,6 @@ export class SwitchBankComponent implements OnInit {
   isModalShown = false;
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
-  userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   private userInfo$: Observable<UserInfoModel>;
   @Output() bankOptions = new EventEmitter<BankOptions>();
@@ -55,13 +53,6 @@ export class SwitchBankComponent implements OnInit {
       next: userinfo => {
         this.clientInfo = userinfo;
         this.clientId = this.clientInfo.client.client_id;
-
-        // this.selectedBank$.subscribe({
-        //   next: datas => {
-        //     this.selectedBank = datas;
-        //   },
-        // });
-
         this.bankService
           .getBanksList()
           .pipe(takeUntil(this.onDestroy$))

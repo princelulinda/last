@@ -1,29 +1,27 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
 
-import { VariableService } from '../../../core/services/variable/variable.service';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import {
   ConfigService,
   DialogService,
   MerchantService,
 } from '../../../core/services';
-import { Favorite } from '../../../core/services/merchant/model';
 import { MerchantCardComponent } from '../global/merchant-card/merchant-card.component';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillersModel } from '../../dashboards/dashboard.model';
-import { MerchantResFav } from './merchant.models';
-import { Merchant_AutocompleteModel } from '../global/merchant-card/merchant.model';
-import { GoogleMapComponent } from '../../../global/components/google-map/google-map.component';
 import {
-  CategoriesPerActivitySectorModel,
-  CategoriesPerActivitySectorObjectModel,
+  MerchantCategoriesModel,
   SectorActivityModel,
-  SectorActivityObjectModel,
-} from '../products/products.model';
+} from '../merchant.models';
+import { GoogleMapComponent } from '../../../global/components/google-map/google-map.component';
+import { MerchantAutocompleteModel } from '../merchant.models';
+import { MerchantPaymentDialogModel } from '../../../core/services/dialog/dialogs-models';
+import { VariableService } from '../../../core/services/variable/variable.service';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-merchants',
@@ -41,18 +39,13 @@ import {
 })
 export class MerchantsComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
-  private variableService = inject(VariableService);
 
-  merchants!: Merchant_AutocompleteModel[] | null;
-  // merchant: any;
-  favorite_merchants!: MerchantResFav;
-  favoriteMerchants!: Merchant_AutocompleteModel[];
+  merchants!: MerchantAutocompleteModel[] | null;
+  favoriteMerchants!: MerchantAutocompleteModel[];
   favoriteMerchantsNumber!: number;
   favorite_merchant_making!: BillersModel | null;
-  // favorite: any;
   payMerchant!: BillersModel | null;
   merchantId!: string;
-  // merchantDetails: any;
   countProductLoader = [1, 2, 3, 4, 5, 6, 7, 8];
   favoriteDisplay = false;
   location!: boolean;
@@ -64,38 +57,52 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   theme$: Observable<ModeModel>;
   isInputFocused = false;
   sectorActivity!: SectorActivityModel[];
-  selectedSector: SectorActivityModel | null = null;
+  selectedSector!: SectorActivityModel | null;
   isSectorListVisible = false;
   sectorId = '';
-  categories!: CategoriesPerActivitySectorModel[];
+  categories!: MerchantCategoriesModel[];
 
   favoriteMerchantLoading = false;
+
+  private refreshFavoriteMerchants$: Observable<boolean>;
+  seeMore!: boolean;
+
   constructor(
     private merchantService: MerchantService,
     private configService: ConfigService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private variableService: VariableService
   ) {
     this.theme$ = this.configService.getMode();
+    this.refreshFavoriteMerchants$ = toObservable(
+      this.variableService.refreshFavoriteMerchants
+    );
   }
 
   ngOnInit() {
     this.getMerchants('');
     this.getFavoriteMerchants('');
-
-    this.variableService.search
-      .pipe(debounceTime(400), takeUntil(this.onDestroy$))
-      .subscribe({
-        next: (search: string) => this.getMerchants(search),
-      });
+    this.getActivitiesSectors();
 
     this.theme$.subscribe({
       next: theme => (this.theme = theme),
     });
-    this.getActivitiesSectors();
-    this.toggleSectorList();
-    this.showSectorList();
-    this.hideSectorList();
-    this.selectSector(this.selectedSector as SectorActivityModel);
+
+    // NOTE :: TO CHECK ACTION ON FAVORITE PRODUCTS
+    this.refreshFavoriteMerchants$.subscribe({
+      next: state => {
+        if (state) {
+          this.getFavoriteMerchants('');
+          this.variableService.refreshFavoriteMerchants.set(false);
+        }
+      },
+    });
+
+    this.searchInput.valueChanges
+      .pipe(debounceTime(400), takeUntil(this.onDestroy$))
+      .subscribe(value => {
+        this.getMerchants(value ?? '');
+      });
   }
 
   toggleSearch(expand: boolean) {
@@ -112,13 +119,14 @@ export class MerchantsComponent implements OnInit, OnDestroy {
 
   getMerchants(search: string) {
     this.isLoading = true;
+    this.merchants = null;
 
     this.merchantService
-      .getMerchantsAutocomplete(search)
+      .getRecentMerchantsAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as { objects: Merchant_AutocompleteModel[] };
+          const response = data as { objects: MerchantAutocompleteModel[] };
           this.isLoading = false;
           this.merchants = response.objects;
           this.favorite_merchant_making = null;
@@ -147,7 +155,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: data => {
           const response = data as {
-            objects: Merchant_AutocompleteModel[];
+            objects: MerchantAutocompleteModel[];
             count: number;
           };
           this.favoriteMerchants = response.objects;
@@ -162,55 +170,6 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       });
   }
 
-  makeFavoriteMerchants(favorite: BillersModel, event: MouseEvent) {
-    event.stopPropagation();
-    let productCard: HTMLElement | null = null;
-    if (event.target) {
-      productCard = event.target as HTMLElement;
-      for (let i = 0; i < 5; i++) {
-        if (productCard) {
-          productCard = productCard.parentElement;
-        }
-      }
-    }
-
-    if (productCard) {
-      productCard.removeAttribute('data-bs-target');
-      productCard.removeAttribute('data-bs-toggle');
-      this.favorite_merchant_making = favorite;
-
-      let body!: Favorite;
-      if (!favorite.is_favorite_merchant) {
-        body = {
-          merchant: favorite.id,
-          merchant_action: 'make_favorite',
-        };
-      } else if (favorite.is_favorite_merchant) {
-        body = {
-          merchant: favorite.id,
-          merchant_action: 'revoke_favorite',
-        };
-      }
-
-      // add data-bs after click on favorite star
-      productCard.setAttribute('data-bs-target', '#myModal');
-      productCard.setAttribute('data-bs-toggle', 'modal');
-      this.merchantService
-        .makeFavoriteMerchants(body)
-        .pipe(takeUntil(this.onDestroy$))
-        .subscribe({
-          next: data => {
-            const response = data as { object: MerchantResFav };
-            this.favorite_merchants = response.object;
-            if (this.favorite_merchants.success) {
-              this.getMerchants('');
-              this.getFavoriteMerchants('', false);
-            }
-          },
-        });
-    }
-  }
-
   getMerchant(data: BillersModel, event: MouseEvent) {
     event.stopPropagation();
 
@@ -219,42 +178,11 @@ export class MerchantsComponent implements OnInit, OnDestroy {
     element.setAttribute('data-bs-toggle', 'modal');
     this.payMerchant = data;
     this.merchantId = this.payMerchant.id;
-    // this.getMerchantDetails();
   }
-
-  // getMerchantDetails() {
-  //   this.merchantDetails = null;
-  //   this.merchantService
-  //     .getMerchantsDetails(this.merchantId)
-  //     .pipe(takeUntil(this.onDestroy$))
-  //     .subscribe({
-  //       next: (data: any) => {
-  //         this.merchantDetails = data.object;
-  //         console.log('!!!!!!!!!!!!!!!!!!!!!!!MERCHANTDETAILS:', data);
-  //         // this.merchant = this.merchantDetails;
-  //       },
-  //     });
-  // }
 
   isSearchInputNotEmpty(): boolean {
     const searchValue = this.searchInput.value;
     return typeof searchValue === 'string' && searchValue.trim() !== '';
-  }
-
-  searchFor() {
-    this.merchants = null;
-
-    if (this.searchInput.value) {
-      const searchTerm = this.searchInput.value.trim();
-
-      if (searchTerm) {
-        this.variableService.search.next(searchTerm);
-      }
-    } else {
-      // this.merchant = null;
-
-      this.variableService.search.next('');
-    }
   }
 
   closeModal() {
@@ -309,18 +237,26 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   }
 
   getActivitiesSectors() {
+    this.isLoading = true;
+    this.sectorActivity = [];
+    this.selectedSector = null;
     this.merchantService
       .getActivitySectors()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: SectorActivityObjectModel) => {
+        next: data => {
           this.sectorActivity = data.objects;
           if (this.sectorActivity.length > 0) {
             this.selectedSector = this.sectorActivity[0];
             this.getCategoriesPerActivitySectors(
               this.selectedSector.id as string
             );
+            this.isLoading = false;
           }
+          this.isLoading = false;
+        },
+        error: () => {
+          this.isLoading = false;
         },
       });
   }
@@ -340,21 +276,28 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   selectSector(sector: SectorActivityModel): void {
     this.selectedSector = sector;
     this.isSectorListVisible = false;
-    this.getCategoriesPerActivitySectors(sector.id.toString());
+    this.getCategoriesPerActivitySectors(sector.id as string);
   }
 
   getCategoriesPerActivitySectors(sectorId: string): void {
+    this.isLoading = true;
     this.merchantService
       .getCategoriesPerActivitySectors(sectorId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (categories: CategoriesPerActivitySectorObjectModel) => {
+        next: categories => {
           this.categories = categories.objects;
+          this.isLoading = false;
         },
         error: err => {
           console.error('Error fetching categories', err);
+          this.isLoading = false;
         },
       });
+  }
+
+  dispatchMerchantPayment(payload: MerchantPaymentDialogModel) {
+    this.dialogService.openMerchantPaymentDialog(payload);
   }
 
   ngOnDestroy(): void {

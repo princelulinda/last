@@ -35,7 +35,7 @@ export class AsideMenuComponent implements OnInit {
     this.typeMenus$.subscribe({
       next: menus => {
         if (menus) {
-          this.typeMenus = menus;
+          this.typeMenus = this.configService.toArray(menus);
         }
       },
     });

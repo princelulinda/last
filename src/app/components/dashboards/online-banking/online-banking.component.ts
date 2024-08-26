@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  OnDestroy,
-  ElementRef,
-} from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 
 import { Subject, Observable, takeUntil } from 'rxjs';
@@ -28,7 +21,6 @@ import {
   MerchantLookup,
   PayMerchant,
 } from '../dashboard.model';
-import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { TarifComponent } from '../../tarif/tarif.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
@@ -81,7 +73,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   merchants: MerchantLookup[] = [];
   openBankListPopup = false;
   selectedNewBank: number | null = null;
-  userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   pin!: string;
 
@@ -91,8 +82,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   mainConfig$!: Observable<activeMainConfigModel>;
 
   private userInfo$: Observable<UserInfoModel>;
-
-  @ViewChild('closeModal') closeModal!: ElementRef;
 
   menuGroups: MenuGroup[] = [
     {
@@ -166,8 +155,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     private authService: AuthService,
     private merchantService: MerchantService,
-    private dialogService: DialogService,
-    private router: Router
+    private dialogService: DialogService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
@@ -224,13 +212,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         },
       });
   }
-  // toggleBankHome() {
-  //   this.showBankHome = !this.showBankHome;
-  // }
-
-  // handleBackToPreviousState() {
-  //   this.showBankHome = false;
-  // }
 
   getBanks() {
     this.bankService
@@ -248,7 +229,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
 
   addBank() {
     const body = {
-      client: this.clientInfo.client.id,
+      client: this.clientId,
       organization: this.selectedNewBank,
       pin_code: this.pin,
     };
@@ -261,21 +242,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         next: (response: addBankResponse) => {
           console.log(response);
           this.dialogService.closeLoading();
-
-          if (response && response.object && response.object.success === true) {
-            this.banks = [];
-            this.getBanks();
-            this.pin = '';
-
-            this.dialogService.openToast({
-              type: 'success',
-              title: '',
-              message:
-                response.object.response_message ??
-                $localize`Bank added successfully`,
-            });
-            this.closeModal.nativeElement.click();
-          } else if (response.object.success === false) {
+          if (response.object.success === false) {
             this.dialogService.closeLoading();
 
             this.openBankListPopup = false;
@@ -286,6 +253,18 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
               message:
                 response?.object?.response_message ??
                 $localize`Something went wrong please retry again !`,
+            });
+          } else {
+            this.banks = [];
+            this.getBanks();
+            this.pin = '';
+
+            this.dialogService.openToast({
+              type: 'success',
+              title: '',
+              message:
+                response.object.response_message ??
+                $localize`Bank added successfully`,
             });
           }
         },
@@ -342,9 +321,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         next: data => {
           this.merchants = data.objects;
         },
-        error: () => {
-          // code
-        },
       });
   }
 
@@ -352,7 +328,8 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     this.dialogService.openDialog({
       type: 'pin',
       title: 'Enter your PIN code',
-      message: 'Please enter your PIN code to continue.',
+      message:
+        'To create an account in this bank, enter your PIN code to continue.',
       action: 'confirmation',
     });
   }

@@ -1,0 +1,225 @@
+<div class="container mb-2 pb-4 pt-4">
+  <main class="lg-radius min-h-65vh p-3 overflow-hidden">
+    <div>
+      <div class="mb-2 d-flex align-items-center justify-content-between">
+        <div>
+          <b
+            class="fs-x-large ps-4 pe-2 pt-4 pb-3 ms-3"
+            role="button"
+            tabindex="0"
+            (click)="selectMenu('list')"
+            i18n
+            >MetaData</b
+          >
+
+          <span
+            title="Refresh"
+            class="fs-medium text-secondary"
+            tabindex="0"
+            (click)="refresh()">
+            @if (!loadingData) {
+              <span>
+                <i class="fa-solid fa-rotate-right" type="button"> </i>
+              </span>
+            } @else {
+              <span> <i class="fas fa-spinner fa-pulse"></i></span>
+            }
+          </span>
+        </div>
+
+        @if (selectedMenu === 'list') {
+          <div class="col-md-2 me-4 d-flex position-relative">
+            <input
+              type="text"
+              class="form-control w-100 pe-4"
+              placeholder="Search ...."
+              aria-label="search"
+              [ngClass]="{
+                'not-clickable': loadingData,
+              }"
+              (keydown.enter)="getMetadata()"
+              aria-describedby="basic-addon1"
+              [formControl]="search" />
+
+            <span
+              role="button"
+              tabindex="0"
+              class="position-absolute search"
+              (click)="getMetadata()">
+              @if (loadingData) {
+                <span>
+                  <i class="fas fa-spinner fa-pulse"></i>
+                </span>
+              } @else {
+                <span>
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+              }
+            </span>
+          </div>
+        } @else {
+          <span
+            class="ms-auto me-4 fw-bold"
+            role="button"
+            tabindex="0"
+            (click)="selectMenu('list')"
+            ><i class="fa-solid fa-arrow-left"></i> Back</span
+          >
+        }
+      </div>
+
+      @if (selectedMenu === 'list') {
+        <div class="text-end me-4">
+          <button
+            [ngClass]="{
+              'not-clickable': loadingData,
+            }"
+            class="btn bg-primary w-145-px fs-medium text-white px-3 fw-bold"
+            (click)="selectMenu('add')"
+            i18n>
+            Add
+          </button>
+        </div>
+
+        <div class="me-4 ms-4 mb-3">
+          <!-- skeleton loader section -->
+
+          @if (loadingData) {
+            <section class="row mt-5">
+              @for (item of [1, 2, 3, 4, 5]; track $index) {
+                <div>
+                  <div class="ms-3 me-2">
+                    <app-skeleton
+                      width="100%"
+                      height="60px"
+                      class="sm-radius"></app-skeleton>
+                  </div>
+                </div>
+              }
+            </section>
+          }
+
+          @if (!loadingData) {
+            <div class="row w-100 fw-bold ms-2 me-2 d-flex mt-3">
+              <div class="col ps-4" i18n>Title of field</div>
+
+              <div class="col" i18n>Name of field</div>
+
+              <div class="col" i18n>Type of field</div>
+
+              <div class="col" i18n>Preview</div>
+            </div>
+          }
+
+          <!-- not found message -->
+
+          @if (!loadingData && metadata.length === 0) {
+            <div
+              class="d-flex flex-column align-items-center mt-5 empty-state-icon">
+              <span class="opacity-50 fs-xx-large">
+                <i class="fa-solid fa-face-meh"></i>
+              </span>
+
+              <b class="fs-4 opacity-50" i18n> No Metadata Found </b>
+            </div>
+          }
+
+          @if (!isLoading && metadata) {
+            <section class="d-flex flex-column">
+              @for (meta of metadata; track $index) {
+                <div
+                  class="row mt-3 p-2 ms-3 me-2 border sm-radius d-flex justify-content-between flex-grow-1">
+                  <div class="col pt-2 ps-4">
+                    {{ meta.name }}
+                  </div>
+
+                  <div class="col d-flex align-items-center" i18n>
+                    {{ meta.field_name }}
+                  </div>
+
+                  <div class="col d-flex align-items-center">
+                    {{ meta.meta_type }}
+                  </div>
+
+                  <div class="col d-flex align-items-center position-relative">
+                    @if (meta.widget_attrs.max_length) {
+                      <span
+                        class="p-1 attrs bg-secondary pt-2 sm-radius text-secondary ps-4 border"
+                        i18n
+                        >Maxlength({{ meta.widget_attrs.max_length }})
+
+                        @if (meta.widget_attrs.required === true) {
+                          <span class="text-danger fs-medium">*</span>
+                        }
+                      </span>
+                    }
+
+                    @if (meta.widget_attrs.max_digits) {
+                      <span
+                        class="p-1 attrs bg-secondary pt-2 sm-radius text-secondary ps-4 border"
+                        i18n
+                        >Maxdigits({{ meta.widget_attrs.max_digits }})
+
+                        @if (meta.widget_attrs.required === true) {
+                          <span class="text-danger fs-medium">*</span>
+                        }
+                      </span>
+                    }
+
+                    @if (meta.widget_attrs.choices) {
+                      <span>
+                        <select class="sm-radius border-0 form-select">
+                          @for (
+                            metas of meta.widget_attrs.choices;
+                            track $index
+                          ) {
+                            <option>
+                              {{ metas | json }}
+                            </option>
+                          }
+                        </select>
+                      </span>
+                    }
+                  </div>
+                </div>
+              }
+
+              <!-- pagination button -->
+
+              <div
+                class="mt-4 d-flex align-items-center justify-content-center fs-largeight">
+                <button
+                  title="Previous"
+                  (click)="doListMove('prev')"
+                  [disabled]="currentPage === 0"
+                  class="border-0 me-2 btn d-inline-flex align-items-center rounded p-2 fs-4 text-primary">
+                  <i class="fa-solid fa-play fa-rotate-180"></i>
+                </button>
+
+                @if (pagination.filters.limit) {
+                  <button
+                    title="Next"
+                    (click)="doListMove('next')"
+                    [disabled]="
+                      count < (currentPage - 1) * pagination.filters.limit
+                    "
+                    class="border-0 ms-2 btn fs-4 d-inline-flex align-items-center rounded p-2 text-primary">
+                    <i class="fa-solid fa-play"></i>
+                  </button>
+                }
+              </div>
+            </section>
+          }
+        </div>
+      }
+
+      @if (selectedMenu === 'add') {
+        <div>
+          <app-metadata-form
+            (refreshUpdates)="seeUpdates($event)"
+            [selectedMenu]="selectedMenu"></app-metadata-form>
+        </div>
+      }
+    </div>
+  </main>
+</div>

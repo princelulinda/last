@@ -9,14 +9,19 @@ export interface UserApiResponse {
 
 export type languageModel = 'en' | 'fr' | 'ki' | 'sw';
 
-export interface ClientApiResponse {
+export interface ClientModel {
   id: number;
   client_id: number;
   client_full_name: string;
   client_phone_number: string;
-  client_type: string;
+  client_type: {
+    title: string;
+    value: string;
+    css: object | null;
+  };
   client_email: string;
   client_code: number;
+  picture: string;
   picture_url: string;
   has_pin: boolean;
   is_agent: boolean;
@@ -26,7 +31,7 @@ export interface ClientApiResponse {
 }
 export interface UserInfoModel {
   user: UserApiResponse;
-  client: ClientApiResponse;
+  client: ClientModel;
 }
 
 export class User extends BaseModel {

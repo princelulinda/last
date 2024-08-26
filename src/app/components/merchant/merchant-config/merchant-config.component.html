@@ -37,7 +37,7 @@
     </div>
   </header>
   <div>
-    @if (!merchantInfo) {
+    @if (!get_merchantDetails) {
       <div class="mt-4 ms-4">
         <span
           class="w-100 h-100 d-flex row align-items-center text-dark"
@@ -46,7 +46,7 @@
         </span>
       </div>
     }
-    @if (!selected) {
+    @if (!selected && get_merchantDetails) {
       <section class="mt-4 row">
         @if (merchantInfo) {
           <div class="row">
@@ -100,14 +100,16 @@
               <div class="d-grid">
                 <div class="d-flex gap-2">
                   <div class="text-secondary" i18n>Logo</div>
-                  <div
-                    style="width: 96px; height: 96px"
-                    class="overflow-hidden lg-radius">
+                  <div class="overflow-hidden lg-radius">
                     @if (!merchantInfo.merchant_logo) {
-                      <img
+                      <!-- <img
                         src="../../../../assets/images/userprofile.png"
                         alt=""
-                        class="img-fluid lg-radius" />
+                        class="img-fluid lg-radius" /> -->
+                      <span class="">
+                        <i
+                          class="fa-regular fa-user text-dark fa-3x p-4 bg-secondary lg-radius"></i>
+                      </span>
                     } @else if (merchantInfo.merchant_logo) {
                       <img
                         [src]="merchantInfo.merchant_logo"
@@ -198,13 +200,21 @@
               <div class="col-lg-6">
                 <label for="merchantLogo">
                   <div
-                    class="lg-radius d-flex level-1 text-secondary ms-5 border justify-content-center align-items-center merchant-container"
-                    style="width: 138px; height: 150px; position: relative">
+                    class="lg-radius d-flex level-1 text-secondary ms-5 border justify-content-center align-items-center merchant-container">
                     @if (!merchantInfo.merchant_logo && !previewImage) {
-                      <img
+                      <!-- <img
                         src="../../../../assets/images/userprofile.png"
                         alt=""
-                        class="img-fluid lg-radius merchant-logo" />
+                        class="img-fluid lg-radius merchant-logo" /> -->
+                      <!-- <span
+                        class="d-flex justify-content-center sm-radius bg-secondary">
+                        <i
+                          class="fa-solid fa-user fa-5x text-white m-4"></i>
+                      </span> -->
+                      <span class="">
+                        <i
+                          class="fa-regular fa-user text-dark fa-3x p-4 bg-secondary lg-radius"></i>
+                      </span>
                     } @else if (merchantInfo.merchant_logo && !previewImage) {
                       <img
                         [src]="merchantInfo.merchant_logo"
@@ -504,7 +514,7 @@
   <div
     class="modal-dialog w-100 d-flex justify-content-center h-100 align-items-center overflow-auto"
     style="min-width: 75%">
-    <div class="modal-content w-resp">
+    <div class="modal-content w-100">
       <app-merchant-teller-details
         [tellerInfo]="selectedTeller"
         [get_tellerInfo]="get_selectedTeller"
@@ -629,9 +639,10 @@
   <div
     class="modal-dialog w-100 d-flex justify-content-center h-100 align-items-center overflow-auto"
     style="min-width: 5%">
-    <div class="modal-content w-resp">
+    <div class="modal-content w-100 px-5 mx-5 bg-white">
       <app-merchant-teller-details
         [tellerInfo]="selectedTeller"
+        [get_tellerInfo]="get_selectedTeller"
         (isActionDone)="getTellerOptions($event)"></app-merchant-teller-details>
 
       <router-outlet></router-outlet>

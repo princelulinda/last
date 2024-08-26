@@ -1,0 +1,134 @@
+<main class="md-radius p-4 overflow-auto bg-white h-8 position-relative">
+  <!---------------------------------------------------------- ****####  MERCHANT SECTION  ####**** ----------------------------------------------------------------->
+
+  @if (type === 'merchant' && merchant) {
+    <!---------------------------------------------------------- BACK SECTION ----------------------------------------------------------------->
+
+    <div class="position-absolute back">
+      <span
+        class="d-flex align-items-center fs-l-medium"
+        data-bs-toggle="modal"
+        [attr.data-bs-target]="'#paymentModal' + merchant.id"
+        role="button">
+        <span class="me-2"><i class="fa fa-arrow-left"></i></span>
+        <b i18n> Back</b>
+      </span>
+    </div>
+    <div class="d-flex flex-column h-100">
+      <!---------------------------------------------------------- STEPPER SECTION ----------------------------------------------------------------->
+
+      <div class="mx-auto d-flex flex-row my-1 w-content">
+        <div class="stepper-wrapper d-flex align-items-center">
+          @if (selectedSection === 'second') {
+            <div class="stepper-item active">
+              <div class="step-counter text-all-dark border border-dark" i18n>
+                1
+              </div>
+            </div>
+            <div
+              class="stepper-line"
+              [ngClass]="
+                theme === 'light' ? 'bg-all-dark' : 'bg-all-white'
+              "></div>
+          }
+
+          @if (selectedSection === 'first') {
+            <div class="stepper-item completed">
+              <div
+                class="step-counter border border-dark bg-primary fw-bold"
+                i18n>
+                1
+              </div>
+            </div>
+            <div
+              class="stepper-line"
+              [ngClass]="
+                theme === 'light' ? 'bg-all-dark' : 'bg-all-white'
+              "></div>
+            <div class="stepper-item active">
+              <div class="step-counter border text-all-dark border-dark" i18n>
+                2
+              </div>
+            </div>
+          }
+
+          @if (selectedSection === 'second') {
+            <div
+              class="stepper-item completed"
+              *ngIf="selectedSection === 'second'">
+              <div
+                class="step-counter bg-primary fw-bold border border-dark"
+                i18n>
+                2
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!---------------------------------------------------------- END OF STEPPER SECTION ----------------------------------------------------------------->
+
+      <div class="row flex-grow-1 g-4 overflow-hidden">
+        <!---------------------------------------------------------- LEFT SECTION ----------------------------------------------------------------->
+
+        <div class="d-flex flex-column h-100 overflow-scroll scrollBar col-8">
+          <div class="d-flex flex-row ps-2 my-3 align-items-center">
+            <div class="arrow bg-primary"></div>
+            <span class="ms-3 fw-bold fs-l-medium">Social</span>
+            <div
+              class="ms-5 bg-secondary rounded d-flex flex-row overflow-hidden nameCard">
+              <div
+                class="w-75 h-100 d-flex align-items-center justify-content-center">
+                <span class="fs-small">Tv</span>
+              </div>
+              <div
+                class="bg-primary d-flex align-items-center justify-content-center iconSec px-2">
+                <i class="fa-solid fa-building-columns text-all-white"></i>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ps-3 py-2 border position-relative rounded-3 d-flex flex-row pe-1 mb-2 w-content">
+            <span
+              class="position-absolute top-0 online translate-middle p-2 bg-success border border-light rounded-circle">
+              <span class="visually-hidden">Online status</span>
+            </span>
+            <div
+              class="rounded-circle border overflow-hidden profile bg-secondary d-flex align-items-center justify-content-center">
+              @if (merchant.lookup_image) {
+                <img
+                  src="{{ merchant.lookup_image }}"
+                  alt="merchant profile"
+                  class="image" />
+              } @else {
+                <i
+                  class="fa-solid fa-cart-shopping fs-large text-secondary"></i>
+              }
+            </div>
+            <div class="d-flex flex-column ms-2">
+              <span class="fs-large fw-bold"
+                >{{ merchant.lookup_title }}
+                <span class="fs-normal"
+                  >({{ merchant.lookup_subtitle }})</span
+                ></span
+              >
+              <span class="fs-normal text-secondary fw-bold">{{
+                merchant.merchant_category_name
+              }}</span>
+            </div>
+          </div>
+          <div class="pt-4 h-100 mb-4">
+            <app-merchant-products
+              [merchantId]="merchant.id"></app-merchant-products>
+          </div>
+        </div>
+
+        <!---------------------------------------------------------- END OF LEFT SECTION ----------------------------------------------------------------->
+
+        <!---------------------------------------------------------- RIGHT SECTION ----------------------------------------------------------------->
+
+        <div class="col-4 h-100"></div>
+      </div>
+    </div>
+  }
+</main>

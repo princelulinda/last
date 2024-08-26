@@ -9,12 +9,12 @@ import {
   ConfigService,
   MerchantService,
 } from '../../../../core/services';
-import { Pagination } from '../../../../core/services/merchant/model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { BillsModel, paymentBillsModel } from '../../products/products.model';
 
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { PaginationConfig } from '../../../../global/models/pagination.models';
 
 @Component({
   selector: 'app-bills',
@@ -87,7 +87,7 @@ export class BillsComponent implements OnInit, OnDestroy {
       canBeDisplayed: false,
     },
   ];
-  billsPagination: Pagination = {
+  billsPagination: PaginationConfig = {
     filters: {
       limit: 15,
       offset: 0,
@@ -130,10 +130,7 @@ export class BillsComponent implements OnInit, OnDestroy {
           this.merchantBills = response.objects;
           this.countBills = response.count;
           this.pages = Math.round(this.countBills / 6);
-          if (
-            this.countBills >
-            parseInt(this.billsPagination.filters?.limit as string)
-          ) {
+          if (this.countBills > this.billsPagination.filters?.limit) {
             this.canMoveToNext = true;
           }
           this.isLoading = false;
@@ -167,10 +164,8 @@ export class BillsComponent implements OnInit, OnDestroy {
     }
     // action === 'next' ? this.activePage++ : this.activePage--;
     if (this.activePage >= 1 && this.activePage <= this.pages) {
-      const _offset = (
-        parseInt(this.billsPagination.filters?.limit as string) *
-        (this.activePage - 1)
-      ).toString();
+      const _offset =
+        this.billsPagination.filters?.limit * (this.activePage - 1);
       this.billsPagination.filters!.offset = _offset;
       if (action === 'next') {
         this.getBills();
@@ -181,7 +176,7 @@ export class BillsComponent implements OnInit, OnDestroy {
       this.canMoveToPrevious = true;
     }
     if (this.activePage - 1 < 1) {
-      this.billsPagination.filters!.offset = '';
+      this.billsPagination.filters!.offset = 0;
       this.canMoveToPrevious = false;
       this.canMoveToNext = false;
     } else if (this.activePage + 1 > this.pages) {

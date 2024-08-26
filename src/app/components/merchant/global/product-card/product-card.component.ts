@@ -1,15 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Observable, takeUntil, Subject } from 'rxjs';
 
-import { ProductModel } from '../../../dashboards/dashboard.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { ConfigService, MerchantService } from '../../../../core/services';
 import {
   FavoriteModel,
   ProductFavoriteModel,
+  ProductAutocompleteModel,
 } from '../../products/products.model';
+import { VariableService } from '../../../../core/services/variable/variable.service';
 
 @Component({
   selector: 'app-product-card',
@@ -18,8 +26,8 @@ import {
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
 })
-export class ProductCardComponent implements OnInit {
-  @Input({ required: true }) product: ProductModel = {
+export class ProductCardComponent implements OnInit, OnDestroy {
+  @Input({ required: true }) product: ProductAutocompleteModel = {
     id: 0,
     lookup_description: '',
     lookup_icon: '',
@@ -29,6 +37,11 @@ export class ProductCardComponent implements OnInit {
     price: 0,
     is_favorite_product: false,
   };
+  @Input() type: 'row' | 'column' = 'column';
+  @Input() action: 'merchant-payment' | 'output' = 'merchant-payment';
+  @Input() disabledFavoriteAction = false;
+  @Output() selectedProductEvent = new EventEmitter<ProductAutocompleteModel>();
+
   currentMode$: Observable<ModeModel>;
   currentMode!: ModeModel;
   isLoading!: boolean;
@@ -38,7 +51,8 @@ export class ProductCardComponent implements OnInit {
 
   constructor(
     private configService: ConfigService,
-    private merchantService: MerchantService
+    private merchantService: MerchantService,
+    private variableService: VariableService
   ) {
     this.currentMode$ = this.configService.getMode();
   }
@@ -51,7 +65,7 @@ export class ProductCardComponent implements OnInit {
     });
   }
 
-  makeFavoriteProducts(favorite: ProductModel, event: Event) {
+  makeFavoriteProducts(favorite: ProductAutocompleteModel, event: Event) {
     this.isLoading = true;
     event.stopPropagation();
     let body!: ProductFavoriteModel;
@@ -76,8 +90,10 @@ export class ProductCardComponent implements OnInit {
           if (response.success) {
             if (!favorite.is_favorite_product) {
               this.product.is_favorite_product = true;
+              this.variableService.refreshFavoriteProducts.set(true);
             } else {
               this.product.is_favorite_product = false;
+              this.variableService.refreshFavoriteProducts.set(true);
             }
           }
           this.isLoading = false;
@@ -86,5 +102,18 @@ export class ProductCardComponent implements OnInit {
           this.isLoading = false;
         },
       });
+  }
+
+  selectProduct() {
+    if (this.action === 'merchant-payment') {
+      console.log('DISPACTH MERCHANT PAYMENT');
+    } else if (this.action === 'output') {
+      this.selectedProductEvent.emit(this.product);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

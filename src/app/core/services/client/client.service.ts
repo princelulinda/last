@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { ApiService } from '..';
 import {
-  AddResponse,
+  AddResponseModel,
   BodyModel,
 } from '../../../components/settings/settings.models';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -12,8 +12,11 @@ import {
   Accountdetail,
 } from '../../../components/account/models';
 import {
+  CreatWalletBodyModel,
+  creatWalletResponse,
   Walletdetail,
   WalletList,
+  WalletTypModel,
 } from '../../../components/wallet/wallet.models';
 
 @Injectable({
@@ -27,11 +30,11 @@ export class ClientService {
   private selectedWalletSubject = new BehaviorSubject<WalletList | null>(null);
   selectedWallet$ = this.selectedWalletSubject.asObservable();
 
-  addAphoneNumber(body: BodyModel): Observable<AddResponse> {
+  addAphoneNumber(body: BodyModel): Observable<AddResponseModel> {
     const url = '/extid/creation/';
     return this.apiService.post(url, body).pipe(
       map(response => {
-        return response as AddResponse;
+        return response as AddResponseModel;
       })
     );
   }
@@ -49,10 +52,23 @@ export class ClientService {
   }
 
   getClientAccounts(clientId: number): Observable<{ objects: accountsList[] }> {
-    const url = '/accounts/' + clientId + '/?limit=6';
+    const url = '/accounts/' + clientId + '/';
     return this.apiService.get<{ objects: accountsList[] }>(url);
   }
 
+  getWalletType(): Observable<{ objects: WalletTypModel[] }> {
+    const url = '/dbs/wallettype/list/';
+    return this.apiService.get<{ objects: WalletTypModel[] }>(url);
+  }
+
+  creatWallet(body: CreatWalletBodyModel): Observable<creatWalletResponse> {
+    const url = '/dbs/wallet/create/';
+    return this.apiService.post(url, body).pipe(
+      map(response => {
+        return response as creatWalletResponse;
+      })
+    );
+  }
   getClientAccountDetails(
     selectedAccount: string
   ): Observable<{ object: Accountdetail }> {

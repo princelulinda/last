@@ -11,6 +11,7 @@ import { BankingLayoutComponent } from '../../layouts/workstation/banking-layout
 import { MarketLayoutComponent } from '../../layouts/workstation/market-layout/market-layout.component';
 import { IntranetLayoutComponent } from '../../layouts/workstation/intranet-layout/intranet-layout.component';
 import { DeskLayoutComponent } from '../../layouts/workstation/desk-layout/desk-layout.component';
+import { MetadataComponent } from '../../components/metadatas/metadata/metadata.component';
 
 export const workstationRoutes: Routes = [
   //Dashboards
@@ -45,5 +46,9 @@ export const workstationRoutes: Routes = [
   {
     path: 'admin',
     children: AdminRoutes,
+  },
+  {
+    path: 'metadata',
+    component: MetadataComponent,
   },
 ];

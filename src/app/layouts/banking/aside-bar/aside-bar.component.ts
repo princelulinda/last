@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { Observable, takeUntil, Subject } from 'rxjs';
 
@@ -12,16 +13,15 @@ import {
   MerchantService,
 } from '../../../core/services';
 import { PlateformModel } from '../../../core/services/config/main-config.models';
-import { CommonModule } from '@angular/common';
-import { Pagination } from '../../../core/services/merchant/model';
 import {
-  AllProductModel,
-  ProductModel,
+  AllProductAutocompleteModel,
+  ProductAutocompleteModel,
   TransactionModel,
   TransactionObjectModel,
 } from '../../../components/merchant/products/products.model';
 import { ProductCardComponent } from '../../../components/merchant/global/product-card/product-card.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { PaginationConfig } from '../../../global/models/pagination.models';
 
 @Component({
   selector: 'app-aside-bar',
@@ -38,19 +38,19 @@ import { AmountVisibilityComponent } from '../../../global/components/custom-fie
 export class AsideBarComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  @Output() topProducts = new EventEmitter<AllProductModel[]>();
-  @Output() product = new EventEmitter<ProductModel>();
+  @Output() topProducts = new EventEmitter<AllProductAutocompleteModel[]>();
+  @Output() product = new EventEmitter<ProductAutocompleteModel>();
 
   @Input() url = '';
   @Input() searchBar = false;
 
   plateform$!: Observable<PlateformModel>;
   plateform!: PlateformModel;
-  products!: ProductModel[];
+  products!: ProductAutocompleteModel[];
   response_data = 0;
   loader = false;
   productsNumber = 0;
-  productPagination: Pagination = {
+  pagination: PaginationConfig = {
     filters: {
       limit: 3,
       offset: 0,
@@ -102,23 +102,23 @@ export class AsideBarComponent implements OnInit {
   getAllProducts(search: string) {
     if (!this.url) {
       this.merchantService
-        .searchProduct(this.productPagination, search)
+        .searchProduct(this.pagination, search)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
-          next: (data: AllProductModel) => {
+          next: (data: AllProductAutocompleteModel) => {
             this.response_data = data.count;
-            (this.products as ProductModel[]) = data.objects;
+            (this.products as ProductAutocompleteModel[]) = data.objects;
             this.loader = true;
             // this.topProducts.emit(this.products);
           },
         });
     } else {
       this.apiService
-        .get<AllProductModel>(this.url)
+        .get<AllProductAutocompleteModel>(this.url)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
-          next: (data: AllProductModel) => {
-            (this.products as ProductModel[]) = data.objects;
+          next: (data: AllProductAutocompleteModel) => {
+            (this.products as ProductAutocompleteModel[]) = data.objects;
             this.loader = true;
             this.productsNumber = data.count;
             if (this.productsNumber == 0) {
@@ -129,7 +129,7 @@ export class AsideBarComponent implements OnInit {
     }
   }
 
-  selectProduct(event: ProductModel) {
+  selectProduct(event: ProductAutocompleteModel) {
     this.product.emit(event);
     console.log('PRoducts', this.product);
   }
@@ -154,7 +154,7 @@ export class AsideBarComponent implements OnInit {
     };
 
     this.bankService
-      .getRecentTransactions('', period, this.clientVerified)
+      .getRecentTransactions(this.pagination, '', period, this.clientVerified)
       .subscribe((transfers: TransactionObjectModel) => {
         this.recentTransactions = transfers.objects;
         this.bankService.updateTransaction(false);

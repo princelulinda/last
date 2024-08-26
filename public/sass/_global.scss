@@ -13,6 +13,9 @@
 .h-without-header {
   height: calc(100dvh - 60px);
 }
+.statement-dialog {
+  min-width: 70%;
+}
 
 // global inchanges color
 $globalColors: (
@@ -77,6 +80,9 @@ a {
 }
 .sm-radius {
   border-radius: 5px;
+}
+.x-sm-radius {
+  border-radius: 3px;
 }
 
 //global image class

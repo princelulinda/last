@@ -27,7 +27,6 @@ import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
-import { userInfoModel } from '../../../layouts/header/model';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import {
   AmountEventModel,
@@ -39,7 +38,7 @@ import {
   LookupData,
   LookupResponseModel,
   PopupEventModel,
-  SelectedCreditAccountEvent,
+  SelectedCreditAccountEventModel,
   TransferResponseModel,
 } from '../transfer.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
@@ -90,7 +89,10 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   amount: number | null = null;
   amountToSend: number | null = null;
   clientId: number | null = null;
-
+  @Input() transferType:
+    | 'merchantTransfer'
+    | 'agentTransfer'
+    | 'simpleTransfer' = 'simpleTransfer';
   isPopupShown = false;
   isAmountChanging = false;
   isBanksListShown = false;
@@ -110,7 +112,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   }[] = [];
   lookup = new FormControl<LookupResponseModel | string>('');
   @Output() selectedCreditAccount =
-    new EventEmitter<SelectedCreditAccountEvent>();
+    new EventEmitter<SelectedCreditAccountEventModel>();
 
   creditAccount: CreditAccountModel | null | undefined;
   transferForm = new FormGroup({
@@ -118,6 +120,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     accountHolder: new FormControl('', Validators.required),
     debit_description: new FormControl('', Validators.required),
     amount: new FormControl(this.amount, Validators.required),
+    merchant_reference: new FormControl(''),
   });
   @Input() transferStep = '';
   dialog$: Observable<DialogResponseModel>;
@@ -128,8 +131,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   @Input() isOperation = false;
   @Input() showBack = false;
   @Input() bankId!: bankModel;
-  @Input() simpleTransferTitle = true;
-  userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
@@ -419,7 +420,12 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     this.transferStep = step;
     this.transferStepChange.emit(this.transferStep);
     this.selectedCreditAccount.emit({
-      transferForm: this.transferForm.value as FormGroup,
+      transferForm: this.transferForm.value as {
+        accountNumber: string;
+        accountHolder: string;
+        debit_description: string;
+        amount: number;
+      },
       selectedInstitution: this.selectedInstitution as InstitutionInfoModel,
       selectedCreditAccountType: this.selectedCreditAccountType as string,
     });

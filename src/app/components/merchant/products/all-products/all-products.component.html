@@ -53,20 +53,20 @@
           placeholder="Search product"
           [formControl]="searchInput"
           (input)="searchFor()" />
-        <style>
+        <!-- <style>
           /* Règle de style pour le texte du placeholder */
           .form-control::placeholder {
             color: rgb(204, 197, 197);
           }
-        </style>
+        </style> -->
       </div>
     </div>
   }
   @if (loader && products) {
-    <div class="row mt-3 ms-4 ms-lg-0">
+    <div class="d-flex justify-content-around flex-wrap gap-3 mt-3">
       @for (product of products; track $index) {
         <div
-          class="d-flex col-xl-3 col-md-4 col mb-3 sm-radius"
+          class="col-auto mb-3 sm-radius"
           (click)="selectProduct(product)"
           tabindex="0">
           <!-- image -->

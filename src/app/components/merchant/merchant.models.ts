@@ -1,3 +1,5 @@
+import { ClientModel } from '../../core/db/models/auth';
+
 export interface tellersModel {
   objects: tellerObjectModel[];
 }
@@ -7,7 +9,7 @@ export interface tellerModel {
 
 export interface tellerObjectModel {
   id: string;
-  client: tellerClienModel;
+  client: ClientModel;
   merchant: tellerMerchantModel;
   is_active: boolean;
   can_receive_notifications: boolean;
@@ -17,19 +19,6 @@ export interface tellerObjectModel {
   success: boolean;
   response_message: string;
   response_data: string;
-}
-export interface tellerClienModel {
-  id: number;
-  client_id: number;
-  client_code: string;
-  client_type: tellerClien_typeModel;
-  client_full_name: string;
-  client_email: string;
-  client_phone_number: string;
-  picture: string;
-  prefered_language: string;
-  is_agent: boolean;
-  is_merchant: boolean;
 }
 
 export interface tellerClien_typeModel {
@@ -85,37 +74,49 @@ export interface updateMerchantDetailsModel {
   merchant_logo: string;
 }
 
-// export interface getMerchantInfosObjectModel {
-//  object: merchantInfoModel;
-// }
-
-export interface getMerchantInfosModel {
-  object: merchantInfObjectModel;
-}
-
-export interface merchantInfObjectModel {
-  response_data: merchantInfoModel;
-  success: boolean;
-  response_code: string;
-  response_message: string;
-}
-
-export interface merchantInfoModel {
+export interface MerchantModel {
   id: string;
+  slug: string;
   merchant_title: string;
   merchant_code: string;
   merchant_logo: string;
   merchant_location: string;
   action: string[];
-  client: tellerClienModel;
+  client: ClientModel;
   accepts_simple_payment: boolean;
   accepts_cart: boolean;
   client_visibility_activated: boolean;
-  merchant_category: tellerMerchantModel;
+  reference_client: ClientModel;
+  merchant_category: MerchantCategoriesModel;
   is_favorite_merchant: boolean;
   visible: boolean;
-  slug: string;
+  available_balance: string;
   api_plug_name: string;
+  is_active: boolean;
+  merchant_main_account: string;
+  merchant_main_account_id: string;
+  client_category: string;
+  client_category_id: string;
+  balance_currency: string;
+  paid_amount: string;
+}
+
+export interface MerchantStatsModel {
+  success: boolean;
+  response_data: {
+    merchant_tellers_number: number;
+    merchant_bills_payment_number: number;
+    merchant_products_number: number;
+  };
+  response_message: string;
+  response_code: string;
+}
+
+export interface MerchantInfoModel {
+  response_data: MerchantModel;
+  response_code: string;
+  response_message: string;
+  success: boolean;
 }
 
 export interface searchTellerModel {
@@ -128,4 +129,37 @@ export interface newTellerModel {
   merchant: string;
   can_receive_notifications: boolean;
   alias: string;
+}
+
+export interface MerchantAutocompleteModel {
+  id: number;
+  lookup_icon: string;
+  lookup_image: string;
+  lookup_title: string;
+  lookup_subtitle: string;
+  lookup_description: string;
+  lookup_has_image_or_icon: boolean;
+  accepts_simple_payment: boolean;
+  merchant_category_name: string;
+  is_favorite_merchant: boolean;
+}
+
+export interface SectorActivityModel {
+  id: number | string;
+  title: string;
+  text: string;
+  activity_sector_code_reporting: string;
+  comment: string;
+  absolute_url: string;
+}
+
+export interface MerchantCategoriesModel {
+  id: number | string;
+  slug: string;
+  name: string;
+  merchant_visibility: string[];
+  merchant_activity_sector: SectorActivityModel;
+  icon: string;
+  is_active: boolean;
+  ordering: number;
 }

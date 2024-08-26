@@ -100,7 +100,10 @@
           <small i18n>Sales </small> <br />
           @if (stat) {
             <b>
-              {{ (stat.merchant_bills_payment_number | number) ?? '---' }}
+              {{
+                (stat.response_data.merchant_bills_payment_number | number) ??
+                  '---'
+              }}
             </b>
           }
           @if (!stat) {
@@ -132,7 +135,11 @@
         <Span class="float-start fs-5 ms-2 text-dark mt-3">
           <small i18n>Products </small> <br />
           @if (stat) {
-            <b> {{ (stat.merchant_products_number | number) ?? '---' }}</b>
+            <b>
+              {{
+                (stat.response_data.merchant_products_number | number) ?? '---'
+              }}</b
+            >
           }
           @if (!stat) {
             <span>
@@ -179,12 +186,6 @@
       ><br />
       <div class="row justify-content-lg-center justify-content-xxl-start">
         <div class="col-md-5 mt-3 mt-md-0">
-          <!-- <app-pie-chart
-              style="font-size: small"
-              [datas]="datas"
-  
-          ></app-pie-chart> -->
-
           <div class="w-100 d-flex justify-content-center text-align-center">
             <div
               class="pie-chart text-opacity-5 position-relative rounded-circle">
@@ -225,7 +226,7 @@
               <a
                 class="level-1 pt-1 mt-3 ms-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
                 role="button"
-                routerLink="{{ baseRouterLink }}/transfer">
+                routerLink="{{ baseRouterLink }}/merchant-transfer">
                 <div>
                   <b class="text-dark" i18n>Transfer</b>
                   <i class="fa-solid fa-paper-plane ms-3 text-dark opacity-75">
@@ -274,7 +275,7 @@
       <div class="col-4 col-md-3 level-1 roundBox shadow text-center ms-auto">
         @if (stat) {
           <div class="fw-bold mt-lg-4 pt-4 text-dark">
-            {{ stat.merchant_tellers_number }}
+            {{ stat.response_data.merchant_tellers_number }}
           </div>
         }
         @if (!stat) {

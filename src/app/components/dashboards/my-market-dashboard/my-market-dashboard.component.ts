@@ -20,7 +20,6 @@ import {
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
-// import { VariableService } from '../../../core/services/variable/variable.service';
 import {
   AuthService,
   ConfigService,
@@ -41,18 +40,19 @@ import {
 } from '../../../core/services/config/main-config.models';
 import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
 import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
-import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
 import { AllProductsComponent } from '../../merchant/products/all-products/all-products.component';
 import {
   Account,
   MerchantBillDataModel,
-  MerchantInfoModel,
-  MerchantModel,
-  MerchantObjectModel,
   ObjectBillModel,
-  StatsModel,
 } from '../../merchant/products/products.model';
 import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
+import { StatementComponent } from '../../statements/statement/statement.component';
+import {
+  MerchantAutocompleteModel,
+  MerchantModel,
+  MerchantStatsModel,
+} from '../../merchant/merchant.models';
 
 @Component({
   selector: 'app-my-market-dashboard',
@@ -69,6 +69,7 @@ import { ReusableListComponent } from '../../../global/components/reusable-list/
     FormsModule,
     MerchantBillComponent,
     ReusableListComponent,
+    StatementComponent,
   ],
   templateUrl: './my-market-dashboard.component.html',
   styleUrl: './my-market-dashboard.component.scss',
@@ -112,10 +113,10 @@ export class MyMarketDashboardComponent
   ];
   merchantId!: string | number;
   merchant!: MerchantModel | null;
-  merchantMult!: Merchant_AutocompleteModel[];
+  merchantMult!: MerchantAutocompleteModel[];
   merchantInfo!: MerchantModel | null;
 
-  stat!: MerchantModel | null;
+  stat!: MerchantStatsModel | null;
   account!: Account;
   merchantAccountId = '';
   billForm = new FormGroup({
@@ -158,11 +159,13 @@ export class MyMarketDashboardComponent
   ngOnInit(): void {
     this.mainConfig$.subscribe({
       next: configs => {
-        this.activePlatform = configs.activePlateform;
-        if (this.activePlatform === 'myMarket') {
-          this.baseRouterLink = '/m/mymarket';
-        } else if (this.activePlatform === 'workstation') {
-          this.baseRouterLink = '/w/workstation/';
+        if (configs) {
+          this.activePlatform = configs.activePlateform;
+          if (this.activePlatform === 'myMarket') {
+            this.baseRouterLink = '/m/mymarket';
+          } else if (this.activePlatform === 'workstation') {
+            this.baseRouterLink = '/w/workstation/';
+          }
         }
       },
     });
@@ -278,7 +281,7 @@ export class MyMarketDashboardComponent
             type: 'success',
             message: response.object.response_message,
           });
-          this.dialogService.OpenMerchantBillPopup(this.successMessage.data);
+          this.dialogService.openMerchantBillPopup(this.successMessage.data);
           this.closeModal.nativeElement.click();
           this.billForm.reset();
         },
@@ -311,18 +314,18 @@ export class MyMarketDashboardComponent
       .getConnectedMerchantInfo()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: MerchantObjectModel) => {
+        next: data => {
           this.isLoadingInfo = false;
 
           this.merchant = data.object.response_data;
           this.account = {
-            acc_holder: (this.merchant as MerchantModel).merchant_title,
-            acc_number: (this.merchant as MerchantModel).merchant_main_account,
+            acc_holder: this.merchant.merchant_title,
+            acc_number: this.merchant.merchant_main_account,
           };
           this.merchantAccountId = (
             this.merchant as MerchantModel
           ).merchant_main_account;
-          this.merchantId = (this.merchant as MerchantModel).id;
+          this.merchantId = this.merchant.id;
 
           this.getMerchantInfos();
           this.getMerchantStats();
@@ -386,7 +389,7 @@ export class MyMarketDashboardComponent
     this.closeMerchantsModal.nativeElement.click();
 
     this.merchantService.getMerchantInfos(merchantId as string).subscribe({
-      next: (data: MerchantInfoModel) => {
+      next: data => {
         this.isMerchantPopupOpened = false;
         this.isLoadingInfo = false;
         this.merchant = data.object.response_data;
@@ -407,8 +410,8 @@ export class MyMarketDashboardComponent
       .getMerchantStats(this.merchantId as string)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: StatsModel) => {
-          this.stat = data.object.response_data;
+        next: data => {
+          this.stat = data.object;
         },
         error: () => {
           this.dialogService.openToast({

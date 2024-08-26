@@ -9,7 +9,7 @@
       <span class="fw-bold fs-medium">Overview</span>
     }
   </div>
-  <form [formGroup]="transferForm" (ngSubmit)="showModal()">
+  <form [formGroup]="transferForm">
     <section class="d-flex gap-3">
       @if (transferStep === 'first step') {
         <div
@@ -175,7 +175,7 @@
             selectedInstitutionType &&
             !selectedInstitution
           ) {
-            <div class="w-100 mt-4 mx-2 row d-flex gap-3 align-items-start">
+            <div class="w-100 mt-4 mx-2 row d-flex gap-2 align-items-start">
               @for (institution of institutionsList; track $index) {
                 <div
                   class="col-auto h-150-px mb-3 d-grid is-hoverable"
@@ -287,10 +287,10 @@
           <!--lookup input on account-->
           @if (
             !creditAccount &&
-            selectedCreditAccountType !== 'wallet' &&
-            selectedCreditAccountType === 'account' &&
-            selectedInstitution &&
-            selectedInstitution.api_values.has_lookup
+            ((selectedCreditAccountType === 'account' &&
+              selectedInstitution &&
+              selectedInstitution.api_values.has_lookup) ||
+              selectedCreditAccountType === 'wallet')
           ) {
             <div
               class="d-flex me-3 mb-2"
@@ -304,18 +304,17 @@
                 required
                 [formControl]="lookup"
                 (keydown.enter)="lookupAccount()"
-                placeholder="credit account number" />
+                [placeholder]="
+                  selectedCreditAccountType === 'account'
+                    ? 'Credit account number'
+                    : 'Search wallet ...'
+                " />
 
               <div
                 (click)="lookupAccount()"
                 role="button"
                 tabindex="0"
-                class="bg-none align-items-center row lookup-btn lg-radius justify-content-center d-flex align-items-center"
-                [ngClass]="
-                  mainConfig && mainConfig.activePlateform === 'workstation'
-                    ? 'mx-n5'
-                    : 'look-b'
-                ">
+                class="bg-none align-items-center row lookup-btn lg-radius justify-content-center d-flex align-items-center">
                 @if (!isLoading) {
                   <span class="pt-2">
                     <i class="fa fa-search fs-5"></i>
@@ -329,54 +328,10 @@
             </div>
           }
 
-          <!--lookup input on wallet-->
-
-          @if (!creditAccount && selectedCreditAccountType === 'wallet') {
-            <div
-              class="d-flex me-3 mt-3 mb-2"
-              [ngClass]="{
-                'w-50':
-                  mainConfig && mainConfig.activePlateform === 'workstation',
-              }">
-              <input
-                type="text"
-                class="lg-radius form-control pe-5 ps-2 lookup-transfer-input"
-                required
-                [formControl]="lookup"
-                (keydown.enter)="lookupAccount()"
-                placeholder="Search wallet..." />
-
-              <div
-                (click)="lookupAccount()"
-                role="button"
-                tabindex="0"
-                class="bg-none align-items-center row lookup-btn lg-radius justify-content-center d-flex align-items-center"
-                [ngClass]="
-                  mainConfig && mainConfig.activePlateform === 'workstation'
-                    ? 'look-w'
-                    : 'look-b'
-                ">
-                @if (!isLoading) {
-                  <span class="pt-2">
-                    <i class="fa fa-search fs-5"></i>
-                  </span>
-                } @else {
-                  <span class="pt-2">
-                    <i class="fa fs-5 fa-pulse fa-circle-notch"></i>
-                  </span>
-                }
-              </div>
-            </div>
-          }
-
-          <!-- * Credit account lookup result on account-->
-          @if (selectedInstitution && selectedCreditAccountType !== 'wallet') {
+          <!-- * Credit account lookup result -->
+          @if (selectedInstitution) {
             <div>
-              @if (
-                creditAccount &&
-                selectedInstitution.api_values.has_lookup &&
-                selectedCreditAccountType !== 'wallet'
-              ) {
+              @if (creditAccount) {
                 <div class="mt-3 w-100 bg-secondary sm-radius mb-4">
                   <div class="p-2">
                     <div
@@ -420,53 +375,13 @@
             </div>
           }
 
-          <!-- * Credit account lookup result on wallet-->
-          @if (creditAccount && selectedCreditAccountType === 'wallet') {
-            <div class="bg-secondary sm-radius mt-3 w-100 mb-4">
-              <div class="lg-radius p-2">
-                <div
-                  class="d-flex align-items-start justify-content-between ps-2 py-0"
-                  role="button"
-                  tabindex="0">
-                  <div class="d-grid w-100">
-                    <div class="d-flex">
-                      <b
-                        class="fw-normal mt-2"
-                        [ngClass]="{
-                          'text-light': mode === 'dark',
-                        }"
-                        >{{ creditAccount.name }}</b
-                      >
-                      <div class="ms-auto position-relative unselect">
-                        <span
-                          (click)="deselectCreditAccount()"
-                          tabindex="0"
-                          class="text-primary bg-white fs-large rounded-circle ms-5 pt-1 px-1">
-                          <i class="fa fa-xmark"></i>
-                        </span>
-                      </div>
-                    </div>
-                    <div class="d-flex mt-1">
-                      <span class="text-secondary">{{
-                        creditAccount.account_number
-                      }}</span
-                      ><span class="ms-auto">
-                        <img
-                          [src]="selectedInstitution?.company?.logo"
-                          class="img-height"
-                          [alt]="selectedInstitution?.company?.name"
-                      /></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          }
-
-          <!--* transfer form on account-->
-          @if (selectedInstitution && selectedCreditAccountType !== 'wallet') {
-            <div>
-              @if (!selectedInstitution.api_values.has_lookup) {
+          <!--* transfer form -->
+          @if (selectedInstitution || selectedCreditAccountType === 'wallet') {
+            <div tabindex="0" (keydown.enter)="addCreditAccount()">
+              @if (
+                !selectedInstitution?.api_values?.has_lookup &&
+                selectedCreditAccountType !== 'wallet'
+              ) {
                 <div class="form-group mb-2">
                   <div class="form-floating">
                     <input
@@ -476,7 +391,9 @@
                       name="accountNumber"
                       formControlName="accountNumber"
                       placeholder="Account Number" />
-                    <label for="accountNumber" i18n>Account Number </label>
+                    <label for="accountNumber" i18n
+                      >Account Number<i class="text-danger">*</i>
+                    </label>
                   </div>
                 </div>
                 <div class="form-group mb-2">
@@ -488,13 +405,17 @@
                       name="holderName"
                       formControlName="accountHolder"
                       placeholder="Account Name" />
-                    <label for="holderName" i18n>Holder name</label>
+                    <label for="holderName" i18n
+                      >Holder name<i class="text-danger">*</i></label
+                    >
                   </div>
                 </div>
               }
 
               @if (
-                !selectedInstitution.api_values.has_lookup || creditAccount
+                (selectedInstitution?.api_values?.has_lookup ||
+                  !selectedInstitution?.api_values?.has_lookup) &&
+                creditAccount
               ) {
                 <div class="form-group mb-2 mt-3">
                   <div class="w-100">
@@ -503,10 +424,34 @@
                       [isTransfer]="true"></app-amount-field>
                   </div>
                 </div>
+                @if (transferType === 'merchantTransfer') {
+                  <div
+                    class="mb-2 mt-2"
+                    [ngClass]="{
+                      'mt-2': selectedInstitution?.api_values?.has_lookup,
+                    }">
+                    <div class="form-floating">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="merchant_reference"
+                        name="merchant_reference"
+                        formControlName="merchant_reference"
+                        placeholder="Merchant Reference" />
+                      <label
+                        for="merchant_reference"
+                        class="form-label fs-6"
+                        i18n
+                        >Merchant Reference</label
+                      >
+                    </div>
+                  </div>
+                }
+
                 <div
                   class="mb-2"
                   [ngClass]="{
-                    'mt-2': selectedInstitution.api_values.has_lookup,
+                    'mt-2': selectedInstitution?.api_values?.has_lookup,
                   }">
                   <div class="form-floating">
                     <input
@@ -517,7 +462,7 @@
                       formControlName="debit_description"
                       placeholder="Description" />
                     <label for="description" class="form-label fs-6" i18n
-                      >Description</label
+                      >Description<i class="text-danger">*</i></label
                     >
                   </div>
                 </div>
@@ -530,7 +475,6 @@
                       'text-light': mode === 'dark',
                     }"
                     [disabled]="!transferForm.valid || creditAccountAdded"
-                    type="button"
                     (click)="addCreditAccount()">
                     <b i18n>Add</b>
                   </button>
@@ -538,78 +482,12 @@
               }
             </div>
           }
-
-          <!--* transfer form on wallet-->
-          @if (creditAccount && selectedCreditAccountType === 'wallet') {
-            <div>
-              @if (selectedCreditAccountType !== 'wallet') {
-                <div class="form-group mb-2">
-                  <div class="form-floating">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="accountNumber"
-                      name="accountNumber"
-                      formControlName="accountNumber"
-                      placeholder="Account Number" />
-                    <label for="accountNumber" i18n>Account Number </label>
-                  </div>
-                </div>
-                <div class="form-group mb-2">
-                  <div class="form-floating">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="holderName"
-                      name="holderName"
-                      formControlName="accountHolder"
-                      placeholder="Account Name" />
-                    <label for="holderName" i18n>Holder name</label>
-                  </div>
-                </div>
-              }
-              <div class="form-group mb-2 mt-3">
-                <div class="w-100">
-                  <app-amount-field
-                    (amountEvent)="getAmount($event)"
-                    [isTransfer]="true"></app-amount-field>
-                </div>
-              </div>
-              <div class="my-2">
-                <div class="form-floating">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="description"
-                    name="description"
-                    formControlName="debit_description"
-                    placeholder="Description"
-                    (input)="completeCreditInfosOnType()" />
-                  <label for="description" class="form-label fs-6" i18n
-                    >Description</label
-                  >
-                </div>
-              </div>
-
-              <div class="w-100 d-flex justify-content-center mt-4">
-                <button
-                  class="btn px-5 border-primary bg-white"
-                  [ngClass]="{
-                    'text-light': mode === 'dark',
-                  }"
-                  tabindex="0"
-                  type="button"
-                  [disabled]="!transferForm.valid || creditAccountAdded"
-                  (click)="addCreditAccount()">
-                  <b i18n>Add</b>
-                </button>
-              </div>
-            </div>
-          }
         </div>
       }
-
-      @if (selectedInstitutionType && selectedInstitution) {
+      @if (
+        (selectedInstitutionType && selectedInstitution) ||
+        selectedCreditAccountType === 'wallet'
+      ) {
         <div
           class="p-2"
           [ngClass]="{
@@ -643,68 +521,78 @@
                 <i class="fa-solid fa-meh fs-4 opacity-50"></i> <br />
                 <span>No credit account added yet</span>
               </div>
-            } @else {
-              <div
-                *ngFor="let account of pendingTransfers"
-                class="ms-4 me-4 mb-4">
-                <div (mouseenter)="hover = true" (mouseleave)="hover = false">
-                  <span>{{ account.account_holder }} </span> <br />
-                  <span class="text-secondary">{{
-                    account.account_number
-                  }}</span>
-                  <br />
-                  <span class="text-secondary">{{
-                    transferForm.value.debit_description
-                  }}</span
-                  ><br />
-                  <div class="d-flex">
-                    <span class="text-secondary"
-                      >{{ transferForm.value.amount }} BIF</span
-                    >
-                    <span class="ms-auto position-relative img-height">
-                      <!-- Bank Logo -->
-                      <img
-                        [src]="selectedInstitution.company.logo"
-                        class="position-absolute top-0 start-0 w-100 h-100"
-                        [alt]="selectedInstitution.company.name"
-                        [style.opacity]="hover ? 0 : 1" />
+            } @else if (pendingTransfers.length >= 1) {
+              @for (account of pendingTransfers; track $index) {
+                <div
+                  class="ms-4 me-4 mb-4 h-375"
+                  [ngClass]="{
+                    'w-50': transferType === 'merchantTransfer',
+                  }">
+                  <div (mouseenter)="hover = true" (mouseleave)="hover = false">
+                    <span>{{ account.account_holder }} </span> <br />
+                    <span class="text-secondary">{{
+                      account.account_number
+                    }}</span>
+                    <br />
+                    <span class="text-secondary">{{
+                      transferForm.value.debit_description
+                    }}</span
+                    ><br />
+                    <div class="d-flex">
+                      <span class="text-secondary"
+                        >{{ transferForm.value.amount }} BIF</span
+                      >
+                      <span class="ms-auto position-relative img-height">
+                        <!-- Bank Logo -->
+                        @if (selectedInstitution) {
+                          <img
+                            [src]="selectedInstitution.company.logo"
+                            class="position-absolute top-0 start-0 w-100 h-100"
+                            [alt]="selectedInstitution.company.name"
+                            [style.opacity]="hover ? 0 : 1" />
+                        }
 
-                      <!-- Trash Icon -->
-                      <span
-                        role="button"
-                        tabindex="0"
-                        class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-                        [style.opacity]="hover ? 1 : 0"
-                        (click)="removeCreditAccount(account.account_number)">
-                        <i
-                          class="fa-solid fa-trash-can border-primary border text-primary p-2 fs-l-medium rounded"></i>
+                        <!-- Trash Icon -->
+                        <span
+                          role="button"
+                          tabindex="0"
+                          class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                          [style.opacity]="hover ? 1 : 0"
+                          (click)="removeCreditAccount(account.account_number)">
+                          <i
+                            class="fa-solid fa-trash-can border-primary border text-primary p-2 fs-l-medium rounded"></i>
+                        </span>
                       </span>
-                    </span>
+                    </div>
+                  </div>
+
+                  <hr />
+                </div>
+
+                <div class="sm-radius bg-secondary m-4">
+                  <div
+                    class="text-end me-3 fs-medium pt-2"
+                    [ngClass]="{
+                      'text-light': mode === 'dark',
+                    }">
+                    Total Amount
+                  </div>
+                  <div class="text-end me-3 fs-x-large text-primary">
+                    {{ transferForm.value.amount | currency: 'BIF ' }}
                   </div>
                 </div>
-
-                <hr />
-              </div>
-              <div class="sm-radius bg-secondary m-4">
-                <div
-                  class="text-end me-3 fs-medium pt-2"
-                  [ngClass]="{
-                    'text-light': mode === 'dark',
-                  }">
-                  Total Amount
-                </div>
-                <div class="text-end me-3 fs-x-large text-primary">
-                  {{ transferForm.value.amount | currency: 'BIF ' }}
-                </div>
-              </div>
+              }
             }
           </div>
           @if (pendingTransfers.length >= 1 && transferStep === 'first step') {
-            <div class="mt-4 text-center">
+            <div
+              tabindex="0"
+              (keydown.enter)="toggleTransferStep('second step')"
+              class="mt-4 text-center">
               <button
-                (click)="toggleTransferStep('second step')"
-                class="btn px-5"
                 type="button"
+                class="btn px-5"
+                (click)="toggleTransferStep('second step')"
                 tabindex="0"
                 [ngClass]="{
                   'primary-light':
@@ -714,7 +602,9 @@
                   'text-dark': mode === 'dark',
                   'text-white': mode === 'light',
                 }"
-                [disabled]="pendingTransfers.length === 0">
+                [disabled]="
+                  pendingTransfers.length === 0 || !creditAccountAdded
+                ">
                 @if (!isLoading) {
                   <b i18n>Done</b>
                 } @else {

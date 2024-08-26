@@ -1,6 +1,6 @@
 import { languageModel } from '../../core/db/models/auth';
 
-export interface EmailVerificationResponse {
+export interface EmailVerificationResponseModel {
   object: {
     success: boolean;
     response_message: string;
@@ -13,7 +13,7 @@ export interface EmailVerificationResponse {
   };
 }
 
-export interface phoneNumberVerificaitonResponse {
+export interface phoneNumberVerificaitonResponseModel {
   object: {
     success: boolean;
     response_message: string;
@@ -25,7 +25,7 @@ export interface phoneNumberVerificaitonResponse {
     };
   };
 }
-export interface createAccountResponse {
+export interface createAccountResponseModel {
   object: {
     picture: string;
     number: number;
@@ -43,19 +43,19 @@ export interface createAccountResponse {
   };
 }
 
-export interface bankListResponse {
+export interface bankListResponseModel {
   name: string;
   organization_id: number;
   company: {
     logo: string;
   };
 }
-export interface resetPasswordResponse {
+export interface resetPasswordResponseModel {
   object: {
     success: boolean;
   };
 }
-export interface otpVerificationResponse {
+export interface otpVerificationResponseModel {
   object: {
     success: boolean;
   };
@@ -67,7 +67,7 @@ export interface UploadedFileModel {
   };
 }
 
-export interface cardIdData {
+export interface cardIdDataModel {
   expiry_date: string | null | undefined;
 }
 export interface referenceNumberModel {
