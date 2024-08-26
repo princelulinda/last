@@ -12,7 +12,7 @@ $ihela-bg-light: (
   'input': #f1f1f1,
   'all-white': #ffffff,
   'all-dark': #242526,
-  'overlay-secondary': #424242c4,
+  'overlay-secondary': rgba(235, 235, 235, 0.68),
   'overlay': #11111180,
 );
 
@@ -36,7 +36,7 @@ $ihela-bg-dark: (
   'input': #1c1c1c,
   'all-white': #ffffff,
   'all-dark': #242526,
-  'overlay-secondary': #424242c4,
+  'overlay-secondary': rgba(66, 66, 66, 0.58),
   'overlay': #11111180,
 );
 

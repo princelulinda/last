@@ -14,10 +14,8 @@ import {
 } from '../../../core/services';
 import { PlateformModel } from '../../../core/services/config/main-config.models';
 import {
-  AllProductAutocompleteModel,
   ProductAutocompleteModel,
   TransactionModel,
-  TransactionObjectModel,
 } from '../../../components/merchant/products/products.model';
 import { ProductCardComponent } from '../../../components/merchant/global/product-card/product-card.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
@@ -38,7 +36,10 @@ import { PaginationConfig } from '../../../global/models/pagination.models';
 export class AsideBarComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  @Output() topProducts = new EventEmitter<AllProductAutocompleteModel[]>();
+  @Output() topProducts = new EventEmitter<{
+    objects: ProductAutocompleteModel[];
+    count: number;
+  }>();
   @Output() product = new EventEmitter<ProductAutocompleteModel>();
 
   @Input() url = '';
@@ -105,7 +106,7 @@ export class AsideBarComponent implements OnInit {
         .searchProduct(this.pagination, search)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
-          next: (data: AllProductAutocompleteModel) => {
+          next: data => {
             this.response_data = data.count;
             (this.products as ProductAutocompleteModel[]) = data.objects;
             this.loader = true;
@@ -114,10 +115,10 @@ export class AsideBarComponent implements OnInit {
         });
     } else {
       this.apiService
-        .get<AllProductAutocompleteModel>(this.url)
+        .get<{ objects: ProductAutocompleteModel[]; count: number }>(this.url)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
-          next: (data: AllProductAutocompleteModel) => {
+          next: data => {
             (this.products as ProductAutocompleteModel[]) = data.objects;
             this.loader = true;
             this.productsNumber = data.count;
@@ -155,7 +156,7 @@ export class AsideBarComponent implements OnInit {
 
     this.bankService
       .getRecentTransactions(this.pagination, '', period, this.clientVerified)
-      .subscribe((transfers: TransactionObjectModel) => {
+      .subscribe(transfers => {
         this.recentTransactions = transfers.objects;
         this.bankService.updateTransaction(false);
       });
@@ -165,12 +166,10 @@ export class AsideBarComponent implements OnInit {
     this.bankService.updateTransaction(false);
     this.isTransactionDone = false;
     this.lastTransfers = undefined;
-    this.bankService
-      .getTransfersList()
-      .subscribe((transfers: TransactionObjectModel) => {
-        this.lastTransfers = transfers.objects;
-        this.bankService.updateTransaction(false);
-      });
+    this.bankService.getTransfersList().subscribe(transfers => {
+      this.lastTransfers = transfers.objects;
+      this.bankService.updateTransaction(false);
+    });
   }
 
   getFavoriteBeneficiaries() {

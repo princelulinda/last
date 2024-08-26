@@ -6,7 +6,10 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 import { Observable, Subject, takeUntil } from 'rxjs';
+
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import {
   ConfigService,
@@ -14,7 +17,6 @@ import {
   LoanService,
 } from '../../../core/services';
 import { VariableService } from '../../../core/services/variable/variable.service';
-import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import {
   LoanModel,

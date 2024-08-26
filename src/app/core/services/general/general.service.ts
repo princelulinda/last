@@ -4,11 +4,11 @@ import { map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 
 import {
   MappingBody,
-  MappingResponse,
+  MappingResponseModel,
   MobileBanksModel,
 } from '../../../components/dev/global-mapping/glob-mapping.model';
 import { ParamModel } from '../../../global/components/reusable-list/reusable.model';
-import { getdataModal } from '../../../global/components/reusable-list/reusable.model';
+import { getdataModel } from '../../../global/components/reusable-list/reusable.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import {
   MetadataBodyModel,
@@ -29,7 +29,7 @@ export class GeneralService {
     url: string,
     pagination: PaginationConfig,
     params: ParamModel[] = []
-  ): Observable<getdataModal> {
+  ): Observable<getdataModel> {
     let paginationString = '';
     let paramsString = '';
 
@@ -78,11 +78,11 @@ export class GeneralService {
       '/dbs/general/stats/?stats_type=agents_number,merchants_number,clients_created';
     return this.apiService.get(url).pipe(map(data => data));
   }
-  mappAccount(body: MappingBody): Observable<MappingResponse> {
+  mappAccount(body: MappingBody): Observable<MappingResponseModel> {
     const url = `/mappaccount/create/?request_type=ident`;
     return this.apiService
       .post(url, body)
-      .pipe(map(response => response as MappingResponse));
+      .pipe(map(response => response as MappingResponseModel));
   }
   getMetadata(
     search = '',

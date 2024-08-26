@@ -9,7 +9,7 @@ import { DialogService } from '../../../core/services';
 
 import {
   ParamModel,
-  getdataModal,
+  getdataModel,
   Header,
   selectedPeriodModel,
 } from './reusable.model';
@@ -54,7 +54,7 @@ export class ReusableListComponent implements OnInit, OnDestroy {
 
   clientPagination = new PaginationConfig();
   currentPage = 0;
-  response_data!: getdataModal;
+  response_data!: getdataModel;
   pages!: number;
   boolean = false;
   isLoading = false;
@@ -127,7 +127,7 @@ export class ReusableListComponent implements OnInit, OnDestroy {
       .getData(this.url, this.clientPagination, params)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: getdataModal) => {
+        next: (data: getdataModel) => {
           this.response_data = data;
           this.data_list = [];
           console.log('this is the data :', this.data_list);

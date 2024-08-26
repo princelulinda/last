@@ -8,11 +8,11 @@ import { liveQuery } from 'dexie';
 import { ApiService } from '../api/api.service';
 import { DbService } from '../../db';
 import {
-  EmailVerificationResponse,
-  createAccountResponse,
-  phoneNumberVerificaitonResponse,
-  resetPasswordResponse,
-  otpVerificationResponse,
+  EmailVerificationResponseModel,
+  CreateAccountResponseModel,
+  PhoneNumberVerificaitonResponseModel,
+  ResetPasswordResponseModel,
+  OtpVerificationResponseModel,
   ConectedOperatorApiResponseModel,
   OrganizationModel,
   LoginOperatorApiResponseModel,
@@ -195,24 +195,24 @@ export class AuthService {
     };
   }
 
-  createAccount(body: object): Observable<createAccountResponse> {
+  createAccount(body: object): Observable<CreateAccountResponseModel> {
     const url = '/client/';
     return this.apiService
       .post(url, body)
-      .pipe(map(response => response as createAccountResponse));
+      .pipe(map(response => response as CreateAccountResponseModel));
   }
 
-  requestOTP(body: object): Observable<resetPasswordResponse> {
+  requestOTP(body: object): Observable<ResetPasswordResponseModel> {
     const url = '/otp/request/';
     return this.apiService
       .post(url, body)
-      .pipe(map(response => response as resetPasswordResponse));
+      .pipe(map(response => response as ResetPasswordResponseModel));
   }
-  OTPverification(body: object): Observable<otpVerificationResponse> {
+  OTPverification(body: object): Observable<OtpVerificationResponseModel> {
     const url = '/otp/verification/';
     return this.apiService
       .post(url, body)
-      .pipe(map(response => response as otpVerificationResponse));
+      .pipe(map(response => response as OtpVerificationResponseModel));
   }
 
   getOperatorInvitations(clientId: string) {
@@ -229,12 +229,14 @@ export class AuthService {
 
   // }
 
-  verifyEmail(email: string): Observable<EmailVerificationResponse> {
+  verifyEmail(email: string): Observable<EmailVerificationResponseModel> {
     const url = `/extid/verification/?externel_request=true&type=email&value=${email}`;
     return this.apiService.get(url);
   }
 
-  verifyPhoneNumber(tel: string): Observable<phoneNumberVerificaitonResponse> {
+  verifyPhoneNumber(
+    tel: string
+  ): Observable<PhoneNumberVerificaitonResponseModel> {
     const url = `/extid/verification/?externel_request=true&type=phone_number&value=${tel}`;
     return this.apiService.get(url);
   }

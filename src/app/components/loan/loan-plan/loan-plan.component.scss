@@ -1,19 +1,3 @@
-.legend-t {
-  font-size: 15px;
-  justify-content: center;
-
-  background-color: white;
-
-  position: absolute;
-  margin-top: -3%;
-  left: 10%;
-}
-
-.amort-table {
-  border: 1px solid #bfbebe;
-  border-radius: 10px;
-}
-
 main {
   min-height: 55vh;
   overflow-y: auto;
@@ -39,40 +23,4 @@ main {
 .less-grey {
   color: rgb(128, 126, 126);
   font-weight: 550;
-}
-
-.customized-text-success {
-  color: rgba(28, 188, 44, 1);
-}
-
-.customized-bg-success {
-  background-color: rgba(175, 243, 182, 1);
-}
-
-.customized-bg-info {
-  background-color: rgba(189, 218, 246, 1);
-}
-
-.customized-text-info {
-  color: rgb(50, 148, 240);
-}
-
-.customized-bg-warning {
-  background-color: rgb(241, 240, 192);
-}
-
-.customized-text-warning {
-  color: rgb(246, 240, 59);
-}
-
-.customized-bg-danger {
-  background-color: rgb(220, 185, 192);
-}
-
-.customized-text-danger {
-  color: rgb(179, 2, 37);
-}
-
-.modal-backdrop {
-  display: none;
 }
