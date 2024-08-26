@@ -262,6 +262,16 @@ export interface ProductLookupBodyModel {
   lookup_data: Record<string, string>;
   lookup_extra_data: Record<string, string>;
 }
+
+export interface ProductLookupChoiceModel {
+  value: {
+    offer_code: string;
+    amount: number;
+  };
+  title: string;
+  description: string;
+}
+
 export interface ProductLookupModel {
   response_message: string;
   response_code: string;
@@ -277,15 +287,8 @@ export interface ProductLookupModel {
     lookup_choice: {
       label: string;
       key: string;
-      choices: {
-        value: {
-          offer_code: string;
-          amount: number;
-        };
-        title: string;
-        description: string;
-      }[];
-    };
+      choices: ProductLookupChoiceModel[];
+    }[];
     lookup_next_step: boolean;
   } | null;
   success: boolean;

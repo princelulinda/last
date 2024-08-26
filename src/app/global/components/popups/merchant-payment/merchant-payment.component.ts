@@ -20,6 +20,7 @@ import {
 import {
   ProductAutocompleteModel,
   ProductLookupBodyModel,
+  ProductLookupChoiceModel,
   ProductLookupModel,
   ProductModel,
 } from '../../../../components/merchant/products/products.model';
@@ -84,8 +85,11 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
   lookupMetadataForm: FormGroup = this.fb.group({
     account: [{ value: '', disabled: true }],
   });
+
   loadingLookup = false;
   productLookup: ProductLookupModel | null = null;
+  productLookupChoices: ProductLookupChoiceModel[] | null = null;
+  selectedProductLookupChoice: ProductLookupChoiceModel | null = null;
 
   constructor(
     private dialogService: DialogService,
@@ -180,6 +184,10 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
           }
           this.lookupMetadataForm.reset();
           this.productLookup = response.object;
+          if (this.productLookup.response_data?.lookup_choice) {
+            this.productLookupChoices =
+              this.productLookup.response_data?.lookup_choice[0]?.choices;
+          }
           this.loadingLookup = false;
         },
         error: err => {
@@ -198,18 +206,6 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
   closeMerchantPaymentDialog() {
     this.dialogService.closeMerchantPaymentDialog();
     this.resetAllData();
-  }
-  getSelectedMerchant(merchant: MerchantAutocompleteModel) {
-    this.selectedMerchant = merchant;
-    this.getMerchantDetails(merchant.id);
-  }
-  getSelectedProduct(product: ProductAutocompleteModel) {
-    this.selectedProduct = product;
-    this.getProductDetails(product.id);
-  }
-
-  selectPaymentMenu(type: 'Direct-Payment' | 'Product-Payment' | '') {
-    this.selectedPaymentMenu = type;
   }
 
   private initLookupMetadataForm(lookup_metadata: MetadataModel[]) {
@@ -240,6 +236,24 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  // NOTE :: GETTER AND SETTER
+
+  getSelectedMerchant(merchant: MerchantAutocompleteModel) {
+    this.selectedMerchant = merchant;
+    this.getMerchantDetails(merchant.id);
+  }
+  getSelectedProduct(product: ProductAutocompleteModel) {
+    this.selectedProduct = product;
+    this.getProductDetails(product.id);
+  }
+
+  selectPaymentMenu(type: 'Direct-Payment' | 'Product-Payment' | '') {
+    this.selectedPaymentMenu = type;
+  }
+  selectProductLookupChoice(choice: ProductLookupChoiceModel) {
+    this.selectedProductLookupChoice = choice;
+  }
+
   // NOTE :: METHODS FOR RESET EACH DATA
 
   resetAllData() {
@@ -257,6 +271,10 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
 
   resetLookupData() {
     this.productLookup = null;
+    this.resetSelectedLookupChoice();
+  }
+  resetSelectedLookupChoice() {
+    this.selectedProductLookupChoice = null;
   }
 
   ngAfterViewInit() {

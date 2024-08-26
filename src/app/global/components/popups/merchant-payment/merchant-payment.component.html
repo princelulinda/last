@@ -303,6 +303,56 @@
                 <i class="fa-solid fa-circle-xmark"></i
               ></span>
             </div>
+            @if (productLookup) {
+              <section class="mt-3">
+                <b class="text-secondary" i18n>Choose package</b>
+
+                <!-- NOTE :: LOOKUP CHOICES -->
+                @if (!selectedProductLookupChoice) {
+                  <div
+                    class="mt-3 sm-radius border bg-secondary py-2 px-3 col-3">
+                    @for (choice of productLookupChoices; track $index) {
+                      <div
+                        role="button"
+                        tabindex="0"
+                        (click)="selectProductLookupChoice(choice)"
+                        class="position-relative border-bottom d-flex flex-column py-2"
+                        [ngClass]="{
+                          'border-bottom':
+                            $index < (productLookupChoices?.length ?? 0) - 1,
+                        }">
+                        <small
+                          ><b>{{ choice.title }}</b></small
+                        >
+                        <small class="fs-x-small mt-1">{{
+                          choice.description
+                        }}</small>
+                      </div>
+                    }
+                  </div>
+                } @else {
+                  <div
+                    class="mt-3 sm-radius border bg-secondary py-2 px-3 col-3">
+                    <div class="position-relative d-flex flex-column py-1">
+                      <small
+                        ><b>{{ selectedProductLookupChoice.title }}</b></small
+                      >
+                      <small class="fs-x-small mt-1">{{
+                        selectedProductLookupChoice.description
+                      }}</small>
+
+                      <span
+                        role="button"
+                        tabindex="0"
+                        (click)="resetSelectedLookupChoice()"
+                        class="position-absolute text-danger end-0 close-product-lookup">
+                        <i class="fa-solid fa-circle-xmark"></i
+                      ></span>
+                    </div>
+                  </div>
+                }
+              </section>
+            }
           }
         }
       }
