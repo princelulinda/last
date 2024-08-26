@@ -13,8 +13,7 @@ import { Observable, takeUntil, Subject } from 'rxjs';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { ConfigService, MerchantService } from '../../../../core/services';
 import {
-  FavoriteModel,
-  ProductFavoriteModel,
+  FavoriteProductModel,
   ProductAutocompleteModel,
 } from '../../products/products.model';
 import { VariableService } from '../../../../core/services/variable/variable.service';
@@ -68,7 +67,7 @@ export class ProductCardComponent implements OnInit, OnDestroy {
   makeFavoriteProducts(favorite: ProductAutocompleteModel, event: Event) {
     this.isLoading = true;
     event.stopPropagation();
-    let body!: ProductFavoriteModel;
+    let body!: { product: string; product_action: string };
     if (!favorite.is_favorite_product) {
       body = {
         product: favorite.id.toString(),
@@ -85,7 +84,7 @@ export class ProductCardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: result => {
-          const data = result as FavoriteModel;
+          const data = result as FavoriteProductModel;
           const response = data.object;
           if (response.success) {
             if (!favorite.is_favorite_product) {

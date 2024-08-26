@@ -11,10 +11,10 @@ import {
 } from '../../../../core/services';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { UserInfoModel } from '../../../../core/db/models/auth';
-import { BillsModel, paymentBillsModel } from '../../products/products.model';
 
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
+import { BillsModel } from '../bills.model';
 
 @Component({
   selector: 'app-bills',
@@ -126,7 +126,7 @@ export class BillsComponent implements OnInit, OnDestroy {
       .getBills(this.billsPagination)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: paymentBillsModel) => {
+        next: response => {
           this.merchantBills = response.objects;
           this.countBills = response.count;
           this.pages = Math.round(this.countBills / 6);
@@ -146,7 +146,7 @@ export class BillsComponent implements OnInit, OnDestroy {
       .getBills(this.billsPagination, 'requestPayments')
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: paymentBillsModel) => {
+        next: response => {
           this.paymentRequestBills = response.objects;
           this.paymentRequestBillsLoading = false;
         },

@@ -109,7 +109,7 @@
           </div>
         }
         @if (isLoading && favoriteProducts.length > 0) {
-          <div class="d-flex justify-content-around flex-wrap gap-4">
+          <div class="d-flex flex-wrap gap-4 ms-3">
             @for (product of favoriteProducts; track $index) {
               <div
                 class="col-auto"

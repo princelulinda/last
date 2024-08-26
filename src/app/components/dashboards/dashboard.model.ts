@@ -39,22 +39,22 @@ export interface addBankResponse {
 export interface PayMerchant {
   id: number;
 }
-export interface BankOptions {
+export interface BankOptionsModel {
   selectedDebitAccountType: string | null;
   debitAccount: string | null;
   debitWallet: string | null;
   banks: bankModel[];
   creditAccountType: string | null;
-  accounts: Account[] | null;
-  wallets: Wallet[] | null;
+  accounts: AccountInfoModel[] | null;
+  wallets: WalletModel[] | null;
 }
-export interface Account {
+export interface AccountInfoModel {
   id: number;
   acc_number?: string;
   acc_holder?: string;
 }
 
-export interface Wallet {
+export interface WalletModel {
   id: number;
 }
 export interface MenuGroup {

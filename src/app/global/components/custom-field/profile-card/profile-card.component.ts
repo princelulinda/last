@@ -11,6 +11,10 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ProfileCardComponent implements OnInit {
   @Input() fullName = '';
   @Input() imageUrl: string | null = null;
+  @Input() width = '';
+
+  @Input() height = '';
+  @Input() classes = '';
 
   initials = '';
 

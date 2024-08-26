@@ -25,22 +25,14 @@ export interface PasswordModel {
   new_password2: string;
 }
 
-export interface PinChangeResponse {
+export interface PinChangeResponseModel {
   object: {
     response_message: string;
 
     success: boolean;
   };
 }
-export interface PasswordChangeResponse {
-  object: {
-    response_message: string;
-
-    success: boolean;
-  };
-}
-
-export interface AddResponse {
+export interface PasswordChangeResponseModel {
   object: {
     response_message: string;
 
@@ -48,8 +40,16 @@ export interface AddResponse {
   };
 }
 
-export interface activeSessionResponse {
-  objects: activeSessionResponse[];
+export interface AddResponseModel {
+  object: {
+    response_message: string;
+
+    success: boolean;
+  };
+}
+
+export interface ActiveSessionResponseModel {
+  objects: ActiveSessionResponseModel[];
   count: number;
   length: number;
   id: string;
@@ -70,9 +70,9 @@ export interface activeSessionResponse {
     };
   };
 }
-export interface historySessionResponse {
+export interface HistorySessionResponseModel {
   count: number;
-  objects: historySessionResponse[];
+  objects: HistorySessionResponseModel[];
   location: string;
   user_ip_address: string;
   id: string;

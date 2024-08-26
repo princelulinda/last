@@ -13,10 +13,7 @@ import {
   ConfigService,
 } from '../../../../core/services';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import {
-  AllProductAutocompleteModel,
-  ProductAutocompleteModel,
-} from '../products.model';
+import { ProductAutocompleteModel } from '../products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
 import { ProductCardComponent } from '../../global/product-card/product-card.component';
@@ -39,7 +36,9 @@ import { PaginationConfig } from '../../../../global/models/pagination.models';
 })
 export class AllProductsComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
-  @Output() allProducts = new EventEmitter<AllProductAutocompleteModel[]>();
+  @Output() allProducts = new EventEmitter<
+    { objects: ProductAutocompleteModel[]; count: number }[]
+  >();
   @Output() product = new EventEmitter<ProductAutocompleteModel>();
 
   @Input() detail = false;
@@ -103,7 +102,7 @@ export class AllProductsComponent implements OnInit {
         .searchProduct(this.productPagination, search)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
-          next: (data: AllProductAutocompleteModel) => {
+          next: data => {
             (this.products as ProductAutocompleteModel[]) = data.objects;
             this.response_data = data.count;
             this.pages = Math.round(this.response_data / 6);
@@ -117,10 +116,10 @@ export class AllProductsComponent implements OnInit {
         });
     } else {
       this.apiService
-        .get<AllProductAutocompleteModel>(this.url)
+        .get<{ objects: ProductAutocompleteModel[]; count: number }>(this.url)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
-          next: (data: AllProductAutocompleteModel) => {
+          next: data => {
             (this.products as ProductAutocompleteModel[]) = data.objects;
             this.loader = true;
             this.productsNumber = data.count;
