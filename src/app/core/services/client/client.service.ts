@@ -12,7 +12,6 @@ import {
   Accountdetail,
 } from '../../../components/account/models';
 import {
-  CreatWalletBodyModel,
   creatWalletResponse,
   Walletdetail,
   WalletList,
@@ -61,14 +60,22 @@ export class ClientService {
     return this.apiService.get<{ objects: WalletTypModel[] }>(url);
   }
 
-  creatWallet(body: CreatWalletBodyModel): Observable<creatWalletResponse> {
+  creatWallet(
+    wallet_type: string,
+    title: string
+  ): Observable<creatWalletResponse> {
     const url = '/dbs/wallet/create/';
+    const body = {
+      wallet_type: wallet_type,
+      title: title,
+    };
     return this.apiService.post(url, body).pipe(
       map(response => {
         return response as creatWalletResponse;
       })
     );
   }
+
   getClientAccountDetails(
     selectedAccount: string
   ): Observable<{ object: Accountdetail }> {

@@ -151,25 +151,27 @@
 </div>
 
 <div
-  class="modal fade mt-5"
+  class="modal fade"
   id="exampleModal"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content bg-white">
       <div class="modal-body">
         <div>
-          <form [formGroup]="walletForm" (ngSubmit)="onSubmit()">
+          <form [formGroup]="walletForm">
             <div class="row">
               <div class="col-5 mx-auto mt-3">
-                <div class="fw-bold text-dark fsl-medium" i18n>
+                <div
+                  class="fw-bold text-dark fs-medium text-center text-secondary"
+                  i18n>
                   Create a Wallet
                 </div>
                 <div class="form-floating mt-4">
                   <input
                     type="text"
-                    class="input form-control bg-light text-dark simulator-input"
+                    class="input form-control text-dark simulator-input"
                     id="name"
                     formControlName="name"
                     placeholder="name" />

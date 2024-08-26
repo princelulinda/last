@@ -10,12 +10,7 @@ import {
 import { UserInfoModel } from '../../../core/db/models/auth';
 
 import { NgClass, CommonModule } from '@angular/common';
-import {
-  CreatWalletBodyModel,
-  creatWalletResponse,
-  WalletCard,
-  WalletTypModel,
-} from '../wallet.models';
+import { WalletCard, WalletTypModel } from '../wallet.models';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
@@ -167,16 +162,14 @@ export class WalletCardComponent implements OnInit, OnDestroy {
 
   creatWallet() {
     this.dialogService.dispatchLoading();
-    const selectedCategoryId = this.walletForm.get('category')?.value;
+    // const selectedCategoryId = this.walletForm.get('category')?.value;
     // this.loading = true;
 
-    const body: CreatWalletBodyModel = {
-      wallet_type: selectedCategoryId,
-      title: this.walletForm.get('name')?.value,
-    };
+    const selectedCategoryId = this.walletForm.get('category')?.value;
+    const title = this.walletForm.get('name')?.value;
 
-    this.clientService.creatWallet(body).subscribe({
-      next: (response: creatWalletResponse) => {
+    this.clientService.creatWallet(selectedCategoryId, title).subscribe({
+      next: response => {
         //this.loading = false;
         this.dialogService.closeLoading();
         if (response.object.success) {

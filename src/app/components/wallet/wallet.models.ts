@@ -25,10 +25,6 @@ export interface WalletTypModel {
 
   id: string;
 }
-export interface CreatWalletBodyModel {
-  wallet_type: number;
-  title: string;
-}
 
 export interface creatWalletResponse {
   object: {
