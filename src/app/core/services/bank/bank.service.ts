@@ -11,7 +11,7 @@ import {
   PeriodModel,
   TransactionObjectModel,
 } from '../../../components/merchant/products/products.model';
-import { nyamuranziCard } from '../../../components/nyamuranzi/models';
+import { nyamuranziCardModel } from '../../../components/nyamuranzi/models';
 import { WithdrawalModel } from '../../../components/withdrawal/withdrawal.models';
 import { DissectedDateModel } from '../../../components/statements/statement.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
@@ -182,9 +182,9 @@ export class BankService {
       })
     );
   }
-  getRefereePersons(): Observable<{ object: nyamuranziCard }> {
+  getRefereePersons(): Observable<{ object: nyamuranziCardModel }> {
     return this.apiService
-      .get<{ object: nyamuranziCard }>('/client/refered/')
+      .get<{ object: nyamuranziCardModel }>('/client/refered/')
       .pipe(map(data => data));
   }
 }

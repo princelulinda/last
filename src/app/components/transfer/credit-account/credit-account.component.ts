@@ -31,11 +31,11 @@ import { bankModel } from '../../../core/db/models/bank/bank.model';
 import {
   AmountEventModel,
   CreditAccountModel,
-  CreditDetail,
+  CreditDetailsModel,
   DebitAccountModel,
   DebitWalletModel,
   InstitutionInfoModel,
-  LookupData,
+  LookupDataModel,
   LookupResponseModel,
   PopupEventModel,
   SelectedCreditAccountEventModel,
@@ -97,7 +97,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   isAmountChanging = false;
   isBanksListShown = false;
 
-  values: CreditDetail[] = [];
+  values: CreditDetailsModel[] = [];
 
   transferResponse!: TransferResponseModel;
 
@@ -126,7 +126,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   dialog$: Observable<DialogResponseModel>;
   pin = '';
 
-  lookupData: LookupData | null = null;
+  lookupData: LookupDataModel | null = null;
 
   @Input() isOperation = false;
   @Input() showBack = false;
@@ -317,13 +317,13 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const accountNumber =
       typeof this.lookup.value === 'string' ? this.lookup.value : null;
-    const dataAccount: LookupData = {
+    const dataAccount: LookupDataModel = {
       account_number: accountNumber,
       bank_slug: this.selectedInstitution?.slug,
       account_type: this.selectedCreditAccountType,
     };
 
-    const dataWallet: LookupData = {
+    const dataWallet: LookupDataModel = {
       account_number: accountNumber,
       bank_slug: this.defaultBank?.slug,
       account_type: this.selectedCreditAccountType,
