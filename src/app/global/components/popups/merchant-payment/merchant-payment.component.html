@@ -217,7 +217,8 @@
               </div>
             </span>
           </div>
-          @if (!loadingProductDetails && productDetails) {
+
+          @if (!loadingProductDetails && productDetails && !productLookup) {
             <form
               [formGroup]="lookupMetadataForm"
               class="py-4 col-3"
@@ -287,6 +288,21 @@
                 </div>
               }
             </form>
+          } @else if (!loadingLookup && productLookup) {
+            <!-- NOTE :: LOOKUP DATA BACKEND HTML -->
+            <div
+              class="position-relative border bg-secondary p-2 sm-radius mt-4 col-3">
+              <div
+                [innerHTML]="productLookup.response_data?.lookup"
+                class="border-start border-5 border-primary ps-2"></div>
+              <span
+                role="button"
+                tabindex="0"
+                (click)="resetLookupData()"
+                class="position-absolute text-danger end-0 close-product-lookup">
+                <i class="fa-solid fa-circle-xmark"></i
+              ></span>
+            </div>
           }
         }
       }

@@ -20,6 +20,7 @@ import {
 import {
   ProductAutocompleteModel,
   ProductLookupBodyModel,
+  ProductLookupModel,
   ProductModel,
 } from '../../../../components/merchant/products/products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
@@ -84,7 +85,7 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
     account: [{ value: '', disabled: true }],
   });
   loadingLookup = false;
-  productLookup: unknown;
+  productLookup: ProductLookupModel | null = null;
 
   constructor(
     private dialogService: DialogService,
@@ -155,7 +156,6 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
   }
 
   doProductLookup() {
-    console.log('Lookup Metadata Form', this.lookupMetadataForm.value);
     this.loadingLookup = true;
     const body: ProductLookupBodyModel = {
       merchant_product_id: this.selectedProduct?.id as number,
@@ -169,10 +169,27 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          this.productLookup = response;
+          if (!response.object.success) {
+            this.dialogService.openToast({
+              message: response.object.response_message,
+              title: '',
+              type: 'failed',
+            });
+            this.loadingLookup = false;
+            return;
+          }
+          this.lookupMetadataForm.reset();
+          this.productLookup = response.object;
           this.loadingLookup = false;
         },
-        error: () => {
+        error: err => {
+          this.dialogService.openToast({
+            message:
+              err?.object?.response_message ??
+              $localize`Something went wrong please retry again !`,
+            title: '',
+            type: 'failed',
+          });
           this.loadingLookup = false;
         },
       });
@@ -223,6 +240,8 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  // NOTE :: METHODS FOR RESET EACH DATA
+
   resetAllData() {
     this.merchant = null;
     this.product = null;
@@ -233,6 +252,10 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
     this.selectedProduct = null;
     this.selectedPaymentMenu = '';
     this.lookupMetadataForm.reset();
+    this.productLookup = null;
+  }
+
+  resetLookupData() {
     this.productLookup = null;
   }
 
