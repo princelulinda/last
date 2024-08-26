@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 import { Observable, Subject, takeUntil } from 'rxjs';
+
 import { DialogService, GeneralService } from '../../../core/services';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { MetadataFormComponent } from '../metadata-form/metadata-form.component';
-import { CommonModule } from '@angular/common';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { MetadataModel } from '../metadata.model';
 
