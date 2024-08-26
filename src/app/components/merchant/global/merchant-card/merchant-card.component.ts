@@ -9,7 +9,6 @@ import {
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { objectModel } from '../../../dashboards/dashboard.model';
 import { MerchantService } from '../../../../core/services';
 import { MerchantPaymentComponent } from '../../../dev/merchant-payment/merchant-payment.component';
 import { MerchantAutocompleteModel } from '../../merchant.models';
@@ -70,7 +69,14 @@ export class MerchantCardComponent implements OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: result => {
-          const data = result as objectModel;
+          const data = result as {
+            object: {
+              response_data: MerchantAutocompleteModel;
+              success: boolean;
+              response_message: string;
+              response_code: string;
+            };
+          };
           const response = data.object;
           if (response.success) {
             if (!favorite.is_favorite_merchant) {

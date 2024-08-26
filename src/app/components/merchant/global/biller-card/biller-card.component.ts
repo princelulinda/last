@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { BillersModel } from '../../../dashboards/dashboard.model';
+import { BillersModel } from '../../merchant.models';
 import { Subject } from 'rxjs';
 
 @Component({
