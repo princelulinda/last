@@ -13,9 +13,10 @@ import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import {
   LoanModel,
+  LoanPlanResponseModel,
   PlanModel,
   ResModel,
-  ResponseDataModel,
+  SimulationResDataModel,
   SimulationResModel,
 } from '../loan.models';
 import { LoanPlanComponent } from '../loan-plan/loan-plan.component';
@@ -115,8 +116,8 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
       .getAmortizationPlan(this.loanId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(loanPlan => {
-        const result = loanPlan as PlanModel[];
-        this.loanPlan = result;
+        const result = loanPlan as { object: LoanPlanResponseModel };
+        this.loanPlan = result.object.response_data;
       });
   }
 
@@ -185,10 +186,9 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
 
       this.loanService.simulateLoan(data).subscribe({
         next: result => {
-          const response = result as { object: ResponseDataModel };
+          const response = result as { object: SimulationResDataModel };
 
-          this.simulationResult = response.object
-            .response_data as SimulationResModel;
+          this.simulationResult = response.object.response_data;
         },
       });
     }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionsService } from '../../../core/services/sessions/sessions.service';
 import {
-  activeSessionResponse,
-  historySessionResponse,
+  ActiveSessionResponseModel,
+  HistorySessionResponseModel,
 } from '../settings.models';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
@@ -19,9 +19,9 @@ import { PaginationConfig } from '../../../global/models/pagination.models';
 })
 export class SessionsComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
-  activeSessions!: activeSessionResponse[];
-  historySessions!: historySessionResponse[];
-  endActiveSession!: activeSessionResponse[];
+  activeSessions!: ActiveSessionResponseModel[];
+  historySessions!: HistorySessionResponseModel[];
+  endActiveSession!: ActiveSessionResponseModel[];
   lim!: number;
   osFamily!: string;
 
@@ -126,7 +126,7 @@ export class SessionsComponent implements OnInit {
     this.SessionsService.endSession(id)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: activeSessionResponse) => {
+        next: (data: ActiveSessionResponseModel) => {
           this.endActiveSession = data.objects;
           this.isLoadingEndSession = false;
           this.getActiveSession();

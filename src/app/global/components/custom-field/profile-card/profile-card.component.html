@@ -1,15 +1,15 @@
 <div
-  class="d-flex justify-content-center align-items-center rounded-circle bg-info text-white"
+  class="d-flex justify-content-center {{
+    classes
+  }} align-items-center rounded-circle bg-info text-white"
   [ngClass]="{
-    'bg-info p-2': !imageUrl,
-  }">
+    'p-2': !imageUrl,
+  }"
+  [style.width]="width"
+  [style.height]="height">
   @if (imageUrl) {
     <img [src]="imageUrl" alt="" class="w-100 h-100 rounded-circle" />
   } @else {
-    <span
-      class="fw-bold text-center"
-      [ngStyle]="{ 'font-size': 'calc(1.5vmin + 1vw)' }"
-      >{{ initials }}</span
-    >
+    <span class="fw-bold text-center">{{ initials }}</span>
   }
 </div>

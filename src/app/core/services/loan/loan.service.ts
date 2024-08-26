@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '..';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import {
   BodyLoanModel,
+  LoanListResponseModel,
+  LoanModel,
+  LoanPendingModel,
+  LoanPlanResponseModel,
+  LoanTypeModel,
   PayLoanModel,
   ResponseDataModel,
   SimulateLoanModel,
+  SimulationResDataModel,
   SimulationResModel,
 } from '../../../components/loan/loan.models';
 
@@ -52,7 +58,7 @@ export class LoanService {
   }: {
     limit: number;
     offset: number;
-  }) {
+  }): Observable<{ object: LoanListResponseModel }> {
     return this.apiService.get(
       `/loans/clients/list/?limit=${limit}&offset=${offset}`
     );
@@ -60,24 +66,28 @@ export class LoanService {
   getSimulationResult(result: SimulationResModel) {
     this._simulationResult.next(result);
   }
-  simulateLoan(body: SimulateLoanModel) {
+  simulateLoan(
+    body: SimulateLoanModel
+  ): Observable<{ object: SimulationResDataModel }> {
     return this.apiService
       .post('/loans/simulation/', body)
-      .pipe(map(data => data as { object: ResponseDataModel }));
+      .pipe(map(data => data as { object: SimulationResDataModel }));
   }
   getLoanDetails(id: string) {
-    return this.apiService.get(`/loans/manage/${id}`);
+    return this.apiService.get(`/loans/manage/${id}/`);
   }
-  getAmortizationPlan(id: string) {
-    return this.apiService.get(`/loans/plan/${id}`);
+  getAmortizationPlan(
+    id: string
+  ): Observable<{ object: LoanPlanResponseModel }> {
+    return this.apiService.get(`/loans/plan/${id}/`);
   }
   payLoan(body: PayLoanModel) {
     return this.apiService.post('/loans/clients/plan/payment/', body);
   }
-  requestLoan(body: BodyLoanModel) {
+  requestLoan(body: BodyLoanModel): Observable<{ object: LoanPendingModel }> {
     return this.apiService.post('/loans/request/', body);
   }
-  getLoanType() {
+  getLoanType(): Observable<{ objects: LoanTypeModel }> {
     return this.apiService.get('/loans/loan-type/');
   }
   getLoanTypeInfo({
@@ -86,15 +96,17 @@ export class LoanService {
   }: {
     account_id: string;
     loan_type_id: string;
-  }) {
+  }): Observable<{ object: ResponseDataModel }> {
     return this.apiService.get(
       `/loans/defaults-check/?account=${account_id}&loan_type=${loan_type_id}`
     );
   }
 
-  getLoanRequestDetails(loanId: string) {
-    const url = `/loans/request/${loanId}`;
-    return this.apiService.get(url).pipe(map(data => data));
+  getLoanRequestDetails(loanId: string): Observable<{ object: LoanModel }> {
+    const url = `/loans/request/${loanId}/`;
+    return this.apiService
+      .get(url)
+      .pipe(map(data => data as { object: LoanModel }));
   }
 
   getPendingLoans({
@@ -105,7 +117,7 @@ export class LoanService {
     limit: number;
     offset: number;
     client_id: string;
-  }) {
+  }): Observable<{ objects: LoanPendingModel[]; count: number }> {
     return this.apiService.get(
       `/loans/request/?limit=${limit}&offset=${offset}&client_id=${client_id}`
     );
