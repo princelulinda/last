@@ -76,6 +76,9 @@ export class MyMarketDashboardComponent
   private onDestroy$: Subject<void> = new Subject<void>();
   baseRouterLink = '/m/mymarket';
 
+  @Input() accountId = '';
+  @Input() ledgerId = '';
+
   clientInfo: UserInfoModel[] | [] | null = null;
   clientInfo$: Observable<UserInfoModel>;
   amount: string | number | null = 0;
@@ -140,7 +143,6 @@ export class MyMarketDashboardComponent
   theme$: Observable<ModeModel>;
   activePlatform!: PlateformModel;
   mainConfig$!: Observable<activeMainConfigModel>;
-  url = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -473,9 +475,7 @@ export class MyMarketDashboardComponent
     },
   ];
 
-  @Input() accountId = '';
-  @Input() ledgerId = '';
-
+  url = '';
   ngOnChanges(changes: SimpleChanges) {
     for (const propName in changes) {
       const chng = changes[propName];
