@@ -82,9 +82,8 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
 
   selectedPaymentMenu: 'Direct-Payment' | 'Product-Payment' | '' = '';
 
-  lookupMetadataForm: FormGroup = this.fb.group({
-    account: [{ value: '', disabled: true }],
-  });
+  lookupMetadataForm: FormGroup = this.fb.group({});
+  metadataForm: FormGroup = this.fb.group({});
 
   loadingLookup = false;
   productLookup: ProductLookupModel | null = null;
@@ -150,7 +149,15 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
       .subscribe({
         next: response => {
           this.productDetails = response.object;
-          this.initLookupMetadataForm(this.productDetails.lookup_metadata);
+          if (this.productDetails.lookup_metadata.length !== 0) {
+            this.initMetadataForm(
+              this.productDetails.lookup_metadata,
+              'lookup_metadata'
+            );
+          }
+          if (this.productDetails.metadata.length !== 0) {
+            this.initMetadataForm(this.productDetails.metadata, 'metadata');
+          }
           this.loadingProductDetails = false;
         },
         error: () => {
@@ -208,10 +215,13 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
     this.resetAllData();
   }
 
-  private initLookupMetadataForm(lookup_metadata: MetadataModel[]) {
+  private initMetadataForm(
+    metadatas: MetadataModel[],
+    type: 'lookup_metadata' | 'metadata'
+  ) {
     let fields: Record<string, [string, Validators[]?]> = {};
 
-    for (const field of lookup_metadata) {
+    for (const field of metadatas) {
       if (field.widget_attrs.required) {
         fields = {
           ...fields,
@@ -232,7 +242,11 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
           ],
         };
       }
-      this.lookupMetadataForm = this.fb.group({ ...fields });
+      if (type === 'lookup_metadata') {
+        this.lookupMetadataForm = this.fb.group({ ...fields });
+      } else if (type === 'metadata') {
+        this.metadataForm = this.fb.group({ ...fields });
+      }
     }
   }
 
