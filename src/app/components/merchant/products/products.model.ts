@@ -68,7 +68,7 @@ export interface TransactionModel {
   code: string;
   amount: number;
 }
-export interface updateProdcutInfoModel {
+export interface UpdateProdcutInfoModel {
   product: number;
   merchant: string | number;
   action: string[];

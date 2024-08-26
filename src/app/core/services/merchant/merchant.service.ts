@@ -7,7 +7,7 @@ import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
 import { DoMerchantTransferResponseModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import { DoMerchantTransferModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import {
-  updateProdcutInfoModel,
+  UpdateProdcutInfoModel,
   addProductByMerchantModel,
   ProductAutocompleteModel,
   ProductModel,
@@ -416,7 +416,7 @@ export class MerchantService {
         })
       );
   }
-  updateProductInfo(body: updateProdcutInfoModel) {
+  updateProductInfo(body: UpdateProdcutInfoModel) {
     const url = '/dbs/merchant/product/configuration/';
     return this.apiService.post(url, body).pipe(
       map(data => {
