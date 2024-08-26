@@ -175,7 +175,7 @@ export interface PeriodModel {
   end_date: string;
 }
 
-export interface updateProdcutInfoModel {
+export interface UpdateProdcutInfoModel {
   product: number;
   merchant: string | number;
   action: string[];
@@ -194,19 +194,6 @@ export interface updateProdcutInfoModel {
 export interface searchProductByMerchantModel {
   merchant: string | number;
   search: string | null;
-}
-
-export interface metadataModel {
-  objects: metadataObjectModel[];
-}
-export interface updateProductInfoObjectModel {
-  object: metadataObjectModel;
-}
-export interface metadataObjectModel {
-  success: boolean;
-  response_message: string;
-  name: string;
-  id: number;
 }
 
 export interface ProductFavoriteModel {
