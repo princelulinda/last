@@ -45,7 +45,14 @@ export interface SimulationResModel {
 
 export interface ResponseDataModel {
   response_code: string;
-  response_data: SimulationResModel | DefaultValuesLoanModel;
+  response_data: DefaultValuesLoanModel;
+  response_message: string;
+  success: boolean;
+}
+
+export interface SimulationResDataModel {
+  response_code: string;
+  response_data: SimulationResModel;
   response_message: string;
   success: boolean;
 }

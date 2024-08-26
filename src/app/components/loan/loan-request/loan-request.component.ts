@@ -255,8 +255,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
         this.isLoading = false;
 
         if (response.object.success) {
-          this.defaultValuesLoan = response.object
-            .response_data as DefaultValuesLoanModel;
+          this.defaultValuesLoan = response.object.response_data;
 
           this.isFormVisible = true;
 
