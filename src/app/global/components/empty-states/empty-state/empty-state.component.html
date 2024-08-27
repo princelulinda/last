@@ -2,10 +2,17 @@
   @switch (searchType) {
     @case ('list') {
       <div class="text-center">
-        <img
-          src="/images/empty-state/empty-list.png"
-          class=" {{ imageClass }} object-fit-cover image"
-          alt="Empty List Image" />
+        @if (theme === 'light') {
+          <img
+            src="/images/empty-state/empty-list.png"
+            class=" {{ imageClass }} object-fit-cover image"
+            alt="Empty List Image" />
+        } @else {
+          <img
+            src="/images/empty-state/empty-list-dark-mode.png"
+            class=" {{ imageClass }} object-fit-cover image"
+            alt="Empty List Image" />
+        }
         <p i18n class="font-montserrat fs-l-medium {{ messageClass }}">
           <b class="fw-bold"
             >The list is currently empty
@@ -21,10 +28,18 @@
     }
     @case ('merchant') {
       <div class="text-center">
-        <img
-          src="/images/empty-state/market-empty.png"
-          class=" {{ imageClass }} object-fit-cover image"
-          alt="Empty Merchant Search Image" />
+        @if (theme === 'light') {
+          <img
+            src="/images/empty-state/market-empty.png"
+            class=" {{ imageClass }} object-fit-cover image"
+            alt="Empty Merchant Search Image" />
+        } @else {
+          <img
+            src="/images/empty-state/empty-market.png"
+            class=" {{ imageClass }} object-fit-cover image"
+            alt="Empty Merchant Search Image" />
+        }
+
         <p i18n class="font-montserrat fs-l-medium {{ messageClass }}">
           <b class="fw-bold"
             >Oops! We couldn't find anything
@@ -39,10 +54,17 @@
     }
     @case ('product') {
       <div class="text-center">
-        <img
-          src="/images/empty-state/product.png"
-          class=" {{ imageClass }} object-fit-cover image"
-          alt="Empty Product Search Image" />
+        @if (theme === 'light') {
+          <img
+            src="/images/empty-state/product.png"
+            class=" {{ imageClass }} object-fit-cover image"
+            alt="Empty Product Search Image" />
+        } @else {
+          <img
+            src="/images/empty-state/product-dark-mode.png"
+            class=" {{ imageClass }} object-fit-cover image"
+            alt="Empty Product Search Image" />
+        }
         <p i18n class="font-montserrat fs-l-medium {{ messageClass }}">
           <b class="fw-bold"
             >Oops! We couldn't find anything
@@ -57,10 +79,17 @@
     }
     @case ('other') {
       <div class="text-center">
-        <img
-          src="/images/empty-state/search-empty.png"
-          class=" {{ imageClass }} object-fit-cover image"
-          alt="Empty Global Search Image" />
+        @if (theme === 'light') {
+          <img
+            src="/images/empty-state/search-empty.png"
+            class=" {{ imageClass }} object-fit-cover image"
+            alt="Empty Global Search Image" />
+        } @else {
+          <img
+            src="/images/empty-state/empty-search.png"
+            class=" {{ imageClass }} object-fit-cover image"
+            alt="Empty Global Search Image" />
+        }
         <p i18n class="font-montserrat fs-l-medium {{ messageClass }}">
           <b class="fw-bold"
             >Oops! We couldn't find anything
@@ -75,10 +104,17 @@
     }
     @case ('service') {
       <div class="text-center">
-        <img
-          src="/images/empty-state/service-empty.png"
-          class=" {{ imageClass }} object-fit-cover image"
-          alt="Empty Service Search Image" />
+        @if (theme === 'light') {
+          <img
+            src="/images/empty-state/service-empty.png"
+            class=" {{ imageClass }} object-fit-cover image"
+            alt="Empty Service Search Image" />
+        } @else {
+          <img
+            src="/images/empty-state/empty-service.png"
+            class=" {{ imageClass }} object-fit-cover image"
+            alt="Empty Service Search Image" />
+        }
         <p i18n class="font-montserrat fs-small {{ messageClass }}">
           This service is not available yet, please try again later
         </p>
