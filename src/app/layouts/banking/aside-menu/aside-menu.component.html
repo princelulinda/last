@@ -1,18 +1,23 @@
-<aside class="p-3 ps-md-0 ps-xl-3">
+<aside class="d-flex p-3 ps-lg-0 ps-xl-3 w-100 row">
   <!-- home menus -->
   @if (mainConfig && mainConfig.activePlateform === 'newsFeed') {
-    <section class="mt-2">
+    <section class="mt-2 col-12 col-md-6 col-lg-12">
       <a
-        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
         (click)="hideAsideMenu()"
         routerLink="/n/newsfeed">
-        <div>
-          <span
-            class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
-            <i class="fa-solid fa-house house-color"></i>
-          </span>
+        <div class="d-flex align-items-center">
+          <div>
+            <span
+              class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
+              <i class="fa-solid fa-house house-color"></i>
+            </span>
+          </div>
+          <span class="fw-bold text-secondary" i18n>Publications</span>
         </div>
-        <span class="fw-bold text-secondary" i18n>Publications</span>
+        <div class="d-block d-lg-none">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
       </a>
 
       <a
@@ -25,57 +30,81 @@
             ></span>
           </div>
           <span class="fw-bold text-secondary" i18n>Chat</span>
+          <b class="d-block d-lg-none ms-3">
+            <small
+              class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
+              0
+            </small>
+          </b>
         </div>
-        <b>
+        <b class="d-none d-lg-block">
           <small
             class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
             0
           </small>
         </b>
+        <div class="d-block d-lg-none">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
       </a>
 
       <a
-        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
         (click)="switchPlateform('marketPlace')"
         routerLink="/m">
-        <div>
-          <span class="bg-secondary me-3 rounded-pill py-3 px-3"
-            ><i class="fa-solid fa-cart-shopping text-success"></i
-          ></span>
+        <div class="d-flex align-items-center">
+          <div>
+            <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+              ><i class="fa-solid fa-cart-shopping text-success"></i
+            ></span>
+          </div>
+          <span class="fw-bold text-secondary" i18n>Market</span>
         </div>
-        <span class="fw-bold text-secondary" i18n>Market</span>
+        <div class="d-block d-lg-none">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
       </a>
     </section>
   }
   <!-- onlineBanking menus -->
   @if (mainConfig && mainConfig.activePlateform === 'onlineBanking') {
-    <section class="mt-2">
+    <section class="mt-2 col-12 col-md-6 col-lg-12">
       <a
-        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
         (click)="hideAsideMenu()"
         routerLink="/b/banking">
-        <div>
-          <span
-            class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
-            <i class="fa-solid fa-house house-color"></i>
-          </span>
+        <div class="d-flex align-items-center">
+          <div>
+            <span
+              class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
+              <i class="fa-solid fa-house house-color"></i>
+            </span>
+          </div>
+          <span class="fw-bold text-secondary" i18n>Home</span>
         </div>
-        <span class="fw-bold text-secondary" i18n>Home</span>
+        <div class="d-block d-lg-none">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
       </a>
 
       <a
-        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
         routerLink="/b/banking/tarifs">
-        <div>
-          <span class="bg-secondary me-3 rounded-pill py-3 px-3">
-            <i class="fa-solid fa-calculator text-primary"></i>
-          </span>
+        <div class="d-flex align-items-center">
+          <div>
+            <span class="bg-secondary me-3 rounded-pill py-3 px-3">
+              <i class="fa-solid fa-calculator text-primary"></i>
+            </span>
+          </div>
+          <span class="fw-bold text-secondary" i18n>Tarif</span>
         </div>
-        <span class="fw-bold text-secondary" i18n>Tarif</span>
+        <div class="d-block d-lg-none">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
       </a>
 
       @if (selectedBank) {
-        <section class="mt-5">
+        <section class="mt-5 d-none d-lg-block">
           <div class="border sm-radius d-flex align-items-center p-2">
             <div class="w-25">
               <img
@@ -198,41 +227,57 @@
   <!--market-->
   @if (mainConfig && mainConfig.activePlateform === 'marketPlace') {
     <div>
-      <section class="mt-2">
+      <section class="mt-2 col-12 col-md-6 col-lg-12">
         <a
-          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
           (click)="hideAsideMenu()"
           routerLink="/m/market">
-          <div>
-            <span
-              class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
-              <i class="fa-solid fa-house"></i>
-            </span>
+          <div class="d-flex align-items-center">
+            <div>
+              <span
+                class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
+                <i class="fa-solid fa-house"></i>
+              </span>
+            </div>
+            <span class="fw-bold text-secondary" i18n>Home</span>
           </div>
-          <span class="fw-bold text-secondary" i18n>Home</span>
+          <div class="d-block d-lg-none">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
         </a>
 
         <a
-          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
           routerLink="/m/market/products">
-          <div>
-            <span class="bg-secondary me-3 text-success rounded-pill py-3 px-3">
-              <i class="fa-solid fa-basket-shopping"></i>
-            </span>
+          <div class="d-flex align-items-center">
+            <div>
+              <span
+                class="bg-secondary me-3 text-success rounded-pill py-3 px-3">
+                <i class="fa-solid fa-basket-shopping"></i>
+              </span>
+            </div>
+            <span class="fw-bold text-secondary" i18n>Products</span>
           </div>
-          <span class="fw-bold text-secondary" i18n>Products</span>
+          <div class="d-block d-lg-none">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
         </a>
 
         <a
-          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
           routerLink="/m/market/merchants">
-          <div>
-            <span
-              class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
-              <i class="fa-solid fa-shop"></i>
-            </span>
+          <div class="d-flex align-items-center">
+            <div>
+              <span
+                class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
+                <i class="fa-solid fa-shop"></i>
+              </span>
+            </div>
+            <span class="fw-bold text-secondary" i18n>Merchants</span>
           </div>
-          <span class="fw-bold text-secondary" i18n>Merchants</span>
+          <div class="d-block d-lg-none">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
         </a>
 
         <a
@@ -245,36 +290,55 @@
               ></span>
             </div>
             <span class="fw-bold text-secondary" i18n>Carts</span>
+            <b class="d-block d-lg-none ms-3">
+              <small
+                class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
+                0
+              </small>
+            </b>
           </div>
-          <b>
+          <b class="d-none d-lg-block">
             <small
               class="bg-secondary px-2 d-flex justify-content-center sm-radius text-success">
               0
             </small>
           </b>
+          <div class="d-block d-lg-none">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
         </a>
 
         <a
-          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
           routerLink="/m/market/bills">
-          <div>
-            <span
-              class="bg-secondary me-3 text-magis-primary rounded-pill py-3 px-3">
-              <i class="fa-solid fa-file-invoice-dollar text-all-blue"></i>
-            </span>
+          <div class="d-flex align-items-center">
+            <div>
+              <span
+                class="bg-secondary me-3 text-magis-primary rounded-pill py-3 px-3">
+                <i class="fa-solid fa-file-invoice-dollar text-all-blue"></i>
+              </span>
+            </div>
+            <span class="fw-bold text-secondary" i18n> Bills </span>
           </div>
-          <span class="fw-bold text-secondary" i18n> Bills </span>
+          <div class="d-block d-lg-none">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
         </a>
 
         @if (userInfo && userInfo.client.is_merchant) {
           <a
-            class="mt-4 d-flex align-items-center clickable border sm-radius bg-hover-secondary p-3 sm-radius"
+            class="mt-4 d-flex align-items-center clickable border sm-radius bg-hover-secondary p-3 sm-radius justify-content-between"
             routerLink="/m/mymarket"
             (click)="switchPlateform('myMarket')">
-            <span class="me-3">
-              <i class="fa-solid fa-store fs-2 text-primary"></i>
-            </span>
-            <span class="fw-bold text-secondary" i18n>My Market</span>
+            <div class="d-flex align-items-center">
+              <span class="me-3">
+                <i class="fa-solid fa-store fs-2 text-primary"></i>
+              </span>
+              <span class="fw-bold text-secondary" i18n>My Market</span>
+            </div>
+            <div class="d-block d-lg-none">
+              <i class="fa-solid fa-chevron-right"></i>
+            </div>
           </a>
         }
       </section>
@@ -284,18 +348,23 @@
   <!--market-->
   @if (mainConfig && mainConfig.activePlateform === 'myMarket') {
     <div>
-      <section class="mt-2">
+      <section class="mt-2 col-12 col-md-6 col-lg-12">
         <a
-          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
           (click)="hideAsideMenu()"
           routerLink="/m/mymarket">
-          <div>
-            <span
-              class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
-              <i class="fa-solid fa-house"></i>
-            </span>
+          <div class="d-flex align-items-center">
+            <div>
+              <span
+                class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
+                <i class="fa-solid fa-house"></i>
+              </span>
+            </div>
+            <span class="fw-bold text-secondary" i18n>Home</span>
           </div>
-          <span class="fw-bold text-secondary" i18n>Home</span>
+          <div class="d-block d-lg-none">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
         </a>
 
         <a
@@ -310,13 +379,22 @@
               </span>
             </div>
             <span class="fw-bold text-secondary" i18n>Orders</span>
+            <b class="d-block d-lg-none ms-3">
+              <small
+                class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
+                0
+              </small>
+            </b>
           </div>
-          <b>
+          <b class="d-none d-lg-block">
             <small
               class="bg-secondary px-2 d-flex justify-content-center sm-radius text-danger">
               0
             </small>
           </b>
+          <div class="d-block d-lg-none">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
         </a>
 
         <a
@@ -331,49 +409,119 @@
               ></span>
             </div>
             <span class="fw-bold text-secondary" i18n>Carts</span>
+            <b class="d-block d-lg-none ms-3">
+              <small
+                class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
+                0
+              </small>
+            </b>
           </div>
-          <b>
+          <b class="d-none d-lg-block">
             <small
               class="bg-secondary px-2 d-flex justify-content-center sm-radius text-success">
               0
             </small>
           </b>
+          <div class="d-block d-lg-none">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
         </a>
 
         <a
-          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
           routerLink="/m/mymarket/payment-reports">
-          <div>
-            <span
-              class="bg-secondary me-3 text-magis-primary rounded-pill py-3 px-3">
-              <i class="fa-solid fa-file-invoice-dollar"></i>
-            </span>
+          <div class="d-flex align-items-center">
+            <div>
+              <span
+                class="bg-secondary me-3 text-magis-primary rounded-pill py-3 px-3">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+              </span>
+            </div>
+            <span class="fw-bold text-secondary" i18n> Payment Reports</span>
           </div>
-          <span class="fw-bold text-secondary" i18n> Payment Reports</span>
+          <div class="d-block d-lg-none">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
         </a>
         <a
-          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
           routerLink="/m/mymarket/transfer-reports">
-          <div>
-            <span
-              class="bg-secondary text-erp-primary me-3 rounded-pill py-3 px-3">
-              <i class="fa-solid fa-receipt"></i>
-            </span>
+          <div class="d-flex align-items-center">
+            <div>
+              <span
+                class="bg-secondary text-erp-primary me-3 rounded-pill py-3 px-3">
+                <i class="fa-solid fa-receipt"></i>
+              </span>
+            </div>
+            <span class="fw-bold text-secondary" i18n> Transfer Reports</span>
           </div>
-          <span class="fw-bold text-secondary" i18n> Transfer Reports</span>
+          <div class="d-block d-lg-none">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
         </a>
 
         <a
-          class="d-flex align-items-center clickable bg-hover-secondary sm-radius border col-11 col-md-12 col-xxl-11 flex-wrap p-3 mt-4"
+          class="d-flex align-items-center clickable bg-hover-secondary sm-radius border col-11 col-md-12 col-xxl-11 flex-wrap p-3 mt-4 justify-content-between"
           (click)="switchPlateform('marketPlace'); hideAsideMenu()"
           routerLink="/m/market">
-          <span class="me-3 fs-large">
-            <i class="text-dark fa-solid fa-cart-shopping"></i>
-          </span>
+          <div class="d-flex align-items-center">
+            <span class="me-3 fs-large">
+              <i class="text-dark fa-solid fa-cart-shopping"></i>
+            </span>
 
-          <b class="text-secondary fs-large" i18n>Market Place</b>
+            <b class="text-secondary fs-large" i18n>Market Place</b>
+          </div>
+          <div class="d-block d-lg-none">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
         </a>
       </section>
     </div>
   }
 </aside>
+
+<!--------------------------------------------------------------------------------------- Mobile  ------------------------------------------------------------->
+
+<!-- <section class="d-grid grid-template-columns-2 gap-2 d-lg-none m-2">
+  @if (mainConfig && mainConfig.activePlateform === 'newsFeed') {
+    <a
+      class="grid-item gridHeight d-flex flex-column mt-4 align-items-center clickable bg-hover-secondary p-3 sm-radius shadow"
+      routerLink="/n/newsfeed">
+      <div>
+        <span
+          class="bg-secondary text-magis-primary me-3 rounded-pill py-3 px-3">
+          <i class="fa-solid fa-house house-color"></i>
+        </span>
+      </div>
+      <span class="fw-bold text-secondary" i18n>Publications</span>
+    </a>
+    <a
+      class="grid-item gridHeight d-flex flex-column mt-4 align-items-center clickable bg-hover-secondary p-3 sm-radius shadow"
+      routerLink="/n/newsfeed/chat">
+      <div>
+        <span class="bg-secondary text-warning me-3 rounded-pill py-3 px-3"
+          ><i class="fa-regular fa-comments chat-color"></i
+        ></span>
+      </div>
+      <div class="d-flex flex-row gap-2">
+        <span class="fw-bold text-secondary" i18n>Chat</span>
+        <b>
+          <small
+            class="bg-secondary px-2 d-flex justify-content-center sm-radius text-blue">
+            0
+          </small>
+        </b>
+      </div>
+    </a>
+    <a
+      class="grid-item gridHeight d-flex flex-column mt-4 align-items-center clickable bg-hover-secondary p-3 sm-radius shadow"
+      routerLink="/m">
+      <div>
+        <span class="bg-secondary me-3 rounded-pill py-3 px-3"
+          ><i class="fa-solid fa-cart-shopping text-success"></i
+        ></span>
+      </div>
+      <span class="fw-bold text-secondary" i18n>Market</span>
+    </a>
+  }
+</section> -->
