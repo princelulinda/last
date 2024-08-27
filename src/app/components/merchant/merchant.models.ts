@@ -163,3 +163,23 @@ export interface MerchantCategoriesModel {
   is_active: boolean;
   ordering: number;
 }
+
+export interface SectorActivityAutocompleteModel {
+  id: number | string;
+  lookup_icon: string;
+  lookup_image: string;
+  lookup_title: string;
+  lookup_subtitle: string;
+  lookup_description: string;
+  lookup_has_image_or_icon: boolean;
+}
+
+export interface MerchantCategoriesAutocompleteModel {
+  id: number | string;
+  lookup_icon: string;
+  lookup_image: string;
+  lookup_title: string;
+  lookup_subtitle: string;
+  lookup_description: string;
+  lookup_has_image_or_icon: boolean;
+}

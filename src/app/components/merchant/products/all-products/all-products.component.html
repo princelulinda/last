@@ -20,13 +20,24 @@
     <div class="row mt-2 d-flex justify-content-between ms-4 ms-lg-0 mb-5">
       @for (item of countProductLoader; track $index) {
         <div class="col-lg-3 col-md-3 col mb-3">
-          <app-skeleton [height]="'150px'" [width]="'150px'"></app-skeleton>
+          <app-skeleton
+            [height]="'150px'"
+            [width]="'150px'"
+            classes="sm-radius"></app-skeleton>
           <div>
-            <app-skeleton [height]="'10px'" [width]="'60%'" appearance="line">
+            <app-skeleton
+              [height]="'10px'"
+              [width]="'60%'"
+              appearance="line"
+              classes="sm-radius">
             </app-skeleton>
           </div>
           <div>
-            <app-skeleton [height]="'10px'" [width]="'40%'" appearance="line">
+            <app-skeleton
+              [height]="'10px'"
+              [width]="'40%'"
+              appearance="line"
+              classes="sm-radius">
             </app-skeleton>
           </div>
         </div>
