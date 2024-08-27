@@ -14,29 +14,29 @@
       class="position-absolute d-none d-md-block opacity-8"
       style="width: 55%; right: -1.7%; bottom: 0%"
       alt="Rectangle image" />
-    <div class="col-12 position-relative col-md-3">
+    <div class="col-12 col-md-6 col-lg-6 position-relative">
       <img
         src="/images/products/Rectangle 1235.svg"
         class="position-absolute d-block d-md-none opacity-8"
         style="height: 40%; width: 55%; right: -0.2%; bottom: 0%"
         alt="Rectangle image" />
       <div class="d-flex w-100 my-1 my-md-2">
-        <div class="col-4 col-md-5">
-          <div
+        <div class="col-3 col-md-3 col-lg-2">
+          <div 
             class="bg-secondary rounded-pill d-flex align-items-center justify-content-center"
             style="height: 70px; width: 70px">
             <img [src]="infoAgent.picture" alt="picture" title="profile picture" class="h-100 w-100 image" />
           </div>
         </div>
         <div
-          class="col-7 col-md-6 d-flex flex-column text-start my-auto border-end">
+          class="col-9 col-md-9 col-lg-8 d-flex flex-column text-start my-auto border-end">
           <span class="fw-semibold overflow-hidden" style="height: 20px;">{{infoAgent.agent_name}}</span>
           <span i18n>{{infoAgent.agent_type}}</span>
           <span>{{infoAgent.agent_main_account_id}}</span>
         </div>
       </div>
     </div>
-    <div class="col-12 d-flex align-items-center col-md-8 d-flex text-center">
+    <div class="col-12 col-md-6 col-lg-6 d-flex align-items-center d-flex text-center">
       <div class="d-flex flex-column align-items-center me-auto w-50">
         <span i18n>Balance</span>
         <span>

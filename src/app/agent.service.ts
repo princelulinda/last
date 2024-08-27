@@ -16,4 +16,5 @@ export class AgentService {
   getAgentInfos (): Observable <any> { 
     return this.apiService.get(this.ApiLink).pipe(map(data => data));
   }
+  
 }
