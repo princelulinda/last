@@ -5,7 +5,8 @@
       <select
         class="form-select form-select-sm"
         aria-label="Small select example"
-        [(ngModel)]="pageLimit">
+        [(ngModel)]="pageLimit"
+        (ngModelChange)="onLimitChange($event)">
         @for (limit of paginationsLimits; track $index) {
           @if (limit === pageLimit) {
             <option value="{{ limit }}" [defaultSelected]="true">
@@ -21,8 +22,8 @@
       <!-- Previous arrows -->
       <span
         class="border py-1 px-3 rounded-2"
-        [ngClass]="currentPage <= 10 ? 'disabled' : 'hover'"
-        [attr.role]="currentPage <= 10 ? null : 'button'"
+        [ngClass]="currentPage <= 1 ? 'disabled' : 'hover'"
+        [attr.role]="currentPage <= 1 ? null : 'button'"
         (click)="!(currentPage <= 1) && jumpPrev()"
         tabindex="0"
         >&lt;&lt;</span
@@ -31,7 +32,7 @@
         class="border py-1 px-3 rounded-2"
         [ngClass]="currentPage === 1 || currentPage < 1 ? 'disabled' : 'hover'"
         [attr.role]="currentPage === 1 || currentPage < 1 ? null : 'button'"
-        (click)="currentPage > 1 && jumpPrev()"
+        (click)="currentPage > 1 && goToPage(currentPage - 1)"
         tabindex="0"
         >&lt;</span
       >
@@ -72,9 +73,9 @@
       >
       <span
         class="border py-1 px-3 rounded-2"
-        [ngClass]="currentPage > pages.length - 10 ? 'disabled' : 'hover'"
-        [attr.role]="currentPage > pages.length - 10 ? null : 'button'"
-        (click)="!(currentPage > pages.length) && jumpNext()"
+        [ngClass]="currentPage >= pages.length ? 'disabled' : 'hover'"
+        [attr.role]="currentPage >= pages.length ? null : 'button'"
+        (click)="!(currentPage >= pages.length) && jumpNext()"
         tabindex="0"
         >&gt;&gt;</span
       >

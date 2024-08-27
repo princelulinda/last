@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { PaginationConfig } from '../../../global/models/pagination.models';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
+// import { PaginationConfig } from '../../../global/models/pagination.models';
 
 @Component({
   selector: 'app-pagination',
@@ -16,8 +17,9 @@ export class PaginationComponent {
   @Input() pageLimit = 20;
 
   @Output() pageChange = new EventEmitter<number>();
+  @Output() limitChange = new EventEmitter<number>();
 
-  pagination = new PaginationConfig();
+  // pagination = new PaginationConfig();
   paginationsLimits = [50, 40, 30, 20, 10];
 
   get pages() {
@@ -77,5 +79,10 @@ export class PaginationComponent {
 
   goToPage(page: number): void {
     this.pageChange.emit(page);
+  }
+
+  onLimitChange(limit: number): void {
+    this.pageLimit = limit;
+    this.limitChange.emit(limit);
   }
 }
