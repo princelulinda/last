@@ -1,4 +1,11 @@
-<aside class="d-flex p-3 ps-lg-0 ps-xl-3 w-100 row">
+<aside class="d-flex p-3 ps-lg-0 ps-xl-3 w-100 row position-relative">
+  <div
+    class="d-block d-lg-none position-absolute back-btn"
+    (click)="goBack()"
+    role="button"
+    tabindex="0">
+    <i class="fa-solid fa-xmark fa-2x"></i>
+  </div>
   <!-- home menus -->
   @if (mainConfig && mainConfig.activePlateform === 'newsFeed') {
     <section class="mt-2 col-12 col-md-6 col-lg-12">
