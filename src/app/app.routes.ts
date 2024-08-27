@@ -11,6 +11,8 @@ import { OnamobDashboardComponent } from './components/dashboards/onamob-dashboa
 import { myMarketRoutes } from './routes/my-market/mymarket.routes';
 import { workstationRoutes } from './routes/workstation/workstation.routes';
 import { DBReadyGuard } from './core/guards/db-ready/db-ready.guard';
+import { AsideMenuComponent } from './layouts/banking/aside-menu/aside-menu.component';
+import { SettingsAsideMenuComponent } from './layouts/banking/settings/settings-aside-menu/settings-aside-menu.component';
 
 export const routes: Routes = [
   // authentification routes
@@ -89,6 +91,14 @@ export const routes: Routes = [
         children: myMarketRoutes,
       },
 
+      {
+        path: 'banking_menu',
+        component: AsideMenuComponent,
+      },
+      {
+        path: 'settings_menu',
+        component: SettingsAsideMenuComponent,
+      },
       {
         path: '**',
         loadComponent: () =>
