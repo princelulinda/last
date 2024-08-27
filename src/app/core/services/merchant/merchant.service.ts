@@ -7,11 +7,12 @@ import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
 import { DoMerchantTransferResponseModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import { DoMerchantTransferModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import {
-  updateProdcutInfoModel,
+  UpdateProdcutInfoModel,
   addProductByMerchantModel,
   ProductAutocompleteModel,
   ProductModel,
   ProductLookupBodyModel,
+  ProductLookupModel,
 } from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
@@ -323,9 +324,13 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
-  getMerchantProductLookup(lookupData: ProductLookupBodyModel) {
+  getMerchantProductLookup(
+    lookupData: ProductLookupBodyModel
+  ): Observable<{ object: ProductLookupModel }> {
     const url = '/dbs/merchant/product/lookup/';
-    return this.apiService.post(url, lookupData).pipe(map(data => data));
+    return this.apiService
+      .post<{ object: ProductLookupModel }>(url, lookupData)
+      .pipe(map(data => data));
   }
 
   payMerchant(paymentData: []) {
@@ -411,7 +416,7 @@ export class MerchantService {
         })
       );
   }
-  updateProductInfo(body: updateProdcutInfoModel) {
+  updateProductInfo(body: UpdateProdcutInfoModel) {
     const url = '/dbs/merchant/product/configuration/';
     return this.apiService.post(url, body).pipe(
       map(data => {
