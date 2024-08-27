@@ -1,0 +1,11 @@
+.hover:hover {
+  background: rgba(129, 0, 25, 1);
+  color: #fff;
+  transition: 0.5s;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}

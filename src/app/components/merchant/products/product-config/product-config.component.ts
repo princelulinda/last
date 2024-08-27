@@ -22,6 +22,7 @@ import { PaginationConfig } from '../../../../global/models/pagination.models';
 import {
   ConfigService,
   DialogService,
+  MenuService,
   MerchantService,
 } from '../../../../core/services';
 import { PlateformModel } from '../../../../core/services/config/main-config.models';
@@ -31,6 +32,8 @@ import {
   EmptyStateModel,
 } from '../../../../global/components/empty-states/empty-state/empty-state.component';
 import { MerchantModel } from '../../merchant.models';
+import { MetadataFormComponent } from '../../../metadatas/metadata-form/metadata-form.component';
+import { MetadataModel } from '../../../metadatas/metadata.model';
 
 @Component({
   selector: 'app-product-config',
@@ -42,6 +45,7 @@ import { MerchantModel } from '../../merchant.models';
     SkeletonComponent,
     ProductCardComponent,
     EmptyStateComponent,
+    MetadataFormComponent,
   ],
   templateUrl: './product-config.component.html',
   styleUrl: './product-config.component.scss',
@@ -78,6 +82,7 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
   values: { field: string }[] = [];
   selectedFields: { name: string; id: number }[] = [];
   toggleMetadataForm = false;
+  metadata: { objects: MetadataModel[] } | null = null;
   pin = '';
 
   searchType: EmptyStateModel = 'product';
@@ -88,11 +93,13 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
 
   plateform$!: Observable<PlateformModel>;
   baseRouterLink = '/m/mymarket';
+  isProductsSearch = false;
 
   constructor(
     private merchantService: MerchantService,
     private dialogService: DialogService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private menuService: MenuService
   ) {
     this.dialog$ = this.dialogService.getDialogState();
     this.plateform$ = this.configService.getPlateform();
@@ -139,6 +146,9 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
 
     this.getConnectedMerchantInfo();
     this.pagination.filters.limit = 15;
+    this.getMetadata();
+
+    this.isHover = new Array(this.metadata?.objects?.length).fill(false);
   }
 
   getConnectedMerchantInfo() {
@@ -149,30 +159,32 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
       this.getMerchantProducts();
     });
   }
-  // getMetadata() {
-  //     this.loadingData = true;
-  //     this.metadata = null;
-  //     const searchValue = this.searchMetadata.value ?? '';
-  //     if (searchValue !== '') {
-  //         if (this.pagination?.filters.offset ?? 0 >= 1) {
-  //             this.pagination.filters.offset = 0;
-  //             this.currentPage = 0;
-  //         }
-  //     }
-  //     this.menuService
-  //         .getMetadata(searchValue, this.pagination)
-  //         .pipe(takeUntil(this.onDestroy$))
-  //         .subscribe({
-  //             next: (data) => {
-  //                 this.metadata = data;
-  //                 this.count = data.count;
-  //                 this.loadingData = false;
-  //             },
-  //             error: (err) => {
-  //                 this.loadingData = false;
-  //             },
-  //         });
-  // }
+  getMetadata() {
+    this.loadingData = true;
+    this.metadata = null;
+    const searchValue = this.searchMetadata.value ?? '';
+    if (searchValue !== '') {
+      if (this.pagination?.filters.offset ?? 0 >= 1) {
+        this.pagination.filters.offset = 0;
+        this.currentPage = 0;
+      }
+    }
+    this.menuService
+      .getMetadata(searchValue, this.pagination)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          const data = response as { objects: MetadataModel[]; count: number };
+          this.metadata = data;
+          this.count = data.count;
+          this.loadingData = false;
+        },
+        error: err => {
+          this.loadingData = false;
+          console.log('metadata error', err);
+        },
+      });
+  }
 
   isFieldSelected(name: string): boolean {
     return this.selectedFields.some(field => field.name === name);
@@ -196,8 +208,8 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
     if (updates === 'success') {
       this.toggleMetadata = true;
 
-      // this.metadata = null;
-      // this.getMetadata();
+      this.metadata = null;
+      this.getMetadata();
     } else if (updates === 'list') {
       this.toggleMetadataForm = false;
       this.toggleMetadata = true;
@@ -418,18 +430,24 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
   }
 
   searchProducts(search: string | null) {
-    this.isLoading = true;
     this.products = [];
+    this.isLoading = true;
+    this.isProductsSearch = true;
+
     if (search) {
       this.merchantService
         .getMerchantProducts(this.merchant.id, search)
         .subscribe({
           next: result => {
+            this.products = [];
             this.products = result.objects;
+            console.log('the search product is', this.products);
+
             this.isLoading = false;
           },
           error: () => {
             this.isLoading = false;
+            console.log('search error');
           },
         });
     } else {
@@ -447,7 +465,7 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
     if (this.pagination.filters.limit) {
       this.pagination.filters.offset =
         this.pagination.filters.limit * this.currentPage;
-      // this.getMetadata();
+      this.getMetadata();
     }
   }
   goBack() {

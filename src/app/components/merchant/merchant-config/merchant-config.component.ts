@@ -12,21 +12,23 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { MerchantTellerDetailsComponent } from './merchant-teller-details/merchant-teller-details.component';
+
 import {
   MerchantModel,
   tellerModel,
   tellerObjectModel,
   tellersModel,
 } from '../merchant.models';
-import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import { Router, RouterModule } from '@angular/router';
-import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
-import { DialogService } from '../../../core/services';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import { MerchantService } from '../../../core/services/merchant/merchant.service';
+import { DialogService } from '../../../core/services';
+import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { MerchantTellerDetailsComponent } from './merchant-teller-details/merchant-teller-details.component';
 
 @Component({
   selector: 'app-merchant-config',
