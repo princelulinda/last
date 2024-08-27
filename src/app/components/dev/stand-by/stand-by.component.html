@@ -1,5 +1,6 @@
 <section
-  class="h-100 w-100 bg-all-white d-flex align-items-center justify-content-center position-relative overflow-hidden"
+  class="stop bg-all-white d-flex align-items-center justify-content-center position-relative overflow-hidden"
+  id="standby"
   (click)="animationStart()"
   (mousemove)="animationStart()"
   (keydown)="animationStart()"
@@ -34,9 +35,12 @@
 
     <div class="input-group z-1">
       <input
-        type="text"
+        type="password"
         class="form-control"
         placeholder="password"
+        id="passInput"
+        autocomplete="new-password"
+        autocomplete="off"
         aria-label="Recipient's username"
         aria-describedby="button-addon2" />
       <!-- <button

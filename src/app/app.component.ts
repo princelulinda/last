@@ -18,6 +18,8 @@ import { LandscapeBillComponent } from './global/components/popups/bills-format/
 import { ObrBillComponent } from './global/components/popups/bills-format/obr-bill/obr-bill.component';
 import { MerchantBillComponent } from './global/components/popups/bills-format/merchant-bill/merchant-bill.component';
 import { MerchantPaymentComponent } from './global/components/popups/merchant-payment/merchant-payment.component';
+import { StandByComponent } from './components/dev/stand-by/stand-by.component';
+import { IdleService } from './core/services/idle/idle.service';
 
 @Component({
   selector: 'app-root',
@@ -35,6 +37,7 @@ import { MerchantPaymentComponent } from './global/components/popups/merchant-pa
     MerchantBillComponent,
     NgOptimizedImage,
     MerchantPaymentComponent,
+    StandByComponent,
   ],
 })
 export class AppComponent implements OnInit {
@@ -48,13 +51,16 @@ export class AppComponent implements OnInit {
     private dbService: DbService,
     private configService: ConfigService,
     private authService: AuthService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private idleService: IdleService
   ) {
     this.plateform$ = this.configService.getPlateform();
     this.activeMode$ = this.configService.getMode();
   }
 
   ngOnInit() {
+    this.idleService.startWatching();
+
     const localToken = this.authService.getLocalAuthToken();
     if (localToken) {
       this.dialogService.dispatchSplashScreen();
