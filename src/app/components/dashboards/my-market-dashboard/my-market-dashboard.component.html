@@ -334,10 +334,10 @@
         <div class="modal-body">
           <app-reusable-list
             title="Statements"
-            [limit]="5"
-            [url]="url"
-            [headers]="headers">
-          </app-reusable-list>
+            [headers]="headers"
+            [url]="url"></app-reusable-list>
+
+          <p>this url : {{ url }}</p>
         </div>
       </div>
     </div>

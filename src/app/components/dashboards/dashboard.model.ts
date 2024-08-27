@@ -1,27 +1,6 @@
 import { bankModel } from '../../core/db/models/bank/bank.model';
 import { MerchantModel } from '../merchant/merchant.models';
 
-export interface BillersModel {
-  id: string;
-  lookup_image: string;
-  lookup_title: string;
-  lookup_icon: string;
-  icon: string;
-  lookup_subtitle: string;
-  is_favorite_merchant: boolean;
-  success: string;
-  merchant_category_name: string;
-  accepts_simple_payment: boolean;
-}
-
-export interface objectsModel {
-  objects: BillersModel[];
-}
-
-export interface objectModel {
-  object: BillersModel;
-}
-
 export interface MerchantLookup {
   id: number;
   lookup_title: string;
@@ -103,7 +82,7 @@ export interface PublicationModel {
   total_shares: number;
 }
 
-export interface productCategoryModel {
+export interface ProductCategoryModel {
   id: number;
   icon: string;
   image: string;
@@ -112,10 +91,6 @@ export interface productCategoryModel {
   ordering: number;
   slug: string;
   value_added_tax_rate: string;
-}
-
-export interface productCategoryArray {
-  objects: productCategoryModel[];
 }
 
 export interface StatModel {
@@ -145,12 +120,7 @@ export interface SessionToShow {
   user: SessionName;
 }
 
-export interface BestOfferModel {
-  id: number;
-  product: productOfferModel;
-}
-
-export interface productOfferModel {
+export interface ProductOfferModel {
   id: number;
   name: string;
   price: string;

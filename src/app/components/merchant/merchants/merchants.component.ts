@@ -12,7 +12,7 @@ import {
 } from '../../../core/services';
 import { MerchantCardComponent } from '../global/merchant-card/merchant-card.component';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { BillersModel } from '../../dashboards/dashboard.model';
+import { BillersModel } from '../merchant.models';
 import {
   MerchantCategoriesAutocompleteModel,
   SectorActivityAutocompleteModel,

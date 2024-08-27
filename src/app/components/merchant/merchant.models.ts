@@ -164,6 +164,18 @@ export interface MerchantCategoriesModel {
   ordering: number;
 }
 
+export interface BillersModel {
+  id: string;
+  lookup_image: string;
+  lookup_title: string;
+  lookup_icon: string;
+  icon: string;
+  lookup_subtitle: string;
+  is_favorite_merchant: boolean;
+  success: string;
+  merchant_category_name: string;
+  accepts_simple_payment: boolean;
+}
 export interface SectorActivityAutocompleteModel {
   id: number | string;
   lookup_icon: string;

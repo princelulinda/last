@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 import { Subject, Observable, takeUntil } from 'rxjs';
 
@@ -14,7 +15,6 @@ import { BankService } from '../../../core/services/bank/bank.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
-
 import {
   addBankResponse,
   MenuGroup,
@@ -29,8 +29,6 @@ import {
   ModeModel,
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
-import { RouterLink } from '@angular/router';
-import { RouterOutlet } from '@angular/router';
 import { BankHomeComponent } from './bank-home/bank-home.component';
 import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
 

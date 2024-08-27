@@ -8,7 +8,11 @@
   [style.width]="width"
   [style.height]="height">
   @if (imageUrl) {
-    <img [src]="imageUrl" alt="" class="w-100 h-100 rounded-circle" />
+    <img
+      [src]="imageUrl"
+      alt=""
+      class="w-100 h-100 rounded-circle"
+      style="object-fit: cover" />
   } @else {
     <span class="fw-bold text-center">{{ initials }}</span>
   }

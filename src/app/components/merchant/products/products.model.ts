@@ -68,7 +68,7 @@ export interface TransactionModel {
   code: string;
   amount: number;
 }
-export interface updateProdcutInfoModel {
+export interface UpdateProdcutInfoModel {
   product: number;
   merchant: string | number;
   action: string[];
@@ -148,4 +148,35 @@ export interface ProductLookupBodyModel {
   merchant_product_id: number;
   lookup_data: Record<string, string>;
   lookup_extra_data: Record<string, string>;
+}
+
+export interface ProductLookupChoiceModel {
+  value: {
+    offer_code: string;
+    amount: number;
+  };
+  title: string;
+  description: string;
+}
+
+export interface ProductLookupModel {
+  response_message: string;
+  response_code: string;
+  response_data: {
+    lookup: string;
+    lookup_data: {
+      OfferCodes: {
+        csr_offer_code: string;
+        csr_offer_name: string;
+        price: string;
+      }[];
+    };
+    lookup_choice: {
+      label: string;
+      key: string;
+      choices: ProductLookupChoiceModel[];
+    }[];
+    lookup_next_step: boolean;
+  } | null;
+  success: boolean;
 }

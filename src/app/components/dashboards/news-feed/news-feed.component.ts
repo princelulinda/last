@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { interval, Subject, takeUntil, takeWhile } from 'rxjs';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { BillersModel } from '../dashboard.model';
+import { BillersModel } from '../../merchant/merchant.models';
 import { ConfigService, MerchantService } from '../../../core/services';
 import { ShowMoreDirective } from '../../../global/directives/show-more/show-more.directive';
 import { PublicationsComponent } from '../../publications/publications.component';
