@@ -46,6 +46,7 @@ export class ProductsComponent implements OnInit {
   cartAdding = 0;
   count = 0;
   countProductLoader: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
+  favoriteDisplay = false;
 
   private refreshFavoriteProducts$: Observable<boolean>;
 
@@ -121,5 +122,12 @@ export class ProductsComponent implements OnInit {
           this.isLoading = false;
         },
       });
+  }
+  displayFavorites() {
+    if (!this.favoriteDisplay) {
+      this.favoriteDisplay = true;
+    } else if (this.favoriteDisplay) {
+      this.favoriteDisplay = false;
+    }
   }
 }
