@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { Location, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RouterLinkActive } from '@angular/router';
@@ -36,7 +36,8 @@ export class AsideMenuComponent implements OnInit {
   constructor(
     private configService: ConfigService,
     private menuService: MenuService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _location: Location
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.userInfo$ = this.authService.getUserInfo();
@@ -77,5 +78,9 @@ export class AsideMenuComponent implements OnInit {
 
   switchPlateform(plateform: PlateformModel) {
     this.configService.switchPlateform(plateform);
+  }
+
+  goBack() {
+    this._location.back();
   }
 }

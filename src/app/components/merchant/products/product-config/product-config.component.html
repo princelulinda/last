@@ -544,8 +544,8 @@
             </button>
           </div>
           <div class="level-1 mt-2 p-2">
-            <!--this && metadata && metadata.length === 0 was after !loadingData  -->
-            @if (!loadingData) {
+            <!--this  was after !loadingData  -->
+            @if (!loadingData && metadata && metadata.objects.length === 0) {
               <div
                 class="d-flex flex-column align-items-center mt-5 empty-state-icon">
                 <span class="" style="font-size: 50px; opacity: 0.5">
@@ -557,8 +557,8 @@
               </div>
             }
 
-            <!-- this && !metadata was after loadingData -->
-            @if (loadingData) {
+            <!-- this  was after loadingData -->
+            @if (loadingData && !metadata) {
               <div
                 class="row justify-content-center align-items-center"
                 style="height: 20vh">
@@ -566,9 +566,36 @@
               </div>
             }
 
-            <!-- this  && metadata was after !loadingData -->
-            @if (!loadingData) {
+            <!-- this   was after !loadingData -->
+            @if (!loadingData && metadata) {
               <section class="d-flex flex-column">
+                @for (meta of metadata.objects; track meta.id; let i = $index) {
+                  <div
+                    class="row ps-2 sm-radius d-flex justify-content-between flex-grow-1">
+                    <div
+                      class="col p-2 d-flex align-items-center"
+                      [ngClass]="{ 'bg-primary-2': isHover[i] }"
+                      (mouseenter)="isHover[i] = true"
+                      (mouseleave)="isHover[i] = false"
+                      i18n>
+                      <span class="text-dark">{{ meta?.name ?? '---' }}</span>
+                      <span
+                        role="button"
+                        (click)="toggleFieldSelection(meta.id, meta.name)"
+                        tabindex="0"
+                        class="text-primary ms-auto fw-bold">
+                        {{ isFieldSelected(meta.name) ? 'Remove' : 'Add' }}
+                        <span *ngIf="isFieldSelected(meta.name)"
+                          ><i class="fa-solid fa-minus"></i
+                        ></span>
+                        <span *ngIf="!isFieldSelected(meta.name)"
+                          ><i class="fa-solid fa-plus"></i
+                        ></span>
+                      </span>
+                    </div>
+                  </div>
+                }
+
                 <!-- pagination button -->
                 <div
                   class="mt-4 d-flex align-items-center justify-content-center text-light">
@@ -638,8 +665,7 @@
 @if (toggleMetadataForm) {
   <div class="p-2 border w-75">
     <h4 class="ms-4 ps-2 text-dark" i18n>New field</h4>
-    <!-- <app-metadata-form
-          (refreshUpdates)="seeUpdates($event)"
-      ></app-metadata-form> -->
+    <app-metadata-form
+      (refreshUpdates)="seeUpdates($event)"></app-metadata-form>
   </div>
 }
