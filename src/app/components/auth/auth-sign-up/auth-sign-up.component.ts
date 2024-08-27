@@ -1,11 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+  FormGroup,
+} from '@angular/forms';
 import { AuthService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
 import { Subject, Observable } from 'rxjs';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+
 import {
   EmailVerificationResponseModel,
   PhoneNumberVerificaitonResponseModel,
@@ -70,6 +76,12 @@ export class AuthSignUpComponent implements OnInit {
   uuid!: string;
   docFile!: string;
   id!: number;
+
+  birthday = FormGroup;
+  errorMessage!: string;
+  errorMessagee!: string;
+  isUnder16 = false;
+  isUnderDerivaryDate = false;
 
   // event!: referenceNumberModel[];
 
@@ -336,5 +348,52 @@ export class AuthSignUpComponent implements OnInit {
   }
   logout() {
     this.authService.logout();
+  }
+  isEmailUndefined() {
+    return this.inputEmail === undefined;
+  }
+
+  isPhoneNumberUndefinedd() {
+    return this.inputNumber === undefined;
+  }
+
+  validateAge() {
+    const today = new Date();
+    const birthDateControl = this.multiStepForm.get(
+      'personalInformation.birthday'
+    );
+
+    const DerivaryDateCotrol = this.multiStepForm.get(
+      'cardInformation.deliveryDate'
+    );
+    const ExpiryDateControl = this.multiStepForm.get(
+      'cardInformation.expiryDate'
+    );
+    if (
+      DerivaryDateCotrol &&
+      ExpiryDateControl &&
+      DerivaryDateCotrol.value &&
+      ExpiryDateControl.value
+    ) {
+      if (DerivaryDateCotrol.value >= ExpiryDateControl.value) {
+        this.errorMessagee =
+          'The expiration date must be greater than the delivery date';
+        this.isUnderDerivaryDate = true;
+      } else {
+        this.errorMessagee = '';
+        this.isUnderDerivaryDate = false;
+      }
+    }
+    if (birthDateControl && birthDateControl.value) {
+      const birthDate = new Date(birthDateControl.value);
+      const age = today.getFullYear() - birthDate.getFullYear();
+      if (age < 16) {
+        this.errorMessage = 'You must be at least 16 years old.';
+        this.isUnder16 = true;
+      } else {
+        this.errorMessage = '';
+        this.isUnder16 = false;
+      }
+    }
   }
 }
