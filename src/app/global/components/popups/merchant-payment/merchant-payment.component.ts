@@ -149,6 +149,9 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
       .subscribe({
         next: response => {
           this.productDetails = response.object;
+          if (this.productDetails.lookup_first) {
+            this.doProductLookup();
+          }
           if (this.productDetails.lookup_metadata.length !== 0) {
             this.initMetadataForm(
               this.productDetails.lookup_metadata,
