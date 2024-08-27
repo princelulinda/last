@@ -4,7 +4,10 @@ import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 
 import { ProductCategoryModel, ProductOfferModel } from '../dashboard.model';
-import { BillersModel, MerchantModel } from '../../merchant/merchant.models';
+import {
+  BillersAutocompleteModel,
+  MerchantModel,
+} from '../../merchant/merchant.models';
 import { ProductAutocompleteModel } from '../../merchant/products/products.model';
 import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
@@ -76,13 +79,13 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
   // sector: any;
   last4Merchant!: MerchantAutocompleteModel[];
   recentMerchant!: MerchantAutocompleteModel[];
-  recentBillers!: BillersModel[];
+  recentBillers!: BillersAutocompleteModel[];
   first4ProductCategory!: ProductCategoryModel[];
   start = 0;
   end = 4;
   clearData = true;
   billerChecked = true;
-  billers!: BillersModel[];
+  billers!: BillersAutocompleteModel[];
   merchantDetail = false;
   // categorySections = false;
   loadingmerchants = true;
@@ -179,7 +182,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
   // //     this.biller = biller;
   // // }
 
-  // openModal(merchant: BillersModel, event: Event) {
+  // openModal(merchant: BillersAutocompleteModel, event: Event) {
   //   // this.payMerchant = merchant;
   //   console.log(merchant);
   //   this.biller = null;
@@ -274,7 +277,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          const result = response as { objects: BillersModel[] };
+          const result = response as { objects: BillersAutocompleteModel[] };
           this.billers = result.objects;
 
           const nextBtn = document.getElementById('navigationButton');
@@ -347,7 +350,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
   //   }
 
   /********************************************************************** */
-  // makeFavoriteMerchants(favorite: BillersModel, event: Event) {
+  // makeFavoriteMerchants(favorite: BillersAutocompleteModel, event: Event) {
   //   event.stopPropagation();
   //   // const productCard: HTMLElement =
   //   //     event.target?.parentElement.parentElement.parentElement.parentElement

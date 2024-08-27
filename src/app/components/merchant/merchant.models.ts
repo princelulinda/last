@@ -164,7 +164,7 @@ export interface MerchantCategoriesModel {
   ordering: number;
 }
 
-export interface BillersModel {
+export interface BillersAutocompleteModel {
   id: string;
   lookup_image: string;
   lookup_title: string;

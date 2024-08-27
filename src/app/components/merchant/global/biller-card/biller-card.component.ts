@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { BillersModel } from '../../merchant.models';
+import { BillersAutocompleteModel } from '../../merchant.models';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
   styleUrl: './biller-card.component.scss',
 })
 export class BillerCardComponent implements OnDestroy {
-  @Input({ required: true }) biller: BillersModel = {
+  @Input({ required: true }) biller: BillersAutocompleteModel = {
     accepts_simple_payment: false,
     id: '0',
     is_favorite_merchant: false,
@@ -29,7 +29,7 @@ export class BillerCardComponent implements OnDestroy {
   // biller: [] | null = null;
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  // openModal(merchant: BillersModel, event: Event) {
+  // openModal(merchant: BillersAutocompleteModel, event: Event) {
   //   // this.payMerchant = merchant;
   //   console.log(merchant);
   //   // this.biller = null;
