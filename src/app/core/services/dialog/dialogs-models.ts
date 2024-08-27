@@ -1,4 +1,5 @@
 import {
+  BillersAutocompleteModel,
   MerchantAutocompleteModel,
   MerchantCategoriesModel,
 } from '../../../components/merchant/merchant.models';
@@ -119,4 +120,5 @@ export interface MerchantPaymentDialogModel {
   merchant?: MerchantAutocompleteModel;
   product?: ProductAutocompleteModel;
   category?: MerchantCategoriesModel;
+  biller?: BillersAutocompleteModel;
 }

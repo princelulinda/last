@@ -1,6 +1,15 @@
-import { Component, Input, OnDestroy } from '@angular/core';
-import { BillersAutocompleteModel } from '../../merchant.models';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
+
 import { Subject } from 'rxjs';
+
+import { BillersAutocompleteModel } from '../../merchant.models';
+import { DialogService } from '../../../../core/services';
 
 @Component({
   selector: 'app-biller-card',
@@ -10,42 +19,17 @@ import { Subject } from 'rxjs';
   styleUrl: './biller-card.component.scss',
 })
 export class BillerCardComponent implements OnDestroy {
-  @Input({ required: true }) biller: BillersAutocompleteModel = {
-    accepts_simple_payment: false,
-    id: '0',
-    is_favorite_merchant: false,
-    icon: '',
-    lookup_icon: '',
-    lookup_image: '',
-    lookup_subtitle: '',
-    lookup_title: '',
-    success: '',
-    merchant_category_name: '',
-  };
+  private onDestroy$: Subject<void> = new Subject<void>();
+
+  @Input({ required: true }) biller!: BillersAutocompleteModel;
   @Input() categorySelected!: null;
   @Input() clearData!: boolean;
   @Input() disabledFavoriteAction = false;
+  @Input() action: 'merchant-payment' | 'output' = 'merchant-payment';
 
-  // biller: [] | null = null;
-  private onDestroy$: Subject<void> = new Subject<void>();
+  @Output() selectedBillerEvent = new EventEmitter<BillersAutocompleteModel>();
 
-  // openModal(merchant: BillersAutocompleteModel, event: Event) {
-  //   // this.payMerchant = merchant;
-  //   console.log(merchant);
-  //   // this.biller = null;
-  //   this.categorySelected = null;
-  //   // this.merchantId = this.payMerchant.id;
-  //   this.clearData = true;
-
-  //   event.stopPropagation();
-  //   // add data-bs after click on favorite star
-  //   const element = event.target as HTMLButtonElement;
-  //   element.setAttribute('data-bs-toggle', 'modal');
-  //   element.setAttribute('data-bs-target', '#merchantModal');
-  //   element.click();
-  //   // accepts_simple_payment;
-  //   // this.getMerchantDetails();
-  // }
+  constructor(private dialogService: DialogService) {}
 
   // makeFavoriteMerchants(favorite: MerchantAutocompleteModel, event: Event) {
   //   this.isLoading = true;
@@ -87,6 +71,17 @@ export class BillerCardComponent implements OnDestroy {
   //       },
   //     });
   // }
+
+  selectBiller() {
+    if (this.action === 'merchant-payment') {
+      this.dialogService.openMerchantPaymentDialog({
+        type: 'biller',
+        biller: this.biller,
+      });
+    } else if (this.action === 'output') {
+      this.selectedBillerEvent.emit(this.biller);
+    }
+  }
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
