@@ -21,7 +21,7 @@ import {
   MerchantLookup,
   PayMerchant,
 } from '../dashboard.model';
-import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { TarifComponent } from '../../tarif/tarif.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import {
@@ -56,14 +56,14 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
 
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
-  selectedBank!: bankModel;
-  selectedBank$!: Observable<bankModel>;
+  selectedBank!: BankModel;
+  selectedBank$!: Observable<BankModel>;
   isLoading = false;
 
   clientVerified = '&filter_for_client=true';
   dialog$: Observable<DialogResponseModel>;
-  banks: bankModel[] = [];
-  banksFiltered: bankModel[] = [];
+  banks: BankModel[] = [];
+  banksFiltered: BankModel[] = [];
 
   clientId: number | null = null;
   merchantId: number | null = null;
@@ -285,7 +285,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   getAddedBankId(bankId: number) {
     this.selectedNewBank = bankId;
   }
-  selectBank(bank: bankModel) {
+  selectBank(bank: BankModel) {
     this.configService.setSelectedBank(bank);
   }
 

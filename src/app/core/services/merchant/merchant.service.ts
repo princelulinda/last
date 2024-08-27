@@ -22,6 +22,8 @@ import {
   MerchantModel,
   MerchantStatsModel,
   newTellerModel,
+  PayMerchantBodyModel,
+  PayMerchantResponseModel,
   searchTellerModel,
   SectorActivityModel,
   updateMerchantDetailsModel,
@@ -333,13 +335,13 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
-  payMerchant(paymentData: []) {
+  payMerchant(
+    paymentData: PayMerchantBodyModel
+  ): Observable<{ object: PayMerchantResponseModel }> {
     const url = '/dbs/merchant/product/payment/';
-    return this.apiService.post(url, paymentData).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .post<{ object: PayMerchantResponseModel }>(url, paymentData)
+      .pipe(map(data => data));
   }
 
   checkMerchantTitle(merchantName: string) {

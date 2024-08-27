@@ -1,4 +1,4 @@
-import { bankModel } from '../../core/db/models/bank/bank.model';
+import { BankModel } from '../../core/db/models/bank/bank.model';
 
 export interface AccountModel {
   account_holder: string;
@@ -48,7 +48,7 @@ export interface SwitchBankEventModel {
   selectedDebitAccountType: string | null;
   debitAccount: string | null | DebitOptionsModel;
   debitWallet: string | null | DebitOptionsModel;
-  banks: bankModel[];
+  banks: BankModel[];
 }
 
 export interface LookupResponseModel {

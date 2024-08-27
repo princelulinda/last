@@ -1,4 +1,10 @@
-import { Component, effect, AfterViewInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  effect,
+  AfterViewInit,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -38,6 +44,7 @@ import {
 } from '@angular/forms';
 import { MetadataModel } from '../../../../components/metadatas/metadata.model';
 import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
+import { BankModel } from '../../../../core/db/models/bank/bank.model';
 
 @Component({
   selector: 'app-merchant-payment',
@@ -55,7 +62,9 @@ import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
   templateUrl: './merchant-payment.component.html',
   styleUrl: './merchant-payment.component.scss',
 })
-export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
+export class MerchantPaymentComponent
+  implements AfterViewInit, OnDestroy, OnInit
+{
   private onDestroy$: Subject<void> = new Subject<void>();
 
   private merchantPaymentDialog: HTMLDialogElement | null = null;
@@ -70,6 +79,11 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
   merchant: MerchantAutocompleteModel | null = null;
   product: ProductAutocompleteModel | null = null;
   category: MerchantCategoriesModel | null = null;
+
+  selectedBank: BankModel | null = null;
+  selectedBank$: Observable<BankModel>;
+  debitAccountInfo: unknown;
+  pin = '';
 
   merchantDetails: MerchantModel | null = null;
   loadingMerchantDetails = false;
@@ -92,6 +106,8 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
   productLookupChoices: ProductLookupChoiceModel[] | null = null;
   selectedProductLookupChoice: ProductLookupChoiceModel | null = null;
 
+  productWaitList: unknown[] = [];
+
   constructor(
     private dialogService: DialogService,
     private configService: ConfigService,
@@ -99,6 +115,7 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
     private fb: FormBuilder
   ) {
     this.theme$ = this.configService.getMode();
+    this.selectedBank$ = this.configService.getSelectedBank();
 
     // NOTE :: SIGNAL CHECK CHANGES
     effect(() => {
@@ -112,6 +129,16 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
       } else {
         this.merchantPaymentDialog?.close();
       }
+    });
+  }
+
+  ngOnInit() {
+    this.selectedBank$.subscribe({
+      next: bank => {
+        if (bank) {
+          this.selectedBank = bank;
+        }
+      },
     });
   }
 
@@ -162,6 +189,14 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
           }
           if (this.productDetails.metadata.length !== 0) {
             this.initMetadataForm(this.productDetails.metadata, 'metadata');
+          }
+
+          if (
+            !this.productDetails.lookup_metadata &&
+            !this.productDetails.metadata &&
+            this.productDetails.price
+          ) {
+            alert('S');
           }
           this.loadingProductDetails = false;
         },
@@ -214,6 +249,36 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
         },
       });
   }
+
+  // submitProductPayment() {
+  //   const data = {
+  //     debit_bank: this.selectedBank?.id,
+  //     merchant_product_id: this.selectedProduct?.id,
+  //     debit_type: 'account',
+  //     pin_code: this.pin,
+  //     debit_account: '',
+  //   };
+
+  //   this.dialogService.dispatchLoading();
+
+  //   this.merchantService
+  //     .payMerchant(data)
+  //     .pipe(takeUntil(this.onDestroy$))
+  //     .subscribe({
+  //       next: (data) => {
+  //         // if (this.selectedProduct.voucher_type === 'L') {
+  //         //   this.store.dispatch(
+  //         //     new OpenLandscapeBillPopup(this.successMessage.data)
+  //         //   );
+  //         // } else {
+  //         //   this.store.dispatch(
+  //         //     new OpenMerchantBillPopup(this.successMessage.data)
+  //         //   );
+  //         // }
+  //       },
+  //       error: () => {},
+  //     });
+  // }
 
   closeMerchantPaymentDialog() {
     this.dialogService.closeMerchantPaymentDialog();
