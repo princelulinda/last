@@ -18,7 +18,6 @@ import { LandscapeBillComponent } from './global/components/popups/bills-format/
 import { ObrBillComponent } from './global/components/popups/bills-format/obr-bill/obr-bill.component';
 import { MerchantBillComponent } from './global/components/popups/bills-format/merchant-bill/merchant-bill.component';
 import { MerchantPaymentComponent } from './global/components/popups/merchant-payment/merchant-payment.component';
-import { IdleService } from './core/services/idle/idle.service';
 import { SleepModeComponent } from './components/dev/sleep-mode/sleep-mode.component';
 
 @Component({
@@ -51,15 +50,14 @@ export class AppComponent implements OnInit {
     private dbService: DbService,
     private configService: ConfigService,
     private authService: AuthService,
-    private dialogService: DialogService,
-    private idleService: IdleService
+    private dialogService: DialogService
   ) {
     this.plateform$ = this.configService.getPlateform();
     this.activeMode$ = this.configService.getMode();
   }
 
   ngOnInit() {
-    this.idleService.startWatching();
+    this.dialogService.startWatching();
 
     const localToken = this.authService.getLocalAuthToken();
     if (localToken) {
