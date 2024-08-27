@@ -37,6 +37,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MetadataModel } from '../../../../components/metadatas/metadata.model';
+import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-merchant-payment',
@@ -49,6 +50,7 @@ import { MetadataModel } from '../../../../components/metadatas/metadata.model';
     DebitAccountComponent,
     CreditAccountComponent,
     ReactiveFormsModule,
+    SkeletonComponent,
   ],
   templateUrl: './merchant-payment.component.html',
   styleUrl: './merchant-payment.component.scss',
