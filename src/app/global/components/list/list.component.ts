@@ -1,28 +1,27 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { GeneralService } from '../../../core/services';
 import { CommonModule } from '@angular/common';
-import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
-import { DialogService } from '../../../core/services';
 
+import { Subject, Observable, takeUntil } from 'rxjs';
+
+import { GeneralService, DialogService } from '../../../core/services';
+import { PaginationConfig } from '../../models/pagination.models';
 import {
-  ParamModel,
-  getdataModel,
   Header,
   selectedPeriodModel,
-} from './reusable.model';
-import { PaginationConfig } from '../../models/pagination.models';
+  getdataModel,
+  ParamModel,
+} from '../reusable-list/reusable.model';
+import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
 
 @Component({
-  selector: 'app-reusable-list',
+  selector: 'app-list',
   standalone: true,
   imports: [ReactiveFormsModule, SkeletonComponent, CommonModule],
-  templateUrl: './reusable-list.component.html',
-  styleUrl: './reusable-list.component.scss',
+  templateUrl: './list.component.html',
+  styleUrl: './list.component.scss',
 })
-export class ReusableListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
   @Input() headers!: Header[];

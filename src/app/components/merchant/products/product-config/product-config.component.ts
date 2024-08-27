@@ -93,6 +93,7 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
 
   plateform$!: Observable<PlateformModel>;
   baseRouterLink = '/m/mymarket';
+  isProductsSearch = false;
 
   constructor(
     private merchantService: MerchantService,
@@ -429,18 +430,24 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
   }
 
   searchProducts(search: string | null) {
-    this.isLoading = true;
     this.products = [];
+    this.isLoading = true;
+    this.isProductsSearch = true;
+
     if (search) {
       this.merchantService
         .getMerchantProducts(this.merchant.id, search)
         .subscribe({
           next: result => {
+            this.products = [];
             this.products = result.objects;
+            console.log('the search product is', this.products);
+
             this.isLoading = false;
           },
           error: () => {
             this.isLoading = false;
+            console.log('search error');
           },
         });
     } else {

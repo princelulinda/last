@@ -69,7 +69,7 @@
       </div>
       <hr class="w-100 mt-2" />
     </div>
-    @if (isLoading && search.value) {
+    @if (isProductsSearch && search.value) {
       <div>
         <div class="d-flex justify-content-start">
           <span
@@ -135,20 +135,11 @@
         <b class="text-l me-4 text-secondary" i18n>No products found</b>
       </div> -->
       <div class="row">
-        @if (!search.value) {
-          <span class="col-8 mt-5">
-            <app-empty-state
-              [searchType]="searchType"
-              [imageClass]="imageClass"></app-empty-state>
-          </span>
-        } @else {
-          <span class="col-10 mt-5">
-            <app-empty-state
-              [searchTerm]="search.value"
-              [searchType]="searchTypeOther"
-              [imageClass]="imageClass"></app-empty-state>
-          </span>
-        }
+        <span class="col-8 mt-5">
+          <app-empty-state
+            [searchType]="searchType"
+            [imageClass]="imageClass"></app-empty-state>
+        </span>
       </div>
     }
   </div>
