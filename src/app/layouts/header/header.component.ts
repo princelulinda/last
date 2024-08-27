@@ -17,11 +17,13 @@ import { SwitchModeComponent } from '../../global/components/switch-mode/switch-
 import { ProfileCardComponent } from '../../global/components/custom-field/profile-card/profile-card.component';
 import { DialogService } from '../../core/services';
 import { OrganizationModel } from '../../components/auth/auth.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
+    RouterLink,
     CommonModule,
     SwitchPlateformIconsComponent,
     FooterComponent,
@@ -54,6 +56,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showPlateformPopup = false;
   showUserInfoPopup = false;
 
+  menuRouterLink = '';
+
   constructor(
     private dialogService: DialogService,
     private configService: ConfigService,
@@ -75,7 +79,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.mainConfig$.subscribe({
       next: configs => {
-        this.mainConfig = configs;
+        if (configs) {
+          this.mainConfig = configs;
+          if (this.mainConfig.activePlateform === 'newsFeed') {
+            this.menuRouterLink = '/n/banking_menu';
+          } else if (this.mainConfig.activePlateform === 'onlineBanking') {
+            this.menuRouterLink = '/b/banking_menu';
+          } else if (
+            this.mainConfig.activePlateform === 'marketPlace' ||
+            this.mainConfig.activePlateform === 'myMarket'
+          ) {
+            this.menuRouterLink = '/m/banking_menu';
+          } else if (this.mainConfig.activePlateform === 'bankingSettings') {
+            this.menuRouterLink = '/b/settings_menu';
+          }
+        }
       },
     });
 
