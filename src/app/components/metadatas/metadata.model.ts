@@ -1,4 +1,5 @@
 export interface MetadataModel {
+  id: number;
   name: string;
   field_name: string;
   field_type: string;

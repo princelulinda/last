@@ -59,6 +59,7 @@
         class="d-lg-none me-md-1"
         role="button"
         tabindex="0"
+        [routerLink]="menuRouterLink"
         [ngClass]="{
           'text-all-white': mainConfig.activePlateform !== 'workstation',
           'text-dark': mainConfig.activePlateform === 'workstation',
