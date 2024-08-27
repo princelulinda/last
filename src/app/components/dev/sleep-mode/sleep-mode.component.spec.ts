@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StandByComponent } from './stand-by.component';
+import { SleepModeComponent } from './sleep-mode.component';
 
-describe('StandByComponent', () => {
-  let component: StandByComponent;
-  let fixture: ComponentFixture<StandByComponent>;
+describe('SleepModeComponent', () => {
+  let component: SleepModeComponent;
+  let fixture: ComponentFixture<SleepModeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StandByComponent],
+      imports: [SleepModeComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(StandByComponent);
+    fixture = TestBed.createComponent(SleepModeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
