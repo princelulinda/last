@@ -22,7 +22,11 @@
       <!-- Previous arrows -->
       <span
         class="border py-1 px-3 rounded-2"
-        [ngClass]="currentPage <= 1 ? 'disabled' : 'hover'"
+        [ngClass]="
+          currentPage <= 1
+            ? 'not-clickable'
+            : 'bg-hover-primary text-hover-white'
+        "
         [attr.role]="currentPage <= 1 ? null : 'button'"
         (click)="!(currentPage <= 1) && jumpPrev()"
         tabindex="0"
@@ -30,7 +34,11 @@
       >
       <span
         class="border py-1 px-3 rounded-2"
-        [ngClass]="currentPage === 1 || currentPage < 1 ? 'disabled' : 'hover'"
+        [ngClass]="
+          currentPage === 1 || currentPage < 1
+            ? 'not-clickable'
+            : 'bg-hover-primary text-hover-white'
+        "
         [attr.role]="currentPage === 1 || currentPage < 1 ? null : 'button'"
         (click)="currentPage > 1 && goToPage(currentPage - 1)"
         tabindex="0"
@@ -44,7 +52,7 @@
             currentPage === page
               ? 'bg-primary text-light border py-1 px-3 rounded-2'
               : page !== -1
-                ? 'hover border py-1 px-3 rounded-2'
+                ? 'bg-hover-primary text-hover-white border py-1 px-3 rounded-2'
                 : ''
           "
           [attr.role]="page !== -1 && page !== currentPage ? 'button' : null"
@@ -59,8 +67,8 @@
         class="border py-1 px-3 rounded-2"
         [ngClass]="
           currentPage === pages.length || currentPage >= pages.length
-            ? 'disabled'
-            : 'hover'
+            ? 'not-clickable'
+            : 'bg-hover-primary text-hover-white'
         "
         [attr.role]="
           currentPage === pages.length || currentPage >= pages.length
@@ -73,7 +81,11 @@
       >
       <span
         class="border py-1 px-3 rounded-2"
-        [ngClass]="currentPage >= pages.length ? 'disabled' : 'hover'"
+        [ngClass]="
+          currentPage >= pages.length
+            ? 'not-clickable'
+            : 'bg-hover-primary text-hover-white'
+        "
         [attr.role]="currentPage >= pages.length ? null : 'button'"
         (click)="!(currentPage >= pages.length) && jumpNext()"
         tabindex="0"
