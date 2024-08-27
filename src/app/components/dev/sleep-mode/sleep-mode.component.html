@@ -1,24 +1,25 @@
 <section
-  class="h-100 w-100 bg-all-white d-flex align-items-center justify-content-center position-relative overflow-hidden"
+  class="stop bg-all-white d-flex align-items-center justify-content-center position-relative overflow-hidden"
+  id="standby"
   (click)="animationStart()"
   (mousemove)="animationStart()"
   (keydown)="animationStart()"
   tabindex="0">
   <img
-    src="./images/standby/globe.svg"
+    src="./images/sleepMode/globe.svg"
     class="position-absolute globe"
     alt="" />
 
   <img
-    src="./images/standby/print.svg"
+    src="./images/sleepMode/print.svg"
     class="position-absolute top-0 start-0"
     alt="" />
   <img
-    src="./images/standby/print.svg"
+    src="./images/sleepMode/print.svg"
     class="position-absolute print"
     alt="" />
   <div class="position-absolute">
-    <img src="./images/standby/iHelaRyanje.svg" id="toAnimate" alt="" />
+    <img src="./images/sleepMode/iHelaRyanje.svg" id="toAnimate" alt="" />
   </div>
   <div class="hidDiv">
     <div class="h-100 d-flex align-items-center flex-column mb-3">
@@ -34,11 +35,15 @@
 
     <div class="input-group z-1">
       <input
-        type="text"
+        type="password"
         class="form-control"
         placeholder="password"
+        id="passInput"
+        autocomplete="off"
         aria-label="Recipient's username"
-        aria-describedby="button-addon2" />
+        aria-describedby="button-addon2"
+        tabindex="10"
+        />
       <!-- <button
         class="btn border-0 bg-transparent"
         type="button"

@@ -22,11 +22,9 @@ export class BillerCardComponent implements OnDestroy {
     success: '',
     merchant_category_name: '',
   };
-  @Input() categorySelected!: null;
   @Input() clearData!: boolean;
   @Input() disabledFavoriteAction = false;
 
-  // biller: [] | null = null;
   private onDestroy$: Subject<void> = new Subject<void>();
 
   // openModal(merchant: BillersModel, event: Event) {
