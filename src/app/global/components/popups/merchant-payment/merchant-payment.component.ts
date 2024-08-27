@@ -20,6 +20,8 @@ import {
 import {
   ProductAutocompleteModel,
   ProductLookupBodyModel,
+  ProductLookupChoiceModel,
+  ProductLookupModel,
   ProductModel,
 } from '../../../../components/merchant/products/products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
@@ -80,9 +82,13 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
 
   selectedPaymentMenu: 'Direct-Payment' | 'Product-Payment' | '' = '';
 
-  lookupMetadataForm: FormGroup = this.fb.group([]);
+  lookupMetadataForm: FormGroup = this.fb.group({});
+  metadataForm: FormGroup = this.fb.group({});
+
   loadingLookup = false;
-  productLookup: unknown;
+  productLookup: ProductLookupModel | null = null;
+  productLookupChoices: ProductLookupChoiceModel[] | null = null;
+  selectedProductLookupChoice: ProductLookupChoiceModel | null = null;
 
   constructor(
     private dialogService: DialogService,
@@ -143,7 +149,15 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
       .subscribe({
         next: response => {
           this.productDetails = response.object;
-          this.initLookupMetadataForm(this.productDetails.lookup_metadata);
+          if (this.productDetails.lookup_metadata.length !== 0) {
+            this.initMetadataForm(
+              this.productDetails.lookup_metadata,
+              'lookup_metadata'
+            );
+          }
+          if (this.productDetails.metadata.length !== 0) {
+            this.initMetadataForm(this.productDetails.metadata, 'metadata');
+          }
           this.loadingProductDetails = false;
         },
         error: () => {
@@ -161,38 +175,53 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
       },
       lookup_extra_data: {},
     };
-    return;
-    this.merchantService.getMerchantProductLookup(body).subscribe({
-      next: response => {
-        this.productLookup = response;
-        this.loadingLookup = false;
-      },
-      error: () => {
-        this.loadingLookup = false;
-      },
-    });
+    this.merchantService
+      .getMerchantProductLookup(body)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          if (!response.object.success) {
+            this.dialogService.openToast({
+              message: response.object.response_message,
+              title: '',
+              type: 'failed',
+            });
+            this.loadingLookup = false;
+            return;
+          }
+          this.lookupMetadataForm.reset();
+          this.productLookup = response.object;
+          if (this.productLookup.response_data?.lookup_choice) {
+            this.productLookupChoices =
+              this.productLookup.response_data?.lookup_choice[0]?.choices;
+          }
+          this.loadingLookup = false;
+        },
+        error: err => {
+          this.dialogService.openToast({
+            message:
+              err?.object?.response_message ??
+              $localize`Something went wrong please retry again !`,
+            title: '',
+            type: 'failed',
+          });
+          this.loadingLookup = false;
+        },
+      });
   }
 
   closeMerchantPaymentDialog() {
     this.dialogService.closeMerchantPaymentDialog();
-  }
-  getSelectedMerchant(merchant: MerchantAutocompleteModel) {
-    this.selectedMerchant = merchant;
-    this.getMerchantDetails(merchant.id);
-  }
-  getSelectedProduct(product: ProductAutocompleteModel) {
-    this.selectedProduct = product;
-    this.getProductDetails(product.id);
+    this.resetAllData();
   }
 
-  selectPaymentMenu(type: 'Direct-Payment' | 'Product-Payment' | '') {
-    this.selectedPaymentMenu = type;
-  }
-
-  private initLookupMetadataForm(lookup_metadata: MetadataModel[]) {
+  private initMetadataForm(
+    metadatas: MetadataModel[],
+    type: 'lookup_metadata' | 'metadata'
+  ) {
     let fields: Record<string, [string, Validators[]?]> = {};
 
-    for (const field of lookup_metadata) {
+    for (const field of metadatas) {
       if (field.widget_attrs.required) {
         fields = {
           ...fields,
@@ -213,8 +242,53 @@ export class MerchantPaymentComponent implements AfterViewInit, OnDestroy {
           ],
         };
       }
-      this.lookupMetadataForm = this.fb.group(fields);
+      if (type === 'lookup_metadata') {
+        this.lookupMetadataForm = this.fb.group({ ...fields });
+      } else if (type === 'metadata') {
+        this.metadataForm = this.fb.group({ ...fields });
+      }
     }
+  }
+
+  // NOTE :: GETTER AND SETTER
+
+  getSelectedMerchant(merchant: MerchantAutocompleteModel) {
+    this.selectedMerchant = merchant;
+    this.getMerchantDetails(merchant.id);
+  }
+  getSelectedProduct(product: ProductAutocompleteModel) {
+    this.selectedProduct = product;
+    this.getProductDetails(product.id);
+  }
+
+  selectPaymentMenu(type: 'Direct-Payment' | 'Product-Payment' | '') {
+    this.selectedPaymentMenu = type;
+  }
+  selectProductLookupChoice(choice: ProductLookupChoiceModel) {
+    this.selectedProductLookupChoice = choice;
+  }
+
+  // NOTE :: METHODS FOR RESET EACH DATA
+
+  resetAllData() {
+    this.merchant = null;
+    this.product = null;
+    this.category = null;
+    this.merchantDetails = null;
+    this.selectedMerchant = null;
+    this.productDetails = null;
+    this.selectedProduct = null;
+    this.selectedPaymentMenu = '';
+    this.lookupMetadataForm.reset();
+    this.productLookup = null;
+  }
+
+  resetLookupData() {
+    this.productLookup = null;
+    this.resetSelectedLookupChoice();
+  }
+  resetSelectedLookupChoice() {
+    this.selectedProductLookupChoice = null;
   }
 
   ngAfterViewInit() {

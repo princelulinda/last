@@ -11,7 +11,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 
 import { LoanService } from '../../../core/services/loan/loan.service';
-import { ResponseDataModel, SimulationResModel } from '../loan.models';
+import { SimulationResDataModel, SimulationResModel } from '../loan.models';
 import { DialogService } from '../../../core/services';
 
 @Component({
@@ -58,15 +58,14 @@ export class LoanSimulatorComponent implements OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const res = data as { object: ResponseDataModel };
+          const res = data as { object: SimulationResDataModel };
           if (res.object.success === true) {
             this.dialogService.openToast({
               title: '',
               type: 'success',
               message: res.object.response_message,
             });
-            this.simulationResult = res.object
-              .response_data as SimulationResModel;
+            this.simulationResult = res.object.response_data;
             this.showResults = true;
           } else if (res.object.success === false) {
             this.dialogService.openToast({

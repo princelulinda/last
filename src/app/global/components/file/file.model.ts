@@ -1,4 +1,4 @@
-export interface fileResponse {
+export interface FileResponseModel {
   id: number;
   isLoadingDelete: boolean;
   object: {

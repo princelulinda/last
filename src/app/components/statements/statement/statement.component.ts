@@ -13,10 +13,10 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
-import { BankService } from '../../../core/services';
-
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { BankService } from '../../../core/services';
 import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
 import { AccountModel, StatementModel } from '../statement.model';
 import { Accountdetail } from '../../account/models';

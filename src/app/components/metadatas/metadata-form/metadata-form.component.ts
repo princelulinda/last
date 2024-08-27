@@ -13,7 +13,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 import { Observable, Subject, takeUntil } from 'rxjs';
+
 import {
   ConfigService,
   DialogService,
@@ -26,7 +29,6 @@ import {
   MetadataModel,
   WidgetAttrsModel,
 } from '../metadata.model';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-metadata-form',
