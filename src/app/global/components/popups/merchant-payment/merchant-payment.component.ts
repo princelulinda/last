@@ -140,6 +140,11 @@ export class MerchantPaymentComponent
         }
       },
     });
+    if (this.type === 'merchant' && this.merchant) {
+      this.getMerchantDetails(this.merchant.id);
+    } else if (this.type === 'product' && this.product) {
+      this.getProductDetails(this.product.id);
+    }
   }
 
   getMerchantDetails(merchantId: number) {
@@ -154,6 +159,21 @@ export class MerchantPaymentComponent
           if (!this.merchantDetails.accepts_simple_payment) {
             this.selectedPaymentMenu = 'Product-Payment';
           }
+          // if (this.type === 'merchant') {
+          //   this.selectedMerchant = {
+          //     id: this.merchantDetails.id,
+          //     accepts_simple_payment:
+          //       this.merchantDetails.accepts_simple_payment,
+          //     is_favorite_merchant: true,
+          //     lookup_description: '',
+          //     lookup_has_image_or_icon: false,
+          //     lookup_icon: '',
+          //     lookup_image: '',
+          //     lookup_subtitle: '',
+          //     lookup_title: '',
+          //     merchant_category_name: '',
+          //   };
+          // }
           this.loadingMerchantDetails = false;
         },
         error: err => {
@@ -360,6 +380,10 @@ export class MerchantPaymentComponent
   resetSelectedLookupChoice() {
     this.selectedProductLookupChoice = null;
   }
+
+  // private formatMerchantDetailsAsAutocomplete(merchant:MerchantModel):MerchantAutocompleteModel{
+
+  // }
 
   ngAfterViewInit() {
     this.merchantPaymentDialog = document.getElementById(
