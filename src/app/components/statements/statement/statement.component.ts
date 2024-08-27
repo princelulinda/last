@@ -13,14 +13,14 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
-import { BankService } from '../../../core/services';
-
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { BankService } from '../../../core/services';
 import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
 import { AccountModel, StatementModel } from '../statement.model';
 import { Accountdetail } from '../../account/models';
-import { Account } from '../../dashboards/dashboard.model';
+import { AccountInfoModel } from '../../dashboards/dashboard.model';
 
 @Component({
   standalone: true,
@@ -38,7 +38,8 @@ export class StatementComponent implements OnChanges, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   @Input({ required: true }) accountId = '';
   @Input() ledgerId = '';
-  @Input() account: AccountModel | Account | Accountdetail | null = null;
+  @Input() account: AccountModel | AccountInfoModel | Accountdetail | null =
+    null;
   dateFrom = new FormControl('', Validators.required);
   dateEnd = new FormControl('', Validators.required);
   isLoadingStatement = false;

@@ -10,12 +10,7 @@ import {
 import { UserInfoModel } from '../../../core/db/models/auth';
 
 import { NgClass, CommonModule } from '@angular/common';
-import {
-  CreatWalletBodyModel,
-  creatWalletResponse,
-  WalletCard,
-  WalletTypModel,
-} from '../wallet.models';
+import { WalletCard, WalletTypModel } from '../wallet.models';
 import { bankModel } from '../../../core/db/models/bank/bank.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
@@ -26,6 +21,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { StatementComponent } from '../../statements/statement/statement.component';
 interface mainConfigModel {
   activeMode: string;
   activePlateform: string;
@@ -40,6 +36,7 @@ interface mainConfigModel {
     RouterLink,
     AmountVisibilityComponent,
     ReactiveFormsModule,
+    StatementComponent,
   ],
   templateUrl: './wallet-card.component.html',
   styleUrl: './wallet-card.component.scss',
@@ -55,7 +52,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   private userInfo$: Observable<UserInfoModel>;
   mainConfig$!: Observable<mainConfigModel>;
   activePlatform: string | null = null;
-
+  defaultWalletId!: string;
   defaultWallet!: WalletCard;
   noWalletData = false;
   clientId: number | null = null;
@@ -149,7 +146,8 @@ export class WalletCardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: defaultWallet => {
           this.defaultWallet = defaultWallet.object;
-
+          this.defaultWalletId = this.defaultWallet.response_data.id;
+          //console.log('defaultWalletId', this.defaultWalletId);
           if (defaultWallet.object.success === false) {
             this.noWalletData = true;
           }
@@ -167,16 +165,14 @@ export class WalletCardComponent implements OnInit, OnDestroy {
 
   creatWallet() {
     this.dialogService.dispatchLoading();
-    const selectedCategoryId = this.walletForm.get('category')?.value;
+    // const selectedCategoryId = this.walletForm.get('category')?.value;
     // this.loading = true;
 
-    const body: CreatWalletBodyModel = {
-      wallet_type: selectedCategoryId,
-      title: this.walletForm.get('name')?.value,
-    };
+    const selectedCategoryId = this.walletForm.get('category')?.value;
+    const title = this.walletForm.get('name')?.value;
 
-    this.clientService.creatWallet(body).subscribe({
-      next: (response: creatWalletResponse) => {
+    this.clientService.creatWallet(selectedCategoryId, title).subscribe({
+      next: response => {
         //this.loading = false;
         this.dialogService.closeLoading();
         if (response.object.success) {

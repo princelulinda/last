@@ -41,18 +41,14 @@ import {
 import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
 import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
 import { AllProductsComponent } from '../../merchant/products/all-products/all-products.component';
-import {
-  Account,
-  MerchantBillDataModel,
-  ObjectBillModel,
-} from '../../merchant/products/products.model';
-import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
 import { StatementComponent } from '../../statements/statement/statement.component';
 import {
   MerchantAutocompleteModel,
   MerchantModel,
   MerchantStatsModel,
 } from '../../merchant/merchant.models';
+import { MerchantBillDataModel } from '../../merchant/bills/bills.model';
+import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
 
 @Component({
   selector: 'app-my-market-dashboard',
@@ -120,7 +116,10 @@ export class MyMarketDashboardComponent
   merchantInfo!: MerchantModel | null;
 
   stat!: MerchantStatsModel | null;
-  account!: Account;
+  account!: {
+    acc_holder: string;
+    acc_number: string;
+  };
   merchantAccountId = '';
   billForm = new FormGroup({
     description: new FormControl(''),
@@ -233,7 +232,7 @@ export class MyMarketDashboardComponent
       .generateBill(body)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: ObjectBillModel) => {
+        next: response => {
           if (
             response.object['success'] !== undefined &&
             !response.object.success

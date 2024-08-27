@@ -244,7 +244,7 @@
         </section>
       }
       @if (!isLoading && merchantBills && merchantBills.length !== 0) {
-        <div
+        <!-- <div
           class="mt-4 d-flex align-items-center justify-content-center text-secondary mb-5">
           <span
             title="Previous"
@@ -272,6 +272,14 @@
             class="ms-2 fs-5 d-inline-flex align-items-center rounded p-2"
             ><i class="fa-solid fa-play"></i
           ></span>
+        </div> -->
+        <div class="mb-3 w-100">
+          <app-pagination
+            [totalData]="totalData"
+            [currentPage]="activePage"
+            [pageLimit]="billsPagination.filters.limit"
+            (pageChange)="onPageChange($event)"
+            (limitChange)="onLimitChange($event)"></app-pagination>
         </div>
       }
     </section>

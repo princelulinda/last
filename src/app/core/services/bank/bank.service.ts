@@ -7,14 +7,11 @@ import { bankModel } from '../../db/models/bank/bank.model';
 import { addBankResponse } from '../../../components/dashboards/dashboard.model';
 
 import { WalletCard } from '../../../components/wallet/wallet.models';
-import {
-  PeriodModel,
-  TransactionObjectModel,
-} from '../../../components/merchant/products/products.model';
-import { nyamuranziCard } from '../../../components/nyamuranzi/models';
+import { nyamuranziCardModel } from '../../../components/nyamuranzi/models';
 import { WithdrawalModel } from '../../../components/withdrawal/withdrawal.models';
 import { DissectedDateModel } from '../../../components/statements/statement.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
+import { TransactionModel } from '../../../components/merchant/products/products.model';
 
 @Injectable({
   providedIn: 'root',
@@ -118,14 +115,19 @@ export class BankService {
   getRecentTransactions(
     pagination: PaginationConfig,
     type: string,
-    period: PeriodModel,
+    period: {
+      start_date: string;
+      end_date: string;
+    },
     client: string
   ) {
     if (!pagination) {
       pagination = { filters: { limit: 0, offset: 0 } };
     }
     return this.apiService
-      .get<TransactionObjectModel>(
+      .get<{
+        objects: TransactionModel[];
+      }>(
         `/operations/pending/logic/?req_type=${type}&=date_from=${period.start_date}&=date_to=${period.end_date}&limit=${pagination.filters?.limit}&offset=${pagination.filters?.offset}` +
           client
       )
@@ -142,8 +144,8 @@ export class BankService {
 
   getLastBeneficiary() {
     const url = '/operations/beneficiary/';
-    return this.apiService.get<TransactionObjectModel>(url).pipe(
-      map((data: TransactionObjectModel) => {
+    return this.apiService.get<{ objects: TransactionModel[] }>(url).pipe(
+      map((data: { objects: TransactionModel[] }) => {
         return data;
       })
     );
@@ -151,9 +153,9 @@ export class BankService {
 
   getTransfersList() {
     return this.apiService
-      .get<TransactionObjectModel>(
-        '/operations/pending/logic/?req_type=transfers&filter_for_client=true'
-      )
+      .get<{
+        objects: TransactionModel[];
+      }>('/operations/pending/logic/?req_type=transfers&filter_for_client=true')
       .pipe(map(data => data));
   }
 
@@ -182,9 +184,9 @@ export class BankService {
       })
     );
   }
-  getRefereePersons(): Observable<{ object: nyamuranziCard }> {
+  getRefereePersons(): Observable<{ object: nyamuranziCardModel }> {
     return this.apiService
-      .get<{ object: nyamuranziCard }>('/client/refered/')
+      .get<{ object: nyamuranziCardModel }>('/client/refered/')
       .pipe(map(data => data));
   }
 }

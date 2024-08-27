@@ -1,20 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { Subject, takeUntil } from 'rxjs';
-import { ProductCardComponent } from '../../merchant/global/product-card/product-card.component';
-import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
-import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import {
-  BestOfferModel,
-  BillersModel,
-  objectsModel,
-  productCategoryArray,
-  productCategoryModel,
-} from '../dashboard.model';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { BillerCardComponent } from '../../merchant/global/biller-card/biller-card.component';
+
+import { ProductCategoryModel, ProductOfferModel } from '../dashboard.model';
+import { BillersModel, MerchantModel } from '../../merchant/merchant.models';
 import { ProductAutocompleteModel } from '../../merchant/products/products.model';
 import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
+import { MerchantService } from '../../../core/services/merchant/merchant.service';
+import { ProductCardComponent } from '../../merchant/global/product-card/product-card.component';
+import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { BillerCardComponent } from '../../merchant/global/biller-card/biller-card.component';
 
 @Component({
   selector: 'app-market-dashboard',
@@ -65,22 +62,22 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
   // clientId!: string;
 
   favoriteMerchantLoading = false;
-  favoriteMerchants!: BillersModel[];
+  favoriteMerchants!: MerchantModel[];
   favoriteMerchantsNumber!: number;
-  favorite_merchants!: BillersModel;
+  favorite_merchants!: MerchantModel;
   favorite_making = true;
-  favorite_merchant_making!: BillersModel | null;
+  favorite_merchant_making!: MerchantModel | null;
 
   // activities: any = [];
   merchants!: MerchantAutocompleteModel[];
   products!: ProductAutocompleteModel[];
   // biller: [] | null = null;
-  productCategory!: productCategoryModel[];
+  productCategory!: ProductCategoryModel[];
   // sector: any;
   last4Merchant!: MerchantAutocompleteModel[];
   recentMerchant!: MerchantAutocompleteModel[];
   recentBillers!: BillersModel[];
-  first4ProductCategory!: productCategoryModel[];
+  first4ProductCategory!: ProductCategoryModel[];
   start = 0;
   end = 4;
   clearData = true;
@@ -96,8 +93,8 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
   categorySelected!: null;
   // category: { sector: any; category: any } = { sector: null, category: null };
   // payment: any;
-  offerData: BestOfferModel[] = [];
-  first2: BestOfferModel[] = [];
+  offerData: { id: number; product: ProductOfferModel }[] = [];
+  first2: { id: number; product: ProductOfferModel }[] = [];
   seeMore = false;
 
   constructor(private merchantService: MerchantService) {
@@ -146,7 +143,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          const data = response as objectsModel;
+          const data = response as { objects: MerchantModel[] };
           this.favoriteMerchants = data.objects;
           this.favoriteMerchantsNumber = data.objects.length;
           this.favoriteMerchantLoading = false;
@@ -277,7 +274,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          const result = response as objectsModel;
+          const result = response as { objects: BillersModel[] };
           this.billers = result.objects;
 
           const nextBtn = document.getElementById('navigationButton');
@@ -298,7 +295,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: result => {
-          const response = result as productCategoryArray;
+          const response = result as { objects: ProductCategoryModel[] };
           this.productCategory = response.objects;
           this.first4ProductCategory = this.productCategory.slice(0, 4);
         },
@@ -311,7 +308,9 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          const data = response as { objects: BestOfferModel[] };
+          const data = response as {
+            objects: { id: number; product: ProductOfferModel }[];
+          };
           this.offerData = data.objects.slice(0, 2);
         },
         // error: (err: HttpErrorResponse) => {

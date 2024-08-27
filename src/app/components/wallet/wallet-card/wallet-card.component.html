@@ -100,7 +100,10 @@
               alt="" />
           </button>
 
-          <button class="btn px-1 p-0 btnBack">
+          <button
+            class="btn px-1 p-0 btnBack"
+            data-bs-toggle="modal"
+            data-bs-target="#statementModal">
             <i class="fa-solid fa-history fs-normal pt-1 text-all-white"></i>
           </button>
         </div>
@@ -149,27 +152,29 @@
     </div>
   </div>
 </div>
-
+<!--creation wallet modal-->
 <div
-  class="modal fade mt-5"
+  class="modal fade"
   id="exampleModal"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content bg-white">
       <div class="modal-body">
         <div>
-          <form [formGroup]="walletForm" (ngSubmit)="onSubmit()">
+          <form [formGroup]="walletForm">
             <div class="row">
               <div class="col-5 mx-auto mt-3">
-                <div class="fw-bold text-dark fsl-medium" i18n>
+                <div
+                  class="fw-bold text-dark fs-medium text-center text-secondary"
+                  i18n>
                   Create a Wallet
                 </div>
                 <div class="form-floating mt-4">
                   <input
                     type="text"
-                    class="input form-control bg-light text-dark simulator-input"
+                    class="input form-control text-dark simulator-input"
                     id="name"
                     formControlName="name"
                     placeholder="name" />
@@ -248,3 +253,13 @@
     </div>
   </div>
 </div>
+<!-- statement modal-->
+@if (defaultWalletId) {
+  <div class="modal fade" id="statementModal" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered statement-dialog">
+      <div class="modal-content">
+        <app-statement [accountId]="defaultWalletId"></app-statement>
+      </div>
+    </div>
+  </div>
+}

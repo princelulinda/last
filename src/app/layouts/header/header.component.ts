@@ -81,7 +81,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.userInfo$.subscribe({
       next: user => {
-        this.userInfo = user;
+        if (user) {
+          this.userInfo = user;
+        }
       },
     });
 

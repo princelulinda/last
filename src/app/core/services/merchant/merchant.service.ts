@@ -7,15 +7,12 @@ import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
 import { DoMerchantTransferResponseModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import { DoMerchantTransferModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import {
-  AllProductAutocompleteModel,
-  updateProdcutInfoModel,
+  UpdateProdcutInfoModel,
   addProductByMerchantModel,
-  ObjectBillModel,
-  paymentBillsModel,
-  ProductFavoriteModel,
   ProductAutocompleteModel,
   ProductModel,
   ProductLookupBodyModel,
+  ProductLookupModel,
 } from '../../../components/merchant/products/products.model';
 import {
   doTellerBodyModel,
@@ -31,6 +28,10 @@ import {
 } from '../../../components/merchant/merchant.models';
 import { Coords2Model } from '../../../global/components/google-map/map.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
+import {
+  BillsModel,
+  generateBillModel,
+} from '../../../components/merchant/bills/bills.model';
 
 @Injectable({
   providedIn: 'root',
@@ -323,9 +324,13 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
-  getMerchantProductLookup(lookupData: ProductLookupBodyModel) {
+  getMerchantProductLookup(
+    lookupData: ProductLookupBodyModel
+  ): Observable<{ object: ProductLookupModel }> {
     const url = '/dbs/merchant/product/lookup/';
-    return this.apiService.post(url, lookupData).pipe(map(data => data));
+    return this.apiService
+      .post<{ object: ProductLookupModel }>(url, lookupData)
+      .pipe(map(data => data));
   }
 
   payMerchant(paymentData: []) {
@@ -365,7 +370,7 @@ export class MerchantService {
       '&search=' +
       search;
     return this.apiService
-      .get<AllProductAutocompleteModel>(url)
+      .get<{ objects: ProductAutocompleteModel[]; count: number }>(url)
       .pipe(map(data => data));
   }
   //needed in market-dashboard
@@ -411,7 +416,7 @@ export class MerchantService {
         })
       );
   }
-  updateProductInfo(body: updateProdcutInfoModel) {
+  updateProductInfo(body: UpdateProdcutInfoModel) {
     const url = '/dbs/merchant/product/configuration/';
     return this.apiService.post(url, body).pipe(
       map(data => {
@@ -492,18 +497,30 @@ export class MerchantService {
       default:
         break;
     }
-    return this.apiService.get<paymentBillsModel>(url).pipe(map(data => data));
+    return this.apiService
+      .get<{
+        object: BillsModel;
+        objects: BillsModel[];
+        count: number;
+      }>(url)
+      .pipe(map(data => data));
   }
 
   getBillDetails(billId: string) {
     const url = `/dbs/merchant/bills/${billId}/`;
-    return this.apiService.get<paymentBillsModel>(url).pipe(map(data => data));
+    return this.apiService
+      .get<{
+        object: BillsModel;
+        objects: BillsModel[];
+        count: number;
+      }>(url)
+      .pipe(map(data => data));
   }
 
   generateBill(body: object) {
     const url = '/dbs/merchant/bill-init/';
     return this.apiService
-      .post<ObjectBillModel>(url, body)
+      .post<{ object: generateBillModel }>(url, body)
       .pipe(map(response => response));
   }
 
@@ -520,11 +537,11 @@ export class MerchantService {
   getFavoriteProductAutocomplete(search: string) {
     const url = `/dbs/merchant-product/objects_autocomplete/?search=${search}&is_favorite_product=true`;
     return this.apiService
-      .get<AllProductAutocompleteModel>(url)
+      .get<{ objects: ProductAutocompleteModel[]; count: number }>(url)
       .pipe(map(data => data));
   }
 
-  makeFavoriteProduct(favorite: ProductFavoriteModel) {
+  makeFavoriteProduct(favorite: { product: string; product_action: string }) {
     const url = '/dbs/merchant-product/client/favorite/ ';
     return this.apiService.post(url, favorite).pipe(map(data => data));
   }
@@ -540,7 +557,9 @@ export class MerchantService {
 
   doMerchantSimplePayment(data: object) {
     return this.apiService
-      .post<ObjectBillModel>('/dbs/merchant/simple/payment/', data)
+      .post<{
+        object: generateBillModel;
+      }>('/dbs/merchant/simple/payment/', data)
       .pipe(map(data => data));
   }
 }

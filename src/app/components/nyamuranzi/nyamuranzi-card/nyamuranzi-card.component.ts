@@ -10,7 +10,7 @@ import {
   BankService,
 } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
-import { nyamuranziCard } from '../models';
+import { nyamuranziCardModel } from '../models';
 import {
   activeMainConfigModel,
   ModeModel,
@@ -30,7 +30,7 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
   clientInfo!: UserInfoModel;
-  referees!: nyamuranziCard;
+  referees!: nyamuranziCardModel;
   noRefereed = false;
   activePlatform: string | null = null;
   mainConfig$!: Observable<activeMainConfigModel>;
