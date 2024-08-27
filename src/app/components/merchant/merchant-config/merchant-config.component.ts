@@ -54,19 +54,15 @@ export class MerchantConfigComponent implements OnInit {
   selectedTeller!: tellerObjectModel;
   get_selectedTeller!: boolean;
   tellerId = '';
-  haveMerchantInfoEdited = false;
   isLoading = false;
   isTellerLoading = false;
   tellerCreationDone = false;
-  theme = '';
-  theme$: Observable<string> = new Observable<string>();
   selected = '';
   acceptSimplePayment = false;
   acceptCart = false;
   incognito = false;
   onDestroy$: Subject<void> = new Subject<void>();
   search = new FormControl('');
-  //    @ViewChild('closeModal') closeModal: boolean | undefined;
 
   @ViewChild('closeModal', { static: false })
   closeModal!: ElementRef<HTMLElement>;
@@ -84,7 +80,6 @@ export class MerchantConfigComponent implements OnInit {
   merchantLogo!: string;
   previewImage!: string | ArrayBuffer | null | undefined;
   category!: string;
-  clientId: number | null = null;
   pin!: string;
   get_merchantDetails = false;
   constructor(
@@ -93,8 +88,6 @@ export class MerchantConfigComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private router: Router
   ) {
-    // private store: Store,
-    // private cdr: ChangeDetectorRef,
     this.dialogState$ = this.dialogService.getDialogState();
     this.merchantConfigForm = new FormGroup({
       name: new FormControl(''),
@@ -111,21 +104,12 @@ export class MerchantConfigComponent implements OnInit {
       client: new FormControl('', Validators.required),
       alias: new FormControl('', Validators.required),
     });
-
-    // this.theme$ = this.store.select(SwitchThemeState.GetTheme);
-    // this.dialog$ = this.store.select(DialogState.GetDialog);
-    // this.plateform$ = this.store.select(SwitchState.GetPlateform);
   }
 
   ngOnInit() {
     console.log('ngOnInit: MerchantConfigComponent');
     this.getConnectedMerchantInfo();
     this.cdr.detectChanges();
-
-    this.theme$.subscribe((theme: string) => {
-      console.log('theme:', theme);
-      this.theme = theme;
-    });
 
     this.dialogState$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (dialogResponse: DialogResponseModel) => {
@@ -212,7 +196,6 @@ export class MerchantConfigComponent implements OnInit {
 
   getClientInfo(event: ItemModel | null = null) {
     this.client = event;
-    console.log('======================> even:', event);
 
     this.newTellerForm.patchValue({
       client: this.client?.id,
@@ -301,7 +284,6 @@ export class MerchantConfigComponent implements OnInit {
 
   updateMerchantDetails() {
     this.dialogService.dispatchLoading();
-    // this.isLoading = true;
 
     const body = {
       merchant: this.merchantInfo.id,
@@ -325,20 +307,15 @@ export class MerchantConfigComponent implements OnInit {
             type: 'success',
             message: response.object.response_message,
           });
-          // this.merchantInfo = null;
           this.get_merchantDetails = true;
           this.getConnectedMerchantInfo();
           this.selected = '';
-          // this.store.dispatch(new OpenDialog(data));
         } else {
           this.dialogService.openToast({
             title: '',
             type: 'failed',
             message: response.object.response_message,
           });
-
-          // this.return();
-          // this.store.dispatch(new OpenDialog(data));
         }
       },
 
@@ -365,8 +342,6 @@ export class MerchantConfigComponent implements OnInit {
       message: 'Enter your pin to update merchant information',
       action: 'update',
     });
-    // console.log(data);
-    // this.store.dispatch(new OpenActionDialog(data));
   }
 
   toggleProductSwitchBox(box: string, action: string): void {
@@ -437,43 +412,6 @@ export class MerchantConfigComponent implements OnInit {
         this.action = this.action.filter((act: string) => act !== 'visible');
         this.action.push(action);
       }
-    }
-  }
-
-  // getCategory(event: any) {
-  //     this.merchantConfigForm.markAsDirty();
-
-  //     if (event) {
-  //         this.category = event.id;
-  //         console.log('=====================> my event', event)
-  //     }
-  // }
-
-  // onFileSelected(event: Event) {
-  //     const inputElementProfil: any = event.target as HTMLInputElement;
-
-  //     const file: File = inputElementProfil.files[0];
-  //     this.convertToBase64(file);
-
-  //     // Preview the selected image
-  //     const reader = new FileReader();
-  //     reader.onload = (e) => {
-  //         this.previewImage = e.target?.result;
-  //     };
-  //     reader.readAsDataURL(file);
-  // }
-
-  convertToBase64(file: File): void {
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      // Convert the image to Base64 using btoa()
-      const base64Image = btoa(reader.result as string);
-      this.merchantLogo = `data:image/jpeg;base64,${base64Image}`;
-    };
-
-    if (file) {
-      reader.readAsBinaryString(file);
     }
   }
 
