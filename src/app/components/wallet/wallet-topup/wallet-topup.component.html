@@ -1,0 +1,42 @@
+<div>
+  <app-debit-account (selectedAccount)="handleSelectedCreditAccount($event)">
+  </app-debit-account>
+  @if (selectedDebitAccountForm) {
+    <div>
+      <form [formGroup]="topupForm">
+        <div class="row">
+          <div class="col-5 mt-3 mb-5">
+            <div class="">
+              <app-amount-field
+                [isFormFloating]="true"
+                (amountEvent)="getAmount($event)"></app-amount-field>
+            </div>
+
+            <div class="form-floating mt-3">
+              <input
+                type="text"
+                class="input form-control bg-light text-dark simulator-input"
+                id="description"
+                formControlName="description"
+                placeholder="description" />
+              <label for="description" class="text-dark" i18n
+                >description</label
+              >
+            </div>
+
+            <div class="mt-3 d-flex justify-content-center">
+              <button
+                class="btn bg-primary text-light px-4 py-1 fw-bold"
+                [disabled]="!topupForm.valid"
+                (click)="topupForm.valid && openPinPopup()"
+                tabindex="0"
+                i18n>
+                <span>Confirm</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  }
+</div>

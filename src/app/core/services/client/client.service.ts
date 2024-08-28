@@ -15,6 +15,7 @@ import {
   creatWalletResponse,
   Walletdetail,
   WalletList,
+  WalletTopUpBodyModel,
   WalletTypModel,
 } from '../../../components/wallet/wallet.models';
 
@@ -81,5 +82,12 @@ export class ClientService {
   ): Observable<{ object: Accountdetail }> {
     const url = '/clients/manage/accounts/' + selectedAccount + '/';
     return this.apiService.get<{ object: Accountdetail }>(url);
+  }
+
+  walletPopUp(body: WalletTopUpBodyModel): Observable<creatWalletResponse> {
+    const url = '/dbs/wallet/topup/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as creatWalletResponse));
   }
 }
