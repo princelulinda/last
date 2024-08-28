@@ -49,6 +49,7 @@ import {
 } from '../../merchant/merchant.models';
 import { MerchantBillDataModel } from '../../merchant/bills/bills.model';
 import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({
   selector: 'app-my-market-dashboard',
@@ -66,6 +67,7 @@ import { ReusableListComponent } from '../../../global/components/reusable-list/
     MerchantBillComponent,
     ReusableListComponent,
     StatementComponent,
+    AmountVisibilityComponent,
   ],
   templateUrl: './my-market-dashboard.component.html',
   styleUrl: './my-market-dashboard.component.scss',

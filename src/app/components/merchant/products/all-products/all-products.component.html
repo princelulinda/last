@@ -9,7 +9,7 @@
         <b> All products</b>
       }
       @if (url !== '') {
-        <b> Recent products</b>
+        <b> Products</b>
       }
     </span>
   </span>
@@ -74,7 +74,7 @@
     </div>
   }
   @if (loader && products) {
-    <div class="d-flex justify-content-around flex-wrap gap-3 mt-3">
+    <div class="d-flex flex-wrap gap-5 mt-3">
       @for (product of products; track $index) {
         <div
           class="col-auto mb-3 sm-radius"
