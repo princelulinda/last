@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { BankListResponseModel } from '../../../components/auth/auth.model';
 import { ApiService, ConfigService } from '..';
-import { bankModel } from '../../db/models/bank/bank.model';
+import { BankModel } from '../../db/models/bank/bank.model';
 import { addBankResponse } from '../../../components/dashboards/dashboard.model';
 
 import { WalletCard } from '../../../components/wallet/wallet.models';
@@ -44,10 +44,10 @@ export class BankService {
     this._isBankingAndServicesSelected.next(arg);
   }
 
-  getBanksList(): Observable<bankModel[]> {
+  getBanksList(): Observable<BankModel[]> {
     const url = '/banks/clientlist/?';
     return this.apiService
-      .get<{ objects: bankModel[]; count: number }>(url)
+      .get<{ objects: BankModel[]; count: number }>(url)
       .pipe(
         map(data => {
           const banks = data.objects;
@@ -56,11 +56,11 @@ export class BankService {
         })
       );
   }
-  getBanksListAll(): Observable<{ objects: bankModel[]; count: number }> {
+  getBanksListAll(): Observable<{ objects: BankModel[]; count: number }> {
     const url = '/banks/list/?bank_type=MFI&list_for_add_bank=true';
 
     return this.apiService
-      .get<{ objects: bankModel[]; count: number }>(url)
+      .get<{ objects: BankModel[]; count: number }>(url)
       .pipe(
         map(data => {
           return data;

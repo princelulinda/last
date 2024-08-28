@@ -7,7 +7,7 @@ import { BankService } from '../../../../core/services/bank/bank.service';
 import { AuthService, ConfigService } from '../../../../core/services';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { BankOptionsModel } from '../../../../components/dashboards/dashboard.model';
-import { bankModel } from '../../../../core/db/models/bank/bank.model';
+import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-switch-bank',
@@ -17,12 +17,12 @@ import { ModeModel } from '../../../../core/services/config/main-config.models';
   styleUrl: './switch-bank.component.scss',
 })
 export class SwitchBankComponent implements OnInit {
-  banks: bankModel[] = [];
+  banks: BankModel[] = [];
   @Input() isTransfer = false;
   clientId: number | null = null;
-  defaultBank: bankModel | undefined;
-  selectedBank!: bankModel;
-  selectedBank$!: Observable<bankModel>;
+  defaultBank: BankModel | undefined;
+  selectedBank!: BankModel;
+  selectedBank$!: Observable<BankModel>;
 
   isModalShown = false;
   mode!: ModeModel;

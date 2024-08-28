@@ -9,7 +9,7 @@ import {
   DialogService,
   LoanService,
 } from '../../../core/services';
-import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { LoanListModel, LoanListResponseModel } from '../loan.models';
 
@@ -28,8 +28,8 @@ import { LoanListModel, LoanListResponseModel } from '../loan.models';
 })
 export class LoanListComponent implements OnInit, OnDestroy {
   bankId: number | null = null;
-  selectedBank$: Observable<bankModel>;
-  selectedBank: bankModel | null = null;
+  selectedBank$: Observable<BankModel>;
+  selectedBank: BankModel | null = null;
   loans: LoanListModel[] | undefined = undefined;
   isLoanDetailsShown = false;
 
@@ -67,7 +67,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
         this.isBalanceShown = isBalanceShown;
       });
 
-    this.selectedBank$.subscribe((bank: bankModel) => {
+    this.selectedBank$.subscribe((bank: BankModel) => {
       this.selectedBank = bank;
       this.bankId = bank.id;
     });
