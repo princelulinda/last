@@ -2,6 +2,7 @@ import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AgentService } from '../../../../agent.service';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { MerchantModel } from '../agent.models';
 
 @Component({
   selector: 'app-merchant-list',
@@ -12,7 +13,7 @@ import { SkeletonComponent } from '../../../../global/components/loaders/skeleto
 })
 export class MerchantListComponent implements OnInit {
   
-  data: Array<any> = [];
+  data! : MerchantModel[];
   Loading : boolean = true;
 
   constructor(private merchantService: AgentService) { }

@@ -2,6 +2,7 @@ import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { AgentService } from '../../../../agent.service';
+import { AgentModel, AgentResModel } from '../agent.models';
 
 @Component({
   selector: 'app-agent',
@@ -12,9 +13,9 @@ import { AgentService } from '../../../../agent.service';
 })
 export class AgentComponent implements OnInit { 
 
-  data: Array<any> = [];
+  data!: AgentModel;
 
-  constructor(private agentService: AgentService) { }
+  constructor(private agentService : AgentService) { }
 
   ngOnInit(): void {
     this.getDatAgent(); 
@@ -22,9 +23,9 @@ export class AgentComponent implements OnInit {
 
   getDatAgent(): void {
     this.agentService.getAgentInfos().subscribe({
-      next: response => {
-        this.data = response.object.response_data ? [response.object.response_data] : [];
-        console.log("donnees trouvees :", this.data);
+      next: (response: {object: AgentResModel}) => {
+        this.data = response.object.response_data
+        console.log("donnees trouvees agent :", this.data);
       },
       error: error => {
         console.error("Erreur:", error);
