@@ -278,8 +278,7 @@
             [totalData]="totalData"
             [currentPage]="activePage"
             [pageLimit]="billsPagination.filters.limit"
-            (pageChange)="onPageChange($event)"
-            (limitChange)="onLimitChange($event)"></app-pagination>
+            (paginationChange)="onPaginationChange($event)"></app-pagination>
         </div>
       }
     </section>
