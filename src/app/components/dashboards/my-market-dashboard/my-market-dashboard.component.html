@@ -320,16 +320,12 @@
     aria-labelledby="staticBackdropLabel"
     aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content bg-white">
         <div class="row">
-          <div class="col"></div>
-          <div class="col d-flex justify-content-end">
-            <button
-              type="button"
-              class="btn-close me-4 mt-4"
-              data-bs-dismiss="modal"
-              aria-label="Close"></button>
-          </div>
+          <app-statement
+            [account]="account"
+            [accountId]="accountId"
+            [ledgerId]="ledgerId"></app-statement>
         </div>
         <div class="modal-body">
           <app-reusable-list
