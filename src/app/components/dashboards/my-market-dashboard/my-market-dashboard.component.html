@@ -30,7 +30,7 @@
 }
 
 @if (!isLoadingInfo && merchant) {
-  <div class="ms-0 ms-md-1 ms-xxl-5 ps-0 ps-xl-3 overflow-hidden">
+  <div class="overflow-hidden">
     <div
       class="d-lg-flex d-none position-relative shadow me-5 ms-3 border-top border-primary border-4 rectangleBlockSize">
       <img
@@ -63,7 +63,7 @@
       </div>
       <!-- <div style="height: 35px; width: 1px" class="ms-4 level-3 mt-5"></div> -->
       <div class="d-block col-4 ms-5 pt-4">
-        <div class="row text-dark text-md">
+        <div class="row col-11 text-dark text-md">
           <div class="col pe-0 fw-bold opacity-50" i18n>
             Available balance :
           </div>
@@ -179,7 +179,7 @@
         </Span>
         <span class="float-end">
           <img
-            class="img-fluid mt-4 me-1 revenuSize"
+            class="img-fluid mt-4 revenuSize"
             src="/images/products/4 9365.svg"
             alt="our income show image" />
         </span>
@@ -473,7 +473,10 @@
                 tabindex="0"
                 (click)="switchMerchant(merchant.id)">
                 <div>
-                  <app-merchant-card [merchant]="merchant"></app-merchant-card>
+                  <app-merchant-card
+                    [merchant]="merchant"
+                    [action]="'output'"
+                    [disabledFavoriteAction]="true"></app-merchant-card>
                 </div>
               </div>
             }
