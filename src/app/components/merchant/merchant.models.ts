@@ -165,7 +165,7 @@ export interface MerchantCategoriesModel {
   ordering: number;
 }
 
-export interface BillersModel {
+export interface BillersAutocompleteModel {
   id: string;
   lookup_image: string;
   lookup_title: string;
@@ -195,4 +195,38 @@ export interface MerchantCategoriesAutocompleteModel {
   lookup_subtitle: string;
   lookup_description: string;
   lookup_has_image_or_icon: boolean;
+}
+
+export interface PayMerchantBodyModel {
+  merchant_product_id: number;
+  debit_bank: number;
+  debit_account: string;
+  debit_type: string;
+  pin_code: string;
+  payment_data?: Record<string, string>;
+  lookup_data?: Record<string, string>;
+  is_multiple_payment?: boolean;
+  payment_details?: {
+    payment_data?: Record<string, string>;
+    lookup_data?: Record<string, string>;
+  }[];
+}
+
+export interface PayMerchantResponseModel {
+  object: {
+    response_message: string;
+    response_code: string;
+    response_data: {
+      id: number;
+      reference: string;
+      cbs_reference: string;
+      pending_operation: string;
+      date: string;
+      amount: string;
+      bill: string;
+      return_icon: string;
+      orders: [{ printable_text: string | null; sent_at: string }];
+    };
+    success: boolean;
+  };
 }

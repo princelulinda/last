@@ -2,7 +2,7 @@ import { MerchantModel } from '../merchant.models';
 import { MetadataModel } from '../../metadatas/metadata.model';
 export interface ProductAutocompleteModel {
   id: number;
-  price: number;
+  price: number | string | null;
   lookup_icon: string;
   lookup_image: string;
   lookup_title: string;

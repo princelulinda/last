@@ -15,7 +15,6 @@ export interface MetadataModel {
 export interface MetadataCreationResponseModel {
   object: {
     response_message: string;
-
     success: boolean;
   };
 }

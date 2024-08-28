@@ -138,15 +138,21 @@ export class BillsComponent implements OnInit, OnDestroy {
       });
   }
 
-  onLimitChange(limit: number) {
-    this.billsPagination.filters.limit = limit;
-    this.onPageChange(this.activePage);
-  }
+  // onLimitChange(limit: number) {
+  //   this.billsPagination.filters.limit = limit;
+  //   this.onPageChange(this.activePage);
+  // }
 
-  onPageChange(page: number) {
-    this.activePage = page;
-    const _offset = this.billsPagination.filters.limit * (page - 1);
-    this.billsPagination.filters.offset = _offset;
+  // onPageChange(page: number) {
+  //   this.activePage = page;
+  //   const _offset = this.billsPagination.filters.limit * (page - 1);
+  //   this.billsPagination.filters.offset = _offset;
+  //   this.getBills();
+  // }
+
+  onPaginationChange(pagination: PaginationConfig) {
+    this.billsPagination = pagination;
+    this.activePage = pagination.filters.offset / pagination.filters.limit + 1;
     this.getBills();
   }
 

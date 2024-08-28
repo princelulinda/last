@@ -4,7 +4,10 @@ import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 
 import { ProductCategoryModel, ProductOfferModel } from '../dashboard.model';
-import { BillersModel, MerchantModel } from '../../merchant/merchant.models';
+import {
+  BillersAutocompleteModel,
+  MerchantModel,
+} from '../../merchant/merchant.models';
 import { ProductAutocompleteModel } from '../../merchant/products/products.model';
 import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
@@ -67,11 +70,13 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
   productCategory!: ProductCategoryModel[];
   last4Merchant!: MerchantAutocompleteModel[];
   recentMerchant!: MerchantAutocompleteModel[];
-  recentBillers!: BillersModel[];
+  recentBillers!: BillersAutocompleteModel[];
   first4ProductCategory!: ProductCategoryModel[];
   clearData = true;
   billerChecked = true;
-  billers!: BillersModel[];
+  billers!: BillersAutocompleteModel[];
+  merchantDetail = false;
+  // categorySections = false;
   loadingmerchants = true;
   offerData: { id: number; product: ProductOfferModel }[] = [];
 
@@ -135,7 +140,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          const result = response as { objects: BillersModel[] };
+          const result = response as { objects: BillersAutocompleteModel[] };
           this.billers = result.objects;
           this.recentBillers = this.billers.slice(0, 4);
         },

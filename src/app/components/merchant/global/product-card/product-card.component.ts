@@ -11,7 +11,11 @@ import { CommonModule } from '@angular/common';
 import { Observable, takeUntil, Subject } from 'rxjs';
 
 import { ModeModel } from '../../../../core/services/config/main-config.models';
-import { ConfigService, MerchantService } from '../../../../core/services';
+import {
+  ConfigService,
+  DialogService,
+  MerchantService,
+} from '../../../../core/services';
 import {
   FavoriteProductModel,
   ProductAutocompleteModel,
@@ -45,14 +49,14 @@ export class ProductCardComponent implements OnInit, OnDestroy {
   currentMode$: Observable<ModeModel>;
   currentMode!: ModeModel;
   isLoading!: boolean;
-  // @Input() isFavorite!: boolean;
 
   private onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private configService: ConfigService,
     private merchantService: MerchantService,
-    private variableService: VariableService
+    private variableService: VariableService,
+    private dialogService: DialogService
   ) {
     this.currentMode$ = this.configService.getMode();
   }
@@ -106,7 +110,10 @@ export class ProductCardComponent implements OnInit, OnDestroy {
 
   selectProduct() {
     if (this.action === 'merchant-payment') {
-      console.log('DISPACTH MERCHANT PAYMENT');
+      this.dialogService.openMerchantPaymentDialog({
+        type: 'product',
+        product: this.product,
+      });
     } else if (this.action === 'output') {
       this.selectedProductEvent.emit(this.product);
     }
