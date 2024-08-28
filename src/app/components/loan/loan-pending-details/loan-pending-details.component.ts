@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import {
   LoanModel,
@@ -32,8 +32,8 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   loanId!: string;
   loan: LoanModel | undefined;
-  selectedBank$: Observable<bankModel>;
-  selectedBank!: bankModel;
+  selectedBank$: Observable<BankModel>;
+  selectedBank!: BankModel;
   loanPlan: PlanModel[] | undefined;
   singleLoanPlan!: PlanModel;
   dialog$: Observable<DialogResponseModel>;

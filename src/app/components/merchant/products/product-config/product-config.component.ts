@@ -53,14 +53,11 @@ import { MetadataModel } from '../../../metadatas/metadata.model';
 export class ProductConfigComponent implements OnInit, OnDestroy {
   @Output() get_selectedProduct = new EventEmitter<ProductAutocompleteModel>();
   merchant!: MerchantModel;
-  clientId!: number;
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  acceptsSimplePayment = false;
   dialog$!: Observable<DialogResponseModel>;
   dialog!: DialogResponseModel;
   selectedTeller: undefined;
-  isActionDone = false;
   products: ProductAutocompleteModel[] = [];
   selectedProduct!: ProductAutocompleteModel;
   product: ProductModel | null = null;
@@ -87,7 +84,6 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
 
   searchType: EmptyStateModel = 'product';
   searchTypeOther: EmptyStateModel = 'other';
-  imageClass = 'image';
   disabledFavoriteAction = true;
   loading_productDetails = false;
 
@@ -307,7 +303,6 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
   }
 
   getProductDetails() {
-    // this.product = null;
     this.loading_productDetails = false;
     this.merchantService
       .getProductDetails(this.selectedProduct.id)
@@ -421,7 +416,6 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
             err?.error?.object.response_message ??
             'Failed to update product info ',
         });
-        // this.store.dispatch(new OpenDialog(data));
       },
     });
   }
