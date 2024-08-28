@@ -19,6 +19,7 @@ import {
   MerchantPaymentTypesModel,
 } from '../../../../core/services/dialog/dialogs-models';
 import {
+  BillersAutocompleteModel,
   MerchantAutocompleteModel,
   MerchantCategoriesAutocompleteModel,
   MerchantModel,
@@ -76,7 +77,7 @@ export class MerchantPaymentComponent
     payload: null,
   };
   type!: MerchantPaymentTypesModel;
-  merchant: MerchantAutocompleteModel | null = null;
+  merchant: MerchantAutocompleteModel | BillersAutocompleteModel | null = null;
   product: ProductAutocompleteModel | null = null;
   category: MerchantCategoriesAutocompleteModel | null = null;
 
@@ -87,7 +88,10 @@ export class MerchantPaymentComponent
 
   merchantDetails: MerchantModel | null = null;
   loadingMerchantDetails = false;
-  selectedMerchant: MerchantAutocompleteModel | null = null;
+  selectedMerchant:
+    | MerchantAutocompleteModel
+    | BillersAutocompleteModel
+    | null = null;
 
   productDetails: ProductModel | null = null;
   selectedProduct: ProductAutocompleteModel | null = null;
@@ -339,9 +343,10 @@ export class MerchantPaymentComponent
 
   // NOTE :: GETTER AND SETTER
 
-  getSelectedMerchant(merchant: MerchantAutocompleteModel) {
+  getSelectedMerchant(
+    merchant: MerchantAutocompleteModel | BillersAutocompleteModel
+  ) {
     this.selectedMerchant = merchant;
-    console.log('INFO :: SELECTED MERCHANT', this.selectedMerchant);
     this.getMerchantDetails(merchant.id);
   }
   getSelectedProduct(product: ProductAutocompleteModel) {
@@ -349,8 +354,6 @@ export class MerchantPaymentComponent
     if (this.type === 'product' && !this.productDetails) {
       this.selectedPaymentMenu = 'Product-Payment';
     }
-    console.log('INFO :: SELECTED PRODUCT', this.selectedProduct);
-
     this.getProductDetails(product.id);
   }
 

@@ -165,17 +165,18 @@ export interface MerchantCategoriesModel {
 }
 
 export interface BillersAutocompleteModel {
-  id: string;
-  lookup_image: string;
+  id: number;
+  lookup_image: string | null;
   lookup_title: string;
   lookup_icon: string;
   icon: string;
   lookup_subtitle: string;
   is_favorite_merchant: boolean;
-  success: string;
   merchant_category_name: string;
   accepts_simple_payment: boolean;
+  price: string | null;
 }
+
 export interface SectorActivityAutocompleteModel {
   id: number | string;
   lookup_icon: string;
