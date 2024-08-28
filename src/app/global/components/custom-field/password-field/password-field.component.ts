@@ -40,7 +40,7 @@ export class PasswordFieldComponent {
         Validators.minLength(8),
         Validators.pattern('(?=.*[0-9])'),
         Validators.pattern('^(?=.*[A-Z])$'),
-        Validators.pattern('^(?=.*[$@$!%*?&])$'),
+        Validators.pattern('^(?=.*[$@#$!%*?&=./(){}+.,-])$'),
       ]),
     });
   }
@@ -101,7 +101,7 @@ export class PasswordFieldComponent {
     return /[A-Z]/.test(password);
   }
   hasSpecialChar(password: string): boolean {
-    return /[$@$!%*?&]/.test(password);
+    return /[$@#$!%*?&=./(){}+.,-]/.test(password);
   }
   onSubmitPassword() {
     if (

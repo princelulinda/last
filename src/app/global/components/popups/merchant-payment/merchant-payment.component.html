@@ -64,20 +64,41 @@
     </section>
 
     <!-- NOTE :: CATEGORY SECTION -->
-    @if (category) {
+    @if (
+      (type === 'category-merchant' && category) ||
+      (type === 'merchant' && merchantDetails) ||
+      (type === 'product' && productDetails)
+    ) {
       <section>
         <section class="d-flex align-items-center">
           <div class="d-flex align-items-center">
             <span class="text-primary fs-medium me-3">
               <i class="fa-solid fa-play"></i>
             </span>
-            <b class="fs-medium">{{
-              category.merchant_activity_sector.title
-            }}</b>
+            @if (type === 'category-merchant' && category) {
+              <b class="fs-medium">{{ category.lookup_title }}</b>
+            } @else if (type === 'merchant' && merchantDetails) {
+              <b class="fs-medium">{{
+                merchantDetails.merchant_category.merchant_activity_sector.title
+              }}</b>
+            } @else if (type === 'product' && productDetails) {
+              <b class="fs-medium">{{
+                productDetails.merchant.merchant_category
+                  .merchant_activity_sector.title
+              }}</b>
+            }
           </div>
           <div class="ms-5 bg-secondary category-card x-sm-radius d-flex">
             <span class="text-center flex-grow-1 py-1">
-              <small>{{ category.name }}</small>
+              @if (type === 'category-merchant' && category) {
+                <small>{{ category.lookup_subtitle }}</small>
+              } @else if (type === 'merchant' && merchantDetails) {
+                <small>{{ merchantDetails.merchant_category.name }}</small>
+              } @else if (type === 'product' && productDetails) {
+                <small>{{
+                  productDetails.merchant.merchant_category.name
+                }}</small>
+              }
             </span>
             <small class="bg-primary text-all-white px-2 h-100 x-sm-radius">
               <i class="fa-solid fa-building-columns"></i>
@@ -218,58 +239,189 @@
             </span>
           </div>
 
-          <!-- NOTE :: LOOKUP METADATA  -->
-          @if (
-            !loadingProductDetails &&
-            productDetails &&
-            productDetails.lookup_metadata
-          ) {
-            @if (!productLookup) {
-              <form
-                [formGroup]="lookupMetadataForm"
-                class="py-4 col-3"
-                (ngSubmit)="doProductLookup()">
-                @if (productDetails.lookup_metadata.length === 1) {
-                  <!-- NOTE :: ON ONLY ONE LOOKUP METADATA -->
-                  <div>
-                    <div class="form-floating position-relative">
-                      <span
-                        role="button"
-                        tabindex="0"
-                        (click)="doProductLookup()"
-                        class="position-absolute fs-medium text-secondary lookup-search-button">
-                        @if (!loadingLookup) {
-                          <span>
-                            <i class="fa-solid fa-magnifying-glass"></i>
+          <section>
+            @if (
+              !loadingProductDetails &&
+              productDetails &&
+              (productDetails.lookup_metadata || productDetails.metadata)
+            ) {
+              <!-- NOTE :: LOOKUP METADATA  -->
+              @if (!productLookup) {
+                @if (
+                  productDetails.lookup_metadata && !productDetails.lookup_first
+                ) {
+                  <form
+                    [formGroup]="lookupMetadataForm"
+                    class="py-4 col-3"
+                    (ngSubmit)="doProductLookup()">
+                    @if (productDetails.lookup_metadata.length === 1) {
+                      <!-- NOTE :: ON ONLY ONE LOOKUP METADATA -->
+                      <div>
+                        <div class="form-floating position-relative">
+                          <span
+                            role="button"
+                            tabindex="0"
+                            (click)="doProductLookup()"
+                            class="position-absolute fs-medium text-secondary lookup-search-button">
+                            @if (!loadingLookup) {
+                              <span>
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                              </span>
+                            } @else {
+                              <span>
+                                <i class="fas fa-spinner fa-pulse"></i>
+                              </span>
+                            }
                           </span>
-                        } @else {
-                          <span>
-                            <i class="fas fa-spinner fa-pulse"></i>
-                          </span>
-                        }
-                      </span>
-                      <input
-                        [type]="productDetails.lookup_metadata[0].field_type"
-                        [formControlName]="
-                          productDetails.lookup_metadata[0].field_name
-                        "
-                        [disabled]="loadingLookup"
-                        class="form-control"
-                        [id]="productDetails.lookup_metadata[0].field_name"
-                        [placeholder]="
-                          productDetails.lookup_metadata[0].field_name
-                        " />
-                      <label
-                        [for]="productDetails.lookup_metadata[0].field_name"
-                        class="text-capitalize"
-                        >{{
-                          productDetails.lookup_metadata[0].field_name
-                        }}</label
-                      >
-                    </div>
+                          <input
+                            [type]="
+                              productDetails.lookup_metadata[0].field_type
+                            "
+                            [formControlName]="
+                              productDetails.lookup_metadata[0].field_name
+                            "
+                            [disabled]="loadingLookup"
+                            class="form-control"
+                            [id]="productDetails.lookup_metadata[0].field_name"
+                            [placeholder]="
+                              productDetails.lookup_metadata[0].field_name
+                            " />
+                          <label
+                            [for]="productDetails.lookup_metadata[0].field_name"
+                            class="text-capitalize"
+                            >{{
+                              productDetails.lookup_metadata[0].field_name
+                            }}</label
+                          >
+                        </div>
+                      </div>
+                    } @else if (productDetails.lookup_metadata.length > 1) {
+                      @for (
+                        item of productDetails.lookup_metadata;
+                        track $index
+                      ) {
+                        <div class="mb-3">
+                          <div class="form-floating">
+                            <input
+                              [disabled]="loadingLookup"
+                              [type]="item.field_type"
+                              [formControlName]="item.field_name"
+                              class="form-control"
+                              [id]="item.field_name"
+                              [placeholder]="item.field_name" />
+                            <label
+                              [for]="item.field_name"
+                              class="text-capitalize"
+                              >{{ item.field_name }}</label
+                            >
+                          </div>
+                        </div>
+                      }
+                      <div class="text-center">
+                        <button
+                          (click)="doProductLookup()"
+                          class="btn bg-primary px-5 text-all-white"
+                          [disabled]="!lookupMetadataForm.valid"
+                          i18n>
+                          Search
+                        </button>
+                      </div>
+                    }
+                  </form>
+                } @else if (productDetails.lookup_first && loadingLookup) {
+                  <div class="col-3 mt-4">
+                    <app-skeleton
+                      classes="sm-radius"
+                      height="60px"></app-skeleton>
                   </div>
-                } @else if (productDetails.lookup_metadata.length > 1) {
-                  @for (item of productDetails.lookup_metadata; track $index) {
+                }
+              } @else if (productLookup) {
+                <!-- NOTE :: LOOKUP DATA BACKEND HTML -->
+                <div
+                  class="position-relative border bg-secondary p-2 sm-radius mt-4 col-3">
+                  <div
+                    [innerHTML]="productLookup.response_data?.lookup"
+                    class="border-start border-5 border-primary ps-2"></div>
+                  <span
+                    role="button"
+                    tabindex="0"
+                    (click)="resetLookupData()"
+                    class="position-absolute text-danger end-0 close-button">
+                    <i class="fa-solid fa-circle-xmark"></i
+                  ></span>
+                </div>
+                @if (productLookupChoices) {
+                  <section class="mt-3 row mx-0">
+                    <b class="text-secondary" i18n>Choose package</b>
+
+                    <!-- NOTE :: LOOKUP CHOICES -->
+                    @if (!selectedProductLookupChoice) {
+                      <div
+                        class="mt-3 sm-radius border bg-secondary py-2 px-3 col-3">
+                        @for (choice of productLookupChoices; track $index) {
+                          <div
+                            role="button"
+                            tabindex="0"
+                            (click)="selectProductLookupChoice(choice)"
+                            class="position-relative border-bottom d-flex flex-column py-2"
+                            [ngClass]="{
+                              'border-bottom':
+                                $index < productLookupChoices.length - 1,
+                            }">
+                            <small
+                              ><b>{{ choice.title }}</b></small
+                            >
+                            <small class="fs-x-small mt-1">{{
+                              choice.description
+                            }}</small>
+                          </div>
+                        }
+                      </div>
+                    } @else {
+                      <div
+                        class="mt-3 sm-radius border bg-secondary py-2 ps-3 pe-4 col-auto position-relative">
+                        <span
+                          role="button"
+                          tabindex="0"
+                          (click)="resetSelectedLookupChoice()"
+                          class="position-absolute text-danger end-0 close-button">
+                          <i class="fa-solid fa-circle-xmark"></i
+                        ></span>
+                        <div class="position-relative d-flex flex-column py-1">
+                          <small
+                            ><b>{{
+                              selectedProductLookupChoice.title
+                            }}</b></small
+                          >
+                          <small class="fs-x-small mt-1">{{
+                            selectedProductLookupChoice.description
+                          }}</small>
+                        </div>
+                      </div>
+                    }
+                  </section>
+                }
+              }
+
+              <!-- NOTE :: METADATA -->
+              @if (
+                productDetails.metadata.length !== 0 &&
+                ((productDetails.lookup_metadata.length !== 0 &&
+                  productLookup &&
+                  !productDetails.lookup_first &&
+                  !productLookupChoices) ||
+                  (productDetails.lookup_metadata.length !== 0 &&
+                    selectedProductLookupChoice &&
+                    !productDetails.lookup_first) ||
+                  (productDetails.lookup_metadata.length === 0 &&
+                    !productDetails.lookup_first) ||
+                  (productDetails.lookup_first &&
+                    productLookup &&
+                    !productLookupChoices) ||
+                  (productDetails.lookup_first && selectedProductLookupChoice))
+              ) {
+                <form [formGroup]="metadataForm" class="py-4 col-3">
+                  @for (item of productDetails.metadata; track $index) {
                     <div class="mb-3">
                       <div class="form-floating">
                         <input
@@ -289,117 +441,37 @@
                   }
                   <div class="text-center">
                     <button
-                      (click)="doProductLookup()"
-                      class="btn bg-primary px-5 text-all-white"
-                      [disabled]="!lookupMetadataForm.valid"
+                      class="btn bg-primary px-5 text-all-white fw-bold"
                       i18n>
-                      Search
+                      Add
                     </button>
                   </div>
-                }
-              </form>
-            } @else if (productLookup && productLookupChoices) {
-              <!-- NOTE :: LOOKUP DATA BACKEND HTML -->
-              <div
-                class="position-relative border bg-secondary p-2 sm-radius mt-4 col-3">
-                <div
-                  [innerHTML]="productLookup.response_data?.lookup"
-                  class="border-start border-5 border-primary ps-2"></div>
-                <span
-                  role="button"
-                  tabindex="0"
-                  (click)="resetLookupData()"
-                  class="position-absolute text-danger end-0 close-button">
-                  <i class="fa-solid fa-circle-xmark"></i
-                ></span>
-              </div>
-              @if (productLookup) {
-                <section class="mt-3 row mx-0">
-                  <b class="text-secondary" i18n>Choose package</b>
-
-                  <!-- NOTE :: LOOKUP CHOICES -->
-                  @if (!selectedProductLookupChoice) {
-                    <div
-                      class="mt-3 sm-radius border bg-secondary py-2 px-3 col-3">
-                      @for (choice of productLookupChoices; track $index) {
-                        <div
-                          role="button"
-                          tabindex="0"
-                          (click)="selectProductLookupChoice(choice)"
-                          class="position-relative border-bottom d-flex flex-column py-2"
-                          [ngClass]="{
-                            'border-bottom':
-                              $index < productLookupChoices.length - 1,
-                          }">
-                          <small
-                            ><b>{{ choice.title }}</b></small
-                          >
-                          <small class="fs-x-small mt-1">{{
-                            choice.description
-                          }}</small>
-                        </div>
-                      }
-                    </div>
-                  } @else {
-                    <div
-                      class="mt-3 sm-radius border bg-secondary py-2 ps-3 pe-4 col-auto position-relative">
-                      <span
-                        role="button"
-                        tabindex="0"
-                        (click)="resetSelectedLookupChoice()"
-                        class="position-absolute text-danger end-0 close-button">
-                        <i class="fa-solid fa-circle-xmark"></i
-                      ></span>
-                      <div class="position-relative d-flex flex-column py-1">
-                        <small
-                          ><b>{{ selectedProductLookupChoice.title }}</b></small
-                        >
-                        <small class="fs-x-small mt-1">{{
-                          selectedProductLookupChoice.description
-                        }}</small>
-                      </div>
-                    </div>
-                  }
-                </section>
+                </form>
               }
-            }
-          }
-
-          <!-- NOTE :: METADATA -->
-          @if (
-            !loadingProductDetails &&
-            productDetails &&
-            productDetails.metadata.length !== 0 &&
-            ((productDetails.lookup_metadata.length !== 0 && productLookup) ||
-              (productDetails.lookup_metadata.length !== 0 &&
-                productLookupChoices?.length !== 0 &&
-                selectedProductLookupChoice) ||
-              productDetails.lookup_metadata.length === 0)
-          ) {
-            <form [formGroup]="metadataForm" class="py-4 col-3">
-              @for (item of productDetails.metadata; track $index) {
-                <div class="mb-3">
-                  <div class="form-floating">
-                    <input
-                      [disabled]="loadingLookup"
-                      [type]="item.field_type"
-                      [formControlName]="item.field_name"
-                      class="form-control"
-                      [id]="item.field_name"
-                      [placeholder]="item.field_name" />
-                    <label [for]="item.field_name" class="text-capitalize">{{
-                      item.field_name
-                    }}</label>
-                  </div>
-                </div>
-              }
+            } @else if (
+              !loadingProductDetails &&
+              productDetails &&
+              !productDetails.lookup_metadata &&
+              !productDetails.metadata &&
+              productDetails.price
+            ) {
               <div class="text-center">
-                <button class="btn bg-primary px-5 text-all-white fw-bold" i18n>
-                  Add
-                </button>
+                @if (productDetails.accepts_multiple_payment) {
+                  <button
+                    class="btn bg-primary px-5 text-all-white fw-bold"
+                    i18n>
+                    Add
+                  </button>
+                } @else {
+                  <button
+                    class="btn bg-primary px-5 text-all-white fw-bold"
+                    i18n>
+                    Confirm
+                  </button>
+                }
               </div>
-            </form>
-          }
+            }
+          </section>
         }
       }
     </section>

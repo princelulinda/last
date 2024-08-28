@@ -17,7 +17,7 @@ import { environment } from '../../../../environments/environment';
 
 import { ApiService } from '../api/api.service';
 import { Router } from '@angular/router';
-import { bankModel } from '../../db/models/bank/bank.model';
+import { BankModel } from '../../db/models/bank/bank.model';
 import {
   ConnectedOperatorModel,
   OrganizationModel,
@@ -46,8 +46,8 @@ export class ConfigService {
   private actifTheme = new Subject<ThemeModel>();
   private actifMode = new Subject<ModeModel>();
 
-  private userBanks$: unknown | Observable<bankModel[]>;
-  private selectedBank$: unknown | Observable<bankModel>;
+  private userBanks$: unknown | Observable<BankModel[]>;
+  private selectedBank$: unknown | Observable<BankModel>;
 
   private connectedOperator$: unknown | Observable<ConnectedOperatorModel>;
   private operatorOrganization = new Subject<OrganizationModel | null>();
@@ -228,10 +228,10 @@ export class ConfigService {
 
   // NOTE :: Banks methods
 
-  setUserBanks(banks: bankModel[]) {
+  setUserBanks(banks: BankModel[]) {
     this.dbService.addOnce(Bank.tableName, banks);
   }
-  setSelectedBank(selectedBank: bankModel) {
+  setSelectedBank(selectedBank: BankModel) {
     this.dbService.addOnceUpdate(SelectedBank.tableName, selectedBank);
     this.dbService.setLocalStorageBankId(selectedBank.id);
   }
@@ -239,11 +239,11 @@ export class ConfigService {
     this.dbService.clearTable(SelectedBank.tableName);
     this.apiService.resetLocalBankId();
   }
-  getUserBanks(): Observable<bankModel[]> {
-    return this.userBanks$ as Observable<bankModel[]>;
+  getUserBanks(): Observable<BankModel[]> {
+    return this.userBanks$ as Observable<BankModel[]>;
   }
-  getSelectedBank(): Observable<bankModel> {
-    return this.selectedBank$ as Observable<bankModel>;
+  getSelectedBank(): Observable<BankModel> {
+    return this.selectedBank$ as Observable<BankModel>;
   }
 
   // NOTE :: operator methods

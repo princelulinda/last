@@ -27,7 +27,7 @@ import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
-import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { BankModel } from '../../../core/db/models/bank/bank.model';
 import {
   AmountEventModel,
   CreditAccountModel,
@@ -79,9 +79,9 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   @Input() isLoading = false;
   debitWallet: DebitWalletModel | null = null;
 
-  defaultBank: bankModel | null | undefined;
+  defaultBank: BankModel | null | undefined;
 
-  banks: bankModel[] = [];
+  banks: BankModel[] = [];
 
   @Input() debitNumber = '';
 
@@ -130,7 +130,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
   @Input() isOperation = false;
   @Input() showBack = false;
-  @Input() bankId!: bankModel;
+  @Input() bankId!: BankModel;
   clientInfo!: UserInfoModel;
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
@@ -139,8 +139,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   mode$!: Observable<ModeModel>;
   @Output() transferStepChange = new EventEmitter<string>();
 
-  selectedBank!: bankModel;
-  selectedBank$!: Observable<bankModel>;
+  selectedBank!: BankModel;
+  selectedBank$!: Observable<BankModel>;
   isBalanceShown = false;
   isBalanceShown$: Observable<boolean>;
   creditAccountAdded = false;
@@ -543,7 +543,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   switchBank(index: number) {
     this.selectedBank = this.banks[index];
 
-    this.configService.setSelectedBank(index as unknown as bankModel);
+    this.configService.setSelectedBank(index as unknown as BankModel);
 
     this.selectedDebitAccountType = '';
     this.debitAccount = null;

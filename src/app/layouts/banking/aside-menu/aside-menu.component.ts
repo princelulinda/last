@@ -13,7 +13,7 @@ import {
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
 import { UserInfoModel } from '../../../core/db/models/auth';
-import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { BankModel } from '../../../core/db/models/bank/bank.model';
 
 @Component({
   selector: 'app-aside-menu',
@@ -28,8 +28,8 @@ export class AsideMenuComponent implements OnInit {
 
   userInfo!: UserInfoModel;
   userInfo$: Observable<UserInfoModel>;
-  selectedBank!: bankModel;
-  selectedBank$!: Observable<bankModel>;
+  selectedBank!: BankModel;
+  selectedBank$!: Observable<BankModel>;
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
   private onDestroy$: Subject<void> = new Subject<void>();
