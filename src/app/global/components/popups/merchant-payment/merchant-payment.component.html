@@ -76,9 +76,7 @@
               <i class="fa-solid fa-play"></i>
             </span>
             @if (type === 'category-merchant' && category) {
-              <b class="fs-medium">{{
-                category.merchant_activity_sector.title
-              }}</b>
+              <b class="fs-medium">{{ category.lookup_title }}</b>
             } @else if (type === 'merchant' && merchantDetails) {
               <b class="fs-medium">{{
                 merchantDetails.merchant_category.merchant_activity_sector.title
@@ -93,7 +91,7 @@
           <div class="ms-5 bg-secondary category-card x-sm-radius d-flex">
             <span class="text-center flex-grow-1 py-1">
               @if (type === 'category-merchant' && category) {
-                <small>{{ category.name }}</small>
+                <small>{{ category.lookup_subtitle }}</small>
               } @else if (type === 'merchant' && merchantDetails) {
                 <small>{{ merchantDetails.merchant_category.name }}</small>
               } @else if (type === 'product' && productDetails) {

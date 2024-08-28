@@ -136,20 +136,6 @@
         <div class="col-10">
           <h4 class="fs-medium fw-bold" i18n>Best offers</h4>
         </div>
-        <!-- <div class="col ms-4">
-          <div class="row">
-            <div class="col-3 me-4">
-              <span class="border rounded-circle py-1 px-2 text-secondary">
-                <i class="fa-solid fa-arrow-left fa-xs"></i>
-              </span>
-            </div>
-            <div class="col-3">
-              <span class="border rounded-circle py-1 px-2 text-secondary">
-                <i class="fa-solid fa-arrow-right fa-xs"></i>
-              </span>
-            </div>
-          </div>
-        </div> -->
       </div>
       <div class="row">
         @if (!offerData || offerData.length === 0) {
@@ -176,12 +162,7 @@
                           classes="rounded-3"></app-skeleton>
                       </div>
                     </div>
-                    <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
-                      <!-- <img
-                        src="{{ item.image }}"
-                        class="d-flex align-self-center object-fit-cover w-100"
-                        alt="shoe" /> -->
-                    </div>
+                    <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex"></div>
                   </div>
                 </div>
               </div>
@@ -206,50 +187,17 @@
                         <p class="fs-small text-all-white" i18n>
                           {{ item.product.name }} <br />
                           {{ item.product.merchant.merchant_title }}
-                          <!-- {{ item.product.merchant.merchant_title }} -->
                         </p>
                       </div>
                     </div>
                     <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
-                      <!-- <img
-                        src="{{ item.image }}"
-                        class="d-flex align-self-center object-fit-cover w-100"
-                        alt="shoe" /> -->
+                      <!-- For the image of the product -->
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           }
-
-          <div class="col-6">
-            <div class="bg-primary sm-radius">
-              <div class="col-11 mx-auto">
-                <div class="row">
-                  <div class="col-8 col-sm-7 col-lg-7 col-xl-7">
-                    <div class="row">
-                      <app-skeleton
-                        height="10px"
-                        width="100px"
-                        classes=" mt-2 mt-md-3 mt-lg-4 mt-xl-4"></app-skeleton>
-                    </div>
-                    <div class="row mb-md-3 mb-lg-1 mb-xl-3">
-                      <p class="fs-small text-all-white">
-                        ------- <br />
-                        -----------
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
-                    <!-- <img
-                        src="{{ item.image }}"
-                        class="d-flex align-self-center object-fit-cover w-100"
-                        alt="shoe" /> -->
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         }
 
         @if (offerData.length > 0 || offerData.length === 2) {
@@ -269,15 +217,11 @@
                         <p class="fs-small text-all-white" i18n>
                           {{ item.product.name }} <br />
                           {{ item.product.merchant.merchant_title }}
-                          <!-- {{ item.product.merchant.merchant_title }} -->
                         </p>
                       </div>
                     </div>
                     <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
-                      <!-- <img
-                        src="{{ item.image }}"
-                        class="d-flex align-self-center object-fit-cover w-100"
-                        alt="shoe" /> -->
+                      <!-- For the image if there is one in the API-->
                     </div>
                   </div>
                 </div>
@@ -298,20 +242,6 @@
             New arrivals
           </h5>
         </div>
-        <!-- <div class="col ms-4">
-          <div class="row">
-            <div class="col-3 me-4">
-              <span class="border rounded-circle py-1 px-2 text-secondary">
-                <i class="fa-solid fa-arrow-left fa-xs"></i>
-              </span>
-            </div>
-            <div class="col-3">
-              <span class="border rounded-circle py-1 px-2 text-secondary">
-                <i class="fa-solid fa-arrow-right fa-xs"></i>
-              </span>
-            </div>
-          </div>
-        </div> -->
       </div>
       <div
         class="row d-flex justify-content-center d-md-flex justify-content-md-start">
@@ -380,25 +310,11 @@
       <div class="col-10">
         <h4 class="fs-medium fw-bold" i18n>Browse by category</h4>
       </div>
-      <!-- <div class="col ms-4">
-        <div class="row">
-          <div class="col-3 me-4">
-            <span class="border rounded-circle py-1 px-2 text-secondary">
-              <i class="fa-solid fa-arrow-left fa-xs"></i>
-            </span>
-          </div>
-          <div class="col-3">
-            <span class="border rounded-circle py-1 px-2 text-secondary">
-              <i class="fa-solid fa-arrow-right fa-xs"></i>
-            </span>
-          </div>
-        </div>
-      </div> -->
     </div>
     <div class="row g-0">
       @for (item of first4ProductCategory; track $index) {
         <div
-          class="col-5 col-sm-3 col-md-3 col-lg-3 col-xl-3 col-xxl-2 me-4 position-relative bg-dark bg-opacity-50 lg-radius"
+          class="col-5 col-sm-3 col-md-3 col-lg-3 col-xl-3 col-xxl-2 me-4 position-relative bg-dark bg-opacity-50 border border-white lg-radius"
           id="{{ item.id }}">
           @if (item.icon) {
             <div class="card bg-all-dark text-white">
@@ -417,7 +333,8 @@
           } @else {
             <div class="">
               <span class="d-flex justify-content-center">
-                <i class="fa-solid fa-mountain-sun fa-2x text-dark my-4"></i>
+                <i
+                  class="fa-solid fa-mountain-sun fa-2x text-all-dark my-4"></i>
               </span>
               @if (item.name) {
                 <div
@@ -429,7 +346,6 @@
               }
             </div>
           }
-          <!-- <div class="card-img-overlay bgBrowse sm-radius position-absolute top-0"></div> -->
         </div>
       }
     </div>
@@ -453,21 +369,6 @@
         <div class="col-10">
           <h5 class="fs-medium fw-bold mt-4" i18n>Recent product</h5>
         </div>
-        <!-- <div class="col ms-4">
-          <div class="row">
-            <div class="col-3 me-4">
-              <span
-                class="border rounded-circle text-secondary py-1 px-2 opacity-50">
-                <i class="fa-solid fa-arrow-left fa-xs"></i>
-              </span>
-            </div>
-            <div class="col-3">
-              <span class="border rounded-circle text-dark py-1 px-2">
-                <i class="fa-solid fa-arrow-right fa-xs"></i>
-              </span>
-            </div>
-          </div>
-        </div> -->
       </div>
       @if (!products) {
         <div class="row ms-2">
@@ -514,58 +415,17 @@
           >Recent billers</span
         >
       </div>
-      <!-- <div class="z-3 col-2 col-xl-1 p-0 pe-2 m-0 float-end">
-        <div class="col-12">
-          <div class="row">
-            <div class="col-2 me-4">
-              <div
-                class="border rounded-circle py-2 px-3"
-                (click)="previousBiller()"
-                role="button"
-                tabindex="0">
-                <span
-                  class="d-flex justify-content-center"
-                  [ngClass]="{
-                    'opacity-50 text-secondary': start === 0,
-                    'text-dark opacity-100': end >= 5,
-                  }"
-                  id="navigationButton">
-                  <i class="fa-solid fa-arrow-left fa-xs"></i>
-                </span>
-              </div>
-            </div>
-            <div class="col-2">
-              <div
-                class="border rounded-circle py-2 px-3"
-                (click)="nextBiller()"
-                role="button"
-                tabindex="0">
-                <span
-                  class="d-flex justify-content-center"
-                  [ngClass]="{
-                    'opacity-50 text-secondary': end === 14,
-                    'text-dark opacity-100': end < 14,
-                  }"
-                  id="navigationButton">
-                  <i class="fa-solid fa-arrow-right fa-xs"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
     <!-- *** -->
 
     @if (billers) {
       <div
-        class="row d-flex justify-content-center d-md-flex justify-content-sm-start">
+        class="d-flex justify-content-center d-md-flex justify-content-sm-start flex-wrap gap-5">
         @for (biller of recentBillers; track $index) {
-          <div class="col-5 col-sm-4 col-md-3 col-lg-4 col-xl-3 mb-2">
+          <div class="d-flex justify-content-between">
             <div class="w-100">
               <app-biller-card
                 [biller]="biller"
-                [categorySelected]="categorySelected"
                 [clearData]="clearData"></app-biller-card>
             </div>
           </div>
@@ -611,46 +471,6 @@
             <span class="fs-5 text-dark" i18n><b> Recent merchants</b></span>
           </p>
         </div>
-        <!-- <div class="z-3 col-2 col-xl-1 p-0 pe-2 m-0 float-end">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-3 me-4">
-                <div
-                  class="border rounded-circle py-2 px-3"
-                  (click)="previousMerchant()"
-                  role="button"
-                  tabindex="0">
-                  <span
-                    class="d-flex justify-content-center"
-                    [ngClass]="{
-                      'opacity-50 text-secondary': start === 0,
-                      'text-dark opacity-100': end >= 5,
-                    }"
-                    id="navigationButtonMerchant">
-                    <i class="fa-solid fa-arrow-left fa-xs"></i>
-                  </span>
-                </div>
-              </div>
-              <div class="col-3">
-                <div
-                  class="border rounded-circle py-2 px-3"
-                  (click)="nextMerchant()"
-                  role="button"
-                  tabindex="0">
-                  <span
-                    class="d-flex justify-content-center"
-                    [ngClass]="{
-                      'opacity-50 text-secondary': end === 20,
-                      'text-dark opacity-100': end < 20,
-                    }"
-                    id="navigationButtonMerchant">
-                    <i class="fa-solid fa-arrow-right fa-xs"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
       <!-- when the search has no outcomings -->
       @if (merchants && merchants.length === 0) {
@@ -671,8 +491,6 @@
             <div class="d-flex justify-content-between" tabindex="0">
               <div class="w-100">
                 <app-merchant-card [merchant]="merchant"> </app-merchant-card>
-                <!-- (merchantInfoOutput)="getMakeFavoriteResponse($event)"> -->
-                <!-- [favorite_merchant_making]="favorite_merchant_making" -->
               </div>
             </div>
           }

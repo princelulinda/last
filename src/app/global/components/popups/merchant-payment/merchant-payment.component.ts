@@ -20,7 +20,7 @@ import {
 } from '../../../../core/services/dialog/dialogs-models';
 import {
   MerchantAutocompleteModel,
-  MerchantCategoriesModel,
+  MerchantCategoriesAutocompleteModel,
   MerchantModel,
 } from '../../../../components/merchant/merchant.models';
 import {
@@ -78,7 +78,7 @@ export class MerchantPaymentComponent
   type!: MerchantPaymentTypesModel;
   merchant: MerchantAutocompleteModel | null = null;
   product: ProductAutocompleteModel | null = null;
-  category: MerchantCategoriesModel | null = null;
+  category: MerchantCategoriesAutocompleteModel | null = null;
 
   selectedBank: BankModel | null = null;
   selectedBank$: Observable<BankModel>;

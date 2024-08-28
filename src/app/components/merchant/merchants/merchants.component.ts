@@ -14,8 +14,8 @@ import { MerchantCardComponent } from '../global/merchant-card/merchant-card.com
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillersAutocompleteModel } from '../merchant.models';
 import {
-  MerchantCategoriesModel,
-  SectorActivityModel,
+  MerchantCategoriesAutocompleteModel,
+  SectorActivityAutocompleteModel,
 } from '../merchant.models';
 import { GoogleMapComponent } from '../../../global/components/google-map/google-map.component';
 import { MerchantAutocompleteModel } from '../merchant.models';
@@ -56,11 +56,11 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
   isInputFocused = false;
-  sectorActivity!: SectorActivityModel[];
-  selectedSector!: SectorActivityModel | null;
+  sectorActivity!: SectorActivityAutocompleteModel[];
+  selectedSector!: SectorActivityAutocompleteModel | null;
   isSectorListVisible = false;
   sectorId = '';
-  categories!: MerchantCategoriesModel[];
+  categories!: MerchantCategoriesAutocompleteModel[];
 
   favoriteMerchantLoading = false;
 
@@ -273,7 +273,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
     this.isSectorListVisible = false;
   }
 
-  selectSector(sector: SectorActivityModel): void {
+  selectSector(sector: SectorActivityAutocompleteModel): void {
     this.selectedSector = sector;
     this.isSectorListVisible = false;
     this.getCategoriesPerActivitySectors(sector.id as string);
