@@ -79,12 +79,13 @@
               <b class="fs-medium">{{ category.lookup_title }}</b>
             } @else if (type === 'merchant' && merchantDetails) {
               <b class="fs-medium">{{
-                merchantDetails.merchant_category.merchant_activity_sector.title
+                merchantDetails.merchant_category.merchant_activity_sector
+                  ?.title ?? ''
               }}</b>
             } @else if (type === 'product' && productDetails) {
               <b class="fs-medium">{{
                 productDetails.merchant.merchant_category
-                  .merchant_activity_sector.title
+                  .merchant_activity_sector?.title ?? ''
               }}</b>
             }
           </div>
@@ -140,30 +141,33 @@
                   aria-hidden="true"></span>
               </span>
             }
-            <div
-              class="rounded-circle border merchant-profile bg-secondary d-flex align-items-center justify-content-center me-2">
-              @if (selectedMerchant.lookup_image) {
-                <img
-                  src="{{ selectedMerchant.lookup_image }}"
-                  alt="{{ selectedMerchant.lookup_title }} Profile"
-                  class="image rounded-circle" />
-              } @else {
-                <span class="fs-large text-secondary mt-2">
-                  <i class="fa-solid fa-cart-shopping"></i>
-                </span>
-              }
-            </div>
-            <div class="d-flex flex-column ms-2">
-              <span class="fs-large fw-bold"
-                >{{ selectedMerchant.lookup_title }}
-                <span class="fs-normal"
-                  >({{ selectedMerchant.lookup_subtitle }})</span
-                ></span
-              >
-              <span class="fs-normal text-secondary fw-bold">{{
-                selectedMerchant.merchant_category_name
-              }}</span>
-            </div>
+
+            @if (selectedMerchant) {
+              <div
+                class="rounded-circle border merchant-profile bg-secondary d-flex align-items-center justify-content-center me-2">
+                @if (selectedMerchant.lookup_image) {
+                  <img
+                    src="{{ selectedMerchant.lookup_image }}"
+                    alt="{{ selectedMerchant.lookup_title }} Profile"
+                    class="image rounded-circle" />
+                } @else {
+                  <span class="fs-large text-secondary mt-2">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                  </span>
+                }
+              </div>
+              <div class="d-flex flex-column ms-2">
+                <span class="fs-large fw-bold"
+                  >{{ selectedMerchant.lookup_title }}
+                  <span class="fs-normal"
+                    >({{ selectedMerchant.lookup_subtitle }})</span
+                  ></span
+                >
+                <span class="fs-normal text-secondary fw-bold">{{
+                  selectedMerchant.merchant_category_name
+                }}</span>
+              </div>
+            }
           </section>
         </div>
 
@@ -202,14 +206,19 @@
 
     <!-- NOTE :: ON PRODUCT PAYMENT MENU -->
     <section class="px-4 mt-4">
-      @if (selectedMerchant && selectedPaymentMenu === 'Product-Payment') {
-        @if (!selectedProduct) {
+      @if (
+        (selectedMerchant && selectedPaymentMenu === 'Product-Payment') ||
+        (type === 'product' && loadingProductDetails)
+      ) {
+        @if (!selectedProduct && selectedMerchant) {
           <section>
             <app-merchant-products
               (selectedProductEvent)="getSelectedProduct($event)"
               [merchantId]="selectedMerchant.id"></app-merchant-products>
           </section>
-        } @else {
+        } @else if (
+          selectedProduct || (type === 'product' && loadingProductDetails)
+        ) {
           <div class="row mx-0">
             <div class="mb-3">
               <b class="fs-medium" i18n>Product(s)</b>
@@ -231,11 +240,13 @@
                     aria-hidden="true"></span>
                 </span>
               }
-              <div>
-                <app-product-card
-                  [product]="selectedProduct"
-                  type="row"></app-product-card>
-              </div>
+              @if (selectedProduct) {
+                <div>
+                  <app-product-card
+                    [product]="selectedProduct"
+                    type="row"></app-product-card>
+                </div>
+              }
             </span>
           </div>
 
