@@ -2,14 +2,14 @@
     <div class="row mx-md-4 mb-4">
       <div class="col-5 d-flex align-items-center me-auto">
         <i class="fa-solid fa-user-tie text-primary fs-4 me-2"></i>
-        <span class="fw-bolder fs-5" i18n>Merchants list</span>
+        <span class="fw-bolder fs-5" i18n>Merchants</span>
       </div>
       <div class="col-5 d-flex justify-content-end align-items-center">
         <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
         <span class="fw-bolder fs-5" i18n>Back</span>
       </div>
     </div>
-    <div class="row mx-md-4 mb-5">
+    <div class="row mx-md-4 mb-4">
       <div class="d-none d-md-block col-md-4 col-lg-7"></div>
       <div class="col-md-8 col-lg-5">
         <div class="row justify-content-between">
@@ -59,236 +59,42 @@
     </div>
     <div
       class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gy-4 mx-md-2 mb-3 mb-md-4 mb-lg-5">
-      <div class="col">
-        <div class="row w-100 border rounded-2 mx-auto">
-          <div class="col-5 my-2">
-            <img
-              src="/images/NouvelleExperience.jpg"
-              class="img-fluid rounded h-100"
-              alt="img1"
-              title="pic" />
-          </div>
-          <div class="col-7">
+      <div class="col" *ngFor="let infoMerchant of data">
+        <div class="row w-100 border rounded-2">
+          <ng-container *ngIf="infoMerchant.merchant_logo; else showIcon" class="">
+                    <div class="col-4">
+                      <div class="h-100 d-flex align-items-center justify-content-center">
+                          <img
+                            [src]="infoMerchant.merchant_logo"
+                            class="image rounded"
+                            alt="img1"
+                            title="pic"
+                            style="width: 80px ;height:  80px;"
+                          />
+                      </div>            
+                    </div>
+          </ng-container>
+          <ng-template #showIcon>
+            <div class="col-4 bg-secondary">
+              <div class="h-100 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-image fs-xx-large text-secondary"></i>
+              </div>            
+            </div>    
+          </ng-template>
+          <div class="col-8">
             <div class="row text-start h-100 w-auto rounded-2 d-flex flex-column justify-content-between">
-              <span class="fs-5 fw-bold">Nash Yummy</span>
-              <span class="fs-5">Bucumi David</span>
-              <span class="fs-5">12345</span>
-              <span class="fs-5 text-success">Active</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="row w-100 border rounded-2 mx-auto">
-          <div class="col-5 my-2">
-            <img
-              src="/images/NouvelleExperience.jpg"
-              class="img-fluid rounded h-100"
-              alt="img1"
-              title="pic" />
-          </div>
-          <div class="col-7">
-            <div class="row text-start h-100 w-auto rounded-2 d-flex flex-column justify-content-between">
-              <span class="fs-5 fw-bold">Nash Yummy</span>
-              <span class="fs-5">Bucumi David</span>
-              <span class="fs-5">12345</span>
-              <span class="fs-5 text-success">Active</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="row w-100 border rounded-2 mx-auto">
-          <div class="col-5 my-2">
-            <img
-              src="/images/NouvelleExperience.jpg"
-              class="img-fluid rounded h-100"
-              alt="img1"
-              title="pic" />
-          </div>
-          <div class="col-7">
-            <div class="row text-start h-100 w-auto rounded-2 d-flex flex-column justify-content-between">
-              <span class="fs-5 fw-bold">Nash Yummy</span>
-              <span class="fs-5">Bucumi David</span>
-              <span class="fs-5">12345</span>
-              <span class="fs-5 text-success">Active</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="row w-100 border rounded-2 mx-auto">
-          <div class="col-5 my-2">
-            <img
-              src="/images/NouvelleExperience.jpg"
-              class="img-fluid rounded h-100"
-              alt="img1"
-              title="pic" />
-          </div>
-          <div class="col-7">
-            <div class="row text-start h-100 w-auto rounded-2 d-flex flex-column justify-content-between">
-              <span class="fs-5 fw-bold">Nash Yummy</span>
-              <span class="fs-5">Bucumi David</span>
-              <span class="fs-5">12345</span>
-              <span class="fs-5 text-success">Active</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="row w-100 border rounded-2 mx-auto">
-          <div class="col-5 my-2">
-            <img
-              src="/images/NouvelleExperience.jpg"
-              class="img-fluid rounded h-100"
-              alt="img1"
-              title="pic" />
-          </div>
-          <div class="col-7">
-            <div class="row text-start h-100 w-auto rounded-2 d-flex flex-column justify-content-between">
-              <span class="fs-5 fw-bold">Nash Yummy</span>
-              <span class="fs-5">Bucumi David</span>
-              <span class="fs-5">12345</span>
-              <span class="fs-5 text-success">Active</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="row w-100 border rounded-2 mx-auto">
-          <div class="col-5 my-2">
-            <img
-              src="/images/NouvelleExperience.jpg"
-              class="img-fluid rounded my-2"
-              alt="img1"
-              title="pic" />
-          </div>
-          <div class="col-7">
-            <div class="row text-start h-100 w-auto rounded-2 d-flex flex-column justify-content-between">
-              <span class="fs-5 fw-bold">Nash Yummy</span>
-              <span class="fs-5">Bucumi David</span>
-              <span class="fs-5">12345</span>
-              <span class="fs-5 text-success">Active</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="row w-100 border rounded-2 mx-auto">
-          <div class="col-5 my-2">
-            <img
-              src="/images/NouvelleExperience.jpg"
-              class="img-fluid rounded h-100"
-              alt="img1"
-              title="pic" />
-          </div>
-          <div class="col-7">
-            <div class="row text-start h-100 w-auto rounded-2 d-flex flex-column justify-content-between">
-              <span class="fs-5 fw-bold">Nash Yummy</span>
-              <span class="fs-5">Bucumi David</span>
-              <span class="fs-5">12345</span>
-              <span class="fs-5 text-success">Active</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="row w-100 border rounded-2 mx-auto">
-          <div class="col-5 my-2">
-            <img
-              src="/images/NouvelleExperience.jpg"
-              class="img-fluid rounded h-100"
-              alt="img1"
-              title="pic" />
-          </div>
-          <div class="col-7">
-            <div class="row text-start h-100 w-auto rounded-2 d-flex flex-column justify-content-between">
-              <span class="fs-5 fw-bold">Nash Yummy</span>
-              <span class="fs-5">Bucumi David</span>
-              <span class="fs-5">12345</span>
-              <span class="fs-5 text-success">Active</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="row w-100 border rounded-2 mx-auto">
-          <div class="col-5 my-2">
-            <img
-              src="/images/NouvelleExperience.jpg"
-              class="img-fluid rounded h-100"
-              alt="img1"
-              title="pic" />
-          </div>
-          <div class="col-7">
-            <div class="row text-start h-100 w-auto rounded-2 d-flex flex-column justify-content-between">
-              <span class="fs-5 fw-bold">Nash Yummy</span>
-              <span class="fs-5">Bucumi David</span>
-              <span class="fs-5">12345</span>
-              <span class="fs-5 text-success">Active</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="row w-100 border rounded-2 mx-auto">
-          <div class="col-5 my-2">
-            <img
-              src="/images/NouvelleExperience.jpg"
-              class="img-fluid rounded h-100"
-              alt="img1"
-              title="pic" />
-          </div>
-          <div class="col-7">
-            <div class="row text-start h-100 w-auto rounded-2 d-flex flex-column justify-content-between">
-              <span class="fs-5 fw-bold">Nash Yummy</span>
-              <span class="fs-5">Bucumi David</span>
-              <span class="fs-5">12345</span>
-              <span class="fs-5 text-success">Active</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="row w-100 border rounded-2 mx-auto">
-          <div class="col-5 my-2">
-            <img
-              src="/images/NouvelleExperience.jpg"
-              class="img-fluid rounded h-100"
-              alt="img1"
-              title="pic" />
-          </div>
-          <div class="col-7">
-            <div class="row text-start h-100 w-auto rounded-2 d-flex flex-column justify-content-between">
-              <span class="fs-5 fw-bold">Nash Yummy</span>
-              <span class="fs-5">Bucumi David</span>
-              <span class="fs-5">12345</span>
-              <span class="fs-5 text-success">Active</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="row w-100 border rounded-2 mx-auto">
-          <div class="col-5 my-2">
-            <img
-              src="/images/NouvelleExperience.jpg"
-              class="img-fluid rounded h-100"
-              alt="img1"
-              title="pic" />
-          </div>
-          <div class="col-7">
-            <div class="row text-start h-100 w-auto my-auto rounded-2 d-flex flex-column justify-content-between">
-              <span class="fs-5 fw-bold">Nash Yummy</span>
-              <span class="fs-5">Bucumi David</span>
-              <span class="fs-5">12345</span>
-              <span class="fs-5 text-success">Active</span>
+              <span class="fs-5 fw-bold overflow-hidden">{{infoMerchant.merchant_title}}</span>
+              <span class="fs-5">{{ infoMerchant.client.client_code }}</span>
+              <span class="fs-5">{{infoMerchant.slug}}</span>
+              <span class="fs-5" [ngClass]="infoMerchant.is_active ? 'text-success' : 'text-danger'">
+                {{ infoMerchant.is_active ? 'active' : 'active' }}
+              </span>              
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="row mx-md-4 mx-auto">
+    <div class="row mx-md-4 mx-auto mb-5">
       <div class="w-100 w-md-75 mx-auto">
         <div class="d-flex flex-column flex-lg-row justify-content-between">
           <div class="col-12 col-lg-4">
