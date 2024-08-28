@@ -363,7 +363,7 @@
         <div class="mt-2 pt-3">
           <div class="d-flex p-3 ms-2 sm-radius">
             <span class="text-dark pt-2" i18n>Send to :</span>
-            <div class="lookup col ms-4 me-3">
+            <div class="form-floating lookup col ms-4 me-3">
               <app-lookup
                 option="lookup"
                 url="/clients/list/all/object_lookup/?lookup_data="
@@ -377,12 +377,13 @@
                 [isFormFloating]="true"
                 (amountEvent)="getAmount($event)"></app-amount-field>
             </div>
-            <div class="col ms-4 me-4 mt-3 text-dark">
+            <div class="form-floating col ms-4 me-4 mt-3 text-dark">
               <input
                 type="text"
                 class="form-control input w-100 p-3"
                 placeholder="description"
                 formControlName="description" />
+              <label for="description" class="form-label">Description</label>
             </div>
             <div class="text-center mt-5 mb-4">
               <button
@@ -435,18 +436,21 @@
               <div class="col-lg-2 col-md-2 col-sm-4 col mb-2">
                 <app-skeleton
                   [height]="'100px'"
-                  [width]="'100px'"></app-skeleton>
+                  [width]="'100px'"
+                  classes="sm-radius"></app-skeleton>
                 <div>
                   <app-skeleton
                     [height]="'10px'"
                     [width]="'30%'"
-                    appearance="line"></app-skeleton>
+                    appearance="line"
+                    classes="sm-radius"></app-skeleton>
                 </div>
                 <div>
                   <app-skeleton
                     [height]="'10px'"
                     [width]="'50%'"
-                    appearance="line"></app-skeleton>
+                    appearance="line"
+                    classes="sm-radius"></app-skeleton>
                 </div>
               </div>
             }
