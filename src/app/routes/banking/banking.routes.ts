@@ -12,8 +12,6 @@ import { WalletDetailsComponent } from '../../components/wallet/wallet-details/w
 import { TarifComponent } from '../../components/tarif/tarif.component';
 import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.component';
 import { AccountDetailsComponent } from '../../components/account/account-details/account-details.component';
-import { MerchantListComponent } from '../../components/dev/agent/merchant-list/merchant-list.component';
-import { AgentComponent } from '../../components/dev/agent/agent/agent.component';
 
 export const bankingRoutes: Routes = [
   {
@@ -68,9 +66,5 @@ export const bankingRoutes: Routes = [
         component: AccountDetailsComponent,
       },
     ],
-  },
-  {
-    path: 'merchant',
-    component: MerchantListComponent,
   },
 ];
