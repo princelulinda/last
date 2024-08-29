@@ -13,6 +13,7 @@ import {
   ParamModel,
 } from '../reusable-list/reusable.model';
 import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
+import { OverviewModel } from './list.model';
 
 @Component({
   selector: 'app-list',
@@ -24,8 +25,8 @@ import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
 export class ListComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  @Input() headers!: Header[];
-  @Input() url = '';
+  @Input({ required: true }) headers!: Header[];
+  @Input({ required: true }) url = '';
   @Input() title = '';
   showAmount = false;
 
@@ -33,6 +34,8 @@ export class ListComponent implements OnInit, OnDestroy {
   @Input() overviewUrl = '';
   @Input() todayDate = false;
   @Input() limit = 20;
+  overviewCount = 0;
+  totalItems = 0;
   searchName = new FormControl('');
   selectedPeriod!: selectedPeriodModel;
   data_list: {
@@ -51,6 +54,24 @@ export class ListComponent implements OnInit, OnDestroy {
     value2: string;
   }[][];
 
+  @Input() filters = [
+    {
+      name: 'Date',
+      title: 'date',
+      value: [
+        { title: 'Date', value: 'date', type_field: 'date' },
+        { title: 'Period', value: 'period', type_field: 'date' },
+      ],
+    },
+    {
+      name: 'Status',
+      title: 'status',
+      value: [
+        { title: 'Activate', value: 'A', type_field: 'checkbox' },
+        { title: 'Deactivate', value: 'D', type_field: 'checkbox' },
+      ],
+    },
+  ];
   clientPagination = new PaginationConfig();
   currentPage = 0;
   response_data!: getdataModel;
@@ -59,6 +80,7 @@ export class ListComponent implements OnInit, OnDestroy {
   isLoading = false;
   showFilters = false;
   showFilterComponent = false;
+  overViewData: OverviewModel[] = [];
   currentExcelPage = 0;
   excelOffset = 0;
   exportCount = 0;
@@ -104,6 +126,14 @@ export class ListComponent implements OnInit, OnDestroy {
   toggleEyeStatus() {
     this.dialogService.displayAmount();
   }
+  isSearchInputNotEmpty(): boolean {
+    const searchValue = this.searchName.value;
+    return typeof searchValue === 'string' && searchValue.trim() !== '';
+  }
+  handleEnter(event: KeyboardEvent): void {
+    event.preventDefault();
+    this.search();
+  }
   getData() {
     let params: ParamModel[] = [];
     if (this.searchName.value !== '') {
@@ -128,8 +158,9 @@ export class ListComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (data: getdataModel) => {
           this.response_data = data;
+          this.totalItems = data.count;
           this.data_list = [];
-          console.log('this is the data :', this.data_list);
+
           if (this.clientPagination.filters.limit) {
             this.pages = ~~(
               this.response_data.count / this.clientPagination.filters.limit
@@ -275,10 +306,18 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   doListMove(action: string) {
+    const totalPages = Math.ceil(
+      this.totalItems / this.clientPagination.filters.limit
+    );
+
     if (action === 'next') {
       this.currentPage += 1;
-    } else {
+    } else if (action === 'previous') {
       this.currentPage -= 1;
+    } else if (action === 'first') {
+      this.currentPage = 0;
+    } else if (action === 'last') {
+      this.currentPage = totalPages - 1;
     }
 
     // condition just for typescript
@@ -287,6 +326,17 @@ export class ListComponent implements OnInit, OnDestroy {
         this.clientPagination.filters.limit * this.currentPage;
       this.getData();
     }
+  }
+  get start(): number {
+    return this.currentPage * this.clientPagination.filters.limit + 1;
+  }
+
+  get end(): number {
+    const calculatedEnd =
+      (this.currentPage + 1) * this.clientPagination.filters.limit;
+    return calculatedEnd > this.response_data.count
+      ? this.response_data.count
+      : calculatedEnd;
   }
 
   search() {
@@ -299,6 +349,17 @@ export class ListComponent implements OnInit, OnDestroy {
     } else {
       this.showFilters = true;
     }
+  }
+  getOverviewData() {
+    this.generalService
+      .getOverviewData(this.overviewUrl)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: data => {
+          this.overViewData = data.object;
+          this.overviewCount = data.count;
+        },
+      });
   }
 
   openPagination() {

@@ -16,6 +16,8 @@ import { AgentCreationComponent } from '../../components/dev/agent/agent-creatio
 import { MerchantListComponent } from '../../components/dev/agent/merchant-list/merchant-list.component';
 import { AgentListComponent } from '../../components/dev/agent/agent-list/agent-list.component';
 import { AgentComponent } from '../../components/dev/agent/agent/agent.component';
+import { ListTestComponent } from '../../components/dev/list-test/list-test.component';
+
 
 export const bankingRoutes: Routes = [
   {
@@ -72,6 +74,7 @@ export const bankingRoutes: Routes = [
     ],
   },
   {
+
     path: 'agent',
     component: AgentComponent,
   },

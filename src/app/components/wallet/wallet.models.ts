@@ -40,6 +40,15 @@ export interface mainConfigModel {
   activePlateform: string;
   activeTheme: string;
 }
+export interface WalletTopUpBodyModel {
+  amount: number;
+  debit_account: number;
+  debit_bank: string;
+  description: string;
+  pin_code: string | undefined;
+  wallet_id: string;
+}
+
 export interface Walletdetail {
   actual_balance: number;
   title: string;
