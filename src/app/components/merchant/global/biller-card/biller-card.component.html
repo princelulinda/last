@@ -1,6 +1,6 @@
 @if (biller) {
   <main class="clickable" tabindex="0" (click)="selectBiller()">
-    <div class="border sm-radius biller-card w-100">
+    <div class="border sm-radius biller-card">
       <div class=" ">
         <div class="position-relative">
           <div class="bg-input m-1 sm-radius">
@@ -68,6 +68,11 @@
         <h6 class="fs-x-small" i18n>
           {{ biller.lookup_title }} ({{ biller.lookup_subtitle }})
         </h6>
+      </div>
+      <div class="row ms-0">
+        <p class="fs-x-small" i18n>
+          {{ biller.merchant_category_name }}
+        </p>
       </div>
     </div>
   </main>

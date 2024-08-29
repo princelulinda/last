@@ -15,6 +15,7 @@ import {
   MetadataCreationResponseModel,
   MetadataModel,
 } from '../../../components/metadatas/metadata.model';
+import { OverviewModel } from '../../../global/components/list/list.model';
 // import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -87,13 +88,18 @@ export class GeneralService {
   getMetadata(
     search = '',
     pagination?: PaginationConfig
-  ): Observable<{ objects: MetadataModel[] }> {
+  ): Observable<{
+    count: number;
+    objects: MetadataModel[];
+  }> {
     const url = `/metadata/?search=${search}&limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`;
-    return this.apiService.get<{ objects: MetadataModel[] }>(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get<{ count: number; objects: MetadataModel[] }>(url)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
   createMetadata(
     body: MetadataBodyModel
@@ -102,5 +108,12 @@ export class GeneralService {
     return this.apiService
       .post(url, body)
       .pipe(map(response => response as MetadataCreationResponseModel));
+  }
+  getOverviewData(
+    url: string
+  ): Observable<{ object: OverviewModel[]; count: number }> {
+    return this.apiService
+      .get<{ object: OverviewModel[]; count: number }>(url)
+      .pipe(map(data => data));
   }
 }

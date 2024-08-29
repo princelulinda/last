@@ -40,17 +40,17 @@
               <div class="d-grid mt-2 mx-2">
                 @if (recentTransactions) {
                   <div class="d-flex justify-content-between">
-                    <span class="text-dark md-title w-70">
+                    <span class="text-dark md-title">
                       @if (!transaction.operation_type.description) {
                         <span>---</span>
                       }
                       @if (transaction.operation_type.description) {
-                        <span>{{
+                        <span class="fw-bold">{{
                           transaction.operation_type.description
                         }}</span>
                       }
                     </span>
-                    <span class="text-dark sm-sec-text">
+                    <span class="text-dark">
                       @if (!transaction.created_at) {
                         <span>---</span>
                       }
@@ -68,14 +68,14 @@
                     @if (transaction.amount) {
                       <span>
                         @if (isBalanceShown) {
-                          <span>
+                          <span class="text-success fw-bold">
                             <app-amount-visibility
                               [amount]="transaction.amount"
                               [currency]="'BIF'"></app-amount-visibility>
                           </span>
                         }
                         @if (!isBalanceShown) {
-                          <span>
+                          <span class="text-success fw-bold">
                             <app-amount-visibility
                               [currency]="'BIF'"
                               [amount]="'******'"></app-amount-visibility>
@@ -84,7 +84,7 @@
                       </span>
                     }
                   </span>
-                  <span class="text-dark sm-sec-text">
+                  <span class="text-dark">
                     @if (
                       !transaction.account ||
                       !transaction.account.account_number

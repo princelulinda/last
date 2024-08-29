@@ -246,8 +246,8 @@
               <div
                 role="button"
                 class="pt-1 level-1 ms-3 mt-2 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
-                routerLink="{{ baseRouterLink }}/bill">
-                <b class="text-dark" i18n>Bills Report</b>
+                routerLink="{{ baseRouterLink }}/payment-reports">
+                <b class="text-dark" i18n>Payment reports</b>
                 <i class="fa-solid fa-file-excel ms-3 text-success"></i>
               </div>
 
@@ -328,24 +328,11 @@
     aria-labelledby="staticBackdropLabel"
     aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content bg-white">
         <div class="row">
-          <div class="col"></div>
-          <div class="col d-flex justify-content-end">
-            <button
-              type="button"
-              class="btn-close me-4 mt-4"
-              data-bs-dismiss="modal"
-              aria-label="Close"></button>
-          </div>
-        </div>
-        <div class="modal-body">
-          <app-reusable-list
-            title="Statements"
-            [headers]="headers"
-            [url]="url"></app-reusable-list>
-
-          <p>this url : {{ url }}</p>
+          <app-statement
+            [account]="account"
+            [accountId]="merchantAccountId"></app-statement>
         </div>
       </div>
     </div>

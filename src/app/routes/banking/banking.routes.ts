@@ -12,6 +12,7 @@ import { WalletDetailsComponent } from '../../components/wallet/wallet-details/w
 import { TarifComponent } from '../../components/tarif/tarif.component';
 import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.component';
 import { AccountDetailsComponent } from '../../components/account/account-details/account-details.component';
+import { ListTestComponent } from '../../components/dev/list-test/list-test.component';
 
 export const bankingRoutes: Routes = [
   {
@@ -66,5 +67,9 @@ export const bankingRoutes: Routes = [
         component: AccountDetailsComponent,
       },
     ],
+  },
+  {
+    path: 'list',
+    component: ListTestComponent,
   },
 ];

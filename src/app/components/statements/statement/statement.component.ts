@@ -86,7 +86,9 @@ export class StatementComponent implements OnChanges, OnDestroy {
   constructor(private bankService: BankService) {
     //comment
   }
-
+  ngOnit() {
+    console.log('accountId value', this.accountId);
+  }
   ngOnChanges(changes: SimpleChanges) {
     for (const propName in changes) {
       const chng = changes[propName];

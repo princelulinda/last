@@ -327,7 +327,7 @@ export class MyMarketDashboardComponent
           };
           this.merchantAccountId = (
             this.merchant as MerchantModel
-          ).merchant_main_account;
+          ).merchant_main_account_id;
           this.merchantId = this.merchant.id;
 
           this.getMerchantInfos();
