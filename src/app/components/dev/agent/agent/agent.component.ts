@@ -25,10 +25,9 @@ export class AgentComponent implements OnInit {
     this.agentService.getAgentInfos().subscribe({
       next: (response: {object: AgentResModel}) => {
         this.data = response.object.response_data
-        console.log("donnees trouvees agent :", this.data);
       },
       error: error => {
-        console.error("Erreur:", error);
+        console.error(error);
       }
     });
   }

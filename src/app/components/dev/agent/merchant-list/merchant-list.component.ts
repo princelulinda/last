@@ -26,11 +26,10 @@ export class MerchantListComponent implements OnInit {
     this.merchantService.getMerchantInfos().subscribe({
       next: response => {
         this.data = response.objects;
-        console.log("donnees trouvees merchant :", this.data);
         this.Loading = false;
       },
       error: error => {
-        console.error("Erreur merchant:", error);
+        console.error(error);
       }
     });
   }
