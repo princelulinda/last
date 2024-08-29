@@ -5,11 +5,11 @@
       <span class=" pb-3 ps-3 pe-3 border-bottom border-2 border-primary">{{ title }}</span>
     </div> -->
     <div class="row bg-secondary my-3 pt-1 pb-1 d-flex align-items-center mt-1">
-      <div class="d-flex col align-items-center">
+      <div class="d-flex col align-items-center gap-1">
         <span
           tabindex="0"
           role="button"
-          [ngClass]="{ 'not-clickable': !response_data }"
+          [ngClass]="{ 'not-clickable': response_data }"
           class="bg-white text-center plus-square rounded-circle"
           title="Add"
           ><i class="fa-solid fa-plus text-success fs-x-small"></i
@@ -18,9 +18,11 @@
           class="d-flex align-items-center searchForm position-relative"
           [ngClass]="{ 'active ': isSearchInputNotEmpty() }">
           <input
-            class="ps-4 search-input sm-radius ms-3 position-absolute"
+            class="ps-4 search-input start-0 w-100 focus:outline-none border-0 sm-radius ms-3 position-absolute"
             [ngClass]="{
               'd-block ': isSearchInputNotEmpty(),
+              'not-clickable':
+                response_data && data_list && data_list.length > 0,
             }"
             type="text"
             placeholder="Search ..."
@@ -28,18 +30,19 @@
             (keydown.enter)="search()" />
           <span
             class="btn bg-transparent search-btn"
+            [ngClass]="{ 'not-clickable': response_data }"
             role="button"
             (click)="search()"
             tabindex="0">
             @if (!isLoading) {
-              <span [ngClass]="{ 'not-clickable': !response_data }"
+              <span
                 ><i
-                  class="fa-solid fa-search search-button position-absolute text-secondary fs-small text-align-center fs-small"></i
+                  class="fa-solid fa-search search-button position-absolute text-secondary top-0 end-0 text-align-center fs-small"></i
               ></span>
             } @else {
               <span>
                 <i
-                  class="fa-solid fa-spinner search-button text-secondary position-absolute text-align-center fa-pulse fs-small"></i
+                  class="fa-solid fa-spinner search-button text-secondary position-absolute top-0 end-0 text-align-center fa-pulse fs-small"></i
               ></span>
             }
           </span>
@@ -48,10 +51,9 @@
           tabindex="0"
           role="button"
           [ngClass]="{
-            'not-clickable': !response_data,
-            'ms-4 ': isSearchInputNotEmpty(),
+            'not-clickable': isLoading,
           }"
-          class="ms-3 d-flex fs-small align-items-center text-secondary"
+          class="ms-3 d-flex fs-small align-items-center refresh text-secondary"
           title="Refresh"
           (click)="search()"
           ><i class="fa-solid fa-rotate-right"></i
@@ -59,18 +61,16 @@
         <span
           tabindex="0"
           role="button"
-          [ngClass]="{ 'not-clickable': !response_data }"
+          [ngClass]="{ 'not-clickable': isLoading }"
           class="ms-3 d-flex fs-small align-items-center text-secondary"
-          data-bs-toggle="modal"
-          data-bs-target="#myModal"
           title="Overview"
           ><i class="fa-solid fa-chart-simple"></i
         ></span>
         <span
           tabindex="0"
           role="button"
-          title="export"
-          [ngClass]="{ 'not-clickable': !response_data }"
+          title="Export Excel"
+          [ngClass]="{ 'not-clickable': isLoading }"
           class="ms-3 d-flex fs-small align-items-center text-secondary"
           ><i class="fa-solid fa-cloud-arrow-down"></i
         ></span>
@@ -78,7 +78,7 @@
           class="ms-3 d-flex fs-small pt-1 align-items-center text-secondary"
           tabindex="0"
           role="button"
-          [ngClass]="{ 'not-clickable': !response_data }"
+          [ngClass]="{ 'not-clickable': isLoading }"
           (click)="toggleEyeStatus()">
           @if (amountState === true) {
             <span title="Hide balances" i18n>
@@ -94,16 +94,17 @@
         <span
           tabindex="0"
           role="button"
-          [ngClass]="{ 'not-clickable': !response_data }"
+          [ngClass]="{ 'not-clickable': isLoading }"
           class="ms-3 d-flex ps-3 border-start fs-small align-items-center text-secondary"
-          ><i class="fa-solid fa-list"></i
+          ><i class="fa-solid fa-list"></i>
+          <span class="mb-2"><i class="fa-solid fa-gear fs-x-small"></i></span
         ></span>
         <span
           tabindex="0"
           role="button"
-          [ngClass]="{ 'not-clickable': !response_data }"
+          [ngClass]="{ 'not-clickable': isLoading }"
           class="ms-3 d-flex fs-small align-items-center text-secondary"
-          title="Export">
+          title="Import">
           <i class="fa-solid fa-upload"></i
         ></span>
       </div>
@@ -111,7 +112,7 @@
       <div class="col text-secondary">
         @if (response_data && data_list && data_list.length > 0) {
           <div class="d-flex align-items-center">
-            <div class="ms-auto">
+            <div class="ms-auto d-flex align-items-center">
               <small i18n
                 ><i class="text-secondary"
                   >{{ start }}-{{ end }} of {{ pages + 1 }}</i
@@ -121,6 +122,7 @@
                 class="me-2 ms-3"
                 role="button"
                 tabindex="0"
+                [ngClass]="{ 'not-clickable': isLoading }"
                 (click)="doListMove('first')">
                 <i i18n class="fa-solid fa-angles-left fs-small"></i>
               </span>
@@ -129,11 +131,16 @@
                 class="me-2"
                 role="button"
                 tabindex="0"
-                [ngClass]="{ 'not-clickable': currentPage === 0 }"
+                [ngClass]="{ 'not-clickable': currentPage === 0 || isLoading }"
                 (click)="doListMove('prev')">
                 <i i18n class="fa-solid fa-angle-left fs-small"></i>
               </span>
-              <span class="me-2">
+              <span
+                class="me-2 fs-small d-flex align-items-center"
+                contenteditable="true"
+                [ngClass]="{ 'not-clickable': isLoading }"
+                (keydown.enter)="doListMove('goToPage')"
+                [textContent]="currentPage + 1">
                 {{ currentPage + 1 }}
               </span>
               @if (clientPagination.filters.limit) {
@@ -141,6 +148,7 @@
                   class="me-2"
                   role="button"
                   tabindex="0"
+                  [ngClass]="{ 'not-clickable': isLoading }"
                   (click)="doListMove('next')">
                   <i i18n class="fa-solid fa-angle-right fs-small"></i>
                 </span>
@@ -148,12 +156,17 @@
               <span
                 class="me-2"
                 role="button"
+                [ngClass]="{ 'not-clickable': isLoading }"
                 tabindex="0"
                 (click)="doListMove('last')">
                 <i i18n class="fa-solid fa-angles-right fs-small"></i>
               </span>
             </div>
             <div
+              role="button"
+              title="Filters"
+              data-bs-toggle="modal"
+              data-bs-target="#filterModal"
               class="ms-3 justify-content-center d-flex align-items-center bg-primary-3 sm-radius filter-square">
               <span
                 ><i class="fa-solid fa-arrow-up-wide-short text-secondary"></i
@@ -162,45 +175,39 @@
           </div>
         }
       </div>
-
-      <!-- 
-    <div class="col d-flex justify-content-end">
-      <span i18n>
-        <input
-          class="form-control sm-radius border border-secondary border-1 ps-5 form-control-sm"
-          type="text"
-          style="
-          height: 35px;
-            width: 200px;
-          "
-          placeholder="Search"
-          (keydown.enter)="search()"
-          [formControl]="searchName" />
-        @if (!isLoading) {
-          <button
-            style="bottom: 15px"
-            class="btn bg-transparent text-dark position-relative translate-middle-y"
-            type="submit"
-            (click)="search()">
-            <i class="fa-solid fa-search fs-7"></i>
-          </button>
-        }
-        @if (isLoading) {
-          <span
-            style="bottom: 15px"
-            class="btn bg-transparent position-relative translate-middle-y text-dark"
-            ><i class="fas fa-spinner fa-pulse"></i
-          ></span>
-        }
-      </span>
-    </div> -->
     </div>
     <div class="row w-100 ms-2 mb-3 mt-2">
-      @for (header of headers; track header) {
+      @if (headers && data_list && data_list.length > 0) {
+        <div class="col-auto">
+          <input type="checkbox" />
+        </div>
+      }
+
+      @for (header of headers; track header; let i = $index) {
         @if (header.canBeDisplayed) {
-          <div class="col">
+          <div
+            class="col"
+            [ngClass]="{
+              'd-flex': i === 0,
+            }">
             @if (data_list && data_list.length > 0) {
               <span i18n class="fw-bold"> {{ header.name }}</span>
+            }
+
+            @if (i === 0) {
+              <span
+                class="d-grid fs-x-small lh"
+                role="button"
+                tabindex="0"
+                (click)="reverseList()">
+                <span class="ms-2">
+                  <i class="fa-solid fa-play fa-rotate-270"></i>
+                </span>
+                <br />
+                <span class="ms-2">
+                  <i class="fa-solid fa-play fa-rotate-90"></i>
+                </span>
+              </span>
             }
           </div>
         }
@@ -222,7 +229,11 @@
   @if (response_data && data_list && data_list.length > 0 && !isLoading) {
     @for (line of data_list; track line) {
       <div
-        class="row d-flex ms-1 me-1 align-items-center justify-content-center p-1 px-3 border rounded mb-4 fs-small">
+        class="row d-flex ms-1 me-1 align-items-center justify-content-center p-1 px-3 border rounded mb-2 fs-small">
+        <div class="col-auto ps-0">
+          <input type="checkbox" />
+        </div>
+
         @for (data of line; track data) {
           @if (data.format === 'date') {
             <div [title]="data.value" class="col text-truncate overflow-hidden">
@@ -276,8 +287,7 @@
 </div>
 <div class="modal fade" data-mdb-backdrop="false" id="myModal">
   <div
-    class="modal-dialog w-100 lg-radius d-flex justify-content-center h-100 align-items-center overflow-auto"
-    style="min-width: 50%">
+    class="modal-dialog w-100 lg-radius d-flex justify-content-center h-100 align-items-center overflow-auto">
     <div class="modal-content w-resp">
       <div class="d-flex justify-content-end">
         <span data-bs-toggle="modal" data-bs-target="#myModal" role="button">
@@ -293,7 +303,7 @@
           @if (overviewUrl !== '') {
             <div class="w-100 d-flex justify-content-center fs-medium">
               @if (overViewData && overViewData.length > 0) {
-                <div class="row rounded" style="width: 85%">
+                <div class="col-10 rounded">
                   @for (
                     data of overViewData.flat();
                     let i = $index;
