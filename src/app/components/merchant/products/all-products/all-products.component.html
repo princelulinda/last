@@ -16,7 +16,7 @@
 </div>
 <div>
   <!-- style="border: 0.5px solid whitesmoke; border-radius: 5px" -->
-  @if (!loader && product) {
+  @if (loader && product) {
     <div class="row mt-2 d-flex justify-content-between ms-4 ms-lg-0 mb-5">
       @for (item of countProductLoader; track $index) {
         <div class="col-lg-3 col-md-3 col mb-3">
@@ -45,7 +45,7 @@
     </div>
   }
   <!-- search bar for all products -->
-  @if (loader && searchBar) {
+  @if (!loader && searchBar) {
     <div class="mb-2 mb-md-4">
       <div class="d-flex search-container justify-content-center">
         <span
@@ -73,7 +73,7 @@
       </div>
     </div>
   }
-  @if (loader && products) {
+  @if (!loader && products) {
     <div class="d-flex flex-wrap gap-5 mt-3">
       @for (product of products; track $index) {
         <div
@@ -86,42 +86,21 @@
       }
     </div>
   }
-  @if (loader && products && products.length >= 10) {
-    <div
-      class="mt-4 d-flex align-items-center justify-content-center text-secondary mb-5">
-      <span
-        title="Previous"
-        (click)="getPagination('prev')"
-        tabindex="0"
-        role="button"
-        class="me-2 d-inline-flex align-items-center rounded p-2 bg-secondary"
-        [ngClass]="{
-          'bg-blue': canMoveToPrevious,
-          'level-2 disabled': !canMoveToPrevious && theme === 'light',
-          'level-3 disabled': !canMoveToPrevious && theme === 'dark',
-        }"
-        ><i class="fa-solid fa-play fa-rotate-180 fs-l-medium"></i
-      ></span>
-      <span
-        (click)="getPagination('next')"
-        [ngClass]="{
-          'bg-info': canMoveToNext,
-          'level-2 disabled': !canMoveToNext && theme === 'light',
-          'level-3 disabled': !canMoveToNext && theme === 'dark',
-        }"
-        tabindex="0"
-        title="Next"
-        role="button"
-        class="ms-2 fs-5 d-inline-flex align-items-center rounded p-2"
-        ><i class="fa-solid fa-play"></i
-      ></span>
+  @if (!loader && response_data > 0) {
+    <div class="mb-4">
+      <app-pagination
+        [isLoading]="loader"
+        [totalData]="response_data"
+        [pageLimit]="productPagination.filters.limit"
+        (paginationChange)="onPaginationChange($event)">
+      </app-pagination>
     </div>
   }
 
-  @if (loader && productsNumber === 0 && url !== '') {
+  @if (!loader && response_data === 0 && url !== '') {
     <div
       i18n
-      class="row text-dark mt-3 d-flex justify-content-center align-items-center">
+      class="text-dark mt-3 d-flex justify-content-center align-items-center">
       <!-- No recent products available -->
       <app-empty-state
         [searchTerm]="searchTerm"

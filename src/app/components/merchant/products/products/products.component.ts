@@ -38,13 +38,8 @@ export class ProductsComponent implements OnInit {
   favoriteProducts: ProductAutocompleteModel[] = [];
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
-  seeMore!: boolean;
   searchTerm = 'favorites products';
 
-  itemQuantity = 1;
-  merchant = '';
-  cartAdding = 0;
-  count = 0;
   countProductLoader: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
   favoriteDisplay = false;
 
@@ -78,25 +73,12 @@ export class ProductsComponent implements OnInit {
     });
     this.getFavoriteProducts('');
   }
-  addItemQuantity() {
-    this.itemQuantity = this.itemQuantity + 1;
-  }
-  removeItemQuantity() {
-    this.itemQuantity = this.itemQuantity - 1;
-  }
-  addToCart() {
-    this.cartAdding = this.cartAdding + 1;
-  }
-  inputDetails() {
-    this.cartItem.emit(this.cartAdding);
-  }
+
   selectProduct(product: ProductAutocompleteModel) {
     (this.product as ProductAutocompleteModel) = product;
-    console.log('PRoduct', product);
   }
   selectProductFromAll(event: ProductAutocompleteModel) {
     this.product = event;
-    console.log('PRoducts', event);
   }
   getAllProduct(
     event: { objects: ProductAutocompleteModel[]; count: number }[]

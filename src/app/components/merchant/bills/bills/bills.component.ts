@@ -96,8 +96,6 @@ export class BillsComponent implements OnInit, OnDestroy {
     },
   };
 
-  canMoveToNext = false;
-  canMoveToPrevious = false;
   activePage = 1;
 
   constructor(
@@ -138,18 +136,6 @@ export class BillsComponent implements OnInit, OnDestroy {
       });
   }
 
-  // onLimitChange(limit: number) {
-  //   this.billsPagination.filters.limit = limit;
-  //   this.onPageChange(this.activePage);
-  // }
-
-  // onPageChange(page: number) {
-  //   this.activePage = page;
-  //   const _offset = this.billsPagination.filters.limit * (page - 1);
-  //   this.billsPagination.filters.offset = _offset;
-  //   this.getBills();
-  // }
-
   onPaginationChange(pagination: PaginationConfig) {
     this.billsPagination = pagination;
     this.activePage = pagination.filters.offset / pagination.filters.limit + 1;
@@ -171,34 +157,6 @@ export class BillsComponent implements OnInit, OnDestroy {
         },
       });
   }
-
-  // getPagination(action = 'next') {
-  //   if (action === 'next') {
-  //     this.activePage++;
-  //   } else {
-  //     this.activePage--;
-  //   }
-  //   // action === 'next' ? this.activePage++ : this.activePage--;
-  //   if (this.activePage >= 1 && this.activePage <= this.pages) {
-  //     const _offset =
-  //       this.billsPagination.filters?.limit * (this.activePage - 1);
-  //     this.billsPagination.filters!.offset = _offset;
-  //     if (action === 'next') {
-  //       this.getBills();
-  //     } else if (action === 'prev') {
-  //       this.getBills();
-  //     }
-  //     this.canMoveToNext = true;
-  //     this.canMoveToPrevious = true;
-  //   }
-  //   if (this.activePage - 1 < 1) {
-  //     this.billsPagination.filters!.offset = 0;
-  //     this.canMoveToPrevious = false;
-  //     this.canMoveToNext = false;
-  //   } else if (this.activePage + 1 > this.pages) {
-  //     this.canMoveToNext = false;
-  //   }
-  // }
 
   public ngOnDestroy(): void {
     this.onDestroy$.next();
