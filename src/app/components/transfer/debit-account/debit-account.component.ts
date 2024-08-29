@@ -175,14 +175,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
       this.debitOptions.emit(options);
     }
   }
-  getAccountsListByClick() {
-    const data = {
-      client_id: this.clientId,
-      access_bank_id: this.selectedBank.id,
-    };
 
-    console.log(data);
-  }
   getBanks() {
     this.bankService.getBanksList().subscribe(banks => {
       this.clientBanks = banks;
