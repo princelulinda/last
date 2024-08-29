@@ -25,7 +25,7 @@ import { DebitAccountComponent } from '../../../transfer/debit-account/debit-acc
 import { accountsList } from '../../../account/models';
 import { WalletList } from '../../../wallet/wallet.models';
 import { DebitOptionsModel } from '../../../transfer/transfer.model';
-import { bankModel } from '../../../../core/db/models/bank/bank.model';
+import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import { BillsModel } from '../bills.model';
 
 @Component({
@@ -74,7 +74,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
   selectedAccount!: string;
   selectedWallet!: string;
   debitBank!: number;
-  bank$: Observable<bankModel>;
+  bank$: Observable<BankModel>;
 
   descriptionForm = new FormGroup({
     description: new FormControl('', Validators.required),
@@ -122,7 +122,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
         }
       },
     });
-    this.bank$.subscribe((bank: bankModel) => {
+    this.bank$.subscribe((bank: BankModel) => {
       this.debitBank = bank.id;
     });
   }

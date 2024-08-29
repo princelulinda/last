@@ -12,10 +12,10 @@ import {
 } from '../../../core/services';
 import { MerchantCardComponent } from '../global/merchant-card/merchant-card.component';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { BillersModel } from '../../dashboards/dashboard.model';
+import { BillersAutocompleteModel } from '../merchant.models';
 import {
-  MerchantCategoriesModel,
-  SectorActivityModel,
+  MerchantCategoriesAutocompleteModel,
+  SectorActivityAutocompleteModel,
 } from '../merchant.models';
 import { GoogleMapComponent } from '../../../global/components/google-map/google-map.component';
 import { MerchantAutocompleteModel } from '../merchant.models';
@@ -43,8 +43,8 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   merchants!: MerchantAutocompleteModel[] | null;
   favoriteMerchants!: MerchantAutocompleteModel[];
   favoriteMerchantsNumber!: number;
-  favorite_merchant_making!: BillersModel | null;
-  payMerchant!: BillersModel | null;
+  favorite_merchant_making!: BillersAutocompleteModel | null;
+  payMerchant!: BillersAutocompleteModel | null;
   merchantId!: string;
   countProductLoader = [1, 2, 3, 4, 5, 6, 7, 8];
   favoriteDisplay = false;
@@ -56,11 +56,11 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
   isInputFocused = false;
-  sectorActivity!: SectorActivityModel[];
-  selectedSector!: SectorActivityModel | null;
+  sectorActivity!: SectorActivityAutocompleteModel[];
+  selectedSector!: SectorActivityAutocompleteModel | null;
   isSectorListVisible = false;
   sectorId = '';
-  categories!: MerchantCategoriesModel[];
+  categories!: MerchantCategoriesAutocompleteModel[];
 
   favoriteMerchantLoading = false;
 
@@ -170,7 +170,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       });
   }
 
-  getMerchant(data: BillersModel, event: MouseEvent) {
+  getMerchant(data: BillersAutocompleteModel, event: MouseEvent) {
     event.stopPropagation();
 
     const element = event.target as HTMLButtonElement;
@@ -273,7 +273,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
     this.isSectorListVisible = false;
   }
 
-  selectSector(sector: SectorActivityModel): void {
+  selectSector(sector: SectorActivityAutocompleteModel): void {
     this.selectedSector = sector;
     this.isSectorListVisible = false;
     this.getCategoriesPerActivitySectors(sector.id as string);

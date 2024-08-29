@@ -17,13 +17,15 @@ import {
 import {
   doTellerBodyModel,
   MerchantAutocompleteModel,
-  MerchantCategoriesModel,
+  MerchantCategoriesAutocompleteModel,
   MerchantInfoModel,
   MerchantModel,
   MerchantStatsModel,
   newTellerModel,
+  PayMerchantBodyModel,
+  PayMerchantResponseModel,
   searchTellerModel,
-  SectorActivityModel,
+  SectorActivityAutocompleteModel,
   updateMerchantDetailsModel,
 } from '../../../components/merchant/merchant.models';
 import { Coords2Model } from '../../../global/components/google-map/map.model';
@@ -292,13 +294,13 @@ export class MerchantService {
     );
   }
   getActivitySectors(): Observable<{
-    objects: SectorActivityModel[];
+    objects: SectorActivityAutocompleteModel[];
     count: number;
   }> {
-    const url = '/clients/config/activitysector/';
+    const url = '/clients/config/activitysector/objects_autocomplete/';
     return this.apiService
       .get<{
-        objects: SectorActivityModel[];
+        objects: SectorActivityAutocompleteModel[];
         count: number;
       }>(url)
       .pipe(
@@ -307,12 +309,18 @@ export class MerchantService {
         })
       );
   }
-  getCategoriesPerActivitySectors(
-    id: string
-  ): Observable<{ objects: MerchantCategoriesModel[]; count: number }> {
-    const url = '/dbs/merchant-category/?merchant_activity_sector=' + id;
+  getCategoriesPerActivitySectors(id: string): Observable<{
+    objects: MerchantCategoriesAutocompleteModel[];
+    count: number;
+  }> {
+    const url =
+      '/dbs/merchant-category/objects_autocomplete/?merchant_activity_sector=' +
+      id;
     return this.apiService
-      .get<{ objects: MerchantCategoriesModel[]; count: number }>(url)
+      .get<{
+        objects: MerchantCategoriesAutocompleteModel[];
+        count: number;
+      }>(url)
       .pipe(map(data => data));
   }
   getCategoryMerchants(
@@ -333,13 +341,13 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
-  payMerchant(paymentData: []) {
+  payMerchant(
+    paymentData: PayMerchantBodyModel
+  ): Observable<{ object: PayMerchantResponseModel }> {
     const url = '/dbs/merchant/product/payment/';
-    return this.apiService.post(url, paymentData).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .post<{ object: PayMerchantResponseModel }>(url, paymentData)
+      .pipe(map(data => data));
   }
 
   checkMerchantTitle(merchantName: string) {

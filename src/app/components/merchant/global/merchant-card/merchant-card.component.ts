@@ -9,8 +9,7 @@ import {
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { objectModel } from '../../../dashboards/dashboard.model';
-import { MerchantService } from '../../../../core/services';
+import { DialogService, MerchantService } from '../../../../core/services';
 import { MerchantPaymentComponent } from '../../../dev/merchant-payment/merchant-payment.component';
 import { MerchantAutocompleteModel } from '../../merchant.models';
 import { VariableService } from '../../../../core/services/variable/variable.service';
@@ -47,7 +46,8 @@ export class MerchantCardComponent implements OnDestroy {
 
   constructor(
     private merchantService: MerchantService,
-    private variableService: VariableService
+    private variableService: VariableService,
+    private dialogService: DialogService
   ) {}
 
   makeFavoriteMerchants(favorite: MerchantAutocompleteModel, event: Event) {
@@ -70,7 +70,14 @@ export class MerchantCardComponent implements OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: result => {
-          const data = result as objectModel;
+          const data = result as {
+            object: {
+              response_data: MerchantAutocompleteModel;
+              success: boolean;
+              response_message: string;
+              response_code: string;
+            };
+          };
           const response = data.object;
           if (response.success) {
             if (!favorite.is_favorite_merchant) {
@@ -91,7 +98,10 @@ export class MerchantCardComponent implements OnDestroy {
 
   selectMerchant() {
     if (this.action === 'merchant-payment') {
-      console.log('DISPACTH MERCHANT PAYMENT');
+      this.dialogService.openMerchantPaymentDialog({
+        type: 'merchant',
+        merchant: this.merchant,
+      });
     } else if (this.action === 'output') {
       this.selectedMerchantEvent.emit(this.merchant);
     }

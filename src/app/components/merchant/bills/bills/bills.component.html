@@ -22,7 +22,7 @@
       @if (paymentRequestBillsLoading) {
         <div class="skeletons mt-4 row me-5 me-md-0">
           <div class="all-bill-card col-11 col-sm-8 col-md-5 skeletonsSize">
-            <app-skeleton [height]="'90%'"></app-skeleton>
+            <app-skeleton [height]="'90%'" classes="lg-radius"></app-skeleton>
           </div>
         </div>
       }
@@ -184,7 +184,7 @@
           @for (item of [1, 2, 3, 4, 5, 6]; track $index) {
             <div
               class="all-bill-bill col-11 col-sm-8 col-md-5 col-lg-4 skeletonsSize">
-              <app-skeleton [height]="'80%'"></app-skeleton>
+              <app-skeleton [height]="'80%'" classes="lg-radius"></app-skeleton>
             </div>
           }
           <!-- <div
@@ -244,7 +244,7 @@
         </section>
       }
       @if (!isLoading && merchantBills && merchantBills.length !== 0) {
-        <div
+        <!-- <div
           class="mt-4 d-flex align-items-center justify-content-center text-secondary mb-5">
           <span
             title="Previous"
@@ -272,6 +272,13 @@
             class="ms-2 fs-5 d-inline-flex align-items-center rounded p-2"
             ><i class="fa-solid fa-play"></i
           ></span>
+        </div> -->
+        <div class="mb-3 w-100">
+          <app-pagination
+            [totalData]="totalData"
+            [currentPage]="activePage"
+            [pageLimit]="billsPagination.filters.limit"
+            (paginationChange)="onPaginationChange($event)"></app-pagination>
         </div>
       }
     </section>

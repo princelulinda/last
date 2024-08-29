@@ -14,12 +14,13 @@ import { UserInfoModel } from '../../../../core/db/models/auth';
 
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
+import { PaginationComponent } from '../../../dev/pagination/pagination.component';
 import { BillsModel } from '../bills.model';
 
 @Component({
   selector: 'app-bills',
   standalone: true,
-  imports: [CommonModule, SkeletonComponent, RouterLink],
+  imports: [CommonModule, SkeletonComponent, RouterLink, PaginationComponent],
   templateUrl: './bills.component.html',
   styleUrl: './bills.component.scss',
 })
@@ -33,12 +34,13 @@ export class BillsComponent implements OnInit, OnDestroy {
 
   merchantBills!: BillsModel[] | null;
   paymentRequestBills!: BillsModel[];
-  countBills!: string | number;
+  // countBills!: string | number;
   isLoading = true;
   paymentRequestBillsLoading = true;
 
   clientInfo$: Observable<UserInfoModel>;
   isMerchant!: boolean;
+  totalData = 0;
 
   billsHeaders = [
     // {
@@ -89,14 +91,13 @@ export class BillsComponent implements OnInit, OnDestroy {
   ];
   billsPagination: PaginationConfig = {
     filters: {
-      limit: 15,
+      limit: 30,
       offset: 0,
     },
   };
 
   canMoveToNext = false;
   canMoveToPrevious = false;
-  pages = 1;
   activePage = 1;
 
   constructor(
@@ -126,13 +127,9 @@ export class BillsComponent implements OnInit, OnDestroy {
       .getBills(this.billsPagination)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: response => {
+        next: (response: { objects: BillsModel[]; count: number }) => {
+          this.totalData = response.count;
           this.merchantBills = response.objects;
-          this.countBills = response.count;
-          this.pages = Math.round(this.countBills / 6);
-          if (this.countBills > this.billsPagination.filters?.limit) {
-            this.canMoveToNext = true;
-          }
           this.isLoading = false;
         },
         error: () => {
@@ -140,6 +137,25 @@ export class BillsComponent implements OnInit, OnDestroy {
         },
       });
   }
+
+  // onLimitChange(limit: number) {
+  //   this.billsPagination.filters.limit = limit;
+  //   this.onPageChange(this.activePage);
+  // }
+
+  // onPageChange(page: number) {
+  //   this.activePage = page;
+  //   const _offset = this.billsPagination.filters.limit * (page - 1);
+  //   this.billsPagination.filters.offset = _offset;
+  //   this.getBills();
+  // }
+
+  onPaginationChange(pagination: PaginationConfig) {
+    this.billsPagination = pagination;
+    this.activePage = pagination.filters.offset / pagination.filters.limit + 1;
+    this.getBills();
+  }
+
   getPaymentRequestBills() {
     this.paymentRequestBillsLoading = true;
     this.merchantService
@@ -156,33 +172,33 @@ export class BillsComponent implements OnInit, OnDestroy {
       });
   }
 
-  getPagination(action = 'next') {
-    if (action === 'next') {
-      this.activePage++;
-    } else {
-      this.activePage--;
-    }
-    // action === 'next' ? this.activePage++ : this.activePage--;
-    if (this.activePage >= 1 && this.activePage <= this.pages) {
-      const _offset =
-        this.billsPagination.filters?.limit * (this.activePage - 1);
-      this.billsPagination.filters!.offset = _offset;
-      if (action === 'next') {
-        this.getBills();
-      } else if (action === 'prev') {
-        this.getBills();
-      }
-      this.canMoveToNext = true;
-      this.canMoveToPrevious = true;
-    }
-    if (this.activePage - 1 < 1) {
-      this.billsPagination.filters!.offset = 0;
-      this.canMoveToPrevious = false;
-      this.canMoveToNext = false;
-    } else if (this.activePage + 1 > this.pages) {
-      this.canMoveToNext = false;
-    }
-  }
+  // getPagination(action = 'next') {
+  //   if (action === 'next') {
+  //     this.activePage++;
+  //   } else {
+  //     this.activePage--;
+  //   }
+  //   // action === 'next' ? this.activePage++ : this.activePage--;
+  //   if (this.activePage >= 1 && this.activePage <= this.pages) {
+  //     const _offset =
+  //       this.billsPagination.filters?.limit * (this.activePage - 1);
+  //     this.billsPagination.filters!.offset = _offset;
+  //     if (action === 'next') {
+  //       this.getBills();
+  //     } else if (action === 'prev') {
+  //       this.getBills();
+  //     }
+  //     this.canMoveToNext = true;
+  //     this.canMoveToPrevious = true;
+  //   }
+  //   if (this.activePage - 1 < 1) {
+  //     this.billsPagination.filters!.offset = 0;
+  //     this.canMoveToPrevious = false;
+  //     this.canMoveToNext = false;
+  //   } else if (this.activePage + 1 > this.pages) {
+  //     this.canMoveToNext = false;
+  //   }
+  // }
 
   public ngOnDestroy(): void {
     this.onDestroy$.next();

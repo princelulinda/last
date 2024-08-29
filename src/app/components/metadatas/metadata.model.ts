@@ -1,4 +1,5 @@
 export interface MetadataModel {
+  id: number;
   name: string;
   field_name: string;
   field_type: string;
@@ -14,7 +15,6 @@ export interface MetadataModel {
 export interface MetadataCreationResponseModel {
   object: {
     response_message: string;
-
     success: boolean;
   };
 }

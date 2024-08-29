@@ -18,6 +18,7 @@ import { LandscapeBillComponent } from './global/components/popups/bills-format/
 import { ObrBillComponent } from './global/components/popups/bills-format/obr-bill/obr-bill.component';
 import { MerchantBillComponent } from './global/components/popups/bills-format/merchant-bill/merchant-bill.component';
 import { MerchantPaymentComponent } from './global/components/popups/merchant-payment/merchant-payment.component';
+import { SleepModeComponent } from './components/dev/sleep-mode/sleep-mode.component';
 
 @Component({
   selector: 'app-root',
@@ -35,6 +36,7 @@ import { MerchantPaymentComponent } from './global/components/popups/merchant-pa
     MerchantBillComponent,
     NgOptimizedImage,
     MerchantPaymentComponent,
+    SleepModeComponent,
   ],
 })
 export class AppComponent implements OnInit {
@@ -55,6 +57,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dialogService.startWatching();
+
     const localToken = this.authService.getLocalAuthToken();
     if (localToken) {
       this.dialogService.dispatchSplashScreen();

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { interval, Subject, takeUntil, takeWhile } from 'rxjs';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { BillersModel } from '../dashboard.model';
+import { BillersAutocompleteModel } from '../../merchant/merchant.models';
 import { ConfigService, MerchantService } from '../../../core/services';
 import { ShowMoreDirective } from '../../../global/directives/show-more/show-more.directive';
 import { PublicationsComponent } from '../../publications/publications.component';
@@ -36,10 +36,10 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
   topProducts: ProductAutocompleteModel[] | [] | null = null;
   product: ProductAutocompleteModel | null = null;
 
-  billers: BillersModel[] | [] | null = null;
+  billers: BillersAutocompleteModel[] | [] | null = null;
   billersLoading = true;
 
-  selectedBiller: BillersModel | null = null;
+  selectedBiller: BillersAutocompleteModel | null = null;
 
   loadingProducts = true;
 
@@ -86,7 +86,9 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: res => {
-          const billersResponse = res as { objects: BillersModel[] };
+          const billersResponse = res as {
+            objects: BillersAutocompleteModel[];
+          };
           this.billers = billersResponse.objects;
           this.billersLoading = false;
         },
@@ -97,7 +99,7 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
       });
   }
 
-  selectBiller(biller: BillersModel) {
+  selectBiller(biller: BillersAutocompleteModel) {
     this.selectedBiller = biller;
   }
 

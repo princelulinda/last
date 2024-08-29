@@ -20,7 +20,7 @@ import {
   AuthService,
   DialogService,
 } from '../../../core/services';
-import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { SwitchBankComponent } from '../../../global/components/popups/switch-bank/switch-bank.component';
 import { AccountsListComponent } from '../../account/accounts-list/accounts-list.component';
 import {
@@ -68,11 +68,11 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
 
   debitWallet: DebitOptionsModel | null = null;
   defaultBank: string | undefined;
-  @Input() selectedBank!: bankModel;
-  selectedBank$!: Observable<bankModel>;
+  @Input() selectedBank!: BankModel;
+  selectedBank$!: Observable<BankModel>;
 
-  banks: bankModel[] = [];
-  clientBanks: bankModel[] = [];
+  banks: BankModel[] = [];
+  clientBanks: BankModel[] = [];
 
   index = 0;
   isBalanceShown = false;
@@ -182,7 +182,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  selectBank(bank: bankModel) {
+  selectBank(bank: BankModel) {
     this.configService.setSelectedBank(bank);
   }
   getClient(client: DebitOptionsModel) {
