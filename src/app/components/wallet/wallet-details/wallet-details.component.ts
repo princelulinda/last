@@ -3,11 +3,12 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../../core/services/client/client.service';
 import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
-import { Walletdetail, WalletList } from '../wallet.models';
+import { Walletdetail } from '../wallet.models';
 import { WalletListComponent } from '../wallet-list/wallet-list.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { WalletTopupComponent } from '../wallet-topup/wallet-topup.component';
 @Component({
   selector: 'app-wallet-details',
   standalone: true,
@@ -16,6 +17,7 @@ import { RouterLink } from '@angular/router';
     AmountVisibilityComponent,
     CommonModule,
     RouterLink,
+    WalletTopupComponent,
   ],
   templateUrl: './wallet-details.component.html',
   styleUrl: './wallet-details.component.scss',
@@ -27,6 +29,7 @@ export class WalletDetailsComponent implements OnInit {
   mainConfig!: activeMainConfigModel;
   wallet: Walletdetail | null = null;
   hasWalletList = false;
+  isTopUpClicked!: string;
 
   constructor(
     private clientService: ClientService,
@@ -50,21 +53,21 @@ export class WalletDetailsComponent implements OnInit {
     this.clientService.getWalletDetails(this.walletId).subscribe({
       next: (response: { object: Walletdetail }) => {
         this.wallet = response.object;
-        // console.log('Données de tontine:', this.wallet);
       },
       error: (error: Error) =>
         console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
 
-  handleWalletSelected(wallet: WalletList) {
-    console.log('Compte sélectionné :', wallet);
-  }
   refresh() {
     this.wallet = null;
 
     this.isLoading = true;
 
     this.getClientWalletDetails();
+  }
+
+  selectedOption(option: string) {
+    this.isTopUpClicked = option;
   }
 }
