@@ -1,3 +1,7 @@
+.ImgIcon {
+    width: 80px ;
+    height:  80px;
+}
 .InputSearch{
     outline: none; 
     box-shadow: none; 
@@ -6,5 +10,6 @@
 .form-select{
     outline: none; 
     box-shadow: none; 
-    border: none
+    border: none; 
+    height: 45px;
 }
