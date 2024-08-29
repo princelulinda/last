@@ -123,6 +123,11 @@ export class AllProductsComponent implements OnInit {
             (this.products as ProductAutocompleteModel[]) = data.objects;
             this.loader = true;
             this.productsNumber = data.count;
+            if (this.productsNumber > this.productPagination.filters!.limit) {
+              this.canMoveToNext = true;
+              this.loader = true;
+            }
+            this.allProducts.emit(this.products);
           },
         });
     }
