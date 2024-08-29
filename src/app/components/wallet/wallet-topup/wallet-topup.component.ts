@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { DebitAccountComponent } from '../../transfer/debit-account/debit-account.component';
 import { accountsList } from '../../account/models';
@@ -31,7 +31,7 @@ export class WalletTopupComponent implements OnInit {
   dialogState$!: Observable<DialogResponseModel>;
   pin: string | undefined;
   walletId!: string;
-
+  @Output() topupSuccess = new EventEmitter<void>();
   constructor(
     private dialogService: DialogService,
     private clientService: ClientService,
@@ -100,6 +100,7 @@ export class WalletTopupComponent implements OnInit {
                 title: 'Succès',
                 message: response.object.response_message,
               });
+              this.topupSuccess.emit();
             } else {
               this.dialogService.openToast({
                 type: 'failed',

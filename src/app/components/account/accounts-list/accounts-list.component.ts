@@ -76,7 +76,7 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(clientId => {
         this.userClientId = clientId;
-        //console.log('User Client ID:', this.userClientId);
+        // console.log('User Client ID:', this.userClientId);
         if (this.userClientId) {
           this.getClientAccounts();
         }

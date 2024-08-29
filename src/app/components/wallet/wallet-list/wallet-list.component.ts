@@ -78,7 +78,7 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(clientId => {
         this.userClientId = clientId;
-        console.log('User Client ID:', this.userClientId);
+
         if (this.userClientId) {
           this.getClientWallet();
         }
@@ -93,7 +93,6 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
     this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: theme => {
         this.theme = theme;
-        //console.log('themmeee',this.theme)
       },
     });
 

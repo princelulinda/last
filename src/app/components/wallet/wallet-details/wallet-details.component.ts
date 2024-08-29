@@ -58,7 +58,11 @@ export class WalletDetailsComponent implements OnInit {
         console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
-
+  onTopupSuccess() {
+    console.log('onTopupSuccess called');
+    this.getClientWalletDetails(); // Actualiser les détails du portefeuille
+    this.isTopUpClicked = '';
+  }
   refresh() {
     this.wallet = null;
 
