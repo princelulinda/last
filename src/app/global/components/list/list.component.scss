@@ -1,0 +1,44 @@
+.plus-square {
+  width: 20px;
+  height: 23px;
+}
+.filter-square {
+  width: 30px;
+  height: 30px;
+}
+
+.active {
+  width: 220px;
+}
+.search-input {
+  height: 25px;
+  line-height: 30px;
+  padding: 0 20px;
+  display: none;
+    opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.search-button {
+  box-sizing: border-box;
+  transform: all 2s;
+}
+.searchForm:hover {
+  width: 220px;
+  cursor: pointer;
+}
+.searchForm:hover .search-input {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+.searchForm:hover .search-input {
+  background-color: white;
+}
+.modal-dialog{
+    min-width:50%;
+}
+.lh{
+    line-height: 0.8
+}

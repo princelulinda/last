@@ -227,7 +227,8 @@ export class MerchantConfigComponent implements OnInit {
           this.dialogService.openToast({
             title: '',
             type: 'failed',
-            message: response.object.response_message,
+            message:
+              response.object.response_message ?? 'Failed to create a Teller',
           });
         } else {
           this.getTellersByMerchant();
@@ -235,7 +236,7 @@ export class MerchantConfigComponent implements OnInit {
           this.dialogService.openToast({
             title: '',
             type: 'success',
-            message: response.object.response_message,
+            message: response.object.response_message ?? 'Teller created',
           });
 
           this.closeModal.nativeElement.click();
