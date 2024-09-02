@@ -10,11 +10,11 @@ import { CommonModule } from '@angular/common';
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { MerchantService } from '../../../../core/services';
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { ProductCardComponent } from '../../../merchant/global/product-card/product-card.component';
-import { ProductAutocompleteModel } from '../../../merchant/products/products.model';
-import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
+import { SkeletonComponent } from '../../../loaders/skeleton/skeleton.component';
+import { ProductCardComponent } from '../../../../../components/merchant/global/product-card/product-card.component';
+import { EmptyStateComponent } from '../../../empty-states/empty-state/empty-state.component';
+import { ProductAutocompleteModel } from '../../../../../components/merchant/products/products.model';
+import { MerchantService } from '../../../../../core/services';
 
 @Component({
   selector: 'app-merchant-products',
