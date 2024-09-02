@@ -90,7 +90,7 @@ export class PasswordFieldComponent {
     ) {
       const pin = this.passwordForm.value.pin;
       this.pinValid.emit(pin);
-      console.log(pin);
+      // console.log(pin);
     }
   }
   getPinErrors() {
