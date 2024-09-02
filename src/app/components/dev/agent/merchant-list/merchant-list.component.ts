@@ -1,6 +1,6 @@
 import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AgentService } from '../../../../agent.service';
+import { AgentService } from '../../../../core/services/agent/agent.service';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { MerchantModel } from '../agent.models';
 

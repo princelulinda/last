@@ -1,7 +1,7 @@
 import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
-import { AgentService } from '../../../../agent.service';
+import { AgentService } from '../../../../core/services/agent/agent.service';
 import { AgentModel, AgentResModel } from '../agent.models';
 
 @Component({
