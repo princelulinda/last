@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PaginationConfig } from '../../../global/models/pagination.models';
 
 // import { PaginationConfig } from '../../../global/models/pagination.models';
 
@@ -11,15 +12,18 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './pagination.component.html',
   styleUrl: './pagination.component.scss',
 })
-export class PaginationComponent {
+export class PaginationComponent implements OnInit {
   @Input() totalData = 0;
-  @Input() currentPage = 1;
   @Input() pageLimit = 20;
+  @Input({ required: true }) isLoading = false;
 
-  @Output() pageChange = new EventEmitter<number>();
-  @Output() limitChange = new EventEmitter<number>();
+  // @Output() pageChange = new EventEmitter<number>();
+  // @Output() limitChange = new EventEmitter<number>();
 
-  // pagination = new PaginationConfig();
+  @Output() paginationChange = new EventEmitter<PaginationConfig>();
+
+  currentPage = 1;
+  pagination = new PaginationConfig();
   paginationsLimits = [50, 40, 30, 20, 10];
 
   get pages() {
@@ -27,6 +31,12 @@ export class PaginationComponent {
     return Array(totalPages)
       .fill(0)
       .map((_, i) => i + 1);
+  }
+
+  ngOnInit() {
+    this.pagination.filters.limit = this.pageLimit;
+    const offset = this.pagination.filters.limit * (this.currentPage - 1);
+    this.pagination.filters.offset = offset;
   }
 
   getPaginationRange(): number[] {
@@ -78,11 +88,19 @@ export class PaginationComponent {
   }
 
   goToPage(page: number): void {
-    this.pageChange.emit(page);
+    // this.pageChange.emit(page);
+    this.currentPage = page;
+    const offset = this.pageLimit * (page - 1);
+    this.pagination.filters.offset = offset;
+    this.paginationChange.emit(this.pagination);
   }
 
   onLimitChange(limit: number): void {
     this.pageLimit = limit;
-    this.limitChange.emit(limit);
+    // this.limitChange.emit(limit);
+    this.pagination.filters.limit = limit;
+    const offset = this.pagination.filters.limit * (this.currentPage - 1);
+    this.pagination.filters.offset = offset;
+    this.paginationChange.emit(this.pagination);
   }
 }

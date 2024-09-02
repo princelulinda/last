@@ -14,11 +14,17 @@ import {
   selectedPeriodModel,
 } from './reusable.model';
 import { PaginationConfig } from '../../models/pagination.models';
+import { EmptyStateComponent } from '../empty-states/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-reusable-list',
   standalone: true,
-  imports: [ReactiveFormsModule, SkeletonComponent, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    SkeletonComponent,
+    CommonModule,
+    EmptyStateComponent,
+  ],
   templateUrl: './reusable-list.component.html',
   styleUrl: './reusable-list.component.scss',
 })
@@ -144,7 +150,10 @@ export class ReusableListComponent implements OnInit, OnDestroy {
 
               for (const header of this.headers) {
                 const fields = header['field'];
+                // const fieldss = header['fieldd'];
+
                 let row1 = row;
+
                 let css = '';
                 let icon = '';
                 let detail = '';
@@ -153,6 +162,7 @@ export class ReusableListComponent implements OnInit, OnDestroy {
 
                 for (const field in fields) {
                   row1 = row;
+
                   const all_fields = fields[field].split('.');
 
                   for (const all_field in all_fields) {
@@ -162,6 +172,8 @@ export class ReusableListComponent implements OnInit, OnDestroy {
                       all_field in all_fields
                     ) {
                       row1 = row1[all_fields[all_field]];
+
+                      console.log('this is data:', all_field);
                     } else {
                       row1 = '------';
                     }

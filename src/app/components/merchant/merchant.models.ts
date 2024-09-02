@@ -1,4 +1,5 @@
 import { ClientModel } from '../../core/db/models/auth';
+import { CurrencyModel } from '../../global/components/custom-field/currency.model';
 
 export interface tellersModel {
   objects: tellerObjectModel[];
@@ -97,7 +98,7 @@ export interface MerchantModel {
   merchant_main_account_id: string;
   client_category: string;
   client_category_id: string;
-  balance_currency: string;
+  balance_currency: CurrencyModel;
   paid_amount: string;
 }
 
