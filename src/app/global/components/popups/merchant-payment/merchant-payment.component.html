@@ -543,7 +543,10 @@
 
     @if (steps === 'second') {
       <section class="row mt-4 mx-0 px-4 gap-4">
-        @if (selectedPaymentMenu === 'Product-Payment') {
+        @if (
+          selectedPaymentMenu === 'Product-Payment' &&
+          productWaitList.length !== 0
+        ) {
           <div class="col-5 sm-radius border p-3">
             <small class="mb-2 d-block"><b>Wait List</b></small>
 

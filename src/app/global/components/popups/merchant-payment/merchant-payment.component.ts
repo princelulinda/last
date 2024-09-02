@@ -120,6 +120,8 @@ export class MerchantPaymentComponent
     metadata: Record<string, string>;
   }[] = [];
 
+  debitAccount: unknown;
+
   constructor(
     private dialogService: DialogService,
     private configService: ConfigService,
@@ -409,6 +411,10 @@ export class MerchantPaymentComponent
     this.selectedMerchant = null;
     this.productDetails = null;
     this.selectedProduct = null;
+
+    this.productWaitList = [];
+    this.steps = 'first';
+
     this.resetProduct();
   }
 
