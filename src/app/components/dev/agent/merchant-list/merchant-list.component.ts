@@ -14,7 +14,7 @@ import { MerchantModel } from '../agent.models';
 export class MerchantListComponent implements OnInit {
   
   data! : MerchantModel[];
-  Loading : boolean = true;
+  Loading  = true;
 
   constructor(private merchantService: AgentService) { }
 
