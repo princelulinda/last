@@ -27,7 +27,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
   providedIn: 'root',
 })
 export class DialogService {
-  private readonly idleTimeout = 24 * 60 * 60 * 1000; // 15 minutes
+  private readonly idleTimeout = 15 * 60 * 1000; // 15 minutes
   private idle$: Observable<boolean>;
   private resetIdle$ = new Subject<void>();
 
@@ -278,12 +278,14 @@ export class DialogService {
     });
   }
 
+  // Sleep mode locking
   lockScreen() {
     const element = document.getElementById('standby');
     element?.classList.remove('stop');
     element?.classList.add('stand');
   }
 
+  // Sleep mode unlocking
   unlockScreen() {
     const element = document.getElementById('standby');
     element?.classList.remove('stand');
