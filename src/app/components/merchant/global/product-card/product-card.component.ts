@@ -21,11 +21,12 @@ import {
   ProductAutocompleteModel,
 } from '../../products/products.model';
 import { VariableService } from '../../../../core/services/variable/variable.service';
+import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AmountVisibilityComponent],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
 })

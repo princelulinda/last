@@ -15,7 +15,7 @@ import { PaginationConfig } from '../../../global/models/pagination.models';
 export class PaginationComponent implements OnInit {
   @Input() totalData = 0;
   @Input() pageLimit = 20;
-  @Input() isLoading = false;
+  @Input({ required: true }) isLoading = false;
 
   // @Output() pageChange = new EventEmitter<number>();
   // @Output() limitChange = new EventEmitter<number>();

@@ -46,6 +46,12 @@
       </span>
     </div>
   </div>
+  @if (response_data && data_list && data_list.length === 0) {
+    <div>
+      <!-- <span class="text-danger"> There is no {{title}}</span> -->
+      <app-empty-state searchType="list"></app-empty-state>
+    </div>
+  }
 
   <div class="row w-100 ms-2 mb-3">
     @for (header of headers; track header) {
@@ -75,11 +81,14 @@
       <div
         class="row d-flex align-items-center justify-content-center p-1 px-3 border rounded mb-2 fs-small">
         @for (data of line; track data) {
-          @if (data.format === 'date') {
+          @if (data.format === 'date' || data.format === 'operation') {
             <div class="col">
-              <span i18n>{{ data.value | date: 'medium' }}</span>
+              @if (data.format) {
+                <span>{{ data.value | date: 'medium' }} </span>
+              }
             </div>
           }
+
           @if (data.format === 'currency') {
             <div class="col">
               @if (amountState) {

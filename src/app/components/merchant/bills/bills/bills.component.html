@@ -243,13 +243,15 @@
           <div class="col-11 col-sm-8 col-md-5"></div>
         </section>
       }
-      <div class="my-3 w-100">
-        <app-pagination
-          [isLoading]="isLoading"
-          [totalData]="totalData"
-          [pageLimit]="billsPagination.filters.limit"
-          (paginationChange)="onPaginationChange($event)"></app-pagination>
-      </div>
+      @if (!isLoading) {
+        <div class="my-3 w-100">
+          <app-pagination
+            [isLoading]="isLoading"
+            [totalData]="totalData"
+            [pageLimit]="billsPagination.filters.limit"
+            (paginationChange)="onPaginationChange($event)"></app-pagination>
+        </div>
+      }
     </section>
   </div>
 </section>

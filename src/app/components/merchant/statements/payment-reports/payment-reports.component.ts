@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ReusableListComponent } from '../../../../global/components/reusable-list/reusable-list.component';
+
 @Component({
   selector: 'app-payment-reports',
   standalone: true,
@@ -15,6 +16,7 @@ export class PaymentReportsComponent {
       size: '',
       format: 'date',
     },
+
     {
       name: 'Amount',
       field: ['amount'],

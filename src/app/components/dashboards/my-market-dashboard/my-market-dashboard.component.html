@@ -30,7 +30,7 @@
 }
 
 @if (!isLoadingInfo && merchant) {
-  <div class="ms-0 ms-md-1 ms-xxl-5 ps-0 ps-xl-3 overflow-hidden">
+  <div class="overflow-hidden">
     <div
       class="d-lg-flex d-none position-relative shadow me-5 ms-3 border-top border-primary border-4 rectangleBlockSize">
       <img
@@ -62,14 +62,18 @@
         <br />
       </div>
       <!-- <div style="height: 35px; width: 1px" class="ms-4 level-3 mt-5"></div> -->
-      <div class="d-block ms-5 pt-4">
-        <span class="text-dark text-md"
-          ><span class="fw-bold opacity-50" i18n>Available balance :</span
-          ><span class="fw-bold ms-2"
-            >BIF {{ (merchant.available_balance | number) ?? '---' }}</span
-          ></span
-        >
-        <br />
+      <div class="d-block col-4 ms-5 pt-4">
+        <div class="row col-11 text-dark text-md">
+          <div class="col pe-0 fw-bold opacity-50" i18n>
+            Available balance :
+          </div>
+          <div class="col ps-0 fw-bold">
+            <app-amount-visibility
+              [amount]="merchant.available_balance"
+              [currency]="merchant.balance_currency"></app-amount-visibility>
+          </div>
+        </div>
+        <!-- <br /> -->
         <span class="text-dark text-sm opacity-50">{{
           merchant.client_category
         }}</span>
@@ -164,15 +168,18 @@
             </span>
           }
           @if (merchantInfo) {
-            <b class="text-md"
-              >{{ (merchantInfo.available_balance | number) ?? '---' }}
-              {{ merchantInfo.balance_currency }}</b
-            >
+            <b class="fs-normal">
+              <app-amount-visibility
+                [amount]="merchantInfo.available_balance"
+                [currency]="
+                  merchantInfo.balance_currency
+                "></app-amount-visibility>
+            </b>
           }
         </Span>
         <span class="float-end">
           <img
-            class="img-fluid mt-4 me-1 revenuSize"
+            class="img-fluid mt-4 revenuSize"
             src="/images/products/4 9365.svg"
             alt="our income show image" />
         </span>
@@ -296,7 +303,8 @@
       </div>
     </section>
 
-    <section class="row justify-content-between mt-2 w-100 mb-5 pb-5">
+    <section
+      class="d-flex justify-content-between flex-wrap mt-2 w-100 mb-5 pb-5">
       @if (merchant) {
         <app-all-products
           class="text-dark"
@@ -350,7 +358,7 @@
         <div class="mt-2 pt-3">
           <div class="d-flex p-3 ms-2 sm-radius">
             <span class="text-dark pt-2" i18n>Send to :</span>
-            <div class="form-floating lookup col ms-4 me-3">
+            <div class="lookup col ms-4 me-3">
               <app-lookup
                 option="lookup"
                 url="/clients/list/all/object_lookup/?lookup_data="
@@ -452,7 +460,10 @@
                 tabindex="0"
                 (click)="switchMerchant(merchant.id)">
                 <div>
-                  <app-merchant-card [merchant]="merchant"></app-merchant-card>
+                  <app-merchant-card
+                    [merchant]="merchant"
+                    [action]="'output'"
+                    [disabledFavoriteAction]="true"></app-merchant-card>
                 </div>
               </div>
             }
