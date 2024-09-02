@@ -128,7 +128,8 @@
       </div>
       @if (isTopUpClicked === 'topup') {
         <div>
-          <app-wallet-topup> </app-wallet-topup>
+          <app-wallet-topup (topupSuccess)="onTopupSuccess()">
+          </app-wallet-topup>
         </div>
       }
     </div>

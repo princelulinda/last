@@ -41,21 +41,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
-
   organization$!: Observable<OrganizationModel | null>;
   organization!: OrganizationModel | null;
-
   userInfo!: UserInfoModel | null;
   userInfo$: Observable<UserInfoModel>;
-
   amountState = false;
   amountState$: Observable<boolean>;
-
   selectedLanguage = new FormControl('fr');
-
-  showPlateformPopup = false;
   showUserInfoPopup = false;
-
+  showPlateformPopup = false;
   menuRouterLink = '';
 
   constructor(
@@ -176,12 +170,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleEyeStatus() {
     this.dialogService.displayAmount();
   }
+
+  togglePlateformIconsPopup() {
+    this.showPlateformPopup = !this.showPlateformPopup;
+    this.showUserInfoPopup = false;
+  }
   toggleUserInfo() {
     this.showUserInfoPopup = !this.showUserInfoPopup;
     this.showPlateformPopup = false;
   }
-  togglePlateformIconsPopup() {
-    this.showPlateformPopup = !this.showPlateformPopup;
-    this.showUserInfoPopup = false;
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const userInfoPopup = document.querySelector('.user-info-popup');
+    const PlateformPopup = document.querySelector('.platform-popup');
+
+    if (
+      this.showUserInfoPopup &&
+      userInfoPopup &&
+      !userInfoPopup.contains(target) &&
+      !target.closest('.toggle-button')
+    ) {
+      this.showUserInfoPopup = false;
+    }
+    if (
+      this.showPlateformPopup &&
+      PlateformPopup &&
+      !PlateformPopup.contains(target)
+    ) {
+      this.showPlateformPopup = false;
+    }
   }
 }
