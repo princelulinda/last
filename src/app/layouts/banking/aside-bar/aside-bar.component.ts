@@ -90,7 +90,7 @@ export class AsideBarComponent implements OnInit {
         this.plateform = plateform;
       },
     });
-    this.getAllProducts('');
+    this.getAllProducts();
 
     this.isBalanceShown$
       .pipe(takeUntil(this.onDestroy$))
@@ -100,15 +100,19 @@ export class AsideBarComponent implements OnInit {
     this.getRecentTransactions();
   }
 
-  getAllProducts(search: string) {
+  getAllProducts() {
     if (!this.url) {
       this.merchantService
-        .searchProduct(this.pagination, search)
+        .getTopProducts()
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
           next: data => {
-            this.response_data = data.count;
-            (this.products as ProductAutocompleteModel[]) = data.objects;
+            const response = data as {
+              objects: ProductAutocompleteModel[];
+              count: number;
+            };
+            this.response_data = response.count;
+            (this.products as ProductAutocompleteModel[]) = response.objects;
             this.loader = true;
             // this.topProducts.emit(this.products);
           },

@@ -123,7 +123,9 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
       },
     });
     this.bank$.subscribe((bank: BankModel) => {
-      this.debitBank = bank.id;
+      if (bank) {
+        this.debitBank = bank.id;
+      }
     });
   }
 
