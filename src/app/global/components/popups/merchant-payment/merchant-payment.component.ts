@@ -80,6 +80,7 @@ export class MerchantPaymentComponent
   merchant: MerchantAutocompleteModel | BillersAutocompleteModel | null = null;
   product: ProductAutocompleteModel | null = null;
   category: MerchantCategoriesAutocompleteModel | null = null;
+  steps: 'first' | 'second' = 'first';
 
   selectedBank: BankModel | null = null;
   selectedBank$: Observable<BankModel>;
@@ -110,7 +111,14 @@ export class MerchantPaymentComponent
   productLookupChoices: ProductLookupChoiceModel[] | null = null;
   selectedProductLookupChoice: ProductLookupChoiceModel | null = null;
 
-  productWaitList: unknown[] = [];
+  productWaitList: {
+    lookup_metata: {
+      lookup: ProductLookupModel | null;
+      choice: ProductLookupChoiceModel | null;
+      values: Record<string, string>;
+    };
+    metadata: Record<string, string>;
+  }[] = [];
 
   constructor(
     private dialogService: DialogService,
@@ -216,6 +224,7 @@ export class MerchantPaymentComponent
             this.productDetails.metadata.length === 0 &&
             this.productDetails.price
           ) {
+            this.steps = 'second';
             alert('Active Directly payment');
           }
 
@@ -225,6 +234,30 @@ export class MerchantPaymentComponent
           this.loadingProductDetails = false;
         },
       });
+  }
+
+  addProductToWaitList(type: 'simple' | 'multiple' = 'simple') {
+    if (type === 'simple') {
+      this.productWaitList.push({
+        lookup_metata: {
+          choice: this.selectedProductLookupChoice,
+          lookup: this.productLookup,
+          values: this.lookupMetadataForm.value,
+        },
+        metadata: this.metadataForm.value,
+      });
+      this.steps = 'second';
+    } else {
+      this.productWaitList.push({
+        lookup_metata: {
+          choice: this.selectedProductLookupChoice,
+          lookup: this.productLookup,
+          values: this.lookupMetadataForm.value,
+        },
+        metadata: this.metadataForm.value,
+      });
+      this.resetProduct();
+    }
   }
 
   doProductLookup() {
@@ -376,17 +409,20 @@ export class MerchantPaymentComponent
     this.selectedMerchant = null;
     this.productDetails = null;
     this.selectedProduct = null;
-    this.selectedPaymentMenu = '';
-    this.lookupMetadataForm.reset();
-    this.productLookup = null;
+    this.resetProduct();
   }
 
   resetLookupData() {
     this.productLookup = null;
     this.resetSelectedLookupChoice();
+    this.lookupMetadataForm.reset();
+    this.lookupMetadataForm.reset();
   }
   resetSelectedLookupChoice() {
     this.selectedProductLookupChoice = null;
+  }
+  resetProduct() {
+    this.resetLookupData();
   }
 
   private formatMerchantDetailsAsAutocomplete(
