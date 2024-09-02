@@ -107,7 +107,6 @@ export class MerchantConfigComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('ngOnInit: MerchantConfigComponent');
     this.getConnectedMerchantInfo();
     this.cdr.detectChanges();
 
@@ -120,7 +119,6 @@ export class MerchantConfigComponent implements OnInit {
       },
     });
 
-    console.log('merchantInfo:', this.merchantInfo);
     this.merchantConfigForm.patchValue({
       name: this.merchantInfo?.merchant_title,
       simplePayment: this.merchantInfo?.accepts_simple_payment,
@@ -131,7 +129,6 @@ export class MerchantConfigComponent implements OnInit {
     });
 
     this.plateform$.subscribe((plateform: string) => {
-      console.log('plateform:', plateform);
       this.plateform = plateform;
     });
   }
@@ -153,9 +150,13 @@ export class MerchantConfigComponent implements OnInit {
         });
         this.get_merchantDetails = true;
       },
-      error: err => {
+      error: () => {
         // TODO :: CODE
-        console.log(err);
+        this.dialogService.openToast({
+          type: 'failed',
+          title: '',
+          message: 'failed to get a merchant details',
+        });
       },
     });
   }
@@ -168,9 +169,13 @@ export class MerchantConfigComponent implements OnInit {
         const tellers = response as tellersModel;
         this.tellers = tellers.objects;
       },
-      error: err => {
+      error: () => {
         // TODO :: CODE
-        console.log(err);
+        this.dialogService.openToast({
+          type: 'failed',
+          title: '',
+          message: 'failed to get a teller',
+        });
       },
     });
   }
@@ -189,7 +194,6 @@ export class MerchantConfigComponent implements OnInit {
       .subscribe(response => {
         this.get_selectedTeller = true;
         const data = response as tellerModel;
-        console.log(data);
         this.selectedTeller = data.object;
       });
   }

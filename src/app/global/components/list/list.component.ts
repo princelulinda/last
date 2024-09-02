@@ -14,11 +14,19 @@ import {
 } from '../reusable-list/reusable.model';
 import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
 import { OverviewModel } from './list.model';
+import { NotFoundPageComponent } from '../empty-states/not-found-page/not-found-page.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [ReactiveFormsModule, SkeletonComponent, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    SkeletonComponent,
+    CommonModule,
+    NotFoundPageComponent,
+    RouterLink,
+  ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })
@@ -94,6 +102,8 @@ export class ListComponent implements OnInit, OnDestroy {
   i!: number;
   plateform = '';
   displayPaginationLimit = false;
+  pageInput = new FormControl();
+
   paginationsLimit = [50, 40, 30, 20, 10, 5];
   overviewOption = {
     hidden: false,
@@ -160,6 +170,7 @@ export class ListComponent implements OnInit, OnDestroy {
           this.response_data = data;
           this.totalItems = data.count;
           this.data_list = [];
+          this.searchName.setValue('');
 
           if (this.clientPagination.filters.limit) {
             this.pages = ~~(
@@ -304,28 +315,45 @@ export class ListComponent implements OnInit, OnDestroy {
         },
       });
   }
+  reverseList() {
+    this.data_list.reverse();
+    return;
+  }
 
   doListMove(action: string) {
     const totalPages = Math.ceil(
       this.totalItems / this.clientPagination.filters.limit
     );
 
-    if (action === 'next') {
-      this.currentPage += 1;
-    } else if (action === 'previous') {
-      this.currentPage -= 1;
-    } else if (action === 'first') {
-      this.currentPage = 0;
-    } else if (action === 'last') {
-      this.currentPage = totalPages - 1;
+    switch (action) {
+      case 'next':
+        this.currentPage = Math.min(this.currentPage + 1, totalPages - 1);
+        break;
+      case 'previous':
+        this.currentPage = Math.max(this.currentPage - 1, 0);
+        break;
+      case 'first':
+        this.currentPage = 0;
+        break;
+      case 'last':
+        this.currentPage = totalPages - 1;
+        break;
+      case 'goToPage': {
+        const pageElement = document.querySelector(
+          'span[contenteditable="true"]'
+        ) as HTMLElement;
+        const page = parseInt(pageElement?.textContent?.trim() || '0', 10) - 1;
+        this.currentPage = Math.max(0, Math.min(page, totalPages - 1));
+        break;
+      }
     }
 
-    // condition just for typescript
-    if (this.clientPagination.filters.limit) {
-      this.clientPagination.filters.offset =
-        this.clientPagination.filters.limit * this.currentPage;
-      this.getData();
-    }
+    // Mettre à jour l'offset de la pagination
+    this.clientPagination.filters.offset =
+      this.clientPagination.filters.limit * this.currentPage;
+
+    // Recharger les données
+    this.getData();
   }
   get start(): number {
     return this.currentPage * this.clientPagination.filters.limit + 1;

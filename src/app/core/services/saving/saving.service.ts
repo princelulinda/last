@@ -19,7 +19,7 @@ export class SavingDetailService {
   //   }
 
   getClientTontines(): Observable<{ objects: TontineModel[] }> {
-    const url = '/tontines/list/?registered=true';
+    const url = '/tontine/creation/';
     return this.apiService.get<{ objects: TontineModel[] }>(url);
   }
 

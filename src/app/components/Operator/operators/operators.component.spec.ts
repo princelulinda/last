@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListTestComponent } from './list-test.component';
+import { OperatorsComponent } from './operators.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-describe('ListTestComponent', () => {
-  let component: ListTestComponent;
-  let fixture: ComponentFixture<ListTestComponent>;
+describe('OperatorsComponent', () => {
+  let component: OperatorsComponent;
+  let fixture: ComponentFixture<OperatorsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ListTestComponent],
+      imports: [OperatorsComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ListTestComponent);
+    fixture = TestBed.createComponent(OperatorsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

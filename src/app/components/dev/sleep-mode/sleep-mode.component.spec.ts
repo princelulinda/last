@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SleepModeComponent } from './sleep-mode.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('SleepModeComponent', () => {
   let component: SleepModeComponent;
@@ -9,6 +11,7 @@ describe('SleepModeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SleepModeComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SleepModeComponent);
