@@ -21,6 +21,7 @@ export class AmountVisibilityComponent implements OnInit, OnDestroy {
   @Input() customClasses = ''; // Input property to receive custom CSS classes
 
   showAmounts = false; // Variable to store the visibility state of amounts
+  @Input() alwaysShowAmount = false;
   showAmounts$: Observable<boolean>; // Observable for the visibility state
 
   constructor(private dialogService: DialogService) {
@@ -28,9 +29,13 @@ export class AmountVisibilityComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.showAmounts$.subscribe(state => {
-      this.showAmounts = state;
-    });
+    if (!this.alwaysShowAmount) {
+      this.showAmounts$.subscribe(state => {
+        this.showAmounts = state;
+      });
+    } else {
+      this.showAmounts = true;
+    }
   }
 
   ngOnDestroy() {

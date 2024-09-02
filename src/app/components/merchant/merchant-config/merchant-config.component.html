@@ -154,7 +154,7 @@
     @if (selected === 'detail') {
       <div>
         @if (merchantInfo) {
-          <section
+          <form
             [formGroup]="merchantConfigForm"
             [ngClass]="{
               'not-clickable': isLoading,
@@ -328,7 +328,7 @@
                 </button>
               </div>
             </div>
-          </section>
+          </form>
         }
       </div>
     }
@@ -504,7 +504,7 @@
             </div>
           </section>
           <section>
-            <div
+            <form
               [formGroup]="newTellerForm"
               [ngClass]="{
                 'not-clickable': isTellerLoading,
@@ -563,7 +563,7 @@
                   }
                 </button>
               </div>
-            </div>
+            </form>
           </section>
         </main>
       }

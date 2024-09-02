@@ -26,6 +26,7 @@ import { BankService } from '../../../core/services/bank/bank.service';
 import { DbService } from '../../../core/db/db.service';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
+import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 
 @Component({
   selector: 'app-auth-sign-up',
@@ -38,6 +39,7 @@ import { ItemModel } from '../../../global/components/lookups/lookup/lookup.mode
     FileComponent,
     SkeletonComponent,
     LookupComponent,
+    AmountFieldComponent,
   ],
   templateUrl: './auth-sign-up.component.html',
   styleUrl: './auth-sign-up.component.scss',
