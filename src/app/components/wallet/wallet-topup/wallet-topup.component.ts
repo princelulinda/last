@@ -16,6 +16,7 @@ import { ClientService } from '../../../core/services';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { ActivatedRoute } from '@angular/router';
+import { VariableService } from '../../../core/services/variable/variable.service';
 @Component({
   selector: 'app-wallet-topup',
   standalone: true,
@@ -35,7 +36,8 @@ export class WalletTopupComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private clientService: ClientService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private variableService: VariableService
   ) {
     this.dialogState$ = this.dialogService.getDialogState();
 
@@ -101,6 +103,7 @@ export class WalletTopupComponent implements OnInit {
                 message: response.object.response_message,
               });
               this.topupSuccess.emit();
+              this.variableService.announceTopUpComplete();
             } else {
               this.dialogService.openToast({
                 type: 'failed',

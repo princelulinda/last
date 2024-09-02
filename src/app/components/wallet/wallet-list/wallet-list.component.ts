@@ -20,7 +20,7 @@ import {
 } from '../../../core/services/config/main-config.models';
 import { WalletList } from '../wallet.models';
 import { RouterLink } from '@angular/router';
-
+import { VariableService } from '../../../core/services/variable/variable.service';
 @Component({
   selector: 'app-wallet-list',
   standalone: true,
@@ -66,7 +66,8 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private configService: ConfigService,
     private authService: AuthService,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private variableService: VariableService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.userInfo$ = this.authService.getUserInfo();
@@ -83,6 +84,9 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
           this.getClientWallet();
         }
       });
+    this.variableService.topUpComplete$.subscribe(() => {
+      this.getClientWallet(); // Actualiser la liste des wallets
+    });
 
     this.mainConfig$.subscribe({
       next: configs => {
