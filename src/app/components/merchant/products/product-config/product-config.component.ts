@@ -175,9 +175,13 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
           this.count = data.count;
           this.loadingData = false;
         },
-        error: err => {
+        error: () => {
           this.loadingData = false;
-          console.log('metadata error', err);
+          this.dialogService.openToast({
+            type: 'failed',
+            title: '',
+            message: 'failed to get a metadata',
+          });
         },
       });
   }
@@ -323,9 +327,13 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
           });
           this.loading_productDetails = true;
         },
-        error: err => {
+        error: () => {
           this.loading_productDetails = false;
-          console.log(err);
+          this.dialogService.openToast({
+            type: 'failed',
+            title: '',
+            message: 'failed to get a product details',
+          });
         },
       });
   }
@@ -435,13 +443,15 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
           next: result => {
             this.products = [];
             this.products = result.objects;
-            console.log('the search product is', this.products);
-
             this.isLoading = false;
           },
           error: () => {
             this.isLoading = false;
-            console.log('search error');
+            this.dialogService.openToast({
+              type: 'failed',
+              title: '',
+              message: 'failed to get products',
+            });
           },
         });
     } else {
