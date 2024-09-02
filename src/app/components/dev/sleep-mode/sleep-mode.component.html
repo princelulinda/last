@@ -1,5 +1,5 @@
 <section
-  class="stop bg-all-white d-flex align-items-center justify-content-center position-relative overflow-hidden"
+  class="stop bg-white d-flex align-items-center justify-content-center position-relative overflow-hidden"
   id="standby"
   (click)="animationStart()"
   (mousemove)="animationStart()"
@@ -19,7 +19,14 @@
     class="position-absolute print"
     alt="" />
   <div class="position-absolute">
-    <img src="./images/sleepMode/iHelaRyanje.svg" id="toAnimate" alt="" />
+    <img
+      [attr.src]="
+        activeMode === 'light'
+          ? './images/sleepMode/iHelaRyanje.svg'
+          : './images/sleepMode/iHelaRyanjeWhite.svg'
+      "
+      id="toAnimate"
+      alt="" />
   </div>
   <div class="hidDiv">
     <div class="h-100 d-flex align-items-center flex-column mb-3">
@@ -29,9 +36,47 @@
 
       <span class="fw-bold">{{ user?.client?.client_full_name }}</span>
     </div>
+    <form [formGroup]="form" (ngSubmit)="verification()">
+      <div
+        class="d-flex flex-row align-items-center justify-content-center gap-3 w-100 position-relative mw-200">
+        <input
+          [type]="passwordType"
+          class="form-control pe-5"
+          placeholder="Enter password"
+          id="password"
+          autocomplete="new-password"
+          aria-label="Recipient's username"
+          aria-describedby="button-addon2"
+          formControlName="password"
+          [disabled]="isLoading"
+          tabindex="0" />
 
-    <div class="d-flex flex-row align-items-center gap-3">
-      <div class="input-group z-1">
+        @if (showPassword && !isLoading) {
+          <a
+            tabindex="0"
+            role="button"
+            (click)="setShowPassword()"
+            class="position-absolute end-0 me-3">
+            <i class="fa-regular fa-eye-slash"></i>
+          </a>
+        }
+        @if (!showPassword && !isLoading) {
+          <a
+            tabindex="0"
+            role="button"
+            (click)="setShowPassword()"
+            class="position-absolute end-0 me-3">
+            <i class="fa-regular fa-eye"></i>
+          </a>
+        }
+
+        @if (isLoading) {
+          <a class="position-absolute end-0 me-3">
+            <i class="fa-solid fa-spinner fa-pulse"></i>
+          </a>
+        }
+
+        <!-- <div class="input-group z-1">
         <input
           type="password"
           class="form-control"
@@ -42,35 +87,18 @@
           aria-describedby="button-addon2"
           [formControl]="password"
           tabindex="0" />
-        <!-- <button
-          class="btn border-0 bg-transparent"
-          type="button"
-          id="button-addon2">
-          Button
-        </button> -->
         <div
           id="button-addon2"
           class="fill d-flex align-items-center px-2"
           type="button">
           <i class="fa-regular fa-eye"></i>
         </div>
+      </div> -->
+        <!-- <app-password-field
+        [password]="true"
+        (passwordValid)="verification($event)"></app-password-field> -->
       </div>
-      @if (!isLoading) {
-        <div
-          class="py-1 px-2 rounded-2 bg-secondary"
-          role="button"
-          (click)="verification()"
-          tabindex="0">
-          <i class="fa-solid fa-arrow-right"></i>
-        </div>
-      }
-
-      @if (isLoading) {
-        <div class="py-1 px-2 rounded-2 bg-secondary">
-          <i class="fa-solid fa-spinner fa-pulse"></i>
-        </div>
-      }
-    </div>
+    </form>
   </div>
   <div class=""></div>
   <div class="wave-cont position-absolute bottom-0 w-100">

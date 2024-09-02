@@ -27,7 +27,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
   providedIn: 'root',
 })
 export class DialogService {
-  private readonly idleTimeout = 15 * 60 * 1000; // 15 minutes
+  private readonly idleTimeout = 10 * 1000; // 15 minutes
   private idle$: Observable<boolean>;
   private resetIdle$ = new Subject<void>();
 
