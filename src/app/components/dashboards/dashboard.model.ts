@@ -1,4 +1,4 @@
-import { bankModel } from '../../core/db/models/bank/bank.model';
+import { BankModel } from '../../core/db/models/bank/bank.model';
 import { MerchantModel } from '../merchant/merchant.models';
 
 export interface MerchantLookup {
@@ -22,7 +22,7 @@ export interface BankOptionsModel {
   selectedDebitAccountType: string | null;
   debitAccount: string | null;
   debitWallet: string | null;
-  banks: bankModel[];
+  banks: BankModel[];
   creditAccountType: string | null;
   accounts: AccountInfoModel[] | null;
   wallets: WalletModel[] | null;

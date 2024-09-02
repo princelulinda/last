@@ -1,96 +1,106 @@
 <div class="w-100 d-flex justify-content-center align-items-center py-3">
-  <div class="d-flex flex-row">
-    <div class="d-flex flex-row flex-nowrap align-items-center me-5">
-      <span class="me-2"> Limit: </span>
-      <select
-        class="form-select form-select-sm"
-        aria-label="Small select example"
-        [(ngModel)]="pageLimit"
-        (ngModelChange)="onLimitChange($event)">
-        @for (limit of paginationsLimits; track $index) {
-          @if (limit === pageLimit) {
-            <option value="{{ limit }}" [defaultSelected]="true">
-              {{ limit }}
-            </option>
-          } @else {
-            <option value="{{ limit }}">{{ limit }}</option>
-          }
-        }
-      </select>
-    </div>
+  @if (isLoading) {
     <div class="h-100 d-flex align-items-center flex-row gap-2 flex-nowrap">
-      <!-- Previous arrows -->
-      <span
-        class="border py-1 px-3 rounded-2"
-        [ngClass]="
-          currentPage <= 1
-            ? 'not-clickable'
-            : 'bg-hover-primary text-hover-white'
-        "
-        [attr.role]="currentPage <= 1 ? null : 'button'"
-        (click)="!(currentPage <= 1) && jumpPrev()"
-        tabindex="0"
-        >&lt;&lt;</span
-      >
-      <span
-        class="border py-1 px-3 rounded-2"
-        [ngClass]="
-          currentPage === 1 || currentPage < 1
-            ? 'not-clickable'
-            : 'bg-hover-primary text-hover-white'
-        "
-        [attr.role]="currentPage === 1 || currentPage < 1 ? null : 'button'"
-        (click)="currentPage > 1 && goToPage(currentPage - 1)"
-        tabindex="0"
-        >&lt;</span
-      >
+      <span class="border py-1 px-3 rounded-2 not-clickable">&lt;&lt;</span>
+      <span class="border py-1 px-3 rounded-2 not-clickable">&lt;</span>
 
-      <!-- Page numbers -->
-      @for (page of getPaginationRange(); track $index) {
-        <span
-          [ngClass]="
-            currentPage === page
-              ? 'bg-primary text-light border py-1 px-3 rounded-2'
-              : page !== -1
-                ? 'bg-hover-primary text-hover-white border py-1 px-3 rounded-2'
-                : ''
-          "
-          [attr.role]="page !== -1 && page !== currentPage ? 'button' : null"
-          (click)="page !== -1 && goToPage(page)"
-          tabindex="0"
-          >{{ page === -1 ? '...' : page }}</span
-        >
-      }
-
-      <!-- Next arrows -->
-      <span
-        class="border py-1 px-3 rounded-2"
-        [ngClass]="
-          currentPage === pages.length || currentPage >= pages.length
-            ? 'not-clickable'
-            : 'bg-hover-primary text-hover-white'
-        "
-        [attr.role]="
-          currentPage === pages.length || currentPage >= pages.length
-            ? null
-            : 'button'
-        "
-        (click)="currentPage !== pages.length && goToPage(currentPage + 1)"
-        tabindex="0"
-        >&gt;</span
-      >
-      <span
-        class="border py-1 px-3 rounded-2"
-        [ngClass]="
-          currentPage >= pages.length
-            ? 'not-clickable'
-            : 'bg-hover-primary text-hover-white'
-        "
-        [attr.role]="currentPage >= pages.length ? null : 'button'"
-        (click)="!(currentPage >= pages.length) && jumpNext()"
-        tabindex="0"
-        >&gt;&gt;</span
-      >
+      <span class="border py-1 px-3 rounded-2 not-clickable">&gt;</span>
+      <span class="border py-1 px-3 rounded-2 not-clickable">&gt;&gt;</span>
     </div>
-  </div>
+  } @else {
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-row flex-nowrap align-items-center me-5">
+        <span class="me-2"> Limit: </span>
+        <select
+          class="form-select form-select-sm"
+          aria-label="Small select example"
+          [(ngModel)]="pageLimit"
+          (ngModelChange)="onLimitChange($event)">
+          @for (limit of paginationsLimits; track $index) {
+            @if (limit === pageLimit) {
+              <option value="{{ limit }}" [defaultSelected]="true">
+                {{ limit }}
+              </option>
+            } @else {
+              <option value="{{ limit }}">{{ limit }}</option>
+            }
+          }
+        </select>
+      </div>
+      <div class="h-100 d-flex align-items-center flex-row gap-2 flex-nowrap">
+        <!-- Previous arrows -->
+        <span
+          class="border py-1 px-3 rounded-2"
+          [ngClass]="
+            currentPage <= 1
+              ? 'not-clickable'
+              : 'bg-hover-primary text-hover-all-white'
+          "
+          [attr.role]="currentPage <= 1 ? null : 'button'"
+          (click)="!(currentPage <= 1) && jumpPrev()"
+          tabindex="0"
+          >&lt;&lt;</span
+        >
+        <span
+          class="border py-1 px-3 rounded-2"
+          [ngClass]="
+            currentPage === 1 || currentPage < 1
+              ? 'not-clickable'
+              : 'bg-hover-primary text-hover-all-white'
+          "
+          [attr.role]="currentPage === 1 || currentPage < 1 ? null : 'button'"
+          (click)="currentPage > 1 && goToPage(currentPage - 1)"
+          tabindex="0"
+          >&lt;</span
+        >
+
+        <!-- Page numbers -->
+        @for (page of getPaginationRange(); track $index) {
+          <span
+            [ngClass]="
+              currentPage === page
+                ? 'bg-primary text-light border py-1 px-3 rounded-2'
+                : page !== -1
+                  ? 'bg-hover-primary text-hover-white border py-1 px-3 rounded-2'
+                  : ''
+            "
+            [attr.role]="page !== -1 && page !== currentPage ? 'button' : null"
+            (click)="page !== -1 && goToPage(page)"
+            tabindex="0"
+            >{{ page === -1 ? '...' : page }}</span
+          >
+        }
+
+        <!-- Next arrows -->
+        <span
+          class="border py-1 px-3 rounded-2"
+          [ngClass]="
+            currentPage === pages.length || currentPage >= pages.length
+              ? 'not-clickable'
+              : 'bg-hover-primary text-hover-all-white'
+          "
+          [attr.role]="
+            currentPage === pages.length || currentPage >= pages.length
+              ? null
+              : 'button'
+          "
+          (click)="currentPage !== pages.length && goToPage(currentPage + 1)"
+          tabindex="0"
+          >&gt;</span
+        >
+        <span
+          class="border py-1 px-3 rounded-2"
+          [ngClass]="
+            currentPage >= pages.length
+              ? 'not-clickable'
+              : 'bg-hover-primary text-hover-all-white'
+          "
+          [attr.role]="currentPage >= pages.length ? null : 'button'"
+          (click)="!(currentPage >= pages.length) && jumpNext()"
+          tabindex="0"
+          >&gt;&gt;</span
+        >
+      </div>
+    </div>
+  }
 </div>

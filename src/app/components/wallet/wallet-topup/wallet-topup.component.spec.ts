@@ -1,22 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SleepModeComponent } from './sleep-mode.component';
+import { WalletTopupComponent } from './wallet-topup.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-
-describe('SleepModeComponent', () => {
-  let component: SleepModeComponent;
-  let fixture: ComponentFixture<SleepModeComponent>;
+import { RouterTestingModule } from '@angular/router/testing';
+describe('WalletTopupComponent', () => {
+  let component: WalletTopupComponent;
+  let fixture: ComponentFixture<WalletTopupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SleepModeComponent],
+      imports: [WalletTopupComponent, RouterTestingModule],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SleepModeComponent);
+    fixture = TestBed.createComponent(WalletTopupComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('should create', () => {

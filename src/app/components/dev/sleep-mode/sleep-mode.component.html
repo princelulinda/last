@@ -24,38 +24,52 @@
   <div class="hidDiv">
     <div class="h-100 d-flex align-items-center flex-column mb-3">
       <div class="mb-2 profile rounded-circle overflow-hidden">
-        <img
-          src="https://cdn.vox-cdn.com/thumbor/zaoSLDXQRuHmTTpWL7esp3jNvWA=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/24300718/1450131991.jpg"
-          class="image"
-          alt="" />
+        <img [src]="user?.client?.picture_url" class="image" alt="" />
       </div>
 
-      <span class="fw-bold">Bibentyo Bundi</span>
+      <span class="fw-bold">{{ user?.client?.client_full_name }}</span>
     </div>
 
-    <div class="input-group z-1">
-      <input
-        type="password"
-        class="form-control"
-        placeholder="password"
-        id="passInput"
-        autocomplete="off"
-        aria-label="Recipient's username"
-        aria-describedby="button-addon2"
-        tabindex="10"
-        />
-      <!-- <button
-        class="btn border-0 bg-transparent"
-        type="button"
-        id="button-addon2">
-        Button
-      </button> -->
-      <div
-        id="button-addon2"
-        class="fill d-flex align-items-center px-2"
-        type="button">
-        <i class="fa-regular fa-eye"></i>
+    <div class="d-flex flex-row align-items-center gap-3">
+      <div class="input-group z-1">
+        <input
+          type="password"
+          class="form-control"
+          placeholder="Enter password"
+          id="password"
+          autocomplete="new-password"
+          aria-label="Recipient's username"
+          aria-describedby="button-addon2"
+          [formControl]="password"
+          tabindex="0" />
+        <!-- <button
+          class="btn border-0 bg-transparent"
+          type="button"
+          id="button-addon2">
+          Button
+        </button> -->
+        <div
+          id="button-addon2"
+          class="fill d-flex align-items-center px-2"
+          type="button">
+          <i class="fa-regular fa-eye"></i>
+        </div>
       </div>
+      @if (!isLoading) {
+        <div
+          class="py-1 px-2 rounded-2 bg-secondary"
+          role="button"
+          (click)="verification()"
+          tabindex="0">
+          <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      }
+
+      @if (isLoading) {
+        <div class="py-1 px-2 rounded-2 bg-secondary">
+          <i class="fa-solid fa-spinner fa-pulse"></i>
+        </div>
+      }
     </div>
   </div>
   <div class=""></div>

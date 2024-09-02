@@ -278,12 +278,14 @@ export class DialogService {
     });
   }
 
+  // Sleep mode locking
   lockScreen() {
     const element = document.getElementById('standby');
     element?.classList.remove('stop');
     element?.classList.add('stand');
   }
 
+  // Sleep mode unlocking
   unlockScreen() {
     const element = document.getElementById('standby');
     element?.classList.remove('stand');

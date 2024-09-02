@@ -20,7 +20,7 @@ import {
   AuthService,
   DialogService,
 } from '../../../core/services';
-import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { SwitchBankComponent } from '../../../global/components/popups/switch-bank/switch-bank.component';
 import { AccountsListComponent } from '../../account/accounts-list/accounts-list.component';
 import {
@@ -68,11 +68,11 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
 
   debitWallet: DebitOptionsModel | null = null;
   defaultBank: string | undefined;
-  @Input() selectedBank!: bankModel;
-  selectedBank$!: Observable<bankModel>;
+  @Input() selectedBank!: BankModel;
+  selectedBank$!: Observable<BankModel>;
 
-  banks: bankModel[] = [];
-  clientBanks: bankModel[] = [];
+  banks: BankModel[] = [];
+  clientBanks: BankModel[] = [];
 
   index = 0;
   isBalanceShown = false;
@@ -175,21 +175,14 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
       this.debitOptions.emit(options);
     }
   }
-  getAccountsListByClick() {
-    const data = {
-      client_id: this.clientId,
-      access_bank_id: this.selectedBank.id,
-    };
 
-    console.log(data);
-  }
   getBanks() {
     this.bankService.getBanksList().subscribe(banks => {
       this.clientBanks = banks;
     });
   }
 
-  selectBank(bank: bankModel) {
+  selectBank(bank: BankModel) {
     this.configService.setSelectedBank(bank);
   }
   getClient(client: DebitOptionsModel) {

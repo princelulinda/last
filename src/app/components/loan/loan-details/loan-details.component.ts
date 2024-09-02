@@ -18,7 +18,7 @@ import {
 } from '../../../core/services';
 import { LoanPlanComponent } from '../loan-plan/loan-plan.component';
 import { LoanModel, PlanModel, ResModel } from '../loan.models';
-import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 
 @Component({
@@ -32,8 +32,8 @@ export class LoanDetailsComponent implements OnInit, OnDestroy, DoCheck {
   private onDestroy$: Subject<void> = new Subject<void>();
   loanId!: string;
   loan: LoanModel | undefined;
-  selectedBank$: Observable<bankModel>;
-  selectedBank!: bankModel;
+  selectedBank$: Observable<BankModel>;
+  selectedBank!: BankModel;
   // theme = '';
   // theme$: Observable<string>;
   loanPlan!: PlanModel[] | undefined;
@@ -123,7 +123,7 @@ export class LoanDetailsComponent implements OnInit, OnDestroy, DoCheck {
       this.loan = res.object;
 
       this.selectedBank$.subscribe({
-        next: (bank: bankModel) => {
+        next: (bank: BankModel) => {
           this.selectedBank = bank;
         },
       });

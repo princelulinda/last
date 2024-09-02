@@ -6,7 +6,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { SwitchBankComponent } from '../../../../global/components/popups/switch-bank/switch-bank.component';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { bankModel } from '../../../../core/db/models/bank/bank.model';
+import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import { ConfigService } from '../../../../core/services';
 import {
   activeMainConfigModel,
@@ -96,7 +96,7 @@ export class BankHomeComponent implements OnInit, OnDestroy {
 
   clientVerified = '&filter_for_client=true';
   private onDestroy$: Subject<void> = new Subject<void>();
-  selectedBank!: bankModel;
+  selectedBank!: BankModel;
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
   activePlatform: string | null = null;

@@ -314,7 +314,8 @@
     <div class="row g-0">
       @for (item of first4ProductCategory; track $index) {
         <div
-          class="col-5 col-sm-3 col-md-3 col-lg-3 col-xl-3 col-xxl-2 me-4 position-relative bg-dark bg-opacity-50 lg-radius"
+          class="col-5 col-sm-3 col-md-3 col-lg-3 col-xl-3 col-xxl-2 me-4 position-relative bg-dark bg-opacity-50 border lg-radius"
+          role="button"
           id="{{ item.id }}">
           @if (item.icon) {
             <div class="card bg-all-dark text-white">
@@ -333,7 +334,8 @@
           } @else {
             <div class="">
               <span class="d-flex justify-content-center">
-                <i class="fa-solid fa-mountain-sun fa-2x text-dark my-4"></i>
+                <i
+                  class="fa-solid fa-mountain-sun fa-2x text-all-dark my-4"></i>
               </span>
               @if (item.name) {
                 <div
@@ -419,9 +421,9 @@
 
     @if (billers) {
       <div
-        class="row d-flex justify-content-center d-md-flex justify-content-sm-start">
+        class="d-flex justify-content-center d-md-flex justify-content-sm-start flex-wrap gap-5">
         @for (biller of recentBillers; track $index) {
-          <div class="col-5 col-sm-4 col-md-3 col-lg-4 col-xl-3 mb-2">
+          <div class="d-flex justify-content-between">
             <div class="w-100">
               <app-biller-card
                 [biller]="biller"

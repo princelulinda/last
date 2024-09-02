@@ -9,7 +9,7 @@ import {
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { MerchantService } from '../../../../core/services';
+import { DialogService, MerchantService } from '../../../../core/services';
 import { MerchantPaymentComponent } from '../../../dev/merchant-payment/merchant-payment.component';
 import { MerchantAutocompleteModel } from '../../merchant.models';
 import { VariableService } from '../../../../core/services/variable/variable.service';
@@ -46,7 +46,8 @@ export class MerchantCardComponent implements OnDestroy {
 
   constructor(
     private merchantService: MerchantService,
-    private variableService: VariableService
+    private variableService: VariableService,
+    private dialogService: DialogService
   ) {}
 
   makeFavoriteMerchants(favorite: MerchantAutocompleteModel, event: Event) {
@@ -97,7 +98,10 @@ export class MerchantCardComponent implements OnDestroy {
 
   selectMerchant() {
     if (this.action === 'merchant-payment') {
-      console.log('DISPACTH MERCHANT PAYMENT');
+      this.dialogService.openMerchantPaymentDialog({
+        type: 'merchant',
+        merchant: this.merchant,
+      });
     } else if (this.action === 'output') {
       this.selectedMerchantEvent.emit(this.merchant);
     }

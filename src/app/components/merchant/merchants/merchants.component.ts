@@ -12,7 +12,7 @@ import {
 } from '../../../core/services';
 import { MerchantCardComponent } from '../global/merchant-card/merchant-card.component';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { BillersModel } from '../merchant.models';
+import { BillersAutocompleteModel } from '../merchant.models';
 import {
   MerchantCategoriesAutocompleteModel,
   SectorActivityAutocompleteModel,
@@ -43,8 +43,8 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   merchants!: MerchantAutocompleteModel[] | null;
   favoriteMerchants!: MerchantAutocompleteModel[];
   favoriteMerchantsNumber!: number;
-  favorite_merchant_making!: BillersModel | null;
-  payMerchant!: BillersModel | null;
+  favorite_merchant_making!: BillersAutocompleteModel | null;
+  payMerchant!: BillersAutocompleteModel | null;
   merchantId!: string;
   countProductLoader = [1, 2, 3, 4, 5, 6, 7, 8];
   favoriteDisplay = false;
@@ -170,7 +170,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       });
   }
 
-  getMerchant(data: BillersModel, event: MouseEvent) {
+  getMerchant(data: BillersAutocompleteModel, event: MouseEvent) {
     event.stopPropagation();
 
     const element = event.target as HTMLButtonElement;

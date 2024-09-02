@@ -52,6 +52,7 @@ $globalTextColors: (
 );
 @each $name, $value in $globalTextColors {
   @include generateTextClass($name, $value);
+  @include generateBgHoverClass($name, $value);
 }
 
 // global border color

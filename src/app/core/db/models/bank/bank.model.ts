@@ -1,4 +1,4 @@
-export interface bankModel {
+export interface BankModel {
   id: number;
   slug: string;
   name: string;

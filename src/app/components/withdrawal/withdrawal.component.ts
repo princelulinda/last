@@ -10,7 +10,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { bankModel } from '../../core/db/models/bank/bank.model';
+import { BankModel } from '../../core/db/models/bank/bank.model';
 import { DialogResponseModel } from '../../core/services/dialog/dialogs-models';
 import { DebitAccountComponent } from '../transfer/debit-account/debit-account.component';
 import { LookupComponent } from '../../global/components/lookups/lookup/lookup.component';
@@ -44,7 +44,7 @@ export class WithdrawalComponent implements OnInit, OnDestroy {
   menuSelected = 'agent';
   valueCheck = false;
   amountWritten!: number | null;
-  bank$: Observable<bankModel>;
+  bank$: Observable<BankModel>;
   debitBank!: number;
   transferDone = false;
   message!: string;
@@ -84,7 +84,7 @@ export class WithdrawalComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.bank$.subscribe((bank: bankModel) => {
+    this.bank$.subscribe((bank: BankModel) => {
       this.debitBank = bank.id;
     });
   }
