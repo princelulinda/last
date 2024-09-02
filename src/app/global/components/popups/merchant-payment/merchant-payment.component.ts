@@ -212,8 +212,8 @@ export class MerchantPaymentComponent
 
           // NOTE :: GO TO PRODUCT PAYMENT AUTOMATICALLY
           if (
-            !this.productDetails.lookup_metadata &&
-            !this.productDetails.metadata &&
+            this.productDetails.lookup_metadata.length === 0 &&
+            this.productDetails.metadata.length === 0 &&
             this.productDetails.price
           ) {
             alert('Active Directly payment');
@@ -354,7 +354,9 @@ export class MerchantPaymentComponent
     if (this.type === 'product' && !this.productDetails) {
       this.selectedPaymentMenu = 'Product-Payment';
     }
-    this.getProductDetails(product.id);
+    if (!this.productDetails) {
+      this.getProductDetails(product.id);
+    }
   }
 
   selectPaymentMenu(type: 'Direct-Payment' | 'Product-Payment' | '') {
