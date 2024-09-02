@@ -320,4 +320,11 @@ export class AuthService {
   getLocalPlateform(): PlateformModel {
     return this.apiService.getLocalPlateform();
   }
+
+  passwordVerification(password: string) {
+    const url = '/client/password-verification/';
+    return this.apiService
+      .post(url, { password })
+      .pipe(map(response => response));
+  }
 }

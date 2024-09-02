@@ -243,40 +243,11 @@
           <div class="col-11 col-sm-8 col-md-5"></div>
         </section>
       }
-      @if (!isLoading && merchantBills && merchantBills.length !== 0) {
-        <!-- <div
-          class="mt-4 d-flex align-items-center justify-content-center text-secondary mb-5">
-          <span
-            title="Previous"
-            (click)="getPagination('prev')"
-            tabindex="0"
-            role="button"
-            class="me-2 d-inline-flex align-items-center rounded p-2 bg-secondary"
-            [ngClass]="{
-              'bg-blue': canMoveToPrevious,
-              'level-2 disabled': !canMoveToPrevious && theme === 'light',
-              'level-3 disabled': !canMoveToPrevious && theme === 'dark',
-            }"
-            ><i class="fa-solid fa-play fa-rotate-180 fs-l-medium"></i
-          ></span>
-          <span
-            (click)="getPagination('next')"
-            [ngClass]="{
-              'bg-blue': canMoveToNext,
-              'level-2 disabled': !canMoveToNext && theme === 'light',
-              'level-3 disabled': !canMoveToNext && theme === 'dark',
-            }"
-            tabindex="0"
-            title="Next"
-            role="button"
-            class="ms-2 fs-5 d-inline-flex align-items-center rounded p-2"
-            ><i class="fa-solid fa-play"></i
-          ></span>
-        </div> -->
-        <div class="mb-3 w-100">
+      @if (!isLoading) {
+        <div class="my-3 w-100">
           <app-pagination
+            [isLoading]="isLoading"
             [totalData]="totalData"
-            [currentPage]="activePage"
             [pageLimit]="billsPagination.filters.limit"
             (paginationChange)="onPaginationChange($event)"></app-pagination>
         </div>

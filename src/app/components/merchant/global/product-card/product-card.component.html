@@ -61,7 +61,9 @@
                   [ngClass]="
                     currentMode === 'light' ? 'priceBGLight' : 'priceBGDark'
                   ">
-                  {{ product.price }} BIF
+                  <app-amount-visibility
+                    [amount]="product.price"
+                    [currency]="'BIF'"></app-amount-visibility>
                 </span>
               }
             </div>
@@ -115,7 +117,9 @@
           <small class="text-truncate">{{ product.lookup_description }}</small>
           @if (product.price) {
             <span class="fs-small fw-bold text-primary">
-              {{ product.price }} BIF
+              <app-amount-visibility
+                [amount]="product.price"
+                [currency]="'BIF'"></app-amount-visibility>
             </span>
           }
         </div>

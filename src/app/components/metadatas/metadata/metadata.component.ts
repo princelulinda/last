@@ -67,7 +67,7 @@ export class MetadataComponent implements OnInit, OnDestroy {
       .subscribe({
         next: data => {
           this.metadata = data.objects;
-          // this.count =data.count;
+          this.count = data.count;
           this.loadingData = false;
         },
         error: (err: { object: { response_message: string } }) => {
