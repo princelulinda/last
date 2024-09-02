@@ -15,6 +15,7 @@ import {
 import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
 import { OverviewModel } from './list.model';
 import { NotFoundPageComponent } from '../empty-states/not-found-page/not-found-page.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -24,6 +25,7 @@ import { NotFoundPageComponent } from '../empty-states/not-found-page/not-found-
     SkeletonComponent,
     CommonModule,
     NotFoundPageComponent,
+    RouterLink,
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
