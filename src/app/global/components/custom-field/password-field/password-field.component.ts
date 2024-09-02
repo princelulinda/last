@@ -62,6 +62,25 @@ export class PasswordFieldComponent {
   get pinFormField() {
     return this.passwordForm.get('pin');
   }
+  validateInput(event: KeyboardEvent) {
+    const allowedKeys = [
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      'Backspace',
+      'Tab',
+    ];
+    if (!allowedKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
 
   onSubmitPin() {
     if (
@@ -71,7 +90,7 @@ export class PasswordFieldComponent {
     ) {
       const pin = this.passwordForm.value.pin;
       this.pinValid.emit(pin);
-      // console.log(pin);
+      console.log(pin);
     }
   }
   getPinErrors() {
