@@ -61,6 +61,8 @@
         <span
           tabindex="0"
           role="button"
+          data-bs-toggle="modal"
+          data-bs-target="#myModal"
           [ngClass]="{ 'not-clickable': isLoading }"
           class="ms-3 d-flex fs-small align-items-center text-secondary"
           title="Overview"
@@ -234,45 +236,139 @@
           <input type="checkbox" />
         </div>
 
-        @for (data of line; track data) {
-          @if (data.format === 'date') {
-            <div [title]="data.value" class="col text-truncate overflow-hidden">
-              <span class="text-truncate d-block" i18n>{{
-                data.value | date: 'medium'
-              }}</span>
-            </div>
-          }
-          @if (data.format === 'currency') {
-            <div class="col">
-              @if (amountState) {
-                <span i18n>BIF {{ data.value }}</span>
-              }
-              @if (!amountState) {
-                <span i18n>BIF *** ***</span>
-              }
-            </div>
-          }
+        @for (data of line; let i = $index; track $index) {
+          <div
+            [ngClass]="
+              data.canBeDisplayed
+                ? data.size !== ''
+                  ? 'col-lg-' + data.size
+                  : 'col-lg'
+                : ''
+            "
+            class="align-self-center">
+            @if (data.canBeDisplayed) {
+              <div
+                [ngClass]="data.detail !== '' ? 'p-0  clickable' : ''"
+                [routerLink]="data.detail !== '' ? data.detail : []">
+                @if (!data.boolean) {
+                  <div
+                    class="col d-flex align-items-center"
+                    [title]="data.value"
+                    [ngClass]="[
+                      data.class !== ''
+                        ? ' d-flex justify-content-center badge-design mx-4 fs-small' +
+                          data.class
+                        : 'text-truncate overflow-hidden',
+                    ]">
+                    @if (data.icon !== '') {
+                      <span>
+                        <i
+                          class="me-2"
+                          [ngClass]="
+                            data.icon !== '' ? 'fa-solid fa-' + data.icon : ''
+                          "></i>
+                      </span>
+                    }
 
-          @if (data.format === '' && data.canBeDisplayed === 'true') {
-            <div
-              class="col d-flex align-items-center"
-              [title]="data.value"
-              [ngClass]="[
-                data.class !== ''
-                  ? ' d-flex justify-content-center badge-design fs-small' +
-                    data.class
-                  : 'text-truncate overflow-hidden',
-              ]">
-              @if ((!data.boolean && !data.format) || data.format === '') {
-                <span class="text-truncate d-block" i18n
-                  >{{ data.value }}
-                </span>
-              }
-              <!-- @else if(data.class!==''){
-                <span><i class="fa-solid fa-circle"></i></span>
-              } -->
-            </div>
-          }
+                    @if (!data.format || data.format === '') {
+                      <span class="text-truncate d-block" i18n
+                        >{{ data.value }}
+                      </span>
+                    }
+                    @if (!data.value) {
+                      <span>---</span>
+                    }
+
+                    @if (data.format === 'date') {
+                      <div
+                        [title]="data.value"
+                        class="col text-truncate overflow-hidden">
+                        <span class="text-truncate d-block" i18n>{{
+                          (data.value | date: 'medium') ?? '---'
+                        }}</span>
+                      </div>
+                    }
+                    @if (data.format === 'currency') {
+                      <div class="col">
+                        @if (amountState) {
+                          <span i18n>BIF {{ data.value }}</span>
+                        }
+                        @if (!amountState) {
+                          <span i18n>BIF *** ***</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+
+                @if (
+                  data.boolean &&
+                  !data.option1 &&
+                  !data.option2 &&
+                  !data.value1 &&
+                  !data.value2
+                ) {
+                  <div class="col ps-3 pe-3">
+                    @if (data.value) {
+                      <div>
+                        <small
+                          ><i
+                            class="fa-solid fa-circle-check fs-6 text-success"></i
+                        ></small>
+                      </div>
+                    } @else {
+                      <div>
+                        <small
+                          ><i
+                            class="fa-solid fa-circle-xmark text-danger fs-6"></i
+                        ></small>
+                      </div>
+                    }
+                  </div>
+                }
+                <!-- to display icon from option1 and option2 put manually -->
+
+                @if (data.boolean && data.option1 && data.option2) {
+                  <div class="col ps-3 pe-3">
+                    @if (data.value) {
+                      <div>
+                        <small
+                          ><i class="{{ data.option1 }} fs-3 text-success"></i
+                        ></small>
+                      </div>
+                    } @else {
+                      <div>
+                        <small
+                          ><i class="{{ data.option2 }} fs-3 text-primary"></i
+                        ></small>
+                      </div>
+                    }
+                  </div>
+                }
+
+                <!-- to display data from value1 and value2 put manually -->
+
+                @if (data.boolean && data.value1 && data.value2) {
+                  <div>
+                    @if (data.value) {
+                      <div>
+                        <span
+                          class="badge-design badge bg-success text-success">
+                          {{ data.value1 }}
+                        </span>
+                      </div>
+                    } @else {
+                      <div>
+                        <span class="badge-design badge bg-primary">
+                          {{ data.value2 }}
+                        </span>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
         }
       </div>
     }

@@ -49,7 +49,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   handleWalletSelected(wallet: WalletList) {
     this.selectedWallet = wallet;
 
-    console.log('Compte sélectionné :', wallet);
+    //console.log('Compte sélectionné :', wallet);
   }
 
   handleDataLoaded(loaded: boolean) {
