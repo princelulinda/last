@@ -181,7 +181,7 @@
     <div class="row w-100 ms-2 mb-3 mt-2">
       @if (headers && data_list && data_list.length > 0) {
         <div class="col-auto">
-          <input type="checkbox" />
+          <input type="checkbox" (change)="toggleAllCheckboxes($event)" />
         </div>
       }
 
