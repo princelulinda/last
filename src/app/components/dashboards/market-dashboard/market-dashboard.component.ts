@@ -15,6 +15,7 @@ import { ProductCardComponent } from '../../merchant/global/product-card/product
 import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillerCardComponent } from '../../merchant/global/biller-card/biller-card.component';
+import { DialogService } from '../../../core/services';
 
 @Component({
   selector: 'app-market-dashboard',
@@ -80,7 +81,10 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
   loadingmerchants = true;
   offerData: { id: number; product: ProductOfferModel }[] = [];
 
-  constructor(private merchantService: MerchantService) {}
+  constructor(
+    private merchantService: MerchantService,
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit(): void {
     this.getMerchants('');
@@ -90,14 +94,11 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
     this.getBillers();
     this.getRecentProducts();
   }
-  getMakeFavoriteResponse(response: string) {
-    const success = response;
+  getMakeFavoriteResponse() {
     this.getMerchants('');
     this.getFavoriteMerchants('');
-    console.log('response of getMakeFavoriteResponse', success);
   }
-  getFavoriteMerchants(search: string, activeLoading = true) {
-    console.log(activeLoading);
+  getFavoriteMerchants(search: string) {
     this.merchantService
       .getFavoriteMerchantsAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
@@ -109,9 +110,13 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
           this.favoriteMerchantLoading = false;
           this.favorite_merchant_making = null;
         },
-        error: err => {
+        error: () => {
           this.favoriteMerchantLoading = false;
-          console.log(err);
+          this.dialogService.openToast({
+            type: 'failed',
+            title: '',
+            message: 'failed to get a favorite merchant',
+          });
         },
       });
   }
@@ -134,7 +139,6 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
   }
 
   getBillers() {
-    console.log('getBillers called');
     this.merchantService
       .getBIllers(this.billerChecked)
       .pipe(takeUntil(this.onDestroy$))
@@ -173,8 +177,12 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
           };
           this.offerData = data.objects.slice(0, 2);
         },
-        error: err => {
-          console.log('erreur sur best offer', err);
+        error: () => {
+          this.dialogService.openToast({
+            type: 'failed',
+            title: '',
+            message: 'failed to get best offer',
+          });
         },
       });
   }

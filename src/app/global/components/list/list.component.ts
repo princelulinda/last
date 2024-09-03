@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { Subject, Observable, takeUntil } from 'rxjs';
@@ -26,6 +26,7 @@ import { RouterLink } from '@angular/router';
     CommonModule,
     NotFoundPageComponent,
     RouterLink,
+    FormsModule,
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
@@ -60,7 +61,9 @@ export class ListComponent implements OnInit, OnDestroy {
     option2: string;
     value1: string;
     value2: string;
+    isSelected?: boolean;
   }[][];
+  checkAll = false;
 
   @Input() filters = [
     {
@@ -369,6 +372,15 @@ export class ListComponent implements OnInit, OnDestroy {
 
   search() {
     this.getData();
+  }
+  toggleAllCheckboxes(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.checkAll = target.checked;
+
+    const checkboxes = document.querySelectorAll('.row input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      (checkbox as HTMLInputElement).checked = this.checkAll;
+    });
   }
 
   displayFilters() {
