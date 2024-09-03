@@ -1,9 +1,13 @@
 
 
 .userInfo {
-  margin-right: 7px;
+  margin-right:0px;
   border-radius: 10px 0px 0px 10px;
+  // transform: translate(65px, 0px);
 }
+// .dropdown-menu{
+//   transform: translate(0px, 0px);
+// }
 
 .bg-onamob-2 {
   background-color: #e4c5c3 !important;
@@ -17,18 +21,33 @@
       transform: translateX(100%);
   }
 
-  to {
+  to {  
       transform: translateX(0%);
   }
 }
+@keyframes anim {
+  0% {
+      top: 0px;
+  }
+  100% {
+      left: -2px;
+  }
+}
+
 
 .plateform-card{
-  height: calc(100vh - 70px);
-  animation: slidein 120ms 1 linear;
-
-    -webkit-animation: slidein 120ms 1 linear;
+  width: auto;
+  height: calc(99vh - 70px);
+  position: absolute;
+  right: 2px;
+  z-index: 20;
+  animation: slidein 100ms 1 linear;
+  overflow-x: hidden;
+  -webkit-animation: slidein 100ms 1 linear;
   min-width: 328px;
+
 }
 .plateform{
-  border-width:10px !important;;
+  border-width:10px !important;
+  // transform: translate(30px, 0px);
 }

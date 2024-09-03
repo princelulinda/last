@@ -62,6 +62,7 @@
                     currentMode === 'light' ? 'priceBGLight' : 'priceBGDark'
                   ">
                   <app-amount-visibility
+                    [alwaysShowAmount]="true"
                     [amount]="product.price"
                     [currency]="'BIF'"></app-amount-visibility>
                 </span>
@@ -118,6 +119,7 @@
           @if (product.price) {
             <span class="fs-small fw-bold text-primary">
               <app-amount-visibility
+                [alwaysShowAmount]="true"
                 [amount]="product.price"
                 [currency]="'BIF'"></app-amount-visibility>
             </span>
