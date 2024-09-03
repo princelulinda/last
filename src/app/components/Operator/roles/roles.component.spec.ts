@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RolesComponent } from './roles.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('RolesComponent', () => {
   let component: RolesComponent;
@@ -9,6 +11,7 @@ describe('RolesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RolesComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RolesComponent);
