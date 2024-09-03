@@ -41,8 +41,6 @@ export class DialogService {
       tap(() => this.resetIdle$.next()), // reset on any event
       switchMap(() => timer(this.idleTimeout).pipe(map(() => true)))
     );
-
-    this.startWatching();
   }
 
   toast: WritableSignal<ToastModel> = signal({

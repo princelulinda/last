@@ -105,6 +105,6 @@ export class SleepModeComponent implements OnInit {
 
   private unlock() {
     this.dialogService.unlockScreen();
-    this.dialogService.startWatching();
+    // this.dialogService.startWatching();
   }
 }
