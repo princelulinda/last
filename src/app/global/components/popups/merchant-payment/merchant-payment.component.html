@@ -205,7 +205,7 @@
     }
 
     <!-- NOTE :: ON PRODUCT PAYMENT MENU -->
-    <section class="px-4 mt-4">
+    <section class="px-4 mt-4 row mx-0 gap-3">
       @if (
         (selectedMerchant && selectedPaymentMenu === 'Product-Payment') ||
         (type === 'product' && loadingProductDetails)
@@ -219,11 +219,22 @@
         } @else if (
           selectedProduct || (type === 'product' && loadingProductDetails)
         ) {
-          <div class="row mx-0">
+          <div
+            class="px-0 col-auto"
+            [ngClass]="{
+              'col-5':
+                (!loadingProductDetails &&
+                  steps === 'first' &&
+                  selectedPaymentMenu === 'Product-Payment') ||
+                (!loadingProductDetails &&
+                  steps === 'second' &&
+                  (productDetails?.lookup_metadata?.length === 0 ||
+                    productDetails?.metadata?.length === 0)),
+            }">
             <div class="mb-3">
               <b class="fs-medium" i18n>Product(s)</b>
             </div>
-            <span class="position-relative col-auto p-0">
+            <div class="position-relative col-auto p-0">
               <!-- NOTE :: CONTAINER LOADER -->
               @if (loadingProductDetails) {
                 <span
@@ -247,16 +258,14 @@
                     type="row"></app-product-card>
                 </div>
               }
-            </span>
-          </div>
+            </div>
 
-          <section class="row mx-0">
-            @if (steps === 'first') {
-              <section class="col-5 px-0">
+            @if (
+              steps === 'first' && productDetails && !loadingProductDetails
+            ) {
+              <section class="px-0">
                 @if (
-                  !loadingProductDetails &&
-                  productDetails &&
-                  (productDetails.lookup_metadata || productDetails.metadata)
+                  productDetails.lookup_metadata || productDetails.metadata
                 ) {
                   <!-- NOTE :: LOOKUP METADATA  -->
                   @if (!productLookup) {
@@ -432,14 +441,14 @@
                       <div class="mt-4">
                         @if (!productDetails.accepts_multiple_payment) {
                           <button
-                            class="btn bg-primary px-4 text-all-white fw-bold"
+                            class="btn bg-primary px-5 text-all-white fw-bold fs-small"
                             (click)="addProductToWaitList('simple')"
                             i18n>
                             Confirm
                           </button>
                         } @else {
                           <button
-                            class="btn bg-primary px-5 text-all-white fw-bold"
+                            class="btn bg-primary px-5 text-all-white fw-bold fs-small"
                             (click)="addProductToWaitList('multiple')"
                             i18n>
                             Add
@@ -489,14 +498,16 @@
                       <div class="text-center">
                         @if (!productDetails.accepts_multiple_payment) {
                           <button
-                            class="btn bg-primary px-5 text-all-white fw-bold"
+                            class="btn bg-primary px-5 text-all-white fw-bold fs-small"
+                            [disabled]="!metadataForm.valid"
                             (click)="addProductToWaitList()"
                             i18n>
-                            Confirmer
+                            Confirm
                           </button>
                         } @else {
                           <button
                             class="btn bg-primary px-5 text-all-white fw-bold"
+                            [disabled]="!metadataForm.valid"
                             (click)="addProductToWaitList('multiple')"
                             i18n>
                             Add
@@ -507,80 +518,78 @@
                   }
                 }
               </section>
+            }
+          </div>
+        }
 
-              @if (productDetails?.accepts_multiple_payment) {
-                <section>
-                  <div class="col-5 sm-radius border p-3">
-                    <small class="mb-2 d-block"><b>Wait List</b></small>
+        @if (selectedProduct && !loadingProductDetails && productDetails) {
+          @if (selectedPaymentMenu === 'Product-Payment') {
+            @if (
+              productWaitList.length !== 0 &&
+              (productDetails.lookup_metadata.length !== 0 ||
+                productDetails.metadata.length !== 0) &&
+              ((steps === 'first' && productDetails.accepts_multiple_payment) ||
+                (selectedPaymentMenu === 'Product-Payment' &&
+                  steps === 'second'))
+            ) {
+              <section class="col-5 sm-radius border p-3">
+                <small class="mb-2 d-block"><b>Wait List</b></small>
 
-                    @for (item of productWaitList; track $index) {
-                      <div class="px-3 py-2 sm-radius wait-list-item mb-3">
-                        <b class="fs-small mb-2 d-block">{{
-                          selectedProduct?.lookup_title
-                        }}</b>
-                        <div
-                          class="border-start border-primary border-5 ps-3"
-                          [innerHTML]="
-                            item.lookup_metata.lookup?.response_data?.lookup
-                          "></div>
-                      </div>
-                    }
+                @for (item of productWaitList; track $index) {
+                  <div class="px-3 py-2 sm-radius wait-list-item mb-3">
+                    <b class="fs-small mb-2 d-block">{{
+                      selectedProduct.lookup_title
+                    }}</b>
+                    <div
+                      class="border-start border-primary border-5 ps-3"
+                      [innerHTML]="
+                        item.lookup_metata.lookup?.response_data?.lookup
+                      "></div>
+                  </div>
+                }
 
+                @if (steps === 'first') {
+                  <button
+                    class="btn bg-primary px-5 fs-small text-all-white fw-bold"
+                    (click)="steps = 'second'"
+                    i18n>
+                    Confirm
+                  </button>
+                }
+              </section>
+            }
+            @if (steps === 'second') {
+              <section class="col-5">
+                <div>
+                  <app-debit-account
+                    title="Account to debit"
+                    (selectedWallet)="getDebitAccount($event, 'wallet')"
+                    (selectedAccount)="
+                      getDebitAccount($event, 'account')
+                    "></app-debit-account>
+                </div>
+                @if (debitAccount || debitWallet) {
+                  <div class="mt-4 text-center col-10">
                     <button
-                      class="btn bg-primary px-4 text-all-white fw-bold"
-                      (click)="steps = 'second'"
+                      class="btn bg-primary text-all-white fw-bold px-5 fs-small"
+                      (click)="openPaymentPinPopup()"
                       i18n>
                       Confirm
                     </button>
                   </div>
-                </section>
-              }
+                }
+              </section>
             }
-          </section>
+          }
         }
       }
     </section>
 
-    @if (steps === 'second') {
-      <section class="row mt-4 mx-0 px-4 gap-4">
-        @if (
-          selectedPaymentMenu === 'Product-Payment' &&
-          productWaitList.length !== 0
-        ) {
-          <div class="col-5 sm-radius border p-3">
-            <small class="mb-2 d-block"><b>Wait List</b></small>
-
-            @for (item of productWaitList; track $index) {
-              <div class="px-3 py-2 sm-radius wait-list-item mb-3">
-                <b class="fs-small mb-2 d-block">{{
-                  selectedProduct?.lookup_title
-                }}</b>
-                <div
-                  class="border-start border-primary border-5 ps-3"
-                  [innerHTML]="
-                    item.lookup_metata.lookup?.response_data?.lookup
-                  "></div>
-              </div>
-            }
-
-            @if (productWaitList.length > 1) {
-              <div class="btn bg-primary px-4 text-all-white fw-bold" i18n>
-                Confirm
-              </div>
-            }
-          </div>
-        }
-        <div class="col-5">
-          <app-debit-account></app-debit-account>
-        </div>
+    <!-- NOTE :: ON DIRECT PAYMENT  -->
+    @if (steps === 'second' && selectedPaymentMenu === 'Direct-Payment') {
+      <section class="col-5 border sm-radius">
+        <app-debit-account></app-debit-account>
       </section>
     }
-
-    <!-- NOTE :: ON DIRECT PAYENT MENU -->
-    <!-- <section class="">
-      @if (selectedMerchant && selectedPaymentMenu === 'Direct-Payment') {
-        <section></section>
-      }
-    </section> -->
   </main>
 </dialog>

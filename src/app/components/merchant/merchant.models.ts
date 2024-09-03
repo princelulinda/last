@@ -214,20 +214,18 @@ export interface PayMerchantBodyModel {
 }
 
 export interface PayMerchantResponseModel {
-  object: {
-    response_message: string;
-    response_code: string;
-    response_data: {
-      id: number;
-      reference: string;
-      cbs_reference: string;
-      pending_operation: string;
-      date: string;
-      amount: string;
-      bill: string;
-      return_icon: string;
-      orders: [{ printable_text: string | null; sent_at: string }];
-    };
-    success: boolean;
+  response_message: string;
+  response_code: string;
+  response_data: {
+    id: number;
+    reference: string;
+    cbs_reference: string;
+    pending_operation: string;
+    date: string;
+    amount: string;
+    bill: string;
+    return_icon: string;
+    orders: [{ printable_text: string | null; sent_at: string }];
   };
+  success: boolean;
 }
