@@ -4,61 +4,34 @@
   class="border-0 p-0 bg-white lg-radius bg-white w-100 h-100 overflow-y-auto p-4 text-dark">
   <main>
     <!-- NOTE :: STEPPER AND BACK SECTION -->
-    <section class="d-flex align-items-center justify-content-center">
-      <!-- <div class="mx-auto d-flex flex-row my-1 w-content flex-grow-1">
-        <div class="stepper-wrapper d-flex align-items-center">
-          @if (selectedSection === 'second') {
-            <div class="stepper-item active">
-              <div class="step-counter text-all-dark border border-dark" i18n>
-                1
-              </div>
-            </div>
-            <div
-              class="stepper-line"
-              [ngClass]="
-                theme === 'light' ? 'bg-all-dark' : 'bg-all-white'
-              "></div>
-          }
-
-          @if (selectedSection === 'first') {
-            <div class="stepper-item completed">
-              <div
-                class="step-counter border border-dark bg-primary fw-bold"
-                i18n>
-                1
-              </div>
-            </div>
-            <div
-              class="stepper-line"
-              [ngClass]="
-                theme === 'light' ? 'bg-all-dark' : 'bg-all-white'
-              "></div>
-            <div class="stepper-item active">
-              <div class="step-counter border text-all-dark border-dark" i18n>
-                2
-              </div>
-            </div>
-          }
-
-          @if (selectedSection === 'second') {
-            <div
-              class="stepper-item completed"
-              *ngIf="selectedSection === 'second'">
-              <div
-                class="step-counter bg-primary fw-bold border border-dark"
-                i18n>
-                2
-              </div>
-            </div>
-          }
+    <section class="d-flex align-items-center justify-content-center mb-3">
+      <div class="mx-auto d-flex flex-row my-1 w-content flex-grow-1">
+        <div class="d-flex align-items-center col-4 mx-auto">
+          <span
+            class="rounded-circle d-flex align-items-center justify-content-center fs-small fw-bold stepper-item"
+            [ngClass]="{
+              'bg-secondary border': steps === 'second',
+              'bg-primary text-all-white': steps === 'first',
+            }"
+            >1</span
+          >
+          <span class="border flex-grow-1 mx-3"></span>
+          <span
+            class="rounded-circle d-flex align-items-center justify-content-center fs-small fw-bold stepper-item"
+            [ngClass]="{
+              'bg-secondary border': steps === 'first',
+              'bg-primary text-all-white': steps === 'second',
+            }"
+            >2</span
+          >
         </div>
-      </div> -->
+      </div>
       <div
-        class="text-end text-dark"
+        class="d-flex align-items-cneter"
         tabindex="-1"
         (click)="closeMerchantPaymentDialog()"
         role="button">
-        <span class="me-2"><i class="fa fa-arrow-left"></i></span>
+        <span class="me-1"><i class="fa fa-arrow-left"></i></span>
         <b i18n> Back</b>
       </div>
     </section>
