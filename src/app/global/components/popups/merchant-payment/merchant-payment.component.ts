@@ -382,7 +382,10 @@ export class MerchantPaymentComponent
       data.debit_account = this.debitWallet.account.account_holder;
     }
 
-    if (this.productDetails?.accepts_multiple_payment) {
+    if (
+      this.productWaitList.length > 1 &&
+      this.productDetails?.accepts_multiple_payment
+    ) {
       for (const item of this.productWaitList) {
         paymentDetails.push({
           lookup_data: item.lookup_metata.values,
@@ -403,7 +406,6 @@ export class MerchantPaymentComponent
     }
 
     console.log('NOTE ::: PAYMENT MERCHANT BODY', data);
-    return;
 
     this.dialogService.dispatchLoading();
 
@@ -412,6 +414,7 @@ export class MerchantPaymentComponent
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
+          this.dialogService.closeLoading();
           if (data.object['success'] !== undefined && !data.object.success) {
             this.dialogService.openToast({
               message:
@@ -427,6 +430,7 @@ export class MerchantPaymentComponent
           this.manageMerchantBill(data.object);
         },
         error: err => {
+          this.dialogService.closeLoading();
           this.dialogService.openToast({
             message:
               err?.object?.response_message ??
