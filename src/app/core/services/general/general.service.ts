@@ -16,6 +16,7 @@ import {
   MetadataModel,
 } from '../../../components/metadatas/metadata.model';
 import { OverviewModel } from '../../../global/components/list/list.model';
+import { confirmDialogModel } from '../../../global/components/popups/confirm-dialog/confirm-dialog.model';
 // import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -115,5 +116,20 @@ export class GeneralService {
     return this.apiService
       .get<{ object: OverviewModel[]; count: number }>(url)
       .pipe(map(data => data));
+  }
+
+  //   changePin(body:object) {
+  //     const url = '/client/change-pin/';
+  //     return this.apiService.post(url, body).pipe(
+  //         map((data: any) => {
+  //             return data;
+  //         })
+  //     );
+  // }
+  changePin(body: object): Observable<confirmDialogModel> {
+    const url = '/client/change-pin/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as confirmDialogModel));
   }
 }
