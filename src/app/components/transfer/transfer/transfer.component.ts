@@ -173,7 +173,6 @@ export class TransferComponent implements OnInit, OnDestroy {
   });
 
   showModal() {
-    console.log('jkdjk jkdjkd');
     this.dialogService.openDialog({
       action: 'Confirm transfer',
       message: 'Confirm your transfer',
