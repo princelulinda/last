@@ -230,7 +230,6 @@ export class MerchantPaymentComponent
       .subscribe({
         next: response => {
           this.productDetails = response.object;
-          // this.productDetails.accepts_multiple_payment = true;
 
           if (this.productDetails.lookup_first) {
             this.doProductLookup();
@@ -440,13 +439,24 @@ export class MerchantPaymentComponent
   }
 
   submitSimplePayment() {
+    let debit_account = '';
+    let debit_type = '';
+
+    if (this.debitAccount) {
+      debit_account = this.debitAccount?.acc_number.toString();
+      debit_type = 'account';
+    } else if (this.debitWallet) {
+      debit_account = this.debitWallet?.account.account_holder;
+      debit_type = 'wallet';
+    }
+
     this.dialogService.dispatchLoading();
     const body: MerchantSimplePaymentBodyModel = {
-      amount: '',
-      debit_account: '',
+      amount: this.simplePaymentForm.value.amount as string,
+      debit_account: debit_account,
       debit_bank: Number(this.selectedBank?.id),
-      debit_type: '',
-      description: '',
+      debit_type: debit_type,
+      description: this.simplePaymentForm.value.description as string,
       merchant_id: Number(this.selectedMerchant?.id.toString()),
       pin_code: this.pin,
     };
@@ -520,7 +530,10 @@ export class MerchantPaymentComponent
   getAmount(data: { amount: number | null }) {
     console.log('ALOOOO AMOUNT', data);
     if (data.amount) {
-      this.simplePaymentForm.value.amount = data.amount.toString();
+      this.simplePaymentForm.setValue({
+        amount: data.amount.toString(),
+        description: this.simplePaymentForm.value.description ?? '',
+      });
     }
   }
 

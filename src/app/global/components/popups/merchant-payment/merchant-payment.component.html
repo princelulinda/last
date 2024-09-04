@@ -267,7 +267,8 @@
             @if (
               productDetails &&
               !loadingProductDetails &&
-              (productDetails.lookup_metadata || productDetails.metadata)
+              (productDetails.lookup_metadata || productDetails.metadata) &&
+              steps === 'first'
             ) {
               <!-- NOTE :: LOOKUP METADATA  -->
               @if (!productLookup) {
@@ -479,11 +480,12 @@
                           class="form-control"
                           [id]="item.field_name"
                           [placeholder]="item.field_name" />
-                        <label
-                          [for]="item.field_name"
-                          class="text-capitalize"
-                          >{{ item.field_name }}</label
-                        >
+                        <label [for]="item.field_name" class="text-capitalize"
+                          >{{ item.field_name }}
+                          @if (item.widget_attrs.required) {
+                            <code>*</code>
+                          }
+                        </label>
                       </div>
                     </div>
                   }
@@ -521,7 +523,7 @@
               (productDetails.lookup_metadata.length !== 0 ||
                 productDetails.metadata.length !== 0)
             ) {
-              <section class="col-5 sm-radius border p-3">
+              <section class="col-lg-10 sm-radius border p-3">
                 <small class="mb-2 d-block"><b i18n>Wait List</b></small>
 
                 @for (item of productWaitList; track $index) {
@@ -582,7 +584,10 @@
         }
 
         <!-- NOTE :: DEBIT ACCOUNT ON SECOND STEP -->
-        <form class="mt-4" (ngSubmit)="openPaymentPinPopup()">
+        <form
+          class="mt-4"
+          [formGroup]="simplePaymentForm"
+          (submit)="openPaymentPinPopup()">
           @if (steps === 'second') {
             <div>
               <app-debit-account
@@ -619,10 +624,10 @@
                   <button
                     [disabled]="
                       selectedPaymentMenu === 'Direct-Payment' &&
-                      !simplePaymentForm.valid &&
-                      (debitAccount || debitWallet)
+                      !simplePaymentForm.valid
                     "
                     class="btn bg-primary text-all-white fw-bold px-5 fs-small"
+                    type="submit"
                     (click)="openPaymentPinPopup()"
                     i18n>
                     Confirm
