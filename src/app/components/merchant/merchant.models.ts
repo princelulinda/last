@@ -229,3 +229,14 @@ export interface PayMerchantResponseModel {
   };
   success: boolean;
 }
+
+export interface MerchantSimplePaymentBodyModel {
+  payment_id?: number;
+  amount: string;
+  debit_account: string;
+  debit_bank: number;
+  debit_type: string;
+  description: string;
+  merchant_id: number;
+  pin_code: string;
+}

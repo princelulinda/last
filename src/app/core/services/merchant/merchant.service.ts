@@ -20,6 +20,7 @@ import {
   MerchantCategoriesAutocompleteModel,
   MerchantInfoModel,
   MerchantModel,
+  MerchantSimplePaymentBodyModel,
   MerchantStatsModel,
   newTellerModel,
   PayMerchantBodyModel,
@@ -563,7 +564,9 @@ export class MerchantService {
       .pipe(map(response => response as DoMerchantTransferResponseModel));
   }
 
-  doMerchantSimplePayment(data: object) {
+  doMerchantSimplePayment(
+    data: MerchantSimplePaymentBodyModel
+  ): Observable<{ object: generateBillModel }> {
     return this.apiService
       .post<{
         object: generateBillModel;

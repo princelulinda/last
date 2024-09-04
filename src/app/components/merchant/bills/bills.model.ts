@@ -1,5 +1,4 @@
 import { ClientModel } from '../../../core/db/models/auth';
-import { MerchantBillModel } from '../../../core/services/dialog/dialogs-models';
 import { tellerObjectModel } from '../merchant.models';
 import { OrdersModel } from '../products/products.model';
 
@@ -27,12 +26,4 @@ export interface generateBillModel {
     refence: string;
   };
   success: boolean;
-}
-
-export interface MerchantBillDataModel {
-  data: MerchantBillModel;
-  active?: {
-    isActive: boolean | false;
-    type: string;
-  };
 }

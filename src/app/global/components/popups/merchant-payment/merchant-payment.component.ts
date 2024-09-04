@@ -26,6 +26,7 @@ import {
   MerchantAutocompleteModel,
   MerchantCategoriesAutocompleteModel,
   MerchantModel,
+  MerchantSimplePaymentBodyModel,
   PayMerchantBodyModel,
   PayMerchantResponseModel,
 } from '../../../../components/merchant/merchant.models';
@@ -53,6 +54,7 @@ import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
 import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import { accountsList } from '../../../../components/account/models';
 import { WalletList } from '../../../../components/wallet/wallet.models';
+import { AmountFieldComponent } from '../../custom-field/amount-field/amount-field.component';
 
 @Component({
   selector: 'app-merchant-payment',
@@ -66,6 +68,7 @@ import { WalletList } from '../../../../components/wallet/wallet.models';
     CreditAccountComponent,
     ReactiveFormsModule,
     SkeletonComponent,
+    AmountFieldComponent,
   ],
   templateUrl: './merchant-payment.component.html',
   styleUrl: './merchant-payment.component.scss',
@@ -132,6 +135,11 @@ export class MerchantPaymentComponent
   debitAccount: accountsList | null = null;
   debitWallet: WalletList | null = null;
 
+  simplePaymentForm = this.fb.group({
+    amount: ['', Validators.required],
+    description: ['', Validators.required],
+  });
+
   constructor(
     private dialogService: DialogService,
     private configService: ConfigService,
@@ -177,12 +185,15 @@ export class MerchantPaymentComponent
         if (dialog && dialog.action === 'Merchant Product Payment') {
           this.pin = dialog.response.pin;
           this.submitProductPayment();
+        } else if (dialog && dialog.action === 'Merchant Simple Payment') {
+          this.pin = dialog.response.pin;
+          this.submitSimplePayment();
         }
       },
     });
   }
 
-  getMerchantDetails(merchantId: number) {
+  private getMerchantDetails(merchantId: number) {
     this.merchantDetails = null;
     this.loadingMerchantDetails = true;
     this.merchantService
@@ -210,7 +221,7 @@ export class MerchantPaymentComponent
       });
   }
 
-  getProductDetails(productId: number) {
+  private getProductDetails(productId: number) {
     this.productDetails = null;
     this.loadingProductDetails = true;
     this.merchantService
@@ -219,6 +230,8 @@ export class MerchantPaymentComponent
       .subscribe({
         next: response => {
           this.productDetails = response.object;
+          // this.productDetails.accepts_multiple_payment = true;
+
           if (this.productDetails.lookup_first) {
             this.doProductLookup();
           }
@@ -335,8 +348,14 @@ export class MerchantPaymentComponent
   }
 
   openPaymentPinPopup() {
+    let action = '';
+    if (this.selectedPaymentMenu === 'Direct-Payment') {
+      action = 'Merchant Simple Payment';
+    } else {
+      action = 'Merchant Product Payment';
+    }
     this.dialogService.openDialog({
-      action: 'Merchant Product Payment',
+      action: action,
       message: 'Please enter your PIN',
       title: '',
       type: 'pin',
@@ -420,6 +439,42 @@ export class MerchantPaymentComponent
       });
   }
 
+  submitSimplePayment() {
+    this.dialogService.dispatchLoading();
+    const body: MerchantSimplePaymentBodyModel = {
+      amount: '',
+      debit_account: '',
+      debit_bank: Number(this.selectedBank?.id),
+      debit_type: '',
+      description: '',
+      merchant_id: Number(this.selectedMerchant?.id.toString()),
+      pin_code: this.pin,
+    };
+    this.merchantService
+      .doMerchantSimplePayment(body)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            message: response.object.response_message,
+            title: '',
+            type: 'success',
+          });
+
+          this.resetAllData();
+          this.dialogService.closeMerchantPaymentDialog();
+        },
+        error: err => {
+          this.dialogService.openToast({
+            message: err?.object?.response_message ?? 'Something Went Wrong ',
+            title: '',
+            type: 'failed',
+          });
+        },
+      });
+  }
+
   closeMerchantPaymentDialog() {
     this.dialogService.closeMerchantPaymentDialog();
     this.resetAllData();
@@ -461,6 +516,13 @@ export class MerchantPaymentComponent
   }
 
   // NOTE :: GETTER AND SETTER
+
+  getAmount(data: { amount: number | null }) {
+    console.log('ALOOOO AMOUNT', data);
+    if (data.amount) {
+      this.simplePaymentForm.value.amount = data.amount.toString();
+    }
+  }
 
   getDebitAccount(
     data: accountsList | WalletList | null,
