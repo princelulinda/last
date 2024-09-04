@@ -21,9 +21,13 @@ export class PasswordFieldComponent {
   @Input() required: boolean | undefined;
   @Input() labelIcon: boolean | undefined;
   @Input() pin: boolean | undefined;
+  @Input() labelPinConfirm: boolean | undefined;
   @Input() password: boolean | undefined;
+  @Input() labelPassword2: boolean | undefined;
   @Output() passwordValid = new EventEmitter<string>();
   @Output() pinValid = new EventEmitter<string>();
+
+  @Input() useValidation: boolean | undefined;
 
   passwordForm: FormGroup;
   showPassword = false;
@@ -155,7 +159,10 @@ export class PasswordFieldComponent {
     return /[$@#$!%*?&=./(){}+.,-]/.test(password);
   }
   onSubmitPassword() {
-    if (
+    if (this.useValidation) {
+      const password = this.passwordForm.value.password;
+      this.passwordValid.emit(password);
+    } else if (
       !this.getPasswordErrors().includes('8 Characters minimun') &&
       !this.getPasswordErrors().includes('Must contain number') &&
       !this.getPasswordErrors().includes('Password is required') &&

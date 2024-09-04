@@ -1,0 +1,12 @@
+main {
+  position: relative;
+  .preloader {
+    position: absolute;
+    top: 35%;
+    right: 50%;
+  }
+}
+.not-clickable {
+  pointer-events: none;
+  opacity: 0.5;
+}
