@@ -12,13 +12,13 @@ import {
 } from '@angular/forms';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { Observable } from 'rxjs';
-import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
 import { ModeModel } from '../../../core/services/config/main-config.models';
+import { ProfileCardComponent } from '../../../global/components/custom-field/profile-card/profile-card.component';
 
 @Component({
   selector: 'app-sleep-mode',
   standalone: true,
-  imports: [ReactiveFormsModule, PasswordFieldComponent],
+  imports: [ReactiveFormsModule, ProfileCardComponent],
   templateUrl: './sleep-mode.component.html',
   styleUrl: './sleep-mode.component.scss',
 })
@@ -105,6 +105,6 @@ export class SleepModeComponent implements OnInit {
 
   private unlock() {
     this.dialogService.unlockScreen();
-    this.dialogService.startWatching();
+    // this.dialogService.startWatching();
   }
 }

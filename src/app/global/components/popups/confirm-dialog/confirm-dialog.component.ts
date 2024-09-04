@@ -13,13 +13,18 @@ import {
   DialogModel,
   ToastModel,
 } from '../../../../core/services/dialog/dialogs-models';
-import { AuthService, DialogService } from '../../../../core/services';
+import {
+  AuthService,
+  DialogService,
+  GeneralService,
+} from '../../../../core/services';
 import { UserInfoModel } from '../../../../core/db/models/auth';
+import { PasswordFieldComponent } from '../../custom-field/password-field/password-field.component';
 
 @Component({
   selector: 'app-confirm-dialog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, PasswordFieldComponent],
   templateUrl: './confirm-dialog.component.html',
   styleUrl: './confirm-dialog.component.scss',
 })
@@ -70,7 +75,8 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
   constructor(
     private dialogService: DialogService,
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private generalService: GeneralService
   ) {
     this.clientInfo$ = this.authService.getUserInfo();
     effect(() => {
@@ -142,48 +148,81 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
     this.passwordForm.reset();
     this.dialogService.closeDialog();
   }
-  submitPin() {
+
+  submitPin(afterCreate = false) {
+    let pin = '';
+    if (afterCreate) {
+      pin = this.changePinForm.value.new_pin as string;
+    } else {
+      pin = this.pinForm.value.pin;
+    }
     this.dialogService.setDialogResponse({
       action: this.dialog.action,
-      response: { pin: this.pinForm.value.pin, confirmation: '', password: '' },
+      response: { pin: pin, confirmation: '', password: '' },
     });
     this.pinForm.reset();
     this.dialogService.closeDialog();
   }
-
-  // submitPinCreation() {
-  //   this.isCreatingPin = true;
-  //   this.settingService.changePin(this.changePinForm.value).subscribe({
-  //     next: response_data => {
-  //       this.isCreatingPin = false;
-  //       if (response_data.object.success === true) {
-  //         this.variableService.pin = this.changePinForm.value['new_pin'];
-  //         this.store.dispatch(new CloseDialog({ response: 'pin submitted' }));
-  //         this.store.dispatch(new ConfirmPinPossession());
-  //       } else if (response_data.object.success === false) {
-  //         const data = {
-  //           title: '',
-  //           type: 'failed',
-  //           message: response_data.object.response_message,
-  //         };
-  //         this.store.dispatch(new OpenDialog(data));
-  //       }
-  //     },
-  //     error: (err: any) => {
-  //       this.isCreatingPin = false;
-  //       const data = {
-  //         title: '',
-  //         type: 'failed',
-  //         message: 'Something went, please retry again!',
-  //       };
-  //       this.store.dispatch(new OpenDialog(data));
-  //     },
-  //   });
-  // }
-
+  submitPinCreation() {
+    this.isCreatingPin = true;
+    this.generalService.changePin(this.changePinForm.value).subscribe({
+      next: response_data => {
+        this.isCreatingPin = false;
+        if (response_data.object.success === true) {
+          this.submitPin(true);
+        } else if (response_data.object.success === false) {
+          this.dialogService.openToast({
+            type: 'failed',
+            title: '',
+            message: response_data.object.response_message,
+          });
+        }
+      },
+      error: err => {
+        this.isCreatingPin = false;
+        this.dialogService.openToast({
+          type: 'failed',
+          title: '',
+          message:
+            err?.object?.response_message ??
+            'Something went, please retry again!',
+        });
+      },
+    });
+  }
   ngAfterViewInit() {
     this.dialogElement =
       (document.getElementById('favDialog') as HTMLDialogElement) ?? null;
     this.toastElement = document.getElementById('alert');
+  }
+  onPinChange(pin: string) {
+    this.pinForm.patchValue({
+      pin,
+    });
+  }
+  onPasswordChange(old_pin: string) {
+    this.changePinForm.patchValue({
+      old_pin,
+    });
+  }
+  newPin = '';
+  confirmPin = '';
+  arePinsMatch = false;
+  onNewPinChange(new_pin: string) {
+    this.changePinForm.patchValue({
+      new_pin,
+    });
+    this.newPin = new_pin;
+    this.checkPinSimilartiy();
+  }
+  onConfirmPinChange(new_pin2: string) {
+    this.changePinForm.patchValue({
+      new_pin2,
+    });
+    this.confirmPin = new_pin2;
+    this.checkPinSimilartiy();
+  }
+  checkPinSimilartiy() {
+    this.arePinsMatch = this.newPin === this.confirmPin;
   }
 }

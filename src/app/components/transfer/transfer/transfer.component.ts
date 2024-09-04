@@ -15,14 +15,19 @@ import { RouterLink } from '@angular/router';
 import { accountsList } from '../../account/models';
 import { DebitOptionsModel } from '../transfer.model';
 import { Observable, Subject } from 'rxjs';
-import { ConfigService } from '../../../core/services';
+import { ConfigService, DialogService } from '../../../core/services';
 import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
 import { CreditAccountComponent } from '../credit-account/credit-account.component';
 import { WalletList } from '../../wallet/wallet.models';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-transfer',
@@ -57,7 +62,10 @@ export class TransferComponent implements OnInit, OnDestroy {
   activePlatform: string | null = null;
   mainConfig$!: Observable<activeMainConfigModel>;
 
-  constructor(private configService: ConfigService) {
+  constructor(
+    private configService: ConfigService,
+    private dialogService: DialogService
+  ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.mode$ = this.configService.getMode();
   }
@@ -158,5 +166,18 @@ export class TransferComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+
+  transferForm = new FormGroup({
+    accountNumber: new FormControl('', Validators.required),
+  });
+
+  showModal() {
+    this.dialogService.openDialog({
+      action: 'Confirm transfer',
+      message: 'Confirm your transfer',
+      title: 'Confirm transfer',
+      type: 'pin',
+    });
   }
 }
