@@ -142,7 +142,9 @@
                   <button
                     class="btn btn-sm bg-primary is-small is-rounded text-all-white px-3"
                     type="submit"
-                    [disabled]="!changePinForm.valid || isCreatingPin">
+                    [disabled]="
+                      !changePinForm.valid || isCreatingPin || !arePinsMatch
+                    ">
                     <span *ngIf="!isCreatingPin">Create</span>
                     <span *ngIf="isCreatingPin"
                       ><i class="fa-solid fa-pulse fa-circle-notch fs-5"></i
