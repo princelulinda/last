@@ -92,99 +92,73 @@
       @if (dialog.active && dialog.type === 'pin') {
         <div class="d-flex flex-column mx-3">
           @if (clientInfo && !clientInfo.client.has_pin) {
-            <!-- <div>
+            <div>
               <p class="text-center text-l-medium" i18n>
-                You do not have a pin yet, Please create your pin before performing
-                your action!
+                You do not have a pin yet, Please create your pin before
+                performing your action!
               </p>
               <form
                 [formGroup]="changePinForm"
                 (ngSubmit)="submitPinCreation()"
                 class="text-center mt-2">
                 <div class="form-floating mt-2">
-                  <input
-                    type="{{ pinType }}"
-                    class="form-control"
-                    name="pin"
-                    formControlName="new_pin"
-                    placeholder="Enter your pin"
-                    maxlength="4"
-                    (keyup)="checkPinSimulality()" />
-                  <label class="fs-6" for="id_pin"
-                    ><small
-                      ><i class="fa-solid fa-key text-secondary me-3"></i> Enter
-                      your pin</small
-                    >
-                  </label>
+                  <app-password-field
+                    [required]="true"
+                    [labelPin]="true"
+                    [pin]="true"
+                    (pinValid)="onNewPinChange($event)"></app-password-field>
                 </div>
                 <div class="form-floating mt-2">
-                  <input
-                    type="{{ pinType }}"
-                    class="form-control input level-3"
-                    name="pin"
-                    style="border: none"
-                    formControlName="new_pin2"
-                    placeholder="Confirm your pin"
-                    maxlength="4"
-                    (keyup)="checkPinSimulality()" />
-                  <label class="fs-6" for="id_pin"
-                    ><small
-                      ><i class="fa-solid fa-key text-secondary me-3"></i> Confirm
-                      your pin</small
-                    >
-                  </label>
+                  <app-password-field
+                    [required]="true"
+                    [labelPinConfirm]="true"
+                    [pin]="true"
+                    (pinValid)="
+                      onConfirmPinChange($event)
+                    "></app-password-field>
                 </div>
                 <div
                   *ngIf="
                     changePinForm.value.new_pin !== '' &&
                     changePinForm.value.new_pin2 !== ''
                   ">
-                  <small class="text-danger" *ngIf="!arePinsMatch"
-                    >Pins doesn't match</small
-                  >
+                  @if (!arePinsMatch) {
+                    <small class="text-danger">Pins doesn't match</small>
+                  }
                 </div>
-                <div class="form-floating mt-2">
-                  <input
-                    type="{{ pinType }}"
-                    class="form-control input level-3"
-                    name="pin"
-                    style="border: none"
-                    formControlName="old_pin"
-                    placeholder="Enter your password" />
-                  <label class="fs-6" for="id_password"
-                    ><small
-                      ><i class="fa-solid fa-lock text-secondary me-3"></i> Enter
-                      your password</small
-                    >
-                  </label>
-                  <span (click)="changePinType()" *ngIf="showPin">
-                    <i
-                      class="fa-regular fa-eye text-dark"
-                      style="position: absolute; top: 19px; right: 10px"></i>
-                  </span>
-                  <span (click)="changePinType()" *ngIf="!showPin">
-                    <i
-                      class="fa-regular fa-eye-slash text-dark"
-                      style="position: absolute; top: 19px; right: 10px"></i>
-                  </span>
+
+                <div class="form-floating mt-3">
+                  <app-password-field
+                    [useValidation]="true"
+                    [required]="true"
+                    [labelPassword2]="true"
+                    [password]="true"
+                    (passwordValid)="
+                      onPasswordChange($event)
+                    "></app-password-field>
                 </div>
-    
+
                 <div class="text-center mt-4">
                   <button
                     class="btn btn-sm bg-primary is-small is-rounded text-all-white px-3"
                     type="submit"
-                    [disabled]="!changePinForm.valid">
+                    [disabled]="!changePinForm.valid || isCreatingPin">
                     <span *ngIf="!isCreatingPin">Create</span>
                     <span *ngIf="isCreatingPin"
                       ><i class="fa-solid fa-pulse fa-circle-notch fs-5"></i
                     ></span>
                   </button>
-                  <b role="button" class="ms-4 text-dark" *ngIf="!isCreatingPin"
+                  <b
+                    role="button"
+                    tabindex="0"
+                    class="ms-4 text-dark"
+                    *ngIf="!isCreatingPin"
+                    (click)="cancelDialog()"
                     >Cancel</b
                   >
                 </div>
               </form>
-            </div> -->
+            </div>
           } @else {
             <div class="">
               <span
@@ -196,20 +170,11 @@
               [formGroup]="pinForm"
               (ngSubmit)="submitPin()">
               <div class="form-floating mt-2">
-                <input
-                  type="password"
-                  class="form-control"
-                  name="pin"
-                  placeholder="Pin"
-                  formControlName="pin"
-                  minlength="4"
-                  maxlength="4" />
-                <label class="fs-6" for="id_password"
-                  ><small
-                    ><i class="fa-solid fa-lock text-secondary"></i> Pin</small
-                  >
-                  <code>*</code></label
-                >
+                <app-password-field
+                  [required]="true"
+                  [labelPin]="true"
+                  [pin]="true"
+                  (pinValid)="onPinChange($event)"></app-password-field>
               </div>
               <div class="text-center mt-4">
                 <small
