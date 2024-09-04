@@ -590,6 +590,7 @@ export class MerchantPaymentComponent
     this.selectedMerchant = null;
     this.productDetails = null;
     this.selectedProduct = null;
+    this.selectedPaymentMenu = '';
 
     this.productWaitList = [];
     this.steps = 'first';
