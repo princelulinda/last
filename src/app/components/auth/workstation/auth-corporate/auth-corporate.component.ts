@@ -155,7 +155,7 @@ export class AuthCorporateComponent implements OnInit {
     this.selectedOrganization = data;
     this.dialogService.openDialog({
       action: 'Organization login',
-      message: $localize`Enter your password to add a new organisation`,
+      message: $localize`Enter your password to access in ${this.selectedOrganization.institution_client.client_full_name}  organisation`,
       title: '',
       type: 'password',
     });

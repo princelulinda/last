@@ -1,0 +1,50 @@
+.clickable {
+    cursor: pointer;
+}
+.container-preloader {
+    position: relative;
+    .preloader {
+        position: absolute;
+        top: 35%;
+        right: 50%;
+    }
+}
+
+.popup{
+    position: absolute;
+    height: 60%;
+    top: 15%;
+    right: 3%;
+    z-index: 11;
+    .overlay .close-button{
+       position: absolute;
+        right: -5px;
+        top: -5px;
+    }
+}
+
+.disabled{
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+// .multiSelectSize {
+//     height: 100%; 
+//     min-height: 250px,
+// }
+
+.faSearchMargin {
+    margin-left: -5%;
+}
+
+.iconStyle {
+    margin-left: 206px; 
+    margin-top: -33px;
+}
+.inputOutline {
+    outline: 0;
+}
+
+.selectBlockHeight {
+    height: 250px;
+}
