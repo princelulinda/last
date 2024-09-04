@@ -57,7 +57,12 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dialogService.startWatching();
+    // this.dialogService.startWatching();
+    this.authService.getUserInfo().subscribe({
+      next: userInfo => {
+        if (userInfo.user.username) return this.dialogService.startWatching();
+      },
+    });
 
     const localToken = this.authService.getLocalAuthToken();
     if (localToken) {
