@@ -17,10 +17,17 @@ import {
 import { AuthService } from '../../core/services';
 import { UserInfoModel } from '../../core/db/models/auth';
 import { NgStyle, NgClass } from '@angular/common';
+import { EmptyStateComponent } from '../../global/components/empty-states/empty-state/empty-state.component';
 @Component({
   selector: 'app-tarif',
   standalone: true,
-  imports: [ReactiveFormsModule, SkeletonComponent, NgStyle, NgClass],
+  imports: [
+    ReactiveFormsModule,
+    SkeletonComponent,
+    NgStyle,
+    NgClass,
+    EmptyStateComponent,
+  ],
   templateUrl: './tarif.component.html',
   styleUrl: './tarif.component.scss',
 })

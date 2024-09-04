@@ -34,16 +34,7 @@
   }
   @if (actifSection === 'externalBank') {
     <div>
-      <div class="w-100 d-flex justify-content-center">
-        <div class="empty-state-icon d-grid fs-3">
-          <span i18n class="text-center">
-            <i class="fa fs-1 fa-face-meh"></i>
-          </span>
-          <span class="text-center text-secondary" i18n
-            >No external bank found</span
-          >
-        </div>
-      </div>
+      <app-empty-state searchType="service"></app-empty-state>
     </div>
   }
   @if (actifSection === 'internalBank') {
@@ -89,15 +80,8 @@
                   </div>
                 </div>
                 @if (bankList && bankList.length === 0) {
-                  <div class="col w-100 d-flex justify-content-center">
-                    <div class="empty-state-icon d-grid fs-3">
-                      <span i18n class="text-center">
-                        <i class="fa fs-1 fa-face-meh"></i>
-                      </span>
-                      <span class="text-center text-secondary" i18n
-                        >No banks found</span
-                      >
-                    </div>
+                  <div>
+                    <app-empty-state searchType="service"></app-empty-state>
                   </div>
                 }
               </div>
@@ -168,15 +152,8 @@
               </div>
             }
             @if (tariffData && tariffData.length === 0) {
-              <div class="col w-100 d-flex justify-content-center">
-                <div class="empty-state-icon d-grid fs-3">
-                  <span i18n class="text-center">
-                    <i class="fa fs-1 fa-face-meh"></i>
-                  </span>
-                  <span i18n class="text-center text-secondary" i18n
-                    >No tarifs found</span
-                  >
-                </div>
+              <div>
+                <app-empty-state searchType="service"></app-empty-state>
               </div>
             }
           </div>
@@ -288,15 +265,10 @@
           </tbody>
         </table>
         @if (feesData && feesData.length === 0) {
-          <div class="col w-100 d-flex justify-content-center">
-            <div class="empty-state-icon d-grid fs-3">
-              <span i18n class="text-center">
-                <i class="fa fs-1 fa-face-meh"></i>
-              </span>
-              <span class="text-center text-secondary" i18n
-                >No records found</span
-              >
-            </div>
+          <div class="col w-100">
+            <app-empty-state
+              messageClass="fs-x-small"
+              searchType="list"></app-empty-state>
           </div>
         }
       </div>
