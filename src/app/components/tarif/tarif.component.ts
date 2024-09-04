@@ -18,6 +18,7 @@ import { AuthService } from '../../core/services';
 import { UserInfoModel } from '../../core/db/models/auth';
 import { NgStyle, NgClass } from '@angular/common';
 import { EmptyStateComponent } from '../../global/components/empty-states/empty-state/empty-state.component';
+import { AmountFieldComponent } from '../../global/components/custom-field/amount-field/amount-field.component';
 @Component({
   selector: 'app-tarif',
   standalone: true,
@@ -27,6 +28,7 @@ import { EmptyStateComponent } from '../../global/components/empty-states/empty-
     NgStyle,
     NgClass,
     EmptyStateComponent,
+    AmountFieldComponent,
   ],
   templateUrl: './tarif.component.html',
   styleUrl: './tarif.component.scss',
@@ -124,7 +126,7 @@ export class TarifComponent implements OnInit {
   }
   getSimulate() {
     this.isLoadingSimulate = true;
-    const amount = this.simulateForm.controls.amount.value;
+    const amount = this.amountWritten;
     if (amount !== null) {
       this.TarifService.getSimulateWithTarifTable(
         this.tarifTable,
@@ -169,15 +171,10 @@ export class TarifComponent implements OnInit {
     this.tarifTitle = tarif.type_type;
     this.tarifName = tarif.type_name;
   }
-
-  // getAmount(event: any) {
-  //     this.amountInput = event.amount;
-  //     this.transferForm.patchValue({
-  //         amount: this.amountInput,
-  //     });
-  // }
-  // transferForm = new FormGroup({
-  //     amount: new FormControl<any>(this.amountInput, Validators.required),
+  amountWritten!: number | null;
+  inputAmount(event: { amount: number | null }) {
+    this.amountWritten = event.amount;
+  }
 
   simulateForm = new FormGroup({
     amount: new FormControl('', Validators.required),

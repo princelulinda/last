@@ -314,27 +314,18 @@
 
       <form [formGroup]="simulateForm">
         <div class="col-md-4 d-flex justify-content-start">
-          <!-- <span>
-                <app-amount-words
-                    [showAmountwords]="false"
-                    (amountEvent)="getAmount($event)"
-                ></app-amount-words>
-            </span> -->
+          <span>
+            <app-amount-field
+              (amountEvent)="inputAmount($event)"
+              [showAmountwords]="false"></app-amount-field>
+          </span>
 
-          <div class="form-floating mb-3">
-            <input
-              type="email"
-              class="form-control"
-              id="floatingInput"
-              formControlName="amount"
-              placeholder="Amount" />
-            <label for="floatingInput">Amount</label>
-          </div>
+          <div class="form-floating mb-3"></div>
 
           <span class="ms-3">
             <button
               (click)="getSimulate()"
-              [disabled]="isLoadingSimulate"
+              [disabled]="isLoadingSimulate || !amountWritten"
               class="btn bg-primary p-3 text-all-white">
               @if (!isLoadingSimulate) {
                 <span i18n class="fs-6" i18n>Ok</span>
