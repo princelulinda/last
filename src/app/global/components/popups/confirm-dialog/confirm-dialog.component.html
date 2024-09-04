@@ -123,7 +123,9 @@
                     changePinForm.value.new_pin2 !== ''
                   ">
                   @if (!arePinsMatch) {
-                    <small class="text-danger">Pins doesn't match</small>
+                    <small class="text-danger fs-x-small" i18n
+                      >Pins doesn't match</small
+                    >
                   }
                 </div>
 
@@ -140,7 +142,7 @@
 
                 <div class="text-center mt-4">
                   <button
-                    class="btn btn-sm bg-primary is-small is-rounded text-all-white px-3"
+                    class="btn btn-sm bg-primary text-all-white px-3"
                     type="submit"
                     [disabled]="
                       !changePinForm.valid || isCreatingPin || !arePinsMatch

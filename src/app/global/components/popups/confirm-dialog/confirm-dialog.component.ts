@@ -149,10 +149,16 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
     this.dialogService.closeDialog();
   }
 
-  submitPin() {
+  submitPin(afterCreate = false) {
+    let pin = '';
+    if (afterCreate) {
+      pin = this.changePinForm.value.new_pin as string;
+    } else {
+      pin = this.pinForm.value.pin;
+    }
     this.dialogService.setDialogResponse({
       action: this.dialog.action,
-      response: { pin: this.pinForm.value.pin, confirmation: '', password: '' },
+      response: { pin: pin, confirmation: '', password: '' },
     });
     this.pinForm.reset();
     this.dialogService.closeDialog();
@@ -163,21 +169,23 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
       next: response_data => {
         this.isCreatingPin = false;
         if (response_data.object.success === true) {
-          this.cancelDialog();
+          this.submitPin(true);
         } else if (response_data.object.success === false) {
           this.dialogService.openToast({
             type: 'failed',
-            title: 'Échec',
+            title: '',
             message: response_data.object.response_message,
           });
         }
       },
-      error: () => {
+      error: err => {
         this.isCreatingPin = false;
         this.dialogService.openToast({
           type: 'failed',
-          title: 'Échec',
-          message: 'Something went, please retry again!',
+          title: '',
+          message:
+            err?.object?.response_message ??
+            'Something went, please retry again!',
         });
       },
     });

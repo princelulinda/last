@@ -15,7 +15,7 @@ import {
 } from '../../../core/services';
 import { CommonModule } from '@angular/common';
 import { ModeModel } from '../../../core/services/config/main-config.models';
-import { MultiSelectModel } from './multi-select.model';
+import { AutocompleteModel } from '../../../global/models/global.models';
 
 @Component({
   selector: 'app-multi-select',
@@ -29,8 +29,8 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
 
   @Input() url = '';
   @Input() name!: string;
-  @Input() defaultDataIds: MultiSelectModel[] = [];
-  @Output() selectedItemEvent = new EventEmitter<MultiSelectModel[] | null>();
+  @Input() defaultDataIds: AutocompleteModel[] = [];
+  @Output() selectedItemEvent = new EventEmitter<AutocompleteModel[] | null>();
 
   //   search = new FormControl('');
   // searchForm = new FormGroup({
@@ -38,13 +38,13 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   // });
   search = new FormControl('');
 
-  newData: MultiSelectModel[] = [];
-  selectedItem: MultiSelectModel[] = [];
-  defaultRolesId: MultiSelectModel[] = [];
-  selectedItemIds: MultiSelectModel[] = [];
-  defaultData: MultiSelectModel[] = [];
-  allData!: MultiSelectModel[];
-  selectedData: MultiSelectModel[] = [];
+  newData: AutocompleteModel[] = [];
+  selectedItem: AutocompleteModel[] = [];
+  defaultRolesId: AutocompleteModel[] = [];
+  selectedItemIds: AutocompleteModel[] = [];
+  defaultData: AutocompleteModel[] = [];
+  allData!: AutocompleteModel[];
+  selectedData: AutocompleteModel[] = [];
 
   loadingData = true;
   searchLoading = false;
@@ -77,10 +77,10 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
 
   getData() {
     this.apiService
-      .get<{ objects: MultiSelectModel[] }>(this.url)
+      .get<{ objects: AutocompleteModel[] }>(this.url)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: { objects: MultiSelectModel[] }) => {
+        next: (data: { objects: AutocompleteModel[] }) => {
           this.allData = data.objects;
 
           this.removeDefaultData();
@@ -94,7 +94,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
       });
   }
 
-  selectItem(item: MultiSelectModel) {
+  selectItem(item: AutocompleteModel) {
     if (!this.selectedItemIds.includes(item)) {
       this.selectedItemIds.push(item);
       // this.defaultRolesId.push(item.id);
@@ -130,7 +130,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
       .DoAutocomplete(this.url, this.search.value as string)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(data => {
-        const responsive = data as { objects: MultiSelectModel[] };
+        const responsive = data as { objects: AutocompleteModel[] };
         this.allData = responsive.objects;
         this.searchNotFound = false;
         if (this.allData.length === 0) {
@@ -156,7 +156,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
 
     if (this.defaultDataIds) {
       if (!searching) {
-        this.defaultData = this.allData.filter((item: MultiSelectModel) => {
+        this.defaultData = this.allData.filter((item: AutocompleteModel) => {
           return this.defaultDataIds.includes(item);
         });
       }
