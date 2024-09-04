@@ -1,34 +1,61 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { AuthService, DialogService } from '../../../core/services';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AuthService,
+  ConfigService,
+  DialogService,
+} from '../../../core/services';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { Observable } from 'rxjs';
+import { ModeModel } from '../../../core/services/config/main-config.models';
+import { ProfileCardComponent } from '../../../global/components/custom-field/profile-card/profile-card.component';
 
 @Component({
   selector: 'app-sleep-mode',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ProfileCardComponent],
   templateUrl: './sleep-mode.component.html',
   styleUrl: './sleep-mode.component.scss',
 })
 export class SleepModeComponent implements OnInit {
   user!: UserInfoModel | null;
   user$: Observable<UserInfoModel>;
+  activeMode!: ModeModel;
+  activeMode$: Observable<ModeModel>;
+  form: FormGroup;
 
   isLoading = false;
-  password = new FormControl('', [Validators.required]);
+  showPassword = false;
+  passwordType = 'password';
+  // password = new FormControl('', [Validators.required]);
 
   constructor(
     private dialogService: DialogService,
-    private authService: AuthService
+    private authService: AuthService,
+    private configService: ConfigService
   ) {
     this.user$ = this.authService.getUserInfo();
+    this.activeMode$ = this.configService.getMode();
+
+    this.form = new FormGroup({
+      password: new FormControl('', [Validators.required]),
+    });
   }
 
   ngOnInit() {
     this.user$.subscribe({
       next: user => {
         this.user = user;
+      },
+    });
+    this.activeMode$.subscribe({
+      next: mode => {
+        this.activeMode = mode;
       },
     });
   }
@@ -47,12 +74,12 @@ export class SleepModeComponent implements OnInit {
 
   verification() {
     this.isLoading = true;
-    const password = this.password.value;
+    const password = this.form.value.password;
     if (password) {
       this.authService.passwordVerification(password).subscribe({
         next: response => {
           this.isLoading = false;
-          this.password.reset();
+          this.form.reset();
           const res = response as { object: { success: boolean } };
           if (res.object.success === true) {
             this.unlock();
@@ -60,14 +87,24 @@ export class SleepModeComponent implements OnInit {
         },
         error: () => {
           this.isLoading = false;
-          this.password.reset();
+          this.form.reset();
         },
       });
     }
   }
 
+  setShowPassword() {
+    this.showPassword = !this.showPassword;
+
+    if (this.showPassword) {
+      this.passwordType = 'text';
+    } else {
+      this.passwordType = 'password';
+    }
+  }
+
   private unlock() {
     this.dialogService.unlockScreen();
-    this.dialogService.startWatching();
+    // this.dialogService.startWatching();
   }
 }

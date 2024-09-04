@@ -1,10 +1,11 @@
 .globe {
-  top: 100px;
+  top: 10%;
 }
 
 .print {
-  top: -48px;
-  right: -48px;
+  top: -5%;
+  right: -2%;
+  z-index: -3;
 }
 
 .wave-cont {
@@ -54,8 +55,8 @@
     transform: translateY(0);
   }
   100% {
-    -webkit-transform: translateY(-100px);
-    transform: translateY(-100px);
+    -webkit-transform: translateY(-10%);
+    transform: translateY(-10%);
   }
 }
 
@@ -88,15 +89,16 @@
 }
 
 .stand {
-  z-index: 2000;
+  z-index: 200000000;
+  display: block;
   min-height: 100vh;
   min-width: 100vw;
 }
 
 .stop {
   display: none;
-  height: 0;
-  width: 0;
+  visibility: hidden;
+  z-index: -1000;
 }
 
 @keyframes scale-up-center {
@@ -106,4 +108,8 @@
   100% {
     transform: scale(1);
   }
+}
+
+.mw-200 {
+  min-width: 200px;
 }

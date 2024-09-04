@@ -103,23 +103,6 @@ export class AddProductComponent implements OnInit {
             this.router.navigate(['/m/mymarket/product-config']);
           }
         },
-        // error: data => {
-        //   this.productForm.enable();
-        //   this.productAdded = false;
-        //   let message;
-        //   if (data.object) {
-        //     message = data.object.response_message;
-        //   } else {
-        //     message = 'Error occurred';
-        //   }
-        //   const notification = {
-        //     title: '',
-        //     type: 'failed',
-        //     message: message,
-        //   };
-        //   // this.store.dispatch(new OpenDialog(notification));
-        //   console.log(notification);
-        // },
         error: () => {
           this.productForm.enable();
           this.productAdded = false;
