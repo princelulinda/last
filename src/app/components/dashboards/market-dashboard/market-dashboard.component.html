@@ -367,8 +367,12 @@
   <section>
     <section>
       <div class="row">
-        <div class="col-10">
-          <h5 class="fs-medium fw-bold mt-4" i18n>Recent product</h5>
+        <div class="col-12">
+          <h5
+            class="fs-medium d-flex justify-content-center d-md-flex justify-content-md-start flex-wrap gap-5 fw-bold mt-4"
+            i18n>
+            Recent product
+          </h5>
         </div>
       </div>
       @if (!products) {
@@ -397,7 +401,8 @@
           }
         </div>
       } @else {
-        <div class="d-flex justify-content-start flex-wrap gap-5">
+        <div
+          class="d-flex justify-content-center d-md-flex justify-content-md-start flex-wrap gap-5">
           @for (product of products; track $index) {
             <div class="d-flex justify-content-around">
               <app-product-card [product]="product"></app-product-card>
@@ -411,8 +416,10 @@
   <!-- NOTE :: recent billers -->
   <section class="mt-5">
     <div class="row mb-3">
-      <div class="col-9 col-lg-10 col-xl-11">
-        <span class="fs-medium text-dark fw-bold mb-3" i18n
+      <div class="col-12 col-lg-10 col-xl-11">
+        <span
+          class="fs-medium d-flex justify-content-center d-md-flex justify-content-md-start flex-wrap gap-5 text-dark fw-bold mb-3"
+          i18n
           >Recent billers</span
         >
       </div>
@@ -421,7 +428,7 @@
 
     @if (billers) {
       <div
-        class="d-flex justify-content-center d-md-flex justify-content-sm-start flex-wrap gap-5">
+        class="d-flex justify-content-center d-md-flex justify-content-md-start flex-wrap gap-5">
         @for (biller of recentBillers; track $index) {
           <div class="d-flex justify-content-between">
             <div class="w-100">
@@ -466,10 +473,13 @@
   <section class="mb-5">
     <section class="mb-5">
       <div class="row mt-4 pe-0 d-flex justify-content-between">
-        <div class="col-9 col-lg-10 col-xxl-11">
+        <div class="col-12 col-lg-10 col-xxl-11">
           <p>
-            <span class="text-primary" style="font-size: 10px"> </span>
-            <span class="fs-5 text-dark" i18n><b> Recent merchants</b></span>
+            <span
+              class="fs-5 d-flex justify-content-center d-md-flex justify-content-md-start flex-wrap gap-5 text-dark"
+              i18n
+              ><b> Recent merchants</b></span
+            >
           </p>
         </div>
       </div>
@@ -487,7 +497,7 @@
 
       @if (merchants) {
         <div
-          class="d-flex justify-content-center d-md-flex justify-content-sm-start flex-wrap gap-5">
+          class="d-flex justify-content-center d-md-flex justify-content-md-start flex-wrap gap-5">
           @for (merchant of recentMerchant; track $index) {
             <div class="d-flex justify-content-between" tabindex="0">
               <div class="w-100">
