@@ -95,10 +95,12 @@ export const routes: Routes = [
         path: 'banking_menu',
         component: AsideMenuComponent,
       },
+
       {
         path: 'settings_menu',
         component: SettingsAsideMenuComponent,
       },
+
       {
         path: '**',
         loadComponent: () =>

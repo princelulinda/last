@@ -89,15 +89,16 @@
 }
 
 .stand {
-  z-index: 2000;
+  z-index: 200000000;
+  display: block;
   min-height: 100vh;
   min-width: 100vw;
 }
 
 .stop {
   display: none;
-  height: 0;
-  width: 0;
+  visibility: hidden;
+  z-index: -1000;
 }
 
 @keyframes scale-up-center {
