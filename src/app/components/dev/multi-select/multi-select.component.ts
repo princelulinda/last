@@ -29,7 +29,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
 
   @Input() url = '';
   @Input() name!: string;
-  @Input() defaultDataIds: AutocompleteModel[] = [];
+  @Input() defaultDataIds: number[] = [];
   @Output() selectedItemEvent = new EventEmitter<AutocompleteModel[] | null>();
 
   //   search = new FormControl('');
@@ -157,7 +157,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
     if (this.defaultDataIds) {
       if (!searching) {
         this.defaultData = this.allData.filter((item: AutocompleteModel) => {
-          return this.defaultDataIds.includes(item);
+          return this.defaultDataIds.includes(item.id);
         });
       }
 
