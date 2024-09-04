@@ -1,175 +1,140 @@
-<div class="sm-radius p-5 bg-secondary min-h  mt-5  " >
- 
-<div class="row   d-flex justify-content-between container-xl ">
-    <div  class="col-4 mt-2 ">
-        <div class="d-grid">
+<div class="sm-radius p-5 bg-secondary min-h mt-5">
+  @if (savingData) {
+    <form [formGroup]="adhesionForm">
+      <div class="row d-flex justify-content-between container-xl">
+        <div class="col-4 mt-2">
+          <div class="d-grid">
             <div class="fw-bold fs-large text-secondary font-Calibri" i18n>
-                Adhesion
-               </div> 
-               <div class="fs-medium fw-bold mt-4">
-             
-                {{savingData.name}}
-            
-               </div>
-              <div class="d-flex align-items-center gap-2  font-Calibri " >
-               <div class=" fs-l-medium fw-bold">
-                   {{savingData.members_count}}
-               </div>
-               <div class=" fs-l-medium fw-bold font-Calibri " i18n>
-                   members
-               </div>
-              </div>
-              <div class="d-grid mt-4">
-                <div class="fs-small font-Calibri fw-bold" i18n>
-                    Penalties
-                </div>
-                <div class="fs-l-medium fw-bold">
-                    {{savingData.penalities}}
-                </div>
-              </div>
-        
-            
-           </div>
-        
-        
-            <div class="form-floating rounded " >
-                <input
-                    type="text"
-                    class="input form-control text-dark simulator-input  border"
-                   
-                    id="contribution"
-                  
-                    placeholder="shares"
-                   
-                />
-                <label for="contribution" i18n
-                    ><div class="d-flex align-items-center gap-4">
-                        <div  class="ms-3">
-                            <i class="fa-solid fa-magnifying-glass text-secondary"></i>
-                        </div>
-                        <div class="fs-medium text-secondary"> Search members</div>
-                    </div>
-                </label>
-                
+              Adhesion
             </div>
-            <div class="form-floating  rounded mt-3" >
-                <input
-                    type="text"
-                    class="input form-control text-dark simulator-input  border"
-                   
-                    id="contribution"
-                  
-                    placeholder="shares"
-        
-                    (input)="
-                    showInfo =
-                        myForm
-                            .get('contribution')
-                            ?.value?.trim() !== ''
+            <div class="fs-medium fw-bold mt-4">
+              {{ savingData.name }}
+            </div>
+            <div class="d-flex align-items-center gap-2 font-Calibri">
+              <div class="fs-l-medium fw-bold">
+                {{ savingData.members_counts }}
+              </div>
+              <div class="fs-l-medium fw-bold font-Calibri" i18n>members</div>
+            </div>
+          </div>
+          @if (savingData.accepts_reference_sys === true) {
+            <div class="rounded">
+              <app-lookup
+                option="lookup"
+                [url]="
+                  '/tontines/membership/manage/object_lookup?tontine=' +
+                  tontineId +
+                  '&lookup_data='
                 "
-                   
-                />
-                <label for="contribution" class="text-muted fs-medium ms-3" i18n
-                    >shares
-                </label>
-                
-                
+                label="Search By client ID"></app-lookup>
             </div>
-        
-            <div
-            class="d-flex align-items-center mt-3 gap-3"
-        >
-        <span>
-            <i
-                class="fas fa-info-circle text-primary"
-            ></i>
-        </span>
-            <span class="text-dark fs-medium font-Calibri" 
-                >Shares/month</span
-            >
-            <span
-                class="fw-bold"
-            >
-                {{ part }}
-            </span>
-        </div>
-        <div
-        class="d-flex align-items-center mt-3 gap-3"
-        >
-        <span>
-            <i
-                class="fas fa-info-circle text-primary"
-            ></i>
-        </span>
-        <span class="text-dark fs-medium font-Calibri" 
-            >Social contribution</span
-        >
-        <span
-            class="fw-bold"
-        >
-            {{ part }}
-        </span>
-        </div>
-    
-        <div class="col-4 mt-5" role="button">
-            <div class="bg-primary text-all-white fw-bold fs-medium font-Calibri p-1 d-flex justify-content-center rounded">
-                Send
-            </div>
-        </div>
-         </div>
-         <div class="col-6 mt-5  gap-2  ms-4">
-           
-            <div class="border-r fs-medium font-Calibri p-4">
-            
-                <div class="fs-l-medium  fw-bold  font-Calibri  mb-2" i18n>
-                    Internal rules
+          }
+
+          @if (savingData.open_membership) {
+            <div class="form-floating rounded mt-3">
+              <input
+                type="text"
+                class="input form-control text-dark"
+                id="contribution"
+                formControlName="contribution"
+                placeholder="contribution"
+                (input)="calculateValue()" />
+              <label for="contribution" class="text-muted fs-medium ms-3"
+                >shares</label
+              >
+              @if (adhesionForm?.get('contribution')?.errors?.['pattern']) {
+                <div class="text-danger">
+                  Invalid input. Please enter a valid number.
                 </div>
+              }
+            </div>
+            @if (showInfo) {
+              <div class="d-flex align-items-center mt-3 gap-3">
+                <span>
+                  <i class="fas fa-info-circle text-primary"></i>
+                </span>
+                <span class="text-dark fs-medium font-Calibri"
+                  >Shares/month</span
+                >
+                <span class="fw-bold">
+                  {{ contribution }}
+                </span>
+              </div>
+              <div class="d-flex align-items-center mt-3 gap-3">
+                <span>
+                  <i class="fas fa-info-circle text-primary"></i>
+                </span>
+                <span class="text-dark fs-medium font-Calibri"
+                  >Social contribution</span
+                >
+                <span class="fw-bold">
+                  {{ part }}
+                </span>
+              </div>
+            }
 
-                Lorem ipsum dolor sit, amet consectetur
-                 adipisicing elit. Ducimus odit iusto
-                  necessitatibus ratione ex facilis quod 
-                  adipisci recusandae minima quaerat ut quas
-                   ipsam vitae obcaecati aut, veritatis et excepturi eum?
-                   Lorem ipsum dolor sit, amet consectetur
-                   adipisicing elit. Ducimus odit iusto
-                    necessitatibus ratione ex facilis quod 
-                    adipisci recusandae minima quaerat ut quas
-                     ipsam vitae obcaecati aut, veritatis et excepturi eum?
+            <div class="col-4 mt-5" role="button">
+              <button
+                class="btn bg-primary text-all-white fw-bold fs-medium font-Calibri p-1 px-4 d-flex justify-content-center rounded"
+                [disabled]="!isFormValid()"
+                (click)="openPinPopup()"
+                [tabIndex]="0"
+                type="submit"
+                tabindex="0">
+                Send
+              </button>
+            </div>
+          }
+        </div>
 
-
-                     <div class="mt-3">
-                        <div class="mt-3">
-                            <label
-                                (click)="toggleCheckbox()"tabindex="0"
-                                for="isRenewable"
-                                class="d-flex align-items-center"
-                            >
-                            @if(isChecked){
-                                <span >
-                                    <i
-                                        class="fa-regular fa-square-check fs-4 text-primary"
-                                       
-                                    ></i>
-                                </span>}
-                                @if(!isChecked){
-                                <span >
-                                    <i
-                                        class="fa-regular fa-square fs-4"
-                                    ></i>
-                                </span>}
-                                <span
-                                    class="ms-2 fs-medium font-Calibri text-secondary"
-                                    
-                                    i18n
-                                >
-                                    I have read and accepted the terms
-                                </span></label
-                            >
-                        </div>
-                    </div>
+        <div class="col-6 mt-5 gap-2 ms-4">
+          <div class="border-r fs-medium font-Calibri p-4">
+            <div class="fs-l-medium fw-bold font-Calibri mb-2" i18n>
+              Internal rules
             </div>
 
-         
-         </div>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus
+            odit iusto necessitatibus ratione ex facilis quod adipisci
+            recusandae minima quaerat ut quas ipsam vitae obcaecati aut,
+            veritatis et excepturi eum? Lorem ipsum dolor sit, amet consectetur
+            adipisicing elit. Ducimus odit iusto necessitatibus ratione ex
+            facilis quod adipisci recusandae minima quaerat ut quas ipsam vitae
+            obcaecati aut, veritatis et excepturi eum?
+
+            <div class="mt-3">
+              <div class="mt-3">
+                <label
+                  (click)="toggleCheckbox()"
+                  tabindex="0"
+                  for="isRenewable"
+                  class="d-flex align-items-center">
+                  @if (isChecked) {
+                    <span>
+                      <i
+                        class="fa-regular fa-square-check fs-4 text-primary"></i>
+                    </span>
+                  }
+                  @if (!isChecked) {
+                    <span>
+                      <i class="fa-regular fa-square fs-4"></i>
+                    </span>
+                  }
+                  <span class="ms-2 fs-medium font-Calibri text-secondary" i18n>
+                    I have read and accepted the terms
+                  </span></label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  }
+  @if (!savingData) {
+    <div
+      class="d-flex justify-content-center align-items-center"
+      style="height: 50vh">
+      <span class="spinner-border"> </span>
+    </div>
+  }
 </div>
- </div>

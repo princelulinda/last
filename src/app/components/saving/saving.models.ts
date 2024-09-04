@@ -16,4 +16,7 @@ export interface TontineDataModele {
   mise_perso: number;
   contribution: number;
   preferences: string;
+  accepts_reference_sys: boolean;
+  members_counts: number;
+  open_membership: boolean;
 }
