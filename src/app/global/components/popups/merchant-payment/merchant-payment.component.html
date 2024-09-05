@@ -3,10 +3,19 @@
   tabindex="-1"
   class="border-0 p-0 bg-white lg-radius bg-white w-100 h-100 overflow-y-auto p-4 text-dark">
   <main>
-    <!-- NOTE :: STEPPER AND BACK SECTION -->
-    <section class="d-flex align-items-center justify-content-center mb-3">
-      <div class="mx-auto d-flex flex-row my-1 w-content flex-grow-1">
-        <div class="d-flex align-items-center col-4 mx-auto">
+    <!-- NOTE :: STEPPER , BACK  AND CLOSE SECTION -->
+    <section class="d-flex align-items-center justify-content-center mb-4">
+      <span
+        class="d-flex align-items-center ps-5"
+        tabindex="-1"
+        (click)="manageBack()"
+        role="button">
+        <span class="me-1"><i class="fa fa-arrow-left"></i></span>
+        <b i18n> Back</b>
+      </span>
+
+      <div class="flex-grow-1">
+        <div class="d-flex align-items-center col-4 mx-auto flex-grow-1">
           <span
             class="rounded-circle d-flex align-items-center justify-content-center fs-small fw-bold stepper-item"
             [ngClass]="{
@@ -26,13 +35,13 @@
           >
         </div>
       </div>
+
       <div
-        class="d-flex align-items-cneter"
         tabindex="-1"
+        class="text-danger fs-large"
         (click)="closeMerchantPaymentDialog()"
         role="button">
-        <span class="me-1"><i class="fa fa-arrow-left"></i></span>
-        <b i18n> Back</b>
+        <span><i class="fa-solid fa-rectangle-xmark"></i></span>
       </div>
     </section>
 

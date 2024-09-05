@@ -493,6 +493,9 @@ export class MerchantPaymentComponent
     this.dialogService.closeMerchantPaymentDialog();
     this.resetAllData();
   }
+  manageBack() {
+    console.log('Salut les gens');
+  }
 
   private initMetadataForm(
     metadatas: MetadataModel[],
