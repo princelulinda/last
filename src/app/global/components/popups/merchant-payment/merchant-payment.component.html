@@ -699,11 +699,7 @@
                   <button
                     [disabled]="
                       selectedPaymentMenu === 'Direct-Payment' &&
-                      ((!simplePaymentForm.valid && !activeTipControl.value) ||
-                        (!simplePaymentForm.valid &&
-                          activeTipControl.value &&
-                          !selectedTipWaiterId &&
-                          tipLevelControl.valid === null))
+                      !simplePaymentForm.valid
                     "
                     class="btn bg-primary text-all-white fw-bold px-5 fs-small"
                     type="submit"
@@ -718,89 +714,5 @@
         </form>
       </section>
     </div>
-
-    <!-- @if (selectedProduct && !loadingProductDetails && productDetails) {
-      @if (selectedPaymentMenu === 'Product-Payment') {
-        @if (
-          productWaitList.length !== 0 &&
-          (productDetails.lookup_metadata.length !== 0 ||
-            productDetails.metadata.length !== 0) &&
-          ((steps === 'first' && productDetails.accepts_multiple_payment) ||
-            (selectedPaymentMenu === 'Product-Payment' && steps === 'second'))
-        ) {
-          <section class="col-5 sm-radius border p-3">
-            <small class="mb-2 d-block"><b>Wait List</b></small>
-
-            @for (item of productWaitList; track $index) {
-              <div class="px-3 py-2 sm-radius wait-list-item mb-3">
-                <b class="fs-small mb-2 d-block">{{
-                  selectedProduct.lookup_title
-                }}</b>
-                <div
-                  class="border-start border-primary border-5 ps-3"
-                  [innerHTML]="
-                    item.lookup_metata.lookup?.response_data?.lookup
-                  "></div>
-              </div>
-            }
-
-            @if (steps === 'first') {
-              <button
-                class="btn bg-primary px-5 fs-small text-all-white fw-bold"
-                (click)="steps = 'second'"
-                i18n>
-                Confirm
-              </button>
-            }
-          </section>
-        }
-        @if (steps === 'second') {
-          <section class="col-5">
-            <div>
-              <app-debit-account
-                title="Account to debit"
-                (selectedWallet)="getDebitAccount($event, 'wallet')"
-                (selectedAccount)="
-                  getDebitAccount($event, 'account')
-                "></app-debit-account>
-            </div>
-            @if (debitAccount || debitWallet) {
-              <div class="mt-4 text-center col-10">
-                <button
-                  class="btn bg-primary text-all-white fw-bold px-5 fs-small"
-                  (click)="openPaymentPinPopup()"
-                  i18n>
-                  Confirm
-                </button>
-              </div>
-            }
-          </section>
-        }
-      }
-    } -->
-
-    <!-- NOTE :: ON DIRECT PAYMENT  -->
-    <!-- @if (steps === 'second' && selectedPaymentMenu === 'Direct-Payment') {
-      <section class="mt-4 col-10 mx-auto">
-        <div>
-          <app-debit-account
-            title="Account to debit"
-            (selectedWallet)="getDebitAccount($event, 'wallet')"
-            (selectedAccount)="
-              getDebitAccount($event, 'account')
-            "></app-debit-account>
-        </div>
-        @if (debitAccount || debitWallet) {
-          <div class="mt-4 text-center col-10">
-            <button
-              class="btn bg-primary text-all-white fw-bold px-5 fs-small"
-              (click)="openPaymentPinPopup()"
-              i18n>
-              Confirm
-            </button>
-          </div>
-        }
-      </section>
-    } -->
   </main>
 </dialog>
