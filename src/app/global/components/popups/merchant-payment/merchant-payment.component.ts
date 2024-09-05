@@ -601,7 +601,7 @@ export class MerchantPaymentComponent
         this.resetProduct();
         return;
       }
-      if (this.selectedMerchant) {
+      if (this.selectedMerchant && this.category) {
         this.resetMerchant();
         return;
       }
@@ -612,6 +612,7 @@ export class MerchantPaymentComponent
   }
 
   resetAllData() {
+    this.selectedPaymentMenu = '';
     this.merchant = null;
     this.product = null;
     this.category = null;
