@@ -605,6 +605,93 @@
                     >Description <code>*</code></label
                   >
                 </div>
+
+                <!-- NOTE :: TIP SECTION -->
+                <section class="mt-3">
+                  <div class="form-check mt-3">
+                    <input
+                      class="form-check-input"
+                      [formControl]="activeTipControl"
+                      type="checkbox"
+                      id="tip" />
+                    <label for="tip" i18n> Add Tip</label>
+                  </div>
+                  @if (activeTipControl.value) {
+                    <div class="mt-3">
+                      <app-lookup
+                        option="autocomplete"
+                        url="/dbs/merchant-teller/objects_autocomplete/?merchant={{
+                          selectedMerchant?.id
+                        }}&&search="
+                        label="Waiters"
+                        (selectedItemEvent)="
+                          getSelectedTipWaiter($event)
+                        "></app-lookup>
+                    </div>
+                    @if (selectedTipWaiterId) {
+                      <section class="row mx-0 mt-4 ps-3">
+                        <div class="col-4 mb-2 form-check">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            [formControl]="tipLevelControl"
+                            name="tipLevel"
+                            id="5"
+                            value="5" />
+                          <label for="5" i18n> 5%</label>
+                        </div>
+                        <div class="col-4 mb-2 form-check">
+                          <input
+                            class="form-check-input"
+                            [formControl]="tipLevelControl"
+                            type="radio"
+                            name="tipLevel"
+                            id="10"
+                            value="10" />
+                          <label for="10" i18n> 10%</label>
+                        </div>
+                        <div class="col-4 mb-2 form-check">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="tipLevel"
+                            [formControl]="tipLevelControl"
+                            id="15"
+                            value="15" />
+                          <label for="15" i18n> 15%</label>
+                        </div>
+                        <div class="col-4 mb-2 form-check">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="tipLevel"
+                            id="20"
+                            [formControl]="tipLevelControl"
+                            value="20" />
+                          <label for="20" i18n> 20%</label>
+                        </div>
+                        <div class="col-8 mb-2 form-check">
+                          <input
+                            class="form-check-input"
+                            name="tipLevel"
+                            type="radio"
+                            id="other"
+                            [formControl]="tipLevelControl"
+                            value="other" />
+                          <label for="other" i18n> Enter manually</label>
+                        </div>
+                        @if (tipLevelControl.value === 'other') {
+                          <div class="px-0 mt-3">
+                            <app-amount-field
+                              (amountEvent)="
+                                getAmount($event, 'tip')
+                              "></app-amount-field>
+                          </div>
+                        }
+                      </section>
+                    }
+                  }
+                </section>
               }
 
               @if (debitAccount || debitWallet) {
@@ -627,89 +714,5 @@
         </form>
       </section>
     </div>
-
-    <!-- @if (selectedProduct && !loadingProductDetails && productDetails) {
-      @if (selectedPaymentMenu === 'Product-Payment') {
-        @if (
-          productWaitList.length !== 0 &&
-          (productDetails.lookup_metadata.length !== 0 ||
-            productDetails.metadata.length !== 0) &&
-          ((steps === 'first' && productDetails.accepts_multiple_payment) ||
-            (selectedPaymentMenu === 'Product-Payment' && steps === 'second'))
-        ) {
-          <section class="col-5 sm-radius border p-3">
-            <small class="mb-2 d-block"><b>Wait List</b></small>
-
-            @for (item of productWaitList; track $index) {
-              <div class="px-3 py-2 sm-radius wait-list-item mb-3">
-                <b class="fs-small mb-2 d-block">{{
-                  selectedProduct.lookup_title
-                }}</b>
-                <div
-                  class="border-start border-primary border-5 ps-3"
-                  [innerHTML]="
-                    item.lookup_metata.lookup?.response_data?.lookup
-                  "></div>
-              </div>
-            }
-
-            @if (steps === 'first') {
-              <button
-                class="btn bg-primary px-5 fs-small text-all-white fw-bold"
-                (click)="steps = 'second'"
-                i18n>
-                Confirm
-              </button>
-            }
-          </section>
-        }
-        @if (steps === 'second') {
-          <section class="col-5">
-            <div>
-              <app-debit-account
-                title="Account to debit"
-                (selectedWallet)="getDebitAccount($event, 'wallet')"
-                (selectedAccount)="
-                  getDebitAccount($event, 'account')
-                "></app-debit-account>
-            </div>
-            @if (debitAccount || debitWallet) {
-              <div class="mt-4 text-center col-10">
-                <button
-                  class="btn bg-primary text-all-white fw-bold px-5 fs-small"
-                  (click)="openPaymentPinPopup()"
-                  i18n>
-                  Confirm
-                </button>
-              </div>
-            }
-          </section>
-        }
-      }
-    } -->
-
-    <!-- NOTE :: ON DIRECT PAYMENT  -->
-    <!-- @if (steps === 'second' && selectedPaymentMenu === 'Direct-Payment') {
-      <section class="mt-4 col-10 mx-auto">
-        <div>
-          <app-debit-account
-            title="Account to debit"
-            (selectedWallet)="getDebitAccount($event, 'wallet')"
-            (selectedAccount)="
-              getDebitAccount($event, 'account')
-            "></app-debit-account>
-        </div>
-        @if (debitAccount || debitWallet) {
-          <div class="mt-4 text-center col-10">
-            <button
-              class="btn bg-primary text-all-white fw-bold px-5 fs-small"
-              (click)="openPaymentPinPopup()"
-              i18n>
-              Confirm
-            </button>
-          </div>
-        }
-      </section>
-    } -->
   </main>
 </dialog>

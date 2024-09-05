@@ -27,6 +27,7 @@ import {
   MerchantCategoriesAutocompleteModel,
   MerchantModel,
   MerchantSimplePaymentBodyModel,
+  MerchantSimplePaymentResponseModel,
   PayMerchantBodyModel,
   PayMerchantResponseModel,
 } from '../../../../components/merchant/merchant.models';
@@ -45,6 +46,7 @@ import { DebitAccountComponent } from '../../../../components/transfer/debit-acc
 import { CreditAccountComponent } from '../../../../components/transfer/credit-account/credit-account.component';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -55,6 +57,8 @@ import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import { AccountsListModel } from '../../../../components/account/models';
 import { WalletList } from '../../../../components/wallet/wallet.models';
 import { AmountFieldComponent } from '../../custom-field/amount-field/amount-field.component';
+import { LookupComponent } from '../../lookups/lookup/lookup.component';
+import { AutocompleteModel } from '../../../models/global.models';
 
 @Component({
   selector: 'app-merchant-payment',
@@ -69,6 +73,7 @@ import { AmountFieldComponent } from '../../custom-field/amount-field/amount-fie
     ReactiveFormsModule,
     SkeletonComponent,
     AmountFieldComponent,
+    LookupComponent,
   ],
   templateUrl: './merchant-payment.component.html',
   styleUrl: './merchant-payment.component.scss',
@@ -140,6 +145,11 @@ export class MerchantPaymentComponent
     description: ['', Validators.required],
   });
 
+  activeTipControl = new FormControl(false);
+  tipLevelControl = new FormControl('', Validators.required);
+  tipAmount = 0;
+  selectedTipWaiterId: number | null = null;
+
   constructor(
     private dialogService: DialogService,
     private configService: ConfigService,
@@ -189,6 +199,12 @@ export class MerchantPaymentComponent
           this.pin = dialog.response.pin;
           this.submitSimplePayment();
         }
+      },
+    });
+
+    this.activeTipControl.valueChanges.subscribe({
+      next: () => {
+        this.tipLevelControl.reset();
       },
     });
   }
@@ -454,7 +470,7 @@ export class MerchantPaymentComponent
     }
 
     this.dialogService.dispatchLoading();
-    const body: MerchantSimplePaymentBodyModel = {
+    let body: MerchantSimplePaymentBodyModel = {
       amount: this.simplePaymentForm.value.amount as string,
       debit_account: debit_account,
       debit_bank: Number(this.selectedBank?.id),
@@ -463,24 +479,45 @@ export class MerchantPaymentComponent
       merchant_id: Number(this.selectedMerchant?.id.toString()),
       pin_code: this.pin,
     };
+
+    // NOTE :: ON SIMPLE PAYMENT AND TIP
+    if (this.activeTipControl.value && this.selectedTipWaiterId) {
+      const custom_tip_amount =
+        this.tipLevelControl.value === 'other' ? this.tipAmount : 0;
+      body = {
+        ...body,
+        give_tip: true,
+        merchant_teller_id: this.selectedTipWaiterId,
+        tip_level: this.tipLevelControl?.value ?? '',
+        custom_tip_amount: custom_tip_amount,
+      };
+    }
+
     this.merchantService
       .doMerchantSimplePayment(body)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
+          if (!response.object.success) {
+            this.dialogService.openToast({
+              message:
+                response?.object?.response_message ??
+                'Something went wrong please retry again !',
+              title: '',
+              type: 'failed',
+            });
+            return;
+          }
           this.dialogService.closeLoading();
-          this.dialogService.openToast({
-            message: response.object.response_message,
-            title: '',
-            type: 'success',
-          });
-
           this.resetAllData();
           this.dialogService.closeMerchantPaymentDialog();
+          this.manageSimplePaymentMerchantBill(response.object);
         },
         error: err => {
           this.dialogService.openToast({
-            message: err?.object?.response_message ?? 'Something Went Wrong ',
+            message:
+              err?.object?.response_message ??
+              'Something went wrong please retry again !',
             title: '',
             type: 'failed',
           });
@@ -530,12 +567,27 @@ export class MerchantPaymentComponent
 
   // NOTE :: GETTER AND SETTER
 
-  getAmount(data: { amount: number | null }) {
+  getSelectedTipWaiter(waiter: AutocompleteModel | null) {
+    if (waiter) {
+      this.selectedTipWaiterId = waiter.id;
+    } else {
+      this.selectedTipWaiterId = null;
+    }
+  }
+
+  getAmount(
+    data: { amount: number | null },
+    type: 'simple-payment' | 'tip' = 'simple-payment'
+  ) {
     if (data.amount) {
-      this.simplePaymentForm.setValue({
-        amount: data.amount.toString(),
-        description: this.simplePaymentForm.value.description ?? '',
-      });
+      if (type === 'simple-payment') {
+        this.simplePaymentForm.setValue({
+          amount: data.amount.toString(),
+          description: this.simplePaymentForm.value.description ?? '',
+        });
+      } else {
+        this.tipAmount = data.amount;
+      }
     }
   }
 
@@ -650,6 +702,10 @@ export class MerchantPaymentComponent
     this.debitAccount = null;
     this.debitWallet = null;
     this.simplePaymentForm.reset();
+    this.activeTipControl.reset();
+    this.tipLevelControl.reset();
+    this.selectedTipWaiterId = null;
+    this.tipAmount = 0;
   }
 
   private formatMerchantDetailsAsAutocomplete(
@@ -697,6 +753,24 @@ export class MerchantPaymentComponent
     } else {
       this.dialogService.openMerchantBillPopup(merchantBill);
     }
+  }
+
+  private manageSimplePaymentMerchantBill(
+    data: MerchantSimplePaymentResponseModel
+  ) {
+    this.dialogService.openMerchantBillPopup({
+      name: data.response_data.delivered_to,
+      code: data.response_data.bill,
+      adress: '',
+      amount: data.response_data.amount,
+      credit_account: this.merchantDetails?.merchant_main_account ?? '',
+      date: data.response_data.date,
+      debit_account: this.debitAccount?.acc_short_number ?? '',
+      description: this.simplePaymentForm.value.description ?? '',
+      merchantName: this.selectedMerchant?.lookup_title ?? '',
+      printable_text: data.response_data.orders[0].printable_text ?? '',
+      // product:{}
+    });
   }
 
   ngAfterViewInit() {
