@@ -15,7 +15,7 @@ import { DialogResponseModel } from '../../core/services/dialog/dialogs-models';
 import { DebitAccountComponent } from '../transfer/debit-account/debit-account.component';
 import { LookupComponent } from '../../global/components/lookups/lookup/lookup.component';
 import { AmountFieldComponent } from '../../global/components/custom-field/amount-field/amount-field.component';
-import { accountsList } from '../account/models';
+import { AccountsListModel } from '../account/models';
 import { WalletList } from '../wallet/wallet.models';
 import { ItemModel } from '../../global/components/lookups/lookup/lookup.model';
 import { ResModel } from '../loan/loan.models';
@@ -59,7 +59,7 @@ export class WithdrawalComponent implements OnInit, OnDestroy {
 
   agent!: ItemModel | null;
   // debit: any = {};
-  account!: accountsList | WalletList | null;
+  account!: AccountsListModel | WalletList | null;
   constructor(
     private bankService: BankService,
     private dialogService: DialogService,
@@ -100,10 +100,10 @@ export class WithdrawalComponent implements OnInit, OnDestroy {
     this.agentCode = this.agent.lookup_subtitle;
   }
 
-  getAccountSelected(event: accountsList | WalletList) {
+  getAccountSelected(event: AccountsListModel | WalletList) {
     this.account = event;
-    if ((this.account as accountsList).acc_short_number) {
-      this.debitAccount = (this.account as accountsList).acc_short_number;
+    if ((this.account as AccountsListModel).acc_short_number) {
+      this.debitAccount = (this.account as AccountsListModel).acc_short_number;
       this.debitType = 'account';
     } else {
       this.debitAccount = (this.account as WalletList).code;

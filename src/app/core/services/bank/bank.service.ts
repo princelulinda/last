@@ -6,7 +6,7 @@ import { ApiService, ConfigService } from '..';
 import { BankModel } from '../../db/models/bank/bank.model';
 import { addBankResponse } from '../../../components/dashboards/dashboard.model';
 
-import { WalletCard } from '../../../components/wallet/wallet.models';
+import { WalletCardModel } from '../../../components/wallet/wallet.models';
 import { nyamuranziCardModel } from '../../../components/nyamuranzi/models';
 import { WithdrawalModel } from '../../../components/withdrawal/withdrawal.models';
 import { DissectedDateModel } from '../../../components/statements/statement.model';
@@ -167,13 +167,15 @@ export class BankService {
       })
     );
   }
-  getDefaultWallet(): Observable<{ object: WalletCard; count: number }> {
+  getDefaultWallet(): Observable<{ object: WalletCardModel; count: number }> {
     const url = '/dbs/wallet/default/';
-    return this.apiService.get<{ object: WalletCard; count: number }>(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get<{ object: WalletCardModel; count: number }>(url)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
 
   getClientRecentTransactions() {

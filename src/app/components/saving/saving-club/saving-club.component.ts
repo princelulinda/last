@@ -4,10 +4,11 @@ import { SuggestedTontinesModel, TontineModel } from '../saving.models';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-saving-club',
   standalone: true,
-  imports: [SkeletonComponent, RouterLink],
+  imports: [SkeletonComponent, RouterLink, CommonModule],
   templateUrl: './saving-club.component.html',
   styleUrls: ['./saving-club.component.scss'],
 })

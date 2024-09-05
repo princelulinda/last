@@ -158,7 +158,15 @@ export class AuthService {
           this.dialogService.closeSplashScreen();
         },
         error: err => {
-          console.log('err', err);
+          this.apiService.clearLocalData();
+          this.dialogService.closeSplashScreen();
+          this.dialogService.openToast({
+            message:
+              err?.object?.response_message ??
+              $localize`Something went wrong please retry again !`,
+            title: '',
+            type: 'failed',
+          });
         },
       });
   }

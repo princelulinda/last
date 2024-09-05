@@ -23,7 +23,7 @@
       <app-empty-state searchType="merchant"></app-empty-state>
     </div>
   } @else if (!isLoading && merchants.length > 0) {
-    <div class="row flex-wrap gap-4">
+    <div class="row flex-wrap gap-3">
       @for (merchant of merchants; track $index) {
         <div class="col-auto">
           <app-merchant-card

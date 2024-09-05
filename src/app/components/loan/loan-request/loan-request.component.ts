@@ -25,7 +25,7 @@ import {
 } from '../loan.models';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { DebitAccountComponent } from '../../transfer/debit-account/debit-account.component';
-import { accountsList } from '../../account/models';
+import { AccountsListModel } from '../../account/models';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 
 @Component({
@@ -49,7 +49,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
   plateform = '';
   amountBackground = 'rgba(241, 241, 241, 1)';
 
-  account!: accountsList;
+  account!: AccountsListModel;
   accountWorkstation: AcccountWorkstationModel | null = null;
   amount: number | null = 0;
   loansType!: LoanTypeModel;
@@ -153,7 +153,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAccountOptions(event: accountsList) {
+  getAccountOptions(event: AccountsListModel) {
     this.account = event;
   }
 

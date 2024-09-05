@@ -6,7 +6,7 @@
       <div class="overlay h-100 position-relative py-1 px-2 bg-secondary">
         <span class="close-button">
           <span class="clickable" (click)="toggleSelectedPopup()" tabindex="0">
-            <i class="fa-solid fa-circle-xmark text-danger"></i
+            <i class="fa-solid fa-circle-xmark text-primary"></i
           ></span>
         </span>
         <div class="overflow-auto h-100 py-2 pe-2">
@@ -36,9 +36,10 @@
         [ngClass]="{ disabled: dataNotFound }"
         tabindex="0"
         i18n>
-        <span class="count badge bg-primary">{{
-          selectedItemIds.length + defaultRolesId.length
-        }}</span>
+        <span
+          class="count fs-x-small rounded-circle px-2 py-1 text-white bg-primary"
+          >{{ selectedItemIds.length + defaultRolesId.length }}</span
+        >
         Selected {{ name }}
       </div>
     </div>
@@ -55,7 +56,7 @@
           (input)="filtItem()" />
         <span
           class="position-relative h-100 level-1 bg-secondary p-3 border-0 faSearchMargin">
-          <i class="fa-solid fa-search fs-medium"></i>
+          <i class="fa-solid fa-search text-secondary fs-medium"></i>
         </span>
       </div>
     </div>
@@ -96,7 +97,7 @@
           }
           @if (!searchNotFound && !searchLoading) {
             <div>
-              <h5 class="text-dark text-center fw-bold">
+              <h5 class="text-dark text-center fw-bold py-1">
                 <small><span i18n> Select New </span> {{ name }}</small>
               </h5>
               @for (item of newData; track $index) {
@@ -117,35 +118,38 @@
           }
         </div>
         <div
-          class="col-3 px-1 border-start border-2 overflow-auto pe-5 selectBlockHeight">
-          <h5 class="text-dark text-center fw-bold">
+          class="col-3 p-0 border-start border-2 selectBlockHeight overflow-auto pe-4">
+          <h5 class="text-dark text-center fw-bold py-1">
             <small
               ><span i18n>Default</span> <span> {{ name }}</span>
-              <span class="ms-1 count badge bg-primary">{{
-                defaultRolesId.length
-              }}</span>
+              <span
+                class="ms-1 count fs-x-small rounded-circle px-2 py-1 text-white bg-primary"
+                >{{ defaultRolesId.length }}</span
+              >
             </small>
           </h5>
           @if (defaultData.length !== 0) {
             <div class="mb-3 ms-3">
               @for (item of defaultData; track $index) {
                 <small
-                  class="py-1 border rounded d-block mb-1 fs-normal text-dark text-center"
+                  class="py-1 border rounded d-block mb-1 fs-normal text-dark d-flex align-items-center justify-content-center"
                   [ngClass]="{
-                    'bg-primary-2': defaultRolesId.includes(item),
+                    'bg-primary-3': defaultRolesId.includes(item),
                   }">
-                  {{ item.lookup_title }}
-                  <span><i class="fa fa-xmark"></i></span>
+                  <span class="flex-grow-1 text-center">{{
+                    item.lookup_title
+                  }}</span>
+
+                  <span
+                    class=""
+                    title="Select"
+                    (click)="selectItem(item)"
+                    role="button"
+                    tabindex="0">
+                    <i
+                      class="fa-solid fa-circle-xmark pt-1 text-primary fs-large"></i>
+                  </span>
                 </small>
-                <span
-                  class="position-absolute iconStyle"
-                  title="Select"
-                  (click)="selectItem(item)"
-                  role="button"
-                  tabindex="0">
-                  <i
-                    class="fa fa-xmark text-white rounded-circle bg-primary px-1 py-1"></i>
-                </span>
               }
             </div>
           }
@@ -156,30 +160,34 @@
           <h5 class="text-dark text-center fw-bold mt-3">
             <small
               ><span i18n>New</span> <span> {{ name }}</span
-              ><span class="ms-1 count badge bg-primary">{{
-                selectedItemIds.length
-              }}</span>
+              ><span
+                class="ms-1 count fs-x-small rounded-circle px-2 py-1 text-white bg-primary"
+                >{{ selectedItemIds.length }}</span
+              >
             </small>
           </h5>
           @if (selectedData.length !== 0) {
             <div class="ms-3">
               @for (item of selectedData; track $index) {
                 <small
-                  class="py-1 border fs-normal rounded d-block mb-1 text-dark text-center"
+                  class="py-1 px-1 border fs-normal rounded d-block mb-1 d-flex align-items-center justify-content-center text-dark"
                   [ngClass]="{
-                    'bg-primary-2': selectedItemIds.includes(item),
+                    'bg-primary-3': selectedItemIds.includes(item),
                   }">
-                  {{ item.lookup_title }}
+                  <span class="flex-grow-1 text-center">{{
+                    item.lookup_title
+                  }}</span>
+
+                  <span
+                    class=""
+                    title="Select"
+                    (click)="selectItem(item)"
+                    role="button"
+                    tabindex="0">
+                    <i
+                      class="fa-solid fa-circle-xmark pt-1 text-primary fs-large"></i>
+                  </span>
                 </small>
-                <span
-                  class="position-absolute iconStyle"
-                  title="Select"
-                  (click)="selectItem(item)"
-                  role="button"
-                  tabindex="0">
-                  <i
-                    class="fa fa-xmark text-white rounded-circle bg-primary px-1 py-1"></i>
-                </span>
               }
             </div>
           }

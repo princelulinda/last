@@ -1,0 +1,28 @@
+@if (loadingData) {
+  <div class="col d-flex justify-content-center align-items-center h-100">
+    <span>
+      <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
+    </span>
+  </div>
+}
+@if (!loadingData) {
+  <div
+    class="details rounded row justify-content-center align-items-center col-md-6 m-auto rounded pb-3 pt-2 border mt-3"
+    style="gap: 1rem 0">
+    <h5 class="text-center text-dark fw-bold" i18n>
+      Details
+      <!-- <span
+                        class="text-success ms-2"
+                        (click)="showEditForm = true"
+                        style="font-size: 16px; cursor: pointer"
+                        ><i class="fa-solid fa-pen-clip"></i
+                    ></span> -->
+    </h5>
+    <div class="col-sm-8 row align-items-center justify-content-center">
+      <span class="text-dark col-8 col-sm-4 col-xl-3" i18n>Name</span>
+      <span class="field text-dark rounded px-3 py-2 fw-bolder col-8">{{
+        depDetails.object.name
+      }}</span>
+    </div>
+  </div>
+}

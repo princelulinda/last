@@ -22,11 +22,12 @@ import { SkeletonComponent } from '../../../../global/components/loaders/skeleto
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { DebitAccountComponent } from '../../../transfer/debit-account/debit-account.component';
-import { accountsList } from '../../../account/models';
+import { AccountsListModel } from '../../../account/models';
 import { WalletList } from '../../../wallet/wallet.models';
 import { DebitOptionsModel } from '../../../transfer/transfer.model';
 import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import { BillsModel } from '../bills.model';
+import { MerchantSimplePaymentBodyModel } from '../../merchant.models';
 
 @Component({
   selector: 'app-bill-details',
@@ -169,8 +170,8 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
 
   submitPaymentRequest() {
     this.paymentLoading = true;
-    const data = {
-      payment_id: this.billId,
+    const data: MerchantSimplePaymentBodyModel = {
+      payment_id: Number(this.billId),
       pin_code: this.pin,
       merchant_id: this.billDetails.merchant_teller.merchant.id,
       amount: parseFloat(this.billDetails.total_amount as string).toFixed(2),
@@ -178,7 +179,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
         ? this.selectedAccount
         : this.selectedWallet,
       debit_type: this.selectedAccount ? 'account' : 'wallet',
-      description: this.descriptionForm.value.description,
+      description: this.descriptionForm.value.description as string,
       debit_bank: this.debitBank,
     };
 
@@ -236,7 +237,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
         },
       });
   }
-  onAccountSelected(account: accountsList) {
+  onAccountSelected(account: AccountsListModel) {
     this.descriptionForm.reset();
     if (account.acc_short_number) {
       this.selectedAccount = account.acc_short_number;

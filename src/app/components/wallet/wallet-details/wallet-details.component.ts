@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../../core/services/client/client.service';
 import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
-import { Walletdetail } from '../wallet.models';
+import { WalletDetail } from '../wallet.models';
 import { WalletListComponent } from '../wallet-list/wallet-list.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { CommonModule } from '@angular/common';
@@ -27,7 +27,7 @@ export class WalletDetailsComponent implements OnInit {
   isLoading = false;
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
-  wallet: Walletdetail | null = null;
+  wallet: WalletDetail | null = null;
   hasWalletList = false;
   isTopUpClicked!: string;
 
@@ -51,7 +51,7 @@ export class WalletDetailsComponent implements OnInit {
     this.isLoading = true;
     this.wallet = null;
     this.clientService.getWalletDetails(this.walletId).subscribe({
-      next: (response: { object: Walletdetail }) => {
+      next: (response: { object: WalletDetail }) => {
         this.wallet = response.object;
       },
       error: (error: Error) =>

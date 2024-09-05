@@ -10,10 +10,11 @@ import { DatePipe } from '@angular/common';
 import { LowerCasePipe } from '@angular/common';
 import { takeUntil, Subject } from 'rxjs';
 import { PaginationConfig } from '../../../global/models/pagination.models';
+import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
 @Component({
   selector: 'app-sessions',
   standalone: true,
-  imports: [SkeletonComponent, DatePipe, LowerCasePipe],
+  imports: [SkeletonComponent, DatePipe, LowerCasePipe, EmptyStateComponent],
   templateUrl: './sessions.component.html',
   styleUrl: './sessions.component.scss',
 })

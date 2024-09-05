@@ -133,13 +133,13 @@
                   id="number"
                   placeholder="number"
                   formControlName="number" />
-                <label class="fs-small" i18n for="number"
+                <label class="fs-x-small" i18n for="number"
                   ><span>Phone number<code>*</code></span>
                 </label>
               </div>
 
               @if (phoneNumberVerificationLoader) {
-                <span i18n class="text-secondary">
+                <span i18n class="text-secondary fs-x-small">
                   <i class="fa-solid fa-pulse fa-spinner"></i>
 
                   Phone number verification
@@ -150,7 +150,7 @@
                 phoneNumberToVerify.object.success === true &&
                 !phoneNumberVerificationLoader
               ) {
-                <span i18n class="text-danger"
+                <span i18n class="text-danger fs-x-small"
                   >Phone number already exists</span
                 >
               } @else if (
@@ -160,10 +160,14 @@
                 !phoneNumberVerificationLoader &&
                 !isPhoneNumberUndefinedd()
               ) {
-                <span i18n class="text-success">Phone number is valid</span>
+                <span i18n class="text-success fs-x-small"
+                  >Phone number is valid</span
+                >
               }
               @if (isMatchNumber && !phoneNumberVerificationLoader) {
-                <span i18n class="text-danger">Phone number is invalid</span>
+                <span i18n class="text-danger fs-x-small"
+                  >Phone number is invalid</span
+                >
               }
             </div>
             <div class="col-md-6">
@@ -184,7 +188,7 @@
               </div>
 
               @if (EmailVerificationloader) {
-                <span i18n class="text-secondary">
+                <span i18n class="text-secondary fs-x-small">
                   <i class="fa-solid fa-pulse fa-spinner"></i>
 
                   Email verification
@@ -195,10 +199,14 @@
                 emailToVerify.object.success === true &&
                 !EmailVerificationloader
               ) {
-                <span i18n class="text-danger">Email already exists</span>
+                <span i18n class="text-danger fs-x-small"
+                  >Email already exists</span
+                >
               }
               @if (isMatchEmail && !EmailVerificationloader) {
-                <span i18n class="text-danger">Email is invalid</span>
+                <span i18n class="text-danger fs-x-small"
+                  >Email is invalid</span
+                >
               }
               @if (
                 emailToVerify &&
@@ -206,7 +214,7 @@
                 emailToVerify.object.success === false &&
                 !EmailVerificationloader
               ) {
-                <span i18n class="text-success">Email is valid</span>
+                <span i18n class="text-success fs-x-small">Email is valid</span>
               }
             </div>
           </div>

@@ -16,7 +16,7 @@ export class MenusComponent {
       size: '',
       icon: 'icon',
       detail: {
-        link: '/w/workstation/desk/admin/menu/',
+        link: '/w/workstation/admin/menu/',
         field: 'id',
       },
       format: '',

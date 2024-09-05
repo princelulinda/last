@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Accountdetail } from '../models';
+import { AccountDetailModel } from '../models';
 import { ClientService } from '../../../core/services/client/client.service';
 import { ActivatedRoute } from '@angular/router';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
@@ -16,7 +16,7 @@ import { StatementComponent } from '../../statements/statement/statement.compone
 })
 export class AccountDetailsComponent implements OnInit {
   isLoading = false;
-  account: Accountdetail | null = null;
+  account: AccountDetailModel | null = null;
   accountId!: string;
   showAmounts = false; // Variable to store the visibility state of amounts
   showAmounts$: Observable<boolean>; // Observable for the visibility state
@@ -47,7 +47,7 @@ export class AccountDetailsComponent implements OnInit {
     this.isLoading = true;
     this.account = null;
     this.clientService.getClientAccountDetails(this.accountId).subscribe({
-      next: (response: { object: Accountdetail }) => {
+      next: (response: { object: AccountDetailModel }) => {
         this.account = response.object;
         console.log('Données de tontine:', this.account);
       },
