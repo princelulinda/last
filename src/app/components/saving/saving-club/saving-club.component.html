@@ -13,7 +13,7 @@
               (click)="goBack()"
               tabindex="0">
               <i class="fa fa-arrow-left"></i>
-              <b class="ms-1">Back </b>
+              <b class="ms-1" i18n>Back </b>
             </span>
           </div>
         </div>
@@ -28,7 +28,7 @@
                     ><i class="fa-solid fa-face-frown img-color"></i
                   ></span>
                 </div>
-                <div class="fs-large fw-bold img-color">
+                <div class="fs-large fw-bold img-color" i18n>
                   You are not registered in any club
                 </div>
 
@@ -36,7 +36,8 @@
                   class="bg-primary text-white w-25 p-2 sm-radius fw-bold fs-medium mt-3 d-flex justify-content-center"
                   (click)="switchMenu('allClubs')"
                   role="button"
-                  tabindex="0">
+                  tabindex="0"
+                  i18n>
                   Add
                 </div>
               </div>
@@ -47,7 +48,8 @@
                     class="sm-radius fs-medium px-5 py-2 bg-primary fw-bold text-all-white"
                     role="button"
                     (click)="switchMenu('request')"
-                    tabindex="0">
+                    tabindex="0"
+                    i18n>
                     Request
                   </div>
                   <div
@@ -66,7 +68,7 @@
 
         <div class="row d-flex flex-wrap align-items-center">
           @if (savingClub && savingClub.length > 0 && suggestedTontines) {
-            <div class="fs-large fw-bold text-secondary mb-3 text-center">
+            <div class="fs-large fw-bold text-secondary mb-3 text-center" i18n>
               Saving clubs
             </div>
             @for (tontine of savingClub; track $index) {
@@ -88,7 +90,9 @@
                           <div class="fw-bold fs-mediu text-darkm">
                             {{ tontine.members_count }}
                           </div>
-                          <div class="fw-bold fs-medium text-dark">Members</div>
+                          <div class="fw-bold fs-medium text-dark" i18n>
+                            Members
+                          </div>
                         </div>
                       </div>
                       <div class="fs-medium fw-bold text-dark">
@@ -104,7 +108,7 @@
             }
           }
           @if (!savingClub || !suggestedTontines) {
-            <div class="fs-large fw-bold text-secondary mb-3 text-center">
+            <div class="fs-large fw-bold text-secondary mb-3 text-center" i18n>
               Saving clubs
             </div>
             @for (_ of [1, 2, 3]; track $index) {
@@ -134,7 +138,7 @@
                     <i
                       class="fa-solid fa-people-line fs-2 text-secondary mt-1"></i>
                   </div>
-                  <div class="fs-l-medium fw-bold">Add</div>
+                  <div class="fs-l-medium fw-bold" i18n>Add</div>
                 </div>
                 <div>
                   <i class="fa-solid fa-plus fs-2 text-primary"></i>
@@ -146,7 +150,9 @@
       </div>
       <div class="row mt-4">
         @if (suggestedTontines && suggestedTontines.length > 0) {
-          <div class="fs-large fw-bold text-secondary">Club suggestions</div>
+          <div class="fs-large fw-bold text-secondary" i18n>
+            Club suggestions
+          </div>
 
           @for (
             suggestedTontines of suggestedTontines | slice: 0 : 3;
@@ -193,7 +199,9 @@
           </div>
         }
         @if (!savingClub || !suggestedTontines) {
-          <div class="fs-large fw-bold text-secondary">Club suggestions</div>
+          <div class="fs-large fw-bold text-secondary" i18n>
+            Club suggestions
+          </div>
           @for (_ of [1, 2, 3]; track $index) {
             <div class="col-8 col-sm-6 col-md-5 col-lg-4 mb-3">
               <app-skeleton
@@ -210,7 +218,7 @@
   <!--invitation-->
   @if (selected === 'invitation') {
     <div class="container">
-      <div class="fw-bold fs-large">Invitation</div>
+      <div class="fw-bold fs-large" i18n>Invitation</div>
       <div class="row">
         <div class="col-12 col-md-8 col-lg-5 mb-4 mb-lg-0">
           <div class="bg-white rounded p-3">
@@ -221,18 +229,20 @@
                     class="fa-solid fa-people-line mt-3 text-secondary fs-2"></i>
                 </div>
                 <div class="d-grid">
-                  <div class="fw-bold fs-medium">BIG BANG</div>
-                  <div class="fs-normal">53 Members</div>
-                  <div class="fs-normal">Invited by Berahina Jean</div>
+                  <div class="fw-bold fs-medium" i18n>BIG BANG</div>
+                  <div class="fs-normal" i18n>53 Members</div>
+                  <div class="fs-normal" i18n>Invited by Berahina Jean</div>
                 </div>
               </div>
               <div class="d-grid gap-2">
                 <div
-                  class="bg-primary fs-small text-all-white rounded px-4 py-2 fw-bold">
+                  class="bg-primary fs-small text-all-white rounded px-4 py-2 fw-bold"
+                  i18n>
                   Accept
                 </div>
                 <div
-                  class="border border-primary fs-small rounded fw-bold px-4 py-2">
+                  class="border border-primary fs-small rounded fw-bold px-4 py-2"
+                  i18n>
                   Decline
                 </div>
               </div>
@@ -245,7 +255,7 @@
   <!-- requst-->
   @if (selected === 'request') {
     <div class="container">
-      <div class="fw-bold fs-large">Request</div>
+      <div class="fw-bold fs-large" i18n>Request</div>
       <div class="row mt-4">
         <div class="col-12 col-md-8 col-lg-5 mb-lg-0">
           <div class="bg-white rounded p-3">
@@ -279,7 +289,7 @@
       <div class="col-lg-12 col-md-12">
         <span role="button" class="d-flex align-items-center back-md float-end">
           <i class="fa fa-arrow-left"></i>
-          <b class="ms-1">Back </b>
+          <b class="ms-1" i18n>Back </b>
         </span>
       </div>
     </div>
@@ -309,7 +319,7 @@
                         <div class="fw-bold fs-medium">
                           {{ suggestedTontines.members_count }}
                         </div>
-                        <div class="fw-bold fs-medium">Members</div>
+                        <div class="fw-bold fs-medium" i18n>Members</div>
                       </div>
                     </div>
                     <div class="fs-small fw-bold text-all-dark">
