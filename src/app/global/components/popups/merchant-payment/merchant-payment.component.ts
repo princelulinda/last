@@ -15,13 +15,20 @@ import {
   MerchantService,
 } from '../../../../core/services';
 import {
+  DialogResponseModel,
+  LandscpeBillModel,
+  MerchantBillModel,
   MerchantPaymentDialogModel,
   MerchantPaymentTypesModel,
 } from '../../../../core/services/dialog/dialogs-models';
 import {
+  BillersAutocompleteModel,
   MerchantAutocompleteModel,
   MerchantCategoriesAutocompleteModel,
   MerchantModel,
+  MerchantSimplePaymentBodyModel,
+  PayMerchantBodyModel,
+  PayMerchantResponseModel,
 } from '../../../../components/merchant/merchant.models';
 import {
   ProductAutocompleteModel,
@@ -31,8 +38,8 @@ import {
   ProductModel,
 } from '../../../../components/merchant/products/products.model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
-import { MerchantProductsComponent } from '../../../../components/dev/merchant-payment/merchant-products/merchant-products.component';
-import { CategoryMerchantsComponent } from '../../../../components/dev/merchant-payment/category-merchants/category-merchants.component';
+import { MerchantProductsComponent } from '../merchant-payment/merchant-products/merchant-products.component';
+import { CategoryMerchantsComponent } from '../merchant-payment/category-merchants/category-merchants.component';
 import { ProductCardComponent } from '../../../../components/merchant/global/product-card/product-card.component';
 import { DebitAccountComponent } from '../../../../components/transfer/debit-account/debit-account.component';
 import { CreditAccountComponent } from '../../../../components/transfer/credit-account/credit-account.component';
@@ -45,6 +52,9 @@ import {
 import { MetadataModel } from '../../../../components/metadatas/metadata.model';
 import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
 import { BankModel } from '../../../../core/db/models/bank/bank.model';
+import { accountsList } from '../../../../components/account/models';
+import { WalletList } from '../../../../components/wallet/wallet.models';
+import { AmountFieldComponent } from '../../custom-field/amount-field/amount-field.component';
 
 @Component({
   selector: 'app-merchant-payment',
@@ -58,6 +68,7 @@ import { BankModel } from '../../../../core/db/models/bank/bank.model';
     CreditAccountComponent,
     ReactiveFormsModule,
     SkeletonComponent,
+    AmountFieldComponent,
   ],
   templateUrl: './merchant-payment.component.html',
   styleUrl: './merchant-payment.component.scss',
@@ -76,9 +87,10 @@ export class MerchantPaymentComponent
     payload: null,
   };
   type!: MerchantPaymentTypesModel;
-  merchant: MerchantAutocompleteModel | null = null;
+  merchant: MerchantAutocompleteModel | BillersAutocompleteModel | null = null;
   product: ProductAutocompleteModel | null = null;
   category: MerchantCategoriesAutocompleteModel | null = null;
+  steps: 'first' | 'second' = 'first';
 
   selectedBank: BankModel | null = null;
   selectedBank$: Observable<BankModel>;
@@ -87,7 +99,10 @@ export class MerchantPaymentComponent
 
   merchantDetails: MerchantModel | null = null;
   loadingMerchantDetails = false;
-  selectedMerchant: MerchantAutocompleteModel | null = null;
+  selectedMerchant:
+    | MerchantAutocompleteModel
+    | BillersAutocompleteModel
+    | null = null;
 
   productDetails: ProductModel | null = null;
   selectedProduct: ProductAutocompleteModel | null = null;
@@ -106,7 +121,24 @@ export class MerchantPaymentComponent
   productLookupChoices: ProductLookupChoiceModel[] | null = null;
   selectedProductLookupChoice: ProductLookupChoiceModel | null = null;
 
-  productWaitList: unknown[] = [];
+  productWaitList: {
+    lookup_metata: {
+      lookup: ProductLookupModel | null;
+      choice: ProductLookupChoiceModel | null;
+      values: Record<string, string>;
+    };
+    metadata: Record<string, string>;
+  }[] = [];
+
+  dialog$: Observable<DialogResponseModel>;
+
+  debitAccount: accountsList | null = null;
+  debitWallet: WalletList | null = null;
+
+  simplePaymentForm = this.fb.group({
+    amount: ['', Validators.required],
+    description: ['', Validators.required],
+  });
 
   constructor(
     private dialogService: DialogService,
@@ -116,6 +148,7 @@ export class MerchantPaymentComponent
   ) {
     this.theme$ = this.configService.getMode();
     this.selectedBank$ = this.configService.getSelectedBank();
+    this.dialog$ = this.dialogService.getDialogState();
 
     // NOTE :: SIGNAL CHECK CHANGES
     effect(() => {
@@ -126,6 +159,12 @@ export class MerchantPaymentComponent
         this.merchant = this.paymentData.payload?.merchant ?? null;
         this.category = this.paymentData.payload?.category ?? null;
         this.product = this.paymentData.payload?.product ?? null;
+
+        if (this.type === 'merchant' && this.merchant) {
+          this.getSelectedMerchant(this.merchant);
+        } else if (this.type === 'product' && this.product) {
+          this.getSelectedProduct(this.product);
+        }
       } else {
         this.merchantPaymentDialog?.close();
       }
@@ -140,14 +179,21 @@ export class MerchantPaymentComponent
         }
       },
     });
-    if (this.type === 'merchant' && this.merchant) {
-      this.getMerchantDetails(this.merchant.id);
-    } else if (this.type === 'product' && this.product) {
-      this.getProductDetails(this.product.id);
-    }
+
+    this.dialog$.subscribe({
+      next: dialog => {
+        if (dialog && dialog.action === 'Merchant Product Payment') {
+          this.pin = dialog.response.pin;
+          this.submitProductPayment();
+        } else if (dialog && dialog.action === 'Merchant Simple Payment') {
+          this.pin = dialog.response.pin;
+          this.submitSimplePayment();
+        }
+      },
+    });
   }
 
-  getMerchantDetails(merchantId: number) {
+  private getMerchantDetails(merchantId: number) {
     this.merchantDetails = null;
     this.loadingMerchantDetails = true;
     this.merchantService
@@ -156,16 +202,9 @@ export class MerchantPaymentComponent
       .subscribe({
         next: response => {
           this.merchantDetails = response.object;
+
           if (!this.merchantDetails.accepts_simple_payment) {
             this.selectedPaymentMenu = 'Product-Payment';
-          }
-
-          // NOTE :: SELECTE AUTO MERCHANT
-          if (this.type === 'merchant') {
-            const merchant = this.formatMerchantDetailsAsAutocomplete(
-              this.merchantDetails
-            );
-            this.getSelectedMerchant(merchant);
           }
 
           this.loadingMerchantDetails = false;
@@ -183,7 +222,7 @@ export class MerchantPaymentComponent
       });
   }
 
-  getProductDetails(productId: number) {
+  private getProductDetails(productId: number) {
     this.productDetails = null;
     this.loadingProductDetails = true;
     this.merchantService
@@ -192,6 +231,7 @@ export class MerchantPaymentComponent
       .subscribe({
         next: response => {
           this.productDetails = response.object;
+
           if (this.productDetails.lookup_first) {
             this.doProductLookup();
           }
@@ -205,21 +245,30 @@ export class MerchantPaymentComponent
             this.initMetadataForm(this.productDetails.metadata, 'metadata');
           }
 
-          // NOTE :: SELECT AUTO PRODUCT
+          // NOTE :: SELECT AUTO MERCHANT
           if (this.type === 'product') {
-            const product = this.formatProductDetailsAsAutocomplete(
-              this.productDetails
+            const merchant = this.formatMerchantDetailsAsAutocomplete(
+              this.productDetails.merchant
             );
-            this.getSelectedProduct(product);
+            this.getSelectedMerchant(merchant);
           }
 
           // NOTE :: GO TO PRODUCT PAYMENT AUTOMATICALLY
           if (
-            !this.productDetails.lookup_metadata &&
-            !this.productDetails.metadata &&
+            this.productDetails.lookup_metadata.length === 0 &&
+            this.productDetails.metadata.length === 0 &&
             this.productDetails.price
           ) {
-            alert('Active Directly payment');
+            let type: 'multiple' | 'simple';
+            if (this.productDetails.accepts_multiple_payment) {
+              type = 'multiple';
+            } else {
+              type = 'simple';
+            }
+            this.addProductToWaitList(type);
+
+            this.selectedPaymentMenu = 'Product-Payment';
+            this.steps = 'second';
           }
 
           this.loadingProductDetails = false;
@@ -228,6 +277,30 @@ export class MerchantPaymentComponent
           this.loadingProductDetails = false;
         },
       });
+  }
+
+  addProductToWaitList(type: 'simple' | 'multiple' = 'simple') {
+    if (type === 'simple') {
+      this.productWaitList.push({
+        lookup_metata: {
+          choice: this.selectedProductLookupChoice,
+          lookup: this.productLookup,
+          values: this.lookupMetadataForm.value,
+        },
+        metadata: this.metadataForm.value,
+      });
+      this.steps = 'second';
+    } else {
+      this.productWaitList.push({
+        lookup_metata: {
+          choice: this.selectedProductLookupChoice,
+          lookup: this.productLookup,
+          values: this.lookupMetadataForm.value,
+        },
+        metadata: this.metadataForm.value,
+      });
+      this.resetLookupData();
+    }
   }
 
   doProductLookup() {
@@ -274,35 +347,146 @@ export class MerchantPaymentComponent
       });
   }
 
-  // submitProductPayment() {
-  //   const data = {
-  //     debit_bank: this.selectedBank?.id,
-  //     merchant_product_id: this.selectedProduct?.id,
-  //     debit_type: 'account',
-  //     pin_code: this.pin,
-  //     debit_account: '',
-  //   };
+  openPaymentPinPopup() {
+    let action = '';
+    if (this.selectedPaymentMenu === 'Direct-Payment') {
+      action = 'Merchant Simple Payment';
+    } else {
+      action = 'Merchant Product Payment';
+    }
+    this.dialogService.openDialog({
+      action: action,
+      message: 'Please enter your PIN',
+      title: '',
+      type: 'pin',
+    });
+  }
 
-  //   this.dialogService.dispatchLoading();
+  submitProductPayment() {
+    const paymentDetails: {
+      payment_data?: Record<string, string>;
+      lookup_data?: Record<string, string>;
+    }[] = [];
+    let data: PayMerchantBodyModel = {
+      debit_bank: Number(this.selectedBank?.id),
+      merchant_product_id: Number(this.selectedProduct?.id),
+      debit_type: '',
+      pin_code: this.pin,
+      debit_account: '',
+    };
 
-  //   this.merchantService
-  //     .payMerchant(data)
-  //     .pipe(takeUntil(this.onDestroy$))
-  //     .subscribe({
-  //       next: (data) => {
-  //         // if (this.selectedProduct.voucher_type === 'L') {
-  //         //   this.store.dispatch(
-  //         //     new OpenLandscapeBillPopup(this.successMessage.data)
-  //         //   );
-  //         // } else {
-  //         //   this.store.dispatch(
-  //         //     new OpenMerchantBillPopup(this.successMessage.data)
-  //         //   );
-  //         // }
-  //       },
-  //       error: () => {},
-  //     });
-  // }
+    if (this.debitAccount) {
+      data.debit_type = 'account';
+      data.debit_account = this.debitAccount.acc_number.toString();
+    } else if (this.debitWallet) {
+      data.debit_type = 'wallet';
+      data.debit_account = this.debitWallet.account.account_holder;
+    }
+
+    if (
+      this.productWaitList.length > 1 &&
+      this.productDetails?.accepts_multiple_payment
+    ) {
+      for (const item of this.productWaitList) {
+        paymentDetails.push({
+          lookup_data: item.lookup_metata.values,
+          payment_data: item.metadata,
+        });
+      }
+      data = {
+        ...data,
+        is_multiple_payment: true,
+        payment_details: paymentDetails,
+      };
+    } else {
+      data = {
+        ...data,
+        payment_data: { ...this.productWaitList[0].metadata },
+        lookup_data: { ...this.productWaitList[0].lookup_metata.values },
+      };
+    }
+
+    this.dialogService.dispatchLoading();
+
+    this.merchantService
+      .payMerchant(data)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: data => {
+          this.dialogService.closeLoading();
+          if (data.object['success'] !== undefined && !data.object.success) {
+            this.dialogService.openToast({
+              message:
+                data.object.response_message ??
+                $localize`Something went wrong please retry again !`,
+              title: '',
+              type: 'failed',
+            });
+            return;
+          }
+          this.resetAllData();
+          this.dialogService.closeMerchantPaymentDialog();
+          this.manageMerchantBill(data.object);
+        },
+        error: err => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            message:
+              err?.object?.response_message ??
+              $localize`Something went wrong please retry again !`,
+            title: '',
+            type: 'failed',
+          });
+        },
+      });
+  }
+
+  submitSimplePayment() {
+    let debit_account = '';
+    let debit_type = '';
+
+    if (this.debitAccount) {
+      debit_account = this.debitAccount?.acc_number.toString();
+      debit_type = 'account';
+    } else if (this.debitWallet) {
+      debit_account = this.debitWallet?.account.account_holder;
+      debit_type = 'wallet';
+    }
+
+    this.dialogService.dispatchLoading();
+    const body: MerchantSimplePaymentBodyModel = {
+      amount: this.simplePaymentForm.value.amount as string,
+      debit_account: debit_account,
+      debit_bank: Number(this.selectedBank?.id),
+      debit_type: debit_type,
+      description: this.simplePaymentForm.value.description as string,
+      merchant_id: Number(this.selectedMerchant?.id.toString()),
+      pin_code: this.pin,
+    };
+    this.merchantService
+      .doMerchantSimplePayment(body)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            message: response.object.response_message,
+            title: '',
+            type: 'success',
+          });
+
+          this.resetAllData();
+          this.dialogService.closeMerchantPaymentDialog();
+        },
+        error: err => {
+          this.dialogService.openToast({
+            message: err?.object?.response_message ?? 'Something Went Wrong ',
+            title: '',
+            type: 'failed',
+          });
+        },
+      });
+  }
 
   closeMerchantPaymentDialog() {
     this.dialogService.closeMerchantPaymentDialog();
@@ -346,17 +530,49 @@ export class MerchantPaymentComponent
 
   // NOTE :: GETTER AND SETTER
 
-  getSelectedMerchant(merchant: MerchantAutocompleteModel) {
+  getAmount(data: { amount: number | null }) {
+    if (data.amount) {
+      this.simplePaymentForm.setValue({
+        amount: data.amount.toString(),
+        description: this.simplePaymentForm.value.description ?? '',
+      });
+    }
+  }
+
+  getDebitAccount(
+    data: accountsList | WalletList | null,
+    type: 'wallet' | 'account'
+  ) {
+    if (type === 'wallet') {
+      this.debitAccount = null;
+      this.debitWallet = data as WalletList;
+    } else if (type === 'account') {
+      this.debitWallet = null;
+      this.debitAccount = data as accountsList;
+    }
+  }
+
+  getSelectedMerchant(
+    merchant: MerchantAutocompleteModel | BillersAutocompleteModel
+  ) {
     this.selectedMerchant = merchant;
     this.getMerchantDetails(merchant.id);
   }
   getSelectedProduct(product: ProductAutocompleteModel) {
     this.selectedProduct = product;
-    this.getProductDetails(product.id);
+    if (this.type === 'product' && !this.productDetails) {
+      this.selectedPaymentMenu = 'Product-Payment';
+    }
+    if (!this.productDetails) {
+      this.getProductDetails(product.id);
+    }
   }
 
   selectPaymentMenu(type: 'Direct-Payment' | 'Product-Payment' | '') {
     this.selectedPaymentMenu = type;
+    if (type === 'Direct-Payment') {
+      this.steps = 'second';
+    }
   }
   selectProductLookupChoice(choice: ProductLookupChoiceModel) {
     this.selectedProductLookupChoice = choice;
@@ -364,25 +580,76 @@ export class MerchantPaymentComponent
 
   // NOTE :: METHODS FOR RESET EACH DATA
 
+  manageBack() {
+    if (this.steps === 'second') {
+      this.resetDebitOptions();
+      this.steps = 'first';
+      if (
+        this.productDetails?.lookup_metadata.length === 0 &&
+        this.productDetails.metadata.length === 0 &&
+        this.productDetails.price
+      ) {
+        this.resetProduct();
+      }
+      if (this.selectedPaymentMenu === 'Direct-Payment') {
+        this.selectedPaymentMenu = '';
+      }
+      return;
+    }
+    if (this.steps === 'first') {
+      if (this.selectedProduct) {
+        this.resetProduct();
+        return;
+      }
+      if (this.selectedMerchant && this.category) {
+        this.resetMerchant();
+        return;
+      }
+      if ((this.category && !this.selectedMerchant) || !this.category) {
+        this.closeMerchantPaymentDialog();
+      }
+    }
+  }
+
   resetAllData() {
+    this.selectedPaymentMenu = '';
     this.merchant = null;
     this.product = null;
     this.category = null;
-    this.merchantDetails = null;
-    this.selectedMerchant = null;
-    this.productDetails = null;
-    this.selectedProduct = null;
-    this.selectedPaymentMenu = '';
-    this.lookupMetadataForm.reset();
-    this.productLookup = null;
+    this.resetMerchant();
+    this.steps = 'first';
   }
 
   resetLookupData() {
     this.productLookup = null;
     this.resetSelectedLookupChoice();
+    this.lookupMetadataForm.reset();
+    this.metadataForm.reset();
   }
   resetSelectedLookupChoice() {
     this.selectedProductLookupChoice = null;
+  }
+  resetProduct() {
+    this.selectedProduct = null;
+    this.productWaitList = [];
+    this.productDetails = null;
+    if (this.merchantDetails?.accepts_simple_payment) {
+      this.selectedPaymentMenu = '';
+    } else {
+      this.selectedPaymentMenu = 'Product-Payment';
+    }
+    this.resetLookupData();
+  }
+  resetMerchant() {
+    this.resetDebitOptions();
+    this.resetProduct();
+    this.selectedMerchant = null;
+    this.merchantDetails = null;
+  }
+  resetDebitOptions() {
+    this.debitAccount = null;
+    this.debitWallet = null;
+    this.simplePaymentForm.reset();
   }
 
   private formatMerchantDetailsAsAutocomplete(
@@ -396,25 +663,40 @@ export class MerchantPaymentComponent
       lookup_has_image_or_icon: false,
       lookup_icon: '',
       lookup_image: merchant.merchant_logo,
-      lookup_subtitle: '',
+      lookup_subtitle: merchant.merchant_code,
       lookup_title: merchant.merchant_title,
       merchant_category_name: merchant.merchant_category.name,
     };
   }
 
-  private formatProductDetailsAsAutocomplete(
-    product: ProductModel
-  ): ProductAutocompleteModel {
-    return {
-      id: product.id,
-      is_favorite_product: product.is_favorite_product,
-      lookup_description: '',
-      lookup_icon: '',
-      lookup_image: '',
-      lookup_subtitle: '',
-      lookup_title: product.name,
-      price: product.price,
+  private manageMerchantBill(data: PayMerchantResponseModel) {
+    const merchantBill: MerchantBillModel = {
+      debit_account: '',
+      name: '',
+      merchantName: this.selectedMerchant?.lookup_title as string,
+      date: data.response_data.date,
+      printable_text: data.response_data.orders[0].printable_text ?? '',
+      amount: data.response_data.amount,
+      code: data.response_data.bill,
+      product: {
+        name: this.selectedProduct?.lookup_title ?? '',
+        value: '',
+      },
+      description: '',
+      adress: '',
+      credit_account: '',
     };
+    const landscapeBill: LandscpeBillModel = {
+      logo_url: '',
+      printable_text: data.response_data.orders[0].printable_text ?? '',
+      receipt_date: data.response_data.date,
+    };
+
+    if (this.productDetails?.voucher_type === 'L') {
+      this.dialogService.openLandscapeBillPopup(landscapeBill);
+    } else {
+      this.dialogService.openMerchantBillPopup(merchantBill);
+    }
   }
 
   ngAfterViewInit() {

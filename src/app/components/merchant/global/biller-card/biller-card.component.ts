@@ -75,8 +75,8 @@ export class BillerCardComponent implements OnDestroy {
   selectBiller() {
     if (this.action === 'merchant-payment') {
       this.dialogService.openMerchantPaymentDialog({
-        type: 'biller',
-        biller: this.biller,
+        type: 'merchant',
+        merchant: this.biller,
       });
     } else if (this.action === 'output') {
       this.selectedBillerEvent.emit(this.biller);

@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MerchantCardComponent } from '../../../merchant/global/merchant-card/merchant-card.component';
-import { MerchantAutocompleteModel } from '../../../merchant/merchant.models';
-import { MerchantService } from '../../../../core/services';
 import { CommonModule } from '@angular/common';
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
+
+import { SkeletonComponent } from '../../../loaders/skeleton/skeleton.component';
+import { EmptyStateComponent } from '../../../empty-states/empty-state/empty-state.component';
+import { MerchantService } from '../../../../../core/services';
+import { MerchantCardComponent } from '../../../../../components/merchant/global/merchant-card/merchant-card.component';
+import { MerchantAutocompleteModel } from '../../../../../components/merchant/merchant.models';
 
 @Component({
   selector: 'app-category-merchants',

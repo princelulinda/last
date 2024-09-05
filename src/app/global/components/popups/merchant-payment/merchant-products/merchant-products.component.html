@@ -23,7 +23,7 @@
       <app-empty-state searchType="product"></app-empty-state>
     </div>
   } @else if (!isLoading && products.length > 0) {
-    <div class="row flex-wrap gap-4">
+    <div class="row flex-wrap gap-3">
       @for (product of products; track $index) {
         <div class="col-auto">
           <app-product-card
