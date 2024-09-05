@@ -202,6 +202,7 @@ export class MerchantPaymentComponent
       .subscribe({
         next: response => {
           this.merchantDetails = response.object;
+
           if (!this.merchantDetails.accepts_simple_payment) {
             this.selectedPaymentMenu = 'Product-Payment';
           }
@@ -298,7 +299,7 @@ export class MerchantPaymentComponent
         },
         metadata: this.metadataForm.value,
       });
-      this.resetProduct();
+      this.resetLookupData();
     }
   }
 
@@ -405,8 +406,6 @@ export class MerchantPaymentComponent
       };
     }
 
-    console.log('NOTE ::: PAYMENT MERCHANT BODY', data);
-
     this.dialogService.dispatchLoading();
 
     this.merchantService
@@ -493,9 +492,6 @@ export class MerchantPaymentComponent
     this.dialogService.closeMerchantPaymentDialog();
     this.resetAllData();
   }
-  manageBack() {
-    console.log('Salut les gens');
-  }
 
   private initMetadataForm(
     metadatas: MetadataModel[],
@@ -535,7 +531,6 @@ export class MerchantPaymentComponent
   // NOTE :: GETTER AND SETTER
 
   getAmount(data: { amount: number | null }) {
-    console.log('ALOOOO AMOUNT', data);
     if (data.amount) {
       this.simplePaymentForm.setValue({
         amount: data.amount.toString(),
@@ -585,38 +580,75 @@ export class MerchantPaymentComponent
 
   // NOTE :: METHODS FOR RESET EACH DATA
 
+  manageBack() {
+    if (this.steps === 'second') {
+      this.resetDebitOptions();
+      this.steps = 'first';
+      if (
+        this.productDetails?.lookup_metadata.length === 0 &&
+        this.productDetails.metadata.length === 0 &&
+        this.productDetails.price
+      ) {
+        this.resetProduct();
+      }
+      if (this.selectedPaymentMenu === 'Direct-Payment') {
+        this.selectedPaymentMenu = '';
+      }
+      return;
+    }
+    if (this.steps === 'first') {
+      if (this.selectedProduct) {
+        this.resetProduct();
+        return;
+      }
+      if (this.selectedMerchant) {
+        this.resetMerchant();
+        return;
+      }
+      if ((this.category && !this.selectedMerchant) || !this.category) {
+        this.closeMerchantPaymentDialog();
+      }
+    }
+  }
+
   resetAllData() {
     this.merchant = null;
     this.product = null;
     this.category = null;
-    this.merchantDetails = null;
-    this.selectedMerchant = null;
-    this.productDetails = null;
-    this.selectedProduct = null;
-    this.selectedPaymentMenu = '';
-
-    this.productWaitList = [];
+    this.resetMerchant();
     this.steps = 'first';
-
-    this.resetProduct();
-    this.resetDebitOptions();
   }
 
   resetLookupData() {
     this.productLookup = null;
     this.resetSelectedLookupChoice();
     this.lookupMetadataForm.reset();
-    this.lookupMetadataForm.reset();
+    this.metadataForm.reset();
   }
   resetSelectedLookupChoice() {
     this.selectedProductLookupChoice = null;
   }
   resetProduct() {
+    this.selectedProduct = null;
+    this.productWaitList = [];
+    this.productDetails = null;
+    if (this.merchantDetails?.accepts_simple_payment) {
+      this.selectedPaymentMenu = '';
+    } else {
+      this.selectedPaymentMenu = 'Product-Payment';
+    }
     this.resetLookupData();
+  }
+  resetMerchant() {
+    this.resetDebitOptions();
+    this.resetProduct();
+    this.selectedMerchant = null;
+    this.merchantDetails = null;
   }
   resetDebitOptions() {
     this.debitAccount = null;
     this.debitWallet = null;
+    this.simplePaymentForm.reset();
   }
 
   private formatMerchantDetailsAsAutocomplete(

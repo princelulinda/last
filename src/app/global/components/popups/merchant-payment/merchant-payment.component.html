@@ -7,6 +7,9 @@
     <section class="d-flex align-items-center justify-content-center mb-4">
       <span
         class="d-flex align-items-center ps-5"
+        [ngClass]="{
+          'not-clickable': loadingProductDetails || loadingMerchantDetails,
+        }"
         tabindex="-1"
         (click)="manageBack()"
         role="button">
@@ -540,7 +543,7 @@
             (productDetails.lookup_metadata.length !== 0 ||
               productDetails.metadata.length !== 0)
           ) {
-            <section class="col-5 sm-radius border p-3">
+            <section class="col-10 sm-radius border p-3">
               <small class="mb-2 d-block"><b i18n>Wait List</b></small>
 
               @for (item of productWaitList; track $index) {
