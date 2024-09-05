@@ -10,7 +10,7 @@ import {
 import { UserInfoModel } from '../../../core/db/models/auth';
 
 import { NgClass, CommonModule } from '@angular/common';
-import { WalletCard, WalletTypModel } from '../wallet.models';
+import { WalletCardModel, WalletTypModel } from '../wallet.models';
 import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
@@ -53,7 +53,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   mainConfig$!: Observable<mainConfigModel>;
   activePlatform: string | null = null;
   defaultWalletId!: string;
-  defaultWallet!: WalletCard;
+  defaultWallet!: WalletCardModel;
   noWalletData = false;
   clientId: number | null = null;
   bankId: number | null = null;
@@ -170,36 +170,38 @@ export class WalletCardComponent implements OnInit, OnDestroy {
 
     const selectedCategoryId = this.walletForm.get('category')?.value;
     const title = this.walletForm.get('name')?.value;
-
-    this.clientService.creatWallet(selectedCategoryId, title).subscribe({
-      next: response => {
-        //this.loading = false;
-        this.dialogService.closeLoading();
-        if (response.object.success) {
-          this.dialogService.openToast({
-            type: 'success',
-            title: 'Succès',
-            message: response.object.response_message,
-          });
-          this.walletForm.reset();
-        } else {
+    const pin_code = this.walletForm.get('pin')?.value;
+    this.clientService
+      .creatWallet(selectedCategoryId, title, pin_code)
+      .subscribe({
+        next: response => {
+          //this.loading = false;
+          this.dialogService.closeLoading();
+          if (response.object.success) {
+            this.dialogService.openToast({
+              type: 'success',
+              title: 'Succès',
+              message: response.object.response_message,
+            });
+            this.walletForm.reset();
+          } else {
+            this.dialogService.openToast({
+              type: 'failed',
+              title: 'Échec',
+              message: response.object.response_message,
+            });
+          }
+        },
+        error: error => {
+          console.error('creation  failed', error);
+          this.dialogService.closeLoading();
           this.dialogService.openToast({
             type: 'failed',
             title: 'Échec',
-            message: response.object.response_message,
+            message: 'failed please try again',
           });
-        }
-      },
-      error: error => {
-        console.error('creation  failed', error);
-        this.dialogService.closeLoading();
-        this.dialogService.openToast({
-          type: 'failed',
-          title: 'Échec',
-          message: 'failed please try again',
-        });
-      },
-    });
+        },
+      });
   }
   public ngOnDestroy(): void {
     this.onDestroy$.next();

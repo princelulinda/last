@@ -159,24 +159,25 @@ export interface MerchantCategoriesModel {
   slug: string;
   name: string;
   merchant_visibility: string[];
-  merchant_activity_sector: SectorActivityModel;
+  merchant_activity_sector: SectorActivityModel | null;
   icon: string;
   is_active: boolean;
   ordering: number;
 }
 
 export interface BillersAutocompleteModel {
-  id: string;
-  lookup_image: string;
+  id: number;
+  lookup_image: string | null;
   lookup_title: string;
   lookup_icon: string;
   icon: string;
   lookup_subtitle: string;
   is_favorite_merchant: boolean;
-  success: string;
   merchant_category_name: string;
   accepts_simple_payment: boolean;
+  price: string | null;
 }
+
 export interface SectorActivityAutocompleteModel {
   id: number | string;
   lookup_icon: string;
@@ -213,20 +214,58 @@ export interface PayMerchantBodyModel {
 }
 
 export interface PayMerchantResponseModel {
-  object: {
-    response_message: string;
-    response_code: string;
-    response_data: {
-      id: number;
-      reference: string;
-      cbs_reference: string;
-      pending_operation: string;
-      date: string;
-      amount: string;
-      bill: string;
-      return_icon: string;
-      orders: [{ printable_text: string | null; sent_at: string }];
-    };
-    success: boolean;
+  response_message: string;
+  response_code: string;
+  response_data: {
+    id: number;
+    reference: string;
+    cbs_reference: string;
+    pending_operation: string;
+    date: string;
+    amount: string;
+    bill: string;
+    return_icon: string;
+    orders: [{ printable_text: string | null; sent_at: string }];
   };
+  success: boolean;
+}
+
+export interface MerchantSimplePaymentBodyModel {
+  payment_id?: number;
+  amount: string;
+  debit_account: string;
+  debit_bank: number;
+  debit_type: string;
+  description: string;
+  merchant_id: number;
+  pin_code: string;
+
+  give_tip?: boolean;
+  merchant_teller_id?: number;
+  tip_level?: string;
+  custom_tip_amount?: number;
+}
+export interface MerchantSimplePaymentResponseModel {
+  response_message: string;
+  response_code: '00';
+  response_data: {
+    id: number;
+    delivered_to: string;
+    reference: string;
+    cbs_reference: string;
+    pending_operation: string;
+    date: string;
+    amount: string;
+    tip_amount: string;
+    bill: string;
+    return_icon: string;
+    orders: {
+      printable_text: null | string;
+      sent_at: string;
+      payment_data: {
+        original_data: { client_name: string };
+      };
+    }[];
+  };
+  success: boolean;
 }

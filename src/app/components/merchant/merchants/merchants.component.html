@@ -92,7 +92,11 @@
             }
 
             <!-- NOTE :: not found message -->
-            @if (!favoriteMerchantLoading && favoriteMerchants.length === 0) {
+            @if (
+              !favoriteMerchantLoading &&
+              favoriteMerchants &&
+              favoriteMerchants.length === 0
+            ) {
               <div class="d-flex flex-column align-items-center mt-5">
                 <span class="empty-state-icon opacity-50 fs-xx-large">
                   <i class="fa-solid fa-face-meh"></i>
@@ -102,7 +106,11 @@
                 </b>
               </div>
             }
-            @if (!favoriteMerchantLoading && favoriteMerchants.length !== 0) {
+            @if (
+              !favoriteMerchantLoading &&
+              favoriteMerchants &&
+              favoriteMerchants.length !== 0
+            ) {
               <div class="d-flex flex-wrap ms-2 gap-3">
                 @for (merchant of favoriteMerchants; track $index) {
                   <div

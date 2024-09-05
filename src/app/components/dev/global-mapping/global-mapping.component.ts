@@ -16,7 +16,7 @@ import {
 } from '../../../core/services/config/main-config.models';
 import { CommonModule } from '@angular/common';
 import { DebitOptionsModel } from '../../transfer/transfer.model';
-import { accountsList } from '../../account/models';
+import { AccountsListModel } from '../../account/models';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService } from '../../../core/services';
 @Component({
@@ -50,7 +50,7 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
   selectedDebitType = '';
   debitId = '';
   debitHolder = '';
-  accountSelected: accountsList | null = null;
+  accountSelected: AccountsListModel | null = null;
   isLoading = false;
   loading = false;
   account = new FormControl('');
@@ -111,15 +111,15 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
     }
   }
 
-  getSelectedAccount(event: accountsList) {
+  getSelectedAccount(event: AccountsListModel) {
     if (this.selectedDebitType === 'account') {
-      const accountEvent = event as accountsList;
+      const accountEvent = event as AccountsListModel;
       this.debitId = accountEvent.id;
       console.log('ngiyooooIDDDDDDDD', this.debitId);
       this.debitHolder = accountEvent.acc_holder;
     }
 
-    this.accountSelected = event as accountsList | null;
+    this.accountSelected = event as AccountsListModel | null;
   }
 
   getMobileBanks() {

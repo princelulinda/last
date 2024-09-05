@@ -45,7 +45,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   favoriteMerchantsNumber!: number;
   favorite_merchant_making!: BillersAutocompleteModel | null;
   payMerchant!: BillersAutocompleteModel | null;
-  merchantId!: string;
+  merchantId!: number;
   countProductLoader = [1, 2, 3, 4, 5, 6, 7, 8];
   favoriteDisplay = false;
   location!: boolean;

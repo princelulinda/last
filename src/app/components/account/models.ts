@@ -1,4 +1,4 @@
-export interface accountsList {
+export interface AccountsListModel {
   title: string;
   acc_holder: string;
   id: string;
@@ -15,7 +15,7 @@ export interface accountsList {
     status_code: string;
   };
 }
-export interface Accountdetail {
+export interface AccountDetailModel {
   acc_short_number: string;
   acc_number?: string;
   acc_holder: string;

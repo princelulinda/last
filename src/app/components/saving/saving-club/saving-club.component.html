@@ -19,7 +19,7 @@
         </div>
         <!--if your are not member-->
 
-        @if (savingClub && savingClub.length === 0) {
+        @if (savingClub && savingClub.length === 0 && suggestedTontines) {
           <div class="d-flex justify-content-center mt-5 align-items-center">
             <div class="d-flex justify-content-between col-8">
               <div class="d-flex flex-column align-items-center">
@@ -44,14 +44,14 @@
                 <div class="border-r"></div>
                 <div class="">
                   <div
-                    class="sm-radius fs-medium px-5 py-2 bg-primary fw-bold"
+                    class="sm-radius fs-medium px-5 py-2 bg-primary fw-bold text-all-white"
                     role="button"
                     (click)="switchMenu('request')"
                     tabindex="0">
                     Request
                   </div>
                   <div
-                    class="sm-radius fs-medium px-5 py-2 mt-4 bg-primary fw-bold"
+                    class="sm-radius fs-medium px-5 py-2 mt-4 bg-primary fw-bold text-all-white"
                     role="button"
                     (click)="switchMenu('invitation')"
                     tabindex="0">
@@ -63,16 +63,20 @@
           </div>
         }
         <!--if your are member-->
-        <div class="row d-flex align-items-center">
+
+        <div class="row d-flex flex-wrap align-items-center">
           @if (savingClub && savingClub.length > 0 && suggestedTontines) {
+            <div class="fs-large fw-bold text-secondary mb-3 text-center">
+              Saving clubs
+            </div>
             @for (tontine of savingClub; track $index) {
-              <div class="col-12 col-sm-6 col-md-5 col-lg-4 mb-3">
+              <div class="col-8 col-sm-6 col-md-5 col-lg-4 mb-3">
                 <div
-                  class="bg-light rounded p-2 is-hoverable m-auto"
+                  class="bg-white rounded p-2 is-hoverable m-auto mh-card"
                   role="button">
                   <div class="d-flex justify-content-between">
                     <div class="d-grid">
-                      <div class="fs-l-medium fw-bold">
+                      <div class="fs-l-medium fw-bold text-truncate text-dark">
                         {{ tontine.name }}
                       </div>
                       <div class="d-flex align-items-center gap-2">
@@ -81,13 +85,13 @@
                             class="fa-solid fa-people-line fs-5 text-secondary"></i>
                         </div>
                         <div class="d-flex align-items-center">
-                          <div class="fw-bold fs-medium">
+                          <div class="fw-bold fs-mediu text-darkm">
                             {{ tontine.members_count }}
                           </div>
-                          <div class="fw-bold fs-medium">Members</div>
+                          <div class="fw-bold fs-medium text-dark">Members</div>
                         </div>
                       </div>
-                      <div class="fs-medium fw-bold">
+                      <div class="fs-medium fw-bold text-dark">
                         {{ tontine.short_description }}
                       </div>
                     </div>
@@ -100,18 +104,26 @@
             }
           }
           @if (!savingClub || !suggestedTontines) {
+            <div class="fs-large fw-bold text-secondary mb-3 text-center">
+              Saving clubs
+            </div>
             @for (_ of [1, 2, 3]; track $index) {
-              <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3">
+              <div class="col-8 col-sm-6 col-md-5 col-lg-4 mb-3">
                 <app-skeleton
-                  [width]="'200px'"
+                  [width]="'250px'"
                   [height]="'90px'"
                   classes="sm-radius">
                 </app-skeleton>
               </div>
             }
           }
-          @if (suggestedTontines && suggestedTontines.length > 0) {
-            <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3">
+          @if (
+            suggestedTontines &&
+            suggestedTontines.length > 0 &&
+            savingClub &&
+            savingClub.length
+          ) {
+            <div class="col-8 col-sm-6 col-md-5 col-lg-4 mb-3">
               <div
                 class="bg-light rounded p-2 d-flex justify-content-center align-items-center py-3"
                 role="button"
@@ -132,14 +144,17 @@
           }
         </div>
       </div>
-      <div class="row">
+      <div class="row mt-4">
         @if (suggestedTontines && suggestedTontines.length > 0) {
-          <div class="fs-large fw-bold text-secondary">Club suggestion</div>
+          <div class="fs-large fw-bold text-secondary">Club suggestions</div>
 
-          @for (suggestedTontines of suggestedTontines; track $index) {
-            <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3 mt-4">
+          @for (
+            suggestedTontines of suggestedTontines | slice: 0 : 3;
+            track $index
+          ) {
+            <div class="col-8 col-sm-6 col-md-5 col-lg-4 mt-4">
               <div
-                class="bg-light rounded p-2 d-flex is-hoverable m-auto"
+                class="bg-white rounded p-2 d-flex is-hoverable m-auto mh-card"
                 role="button"
                 (click)="switchMenu('allClubs')"
                 tabindex="0">
@@ -150,18 +165,18 @@
                   </div>
                   <div>
                     <div class="d-grid">
-                      <div class="fs-l-medium fw-bold text-all-dark">
+                      <div class="fs-l-medium fw-bold text-dark">
                         {{ suggestedTontines.name }}
                       </div>
                       <div>
-                        <div class="d-flex align-items-center text-all-dark">
+                        <div class="d-flex align-items-center ttext-dark">
                           <div class="fw-bold fs-medium">
                             {{ suggestedTontines.members_count }}
                           </div>
                           <div class="fw-bold fs-medium">Members</div>
                         </div>
                       </div>
-                      <div class="fs-small fw-bold text-all-dark">
+                      <div class="fs-small fw-bold text-dark">
                         Entery:{{ suggestedTontines.membership_fees }} BIF
                       </div>
                     </div>
@@ -172,13 +187,17 @@
           }
         }
         @if (suggestedTontines && suggestedTontines.length === 0) {
-          <div class="fw-bold fs-l-medium">There is no suggested CLubs</div>
+          <div
+            class="fw-bold fs-3 text-center text-dark d-none d-lg-block opacity-50">
+            <i class="fa fa-face-meh"></i> There is no suggested CLubs
+          </div>
         }
         @if (!savingClub || !suggestedTontines) {
+          <div class="fs-large fw-bold text-secondary">Club suggestions</div>
           @for (_ of [1, 2, 3]; track $index) {
-            <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3 mt-4">
+            <div class="col-8 col-sm-6 col-md-5 col-lg-4 mb-3">
               <app-skeleton
-                [width]="'200px'"
+                [width]="'250px'"
                 [height]="'90px'"
                 classes="sm-radius">
               </app-skeleton>
@@ -268,11 +287,13 @@
       <div class="fs-large fw-bold text-secondary">Suggested Clubs</div>
       @if (suggestedTontines && suggestedTontines.length > 0) {
         @for (suggestedTontines of suggestedTontines; track $index) {
-          <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-3 mt-4">
+          <div class="col-8 col-sm-6 col-md-5 col-lg-4 mt-4">
             <div
               class="bg-light rounded p-2 d-flex is-hoverable m-auto"
               role="button"
-              [routerLink]="'/b/saving/adhesion/' + suggestedTontines.id">
+              [routerLink]="
+                '/b/banking/saving/adhesion/' + suggestedTontines.id
+              ">
               <div class="d-flex gap-4">
                 <div>
                   <i
