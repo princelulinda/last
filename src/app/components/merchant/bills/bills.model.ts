@@ -18,12 +18,3 @@ export interface BillsModel {
   description: string;
   orders: OrdersModel[];
 }
-export interface generateBillModel {
-  response_message: string;
-  response_code: string;
-  response_data: {
-    code: string;
-    refence: string;
-  };
-  success: boolean;
-}
