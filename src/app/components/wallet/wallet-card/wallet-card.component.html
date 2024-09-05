@@ -40,7 +40,7 @@
         <div class="d-flex flex-column g-0 pt-2">
           @if (!noWalletData) {
             <span class="fs-small">Balance</span>
-            @if (defaultWallet) {
+            @if (defaultWallet && defaultWallet.response_data) {
               <span class="fw-bold">
                 <app-amount-visibility
                   [currency]="defaultWallet.response_data.currency"
@@ -62,7 +62,7 @@
 
         <div class="d-flex flex-column g-0 pt-2">
           <span class="p-0 m-0 fs-small" i18n>Wallet</span>
-          @if (defaultWallet && !noWalletData) {
+          @if (defaultWallet && !noWalletData && defaultWallet.response_data) {
             <span class="fw-bold">{{ defaultWallet.response_data.code }}</span>
           }
           @if (!defaultWallet) {

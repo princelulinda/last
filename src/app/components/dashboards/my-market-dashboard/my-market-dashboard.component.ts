@@ -28,7 +28,10 @@ import {
 import { DialogService } from '../../../core/services';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import {
+  DialogResponseModel,
+  MerchantBillModel,
+} from '../../../core/services/dialog/dialogs-models';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
@@ -47,7 +50,6 @@ import {
   MerchantModel,
   MerchantStatsModel,
 } from '../../merchant/merchant.models';
-import { MerchantBillDataModel } from '../../merchant/bills/bills.model';
 import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
@@ -138,7 +140,7 @@ export class MyMarketDashboardComponent
     nativeElement: HTMLElement;
   };
 
-  successMessage!: MerchantBillDataModel | null;
+  successMessage!: MerchantBillModel;
   pin!: string;
   indexMerchant = 0;
   theme!: ModeModel;
@@ -250,25 +252,23 @@ export class MyMarketDashboardComponent
             return;
           }
           this.successMessage = {
-            data: {
-              debit_account: '',
-              name: (this.selectedClient as ItemModel).lookup_title,
-              merchantName: (this.merchant as MerchantModel).client
-                .client_full_name,
+            debit_account: '',
+            name: (this.selectedClient as ItemModel).lookup_title,
+            merchantName: (this.merchant as MerchantModel).client
+              .client_full_name,
 
-              date: Date.now(),
-              printable_text: '',
-              amount: this.amount,
-              code: (this.merchant as MerchantModel).merchant_code,
-              product: {
-                name: '',
-                value: '',
-              },
-              description: this.billForm.value.description as string,
-              adress: '',
-              // receipt_date: '',
-              credit_account: (this.merchant as MerchantModel).merchant_code,
+            date: Date.now(),
+            printable_text: '',
+            amount: this.amount,
+            code: (this.merchant as MerchantModel).merchant_code,
+            product: {
+              name: '',
+              value: '',
             },
+            description: this.billForm.value.description as string,
+            adress: '',
+            // receipt_date: '',
+            credit_account: (this.merchant as MerchantModel).merchant_code,
           };
           this.openBillPopup = false;
 
@@ -284,7 +284,7 @@ export class MyMarketDashboardComponent
             type: 'success',
             message: response.object.response_message,
           });
-          this.dialogService.openMerchantBillPopup(this.successMessage.data);
+          this.dialogService.openMerchantBillPopup(this.successMessage);
           this.closeModal.nativeElement.click();
           this.billForm.reset();
         },

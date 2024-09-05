@@ -159,24 +159,25 @@ export interface MerchantCategoriesModel {
   slug: string;
   name: string;
   merchant_visibility: string[];
-  merchant_activity_sector: SectorActivityModel;
+  merchant_activity_sector: SectorActivityModel | null;
   icon: string;
   is_active: boolean;
   ordering: number;
 }
 
 export interface BillersAutocompleteModel {
-  id: string;
-  lookup_image: string;
+  id: number;
+  lookup_image: string | null;
   lookup_title: string;
   lookup_icon: string;
   icon: string;
   lookup_subtitle: string;
   is_favorite_merchant: boolean;
-  success: string;
   merchant_category_name: string;
   accepts_simple_payment: boolean;
+  price: string | null;
 }
+
 export interface SectorActivityAutocompleteModel {
   id: number | string;
   lookup_icon: string;
@@ -213,20 +214,29 @@ export interface PayMerchantBodyModel {
 }
 
 export interface PayMerchantResponseModel {
-  object: {
-    response_message: string;
-    response_code: string;
-    response_data: {
-      id: number;
-      reference: string;
-      cbs_reference: string;
-      pending_operation: string;
-      date: string;
-      amount: string;
-      bill: string;
-      return_icon: string;
-      orders: [{ printable_text: string | null; sent_at: string }];
-    };
-    success: boolean;
+  response_message: string;
+  response_code: string;
+  response_data: {
+    id: number;
+    reference: string;
+    cbs_reference: string;
+    pending_operation: string;
+    date: string;
+    amount: string;
+    bill: string;
+    return_icon: string;
+    orders: [{ printable_text: string | null; sent_at: string }];
   };
+  success: boolean;
+}
+
+export interface MerchantSimplePaymentBodyModel {
+  payment_id?: number;
+  amount: string;
+  debit_account: string;
+  debit_bank: number;
+  debit_type: string;
+  description: string;
+  merchant_id: number;
+  pin_code: string;
 }

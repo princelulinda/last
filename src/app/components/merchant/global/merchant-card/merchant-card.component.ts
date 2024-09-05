@@ -10,14 +10,13 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 
 import { DialogService, MerchantService } from '../../../../core/services';
-import { MerchantPaymentComponent } from '../../../dev/merchant-payment/merchant-payment.component';
 import { MerchantAutocompleteModel } from '../../merchant.models';
 import { VariableService } from '../../../../core/services/variable/variable.service';
 
 @Component({
   selector: 'app-merchant-card',
   standalone: true,
-  imports: [CommonModule, MerchantPaymentComponent],
+  imports: [CommonModule],
   templateUrl: './merchant-card.component.html',
   styleUrl: './merchant-card.component.scss',
 })

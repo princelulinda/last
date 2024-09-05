@@ -253,7 +253,7 @@ export class ConfigService {
   }
   resetOperator(): void {
     this.dbService.clearTable(Operator.tableName);
-    this.resetOrganizations();
+    // this.resetOrganizations();
   }
   getConnectedOperator(): Observable<ConnectedOperatorModel> {
     return this.connectedOperator$ as Observable<ConnectedOperatorModel>;

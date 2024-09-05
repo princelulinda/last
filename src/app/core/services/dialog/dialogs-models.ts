@@ -117,7 +117,7 @@ export type MerchantPaymentTypesModel =
 
 export interface MerchantPaymentDialogModel {
   type: MerchantPaymentTypesModel;
-  merchant?: MerchantAutocompleteModel;
+  merchant?: MerchantAutocompleteModel | BillersAutocompleteModel;
   product?: ProductAutocompleteModel;
   category?: MerchantCategoriesAutocompleteModel;
   biller?: BillersAutocompleteModel;
