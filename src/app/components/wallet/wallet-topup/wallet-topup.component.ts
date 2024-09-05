@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { DebitAccountComponent } from '../../transfer/debit-account/debit-account.component';
-import { accountsList } from '../../account/models';
+import { AccountsListModel } from '../../account/models';
 import {
   FormControl,
   FormGroup,
@@ -11,7 +11,7 @@ import {
 
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 import { DialogService } from '../../../core/services';
-import { creatWalletResponse, WalletTopUpBodyModel } from '../wallet.models';
+import { CreatWalletResponse, WalletTopUpBodyModel } from '../wallet.models';
 import { ClientService } from '../../../core/services';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
@@ -25,7 +25,7 @@ import { VariableService } from '../../../core/services/variable/variable.servic
   styleUrl: './wallet-topup.component.scss',
 })
 export class WalletTopupComponent implements OnInit {
-  selectedDebitAccountForm!: accountsList;
+  selectedDebitAccountForm!: AccountsListModel;
   topupForm!: FormGroup;
   amount: number | null = null;
   private onDestroy$ = new Subject<void>();
@@ -73,7 +73,7 @@ export class WalletTopupComponent implements OnInit {
       amount: event.amount,
     });
   }
-  handleSelectedCreditAccount(event: accountsList) {
+  handleSelectedCreditAccount(event: AccountsListModel) {
     this.selectedDebitAccountForm = event;
   }
   walletPopUp() {
@@ -93,7 +93,7 @@ export class WalletTopupComponent implements OnInit {
         .walletPopUp(body)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
-          next: (response: creatWalletResponse) => {
+          next: (response: CreatWalletResponse) => {
             // this.loading = false;
             this.dialogService.closeLoading();
             if (response.object.success) {

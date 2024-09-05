@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Observable } from 'rxjs';
 import {
+  AdhesionBodyModel,
+  AdhesionResponseModel,
   SuggestedTontinesModel,
   TontineDataModele,
   TontineModel,
 } from '../../../components/saving/saving.models';
-
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
@@ -19,14 +21,21 @@ export class SavingDetailService {
   //   }
 
   getClientTontines(): Observable<{ objects: TontineModel[] }> {
-    const url = '/tontines/list/?registered=true';
+    const url = '/tontine/creation/?registered=true';
 
     return this.apiService.get<{ objects: TontineModel[] }>(url);
   }
 
   getSuggestedTontines(): Observable<{ objects: SuggestedTontinesModel[] }> {
-    const url = '/tontines/list/?registered=false"';
+    const url = '/tontine/creation/?registered=false"';
     return this.apiService.get<{ objects: SuggestedTontinesModel[] }>(url);
+  }
+
+  tontineAdhesion(body: AdhesionBodyModel): Observable<AdhesionResponseModel> {
+    const url = '/tontine/membership/demand/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as AdhesionResponseModel));
   }
 
   getTontineDetails(

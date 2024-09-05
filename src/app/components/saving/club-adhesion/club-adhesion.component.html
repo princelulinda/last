@@ -1,4 +1,16 @@
-<div class="sm-radius p-5 bg-secondary min-h mt-5">
+<div class="sm-radius p-5 bg-secondary min-h">
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <span
+        role="button"
+        class="d-flex align-items-center back-md float-end"
+        routerLink="/b/banking/saving/saving-club/"
+        tabindex="0">
+        <i class="fa fa-arrow-left"></i>
+        <b class="ms-1">Back </b>
+      </span>
+    </div>
+  </div>
   @if (savingData) {
     <form [formGroup]="adhesionForm">
       <div class="row d-flex justify-content-between container-xl">
@@ -21,8 +33,9 @@
             <div class="rounded">
               <app-lookup
                 option="lookup"
+                (selectedItemEvent)="getMemberId($event)"
                 [url]="
-                  '/tontines/membership/manage/object_lookup?tontine=' +
+                  '/tontines/membership/manage/object_lookup?tontine_id=' +
                   tontineId +
                   '&lookup_data='
                 "

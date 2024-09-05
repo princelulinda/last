@@ -3,7 +3,7 @@ export interface MailModel {
   is_primary: boolean;
   is_verified: boolean;
 }
-export interface phoneNumberModel {
+export interface PhoneNumberModel {
   ident: string;
   is_primary: boolean;
   is_verified: boolean;

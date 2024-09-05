@@ -22,7 +22,7 @@ import { SkeletonComponent } from '../../../../global/components/loaders/skeleto
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { DebitAccountComponent } from '../../../transfer/debit-account/debit-account.component';
-import { accountsList } from '../../../account/models';
+import { AccountsListModel } from '../../../account/models';
 import { WalletList } from '../../../wallet/wallet.models';
 import { DebitOptionsModel } from '../../../transfer/transfer.model';
 import { BankModel } from '../../../../core/db/models/bank/bank.model';
@@ -236,7 +236,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
         },
       });
   }
-  onAccountSelected(account: accountsList) {
+  onAccountSelected(account: AccountsListModel) {
     this.descriptionForm.reset();
     if (account.acc_short_number) {
       this.selectedAccount = account.acc_short_number;

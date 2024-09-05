@@ -12,7 +12,7 @@ import { DebitAccountComponent } from '../debit-account/debit-account.component'
 
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { accountsList } from '../../account/models';
+import { AccountsListModel } from '../../account/models';
 import { DebitOptionsModel } from '../transfer.model';
 import { Observable, Subject } from 'rxjs';
 import { ConfigService, DialogService } from '../../../core/services';
@@ -53,7 +53,7 @@ export class TransferComponent implements OnInit, OnDestroy {
 
   selectedDebitType = '';
   currentTransferStep = '';
-  accountSelected: accountsList | null = null;
+  accountSelected: AccountsListModel | null = null;
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
   walletBankId: string | number = '';
@@ -142,9 +142,9 @@ export class TransferComponent implements OnInit, OnDestroy {
     this.resetAccountSelection();
   }
 
-  getSelectedAccount(event: accountsList | WalletList) {
+  getSelectedAccount(event: AccountsListModel | WalletList) {
     if (this.selectedDebitType === 'account') {
-      const accountEvent = event as accountsList;
+      const accountEvent = event as AccountsListModel;
       this.debitNumber = accountEvent.acc_short_number;
       this.debitHolder = accountEvent.acc_holder;
     } else if (this.selectedDebitType === 'wallet') {
@@ -154,7 +154,7 @@ export class TransferComponent implements OnInit, OnDestroy {
       this.walletBankId = walletEvent.bank_id;
     }
 
-    this.accountSelected = event as accountsList | null;
+    this.accountSelected = event as AccountsListModel | null;
   }
 
   getTransferResponse(event: boolean) {

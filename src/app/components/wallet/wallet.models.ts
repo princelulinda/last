@@ -1,6 +1,6 @@
 import { CurrencyModel } from '../../global/components/custom-field/currency.model';
 
-export interface WalletCard {
+export interface WalletCardModel {
   response_data: {
     id: string;
     code: string;
@@ -27,7 +27,7 @@ export interface WalletTypModel {
   id: string;
 }
 
-export interface creatWalletResponse {
+export interface CreatWalletResponse {
   object: {
     response_message: string;
 
@@ -49,7 +49,7 @@ export interface WalletTopUpBodyModel {
   wallet_id: string;
 }
 
-export interface Walletdetail {
+export interface WalletDetail {
   actual_balance: number;
   title: string;
   code: string;
