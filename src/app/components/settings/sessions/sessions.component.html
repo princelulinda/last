@@ -351,17 +351,8 @@
             }
             <!--end  pagination-->
             @if (activeSessions.length === 0 && !activeSessionLoading) {
-              <div class="text-center mt-3">
-                <div class="w-100 d-flex justify-content-center">
-                  <div class="empty-state-icon d-grid fs-3">
-                    <span class="text-center">
-                      <i class="fa fs-1 fa-face-meh"></i>
-                    </span>
-                    <span class="text-center text-secondary" i18n>
-                      No active sessions found
-                    </span>
-                  </div>
-                </div>
+              <div>
+                <app-empty-state searchType="list"></app-empty-state>
               </div>
             }
           }
@@ -600,17 +591,10 @@
             historySessions.length === 0 &&
             !isLoadingHistorySessions
           ) {
-            <div class="text-center mt-3">
-              <div class="w-100 d-flex justify-content-center">
-                <div class="empty-state-icon d-grid fs-3">
-                  <span class="text-center">
-                    <i class="fa fs-1 fa-face-meh"></i>
-                  </span>
-                  <span class="text-center text-secondary" i18n>
-                    No sessions history found
-                  </span>
-                </div>
-              </div>
+            <div>
+              <app-empty-state
+                messageClass="fs-x-small"
+                searchType="list"></app-empty-state>
             </div>
           }
         </div>
