@@ -605,6 +605,93 @@
                     >Description <code>*</code></label
                   >
                 </div>
+
+                <!-- NOTE :: TIP SECTION -->
+                <section class="mt-3">
+                  <div class="form-check mt-3">
+                    <input
+                      class="form-check-input"
+                      [formControl]="activeTipControl"
+                      type="checkbox"
+                      id="tip" />
+                    <label for="tip" i18n> Add Tip</label>
+                  </div>
+                  @if (activeTipControl.value) {
+                    <div class="mt-3">
+                      <app-lookup
+                        option="autocomplete"
+                        url="/dbs/merchant-teller/objects_autocomplete/?merchant={{
+                          selectedMerchant?.id
+                        }}&&search="
+                        label="Waiters"
+                        (selectedItemEvent)="
+                          getSelectedTipWaiter($event)
+                        "></app-lookup>
+                    </div>
+                    @if (selectedTipWaiterId) {
+                      <section class="row mx-0 mt-4 ps-3">
+                        <div class="col-4 mb-2 form-check">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            [formControl]="tipLevelControl"
+                            name="tipLevel"
+                            id="5"
+                            value="5" />
+                          <label for="5" i18n> 5%</label>
+                        </div>
+                        <div class="col-4 mb-2 form-check">
+                          <input
+                            class="form-check-input"
+                            [formControl]="tipLevelControl"
+                            type="radio"
+                            name="tipLevel"
+                            id="10"
+                            value="10" />
+                          <label for="10" i18n> 10%</label>
+                        </div>
+                        <div class="col-4 mb-2 form-check">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="tipLevel"
+                            [formControl]="tipLevelControl"
+                            id="15"
+                            value="15" />
+                          <label for="15" i18n> 15%</label>
+                        </div>
+                        <div class="col-4 mb-2 form-check">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="tipLevel"
+                            id="20"
+                            [formControl]="tipLevelControl"
+                            value="20" />
+                          <label for="20" i18n> 20%</label>
+                        </div>
+                        <div class="col-8 mb-2 form-check">
+                          <input
+                            class="form-check-input"
+                            name="tipLevel"
+                            type="radio"
+                            id="other"
+                            [formControl]="tipLevelControl"
+                            value="other" />
+                          <label for="other" i18n> Enter manually</label>
+                        </div>
+                        @if (tipLevelControl.value === 'other') {
+                          <div class="px-0 mt-3">
+                            <app-amount-field
+                              (amountEvent)="
+                                getAmount($event, 'tip')
+                              "></app-amount-field>
+                          </div>
+                        }
+                      </section>
+                    }
+                  }
+                </section>
               }
 
               @if (debitAccount || debitWallet) {
@@ -612,7 +699,11 @@
                   <button
                     [disabled]="
                       selectedPaymentMenu === 'Direct-Payment' &&
-                      !simplePaymentForm.valid
+                      ((!simplePaymentForm.valid && !activeTipControl.value) ||
+                        (!simplePaymentForm.valid &&
+                          activeTipControl.value &&
+                          !selectedTipWaiterId &&
+                          tipLevelControl.valid === null))
                     "
                     class="btn bg-primary text-all-white fw-bold px-5 fs-small"
                     type="submit"

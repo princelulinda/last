@@ -239,4 +239,33 @@ export interface MerchantSimplePaymentBodyModel {
   description: string;
   merchant_id: number;
   pin_code: string;
+
+  give_tip?: boolean;
+  merchant_teller_id?: number;
+  tip_level?: string;
+  custom_tip_amount?: number;
+}
+export interface MerchantSimplePaymentResponseModel {
+  response_message: string;
+  response_code: '00';
+  response_data: {
+    id: number;
+    delivered_to: string;
+    reference: string;
+    cbs_reference: string;
+    pending_operation: string;
+    date: string;
+    amount: string;
+    tip_amount: string;
+    bill: string;
+    return_icon: string;
+    orders: {
+      printable_text: null | string;
+      sent_at: string;
+      payment_data: {
+        original_data: { client_name: string };
+      };
+    }[];
+  };
+  success: boolean;
 }
