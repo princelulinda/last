@@ -4,11 +4,19 @@ import { MenusComponent } from '../../components/Operator/menus/menus.component'
 import { RolesComponent } from '../../components/Operator/roles/roles.component';
 import { MenuDetailComponent } from '../../components/Operator/menu-detail/menu-detail.component';
 import { RoleDetailComponent } from '../../components/Operator/role-detail/role-detail.component';
+import { OperatorDesignTestComponent } from '../../components/Operator/operator-design-test/operator-design-test.component';
 
 export const AdminRoutes: Routes = [
+  // Operator
   {
     path: 'operators',
     component: OperatorsComponent,
+  },
+
+  // design
+  {
+    path: 'operators/:id',
+    component: OperatorDesignTestComponent,
   },
   // Menu
   {
