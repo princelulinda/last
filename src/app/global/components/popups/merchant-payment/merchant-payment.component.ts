@@ -52,7 +52,7 @@ import {
 import { MetadataModel } from '../../../../components/metadatas/metadata.model';
 import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
 import { BankModel } from '../../../../core/db/models/bank/bank.model';
-import { accountsList } from '../../../../components/account/models';
+import { AccountsListModel } from '../../../../components/account/models';
 import { WalletList } from '../../../../components/wallet/wallet.models';
 import { AmountFieldComponent } from '../../custom-field/amount-field/amount-field.component';
 
@@ -132,7 +132,7 @@ export class MerchantPaymentComponent
 
   dialog$: Observable<DialogResponseModel>;
 
-  debitAccount: accountsList | null = null;
+  debitAccount: AccountsListModel | null = null;
   debitWallet: WalletList | null = null;
 
   simplePaymentForm = this.fb.group({
@@ -540,7 +540,7 @@ export class MerchantPaymentComponent
   }
 
   getDebitAccount(
-    data: accountsList | WalletList | null,
+    data: AccountsListModel | WalletList | null,
     type: 'wallet' | 'account'
   ) {
     if (type === 'wallet') {
@@ -548,7 +548,7 @@ export class MerchantPaymentComponent
       this.debitWallet = data as WalletList;
     } else if (type === 'account') {
       this.debitWallet = null;
-      this.debitAccount = data as accountsList;
+      this.debitAccount = data as AccountsListModel;
     }
   }
 

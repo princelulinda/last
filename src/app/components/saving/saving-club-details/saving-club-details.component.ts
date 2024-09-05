@@ -15,7 +15,7 @@ export class SavingClubDetailsComponent implements OnInit {
   savingData!: TontineDataModele;
   constructor(private savingDetailService: SavingDetailService) {}
   ngOnInit() {
-    this.getSavingData();
+    this.getTontineDetails();
   }
 
   // function which takes as parameter the menu that we wish to select
@@ -23,10 +23,10 @@ export class SavingClubDetailsComponent implements OnInit {
     this.selectedMenu = name;
   }
 
-  getSavingData() {
-    this.savingDetailService.getSavingData(this.tontineId).subscribe({
-      next: (response: { tontine: TontineDataModele }) => {
-        this.savingData = response.tontine;
+  getTontineDetails() {
+    this.savingDetailService.getTontineDetails(this.tontineId).subscribe({
+      next: (response: { object: TontineDataModele }) => {
+        this.savingData = response.object;
         console.log('Données de tontine:', this.savingData);
       },
       error: (error: Error) =>
