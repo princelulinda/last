@@ -161,3 +161,12 @@ export interface ConectedOperatorApiResponseModel {
     };
   };
 }
+
+export interface OrganizationInvitationModel {
+  id: number;
+  operator: {
+    id: number;
+    name: string;
+  };
+  organization: OrganizationModel;
+}
