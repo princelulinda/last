@@ -1,6 +1,6 @@
 // import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-// // import { OperatorDetailsComponent } from './operator-details.component';
+// import { OperatorDetailsComponent } from './operator-details.component';
 
 // describe('OperatorDetailsComponent', () => {
 //   let component: OperatorDetailsComponent;
@@ -20,3 +20,26 @@
 //     expect(component).toBeTruthy();
 //   });
 // });
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { OperatorDesignTestComponent } from '../operator-design-test/operator-design-test.component';
+
+describe('OperatorDetailsComponent', () => {
+  let component: OperatorDesignTestComponent;
+  let fixture: ComponentFixture<OperatorDesignTestComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [OperatorDesignTestComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(OperatorDesignTestComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
