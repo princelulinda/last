@@ -1,0 +1,1145 @@
+<div
+  class="border sm-radius p-3 details-container bg-white h-100 overflow-y-auto">
+  <main
+    class="level-2 position-relative row mx-0 py-3 h-100"
+    style="min-height: 67vh">
+    <!-- main preloader -->
+    <span
+      class="main-preloader d-flex justify-content-center align-items-center"
+      *ngIf="organizationDetailsLoading || loadingPermission">
+      <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
+    </span>
+
+    <!-- details section -->
+    <section
+      class="col-md-5 border-end"
+      *ngIf="!organizationDetailsLoading || !loadingPermission">
+      <!-- operator details -->
+      <div class="operator-details" *ngIf="organizationDetails">
+        <div class="col-11 mx-auto d-flex">
+          <div
+            class="rounded-circle me-4 position-relative d-flex align-items-center justify-content-center"
+            style="width: 104px; height: 104px">
+            <img
+              *ngIf="organizationDetails.operator.employee_client?.picture"
+              class="image rounded-circle"
+              src="{{ organizationDetails.operator.employee_client.picture }}"
+              alt="{{ organizationDetails.operator.username }} Logo" />
+            <span
+              *ngIf="!organizationDetails.operator.employee_client?.picture"
+              class="text-secondary"
+              style="font-size: 3rem">
+              <i class="fa-solid fa-user-tie"></i>
+            </span>
+            <span
+              class="text-secondary position-absolute fs-5 clickable"
+              style="bottom: 0; right: -3%; z-index: 10; cursor: pointer"
+              title="Refresh"
+              tabindex="0"
+              (click)="refresh()">
+              <i
+                class="fa-solid fa-arrows-rotate level-1 rounded-circle p-1"></i>
+            </span>
+          </div>
+          <div class="d-flex flex-column text-dark">
+            <b class="fs-5">{{
+              organizationDetails.operator.employee_client?.client_full_name ??
+                '------'
+            }}</b>
+            <b>{{
+              organizationDetails.operator.employee_client?.client_code ??
+                '------'
+            }}</b>
+          </div>
+        </div>
+        <div class="mt-3">
+          <div
+            class="title mb-2 d-flex align-items-center fw-bold text-dark"
+            i18n>
+            <span
+              class="d-inline-block disk-icon primary-light rounded-pill me-2"
+              style="width: 11px; height: 11px"></span>
+            Details
+          </div>
+
+          <div class="mx-2 row" style="gap: 1.5rem">
+            <div class="col-md-5 d-flex flex-column">
+              <b class="text-gray" i18n>username</b>
+              <b class="text-dark">{{
+                organizationDetails.operator.username
+              }}</b>
+            </div>
+            <div class="col-md-5 d-flex flex-column">
+              <b class="text-gray" i19n>Full name</b>
+              <b class="text-dark">{{
+                organizationDetails.operator.employee_client
+                  ?.client_full_name ?? '------'
+              }}</b>
+            </div>
+            <div class="col-md-5 d-flex flex-column">
+              <b class="text-gray" i18n>Ips Allowed</b>
+              <b
+                class="text-dark"
+                *ngIf="
+                  !organizationDetails.operator.allowed_ips ||
+                  organizationDetails.operator?.allowed_ips.length === 0
+                ">
+                ----
+              </b>
+              <b
+                *ngIf="organizationDetails.operator.allowed_ips"
+                class="truncate text-dark">
+                <b
+                  class=""
+                  *ngFor="
+                    let ip of organizationDetails.operator.allowed_ips;
+                    let i = index
+                  "
+                  >{{ ip }}
+                  <b
+                    *ngIf="
+                      organizationDetails.operator.allowed_ips.length > 1 &&
+                      i < organizationDetails.operator.allowed_ips.length - 1
+                    ">
+                    ,
+                  </b>
+                </b>
+              </b>
+            </div>
+            <div class="col-md-5 d-flex flex-column">
+              <b class="text-gray" i18n>Active</b>
+              <span class="">
+                <span
+                  class="ms-1"
+                  *ngIf="organizationDetails.operator.is_active">
+                  <i class="fa-solid fa-circle-check text-success fs-5"></i>
+                </span>
+                <span
+                  class="ms-1"
+                  *ngIf="!organizationDetails.operator.is_active">
+                  <i class="fa-solid fa-circle-xmark text-danger fs-5"></i>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- organization details -->
+      <div class="organization-details mt-5" *ngIf="organizationDetails">
+        <div
+          class="title mb-2 d-flex align-items-center fw-bold text-dark"
+          i18n>
+          <span
+            class="d-inline-block disk-icon primary-light rounded-pill me-2"
+            style="width: 11px; height: 11px"></span>
+          Organization Details
+        </div>
+
+        <div class="mx-2 row">
+          <div class="d-flex flex-column mb-3 text-dark">
+            <b class="fs-5">{{
+              organizationDetails.organization.institution_client
+                .client_full_name
+            }}</b>
+            <span>{{
+              organizationDetails.organization.company_type_name
+            }}</span>
+          </div>
+          <div class="row mt-2" style="gap: 1.5rem">
+            <div class="col-md-5 d-flex flex-column">
+              <b class="text-gray" i18n>Teller</b>
+              <span>
+                <span class="ms-1" *ngIf="organizationDetails.is_teller">
+                  <i class="fa-solid fa-circle-check text-success fs-5"></i>
+                </span>
+                <span class="ms-1" *ngIf="!organizationDetails.is_teller">
+                  <i class="fa-solid fa-circle-xmark text-danger fs-5"></i>
+                </span>
+              </span>
+            </div>
+            <div class="col-md-5 d-flex flex-column">
+              <b class="text-gray" i18n>Treasurer</b>
+              <span>
+                <span class="ms-1" *ngIf="organizationDetails.is_treasurer">
+                  <i class="fa-solid fa-circle-check text-success fs-5"></i>
+                </span>
+
+                <span class="ms-1" *ngIf="!organizationDetails.is_treasurer">
+                  <i class="fa-solid fa-circle-xmark text-danger fs-5"></i>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- permission details -->
+      <div class="mt-5">
+        <div
+          class="title mb-2 d-flex align-items-center justify-content-between fw-bold text-dark">
+          <span class="d-flex align-items-center">
+            <span class="me-2 text-primary text-xsm"
+              ><i class="fa-solid fa-circle"></i
+            ></span>
+            <span i18n>Counters</span>
+          </span>
+          <span
+            class="bg-primary text-all-white me-2 px-4 text-md pt-1 sm-radius"
+            data-bs-toggle="modal"
+            data-bs-target="#permissionModal"
+            role="button">
+            <i class="fa-regular fa-square-plus"></i>
+          </span>
+        </div>
+
+        <!-- counters not found message -->
+        <div
+          class="mt-4 d-flex justify-content-center flex-column align-items-center"
+          *ngIf="
+            !loadingPermission &&
+            permissionDetails &&
+            permissionDetails.permissions_counters.length === 0
+          ">
+          <span class="empty-state-icon fs-1">
+            <i class="fa-solid fa-face-meh"></i>
+          </span>
+          <b class="empty-state-icon fs-4" style="opacity: 0.5" i18n>
+            No Counters
+          </b>
+        </div>
+
+        <div class="mt-5 text-center" *ngIf="loadingPermission">
+          <span class="text-md"
+            ><i class="fa-solid fa-spin fa-circle-notch text-dark"></i
+          ></span>
+        </div>
+
+        <div
+          class="mt-2 row mx-2"
+          style="gap: 1rem"
+          *ngIf="!loadingPermission && permissionDetails">
+          <div
+            class="sm-radius border py-2 px-3 row mx-0"
+            *ngFor="let item of permissionDetails.permissions_counters">
+            <b class="col-5 text-dark">{{ item.name ?? '-----' }}</b>
+            <b class="col-5 text-dark">{{ item.branch?.name ?? '-----' }}</b>
+            <!-- action icons -->
+            <span
+              class="d-flex align-items-center justify-content-between col-2">
+              <span
+                tabindex="0"
+                (click)="
+                  redirectAt(
+                    '/w/workstation/desk/admin/agence/counter/' + item.id,
+                    $event
+                  )
+                "
+                class="text-primary text-center"
+                role="button"
+                title="Counter Details">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </span>
+              <span
+                class="text-danger"
+                tabindex="0"
+                (click)="
+                  openConfirmDialog({
+                    type: 'password',
+                    action: 'Remove Permission Password',
+                    message: 'Enter your password',
+                  });
+                  selectCounterOrBrancheToRemove('counter', item.id)
+                "
+                role="button">
+                <i class="fa-solid fa-trash"></i>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- second section -->
+    <section
+      class="col-md-7"
+      *ngIf="!organizationDetailsLoading && !loadingPermission">
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <!-- tabs -->
+        <div class="w-100 position-relative text-center">
+          <b
+            role="button"
+            class="text-dark px-5 pb-1"
+            tabindex="0"
+            (click)="selectMenu('roles')"
+            [ngClass]="{
+              'active-menu': this.selectedMenu === 'roles',
+            }"
+            i18n
+            >Role(s)</b
+          >
+          <b
+            tabindex="0"
+            (click)="selectMenu('menus')"
+            role="button"
+            class="text-dark px-5 pb-1"
+            [ngClass]="{
+              'active-menu': this.selectedMenu === 'menus',
+            }"
+            i18n
+            >Menu(s)</b
+          >
+          <b
+            *ngIf="
+              showRoleMenus &&
+              selectedRole &&
+              selectedSection === 'roles' &&
+              selectedMenu !== 'menus'
+            "
+            style="right: 4%; border: 1px solid hsla(208, 70%, 42%, 1)"
+            role="button"
+            class="position-absolute px-3 sm-radius text-dark"
+            tabindex="0"
+            (click)="backToRoles()"
+            i18n>
+            Back
+          </b>
+        </div>
+
+        <!-- assign buttons and search Input -->
+        <div
+          class="row d-flex align-items-center mt-4"
+          [ngClass]="{
+            'w-100 justify-content-center': this.selectedMenu === 'roles',
+            'col-10 justify-content-end': this.selectedMenu === 'menus',
+          }"
+          style="gap: 0 3rem">
+          <div class="col-auto">
+            <button
+              *ngIf="
+                selectedSection !== 'assignment' && selectedMenu === 'roles'
+              "
+              (click)="selectSection('assignment')"
+              class="btn d-flex align-items-center border border-3 rounded fw-bold text-dark py-1 col-auto">
+              <span class="me-2 mt-1">
+                <i class="fa-solid fa-circle-plus fs-5"></i>
+              </span>
+              <small i18n>Assign New Roles</small>
+            </button>
+          </div>
+
+          <!-- input search for menus -->
+          <div
+            class="col-5 d-flex position-relative"
+            *ngIf="
+              selectedMenu === 'menus' && selectedSection !== 'assignment'
+            ">
+            <input
+              type="search"
+              class="form-control w-100 text-dark pe-4"
+              placeholder="Search Menus"
+              aria-label="search"
+              aria-describedby="basic-addon1"
+              [formControl]="menusSearchInput" />
+            <span
+              (click)="searchRolesOrMenus()"
+              style="right: 9%; top: 25%"
+              tabindex="0"
+              role="button"
+              class="text-dark position-absolute">
+              <span *ngIf="loadingAllMenus">
+                <i class="fas fa-spinner fa-pulse"></i>
+              </span>
+              <span *ngIf="!loadingAllMenus">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </span>
+            </span>
+          </div>
+
+          <!-- input search for roles -->
+          <div
+            class="col-4 d-flex position-relative"
+            *ngIf="
+              selectedMenu === 'roles' && selectedSection !== 'assignment'
+            ">
+            <input
+              type="search"
+              class="form-control w-100 text-dark pe-4"
+              placeholder="Search Roles"
+              aria-label="search"
+              aria-describedby="basic-addon1"
+              [formControl]="rolesSearchInput" />
+            <span
+              (click)="searchRolesOrMenus()"
+              style="right: 9%; top: 25%"
+              role="button"
+              tabindex="0"
+              class="text-dark position-absolute">
+              <span *ngIf="rolesLoading">
+                <i class="fas fa-spinner fa-pulse"></i>
+              </span>
+              <span *ngIf="!rolesLoading">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- roles section -->
+      <section *ngIf="selectedSection === 'roles' && selectedMenu === 'roles'">
+        <section class="mt-3">
+          <!-- not found message -->
+          <div
+            class="d-flex flex-column align-items-center mt-5"
+            *ngIf="(!roles || roles.length === 0) && !rolesLoading">
+            <span class="text-secondary" style="font-size: 70px; opacity: 0.5">
+              <i class="fa-solid fa-face-meh"></i>
+            </span>
+            <b class="text-secondary fs-4" style="opacity: 0.5" i18n>
+              No Roles
+            </b>
+          </div>
+          <div
+            *ngIf="!organizationDetailsLoading && rolesLoading"
+            class="mt-5 pt-5 d-flex align-items-center justify-content-center">
+            <span>
+              <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
+            </span>
+          </div>
+
+          <div
+            class="col-10 mx-auto sm-radius level-2 row"
+            style="gap: 1.5rem 0"
+            *ngIf="roles && !rolesLoading">
+            <div
+              *ngFor="let role of roles; let index = index"
+              (click)="selectRole(role)"
+              tabindex="0"
+              class="p-3 sm-radius"
+              style="box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1)"
+              [ngClass]="{
+                'd-none': showRoleMenus && selectedRole !== role,
+                'selected-border': showRoleMenus && selectedRole === role,
+                clickable: !showRoleMenus,
+              }">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-column">
+                  <div class="d-flex align-items-center mb-2">
+                    <b class="text-dark">{{ role.role_name }}</b>
+                  </div>
+                  <b class="badge-design level-3 mt-1 bg-secondary">{{
+                    role.role_type.title
+                  }}</b>
+                </div>
+                <div class="d-flex flex-column text-dark">
+                  <b>{{ role.begins_at | date: 'medium' }}</b>
+                  <b
+                    class="w-auto mx-auto px-3 text-capitalize"
+                    [ngClass]="{
+                      'not-begin-badge':
+                        role.operator_role_state.value === 'Not begin',
+                      'in-progress-badge':
+                        role.operator_role_state.value === 'In Progress',
+                    }"
+                    >{{ role.operator_role_state.value }}
+                  </b>
+                  <b>{{ role.ends_at | date: 'medium' }}</b>
+                </div>
+              </div>
+              <div
+                class="d-flex justify-content-between align-items-center mt-2">
+                <div class="d-flex align-items-center">
+                  <div class="d-flex">
+                    <span class="icon me-2 fs-5 d-flex align-items-center">
+                    </span>
+                    <b
+                      class="badge-design d-flex align-items-center bg-{{
+                        role.access_type.css
+                      }}">
+                      <span class="me-2">
+                        <i class="fa-solid fa-{{ role.access_type.icon }}"></i>
+                      </span>
+                      <b class="">{{ role.access_type.title }}</b>
+                    </b>
+                  </div>
+
+                  <span
+                    class="text-primary-light fs-5 ms-4"
+                    tabindex="0"
+                    (click)="
+                      redirectAt(
+                        '/w/workstation/desk/admin/role/' + role.id,
+                        $event
+                      )
+                    "
+                    title="Details">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  </span>
+                </div>
+
+                <div class="actions position-relative">
+                  <span
+                    class="fs-5 me-2 text-dark"
+                    tabindex="0"
+                    role="button"
+                    (click)="editRoleAtIndex($event, index)">
+                    <i class="fa-solid fa-ellipsis"></i>
+                  </span>
+                  <div
+                    class="actions-popup level-2 sm-radius p-3 d-flex flex-column text-dark"
+                    *ngIf="roleIndex === index">
+                    <!-- <span
+                                            class="icon text-end clickable me-2"
+                                            (click)="hideActionPopup($event)"
+                                            ><i class="fa-solid fa-xmark"></i
+                                        ></span> -->
+                    <!-- <span
+                                            (click)="hideActionPopup($event)"
+                                            class="d-flex align-items-center mb-2 clickable"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editRoleForm"
+                                            title="Edit Role"
+                                        >
+                                            <small class="icon"
+                                                ><i
+                                                    class="fa-regular fa-pen-to-square text-primary"
+                                                ></i
+                                            ></small>
+                                            <small class="ms-2" i18n
+                                                >Edit</small
+                                            >
+                                        </span> -->
+                    <span
+                      tabindex="0"
+                      (click)="hideActionPopup($event, 'disable')"
+                      class="d-flex align-items-center clickable">
+                      <small class="icon me-2"
+                        ><i class="fa-regular fa-eye-slash"></i
+                      ></small>
+                      <small class="ms-2 fw-bold" i18n>Disable</small>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- role menus section -->
+        <section class="mt-3" *ngIf="showRoleMenus">
+          <div class="col-10 mx-auto">
+            <div class="title">
+              <span class="icon me-3 text-primary-light"
+                ><i class="fa-solid fa-play"></i
+              ></span>
+              <b class="text-dark" i18n>Menu</b>
+            </div>
+            <div class="preloader mt-3" *ngIf="loadingRoleMenus">
+              <span class="ms-5">
+                <i class="fa-solid fa-spin fa-circle-notch fs-5 text-dark"></i>
+              </span>
+            </div>
+            <div
+              class="row mx-0 mt-2"
+              style="gap: 1rem"
+              *ngIf="roleMenus && !loadingRoleMenus">
+              <div
+                *ngFor="let menu of roleMenus"
+                class="border sm-radius p-2 row mx-0"
+                style="font-size: 14px; gap: 0.8rem">
+                <div class="col-md-4">
+                  <b class="text-secondary me-2" i18n>Name : </b>
+                  <b class="text-dark">{{ menu.menu.name ?? '-----' }}</b>
+                </div>
+                <div class="col-md-4">
+                  <b class="text-secondary me-2" i18n>Group : </b>
+                  <b class="text-dark">{{
+                    menu.menu?.menu_group_info?.name ?? '------'
+                  }}</b>
+                </div>
+                <div class="col-md-3">
+                  <b class="text-secondary me-2" i18n>Active </b>
+                  <span class="">
+                    <span class="ms-1" *ngIf="menu.menu.active">
+                      <i class="fa-solid fa-circle-check text-success"></i>
+                    </span>
+                    <span class="ms-1" *ngIf="!menu.menu.active">
+                      <i class="fa-solid fa-circle-xmark text-danger"></i>
+                    </span>
+                  </span>
+                </div>
+                <div>
+                  <b class="text-secondary me-2" i18n>Url : </b>
+                  <b class="text-dark">{{
+                    menu.menu.component_url ?? '---------'
+                  }}</b>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- operator menus section -->
+      <section *ngIf="selectedMenu === 'menus'">
+        <!-- not found message -->
+        <div
+          class="d-flex flex-column align-items-center mt-5"
+          *ngIf="(!allMenus || allMenus.length === 0) && !loadingAllMenus">
+          <span class="text-secondary" style="font-size: 70px; opacity: 0.5">
+            <i class="fa-solid fa-face-meh"></i>
+          </span>
+          <b class="text-secondary fs-4" style="opacity: 0.5"> No Menus </b>
+        </div>
+        <!-- menus preloader -->
+        <div
+          class="my-5 text-center py-4"
+          *ngIf="!organizationDetailsLoading && loadingAllMenus">
+          <span>
+            <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
+          </span>
+        </div>
+
+        <div
+          class="row mx-0 mt-4 col-10 mx-auto"
+          style="gap: 1rem"
+          *ngIf="allMenus && !loadingAllMenus">
+          <div
+            *ngFor="let menu of allMenus"
+            class="border sm-radius p-2 row mx-0"
+            style="font-size: 14px; gap: 0.8rem">
+            <div class="col-md-4">
+              <b class="text-secondary me-2" i18n>Name : </b>
+              <b class="text-dark">{{ menu.lookup_title ?? '-----' }}</b>
+            </div>
+            <div class="col-md-4">
+              <b class="text-secondary me-2" i18n>Group : </b>
+              <b class="text-dark">{{
+                menu.menu_group_info?.name ?? '------'
+              }}</b>
+            </div>
+            <div class="col-md-3">
+              <b class="text-secondary me-2" i18n>Active </b>
+              <span class="">
+                <span class="ms-1" *ngIf="menu.menu_group_info?.active">
+                  <i class="fa-solid fa-circle-check text-success"></i>
+                </span>
+                <span class="ms-1" *ngIf="!menu.menu_group_info?.active">
+                  <i class="fa-solid fa-circle-xmark text-danger"></i>
+                </span>
+              </span>
+            </div>
+            <div>
+              <b class="text-secondary me-2" i18n>Url : </b>
+              <b class="text-dark">{{ menu.lookup_subtitle ?? '---------' }}</b>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- assignment section -->
+      <section
+        class="mt-4"
+        *ngIf="selectedSection === 'assignment' && selectedMenu === 'roles'">
+        <form
+          [formGroup]="newRoleForm"
+          class="col-md-9 mx-auto row justify-content-center align-items-center"
+          style="gap: 0.7rem 0">
+          <div class="input col-sm-7 col-md-6">
+            <label for="begins_at" class="form-label fw-bold text-dark" i18n
+              >Begins At <code>*</code></label
+            >
+            <input
+              type="datetime-local"
+              class="form-control px-1"
+              formControlName="begins_at"
+              id="begins_at" />
+          </div>
+          <div class="input col-sm-7 col-md-6">
+            <label for="ends_at" class="form-label fw-bold text-dark" i18n
+              >Ends At <code>*</code></label
+            >
+            <input
+              type="datetime-local"
+              class="form-control px-1"
+              id="ends_at"
+              formControlName="ends_at" />
+          </div>
+          <div class="mt-2" style="height: 40vh">
+            <app-multi-select
+              url="/hr/access/roles/objects_autocomplete/?search="
+              [defaultDataIds]="rolesId"
+              name="Roles"
+              (selectedItemEvent)="selectedItems($event)"></app-multi-select>
+          </div>
+        </form>
+        <div class="col-md-9 mx-auto text-center mt-3">
+          <span
+            tabindex="0"
+            *ngIf="!assignLoading"
+            role="button"
+            class="me-4 text-dark"
+            (click)="selectSection('roles')"
+            i18n
+            >Cancel</span
+          >
+          <button
+            (click)="assignNewRole()"
+            type="submit"
+            class="btn bg-primary text-light px-3"
+            [disabled]="
+              !newRoleForm.valid ||
+              !selectedRolesToAssign ||
+              selectedRolesToAssign.length === 0 ||
+              assignLoading
+            ">
+            <b *ngIf="!assignLoading" i18n> Add</b>
+            <span *ngIf="assignLoading">
+              <i
+                class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-2"></i>
+            </span>
+          </button>
+        </div>
+      </section>
+    </section>
+  </main>
+</div>
+
+<!-- Edit role Form Modal -->
+<!-- <div
+    class="modal fade"
+    id="editRoleForm"
+    tabindex="-1"
+    aria-labelledby="EditRole"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div
+            class="modal-content"
+            [ngClass]="{ 'level-1 text-dark': theme === 'magis-dark' }"
+        >
+            <div class="modal-header border-0 pb-2">
+                <div class="titles w-100">
+                    <h4 class="text-center" i18n>
+                        Edit The Role In The Organization
+                    </h4>
+                </div>
+                <span
+                    class="close-modal"
+                    role="button"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                >
+                    <i class="fa-solid fa-xmark text-dark fs-4"></i>
+                </span>
+            </div>
+            <div class="modal-body pt-0">
+                <h5 class="modal-title mb-3 w-75 mx-auto" id="EditRole">
+                    {{ roleNameToEdit }}
+                </h5>
+                <form [formGroup]="editRoleForm">
+                    <div class="row gy-3 mb-3 mx-2 justify-content-center">
+                        <div class="input col-7">
+                            <label for="ends_at" class="form-label fw-bold" i18n
+                                >Ends At <code>*</code></label
+                            >
+                            <input
+                                type="datetime-local"
+                                class="form-control"
+                                id="ends_at"
+                                formControlName="ends_at"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="btns text-center">
+                        <button
+                            type="submit"
+                            class="btn bg-primary text-light px-3 me-2"
+                            [disabled]="!editRoleForm.valid"
+                            (click)="updateRole()"
+                        >
+                            <b *ngIf="!isLoading" i18n>Modify</b>
+                            <span *ngIf="isLoading">
+                                <i
+                                    class="fa-solid fa-spin fa-circle-notch fs-4"
+                                ></i>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="permissionModal"
+  tabindex="-1"
+  aria-labelledby="permissionModalLabel"
+  data-bs-backdrop="static"
+  aria-hidden="true">
+  <div
+    class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+    style="min-width: 1000px">
+    <div
+      class="modal-content level-2 lg-radius px-4 py-3"
+      style="min-height: 500px">
+      <div
+        class="modal-header border-0 d-flex align-items-center justify-content-between"
+        [ngClass]="{
+          'border-bottom': permissionModalSection === 'details',
+        }">
+        <b
+          class="text-l pb-2 border-bottom col-lg-2"
+          *ngIf="permissionModalSection === 'list'"
+          >{{ permissionDetails?.permissions_branches?.length }} Branches</b
+        >
+        <b class="text-l" *ngIf="permissionModalSection === 'details'">
+          {{ selectedBrancheToRemove.name }}
+          {{ selectedBrancheToRemove.formatted_code ?? '' }}</b
+        >
+        <span
+          role="button"
+          class="text-danger"
+          tabindex="0"
+          (click)="resetModal()"
+          data-bs-dismiss="modal"
+          aria-label="Close">
+          <span class="text-l"> <i class="fa-solid fa-xmark"></i></span>
+        </span>
+      </div>
+      <div
+        class="modal-body mt-2"
+        [ngClass]="{
+          'pt-0': permissionModalSection === 'details',
+        }">
+        <!-- list of branches  -->
+        <section *ngIf="permissionModalSection === 'list'">
+          <div
+            class="mt-4 d-flex justify-content-center flex-column align-items-center"
+            *ngIf="
+              !loadingPermission &&
+              permissionDetails &&
+              permissionDetails.permissions_branches.length === 0
+            ">
+            <span class="empty-state-icon fs-1">
+              <i class="fa-solid fa-face-meh"></i>
+            </span>
+            <b class="empty-state-icon fs-4" i18n> No Branches </b>
+          </div>
+
+          <!-- loading -->
+          <div class="mt-5 text-center" *ngIf="loadingPermission">
+            <span class="text-l"
+              ><i class="fa-solid fa-spin fa-circle-notch text-dark"></i
+            ></span>
+          </div>
+
+          <!-- content -->
+          <section *ngIf="!loadingPermission">
+            <div
+              class="border sm-radius p-2 row mx-0 mb-3 align-items-center clickable"
+              tabindex="0"
+              (click)="
+                selectCounterOrBrancheToRemove('branche', item);
+                getCountersByBranch(item.id);
+                toggleActifSection('details')
+              "
+              *ngFor="let item of permissionDetails.permissions_branches">
+              <span class="col-2 text-primary text-l"
+                ><i class="fa-regular fa-square-check"></i
+              ></span>
+              <b class="col-3 text-md">{{ item.name ?? '------' }}</b>
+              <b class="col-3 text-md">{{ '-------' }}</b>
+              <b class="col-3 text-md">{{ '-------' }}</b>
+              <span
+                class="col-1 text-danger text-l"
+                role="button"
+                tabindex="0"
+                (click)="
+                  openConfirmDialog({
+                    type: 'password',
+                    action: 'Remove Permission Password',
+                    message: 'Enter your password',
+                  });
+                  selectCounterOrBrancheToRemove('branche', item, $event)
+                "
+                title="Remove all permissions in this branches"
+                ><i class="fa-solid fa-minus"></i
+              ></span>
+            </div>
+          </section>
+
+          <div class="text-center position-relative mt-5">
+            <div class="border-bottom w-100"></div>
+            <span
+              class="text-md text-secondary position-absolute level-2 px-4"
+              style="top: -12px"
+              >Other</span
+            >
+          </div>
+
+          <!-- branches not found message -->
+          <div
+            class="mt-4 d-flex justify-content-center flex-column align-items-center"
+            *ngIf="!otherBranchesLoading && otherBranches.length === 0">
+            <span class="empty-state-icon fs-1">
+              <i class="fa-solid fa-face-meh"></i>
+            </span>
+            <span class="empty-state-icon fs-4" i18n> No Branches </span>
+          </div>
+
+          <!-- loading -->
+          <div class="mt-5 text-center" *ngIf="otherBranchesLoading">
+            <span class="text-l"
+              ><i class="fa-solid fa-spin fa-circle-notch text-dark"></i
+            ></span>
+          </div>
+
+          <section
+            *ngIf="!otherBranchesLoading && otherBranches.length !== 0"
+            class="mt-5">
+            <div
+              class="border sm-radius p-2 row mx-0 mb-3 align-items-center clickable"
+              tabindex="0"
+              (click)="
+                selectCounterOrBrancheToRemove('branche', item);
+                getCountersByBranch(item.id);
+                toggleActifSection('details')
+              "
+              *ngFor="let item of otherBranches">
+              <span class="col-2 text-primary text-l"
+                ><i class="fa-regular fa-square"></i
+              ></span>
+              <b class="col-3 text-md">{{ item.name ?? '------' }}</b>
+              <b class="col-3 text-md">{{
+                item.formatted_code ?? '-------'
+              }}</b>
+              <b class="col-3 text-md">{{ '-------' }}</b>
+              <span
+                tabindex="0"
+                class="col-1 text-primary text-l"
+                (click)="
+                  selectCounterOrBrancheToRemove('branche', item, $event);
+                  openConfirmDialog({
+                    type: 'password',
+                    action: 'Add Permission Password',
+                    message: 'Enter your password',
+                  })
+                "
+                role="button"
+                ><i class="fa-solid fa-plus"></i
+              ></span>
+            </div>
+
+            <div
+              *ngIf="
+                !otherBranchesLoading &&
+                branchesCount > (otherBranchesPagination?.filters?.limit ?? 0)
+              "
+              class="mt-4 d-flex align-items-center justify-content-center text-light">
+              <button
+                title="Previous"
+                (click)="doListMove('branches', 'prev')"
+                [disabled]="branchesCurrentPage === 0"
+                class="border-0 me-2 btn d-inline-flex align-items-center rounded p-2 fs-4 text-primary">
+                <i class="fa-solid fa-play fa-rotate-180"></i>
+              </button>
+              <button
+                title="Next"
+                (click)="doListMove('branches', 'next')"
+                *ngIf="otherBranchesPagination.filters.limit"
+                [disabled]="
+                  branchesCount <
+                  (branchesCurrentPage + 1) *
+                    otherBranchesPagination.filters.limit
+                "
+                class="border-0 ms-2 btn fs-4 d-inline-flex align-items-center rounded p-2 text-primary">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+          </section>
+        </section>
+
+        <!-- details of a branche -->
+        <section *ngIf="permissionModalSection === 'details'">
+          <form class="my-3" [formGroup]="operatorAccessForm">
+            <span class="text-md" i18n>Permissions : </span>
+            <div class="ms-3 py-2">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  formControlName="can_see_in_branch"
+                  value=""
+                  id="see" />
+                <label class="form-check-label" i18n for="see"> Can see </label>
+              </div>
+              <div class="form-check mt-2">
+                <input
+                  class="form-check-input me-2"
+                  type="checkbox"
+                  formControlName="can_create_in_branch"
+                  value=""
+                  id="create" />
+                <label class="form-check-label" i18n for="create">
+                  Can create
+                </label>
+              </div>
+              <div class="form-check mt-2">
+                <input
+                  class="form-check-input me-2"
+                  type="checkbox"
+                  formControlName="can_edit_in_branch"
+                  value=""
+                  id="edit" />
+                <label class="form-check-label" i18n for="edit">
+                  Can edit
+                </label>
+              </div>
+              <div class="form-check mt-2">
+                <input
+                  class="form-check-input me-2"
+                  type="checkbox"
+                  formControlName="can_delete_in_branch"
+                  value=""
+                  id="delete" />
+                <label class="form-check-label" i18n for="delete">
+                  Can delete
+                </label>
+              </div>
+            </div>
+            <div class="mt-3 text-center">
+              <b
+                class="me-3"
+                role="button"
+                (click)="resetModal()"
+                i18n
+                tabindex="0"
+                >Cancel</b
+              >
+              <button
+                class="btn bg-primary text-all-white px-4"
+                (click)="
+                  openConfirmDialog({
+                    type: 'password',
+                    action: 'Add Permission Password',
+                    message: 'Enter your password',
+                  })
+                ">
+                <span *ngIf="!addPermissionLoading" i18n> Save</span>
+                <span *ngIf="addPermissionLoading">
+                  <i class="fa-solid fa-spin fa-circle-notch text-dark"></i>
+                </span>
+              </button>
+            </div>
+          </form>
+
+          <div class="mt-4">
+            <span class="text-md" i18n>Counters : </span>
+
+            <div class="my-5 text-center" *ngIf="counterLoading">
+              <span class="text-l"
+                ><i class="fa-solid fa-spin fa-circle-notch text-dark"></i
+              ></span>
+            </div>
+
+            <!-- counters not found message -->
+            <div
+              class="mt-4 d-flex justify-content-center flex-column align-items-center"
+              *ngIf="!counterLoading && selectedCounters.length === 0">
+              <span class="empty-state-icon fs-1">
+                <i class="fa-solid fa-face-meh"></i>
+              </span>
+              <span class="empty-state-icon fs-4" i18n> No Counters </span>
+            </div>
+
+            <section
+              class="mt-3"
+              *ngIf="!counterLoading && selectedCounters.length !== 0">
+              <div class="row mx-0">
+                <b class="col-5" i18n>Counter Name</b>
+                <b class="col-5" i18n>Counter code</b>
+                <b class="col-1"></b>
+              </div>
+              <div
+                class="row border sm-radius mx-0 mt-3 p-2"
+                *ngFor="let counter of selectedCounters">
+                <span class="col-5">
+                  {{ counter.name ?? '------' }}
+                </span>
+                <span class="col-5">
+                  {{ counter.formatted_code ?? '------' }}
+                </span>
+                <b
+                  *ngIf="counter.has_access"
+                  role="button"
+                  class="col-auto border-bottom border-2 text-danger border-danger p-0"
+                  tabindex="0"
+                  (click)="
+                    openConfirmDialog({
+                      type: 'password',
+                      action: 'Remove Permission Password',
+                      message: 'Enter your password',
+                    });
+                    selectCounterOrBrancheToRemove('counter', counter.id)
+                  "
+                  i18n>
+                  Remove
+                </b>
+                <b
+                  class="col-auto text-success p-0"
+                  role="button"
+                  *ngIf="!counter.has_access"
+                  i18n
+                  tabindex="0"
+                  (click)="
+                    openConfirmDialog({
+                      type: 'password',
+                      action: 'Add Permission Password',
+                      message: 'Enter your password',
+                    });
+                    selectCounterOrBrancheToRemove('counter', counter.id)
+                  ">
+                  <span class="border-bottom border-2 border-success">Add</span>
+                  <span class="ms-2"><i class="fa-solid fa-plus"></i></span>
+                </b>
+              </div>
+            </section>
+
+            <div
+              *ngIf="
+                !counterLoading &&
+                countersCount > (brancheCountersPagination?.filters?.limit ?? 0)
+              "
+              class="mt-4 d-flex align-items-center justify-content-center text-light">
+              <button
+                title="Previous"
+                (click)="doListMove('counters', 'prev')"
+                [disabled]="countersCurrentPage === 0"
+                class="border-0 me-2 btn d-inline-flex align-items-center rounded p-2 fs-4 text-primary">
+                <i class="fa-solid fa-play fa-rotate-180"></i>
+              </button>
+              <button
+                title="Next"
+                (click)="doListMove('counters', 'next')"
+                *ngIf="brancheCountersPagination.filters.limit"
+                [disabled]="
+                  countersCount <
+                  (countersCurrentPage + 1) *
+                    brancheCountersPagination.filters.limit
+                "
+                class="border-0 ms-2 btn fs-4 d-inline-flex align-items-center rounded p-2 text-primary">
+                <i class="fa-solid fa-play"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

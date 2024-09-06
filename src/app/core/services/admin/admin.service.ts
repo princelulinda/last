@@ -7,6 +7,7 @@ import {
   AdminDirectionsDetailsModel,
   AdminServicesDetailsModel,
 } from '../../../components/rh/rh.model';
+import { AutocompleteModel } from '../../../global/models/global.models';
 
 @Injectable({
   providedIn: 'root',
@@ -40,5 +41,24 @@ export class AdminService {
   ): Observable<AdminServicesDetailsModel> {
     const url = `/hr/access/services/${servId}/`;
     return this.apiService.get(url);
+  }
+  getRoleDetails(id: string) {
+    const url = `/hr/access/roles/${id}/`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getRoleMenus(id: string) {
+    const url = `/hr/access/menu/roles/?role=${id}&`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  assignRoleMenus(
+    id: string,
+    body: {
+      menus: AutocompleteModel[];
+    }
+  ) {
+    const url = `/hr/access/roles/${id}/`;
+    return this.apiService.patch(url, body).pipe(map(data => data));
   }
 }
