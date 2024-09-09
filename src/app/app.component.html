@@ -22,7 +22,10 @@
   <app-sleep-mode></app-sleep-mode>
 </Section>
 
-<main class="app-container position-relative {{ mainBackground }}">
+<main
+  class="app-container position-relative overflow-x-hidden {{
+    mainBackground
+  }}">
   <!-- NOTE :: GLOBAL POPUPS ON THE PROJECT -->
   <section>
     <app-confirm-dialog></app-confirm-dialog>
