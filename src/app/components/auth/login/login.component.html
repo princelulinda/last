@@ -7,9 +7,11 @@
         <span class="fw-bold" i18n>Login with</span>
       </div>
       <form
+        tabindex="0"
         class="position-relative z-1"
         [formGroup]="loginForm"
-        (ngSubmit)="onLoginSubmit()">
+        (ngSubmit)="onLoginSubmit()"
+        (keydown.enter)="handleEnter()">
         <div class="form-floating mb-4">
           <input
             i18n
@@ -27,31 +29,13 @@
         </div>
 
         <div class="form-floating">
-          <input
-            [type]="passwordType"
-            class="form-control"
-            id="password"
-            placeholder="Password"
-            name="password"
-            formControlName="password" />
-          <label class="fs-small" i18n for="number"
-            ><span>
-              <img src="images/auth/lock.svg" width="23" alt="" />
-              Password
-            </span>
-          </label>
-
-          @if (showPassword) {
-            <a tabindex="0" role="button" (click)="changePasswordType()"
-              ><i class="fa-regular fa-eye-slash text-dark"></i
-            ></a>
-          }
-
-          @if (!showPassword) {
-            <a tabindex="0" role="button" (click)="changePasswordType()">
-              <i class="fa-regular fa-eye text-dark"></i
-            ></a>
-          }
+          <app-password-field
+            [useValidation]="true"
+            [required]="true"
+            [labelIcon]="true"
+            [labelPassword]="true"
+            [password]="true"
+            (passwordValid)="onPasswordChange($event)"></app-password-field>
         </div>
 
         <div class="col mt-4">
