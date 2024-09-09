@@ -1,10 +1,8 @@
 <aside class="d-flex p-3 ps-lg-0 ps-xl-3 w-100 row position-relative">
-  <div
-    class="d-block d-lg-none position-absolute back-btn"
-    (click)="goBack()"
-    role="button"
-    tabindex="0">
-    <i class="fa-solid fa-xmark fa-2x"></i>
+  <div class="d-lg-none px-4">
+    <span (click)="goBack()" class="fs-large" role="button" tabindex="0">
+      <i class="fa-solid fa-arrow-left"></i>
+    </span>
   </div>
   <!-- home menus -->
   @if (mainConfig && mainConfig.activePlateform === 'newsFeed') {
@@ -22,7 +20,7 @@
           </div>
           <span class="fw-bold text-secondary" i18n>Publications</span>
         </div>
-        <div class="d-block d-lg-none">
+        <div class="d-block d-lg-none me-2">
           <i class="fa-solid fa-chevron-right"></i>
         </div>
       </a>
@@ -50,7 +48,7 @@
             0
           </small>
         </b>
-        <div class="d-block d-lg-none">
+        <div class="d-block d-lg-none me-2">
           <i class="fa-solid fa-chevron-right"></i>
         </div>
       </a>
@@ -67,7 +65,7 @@
           </div>
           <span class="fw-bold text-secondary" i18n>Market</span>
         </div>
-        <div class="d-block d-lg-none">
+        <div class="d-block d-lg-none me-2">
           <i class="fa-solid fa-chevron-right"></i>
         </div>
       </a>
@@ -89,7 +87,7 @@
           </div>
           <span class="fw-bold text-secondary" i18n>Home</span>
         </div>
-        <div class="d-block d-lg-none">
+        <div class="d-block d-lg-none me-2">
           <i class="fa-solid fa-chevron-right"></i>
         </div>
       </a>
@@ -105,7 +103,7 @@
           </div>
           <span class="fw-bold text-secondary" i18n>Tarif</span>
         </div>
-        <div class="d-block d-lg-none">
+        <div class="d-block d-lg-none me-2">
           <i class="fa-solid fa-chevron-right"></i>
         </div>
       </a>
@@ -129,7 +127,7 @@
             </div>
             <span class="fw-bold text-secondary" i18n>Home</span>
           </div>
-          <div class="d-block d-lg-none">
+          <div class="d-block d-lg-none me-2">
             <i class="fa-solid fa-chevron-right"></i>
           </div>
         </a>
@@ -146,7 +144,7 @@
             </div>
             <span class="fw-bold text-secondary" i18n>Products</span>
           </div>
-          <div class="d-block d-lg-none">
+          <div class="d-block d-lg-none me-2">
             <i class="fa-solid fa-chevron-right"></i>
           </div>
         </a>
@@ -163,7 +161,7 @@
             </div>
             <span class="fw-bold text-secondary" i18n>Merchants</span>
           </div>
-          <div class="d-block d-lg-none">
+          <div class="d-block d-lg-none me-2">
             <i class="fa-solid fa-chevron-right"></i>
           </div>
         </a>
@@ -191,7 +189,7 @@
               0
             </small>
           </b>
-          <div class="d-block d-lg-none">
+          <div class="d-block d-lg-none me-2">
             <i class="fa-solid fa-chevron-right"></i>
           </div>
         </a>
@@ -208,7 +206,7 @@
             </div>
             <span class="fw-bold text-secondary" i18n> Bills </span>
           </div>
-          <div class="d-block d-lg-none">
+          <div class="d-block d-lg-none me-2">
             <i class="fa-solid fa-chevron-right"></i>
           </div>
         </a>
@@ -224,7 +222,7 @@
               </span>
               <span class="fw-bold text-secondary" i18n>My Market</span>
             </div>
-            <div class="d-block d-lg-none">
+            <div class="d-block d-lg-none me-2">
               <i class="fa-solid fa-chevron-right"></i>
             </div>
           </a>
@@ -250,7 +248,7 @@
             </div>
             <span class="fw-bold text-secondary" i18n>Home</span>
           </div>
-          <div class="d-block d-lg-none">
+          <div class="d-block d-lg-none me-2">
             <i class="fa-solid fa-chevron-right"></i>
           </div>
         </a>
@@ -280,7 +278,7 @@
               0
             </small>
           </b>
-          <div class="d-block d-lg-none">
+          <div class="d-block d-lg-none me-2">
             <i class="fa-solid fa-chevron-right"></i>
           </div>
         </a>
@@ -310,7 +308,7 @@
               0
             </small>
           </b>
-          <div class="d-block d-lg-none">
+          <div class="d-block d-lg-none me-2">
             <i class="fa-solid fa-chevron-right"></i>
           </div>
         </a>
@@ -327,7 +325,7 @@
             </div>
             <span class="fw-bold text-secondary" i18n> Payment Reports</span>
           </div>
-          <div class="d-block d-lg-none">
+          <div class="d-block d-lg-none me-2">
             <i class="fa-solid fa-chevron-right"></i>
           </div>
         </a>
@@ -343,7 +341,7 @@
             </div>
             <span class="fw-bold text-secondary" i18n> Transfer Reports</span>
           </div>
-          <div class="d-block d-lg-none">
+          <div class="d-block d-lg-none me-2">
             <i class="fa-solid fa-chevron-right"></i>
           </div>
         </a>
@@ -359,7 +357,7 @@
 
             <b class="text-secondary fs-large" i18n>Market Place</b>
           </div>
-          <div class="d-block d-lg-none">
+          <div class="d-block d-lg-none me-2">
             <i class="fa-solid fa-chevron-right"></i>
           </div>
         </a>

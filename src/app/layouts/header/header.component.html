@@ -59,17 +59,19 @@
     <section
       class="d-flex align-items-center justify-content-around justify-content-lg-center position-relative">
       <!-- ONLY ON MOBILE : Active Aside menus -->
-      <span
-        class="d-lg-none me-md-1"
-        role="button"
-        tabindex="0"
-        [routerLink]="menuRouterLink"
-        [ngClass]="{
-          'text-all-white': mainConfig.activePlateform !== 'workstation',
-          'text-dark': mainConfig.activePlateform === 'workstation',
-        }">
-        <i class="fs-5 fa-solid fa-bars"></i>
-      </span>
+      @if (mainConfig.activePlateform !== 'bankingSettings' && 'workStation') {
+        <span
+          class="d-lg-none me-md-1"
+          role="button"
+          tabindex="0"
+          [routerLink]="menuRouterLink"
+          [ngClass]="{
+            'text-all-white': mainConfig.activePlateform !== 'workstation',
+            'text-dark': mainConfig.activePlateform === 'workstation',
+          }">
+          <i class="fs-5 fa-solid fa-bars"></i>
+        </span>
+      }
 
       <!-- show amount icon -->
       <span
