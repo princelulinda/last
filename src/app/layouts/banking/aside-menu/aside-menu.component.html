@@ -10,7 +10,7 @@
   @if (mainConfig && mainConfig.activePlateform === 'newsFeed') {
     <section class="mt-2 col-12 col-md-6 col-lg-12">
       <a
-        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius justify-content-between"
         (click)="hideAsideMenu()"
         routerLink="/n/newsfeed">
         <div class="d-flex align-items-center">
@@ -28,7 +28,7 @@
       </a>
 
       <a
-        class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between"
+        class="mt-4 clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius d-flex align-items-center justify-content-between"
         routerLink="/n/newsfeed/chat">
         <div class="d-flex align-items-center">
           <div>
@@ -56,7 +56,7 @@
       </a>
 
       <a
-        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius justify-content-between"
         (click)="switchPlateform('marketPlace')"
         routerLink="/m">
         <div class="d-flex align-items-center">
@@ -77,7 +77,7 @@
   @if (mainConfig && mainConfig.activePlateform === 'onlineBanking') {
     <section class="mt-2 col-12 col-md-6 col-lg-12">
       <a
-        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius justify-content-between"
         (click)="hideAsideMenu()"
         routerLink="/b/banking">
         <div class="d-flex align-items-center">
@@ -95,7 +95,7 @@
       </a>
 
       <a
-        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius justify-content-between"
         routerLink="/b/banking/tarifs">
         <div class="d-flex align-items-center">
           <div>
@@ -117,7 +117,7 @@
     <div>
       <section class="mt-2 col-12 col-md-6 col-lg-12">
         <a
-          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius justify-content-between"
           (click)="hideAsideMenu()"
           routerLink="/m/market">
           <div class="d-flex align-items-center">
@@ -135,7 +135,7 @@
         </a>
 
         <a
-          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius justify-content-between"
           routerLink="/m/market/products">
           <div class="d-flex align-items-center">
             <div>
@@ -152,7 +152,7 @@
         </a>
 
         <a
-          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius justify-content-between"
           routerLink="/m/market/merchants">
           <div class="d-flex align-items-center">
             <div>
@@ -169,7 +169,7 @@
         </a>
 
         <a
-          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between">
+          class="mt-4 clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius d-flex align-items-center justify-content-between">
           <div class="d-flex align-items-center" routerLink="/m/market/carts">
             <div>
               <span
@@ -197,7 +197,7 @@
         </a>
 
         <a
-          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius justify-content-between"
           routerLink="/m/market/bills">
           <div class="d-flex align-items-center">
             <div>
@@ -215,7 +215,7 @@
 
         @if (userInfo && userInfo.client.is_merchant) {
           <a
-            class="mt-4 d-flex align-items-center clickable border sm-radius bg-hover-secondary p-3 sm-radius justify-content-between"
+            class="mt-4 d-flex align-items-center clickable border sm-radius bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius justify-content-between"
             routerLink="/m/mymarket"
             (click)="switchPlateform('myMarket')">
             <div class="d-flex align-items-center">
@@ -238,7 +238,7 @@
     <div>
       <section class="mt-2 col-12 col-md-6 col-lg-12">
         <a
-          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius justify-content-between"
           (click)="hideAsideMenu()"
           routerLink="/m/mymarket">
           <div class="d-flex align-items-center">
@@ -256,7 +256,7 @@
         </a>
 
         <a
-          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between"
+          class="mt-4 clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius d-flex align-items-center justify-content-between"
           routerLink="/m/market/orders"
           (click)="hideAsideMenu()">
           <div class="d-flex align-items-center">
@@ -286,7 +286,7 @@
         </a>
 
         <a
-          class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between"
+          class="mt-4 clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius d-flex align-items-center justify-content-between"
           routerLink="/m/market/carts"
           (click)="hideAsideMenu()">
           <div class="d-flex align-items-center">
@@ -316,7 +316,7 @@
         </a>
 
         <a
-          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius justify-content-between"
           routerLink="/m/mymarket/payment-reports">
           <div class="d-flex align-items-center">
             <div>
@@ -332,7 +332,7 @@
           </div>
         </a>
         <a
-          class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius justify-content-between"
+          class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius justify-content-between"
           routerLink="/m/mymarket/transfer-reports">
           <div class="d-flex align-items-center">
             <div>
@@ -349,7 +349,7 @@
         </a>
 
         <a
-          class="d-flex align-items-center clickable bg-hover-secondary sm-radius border col-11 col-md-12 col-xxl-11 flex-wrap p-3 mt-4 justify-content-between"
+          class="d-flex align-items-center clickable bg-hover-secondary sm-radius border col-11 col-md-12 col-xxl-11 flex-wrap px-1 py-3 px-xxl-3 mt-4 justify-content-between"
           (click)="switchPlateform('marketPlace'); hideAsideMenu()"
           routerLink="/m/market">
           <div class="d-flex align-items-center">
@@ -387,7 +387,7 @@
       </div>
 
       <a
-        class="mt-5 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+        class="mt-5 d-flex align-items-center clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius"
         (click)="switchPlateform('onlineBanking')"
         routerLink="/b/banking/accounts">
         <div>
@@ -400,7 +400,7 @@
       </a>
 
       <a
-        class="mt-4 d-flex align-items-center clickable bg-hover-secondary p-3 sm-radius"
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius"
         (click)="switchPlateform('onlineBanking')"
         routerLink="/b/banking/saving">
         <div>
@@ -411,7 +411,7 @@
         <span class="fw-bold text-secondary" i18n>Savings</span>
       </a>
       <a
-        class="mt-4 clickable bg-hover-secondary px-3 py-1 sm-radius d-flex align-items-center justify-content-between"
+        class="mt-4 clickable bg-hover-secondary px-1 px-xxl-3 py-1 sm-radius d-flex align-items-center justify-content-between"
         (click)="switchPlateform('onlineBanking')"
         routerLink="/b/banking/loan">
         <div class="d-flex align-items-center">
@@ -440,7 +440,7 @@
         </b>
       </a>
       <a
-        class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-3 py-1 sm-radius"
+        class="mt-4 d-flex align-items-center clickable bg-hover-secondary px-1 px-xxl-3 py-1 sm-radius"
         (click)="switchPlateform('onlineBanking')"
         routerLink="/b/banking/withdrawal">
         <div
@@ -462,7 +462,7 @@
       </a>
 
       <a
-        class="mt-4 clickable bg-hover-secondary p-3 sm-radius d-flex align-items-center justify-content-between"
+        class="mt-4 clickable bg-hover-secondary px-1 py-3 px-xxl-3 sm-radius d-flex align-items-center justify-content-between"
         (click)="switchPlateform('onlineBanking')"
         routerLink="/b/banking/transfer">
         <div class="d-flex align-items-center">
