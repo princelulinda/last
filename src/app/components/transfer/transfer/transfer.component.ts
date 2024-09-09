@@ -1,10 +1,4 @@
-import {
-  Component,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { BeneficiariesComponent } from '../beneficiaries/beneficiaries/beneficiaries.component';
 
@@ -118,13 +112,7 @@ export class TransferComponent implements OnInit, OnDestroy {
       this.transferComponent.showModal();
     }
   }
-  @HostListener('document:keydown.enter', ['$event'])
-  handleEnterKey(event: KeyboardEvent) {
-    if (this.currentTransferStep === 'second step' && this.accountSelected) {
-      this.doTransfer();
-    }
-    console.log(event);
-  }
+
   toggleTransferStep() {
     this.transferComponent.transferStepChange.emit('first step');
     this.transferComponent.transferStep = 'first step';

@@ -11,7 +11,7 @@
         class="position-relative z-1"
         [formGroup]="loginForm"
         (ngSubmit)="onLoginSubmit()"
-        (keydown.enter)="onLoginSubmit()">
+        (keydown.enter)="handleEnter()">
         <div class="form-floating mb-4">
           <input
             i18n
