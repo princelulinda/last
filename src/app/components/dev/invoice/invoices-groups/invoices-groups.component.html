@@ -1,1 +1,79 @@
-<p>invoices-groups works!</p>
+<div class="container-fluid">
+  <div class="row mb-2">
+    <div class="col-8 col-sm-4 col-md-4 me-auto mb-2">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search.."
+          aria-label="Search.."
+          aria-describedby="basic-addon2" />
+        <div class="input-group-append">
+          <span class="input-group-text btn btn-dark" id="basic-addon2"
+            ><i class="fa-solid fa-magnifying-glass fa-xl text-light"></i
+          ></span>
+        </div>
+      </div>
+    </div>
+    <div class="col-2 col-sm-7 col-md-7">
+      <div class="row">
+        <div
+          class="col-3 col-md-2 bg-secondary xx-lg-radius p-1 d-flex justify-content-center align-items-center me-auto d-none d-sm-block">
+          <span class="me-2 fw-normal font-calibri fs-normal" i18n>Filter</span>
+          <i class="fa-solid fa-bars-staggered fs-normal fw-bolder"></i>
+        </div>
+        <div
+          class="col-6 col-md-8 col-xl-1 p-1 d-flex justify-content-end align-items-center"
+          role="button"
+          routerLink="/m/market/invoice">
+          <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
+          <span class="fw-bolder fs-5" i18n>Back</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="bg-dark row HLine" />
+</div>
+
+<div class="col-11 mx-auto">
+  <div
+    class="d-flex justify-content-center justify-content-xl-start align-content-around flex-wrap gap-4">
+    @for (item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track $index) {
+      <div class="teller-card sm-radius shadow-sm gap-3">
+        <div class="d-flex flex-column gap-3">
+          <div class="d-flex justify-content-around mt-3">
+            <div class="d-flex flex-column gap-1">
+              <div class="d-flex flex-row gap-4">
+                <div class="rounded-circle bg-secondary">
+                  <span class="d-flex justify-content-center m-2"
+                    ><i class="fa-regular fa-folder-open fa-sm text-dark"></i
+                  ></span>
+                </div>
+                <button class="btn btn-outline-warning xx-lg-radius py-1 px-2">
+                  <span class="warning">Pending</span>
+                </button>
+              </div>
+              <div class="text-dark">
+                <span>Groups 1</span>
+              </div>
+              <div class="fs-x-small">20 Invoices</div>
+            </div>
+          </div>
+          <div class="bg-secondary rounded-bottom mt-2 py-2">
+            <div class="d-flex justify-content-around flex-row">
+              <div class="rounded-circle bg-white">
+                <span class="d-flex justify-content-center m-3"
+                  ><i class="fa-solid fa-user fa-lg pb-1 text-secondary"></i
+                ></span>
+              </div>
+              <div class="d-flex flex-column me-3">
+                <span class="fw-bold">Teller 1</span>
+                <span class="fs-small">0236</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
