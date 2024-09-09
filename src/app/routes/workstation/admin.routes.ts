@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { OperatorsComponent } from '../../components/Operator/operators/operators.component';
-import { MenusComponent } from '../../components/Operator/menus/menus.component';
-import { RolesComponent } from '../../components/Operator/roles/roles.component';
-import { MenuDetailComponent } from '../../components/Operator/menu-detail/menu-detail.component';
-import { RoleDetailComponent } from '../../components/Operator/role-detail/role-detail.component';
-import { OperatorDesignTestComponent } from '../../components/Operator/operator-design-test/operator-design-test.component';
+import { OperatorsComponent } from '../../components/admin/operator/operators/operators.component';
+import { OperatorDesignTestComponent } from '../../components/admin/operator/operator-design-test/operator-design-test.component';
+import { MenusComponent } from '../../components/admin/menu/menus/menus.component';
+import { MenuDetailComponent } from '../../components/admin/menu/menu-detail/menu-detail.component';
+import { RolesComponent } from '../../components/admin/role/roles/roles.component';
+import { RoleDetailComponent } from '../../components/admin/role/role-detail/role-detail.component';
 
 export const AdminRoutes: Routes = [
   // Operator

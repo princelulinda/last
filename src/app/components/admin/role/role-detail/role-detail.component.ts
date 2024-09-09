@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { AdminService } from '../../../core/services/admin/admin.service';
+import { AdminService } from '../../../../core/services/admin/admin.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { DialogService } from '../../../core/services';
-import { VariableService } from '../../../core/services/variable/variable.service';
+import { DialogService } from '../../../../core/services';
+import { VariableService } from '../../../../core/services/variable/variable.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { ListComponent } from '../../../global/components/list/list.component';
+import { ListComponent } from '../../../../global/components/list/list.component';
 import { CommonModule } from '@angular/common';
-import { RoleMenuModel, RoleModel } from '../operator.models';
-import { MultiSelectComponent } from '../../dev/multi-select/multi-select.component';
-import { AutocompleteModel } from '../../../global/models/global.models';
+import { RoleMenuModel, RoleModel } from '../../operator/operator.models';
+import { MultiSelectComponent } from '../../../dev/multi-select/multi-select.component';
+import { AutocompleteModel } from '../../../../global/models/global.models';
 
 @Component({
   selector: 'app-role-detail',

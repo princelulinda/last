@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { DialogService } from '../../../core/services';
-import { AdminService } from '../../../core/services/admin/admin.service';
+import { DialogService } from '../../../../core/services';
+import { AdminService } from '../../../../core/services/admin/admin.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
-import { AdminMenuModel } from '../operator.models';
+import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
+import { AdminMenuModel } from '../../operator/operator.models';
 
 @Component({
   selector: 'app-menu-detail',

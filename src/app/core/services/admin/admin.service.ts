@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Observable, map } from 'rxjs';
-import { AdminMenuModel } from '../../../components/Operator/operator.models';
 import {
   AdminDepartementsDetailsModel,
   AdminDirectionsDetailsModel,
   AdminServicesDetailsModel,
 } from '../../../components/rh/rh.model';
 import { AutocompleteModel } from '../../../global/models/global.models';
+import { AdminMenuModel } from '../../../components/admin/operator/operator.models';
 
 @Injectable({
   providedIn: 'root',
