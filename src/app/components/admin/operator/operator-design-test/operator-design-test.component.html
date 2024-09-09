@@ -1,0 +1,176 @@
+<div class="h-100 w-100 overflow-y-auto bg-white p-4 px-5">
+  <!-- Operator Badge -->
+
+  <div class="d-flex flex-row gap-4 p-2 px-3 mb-4">
+    <div
+      class="rounded-circle bg-secondary me-4 position-relative d-flex align-items-center justify-content-center"
+      style="width: 104px; height: 104px">
+      <img
+        class="image rounded-circle"
+        src="https://images.pexels.com/photos/1520760/pexels-photo-1520760.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        alt="Jane Doe Logo" />
+
+      <!-- if no picture -->
+      <!-- <span class="text-secondary" style="font-size: 3rem">
+        <i class="fa-solid fa-user-tie fa-xl"></i>
+      </span> -->
+      <span
+        class="text-secondary position-absolute fs-5 clickable rounded-circle bg-white"
+        style="
+          bottom: 0;
+          right: -3%;
+          z-index: 10;
+          cursor: pointer;
+          height: 30px;
+          width: 30px;
+        "
+        title="Refresh">
+        <i
+          class="fa-solid fa-arrows-rotate text-secondary rounded-circle p-1"></i>
+      </span>
+    </div>
+    <div class="d-flex flex-column text-dark justify-content-center gap-2">
+      <b class="fs-large fw-bold"> Jane Doe </b>
+      <b>00000000123</b>
+      <div class="d-flex flex-row gap-2">
+        <span class="text-secondary fw-bold">Reference person </span>
+        <span class="fw-bold">Pierre claver koko Banywera </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Details Section -->
+  <div class="row">
+    <!-- Left Side -->
+
+    <div class="col-8 d-flex flex-column p-2">
+      <!-- Details -->
+
+      <div class="w-100 d-flex position-relative flex-column gap-0 mb-4">
+        <div class="w-100 d-flex flex-row px-3 mb-2 align-items-center">
+          <span
+            class="bg-primary rounded-circle position-absolute redDot"></span>
+          <span class="fw-bold">Details</span>
+        </div>
+
+        <div class="w-100 d-flex flex-wrap px-3">
+          <div class="w-50 d-flex flex-column gap-1 mb-4">
+            <span class="fw-bold text-secondary">Username</span>
+            <span class="fw-bold">jonDoe</span>
+          </div>
+          <div class="w-50 d-flex flex-column gap-1 mb-4">
+            <span class="fw-bold text-secondary">Full name</span>
+            <span class="fw-bold">John Doe</span>
+          </div>
+          <div class="w-50 d-flex flex-column gap-1 mb-4">
+            <span class="fw-bold text-secondary">Ips Allowed</span>
+            <span class="fw-bold">127.0.0.1</span>
+          </div>
+          <div class="w-50 d-flex flex-column gap-1 mb-4">
+            <span class="fw-bold text-secondary">Active</span>
+            <span class="fw-bold"
+              ><i class="fa-solid fa-circle-check fa-lg check"></i
+            ></span>
+          </div>
+          <div class="w-50 d-flex flex-column gap-1 mb-4">
+            <span class="fw-bold text-secondary">Work Phone</span>
+            <span class="fw-bold">72 000 111</span>
+          </div>
+          <div class="w-50 d-flex flex-column gap-1 mb-4">
+            <span class="fw-bold text-secondary">Email</span>
+            <span class="fw-bold">{{ 'jonDoe@abc.com' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Position Details -->
+      <div class="w-100 d-flex position-relative flex-column gap-0">
+        <div class="w-100 d-flex flex-row px-3 mb-2 align-items-center">
+          <span
+            class="bg-primary rounded-circle position-absolute redDot"></span>
+          <span class="fw-bold">Position Details</span>
+        </div>
+
+        <div class="w-100 d-flex flex-wrap px-3">
+          <div class="w-50 d-flex flex-column gap-1 mb-4">
+            <span class="fw-bold text-secondary">Departement</span>
+            <span class="fw-bold">Administration</span>
+          </div>
+          <div class="w-50 d-flex flex-column gap-1 mb-4">
+            <span class="fw-bold text-secondary">Manager</span>
+            <span class="fw-bold">{{ 'info@test.com' }}</span>
+          </div>
+          <div class="w-50 d-flex flex-column gap-1 mb-4">
+            <span class="fw-bold text-secondary">Teller</span>
+            <span class="fw-bold"
+              ><i class="fa-solid fa-circle-check fa-lg check"></i
+            ></span>
+          </div>
+          <div class="w-50 d-flex flex-column gap-1">
+            <span class="fw-bold text-secondary">Treasure</span>
+            <span class="fw-bold"
+              ><i class="fa-solid fa-circle-xmark fa-lg xmark"></i
+            ></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side -->
+
+    <div class="col-4">
+      <!-- Document -->
+      <div>
+        <div class="w-100 d-flex flex-row gap-2 align-items-center">
+          <span class="bg-primary rounded-circle redDot"></span>
+          <span class="fw-bold">Document</span>
+        </div>
+        <div class="mt-2 px-3 pt-3 pb-5 border border-secondary rounded-2">
+          <div class="d-flex flex-column">
+            <span class="text-secondary fs-medium">CV</span>
+            <span href="#" class="fw-bold text-info clickable"
+              ><u>cv_bibyento.pdf</u
+              ><i class="fa-solid fa-file-arrow-down ms-3 text-secondary"></i
+            ></span>
+          </div>
+
+          <div class="d-flex flex-column mt-3">
+            <span class="text-secondary fs-medium"
+              >Attestation de residence</span
+            >
+            <span href="#" class="fw-bold text-info clickable"
+              ><u>residence_bibyento.docs</u
+              ><i class="fa-solid fa-file-arrow-down ms-3 text-secondary"></i
+            ></span>
+          </div>
+
+          <div class="d-flex flex-column mt-3">
+            <span class="text-secondary fs-medium">Identite complete</span>
+            <span href="#" class="fw-bold text-info clickable"
+              ><u>Identinte_complete_bibyento.docs</u
+              ><i class="fa-solid fa-file-arrow-down ms-3 text-secondary"></i
+            ></span>
+          </div>
+
+          <div class="d-flex flex-column mt-3">
+            <span class="text-secondary fs-medium">CNI</span>
+            <span href="#" class="fw-bold text-info clickable"
+              ><u>CNI_bibyento.docs</u
+              ><i class="fa-solid fa-file-arrow-down ms-3 text-secondary"></i
+            ></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Operations Section -->
+  <div
+    class="w-100 bg-secondary rounded-2 border border-secondary mt-4"
+    style="height: 250px">
+    <div class="w-100 d-flex flex-row px-3 mt-2 gap-2 align-items-center">
+      <span class="bg-primary rounded-circle redDot"></span>
+      <span class="fw-bold">Recent Operations</span>
+    </div>
+  </div>
+</div>

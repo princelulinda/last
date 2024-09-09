@@ -21,6 +21,7 @@ import {
   MerchantInfoModel,
   MerchantModel,
   MerchantSimplePaymentBodyModel,
+  MerchantSimplePaymentResponseModel,
   MerchantStatsModel,
   newTellerModel,
   PayMerchantBodyModel,
@@ -31,10 +32,7 @@ import {
 } from '../../../components/merchant/merchant.models';
 import { Coords2Model } from '../../../global/components/google-map/map.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
-import {
-  BillsModel,
-  generateBillModel,
-} from '../../../components/merchant/bills/bills.model';
+import { BillsModel } from '../../../components/merchant/bills/bills.model';
 
 @Injectable({
   providedIn: 'root',
@@ -529,7 +527,7 @@ export class MerchantService {
   generateBill(body: object) {
     const url = '/dbs/merchant/bill-init/';
     return this.apiService
-      .post<{ object: generateBillModel }>(url, body)
+      .post<{ object: MerchantSimplePaymentResponseModel }>(url, body)
       .pipe(map(response => response));
   }
 
@@ -566,10 +564,10 @@ export class MerchantService {
 
   doMerchantSimplePayment(
     data: MerchantSimplePaymentBodyModel
-  ): Observable<{ object: generateBillModel }> {
+  ): Observable<{ object: MerchantSimplePaymentResponseModel }> {
     return this.apiService
       .post<{
-        object: generateBillModel;
+        object: MerchantSimplePaymentResponseModel;
       }>('/dbs/merchant/simple/payment/', data)
       .pipe(map(data => data));
   }

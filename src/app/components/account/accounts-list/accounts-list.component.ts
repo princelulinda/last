@@ -14,7 +14,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { AuthService, ConfigService } from '../../../core/services';
 import { ClientService } from '../../../core/services/client/client.service';
-import { accountsList } from '../models';
+import { AccountsListModel } from '../models';
 
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import {
@@ -37,16 +37,16 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
   isLoading = false;
-  accountsListData: accountsList[] | [] | null = null;
+  accountsListData: AccountsListModel[] | [] | null = null;
 
-  selectedLoneAccount: accountsList | null = null;
-  selectedAccount!: accountsList[];
+  selectedLoneAccount: AccountsListModel | null = null;
+  selectedAccount!: AccountsListModel[];
   isLoneAccountSelected = false;
 
   // close the account's creation form
   closeForm = false;
   @Input() Type: 'transfer' | 'list' = 'transfer';
-  @Output() accountSelected = new EventEmitter<accountsList>();
+  @Output() accountSelected = new EventEmitter<AccountsListModel>();
   @Output() dataLoaded = new EventEmitter<boolean>();
   @Input() isTransferDone = false;
 
@@ -123,7 +123,7 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
     this.selectedLoneAccount = null;
   }
 
-  selectLoneAccount(account: accountsList) {
+  selectLoneAccount(account: AccountsListModel) {
     this.selectedLoneAccount = account;
     this.isLoneAccountSelected = true;
     this.isLoading = false;

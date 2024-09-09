@@ -33,7 +33,7 @@ import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
-import { accountsList } from '../../account/models';
+import { AccountsListModel } from '../../account/models';
 import { WalletList } from '../../wallet/wallet.models';
 import { BankOptionsModel } from '../../dashboards/dashboard.model';
 
@@ -93,7 +93,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     selectedInstitution: InstitutionInfoModel | string;
   }>();
 
-  @Output() selectedAccount = new EventEmitter<accountsList>();
+  @Output() selectedAccount = new EventEmitter<AccountsListModel>();
 
   @Output() selectedWallet = new EventEmitter<WalletList>();
 
@@ -261,9 +261,9 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     this.debitOptions.emit(options);
   }
 
-  getAccountSelected(event: accountsList | WalletList) {
+  getAccountSelected(event: AccountsListModel | WalletList) {
     if (this.selectedDebitAccountType === 'account') {
-      this.selectedAccount.emit(event as accountsList);
+      this.selectedAccount.emit(event as AccountsListModel);
     } else {
       this.selectedWallet.emit(event as WalletList);
     }
