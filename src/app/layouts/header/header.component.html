@@ -1,7 +1,7 @@
 @if (mainConfig) {
   <header
     style="height: 60px; z-index: 50; top: 0"
-    class="w-100 d-flex justify-content-center justify-content-lg-between w-100 p-1 px-3"
+    class="w-100 d-flex justify-content-center justify-content-lg-between w-100 p-1 px-3 overflow-hidden"
     [ngClass]="{
       'bg-white': mainConfig.activePlateform === 'workstation',
       'bg-primary':
@@ -13,11 +13,15 @@
     <section class="d-none d-lg-block">
       <!-- iHela Ryanje logo for onlineBanking, market, newsFeed Plateforms & Workstation -->
       @if (mainConfig.activePlateform !== 'workstation') {
-        <div class="col-8 h-100" style="max-width: 260px">
-          <img
-            class="bg-primary-2 img-fluid border border-3 px-4 py-1 sm-radius h-100"
-            src="/images/logo/ihela-ryanje.png"
-            alt="iHela Ryanje Logo" />
+        <div
+          class="bg-primary-2 border border-3 px-4 py-1 sm-radius h-100"
+          style="max-width: 260px">
+          <span class="ihela-ryanje-logo d-block">
+            <img
+              class="image sm-radius"
+              src="/images/logo/ihela-ryanje.png"
+              alt="iHela Ryanje Logo" />
+          </span>
         </div>
       } @else {
         @if (organization) {
