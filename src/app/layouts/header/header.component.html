@@ -464,16 +464,16 @@
                 </div>
                 <div
                   class="w-100 d-flex justify-content-between align-items-center mt-3">
-                  <div class="d-flex align-items-center fs-medium">
+                  <div class="d-flex align-items-center fs-medium col-9">
                     <span class="me-2"
                       ><i class="fa-solid text-secondary fa-language"></i
                     ></span>
                     <b class="text-dark" i18n>Language</b>
                   </div>
                   <select
-                    class="text-all-dark"
+                    class="text-all-dark form-select"
+                    style="height: 34px"
                     [formControl]="selectedLanguage"
-                    style="width: 60px"
                     (click)="changeLanguage()">
                     <option value="en">En</option>
                     <option value="fr">Fr</option>
