@@ -10,6 +10,7 @@
         tabindex="0"
         class="position-relative z-1"
         [formGroup]="loginForm"
+        (ngSubmit)="onLoginSubmit()"
         (keydown.enter)="onLoginSubmit()">
         <div class="form-floating mb-4">
           <input
@@ -44,7 +45,6 @@
         </div>
         <div class="col">
           <button
-            (click)="onLoginSubmit()"
             i18n
             type="submit"
             class="btn mt-4 w-100 bg-primary lg-radius text-white p-3 fw-bold"
