@@ -5,7 +5,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DialogService } from '../../../../core/services';
 import { VariableService } from '../../../../core/services/variable/variable.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { ListComponent } from '../../../../global/components/list/list.component';
+import { ListComponent } from '../../../../global/components/list/list/list.component';
 import { CommonModule } from '@angular/common';
 import { RoleMenuModel, RoleModel } from '../../operator/operator.models';
 import { MultiSelectComponent } from '../../../dev/multi-select/multi-select.component';

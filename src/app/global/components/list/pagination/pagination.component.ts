@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PaginationConfig } from '../../../global/models/pagination.models';
 
-// import { PaginationConfig } from '../../../global/models/pagination.models';
+import { PaginationConfig } from '../../../models/pagination.models';
 
 @Component({
   selector: 'app-pagination',
@@ -16,9 +15,6 @@ export class PaginationComponent implements OnInit {
   @Input() totalData = 0;
   @Input() pageLimit = 20;
   @Input({ required: true }) isLoading = false;
-
-  // @Output() pageChange = new EventEmitter<number>();
-  // @Output() limitChange = new EventEmitter<number>();
 
   @Output() paginationChange = new EventEmitter<PaginationConfig>();
 
