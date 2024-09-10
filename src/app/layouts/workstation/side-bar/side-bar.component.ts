@@ -4,11 +4,12 @@ import { MenuService } from '../../../core/services';
 import { PageMenusModel } from '../../../components/admin/menu/menu.models';
 import { Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { TooltipDirective } from '../../../components/dev/tooltip.directive';
 
 @Component({
   selector: 'app-side-bar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TooltipDirective],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.scss',
 })
@@ -24,7 +25,6 @@ export class SideBarComponent implements OnInit {
     this.activeMenus$.subscribe({
       next: menus => {
         this.activeMenus = menus;
-        console.log('ACTIVE MENUS', this.activeMenus);
       },
     });
   }
