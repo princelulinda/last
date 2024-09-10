@@ -125,11 +125,13 @@ export class OperatorDesignTestComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.route.fragment.subscribe({
-      next: fragment => {
-        this.showDetails = fragment === 'details';
-      },
-    });
+    if (this.route && this.route.fragment) {
+      this.route.fragment.subscribe({
+        next: fragment => {
+          this.showDetails = fragment === 'details';
+        },
+      });
+    }
 
     this.otherBranchesPagination.filters.limit = 15;
     this.brancheCountersPagination.filters.limit = 15;
