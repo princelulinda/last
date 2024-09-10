@@ -1,8 +1,8 @@
 // import { Component, OnInit, OnDestroy } from '@angular/core';
 // import { ActivatedRoute, Router } from '@angular/router';
 // import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
-// import { ConfigService, DialogService } from '../../../core/services';
-// import { AdminService } from '../../../core/services/admin/admin.service';
+// import { ConfigService, DialogService } from '../../../../core/services';
+// import { AdminService } from '../../../../core/services/admin/admin.service';
 // import {
 //   FormBuilder,
 //   FormControl,
@@ -10,15 +10,15 @@
 //   ReactiveFormsModule,
 //   Validators,
 // } from '@angular/forms';
-// import { PaginationConfig } from '../../../global/models/pagination.models';
-// import { OrganizationModel } from '../../auth/auth.model';
+// import { PaginationConfig } from '../../../../global/models/pagination.models';
+// import { OrganizationModel } from '../../../auth/auth.model';
 // import {
 //   DialogResponseModel,
 //   dialogTypeModel,
-// } from '../../../core/services/dialog/dialogs-models';
-// import { VariableService } from '../../../core/services/variable/variable.service';
+// } from '../../../../core/services/dialog/dialogs-models';
+// import { VariableService } from '../../../../core/services/variable/variable.service';
 // import { CommonModule } from '@angular/common';
-// import { MultiSelectComponent } from '../../dev/multi-select/multi-select.component';
+// import { MultiSelectComponent } from '../../../dev/multi-select/multi-select.component';
 
 // @Component({
 //   selector: 'app-operator-details',
