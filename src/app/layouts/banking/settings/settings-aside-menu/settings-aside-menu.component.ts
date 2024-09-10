@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigService } from '../../../../core/services';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { SettingsService } from '../../../../core/services/settings/settings.service';
 import { CommonModule } from '@angular/common';
+
+import { Observable } from 'rxjs';
+
+import { ConfigService } from '../../../../core/services';
+import { SettingsService } from '../../../../core/services/settings/settings.service';
 import { activeMainConfigModel } from '../../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-settings-aside-menu',

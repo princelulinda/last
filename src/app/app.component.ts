@@ -60,7 +60,9 @@ export class AppComponent implements OnInit {
     // this.dialogService.startWatching();
     this.authService.getUserInfo().subscribe({
       next: userInfo => {
-        if (userInfo.user.username) return this.dialogService.startWatching();
+        if (userInfo.user.username) {
+          this.dialogService.startWatching();
+        }
       },
     });
 

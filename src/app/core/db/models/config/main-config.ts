@@ -8,6 +8,7 @@ export interface mainConfigModel {
   activePlatform: string;
   activeTheme: ThemeModel;
   activeMode: ModeModel;
+  screenLocked: boolean;
 }
 
 export class MainConfig extends BaseModel {
@@ -16,4 +17,5 @@ export class MainConfig extends BaseModel {
   @UniqueField static activePlateform = null;
   @UniqueField static activeTheme = null;
   @UniqueField static activeMode = null;
+  @UniqueField static screenLocked = false;
 }

@@ -45,6 +45,7 @@ export class ConfigService {
   private actifPlateform = new Subject<PlateformModel>();
   private actifTheme = new Subject<ThemeModel>();
   private actifMode = new Subject<ModeModel>();
+  private screenState = new Subject<boolean>();
 
   private userBanks$: unknown | Observable<BankModel[]>;
   private selectedBank$: unknown | Observable<BankModel>;
@@ -107,6 +108,7 @@ export class ConfigService {
         activeMode: mode,
         activePlateform: plateform,
         activeTheme: theme,
+        screenLocked: false,
       };
       this.activeMainConfig = newActiveMainConfig;
 
@@ -150,6 +152,17 @@ export class ConfigService {
     return this.actifPlateform;
   }
 
+  getScreenState(): Observable<boolean> {
+    this.getMainConfig().subscribe({
+      next: mainConfig => {
+        if (mainConfig) {
+          this.screenState.next(mainConfig.screenLocked);
+        }
+      },
+    });
+    return this.screenState;
+  }
+
   getTheme(): Observable<ThemeModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
@@ -186,6 +199,7 @@ export class ConfigService {
         activePlateform: plateform,
         activeTheme: this.activeMainConfig.activeTheme,
         activeMode: this.activeMainConfig.activeMode,
+        screenLocked: false,
       });
       this.setHtmlMode(theme, this.activeMainConfig.activeMode);
       if (redirectToBaseHref) {
@@ -214,6 +228,7 @@ export class ConfigService {
       activePlateform: plateform,
       activeTheme: theme,
       activeMode: newModeToDispatch,
+      screenLocked: false,
     });
     this.setHtmlMode(this.activeMainConfig.activeTheme, newModeToDispatch);
   }

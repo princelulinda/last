@@ -1,41 +1,39 @@
-
+.ihela-ryanje-logo {
+  width: 69px;
+  height: 40px;
+}
 
 .userInfo {
-  margin-right:0px;
+  margin-right: 0px;
   border-radius: 10px 0px 0px 10px;
-  // transform: translate(65px, 0px);
 }
-// .dropdown-menu{
-//   transform: translate(0px, 0px);
-// }
 
 .bg-onamob-2 {
   background-color: #e4c5c3 !important;
 }
-.eye-square{
+.eye-square {
   width: 40px;
   height: 40px;
 }
 @keyframes slidein {
   from {
-      transform: translateX(100%);
+    transform: translateX(100%);
   }
 
-  to {  
-      transform: translateX(0%);
+  to {
+    transform: translateX(0%);
   }
 }
 @keyframes anim {
   0% {
-      top: 0px;
+    top: 0px;
   }
   100% {
-      left: -2px;
+    left: -2px;
   }
 }
 
-
-.plateform-card{
+.plateform-card {
   width: auto;
   height: calc(99vh - 70px);
   position: absolute;
@@ -45,9 +43,8 @@
   overflow-x: hidden;
   -webkit-animation: slidein 100ms 1 linear;
   min-width: 328px;
-
 }
-.plateform{
-  border-width:10px !important;
+.plateform {
+  border-width: 10px !important;
   // transform: translate(30px, 0px);
 }

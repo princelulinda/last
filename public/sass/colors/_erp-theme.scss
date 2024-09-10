@@ -58,12 +58,6 @@ html[data-bs-theme='erp-light'] {
     @include generateTextClass($color, $value);
   }
 
-  // Form inputs bootstrap
-  .form-control,
-  .form-select {
-    @extend .bg-input;
-  }
-
   body,
   input,
   textarea,
@@ -90,12 +84,6 @@ html[data-bs-theme='erp-dark'] {
   // Default color;
   @extend .text-dark;
 
-  // Form inputs bootstrap
-  .form-control,
-  .form-select {
-    @extend .bg-input;
-  }
-
   body,
   input,
   textarea,
@@ -107,4 +95,34 @@ html[data-bs-theme='erp-dark'] {
 
   // reset border in dark
   --bs-border-color: #474747;
+}
+
+html[data-bs-theme='erp-dark'],
+html[data-bs-theme='erp-light'] {
+  // Form inputs bootstrap
+  .form-control,
+  .form-select,
+  .input-group {
+    @extend .bg-input;
+    &:focus,
+    &:focus-visible {
+      border-color: #c989866e;
+      outline: 0;
+      //   box-shadow: 0 0 0 0.2rem #c989862b;
+      box-shadow: none;
+    }
+  }
+
+  .form-check-input {
+    @extend .form-check-input;
+    @extend .bg-input;
+    &:focus,
+    &:checked {
+      border: none;
+      box-shadow: none;
+    }
+    &:checked {
+      @extend .bg-primary;
+    }
+  }
 }
