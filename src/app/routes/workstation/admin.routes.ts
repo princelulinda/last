@@ -6,6 +6,7 @@ import { MenuDetailComponent } from '../../components/admin/menu/menu-detail/men
 import { RolesComponent } from '../../components/admin/role/roles/roles.component';
 import { RoleDetailComponent } from '../../components/admin/role/role-detail/role-detail.component';
 import { AdminTellersListComponent } from '../../components/admin/agence/admin-tellers-list/admin-tellers-list.component';
+import { AdminTellersDetailsComponent } from '../../components/admin/agence/admin-tellers-details/admin-tellers-details.component';
 
 export const AdminRoutes: Routes = [
   // Operator
@@ -41,5 +42,10 @@ export const AdminRoutes: Routes = [
   {
     path: 'tellers',
     component: AdminTellersListComponent,
+  },
+  {
+    path: 'tellers-details/:tellerId',
+
+    component: AdminTellersDetailsComponent,
   },
 ];

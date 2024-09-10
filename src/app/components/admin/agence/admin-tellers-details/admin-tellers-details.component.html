@@ -1,1 +1,336 @@
-<p>admin-tellers-details works!</p>
+<div>
+  <div class="bg-secondary rounded p-3">
+    <div class="d-flex align-items-center justify-content-end gap-3 me-3">
+      <div>
+        <i class="fa fa-arrow-left"></i>
+      </div>
+      <div>Back</div>
+    </div>
+  </div>
+  <div class="d-flex">
+    <section class="w-25 pb-5 shadow-sm">
+      <div class="d-grid p-3">
+        <div class="grid">
+          <div
+            class="w-100 d-flex justify-content-end"
+            role="button"
+            title="Client Details">
+            <b role="button" class="text-primary fs-5">
+              <i class="fa fa-arrow-up-right-from-square"></i>
+            </b>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-3">
+        <div class="row col-md-8 mx-auto">
+          <div class="mb-1">
+            <app-profile-card
+              [imageUrl]="
+                tellerDetails.hr_operator.operator.employee_client.picture
+              "
+              [fullName]="
+                tellerDetails.hr_operator.operator.employee_client
+                  .client_full_name
+              "
+              height="150px"
+              width="150px"></app-profile-card>
+          </div>
+
+          <div class="d-grid">
+            <b class="text-md text-truncate">
+              {{
+                tellerDetails.hr_operator.operator.employee_client
+                  .client_full_name
+              }}
+            </b>
+            <span class="text-md-sm">
+              {{
+                tellerDetails.hr_operator.operator.employee_client
+                  .client_code ?? '-----------'
+              }}</span
+            >
+          </div>
+        </div>
+
+        <div class="mt-4 mx-4">
+          <div>
+            <div class="mb-3">
+              <b class="text-primary fs-medium" i18n>Basic client info</b>
+            </div>
+
+            <div class="d-grid mb-3">
+              <b class="text-secondary fs-small" i18n>Client type</b>
+              <b class="fs-normal">
+                {{
+                  tellerDetails.hr_operator.operator.employee_client.client_type
+                    .title ?? '-----------'
+                }}
+              </b>
+            </div>
+            <div class="d-grid mb-3">
+              <b class="text-secondary fs-small" i18n>Client email</b>
+
+              <b class="fs-normal">
+                {{
+                  tellerDetails.hr_operator.operator.employee_client
+                    .client_email ?? '-----------'
+                }}
+              </b>
+            </div>
+            <div class="d-grid mb-3">
+              <b class="text-secondary fs-small" i18n>Client category</b>
+              <b class="fs-normal"> ---------- </b>
+            </div>
+            <div class="d-grid mb-3">
+              <b class="text-secondary fs-small" i18n>Merchant</b>
+              @if (
+                tellerDetails.hr_operator.operator.employee_client.is_merchant
+              ) {
+                <b class="fs-5">
+                  <span>
+                    <i class="fa fa-check-circle text-success"></i>
+                  </span>
+                </b>
+              }
+              @if (
+                !tellerDetails.hr_operator.operator.employee_client.is_merchant
+              ) {
+                <b class="fs-5">
+                  <span>
+                    <i class="fa fa-check-circle text-danger"></i>
+                  </span>
+                </b>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="col-8 p-3">
+      <div>
+        <b class="fs-large"> Teller details </b>
+      </div>
+
+      <!--organisation-->
+      <div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-primary rounded-circle w-2 h-2 p-1"></div>
+            <div class="fw-bold fs-normal" i18n>Organisation</div>
+            <div></div>
+          </div>
+
+          <div class="w-100">
+            <hr class="w-100" />
+          </div>
+        </div>
+        <div class="mt-3">
+          <div class="d-flex justify-content-between">
+            <div class="d-flex align-items-center gap-5 ms-5">
+              <div class="d-grid">
+                <div class="fs-normal text-dark" i18n>Name:</div>
+                <div class="fs-normal text-dark mt-3" i18n>ID:</div>
+                <div class="fs-normal text-dark mt-3" i18n>Type :</div>
+              </div>
+              <div class="d-grid">
+                <div class="fs-normal text-dark fw-bold">
+                  {{
+                    tellerDetails.hr_operator.organization.institution_client
+                      .client_full_name ?? '-----------'
+                  }}
+                </div>
+                <div class="fs-normal text-dark fw-bold mt-3">
+                  {{
+                    tellerDetails.hr_operator.organization.institution_client
+                      .client_code ?? '-----------'
+                  }}
+                </div>
+                <div class="fs-normal text-dark fw-bold mt-3">
+                  {{
+                    tellerDetails.hr_operator.organization.institution_client
+                      .client_type.title ?? '-----------'
+                  }}
+                </div>
+              </div>
+            </div>
+            <div>
+              <img
+                src="{{
+                  tellerDetails.hr_operator.organization.institution_client
+                    .picture
+                }}"
+                alt="Organization logo"
+                class="img-fluid logo-size" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Branchs-->
+
+      <div class="mt-3">
+        <div class="d-flex align-items-center gap-4">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-primary rounded-circle w-2 h-2 p-1"></div>
+            <div class="fw-bold fs-normal" i18n>Branch</div>
+            <div></div>
+          </div>
+
+          <div class="w-100">
+            <hr class="w-100" />
+          </div>
+        </div>
+        <div class="mt-3">
+          <div>
+            <div class="d-flex align-items-center gap-5 ms-5">
+              <div class="d-grid">
+                <div class="fs-normal text-dark" i18n>Name:</div>
+                <div class="fs-normal text-dark mt-3" i18n>ID:</div>
+                <div class="fs-normal text-dark mt-3" i18n>Active:</div>
+              </div>
+              <div class="d-grid">
+                <div class="fs-normal text-dark fw-bold">
+                  {{
+                    tellerDetails.counter.branch.organization_tenant
+                      .institution_client.client_full_name ?? '-----------'
+                  }}
+                </div>
+                <div class="fs-normal text-dark fw-bold mt-3">
+                  {{
+                    tellerDetails.counter.branch.organization_tenant
+                      .institution_client.client_code ?? '-----------'
+                  }}
+                </div>
+                <div class="mt-3">
+                  @if (
+                    tellerDetails.counter.branch.organization_tenant.is_active
+                  ) {
+                    <b class="fs-5">
+                      <span>
+                        <i class="fa fa-check-circle text-success"></i>
+                      </span>
+                    </b>
+                  }
+                  @if (
+                    !tellerDetails.counter.branch.organization_tenant.is_active
+                  ) {
+                    <b class="fs-5">
+                      <span>
+                        <i class="fa fa-check-circle text-danger"></i>
+                      </span>
+                    </b>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Counts-->
+      <div class="mt-3">
+        <div class="d-flex align-items-center gap-4">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-primary rounded-circle w-2 h-2 p-1"></div>
+            <div class="fw-bold fs-normal" i18n>Counter</div>
+            <div></div>
+          </div>
+
+          <div class="w-100">
+            <hr class="w-100" />
+          </div>
+        </div>
+        <div class="mt-3">
+          <div>
+            <div class="d-flex align-items-center gap-5 ms-5">
+              <div class="d-grid">
+                <div class="fs-normal text-dark" i18n>Name:</div>
+                <div class="fs-normal text-dark mt-3" i18n>Code:</div>
+                <div class="fs-normal text-dark mt-3" i18n>Created at:</div>
+                <div class="fs-normal text-dark mt-3" i18n>Location:</div>
+              </div>
+              <div class="d-grid">
+                <div class="fs-normal text-dark fw-bold">
+                  {{ tellerDetails.counter.name ?? '-----------' }}
+                </div>
+                <div class="fs-normal text-dark fw-bold mt-3">
+                  {{ tellerDetails.counter.formatted_code ?? '-----------' }}
+                </div>
+                <div class="fs-normal text-dark fw-bold mt-3">
+                  {{ tellerDetails.counter.created_at | date: 'dd/MM/yyyy' }}
+                </div>
+                <div class="fs-normal text-dark fw-bold mt-3">
+                  {{ tellerDetails.counter.location ?? '-----------' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--treassurer-->
+      <div>
+        <div class="d-flex align-items-center gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-primary rounded-circle w-2 h-2 p-1"></div>
+            <div class="fw-bold fs-normal" i18n>Treasurer</div>
+            <div></div>
+          </div>
+
+          <div class="w-100">
+            <hr class="w-100" />
+          </div>
+        </div>
+        <div class="mt-3">
+          <div class="d-flex justify-content-between">
+            <div class="d-flex align-items-center gap-5 ms-5">
+              <div class="d-grid">
+                <div class="fs-normal text-dark" i18n>Name:</div>
+                <div class="fs-normal text-dark mt-3" i18n>Username:</div>
+                <div class="fs-normal text-dark mt-3" i18n>Code:</div>
+                <div class="fs-normal text-dark mt-3" i18n>Type :</div>
+              </div>
+              <div class="d-grid">
+                <div class="fs-normal text-dark fw-bold">
+                  {{
+                    tellerDetails.hr_treasurer.operator.employee_client
+                      .client_full_name
+                  }}
+                </div>
+                <div class="fs-normal text-dark fw-bold mt-3">
+                  {{
+                    tellerDetails.hr_treasurer.operator.username ??
+                      '-----------'
+                  }}
+                </div>
+                <div class="fs-normal text-dark fw-bold mt-3">
+                  {{
+                    tellerDetails.hr_treasurer.operator.employee_client
+                      .client_code ?? '-----------'
+                  }}
+                </div>
+                <div class="fs-normal text-dark fw-bold mt-3">
+                  {{
+                    tellerDetails.hr_treasurer.operator.employee_client
+                      .client_type.title ?? '-----------'
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="">
+              <app-profile-card
+                [imageUrl]="
+                  tellerDetails.hr_treasurer.operator.employee_client.picture
+                "
+                [fullName]="
+                  tellerDetails.hr_treasurer.operator.employee_client
+                    .client_full_name
+                "
+                height="150px"
+                width="150px"></app-profile-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
