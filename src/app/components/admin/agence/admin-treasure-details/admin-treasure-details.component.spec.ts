@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AdminTreasureDetailsComponent } from './admin-treasure-details.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AdminTreasureDetailsComponent', () => {
   let component: AdminTreasureDetailsComponent;
@@ -10,7 +11,7 @@ describe('AdminTreasureDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminTreasureDetailsComponent],
+      imports: [AdminTreasureDetailsComponent, RouterTestingModule],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
