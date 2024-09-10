@@ -4,7 +4,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
 import { DialogService } from '../../../../core/services';
-import { CurrencyModel } from '../currency.model';
+import { CurrencyModel } from '../../../models/global.models';
 
 @Component({
   selector: 'app-amount-visibility',

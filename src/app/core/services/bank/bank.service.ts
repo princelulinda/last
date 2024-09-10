@@ -7,7 +7,7 @@ import { BankModel } from '../../db/models/bank/bank.model';
 import { addBankResponse } from '../../../components/dashboards/dashboard.model';
 
 import { WalletCardModel } from '../../../components/wallet/wallet.models';
-import { nyamuranziCardModel } from '../../../components/nyamuranzi/models';
+import { nyamuranziCardModel } from '../../../components/nyamuranzi/nyamuranzi.models';
 import { WithdrawalModel } from '../../../components/withdrawal/withdrawal.models';
 import { DissectedDateModel } from '../../../components/statements/statement.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
