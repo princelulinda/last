@@ -35,7 +35,7 @@ export class AdminTreasureDetailsComponent implements OnInit {
   }
 
   getTreasureDetails() {
-    this.adminService.getTreasureDetails(350).subscribe({
+    this.adminService.getTreasureDetails(this.treasureId).subscribe({
       next: (response: { object: TreaureDetailsModele }) => {
         this.treasurerDetails = response.object;
       },
