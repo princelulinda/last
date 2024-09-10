@@ -77,7 +77,7 @@ export class AsideMenuComponent implements OnInit {
   }
 
   switchPlateform(plateform: PlateformModel) {
-    this.configService.switchPlateform(plateform);
+    this.configService.switchPlateform(plateform, false);
   }
 
   goBack() {

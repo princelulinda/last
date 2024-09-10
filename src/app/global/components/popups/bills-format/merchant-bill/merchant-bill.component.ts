@@ -1,17 +1,21 @@
-import { AfterViewInit, Component, effect } from '@angular/core';
+import { AfterViewInit, Component, effect, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MerchantBillModel } from '../../../../../core/services/dialog/dialogs-models';
 import { DialogService } from '../../../../../core/services';
+import { NgxPrintModule } from 'ngx-print';
 
 @Component({
   selector: 'app-merchant-bill',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgxPrintModule],
   templateUrl: './merchant-bill.component.html',
   styleUrls: ['./merchant-bill.component.scss'],
 })
 export class MerchantBillComponent implements AfterViewInit {
-  merchantBillDialog: { active: boolean; payload: MerchantBillModel | null } = {
+  @Input() merchantBillDialog: {
+    active: boolean;
+    payload: MerchantBillModel | null;
+  } = {
     active: false,
     payload: null,
   };

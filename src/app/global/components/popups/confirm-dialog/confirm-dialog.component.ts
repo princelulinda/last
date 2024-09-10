@@ -225,4 +225,14 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
   checkPinSimilartiy() {
     this.arePinsMatch = this.newPin === this.confirmPin;
   }
+  handleEnter() {
+    if (this.changePinForm.valid && this.arePinsMatch) {
+      this.submitPinCreation();
+    }
+  }
+  handleEnter2() {
+    if (this.pinForm.valid) {
+      this.submitPin();
+    }
+  }
 }

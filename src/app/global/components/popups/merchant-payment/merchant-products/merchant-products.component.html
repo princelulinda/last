@@ -2,7 +2,11 @@
   @if (isLoading) {
     <div class="row gap-4 flex-wrap pb-2">
       @for (i of [1, 2, 3, 4, 5, 6]; track $index) {
-        <div class="col-auto d-flex flex-column">
+        <div
+          class="col-auto d-flex flex-column"
+          [ngClass]="{
+            'd-none d-md-flex': $index >= 4,
+          }">
           <app-skeleton
             height="150px"
             width="150px"
@@ -23,7 +27,7 @@
       <app-empty-state searchType="product"></app-empty-state>
     </div>
   } @else if (!isLoading && products.length > 0) {
-    <div class="row flex-wrap gap-3">
+    <div class="row flex-wrap gap-2 gap-xl-3">
       @for (product of products; track $index) {
         <div class="col-auto">
           <app-product-card

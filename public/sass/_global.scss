@@ -150,9 +150,15 @@ a {
   }
 }
 
-// global config for bootstrap input
+//NOTE :: GLOBAL CONFIG FOR INPUTS
+.form-control,
+.form-select,
+.input-group {
+  @extend .border;
+  @extend .text-dark;
+  @extend .sm-radius;
+}
 
-.form-control + label.form-label,
 .form-control + label,
 .form-select + label {
   @extend .form-label;
@@ -165,9 +171,11 @@ a {
 .form-floating > .form-control-plaintext {
   padding-bottom: 0;
 }
-
-.form-floating .form-control::placeholder {
-  color: transparent !important;
+input.form-control::placeholder {
+  @extend .text-secondary;
+}
+.form-floating input.form-control::placeholder {
+  opacity: 0;
 }
 
 .input-group {
@@ -175,8 +183,13 @@ a {
   overflow: hidden;
   .form-control {
     border: 0 !important;
+    &:focus {
+      box-shadow: none !important;
+    }
   }
   .input-group-text {
+    background-color: inherit;
+    @extend .text-dark;
     border: 0 !important;
     border-radius: 0 !important;
   }
