@@ -695,7 +695,9 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
     } else if (name === 'menus') {
       this.selectedSection = 'menus';
     }
-    this.searchInput.reset();
+    if (this.searchInput.value !== '') {
+      this.searchInput.reset();
+    }
     this.selectedMenu = name;
     this.searchType = name;
   }
