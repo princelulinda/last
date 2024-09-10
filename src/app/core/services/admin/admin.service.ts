@@ -8,7 +8,10 @@ import {
 } from '../../../components/rh/rh.model';
 import { AutocompleteModel } from '../../../global/models/global.models';
 import { AdminMenuModel } from '../../../components/admin/operator/operator.models';
-import { TellerDetailsModele } from '../../../components/admin/agence/agence.models';
+import {
+  TellerDetailsModele,
+  TreaureDetailsModele,
+} from '../../../components/admin/agence/agence.models';
 
 @Injectable({
   providedIn: 'root',
@@ -68,5 +71,11 @@ export class AdminService {
   ): Observable<{ object: TellerDetailsModele }> {
     const url = `/hr/tellers/list/${tellerId}`;
     return this.apiService.get<{ object: TellerDetailsModele }>(url);
+  }
+  getTreasureDetails(
+    treasureId: number
+  ): Observable<{ object: TreaureDetailsModele }> {
+    const url = `/hr/treasurers/list/${treasureId}`;
+    return this.apiService.get<{ object: TreaureDetailsModele }>(url);
   }
 }

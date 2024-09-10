@@ -60,3 +60,32 @@ export interface TellerDetailsModele {
     };
   };
 }
+
+export interface TreaureDetailsModele {
+  operator: {
+    employee_client: {
+      client_full_name: string;
+      client_email: string | null;
+      is_merchant: boolean;
+      picture: string;
+      client_code: string | null;
+      client_type: {
+        title: string | null;
+      };
+    };
+  };
+
+  organization: {
+    institution_client: {
+      client_type: {
+        title: string | null;
+      };
+      client_full_name: string | null;
+      client_code: string | null;
+      picture: string;
+    };
+
+    share_capital: string | null;
+    is_active: boolean;
+  };
+}

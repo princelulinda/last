@@ -14,7 +14,7 @@ export class AdminTellersListComponent {
       field: ['hr_operator.operator.employee_client.client_full_name'],
       size: '',
       detail: {
-        link: '/w/workstation/desk/admin/agence/teller/',
+        link: '/w/workstation/admin/tellers/',
         field: 'id',
       },
     },
