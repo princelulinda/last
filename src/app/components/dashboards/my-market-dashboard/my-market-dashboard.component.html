@@ -170,10 +170,8 @@
           @if (merchantInfo) {
             <b class="fs-normal">
               <app-amount-visibility
-                [amount]="merchantInfo.available_balance"
-                [currency]="
-                  merchantInfo.balance_currency
-                "></app-amount-visibility>
+                [amount]="merchant.available_balance"
+                [currency]="merchant.balance_currency"></app-amount-visibility>
             </b>
           }
         </Span>
@@ -384,7 +382,7 @@
               <button
                 (click)="enterPin()"
                 [disabled]="
-                  !billForm.valid || isLoading || !selectClient || !amount
+                  !billForm.valid || isLoading || !selectedClient || !amount
                 "
                 class="text-all-white btn bg-primary px-4"
                 i18n>
@@ -452,10 +450,10 @@
           </div>
         }
         @if (merchantMult) {
-          <div class="row mt-4 ps-5 ms-1">
+          <div class="d-flex flex-wrap gap-5 ps-5 mx-5">
             @for (merchant of merchantMult; track $index) {
               <div
-                class="col-3"
+                class="col-auto"
                 role="button"
                 tabindex="0"
                 (click)="switchMerchant(merchant.id)">
