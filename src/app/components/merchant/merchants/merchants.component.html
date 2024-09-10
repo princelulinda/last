@@ -214,7 +214,7 @@
             </p>
           </div>
           <div class="w-100">
-            <div class="row">
+            <div class="d-flex flex-wrap gap-2">
               @for (item of countProductLoader; track $index) {
                 <div class="col-2" [hidden]="$index >= 5">
                   <app-skeleton
@@ -224,7 +224,7 @@
                 </div>
               }
             </div>
-            <div class="row">
+            <div class="d-flex flex-wrap gap-2">
               @for (item of countProductLoader; track $index) {
                 <div class="col-2" [hidden]="$index >= 3">
                   <app-skeleton
@@ -271,7 +271,7 @@
           <!-- categories -->
           @if (!isLoading && !categories) {
             <div class="w-100 mt-4 pt-4">
-              <div class="row">
+              <div class="d-flex flex-wrap gap-2">
                 @for (item of countProductLoader; track $index) {
                   <div class="col-2" [hidden]="$index >= 5">
                     <app-skeleton
@@ -281,7 +281,7 @@
                   </div>
                 }
               </div>
-              <div class="row">
+              <div class="d-flex flex-wrap gap-2">
                 @for (item of countProductLoader; track $index) {
                   <div class="col-2" [hidden]="$index >= 3">
                     <app-skeleton
@@ -327,9 +327,9 @@
         </div>
       }
       @if (!merchants) {
-        <div class="row mt-2">
+        <div class="d-flex flex-wrap gap-2 mt-2">
           @for (item of countProductLoader; track $index) {
-            <div class="col-lg-3 col-md-4 col-sm-2 col mb-3">
+            <div class="col-lg-3 col-sm-4 col-auto mb-3">
               <app-skeleton
                 height="150px"
                 width="150px"

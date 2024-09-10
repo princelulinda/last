@@ -20,7 +20,10 @@ import { MerchantBillComponent } from '../../../../global/components/popups/bill
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 
 import { ModeModel } from '../../../../core/services/config/main-config.models';
-import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
+import {
+  DialogResponseModel,
+  MerchantBillModel,
+} from '../../../../core/services/dialog/dialogs-models';
 import { DebitAccountComponent } from '../../../transfer/debit-account/debit-account.component';
 import { AccountsListModel } from '../../../account/models';
 import { WalletList } from '../../../wallet/wallet.models';
@@ -28,6 +31,7 @@ import { DebitOptionsModel } from '../../../transfer/transfer.model';
 import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import { BillsModel } from '../bills.model';
 import { MerchantSimplePaymentBodyModel } from '../../merchant.models';
+import { NgxPrintModule } from 'ngx-print';
 
 @Component({
   selector: 'app-bill-details',
@@ -39,6 +43,8 @@ import { MerchantSimplePaymentBodyModel } from '../../merchant.models';
     ReactiveFormsModule,
     RouterLink,
     DebitAccountComponent,
+    NgxPrintModule,
+    MerchantBillComponent,
   ],
   templateUrl: './bill-details.component.html',
   styleUrl: './bill-details.component.scss',
@@ -56,21 +62,9 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
   pin!: string;
   dialog!: DialogResponseModel;
 
-  billData!: {
-    name: string;
-    debit_account: string;
-    date: string;
-    printable_text: string;
-    merchantName: string;
-    amount: number | string;
-    code: string;
-    product: {
-      name: string;
-      value: string;
-    };
-    description: string;
-    adress: string;
-    credit_account: string;
+  billData: { active: boolean; payload: MerchantBillModel | null } = {
+    active: false,
+    payload: null,
   };
   selectedAccount!: string;
   selectedWallet!: string;
@@ -141,7 +135,8 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
           this.descriptionForm.patchValue({
             description: this.billDetails.description,
           });
-          this.billData = {
+          this.billData.active = true;
+          this.billData.payload = {
             name: this.billDetails.client.client_full_name,
             debit_account: this.billDetails.payment_account.acc_short_number,
             product: {
