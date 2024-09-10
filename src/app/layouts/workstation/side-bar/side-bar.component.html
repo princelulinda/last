@@ -1,6 +1,22 @@
 <aside class="w-side bg-white sm-radius p-2 h-100 overflow-y-auto">
   <div class="sm-radius d-flex flex-column align-items-center h-100">
-    <section class="flex-grow-1"></section>
+    <!-- NOTE :: ACTIVE PAGE MENUS SECTION -->
+    <section class="flex-grow-1 mt-3">
+      @if (activeMenus) {
+        @for (menu of activeMenus; track $index) {
+          <a
+            [routerLink]="menu.url"
+            [routerLinkActive]="['bg-primary-3', 'text-primary-1']"
+            [appTooltip]="menu.title"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="menu-item mb-2 d-block rounded-circle d-flex text-secondary bg-hover-primary-3 justify-content-center align-items-center">
+            <span class="{{ menu.icon_classes }}"
+              ><i class="fa-solid fa-{{ menu.icon }}"></i
+            ></span>
+          </a>
+        }
+      }
+    </section>
     <section class="mb-2 p-2 text-center" role="button">
       <span class="text-secondary fs-x-large">
         <i class="fa-solid fa-gear"></i>

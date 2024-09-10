@@ -5,6 +5,7 @@ import { AdminDepartementsDetailsComponent } from '../../components/rh/admin-dep
 import { AdminDepartementsListComponent } from '../../components/rh/admin-departements-list/admin-departements-list.component';
 import { AdminServicesListComponent } from '../../components/rh/admin-services-list/admin-services-list.component';
 import { AdminServicesDetailsComponent } from '../../components/rh/admin-services-details/admin-services-details.component';
+import { ConfigutarionTarifComponent } from '../../components/configutarion-tarif/configutarion-tarif.component';
 
 export const DeskRoutes: Routes = [
   //directions
@@ -18,4 +19,5 @@ export const DeskRoutes: Routes = [
   //services
   { path: 'services', component: AdminServicesListComponent },
   { path: 'service/:id', component: AdminServicesDetailsComponent },
+  { path: 'tarif', component: ConfigutarionTarifComponent },
 ];

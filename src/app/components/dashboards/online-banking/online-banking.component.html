@@ -28,7 +28,7 @@
         <!-- Menus list-->
         <section class="pe-lg-3">
           <div
-            class="bg-secondary lg-radius p-4 border col-lg-9 col-md-12 mt-4">
+            class="bg-secondary lg-radius p-2 p-xl-4 border col-lg-9 col-md-12 mt-4">
             <div class="accordion" id="accordionExample">
               @for (menuGroup of menuGroups; track $index; let i = $index) {
                 <div class="accordion-item mb-3 p-2 sm-radius border bg-white">
@@ -78,7 +78,7 @@
                     aria-labelledby="headingOne"
                     data-bs-parent="#accordionExample">
                     <div
-                      class="accordion-body text-dark expand-collapse-section">
+                      class="accordion-body text-dark expand-collapse-section p-2 p-md-auto">
                       <!-- Ajoutez ici le contenu spécifique à ce menuGroup -->
                       @if (i === 0 && menuGroup.is_active) {
                         <div>
@@ -177,14 +177,16 @@
                         <div>
                           <!-- Bloc de marchands -->
                           @if (merchants && merchants.length > 0) {
-                            <div class="p-2 row">
+                            <div class="p-2 row gap-3">
                               @for (merchant of merchants; track $index) {
                                 <div
-                                  (click)="getMerchant(merchant, $event)"
+                                  (click)="
+                                    openMerchantPayment('merchant', merchant)
+                                  "
                                   data-bs-toggle="modal"
                                   data-bs-target="#publicService"
                                   role="button"
-                                  class="d-grid col-3 justify-content-center"
+                                  class="col-5 col-md-4 col-lg-3 justify-content-center"
                                   tabindex="0">
                                   <div
                                     class="d-flex w-100 mb-2 justify-content-center">
@@ -193,7 +195,9 @@
                                       <img
                                         class="bank-image"
                                         [src]="merchant.lookup_image"
-                                        alt="" />
+                                        alt="{{
+                                          merchant.lookup_title
+                                        }} logo " />
                                     </div>
                                   </div>
                                   <div class="text-center">
@@ -209,7 +213,8 @@
                           @else {
                             <div class="d-flex pt-3 ps-3">
                               @for (_ of [1, 2, 3]; track $index) {
-                                <div class="d-grid mt-1 me-5">
+                                <div
+                                  class="d-grid mt-1 me-5 justify-content-center">
                                   <span class="text-center">
                                     <app-skeleton
                                       [height]="'60px'"
@@ -290,4 +295,3 @@
 } @else if (selectedBank) {
   <app-bank-home></app-bank-home>
 }
-<!-- <router-outlet></router-outlet> -->

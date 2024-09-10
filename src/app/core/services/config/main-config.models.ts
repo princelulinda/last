@@ -14,4 +14,5 @@ export interface activeMainConfigModel {
   activeMode: ModeModel;
   activeTheme: ThemeModel;
   activePlateform: PlateformModel;
+  screenLocked: boolean;
 }

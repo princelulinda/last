@@ -1,4 +1,4 @@
-import { CurrencyModel } from '../../global/components/custom-field/currency.model';
+import { CurrencyModel } from '../../global/models/global.models';
 
 export interface WalletCardModel {
   response_data: {
@@ -17,7 +17,7 @@ export interface WalletList {
   id: string;
   code: string;
   available_balance: number;
-  currency: 'BIF';
+  currency: CurrencyModel;
   bank_id: string;
 }
 

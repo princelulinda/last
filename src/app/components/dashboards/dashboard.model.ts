@@ -1,12 +1,6 @@
 import { BankModel } from '../../core/db/models/bank/bank.model';
 import { MerchantModel } from '../merchant/merchant.models';
 
-export interface MerchantLookup {
-  id: number;
-  lookup_title: string;
-  lookup_image: string;
-}
-
 export interface addBankResponse {
   object: {
     success: boolean;
@@ -15,9 +9,6 @@ export interface addBankResponse {
   };
 }
 
-export interface PayMerchant {
-  id: number;
-}
 export interface BankOptionsModel {
   selectedDebitAccountType: string | null;
   debitAccount: string | null;

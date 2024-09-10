@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
-import { MerchantLookup } from '../../../components/dashboards/dashboard.model';
 import { DoMerchantTransferResponseModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import { DoMerchantTransferModel } from '../../../components/merchant/merchant-transfer/merchant-transfer.models';
 import {
@@ -412,17 +411,14 @@ export class MerchantService {
   }
   getMerchantsByCategoriesSlug(
     slug: string
-  ): Observable<{ objects: MerchantLookup[]; count: number }> {
+  ): Observable<{ objects: MerchantAutocompleteModel[]; count: number }> {
     const url =
       '/dbs/merchant/manage/objects_autocomplete?category_slug=' + slug;
     return this.apiService
-      .get<{ objects: MerchantLookup[]; count: number }>(url)
-      .pipe(
-        map(data => {
-          return data;
-        })
-      );
+      .get<{ objects: MerchantAutocompleteModel[]; count: number }>(url)
+      .pipe(map(data => data));
   }
+
   updateProductInfo(body: UpdateProdcutInfoModel) {
     const url = '/dbs/merchant/product/configuration/';
     return this.apiService.post(url, body).pipe(

@@ -1,7 +1,7 @@
 @if (mainConfig) {
   <header
     style="height: 60px; z-index: 50; top: 0"
-    class="w-100 d-flex justify-content-center justify-content-lg-between w-100 p-1 px-3"
+    class="w-100 d-flex justify-content-center justify-content-lg-between w-100 p-1 px-3 overflow-hidden"
     [ngClass]="{
       'bg-white': mainConfig.activePlateform === 'workstation',
       'bg-primary':
@@ -13,11 +13,15 @@
     <section class="d-none d-lg-block">
       <!-- iHela Ryanje logo for onlineBanking, market, newsFeed Plateforms & Workstation -->
       @if (mainConfig.activePlateform !== 'workstation') {
-        <div class="col-8 h-100" style="max-width: 260px">
-          <img
-            class="bg-primary-2 img-fluid border border-3 px-4 py-1 sm-radius h-100"
-            src="/images/logo/ihela-ryanje.png"
-            alt="iHela Ryanje Logo" />
+        <div
+          class="bg-primary-2 border border-3 px-4 py-1 sm-radius h-100"
+          style="max-width: 260px">
+          <span class="ihela-ryanje-logo d-block">
+            <img
+              class="image sm-radius"
+              src="/images/logo/ihela-ryanje.png"
+              alt="iHela Ryanje Logo" />
+          </span>
         </div>
       } @else {
         @if (organization) {
@@ -55,17 +59,19 @@
     <section
       class="d-flex align-items-center justify-content-around justify-content-lg-center position-relative">
       <!-- ONLY ON MOBILE : Active Aside menus -->
-      <span
-        class="d-lg-none me-md-1"
-        role="button"
-        tabindex="0"
-        [routerLink]="menuRouterLink"
-        [ngClass]="{
-          'text-all-white': mainConfig.activePlateform !== 'workstation',
-          'text-dark': mainConfig.activePlateform === 'workstation',
-        }">
-        <i class="fs-5 fa-solid fa-bars"></i>
-      </span>
+      @if (mainConfig.activePlateform !== 'bankingSettings' && 'workStation') {
+        <span
+          class="d-lg-none me-md-1"
+          role="button"
+          tabindex="0"
+          [routerLink]="menuRouterLink"
+          [ngClass]="{
+            'text-all-white': mainConfig.activePlateform !== 'workstation',
+            'text-dark': mainConfig.activePlateform === 'workstation',
+          }">
+          <i class="fs-5 fa-solid fa-bars"></i>
+        </span>
+      }
 
       <!-- show amount icon -->
       <span
@@ -460,16 +466,16 @@
                 </div>
                 <div
                   class="w-100 d-flex justify-content-between align-items-center mt-3">
-                  <div class="d-flex align-items-center fs-medium">
+                  <div class="d-flex align-items-center fs-medium col-9">
                     <span class="me-2"
                       ><i class="fa-solid text-secondary fa-language"></i
                     ></span>
                     <b class="text-dark" i18n>Language</b>
                   </div>
                   <select
-                    class="text-all-dark"
+                    class="text-all-dark form-select"
+                    style="height: 34px"
                     [formControl]="selectedLanguage"
-                    style="width: 60px"
                     (click)="changeLanguage()">
                     <option value="en">En</option>
                     <option value="fr">Fr</option>

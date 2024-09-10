@@ -267,7 +267,7 @@ export class AuthService {
     } else {
       this.configService.getConnectedOperator().subscribe({
         next: response => {
-          if (response.organization) {
+          if (response && response.organization) {
             this.userClientId$.next(
               response.organization.institution_client.id
             );
@@ -302,7 +302,7 @@ export class AuthService {
     } else {
       this.configService.getConnectedOperator().subscribe({
         next: response => {
-          if (response.organization) {
+          if (response && response.organization) {
             this.userClientId$.next(
               response.organization.institution_client.id
             );

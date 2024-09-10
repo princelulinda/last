@@ -171,13 +171,4 @@ export class TransferComponent implements OnInit, OnDestroy {
   transferForm = new FormGroup({
     accountNumber: new FormControl('', Validators.required),
   });
-
-  showModal() {
-    this.dialogService.openDialog({
-      action: 'Confirm transfer',
-      message: 'Confirm your transfer',
-      title: 'Confirm transfer',
-      type: 'pin',
-    });
-  }
 }

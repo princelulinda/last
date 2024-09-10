@@ -15,22 +15,21 @@ import { BankService } from '../../../core/services/bank/bank.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import {
-  addBankResponse,
-  MenuGroup,
-  MerchantLookup,
-  PayMerchant,
-} from '../dashboard.model';
+import { addBankResponse, MenuGroup } from '../dashboard.model';
 import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { TarifComponent } from '../../tarif/tarif.component';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import {
+  DialogResponseModel,
+  MerchantPaymentTypesModel,
+} from '../../../core/services/dialog/dialogs-models';
 import {
   activeMainConfigModel,
   ModeModel,
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
 import { BankHomeComponent } from './bank-home/bank-home.component';
-import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
+import { ReusableListComponent } from '../../../global/components/list/reusable-list/reusable-list.component';
+import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
 
 @Component({
   selector: 'app-online-banking',
@@ -67,8 +66,8 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
 
   clientId: number | null = null;
   merchantId: number | null = null;
-  payMerchant: PayMerchant | null = null;
-  merchants: MerchantLookup[] = [];
+
+  merchants: MerchantAutocompleteModel[] = [];
   openBankListPopup = false;
   selectedNewBank: number | null = null;
   clientInfo!: UserInfoModel;
@@ -289,17 +288,14 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     this.configService.setSelectedBank(bank);
   }
 
-  getMerchant(data: PayMerchant, event: MouseEvent) {
-    event.stopPropagation();
-    // add data-bs after click on favorite star
-    const element = event.target as HTMLButtonElement;
-    element.setAttribute('data-bs-target', '#publicService');
-    element.setAttribute('data-bs-toggle', 'modal');
-    element.click();
-    this.payMerchant = data;
-    if (this.payMerchant) {
-      this.merchantId = this.payMerchant.id;
-    }
+  openMerchantPayment(
+    type: MerchantPaymentTypesModel,
+    merchant: MerchantAutocompleteModel
+  ) {
+    this.dialogService.openMerchantPaymentDialog({
+      type: type,
+      merchant: merchant,
+    });
   }
 
   showMenus(index: number) {
