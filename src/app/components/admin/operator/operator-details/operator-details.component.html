@@ -332,10 +332,26 @@
             }
             <div class="h-100 d-flex flex-row gap-2">
               <div class="position-relative">
-                <input class="form-control" type="text" name="" id="" />
+                <input
+                  class="form-control"
+                  type="search"
+                  [formControl]="searchInput" />
                 <div
-                  class="position-absolute end-0 top-0 pe-2 fa-lg h-100 d-flex align-items-center clickable">
-                  <i class="fa-solid fa-magnifying-glass text-secondary"></i>
+                  class="position-absolute end-0 top-0 pe-2 fa-lg h-100 d-flex align-items-center clickable"
+                  (click)="searchRolesOrMenus()"
+                  tabindex="0">
+                  @if (loadingAllMenus) {
+                    <span>
+                      <i class="fas fa-spinner fa-pulse text-secondary"></i>
+                    </span>
+                  }
+
+                  @if (!loadingAllMenus) {
+                    <span>
+                      <i
+                        class="fa-solid fa-magnifying-glass text-secondary"></i>
+                    </span>
+                  }
                 </div>
               </div>
               @if (selectedRole && selectedSection === 'roles') {
@@ -348,6 +364,13 @@
               }
             </div>
           </div>
+          @if (rolesLoading) {
+            <div class="w-100 d-flex justify-content-center mt-3">
+              <span class="my-5">
+                <i class="fa-solid fa-spin fa-circle-notch fa-2x"></i>
+              </span>
+            </div>
+          }
           @if (!rolesLoading && !selectedRole && selectedSection === 'roles') {
             <div class="my-3 d-flex flex-column gap-3 overflow-y-auto">
               @for (role of roles; track $index) {
@@ -426,6 +449,11 @@
           @if (selectedSection === 'menus') {
             <div
               class="my-3 d-flex flex-column gap-3 overflow-y-auto align-items-center w-100">
+              @if (loadingAllMenus) {
+                <span class="my-5">
+                  <i class="fa-solid fa-spin fa-circle-notch fa-2x"></i>
+                </span>
+              }
               @for (menu of allMenus; track $index) {
                 <div class="w-100 rounded border row p-2">
                   <div class="d-flex flex-column gap-1 col">

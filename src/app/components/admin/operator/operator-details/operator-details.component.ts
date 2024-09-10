@@ -84,8 +84,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
   roleNameToEdit = '';
   selectedRolesToAssign: AutocompleteModel[] | RoleBodyModel[] = [];
   searchType = 'roles';
-  rolesSearchInput = new FormControl('');
-  menusSearchInput = new FormControl('');
+  searchInput = new FormControl('');
 
   // selectedCounterToRemove!: number | string;
   // selectedBrancheToRemove: any;
@@ -181,17 +180,17 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.menusSearchInput.valueChanges.pipe(debounceTime(300)).subscribe({
+    this.searchInput.valueChanges.pipe(debounceTime(300)).subscribe({
       next: value => {
         this.getOperatorMenus(value ?? '');
       },
     });
 
-    this.rolesSearchInput.valueChanges.pipe(debounceTime(300)).subscribe({
-      next: value => {
-        this.getOperatorRoles(false, value ?? '');
-      },
-    });
+    // this.rolesSearchInput.valueChanges.pipe(debounceTime(300)).subscribe({
+    //   next: value => {
+    //     this.getOperatorRoles(false, value ?? '');
+    //   },
+    // });
   }
 
   getOperatorMenus(search?: string) {
@@ -632,9 +631,9 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
 
   searchRolesOrMenus() {
     if (this.searchType === 'roles') {
-      this.getOperatorRoles(false, this.rolesSearchInput.value ?? '');
+      this.getOperatorRoles(false, this.searchInput.value ?? '');
     } else if (this.searchType === 'menus') {
-      this.getOperatorMenus(this.menusSearchInput.value ?? '');
+      this.getOperatorMenus(this.searchInput.value ?? '');
     }
   }
 
@@ -696,6 +695,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
     } else if (name === 'menus') {
       this.selectedSection = 'menus';
     }
+    this.searchInput.reset();
     this.selectedMenu = name;
     this.searchType = name;
   }
