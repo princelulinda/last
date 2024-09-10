@@ -61,25 +61,6 @@
             <span class="fw-bold">Pierre claver koko Banywera </span>
           </div>
         </div>
-
-        <div
-          class="align-self-end d-flex flex-row gap-2"
-          style="margin-left: auto">
-          <a
-            class="clickable"
-            (click)="showInfoSection()"
-            tabindex="0"
-            [ngClass]="!showDetails ? 'text-primary fw-bold' : ''"
-            >Info</a
-          >
-          <a
-            class="clickable"
-            tabindex="0"
-            (click)="showDetailsSection()"
-            [ngClass]="showDetails ? 'text-primary fw-bold' : ''"
-            >Details</a
-          >
-        </div>
       </div>
     }
 
@@ -197,7 +178,7 @@
                 }
               </div>
               <div class="w-50 d-flex flex-column gap-1">
-                <span class="fw-bold text-secondary">Treasure</span>
+                <span class="fw-bold text-secondary">Treasurer</span>
                 @if (organizationDetails?.is_treasurer) {
                   <span class="fw-bold"
                     ><i class="fa-solid fa-circle-check fa-lg check"></i

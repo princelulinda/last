@@ -29,5 +29,6 @@ export interface PageMenusModel {
   icon: string;
   title: string;
   url: string;
+  fragment?: string;
   icon_classes?: string;
 }
