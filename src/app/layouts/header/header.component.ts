@@ -117,11 +117,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.toggleEyeStatus();
   }
 
-  public ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-  }
-
   switchMode() {
     this.configService.switchMode();
   }
@@ -131,6 +126,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   logout() {
     this.authService.logout();
+  }
+
+  lockScreen() {
+    this.configService.switchScreenState('locked');
   }
 
   changeLanguage() {
@@ -179,6 +178,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.showUserInfoPopup = !this.showUserInfoPopup;
     this.showPlateformPopup = false;
   }
+
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
@@ -200,5 +200,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     ) {
       this.showPlateformPopup = false;
     }
+  }
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

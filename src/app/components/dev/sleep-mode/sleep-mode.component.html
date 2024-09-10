@@ -40,8 +40,9 @@
             classes="fs-x-large"></app-profile-card>
         }
       </div>
-
-      <span class="fw-bold">{{ user?.client?.client_full_name }}</span>
+      @if (user) {
+        <span class="fw-bold">{{ user.client.client_full_name }}</span>
+      }
     </div>
     <form [formGroup]="form" (ngSubmit)="verification()" autocomplete="off">
       <div

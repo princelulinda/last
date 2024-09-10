@@ -518,6 +518,17 @@
                 </div>
 
                 <div
+                  role="button"
+                  tabindex="0"
+                  (click)="lockScreen()"
+                  class="my-3 d-flex align-items-center fs-medium">
+                  <span class="me-2 text-secondary"
+                    ><i class="fa-solid fa-lock"></i
+                  ></span>
+                  <b class="text-dark ms-1" i18n>Lock</b>
+                </div>
+
+                <div
                   class="w-100 d-flex justify-content-between text-dark fs-medium"
                   title="Logout"
                   tabindex="0"
