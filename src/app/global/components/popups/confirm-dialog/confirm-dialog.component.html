@@ -49,6 +49,7 @@
               [innerHTML]="dialog.message"></span>
           </div>
           <form
+            tabindex="0"
             class="text-center mt-4"
             [formGroup]="passwordForm"
             (ngSubmit)="submitPassword()">
@@ -98,8 +99,10 @@
                 performing your action!
               </p>
               <form
+                tabindex="0"
                 [formGroup]="changePinForm"
                 (ngSubmit)="submitPinCreation()"
+                (keydown.enter)="handleEnter()"
                 class="text-center mt-2">
                 <div class="form-floating mt-2">
                   <app-password-field
@@ -170,9 +173,11 @@
                 [innerHTML]="dialog.message"></span>
             </div>
             <form
+              tabindex="0"
               class="text-center mt-4"
               [formGroup]="pinForm"
-              (ngSubmit)="submitPin()">
+              (ngSubmit)="submitPin()"
+              (keydown.enter)="handleEnter2()">
               <div class="form-floating mt-2">
                 <app-password-field
                   [required]="true"
