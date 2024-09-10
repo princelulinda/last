@@ -1,4 +1,7 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
+import { Observable } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
+
 import {
   DialogModel,
   DialogPayloadModel,
@@ -11,38 +14,11 @@ import {
   ObrBillModel,
   MerchantPaymentDialogModel,
 } from './dialogs-models';
-import {
-  fromEvent,
-  map,
-  merge,
-  Observable,
-  Subject,
-  switchMap,
-  tap,
-  timer,
-} from 'rxjs';
-import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DialogService {
-  private readonly idleTimeout = 15 * 60 * 1000; // 15 minutes
-  private idle$: Observable<boolean>;
-  private resetIdle$ = new Subject<void>();
-
-  constructor() {
-    this.idle$ = merge(
-      fromEvent(document, 'mousemove'),
-      fromEvent(document, 'click'),
-      fromEvent(document, 'scroll'),
-      fromEvent(document, 'keypress')
-    ).pipe(
-      tap(() => this.resetIdle$.next()), // reset on any event
-      switchMap(() => timer(this.idleTimeout).pipe(map(() => true)))
-    );
-  }
-
   toast: WritableSignal<ToastModel> = signal({
     active: false,
     message: '',
@@ -268,25 +244,5 @@ export class DialogService {
       active: false,
       payload: null,
     });
-  }
-
-  startWatching() {
-    this.idle$.subscribe(() => {
-      this.lockScreen();
-    });
-  }
-
-  // Sleep mode locking
-  lockScreen() {
-    const element = document.getElementById('standby');
-    element?.classList.remove('stop');
-    element?.classList.add('stand');
-  }
-
-  // Sleep mode unlocking
-  unlockScreen() {
-    const element = document.getElementById('standby');
-    element?.classList.remove('stand');
-    element?.classList.add('stop');
   }
 }
