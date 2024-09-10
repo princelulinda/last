@@ -1,5 +1,5 @@
 import { ClientModel } from '../../core/db/models/auth';
-import { CurrencyModel } from '../../global/components/custom-field/currency.model';
+import { CurrencyModel } from '../../global/models/global.models';
 
 export interface tellersModel {
   objects: tellerObjectModel[];

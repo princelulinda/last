@@ -1,4 +1,4 @@
-import { CurrencyModel } from '../../global/components/custom-field/currency.model';
+import { CurrencyModel } from '../../global/models/global.models';
 
 export interface nyamuranziCardModel {
   response_data: {

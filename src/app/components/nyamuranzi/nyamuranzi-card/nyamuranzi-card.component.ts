@@ -10,7 +10,7 @@ import {
   BankService,
 } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
-import { nyamuranziCardModel } from '../models';
+import { nyamuranziCardModel } from '../nyamuranzi.models';
 import {
   activeMainConfigModel,
   ModeModel,

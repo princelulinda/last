@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ListComponent } from '../../../../global/components/list/list.component';
+import { ListComponent } from '../../../../global/components/list/list/list.component';
 
 @Component({
   selector: 'app-operators',
@@ -52,7 +52,7 @@ export class OperatorsComponent {
       field: ['operator.name'],
       size: '',
       detail: {
-        link: '/w/workstation/desk/admin/operator/operator/',
+        link: '/w/workstation/admin/operators/',
         field: 'id',
       },
     },
