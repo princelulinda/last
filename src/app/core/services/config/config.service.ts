@@ -27,6 +27,7 @@ import {
   activeMainConfigModel,
   ModeModel,
   PlateformModel,
+  ScreenStateModel,
   ThemeModel,
 } from './main-config.models';
 import { Organizations } from '../../db/models/organisations/organizations';
@@ -45,7 +46,7 @@ export class ConfigService {
   private actifPlateform = new Subject<PlateformModel>();
   private actifTheme = new Subject<ThemeModel>();
   private actifMode = new Subject<ModeModel>();
-  private screenState = new Subject<boolean>();
+  private screenState = new Subject<ScreenStateModel>();
 
   private userBanks$: unknown | Observable<BankModel[]>;
   private selectedBank$: unknown | Observable<BankModel>;
@@ -108,7 +109,7 @@ export class ConfigService {
         activeMode: mode,
         activePlateform: plateform,
         activeTheme: theme,
-        screenLocked: false,
+        screenLocked: 'unlocked',
       };
       this.activeMainConfig = newActiveMainConfig;
 
@@ -152,7 +153,7 @@ export class ConfigService {
     return this.actifPlateform;
   }
 
-  getScreenState(): Observable<boolean> {
+  getScreenState(): Observable<ScreenStateModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
         if (mainConfig) {
@@ -161,6 +162,15 @@ export class ConfigService {
       },
     });
     return this.screenState;
+  }
+  async switchScreenState(state: ScreenStateModel) {
+    this.activeMainConfig = await this.getActiveMainConfig();
+    this.setMainConfig({
+      activeMode: this.activeMainConfig.activeMode,
+      activePlateform: this.activeMainConfig.activePlateform,
+      activeTheme: this.activeMainConfig.activeTheme,
+      screenLocked: state,
+    });
   }
 
   getTheme(): Observable<ThemeModel> {
@@ -199,7 +209,7 @@ export class ConfigService {
         activePlateform: plateform,
         activeTheme: this.activeMainConfig.activeTheme,
         activeMode: this.activeMainConfig.activeMode,
-        screenLocked: false,
+        screenLocked: this.activeMainConfig.screenLocked,
       });
       this.setHtmlMode(theme, this.activeMainConfig.activeMode);
       if (redirectToBaseHref) {
@@ -228,7 +238,7 @@ export class ConfigService {
       activePlateform: plateform,
       activeTheme: theme,
       activeMode: newModeToDispatch,
-      screenLocked: false,
+      screenLocked: this.activeMainConfig.screenLocked,
     });
     this.setHtmlMode(this.activeMainConfig.activeTheme, newModeToDispatch);
   }
