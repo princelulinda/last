@@ -57,15 +57,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.dialogService.startWatching();
-    this.authService.getUserInfo().subscribe({
-      next: userInfo => {
-        if (userInfo.user.username) {
-          this.dialogService.startWatching();
-        }
-      },
-    });
-
     const localToken = this.authService.getLocalAuthToken();
     if (localToken) {
       this.dialogService.dispatchSplashScreen();
@@ -76,7 +67,6 @@ export class AppComponent implements OnInit {
 
     this.dbService.initializeModels();
     this.configService.initAll();
-    // this.configService.initPopulate();
 
     this.plateform$.subscribe({
       next: plateform => {
