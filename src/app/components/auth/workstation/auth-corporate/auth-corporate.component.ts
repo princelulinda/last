@@ -122,6 +122,7 @@ export class AuthCorporateComponent implements OnInit {
         };
         this.configService.setOperator(operator);
         this.configService.setLocalConnectedOperator('true');
+        this.dialogService.dispatchSplashScreen();
         this.router.navigate(['/w/workstation']);
         this.dialogService.closeLoading();
       },
