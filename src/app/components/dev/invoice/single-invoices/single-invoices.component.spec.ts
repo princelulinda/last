@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InvoiceComponent } from './invoice.component';
+import { SingleInvoicesComponent } from './single-invoices.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
 
-describe('InvoiceComponent', () => {
-  let component: InvoiceComponent;
-  let fixture: ComponentFixture<InvoiceComponent>;
+describe('SingleInvoicesComponent', () => {
+  let component: SingleInvoicesComponent;
+  let fixture: ComponentFixture<SingleInvoicesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InvoiceComponent],
+      imports: [SingleInvoicesComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -22,7 +22,7 @@ describe('InvoiceComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InvoiceComponent);
+    fixture = TestBed.createComponent(SingleInvoicesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
