@@ -72,6 +72,12 @@ export class AdminService {
     const url = `/hr/counter/${counterId}`;
     return this.apiService.get<{ object: CounterDetailsModele }>(url);
   }
+  getBranchDetails(
+    branchId: number
+  ): Observable<{ object: CounterDetailsModele }> {
+    const url = `/hr/branches/${branchId}`;
+    return this.apiService.get<{ object: CounterDetailsModele }>(url);
+  }
 
   getRoleMenus(id: number | string) {
     const url = `/hr/access/menu/roles/?role=${id}&`;

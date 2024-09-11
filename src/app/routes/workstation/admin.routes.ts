@@ -11,6 +11,8 @@ import { AdminTreasureListComponent } from '../../components/admin/agence/admin-
 import { AdminTreasureDetailsComponent } from '../../components/admin/agence/admin-treasure-details/admin-treasure-details.component';
 import { AdminCounterListComponent } from '../../components/admin/agence/admin-counter-list/admin-counter-list.component';
 import { AdminCounterDetailsComponent } from '../../components/admin/agence/admin-counter-details/admin-counter-details.component';
+import { AdminBranchListComponent } from '../../components/admin/agence/admin-branch-list/admin-branch-list.component';
+import { AdminBranchDetailsComponent } from '../../components/admin/agence/admin-branch-details/admin-branch-details.component';
 export const AdminRoutes: Routes = [
   // Operator
   {
@@ -69,5 +71,15 @@ export const AdminRoutes: Routes = [
     path: 'counter/:counterId',
 
     component: AdminCounterDetailsComponent,
+  },
+  {
+    path: 'branch',
+
+    component: AdminBranchListComponent,
+  },
+  {
+    path: 'branch/:branchId',
+
+    component: AdminBranchDetailsComponent,
   },
 ];
