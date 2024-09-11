@@ -29,7 +29,7 @@ export class AuthCorporateComponent implements OnInit {
   operatorIsAuthenticated$: Observable<boolean>;
   dialog$: Observable<DialogResponseModel>;
   password = '';
-  clientId$!: Observable<number>;
+  unchagedUserId$!: Observable<number>;
   userId!: number;
   invitations!: OrganizationInvitationModel[];
   loadingInvitations = true;
@@ -49,7 +49,7 @@ export class AuthCorporateComponent implements OnInit {
       this.configService.operatorIsAuthenticated();
     this.operatorOrganizations$ = this.configService.getOperatorOrganizations();
     this.dialog$ = this.dialogService.getDialogState();
-    this.clientId$ = this.authService.getUserId();
+    this.unchagedUserId$ = this.authService.getAlwaysUserId();
   }
 
   ngOnInit() {
@@ -94,7 +94,7 @@ export class AuthCorporateComponent implements OnInit {
       },
     });
 
-    this.clientId$.subscribe({
+    this.unchagedUserId$.subscribe({
       next: id => {
         this.userId = id;
         if (this.userId) {
