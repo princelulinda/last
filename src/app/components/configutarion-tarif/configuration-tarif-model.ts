@@ -23,6 +23,12 @@ export interface TarifTypeInfoModel {
   type_type: string;
   type_name: string;
 }
+
 export interface AddTarifModel {
-  objects: string;
+  object: AddTarifModel;
+  tarif: string;
+  id: string;
 }
+// export interface EventTargetModel{
+//   target:string;
+// }

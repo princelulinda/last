@@ -234,7 +234,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="bg-white">
                       <div class="row g-1">
                         <div class="col">
                           <input
@@ -255,7 +255,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="bg-white">
                       <div class="row g-1">
                         <div class="col">
                           <input
@@ -276,7 +276,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="bg-white">
                       <div class="row g-1">
                         <div class="col">
                           <input
@@ -292,7 +292,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="bg-white">
                       <div class="row g-1">
                         <div class="col">
                           <input
@@ -308,7 +308,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="bg-white">
                       <div class="row g-1">
                         <div class="col">
                           <input
@@ -390,14 +390,26 @@
                   <span> Tarif type </span>
                 </div>
                 <div class="col">
-                  <span
-                    ><input
+                  <span>
+                    <!-- <input
                       name="tatifType"
                       formControlName="tarifType"
                       class="form-control"
                       type="text"
                       placeholder="Tarif type"
-                  /></span>
+                  /> -->
+                    <select
+                      tabindex="0"
+                      class="form-select fw-bold text-dark"
+                      aria-label="Default select example"
+                      style="cursor: pointer"
+                      (change)="getSelectedType($event)">
+                      <!-- {{bankNote?.[0]?.bank_note_value}} -->
+                      <option value="0" i18n>Select the type</option>
+                      <option value="Internal" i18n>Internal</option>
+                      <option value="External" i18n>External</option>
+                    </select>
+                  </span>
                 </div>
               </div>
               <div class="row">
@@ -630,7 +642,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="bg-white">
                       <div class="row g-1">
                         <div class="col">
                           <input class="form-control rounded-0" type="text" />
@@ -642,7 +654,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="bg-white">
                       <div class="row g-1">
                         <div class="col">
                           <input class="form-control rounded-0" type="text" />
@@ -654,7 +666,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="bg-white">
                       <div class="row g-1">
                         <div class="col">
                           <input class="form-control rounded-0" type="text" />
@@ -666,7 +678,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="bg-white">
                       <div class="row g-1">
                         <div class="col">
                           <input class="form-control rounded-0" type="text" />
@@ -678,7 +690,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="bg-white">
                       <div class="row g-1">
                         <div class="col">
                           <input class="form-control rounded-0" type="text" />
