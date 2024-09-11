@@ -3,6 +3,7 @@ import {
   ElementRef,
   HostListener,
   AfterViewInit,
+  Input,
 } from '@angular/core';
 import { Tooltip } from 'bootstrap';
 
@@ -17,6 +18,7 @@ declare let bootstrap: {
 export class ClipboardDirective implements AfterViewInit {
   private tooltip!: Tooltip;
   private tooltipTitle = 'Copy To Clipboard';
+  @Input('appClipboard') clipboardText = '';
 
   constructor(private el: ElementRef) {}
 
@@ -40,7 +42,7 @@ export class ClipboardDirective implements AfterViewInit {
   }
 
   @HostListener('click') onClick() {
-    const text = this.el.nativeElement.innerText;
+    const text = this.clipboardText || this.el.nativeElement.innerText;
 
     navigator.clipboard.writeText(text).then(() => {
       this.updateTooltip('Copied');
