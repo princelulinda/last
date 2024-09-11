@@ -44,7 +44,7 @@ export class AdminCounterDetailsComponent implements OnInit {
   }
   getCounterDetails() {
     this.loadingData = true;
-    this.adminService.getBranchDetails(2).subscribe({
+    this.adminService.getCounterDetails(this.counterId).subscribe({
       next: (response: { object: CounterDetailsModele }) => {
         this.loadingData = false;
         this.counterDetails = response.object;

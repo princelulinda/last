@@ -72,14 +72,15 @@ export const AdminRoutes: Routes = [
 
     component: AdminCounterDetailsComponent,
   },
+
   {
     path: 'branch',
 
     component: AdminBranchListComponent,
   },
+
   {
     path: 'branch/:branchId',
-
     component: AdminBranchDetailsComponent,
   },
 ];

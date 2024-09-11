@@ -15,7 +15,7 @@ import {
   TellerDetailsModele,
   TreaureDetailsModele,
 } from '../../../components/admin/agence/agence.models';
-
+import { BranchDetailsModele } from '../../../components/admin/agence/agence.models';
 @Injectable({
   providedIn: 'root',
 })
@@ -74,9 +74,9 @@ export class AdminService {
   }
   getBranchDetails(
     branchId: number
-  ): Observable<{ object: CounterDetailsModele }> {
+  ): Observable<{ object: BranchDetailsModele }> {
     const url = `/hr/branches/${branchId}`;
-    return this.apiService.get<{ object: CounterDetailsModele }>(url);
+    return this.apiService.get<{ object: BranchDetailsModele }>(url);
   }
 
   getRoleMenus(id: number | string) {

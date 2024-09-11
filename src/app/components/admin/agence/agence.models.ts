@@ -112,3 +112,20 @@ export interface CounterDetailsModele {
     };
   };
 }
+export interface BranchDetailsModele {
+  name: string | null;
+  formatted_code: string | null;
+  created_at: Date | null;
+  location: string | null;
+  organization_tenant: {
+    institution_client: {
+      client_code: string | null;
+      picture: string | null;
+      is_active: string | null;
+      client_full_name: string | null;
+      client_type: {
+        title: string | null;
+      };
+    };
+  };
+}

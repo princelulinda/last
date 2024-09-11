@@ -81,7 +81,6 @@ export class ClubAdhesionComponent implements OnInit {
           this.getSavingData();
           //  this.getSavingDat();
         }
-        console.log('Tontine ID:', this.tontineId);
       },
     });
     this.adhesionForm.get('contribution')?.valueChanges.subscribe(() => {
@@ -101,22 +100,17 @@ export class ClubAdhesionComponent implements OnInit {
   getMemberId(event: ItemModel | null) {
     if (event) {
       this.referenceId = event.id;
-      console.log('referenceId', this.referenceId);
       this.lookupEffectue = true;
     } else {
       this.referenceId = 0;
       this.lookupEffectue = false;
-      console.log('referenceId', this.referenceId);
     }
   }
   getSavingData() {
     this.savingDetailService.getTontineDetails(this.tontineId).subscribe({
       next: (response: { object: TontineDataModele }) => {
         this.savingData = response.object;
-        console.log('Données de tontine:', this.savingData);
       },
-      error: (error: Error) =>
-        console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
 
@@ -152,7 +146,6 @@ export class ClubAdhesionComponent implements OnInit {
     this.adhesionForm.patchValue({
       isRenewable: this.isChecked,
     });
-    // console.log(this.myForm.value);
   }
   isFormValid(): boolean {
     return this.adhesionForm.valid && this.isChecked;
