@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InvoiceComponent } from './invoice.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ActivatedRoute } from '@angular/router';
 
 describe('InvoiceComponent', () => {
   let component: InvoiceComponent;
@@ -8,9 +11,16 @@ describe('InvoiceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InvoiceComponent]
-    })
-    .compileComponents();
+      imports: [InvoiceComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        {
+          provide: ActivatedRoute,
+          useValue: {},
+        },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(InvoiceComponent);
     component = fixture.componentInstance;
