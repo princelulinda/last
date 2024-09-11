@@ -4,7 +4,7 @@
   @if (organizationDetailsLoading || loadingPermission) {
     <span
       class="w-100 h-100 d-flex justify-content-center align-items-center p-4">
-      <i class="fa-solid fa-spin fa-circle-notch fa-3x text-dark"></i>
+      <i class="fa-solid fa-spin fa-circle-notch fs-large text-dark"></i>
     </span>
   }
 
@@ -61,25 +61,6 @@
             <span class="fw-bold">Pierre claver koko Banywera </span>
           </div>
         </div>
-
-        <div
-          class="align-self-end d-flex flex-row gap-2"
-          style="margin-left: auto">
-          <a
-            class="clickable"
-            (click)="showInfoSection()"
-            tabindex="0"
-            [ngClass]="!showDetails ? 'text-primary fw-bold' : ''"
-            >Info</a
-          >
-          <a
-            class="clickable"
-            tabindex="0"
-            (click)="showDetailsSection()"
-            [ngClass]="showDetails ? 'text-primary fw-bold' : ''"
-            >Details</a
-          >
-        </div>
       </div>
     }
 
@@ -104,27 +85,28 @@
 
           <div class="w-100 d-flex position-relative flex-column gap-0 mb-4">
             <div class="w-100 d-flex flex-row px-3 mb-2 align-items-center">
-              <span
-                class="bg-primary rounded-circle position-absolute redDot"></span>
-              <span class="fw-bold">Details</span>
+              <span class="position-absolute redDot"
+                ><i class="fa-solid fa-circle text-primary fs-x-small"></i
+              ></span>
+              <span class="fw-bold" i18n>Details</span>
             </div>
 
             <div class="w-100 d-flex flex-wrap px-3">
               <div class="w-50 d-flex flex-column gap-1 mb-4">
-                <span class="fw-bold text-secondary">Username</span>
+                <span class="fw-bold text-secondary" i18n>Username</span>
                 <span class="fw-bold">{{
                   organizationDetails?.operator?.username
                 }}</span>
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
-                <span class="fw-bold text-secondary">Full name</span>
+                <span class="fw-bold text-secondary" i18n>Full name</span>
                 <span class="fw-bold">{{
                   organizationDetails?.operator?.employee_client
                     ?.client_full_name ?? '------'
                 }}</span>
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
-                <span class="fw-bold text-secondary">Ips Allowed</span>
+                <span class="fw-bold text-secondary" i18n>Ips Allowed</span>
                 @if (
                   !organizationDetails?.operator?.allowed_ips ||
                   organizationDetails?.operator?.allowed_ips?.length === 0
@@ -144,21 +126,21 @@
                 <span class="fw-bold text-secondary">Active</span>
                 @if (organizationDetails?.operator?.is_active) {
                   <span class="fw-bold"
-                    ><i class="fa-solid fa-circle-check fa-lg check"></i
+                    ><i class="fa-solid fa-circle-check fa-lg text-success"></i
                   ></span>
                 }
                 @if (!organizationDetails?.operator?.is_active) {
                   <span class="fw-bold"
-                    ><i class="fa-solid fa-circle-xmark fa-lg xmark"></i
+                    ><i class="fa-solid fa-circle-xmark fa-lg text-danger"></i
                   ></span>
                 }
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
-                <span class="fw-bold text-secondary">Work Phone</span>
+                <span class="fw-bold text-secondary" i18n>Work Phone</span>
                 <span class="fw-bold">72 000 111</span>
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
-                <span class="fw-bold text-secondary">Email</span>
+                <span class="fw-bold text-secondary" i18n>Email</span>
                 <span class="fw-bold">{{
                   organizationDetails?.operator?.employee_client?.client_email
                 }}</span>
@@ -169,43 +151,44 @@
           <!-- Position Details -->
           <div class="w-100 d-flex position-relative flex-column gap-0">
             <div class="w-100 d-flex flex-row px-3 mb-2 align-items-center">
-              <span
-                class="bg-primary rounded-circle position-absolute redDot"></span>
-              <span class="fw-bold">Position Details</span>
+              <span class="position-absolute redDot">
+                <i class="fa-solid fa-circle text-primary fs-x-small"></i>
+              </span>
+              <span class="fw-bold" i18n>Position Details</span>
             </div>
 
             <div class="w-100 d-flex flex-wrap px-3">
               <div class="w-50 d-flex flex-column gap-1 mb-4">
-                <span class="fw-bold text-secondary">Departement</span>
-                <span class="fw-bold">Administration</span>
+                <span class="fw-bold text-secondary" i18n>Departement</span>
+                <span class="fw-bold" i18n>Administration</span>
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
-                <span class="fw-bold text-secondary">Manager</span>
+                <span class="fw-bold text-secondary" i18n>Manager</span>
                 <span class="fw-bold">{{ 'info@test.com' }}</span>
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary">Teller</span>
                 @if (organizationDetails?.is_teller) {
                   <span class="fw-bold"
-                    ><i class="fa-solid fa-circle-check fa-lg check"></i
+                    ><i class="fa-solid fa-circle-check fa-lg text-success"></i
                   ></span>
                 }
                 @if (!organizationDetails?.is_teller) {
                   <span class="fw-bold"
-                    ><i class="fa-solid fa-circle-xmark fa-lg xmark"></i
+                    ><i class="fa-solid fa-circle-xmark fa-lg text-danger"></i
                   ></span>
                 }
               </div>
               <div class="w-50 d-flex flex-column gap-1">
-                <span class="fw-bold text-secondary">Treasure</span>
+                <span class="fw-bold text-secondary" i18n>Treasurer</span>
                 @if (organizationDetails?.is_treasurer) {
                   <span class="fw-bold"
-                    ><i class="fa-solid fa-circle-check fa-lg check"></i
+                    ><i class="fa-solid fa-circle-check fa-lg text-success"></i
                   ></span>
                 }
                 @if (!organizationDetails?.is_treasurer) {
                   <span class="fw-bold"
-                    ><i class="fa-solid fa-circle-xmark fa-lg xmark"></i
+                    ><i class="fa-solid fa-circle-xmark fa-lg text-danger"></i
                   ></span>
                 }
               </div>
@@ -219,12 +202,14 @@
           <!-- Document -->
           <div>
             <div class="w-100 d-flex flex-row gap-2 align-items-center">
-              <span class="bg-primary rounded-circle redDot"></span>
-              <span class="fw-bold">Document</span>
+              <span>
+                <i class="fa-solid fa-circle text-primary fs-x-small"></i>
+              </span>
+              <span class="fw-bold" i18n>Document</span>
             </div>
             <div class="mt-2 px-3 pt-3 pb-5 border border-secondary rounded-2">
               <div class="d-flex flex-column">
-                <span class="text-secondary fs-medium">CV</span>
+                <span class="text-secondary fs-medium" i18n>CV</span>
                 <span href="#" class="fw-bold text-info clickable text-truncate"
                   ><u>cv_bibyento.pdf</u
                   ><i
@@ -233,7 +218,7 @@
               </div>
 
               <div class="d-flex flex-column mt-3">
-                <span class="text-secondary fs-medium"
+                <span class="text-secondary fs-medium" i18n
                   >Attestation de residence</span
                 >
                 <span href="#" class="fw-bold text-info clickable text-truncate"
@@ -244,7 +229,9 @@
               </div>
 
               <div class="d-flex flex-column mt-3">
-                <span class="text-secondary fs-medium">Identite complete</span>
+                <span class="text-secondary fs-medium" i18n
+                  >Identite complete</span
+                >
                 <span href="#" class="fw-bold text-info clickable text-truncate"
                   ><u>Identinte_complete_bibyento.docs</u
                   ><i
@@ -253,7 +240,7 @@
               </div>
 
               <div class="d-flex flex-column mt-3">
-                <span class="text-secondary fs-medium">CNI</span>
+                <span class="text-secondary fs-medium" i18n>CNI</span>
                 <span href="#" class="fw-bold text-info clickable text-truncate"
                   ><u>CNI_bibyento.docs</u
                   ><i
@@ -270,8 +257,10 @@
         class="w-100 bg-secondary rounded-2 border border-secondary mt-4"
         style="height: 250px">
         <div class="w-100 d-flex flex-row px-3 mt-2 gap-2 align-items-center">
-          <span class="bg-primary rounded-circle redDot"></span>
-          <span class="fw-bold">Recent Operations</span>
+          <span>
+            <i class="fa-solid fa-circle text-primary fs-x-small"></i>
+          </span>
+          <span class="fw-bold" i18n>Recent Operations</span>
         </div>
       </div>
     </ng-template>
@@ -279,462 +268,516 @@
     <ng-template #details>
       <!-- Details -->
 
-      <div class="mt-5 mx-3 h-75">
-        <div class="w-nav d-flex flex-row border-bottom">
-          <div
-            class="px-4 clickable"
-            [ngClass]="
-              selectedMenu === 'roles'
-                ? 'border-3 border-primary border-bottom'
-                : ''
-            "
-            (click)="selectMenu('roles')"
-            tabindex="0">
-            <span class="fw-bold">Role(s)</span>
-          </div>
-
-          <div
-            class="px-4 clickable"
-            [ngClass]="
-              selectedMenu === 'menus'
-                ? 'border-3 border-primary border-bottom'
-                : ''
-            "
-            (click)="selectMenu('menus')"
-            tabindex="0">
-            <span class="fw-bold">Menu(s)</span>
-          </div>
-
-          <div class="px-4 clickable">
-            <span class="fw-bold">Counter(s)</span>
-          </div>
-        </div>
-        <div class="mt-5 details">
-          <div class="d-flex flex-row justify-content-between">
-            @if (selectedSection === 'roles') {
-              <div
-                class="py-1 rounded px-3 border border-2 border-secondary clickable">
-                <i class="fa-solid fa-circle-plus"></i>
-                <span
-                  class="ms-2 fw-bold"
-                  (click)="selectSection('assignment')"
-                  tabindex="0"
-                  >Assign New Roles</span
-                >
-              </div>
-            }
-
-            @if (
-              selectedMenu !== 'roles' ||
-              (selectedMenu === 'roles' && selectedSection === 'assignment')
-            ) {
-              <div></div>
-            }
-            <div class="h-100 d-flex flex-row gap-2">
-              <div class="position-relative">
-                <input
-                  class="form-control"
-                  type="search"
-                  [formControl]="searchInput" />
-                <div
-                  class="position-absolute end-0 top-0 pe-2 fa-lg h-100 d-flex align-items-center clickable"
-                  (click)="searchRolesOrMenus()"
-                  tabindex="0">
-                  @if (loadingAllMenus) {
-                    <span>
-                      <i class="fas fa-spinner fa-pulse text-secondary"></i>
-                    </span>
-                  }
-
-                  @if (!loadingAllMenus) {
-                    <span>
-                      <i
-                        class="fa-solid fa-magnifying-glass text-secondary"></i>
-                    </span>
-                  }
-                </div>
-              </div>
-              @if (selectedRole && selectedSection === 'roles') {
-                <div
-                  class="d-flex align-items-center px-2 rounded bg-primary-2 clickable"
-                  (click)="backToRoles()"
-                  tabindex="0">
-                  <i class="fa-solid fa-arrow-left text-primary fa-lg"></i>
-                </div>
-              }
-            </div>
-          </div>
-          @if (rolesLoading) {
-            <div class="w-100 d-flex justify-content-center mt-3">
-              <span class="my-5">
-                <i class="fa-solid fa-spin fa-circle-notch fa-2x"></i>
-              </span>
-            </div>
-          }
-          @if (!rolesLoading && !selectedRole && selectedSection === 'roles') {
-            <div class="my-3 d-flex flex-column gap-3 overflow-y-auto">
-              @for (role of roles; track $index) {
-                <div
-                  class="clickable border d-flex flex-row justify-content-between w-100 p-2 rounded"
-                  (click)="selectRole(role)"
-                  tabindex="0">
-                  <div class="d-flex flex-column justify-content-between gap-2">
-                    <span class="fw-bold">{{ role.role_name }}</span>
-                    <div class="d-flex align-items-center">
-                      <div class="">
-                        <span class="fw-bold badge-design bg-secondary py-1">{{
-                          role.role_type.title
-                        }}</span>
-                      </div>
-
-                      <div class="">
-                        <span class="text-primary fw-bold badge-design"
-                          >Teller</span
-                        >
-                      </div>
-                    </div>
-
-                    <div
-                      class="d-flex flex-row align-items-center justify-content-between gap-2 py-1">
-                      <span
-                        [class]="
-                          'fw-bold badge-design py-1 px-2 bg-' +
-                          role.access_type.css
-                        ">
-                        <i
-                          [class]="
-                            'fa-solid text-secondary fa-' +
-                            role.access_type.icon
-                          "></i>
-
-                        {{ role.access_type.title }}
-                      </span>
-
-                      <i
-                        class="fa-solid fa-arrow-up-right-from-square text-primary fa-lg fw-bold"></i>
-                    </div>
-                  </div>
-
-                  <div class="d-flex flex-column justify-content-between">
-                    <div class="d-flex flex-column align-items-center gap-0">
-                      <span class="fw-bold">{{
-                        role.begins_at | date: 'medium'
-                      }}</span>
-                      <div class="">
-                        <span
-                          [class]="
-                            'badge-design px-3 bg-' +
-                            role.operator_role_state.css
-                          "
-                          style="max-width: fit-content"
-                          >{{ role.operator_role_state.value }}</span
-                        >
-                      </div>
-                      <span class="fw-bold">{{
-                        role.ends_at | date: 'medium'
-                      }}</span>
-                    </div>
-
-                    <div class="align-self-end pt-2">
-                      <i class="fa-solid fa-ellipsis fa-2x"></i>
-                    </div>
-                  </div>
-                </div>
-              }
-            </div>
-          }
-
-          <!------------------------------------------------------------ ALL MENUS ------------------------------------------------------------------------->
-
-          @if (selectedSection === 'menus') {
+      <div class="mt-5 mx-3 h-75 row">
+        <div class="col-12 col-lg-10 col-xl-8 col-xxl-6">
+          <div class="w-100 d-flex flex-row border-bottom">
             <div
-              class="my-3 d-flex flex-column gap-3 overflow-y-auto align-items-center w-100">
-              @if (loadingAllMenus) {
-                <span class="my-5">
-                  <i class="fa-solid fa-spin fa-circle-notch fa-2x"></i>
-                </span>
+              class="px-4 clickable"
+              [ngClass]="
+                selectedMenu === 'roles'
+                  ? 'border-3 border-primary border-bottom'
+                  : ''
+              "
+              (click)="selectMenu('roles')"
+              tabindex="0">
+              <span class="fw-bold" i18n>Role(s)</span>
+            </div>
+
+            <div
+              class="px-4 clickable"
+              [ngClass]="
+                selectedMenu === 'menus'
+                  ? 'border-3 border-primary border-bottom'
+                  : ''
+              "
+              (click)="selectMenu('menus')"
+              tabindex="0">
+              <span class="fw-bold" i18n>Menu(s)</span>
+            </div>
+
+            <div class="px-4 clickable">
+              <span class="fw-bold" i18n>Counter(s)</span>
+            </div>
+          </div>
+          <div class="pt-5 w-75 h-100 overflow-y-auto">
+            <div class="d-flex flex-row justify-content-between">
+              @if (selectedSection === 'roles') {
+                <div
+                  class="py-1 rounded px-3 border border-2 border-secondary clickable">
+                  <i class="fa-solid fa-circle-plus"></i>
+                  <span
+                    class="ms-2 fw-bold"
+                    (click)="selectSection('assignment')"
+                    tabindex="0"
+                    i18n
+                    >Assign New Roles</span
+                  >
+                </div>
               }
-              @for (menu of allMenus; track $index) {
-                <div class="w-100 rounded border row p-2">
-                  <div class="d-flex flex-column gap-1 col">
-                    <div class="d-flex flex-row gap-2">
-                      <span class="text-secondary fw-bold fs-small text-nowrap"
-                        >Name :</span
-                      >
-                      <span class="fw-bold fs-small">{{
-                        menu.lookup_title
-                      }}</span>
-                    </div>
-                  </div>
 
-                  <div class="d-flex flex-column gap-1 col">
-                    <div class="d-flex flex-row gap-2">
-                      <span class="text-secondary fw-bold fs-small text-nowrap"
-                        >Group :</span
-                      >
-                      <span class="fw-bold fs-small">{{
-                        menu.menu_group_info?.name
-                      }}</span>
-                    </div>
-                  </div>
+              @if (
+                selectedMenu !== 'roles' ||
+                (selectedMenu === 'roles' && selectedSection === 'assignment')
+              ) {
+                <div></div>
+              }
+              <div class="h-100 d-flex flex-row gap-2">
+                <div class="position-relative">
+                  <input
+                    class="form-control"
+                    type="search"
+                    [formControl]="searchInput" />
+                  <div
+                    class="position-absolute end-0 top-0 pe-2 fa-lg h-100 d-flex align-items-center clickable"
+                    (click)="searchRolesOrMenus()"
+                    tabindex="0">
+                    @if (loadingAllMenus) {
+                      <span>
+                        <i class="fas fa-spinner fa-pulse text-secondary"></i>
+                      </span>
+                    }
 
-                  <div class="d-flex flex-column gap-1 col">
-                    <div class="d-flex flex-row gap-2">
-                      <span class="text-secondary fw-bold fs-small text-nowrap"
-                        >Active :</span
-                      >
-                      @if (menu.menu_group_info?.active) {
-                        <span class="fw-bold"
-                          ><i class="fa-solid fa-circle-check check"></i
-                        ></span>
-                      }
-
-                      @if (!menu.menu_group_info?.active) {
-                        <span class="fw-bold"
-                          ><i class="fa-solid fa-circle-xmark xmark"></i
-                        ></span>
-                      }
-                    </div>
-                  </div>
-                  <div class="d-flex flex-row gap-2">
-                    <span class="text-secondary fw-bold fs-small text-nowrap"
-                      >Url :</span
-                    >
-                    @if (menu.lookup_subtitle) {
-                      <span class="fw-bold fs-small">{{
-                        menu.lookup_subtitle
-                      }}</span>
+                    @if (!loadingAllMenus) {
+                      <span>
+                        <i
+                          class="fa-solid fa-magnifying-glass text-secondary"></i>
+                      </span>
                     }
                   </div>
                 </div>
-              }
-            </div>
-          }
-
-          <!------------------------------------------------------------------------------ASSIGN NEW ROLES  -------------------------------------------------------------------------------->
-
-          @if (selectedSection === 'assignment' && selectedMenu === 'roles') {
-            <div class="mt-4">
-              <form
-                [formGroup]="newRoleForm"
-                class="w-100 mx-auto row justify-content-center align-items-center"
-                style="gap: 0.7rem 0">
-                <div class="input w-50 px-2">
-                  <label
-                    for="begins_at"
-                    class="form-label fw-bold text-dark"
-                    i18n
-                    >Begins At <code>*</code></label
-                  >
-                  <input
-                    type="datetime-local"
-                    class="form-control px-1"
-                    formControlName="begins_at"
-                    id="begins_at" />
-                </div>
-                <div class="input w-50 px-2">
-                  <label for="ends_at" class="form-label fw-bold text-dark" i18n
-                    >Ends At <code>*</code></label
-                  >
-                  <input
-                    type="datetime-local"
-                    class="form-control px-1"
-                    id="ends_at"
-                    formControlName="ends_at" />
-                </div>
-                <div class="mt-2 w-100">
-                  <app-multi-select
-                    url="/hr/access/roles/objects_autocomplete/?search="
-                    [defaultDataIds]="rolesId"
-                    name="Roles"
-                    (selectedItemEvent)="
-                      selectedItems($event)
-                    "></app-multi-select>
-                </div>
-              </form>
-              <div class="mx-auto text-center mt-1 mb-3">
-                <span
-                  tabindex="0"
-                  *ngIf="!assignLoading"
-                  role="button"
-                  class="me-4 text-dark"
-                  (click)="selectSection('roles')"
-                  tabindex="0"
-                  i18n
-                  >Cancel</span
-                >
-                <button
-                  (click)="assignNewRole()"
-                  type="submit"
-                  class="btn bg-primary text-light px-3"
-                  [disabled]="
-                    !newRoleForm.valid ||
-                    !selectedRolesToAssign ||
-                    selectedRolesToAssign.length === 0 ||
-                    assignLoading
-                  ">
-                  @if (!assignLoading) {
-                    <b i18n> Add</b>
-                  }
-                  @if (assignLoading) {
-                    <span>
-                      <i
-                        class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-2"></i>
-                    </span>
-                  }
-                </button>
+                @if (selectedRole && selectedSection === 'roles') {
+                  <div
+                    class="d-flex align-items-center px-2 rounded bg-primary-2 clickable"
+                    (click)="backToRoles()"
+                    tabindex="0">
+                    <i class="fa-solid fa-arrow-left text-primary fa-lg"></i>
+                  </div>
+                }
               </div>
             </div>
-          }
+            @if (rolesLoading && selectedSection === 'roles' && !selectedRole) {
+              <div class="w-100 d-flex justify-content-center mt-3">
+                <span class="my-5">
+                  <i class="fa-solid fa-spin fa-circle-notch fs-l-medium"></i>
+                </span>
+              </div>
+            }
+            @if (
+              !rolesLoading && !selectedRole && selectedSection === 'roles'
+            ) {
+              <div class="my-3 d-flex flex-column gap-3 overflow-y-auto">
+                @if (!roles || roles.length === 0) {
+                  <div class="d-flex flex-column align-items-center mt-5">
+                    <span>
+                      <i
+                        class="fa-solid fa-face-meh fs-xx-large empty-state"></i>
+                    </span>
+                    <b class="fs-4 empty-state" i18n> No Roles </b>
+                  </div>
+                }
 
-          <!------------------------------------------------------------ SELECTED ROLE & MENUS ------------------------------------------------------------------------->
+                @if (roles && roles.length > 0) {
+                  @for (role of roles; track $index) {
+                    <div
+                      class="clickable border d-flex flex-row justify-content-between w-100 p-2 rounded"
+                      (click)="selectRole(role)"
+                      tabindex="0">
+                      <div
+                        class="d-flex flex-column justify-content-between gap-2">
+                        <span class="fw-bold">{{ role.role_name }}</span>
+                        <div class="d-flex align-items-center">
+                          <div class="">
+                            <span
+                              class="fw-bold badge-design bg-secondary py-1"
+                              >{{ role.role_type.title }}</span
+                            >
+                          </div>
 
-          @if (
-            selectedRole &&
-            selectedSection === 'roles' &&
-            selectedMenu === 'roles'
-          ) {
-            <div
-              class="mt-3 border border-3 border-primary d-flex flex-row justify-content-between w-100 p-2 rounded">
-              <div class="d-flex flex-column justify-content-between gap-2">
-                <span class="fw-bold">{{ selectedRole.role_name }}</span>
-                <div class="d-flex align-items-center">
-                  <div class="">
-                    <span class="fw-bold badge-design bg-secondary py-1">{{
-                      selectedRole.role_type.title
+                          <div class="">
+                            <span class="text-primary fw-bold badge-design"
+                              >Teller</span
+                            >
+                          </div>
+                        </div>
+
+                        <div
+                          class="d-flex flex-row align-items-center justify-content-between gap-2 py-1">
+                          <span
+                            [class]="
+                              'fw-bold badge-design py-1 px-2 bg-' +
+                              role.access_type.css
+                            ">
+                            <i
+                              [class]="
+                                'fa-solid text-secondary fa-' +
+                                role.access_type.icon
+                              "></i>
+
+                            {{ role.access_type.title }}
+                          </span>
+
+                          <i
+                            class="fa-solid fa-arrow-up-right-from-square text-primary fa-lg fw-bold"></i>
+                        </div>
+                      </div>
+
+                      <div class="d-flex flex-column justify-content-between">
+                        <div
+                          class="d-flex flex-column align-items-center gap-0">
+                          <span class="fw-bold">{{
+                            role.begins_at | date: 'medium'
+                          }}</span>
+                          <div class="">
+                            <span
+                              [class]="
+                                'badge-design px-3 bg-' +
+                                role.operator_role_state.css
+                              "
+                              style="max-width: fit-content"
+                              >{{ role.operator_role_state.value }}</span
+                            >
+                          </div>
+                          <span class="fw-bold">{{
+                            role.ends_at | date: 'medium'
+                          }}</span>
+                        </div>
+
+                        <div class="align-self-end pt-2">
+                          <i class="fa-solid fa-ellipsis fa-2x"></i>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+            }
+
+            <!------------------------------------------------------------ ALL MENUS ------------------------------------------------------------------------->
+
+            @if (selectedSection === 'menus') {
+              <div
+                class="my-3 d-flex flex-column gap-3 overflow-y-auto align-items-center w-100">
+                @if (loadingAllMenus) {
+                  <span class="my-5">
+                    <i class="fa-solid fa-spin fa-circle-notch fs-l-medium"></i>
+                  </span>
+                }
+
+                @if ((!allMenus || allMenus.length === 0) && !loadingAllMenus) {
+                  <div class="d-flex flex-column align-items-center mt-5">
+                    <span>
+                      <i
+                        class="fa-solid fa-face-meh fs-xx-large empty-state"></i>
+                    </span>
+                    <b class="fs-4 empty-state" i18n> No Menus </b>
+                  </div>
+                }
+
+                @if (allMenus && allMenus.length > 0) {
+                  @for (menu of allMenus; track $index) {
+                    <div class="w-100 rounded border row p-2">
+                      <div class="d-flex flex-column gap-1 col">
+                        <div class="d-flex flex-row gap-2">
+                          <span
+                            class="text-secondary fw-bold fs-small text-nowrap"
+                            i18n
+                            >Name :</span
+                          >
+                          <span class="fw-bold fs-small">{{
+                            menu.lookup_title
+                          }}</span>
+                        </div>
+                      </div>
+
+                      <div class="d-flex flex-column gap-1 col">
+                        <div class="d-flex flex-row gap-2">
+                          <span
+                            class="text-secondary fw-bold fs-small text-nowrap"
+                            i18n
+                            >Group :</span
+                          >
+                          <span class="fw-bold fs-small">{{
+                            menu.menu_group_info?.name
+                          }}</span>
+                        </div>
+                      </div>
+
+                      <div class="d-flex flex-column gap-1 col">
+                        <div class="d-flex flex-row gap-2">
+                          <span
+                            class="text-secondary fw-bold fs-small text-nowrap"
+                            i18n
+                            >Active :</span
+                          >
+                          @if (menu.menu_group_info?.active) {
+                            <span class="fw-bold"
+                              ><i
+                                class="fa-solid fa-circle-check text-success"></i
+                            ></span>
+                          }
+
+                          @if (!menu.menu_group_info?.active) {
+                            <span class="fw-bold"
+                              ><i
+                                class="fa-solid fa-circle-xmark text-danger"></i
+                            ></span>
+                          }
+                        </div>
+                      </div>
+                      <div class="d-flex flex-row gap-2">
+                        <span
+                          class="text-secondary fw-bold fs-small text-nowrap"
+                          i18n
+                          >Url :</span
+                        >
+                        @if (menu.lookup_subtitle) {
+                          <span class="fw-bold fs-small">{{
+                            menu.lookup_subtitle
+                          }}</span>
+                        }
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+            }
+
+            <!------------------------------------------------------------------------------ASSIGN NEW ROLES  -------------------------------------------------------------------------------->
+
+            @if (selectedSection === 'assignment' && selectedMenu === 'roles') {
+              <div class="mt-4">
+                <form
+                  [formGroup]="newRoleForm"
+                  class="w-100 mx-auto row justify-content-center align-items-center"
+                  style="gap: 0.7rem 0">
+                  <div class="input w-50 px-2">
+                    <label
+                      for="begins_at"
+                      class="form-label fw-bold text-dark"
+                      i18n
+                      >Begins At <code>*</code></label
+                    >
+                    <input
+                      type="datetime-local"
+                      class="form-control px-1"
+                      formControlName="begins_at"
+                      id="begins_at" />
+                  </div>
+                  <div class="input w-50 px-2">
+                    <label
+                      for="ends_at"
+                      class="form-label fw-bold text-dark"
+                      i18n
+                      >Ends At <code>*</code></label
+                    >
+                    <input
+                      type="datetime-local"
+                      class="form-control px-1"
+                      id="ends_at"
+                      formControlName="ends_at" />
+                  </div>
+                  <div class="mt-2 w-100">
+                    <app-multi-select
+                      url="/hr/access/roles/objects_autocomplete/?search="
+                      [defaultDataIds]="rolesId"
+                      name="Roles"
+                      (selectedItemEvent)="
+                        selectedItems($event)
+                      "></app-multi-select>
+                  </div>
+                </form>
+                <div class="mx-auto text-center mt-1 mb-3">
+                  <span
+                    tabindex="0"
+                    *ngIf="!assignLoading"
+                    role="button"
+                    class="me-4 text-dark"
+                    (click)="selectSection('roles')"
+                    tabindex="0"
+                    i18n
+                    >Cancel</span
+                  >
+                  <button
+                    (click)="assignNewRole()"
+                    type="submit"
+                    class="btn bg-primary text-light px-3"
+                    [disabled]="
+                      !newRoleForm.valid ||
+                      !selectedRolesToAssign ||
+                      selectedRolesToAssign.length === 0 ||
+                      assignLoading
+                    ">
+                    @if (!assignLoading) {
+                      <b i18n> Add</b>
+                    }
+                    @if (assignLoading) {
+                      <span>
+                        <i
+                          class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-2"></i>
+                      </span>
+                    }
+                  </button>
+                </div>
+              </div>
+            }
+
+            <!------------------------------------------------------------ SELECTED ROLE & MENUS ------------------------------------------------------------------------->
+
+            @if (
+              selectedRole &&
+              selectedSection === 'roles' &&
+              selectedMenu === 'roles'
+            ) {
+              <div
+                class="mt-3 border border-3 border-primary d-flex flex-row justify-content-between w-100 p-2 rounded">
+                <div class="d-flex flex-column justify-content-between gap-2">
+                  <span class="fw-bold">{{ selectedRole.role_name }}</span>
+                  <div class="d-flex align-items-center">
+                    <div class="">
+                      <span class="fw-bold badge-design bg-secondary py-1">{{
+                        selectedRole.role_type.title
+                      }}</span>
+                    </div>
+
+                    <div class="">
+                      <span class="text-primary fw-bold badge-design" i18n
+                        >Teller</span
+                      >
+                    </div>
+                  </div>
+
+                  <div
+                    class="d-flex flex-row align-items-center justify-content-between gap-2 py-1">
+                    <span
+                      [class]="
+                        'fw-bold badge-design py-1 px-2 bg-' +
+                        selectedRole.access_type.css
+                      ">
+                      <i
+                        [class]="
+                          'fa-solid text-secondary fa-' +
+                          selectedRole.access_type.icon
+                        "></i>
+
+                      {{ selectedRole.access_type.title }}
+                    </span>
+
+                    <i
+                      class="fa-solid fa-arrow-up-right-from-square text-primary fa-lg fw-bold"></i>
+                  </div>
+                </div>
+
+                <div class="d-flex flex-column justify-content-between">
+                  <div class="d-flex flex-column align-items-center gap-0">
+                    <span class="fw-bold">{{
+                      selectedRole.begins_at | date: 'medium'
+                    }}</span>
+                    <div class="">
+                      <span
+                        [class]="
+                          'badge-design px-3 bg-' +
+                          selectedRole.operator_role_state.css
+                        "
+                        style="max-width: fit-content"
+                        >{{ selectedRole.operator_role_state.value }}</span
+                      >
+                    </div>
+                    <span class="fw-bold">{{
+                      selectedRole.ends_at | date: 'medium'
                     }}</span>
                   </div>
 
-                  <div class="">
-                    <span class="text-primary fw-bold badge-design"
-                      >Teller</span
-                    >
+                  <div class="align-self-end pt-2">
+                    <i class="fa-solid fa-ellipsis fa-2x"></i>
                   </div>
                 </div>
+              </div>
 
-                <div
-                  class="d-flex flex-row align-items-center justify-content-between gap-2 py-1">
-                  <span
-                    [class]="
-                      'fw-bold badge-design py-1 px-2 bg-' +
-                      selectedRole.access_type.css
-                    ">
+              <div
+                class="d-flex flex-column w-100 my-4 gap-3 align-items-center">
+                <div class="d-flex flex-row gap-2 align-items-center w-100">
+                  <i class="fa-solid fa-play text-primary fs-l-medium"></i>
+                  <span class="fs-l-medium fw-bold" i18n> Menu </span>
+                </div>
+
+                @if (loadingRoleMenus) {
+                  <div
+                    class="w-100 d-flex align-items-center justify-content-center">
                     <i
-                      [class]="
-                        'fa-solid text-secondary fa-' +
-                        selectedRole.access_type.icon
-                      "></i>
-
-                    {{ selectedRole.access_type.title }}
-                  </span>
-
-                  <i
-                    class="fa-solid fa-arrow-up-right-from-square text-primary fa-lg fw-bold"></i>
-                </div>
-              </div>
-
-              <div class="d-flex flex-column justify-content-between">
-                <div class="d-flex flex-column align-items-center gap-0">
-                  <span class="fw-bold">{{
-                    selectedRole.begins_at | date: 'medium'
-                  }}</span>
-                  <div class="">
-                    <span
-                      [class]="
-                        'badge-design px-3 bg-' +
-                        selectedRole.operator_role_state.css
-                      "
-                      style="max-width: fit-content"
-                      >{{ selectedRole.operator_role_state.value }}</span
-                    >
-                  </div>
-                  <span class="fw-bold">{{
-                    selectedRole.ends_at | date: 'medium'
-                  }}</span>
-                </div>
-
-                <div class="align-self-end pt-2">
-                  <i class="fa-solid fa-ellipsis fa-2x"></i>
-                </div>
-              </div>
-            </div>
-
-            <div class="d-flex flex-column w-100 my-4 gap-3 align-items-center">
-              <div class="d-flex flex-row gap-2 align-items-center w-100">
-                <i class="fa-solid fa-play text-primary fs-l-medium"></i>
-                <span class="fs-l-medium fw-bold"> Menu </span>
-              </div>
-
-              @if (loadingRoleMenus) {
-                <div
-                  class="w-100 d-flex align-items-center justify-content-center">
-                  <i
-                    class="fa-solid fa-spin fa-circle-notch fa-lg text-dark"></i>
-                </div>
-              }
-
-              @if (!loadingRoleMenus) {
-                @for (menu of roleMenus; track $index) {
-                  <div class="w-100 rounded border row p-2">
-                    <div class="d-flex flex-column gap-1 col">
-                      <div class="d-flex flex-row gap-2">
-                        <span
-                          class="text-secondary fw-bold fs-small text-nowrap"
-                          >Name :</span
-                        >
-                        <span class="fw-bold fs-small">{{
-                          menu.menu.name
-                        }}</span>
-                      </div>
-                    </div>
-
-                    <div class="d-flex flex-column gap-1 col">
-                      <div class="d-flex flex-row gap-2">
-                        <span
-                          class="text-secondary fw-bold fs-small text-nowrap"
-                          >Group :</span
-                        >
-                        <span class="fw-bold fs-small">{{
-                          menu.menu.menu_group_info?.name
-                        }}</span>
-                      </div>
-                    </div>
-
-                    <div class="d-flex flex-column gap-1 col">
-                      <div class="d-flex flex-row gap-2">
-                        <span
-                          class="text-secondary fw-bold fs-small text-nowrap"
-                          >Active :</span
-                        >
-                        @if (menu.menu.active) {
-                          <span class="fw-bold"
-                            ><i class="fa-solid fa-circle-check check"></i
-                          ></span>
-                        }
-
-                        @if (!menu.menu.active) {
-                          <span class="fw-bold"
-                            ><i class="fa-solid fa-circle-xmark xmark"></i
-                          ></span>
-                        }
-                      </div>
-                    </div>
-                    <div class="d-flex flex-row gap-2">
-                      <span class="text-secondary fw-bold fs-small text-nowrap"
-                        >Url :</span
-                      >
-                      @if (menu.menu.component_url) {
-                        <span class="fw-bold fs-small">{{
-                          menu.menu.component_url
-                        }}</span>
-                      }
-                    </div>
+                      class="fa-solid fa-spin fa-circle-notch text-dark"
+                      i18n></i>
                   </div>
                 }
-              }
-            </div>
 
-            <!-- <div class="d-flex flex-column w-100 mt-4 gap-3 align-items-center">
+                @if (!loadingRoleMenus) {
+                  @for (menu of roleMenus; track $index) {
+                    <div class="w-100 rounded border row p-2">
+                      <div class="d-flex flex-column gap-1 col">
+                        <div class="d-flex flex-row gap-2">
+                          <span
+                            class="text-secondary fw-bold fs-small text-nowrap"
+                            i18n
+                            >Name :</span
+                          >
+                          <span class="fw-bold fs-small">{{
+                            menu.menu.name
+                          }}</span>
+                        </div>
+                      </div>
+
+                      <div class="d-flex flex-column gap-1 col">
+                        <div class="d-flex flex-row gap-2">
+                          <span
+                            class="text-secondary fw-bold fs-small text-nowrap"
+                            i18n
+                            >Group :</span
+                          >
+                          <span class="fw-bold fs-small">{{
+                            menu.menu.menu_group_info?.name
+                          }}</span>
+                        </div>
+                      </div>
+
+                      <div class="d-flex flex-column gap-1 col">
+                        <div class="d-flex flex-row gap-2">
+                          <span
+                            class="text-secondary fw-bold fs-small text-nowrap"
+                            i18n
+                            >Active :</span
+                          >
+                          @if (menu.menu.active) {
+                            <span class="fw-bold"
+                              ><i
+                                class="fa-solid fa-circle-check text-success"></i
+                            ></span>
+                          }
+
+                          @if (!menu.menu.active) {
+                            <span class="fw-bold"
+                              ><i
+                                class="fa-solid fa-circle-xmark text-danger"></i
+                            ></span>
+                          }
+                        </div>
+                      </div>
+                      <div class="d-flex flex-row gap-2">
+                        <span
+                          class="text-secondary fw-bold fs-small text-nowrap"
+                          i18n
+                          >Url :</span
+                        >
+                        @if (menu.menu.component_url) {
+                          <span class="fw-bold fs-small">{{
+                            menu.menu.component_url
+                          }}</span>
+                        }
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+
+              <!-- <div class="d-flex flex-column w-100 mt-4 gap-3 align-items-center">
               <div class="d-flex flex-row gap-2 align-items-center w-100">
                 <i class="fa-solid fa-play text-primary fs-l-medium"></i>
                 <span class="fs-l-medium fw-bold"> Menu </span>
@@ -764,13 +807,14 @@
                       >Active :</span
                     >
                     <span class="fw-bold"
-                      ><i class="fa-solid fa-circle-xmark check"></i
+                      ><i class="fa-solid fa-circle-xmark text-danger"></i
                     ></span>
                   </div>
                 </div>
               </div>
             </div> -->
-          }
+            }
+          </div>
         </div>
       </div>
     </ng-template>

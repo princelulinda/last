@@ -14,9 +14,12 @@ import {
 } from '../../../../core/services/dialog/dialogs-models';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfigService, DialogService } from '../../../../core/services';
+import {
+  ConfigService,
+  DialogService,
+  MenuService,
+} from '../../../../core/services';
 import { AdminService } from '../../../../core/services/admin/admin.service';
-import { VariableService } from '../../../../core/services/variable/variable.service';
 import { CommonModule } from '@angular/common';
 import {
   AllBranchModel,
@@ -29,6 +32,7 @@ import {
 } from '../operator.models';
 import { MultiSelectComponent } from '../../../dev/multi-select/multi-select.component';
 import { AutocompleteModel } from '../../../../global/models/global.models';
+import { PageMenusModel } from '../../menu/menu.models';
 
 @Component({
   selector: 'app-operator-details',
@@ -39,6 +43,7 @@ import { AutocompleteModel } from '../../../../global/models/global.models';
 })
 export class OperatorDetailsComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
+  private pageMenus: PageMenusModel[] = [];
 
   organization$: Observable<OrganizationModel | null>;
   organizationId!: number;
@@ -115,9 +120,9 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialogService: DialogService,
     private adminService: AdminService,
-    private variableService: VariableService,
     private configService: ConfigService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private menuService: MenuService
   ) {
     this.organization$ = this.configService.getSelectedOrganization();
     this.dialog$ = this.dialogService.getDialogState();
@@ -143,6 +148,21 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
     this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: params => {
         this.operatorOrganizationId = params['id'];
+        this.pageMenus = [
+          {
+            icon: 'circle-info',
+            title: 'Operator Info',
+            url: `/w/workstation/admin/operators/${this.operatorOrganizationId}`,
+          },
+          {
+            icon: 'universal-access',
+            title: 'Operators Details',
+            url: `/w/workstation/admin/operators/${this.operatorOrganizationId}`,
+            fragment: 'details',
+          },
+        ];
+        this.menuService.setPageMenus(this.pageMenus);
+
         this.getOperatorDetails();
         this.getOperatorRoles();
         this.getOperatorMenus();
@@ -759,6 +779,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+    this.menuService.destroyPageMenus();
   }
 
   private getAllIds(data: RoleListModel[], path: string) {
