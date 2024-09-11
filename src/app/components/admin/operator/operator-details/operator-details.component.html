@@ -31,20 +31,12 @@
             </span>
           }
           <span
-            class="text-secondary position-absolute fs-5 clickable rounded-circle bg-white"
-            style="
-              bottom: 0;
-              right: -3%;
-              z-index: 10;
-              cursor: pointer;
-              height: 30px;
-              width: 30px;
-            "
+            class="text-secondary position-absolute fs-5 clickable rounded-circle bg-white clickable bottom-0 z-10"
+            style="right: -3%; height: 30px; width: 30px"
             title="Refresh"
             tabindex="0"
             (click)="refresh()">
-            <i
-              class="fa-solid fa-arrows-rotate text-secondary rounded-circle p-1"></i>
+            <i class="fa-solid fa-arrows-rotate p-1"></i>
           </span>
         </div>
         <div class="d-flex flex-column text-dark justify-content-center gap-2">
@@ -84,14 +76,14 @@
           <!-- Details -->
 
           <div class="w-100 d-flex position-relative flex-column gap-0 mb-4">
-            <div class="w-100 d-flex flex-row px-3 mb-2 align-items-center">
-              <span class="position-absolute redDot"
-                ><i class="fa-solid fa-circle text-primary fs-x-small"></i
+            <div class="w-100 d-flex flex-row px-3 mb-3 align-items-center">
+              <span class="me-2"
+                ><i class="fa-solid fa-circle text-primary-1 fs-x-small"></i
               ></span>
               <span class="fw-bold" i18n>Details</span>
             </div>
 
-            <div class="w-100 d-flex flex-wrap px-3">
+            <div class="w-100 d-flex flex-wrap px-3 ms-3">
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary" i18n>Username</span>
                 <span class="fw-bold">{{
@@ -150,14 +142,14 @@
 
           <!-- Position Details -->
           <div class="w-100 d-flex position-relative flex-column gap-0">
-            <div class="w-100 d-flex flex-row px-3 mb-2 align-items-center">
-              <span class="position-absolute redDot">
-                <i class="fa-solid fa-circle text-primary fs-x-small"></i>
+            <div class="w-100 d-flex flex-row px-3 mb-3 align-items-center">
+              <span class="me-2">
+                <i class="fa-solid fa-circle text-primary-1 fs-x-small"></i>
               </span>
               <span class="fw-bold" i18n>Position Details</span>
             </div>
 
-            <div class="w-100 d-flex flex-wrap px-3">
+            <div class="w-100 d-flex flex-wrap px-3 ms-3">
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary" i18n>Departement</span>
                 <span class="fw-bold" i18n>Administration</span>
@@ -270,7 +262,7 @@
 
       <div class="mt-5 mx-3 h-75 row">
         <div class="col-12 col-lg-10 col-xl-8 col-xxl-6">
-          <div class="w-100 d-flex flex-row border-bottom">
+          <div class="d-flex border-bottom">
             <div
               class="px-4 clickable"
               [ngClass]="
@@ -300,57 +292,67 @@
             </div>
           </div>
           <div class="pt-5 w-75 h-100 overflow-y-auto">
-            <div class="d-flex flex-row justify-content-between">
+            <div
+              class="d-flex"
+              [ngClass]="{
+                'justify-content-between': selectedMenu !== 'menus',
+                'justify-content-end': selectedMenu === 'menus',
+              }">
               @if (selectedSection === 'roles') {
                 <div
-                  class="py-1 rounded px-3 border border-2 border-secondary clickable">
-                  <i class="fa-solid fa-circle-plus"></i>
-                  <span
-                    class="ms-2 fw-bold"
-                    (click)="selectSection('assignment')"
-                    tabindex="0"
-                    i18n
-                    >Assign New Roles</span
-                  >
+                  class="py-1 sm-radius px-3 border border-2 d-flex align-items-center border-secondary clickable"
+                  (click)="selectSection('assignment')"
+                  tabindex="0">
+                  <span><i class="fa-solid fa-circle-plus"></i></span>
+                  <span class="ms-2 fw-bold" i18n>Assign New Roles</span>
                 </div>
               }
 
-              @if (
-                selectedMenu !== 'roles' ||
-                (selectedMenu === 'roles' && selectedSection === 'assignment')
-              ) {
-                <div></div>
-              }
               <div class="h-100 d-flex flex-row gap-2">
-                <div class="position-relative">
-                  <input
-                    class="form-control"
-                    type="search"
-                    [formControl]="searchInput" />
+                @if (
+                  (selectedMenu === 'roles' && roles) ||
+                  (selectedMenu === 'menus' && allMenus)
+                ) {
                   <div
-                    class="position-absolute end-0 top-0 pe-2 fa-lg h-100 d-flex align-items-center clickable"
-                    (click)="searchRolesOrMenus()"
-                    tabindex="0">
-                    @if (loadingAllMenus) {
-                      <span>
-                        <i class="fas fa-spinner fa-pulse text-secondary"></i>
-                      </span>
-                    }
+                    class="position-relative"
+                    [ngClass]="{
+                      'opacity-0': selectedRole && selectedMenu === 'roles',
+                    }">
+                    <input
+                      class="form-control"
+                      type="search"
+                      [placeholder]="
+                        selectedMenu === 'roles'
+                          ? 'Search Role'
+                          : 'Search Menus'
+                      "
+                      [formControl]="searchInput" />
+                    <div
+                      class="position-absolute end-0 top-0 pe-2 fa-lg h-100 d-flex align-items-center clickable"
+                      (click)="searchRolesOrMenus()"
+                      tabindex="0">
+                      @if (loadingAllMenus) {
+                        <span>
+                          <i class="fas fa-spinner fa-pulse text-secondary"></i>
+                        </span>
+                      }
 
-                    @if (!loadingAllMenus) {
-                      <span>
-                        <i
-                          class="fa-solid fa-magnifying-glass text-secondary"></i>
-                      </span>
-                    }
+                      @if (!loadingAllMenus) {
+                        <span>
+                          <i
+                            class="fa-solid fa-magnifying-glass text-secondary"></i>
+                        </span>
+                      }
+                    </div>
                   </div>
-                </div>
+                }
+
                 @if (selectedRole && selectedSection === 'roles') {
                   <div
-                    class="d-flex align-items-center px-2 rounded bg-primary-2 clickable"
+                    class="d-flex align-items-center text-primary-1 px-3 py-2 rounded bg-primary-2 clickable fs-l-medium"
                     (click)="backToRoles()"
                     tabindex="0">
-                    <i class="fa-solid fa-arrow-left text-primary fa-lg"></i>
+                    <i class="fa-solid fa-arrow-left"></i>
                   </div>
                 }
               </div>
