@@ -94,7 +94,7 @@
         <div class="d-flex flex-column mx-3">
           @if (clientInfo && !clientInfo.client.has_pin) {
             <div>
-              <p class="text-center text-l-medium" i18n>
+              <p class="text-center text-l-medium text-dark" i18n>
                 You do not have a pin yet, Please create your pin before
                 performing your action!
               </p>
@@ -144,25 +144,30 @@
                 </div>
 
                 <div class="text-center mt-4">
+                  @if (!isCreatingPin) {
+                    <b
+                      role="button"
+                      tabindex="0"
+                      class="me-4 text-dark"
+                      (click)="cancelDialog()"
+                      i18n
+                      >Cancel</b
+                    >
+                  }
                   <button
-                    class="btn btn-sm bg-primary text-all-white px-3"
+                    class="btn bg-primary text-all-white px-3"
                     type="submit"
                     [disabled]="
                       !changePinForm.valid || isCreatingPin || !arePinsMatch
                     ">
-                    <span *ngIf="!isCreatingPin">Create</span>
-                    <span *ngIf="isCreatingPin"
-                      ><i class="fa-solid fa-pulse fa-circle-notch fs-5"></i
-                    ></span>
+                    @if (!isCreatingPin) {
+                      <span>Create</span>
+                    } @else {
+                      <span class="fs-medium"
+                        ><i class="fa-solid fa-pulse fa-circle-notch"></i
+                      ></span>
+                    }
                   </button>
-                  <b
-                    role="button"
-                    tabindex="0"
-                    class="ms-4 text-dark"
-                    *ngIf="!isCreatingPin"
-                    (click)="cancelDialog()"
-                    >Cancel</b
-                  >
                 </div>
               </form>
             </div>
