@@ -1,9 +1,15 @@
-.logo-size {
+.trusted-logo {
   width: 100px;
   height: 100px;
 }
 .organization-logo {
   width: 126px;
   height: 79px;
-  border: 1px solid rgba(32, 112, 184, 1);
+}
+.invitation-container {
+  max-height: 365px;
+  .organization-logo {
+    width: 59px;
+    height: 32px;
+  }
 }

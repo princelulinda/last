@@ -77,4 +77,10 @@ export class TarifService {
       .post(url, body)
       .pipe(map(response => response as AddTarifModel));
   }
+  addTarifToTable(body: object): Observable<AddTarifModel> {
+    const url = '/dbs/tariff-table/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as AddTarifModel));
+  }
 }

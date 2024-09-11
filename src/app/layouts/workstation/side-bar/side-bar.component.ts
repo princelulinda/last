@@ -4,7 +4,7 @@ import { MenuService } from '../../../core/services';
 import { PageMenusModel } from '../../../components/admin/menu/menu.models';
 import { Observable } from 'rxjs';
 import { IsActiveMatchOptions, RouterModule } from '@angular/router';
-import { TooltipDirective } from '../../../components/dev/tooltip.directive';
+import { TooltipDirective } from '../../../global/directives/tooltip/tooltip.directive';
 
 @Component({
   selector: 'app-side-bar',
