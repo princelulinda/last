@@ -191,11 +191,10 @@ export class AuthCorporateComponent implements OnInit {
 
   getOperatorInvitations() {
     this.authService
-      .getOperatorInvitations(this.userId.toString())
+      .getOperatorInvitations(this.userId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: result => {
-          const response = result as { objects: OrganizationInvitationModel[] };
+        next: response => {
           this.invitations = response.objects;
           this.loadingInvitations = false;
         },

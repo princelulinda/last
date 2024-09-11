@@ -33,35 +33,35 @@
     class="row col-md-9 col-lg-10 col-xxl-8 mx-auto justify-content-center justify-content-sm-start align-items-center"
     style="gap: 1rem 0">
     <div class="col-6 col-sm-4 col-md-3 border-end">
-      <div class="logo-size mx-auto">
+      <div class="trusted-logo mx-auto">
         <img
           src="/images/logo/ihela-credit-union.png"
-          alt=""
+          alt="iHela credit union logo"
           class="image object-fit-contain" />
       </div>
     </div>
     <div class="col-6 col-sm-4 col-md-3 border-end">
-      <div class="logo-size mx-auto">
+      <div class="trusted-logo mx-auto">
         <img
           src="/images/logo/socade.png"
-          alt=""
+          alt="socade logo"
           class="image object-fit-contain" />
       </div>
     </div>
 
     <div class="col-6 col-sm-4 col-md-3 border-end">
-      <div class="logo-size mx-auto">
+      <div class="trusted-logo mx-auto">
         <img
           src="/images/logo/CECD_ART.png"
-          alt=""
+          alt="CECD_ART logo"
           class="image object-fit-contain" />
       </div>
     </div>
     <div class="col-6 col-sm-4 col-md-3">
-      <div class="logo-size mx-auto">
+      <div class="trusted-logo mx-auto">
         <img
           src="/images/logo/les-champions.png"
-          alt=""
+          alt="les champions logo"
           class="image object-fit-contain" />
       </div>
     </div>
@@ -70,8 +70,11 @@
 
 <!-- NOTE :: ORGANISATIONS , INVITATION AND REQUEST SECTION -->
 <section class="mt-5 mb-3 mx-auto">
-  @if (operatorOrganizations && operatorOrganizations.length > 0) {
-    <div class="row mx-0 justify-content-center">
+  @if (
+    (operatorOrganizations && operatorOrganizations.length > 0) ||
+    (invitations && invitations.length > 0)
+  ) {
+    <div class="row mx-0 justify-content-lg-center mx-3 mx-lg-0 mb-4">
       <!-- NOTE :: INVITIATIONS SECTION -->
       <section class="col-lg-5 px-0 px-md-auto">
         <div class="fs-x-large col-11 mx-auto text-center text-md-start">
@@ -102,7 +105,7 @@
           <!-- add organization -->
           <a class="d-flex flex-column align-items-center col-5 col-sm-4">
             <div
-              class="sm-radius organization-logo d-flex justify-content-center align-items-center bg-white">
+              class="sm-radius organization-logo d-flex justify-content-center align-items-center bg-white border bg-secondary">
               <span class="text-primary fs-x-large"
                 ><i class="fa-solid fa-plus"></i
               ></span>
@@ -114,11 +117,56 @@
         </div>
       </section>
 
-      <!-- NOTE :: REQUEST INVITTATIONS SECTION -->
-      <section class="col-5"></section>
+      <!-- NOTE :: OPERATOR INVITATION  SECTION -->
+      <section
+        class="col-11 col-sm-9 col-md-8 col-lg-6 col-xxl-4 px-md-auto border border-primary lg-radius p-3 invitation-container mt-4 mt-lg-0 overflow-y-auto">
+        @if (!loadingInvitations) {
+          <b i18n>Invitations</b>
+          @for (item of invitations; track $index) {
+            <div
+              class="bg-primary-3 mt-2 lg-radius d-flex align-items-center p-2">
+              @if (item.organization.institution_client.picture) {
+                <div class="organization-logo col-auto">
+                  <img
+                    [src]="item.organization.institution_client.picture"
+                    class="image"
+                    alt="ihela" />
+                </div>
+              }
+
+              <small
+                class="text-all-dark px-3 fs-x-small border-start border-secondary ms-1">
+                <span i18n class="fw-bold">You have been invited</span>
+                to become an operator with
+                {{ item.organization.institution_client.client_full_name }}
+              </small>
+
+              <div
+                class="border-start border-dark ps-3 col-auto d-flex justify-content-around pe-2">
+                <span
+                  class="text-success fs-large me-3"
+                  role="button"
+                  (click)="submitInvitationResponse('accept', item)"
+                  tabindex="0">
+                  <i class="fa-regular fa-circle-check"></i>
+                </span>
+
+                <span
+                  class="text-danger fs-large"
+                  role="button"
+                  (click)="submitInvitationResponse('decline', item)"
+                  tabindex="0">
+                  <i class="fa-regular fa-circle-xmark"></i>
+                </span>
+              </div>
+            </div>
+          }
+        }
+      </section>
     </div>
   } @else {
-    <div class="d-flex flex-column justify-content-center align-items-center">
+    <div
+      class="d-flex flex-column justify-content-center align-items-center mx-3 mx-lg-0">
       <b class="fs-x-large" i18n>Join Magis ERP and unlock growth!</b>
       <span class="mt-4">
         Elevate your business and unlock a world of opportunities to reach more
@@ -130,76 +178,6 @@
           <b class="fs-l-medium">Get started</b>
         </button>
       </div>
-    </div>
-  }
-  @if (!loadingInvitations && invitations.length !== 0) {
-    <div class="row mx-0 justify-content-center mt-5">
-      <section
-        class="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6 col-xxl-5 px-0 px-md-auto">
-        <div
-          class="col-11 col-sm-11 col-md-12 col-lg-12 col-xl-11 col-xxl-10 mx-auto border lg-radius pt-3 pb-4">
-          <div class="fs-l-medium col-11 mx-auto text-center text-md-start">
-            <b i18n>Invitations</b>
-            @for (item of invitations; track $index) {
-              <div class="bg-primary-3 mt-2 lg-radius">
-                <div class="col-11 mx-auto">
-                  <div class="row">
-                    <div class="col-2 border-end d-flex">
-                      <img
-                        src="{{ item.organization.institution_client.picture }}"
-                        class="w-100 align-self-center"
-                        alt="ihela" />
-                    </div>
-                    <div class="col-6 col-sm-7 pb-2 pb-sm-0 p-0 d-flex">
-                      <div class="d-flex align-self-center">
-                        <div class="col-11 mx-auto lh-1 text-all-dark">
-                          <span class="fs-x-small text-start"
-                            ><span class="fw-bold">You have been invited</span>
-                            to become an operator with
-                            {{
-                              item.organization.institution_client
-                                .client_full_name
-                            }}</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-4 col-sm-3 pt-3 pb-2">
-                      <div class="row">
-                        <div class="col-6 border-dark border-start">
-                          <div
-                            class="d-flex flex-column text-primary"
-                            role="button"
-                            (click)="submitInvitationResponse('accept', item)"
-                            tabindex="0">
-                            <div class="d-flex justify-content-center">
-                              <i class="fa-regular fa-circle-check"></i>
-                            </div>
-                            <span class="text-center fs-x-small">Accept</span>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div
-                            class="d-flex flex-column text-all-dark"
-                            role="button"
-                            (click)="submitInvitationResponse('decline', item)"
-                            tabindex="0">
-                            <div class="d-flex justify-content-center">
-                              <i class="fa-regular fa-circle-xmark"></i>
-                            </div>
-                            <span class="text-center fs-x-small">Decline</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            }
-          </div>
-        </div>
-      </section>
-      <section class="col-5 col-md-2 col-lg-4 col-xl-4 col-xxl-5"></section>
     </div>
   }
 </section>
