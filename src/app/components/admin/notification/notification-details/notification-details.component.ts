@@ -25,12 +25,14 @@ export class NotificationDetailsComponent implements OnInit {
     private NotificationDetailsService: NotificationDetailsService
   ) {}
   ngOnInit(): void {
-    this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: data => {
-        this.notificationId = data['id'];
-        this.getNotificationDetails();
-      },
-    });
+    if (this.route.params) {
+      this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe({
+        next: data => {
+          this.notificationId = data['id'];
+          this.getNotificationDetails();
+        },
+      });
+    }
   }
 
   getNotificationDetails() {
