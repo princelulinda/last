@@ -27,6 +27,7 @@ import {
   activeMainConfigModel,
   ModeModel,
   PlateformModel,
+  ScreenStateModel,
   ThemeModel,
 } from './main-config.models';
 import { Organizations } from '../../db/models/organisations/organizations';
@@ -45,7 +46,7 @@ export class ConfigService {
   private actifPlateform = new Subject<PlateformModel>();
   private actifTheme = new Subject<ThemeModel>();
   private actifMode = new Subject<ModeModel>();
-  private screenState = new Subject<boolean>();
+  private screenState = new Subject<ScreenStateModel>();
 
   private userBanks$: unknown | Observable<BankModel[]>;
   private selectedBank$: unknown | Observable<BankModel>;
@@ -55,6 +56,7 @@ export class ConfigService {
   private isAuthenticatedOperator = new Subject<boolean>();
   private isMerchantCorporate = new Subject<boolean>();
 
+  private organizationId = new Subject<number | null>();
   private allOrganizations$: unknown | Observable<OrganizationModel[]>;
 
   private typeMenus$: unknown | Observable<TypeMenuModel[]>;
@@ -108,7 +110,7 @@ export class ConfigService {
         activeMode: mode,
         activePlateform: plateform,
         activeTheme: theme,
-        screenLocked: false,
+        screenLocked: this.activeMainConfig.screenLocked,
       };
       this.activeMainConfig = newActiveMainConfig;
 
@@ -119,21 +121,6 @@ export class ConfigService {
       initFn();
     });
   }
-  // async initPopulate() {
-  //   const localToken = this.apiService.getLocalToken();
-  //   const clientId = this.apiService.getLocalClientId();
-  //   const dbUser = await this.dbService.getDbUser();
-  //   if ((!localToken || !clientId) && dbUser) {
-  //     // this.apiService.clearLocalData();
-  //     this.dbService.setLocalStorageUserToken(dbUser.user.token);
-  //     this.dbService.setLocalStorageClientId(
-  //       dbUser.client.client_id.toString()
-  //     );
-  //   } else if (!dbUser) {
-  //     // this.apiService.clearLocalData();
-  //     // this.dbService.populate();
-  //   }
-  // }
 
   // NOTE :: GETTING MAIN CONFIGS METHODS
 
@@ -152,7 +139,7 @@ export class ConfigService {
     return this.actifPlateform;
   }
 
-  getScreenState(): Observable<boolean> {
+  getScreenState(): Observable<ScreenStateModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
         if (mainConfig) {
@@ -161,6 +148,15 @@ export class ConfigService {
       },
     });
     return this.screenState;
+  }
+  async switchScreenState(state: ScreenStateModel) {
+    this.activeMainConfig = await this.getActiveMainConfig();
+    this.setMainConfig({
+      activeMode: this.activeMainConfig.activeMode,
+      activePlateform: this.activeMainConfig.activePlateform,
+      activeTheme: this.activeMainConfig.activeTheme,
+      screenLocked: state,
+    });
   }
 
   getTheme(): Observable<ThemeModel> {
@@ -199,7 +195,7 @@ export class ConfigService {
         activePlateform: plateform,
         activeTheme: this.activeMainConfig.activeTheme,
         activeMode: this.activeMainConfig.activeMode,
-        screenLocked: false,
+        screenLocked: this.activeMainConfig.screenLocked,
       });
       this.setHtmlMode(theme, this.activeMainConfig.activeMode);
       if (redirectToBaseHref) {
@@ -228,7 +224,7 @@ export class ConfigService {
       activePlateform: plateform,
       activeTheme: theme,
       activeMode: newModeToDispatch,
-      screenLocked: false,
+      screenLocked: this.activeMainConfig.screenLocked,
     });
     this.setHtmlMode(this.activeMainConfig.activeTheme, newModeToDispatch);
   }
@@ -268,7 +264,6 @@ export class ConfigService {
   }
   resetOperator(): void {
     this.dbService.clearTable(Operator.tableName);
-    // this.resetOrganizations();
   }
   getConnectedOperator(): Observable<ConnectedOperatorModel> {
     return this.connectedOperator$ as Observable<ConnectedOperatorModel>;
@@ -331,16 +326,29 @@ export class ConfigService {
     });
     return this.isMerchantCorporate;
   }
+
   // NOTE :: ORGANIZATIONS METHODS
 
   setOperatorOrganizations(organizations: OrganizationModel[]): void {
     this.dbService.addOnce(Organizations.tableName, organizations);
   }
-  private resetOrganizations(): void {
-    this.dbService.clearTable(Organizations.tableName);
-  }
   getOperatorOrganizations(): Observable<OrganizationModel[]> {
     return this.allOrganizations$ as Observable<OrganizationModel[]>;
+  }
+  getOrganizationId(): Observable<number | null> {
+    this.getConnectedOperator().subscribe({
+      next: operator => {
+        if (operator && operator.organization) {
+          this.organizationId.next(operator.organization.id);
+        } else {
+          this.organizationId.next(null);
+        }
+      },
+      error: () => {
+        this.organizationId.next(null);
+      },
+    });
+    return this.organizationId;
   }
 
   // NOTE :: MENUS METHODS
