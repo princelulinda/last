@@ -8,7 +8,11 @@ import {
   FeesResonseModel,
   SimulateResponseModel,
 } from '../../../components/tarif/tarif.model';
-import { AddTarifModel, TarifFeesResonseModel, TarifTypeModel } from '../../../components/configutarion-tarif/configuration-tarif-model';
+import {
+  AddTarifModel,
+  TarifFeesResonseModel,
+  TarifTypeModel,
+} from '../../../components/configutarion-tarif/configuration-tarif-model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,10 +34,9 @@ export class TarifService {
     const url = '/dbs/tariff-table/?bank=' + bank_id;
     return this.apiService.get<{ objects: TarifResponseModel[] }>(url);
   }
-  getAllTarifType():Observable<{objects:TarifTypeModel[]}> {
+  getAllTarifType(): Observable<{ objects: TarifTypeModel[] }> {
     const url = '/dbs/tariff-table/';
     return this.apiService.get<{ objects: TarifTypeModel[] }>(url);
-  
   }
 
   getTarifFees(tarif_id: number): Observable<{ objects: FeesResonseModel[] }> {
@@ -41,7 +44,9 @@ export class TarifService {
     return this.apiService.get<{ objects: FeesResonseModel[] }>(url);
   }
 
-  TarifFees(tarif_id: string): Observable<{ objects: TarifFeesResonseModel[] }> {
+  TarifFees(
+    tarif_id: string
+  ): Observable<{ objects: TarifFeesResonseModel[] }> {
     const url = '/dbs/tariff-fees/?tarif_table=' + tarif_id;
     return this.apiService.get<{ objects: TarifFeesResonseModel[] }>(url);
   }
@@ -66,10 +71,16 @@ export class TarifService {
       })
     );
   }
-  addTarif(body:object):Observable<AddTarifModel> {
-      const url = '/dbs/tariff-type/';
-      return this.apiService
-          .post(url, body)
-          .pipe(map(response => response as AddTarifModel));
+  addTarif(body: object): Observable<AddTarifModel> {
+    const url = '/dbs/tariff-type/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as AddTarifModel));
+  }
+  addTarifToTable(body: object): Observable<AddTarifModel> {
+    const url = '/dbs/tariff-table/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as AddTarifModel));
   }
 }
