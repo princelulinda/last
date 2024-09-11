@@ -20,6 +20,7 @@ import {
 } from '../../../../core/services';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { PasswordFieldComponent } from '../../custom-field/password-field/password-field.component';
+import { DbService } from '../../../../core/db';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -76,7 +77,8 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
     private dialogService: DialogService,
     private fb: FormBuilder,
     private authService: AuthService,
-    private generalService: GeneralService
+    private generalService: GeneralService,
+    private dbService: DbService
   ) {
     this.clientInfo$ = this.authService.getUserInfo();
     effect(() => {
@@ -115,7 +117,9 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
   ngOnInit() {
     this.clientInfo$.subscribe({
       next: userInfo => {
-        this.clientInfo = userInfo;
+        if (userInfo) {
+          this.clientInfo = userInfo;
+        }
       },
     });
   }
@@ -169,6 +173,8 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
       next: response_data => {
         this.isCreatingPin = false;
         if (response_data.object.success === true) {
+          this.clientInfo.client.has_pin = true;
+          this.dbService.setUser(this.clientInfo);
           this.submitPin(true);
         } else if (response_data.object.success === false) {
           this.dialogService.openToast({

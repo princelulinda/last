@@ -28,7 +28,7 @@ import {
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
 import { BankHomeComponent } from './bank-home/bank-home.component';
-import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
+import { ReusableListComponent } from '../../../global/components/list/reusable-list/reusable-list.component';
 import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
 
 @Component({

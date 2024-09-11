@@ -7,3 +7,4 @@ export interface AutocompleteModel {
   lookup_description: string | null;
   lookup_has_image_or_icon: boolean;
 }
+export type CurrencyModel = 'BIF' | '$';

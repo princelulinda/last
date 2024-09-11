@@ -19,7 +19,7 @@ import { EmptyStateComponent } from '../../../../global/components/empty-states/
 import { ProductCardComponent } from '../../global/product-card/product-card.component';
 import { MerchantModel } from '../../merchant.models';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
-import { PaginationComponent } from '../../../dev/pagination/pagination.component';
+import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
 import { HttpParams } from '@angular/common/http';
 
 @Component({

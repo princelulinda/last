@@ -3,18 +3,26 @@ import { Component, OnInit } from '@angular/core';
 import { MenuService } from '../../../core/services';
 import { PageMenusModel } from '../../../components/admin/menu/menu.models';
 import { Observable } from 'rxjs';
-import { RouterModule } from '@angular/router';
+import { IsActiveMatchOptions, RouterModule } from '@angular/router';
+import { TooltipDirective } from '../../../components/dev/tooltip.directive';
 
 @Component({
   selector: 'app-side-bar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TooltipDirective],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.scss',
 })
 export class SideBarComponent implements OnInit {
   activeMenus: PageMenusModel[] = [];
   activeMenus$: Observable<PageMenusModel[]>;
+
+  routerLinkMatchOptions: IsActiveMatchOptions = {
+    queryParams: 'subset',
+    fragment: 'exact',
+    paths: 'exact',
+    matrixParams: 'ignored',
+  };
 
   constructor(private menuService: MenuService) {
     this.activeMenus$ = this.menuService.getPageMenus();
@@ -24,7 +32,6 @@ export class SideBarComponent implements OnInit {
     this.activeMenus$.subscribe({
       next: menus => {
         this.activeMenus = menus;
-        console.log('ACTIVE MENUS', this.activeMenus);
       },
     });
   }

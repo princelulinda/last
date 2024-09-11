@@ -17,10 +17,10 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { BankService } from '../../../core/services';
-import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
 import { AccountModel, StatementModel } from '../statement.model';
 import { AccountDetailModel } from '../../account/models';
 import { AccountInfoModel } from '../../dashboards/dashboard.model';
+import { ReusableListComponent } from '../../../global/components/list/reusable-list/reusable-list.component';
 
 @Component({
   standalone: true,

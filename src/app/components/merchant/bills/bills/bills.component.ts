@@ -14,7 +14,7 @@ import { UserInfoModel } from '../../../../core/db/models/auth';
 
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
-import { PaginationComponent } from '../../../dev/pagination/pagination.component';
+import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
 import { BillsModel } from '../bills.model';
 
 @Component({

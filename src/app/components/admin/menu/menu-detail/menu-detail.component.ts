@@ -6,7 +6,7 @@ import { AdminService } from '../../../../core/services/admin/admin.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
-import { AdminMenuModel } from '../../operator/operator.models';
+import { AdminMenuModel } from '../menu.models';
 
 @Component({
   selector: 'app-menu-detail',

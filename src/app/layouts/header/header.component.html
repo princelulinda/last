@@ -36,10 +36,10 @@
                 style="min-width: 50px" />
             </div>
             <div class="d-flex flex-column h-100 justify-content-center me-2">
-              <span class="text-nowrap fw-bold text-all-light">{{
+              <span class="text-nowrap fw-bold text-all-white">{{
                 organization.institution_client.client_full_name
               }}</span>
-              <span class="text-nowrap text-all-light">{{
+              <span class="text-nowrap text-all-white">{{
                 organization.company_type_code
               }}</span>
             </div>
@@ -515,6 +515,17 @@
                       <b class="text-dark ms-1" i18n>Report a problem</b>
                     </div>
                   </a>
+                </div>
+
+                <div
+                  role="button"
+                  tabindex="0"
+                  (click)="lockScreen()"
+                  class="my-3 d-flex align-items-center fs-medium">
+                  <span class="me-2 text-secondary"
+                    ><i class="fa-solid fa-lock"></i
+                  ></span>
+                  <b class="text-dark ms-1" i18n>Lock</b>
                 </div>
 
                 <div
