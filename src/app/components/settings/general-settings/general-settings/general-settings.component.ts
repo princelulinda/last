@@ -11,7 +11,7 @@ import { ClientService } from '../../../../core/services/client/client.service';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { BodyModel } from '../../settings.models';
 import { ClipboardDirective } from '../../../dev/clipboard.directive';
-import { GlobalMappingComponent } from '../../../dev/global-mapping/global-mapping.component';
+import { GlobalMappingComponent } from '../../../../global/components/global-mapping/global-mapping.component';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { CommonModule } from '@angular/common';
 

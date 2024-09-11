@@ -50,7 +50,7 @@ import {
   MerchantModel,
   MerchantStatsModel,
 } from '../../merchant/merchant.models';
-import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
+import { ReusableListComponent } from '../../../global/components/list/reusable-list/reusable-list.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({

@@ -231,11 +231,6 @@ export class AuthService {
     const url = '/hr/administration/operator/organization/status/';
     return this.apiService.post(url, body).pipe(map(data => data));
   }
-  // getBanksList():Observable<bankListResponse> {
-  //   const url = '/banks/list/?externel_request=true&bank_type=MFI';
-  //   return this.apiService.get(url);
-
-  // }
 
   verifyEmail(email: string): Observable<EmailVerificationResponseModel> {
     const url = `/extid/verification/?externel_request=true&type=email&value=${email}`;

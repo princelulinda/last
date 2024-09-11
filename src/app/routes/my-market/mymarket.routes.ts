@@ -6,6 +6,8 @@ import { AddProductComponent } from '../../components/merchant/products/add-prod
 import { PaymentReportsComponent } from '../../components/merchant/statements/payment-reports/payment-reports.component';
 import { TransferReportsComponent } from '../../components/merchant/statements/transfer-reports/transfer-reports.component';
 import { MerchantTransferComponent } from '../../components/merchant/merchant-transfer/merchant-transfer.component';
+import { SingleInvoicesComponent } from '../../components/dev/invoice/single-invoices/single-invoices.component';
+import { InvoicesGroupsComponent } from '../../components/dev/invoice/invoices-groups/invoices-groups.component';
 
 export const myMarketRoutes: Routes = [
   { path: '', component: MyMarketDashboardComponent },
@@ -15,4 +17,6 @@ export const myMarketRoutes: Routes = [
   { path: 'payment-reports', component: PaymentReportsComponent },
   { path: 'transfer-reports', component: TransferReportsComponent },
   { path: 'merchant-transfer', component: MerchantTransferComponent },
+  { path: 'single-invoices', component: SingleInvoicesComponent },
+  { path: 'invoices-groups', component: InvoicesGroupsComponent },
 ];

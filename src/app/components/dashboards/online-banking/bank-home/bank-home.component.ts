@@ -12,7 +12,7 @@ import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../../core/services/config/main-config.models';
-import { ReusableListComponent } from '../../../../global/components/reusable-list/reusable-list.component';
+import { ReusableListComponent } from '../../../../global/components/list/reusable-list/reusable-list.component';
 
 @Component({
   selector: 'app-bank-home',
