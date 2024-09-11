@@ -38,17 +38,13 @@ export class SavingClubComponent implements OnInit {
           members_count: tontine.members_count,
           short_description: tontine.short_description,
         }));
-        console.log('Données sélectionnées', this.savingClub);
       },
-      error: (error: Error) =>
-        console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
 
   getthirdSuggestedTontines() {
     this.savingDetailService.getSuggestedTontines().subscribe({
       next: (response: { objects: SuggestedTontinesModel[] }) => {
-        // Utilisez 'slice' pour obtenir les trois premiers éléments
         this.thirdSuggestedTontines = response.objects
           .slice(0, 3)
           .map((thirdSuggestedTontines: SuggestedTontinesModel) => ({
@@ -56,12 +52,8 @@ export class SavingClubComponent implements OnInit {
             name: thirdSuggestedTontines.name,
             members_count: thirdSuggestedTontines.members_count,
             membership_fees: thirdSuggestedTontines.membership_fees,
-            // Assurez-vous d'ajouter ici toutes les propriétés nécessaires
           }));
-        console.log('suggestedTontines', this.suggestedTontines);
       },
-      error: (error: Error) =>
-        console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
 
@@ -78,10 +70,7 @@ export class SavingClubComponent implements OnInit {
             membership_fees: suggestedTontines.membership_fees,
             // Assurez-vous d'ajouter ici toutes les propriétés nécessaires
           }));
-        console.log('suggestedTontines', this.suggestedTontines);
       },
-      error: (error: Error) =>
-        console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
   switchMenu(name: string) {

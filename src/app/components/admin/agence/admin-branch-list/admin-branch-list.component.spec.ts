@@ -1,22 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminCounterDetailsComponent } from './admin-counter-details.component';
+import { AdminBranchListComponent } from './admin-branch-list.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-describe('AdminCounterDetailsComponent', () => {
-  let component: AdminCounterDetailsComponent;
-  let fixture: ComponentFixture<AdminCounterDetailsComponent>;
+
+describe('AdminBranchListComponent', () => {
+  let component: AdminBranchListComponent;
+  let fixture: ComponentFixture<AdminBranchListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminCounterDetailsComponent, RouterTestingModule],
+      imports: [AdminBranchListComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AdminCounterDetailsComponent);
+    fixture = TestBed.createComponent(AdminBranchListComponent);
     component = fixture.componentInstance;
-    //fixture.detectChanges();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

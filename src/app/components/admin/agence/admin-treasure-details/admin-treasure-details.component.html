@@ -1,14 +1,23 @@
 <div>
-  <div class="bg-secondary rounded p-3">
-    <div
-      class="d-flex align-items-center justify-content-end gap-3 me-3"
-      (click)="goBack()"
-      tabindex="0"
-      role="button">
-      <div>
-        <i class="fa fa-arrow-left"></i>
+  <div class="bg-secondary rounded p-2">
+    <div class="d-flex gap-3 align-items-center justify-content-end">
+      <button
+        class="border rounded p-1 px-2 btn"
+        (click)="refresh()"
+        tabindex="0"
+        [disabled]="loadingData">
+        refresh
+      </button>
+      <div
+        class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
+        (click)="goBack()"
+        tabindex="0"
+        role="button">
+        <div>
+          <i class="fa fa-arrow-left"></i>
+        </div>
+        <div>Back</div>
       </div>
-      <div>Back</div>
     </div>
   </div>
   @if (!treasurerDetails) {

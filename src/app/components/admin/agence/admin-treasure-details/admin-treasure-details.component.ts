@@ -14,7 +14,8 @@ import { Location } from '@angular/common';
 })
 export class AdminTreasureDetailsComponent implements OnInit {
   treasureId!: number;
-  treasurerDetails!: TreaureDetailsModele;
+  treasurerDetails!: TreaureDetailsModele | null;
+  loadingData = false;
   private onDestroy$: Subject<void> = new Subject<void>();
   constructor(
     private adminService: AdminService,
@@ -33,10 +34,15 @@ export class AdminTreasureDetailsComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
-
+  refresh() {
+    this.getTreasureDetails();
+    this.treasurerDetails = null;
+  }
   getTreasureDetails() {
+    this.loadingData = true;
     this.adminService.getTreasureDetails(this.treasureId).subscribe({
       next: (response: { object: TreaureDetailsModele }) => {
+        this.loadingData = false;
         this.treasurerDetails = response.object;
       },
     });

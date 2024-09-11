@@ -1,37 +1,39 @@
 import { Component } from '@angular/core';
 import { ListComponent } from '../../../../global/components/list/list/list.component';
 @Component({
-  selector: 'app-admin-counter-list',
+  selector: 'app-admin-branch-list',
   standalone: true,
   imports: [ListComponent],
-  templateUrl: './admin-counter-list.component.html',
-  styleUrl: './admin-counter-list.component.scss',
+  templateUrl: './admin-branch-list.component.html',
+  styleUrl: './admin-branch-list.component.scss',
 })
-export class AdminCounterListComponent {
+export class AdminBranchListComponent {
   headers = [
     {
       name: 'Name',
       field: ['name'],
       size: '',
       detail: {
-        link: '/w/workstation/admin/counter/',
+        link: '/w/workstation/admin/branch/',
+
         field: 'id',
       },
     },
     {
-      name: 'Counter Code',
+      name: 'Branche Code',
       field: ['formatted_code'],
       size: '',
     },
     {
-      name: 'Agence',
-      field: ['branch.name'],
+      name: 'Organization',
+      field: ['organization_tenant.institution_client.client_full_name'],
       size: '',
     },
     {
-      name: 'Organization',
-      field: ['branch.organization_tenant.institution_client.client_full_name'],
+      name: 'Active',
+      field: ['organization_tenant.is_active'],
       size: '',
+      boolean: true,
     },
   ];
 }
