@@ -11,28 +11,30 @@ declare let bootstrap: {
   standalone: true,
 })
 export class TooltipDirective implements AfterViewInit {
-  @Input({ required: true }) appTooltip = 'Salut les gens';
-  @Input() placement: 'top' | 'bottom' | 'right' | 'left' = 'top';
-  @Input() popoverContent = '';
-  @Input() popoverTitle = '';
+  @Input({ required: true }) appTooltip!: {
+    title: string;
+    placement?: 'top' | 'bottom' | 'right' | 'left';
+    content?: string;
+  };
 
   constructor(private el: ElementRef) {}
 
   ngAfterViewInit() {
-    if (this.appTooltip) {
+    const { title, content, placement = 'top' } = this.appTooltip;
+    if (title && !content) {
       const tooltipTriggerEl = this.el.nativeElement;
       new bootstrap.Tooltip(tooltipTriggerEl, {
-        placement: this.placement,
-        title: this.appTooltip,
+        placement,
+        title,
       });
     }
 
-    if (this.popoverContent || this.popoverTitle) {
+    if (title && content) {
       const popoverTriggerEl = this.el.nativeElement;
       new bootstrap.Popover(popoverTriggerEl, {
-        placement: this.placement,
-        content: this.popoverContent,
-        title: this.popoverTitle,
+        placement,
+        content,
+        title,
       });
     }
   }
