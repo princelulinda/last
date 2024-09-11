@@ -109,7 +109,7 @@ export class ConfigService {
         activeMode: mode,
         activePlateform: plateform,
         activeTheme: theme,
-        screenLocked: 'unlocked',
+        screenLocked: this.activeMainConfig.screenLocked,
       };
       this.activeMainConfig = newActiveMainConfig;
 
