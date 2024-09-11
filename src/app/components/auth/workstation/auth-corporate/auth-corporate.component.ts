@@ -35,7 +35,7 @@ export class AuthCorporateComponent implements OnInit {
   loadingInvitations = true;
   invitationAction = '';
   pin = '';
-  selectedInvitation!: { id: number };
+  selectedInvitation!: OrganizationInvitationModel;
 
   selectedOrganization!: OrganizationModel;
 
@@ -183,7 +183,7 @@ export class AuthCorporateComponent implements OnInit {
     this.selectedOrganization = data;
     this.dialogService.openDialog({
       action: 'Organization login',
-      message: $localize`Enter your password to add a new organisation`,
+      message: $localize`Enter your password to access in ${this.selectedOrganization.institution_client.client_full_name} organisation`,
       title: '',
       type: 'password',
     });
@@ -217,10 +217,12 @@ export class AuthCorporateComponent implements OnInit {
   ) {
     this.invitationAction = action;
     this.selectedInvitation = operator;
+
     this.dialogService.openDialog({
       title: 'Enter your pin',
       type: 'pin',
-      message: 'Enter your pin to confirm your decision',
+      message: $localize`Enter your pin to ${this.invitationAction} the invitation to become
+      an operator with ${this.selectedInvitation.organization.institution_client.client_full_name}`,
       action: 'accept or decline invitation',
     });
   }

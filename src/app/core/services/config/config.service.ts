@@ -406,7 +406,7 @@ export class ConfigService {
     if (Array.isArray(data)) {
       return data as T[];
     } else {
-      return Array.from(Object.values(data)) as T[];
+      return Array.from(Object.values(data)).slice(-1, 1) as T[];
     }
   }
 

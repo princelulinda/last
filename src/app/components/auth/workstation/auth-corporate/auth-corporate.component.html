@@ -89,7 +89,7 @@
                 role="button"
                 tabindex="0"
                 (click)="selectOrganization(item)"
-                class="sm-radius organization-logo d-flex justify-content-center align-items-center p-3 bg-white">
+                class="sm-radius organization-logo d-flex justify-content-center align-items-center p-3 border bg-white">
                 <img
                   [src]="item.institution_client.picture"
                   class="image"
@@ -118,9 +118,9 @@
       </section>
 
       <!-- NOTE :: OPERATOR INVITATION  SECTION -->
-      <section
-        class="col-11 col-sm-9 col-md-8 col-lg-6 col-xxl-4 px-md-auto border border-primary lg-radius p-3 invitation-container mt-4 mt-lg-0 overflow-y-auto">
-        @if (!loadingInvitations) {
+      @if (!loadingInvitations && invitations && invitations.length > 0) {
+        <section
+          class="col-11 col-sm-9 col-md-8 col-lg-6 col-xxl-4 px-md-auto border border-primary lg-radius p-3 invitation-container mt-4 mt-lg-0 overflow-y-auto">
           <b i18n>Invitations</b>
           @for (item of invitations; track $index) {
             <div
@@ -161,8 +161,11 @@
               </div>
             </div>
           }
-        }
-      </section>
+        </section>
+      } @else {
+        <!-- NOTE :: DESIGN PLACEHOLDER -->
+        <div class="col-11 col-sm-9 col-md-8 col-lg-6 col-xxl-4"></div>
+      }
     </div>
   } @else {
     <div
