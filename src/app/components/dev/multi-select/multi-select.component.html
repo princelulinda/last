@@ -1,6 +1,6 @@
 <!-- <p>multi-select works!</p> -->
 <section
-  class="rolesOptions w-100 level-2 px-2 pb-1 global-border-input rounded position-relative overflow-auto multiSelectSize">
+  class="rolesOptions w-100 level-2 global-border-input rounded position-relative overflow-auto multiSelectSize">
   @if (showSelectedPopup) {
     <section class="popup level-1 rounded col-12 col-md-9 col-xl-7 shadow">
       <div class="overlay h-100 position-relative py-1 px-2 bg-secondary">
@@ -81,8 +81,8 @@
     }
     @if (!loadingData && !dataNotFound) {
       <div
-        class="row mx-0 list d-flex justify-content-center h-100 mx-1 border-bottom border-2">
-        <div class="col-3 p-0 overflow-auto pe-5 selectBlockHeight">
+        class="mx-0 list d-flex flex-wrap justify-content-center h-100 mx-1 border-bottom border-2">
+        <div class="col-auto p-0 pe-5 overflow-auto selectBlockHeight">
           @if (searchLoading) {
             <div class="text-center pt-4">
               <span class="mt-2">
@@ -118,8 +118,8 @@
           }
         </div>
         <div
-          class="col-3 p-0 border-start border-2 selectBlockHeight overflow-auto pe-4">
-          <h5 class="text-dark text-center fw-bold py-1">
+          class="col-auto p-0 border-start border-2 selectBlockHeight overflow-auto pe-4">
+          <h5 class="text-dark text-center fw-bold py-1 px-3">
             <small
               ><span i18n>Default</span> <span> {{ name }}</span>
               <span

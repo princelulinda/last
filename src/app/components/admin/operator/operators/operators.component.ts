@@ -52,7 +52,7 @@ export class OperatorsComponent {
       field: ['operator.name'],
       size: '',
       detail: {
-        link: '/w/workstation/desk/admin/operator/operator/',
+        link: '/w/workstation/admin/operators/',
         field: 'id',
       },
     },

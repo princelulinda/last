@@ -7,9 +7,9 @@ import { VariableService } from '../../../../core/services/variable/variable.ser
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from '../../../../global/components/list/list/list.component';
 import { CommonModule } from '@angular/common';
-import { RoleMenuModel, RoleModel } from '../../operator/operator.models';
 import { MultiSelectComponent } from '../../../dev/multi-select/multi-select.component';
 import { AutocompleteModel } from '../../../../global/models/global.models';
+import { RoleMenuModel, RoleModel } from '../role.models';
 
 @Component({
   selector: 'app-role-detail',

@@ -1,0 +1,140 @@
+<div class="container-fluid">
+  <div class="row align-items-center">
+    <div
+      class="col-12 col-sm-6 col-md-5 col-lg-6 col-xl-5 me-auto mb-2 mb-sm-0">
+      <div class="row">
+        <div class="col-4 col-md-4">
+          <div class="border-end">
+            <span class="fs-medium fw-bold">Group 1</span>
+          </div>
+        </div>
+        <div class="col-2 col-xxl-3">
+          <div class="d-flex gap-2">
+            <span><i class="fa-solid fa-receipt text-primary-2"></i></span>
+            <span>20</span>
+          </div>
+        </div>
+        <div class="col-6 col-md-6 col-lg-6 col-xl-6 col-xxl-5">
+          <div class="d-flex gap-2">
+            <span><i class="fa-solid fa-user text-primary-2"></i></span>
+            <span>Teller 2</span>
+            <span class="text-secondary">0236</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-7 col-lg-6 col-xl-7 col-xxl-6">
+      <div class="col-11 col-sm-12 mx-auto">
+        <div class="row">
+          <div class="col-8 col-sm-9 col-md-8 me-auto">
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search.."
+                aria-label="Search.."
+                aria-describedby="basic-addon2" />
+              <div class="input-group-append">
+                <span class="input-group-text btn bg-dark" id="basic-addon2"
+                  ><i class="fa-solid fa-magnifying-glass fa-xl text-light"></i
+                ></span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-1 col-sm-2 col-md-2 col-lg-2 col-xl-1 p-1 d-flex justify-content-end align-items-center"
+            role="button"
+            routerLink="/m/market/invoice">
+            <span class=""
+              ><i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i
+            ></span>
+            <span class="fw-bolder fs-5" i18n>Back</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="bg-dark row HLine" />
+</div>
+
+<div class="d-flex flex-column justify-content-center gap-5">
+  <div
+    class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-5">
+    @for (item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track $index) {
+      <div class="d-flex">
+        <div class="col-2">
+          <div class="invoice-by-group-card sm-radius shadow-sm">
+            <div class="col-10 d-grid gap-2 mx-auto">
+              <div class="row mt-2">
+                <div class="col-3 rounded-circle bg-secondary d-flex mx-auto">
+                  <span
+                    class="w-100 d-flex justify-content-center align-items-center">
+                    <i class="fa-solid fa-warehouse"></i>
+                  </span>
+                </div>
+                <div class="col-8 d-flex justify-content-end">
+                  <button
+                    class="btn btn-outline-warning xx-lg-radius py-1 px-2">
+                    <span class="warning">Pending</span>
+                  </button>
+                </div>
+              </div>
+              <div class="d-flex flex-column d-grid gap-2">
+                <span class="fs-small fw-bold text-dark">Maronko Supplier</span>
+                <span class="fs-x-small text-secondary">00123</span>
+              </div>
+            </div>
+            <div class="bg-secondary position-relative mt-3">
+              <div class="position-absolute top-0 end-0 translate-middle">
+                <span><i class="fa-solid fa-receipt text-primary-2"></i></span>
+              </div>
+              <div class="d-grid gap-2 d-flex flex-column">
+                <div class="row d-flex align-items-start">
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                </div>
+                <div class="col-10 mx-auto">
+                  <div class="row mt-2">
+                    <div class="col-2 me-auto">
+                      <div class="d-flex gap-1">
+                        <span><i class="fa-solid fa-box fa-sm"></i></span>
+                        <span class="fs-small">Tea</span>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <span class="fs-small text-secondary">2 Kg</span>
+                    </div>
+                  </div>
+                  <div class="fs-medium fw-bold text-primary mb-2">
+                    <span>26 000 BIF</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <div class="d-flex">
+      <button class="btn bg-primary px-5">
+        <span class="text-white px-5 py-2">Validate</span>
+      </button>
+    </div>
+  </div>
+</div>
