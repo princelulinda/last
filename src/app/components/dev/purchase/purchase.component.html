@@ -1,0 +1,104 @@
+<div class="container-fluid">
+  <div class="row mb-2">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-5 me-auto mb-2">
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search.."
+          aria-label="Search.."
+          [formControl]="search"
+          (keydown.enter)="searchProducts(search.value)"
+          (input)="searchProducts(search.value)"
+          aria-describedby="basic-addon2" />
+        <div class="input-group-append">
+          <span
+            class="input-group-text btn bg-dark"
+            id="basic-addon2"
+            (click)="searchProducts(search.value)"
+            tabindex="0">
+            @if (!isLoading) {
+              <i class="fa-solid fa-search text-light"></i>
+            } @else if (isLoading) {
+              <span>
+                <i
+                  class="fa-solid fa-pulse px-1 fa-circle-notch text-white"></i>
+              </span>
+            }
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-7 col-lg-6 col-xl-7 col-xxl-6">
+      <div class="col-11 col-sm-12 mx-auto">
+        <div class="row">
+          <div
+            class="col-3 col-md-2 col-lg-3 col-xl-2 bg-secondary xx-lg-radius p-1 d-flex justify-content-center me-auto">
+            <div class="d-flex justify-content-center align-items-center">
+              <span class="me-2 fw-normal font-calibri fs-normal" i18n
+                >Filter</span
+              >
+              <i class="fa-solid fa-bars-staggered fs-normal fw-bolder"></i>
+            </div>
+          </div>
+          <div
+            class="col-6 col-md-8 col-xl-1 p-1 d-flex justify-content-end align-items-center"
+            role="button"
+            routerLink="/m/market/invoice">
+            <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
+            <span class="fw-bolder fs-5" i18n>Back</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="bg-dark row HLine" />
+</div>
+
+<div class="container-fluid">
+  <div
+    class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-5">
+    @if (isLoading && products) {
+      <div>
+        <div class="row">
+          @for (item of [1, 2, 3]; track $index) {
+            <div class="d-grid mb-3 col-auto">
+              <div class="d-grid me-3">
+                <span>
+                  <app-skeleton
+                    height="130px"
+                    width="130px"
+                    classes="sm-radius"></app-skeleton>
+                </span>
+              </div>
+              <div class="d-grid">
+                <span class="">
+                  <app-skeleton
+                    height="10px"
+                    width="100px"
+                    classes="sm-radius"></app-skeleton>
+                </span>
+                <span class="">
+                  <app-skeleton
+                    height="10px"
+                    width="100px"
+                    classes="sm-radius"></app-skeleton>
+                </span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    } @else if (!isLoading && products && products.length > 0) {
+      @for (product of products; track $index) {
+        <app-product-card [product]="product"></app-product-card>
+      }
+    } @else if (products && products.length === 0) {
+      <div class="row">
+        <span class="col-8 mt-5">
+          <app-empty-state [searchType]="searchType"></app-empty-state>
+        </span>
+      </div>
+    }
+  </div>
+</div>

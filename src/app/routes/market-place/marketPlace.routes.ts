@@ -8,7 +8,6 @@ import { ProductsMarketPlaceRoutes } from '../../components/merchant/products/pr
 import { MerchantTransferComponent } from '../../components/merchant/merchant-transfer/merchant-transfer.component';
 import { BillsComponent } from '../../components/merchant/bills/bills/bills.component';
 import { BillDetailsComponent } from '../../components/merchant/bills/bill-details/bill-details.component';
-import { InvoiceComponent } from '../../components/dev/invoice/invoice.component';
 
 export const marketPlaceRoutes: Routes = [
   { path: '', component: MarketDashboardComponent },
@@ -20,5 +19,4 @@ export const marketPlaceRoutes: Routes = [
   { path: 'merchants', component: MerchantsComponent },
   { path: 'orders', component: OrdersComponent },
   { path: 'carts', component: CartsComponent },
-  { path: 'invoice', component: InvoiceComponent },
 ];
