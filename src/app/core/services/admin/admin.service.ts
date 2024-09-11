@@ -11,6 +11,7 @@ import { PaginationConfig } from '../../../global/models/pagination.models';
 import { AdminMenuModel } from '../../../components/admin/menu/menu.models';
 import { RoleBodyModel } from '../../../components/admin/operator/operator.models';
 import {
+  CounterDetailsModele,
   TellerDetailsModele,
   TreaureDetailsModele,
 } from '../../../components/admin/agence/agence.models';
@@ -63,6 +64,13 @@ export class AdminService {
   ): Observable<{ object: TreaureDetailsModele }> {
     const url = `/hr/treasurers/list/${treasureId}`;
     return this.apiService.get<{ object: TreaureDetailsModele }>(url);
+  }
+
+  getCounterDetails(
+    counterId: number
+  ): Observable<{ object: CounterDetailsModele }> {
+    const url = `/hr/counter/${counterId}`;
+    return this.apiService.get<{ object: CounterDetailsModele }>(url);
   }
 
   getRoleMenus(id: number | string) {

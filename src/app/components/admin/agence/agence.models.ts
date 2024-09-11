@@ -89,3 +89,26 @@ export interface TreaureDetailsModele {
     is_active: boolean;
   };
 }
+
+export interface CounterDetailsModele {
+  name: string | null;
+  formatted_code: string | null;
+  created_at: Date | null;
+  location: string | null;
+  branch: {
+    name: string | null;
+    code: string | null;
+    created_at: Date | null;
+    organization_tenant: {
+      institution_client: {
+        client_code: string | null;
+        client_full_name: string | null;
+        picture: string;
+        client_type: {
+          title: string | null;
+        };
+        is_active: boolean;
+      };
+    };
+  };
+}

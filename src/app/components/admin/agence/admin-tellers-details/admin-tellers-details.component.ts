@@ -18,7 +18,8 @@ import { ProfileCardComponent } from '../../../../global/components/custom-field
 })
 export class AdminTellersDetailsComponent implements OnInit {
   tellerId!: number;
-  tellerDetails!: TellerDetailsModele;
+  tellerDetails!: TellerDetailsModele | null;
+  loadingData = false;
   private onDestroy$: Subject<void> = new Subject<void>();
   constructor(
     private adminService: AdminService,
@@ -34,12 +35,18 @@ export class AdminTellersDetailsComponent implements OnInit {
     this.getTellerDetails();
   }
 
+  refresh() {
+    this.getTellerDetails();
+    this.tellerDetails = null;
+  }
   goBack(): void {
     this.location.back();
   }
   getTellerDetails() {
+    this.loadingData = true;
     this.adminService.getTellerDetails(this.tellerId).subscribe({
       next: (response: { object: TellerDetailsModele }) => {
+        this.loadingData = false;
         this.tellerDetails = response.object;
       },
     });
