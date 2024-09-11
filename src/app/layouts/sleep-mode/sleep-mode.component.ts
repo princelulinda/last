@@ -1,12 +1,11 @@
 import { Component, HostListener, OnInit, AfterViewInit } from '@angular/core';
-import { AuthService, ConfigService } from '../../../core/services';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { UserInfoModel } from '../../../core/db/models/auth';
+
 import {
   fromEvent,
   map,
@@ -17,11 +16,14 @@ import {
   tap,
   timer,
 } from 'rxjs';
+
+import { AuthService, ConfigService } from '../../core/services';
+import { UserInfoModel } from '../../core/db/models/auth';
+import { ProfileCardComponent } from '../../global/components/custom-field/profile-card/profile-card.component';
 import {
   ModeModel,
   ScreenStateModel,
-} from '../../../core/services/config/main-config.models';
-import { ProfileCardComponent } from '../../../global/components/custom-field/profile-card/profile-card.component';
+} from '../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-sleep-mode',
@@ -107,10 +109,7 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
     const showElement = document.getElementsByClassName('hidDiv')[0];
 
     element?.classList.add('animation');
-
-    // showElement?.classList.remove('show');
     showElement?.classList.add('show');
-    // passInput?.focus();
   }
 
   verification() {
@@ -151,26 +150,6 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
       },
     });
   }
-
-  // // Sleep mode locking
-  // lockScreen() {
-  //   const element = document.getElementById('standby');
-  //   element?.classList.remove('stop');
-  //   element?.classList.add('stand');
-  // }
-
-  // // Sleep mode unlocking
-  // unlockScreen() {
-  //   const element = document.getElementById('standby');
-  //   element?.classList.remove('stand');
-  //   element?.classList.add('stop');
-  // }
-
-  // private unlock() {
-  //   this.dialogService.unlockScreen();
-  //   // this.dialogService.startWatching();
-  // }
-
   ngAfterViewInit() {
     this.screenLockedElement = document.getElementById('standby');
   }
