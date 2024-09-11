@@ -1,5 +1,6 @@
 export type ModeModel = 'light' | 'dark';
 export type ThemeModel = 'ihela' | 'magis' | 'erp' | 'onamob';
+export type ScreenStateModel = 'locked' | 'unlocked';
 export type PlateformModel =
   | 'authentification'
   | 'newsFeed'
@@ -14,5 +15,5 @@ export interface activeMainConfigModel {
   activeMode: ModeModel;
   activeTheme: ThemeModel;
   activePlateform: PlateformModel;
-  screenLocked: boolean;
+  screenLocked: ScreenStateModel;
 }

@@ -8,15 +8,15 @@ import {
   MobileBanksModel,
 } from './glob-mapping.model';
 import { GeneralService } from '../../../core/services';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { DebitAccountComponent } from '../../transfer/debit-account/debit-account.component';
+import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
+import { DebitAccountComponent } from '../../../components/transfer/debit-account/debit-account.component';
 import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
 import { CommonModule } from '@angular/common';
-import { DebitOptionsModel } from '../../transfer/transfer.model';
-import { AccountsListModel } from '../../account/models';
+import { DebitOptionsModel } from '../../../components/transfer/transfer.model';
+import { AccountsListModel } from '../../../components/account/models';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService } from '../../../core/services';
 @Component({

@@ -19,5 +19,5 @@ export const DeskRoutes: Routes = [
   //services
   { path: 'services', component: AdminServicesListComponent },
   { path: 'service/:id', component: AdminServicesDetailsComponent },
-  {path:'tarif', component:ConfigutarionTarifComponent}
+  { path: 'tarif', component: ConfigutarionTarifComponent },
 ];

@@ -1,38 +1,41 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { GeneralService } from '../../../core/services';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
-import { DialogService } from '../../../core/services';
 
+import { Subject, Observable, takeUntil } from 'rxjs';
+
+import { GeneralService, DialogService } from '../../../../core/services';
+import { PaginationConfig } from '../../../models/pagination.models';
 import {
-  ParamModel,
-  getdataModel,
   Header,
   selectedPeriodModel,
-} from './reusable.model';
-import { PaginationConfig } from '../../models/pagination.models';
-import { EmptyStateComponent } from '../empty-states/empty-state/empty-state.component';
+  getdataModel,
+  ParamModel,
+} from '../reusable-list/reusable.model';
+import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
+import { OverviewModel } from './list.model';
+import { NotFoundPageComponent } from '../../empty-states/not-found-page/not-found-page.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-reusable-list',
+  selector: 'app-list',
   standalone: true,
   imports: [
     ReactiveFormsModule,
     SkeletonComponent,
     CommonModule,
-    EmptyStateComponent,
+    NotFoundPageComponent,
+    RouterLink,
+    FormsModule,
   ],
-  templateUrl: './reusable-list.component.html',
-  styleUrl: './reusable-list.component.scss',
+  templateUrl: './list.component.html',
+  styleUrl: './list.component.scss',
 })
-export class ReusableListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  @Input() headers!: Header[];
-  @Input() url = '';
+  @Input({ required: true }) headers!: Header[];
+  @Input({ required: true }) url = '';
   @Input() title = '';
   showAmount = false;
 
@@ -40,6 +43,8 @@ export class ReusableListComponent implements OnInit, OnDestroy {
   @Input() overviewUrl = '';
   @Input() todayDate = false;
   @Input() limit = 20;
+  overviewCount = 0;
+  totalItems = 0;
   searchName = new FormControl('');
   selectedPeriod!: selectedPeriodModel;
   data_list: {
@@ -56,8 +61,28 @@ export class ReusableListComponent implements OnInit, OnDestroy {
     option2: string;
     value1: string;
     value2: string;
+    isSelected?: boolean;
   }[][];
+  checkAll = false;
 
+  @Input() filters = [
+    {
+      name: 'Date',
+      title: 'date',
+      value: [
+        { title: 'Date', value: 'date', type_field: 'date' },
+        { title: 'Period', value: 'period', type_field: 'date' },
+      ],
+    },
+    {
+      name: 'Status',
+      title: 'status',
+      value: [
+        { title: 'Activate', value: 'A', type_field: 'checkbox' },
+        { title: 'Deactivate', value: 'D', type_field: 'checkbox' },
+      ],
+    },
+  ];
   clientPagination = new PaginationConfig();
   currentPage = 0;
   response_data!: getdataModel;
@@ -66,6 +91,7 @@ export class ReusableListComponent implements OnInit, OnDestroy {
   isLoading = false;
   showFilters = false;
   showFilterComponent = false;
+  overViewData: OverviewModel[] = [];
   currentExcelPage = 0;
   excelOffset = 0;
   exportCount = 0;
@@ -79,6 +105,8 @@ export class ReusableListComponent implements OnInit, OnDestroy {
   i!: number;
   plateform = '';
   displayPaginationLimit = false;
+  pageInput = new FormControl();
+
   paginationsLimit = [50, 40, 30, 20, 10, 5];
   overviewOption = {
     hidden: false,
@@ -111,6 +139,14 @@ export class ReusableListComponent implements OnInit, OnDestroy {
   toggleEyeStatus() {
     this.dialogService.displayAmount();
   }
+  isSearchInputNotEmpty(): boolean {
+    const searchValue = this.searchName.value;
+    return typeof searchValue === 'string' && searchValue.trim() !== '';
+  }
+  handleEnter(event: KeyboardEvent): void {
+    event.preventDefault();
+    this.search();
+  }
   getData() {
     let params: ParamModel[] = [];
     if (this.searchName.value !== '') {
@@ -135,8 +171,10 @@ export class ReusableListComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (data: getdataModel) => {
           this.response_data = data;
+          this.totalItems = data.count;
           this.data_list = [];
-          console.log('this is the data :', this.data_list);
+          this.searchName.setValue('');
+
           if (this.clientPagination.filters.limit) {
             this.pages = ~~(
               this.response_data.count / this.clientPagination.filters.limit
@@ -150,10 +188,7 @@ export class ReusableListComponent implements OnInit, OnDestroy {
 
               for (const header of this.headers) {
                 const fields = header['field'];
-                // const fieldss = header['fieldd'];
-
                 let row1 = row;
-
                 let css = '';
                 let icon = '';
                 let detail = '';
@@ -162,7 +197,6 @@ export class ReusableListComponent implements OnInit, OnDestroy {
 
                 for (const field in fields) {
                   row1 = row;
-
                   const all_fields = fields[field].split('.');
 
                   for (const all_field in all_fields) {
@@ -172,8 +206,6 @@ export class ReusableListComponent implements OnInit, OnDestroy {
                       all_field in all_fields
                     ) {
                       row1 = row1[all_fields[all_field]];
-
-                      console.log('this is data:', all_field);
                     } else {
                       row1 = '------';
                     }
@@ -286,24 +318,69 @@ export class ReusableListComponent implements OnInit, OnDestroy {
         },
       });
   }
+  reverseList() {
+    this.data_list.reverse();
+    return;
+  }
 
   doListMove(action: string) {
-    if (action === 'next') {
-      this.currentPage += 1;
-    } else {
-      this.currentPage -= 1;
+    const totalPages = Math.ceil(
+      this.totalItems / this.clientPagination.filters.limit
+    );
+
+    switch (action) {
+      case 'next':
+        this.currentPage = Math.min(this.currentPage + 1, totalPages - 1);
+        break;
+      case 'previous':
+        this.currentPage = Math.max(this.currentPage - 1, 0);
+        break;
+      case 'first':
+        this.currentPage = 0;
+        break;
+      case 'last':
+        this.currentPage = totalPages - 1;
+        break;
+      case 'goToPage': {
+        const pageElement = document.querySelector(
+          'span[contenteditable="true"]'
+        ) as HTMLElement;
+        const page = parseInt(pageElement?.textContent?.trim() || '0', 10) - 1;
+        this.currentPage = Math.max(0, Math.min(page, totalPages - 1));
+        break;
+      }
     }
 
-    // condition just for typescript
-    if (this.clientPagination.filters.limit) {
-      this.clientPagination.filters.offset =
-        this.clientPagination.filters.limit * this.currentPage;
-      this.getData();
-    }
+    // Mettre à jour l'offset de la pagination
+    this.clientPagination.filters.offset =
+      this.clientPagination.filters.limit * this.currentPage;
+
+    // Recharger les données
+    this.getData();
+  }
+  get start(): number {
+    return this.currentPage * this.clientPagination.filters.limit + 1;
+  }
+
+  get end(): number {
+    const calculatedEnd =
+      (this.currentPage + 1) * this.clientPagination.filters.limit;
+    return calculatedEnd > this.response_data.count
+      ? this.response_data.count
+      : calculatedEnd;
   }
 
   search() {
     this.getData();
+  }
+  toggleAllCheckboxes(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.checkAll = target.checked;
+
+    const checkboxes = document.querySelectorAll('.row input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      (checkbox as HTMLInputElement).checked = this.checkAll;
+    });
   }
 
   displayFilters() {
@@ -312,6 +389,17 @@ export class ReusableListComponent implements OnInit, OnDestroy {
     } else {
       this.showFilters = true;
     }
+  }
+  getOverviewData() {
+    this.generalService
+      .getOverviewData(this.overviewUrl)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: data => {
+          this.overViewData = data.object;
+          this.overviewCount = data.count;
+        },
+      });
   }
 
   openPagination() {
