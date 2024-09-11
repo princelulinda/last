@@ -105,12 +105,18 @@ export class ConfigService {
       const plateform = this.getActivePlateform();
       const theme = this.filterPlatformData(plateform).theme.name as ThemeModel;
       this.setHtmlMode(theme, mode);
+      let screenState: ScreenStateModel;
+      if (this.activeMainConfig) {
+        screenState = this.activeMainConfig.screenLocked;
+      } else {
+        screenState = 'unlocked';
+      }
 
       const newActiveMainConfig: activeMainConfigModel = {
         activeMode: mode,
         activePlateform: plateform,
         activeTheme: theme,
-        screenLocked: this.activeMainConfig.screenLocked,
+        screenLocked: screenState,
       };
       this.activeMainConfig = newActiveMainConfig;
 
@@ -400,7 +406,7 @@ export class ConfigService {
     if (Array.isArray(data)) {
       return data as T[];
     } else {
-      return Array.from(Object.values(data)) as T[];
+      return Array.from(Object.values(data)).slice(-1, 1) as T[];
     }
   }
 

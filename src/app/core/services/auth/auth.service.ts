@@ -16,6 +16,7 @@ import {
   ConectedOperatorApiResponseModel,
   OrganizationModel,
   LoginOperatorApiResponseModel,
+  OrganizationInvitationModel,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
@@ -171,11 +172,6 @@ export class AuthService {
       });
   }
 
-  private populate(): Observable<{ object: UserInfoModel }> {
-    return this.apiService
-      .get<{ object: UserInfoModel }>('/client/user/populate/')
-      .pipe(map(data => data));
-  }
   private formatPopulateClientData(data: UserInfoModel): UserInfoModel {
     return {
       user: {
@@ -223,10 +219,15 @@ export class AuthService {
       .pipe(map(response => response as OtpVerificationResponseModel));
   }
 
-  getOperatorInvitations(clientId: string) {
+  getOperatorInvitations(
+    clientId: number
+  ): Observable<{ objects: OrganizationInvitationModel[]; count: number }> {
     const url = `/hr/operator/organizations/manage/?list_type=invitations&access_bank_id=${clientId}`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ objects: OrganizationInvitationModel[]; count: number }>(url)
+      .pipe(map(data => data));
   }
+
   submitInvitationStatus(body: object) {
     const url = '/hr/administration/operator/organization/status/';
     return this.apiService.post(url, body).pipe(map(data => data));
