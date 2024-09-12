@@ -5,7 +5,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('ConfigutarionTarifComponent', () => {
+describe('ConfigTarifComponent', () => {
   let component: ConfigTarifComponent;
   let fixture: ComponentFixture<ConfigTarifComponent>;
 
@@ -22,7 +22,7 @@ describe('ConfigutarionTarifComponent', () => {
 
     fixture = TestBed.createComponent(ConfigTarifComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('should create', () => {

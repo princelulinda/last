@@ -20,11 +20,12 @@ import {
   ModifyFeesModel,
 } from './config-tarif-model';
 import { Subject } from 'rxjs';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-config-tarif',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, SkeletonComponent],
   templateUrl: './config-tarif.component.html',
   styleUrl: './config-tarif.component.scss',
 })
