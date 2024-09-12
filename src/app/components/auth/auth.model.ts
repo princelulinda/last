@@ -172,11 +172,13 @@ export interface OrganizationInvitationModel {
   organization: OrganizationModel;
 }
 
-export interface CreateAccountBodyModel {
-  creation_client: number;
-  // organization: number | null;
-  // picture: string;
-  // write_picture: string | null | undefined;
-  // email: string | null | undefined;
-  // username: string | null | undefined;
-}
+// export interface CreateAccountBodyModel {
+
+// }
+// export interface ResetPasswordBodyModel{
+
+// }
+
+// export interface OtpVerificationBodyModel{
+
+// }

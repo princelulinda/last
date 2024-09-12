@@ -421,11 +421,18 @@ export class ConfigTarifComponent implements OnInit {
       next: (response: deleteFeesModel) => {
         this.getTarifFees(this.tarifTable);
         this.dialogService.closeLoading();
+
         this.dialogService.openToast({
           title: '',
           type: 'success',
           message: 'Fees Deleted Successfully',
         });
+        // this.dialogService.openToast({
+        //   title: '',
+        //   type: 'success',
+        //   message: response.object.response_message,
+        // });
+
         this.feeDeletedLoader = false;
         this.deleteFee = response.object;
         this.show = false;

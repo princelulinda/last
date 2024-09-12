@@ -32,6 +32,7 @@ export interface AddTarifModel {
   id: string;
 }
 export interface AddFeesModel {
+  response_message: string;
   agent_commission: string;
   ihela_commission: string;
   total_commission: string;

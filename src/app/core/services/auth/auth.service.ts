@@ -17,7 +17,6 @@ import {
   OrganizationModel,
   LoginOperatorApiResponseModel,
   OrganizationInvitationModel,
-  CreateAccountBodyModel,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
@@ -202,9 +201,7 @@ export class AuthService {
     };
   }
 
-  createAccount(
-    body: CreateAccountBodyModel
-  ): Observable<CreateAccountResponseModel> {
+  createAccount(body: object): Observable<CreateAccountResponseModel> {
     const url = '/client/';
     return this.apiService
       .post(url, body)
