@@ -9,7 +9,7 @@
         <span
           tabindex="0"
           role="button"
-          [ngClass]="{ 'not-clickable': response_data }"
+          [ngClass]="{ 'not-clickable': isLoading }"
           class="bg-white text-center plus-square rounded-circle"
           title="Add"
           ><i class="fa-solid fa-plus text-success fs-x-small"></i
@@ -18,11 +18,10 @@
           class="d-flex align-items-center searchForm position-relative"
           [ngClass]="{ 'active ': isSearchInputNotEmpty() }">
           <input
-            class="ps-4 search-input start-0 w-100 focus:outline-none border-0 sm-radius ms-3 position-absolute"
+            class="ps-4 search-input start-0 w-100 form-control input border-0 sm-radius ms-3 position-absolute"
             [ngClass]="{
               'd-block ': isSearchInputNotEmpty(),
-              'not-clickable':
-                response_data && data_list && data_list.length > 0,
+              'not-clickable': isLoading,
             }"
             type="text"
             placeholder="Search ..."
@@ -30,7 +29,7 @@
             (keydown.enter)="search()" />
           <span
             class="btn bg-transparent search-btn"
-            [ngClass]="{ 'not-clickable': response_data }"
+            [ngClass]="{ 'not-clickable': isLoading }"
             role="button"
             (click)="search()"
             tabindex="0">
@@ -181,17 +180,24 @@
     <div class="row w-100 ms-2 mb-3 mt-2">
       @if (headers && data_list && data_list.length > 0) {
         <div class="col-auto">
-          <input type="checkbox" (change)="toggleAllCheckboxes($event)" />
+          <input
+            type="checkbox"
+            class="form-check"
+            (change)="toggleAllCheckboxes($event)" />
         </div>
       }
 
       @for (header of headers; track header; let i = $index) {
         @if (header.canBeDisplayed) {
           <div
-            class="col"
-            [ngClass]="{
-              'd-flex': i === 0,
-            }">
+            [ngClass]="[
+              i === 0 ? 'd-flex' : '',
+              header.canBeDisplayed && header.size === '' ? 'col-lg' : '',
+
+              header.canBeDisplayed && header.size !== ''
+                ? 'col-lg-' + header.size
+                : '',
+            ]">
             @if (data_list && data_list.length > 0) {
               <span i18n class="fw-bold"> {{ header.name }}</span>
             }
@@ -233,7 +239,7 @@
       <div
         class="row d-flex ms-1 me-1 align-items-center justify-content-center p-1 px-3 border rounded mb-2 fs-small">
         <div class="col-auto ps-0">
-          <input type="checkbox" />
+          <input type="checkbox" class="form-check" />
         </div>
 
         @for (data of line; let i = $index; track $index) {

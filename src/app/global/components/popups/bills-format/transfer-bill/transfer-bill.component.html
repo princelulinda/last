@@ -38,12 +38,12 @@
                 ></b
               >
             </div>
-            <div
-              class="d-flex flex-column mb-1 text-dark"
-              *ngIf="transferBillDialog.payload.debit_bank">
-              <b class="small text-gray" i18n>Debit Bank</b>
-              <b class="ms-2">{{ transferBillDialog.payload.debit_bank }}</b>
-            </div>
+            @if (transferBillDialog.payload.debit_bank) {
+              <div class="d-flex flex-column mb-1 text-dark">
+                <b class="small text-gray" i18n>Debit Bank</b>
+                <b class="ms-2">{{ transferBillDialog.payload.debit_bank }}</b>
+              </div>
+            }
             <div class="d-flex flex-column mb-1 text-dark">
               <b class="small text-gray" i18n>Beneficiary</b>
               <b class="ms-2"

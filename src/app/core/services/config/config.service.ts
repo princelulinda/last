@@ -196,6 +196,13 @@ export class ConfigService {
       const theme = plateformData.theme.name;
       const baseHref = plateformData.baseHref;
 
+      if (
+        this.activeMainConfig.activePlateform === 'workstation' ||
+        plateform === 'workstation'
+      ) {
+        this.resetSelectedBank();
+      }
+
       this.apiService.setLocalPlateform(plateform);
       this.setMainConfig({
         activePlateform: plateform,
@@ -206,9 +213,6 @@ export class ConfigService {
       this.setHtmlMode(theme, this.activeMainConfig.activeMode);
       if (redirectToBaseHref) {
         this.router.navigate([baseHref]);
-      }
-      if (plateform === 'workstation') {
-        this.resetSelectedBank();
       }
     }
   }
