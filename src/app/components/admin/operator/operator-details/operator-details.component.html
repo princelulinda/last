@@ -631,16 +631,17 @@
                   </div>
                 </form>
                 <div class="mx-auto text-center mt-1 mb-3">
-                  <span
-                    tabindex="0"
-                    *ngIf="!assignLoading"
-                    role="button"
-                    class="me-4 text-dark"
-                    (click)="selectSection('roles')"
-                    tabindex="0"
-                    i18n
-                    >Cancel</span
-                  >
+                  @if (!assignLoading) {
+                    <span
+                      tabindex="0"
+                      role="button"
+                      class="me-4 text-dark"
+                      (click)="selectSection('roles')"
+                      tabindex="0"
+                      i18n
+                      >Cancel</span
+                    >
+                  }
                   <button
                     (click)="assignNewRole()"
                     type="submit"
