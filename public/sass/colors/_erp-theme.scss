@@ -12,6 +12,7 @@ $erp-bg-light: (
   'input': #f1f1f1,
   'all-white': #ffffff,
   'all-dark': #242526,
+  'overlay-secondary': rgba(220, 226, 235, 0.678),
   'overlay': #11111180,
 );
 
@@ -35,7 +36,8 @@ $erp-bg-dark: (
   'input': #3a3b3c,
   'all-white': #ffffff,
   'all-dark': #242526,
-  'overlay': #11111180,
+  'overlay-secondary': #18191a94,
+  'overlay': #12121280,
 );
 
 $erp-text-dark: (
