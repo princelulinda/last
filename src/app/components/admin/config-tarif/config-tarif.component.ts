@@ -17,6 +17,7 @@ import {
   AddTarifModel,
   AddFeesModel,
   feesModel,
+  ModifyFeesModel,
 } from './config-tarif-model';
 import { Subject } from 'rxjs';
 
@@ -284,7 +285,7 @@ export class ConfigTarifComponent implements OnInit {
   });
 
   boundss = [];
-  fees!: AddFeesModel;
+  fees!: ModifyFeesModel;
   feeId = 0;
   minValue!: string;
   maxValue!: string;
@@ -368,7 +369,7 @@ export class ConfigTarifComponent implements OnInit {
     this.feesToModifyForm.disable();
 
     this.tarifService.modifyFees(fees, newFees).subscribe({
-      next: (response: AddFeesModel) => {
+      next: (response: ModifyFeesModel) => {
         this.feesToModifyForm.reset();
         this.getTarifFees(this.tarifTable);
         this.feeModificationLoader = false;

@@ -13,6 +13,11 @@ import {
   TarifFeesResonseModel,
   TarifTypeModel,
   AddFeesModel,
+  AddTarifBodyModel,
+  addTarifToTableBodyModel,
+  ModifyFeesBodyModel,
+  ModifyFeesModel,
+  AddFeesBodyModel,
 } from '../../../components/admin/config-tarif/config-tarif-model';
 
 @Injectable({
@@ -72,27 +77,30 @@ export class TarifService {
       })
     );
   }
-  addTarif(body: object): Observable<AddTarifModel> {
+  addTarif(body: AddTarifBodyModel): Observable<AddTarifModel> {
     const url = '/dbs/tariff-type/';
     return this.apiService
       .post(url, body)
       .pipe(map(response => response as AddTarifModel));
   }
-  addTarifToTable(body: object): Observable<AddTarifModel> {
+  addTarifToTable(body: addTarifToTableBodyModel): Observable<AddTarifModel> {
     const url = '/dbs/tariff-table/';
     return this.apiService
       .post(url, body)
       .pipe(map(response => response as AddTarifModel));
   }
 
-  addFees(body: object): Observable<AddFeesModel> {
+  addFees(body: AddFeesBodyModel): Observable<AddFeesModel> {
     const url = '/dbs/tariff-fees/';
     return this.apiService
       .post(url, body)
       .pipe(map(response => response as AddFeesModel));
   }
 
-  modifyFees(feeId: string, body: object): Observable<AddFeesModel> {
+  modifyFees(
+    feeId: string,
+    body: ModifyFeesBodyModel
+  ): Observable<ModifyFeesModel> {
     const url = '/dbs/tariff-fees/' + feeId + '/';
     return this.apiService
       .patch(url, body)

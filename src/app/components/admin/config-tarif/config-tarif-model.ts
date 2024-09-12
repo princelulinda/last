@@ -45,10 +45,41 @@ export interface AddFeesModel {
 
   object: AddFeesModel;
 }
-// export interface AddTarifBodyModel{
-// }
-// export interface AddFeesBodyModel{
-// }
+export interface AddTarifBodyModel {
+  type_type: string | undefined;
+  name: string | null | undefined;
+  type_code: string | null | undefined;
+  description: string | null | undefined;
+}
+export interface ModifyFeesBodyModel {
+  tarif_table: string;
+  amount_range: {
+    lower: string | null | undefined;
+    upper: string | null | undefined;
+    bounds: string;
+  };
+  commissions: string | null | undefined;
+  ihela_cios: string | null | undefined;
+  description: string;
+}
+export interface ModifyFeesModel {
+  object: ModifyFeesModel;
+}
+export interface AddFeesBodyModel {
+  tarif_table: string;
+  amount_range: {
+    lower: string | null | undefined;
+    upper: string | null | undefined;
+    bounds: string;
+  };
+  commissions: string | null | undefined;
+  ihela_cios: string | null | undefined;
+  description: string;
+}
+export interface addTarifToTableBodyModel {
+  tarif_type: string;
+  bank: string;
+}
 export interface feesModel {
   id: string;
   amount_range: { lower: string; upper: string };
