@@ -431,7 +431,6 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
     }
     const now = Date.now();
     const body = {
-      ...this.selectedRoleToUpdate,
       ends_at:
         this.dialog.response.confirmation !== 'YES'
           ? this.transformLocalDate(this.editRoleForm.controls['ends_at'].value)
@@ -441,7 +440,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
     this.adminService
       .updateOperatorRole(
         this.selectedRoleToUpdate?.id as number,
-        body as RoleListModel
+        body as RoleBodyModel
       )
       .subscribe({
         next: response => {

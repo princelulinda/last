@@ -9,10 +9,7 @@ import {
 import { AutocompleteModel } from '../../../global/models/global.models';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import { AdminMenuModel } from '../../../components/admin/menu/menu.models';
-import {
-  RoleBodyModel,
-  RoleListModel,
-} from '../../../components/admin/operator/operator.models';
+import { RoleBodyModel } from '../../../components/admin/operator/operator.models';
 
 @Injectable({
   providedIn: 'root',
@@ -92,10 +89,7 @@ export class AdminService {
     return this.apiService.patch(url, body).pipe(map(data => data));
   }
 
-  updateOperatorRole(
-    roleId: number | string,
-    body: RoleListModel | RoleBodyModel
-  ) {
+  updateOperatorRole(roleId: number | string, body: RoleBodyModel) {
     const url = '/hr/access/operator/roles/' + roleId + '/';
     return this.apiService.patch(url, body).pipe(map(data => data));
   }

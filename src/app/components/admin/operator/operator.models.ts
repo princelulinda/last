@@ -28,10 +28,10 @@ export interface RoleListModel {
 }
 
 export interface RoleBodyModel {
-  access_type: string;
-  begins_at: string;
+  access_type?: string;
+  begins_at?: string;
   ends_at: string;
-  roles: {
+  roles?: {
     access_type: string;
     begins_at: string;
     ends_at: string;
