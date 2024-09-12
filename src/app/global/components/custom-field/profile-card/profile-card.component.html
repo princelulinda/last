@@ -1,9 +1,9 @@
 <div
-  class="d-flex justify-content-center {{ classes }} align-items-center {{
-    radius
-  }}  text-white"
+  class="d-flex justify-content-center {{
+    classes
+  }} align-items-center rounded-circle bg-info text-white"
   [ngClass]="{
-    'p-2 bg-info ': !imageUrl,
+    'p-2': !imageUrl,
   }"
   [style.width]="width"
   [style.height]="height">
@@ -11,7 +11,7 @@
     <img
       [src]="imageUrl"
       alt=""
-      class="w-100 h-100 {{ radius }}"
+      class="w-100 h-100 rounded-circle"
       style="object-fit: cover" />
   } @else {
     <span class="fw-bold text-center">{{ initials }}</span>
