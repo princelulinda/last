@@ -57,7 +57,7 @@ export class TarifComponent implements OnInit {
     private TarifService: TarifService,
     private authService: AuthService
   ) {
-    this.isAgent$ = this.authService.getUserIsAgent();
+    this.isAgent$ = this.authService.checkUserIsAgent();
   }
   userInfo!: UserInfoModel;
   clientInfo$!: Observable<number>;

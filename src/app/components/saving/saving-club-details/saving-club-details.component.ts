@@ -27,10 +27,7 @@ export class SavingClubDetailsComponent implements OnInit {
     this.savingDetailService.getTontineDetails(this.tontineId).subscribe({
       next: (response: { object: TontineDataModele }) => {
         this.savingData = response.object;
-        console.log('Données de tontine:', this.savingData);
       },
-      error: (error: Error) =>
-        console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
 }
