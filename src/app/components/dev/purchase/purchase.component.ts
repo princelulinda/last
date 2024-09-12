@@ -9,6 +9,7 @@ import {
   EmptyStateComponent,
   EmptyStateModel,
 } from '../../../global/components/empty-states/empty-state/empty-state.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-purchase',
@@ -18,6 +19,7 @@ import {
     ProductCardComponent,
     SkeletonComponent,
     EmptyStateComponent,
+    RouterLink,
   ],
   templateUrl: './purchase.component.html',
   styleUrl: './purchase.component.scss',
@@ -30,6 +32,7 @@ export class PurchaseComponent implements OnInit {
   isLoading = true;
   searchType: EmptyStateModel = 'product';
   isProductsSearch = false;
+  disabledFavoriteAction = false;
 
   constructor(
     private merchantService: MerchantService,

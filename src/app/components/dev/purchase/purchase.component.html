@@ -6,26 +6,25 @@
           type="text"
           class="form-control"
           placeholder="Search.."
-          aria-label="Search.."
+          aria-label="Search"
           [formControl]="search"
           (keydown.enter)="searchProducts(search.value)"
           (input)="searchProducts(search.value)"
           aria-describedby="basic-addon2" />
-        <div class="input-group-append">
-          <span
-            class="input-group-text btn bg-dark"
-            id="basic-addon2"
-            (click)="searchProducts(search.value)"
-            tabindex="0">
-            @if (!isLoading) {
+        <div
+          class="input-group-append bg-dark d-flex align-items-center"
+          role="button"
+          (click)="searchProducts(search.value)"
+          tabindex="0">
+          @if (!isLoading) {
+            <span class="px-3">
               <i class="fa-solid fa-search text-light"></i>
-            } @else if (isLoading) {
-              <span>
-                <i
-                  class="fa-solid fa-pulse px-1 fa-circle-notch text-white"></i>
-              </span>
-            }
-          </span>
+            </span>
+          } @else if (isLoading) {
+            <span class="px-3">
+              <i class="fa-solid fa-pulse px-1 fa-circle-notch text-white"></i>
+            </span>
+          }
         </div>
       </div>
     </div>
@@ -44,7 +43,7 @@
           <div
             class="col-6 col-md-8 col-xl-1 p-1 d-flex justify-content-end align-items-center"
             role="button"
-            routerLink="/m/market/invoice">
+            routerLink="/m/mymarket">
             <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
             <span class="fw-bolder fs-5" i18n>Back</span>
           </div>
@@ -91,7 +90,9 @@
       </div>
     } @else if (!isLoading && products && products.length > 0) {
       @for (product of products; track $index) {
-        <app-product-card [product]="product"></app-product-card>
+        <app-product-card
+          [product]="product"
+          [disabledFavoriteAction]="disabledFavoriteAction"></app-product-card>
       }
     } @else if (products && products.length === 0) {
       <div class="row">
