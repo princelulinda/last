@@ -105,41 +105,41 @@
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary" i18n>Username</span>
                 <span class="fw-bold">{{
-                  organizationDetails?.operator?.username
+                  organizationDetails.operator.username
                 }}</span>
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary" i18n>Full name</span>
                 <span class="fw-bold">{{
-                  organizationDetails?.operator?.employee_client
+                  organizationDetails.operator.employee_client
                     ?.client_full_name ?? '------'
                 }}</span>
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary" i18n>Ips Allowed</span>
                 @if (
-                  !organizationDetails?.operator?.allowed_ips ||
-                  organizationDetails?.operator?.allowed_ips?.length === 0
+                  !organizationDetails.operator.allowed_ips ||
+                  organizationDetails.operator.allowed_ips.length === 0
                 ) {
                   <span class="fw-bold">---.-.-.-</span>
                 }
                 @if (
-                  organizationDetails?.operator?.allowed_ips &&
-                  organizationDetails?.operator?.allowed_ips
+                  organizationDetails.operator.allowed_ips &&
+                  organizationDetails.operator.allowed_ips.length > 0
                 ) {
                   <span class="fw-bold">{{
-                    organizationDetails?.operator?.allowed_ips?.[0]
+                    organizationDetails.operator.allowed_ips[0]
                   }}</span>
                 }
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary">Active</span>
-                @if (organizationDetails?.operator?.is_active) {
+                @if (organizationDetails.operator.is_active) {
                   <span class="fw-bold"
                     ><i class="fa-solid fa-circle-check fa-lg text-success"></i
                   ></span>
                 }
-                @if (!organizationDetails?.operator?.is_active) {
+                @if (!organizationDetails.operator.is_active) {
                   <span class="fw-bold"
                     ><i class="fa-solid fa-circle-xmark fa-lg text-danger"></i
                   ></span>
@@ -152,7 +152,7 @@
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary" i18n>Email</span>
                 <span class="fw-bold">{{
-                  organizationDetails?.operator?.employee_client?.client_email
+                  organizationDetails.operator.employee_client?.client_email
                 }}</span>
               </div>
             </div>
@@ -178,12 +178,12 @@
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary">Teller</span>
-                @if (organizationDetails?.is_teller) {
+                @if (organizationDetails.is_teller) {
                   <span class="fw-bold"
                     ><i class="fa-solid fa-circle-check fa-lg text-success"></i
                   ></span>
                 }
-                @if (!organizationDetails?.is_teller) {
+                @if (!organizationDetails.is_teller) {
                   <span class="fw-bold"
                     ><i class="fa-solid fa-circle-xmark fa-lg text-danger"></i
                   ></span>
@@ -191,12 +191,12 @@
               </div>
               <div class="w-50 d-flex flex-column gap-1">
                 <span class="fw-bold text-secondary" i18n>Treasurer</span>
-                @if (organizationDetails?.is_treasurer) {
+                @if (organizationDetails.is_treasurer) {
                   <span class="fw-bold"
                     ><i class="fa-solid fa-circle-check fa-lg text-success"></i
                   ></span>
                 }
-                @if (!organizationDetails?.is_treasurer) {
+                @if (!organizationDetails.is_treasurer) {
                   <span class="fw-bold"
                     ><i class="fa-solid fa-circle-xmark fa-lg text-danger"></i
                   ></span>

@@ -98,7 +98,7 @@ export interface OrganizationDetailsModel {
     org_accounting_type: number;
   };
   operator: {
-    allowed_ips: string[];
+    allowed_ips: string[] | null;
     id: number;
     is_active: string;
     fullname: string;
