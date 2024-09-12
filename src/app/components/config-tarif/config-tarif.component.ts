@@ -8,8 +8,9 @@ import {
 import {
   ApiService,
   ConfigService,
+  DialogService,
   TarifService,
-} from '../../../core/services';
+} from '../../core/services';
 import {
   TarifFeesResonseModel,
   TarifTypeInfoModel,
@@ -18,19 +19,23 @@ import {
   AddFeesModel,
   feesModel,
   ModifyFeesModel,
+  deleteFeesModel,
 } from './config-tarif-model';
-import { Subject } from 'rxjs';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { Observable, Subject } from 'rxjs';
+import { SkeletonComponent } from '../../global/components/loaders/skeleton/skeleton.component';
+import { DialogResponseModel } from '../../core/services/dialog/dialogs-models';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-config-tarif',
   standalone: true,
-  imports: [ReactiveFormsModule, SkeletonComponent],
+  imports: [ReactiveFormsModule, SkeletonComponent, NgClass],
   templateUrl: './config-tarif.component.html',
   styleUrl: './config-tarif.component.scss',
 })
 export class ConfigTarifComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
+  dialog$: Observable<DialogResponseModel>;
   isLoadingTarifType = false;
   isLoadingTariffFees = false;
   tarifType: TarifTypeModel[] | null = null;
@@ -48,6 +53,32 @@ export class ConfigTarifComponent implements OnInit {
   displayFormToAddFees = false;
   displayTarifConfiguration = false;
   tarif!: AddTarifModel;
+  show = false;
+  showF = false;
+  selectedFeeId!: string;
+
+  tatifType!: string;
+  tarifName!: string;
+  typeCode!: string;
+  description!: string;
+
+  tariffCreated = false;
+  tarif_type = '';
+  feeModificationLoader = false;
+  feeDeletedLoader = false;
+
+  boundss = [];
+  fees!: ModifyFeesModel;
+  minValue!: string;
+  maxValue!: string;
+  totalCommissions!: string;
+  ihelaCommisiions!: string;
+  agentCommisions!: string;
+  clientCreationCommissions!: string;
+  merchantCreationCommissions!: string;
+
+  deleteFee!: deleteFeesModel;
+  idTarif = '';
 
   bank_id = '';
   feesToModifyForm!: FormGroup<{
@@ -62,12 +93,27 @@ export class ConfigTarifComponent implements OnInit {
 
   ngOnInit() {
     this.getTarifType();
+    this.dialog$.subscribe({
+      next: (status: DialogResponseModel) => {
+        if (
+          status.action === 'confirmation' &&
+          status.response.confirmation === 'YES'
+        ) {
+          this.deleteFees();
+        } else {
+          this.selectedFeeId = '';
+        }
+      },
+    });
   }
   constructor(
     private tarifService: TarifService,
     private apiService: ApiService,
-    private configService: ConfigService
-  ) {}
+    private configService: ConfigService,
+    private dialogService: DialogService
+  ) {
+    this.dialog$ = this.dialogService.getDialogState();
+  }
 
   getTarifType(): void {
     this.isLoadingTarifType = true;
@@ -136,10 +182,6 @@ export class ConfigTarifComponent implements OnInit {
     this.displayFormToAddFees = !this.displayFormToAddFees;
   }
 
-  show = false;
-  showF = false;
-  selectedFeeId!: string;
-
   showInput(fees: feesModel) {
     this.show = true;
     this.selectedFeeId = fees.id;
@@ -167,34 +209,14 @@ export class ConfigTarifComponent implements OnInit {
     this.selectedFeeId = id;
     console.log('this id : ', id);
   }
-
-  //   show2: boolean = false;
-  //   selectedFeeId2: string = '';
-
-  //   showInput2(id: string) {
-  //       this.show2 = true;
-  //       this.selectedFeeId = id;
-
-  //     }
-
-  tatifType!: string;
-  tarifName!: string;
-  typeCode!: string;
-  description!: string;
-
   tarifForm = new FormGroup({
     tatifType: new FormControl('', Validators.required),
     tarifName: new FormControl('', Validators.required),
     typeCode: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
   });
-
-  tariffCreated = false;
-  tarif_type = '';
-  feeModificationLoader = false;
-  feeDeletedLoader = false;
-
   addTariff() {
+    this.dialogService.dispatchLoading();
     let tariffType;
     if (this.tariffType === 'Internal') {
       tariffType = 'I';
@@ -211,15 +233,21 @@ export class ConfigTarifComponent implements OnInit {
       next: response => {
         this.tarif = response.object;
         this.tarif_type = this.tarif.id;
-
         this.tarifForm.reset();
         this.tariffType = '';
         this.tariffCreated = true;
-
         this.addTarifToTable();
+        this.dialogService.closeLoading();
       },
-      error: () => {
-        //
+      error: error => {
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          type: 'failed',
+          title: 'Échec',
+          message:
+            error?.object?.response_message ??
+            $localize`Something went wrong please retry again !`,
+        });
       },
     });
   }
@@ -228,34 +256,25 @@ export class ConfigTarifComponent implements OnInit {
       tarif_type: this.tarif_type,
       bank: this.bank_id,
     };
-    // const response = {
-    //     title: '',
-    //     type: 'loading',
-    //     message: '',
-    // };
-    // this.store.dispatch(new OpenDialog(response));
     this.tarifService.addTarifToTable(data).subscribe({
       next: response => {
         this.tarif = response.object;
-        // this.store.dispatch(new CloseDialog({ response: 'close' }));
-        // const notification = {
-        //     title: '',
-        //     type: 'success',
-        //     message: 'Tariff added to the table successfully',
-        // };
-        // this.store.dispatch(new OpenDialog(notification));
-        // this.showAddTarifType = false;
+        this.dialogService.openToast({
+          title: '',
+          type: 'success',
+          message: 'Tarif added Successfully',
+        });
         this.TarifType = true;
         this.getTarifType();
       },
-      error: () => {
-        // this.store.dispatch(new CloseDialog({ response: 'close' }));
-        // const notification = {
-        //     title: '',
-        //     type: 'failed',
-        //     message: error.object.response_message,
-        // };
-        // this.store.dispatch(new OpenDialog(notification));
+      error: error => {
+        this.dialogService.openToast({
+          type: 'failed',
+          title: 'Échec',
+          message:
+            error?.object?.response_message ??
+            $localize`Something went wrong please retry again !`,
+        });
       },
     });
   }
@@ -264,9 +283,7 @@ export class ConfigTarifComponent implements OnInit {
   getSelectedType(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     this.tariffType = selectElement.value;
-    // this.tarifForm.patchValue({ typeCode: this.tariffType });
   }
-
   // test(){
   // this.configService.getUserBanks();
   // }
@@ -285,18 +302,8 @@ export class ConfigTarifComponent implements OnInit {
     merchantCreationCommissionsRate: new FormControl('0'),
   });
 
-  boundss = [];
-  fees!: ModifyFeesModel;
-  feeId = 0;
-  minValue!: string;
-  maxValue!: string;
-  totalCommissions!: string;
-  ihelaCommisiions!: string;
-  agentCommisions!: string;
-  clientCreationCommissions!: string;
-  merchantCreationCommissions!: string;
-
   addFees() {
+    this.dialogService.dispatchLoading();
     const newFees = {
       tarif_table: this.tarifTable,
       amount_range: {
@@ -321,33 +328,34 @@ export class ConfigTarifComponent implements OnInit {
       from_partner: false,
       description: 'fees test',
     };
-    // const response = {
-    //     title: '',
-    //     type: 'loading',
-    //     message: '',
-    // };
-    // this.store.dispatch(new OpenDialog(response));
 
     this.tarifService.addFees(newFees).subscribe({
       next: (response: AddFeesModel) => {
-        // this.store.dispatch(new CloseDialog({ response: 'close' }));
         this.getTarifFees(this.tarifTable);
         this.displayFormToAddFees = false;
         this.fees = response.object;
         this.formToAddFees.reset();
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          title: '',
+          type: 'success',
+          message: 'Fees added Successfully',
+        });
       },
-      error: () => {
-        // // this.store.dispatch(new CloseDialog({ response: 'close' }));
-        // const notification = {
-        //     title: '',
-        //     type: 'failed',
-        //     message: error.object.response_message,
-        // };
-        // // this.store.dispatch(new OpenDialog(notification));
+      error: error => {
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          type: 'failed',
+          title: 'Échec',
+          message:
+            error?.object?.response_message ??
+            $localize`Something went wrong please retry again !`,
+        });
       },
     });
   }
   updateTariff(fees: string) {
+    this.dialogService.dispatchLoading();
     const newFees = {
       tarif_table: this.tarifTable,
       amount_range: {
@@ -377,16 +385,60 @@ export class ConfigTarifComponent implements OnInit {
         this.fees = response.object;
         this.feesToModifyForm.enable();
         this.show = false;
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          title: '',
+          type: 'success',
+          message: 'Fees updated Successfully',
+        });
       },
-      error: () => {
+      error: error => {
         this.feeModificationLoader = false;
         this.feesToModifyForm.enable();
-        // const notification = {
-        //     title: '',
-        //     type: 'failed',
-        //     message: error.object.response_message,
-        // };
-        // this.store.dispatch(new OpenDialog(notification));
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          type: 'failed',
+          title: 'Échec',
+          message:
+            error?.object?.response_message ??
+            $localize`Something went wrong please retry again !`,
+        });
+      },
+    });
+  }
+  openPinPopup() {
+    this.dialogService.openDialog({
+      action: 'confirmation',
+      message: 'Are you sure that you want to delete this fees ?',
+      title: '',
+      type: 'confirm',
+    });
+  }
+
+  deleteFees() {
+    this.dialogService.dispatchLoading();
+    this.tarifService.deleteFees(this.selectedFeeId).subscribe({
+      next: (response: deleteFeesModel) => {
+        this.getTarifFees(this.tarifTable);
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          title: '',
+          type: 'success',
+          message: 'Fees Deleted Successfully',
+        });
+        this.feeDeletedLoader = false;
+        this.deleteFee = response.object;
+        this.show = false;
+      },
+      error: error => {
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          type: 'failed',
+          title: 'Échec',
+          message:
+            error?.object?.response_message ??
+            $localize`Something went wrong please retry again !`,
+        });
       },
     });
   }

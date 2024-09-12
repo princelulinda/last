@@ -18,7 +18,8 @@ import {
   ModifyFeesBodyModel,
   ModifyFeesModel,
   AddFeesBodyModel,
-} from '../../../components/admin/config-tarif/config-tarif-model';
+  deleteFeesModel,
+} from '../../../components/config-tarif/config-tarif-model';
 
 @Injectable({
   providedIn: 'root',
@@ -106,8 +107,10 @@ export class TarifService {
       .patch(url, body)
       .pipe(map(response => response as AddFeesModel));
   }
-  deleteFees(feeId: number) {
+  deleteFees(feeId: string): Observable<deleteFeesModel> {
     const url = '/dbs/tariff-fees/' + feeId + '/';
-    return this.apiService.delete(url).pipe(map(response => response));
+    return this.apiService
+      .delete(url)
+      .pipe(map(response => response as deleteFeesModel));
   }
 }

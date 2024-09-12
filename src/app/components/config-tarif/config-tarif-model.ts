@@ -89,3 +89,6 @@ export interface feesModel {
   client_creation_commission: string;
   merchant_creation_commission: string;
 }
+export interface deleteFeesModel {
+  object: deleteFeesModel;
+}
