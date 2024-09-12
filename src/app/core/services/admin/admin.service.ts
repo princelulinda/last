@@ -5,7 +5,7 @@ import {
   AdminDepartementsDetailsModel,
   AdminDirectionsDetailsModel,
   AdminServicesDetailsModel,
-} from '../../../components/rh/rh.model';
+} from '../../../components/admin/rh/rh.model';
 import { AutocompleteModel } from '../../../global/models/global.models';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import { AdminMenuModel } from '../../../components/admin/menu/menu.models';

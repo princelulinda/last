@@ -12,7 +12,8 @@ import {
   AddTarifModel,
   TarifFeesResonseModel,
   TarifTypeModel,
-} from '../../../components/configutarion-tarif/configuration-tarif-model';
+  AddFeesModel,
+} from '../../../components/admin/config-tarif/config-tarif-model';
 
 @Injectable({
   providedIn: 'root',
@@ -82,5 +83,23 @@ export class TarifService {
     return this.apiService
       .post(url, body)
       .pipe(map(response => response as AddTarifModel));
+  }
+
+  addFees(body: object): Observable<AddFeesModel> {
+    const url = '/dbs/tariff-fees/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as AddFeesModel));
+  }
+
+  modifyFees(feeId: string, body: object): Observable<AddFeesModel> {
+    const url = '/dbs/tariff-fees/' + feeId + '/';
+    return this.apiService
+      .patch(url, body)
+      .pipe(map(response => response as AddFeesModel));
+  }
+  deleteFees(feeId: number) {
+    const url = '/dbs/tariff-fees/' + feeId + '/';
+    return this.apiService.delete(url).pipe(map(response => response));
   }
 }

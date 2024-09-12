@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { AdminService } from '../../../core/services/admin/admin.service';
+import { AdminService } from '../../../../core/services/admin/admin.service';
 import { AdminDirectionsDetailsModel } from '../rh.model';
 
 @Component({

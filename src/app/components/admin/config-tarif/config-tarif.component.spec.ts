@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfigutarionTarifComponent } from './configutarion-tarif.component';
+import { ConfigTarifComponent } from './config-tarif.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ConfigutarionTarifComponent', () => {
-  let component: ConfigutarionTarifComponent;
-  let fixture: ComponentFixture<ConfigutarionTarifComponent>;
+  let component: ConfigTarifComponent;
+  let fixture: ComponentFixture<ConfigTarifComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfigutarionTarifComponent, RouterTestingModule],
+      imports: [ConfigTarifComponent, RouterTestingModule],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -20,7 +20,7 @@ describe('ConfigutarionTarifComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ConfigutarionTarifComponent);
+    fixture = TestBed.createComponent(ConfigTarifComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
