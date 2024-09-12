@@ -171,3 +171,8 @@ export interface OrganizationInvitationModel {
   };
   organization: OrganizationModel;
 }
+
+export interface SubmitInvitationResponseModel {
+  success: string;
+  response_message: string;
+}

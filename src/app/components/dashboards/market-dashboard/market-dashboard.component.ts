@@ -16,6 +16,8 @@ import { MerchantCardComponent } from '../../merchant/global/merchant-card/merch
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { BillerCardComponent } from '../../merchant/global/biller-card/biller-card.component';
 import { DialogService } from '../../../core/services';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { CurrencyModel } from '../../../global/models/global.models';
 
 @Component({
   selector: 'app-market-dashboard',
@@ -27,6 +29,7 @@ import { DialogService } from '../../../core/services';
     ProductCardComponent,
     MerchantCardComponent,
     BillerCardComponent,
+    AmountVisibilityComponent,
   ],
   templateUrl: './market-dashboard.component.html',
   styleUrl: './market-dashboard.component.scss',
@@ -80,6 +83,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
   // categorySections = false;
   loadingmerchants = true;
   offerData: { id: number; product: ProductOfferModel }[] = [];
+  balance_currency: CurrencyModel = 'BIF';
 
   constructor(
     private merchantService: MerchantService,
