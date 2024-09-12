@@ -204,73 +204,17 @@
         </div>
       }
       <!--sector of activities-->
-      <section class="mt-5 pt-5 position-relative">
-        @if (isLoading) {
-          <div class="row">
-            <p i18n class="font-calibri fs-normal fw-bold">
-              <i class="fa-solid fa-circle text-primary fs-x-small me-1"></i>
-              Categories
-              <i class="fa-solid fa-caret-down custom-caret ms-1 mt-1"></i>
-            </p>
-          </div>
-          <div class="w-100">
-            <div class="d-flex flex-wrap gap-2">
-              @for (item of countProductLoader; track $index) {
-                <div class="col-2" [hidden]="$index >= 5">
-                  <app-skeleton
-                    [width]="'100%'"
-                    [height]="'30px'"
-                    classes="sm-radius"></app-skeleton>
-                </div>
-              }
-            </div>
-            <div class="d-flex flex-wrap gap-2">
-              @for (item of countProductLoader; track $index) {
-                <div class="col-2" [hidden]="$index >= 3">
-                  <app-skeleton
-                    [width]="'100%'"
-                    [height]="'30px'"
-                    classes="sm-radius"></app-skeleton>
-                </div>
-              }
-            </div>
-          </div>
-        }
-        @if (!isLoading && selectedSector) {
-          <div class="w-100 position-absolute z-5 bg-white lg-radius">
-            <p class="mb-0">
-              <i class="fa-solid fa-circle text-primary fs-x-small me-1"></i>
-              <b
-                class="d-inline-block"
-                (click)="toggleSectorList()"
-                (mouseenter)="showSectorList()"
-                (mouseleave)="hideSectorList()"
-                role="button"
-                tabindex="0"
-                >{{ selectedSector.lookup_title }}
+      @if (!this.searchInput.value) {
+        <section class="mt-5 pt-5 position-relative">
+          @if (isLoading) {
+            <div class="row">
+              <p i18n class="font-calibri fs-normal fw-bold">
+                <i class="fa-solid fa-circle text-primary fs-x-small me-1"></i>
+                Categories
                 <i class="fa-solid fa-caret-down custom-caret ms-1 mt-1"></i>
-              </b>
-            </p>
-            @if (isSectorListVisible) {
-              <div
-                class="shadow-lg ms-3 p-4 pt-3 bg-white"
-                (mouseenter)="showSectorList()"
-                (mouseleave)="hideSectorList()">
-                @for (sector of sectorActivity; track $index) {
-                  <p
-                    class="mb-0 ms-2 p-0"
-                    role="button"
-                    tabindex="0"
-                    (click)="selectSector(sector)">
-                    {{ sector.lookup_title }}
-                  </p>
-                }
-              </div>
-            }
-          </div>
-          <!-- categories -->
-          @if (!isLoading && !categories) {
-            <div class="w-100 mt-4 pt-4">
+              </p>
+            </div>
+            <div class="w-100">
               <div class="d-flex flex-wrap gap-2">
                 @for (item of countProductLoader; track $index) {
                   <div class="col-2" [hidden]="$index >= 5">
@@ -293,26 +237,84 @@
               </div>
             </div>
           }
-          @if (selectedSector) {
-            <div class="mt-4 pt-3 ms-3 d-flex flex-wrap gap-3">
-              @for (AutocompleteCategory of categories; track $index) {
-                <span
-                  class="ms-1 border p-1 px-4 d-inline-block sm-radius"
-                  (click)="
-                    dispatchMerchantPayment({
-                      type: 'category-merchant',
-                      category: AutocompleteCategory,
-                    })
-                  "
+          @if (!isLoading && selectedSector) {
+            <div class="w-100 position-absolute z-5 bg-white lg-radius">
+              <p class="mb-0">
+                <i class="fa-solid fa-circle text-primary fs-x-small me-1"></i>
+                <b
+                  class="d-inline-block"
+                  (click)="toggleSectorList()"
+                  (mouseenter)="showSectorList()"
+                  (mouseleave)="hideSectorList()"
                   role="button"
-                  tabindex="0">
-                  {{ AutocompleteCategory.lookup_title }}
-                </span>
+                  tabindex="0"
+                  >{{ selectedSector.lookup_title }}
+                  <i class="fa-solid fa-caret-down custom-caret ms-1 mt-1"></i>
+                </b>
+              </p>
+              @if (isSectorListVisible) {
+                <div
+                  class="shadow-lg ms-3 p-4 pt-3 bg-white"
+                  (mouseenter)="showSectorList()"
+                  (mouseleave)="hideSectorList()">
+                  @for (sector of sectorActivity; track $index) {
+                    <p
+                      class="mb-0 ms-2 p-0"
+                      role="button"
+                      tabindex="0"
+                      (click)="selectSector(sector)">
+                      {{ sector.lookup_title }}
+                    </p>
+                  }
+                </div>
               }
             </div>
+            <!-- categories -->
+            @if (!isLoading && !categories) {
+              <div class="w-100 mt-4 pt-4">
+                <div class="d-flex flex-wrap gap-2">
+                  @for (item of countProductLoader; track $index) {
+                    <div class="col-2" [hidden]="$index >= 5">
+                      <app-skeleton
+                        [width]="'100%'"
+                        [height]="'30px'"
+                        classes="sm-radius"></app-skeleton>
+                    </div>
+                  }
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                  @for (item of countProductLoader; track $index) {
+                    <div class="col-2" [hidden]="$index >= 3">
+                      <app-skeleton
+                        [width]="'100%'"
+                        [height]="'30px'"
+                        classes="sm-radius"></app-skeleton>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+            @if (selectedSector) {
+              <div class="mt-4 pt-3 ms-3 d-flex flex-wrap gap-3">
+                @for (AutocompleteCategory of categories; track $index) {
+                  <span
+                    class="ms-1 border p-1 px-4 d-inline-block sm-radius"
+                    (click)="
+                      dispatchMerchantPayment({
+                        type: 'category-merchant',
+                        category: AutocompleteCategory,
+                      })
+                    "
+                    role="button"
+                    tabindex="0">
+                    {{ AutocompleteCategory.lookup_title }}
+                  </span>
+                }
+              </div>
+            }
           }
-        }
-      </section>
+        </section>
+      }
       <!-- All -->
       @if (!this.searchInput.value) {
         <div class="row mt-4">

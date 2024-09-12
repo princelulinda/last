@@ -9,7 +9,7 @@
             [routerLink]="menu.url"
             [fragment]="menu.fragment"
             [routerLinkActive]="['bg-primary-3', 'text-primary-1']"
-            [appTooltip]="menu.title"
+            [appTooltip]="{ title: menu.title }"
             placement="left"
             class="menu-item mb-3 d-block rounded-circle d-flex text-secondary bg-hover-primary-3 justify-content-center align-items-center">
             <span class="{{ menu.icon_classes }} mt-1 fs-medium"

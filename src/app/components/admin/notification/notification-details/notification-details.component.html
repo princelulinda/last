@@ -1,0 +1,211 @@
+<!-- <p>notification-details works!</p> -->
+
+<!-- <div class="details-container mb-2 ms-3">
+    <app-breadcrumb [crumbs]="crumbs"></app-breadcrumb>
+</div> -->
+
+<div class="level-1 details-container bg-secondary p-2 pt-4">
+  @if (loadingNotificationDetails) {
+    <div class="w-100 min-vh-100 bg rounded level-1">
+      <div class="w-100 min-vh-100 level-2 rounded loadingBlock">
+        @if (loadingNotificationDetails) {
+          <div class="d-flex justify-content-center loader">
+            <span><i class="fa-solid fa-pulse fa-circle-notch fs-4"></i></span>
+          </div>
+        }
+      </div>
+    </div>
+  }
+  @if (!loadingNotificationDetails) {
+    <div class="w-100 bg-white rounded level-1">
+      <div class="w-90 level-2 p-4 rounded">
+        <div class="d-flex justify-content-between">
+          @if (notificationDetails !== null) {
+            <div class="col m-1">
+              <span i18n>create at :</span><br />
+              <span class="text-info">{{
+                notificationDetails.created_at | date: 'MMMM d, yyyy'
+              }}</span
+              ><br />
+              <span class="text-info">{{
+                notificationDetails.created_at | date: 'HH:mm:ss a'
+              }}</span>
+            </div>
+          }
+
+          <!-- refresh button -->
+          <div class="d-flex">
+            <span
+              role="button"
+              class="ms-4 ps-3 text-dark"
+              (click)="refresh()"
+              tabindex="0"
+              i18n
+              >Refresh <i class="fa-solid fa-arrows-rotate"></i
+            ></span>
+          </div>
+        </div>
+        <div class="row bg-primary-2 p-1 mt-3 mb-3 rounded m-1">
+          <div class="col pt-2">
+            <span class="text-sm-md" i18n>sent at :</span>
+            @if (notificationDetails !== null) {
+              <b class="text-info text-md">
+                {{ notificationDetails.send_at | date: 'MMMM d, yyyy' }}
+                {{ notificationDetails.send_at | date: 'HH:mm:ss a' }}
+              </b>
+            }
+          </div>
+          @if (notificationDetails !== null) {
+            <div class="col d-flex justify-content-end">
+              @if (notificationDetails.status.css === 'success') {
+                <span class="badge-design bg-success px-3"> Success </span>
+              }
+              @if (notificationDetails.status.css !== 'success') {
+                <span class="badge-design bg-danger px-3"> Error </span>
+              }
+            </div>
+          }
+        </div>
+        <div class="row">
+          @if (notificationDetails !== null) {
+            <div class="col-md-6">
+              <p class="fw-bold text-md">
+                {{ notificationDetails.subject }}
+              </p>
+            </div>
+          }
+          <div class="col text-dark">
+            <span class="bg-secondary p-2 px-3 rounded"
+              ><i class="fa-solid fa-comment-sms"></i
+              ><span class="ms-2 fw-bold" i18n>SMS</span></span
+            >
+            <span class="bg-secondary p-2 px-3 rounded ms-5"
+              ><i class="fa-solid fa-square-envelope"></i
+              ><span class="ms-2 fw-bold" i18n>Mail </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="mb-3 text-sm-md text-secondary" i18n>Response status :</div>
+        <div class="d-flex">
+          @if (notificationDetails !== null) {
+            <span class="badge-design bg-info p-2 px-3 sm-radius fw-bold">
+              <span class="text-all-dark me-2" i18n>SMS</span>
+              @if (notificationDetails.response_data.email.success) {
+                <i class="fa-solid fw-bold fa-circle-check text-success"></i>
+              }
+              @if (!notificationDetails.response_data.email.success) {
+                <i class="fa-solid fa-circle-xmark text-danger"></i>
+              }
+            </span>
+          }
+          @if (notificationDetails !== null) {
+            <span class="badge-design bg-info ms-5 p-2 px-3 sm-radius fw-bold">
+              <span class="text-all-dark" i18n>Mail</span>
+              @if (notificationDetails.response_data.email.success) {
+                <i
+                  class="fa-solid fw-bold fa-circle-check text-success ms-2"></i>
+              }
+              @if (!notificationDetails.response_data.email.success) {
+                <i class="fa-solid fa-circle-xmark ms-2 text-danger"></i>
+              }
+            </span>
+          }
+        </div>
+
+        <div class="col mt-4 text-sm-md text-secondary" i18n>Content :</div>
+        @if (notificationDetails !== null) {
+          <div class="col mt-1 text-md">
+            {{ notificationDetails.notification_data.text_body }}
+          </div>
+        }
+        <br />
+        <div class="col-4"><hr /></div>
+
+        <div class="row">
+          <div class="border sm-radius p-0 overflow-hidden imgBlockSize">
+            @if (
+              notificationDetails !== null && notificationDetails.client.picture
+            ) {
+              <img
+                src="{{ notificationDetails.client.picture }}"
+                alt="picture of client"
+                class="image" />
+            }
+            @if (
+              notificationDetails !== null &&
+              !notificationDetails.client.picture
+            ) {
+              <div
+                class="bg-secondary h-100 w-100 d-flex align-items-center justify-content-center">
+                @if (!notificationDetails.client.picture) {
+                  <span class="text-dark fs-1">
+                    <i class="fa-regular fa-user"></i>
+                  </span>
+                }
+              </div>
+            }
+          </div>
+          @if (notificationDetails !== null) {
+            <div class="col-md-4 text-sm-md ms-2 mb-5">
+              <span class="fw-bold">
+                {{ notificationDetails.client.client_full_name }}
+              </span>
+              <br />
+              <span class="fw-bold">{{
+                notificationDetails.client.client_code
+              }}</span
+              ><br />
+              <span class="text-uppercase">{{
+                notificationDetails.client.client_type.title
+              }}</span>
+              <br />
+              <div class="d-flex align-items-center">
+                <span class="d-flex align-items-center text-secondary"
+                  ><span class="me-2"
+                    ><i class="fa-solid fa-envelope"></i
+                  ></span>
+                  @if (
+                    notificationDetails.notification_data.emails &&
+                    notificationDetails.notification_data.emails.length !== 0
+                  ) {
+                    <span>
+                      {{ notificationDetails.notification_data.emails[0] }}
+                    </span>
+                  }
+                  @if (
+                    !notificationDetails.notification_data.emails ||
+                    notificationDetails.notification_data.emails.length === 0
+                  ) {
+                    <span>---------</span>
+                  }
+                </span>
+                <span class="ms-3 d-flex align-items-center text-secondary">
+                  <span class="me-2"> <i class="fa-solid fa-phone"></i></span>
+                  @if (
+                    notificationDetails.notification_data.phone_numbers &&
+                    notificationDetails.notification_data.phone_numbers
+                      .length !== 0
+                  ) {
+                    <span>
+                      {{
+                        notificationDetails.notification_data.phone_numbers[0]
+                      }}
+                    </span>
+                  }
+                  @if (
+                    !notificationDetails.notification_data.phone_numbers ||
+                    notificationDetails.notification_data.phone_numbers
+                      .length === 0
+                  ) {
+                    <span>---------</span>
+                  }
+                </span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

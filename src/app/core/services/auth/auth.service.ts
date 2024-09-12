@@ -16,6 +16,7 @@ import {
   ConectedOperatorApiResponseModel,
   OrganizationModel,
   LoginOperatorApiResponseModel,
+  OrganizationInvitationModel,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
@@ -29,8 +30,10 @@ import { PlateformModel } from '../config/main-config.models';
 export class AuthService {
   private userInfo$: Observable<UserInfoModel> | unknown;
   private userClientId$ = new Subject<number>();
-  private userIsAgent$ = new Subject<boolean>();
   private userId$ = new Subject<number>();
+  private userIsAgent$ = new Subject<boolean>();
+  private userUnchangedClientId$ = new Subject<number>();
+  private userUnchangedId$ = new Subject<number>();
 
   constructor(
     private apiService: ApiService,
@@ -171,11 +174,6 @@ export class AuthService {
       });
   }
 
-  private populate(): Observable<{ object: UserInfoModel }> {
-    return this.apiService
-      .get<{ object: UserInfoModel }>('/client/user/populate/')
-      .pipe(map(data => data));
-  }
   private formatPopulateClientData(data: UserInfoModel): UserInfoModel {
     return {
       user: {
@@ -223,19 +221,19 @@ export class AuthService {
       .pipe(map(response => response as OtpVerificationResponseModel));
   }
 
-  getOperatorInvitations(clientId: string) {
+  getOperatorInvitations(
+    clientId: number
+  ): Observable<{ objects: OrganizationInvitationModel[]; count: number }> {
     const url = `/hr/operator/organizations/manage/?list_type=invitations&access_bank_id=${clientId}`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ objects: OrganizationInvitationModel[]; count: number }>(url)
+      .pipe(map(data => data));
   }
+
   submitInvitationStatus(body: object) {
     const url = '/hr/administration/operator/organization/status/';
     return this.apiService.post(url, body).pipe(map(data => data));
   }
-  // getBanksList():Observable<bankListResponse> {
-  //   const url = '/banks/list/?externel_request=true&bank_type=MFI';
-  //   return this.apiService.get(url);
-
-  // }
 
   verifyEmail(email: string): Observable<EmailVerificationResponseModel> {
     const url = `/extid/verification/?externel_request=true&type=email&value=${email}`;
@@ -247,6 +245,13 @@ export class AuthService {
   ): Observable<PhoneNumberVerificaitonResponseModel> {
     const url = `/extid/verification/?externel_request=true&type=phone_number&value=${tel}`;
     return this.apiService.get(url);
+  }
+
+  passwordVerification(password: string) {
+    const url = '/client/password-verification/';
+    return this.apiService
+      .post(url, { password })
+      .pipe(map(response => response));
   }
 
   // METHOD FOR USSER DATABASE DATA
@@ -278,7 +283,7 @@ export class AuthService {
     return this.userClientId$;
   }
 
-  getUserIsAgent(): Observable<boolean> {
+  checkUserIsAgent(): Observable<boolean> {
     this.getUserInfo().subscribe({
       next: userInfo => {
         if (userInfo) {
@@ -314,6 +319,27 @@ export class AuthService {
     return this.userId$;
   }
 
+  getAlwaysUserId(): Observable<number> {
+    this.getUserInfo().subscribe({
+      next: userInfo => {
+        if (userInfo) {
+          this.userUnchangedId$.next(userInfo.client.id);
+        }
+      },
+    });
+    return this.userUnchangedId$;
+  }
+  getAlwaysUserClientId(): Observable<number> {
+    this.getUserInfo().subscribe({
+      next: userInfo => {
+        if (userInfo) {
+          this.userUnchangedClientId$.next(userInfo.client.client_id);
+        }
+      },
+    });
+    return this.userUnchangedClientId$;
+  }
+
   // METHOD FOR GET LOCAL DATA
   getLocalAuthToken(): string | null {
     const localToken = this.apiService.getLocalToken();
@@ -327,12 +353,5 @@ export class AuthService {
   }
   getLocalPlateform(): PlateformModel {
     return this.apiService.getLocalPlateform();
-  }
-
-  passwordVerification(password: string) {
-    const url = '/client/password-verification/';
-    return this.apiService
-      .post(url, { password })
-      .pipe(map(response => response));
   }
 }

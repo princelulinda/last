@@ -49,7 +49,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
   organizationId!: number;
   operatorOrganizationId!: number;
 
-  selectedMenu = 'roles';
+  selectedMenu: 'roles' | 'menus' | 'counters' = 'roles';
 
   organizationDetails: OrganizationDetailsModel | null = null;
   permissionDetails: PermissionModel | null = null;
@@ -730,7 +730,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-  selectMenu(name: string) {
+  selectMenu(name: 'roles' | 'menus' | 'counters') {
     if (name === 'roles') {
       this.selectedSection = 'roles';
     } else if (name === 'menus') {
