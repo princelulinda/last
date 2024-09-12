@@ -2,8 +2,8 @@ import { RoleTypeModel } from '../role/role.models';
 
 export interface RoleListModel {
   access_type: RoleTypeModel;
-  begins_at: Date;
-  ends_at: Date;
+  begins_at: string;
+  ends_at: string;
   id: number;
   lookup_description: string;
   lookup_has_image_or_icon: boolean;
