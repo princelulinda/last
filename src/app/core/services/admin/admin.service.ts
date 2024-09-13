@@ -119,10 +119,10 @@ export class AdminService {
     return this.apiService.patch(url, body).pipe(map(data => data));
   }
 
-  // updateOperatorRole(roleId: any, body: any) {
-  //   const url = '/hr/access/operator/roles/' + roleId + '/';
-  //   return this.apiService.patch(url, body).pipe(map(data => data));
-  // }
+  updateOperatorRole(roleId: number | string, body: RoleBodyModel) {
+    const url = '/hr/access/operator/roles/' + roleId + '/';
+    return this.apiService.patch(url, body).pipe(map(data => data));
+  }
 
   getBranches(pagination: PaginationConfig) {
     const url = `/hr/branches/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`;
