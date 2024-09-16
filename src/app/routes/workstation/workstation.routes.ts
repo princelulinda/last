@@ -48,6 +48,20 @@ export const workstationRoutes: Routes = [
         path: 'metadata',
         component: MetadataComponent,
       },
+      {
+        path: '**',
+        loadComponent: () =>
+          import(
+            '../../global/components/errors/not-found-404/not-found-404.component'
+          ).then(m => m.NotFound404Component),
+      },
     ],
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import(
+        '../../global/components/errors/not-found-404/not-found-404.component'
+      ).then(m => m.NotFound404Component),
   },
 ];
