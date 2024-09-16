@@ -36,7 +36,7 @@ export class DialogService {
   });
 
   loading: WritableSignal<{
-    type: 'spinner' | 'topBar';
+    type: 'spinner' | 'topLoader' | '';
     active: boolean;
     action: string;
   }> = signal({
@@ -140,7 +140,7 @@ export class DialogService {
   }
 
   // Loading Methods
-  dispatchLoading(action?: string, type: 'spinner' | 'topBar' = 'spinner') {
+  dispatchLoading(action?: string, type: 'spinner' | 'topLoader' = 'spinner') {
     this.loading.set({
       action: action ?? '',
       active: true,
