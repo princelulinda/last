@@ -1,26 +1,28 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfigutarionTarifComponent } from './configutarion-tarif.component';
+import { PurchaseComponent } from './purchase.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute } from '@angular/router';
 
-describe('ConfigutarionTarifComponent', () => {
-  let component: ConfigutarionTarifComponent;
-  let fixture: ComponentFixture<ConfigutarionTarifComponent>;
+describe('PurchaseComponent', () => {
+  let component: PurchaseComponent;
+  let fixture: ComponentFixture<PurchaseComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfigutarionTarifComponent, RouterTestingModule],
+      imports: [PurchaseComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-
-        // RouterModule.forRoot(AuthRoutes),
+        {
+          provide: ActivatedRoute,
+          useValue: {},
+        },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ConfigutarionTarifComponent);
+    fixture = TestBed.createComponent(PurchaseComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

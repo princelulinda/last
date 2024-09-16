@@ -1,6 +1,6 @@
 <section class="searchMenu w-100 position-relative">
   @if (selectedItem) {
-    <div class="d-flex level-3 border rounded p-2 w-100">
+    <div class="d-flex border rounded p-2 w-100">
       <div style="line-height: 18px me-2">
         <div class="d-flex">
           @if (selectedItem.lookup_image && showProfile) {
@@ -19,14 +19,13 @@
           </div>
         </div>
       </div>
-      <div class="ps-2">
-        <button
-          class="text-danger bg-transparent border-0"
-          style="right: 0 !important; position: absolute"
-          (click)="deselect()">
-          <i class="fa-solid fa-circle-xmark me-2"></i>
-        </button>
-      </div>
+      <span
+        class="text-danger border-0 position-absolute end-0"
+        style="top: -8px"
+        (click)="deselect()"
+        tabindex="0">
+        <i class="fa-solid fa-circle-xmark"></i>
+      </span>
     </div>
   }
   <!-- <label for="validationTooltipUsername">Username</label> -->

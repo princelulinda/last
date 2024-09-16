@@ -2,8 +2,8 @@ import { RoleTypeModel } from '../role/role.models';
 
 export interface RoleListModel {
   access_type: RoleTypeModel;
-  begins_at: Date;
-  ends_at: Date;
+  begins_at: string;
+  ends_at: string;
   id: number;
   lookup_description: string;
   lookup_has_image_or_icon: boolean;
@@ -28,10 +28,10 @@ export interface RoleListModel {
 }
 
 export interface RoleBodyModel {
-  access_type: string;
-  begins_at: string;
+  access_type?: string;
+  begins_at?: string;
   ends_at: string;
-  roles: {
+  roles?: {
     access_type: string;
     begins_at: string;
     ends_at: string;
@@ -98,7 +98,7 @@ export interface OrganizationDetailsModel {
     org_accounting_type: number;
   };
   operator: {
-    allowed_ips: string[];
+    allowed_ips: string[] | null;
     id: number;
     is_active: string;
     fullname: string;

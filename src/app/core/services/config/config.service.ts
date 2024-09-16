@@ -43,25 +43,25 @@ export class ConfigService {
   private activeMainConfig!: activeMainConfigModel;
   private mainConfig$: unknown | Observable<activeMainConfigModel>;
 
-  private actifPlateform = new Subject<PlateformModel>();
-  private actifTheme = new Subject<ThemeModel>();
-  private actifMode = new Subject<ModeModel>();
-  private screenState = new Subject<ScreenStateModel>();
+  private actifPlateform$ = new Subject<PlateformModel>();
+  private actifTheme$ = new Subject<ThemeModel>();
+  private actifMode$ = new Subject<ModeModel>();
+  private screenState$ = new Subject<ScreenStateModel>();
 
   private userBanks$: unknown | Observable<BankModel[]>;
   private selectedBank$: unknown | Observable<BankModel>;
 
   private connectedOperator$: unknown | Observable<ConnectedOperatorModel>;
-  private operatorOrganization = new Subject<OrganizationModel | null>();
-  private isAuthenticatedOperator = new Subject<boolean>();
-  private isMerchantCorporate = new Subject<boolean>();
+  private operatorOrganization$ = new Subject<OrganizationModel | null>();
+  private isAuthenticatedOperator$ = new Subject<boolean>();
+  private isMerchantCorporate$ = new Subject<boolean>();
 
-  private organizationId = new Subject<number | null>();
+  private organizationId$ = new Subject<number | null>();
   private allOrganizations$: unknown | Observable<OrganizationModel[]>;
 
   private typeMenus$: unknown | Observable<TypeMenuModel[]>;
   private menuGroups$: unknown | Observable<MenuGroupsModel[]>;
-  private typeMenusExist = new Subject<boolean>();
+  private typeMenusExist$ = new Subject<boolean>();
   private selectedTypeMenu$: unknown | Observable<TypeMenuModel>;
 
   constructor(
@@ -105,12 +105,18 @@ export class ConfigService {
       const plateform = this.getActivePlateform();
       const theme = this.filterPlatformData(plateform).theme.name as ThemeModel;
       this.setHtmlMode(theme, mode);
+      let screenState: ScreenStateModel;
+      if (this.activeMainConfig) {
+        screenState = this.activeMainConfig.screenLocked;
+      } else {
+        screenState = 'unlocked';
+      }
 
       const newActiveMainConfig: activeMainConfigModel = {
         activeMode: mode,
         activePlateform: plateform,
         activeTheme: theme,
-        screenLocked: this.activeMainConfig.screenLocked,
+        screenLocked: screenState,
       };
       this.activeMainConfig = newActiveMainConfig;
 
@@ -132,22 +138,22 @@ export class ConfigService {
     this.getMainConfig().subscribe({
       next: mainConfig => {
         if (mainConfig) {
-          this.actifPlateform.next(mainConfig.activePlateform);
+          this.actifPlateform$.next(mainConfig.activePlateform);
         }
       },
     });
-    return this.actifPlateform;
+    return this.actifPlateform$;
   }
 
   getScreenState(): Observable<ScreenStateModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
         if (mainConfig) {
-          this.screenState.next(mainConfig.screenLocked);
+          this.screenState$.next(mainConfig.screenLocked);
         }
       },
     });
-    return this.screenState;
+    return this.screenState$;
   }
   async switchScreenState(state: ScreenStateModel) {
     this.activeMainConfig = await this.getActiveMainConfig();
@@ -163,22 +169,22 @@ export class ConfigService {
     this.getMainConfig().subscribe({
       next: mainConfig => {
         if (mainConfig) {
-          this.actifTheme.next(mainConfig.activeTheme);
+          this.actifTheme$.next(mainConfig.activeTheme);
         }
       },
     });
-    return this.actifTheme;
+    return this.actifTheme$;
   }
 
   getMode(): Observable<ModeModel> {
     this.getMainConfig().subscribe({
       next: mainConfig => {
         if (mainConfig) {
-          this.actifMode.next(mainConfig.activeMode);
+          this.actifMode$.next(mainConfig.activeMode);
         }
       },
     });
-    return this.actifMode;
+    return this.actifMode$;
   }
 
   // NOTE :: SWITCH MAIN CONFIGS METHODS
@@ -190,6 +196,13 @@ export class ConfigService {
       const theme = plateformData.theme.name;
       const baseHref = plateformData.baseHref;
 
+      if (
+        this.activeMainConfig.activePlateform === 'workstation' ||
+        plateform === 'workstation'
+      ) {
+        this.resetSelectedBank();
+      }
+
       this.apiService.setLocalPlateform(plateform);
       this.setMainConfig({
         activePlateform: plateform,
@@ -200,9 +213,6 @@ export class ConfigService {
       this.setHtmlMode(theme, this.activeMainConfig.activeMode);
       if (redirectToBaseHref) {
         this.router.navigate([baseHref]);
-      }
-      if (plateform === 'workstation') {
-        this.resetSelectedBank();
       }
     }
   }
@@ -272,32 +282,32 @@ export class ConfigService {
     this.getConnectedOperator().subscribe({
       next: operator => {
         if (operator) {
-          this.operatorOrganization.next(operator.organization ?? null);
+          this.operatorOrganization$.next(operator.organization ?? null);
         } else {
-          this.operatorOrganization.next(null);
+          this.operatorOrganization$.next(null);
         }
       },
     });
-    return this.operatorOrganization;
+    return this.operatorOrganization$;
   }
   operatorIsAuthenticated(): Observable<boolean> {
     this.getConnectedOperator().subscribe({
       next: operator => {
         if (operator) {
           if (operator.operator && operator.organization) {
-            this.isAuthenticatedOperator.next(true);
+            this.isAuthenticatedOperator$.next(true);
           } else {
-            this.isAuthenticatedOperator.next(false);
+            this.isAuthenticatedOperator$.next(false);
           }
         } else {
-          this.isAuthenticatedOperator.next(false);
+          this.isAuthenticatedOperator$.next(false);
         }
       },
       error: () => {
-        this.isAuthenticatedOperator.next(false);
+        this.isAuthenticatedOperator$.next(false);
       },
     });
-    return this.isAuthenticatedOperator;
+    return this.isAuthenticatedOperator$;
   }
   getLocalConnectedOperator(): boolean {
     const status = this.apiService.getLocalConnectedOperator();
@@ -315,16 +325,16 @@ export class ConfigService {
       next: operator => {
         if (operator && operator.organization) {
           if (operator.organization.have_merchant_system) {
-            this.isMerchantCorporate.next(true);
+            this.isMerchantCorporate$.next(true);
           } else {
-            this.isMerchantCorporate.next(false);
+            this.isMerchantCorporate$.next(false);
           }
         } else {
-          this.isMerchantCorporate.next(false);
+          this.isMerchantCorporate$.next(false);
         }
       },
     });
-    return this.isMerchantCorporate;
+    return this.isMerchantCorporate$;
   }
 
   // NOTE :: ORGANIZATIONS METHODS
@@ -339,16 +349,16 @@ export class ConfigService {
     this.getConnectedOperator().subscribe({
       next: operator => {
         if (operator && operator.organization) {
-          this.organizationId.next(operator.organization.id);
+          this.organizationId$.next(operator.organization.id);
         } else {
-          this.organizationId.next(null);
+          this.organizationId$.next(null);
         }
       },
       error: () => {
-        this.organizationId.next(null);
+        this.organizationId$.next(null);
       },
     });
-    return this.organizationId;
+    return this.organizationId$;
   }
 
   // NOTE :: MENUS METHODS
@@ -374,16 +384,16 @@ export class ConfigService {
     this.getTypeMenus().subscribe({
       next: menus => {
         if (menus === undefined || menus === null || menus.length === 0) {
-          this.typeMenusExist.next(false);
+          this.typeMenusExist$.next(false);
         } else {
-          this.typeMenusExist.next(true);
+          this.typeMenusExist$.next(true);
         }
       },
       error: () => {
-        this.typeMenusExist.next(false);
+        this.typeMenusExist$.next(false);
       },
     });
-    return this.typeMenusExist;
+    return this.typeMenusExist$;
   }
   setLocalSelectedMenu(menu: string) {
     this.apiService.setLocalSelectedMenu(menu);
@@ -400,7 +410,7 @@ export class ConfigService {
     if (Array.isArray(data)) {
       return data as T[];
     } else {
-      return Array.from(Object.values(data)) as T[];
+      return Array.from(Object.values(data)).slice(0, -1) as T[];
     }
   }
 

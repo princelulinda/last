@@ -1,0 +1,1167 @@
+<div class="w-100 lg-radius">
+  <div class="w-100 level-2 border lg-radius">
+    <!-- start all tarif's type -->
+    @if (TarifType) {
+      <div>
+        <div class="col d-flex justify-content-end p-2">
+          <span
+            class="me-3"
+            tabindex="0"
+            (click)="getTarifType()"
+            [ngClass]="{
+              'no-clickable': isLoadingTarifType,
+              clickable: !isLoadingTarifType,
+            }">
+            @if (isLoadingTarifType) {
+              <span>
+                <i class="fas fa-spinner fa-pulse"></i>
+              </span>
+            } @else {
+              <span class="fs-small">
+                <i class="fa-solid fa-arrows-rotate"></i
+              ></span>
+            }
+            Refresh
+          </span>
+        </div>
+        <div class="w-100 p-5">
+          <div class="col">
+            <span class="me-4"
+              ><button class="btn bg-primary text-white text-white px-4">
+                Internal
+              </button></span
+            >
+            <span
+              ><button class="btn bg-primary px-4 text-white">
+                External
+              </button></span
+            >
+          </div>
+          <hr />
+          <div class="col">
+            <button
+              class="btn bg-primary text-white px-4"
+              a
+              (click)="addTarifType()">
+              Add tarif
+            </button>
+          </div>
+
+          @if (isLoadingTarifType) {
+            <div class="row mt-3">
+              @for (_ of [1, 2, 3]; track $index) {
+                <div class="col-md-4 mb-4">
+                  <app-skeleton
+                    [width]="'100%'"
+                    [height]="'140px'"
+                    classes="sm-radius">
+                  </app-skeleton>
+                </div>
+              }
+            </div>
+          }
+          @if (!isLoadingTarifType) {
+            <div class="row mt-4">
+              @for (tarif of tarifType; track tarif) {
+                <div class="col-md-4 mb-3">
+                  <div
+                    class="card bg-white h-100 border lg-radius text-dark level-2">
+                    <div
+                      tabindex="0"
+                      class="card-body d-flex flex-column"
+                      role="button"
+                      (click)="
+                        onClickTarifType();
+                        getTarifFees(tarif.id);
+                        getTarifTypeInfo(tarif)
+                      ">
+                      <div class="d-flex justify-content-end">
+                        <span>{{ tarif.type_type }}</span>
+                      </div>
+                      <div
+                        class="flex-grow-1 d-flex flex-column justify-content-center">
+                        <span class="card-title text-md fw-bold text-truncate">
+                          {{ tarif.type_name }}
+                        </span>
+                        <p class="card-text">
+                          {{ tarif.description }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+    <!-- and all tarif's type -->
+
+    <!-- start selected tarif -->
+    @if (isLoadingTariffFees) {
+      <div class="d-flex justify-content-center align-items-center loader">
+        <span i18n><i class="fa-solid fa-pulse fa-circle-notch fs-4"></i></span>
+      </div>
+    }
+    @if (selectedTarif && !isLoadingTariffFees) {
+      <div>
+        <div
+          tabindex="0"
+          class="col d-flex justify-content-end p-2"
+          (click)="back()"
+          role="button">
+          <span class="me-2 d-flex align-items-center"
+            ><i class="fa-solid fa-arrow-left"></i>
+          </span>
+          <span>Back</span>
+        </div>
+        <div class="col-md-11 p-5">
+          <div class="row mb-3">
+            <div class="col-md-2"><span>Bank :</span></div>
+            <div class="col"><span>ihela</span></div>
+            <div class="col"></div>
+            <div class="col d-flex justify-content-end">
+              <span class="text-md fw-bold">{{ tariffName }}</span>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-2"><span>Title :</span></div>
+            <div class="col">
+              <span>{{ tarifTitle }}</span>
+            </div>
+            <div class="col"></div>
+            <div class="col"></div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2"><span>Description :</span></div>
+            <div class="col">
+              <span>{{ tarifDescription }}</span>
+            </div>
+            <div class="col d-flex justify-content-end">
+              <span>
+                <button class="btn bg-primary px-5 text-white fw-bold">
+                  Simulate
+                </button></span
+              >
+            </div>
+            <div class="col-md-2 d-flex justify-content-end">
+              <span>
+                <button
+                  (click)="onTarifConfigurationButton()"
+                  class="btn bg-primary px-4 text-white fw-bold">
+                  Configuration
+                </button></span
+              >
+            </div>
+          </div>
+          <hr />
+          <form action="" [formGroup]="formToAddFees">
+            <table class="table table-bordered position-relative">
+              @if (!displayFormToAddFees) {
+                <div
+                  id="test"
+                  tabindex="0"
+                  role="button"
+                  (click)="addFeesForm()">
+                  <span class="px-2 p-1 bg-primary fw-bold text-white">+</span>
+                </div>
+              }
+              @if (displayFormToAddFees) {
+                <div>
+                  <div
+                    tabindex="0"
+                    id="Cancel"
+                    role="button"
+                    (click)="addFeesForm()">
+                    <span><i class="fa-solid fa-xmark text-danger"></i> </span>
+                  </div>
+                  <div
+                    tabindex="0"
+                    id="confirm"
+                    role="button"
+                    (click)="addFees()">
+                    <span> <i class="fa-solid fa-check text-success"></i></span>
+                  </div>
+                </div>
+              }
+              <thead>
+                <tr class="text-white text-center rounded">
+                  <th rowspan="2" class="bg-primary text-white">
+                    <div class="row mb-4">
+                      <div class="col">
+                        <span
+                          >Valeur <br />
+                          minimale
+                        </span>
+                      </div>
+
+                      <div class="col">
+                        <span
+                          >Valeur <br />
+                          maximale</span
+                        >
+                      </div>
+                    </div>
+                  </th>
+                  <th colspan="7" class="text-center bg-primary text-white">
+                    Commissions
+                  </th>
+                </tr>
+                <tr class="text-center fw-bold">
+                  <td class="bg-primary text-white" colspan="2">
+                    Total <br />
+                    commisions
+                  </td>
+                  <td class="bg-primary text-white">
+                    IHELA <br />
+                    commisions
+                  </td>
+                  <td class="bg-primary text-white">
+                    Agent <br />
+                    commissions
+                  </td>
+                  <td class="bg-primary text-white">
+                    Client creation <br />
+                    commissions
+                  </td>
+                  <td class="bg-primary text-white">
+                    Merchant creation <br />
+                    commisions
+                  </td>
+                </tr>
+              </thead>
+
+              <tbody class="text-center">
+                @if (displayFormToAddFees) {
+                  <tr>
+                    <td colspan="2" class="bg-white">
+                      <div class="row g-1">
+                        <div class="col form-floating">
+                          <input
+                            placeholder="Valeur minimale"
+                            class="form-control rounded-0"
+                            type="text"
+                            formControlName="minValue"
+                            name="minValue"
+                            id="minValue" />
+                          <label for="minValue" class="fs-6 text-dark" i18n
+                            ><small> Min Value</small></label
+                          >
+                        </div>
+                        <div
+                          class="col-1 d-flex align-items-center justify-content-center">
+                          <span>-</span>
+                        </div>
+                        <div class="col form-floating">
+                          <input
+                            type="text"
+                            class="form-control rounded-0"
+                            placeholder="Valeur maximale"
+                            formControlName="maxValue"
+                            name="maxValue"
+                            id="maxValue" />
+                          <label for="maxValue" class="fs-6 text-dark" i18n
+                            ><small> Max Value</small></label
+                          >
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="row g-1">
+                        <div class="col form-floating">
+                          <input
+                            class="form-control rounded-0"
+                            type="text"
+                            formControlName="totalCommissions"
+                            name="totalCommissions"
+                            placeholder="Bif"
+                            id="totalCommissions" />
+                          <label
+                            for="totalCommissions"
+                            class="fs-6 text-dark"
+                            i18n
+                            ><small>Amount</small></label
+                          >
+                        </div>
+                        <div class="col form-floating">
+                          <input
+                            class="form-control rounded-0"
+                            type="text"
+                            formControlName="totalCommissionsRate"
+                            name="totalCommissions"
+                            placeholder="%"
+                            id="totalCommissions" />
+                          <label
+                            for="totalCommissions"
+                            class="fs-6 text-dark"
+                            i18n
+                            ><small> %</small></label
+                          >
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="row g-1">
+                        <div class="col form-floating">
+                          <input
+                            class="form-control rounded-0"
+                            placeholder="Bif"
+                            formControlName="ihelaCommissions"
+                            name="ihelaCommisiions"
+                            type="text"
+                            id="ihelaCommisiions" />
+                          <label
+                            for="ihelaCommisiions"
+                            class="fs-6 text-dark"
+                            i18n
+                            ><small>Amount</small></label
+                          >
+                        </div>
+                        <div class="col form-floating">
+                          <input
+                            class="form-control rounded-0"
+                            placeholder="%"
+                            formControlName="ihelaCommissionsRate"
+                            name="ihelaCommisiions"
+                            type="text"
+                            id="ihelaCommisiions" />
+                          <label
+                            for="ihelaCommisiions"
+                            class="fs-6 text-dark"
+                            i18n
+                            ><small> %</small></label
+                          >
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="row g-1">
+                        <div class="col form-floating">
+                          <input
+                            class="form-control rounded-0"
+                            placeholder="Bif"
+                            formControlName="agentCommisions"
+                            name="agentCommisions"
+                            type="text"
+                            id="agentCommisions" />
+                          <label
+                            for="agentCommisions"
+                            class="fs-6 text-dark"
+                            i18n
+                            ><small>Amount</small></label
+                          >
+                        </div>
+                        <div class="col form-floating">
+                          <input
+                            class="form-control rounded-0"
+                            placeholder="%"
+                            formControlName="agentCommisionsRate"
+                            name="agentCommisions"
+                            type="text"
+                            id="agentCommisions" />
+                          <label
+                            for="agentCommisions"
+                            class="fs-6 text-dark"
+                            i18n
+                            ><small> %</small></label
+                          >
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="row g-1">
+                        <div class="col form-floating">
+                          <input
+                            class="form-control rounded-0"
+                            placeholder="Bif"
+                            formControlName="clientCreationCommissions"
+                            name="clientCreationCommissions"
+                            type="text"
+                            id="clientCreationCommissions" />
+                          <label
+                            for="clientCreationCommissions"
+                            class="fs-6 text-dark"
+                            i18n
+                            ><small>Amount</small></label
+                          >
+                        </div>
+                        <div class="col form-floating">
+                          <input
+                            class="form-control rounded-0"
+                            placeholder="%"
+                            formControlName="clientCreationCommissionsRate"
+                            name="clientCreationCommissions"
+                            type="text"
+                            name="clientCreationCommissions"
+                            id="clientCreationCommissions" />
+                          <label
+                            for="clientCreationCommissions"
+                            class="fs-6 text-dark"
+                            i18n
+                            ><small> %</small></label
+                          >
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="row g-1">
+                        <div class="col form-floating">
+                          <input
+                            class="form-control rounded-0"
+                            placeholder="Bif"
+                            formControlName="merchantCreationCommissions"
+                            name="merchantCreationCommissions"
+                            type="text"
+                            id="merchantCreationCommissions" />
+                          <label
+                            for="merchantCreationCommissions"
+                            class="fs-6 text-dark"
+                            i18n
+                            ><small>Amount</small></label
+                          >
+                        </div>
+                        <div class="col form-floating">
+                          <input
+                            class="form-control rounded-0"
+                            placeholder="%"
+                            formControlName="merchantCreationCommissionsRate"
+                            name="merchantCreationCommissions"
+                            type="text"
+                            id="merchantCreationCommissions" />
+                          <label
+                            for="merchantCreationCommissions"
+                            class="fs-6 text-dark"
+                            i18n
+                            ><small> %</small></label
+                          >
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                }
+                @for (fees of feesData; track fees) {
+                  <tr>
+                    <td colspan="2" class="text-dark bg-white">
+                      <div class="row">
+                        <div class="col">
+                          <span>{{ fees.amount_range.lower }} </span>
+                        </div>
+                        <div class="col-1">-</div>
+                        <div class="col">
+                          <span>{{ fees.amount_range.upper }}</span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="text-dark bg-white">
+                      {{ fees.total_commission }}
+                    </td>
+                    <td class="text-dark bg-white">
+                      {{ fees.ihela_commission }}
+                    </td>
+                    <td class="text-dark bg-white">
+                      {{ fees.agent_commission }}
+                    </td>
+                    <td class="text-dark bg-white">
+                      {{ fees.client_creation_commission }}
+                    </td>
+                    <td class="text-dark bg-white">
+                      {{ fees.merchant_creation_commission }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </form>
+        </div>
+      </div>
+    }
+
+    <!-- end selected tarif -->
+
+    <!-- start add tarif  -->
+    @if (addTarif) {
+      <div>
+        <div
+          tabindex="0"
+          class="col d-flex justify-content-end p-2"
+          (click)="back()"
+          role="button">
+          <span class="me-2 d-flex align-items-center"
+            ><i class="fa-solid fa-arrow-left"></i>
+          </span>
+          <span>Back</span>
+        </div>
+        <div class="col p-5">
+          <span class="fw-bold">Add tarif</span>
+        </div>
+        <form action="" [formGroup]="tarifForm">
+          <div class="row px-5">
+            <div class="col">
+              <div class="row mb-4">
+                <div class="col-md-3">
+                  <span> Tarif type </span>
+                </div>
+                <div class="col">
+                  <span>
+                    <select
+                      name="tatifType"
+                      formControlName="tatifType"
+                      tabindex="0"
+                      class="form-select fw-bold text-dark"
+                      aria-label="Default select example"
+                      style="cursor: pointer"
+                      (change)="getSelectedType($event)">
+                      <option value="0" i18n>Select the type</option>
+                      <option value="Internal" i18n>Internal</option>
+                      <option value="External" i18n>External</option>
+                    </select>
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3"><span> Name </span></div>
+                <div class="col">
+                  <span
+                    ><input
+                      name="tarifName"
+                      formControlName="tarifName"
+                      class="form-control"
+                      type="text"
+                  /></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2"></div>
+
+            <div class="col">
+              <div class="row mb-4">
+                <div class="col-md-3"><span> Type code </span></div>
+                <div class="col">
+                  <span
+                    ><input
+                      name="typeCode"
+                      formControlName="typeCode"
+                      class="form-control"
+                      type="text"
+                  /></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <span> Description </span>
+                </div>
+                <div class="col">
+                  <span>
+                    <textarea
+                      class="form-control"
+                      formControlName="description"
+                      name="description"
+                      id="">
+                    </textarea>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-5 mb-5">
+              <div
+                class="col d-flex align-items-center justify-content-end text-decoration-underline fw-bold">
+                <span tabindex="0" role="button" (click)="back()">Cancel</span>
+              </div>
+              <div class="col">
+                <span
+                  ><button
+                    (click)="addTariff()"
+                    class="btn bg-primary text-white fw-bold"
+                    [disabled]="!tarifForm.valid">
+                    Confirm
+                  </button></span
+                >
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    }
+    <!-- end add tarif -->
+    <form action="" [formGroup]="feesToModifyForm">
+      <!-- start configuration tarif -->
+      @if (displayTarifConfiguration) {
+        <div>
+          <div
+            tabindex="0"
+            class="col d-flex justify-content-end p-2"
+            role="button"
+            (click)="back()">
+            <span class="me-2 d-flex align-items-center"
+              ><i class="fa-solid fa-arrow-left"></i>
+            </span>
+            <span>Back</span>
+          </div>
+          <div class="p-5">
+            <div class="row">
+              <div class="col">
+                <span> <i class="fa-solid fa-sliders text-primary"></i></span>
+                <span class="fw-bold text-dark ms-2">Tarif configuration</span>
+              </div>
+            </div>
+            <div class="row col-md-11 mt-5">
+              <div class="col me-5">
+                <div class="row">
+                  <div class="col-md-3">
+                    <span> Description </span>
+                  </div>
+                  <div class="col">
+                    <span>
+                      <textarea
+                        class="form-control lg-radius"
+                        id="exampleFormControlTextarea1"
+                        name=""
+                        id="">
+                      </textarea>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row mb-2">
+                  <div class="col">
+                    <span>Agent commision rate from amount</span>
+                  </div>
+                  <div class="col-md-1">
+                    <span>
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="flexSwitchCheckDefault" /></div
+                    ></span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <span class="me-2">Commision rate from partners</span>
+                    <span> </span>
+                  </div>
+                  <div class="col-md-1">
+                    <div class="form-check form-switch">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="flexSwitchCheckDefault" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-11">
+              <hr />
+            </div>
+
+            <div class="col-md-12">
+              <table class="table position-relative">
+                @if (displayFormToAddFees) {
+                  <div>
+                    <div
+                      tabindex="0"
+                      id="Cancel"
+                      role="button"
+                      (click)="addFeesForm()">
+                      <span
+                        ><i class="fa-solid fa-xmark text-danger"></i>
+                      </span>
+                    </div>
+                    <div id="confirm" role="button">
+                      <span>
+                        <i class="fa-solid fa-check text-success"></i
+                      ></span>
+                    </div>
+                  </div>
+                }
+                <thead>
+                  <tr class="text-white text-center rounded">
+                    <th rowspan="2" class="bg-primary text-white border">
+                      <div class="row mb-4 d-flex justify-content-center">
+                        <div class="col">
+                          <span
+                            >Valeur <br />
+                            minimale
+                          </span>
+                        </div>
+
+                        <div class="col">
+                          <span
+                            >Valeur <br />
+                            maximale</span
+                          >
+                        </div>
+                      </div>
+                    </th>
+                    <th
+                      colspan="6"
+                      class="text-center bg-primary text-white border">
+                      Commissions
+                    </th>
+                  </tr>
+                  <tr class="text-center fw-bold">
+                    <td class="bg-primary text-white border" colspan="2">
+                      Total <br />
+                      commisions
+                    </td>
+                    <td class="bg-primary text-white border">
+                      IHELA <br />
+                      commisions
+                    </td>
+                    <td class="bg-primary text-white border">
+                      Agent <br />
+                      commissions
+                    </td>
+                    <td class="bg-primary text-white border">
+                      Client creation <br />
+                      commissions
+                    </td>
+                    <td class="bg-primary text-white border">
+                      Merchant creation <br />
+                      commisions
+                    </td>
+                  </tr>
+                </thead>
+                <tbody class="text-center bg-info">
+                  @if (displayFormToAddFees) {
+                    <tr>
+                      <td colspan="2" class="bg-white">
+                        <div class="row g-1">
+                          <div class="col">
+                            <input
+                              placeholder="Valeur minimale"
+                              class="form-control rounded-0"
+                              type="text" />
+                          </div>
+                          <div
+                            class="col-1 d-flex align-items-center justify-content-center">
+                            <span>-</span>
+                          </div>
+                          <div class="col">
+                            <input type="text" class="form-control rounded-0" />
+                          </div>
+                        </div>
+                      </td>
+                      <td class="bg-white">
+                        <div class="row g-1">
+                          <div class="col">
+                            <input class="form-control rounded-0" type="text" />
+                          </div>
+                          <div class="col">
+                            <select class="form-select rounded-0" name="" id="">
+                              <option value="">bif</option>
+                            </select>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="bg-white">
+                        <div class="row g-1">
+                          <div class="col">
+                            <input class="form-control rounded-0" type="text" />
+                          </div>
+                          <div class="col">
+                            <select class="form-select rounded-0" name="" id="">
+                              <option value="">bif</option>
+                            </select>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="bg-white">
+                        <div class="row g-1">
+                          <div class="col">
+                            <input class="form-control rounded-0" type="text" />
+                          </div>
+                          <div class="col">
+                            <select class="form-select rounded-0" name="" id="">
+                              <option value="">bif</option>
+                            </select>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="bg-white">
+                        <div class="row g-1">
+                          <div class="col">
+                            <input class="form-control rounded-0" type="text" />
+                          </div>
+                          <div class="col">
+                            <select class="form-select rounded-0" name="" id="">
+                              <option value="">bif</option>
+                            </select>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="bg-white">
+                        <div class="row g-1">
+                          <div class="col">
+                            <input class="form-control rounded-0" type="text" />
+                          </div>
+                          <div class="col">
+                            <select class="form-select rounded-0" name="" id="">
+                              <option value="">bif</option>
+                            </select>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                  @for (fees of feesData; track fees) {
+                    <tr>
+                      <td colspan="2" class="text-dark bg-white border">
+                        <div class="row g-1">
+                          <div class="col">
+                            @if (
+                              !show ||
+                              selectedFeeId !== fees.id ||
+                              (showF &&
+                                selectedFeeId === fees.id &&
+                                !showF &&
+                                selectedFeeId === fees.id)
+                            ) {
+                              <span>{{ fees.amount_range.lower }}</span>
+                            }
+                            <span>
+                              @if (
+                                (show && selectedFeeId === fees.id) ||
+                                (!showF && selectedFeeId === fees.id)
+                              ) {
+                                <input
+                                  formControlName="minValue"
+                                  type="text"
+                                  class="form-control rounded-0"
+                                  value="{{ fees.amount_range.lower }}" />
+                              }
+                            </span>
+                          </div>
+                          <div class="col-1">-</div>
+                          <div class="col">
+                            @if (
+                              !show ||
+                              selectedFeeId !== fees.id ||
+                              (showF &&
+                                selectedFeeId === fees.id &&
+                                !showF &&
+                                selectedFeeId === fees.id)
+                            ) {
+                              <span>{{ fees.amount_range.upper }} </span>
+                            }
+                            <span>
+                              @if (
+                                (show && selectedFeeId === fees.id) ||
+                                (!showF && selectedFeeId === fees.id)
+                              ) {
+                                <input
+                                  formControlName="maxValue"
+                                  type="text"
+                                  class="form-control rounded-0"
+                                  value="{{ fees.amount_range.upper }}" />
+                              }
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="text-dark bg-white border">
+                        @if (
+                          !show ||
+                          selectedFeeId !== fees.id ||
+                          (showF &&
+                            selectedFeeId === fees.id &&
+                            !showF &&
+                            selectedFeeId === fees.id)
+                        ) {
+                          <span>{{ fees.total_commission }}</span>
+                        }
+                        <div class="row g-1">
+                          <div class="col">
+                            @if (
+                              (show && selectedFeeId === fees.id) ||
+                              (!showF && selectedFeeId === fees.id)
+                            ) {
+                              <input
+                                formControlName="totalCommissions"
+                                type="text"
+                                value="{{ fees.total_commission }}"
+                                class="form-control rounded-0" />
+                            }
+                          </div>
+                          <div class="col">
+                            @if (
+                              (show && selectedFeeId === fees.id) ||
+                              (!showF && selectedFeeId === fees.id)
+                            ) {
+                              <select
+                                class="form-select rounded-0"
+                                name=""
+                                id="">
+                                <div class="row g-1">
+                                  <div class="col">
+                                    @if (
+                                      (show && selectedFeeId === fees.id) ||
+                                      (!showF && selectedFeeId === fees.id)
+                                    ) {
+                                      <input
+                                        formControlName="totalCommissions"
+                                        type="text"
+                                        value="{{ fees.total_commission }}"
+                                        class="form-control rounded-0" />
+                                    }
+                                  </div>
+                                  <div class="col">
+                                    @if (
+                                      (show && selectedFeeId === fees.id) ||
+                                      (!showF && selectedFeeId === fees.id)
+                                    ) {
+                                      <select
+                                        class="form-select rounded-0"
+                                        name=""
+                                        id="">
+                                        <option value="">bif</option>
+                                      </select>
+                                    }
+                                  </div>
+                                </div>
+                                <option value="">bif</option>
+                              </select>
+                            }
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-dark bg-white border">
+                        @if (
+                          !show ||
+                          selectedFeeId !== fees.id ||
+                          (showF &&
+                            selectedFeeId === fees.id &&
+                            !showF &&
+                            selectedFeeId === fees.id)
+                        ) {
+                          <span>{{ fees.ihela_commission }}</span>
+                        }
+                        <div class="row g-1">
+                          <div class="col">
+                            @if (
+                              (show && selectedFeeId === fees.id) ||
+                              (!showF && selectedFeeId === fees.id)
+                            ) {
+                              <input
+                                formControlName="ihelaCommissions"
+                                type="text"
+                                value="{{ fees.ihela_commission }}"
+                                class="form-control rounded-0" />
+                            }
+                          </div>
+                          <div class="col">
+                            @if (
+                              (show && selectedFeeId === fees.id) ||
+                              (!showF && selectedFeeId === fees.id)
+                            ) {
+                              <select
+                                class="form-select rounded-0"
+                                name=""
+                                id="">
+                                <option value="">bif</option>
+                              </select>
+                            }
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-dark bg-white border">
+                        @if (
+                          !show ||
+                          selectedFeeId !== fees.id ||
+                          (showF &&
+                            selectedFeeId === fees.id &&
+                            !showF &&
+                            selectedFeeId === fees.id)
+                        ) {
+                          <span>{{ fees.agent_commission }}</span>
+                        }
+                        <div class="row g-1">
+                          <div class="col">
+                            @if (
+                              (show && selectedFeeId === fees.id) ||
+                              (!showF && selectedFeeId === fees.id)
+                            ) {
+                              <input
+                                formControlName="agentCommisions"
+                                type="text"
+                                value="{{ fees.agent_commission }}"
+                                class="form-control rounded-0" />
+                            }
+                          </div>
+                          <div class="col">
+                            @if (
+                              (show && selectedFeeId === fees.id) ||
+                              (!showF && selectedFeeId === fees.id)
+                            ) {
+                              <select
+                                class="form-select rounded-0"
+                                name=""
+                                id="">
+                                <option value="">bif</option>
+                              </select>
+                            }
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-dark bg-white border">
+                        @if (
+                          !show ||
+                          selectedFeeId !== fees.id ||
+                          (showF &&
+                            selectedFeeId === fees.id &&
+                            !showF &&
+                            selectedFeeId === fees.id)
+                        ) {
+                          <span>{{ fees.client_creation_commission }}</span>
+                        }
+                        <div class="row g-1">
+                          <div class="col">
+                            @if (
+                              (show && selectedFeeId === fees.id) ||
+                              (!showF && selectedFeeId === fees.id)
+                            ) {
+                              <input
+                                formControlName="clientCreationCommissions"
+                                type="text"
+                                value="{{ fees.client_creation_commission }}"
+                                class="form-control rounded-0" />
+                            }
+                          </div>
+                          <div class="col">
+                            @if (
+                              (show && selectedFeeId === fees.id) ||
+                              (!showF && selectedFeeId === fees.id)
+                            ) {
+                              <select
+                                class="form-select rounded-0"
+                                name=""
+                                id="">
+                                <option value="">bif</option>
+                              </select>
+                            }
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-dark bg-white border">
+                        @if (
+                          !show ||
+                          selectedFeeId !== fees.id ||
+                          (showF &&
+                            selectedFeeId === fees.id &&
+                            !showF &&
+                            selectedFeeId === fees.id)
+                        ) {
+                          <span>{{ fees.merchant_creation_commission }}</span>
+                        }
+                        <div class="row g-1">
+                          <div class="col">
+                            @if (
+                              (show && selectedFeeId === fees.id) ||
+                              (!showF && selectedFeeId === fees.id)
+                            ) {
+                              <input
+                                formControlName="merchantCreationCommissions"
+                                type="text"
+                                value="{{ fees.merchant_creation_commission }}"
+                                class="form-control rounded-0" />
+                            }
+                          </div>
+                          <div class="col">
+                            @if (
+                              (show && selectedFeeId === fees.id) ||
+                              (!showF && selectedFeeId === fees.id)
+                            ) {
+                              <select
+                                class="form-select rounded-0"
+                                name=""
+                                id="">
+                                <option value="">bif</option>
+                              </select>
+                            }
+                          </div>
+                        </div>
+                      </td>
+                      <td class="border-0 bg-white">
+                        <div class="pt-1 controlButton">
+                          @if (
+                            !show ||
+                            selectedFeeId !== fees.id ||
+                            (showF &&
+                              selectedFeeId === fees.id &&
+                              !showF &&
+                              selectedFeeId === fees.id)
+                          ) {
+                            <span
+                              tabindex="0"
+                              role="button"
+                              (click)="showInput(fees)"
+                              ><i class="fa-solid fa-pen me-3"></i
+                            ></span>
+                          }
+                          @if (
+                            !show ||
+                            (selectedFeeId !== fees.id &&
+                              show &&
+                              selectedFeeId === fees.id)
+                          ) {
+                            <span
+                              tabindex="0"
+                              role="button"
+                              (click)="openPinPopup(); showFees(fees.id)"
+                              ><i
+                                class="fa-solid fa-trash-can text-danger"
+                                role="button"></i>
+                            </span>
+                          }
+                        </div>
+
+                        <div class="controlButton">
+                          @if (
+                            (show && selectedFeeId === fees.id) ||
+                            (!showF && selectedFeeId === fees.id)
+                          ) {
+                            <div>
+                              <span
+                                tabindex="0"
+                                role="button"
+                                (click)="showFees(fees.id)"
+                                ><i
+                                  class="fa-solid fa-xmark text-danger me-4"></i>
+                              </span>
+                              <span
+                                tabindex="0"
+                                role="button"
+                                (click)="updateTariff(fees.id)">
+                                <i class="fa-solid fa-check text-success"></i
+                              ></span>
+                            </div>
+                          }
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row mt-5">
+              <div
+                class="col d-flex align-items-center justify-content-center fw-bold">
+                <span role="button" tabindex="0" (click)="back()">Cancel</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+      <!-- start configuration tarif -->
+    </form>
+  </div>
+</div>

@@ -21,25 +21,27 @@
     </div>
   </header>
   <main class="level-2 p-2" style="height: 70vh">
-    <section class="text-end mx-2" *ngIf="selectedMenu === 'details'">
-      @if (!loadingData) {
-        <span
-          class="refresh clickable"
-          title="Refresh"
-          role="button"
-          tabindex="0"
-          (click)="refreshData()">
-          <i class="fa-solid fa-arrows-rotate text-dark me-1"></i>
-          <small class="text-dark" i18n>Refresh</small>
-        </span>
-      }
+    @if (selectedMenu === 'details') {
+      <section class="text-end mx-2">
+        @if (!loadingData) {
+          <span
+            class="refresh clickable"
+            title="Refresh"
+            role="button"
+            tabindex="0"
+            (click)="refreshData()">
+            <i class="fa-solid fa-arrows-rotate text-dark me-1"></i>
+            <small class="text-dark" i18n>Refresh</small>
+          </span>
+        }
 
-      @if (loadingData) {
-        <span>
-          <i class="fas fa-spinner fa-pulse text-dark"></i>
-        </span>
-      }
-    </section>
+        @if (loadingData) {
+          <span>
+            <i class="fas fa-spinner fa-pulse text-dark"></i>
+          </span>
+        }
+      </section>
+    }
 
     @if (errorMessage) {
       <div class="text-center py-3 fs-4 w-50 m-auto mt-3 text-danger" i18n>

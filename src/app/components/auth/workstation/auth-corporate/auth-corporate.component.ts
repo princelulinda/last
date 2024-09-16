@@ -29,13 +29,13 @@ export class AuthCorporateComponent implements OnInit {
   operatorIsAuthenticated$: Observable<boolean>;
   dialog$: Observable<DialogResponseModel>;
   password = '';
-  clientId$!: Observable<number>;
+  unchagedUserId$!: Observable<number>;
   userId!: number;
   invitations!: OrganizationInvitationModel[];
   loadingInvitations = true;
   invitationAction = '';
   pin = '';
-  selectedInvitation!: { id: number };
+  selectedInvitation!: OrganizationInvitationModel;
 
   selectedOrganization!: OrganizationModel;
 
@@ -49,7 +49,7 @@ export class AuthCorporateComponent implements OnInit {
       this.configService.operatorIsAuthenticated();
     this.operatorOrganizations$ = this.configService.getOperatorOrganizations();
     this.dialog$ = this.dialogService.getDialogState();
-    this.clientId$ = this.authService.getUserId();
+    this.unchagedUserId$ = this.authService.getAlwaysUserId();
   }
 
   ngOnInit() {
@@ -94,7 +94,7 @@ export class AuthCorporateComponent implements OnInit {
       },
     });
 
-    this.clientId$.subscribe({
+    this.unchagedUserId$.subscribe({
       next: id => {
         this.userId = id;
         if (this.userId) {
@@ -122,6 +122,7 @@ export class AuthCorporateComponent implements OnInit {
         };
         this.configService.setOperator(operator);
         this.configService.setLocalConnectedOperator('true');
+        this.dialogService.dispatchSplashScreen();
         this.router.navigate(['/w/workstation']);
         this.dialogService.closeLoading();
       },
@@ -182,7 +183,7 @@ export class AuthCorporateComponent implements OnInit {
     this.selectedOrganization = data;
     this.dialogService.openDialog({
       action: 'Organization login',
-      message: $localize`Enter your password to add a new organisation`,
+      message: $localize`Enter your password to access in ${this.selectedOrganization.institution_client.client_full_name} organisation`,
       title: '',
       type: 'password',
     });
@@ -190,11 +191,10 @@ export class AuthCorporateComponent implements OnInit {
 
   getOperatorInvitations() {
     this.authService
-      .getOperatorInvitations(this.userId.toString())
+      .getOperatorInvitations(this.userId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: result => {
-          const response = result as { objects: OrganizationInvitationModel[] };
+        next: response => {
           this.invitations = response.objects;
           this.loadingInvitations = false;
         },
@@ -217,10 +217,12 @@ export class AuthCorporateComponent implements OnInit {
   ) {
     this.invitationAction = action;
     this.selectedInvitation = operator;
+
     this.dialogService.openDialog({
       title: 'Enter your pin',
       type: 'pin',
-      message: 'Enter your pin to confirm your decision',
+      message: $localize`Enter your pin to ${this.invitationAction} the invitation to become
+      an operator with ${this.selectedInvitation.organization.institution_client.client_full_name}`,
       action: 'accept or decline invitation',
     });
   }
