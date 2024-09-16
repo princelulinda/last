@@ -104,7 +104,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
           icon: 'users',
           link: [
             '/b/banking/saving/saving-club',
-            '/w/workstation/banking/saving/saving-club',
+            '/w/workstation/b/bankingsaving/saving-club',
           ],
         },
       ],
