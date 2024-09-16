@@ -4,16 +4,20 @@ import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { AuthService } from '../services';
+import { AuthService, MenuService } from '../services';
 
 export function clientInfoInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
   const authService = inject(AuthService);
+  const menuService = inject(MenuService);
+
   const CLIENT_ID = authService.getLocalClientId();
   const BANK_ID = authService.getLocalBankId();
   const PLATEFORM = authService.getLocalPlateform();
+  const MENU_ID = menuService.getLocalSelectedMenu();
+
   let appSubject = '';
   const plateformData = environment.plateformsUuid.filter(
     plateformData => plateformData.name === PLATEFORM
@@ -33,8 +37,8 @@ export function clientInfoInterceptor(
       .set('X-iHela-Access-Client-Id', CLIENT_ID ?? '')
       .set('X-iHela-Access-Bank-Id', BANK_ID ?? '')
       .set('X-iHela-AppSubject', appSubject)
-      .set('X-iHela-AppInfo', environment.appInfo),
-    // .set('X-iHela-Access-Menu-id', ''),
+      .set('X-iHela-AppInfo', environment.appInfo)
+      .set('X-iHela-Active-Menu-Id', MENU_ID ?? ''),
   });
   return next(newReq);
 }
