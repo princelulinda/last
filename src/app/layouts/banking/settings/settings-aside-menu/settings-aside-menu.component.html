@@ -197,30 +197,30 @@
         <span role="button" (click)="toggleMenuPopup('security')" tabindex="0"
           ><i class="fa-solid fa-shield-halved text-secondary"></i
         ></span>
-
-        <div
-          *ngIf="activePopupMenu === 'security'"
-          class="position-absolute d-flex flex-column text-center bg-secondary p-2 menuPopup custom-position">
-          <span
-            class="border-bottom"
-            role="button"
-            (click)="selectSubMenu('security', 'pin')"
-            tabindex="0"
-            [ngClass]="{
-              'fw-bold': selectedSubMenu === 'pin',
-            }"
-            ><small>Pin</small></span
-          >
-          <span
-            role="button"
-            (click)="selectSubMenu('security', 'password')"
-            tabindex="0"
-            [ngClass]="{
-              'fw-bold': selectedSubMenu === 'password',
-            }"
-            ><small>Password</small></span
-          >
-        </div>
+        @if (activePopupMenu === 'security') {
+          <div
+            class="position-absolute d-flex flex-column text-center bg-secondary p-2 menuPopup custom-position">
+            <span
+              class="border-bottom"
+              role="button"
+              (click)="selectSubMenu('security', 'pin')"
+              tabindex="0"
+              [ngClass]="{
+                'fw-bold': selectedSubMenu === 'pin',
+              }"
+              ><small>Pin</small></span
+            >
+            <span
+              role="button"
+              (click)="selectSubMenu('security', 'password')"
+              tabindex="0"
+              [ngClass]="{
+                'fw-bold': selectedSubMenu === 'password',
+              }"
+              ><small>Password</small></span
+            >
+          </div>
+        }
       </div>
       <div class="fs-4 mb-3 position-relative">
         <span role="button" (click)="toggleMenuPopup('session')" tabindex="0">

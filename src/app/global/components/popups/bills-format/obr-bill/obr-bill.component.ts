@@ -2,11 +2,12 @@ import { Component, effect, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ObrBillModel } from '../../../../../core/services/dialog/dialogs-models';
 import { DialogService } from '../../../../../core/services';
+import { NgxPrintModule } from 'ngx-print';
 
 @Component({
   selector: 'app-obr-bill',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgxPrintModule],
   templateUrl: './obr-bill.component.html',
   styleUrls: ['./obr-bill.component.scss'],
 })
@@ -31,6 +32,7 @@ export class ObrBillComponent implements AfterViewInit {
     payload: null,
   };
   private dialogElement!: HTMLDialogElement | null;
+  cardContent!: HTMLElement;
 
   constructor(private dialogService: DialogService) {
     effect(() => {
@@ -51,8 +53,15 @@ export class ObrBillComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.cardContent = document.getElementById('printable_text') as HTMLElement;
     this.dialogElement = document.getElementById(
       'obr-bill'
     ) as HTMLDialogElement;
+
+    if (this.obrBillDialog.active && this.obrBillDialog.payload) {
+      if (this.obrBillDialog.payload.printable_text) {
+        this.cardContent.innerHTML = this.obrBillDialog.payload.printable_text;
+      }
+    }
   }
 }

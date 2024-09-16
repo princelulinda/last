@@ -91,6 +91,7 @@ export interface ObrBillModel {
   amount: string | number;
   name: string;
   type: string;
+  printable_text: string;
 }
 
 export interface TransfertBillModel {
@@ -106,6 +107,7 @@ export interface TransfertBillModel {
   amount: string;
   transfer_fees: string;
   bill_date: Date;
+  printable_text: string;
 }
 
 export type MerchantPaymentTypesModel =
