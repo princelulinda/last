@@ -154,12 +154,12 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
           {
             icon: 'circle-info',
             title: 'Operator Info',
-            url: `/w/workstation/admin/operators/${this.operatorOrganizationId}`,
+            url: `/w/workstation/a/admin/operators/${this.operatorOrganizationId}`,
           },
           {
             icon: 'universal-access',
             title: 'Operators Details',
-            url: `/w/workstation/admin/operators/${this.operatorOrganizationId}`,
+            url: `/w/workstation/a/admin/operators/${this.operatorOrganizationId}`,
             fragment: 'details',
           },
         ];

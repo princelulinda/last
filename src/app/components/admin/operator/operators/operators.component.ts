@@ -62,7 +62,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
       field: ['operator.name'],
       size: '',
       detail: {
-        link: '/w/workstation/admin/operators/',
+        link: '/w/workstation/a/admin/operators/',
         field: 'id',
       },
     },
@@ -82,12 +82,12 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     {
       icon: 'list-ul',
       title: 'Operators List',
-      url: '/w/workstation/admin/operators',
+      url: '/w/workstation/a/admin/operators',
     },
     {
       icon: 'user-clock',
       title: 'Invitations',
-      url: '/w/workstation/admin/operators',
+      url: '/w/workstation/a/admin/operators',
       fragment: 'invitations',
     },
   ];
@@ -164,7 +164,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
             message: 'Success',
             type: 'success',
           });
-          this.router.navigate(['/w/workstation/admin/operators'], {
+          this.router.navigate(['/w/workstation/a/admin/operators'], {
             fragment: 'invitations',
           });
         },
