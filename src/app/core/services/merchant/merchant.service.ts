@@ -266,6 +266,11 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
+  getPurchasedProducts(merchantId: string, search?: string) {
+    const url = `/dbs/merchant-product/objects_autocomplete/?merchant=${merchantId}&search=${search ?? ''}&provided=true`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
   createNewTeller(body: newTellerModel) {
     const url = '/dbs/merchant-teller/';
     return this.apiService.post(url, body).pipe(

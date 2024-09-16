@@ -8,53 +8,71 @@
     </span>
   }
 
+  @if (
+    !organizationDetailsLoading && !loadingPermission && !organizationDetails
+  ) {
+    <div class="h-100 w-100 d-flex align-items-center justify-content-center">
+      <div class="d-flex justify-content-center gap-4 flex-column">
+        <i class="fa-solid fa-triangle-exclamation empty-state fa-4x"></i>
+        <span class="fs-xx-large empty-state">Something went wrong!</span>
+      </div>
+    </div>
+  }
+
   <!-- Operator Badge -->
-  @if (!organizationDetailsLoading && !loadingPermission) {
-    @if (organizationDetails) {
-      <div class="d-flex flex-row gap-4 p-2 px-3 mb-4">
-        <div
-          class="rounded-circle bg-secondary me-4 position-relative d-flex align-items-center justify-content-center"
-          style="width: 104px; height: 104px">
-          @if (organizationDetails.operator.employee_client?.picture) {
-            <img
-              class="image rounded-circle"
-              src="{{ organizationDetails.operator.employee_client?.picture }}"
-              alt="{{ organizationDetails.operator.username }} Logo" />
-          }
-          <!-- if no picture -->
-          @if (
-            !organizationDetails.operator.employee_client ||
-            !organizationDetails.operator.employee_client.picture
-          ) {
-            <span class="text-secondary" style="font-size: 3rem">
-              <i class="fa-solid fa-user-tie fa-xl"></i>
-            </span>
-          }
-          <span
-            class="text-secondary position-absolute fs-5 clickable rounded-circle bg-white clickable bottom-0 z-10"
-            style="right: -3%; height: 30px; width: 30px"
-            title="Refresh"
-            tabindex="0"
-            (click)="refresh()">
-            <i class="fa-solid fa-arrows-rotate p-1"></i>
+  @if (
+    !organizationDetailsLoading && !loadingPermission && organizationDetails
+  ) {
+    <div class="d-flex flex-row gap-4 p-2 px-3 mb-4">
+      <div
+        class="rounded-circle bg-secondary me-4 position-relative d-flex align-items-center justify-content-center"
+        style="width: 104px; height: 104px">
+        @if (organizationDetails.operator.employee_client?.picture) {
+          <img
+            class="image rounded-circle"
+            src="{{ organizationDetails.operator.employee_client?.picture }}"
+            alt="{{ organizationDetails.operator.username }} Logo" />
+        }
+        <!-- if no picture -->
+        @if (
+          !organizationDetails.operator.employee_client ||
+          !organizationDetails.operator.employee_client.picture
+        ) {
+          <span class="text-secondary" style="font-size: 3rem">
+            <i class="fa-solid fa-user-tie fa-xl"></i>
           </span>
-        </div>
-        <div class="d-flex flex-column text-dark justify-content-center gap-2">
-          <b class="fs-large fw-bold">{{
-            organizationDetails.operator.employee_client?.client_full_name ??
-              '------'
-          }}</b>
-          <b>{{
-            organizationDetails.operator.employee_client?.client_code ??
-              '------'
-          }}</b>
-          <div class="d-flex flex-row gap-2">
-            <span class="text-secondary fw-bold">Reference person </span>
-            <span class="fw-bold">Pierre claver koko Banywera </span>
-          </div>
+        }
+        <span
+          class="text-secondary position-absolute fs-5 clickable rounded-circle bg-white"
+          style="
+            bottom: 0;
+            right: -3%;
+            z-index: 10;
+            cursor: pointer;
+            height: 30px;
+            width: 30px;
+          "
+          title="Refresh"
+          tabindex="0"
+          (click)="refresh()">
+          <i
+            class="fa-solid fa-arrows-rotate text-secondary rounded-circle p-1"></i>
+        </span>
+      </div>
+      <div class="d-flex flex-column text-dark justify-content-center gap-2">
+        <b class="fs-large fw-bold">{{
+          organizationDetails.operator.employee_client?.client_full_name ??
+            '------'
+        }}</b>
+        <b>{{
+          organizationDetails.operator.employee_client?.client_code ?? '------'
+        }}</b>
+        <div class="d-flex flex-row gap-2">
+          <span class="text-secondary fw-bold">Reference person </span>
+          <span class="fw-bold">Pierre claver koko Banywera </span>
         </div>
       </div>
-    }
+    </div>
 
     @if (!showDetails) {
       <ng-container>
@@ -87,41 +105,41 @@
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary" i18n>Username</span>
                 <span class="fw-bold">{{
-                  organizationDetails?.operator?.username
+                  organizationDetails.operator.username
                 }}</span>
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary" i18n>Full name</span>
                 <span class="fw-bold">{{
-                  organizationDetails?.operator?.employee_client
+                  organizationDetails.operator.employee_client
                     ?.client_full_name ?? '------'
                 }}</span>
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary" i18n>Ips Allowed</span>
                 @if (
-                  !organizationDetails?.operator?.allowed_ips ||
-                  organizationDetails?.operator?.allowed_ips?.length === 0
+                  !organizationDetails.operator.allowed_ips ||
+                  organizationDetails.operator.allowed_ips.length === 0
                 ) {
                   <span class="fw-bold">---.-.-.-</span>
                 }
                 @if (
-                  organizationDetails?.operator?.allowed_ips &&
-                  organizationDetails?.operator?.allowed_ips
+                  organizationDetails.operator.allowed_ips &&
+                  organizationDetails.operator.allowed_ips.length > 0
                 ) {
                   <span class="fw-bold">{{
-                    organizationDetails?.operator?.allowed_ips?.[0]
+                    organizationDetails.operator.allowed_ips[0]
                   }}</span>
                 }
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary">Active</span>
-                @if (organizationDetails?.operator?.is_active) {
+                @if (organizationDetails.operator.is_active) {
                   <span class="fw-bold"
                     ><i class="fa-solid fa-circle-check fa-lg text-success"></i
                   ></span>
                 }
-                @if (!organizationDetails?.operator?.is_active) {
+                @if (!organizationDetails.operator.is_active) {
                   <span class="fw-bold"
                     ><i class="fa-solid fa-circle-xmark fa-lg text-danger"></i
                   ></span>
@@ -134,7 +152,7 @@
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary" i18n>Email</span>
                 <span class="fw-bold">{{
-                  organizationDetails?.operator?.employee_client?.client_email
+                  organizationDetails.operator.employee_client?.client_email
                 }}</span>
               </div>
             </div>
@@ -160,12 +178,12 @@
               </div>
               <div class="w-50 d-flex flex-column gap-1 mb-4">
                 <span class="fw-bold text-secondary">Teller</span>
-                @if (organizationDetails?.is_teller) {
+                @if (organizationDetails.is_teller) {
                   <span class="fw-bold"
                     ><i class="fa-solid fa-circle-check fa-lg text-success"></i
                   ></span>
                 }
-                @if (!organizationDetails?.is_teller) {
+                @if (!organizationDetails.is_teller) {
                   <span class="fw-bold"
                     ><i class="fa-solid fa-circle-xmark fa-lg text-danger"></i
                   ></span>
@@ -173,12 +191,12 @@
               </div>
               <div class="w-50 d-flex flex-column gap-1">
                 <span class="fw-bold text-secondary" i18n>Treasurer</span>
-                @if (organizationDetails?.is_treasurer) {
+                @if (organizationDetails.is_treasurer) {
                   <span class="fw-bold"
                     ><i class="fa-solid fa-circle-check fa-lg text-success"></i
                   ></span>
                 }
-                @if (!organizationDetails?.is_treasurer) {
+                @if (!organizationDetails.is_treasurer) {
                   <span class="fw-bold"
                     ><i class="fa-solid fa-circle-xmark fa-lg text-danger"></i
                   ></span>
@@ -367,7 +385,7 @@
             @if (
               !rolesLoading && !selectedRole && selectedSection === 'roles'
             ) {
-              <div class="my-3 d-flex flex-column gap-3 overflow-y-auto">
+              <div class="my-3 pb-5 d-flex flex-column gap-3">
                 @if (!roles || roles.length === 0) {
                   <div class="d-flex flex-column align-items-center mt-5">
                     <span>
@@ -403,7 +421,15 @@
                         </div>
 
                         <div
-                          class="d-flex flex-row align-items-center justify-content-between gap-2 py-1">
+                          class="d-flex flex-row align-items-center justify-content-between gap-2 py-1"
+                          role="button"
+                          tabindex="0"
+                          (click)="
+                            navigate(
+                              $event,
+                              '/w/workstation/admin/roles/' + role.role_id
+                            )
+                          ">
                           <span
                             [class]="
                               'fw-bold badge-design py-1 px-2 bg-' +
@@ -417,13 +443,15 @@
 
                             {{ role.access_type.title }}
                           </span>
-
-                          <i
-                            class="fa-solid fa-arrow-up-right-from-square text-primary fa-lg fw-bold"></i>
+                          <div>
+                            <i
+                              class="fa-solid fa-arrow-up-right-from-square text-primary fa-lg fw-bold"></i>
+                          </div>
                         </div>
                       </div>
 
-                      <div class="d-flex flex-column justify-content-between">
+                      <div
+                        class="d-flex flex-column justify-content-between position-relative">
                         <div
                           class="d-flex flex-column align-items-center gap-0">
                           <span class="fw-bold">{{
@@ -444,8 +472,32 @@
                           }}</span>
                         </div>
 
-                        <div class="align-self-end pt-2">
+                        <div
+                          class="align-self-end pt-2 z-2 px-2"
+                          role="button"
+                          tabindex="0"
+                          (click)="toggleMenu($event, $index)">
                           <i class="fa-solid fa-ellipsis fa-2x"></i>
+                        </div>
+                        <div
+                          class="position-absolute z-2 bg-white rounded shadow menu"
+                          [ngClass]="activeMenu === $index ? '' : 'd-none'">
+                          <div
+                            class="py-2 px-3 clickable"
+                            tabindex="0"
+                            (click)="
+                              hideActionPopup($event, 'disable');
+                              selectedRoleToUpdate = role
+                            ">
+                            <span
+                              ><small class="icon me-1"
+                                ><i class="fa-regular fa-eye-slash"></i
+                              ></small>
+                              <small class="ms-1 fw-bold" i18n
+                                >Disable</small
+                              ></span
+                            >
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -504,7 +556,7 @@
                         </div>
                       </div>
 
-                      <div class="d-flex flex-column gap-1 col">
+                      <div class="d-flex flex-column gap-1 col-3">
                         <div class="d-flex flex-row gap-2">
                           <span
                             class="text-secondary fw-bold fs-small text-nowrap"
@@ -589,16 +641,17 @@
                   </div>
                 </form>
                 <div class="mx-auto text-center mt-1 mb-3">
-                  <span
-                    tabindex="0"
-                    *ngIf="!assignLoading"
-                    role="button"
-                    class="me-4 text-dark"
-                    (click)="selectSection('roles')"
-                    tabindex="0"
-                    i18n
-                    >Cancel</span
-                  >
+                  @if (!assignLoading) {
+                    <span
+                      tabindex="0"
+                      role="button"
+                      class="me-4 text-dark"
+                      (click)="selectSection('roles')"
+                      tabindex="0"
+                      i18n
+                      >Cancel</span
+                    >
+                  }
                   <button
                     (click)="assignNewRole()"
                     type="submit"
@@ -663,13 +716,24 @@
 
                       {{ selectedRole.access_type.title }}
                     </span>
-
-                    <i
-                      class="fa-solid fa-arrow-up-right-from-square text-primary fa-lg fw-bold"></i>
+                    <div
+                      class="d-flex flex-row align-items-center justify-content-between gap-2 py-1"
+                      role="button"
+                      tabindex="0"
+                      (click)="
+                        navigate(
+                          $event,
+                          '/w/workstation/admin/roles/' + selectedRole.role_id
+                        )
+                      ">
+                      <i
+                        class="fa-solid fa-arrow-up-right-from-square text-primary fa-lg fw-bold"></i>
+                    </div>
                   </div>
                 </div>
 
-                <div class="d-flex flex-column justify-content-between">
+                <div
+                  class="d-flex flex-column justify-content-between position-relative">
                   <div class="d-flex flex-column align-items-center gap-0">
                     <span class="fw-bold">{{
                       selectedRole.begins_at | date: 'medium'
@@ -689,8 +753,27 @@
                     }}</span>
                   </div>
 
-                  <div class="align-self-end pt-2">
+                  <div
+                    class="align-self-end pt-2 z-2 px-2"
+                    role="button"
+                    tabindex="0"
+                    (click)="toggleSelectedMenu()">
                     <i class="fa-solid fa-ellipsis fa-2x"></i>
+                  </div>
+                  <div
+                    class="position-absolute z-2 bg-white rounded shadow menu"
+                    [ngClass]="showSelectedMenu ? '' : 'd-none'">
+                    <div
+                      class="py-2 px-3 clickable"
+                      (click)="hideActionPopup($event, 'disable')"
+                      tabindex="0">
+                      <span
+                        ><small class="icon me-1"
+                          ><i class="fa-regular fa-eye-slash"></i
+                        ></small>
+                        <small class="ms-1 fw-bold" i18n>Disable</small></span
+                      >
+                    </div>
                   </div>
                 </div>
               </div>
@@ -706,7 +789,7 @@
                   <div
                     class="w-100 d-flex align-items-center justify-content-center">
                     <i
-                      class="fa-solid fa-spin fa-circle-notch text-dark"
+                      class="fa-solid fa-spin fa-circle-notch fs-medium text-dark"
                       i18n></i>
                   </div>
                 }

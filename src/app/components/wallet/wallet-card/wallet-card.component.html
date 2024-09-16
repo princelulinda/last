@@ -203,12 +203,14 @@
                     <option value="" disabled selected>
                       Select a category
                     </option>
-                    <option
-                      selected
-                      *ngFor="let walletsTypeData of walletsTypeData"
-                      [value]="walletsTypeData.id">
-                      {{ walletsTypeData.title }}
-                    </option>
+                    @for (
+                      walletsTypeData of walletsTypeData;
+                      track walletsTypeData
+                    ) {
+                      <option selected [value]="walletsTypeData.id">
+                        {{ walletsTypeData.title }}
+                      </option>
+                    }
                   </select>
                 </div>
 

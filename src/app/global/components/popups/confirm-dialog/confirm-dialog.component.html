@@ -120,17 +120,18 @@
                       onConfirmPinChange($event)
                     "></app-password-field>
                 </div>
-                <div
-                  *ngIf="
-                    changePinForm.value.new_pin !== '' &&
-                    changePinForm.value.new_pin2 !== ''
-                  ">
-                  @if (!arePinsMatch) {
-                    <small class="text-danger fs-x-small" i18n
-                      >Pins doesn't match</small
-                    >
-                  }
-                </div>
+                @if (
+                  changePinForm.value.new_pin !== '' &&
+                  changePinForm.value.new_pin2 !== ''
+                ) {
+                  <div>
+                    @if (!arePinsMatch) {
+                      <small class="text-danger fs-x-small" i18n
+                        >Pins doesn't match</small
+                      >
+                    }
+                  </div>
+                }
 
                 <div class="form-floating mt-3">
                   <app-password-field
