@@ -36,6 +36,21 @@ export class AsideMenuComponent implements OnInit {
       next: menus => {
         if (menus) {
           this.typeMenus = this.configService.toArray(menus);
+
+          // TODO :: TO REMOVE
+          this.typeMenus.forEach(menu => {
+            if (menu.name === 'Banking') {
+              menu.url = '/w/workstation/b/banking';
+            } else if (menu.name === 'Market') {
+              menu.url = '/w/workstation/m/market';
+            } else if (menu.name === 'Desk') {
+              menu.url = '/w/workstation/d/desk';
+            } else if (menu.name === 'Admin') {
+              menu.url = '/w/workstation/a/admin';
+            } else if (menu.name === 'Intranet') {
+              menu.url = '/w/workstation/i/intranet';
+            }
+          });
         }
       },
     });
