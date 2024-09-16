@@ -1,10 +1,18 @@
 import { Component } from '@angular/core';
 import { ListComponent } from '../../../../global/components/list/list/list.component';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { AdminService } from '../../../../core/services/admin/admin.service';
+import { CreateNewServiceBodyModel, CreateNewServiceModel } from '../rh.model';
 
 @Component({
   selector: 'app-admin-services-list',
   standalone: true,
-  imports: [ListComponent],
+  imports: [ListComponent, ReactiveFormsModule],
   templateUrl: './admin-services-list.component.html',
   styleUrl: './admin-services-list.component.scss',
 })
@@ -46,4 +54,27 @@ export class AdminServicesListComponent {
       css: 'department.direction.direction_type.css',
     },
   ];
+  constructor(private adminService: AdminService) {}
+  newService = new FormGroup({
+    serviceName: new FormControl('', Validators.required),
+    departments: new FormControl('', Validators.required),
+  });
+
+  newServiceData!: CreateNewServiceModel;
+  createNewService() {
+    const body: CreateNewServiceBodyModel = {
+      name: this.newService.value.serviceName,
+      department: this.newService.value.departments,
+      disallow_connexion: false,
+    };
+    this.adminService.createNewService(body).subscribe({
+      next: data => {
+        this.newService.reset();
+        this.newServiceData = data.object;
+      },
+      error() {
+        //
+      },
+    });
+  }
 }

@@ -2,3 +2,53 @@
   [headers]="headers"
   url="/hr/access/departments/?"
   title="Departments"></app-list>
+<form action="" [formGroup]="newDepartment">
+  <section>
+    <div class="col-md-3 mx-auto p-3">
+      <div class="text-dark text-center">
+        <b i18n>Add New Departement</b>
+      </div>
+
+      <div class="mt-4">
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="credit"
+            formControlName="departmentName" />
+          <label for="name" i18n>Department Name</label>
+        </div>
+        <div>
+          <!-- <app-lookup
+                    (selectedItemEvent)="getSelectedDepartment($event)"
+                    itemsLabel="Directions"
+                    option="autocomplete"
+                    url="/hr/access/directions/objects_autocomplete/?search="
+                ></app-lookup> -->
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="credit"
+              formControlName="direction" />
+            <label for="name" i18n>Directions</label>
+          </div>
+        </div>
+      </div>
+      <div class="mt-5 text-center">
+        <span class="text-dark me-4 pointer" i18n>Cancel</span>
+        <button
+          [disabled]="!newDepartment.valid"
+          (click)="createNewDepartment()"
+          class="btn bg-primary text-light px-4">
+          <!-- <span >
+                    <i
+                        class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-2"
+                    ></i>
+                </span> -->
+          <span>Save</span>
+        </button>
+      </div>
+    </div>
+  </section>
+</form>

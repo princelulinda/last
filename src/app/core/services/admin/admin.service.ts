@@ -2,9 +2,15 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Observable, map } from 'rxjs';
 import {
+  AdminCreateNewDepartmentBodyModel,
+  AdminCreateNewDepartmentModel,
   AdminDepartementsDetailsModel,
   AdminDirectionsDetailsModel,
   AdminServicesDetailsModel,
+  CreateNewDirectionBodyModel,
+  CreateNewDirectionModel,
+  CreateNewServiceBodyModel,
+  CreateNewServiceModel,
 } from '../../../components/admin/rh/rh.model';
 import { AutocompleteModel } from '../../../global/models/global.models';
 import { PaginationConfig } from '../../../global/models/pagination.models';
@@ -163,5 +169,29 @@ export class AdminService {
   getBranchesCounters(branchId: number, pagination: PaginationConfig) {
     const url = `/hr/counter/?branch=${branchId}&limit=${pagination.filters.limit}&offset=${pagination.filters.offset}`;
     return this.apiService.get(url).pipe(map(data => data));
+  }
+  createNewDepartement(
+    body: AdminCreateNewDepartmentBodyModel
+  ): Observable<AdminCreateNewDepartmentModel> {
+    const url = '/hr/access/departments/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(data => data as AdminCreateNewDepartmentModel));
+  }
+  createNewDirection(
+    body: CreateNewDirectionBodyModel
+  ): Observable<CreateNewDirectionModel> {
+    const url = `/hr/access/directions/`;
+    return this.apiService
+      .post(url, body)
+      .pipe(map(data => data as CreateNewDirectionModel));
+  }
+  createNewService(
+    body: CreateNewServiceBodyModel
+  ): Observable<CreateNewServiceModel> {
+    const url = `/hr/access/services/`;
+    return this.apiService
+      .post(url, body)
+      .pipe(map(data => data as CreateNewServiceModel));
   }
 }
