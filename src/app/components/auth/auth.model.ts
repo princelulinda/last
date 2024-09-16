@@ -171,3 +171,14 @@ export interface OrganizationInvitationModel {
   };
   organization: OrganizationModel;
 }
+
+// export interface CreateAccountBodyModel {
+
+// }
+// export interface ResetPasswordBodyModel{
+
+// }
+
+// export interface OtpVerificationBodyModel{
+
+// }

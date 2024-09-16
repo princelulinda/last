@@ -181,73 +181,74 @@
                         theme === 'light-mode' || theme === 'magis-dark',
                     'level-3': theme === 'dark-mode',
                     'level-2': plateform === 'workStation' -->
-            <div
-              class="row mb-1 rounded p-1 py-2 d-flex align-items-center"
-              *ngFor="let singleRow of loanPlan.response_data"
-              [ngClass]="{}">
-              <div class="col-auto d-grid">
-                <b>{{ singleRow.crep_number }}</b>
-              </div>
-              <div class="col-1 col-auto d-grid">
-                <b>{{ singleRow.crep_echeance_date }}</b>
-                <!-- <b>12:00:00 AM</b> -->
-              </div>
-              <b class="col-2 col-auto" style="word-wrap: break-word"
-                >{{ singleRow.currency }}
-                {{ singleRow.crep_echeance_amount | currency: ' ' }}</b
-              >
-              <b class="col-2 col-auto" style="word-wrap: break-word"
-                >{{ singleRow.currency }}
-                {{ singleRow.crep_capital | currency: ' ' }}</b
-              >
-              <b class="col-1 col-auto" style="word-wrap: break-word">
-                {{ singleRow.currency }}
-                {{ singleRow.crep_interest | currency: ' ' }}</b
-              >
-              <b class="col-2 col-auto" style="word-wrap: break-word"
-                >{{ singleRow.currency }}
-                {{ singleRow.crep_due_interest | currency: ' ' }}</b
-              >
-              <b class="col-2 col-auto" style="word-wrap: break-word">
-                {{ singleRow.currency }}
-                {{ singleRow.crep_due_capital | currency: ' ' }}</b
-              >
-
-              @if (!singleRow.is_payable && !isPending) {
-                <b
-                  [class]="
-                    'col-1 col-auto text-center rounded badge-design bg-' +
-                    singleRow.crep_status.css +
-                    ' text-' +
-                    singleRow.crep_status.css
-                  "
-                  style="word-wrap: break-word"
-                  >{{ singleRow.crep_status.label }}</b
+            @for (singleRow of loanPlan.response_data; track $index) {
+              <div
+                class="row mb-1 rounded p-1 py-2 d-flex align-items-center"
+                [ngClass]="{}">
+                <div class="col-auto d-grid">
+                  <b>{{ singleRow.crep_number }}</b>
+                </div>
+                <div class="col-1 col-auto d-grid">
+                  <b>{{ singleRow.crep_echeance_date }}</b>
+                  <!-- <b>12:00:00 AM</b> -->
+                </div>
+                <b class="col-2 col-auto" style="word-wrap: break-word"
+                  >{{ singleRow.currency }}
+                  {{ singleRow.crep_echeance_amount | currency: ' ' }}</b
                 >
-              }
-
-              @if (isPending) {
-                <b
-                  [class]="
-                    'col-1 col-auto text-center rounded badge-design bg-' +
-                    singleRow.crep_status.css +
-                    ' text-' +
-                    singleRow.crep_status.css
-                  "
-                  style="word-wrap: break-word"
-                  >{{ singleRow.crep_status.label }}</b
+                <b class="col-2 col-auto" style="word-wrap: break-word"
+                  >{{ singleRow.currency }}
+                  {{ singleRow.crep_capital | currency: ' ' }}</b
                 >
-              }
-              @if (singleRow.is_payable && !isPending) {
-                <button
-                  class="btn bg-primary col-1 text-white text-center"
-                  (click)="showModal(singleRow)"
-                  data-bs-toggle="modal"
-                  data-bs-target="#myModal">
-                  Pay
-                </button>
-              }
-            </div>
+                <b class="col-1 col-auto" style="word-wrap: break-word">
+                  {{ singleRow.currency }}
+                  {{ singleRow.crep_interest | currency: ' ' }}</b
+                >
+                <b class="col-2 col-auto" style="word-wrap: break-word"
+                  >{{ singleRow.currency }}
+                  {{ singleRow.crep_due_interest | currency: ' ' }}</b
+                >
+                <b class="col-2 col-auto" style="word-wrap: break-word">
+                  {{ singleRow.currency }}
+                  {{ singleRow.crep_due_capital | currency: ' ' }}</b
+                >
+
+                @if (!singleRow.is_payable && !isPending) {
+                  <b
+                    [class]="
+                      'col-1 col-auto text-center rounded badge-design bg-' +
+                      singleRow.crep_status.css +
+                      ' text-' +
+                      singleRow.crep_status.css
+                    "
+                    style="word-wrap: break-word"
+                    >{{ singleRow.crep_status.label }}</b
+                  >
+                }
+
+                @if (isPending) {
+                  <b
+                    [class]="
+                      'col-1 col-auto text-center rounded badge-design bg-' +
+                      singleRow.crep_status.css +
+                      ' text-' +
+                      singleRow.crep_status.css
+                    "
+                    style="word-wrap: break-word"
+                    >{{ singleRow.crep_status.label }}</b
+                  >
+                }
+                @if (singleRow.is_payable && !isPending) {
+                  <button
+                    class="btn bg-primary col-1 text-white text-center"
+                    (click)="showModal(singleRow)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#myModal">
+                    Pay
+                  </button>
+                }
+              </div>
+            }
           </div>
         </div>
       }

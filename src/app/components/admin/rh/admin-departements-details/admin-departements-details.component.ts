@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../../core/services/admin/admin.service';
+import { AdminService } from '../../../../core/services/admin/admin.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AdminDepartementsDetailsModel } from '../rh.model';
