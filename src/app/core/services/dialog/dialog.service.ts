@@ -36,12 +36,12 @@ export class DialogService {
   });
 
   loading: WritableSignal<{
-    type: 'loading' | '';
+    type: 'spinner' | 'topLoader' | '';
     active: boolean;
     action: string;
   }> = signal({
     action: '',
-    type: 'loading',
+    type: 'spinner',
     active: false,
   });
 
@@ -140,18 +140,18 @@ export class DialogService {
   }
 
   // Loading Methods
-  dispatchLoading(action?: string) {
+  dispatchLoading(action?: string, type: 'spinner' | 'topLoader' = 'spinner') {
     this.loading.set({
       action: action ?? '',
       active: true,
-      type: 'loading',
+      type: type,
     });
   }
   closeLoading() {
     this.loading.set({
       action: '',
       active: false,
-      type: '',
+      type: 'spinner',
     });
   }
 
