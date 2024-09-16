@@ -1,7 +1,8 @@
-import { CurrencyModel } from '../../global/components/custom-field/currency.model';
+import { CurrencyModel } from '../../global/models/global.models';
 
-export interface WalletCard {
+export interface WalletCardModel {
   response_data: {
+    id: string;
     code: string;
     currency: CurrencyModel;
     available_balance: number;
@@ -16,15 +17,39 @@ export interface WalletList {
   id: string;
   code: string;
   available_balance: number;
-  currency: 'BIF';
+  currency: CurrencyModel;
   bank_id: string;
 }
+
+export interface WalletTypModel {
+  title: string;
+
+  id: string;
+}
+
+export interface CreatWalletResponse {
+  object: {
+    response_message: string;
+
+    success: boolean;
+  };
+}
+
 export interface mainConfigModel {
   activeMode: string;
   activePlateform: string;
   activeTheme: string;
 }
-export interface Walletdetail {
+export interface WalletTopUpBodyModel {
+  amount: number;
+  debit_account: number;
+  debit_bank: string;
+  description: string;
+  pin_code: string | undefined;
+  wallet_id: string;
+}
+
+export interface WalletDetail {
   actual_balance: number;
   title: string;
   code: string;

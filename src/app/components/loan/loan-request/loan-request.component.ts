@@ -17,7 +17,7 @@ import { DialogService } from '../../../core/services';
 import {
   AcccountWorkstationModel,
   CreditTypeModel,
-  DefaultValuesLoan,
+  DefaultValuesLoanModel,
   LoanPendingModel,
   LoanTypeModel,
   ResponseDataModel,
@@ -25,7 +25,7 @@ import {
 } from '../loan.models';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { DebitAccountComponent } from '../../transfer/debit-account/debit-account.component';
-import { accountsList } from '../../account/models';
+import { AccountsListModel } from '../../account/models';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 
 @Component({
@@ -49,12 +49,12 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
   plateform = '';
   amountBackground = 'rgba(241, 241, 241, 1)';
 
-  account!: accountsList;
+  account!: AccountsListModel;
   accountWorkstation: AcccountWorkstationModel | null = null;
   amount: number | null = 0;
   loansType!: LoanTypeModel;
   creditType: CreditTypeModel | null = null;
-  defaultValuesLoan!: DefaultValuesLoan;
+  defaultValuesLoan!: DefaultValuesLoanModel;
 
   isFormVisible = false;
 
@@ -153,7 +153,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAccountOptions(event: accountsList) {
+  getAccountOptions(event: AccountsListModel) {
     this.account = event;
   }
 
@@ -203,7 +203,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
 
           if (this.plateform === 'workstation') {
             this.router.navigate([
-              '/w/workstation/desk/credit/request/' + response.object.id,
+              '/w/workstation/d/desk/credit/request/' + response.object.id,
             ]);
           } else if (this.plateform === 'onlineBanking') {
             this.router.navigate([
@@ -255,8 +255,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
         this.isLoading = false;
 
         if (response.object.success) {
-          this.defaultValuesLoan = response.object
-            .response_data as DefaultValuesLoan;
+          this.defaultValuesLoan = response.object.response_data;
 
           this.isFormVisible = true;
 

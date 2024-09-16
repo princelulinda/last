@@ -1,13 +1,19 @@
 <div
-  class="d-flex justify-content-center align-items-center rounded-circle square"
+  class="d-flex justify-content-center {{
+    classes
+  }} align-items-center rounded-circle bg-info text-white"
   [ngClass]="{
-    'bg-info ': !imageUrl,
-  }">
+    'p-2': !imageUrl,
+  }"
+  [style.width]="width"
+  [style.height]="height">
   @if (imageUrl) {
-    <ng-container>
-      <img [src]="imageUrl" alt="" class="rounded-circle image" />
-    </ng-container>
+    <img
+      [src]="imageUrl"
+      alt=""
+      class="w-100 h-100 rounded-circle"
+      style="object-fit: cover" />
   } @else {
-    <span class="fw-bold text-all-white">{{ initials }}</span>
+    <span class="fw-bold text-center">{{ initials }}</span>
   }
 </div>

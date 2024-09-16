@@ -1,12 +1,6 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  OnDestroy,
-  ElementRef,
-} from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 import { Subject, Observable, takeUntil } from 'rxjs';
 
@@ -21,26 +15,21 @@ import { BankService } from '../../../core/services/bank/bank.service';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
-
-import {
-  addBankResponse,
-  MenuGroup,
-  MerchantLookup,
-  PayMerchant,
-} from '../dashboard.model';
-import { userInfoModel } from '../../../layouts/header/model';
-import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { addBankResponse, MenuGroup } from '../dashboard.model';
+import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { TarifComponent } from '../../tarif/tarif.component';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import {
+  DialogResponseModel,
+  MerchantPaymentTypesModel,
+} from '../../../core/services/dialog/dialogs-models';
 import {
   activeMainConfigModel,
   ModeModel,
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
-import { RouterLink } from '@angular/router';
-import { RouterOutlet } from '@angular/router';
 import { BankHomeComponent } from './bank-home/bank-home.component';
-import { ReusableListComponent } from '../../../global/components/reusable-list/reusable-list.component';
+import { ReusableListComponent } from '../../../global/components/list/reusable-list/reusable-list.component';
+import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
 
 @Component({
   selector: 'app-online-banking',
@@ -66,22 +55,21 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
 
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
-  selectedBank!: bankModel;
-  selectedBank$!: Observable<bankModel>;
+  selectedBank!: BankModel;
+  selectedBank$!: Observable<BankModel>;
   isLoading = false;
 
   clientVerified = '&filter_for_client=true';
   dialog$: Observable<DialogResponseModel>;
-  banks: bankModel[] = [];
-  banksFiltered: bankModel[] = [];
+  banks: BankModel[] = [];
+  banksFiltered: BankModel[] = [];
 
   clientId: number | null = null;
   merchantId: number | null = null;
-  payMerchant: PayMerchant | null = null;
-  merchants: MerchantLookup[] = [];
+
+  merchants: MerchantAutocompleteModel[] = [];
   openBankListPopup = false;
   selectedNewBank: number | null = null;
-  userInfo!: userInfoModel;
   clientInfo!: UserInfoModel;
   pin!: string;
 
@@ -91,8 +79,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   mainConfig$!: Observable<activeMainConfigModel>;
 
   private userInfo$: Observable<UserInfoModel>;
-
-  @ViewChild('closeModal') closeModal!: ElementRef;
 
   menuGroups: MenuGroup[] = [
     {
@@ -118,7 +104,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
           icon: 'users',
           link: [
             '/b/banking/saving/saving-club',
-            '/w/workstation/banking/saving/saving-club',
+            '/w/workstation/b/bankingsaving/saving-club',
           ],
         },
       ],
@@ -166,8 +152,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     private authService: AuthService,
     private merchantService: MerchantService,
-    private dialogService: DialogService,
-    private router: Router
+    private dialogService: DialogService
   ) {
     this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
@@ -194,10 +179,8 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     });
     this.userInfo$.subscribe({
       next: userinfo => {
-        if (userinfo) {
-          this.clientInfo = userinfo;
-          this.clientId = this.clientInfo.client.id;
-        }
+        this.clientInfo = userinfo;
+        this.clientId = this.clientInfo.client.id;
       },
     });
 
@@ -226,13 +209,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         },
       });
   }
-  // toggleBankHome() {
-  //   this.showBankHome = !this.showBankHome;
-  // }
-
-  // handleBackToPreviousState() {
-  //   this.showBankHome = false;
-  // }
 
   getBanks() {
     this.bankService
@@ -250,7 +226,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
 
   addBank() {
     const body = {
-      client: this.clientInfo.client.id,
+      client: this.clientId,
       organization: this.selectedNewBank,
       pin_code: this.pin,
     };
@@ -263,21 +239,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         next: (response: addBankResponse) => {
           console.log(response);
           this.dialogService.closeLoading();
-
-          if (response && response.object && response.object.success === true) {
-            this.banks = [];
-            this.getBanks();
-            this.pin = '';
-
-            this.dialogService.openToast({
-              type: 'success',
-              title: '',
-              message:
-                response.object.response_message ??
-                $localize`Bank added successfully`,
-            });
-            this.closeModal.nativeElement.click();
-          } else if (response.object.success === false) {
+          if (response.object.success === false) {
             this.dialogService.closeLoading();
 
             this.openBankListPopup = false;
@@ -288,6 +250,18 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
               message:
                 response?.object?.response_message ??
                 $localize`Something went wrong please retry again !`,
+            });
+          } else {
+            this.banks = [];
+            this.getBanks();
+            this.pin = '';
+
+            this.dialogService.openToast({
+              type: 'success',
+              title: '',
+              message:
+                response.object.response_message ??
+                $localize`Bank added successfully`,
             });
           }
         },
@@ -310,21 +284,18 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   getAddedBankId(bankId: number) {
     this.selectedNewBank = bankId;
   }
-  selectBank(bank: bankModel) {
+  selectBank(bank: BankModel) {
     this.configService.setSelectedBank(bank);
   }
 
-  getMerchant(data: PayMerchant, event: MouseEvent) {
-    event.stopPropagation();
-    // add data-bs after click on favorite star
-    const element = event.target as HTMLButtonElement;
-    element.setAttribute('data-bs-target', '#publicService');
-    element.setAttribute('data-bs-toggle', 'modal');
-    element.click();
-    this.payMerchant = data;
-    if (this.payMerchant) {
-      this.merchantId = this.payMerchant.id;
-    }
+  openMerchantPayment(
+    type: MerchantPaymentTypesModel,
+    merchant: MerchantAutocompleteModel
+  ) {
+    this.dialogService.openMerchantPaymentDialog({
+      type: type,
+      merchant: merchant,
+    });
   }
 
   showMenus(index: number) {
@@ -344,9 +315,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
         next: data => {
           this.merchants = data.objects;
         },
-        error: () => {
-          // code
-        },
       });
   }
 
@@ -354,7 +322,8 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     this.dialogService.openDialog({
       type: 'pin',
       title: 'Enter your PIN code',
-      message: 'Please enter your PIN code to continue.',
+      message:
+        'To create an account in this bank, enter your PIN code to continue.',
       action: 'confirmation',
     });
   }

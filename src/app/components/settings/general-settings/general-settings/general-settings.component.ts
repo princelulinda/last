@@ -3,15 +3,15 @@ import { AuthService, ConfigService } from '../../../../core/services';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { SettingsService } from '../../../../core/services/settings/settings.service';
-import { AddResponse, MailModel } from '../../settings.models';
+import { AddResponseModel, MailModel } from '../../settings.models';
 import { FormControl, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DialogService } from '../../../../core/services';
 import { ClientService } from '../../../../core/services/client/client.service';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { BodyModel } from '../../settings.models';
-import { ClipboardDirective } from '../../../dev/clipboard.directive';
-import { GlobalMappingComponent } from '../../../dev/global-mapping/global-mapping.component';
+import { ClipboardDirective } from '../../../../global/directives/clipboard/clipboard.directive';
+import { GlobalMappingComponent } from '../../../../global/components/global-mapping/global-mapping.component';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { CommonModule } from '@angular/common';
 
@@ -74,7 +74,7 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
     this.theme$.subscribe({
       next: theme => {
         this.theme = theme;
-        console.log('themmeee', this.theme);
+        //console.log('themmeee', this.theme);
       },
     });
 
@@ -196,7 +196,7 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
       .addAphoneNumber(body)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: AddResponse) => {
+        next: (response: AddResponseModel) => {
           this.loading = false;
           this.email.reset();
           this.phoneNumber.reset();

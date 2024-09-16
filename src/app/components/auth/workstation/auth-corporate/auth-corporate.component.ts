@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 
 import {
   AuthService,
   ConfigService,
   DialogService,
 } from '../../../../core/services';
-import { ConnectedOperatorModel, OrganizationModel } from '../../auth.model';
+import {
+  ConnectedOperatorModel,
+  OrganizationInvitationModel,
+  OrganizationModel,
+} from '../../auth.model';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 
 @Component({
@@ -19,11 +23,19 @@ import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-mo
   styleUrl: './auth-corporate.component.scss',
 })
 export class AuthCorporateComponent implements OnInit {
+  private onDestroy$: Subject<void> = new Subject<void>();
   private operatorOrganizations$: Observable<OrganizationModel[]>;
   operatorOrganizations: OrganizationModel[] = [];
   operatorIsAuthenticated$: Observable<boolean>;
   dialog$: Observable<DialogResponseModel>;
   password = '';
+  unchagedUserId$!: Observable<number>;
+  userId!: number;
+  invitations!: OrganizationInvitationModel[];
+  loadingInvitations = true;
+  invitationAction = '';
+  pin = '';
+  selectedInvitation!: OrganizationInvitationModel;
 
   selectedOrganization!: OrganizationModel;
 
@@ -37,6 +49,7 @@ export class AuthCorporateComponent implements OnInit {
       this.configService.operatorIsAuthenticated();
     this.operatorOrganizations$ = this.configService.getOperatorOrganizations();
     this.dialog$ = this.dialogService.getDialogState();
+    this.unchagedUserId$ = this.authService.getAlwaysUserId();
   }
 
   ngOnInit() {
@@ -49,11 +62,11 @@ export class AuthCorporateComponent implements OnInit {
           this.router.navigate(['/w/workstation']);
         } else {
           this.configService.setLocalConnectedOperator('false');
+          // TODO :: TO CALL AFTER CHECK ORGANIZATIONS AND OPERATOR EMPTY IN DB
           this.getConnectedOperator_organizations();
         }
       },
     });
-
     // NOTE :: OTHER FONCTIONNALITY
     this.operatorOrganizations$.subscribe({
       next: organizations => {
@@ -71,6 +84,21 @@ export class AuthCorporateComponent implements OnInit {
         ) {
           this.password = dialog.response.password;
           this.loginCorporate();
+        } else if (
+          dialog.action === 'accept or decline invitation' &&
+          dialog.response.pin
+        ) {
+          this.pin = dialog.response.pin;
+          this.submitInvitationStatus();
+        }
+      },
+    });
+
+    this.unchagedUserId$.subscribe({
+      next: id => {
+        this.userId = id;
+        if (this.userId) {
+          this.getOperatorInvitations();
         }
       },
     });
@@ -94,6 +122,7 @@ export class AuthCorporateComponent implements OnInit {
         };
         this.configService.setOperator(operator);
         this.configService.setLocalConnectedOperator('true');
+        this.dialogService.dispatchSplashScreen();
         this.router.navigate(['/w/workstation']);
         this.dialogService.closeLoading();
       },
@@ -124,6 +153,12 @@ export class AuthCorporateComponent implements OnInit {
       )
       .subscribe({
         next: response => {
+          const organizations: OrganizationModel[] = [];
+          response.organizations.objects.map(data => {
+            organizations.push(data.organization);
+          });
+          this.configService.setOperatorOrganizations(organizations);
+
           // NOTE :: IF OPERATOR IS ALLREADY CONNECTED
           if (response.operator.object.response_data.object) {
             const connectedOperator =
@@ -137,13 +172,9 @@ export class AuthCorporateComponent implements OnInit {
               },
             };
             this.configService.setOperator(operator);
+          } else {
+            this.dialogService.closeSplashScreen();
           }
-
-          const organizations: OrganizationModel[] = [];
-          response.organizations.objects.map(data => {
-            organizations.push(data.organization);
-          });
-          this.configService.setOperatorOrganizations(organizations);
         },
       });
   }
@@ -152,9 +183,99 @@ export class AuthCorporateComponent implements OnInit {
     this.selectedOrganization = data;
     this.dialogService.openDialog({
       action: 'Organization login',
-      message: $localize`Enter your password to add a new organisation`,
+      message: $localize`Enter your password to access in ${this.selectedOrganization.institution_client.client_full_name} organisation`,
       title: '',
       type: 'password',
     });
+  }
+
+  getOperatorInvitations() {
+    this.authService
+      .getOperatorInvitations(this.userId)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          this.invitations = response.objects;
+          this.loadingInvitations = false;
+        },
+        error: err => {
+          this.loadingInvitations = false;
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            title: '',
+            type: 'failed',
+            message:
+              err?.error?.object.response_message ??
+              'Failed to get invitations ',
+          });
+        },
+      });
+  }
+  submitInvitationResponse(
+    action: string,
+    operator: OrganizationInvitationModel
+  ) {
+    this.invitationAction = action;
+    this.selectedInvitation = operator;
+
+    this.dialogService.openDialog({
+      title: 'Enter your pin',
+      type: 'pin',
+      message: $localize`Enter your pin to ${this.invitationAction} the invitation to become
+      an operator with ${this.selectedInvitation.organization.institution_client.client_full_name}`,
+      action: 'accept or decline invitation',
+    });
+  }
+  submitInvitationStatus() {
+    const body = {
+      status:
+        this.invitationAction === 'accept'
+          ? 'C'
+          : this.invitationAction === 'decline'
+            ? 'R'
+            : '',
+      operator: this.selectedInvitation.id,
+      pin_code: this.pin,
+    };
+    this.dialogService.dispatchLoading();
+    this.authService
+      .submitInvitationStatus(body)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: result => {
+          const response = result as {
+            object: { success: string; response_message: string };
+          };
+          this.dialogService.closeLoading();
+          if (
+            response.object['success'] !== undefined &&
+            !response.object.success
+          ) {
+            this.dialogService.openToast({
+              title: 'failed',
+              type: 'failed',
+              message: response.object.response_message,
+            });
+            return;
+          }
+          this.dialogService.openToast({
+            title: 'success',
+            type: 'success',
+            message: response.object.response_message,
+          });
+          this.getOperatorInvitations();
+          this.getConnectedOperator_organizations();
+        },
+        error: err => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            title: '',
+            type: 'failed',
+            message:
+              err?.error?.object.response_message ??
+              'Failed to submit your invitation ',
+          });
+        },
+      });
   }
 }

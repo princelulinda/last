@@ -17,6 +17,8 @@ import { TransferBillComponent } from './global/components/popups/bills-format/t
 import { LandscapeBillComponent } from './global/components/popups/bills-format/landscape-bill/landscape-bill.component';
 import { ObrBillComponent } from './global/components/popups/bills-format/obr-bill/obr-bill.component';
 import { MerchantBillComponent } from './global/components/popups/bills-format/merchant-bill/merchant-bill.component';
+import { MerchantPaymentComponent } from './global/components/popups/merchant-payment/merchant-payment.component';
+import { SleepModeComponent } from './layouts/sleep-mode/sleep-mode.component';
 
 @Component({
   selector: 'app-root',
@@ -33,6 +35,8 @@ import { MerchantBillComponent } from './global/components/popups/bills-format/m
     ObrBillComponent,
     MerchantBillComponent,
     NgOptimizedImage,
+    MerchantPaymentComponent,
+    SleepModeComponent,
   ],
 })
 export class AppComponent implements OnInit {
@@ -63,7 +67,6 @@ export class AppComponent implements OnInit {
 
     this.dbService.initializeModels();
     this.configService.initAll();
-    // this.configService.initPopulate();
 
     this.plateform$.subscribe({
       next: plateform => {

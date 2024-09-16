@@ -1,0 +1,34 @@
+@if (loadingData) {
+  <div class="col d-flex justify-content-center align-items-center h-100">
+    <span>
+      <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
+    </span>
+  </div>
+}
+@if (!loadingData) {
+  <section clas="mt-2">
+    <div
+      class="details rounded row justify-content-center align-items-center col-md-8 m-auto rounded pb-3 pt-2 border mt-3"
+      style="gap: 1rem 0">
+      <h5 class="text-center text-dark fw-bold" i18n>Details</h5>
+      <div class="col-lg-6 row align-items-center">
+        <span class="text-dark col col-sm-4 col-md-3 col-lg-4 col-xl-3" i18n
+          >Name</span
+        >
+        <span
+          class="field text-dark rounded px-3 py-2 fw-bolder col-sm-6 col-lg-8"
+          >{{ directionDetails.object.name }}</span
+        >
+      </div>
+      <div class="col-lg-6 row align-items-center">
+        <span class="text-dark col col-sm-4 col-md-3 col-lg-4 col-xl-3" i18n
+          >Type</span
+        >
+        <span
+          class="field text-dark rounded px-3 py-2 fw-bolder col-sm-6 col-lg-8"
+          >{{ directionDetails.object.direction_type.title }}</span
+        >
+      </div>
+    </div>
+  </section>
+}

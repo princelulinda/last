@@ -1,3 +1,10 @@
+import {
+  BillersAutocompleteModel,
+  MerchantAutocompleteModel,
+  MerchantCategoriesAutocompleteModel,
+} from '../../../components/merchant/merchant.models';
+import { ProductAutocompleteModel } from '../../../components/merchant/products/products.model';
+
 // Toasts Models
 export interface ToastModel {
   active: boolean;
@@ -99,4 +106,19 @@ export interface TransfertBillModel {
   amount: string;
   transfer_fees: string;
   bill_date: Date;
+}
+
+export type MerchantPaymentTypesModel =
+  | 'merchant'
+  | 'product'
+  | 'biller'
+  | 'category-product'
+  | 'category-merchant';
+
+export interface MerchantPaymentDialogModel {
+  type: MerchantPaymentTypesModel;
+  merchant?: MerchantAutocompleteModel | BillersAutocompleteModel;
+  product?: ProductAutocompleteModel;
+  category?: MerchantCategoriesAutocompleteModel;
+  biller?: BillersAutocompleteModel;
 }

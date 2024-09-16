@@ -81,7 +81,9 @@
             <div class="mt-2">
               <div
                 class="bg-primary px-4 text-white fs-medium fw-bold col-6 text-center"
-                role="button">
+                role="button"
+                (click)="selectedOption('topup')"
+                tabindex="">
                 Top up
               </div>
             </div>
@@ -124,6 +126,12 @@
           </span>
         </div>
       </div>
+      @if (isTopUpClicked === 'topup') {
+        <div>
+          <app-wallet-topup (topupSuccess)="onTopupSuccess()">
+          </app-wallet-topup>
+        </div>
+      }
     </div>
   }
 </div>

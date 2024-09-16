@@ -15,6 +15,7 @@ export class ApiService {
   private localUserClientIdKey = 'iHelaRyanjeUserClientId';
   private localBankIdKey = 'iHelaRyanjeBankId';
   private localPlateformKey = 'iHelaRyanjePlaform';
+  private localSelectedMenuTypeKey = 'iHelaRyanjeTypeMenu';
   private localSelectedMenuKey = 'iHelaRyanjeMenu';
   private localConnectedOperatorKey = 'iHelaRyanjeOperator';
 
@@ -90,11 +91,11 @@ export class ApiService {
     localStorage.setItem(this.localPlateformKey, plateform);
   }
 
-  setLocalSelectedMenu(menu: string) {
-    localStorage.setItem(this.localSelectedMenuKey, menu);
+  setLocalSelectedTypeMenu(menu: string) {
+    localStorage.setItem(this.localSelectedMenuTypeKey, menu);
   }
-  getLocalSelectedMenu(): string | null {
-    return localStorage.getItem(this.localSelectedMenuKey);
+  getLocalSelectedTypeMenu(): string | null {
+    return localStorage.getItem(this.localSelectedMenuTypeKey);
   }
 
   setLocalConnectedOperator(status: 'true' | 'false') {
@@ -106,6 +107,14 @@ export class ApiService {
   }
   getLocalConnectedOperator(): string | null {
     return localStorage.getItem(this.localConnectedOperatorKey);
+  }
+
+  setLocalSelectedMenu(menu_id: number) {
+    localStorage.setItem(this.localSelectedMenuKey, menu_id.toString());
+  }
+
+  getLocalSelectedMenu(): string | null {
+    return localStorage.getItem(this.localSelectedMenuKey);
   }
 
   clearLocalData() {

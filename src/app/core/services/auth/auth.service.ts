@@ -8,14 +8,15 @@ import { liveQuery } from 'dexie';
 import { ApiService } from '../api/api.service';
 import { DbService } from '../../db';
 import {
-  EmailVerificationResponse,
-  createAccountResponse,
-  phoneNumberVerificaitonResponse,
-  resetPasswordResponse,
-  otpVerificationResponse,
+  EmailVerificationResponseModel,
+  CreateAccountResponseModel,
+  PhoneNumberVerificaitonResponseModel,
+  ResetPasswordResponseModel,
+  OtpVerificationResponseModel,
   ConectedOperatorApiResponseModel,
   OrganizationModel,
   LoginOperatorApiResponseModel,
+  OrganizationInvitationModel,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
@@ -29,8 +30,10 @@ import { PlateformModel } from '../config/main-config.models';
 export class AuthService {
   private userInfo$: Observable<UserInfoModel> | unknown;
   private userClientId$ = new Subject<number>();
-  private userIsAgent$ = new Subject<boolean>();
   private userId$ = new Subject<number>();
+  private userIsAgent$ = new Subject<boolean>();
+  private userUnchangedClientId$ = new Subject<number>();
+  private userUnchangedId$ = new Subject<number>();
 
   constructor(
     private apiService: ApiService,
@@ -158,16 +161,19 @@ export class AuthService {
           this.dialogService.closeSplashScreen();
         },
         error: err => {
-          console.log('err', err);
+          this.apiService.clearLocalData();
+          this.dialogService.closeSplashScreen();
+          this.dialogService.openToast({
+            message:
+              err?.object?.response_message ??
+              $localize`Something went wrong please retry again !`,
+            title: '',
+            type: 'failed',
+          });
         },
       });
   }
 
-  private populate(): Observable<{ object: UserInfoModel }> {
-    return this.apiService
-      .get<{ object: UserInfoModel }>('/client/user/populate/')
-      .pipe(map(data => data));
-  }
   private formatPopulateClientData(data: UserInfoModel): UserInfoModel {
     return {
       user: {
@@ -188,54 +194,64 @@ export class AuthService {
         is_agent: data.client.is_agent,
         is_merchant: data.client.is_merchant,
         is_partner_bank: data.client.is_partner_bank,
-        picture_url: data.client.picture_url,
+        picture: data.client.picture_url,
+        picture_url: '',
         prefered_language: data.client.prefered_language,
       },
     };
   }
 
-  createAccount(body: object): Observable<createAccountResponse> {
+  createAccount(body: object): Observable<CreateAccountResponseModel> {
     const url = '/client/';
     return this.apiService
       .post(url, body)
-      .pipe(map(response => response as createAccountResponse));
+      .pipe(map(response => response as CreateAccountResponseModel));
   }
 
-  requestOTP(body: object): Observable<resetPasswordResponse> {
+  requestOTP(body: object): Observable<ResetPasswordResponseModel> {
     const url = '/otp/request/';
     return this.apiService
       .post(url, body)
-      .pipe(map(response => response as resetPasswordResponse));
+      .pipe(map(response => response as ResetPasswordResponseModel));
   }
-  OTPverification(body: object): Observable<otpVerificationResponse> {
+  OTPverification(body: object): Observable<OtpVerificationResponseModel> {
     const url = '/otp/verification/';
     return this.apiService
       .post(url, body)
-      .pipe(map(response => response as otpVerificationResponse));
+      .pipe(map(response => response as OtpVerificationResponseModel));
   }
 
-  getOperatorInvitations(clientId: string) {
+  getOperatorInvitations(
+    clientId: number
+  ): Observable<{ objects: OrganizationInvitationModel[]; count: number }> {
     const url = `/hr/operator/organizations/manage/?list_type=invitations&access_bank_id=${clientId}`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ objects: OrganizationInvitationModel[]; count: number }>(url)
+      .pipe(map(data => data));
   }
+
   submitInvitationStatus(body: object) {
     const url = '/hr/administration/operator/organization/status/';
     return this.apiService.post(url, body).pipe(map(data => data));
   }
-  // getBanksList():Observable<bankListResponse> {
-  //   const url = '/banks/list/?externel_request=true&bank_type=MFI';
-  //   return this.apiService.get(url);
 
-  // }
-
-  verifyEmail(email: string): Observable<EmailVerificationResponse> {
+  verifyEmail(email: string): Observable<EmailVerificationResponseModel> {
     const url = `/extid/verification/?externel_request=true&type=email&value=${email}`;
     return this.apiService.get(url);
   }
 
-  verifyPhoneNumber(tel: string): Observable<phoneNumberVerificaitonResponse> {
+  verifyPhoneNumber(
+    tel: string
+  ): Observable<PhoneNumberVerificaitonResponseModel> {
     const url = `/extid/verification/?externel_request=true&type=phone_number&value=${tel}`;
     return this.apiService.get(url);
+  }
+
+  passwordVerification(password: string) {
+    const url = '/client/password-verification/';
+    return this.apiService
+      .post(url, { password })
+      .pipe(map(response => response));
   }
 
   // METHOD FOR USSER DATABASE DATA
@@ -256,7 +272,7 @@ export class AuthService {
     } else {
       this.configService.getConnectedOperator().subscribe({
         next: response => {
-          if (response.organization) {
+          if (response && response.organization) {
             this.userClientId$.next(
               response.organization.institution_client.id
             );
@@ -267,7 +283,7 @@ export class AuthService {
     return this.userClientId$;
   }
 
-  getUserIsAgent(): Observable<boolean> {
+  checkUserIsAgent(): Observable<boolean> {
     this.getUserInfo().subscribe({
       next: userInfo => {
         if (userInfo) {
@@ -291,7 +307,7 @@ export class AuthService {
     } else {
       this.configService.getConnectedOperator().subscribe({
         next: response => {
-          if (response.organization) {
+          if (response && response.organization) {
             this.userClientId$.next(
               response.organization.institution_client.id
             );
@@ -301,6 +317,27 @@ export class AuthService {
     }
 
     return this.userId$;
+  }
+
+  getAlwaysUserId(): Observable<number> {
+    this.getUserInfo().subscribe({
+      next: userInfo => {
+        if (userInfo) {
+          this.userUnchangedId$.next(userInfo.client.id);
+        }
+      },
+    });
+    return this.userUnchangedId$;
+  }
+  getAlwaysUserClientId(): Observable<number> {
+    this.getUserInfo().subscribe({
+      next: userInfo => {
+        if (userInfo) {
+          this.userUnchangedClientId$.next(userInfo.client.client_id);
+        }
+      },
+    });
+    return this.userUnchangedClientId$;
   }
 
   // METHOD FOR GET LOCAL DATA

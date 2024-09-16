@@ -1,7 +1,7 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { bankModel } from '../../../core/db/models/bank/bank.model';
+import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { LoanPendingModel } from '../loan.models';
 import {
   AuthService,
@@ -27,8 +27,8 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 })
 export class LoanPendingComponent implements OnInit, OnDestroy {
   bankId: number | null = null;
-  selectedBank$: Observable<bankModel>;
-  selectedBank: bankModel | null = null;
+  selectedBank$: Observable<BankModel>;
+  selectedBank: BankModel | null = null;
   loans: LoanPendingModel[] | undefined = undefined;
   isLoanDetailsShown = false;
 
@@ -69,7 +69,7 @@ export class LoanPendingComponent implements OnInit, OnDestroy {
         this.isBalanceShown = isShowed;
       });
 
-    this.selectedBank$.subscribe((bank: bankModel) => {
+    this.selectedBank$.subscribe((bank: BankModel) => {
       this.selectedBank = bank;
       this.bankId = bank.id;
     });

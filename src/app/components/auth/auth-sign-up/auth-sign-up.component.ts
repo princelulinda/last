@@ -1,17 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+  FormGroup,
+} from '@angular/forms';
 import { AuthService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
 import { Subject, Observable } from 'rxjs';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+
 import {
-  EmailVerificationResponse,
-  phoneNumberVerificaitonResponse,
-  createAccountResponse,
-  bankListResponse,
-  cardIdData,
+  EmailVerificationResponseModel,
+  PhoneNumberVerificaitonResponseModel,
+  CreateAccountResponseModel,
+  BankListResponseModel,
+  CardIdDataModel,
 } from '../auth.model';
 import { FileComponent } from '../../../global/components/file/file.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
@@ -49,9 +55,9 @@ export class AuthSignUpComponent implements OnInit {
   phoneNumberVerificationLoader = false;
   isLoadingBank = false;
   // file: bankListResponse[] | [] | null = null;
-  getBanksList: bankListResponse[] | [] | null = null;
-  emailToVerify!: EmailVerificationResponse;
-  phoneNumberToVerify!: phoneNumberVerificaitonResponse;
+  getBanksList: BankListResponseModel[] | [] | null = null;
+  emailToVerify!: EmailVerificationResponseModel;
+  phoneNumberToVerify!: PhoneNumberVerificaitonResponseModel;
   showPassword = false;
   passwordType = 'password';
   arePasswordsMatch = false;
@@ -70,6 +76,12 @@ export class AuthSignUpComponent implements OnInit {
   uuid!: string;
   docFile!: string;
   id!: number;
+
+  birthday = FormGroup;
+  errorMessage!: string;
+  errorMessagee!: string;
+  isUnder16 = false;
+  isUnderDerivaryDate = false;
 
   // event!: referenceNumberModel[];
 
@@ -137,7 +149,7 @@ export class AuthSignUpComponent implements OnInit {
       expiryDate: [''],
     }),
   });
-  userInfo!: createAccountResponse;
+  userInfo!: CreateAccountResponseModel;
   // expiry_date!:string | null | undefined;
   createAccount() {
     this.isLoadingCreation = true;
@@ -184,13 +196,13 @@ export class AuthSignUpComponent implements OnInit {
       mother_name: '',
     };
     if (this.multiStepForm.controls.cardInformation.value.expiryDate !== '') {
-      (data.card_id as unknown as cardIdData).expiry_date =
+      (data.card_id as unknown as CardIdDataModel).expiry_date =
         this.multiStepForm.controls.cardInformation.value.expiryDate;
     }
 
     this.dialogService.dispatchLoading();
     this.authService.createAccount(data).subscribe({
-      next: (response: createAccountResponse) => {
+      next: (response: CreateAccountResponseModel) => {
         this.isLoadingCreation = false;
         this.userInfo = response;
         const userData = {
@@ -236,7 +248,7 @@ export class AuthSignUpComponent implements OnInit {
       this.multiStepForm.controls.authentificationInformation?.value?.email ||
       '';
     this.authService.verifyEmail(email).subscribe({
-      next: (response: EmailVerificationResponse) => {
+      next: (response: EmailVerificationResponseModel) => {
         this.EmailVerificationloader = false;
         this.emailToVerify = response;
       },
@@ -251,7 +263,7 @@ export class AuthSignUpComponent implements OnInit {
       this.multiStepForm.controls.authentificationInformation?.value?.number ||
       '';
     this.authService.verifyPhoneNumber(tel).subscribe({
-      next: (response: phoneNumberVerificaitonResponse) => {
+      next: (response: PhoneNumberVerificaitonResponseModel) => {
         this.phoneNumberVerificationLoader = false;
         this.phoneNumberToVerify = response;
         console.log('Données sélectionnées', this.phoneNumberToVerify);
@@ -263,7 +275,7 @@ export class AuthSignUpComponent implements OnInit {
   getBankList() {
     this.isLoadingBank = true;
     this.bankService.getAllBanks().subscribe({
-      next: (response: { objects: bankListResponse[] }) => {
+      next: (response: { objects: BankListResponseModel[] }) => {
         this.getBanksList = response.objects;
         this.isLoadingBank = false;
       },
@@ -305,7 +317,7 @@ export class AuthSignUpComponent implements OnInit {
   }
   selectedBankId(bank: { organization_id: number }) {
     this.bankId = bank.organization_id;
-    console.log(this.bankId);
+    // console.log(this.bankId);
   }
   onPasswordChange(password: string) {
     this.multiStepForm.controls.authentificationInformation.patchValue({
@@ -336,5 +348,52 @@ export class AuthSignUpComponent implements OnInit {
   }
   logout() {
     this.authService.logout();
+  }
+  isEmailUndefined() {
+    return this.inputEmail === undefined;
+  }
+
+  isPhoneNumberUndefinedd() {
+    return this.inputNumber === undefined;
+  }
+
+  validateAge() {
+    const today = new Date();
+    const birthDateControl = this.multiStepForm.get(
+      'personalInformation.birthday'
+    );
+
+    const DerivaryDateCotrol = this.multiStepForm.get(
+      'cardInformation.deliveryDate'
+    );
+    const ExpiryDateControl = this.multiStepForm.get(
+      'cardInformation.expiryDate'
+    );
+    if (
+      DerivaryDateCotrol &&
+      ExpiryDateControl &&
+      DerivaryDateCotrol.value &&
+      ExpiryDateControl.value
+    ) {
+      if (DerivaryDateCotrol.value >= ExpiryDateControl.value) {
+        this.errorMessagee =
+          'The expiration date must be greater than the delivery date';
+        this.isUnderDerivaryDate = true;
+      } else {
+        this.errorMessagee = '';
+        this.isUnderDerivaryDate = false;
+      }
+    }
+    if (birthDateControl && birthDateControl.value) {
+      const birthDate = new Date(birthDateControl.value);
+      const age = today.getFullYear() - birthDate.getFullYear();
+      if (age < 16) {
+        this.errorMessage = 'You must be at least 16 years old.';
+        this.isUnder16 = true;
+      } else {
+        this.errorMessage = '';
+        this.isUnder16 = false;
+      }
+    }
   }
 }

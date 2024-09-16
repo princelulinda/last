@@ -30,7 +30,7 @@
 }
 
 @if (!isLoadingInfo && merchant) {
-  <div class="ms-0 ms-md-1 ms-xxl-5 ps-0 ps-xl-3 overflow-hidden">
+  <div class="overflow-hidden">
     <div
       class="d-lg-flex d-none position-relative shadow me-5 ms-3 border-top border-primary border-4 rectangleBlockSize">
       <img
@@ -62,14 +62,18 @@
         <br />
       </div>
       <!-- <div style="height: 35px; width: 1px" class="ms-4 level-3 mt-5"></div> -->
-      <div class="d-block ms-5 pt-4">
-        <span class="text-dark text-md"
-          ><span class="fw-bold opacity-50" i18n>Available balance :</span
-          ><span class="fw-bold ms-2"
-            >BIF {{ (merchant.available_balance | number) ?? '---' }}</span
-          ></span
-        >
-        <br />
+      <div class="d-block col-4 ms-5 pt-4">
+        <div class="row col-11 text-dark text-md">
+          <div class="col pe-0 fw-bold opacity-50" i18n>
+            Available balance :
+          </div>
+          <div class="col ps-0 fw-bold">
+            <app-amount-visibility
+              [amount]="merchant.available_balance"
+              [currency]="merchant.balance_currency"></app-amount-visibility>
+          </div>
+        </div>
+        <!-- <br /> -->
         <span class="text-dark text-sm opacity-50">{{
           merchant.client_category
         }}</span>
@@ -100,7 +104,10 @@
           <small i18n>Sales </small> <br />
           @if (stat) {
             <b>
-              {{ (stat.merchant_bills_payment_number | number) ?? '---' }}
+              {{
+                (stat.response_data.merchant_bills_payment_number | number) ??
+                  '---'
+              }}
             </b>
           }
           @if (!stat) {
@@ -132,7 +139,11 @@
         <Span class="float-start fs-5 ms-2 text-dark mt-3">
           <small i18n>Products </small> <br />
           @if (stat) {
-            <b> {{ (stat.merchant_products_number | number) ?? '---' }}</b>
+            <b>
+              {{
+                (stat.response_data.merchant_products_number | number) ?? '---'
+              }}</b
+            >
           }
           @if (!stat) {
             <span>
@@ -157,15 +168,16 @@
             </span>
           }
           @if (merchantInfo) {
-            <b class="text-md"
-              >{{ (merchantInfo.available_balance | number) ?? '---' }}
-              {{ merchantInfo.balance_currency }}</b
-            >
+            <b class="fs-normal">
+              <app-amount-visibility
+                [amount]="merchant.available_balance"
+                [currency]="merchant.balance_currency"></app-amount-visibility>
+            </b>
           }
         </Span>
         <span class="float-end">
           <img
-            class="img-fluid mt-4 me-1 revenuSize"
+            class="img-fluid mt-4 revenuSize"
             src="/images/products/4 9365.svg"
             alt="our income show image" />
         </span>
@@ -179,12 +191,6 @@
       ><br />
       <div class="row justify-content-lg-center justify-content-xxl-start">
         <div class="col-md-5 mt-3 mt-md-0">
-          <!-- <app-pie-chart
-              style="font-size: small"
-              [datas]="datas"
-  
-          ></app-pie-chart> -->
-
           <div class="w-100 d-flex justify-content-center text-align-center">
             <div
               class="pie-chart text-opacity-5 position-relative rounded-circle">
@@ -238,18 +244,20 @@
               <div
                 role="button"
                 class="pt-1 level-1 ms-3 mt-2 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
-                routerLink="{{ baseRouterLink }}/bill">
-                <b class="text-dark" i18n>Bills Report</b>
+                routerLink="{{ baseRouterLink }}/payment-reports">
+                <b class="text-dark" i18n>Payment reports</b>
                 <i class="fa-solid fa-file-excel ms-3 text-success"></i>
               </div>
+
               <div
                 role="button"
                 class="pt-1 level-1 ms-3 mt-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
                 data-bs-toggle="modal"
-                data-bs-target="#statementModal">
+                data-bs-target="#staticBackdrop">
                 <b class="text-dark" i18n>Statements</b>
                 <i class="fa-solid fa-history ms-3 text-dark opacity-75"> </i>
               </div>
+
               <div
                 role="button"
                 (click)="openPopup()"
@@ -272,7 +280,7 @@
       <div class="col-4 col-md-3 level-1 roundBox shadow text-center ms-auto">
         @if (stat) {
           <div class="fw-bold mt-lg-4 pt-4 text-dark">
-            {{ stat.merchant_tellers_number }}
+            {{ stat.response_data.merchant_tellers_number }}
           </div>
         }
         @if (!stat) {
@@ -293,7 +301,8 @@
       </div>
     </section>
 
-    <section class="row justify-content-between mt-2 w-100 mb-5 pb-5">
+    <section
+      class="d-flex justify-content-between flex-wrap mt-2 w-100 mb-5 pb-5">
       @if (merchant) {
         <app-all-products
           class="text-dark"
@@ -307,18 +316,27 @@
   </div>
 }
 
-<div class="modal fade" id="statementModal" data-bs-backdrop="static">
-  @if (merchantAccountId && account) {
-    <div class="modal-dialog modal-dialog-centered statement-dialog">
-      <!-- <div class="modal-content">
-        <app-statements
-            [accountId]="merchantAccountId"
+@if (merchantAccountId && account) {
+  <div
+    class="modal modal-xl fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content bg-white">
+        <div class="row">
+          <app-statement
             [account]="account"
-        ></app-statements>
-    </div> -->
+            [accountId]="merchantAccountId"></app-statement>
+        </div>
+      </div>
     </div>
-  }
-</div>
+  </div>
+}
+
 <div class="modal fade" id="billsModal" data-mdb-backdrop="false">
   <div class="modal-dialog">
     <div class="modal-content bg-white">
@@ -352,18 +370,19 @@
                 [isFormFloating]="true"
                 (amountEvent)="getAmount($event)"></app-amount-field>
             </div>
-            <div class="col ms-4 me-4 mt-3 text-dark">
+            <div class="form-floating col ms-4 me-4 mt-3 text-dark">
               <input
                 type="text"
-                class="form-control input w-100 p-3"
+                class="form-control input w-100"
                 placeholder="description"
                 formControlName="description" />
+              <label for="description" class="form-label">Description</label>
             </div>
             <div class="text-center mt-5 mb-4">
               <button
                 (click)="enterPin()"
                 [disabled]="
-                  !billForm.valid || isLoading || !selectClient || !amount
+                  !billForm.valid || isLoading || !selectedClient || !amount
                 "
                 class="text-all-white btn bg-primary px-4"
                 i18n>
@@ -410,33 +429,39 @@
               <div class="col-lg-2 col-md-2 col-sm-4 col mb-2">
                 <app-skeleton
                   [height]="'100px'"
-                  [width]="'100px'"></app-skeleton>
+                  [width]="'100px'"
+                  classes="sm-radius"></app-skeleton>
                 <div>
                   <app-skeleton
                     [height]="'10px'"
                     [width]="'30%'"
-                    appearance="line"></app-skeleton>
+                    appearance="line"
+                    classes="sm-radius"></app-skeleton>
                 </div>
                 <div>
                   <app-skeleton
                     [height]="'10px'"
                     [width]="'50%'"
-                    appearance="line"></app-skeleton>
+                    appearance="line"
+                    classes="sm-radius"></app-skeleton>
                 </div>
               </div>
             }
           </div>
         }
         @if (merchantMult) {
-          <div class="row mt-4 ps-5 ms-1">
+          <div class="d-flex flex-wrap gap-5 ps-5 mx-5">
             @for (merchant of merchantMult; track $index) {
               <div
-                class="col-3"
+                class="col-auto"
                 role="button"
                 tabindex="0"
                 (click)="switchMerchant(merchant.id)">
                 <div>
-                  <app-merchant-card [merchant]="merchant"></app-merchant-card>
+                  <app-merchant-card
+                    [merchant]="merchant"
+                    [action]="'output'"
+                    [disabledFavoriteAction]="true"></app-merchant-card>
                 </div>
               </div>
             }

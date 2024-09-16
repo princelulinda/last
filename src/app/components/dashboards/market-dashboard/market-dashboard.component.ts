@@ -1,20 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { Subject, takeUntil } from 'rxjs';
+
+import { ProductCategoryModel, ProductOfferModel } from '../dashboard.model';
+import {
+  BillersAutocompleteModel,
+  MerchantModel,
+} from '../../merchant/merchant.models';
+import { ProductAutocompleteModel } from '../../merchant/products/products.model';
+import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
+import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import { ProductCardComponent } from '../../merchant/global/product-card/product-card.component';
 import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
-import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import {
-  BestOfferModel,
-  BillersModel,
-  objectsModel,
-  productCategoryArray,
-  productCategoryModel,
-  ProductModel,
-} from '../dashboard.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
 import { BillerCardComponent } from '../../merchant/global/biller-card/biller-card.component';
+import { DialogService } from '../../../core/services';
 
 @Component({
   selector: 'app-market-dashboard',
@@ -30,7 +31,7 @@ import { BillerCardComponent } from '../../merchant/global/biller-card/biller-ca
   templateUrl: './market-dashboard.component.html',
   styleUrl: './market-dashboard.component.scss',
 })
-export class MarketDashboardComponent implements OnInit {
+export class MarketDashboardComponent implements OnInit, OnDestroy {
   newArrivalInfo = [
     {
       id: '1',
@@ -59,232 +60,93 @@ export class MarketDashboardComponent implements OnInit {
   ];
 
   private onDestroy$: Subject<void> = new Subject<void>();
-  // // private variableService = inject(VariableService);
-
-  // clientId$!: Observable<string>;
-  // clientId!: string;
 
   favoriteMerchantLoading = false;
-  favoriteMerchants!: BillersModel[];
+  favoriteMerchants!: MerchantModel[];
   favoriteMerchantsNumber!: number;
-  favorite_merchants!: BillersModel;
-  favorite_making = true;
-  favorite_merchant_making!: BillersModel | null;
+  favorite_merchant_making!: MerchantModel | null;
 
-  // activities: any = [];
-  merchants!: Merchant_AutocompleteModel[];
-  products!: ProductModel[];
-  // biller: [] | null = null;
-  productCategory!: productCategoryModel[];
-  // sector: any;
-  last4Merchant!: Merchant_AutocompleteModel[];
-  recentMerchant!: Merchant_AutocompleteModel[];
-  recentBillers!: BillersModel[];
-  first4ProductCategory!: productCategoryModel[];
-  start = 0;
-  end = 4;
+  merchants!: MerchantAutocompleteModel[];
+  products!: ProductAutocompleteModel[];
+  productCategory!: ProductCategoryModel[];
+  last4Merchant!: MerchantAutocompleteModel[];
+  recentMerchant!: MerchantAutocompleteModel[];
+  recentBillers!: BillersAutocompleteModel[];
+  first4ProductCategory!: ProductCategoryModel[];
   clearData = true;
   billerChecked = true;
-  billers!: BillersModel[];
+  billers!: BillersAutocompleteModel[];
   merchantDetail = false;
   // categorySections = false;
   loadingmerchants = true;
-  merchantId!: string;
-  merchantDetails!: [];
-  // payMerchant: any;
-  // merchantSelected: any;
-  categorySelected!: null;
-  // category: { sector: any; category: any } = { sector: null, category: null };
-  // payment: any;
-  offerData: BestOfferModel[] = [];
-  first2: BestOfferModel[] = [];
+  offerData: { id: number; product: ProductOfferModel }[] = [];
 
-  constructor(private merchantService: MerchantService) {
-    // private store: Store
-    // this.clientId$ = this.store.select(AuthState.GetClientId);
-    // comment
-  }
+  constructor(
+    private merchantService: MerchantService,
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit(): void {
     this.getMerchants('');
     this.getFavoriteMerchants('');
     this.getBrowseByCategory();
     this.getBestOfferData();
-    // this.getSearchProduct('');
-    // this.getSectorsAndCategories();
     this.getBillers();
     this.getRecentProducts();
-
-    // this.clientId$.pipe(takeUntil(this.onDestroy$)).subscribe({
-    //   next: (id: string) => {
-    //     this.clientId = id;
-    //     this.getMerchant('');
-    //   },
-    // });
-
-    // this.variableService.search.pipe(takeUntil(this.onDestroy$)).subscribe({
-    //     next: (search: any) => {
-    //         this.getMerchants(search);
-    //     },
-    // });
   }
-  getMakeFavoriteResponse(response: string) {
-    const success = response;
+  getMakeFavoriteResponse() {
     this.getMerchants('');
     this.getFavoriteMerchants('');
-    console.log(
-      '============================================>success value',
-      success
-    );
   }
-  getFavoriteMerchants(search: string, activeLoading = true) {
-    // activeLoading ? (this.favoriteMerchantLoading = true) : false;
-    console.log(activeLoading);
+  getFavoriteMerchants(search: string) {
     this.merchantService
       .getFavoriteMerchantsAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          const data = response as objectsModel;
+          const data = response as { objects: MerchantModel[] };
           this.favoriteMerchants = data.objects;
           this.favoriteMerchantsNumber = data.objects.length;
           this.favoriteMerchantLoading = false;
           this.favorite_merchant_making = null;
         },
-        error: err => {
+        error: () => {
           this.favoriteMerchantLoading = false;
-          console.log(err);
+          this.dialogService.openToast({
+            type: 'failed',
+            title: '',
+            message: 'failed to get a favorite merchant',
+          });
         },
       });
   }
 
-  // selectMerchant(category: any, merchant: any) {
-  //     this.biller = null;
-  //     this.merchantSelected = merchant;
-  //     this.categorySelected = category;
-  //     this.sector = false;
-  //     this.merchantDetail = true;
-  //     this.categorySections = false;
-  // }
-
-  // selectCategory(category: any) {
-  //     this.categorySelected = category;
-  //     this.categorySections = true;
-  //     this.merchantDetail = false;
-  //     this.biller = null;
-  //     this.payMerchant = null;
-  // }
-
-  // // selectBiller(biller: any) {
-  // //     this.payMerchant = null;
-  // //     this.categorySelected = null;
-  // //     this.biller = biller;
-  // // }
-
-  // openModal(merchant: BillersModel, event: Event) {
-  //   // this.payMerchant = merchant;
-  //   console.log(merchant);
-  //   this.biller = null;
-  //   this.categorySelected = null;
-  //   // this.merchantId = this.payMerchant.id;
-  //   this.clearData = true;
-
-  //   event.stopPropagation();
-  //   // add data-bs after click on favorite star
-  //   const element = event.target as HTMLButtonElement;
-  //   element.setAttribute('data-bs-toggle', 'modal');
-  //   element.setAttribute('data-bs-target', '#merchantModal');
-  //   element.click();
-  //   // accepts_simple_payment;
-  //   // this.getMerchantDetails();
-  // }
-
-  // goBack() {
-  //     this.sector = true;
-  //     this.merchantDetail = false;
-  //     this.categorySections = false;
-  // }
-  nextMerchant() {
-    if (this.end < this.merchants.length) {
-      this.start++;
-      this.end++;
-      this.recentMerchant = this.merchants.slice(this.start, this.end);
-    }
-  }
-  previousMerchant() {
-    if (this.start > 0) {
-      this.start--;
-      this.end--;
-      this.recentMerchant = this.merchants.slice(this.start, this.end);
-    }
-  }
-
   getMerchants(search: string) {
     this.merchantService
-      .getMerchantsAutocomplete(search)
+      .getRecentMerchantsAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as { objects: Merchant_AutocompleteModel[] };
+          const response = data as { objects: MerchantAutocompleteModel[] };
           this.merchants = response.objects;
-          // this.merchant = this.merchants;
           this.last4Merchant = this.merchants.slice(-4);
-          const navigationBtn = document.getElementById(
-            'navigationButtonMerchant'
-          );
-          this.recentMerchant = this.merchants.slice(this.start, this.end);
-          navigationBtn?.addEventListener('click', () => {
-            this.nextMerchant();
-            this.previousMerchant();
-          });
+
+          this.recentMerchant = this.merchants.slice(0, 4);
+
           this.favorite_merchant_making = null;
         },
       });
   }
 
-  // getProduct(data: any) {
-  //   this.merchantService.searchProductByMerchant(data).pipe(takeUntil(this.onDestroy$)).subscribe({
-  //     next: (result: any) => {
-  //       this.products = result.objects;
-  //       this.first6 = this.merchants.slice(0,4);
-  //       console.log('this is first66-----:', this.first6);
-
-  //     }
-  //   })
-  // }
-
-  /**can be work if u add interface for biller
-   */
-  nextBiller() {
-    if (this.end < this.billers.length) {
-      this.start++;
-      this.end++;
-      this.recentBillers = this.billers.slice(this.start, this.end);
-    }
-  }
-  previousBiller() {
-    if (this.start > 0) {
-      this.start--;
-      this.end--;
-      this.recentBillers = this.billers.slice(this.start, this.end);
-    }
-  }
   getBillers() {
-    console.log('getBillers called');
     this.merchantService
       .getBIllers(this.billerChecked)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          const result = response as objectsModel;
+          const result = response as { objects: BillersAutocompleteModel[] };
           this.billers = result.objects;
-
-          const nextBtn = document.getElementById('navigationButton');
-          this.recentBillers = this.billers.slice(this.start, this.end);
-          nextBtn?.addEventListener('click', () => {
-            this.nextBiller();
-            this.previousBiller();
-          });
+          this.recentBillers = this.billers.slice(0, 4);
         },
         error: () => {
           this.loadingmerchants = false;
@@ -297,7 +159,7 @@ export class MarketDashboardComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: result => {
-          const response = result as productCategoryArray;
+          const response = result as { objects: ProductCategoryModel[] };
           this.productCategory = response.objects;
           this.first4ProductCategory = this.productCategory.slice(0, 4);
         },
@@ -310,14 +172,18 @@ export class MarketDashboardComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          const data = response as { objects: BestOfferModel[] };
+          const data = response as {
+            objects: { id: number; product: ProductOfferModel }[];
+          };
           this.offerData = data.objects.slice(0, 2);
         },
-        // error: (err: HttpErrorResponse) => {
-        //   if (this.offerData.length === 0) {
-        //     console.log('erreur sur best offer', err);
-        //   }
-        // },
+        error: () => {
+          this.dialogService.openToast({
+            type: 'failed',
+            title: '',
+            message: 'failed to get best offer',
+          });
+        },
       });
   }
 
@@ -327,107 +193,14 @@ export class MarketDashboardComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as { objects: ProductModel[] };
+          const response = data as { objects: ProductAutocompleteModel[] };
           this.products = response.objects.slice(0, 4);
         },
       });
   }
 
-  //   getMerchantDetails() {
-  //       this.merchantService
-  //           .getMerchantsDetails(this.merchantId)
-  //           .pipe(takeUntil(this.onDestroy$))
-  //           .subscribe({
-  //               // next: (data) => {
-  //               //     this.clearData = false;
-  //               //     this.merchantDetails = data.object;
-  //               //     this.merchant = this.merchantDetails;
-  //               // },
-  //           });
-  //   }
-
-  /********************************************************************** */
-  // makeFavoriteMerchants(favorite: BillersModel, event: Event) {
-  //   event.stopPropagation();
-  //   // const productCard: HTMLElement =
-  //   //     event.target?.parentElement.parentElement.parentElement.parentElement
-  //   //         .parentElement;
-  //   // remove data-bs for bootstrap modal
-  //   // productCard.removeAttribute('data-bs-target');
-  //   // productCard.removeAttribute('data-bs-toggle');
-  //   this.favorite_merchant_making = favorite;
-  //   this.favorite_making = false;
-  //   let body!: Favorite;
-  //   if (!favorite.is_favorite_merchant) {
-  //     body = {
-  //       merchant: favorite.id,
-  //       merchant_action: 'make_favorite',
-  //     };
-  //   } else if (favorite.is_favorite_merchant) {
-  //     body = {
-  //       merchant: favorite.id,
-  //       merchant_action: 'revoke_favorite',
-  //     };
-  //   }
-
-  //   // add data-bs after click on favorite star
-  //   // productCard.setAttribute('data-bs-target', '#myModal');
-  //   // productCard.setAttribute('data-bs-toggle', 'modal');
-  //   this.merchantService
-  //     .makeFavoriteMerchants(body)
-  //     .pipe(takeUntil(this.onDestroy$))
-  //     .subscribe({
-  //       next: result => {
-  //         const data = result as objectModel;
-  //         const response = data.object;
-  //         if (response.success) {
-  //           this.getMakeFavoriteResponse(response.success);
-  //         }
-  //       },
-  //     });
-  // }
-  /*********call product api **********************************************************/
-  // getSearchProduct(data: any) {
-  //   this.merchantService.searchProductByMerchant(data).pipe(takeUntil(this.onDestroy$)).subscribe({
-  //     next: (result: any) =>{
-  //       const response = result.object;
-  //       this.products = response;
-  //       console.log('=========this is products result:',this.products);
-
-  //     }
-  //   })
-  // }
-  /******************************************************************************** */
-  // // getSectorsAndCategories() {
-  // //     this.merchantService.getActivitySectors().subscribe({
-  // //         next: (data) => {
-  // //             const activities: any[] = [];
-  // //             data.objects.forEach((activity: any) => {
-  // //                 const data: any = {};
-  // //                 data['activity'] = activity;
-  // //                 this.merchantService
-  // //                     .getCategoriesPerActivitySectors(activity.id)
-  // //                     .subscribe({
-  // //                         next: (sectors) => {
-  // //                             data['categories'] = sectors;
-  // //                         },
-  // //                     });
-  // //                 activities.push(data);
-  // //             });
-  // //             this.activities = activities;
-  // //             this.sector = activities;
-  // //         },
-  // //     });
-  // // }
-
-  // sendSectorAndCategoryInPopup(sector: any, category: any) {
-  //     this.categorySelected = true;
-  //     this.biller = null;
-  //     this.payMerchant = null;
-  //     this.category = { sector: sector, category: category };
-  // }
-  // ngOnDestroy(): void {
-  //     this.onDestroy$.next();
-  //     this.onDestroy$.complete();
-  // }
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
 }

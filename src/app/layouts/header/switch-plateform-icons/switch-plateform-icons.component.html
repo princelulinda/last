@@ -7,11 +7,13 @@
         [routerLink]="plateF.link"
         (click)="switchPlateform(plateF.plateform)"
         tabindex="0"
-        class="d-block p-2 px-3 px-md-4 px-lg-5 sm-radius clickable mx-2 mx-md-3 mx-lg-4 h-100"
+        class="d-block p-2 px-3 px-sm-4 px-md-5 px-lg-5 sm-radius clickable mx-2 mx-sm-3 mx-md-3 mx-lg-1 mx-xl-2 mx-xxl-3 h-100"
         [ngClass]="{
           'text-all-white':
-            mainConfig.activePlateform !== 'workstation' &&
-            mainConfig.activePlateform !== plateF.plateform,
+            (mainConfig.activePlateform !== 'workstation' &&
+              mainConfig.activePlateform !== plateF.plateform) ||
+            (mainConfig.activePlateform === plateF.plateform &&
+              plateF.plateform === 'workstation'),
           'text-primary':
             mainConfig.activePlateform === plateF.plateform &&
             mainConfig.activePlateform !== 'workstation' &&
@@ -23,8 +25,12 @@
 
           'bg-hover-primary-2': mainConfig.activePlateform !== plateF.plateform,
 
-          'text-dark': mainConfig.activePlateform === 'workstation',
-          'bg-all-white': mainConfig.activePlateform === plateF.plateform,
+          'bg-all-white':
+            mainConfig.activePlateform === plateF.plateform &&
+            plateF.plateform !== 'workstation',
+          'bg-primary':
+            mainConfig.activePlateform === plateF.plateform &&
+            plateF.plateform === 'workstation',
         }"
         title="{{ plateF.title }}">
         @if (plateF.icon) {

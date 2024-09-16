@@ -126,4 +126,9 @@ export class LoginComponent implements OnInit {
       this.configService.switchPlateform('newsFeed');
     }
   }
+  handleEnter() {
+    if (this.loginForm.valid) {
+      this.onLoginSubmit();
+    }
+  }
 }

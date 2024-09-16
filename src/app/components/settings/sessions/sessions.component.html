@@ -84,8 +84,7 @@
                           data-bs-dismiss="modal"
                           ><b>Cancel</b></span
                         >
-                        <button
-                          class="btn btn-primary mb-4 btn-lg ms-4 fw-bold">
+                        <button class="btn bg-primary mb-4 btn-lg ms-4 fw-bold">
                           Submit
                         </button>
                       </div>
@@ -183,9 +182,8 @@
                     <div
                       tabindex="0"
                       role="button"
-                      style="box-shadow: none"
                       (click)="rotateActiveSessionButton(counter.id)"
-                      class="accordion-button w-100 collapsed rounded text-secondary d-flex justify-content-center"
+                      class="accordion-button w-100 collapsed rounded text-secondary d-flex justify-content-center shadow-none"
                       data-bs-toggle="collapse"
                       [attr.data-bs-target]="
                         '#flush-collapseOne-' + counter.id
@@ -352,17 +350,8 @@
             }
             <!--end  pagination-->
             @if (activeSessions.length === 0 && !activeSessionLoading) {
-              <div class="text-center mt-3">
-                <div class="w-100 d-flex justify-content-center">
-                  <div class="empty-state-icon d-grid fs-3">
-                    <span class="text-center">
-                      <i class="fa fs-1 fa-face-meh"></i>
-                    </span>
-                    <span class="text-center text-secondary" i18n>
-                      No active sessions found
-                    </span>
-                  </div>
-                </div>
+              <div>
+                <app-empty-state searchType="list"></app-empty-state>
               </div>
             }
           }
@@ -439,10 +428,9 @@
                     id="flush-headingOne">
                     <div
                       role="button"
-                      style="box-shadow: none"
                       tabindex="0"
                       (click)="rotateHistorySessionButton(counters.id)"
-                      class="accordion-button collapsed rounded text-secondary d-flex justify-content-center"
+                      class="accordion-button collapsed rounded text-secondary d-flex justify-content-center shadow-none"
                       data-bs-toggle="collapse"
                       [attr.data-bs-target]="
                         '#flush-collapseOne' + counters.id
@@ -602,17 +590,10 @@
             historySessions.length === 0 &&
             !isLoadingHistorySessions
           ) {
-            <div class="text-center mt-3">
-              <div class="w-100 d-flex justify-content-center">
-                <div class="empty-state-icon d-grid fs-3">
-                  <span class="text-center">
-                    <i class="fa fs-1 fa-face-meh"></i>
-                  </span>
-                  <span class="text-center text-secondary" i18n>
-                    No sessions history found
-                  </span>
-                </div>
-              </div>
+            <div>
+              <app-empty-state
+                messageClass="fs-x-small"
+                searchType="list"></app-empty-state>
             </div>
           }
         </div>

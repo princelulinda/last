@@ -133,13 +133,13 @@
                   id="number"
                   placeholder="number"
                   formControlName="number" />
-                <label class="fs-small" i18n for="number"
+                <label class="fs-x-small" i18n for="number"
                   ><span>Phone number<code>*</code></span>
                 </label>
               </div>
 
               @if (phoneNumberVerificationLoader) {
-                <span i18n class="text-secondary">
+                <span i18n class="text-secondary fs-x-small">
                   <i class="fa-solid fa-pulse fa-spinner"></i>
 
                   Phone number verification
@@ -150,16 +150,28 @@
                 phoneNumberToVerify.object.success === true &&
                 !phoneNumberVerificationLoader
               ) {
-                <span i18n class="text-danger"
+                <span i18n class="text-danger fs-x-small"
                   >Phone number already exists</span
+                >
+              } @else if (
+                phoneNumberToVerify &&
+                !isMatchNumber &&
+                phoneNumberToVerify.object.success === false &&
+                !phoneNumberVerificationLoader &&
+                !isPhoneNumberUndefinedd()
+              ) {
+                <span i18n class="text-success fs-x-small"
+                  >Phone number is valid</span
                 >
               }
               @if (isMatchNumber && !phoneNumberVerificationLoader) {
-                <span i18n class="text-danger">Phone number is invalid</span>
+                <span i18n class="text-danger fs-x-small"
+                  >Phone number is invalid</span
+                >
               }
             </div>
             <div class="col-md-6">
-              <div class="form-floating">
+              <div class="form-floating mb-2">
                 <input
                   i18n
                   (focusout)="EmailVerification()"
@@ -176,7 +188,7 @@
               </div>
 
               @if (EmailVerificationloader) {
-                <span i18n class="text-secondary">
+                <span i18n class="text-secondary fs-x-small">
                   <i class="fa-solid fa-pulse fa-spinner"></i>
 
                   Email verification
@@ -187,10 +199,22 @@
                 emailToVerify.object.success === true &&
                 !EmailVerificationloader
               ) {
-                <span i18n class="text-danger">Email already exists</span>
+                <span i18n class="text-danger fs-x-small"
+                  >Email already exists</span
+                >
               }
               @if (isMatchEmail && !EmailVerificationloader) {
-                <span i18n class="text-danger">Email is invalid</span>
+                <span i18n class="text-danger fs-x-small"
+                  >Email is invalid</span
+                >
+              }
+              @if (
+                emailToVerify &&
+                !isMatchEmail &&
+                emailToVerify.object.success === false &&
+                !EmailVerificationloader
+              ) {
+                <span i18n class="text-success fs-x-small">Email is valid</span>
               }
             </div>
           </div>
@@ -404,17 +428,21 @@
             </div>
 
             <div class="col">
-              <div class="form-floating">
+              <div class="form-floating mb-2">
                 <input
                   type="date"
                   class="form-control"
+                  (change)="validateAge()"
                   formControlName="birthday"
                   placeholder=""
-                  id="Confirmpassword" />
-                <label for="Confirmpassword" class="form-label" i18n
+                  id="birthday" />
+                <label for="birthday" class="form-label" i18n
                   >Birthday<code class="me-1">*</code></label
                 >
               </div>
+              @if (errorMessage) {
+                <p class="text-danger">{{ errorMessage }}</p>
+              }
             </div>
             <div class="col pb-5">
               <button
@@ -423,7 +451,9 @@
                 tabindex="0"
                 class="btn mt-4 mb-5 w-100 bg-primary lg-radius text-white p-3 fw-bold"
                 (click)="submit()"
-                [disabled]="!multiStepForm.controls.personalInformation.valid">
+                [disabled]="
+                  !multiStepForm.controls.personalInformation.valid || isUnder16
+                ">
                 Continue
               </button>
             </div>
@@ -534,6 +564,7 @@
                   type="date"
                   class="form-control"
                   formControlName="deliveryDate"
+                  (change)="validateAge()"
                   placeholder=""
                   id="deliveryDate" />
                 <label for="deliveryDate" class="form-label" i18n
@@ -545,19 +576,23 @@
               <div class="form-floating">
                 <input
                   type="date"
-                  class="form-control"
+                  class="form-control mb-2"
                   formControlName="expiryDate"
+                  (change)="validateAge()"
                   placeholder=""
                   id="expiryDate" />
                 <label for="expiryDate" class="form-label" i18n
                   >Expiry date<code class="me-1">*</code></label
                 >
               </div>
+              @if (errorMessagee) {
+                <p class="text-danger">{{ errorMessagee }}</p>
+              }
             </div>
             <div class="col">
               <button
                 i18n
-                type="button"
+                type="submit"
                 class="btn mt-4 mb-5 w-100 bg-primary lg-radius text-white p-3 fw-bold"
                 (click)="submit(); getBankList(); getClientInfo()"
                 [disabled]="
@@ -565,7 +600,8 @@
                   (this.multiStepForm.controls.cardInformation.value
                     .cardType === 'PASSPORT' &&
                     this.multiStepForm.controls.cardInformation.value
-                      .expiryDate === '')
+                      .expiryDate === '') ||
+                  isUnderDerivaryDate
                 ">
                 Continue
               </button>
@@ -596,7 +632,6 @@
 
   <!--start step 4-->
   @if (step === 4) {
-    <button (click)="getBankList()">test</button>
     <div
       class="container font-montserrat d-flex justify-content-center pt-5 p-5">
       <div class="row border border-1 lg-radius col-md-9 bg-white mt-5">
@@ -709,7 +744,7 @@
               <br />
               <br />
               <span i18n class="fs-normal text-all-white"
-                >Chose one of the banks to create <br />
+                >Choose one of the banks to create <br />
                 a bank account or click continue <br />
                 to create a wallet only.<br />
 

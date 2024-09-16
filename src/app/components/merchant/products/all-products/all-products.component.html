@@ -9,24 +9,35 @@
         <b> All products</b>
       }
       @if (url !== '') {
-        <b> Recent products</b>
+        <b> Products</b>
       }
     </span>
   </span>
 </div>
 <div>
   <!-- style="border: 0.5px solid whitesmoke; border-radius: 5px" -->
-  @if (!loader && product) {
+  @if (loader && product) {
     <div class="row mt-2 d-flex justify-content-between ms-4 ms-lg-0 mb-5">
       @for (item of countProductLoader; track $index) {
         <div class="col-lg-3 col-md-3 col mb-3">
-          <app-skeleton [height]="'150px'" [width]="'150px'"></app-skeleton>
+          <app-skeleton
+            [height]="'150px'"
+            [width]="'150px'"
+            classes="sm-radius"></app-skeleton>
           <div>
-            <app-skeleton [height]="'10px'" [width]="'60%'" appearance="line">
+            <app-skeleton
+              [height]="'10px'"
+              [width]="'60%'"
+              appearance="line"
+              classes="sm-radius">
             </app-skeleton>
           </div>
           <div>
-            <app-skeleton [height]="'10px'" [width]="'40%'" appearance="line">
+            <app-skeleton
+              [height]="'10px'"
+              [width]="'40%'"
+              appearance="line"
+              classes="sm-radius">
             </app-skeleton>
           </div>
         </div>
@@ -34,7 +45,7 @@
     </div>
   }
   <!-- search bar for all products -->
-  @if (loader && searchBar) {
+  @if (!loader && searchBar) {
     <div class="mb-2 mb-md-4">
       <div class="d-flex search-container justify-content-center">
         <span
@@ -53,20 +64,20 @@
           placeholder="Search product"
           [formControl]="searchInput"
           (input)="searchFor()" />
-        <style>
+        <!-- <style>
           /* Règle de style pour le texte du placeholder */
           .form-control::placeholder {
             color: rgb(204, 197, 197);
           }
-        </style>
+        </style> -->
       </div>
     </div>
   }
-  @if (loader && products) {
-    <div class="row mt-3 ms-4 ms-lg-0">
+  @if (!loader && products) {
+    <div class="d-flex flex-wrap gap-5 mt-3">
       @for (product of products; track $index) {
         <div
-          class="d-flex col-xl-3 col-md-4 col mb-3 sm-radius"
+          class="col-auto mb-3 sm-radius"
           (click)="selectProduct(product)"
           tabindex="0">
           <!-- image -->
@@ -75,42 +86,21 @@
       }
     </div>
   }
-  @if (loader && products && products.length > 8) {
-    <div
-      class="mt-4 d-flex align-items-center justify-content-center text-secondary mb-5">
-      <span
-        title="Previous"
-        (click)="getPagination('prev')"
-        tabindex="0"
-        role="button"
-        class="me-2 d-inline-flex align-items-center rounded p-2 bg-secondary"
-        [ngClass]="{
-          'bg-blue': canMoveToPrevious,
-          'level-2 disabled': !canMoveToPrevious && theme === 'light',
-          'level-3 disabled': !canMoveToPrevious && theme === 'dark',
-        }"
-        ><i class="fa-solid fa-play fa-rotate-180 fs-l-medium"></i
-      ></span>
-      <span
-        (click)="getPagination('next')"
-        [ngClass]="{
-          'bg-info': canMoveToNext,
-          'level-2 disabled': !canMoveToNext && theme === 'light',
-          'level-3 disabled': !canMoveToNext && theme === 'dark',
-        }"
-        tabindex="0"
-        title="Next"
-        role="button"
-        class="ms-2 fs-5 d-inline-flex align-items-center rounded p-2"
-        ><i class="fa-solid fa-play"></i
-      ></span>
+  @if (response_data > 0) {
+    <div class="mb-4">
+      <app-pagination
+        [isLoading]="loader"
+        [totalData]="response_data"
+        [pageLimit]="productPagination.filters.limit"
+        (paginationChange)="onPaginationChange($event)">
+      </app-pagination>
     </div>
   }
 
-  @if (loader && productsNumber === 0 && url !== '') {
+  @if (!loader && response_data === 0 && url !== '') {
     <div
       i18n
-      class="row text-dark mt-3 d-flex justify-content-center align-items-center">
+      class="text-dark mt-3 d-flex justify-content-center align-items-center">
       <!-- No recent products available -->
       <app-empty-state
         [searchTerm]="searchTerm"

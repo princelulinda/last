@@ -17,11 +17,13 @@ import { SwitchModeComponent } from '../../global/components/switch-mode/switch-
 import { ProfileCardComponent } from '../../global/components/custom-field/profile-card/profile-card.component';
 import { DialogService } from '../../core/services';
 import { OrganizationModel } from '../../components/auth/auth.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
+    RouterLink,
     CommonModule,
     SwitchPlateformIconsComponent,
     FooterComponent,
@@ -39,20 +41,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
-
   organization$!: Observable<OrganizationModel | null>;
   organization!: OrganizationModel | null;
-
   userInfo!: UserInfoModel | null;
   userInfo$: Observable<UserInfoModel>;
-
   amountState = false;
   amountState$: Observable<boolean>;
-
   selectedLanguage = new FormControl('fr');
-
-  showPlateformPopup = false;
   showUserInfoPopup = false;
+  showPlateformPopup = false;
+  menuRouterLink = '';
 
   constructor(
     private dialogService: DialogService,
@@ -75,13 +73,29 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.mainConfig$.subscribe({
       next: configs => {
-        this.mainConfig = configs;
+        if (configs) {
+          this.mainConfig = configs;
+          if (this.mainConfig.activePlateform === 'newsFeed') {
+            this.menuRouterLink = '/n/banking_menu';
+          } else if (this.mainConfig.activePlateform === 'onlineBanking') {
+            this.menuRouterLink = '/b/banking_menu';
+          } else if (
+            this.mainConfig.activePlateform === 'marketPlace' ||
+            this.mainConfig.activePlateform === 'myMarket'
+          ) {
+            this.menuRouterLink = '/m/banking_menu';
+          } else if (this.mainConfig.activePlateform === 'bankingSettings') {
+            this.menuRouterLink = '/b/settings_menu';
+          }
+        }
       },
     });
 
     this.userInfo$.subscribe({
       next: user => {
-        this.userInfo = user;
+        if (user) {
+          this.userInfo = user;
+        }
       },
     });
 
@@ -103,11 +117,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.toggleEyeStatus();
   }
 
-  public ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-  }
-
   switchMode() {
     this.configService.switchMode();
   }
@@ -117,6 +126,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   logout() {
     this.authService.logout();
+  }
+
+  lockScreen() {
+    this.configService.switchScreenState('locked');
   }
 
   changeLanguage() {
@@ -156,10 +169,40 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleEyeStatus() {
     this.dialogService.displayAmount();
   }
-  toggleUserInfo() {
-    this.showUserInfoPopup = !this.showUserInfoPopup;
-  }
+
   togglePlateformIconsPopup() {
     this.showPlateformPopup = !this.showPlateformPopup;
+    this.showUserInfoPopup = false;
+  }
+  toggleUserInfo() {
+    this.showUserInfoPopup = !this.showUserInfoPopup;
+    this.showPlateformPopup = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const userInfoPopup = document.querySelector('.user-info-popup');
+    const PlateformPopup = document.querySelector('.platform-popup');
+
+    if (
+      this.showUserInfoPopup &&
+      userInfoPopup &&
+      !userInfoPopup.contains(target) &&
+      !target.closest('.toggle-button')
+    ) {
+      this.showUserInfoPopup = false;
+    }
+    if (
+      this.showPlateformPopup &&
+      PlateformPopup &&
+      !PlateformPopup.contains(target)
+    ) {
+      this.showPlateformPopup = false;
+    }
+  }
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

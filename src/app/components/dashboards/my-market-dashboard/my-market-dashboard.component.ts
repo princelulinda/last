@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  OnDestroy,
+  SimpleChanges,
+  OnChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import {
@@ -12,7 +20,6 @@ import {
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
-// import { VariableService } from '../../../core/services/variable/variable.service';
 import {
   AuthService,
   ConfigService,
@@ -21,7 +28,10 @@ import {
 import { DialogService } from '../../../core/services';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import {
+  DialogResponseModel,
+  MerchantBillModel,
+} from '../../../core/services/dialog/dialogs-models';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
@@ -33,17 +43,15 @@ import {
 } from '../../../core/services/config/main-config.models';
 import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
 import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
-import { Merchant_AutocompleteModel } from '../../merchant/global/merchant-card/merchant.model';
 import { AllProductsComponent } from '../../merchant/products/all-products/all-products.component';
+import { StatementComponent } from '../../statements/statement/statement.component';
 import {
-  Account,
-  MerchantBillDataModel,
-  MerchantInfoModel,
+  MerchantAutocompleteModel,
   MerchantModel,
-  MerchantObjectModel,
-  ObjectBillModel,
-  StatsModel,
-} from '../../merchant/products/products.model';
+  MerchantStatsModel,
+} from '../../merchant/merchant.models';
+import { ReusableListComponent } from '../../../global/components/list/reusable-list/reusable-list.component';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({
   selector: 'app-my-market-dashboard',
@@ -59,13 +67,21 @@ import {
     ReactiveFormsModule,
     FormsModule,
     MerchantBillComponent,
+    ReusableListComponent,
+    StatementComponent,
+    AmountVisibilityComponent,
   ],
   templateUrl: './my-market-dashboard.component.html',
   styleUrl: './my-market-dashboard.component.scss',
 })
-export class MyMarketDashboardComponent implements OnInit, OnDestroy {
+export class MyMarketDashboardComponent
+  implements OnInit, OnDestroy, OnChanges
+{
   private onDestroy$: Subject<void> = new Subject<void>();
   baseRouterLink = '/m/mymarket';
+
+  @Input() accountId = '';
+  @Input() ledgerId = '';
 
   clientInfo: UserInfoModel[] | [] | null = null;
   clientInfo$: Observable<UserInfoModel>;
@@ -100,11 +116,14 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   ];
   merchantId!: string | number;
   merchant!: MerchantModel | null;
-  merchantMult!: Merchant_AutocompleteModel[];
+  merchantMult!: MerchantAutocompleteModel[];
   merchantInfo!: MerchantModel | null;
 
-  stat!: MerchantModel | null;
-  account!: Account;
+  stat!: MerchantStatsModel | null;
+  account!: {
+    acc_holder: string;
+    acc_number: string;
+  };
   merchantAccountId = '';
   billForm = new FormGroup({
     description: new FormControl(''),
@@ -121,13 +140,14 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     nativeElement: HTMLElement;
   };
 
-  successMessage!: MerchantBillDataModel | null;
+  successMessage!: MerchantBillModel;
   pin!: string;
   indexMerchant = 0;
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
   activePlatform!: PlateformModel;
   mainConfig$!: Observable<activeMainConfigModel>;
+
   constructor(
     private route: ActivatedRoute,
     private merchantService: MerchantService,
@@ -144,11 +164,13 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mainConfig$.subscribe({
       next: configs => {
-        this.activePlatform = configs.activePlateform;
-        if (this.activePlatform === 'myMarket') {
-          this.baseRouterLink = '/m/mymarket';
-        } else if (this.activePlatform === 'workstation') {
-          this.baseRouterLink = '/w/workstation/';
+        if (configs) {
+          this.activePlatform = configs.activePlateform;
+          if (this.activePlatform === 'myMarket') {
+            this.baseRouterLink = '/m/mymarket';
+          } else if (this.activePlatform === 'workstation') {
+            this.baseRouterLink = '/w/workstation/';
+          }
         }
       },
     });
@@ -214,7 +236,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       .generateBill(body)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: ObjectBillModel) => {
+        next: response => {
           if (
             response.object['success'] !== undefined &&
             !response.object.success
@@ -230,25 +252,23 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
             return;
           }
           this.successMessage = {
-            data: {
-              debit_account: '',
-              name: (this.selectedClient as ItemModel).lookup_title,
-              merchantName: (this.merchant as MerchantModel).client
-                .client_full_name,
+            debit_account: '',
+            name: (this.selectedClient as ItemModel).lookup_title,
+            merchantName: (this.merchant as MerchantModel).client
+              .client_full_name,
 
-              date: Date.now(),
-              printable_text: '',
-              amount: this.amount,
-              code: (this.merchant as MerchantModel).merchant_code,
-              product: {
-                name: '',
-                value: '',
-              },
-              description: this.billForm.value.description as string,
-              adress: '',
-              // receipt_date: '',
-              credit_account: (this.merchant as MerchantModel).merchant_code,
+            date: Date.now(),
+            printable_text: '',
+            amount: this.amount,
+            code: (this.merchant as MerchantModel).merchant_code,
+            product: {
+              name: '',
+              value: '',
             },
+            description: this.billForm.value.description as string,
+            adress: '',
+            // receipt_date: '',
+            credit_account: (this.merchant as MerchantModel).merchant_code,
           };
           this.openBillPopup = false;
 
@@ -264,7 +284,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
             type: 'success',
             message: response.object.response_message,
           });
-          this.dialogService.OpenMerchantBillPopup(this.successMessage.data);
+          this.dialogService.openMerchantBillPopup(this.successMessage);
           this.closeModal.nativeElement.click();
           this.billForm.reset();
         },
@@ -297,18 +317,18 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       .getConnectedMerchantInfo()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: MerchantObjectModel) => {
+        next: data => {
           this.isLoadingInfo = false;
 
           this.merchant = data.object.response_data;
           this.account = {
-            acc_holder: (this.merchant as MerchantModel).merchant_title,
-            acc_number: (this.merchant as MerchantModel).merchant_main_account,
+            acc_holder: this.merchant.merchant_title,
+            acc_number: this.merchant.merchant_main_account,
           };
           this.merchantAccountId = (
             this.merchant as MerchantModel
-          ).merchant_main_account;
-          this.merchantId = (this.merchant as MerchantModel).id;
+          ).merchant_main_account_id;
+          this.merchantId = this.merchant.id;
 
           this.getMerchantInfos();
           this.getMerchantStats();
@@ -372,7 +392,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     this.closeMerchantsModal.nativeElement.click();
 
     this.merchantService.getMerchantInfos(merchantId as string).subscribe({
-      next: (data: MerchantInfoModel) => {
+      next: data => {
         this.isMerchantPopupOpened = false;
         this.isLoadingInfo = false;
         this.merchant = data.object.response_data;
@@ -393,8 +413,8 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       .getMerchantStats(this.merchantId as string)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: StatsModel) => {
-          this.stat = data.object.response_data;
+        next: data => {
+          this.stat = data.object;
         },
         error: () => {
           this.dialogService.openToast({
@@ -419,5 +439,62 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+  headers = [
+    {
+      name: 'Date',
+      field: ['date_created'],
+      size: '',
+      format: 'date',
+    },
+    {
+      name: 'Description',
+      field: ['description'],
+      size: '',
+    },
+    {
+      name: 'Reference',
+      field: ['reference'],
+      size: '',
+    },
+    {
+      name: 'Debit amount',
+      field: ['debit'],
+      size: '',
+      format: 'currency',
+    },
+    {
+      name: 'Credit amount',
+      field: ['credit'],
+      size: '',
+      format: 'currency',
+    },
+    {
+      name: 'Balance',
+      field: ['solde'],
+      size: '',
+      format: 'currency',
+    },
+  ];
+
+  url = '';
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propName in changes) {
+      const chng = changes[propName];
+      if (propName === 'accountId') {
+        this.url =
+          '/operations/all/statement/?trans_client_account_obj=' +
+          chng.currentValue +
+          '&';
+        this.accountId = chng.currentValue;
+      }
+      if (propName === 'ledgerId') {
+        this.url =
+          '/operations/all/statement/?trans_ledger_account_obj=' +
+          chng.currentValue +
+          '&';
+        this.ledgerId = chng.currentValue;
+      }
+    }
   }
 }

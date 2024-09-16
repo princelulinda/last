@@ -11,10 +11,9 @@ import { RouterModule, Router } from '@angular/router';
 import {
   addProductByMerchantDataModel,
   inputAmountModel,
-  MerchantModel,
 } from '../products.model';
 import { AmountFieldComponent } from '../../../../global/components/custom-field/amount-field/amount-field.component';
-import { MerchantService } from '../../../../core/services';
+import { DialogService, MerchantService } from '../../../../core/services';
 
 @Component({
   selector: 'app-add-product',
@@ -30,7 +29,7 @@ import { MerchantService } from '../../../../core/services';
 })
 export class AddProductComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
-  @Input() merchant!: MerchantModel;
+  @Input() MerchantId!: string;
 
   productForm: FormGroup;
   productPrice!: number | null;
@@ -41,7 +40,8 @@ export class AddProductComponent implements OnInit {
     private merchantService: MerchantService,
     private fb: FormBuilder,
     // private store: Store,
-    private router: Router
+    private router: Router,
+    private dialogService: DialogService
   ) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
@@ -52,7 +52,8 @@ export class AddProductComponent implements OnInit {
     // comment
     this.merchantService.connectedMerchantId$.subscribe(
       (merchantId: string) => {
-        this.merchant.id = merchantId;
+        this.MerchantId = merchantId;
+
         if (!merchantId) {
           this.router.navigate(['/m/mymarket/product-config']);
         }
@@ -63,9 +64,10 @@ export class AddProductComponent implements OnInit {
     this.productPrice = amount.amount;
   }
   addProduct() {
+    this.dialogService.dispatchLoading();
     const product = {
       name: this.productForm.value.name,
-      merchant: this.merchant,
+      merchant: this.MerchantId,
       price: this.productPrice,
       short_description: this.productForm.value.description,
       accepts_cart: false,
@@ -82,43 +84,34 @@ export class AddProductComponent implements OnInit {
           const data = result as addProductByMerchantDataModel;
           this.productForm.enable();
           this.productAdded = false;
+          this.dialogService.closeLoading();
           if (data.object.success === false) {
-            const notification = {
-              title: '',
+            this.dialogService.openToast({
+              title: 'failed',
               type: 'failed',
-              message: data.object.response_message,
-            };
-            // this.store.dispatch(new OpenDialog(notification));
-            console.log(notification);
+              message: "Le produit n'a pas été ajouté",
+            });
           } else {
-            const notification = {
-              title: '',
+            this.dialogService.openToast({
+              title: 'success',
               type: 'success',
               message: 'Product successfully added',
-            };
-            // this.store.dispatch(new OpenDialog(notification));
-            console.log(notification);
+            });
+
             this.productForm.reset();
             this.productPrice = null;
             this.router.navigate(['/m/mymarket/product-config']);
           }
         },
-        error: data => {
+        error: () => {
           this.productForm.enable();
           this.productAdded = false;
-          let message;
-          if (data.object) {
-            message = data.object.response_message;
-          } else {
-            message = 'Error occurred';
-          }
-          const notification = {
-            title: '',
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
             type: 'failed',
-            message: message,
-          };
-          // this.store.dispatch(new OpenDialog(notification));
-          console.log(notification);
+            title: 'Échec',
+            message: "Le produit n'a pas été ajouté, veuillez réessayer.",
+          });
         },
       });
   }

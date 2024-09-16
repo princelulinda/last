@@ -1,6 +1,6 @@
 import { languageModel } from '../../core/db/models/auth';
 
-export interface EmailVerificationResponse {
+export interface EmailVerificationResponseModel {
   object: {
     success: boolean;
     response_message: string;
@@ -13,7 +13,7 @@ export interface EmailVerificationResponse {
   };
 }
 
-export interface phoneNumberVerificaitonResponse {
+export interface PhoneNumberVerificaitonResponseModel {
   object: {
     success: boolean;
     response_message: string;
@@ -25,7 +25,7 @@ export interface phoneNumberVerificaitonResponse {
     };
   };
 }
-export interface createAccountResponse {
+export interface CreateAccountResponseModel {
   object: {
     picture: string;
     number: number;
@@ -43,19 +43,19 @@ export interface createAccountResponse {
   };
 }
 
-export interface bankListResponse {
+export interface BankListResponseModel {
   name: string;
   organization_id: number;
   company: {
     logo: string;
   };
 }
-export interface resetPasswordResponse {
+export interface ResetPasswordResponseModel {
   object: {
     success: boolean;
   };
 }
-export interface otpVerificationResponse {
+export interface OtpVerificationResponseModel {
   object: {
     success: boolean;
   };
@@ -67,10 +67,10 @@ export interface UploadedFileModel {
   };
 }
 
-export interface cardIdData {
+export interface CardIdDataModel {
   expiry_date: string | null | undefined;
 }
-export interface referenceNumberModel {
+export interface ReferenceNumberModel {
   id: number;
   event: string;
 }
@@ -161,3 +161,24 @@ export interface ConectedOperatorApiResponseModel {
     };
   };
 }
+
+export interface OrganizationInvitationModel {
+  id: number;
+  operator: {
+    id: number;
+    name: string;
+    picture: string | null;
+  };
+  organization: OrganizationModel;
+}
+
+// export interface CreateAccountBodyModel {
+
+// }
+// export interface ResetPasswordBodyModel{
+
+// }
+
+// export interface OtpVerificationBodyModel{
+
+// }

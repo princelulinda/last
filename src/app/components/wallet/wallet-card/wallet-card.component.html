@@ -40,7 +40,7 @@
         <div class="d-flex flex-column g-0 pt-2">
           @if (!noWalletData) {
             <span class="fs-small">Balance</span>
-            @if (defaultWallet) {
+            @if (defaultWallet && defaultWallet.response_data) {
               <span class="fw-bold">
                 <app-amount-visibility
                   [currency]="defaultWallet.response_data.currency"
@@ -62,7 +62,7 @@
 
         <div class="d-flex flex-column g-0 pt-2">
           <span class="p-0 m-0 fs-small" i18n>Wallet</span>
-          @if (defaultWallet && !noWalletData) {
+          @if (defaultWallet && !noWalletData && defaultWallet.response_data) {
             <span class="fw-bold">{{ defaultWallet.response_data.code }}</span>
           }
           @if (!defaultWallet) {
@@ -74,14 +74,18 @@
         </div>
 
         <div class="d-flex gap-2 position-absolute cardButtons">
-          <button class="btn px-1 p-0 btnBack">
+          <button
+            class="btn px-1 p-0 btnBack"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal">
             <i class="fa-solid fa-plus fs-normal pt-1 text-all-white"></i>
           </button>
+
           <button
             class="btn px-1 p-0 btnBack"
             [routerLink]="
               activePlatform === 'workstation'
-                ? '/w/workstation/banking/wallets'
+                ? '/w/workstation/b/bankingwallets'
                 : activePlatform === 'onlineBanking'
                   ? '/b/banking/wallets'
                   : ''
@@ -96,7 +100,10 @@
               alt="" />
           </button>
 
-          <button class="btn px-1 p-0 btnBack">
+          <button
+            class="btn px-1 p-0 btnBack"
+            data-bs-toggle="modal"
+            data-bs-target="#statementModal">
             <i class="fa-solid fa-history fs-normal pt-1 text-all-white"></i>
           </button>
         </div>
@@ -145,3 +152,116 @@
     </div>
   </div>
 </div>
+<!--creation wallet modal-->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content bg-white">
+      <div class="modal-body">
+        <div>
+          <form [formGroup]="walletForm">
+            <div class="row">
+              <div class="col-5 mx-auto mt-3">
+                <div
+                  class="fw-bold text-dark fs-medium text-center text-secondary"
+                  i18n>
+                  Create a Wallet
+                </div>
+                <div class="form-floating mt-4">
+                  <input
+                    type="text"
+                    class="input form-control text-dark simulator-input"
+                    id="name"
+                    formControlName="name"
+                    placeholder="name" />
+                  <label for="name" class="text-dark" i18n
+                    >name <code>*</code></label
+                  >
+                </div>
+
+                <div class="form-floating mt-3">
+                  <input
+                    type="text"
+                    class="input form-control bg-light text-dark simulator-input"
+                    id="description"
+                    formControlName="description"
+                    placeholder="description" />
+                  <label for="description" class="text-dark" i18n
+                    >description</label
+                  >
+                </div>
+
+                <div class="form-floating mt-3">
+                  <select
+                    class="form-select bg-light text-dark simulator-input"
+                    id="category"
+                    formControlName="category">
+                    <option value="" disabled selected>
+                      Select a category
+                    </option>
+                    @for (
+                      walletsTypeData of walletsTypeData;
+                      track walletsTypeData
+                    ) {
+                      <option selected [value]="walletsTypeData.id">
+                        {{ walletsTypeData.title }}
+                      </option>
+                    }
+                  </select>
+                </div>
+
+                <div class="form-floating mt-3">
+                  <input
+                    type="text"
+                    class="input form-control bg-light text-dark simulator-input"
+                    id="pin"
+                    formControlName="pin"
+                    placeholder="pin"
+                    maxlength="4" />
+                  <label for="pin" class="text-dark" i18n
+                    >pin <code>*</code></label
+                  >
+                  @if (walletForm.get('pin')?.errors?.['pattern']) {
+                    <div class="text-danger" i18n>
+                      Invalid input. Please enter a valid number.
+                    </div>
+                  }
+                  @if (walletForm.get('pin')?.errors?.['maxlength']) {
+                    <div class="text-danger" i18n>
+                      PIN must not exceed 4 digits.
+                    </div>
+                  }
+                </div>
+
+                <div class="mt-3 d-flex justify-content-center">
+                  <button
+                    class="btn bg-primary text-light px-4 py-1 fw-bold"
+                    [disabled]="!walletForm.valid"
+                    (click)="walletForm.valid && onSubmit()"
+                    tabindex="0"
+                    i18n>
+                    <span>Confirm</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- statement modal-->
+@if (defaultWalletId) {
+  <div class="modal fade" id="statementModal" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered statement-dialog">
+      <div class="modal-content">
+        <app-statement [accountId]="defaultWalletId"></app-statement>
+      </div>
+    </div>
+  </div>
+}

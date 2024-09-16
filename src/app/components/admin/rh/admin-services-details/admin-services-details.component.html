@@ -1,0 +1,43 @@
+@if (loadingData) {
+  <div class="col d-flex justify-content-center align-items-center h-100">
+    <span>
+      <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
+    </span>
+  </div>
+}
+
+@if (!loadingData) {
+  <section clas="mt-3">
+    <div
+      class="details row justify-content-center align-items-center col-md-5 mx-auto rounded p-3 border mt-3"
+      style="gap: 1rem 0">
+      <h5 class="text-center text-dark fw-bold" i18n>
+        Details
+        <!-- <span
+                class="text-success ms-2"
+                (click)="showEditForm = true"
+                style="font-size: 16px; cursor: pointer"
+                ><i class="fa-solid fa-pen-clip"></i
+            ></span> -->
+      </h5>
+      <div class="col-lg-8 row align-items-center">
+        <span class="text-dark col col-sm-4 col-md-3 col-lg-4 col-xl-3" i18n
+          >Name</span
+        >
+        <span
+          class="field text-dark rounded px-3 py-2 fw-bolder col-sm-6 col-lg-8"
+          >{{ serviceDetails.object.name }}</span
+        >
+      </div>
+      <div class="col-lg-8 row align-items-center">
+        <span class="text-dark col col-sm-4 col-md-3 col-lg-4 col-xl-3" i18n
+          >Code</span
+        >
+        <span
+          class="field text-dark rounded px-3 py-2 fw-bolder col-sm-6 col-lg-8"
+          >{{ serviceDetails.object.service_alpha_code }}</span
+        >
+      </div>
+    </div>
+  </section>
+}

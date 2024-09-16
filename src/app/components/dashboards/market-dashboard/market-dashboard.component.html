@@ -136,20 +136,6 @@
         <div class="col-10">
           <h4 class="fs-medium fw-bold" i18n>Best offers</h4>
         </div>
-        <!-- <div class="col ms-4">
-          <div class="row">
-            <div class="col-3 me-4">
-              <span class="border rounded-circle py-1 px-2 text-secondary">
-                <i class="fa-solid fa-arrow-left fa-xs"></i>
-              </span>
-            </div>
-            <div class="col-3">
-              <span class="border rounded-circle py-1 px-2 text-secondary">
-                <i class="fa-solid fa-arrow-right fa-xs"></i>
-              </span>
-            </div>
-          </div>
-        </div> -->
       </div>
       <div class="row">
         @if (!offerData || offerData.length === 0) {
@@ -176,12 +162,7 @@
                           classes="rounded-3"></app-skeleton>
                       </div>
                     </div>
-                    <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
-                      <!-- <img
-                        src="{{ item.image }}"
-                        class="d-flex align-self-center object-fit-cover w-100"
-                        alt="shoe" /> -->
-                    </div>
+                    <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex"></div>
                   </div>
                 </div>
               </div>
@@ -206,50 +187,17 @@
                         <p class="fs-small text-all-white" i18n>
                           {{ item.product.name }} <br />
                           {{ item.product.merchant.merchant_title }}
-                          <!-- {{ item.product.merchant.merchant_title }} -->
                         </p>
                       </div>
                     </div>
                     <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
-                      <!-- <img
-                        src="{{ item.image }}"
-                        class="d-flex align-self-center object-fit-cover w-100"
-                        alt="shoe" /> -->
+                      <!-- For the image of the product -->
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           }
-
-          <div class="col-6">
-            <div class="bg-primary sm-radius">
-              <div class="col-11 mx-auto">
-                <div class="row">
-                  <div class="col-8 col-sm-7 col-lg-7 col-xl-7">
-                    <div class="row">
-                      <app-skeleton
-                        height="10px"
-                        width="100px"
-                        classes=" mt-2 mt-md-3 mt-lg-4 mt-xl-4"></app-skeleton>
-                    </div>
-                    <div class="row mb-md-3 mb-lg-1 mb-xl-3">
-                      <p class="fs-small text-all-white">
-                        ------- <br />
-                        -----------
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
-                    <!-- <img
-                        src="{{ item.image }}"
-                        class="d-flex align-self-center object-fit-cover w-100"
-                        alt="shoe" /> -->
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         }
 
         @if (offerData.length > 0 || offerData.length === 2) {
@@ -269,15 +217,11 @@
                         <p class="fs-small text-all-white" i18n>
                           {{ item.product.name }} <br />
                           {{ item.product.merchant.merchant_title }}
-                          <!-- {{ item.product.merchant.merchant_title }} -->
                         </p>
                       </div>
                     </div>
                     <div class="col-4 col-sm-5 col-lg-5 col-xl-5 d-flex">
-                      <!-- <img
-                        src="{{ item.image }}"
-                        class="d-flex align-self-center object-fit-cover w-100"
-                        alt="shoe" /> -->
+                      <!-- For the image if there is one in the API-->
                     </div>
                   </div>
                 </div>
@@ -298,20 +242,6 @@
             New arrivals
           </h5>
         </div>
-        <!-- <div class="col ms-4">
-          <div class="row">
-            <div class="col-3 me-4">
-              <span class="border rounded-circle py-1 px-2 text-secondary">
-                <i class="fa-solid fa-arrow-left fa-xs"></i>
-              </span>
-            </div>
-            <div class="col-3">
-              <span class="border rounded-circle py-1 px-2 text-secondary">
-                <i class="fa-solid fa-arrow-right fa-xs"></i>
-              </span>
-            </div>
-          </div>
-        </div> -->
       </div>
       <div
         class="row d-flex justify-content-center d-md-flex justify-content-md-start">
@@ -380,25 +310,12 @@
       <div class="col-10">
         <h4 class="fs-medium fw-bold" i18n>Browse by category</h4>
       </div>
-      <!-- <div class="col ms-4">
-        <div class="row">
-          <div class="col-3 me-4">
-            <span class="border rounded-circle py-1 px-2 text-secondary">
-              <i class="fa-solid fa-arrow-left fa-xs"></i>
-            </span>
-          </div>
-          <div class="col-3">
-            <span class="border rounded-circle py-1 px-2 text-secondary">
-              <i class="fa-solid fa-arrow-right fa-xs"></i>
-            </span>
-          </div>
-        </div>
-      </div> -->
     </div>
     <div class="row g-0">
       @for (item of first4ProductCategory; track $index) {
         <div
-          class="col-5 col-sm-3 col-md-3 col-lg-3 col-xl-3 col-xxl-2 me-4 position-relative bg-dark bg-opacity-50 lg-radius"
+          class="col-5 col-sm-3 col-md-3 col-lg-3 col-xl-3 col-xxl-2 me-4 position-relative bg-dark bg-opacity-50 border lg-radius"
+          role="button"
           id="{{ item.id }}">
           @if (item.icon) {
             <div class="card bg-all-dark text-white">
@@ -417,7 +334,8 @@
           } @else {
             <div class="">
               <span class="d-flex justify-content-center">
-                <i class="fa-solid fa-mountain-sun fa-2x text-dark my-4"></i>
+                <i
+                  class="fa-solid fa-mountain-sun fa-2x text-all-dark my-4"></i>
               </span>
               @if (item.name) {
                 <div
@@ -429,7 +347,6 @@
               }
             </div>
           }
-          <!-- <div class="card-img-overlay bgBrowse sm-radius position-absolute top-0"></div> -->
         </div>
       }
     </div>
@@ -450,29 +367,18 @@
   <section>
     <section>
       <div class="row">
-        <div class="col-10">
-          <h5 class="fs-medium fw-bold mt-4" i18n>Recent product</h5>
+        <div class="col-12">
+          <h5
+            class="fs-medium d-flex justify-content-center d-md-flex justify-content-md-start flex-wrap gap-5 fw-bold mt-4"
+            i18n>
+            Recent product
+          </h5>
         </div>
-        <!-- <div class="col ms-4">
-          <div class="row">
-            <div class="col-3 me-4">
-              <span
-                class="border rounded-circle text-secondary py-1 px-2 opacity-50">
-                <i class="fa-solid fa-arrow-left fa-xs"></i>
-              </span>
-            </div>
-            <div class="col-3">
-              <span class="border rounded-circle text-dark py-1 px-2">
-                <i class="fa-solid fa-arrow-right fa-xs"></i>
-              </span>
-            </div>
-          </div>
-        </div> -->
       </div>
       @if (!products) {
         <div class="row ms-2">
           @for (items of [1, 2, 3, 4]; track $index) {
-            <div class="col-lg-3 col-md-2 col-sm-4 col mb-2">
+            <div class="col-6 col-sm-4 col-xl-3 mb-2">
               <app-skeleton
                 height="140px"
                 width="170px"
@@ -495,9 +401,10 @@
           }
         </div>
       } @else {
-        <div class="row">
+        <div
+          class="d-flex justify-content-center d-md-flex justify-content-md-start flex-wrap gap-5">
           @for (product of products; track $index) {
-            <div class="col-3">
+            <div class="d-flex justify-content-around">
               <app-product-card [product]="product"></app-product-card>
             </div>
           }
@@ -509,62 +416,34 @@
   <!-- NOTE :: recent billers -->
   <section class="mt-5">
     <div class="row mb-3">
-      <div class="col-9 col-lg-10 col-xl-11">
-        <span class="fs-medium text-dark fw-bold mb-3" i18n
+      <div class="col-12 col-lg-10 col-xl-11">
+        <span
+          class="fs-medium d-flex justify-content-center d-md-flex justify-content-md-start flex-wrap gap-5 text-dark fw-bold mb-3"
+          i18n
           >Recent billers</span
         >
-      </div>
-      <div class="z-3 col-2 col-xl-1 p-0 pe-2 m-0 float-end">
-        <div class="col-12">
-          <div class="row">
-            <div class="col-2 me-4">
-              <div
-                class="border rounded-circle py-2 px-3"
-                (click)="previousBiller()"
-                tabindex="0">
-                <span
-                  class="d-flex justify-content-center"
-                  [ngClass]="{
-                    'opacity-50 text-secondary': start === 0,
-                    'text-dark opacity-100': end >= 5,
-                  }"
-                  id="navigationButton">
-                  <i class="fa-solid fa-arrow-left fa-xs"></i>
-                </span>
-              </div>
-            </div>
-            <div class="col-2">
-              <div
-                class="border rounded-circle py-2 px-3"
-                (click)="nextBiller()"
-                tabindex="0">
-                <span
-                  class="d-flex justify-content-center"
-                  [ngClass]="{
-                    'opacity-50 text-secondary': end === 14,
-                    'text-dark opacity-100': end < 14,
-                  }"
-                  id="navigationButton">
-                  <i class="fa-solid fa-arrow-right fa-xs"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <!-- *** -->
 
     @if (billers) {
-      <app-biller-card
-        [recentBillers]="recentBillers"
-        [categorySelected]="categorySelected"
-        [clearData]="clearData"></app-biller-card>
+      <div
+        class="d-flex justify-content-center d-md-flex justify-content-md-start flex-wrap gap-5">
+        @for (biller of recentBillers; track $index) {
+          <div class="d-flex justify-content-between">
+            <div class="w-100">
+              <app-biller-card
+                [biller]="biller"
+                [clearData]="clearData"></app-biller-card>
+            </div>
+          </div>
+        }
+      </div>
     } @else if (!billers) {
       <div>
         <div class="row ms-2">
           @for (item of [1, 2, 3, 4]; track $index) {
-            <div class="col-lg-3 col-md-2 col-sm-4 col mb-2">
+            <div class="col-6 col-sm-4 col-xl-3 mb-2">
               <app-skeleton
                 height="140px"
                 width="170px"
@@ -594,100 +473,67 @@
   <section class="mb-5">
     <section class="mb-5">
       <div class="row mt-4 pe-0 d-flex justify-content-between">
-        <div class="col-9 col-lg-10 col-xxl-11">
+        <div class="col-12 col-lg-10 col-xxl-11">
           <p>
-            <span class="text-primary" style="font-size: 10px"> </span>
-            <span class="fs-5 text-dark" i18n><b> Recent merchants</b></span>
+            <span
+              class="fs-5 d-flex justify-content-center d-md-flex justify-content-md-start flex-wrap gap-5 text-dark"
+              i18n
+              ><b> Recent merchants</b></span
+            >
           </p>
-        </div>
-        <div class="z-3 col-2 col-xl-1 p-0 pe-2 m-0 float-end">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-3 me-4">
-                <div
-                  class="border rounded-circle py-2 px-3"
-                  (click)="previousMerchant()"
-                  tabindex="0">
-                  <span
-                    class="d-flex justify-content-center"
-                    [ngClass]="{
-                      'opacity-50 text-secondary': start === 0,
-                      'text-dark opacity-100': end >= 5,
-                    }"
-                    id="navigationButtonMerchant">
-                    <i class="fa-solid fa-arrow-left fa-xs"></i>
-                  </span>
-                </div>
-              </div>
-              <div class="col-3">
-                <div
-                  class="border rounded-circle py-2 px-3"
-                  (click)="nextMerchant()"
-                  tabindex="0">
-                  <span
-                    class="d-flex justify-content-center"
-                    [ngClass]="{
-                      'opacity-50 text-secondary': end === 20,
-                      'text-dark opacity-100': end < 20,
-                    }"
-                    id="navigationButtonMerchant">
-                    <i class="fa-solid fa-arrow-right fa-xs"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <!-- when the search has no outcomings -->
-      <div
-        class="d-flex flex-column align-items-center mt-2"
-        *ngIf="merchants && merchants.length === 0">
-        <span class="empty-state-icon" style="font-size: 40px; opacity: 0.5">
-          <i class="fa-solid fa-face-meh"></i>
-        </span>
-        <b class="empty-state-icon text-md" style="opacity: 0.5" i18n>
-          No Merchant Found
-        </b>
-      </div>
-      <div
-        *ngIf="merchants"
-        class="row d-flex justify-content-center d-md-flex justify-content-sm-start">
-        <div
-          class="col-5 col-sm-4 col-md-3 col-lg-4 col-xl-3 mb-2 position-relative"
-          *ngFor="let merchant of recentMerchant; let i = index"
-          tabindex="0">
-          <div class="w-100">
-            <app-merchant-card [merchant]="merchant"> </app-merchant-card>
-            <!-- (merchantInfoOutput)="getMakeFavoriteResponse($event)"> -->
-            <!-- [favorite_merchant_making]="favorite_merchant_making" -->
-          </div>
+      @if (merchants && merchants.length === 0) {
+        <div class="d-flex flex-column align-items-center mt-2">
+          <span class="empty-state-icon" style="font-size: 40px; opacity: 0.5">
+            <i class="fa-solid fa-face-meh"></i>
+          </span>
+          <b class="empty-state-icon text-md" style="opacity: 0.5" i18n>
+            No Merchant Found
+          </b>
         </div>
-      </div>
-      <div class="row ms-2 merchant" *ngIf="!merchants">
+      }
+
+      @if (merchants) {
         <div
-          class="col-lg-3 col-md-2 col-sm-4 col mb-2"
-          *ngFor="let _ of [1, 2, 3, 4]">
-          <app-skeleton
-            height="140px"
-            width="170px"
-            classes="sm-radius"></app-skeleton>
-          <div>
-            <app-skeleton
-              height="10px"
-              width="30px"
-              classes="sm-radius"
-              appearance="line"></app-skeleton>
-          </div>
-          <div>
-            <app-skeleton
-              height="10px"
-              width="50px"
-              classes="sm-radius"
-              appearance="line"></app-skeleton>
-          </div>
+          class="d-flex justify-content-center d-md-flex justify-content-md-start flex-wrap gap-5">
+          @for (merchant of recentMerchant; track $index) {
+            <div class="d-flex justify-content-between" tabindex="0">
+              <div class="w-100">
+                <app-merchant-card [merchant]="merchant"> </app-merchant-card>
+              </div>
+            </div>
+          }
         </div>
-      </div>
+      }
+
+      @if (!merchants) {
+        <div class="row ms-2 merchant">
+          @for (item of [1, 2, 3, 4]; track $index) {
+            <div class="col-6 col-sm-4 col-xl-3 mb-2">
+              <app-skeleton
+                height="140px"
+                width="170px"
+                classes="sm-radius"></app-skeleton>
+              <div>
+                <app-skeleton
+                  height="10px"
+                  width="30px"
+                  classes="sm-radius"
+                  appearance="line"></app-skeleton>
+              </div>
+              <div>
+                <app-skeleton
+                  height="10px"
+                  width="50px"
+                  classes="sm-radius"
+                  appearance="line"></app-skeleton>
+              </div>
+            </div>
+          }
+        </div>
+      }
     </section>
   </section>
 </main>

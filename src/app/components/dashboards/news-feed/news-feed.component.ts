@@ -4,13 +4,14 @@ import { Router } from '@angular/router';
 import { interval, Subject, takeUntil, takeWhile } from 'rxjs';
 
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { BillersModel, ProductModel } from '../dashboard.model';
+import { BillersAutocompleteModel } from '../../merchant/merchant.models';
 import { ConfigService, MerchantService } from '../../../core/services';
 import { ShowMoreDirective } from '../../../global/directives/show-more/show-more.directive';
 import { PublicationsComponent } from '../../publications/publications.component';
 import { PlateformModel } from '../../../core/services/config/main-config.models';
 import { ProductCardComponent } from '../../merchant/global/product-card/product-card.component';
 import { CommonModule } from '@angular/common';
+import { ProductAutocompleteModel } from '../../merchant/products/products.model';
 
 @Component({
   selector: 'app-news-feed',
@@ -32,13 +33,13 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
   countProductLoader = [1, 2, 3, 4];
   search = '';
 
-  topProducts: ProductModel[] | [] | null = null;
-  product: ProductModel | null = null;
+  topProducts: ProductAutocompleteModel[] | [] | null = null;
+  product: ProductAutocompleteModel | null = null;
 
-  billers: BillersModel[] | [] | null = null;
+  billers: BillersAutocompleteModel[] | [] | null = null;
   billersLoading = true;
 
-  selectedBiller: BillersModel | null = null;
+  selectedBiller: BillersAutocompleteModel | null = null;
 
   loadingProducts = true;
 
@@ -68,7 +69,7 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: res => {
-          const prodResponse = res as { objects: ProductModel[] };
+          const prodResponse = res as { objects: ProductAutocompleteModel[] };
           this.topProducts = prodResponse.objects;
           this.loadingProducts = false;
         },
@@ -85,7 +86,9 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: res => {
-          const billersResponse = res as { objects: BillersModel[] };
+          const billersResponse = res as {
+            objects: BillersAutocompleteModel[];
+          };
           this.billers = billersResponse.objects;
           this.billersLoading = false;
         },
@@ -96,11 +99,11 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
       });
   }
 
-  selectBiller(biller: BillersModel) {
+  selectBiller(biller: BillersAutocompleteModel) {
     this.selectedBiller = biller;
   }
 
-  selectProduct(product: ProductModel) {
+  selectProduct(product: ProductAutocompleteModel) {
     this.product = product;
   }
 

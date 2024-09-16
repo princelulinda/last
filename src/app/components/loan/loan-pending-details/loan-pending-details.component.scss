@@ -1,39 +1,7 @@
-.legend-t {
-  font-size: 15px;
-  justify-content: center;
-
-  background-color: white;
-
-  position: absolute;
-  margin-top: -3%;
-  left: 10%;
-}
-
-.amort-table {
-  border: 1px solid #bfbebe;
-  border-radius: 10px;
-}
-
 main {
   min-height: 55vh;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-.sub-title-loan {
-  font-size: 36px;
-  font-weight: 700;
-}
-.sub-title-loan-md {
-  font-size: 24px;
-  font-weight: 600;
-  color: #666262;
-}
-
-.back-md {
-  font-size: 20px;
-  color: rgba(76, 76, 76, 1);
-  font-weight: 700;
 }
 
 .less-grey {
@@ -41,34 +9,10 @@ main {
   font-weight: 550;
 }
 
-.customized-text-success {
-  color: rgba(28, 188, 44, 1);
+.line-height {
+  line-height: 30px;
 }
 
-.customized-bg-success {
-  background-color: rgba(175, 243, 182, 1);
-}
-
-.customized-bg-info {
-  background-color: rgba(189, 218, 246, 1);
-}
-
-.customized-text-info {
-  color: rgb(50, 148, 240);
-}
-
-.customized-bg-warning {
-  background-color: rgb(241, 240, 192);
-}
-
-.customized-text-warning {
-  color: rgb(246, 240, 59);
-}
-
-.customized-bg-danger {
-  background-color: rgb(220, 185, 192);
-}
-
-.customized-text-danger {
-  color: rgb(179, 2, 37);
+.width-100px {
+  width: 100px;
 }

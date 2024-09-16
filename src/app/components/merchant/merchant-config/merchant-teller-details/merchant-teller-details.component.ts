@@ -12,7 +12,6 @@ import { SkeletonComponent } from '../../../../global/components/loaders/skeleto
 import { doTellerActionModel, tellerObjectModel } from '../../merchant.models';
 import { DialogService, MerchantService } from '../../../../core/services';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-merchant-teller-details',
@@ -22,7 +21,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './merchant-teller-details.component.scss',
 })
 export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
-  @Input() tellerInfo!: tellerObjectModel;
+  @Input() tellerInfo: tellerObjectModel | null = null;
   @Input() get_tellerInfo!: boolean;
   // this   @Output() isActionDone: EventEmitter<boolean> = new EventEmitter(); was replaced
 
@@ -30,6 +29,7 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
 
   canReceiveNotifications = false;
   action = '';
+  pin!: string;
   dialog!: DialogResponseModel;
   dialog$: Observable<DialogResponseModel>;
   actionMessage = '';
@@ -63,10 +63,11 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
           this.dialog = dialog;
           if (this.dialog && this.dialog.response) {
             if (
-              this.dialog.response.pin === 'pin submitted' &&
+              this.dialog.response.pin &&
               this.dialog.action === 'do teller action' &&
               this.action
             ) {
+              this.pin = dialog.response.pin;
               this.doTellerAction();
             }
           }
@@ -86,32 +87,32 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
   showModal(first_action: string, second_action: string, param: string) {
     switch (param) {
       case 'notification':
-        if (this.tellerInfo.can_receive_notifications) {
+        if (this.tellerInfo?.can_receive_notifications) {
           this.action = second_action;
           this.actionMessage = `Enter your pin to unset notifications for <b>${this.tellerInfo.client.client_full_name}</b>`;
-        } else if (!this.tellerInfo.can_receive_notifications) {
+        } else if (!this.tellerInfo?.can_receive_notifications) {
           this.action = first_action;
-          this.actionMessage = `Enter your pin to set notifications for <b> ${this.tellerInfo.client.client_full_name}</b>`;
+          this.actionMessage = `Enter your pin to set notifications for <b> ${this.tellerInfo?.client.client_full_name}</b>`;
         }
         break;
 
       case 'tip':
-        if (this.tellerInfo.can_receive_tip) {
+        if (this.tellerInfo?.can_receive_tip) {
           this.action = second_action;
           this.actionMessage = `Enter your pin to unset tip for <b>${this.tellerInfo.client.client_full_name}</b>`;
-        } else if (!this.tellerInfo.can_receive_tip) {
+        } else if (!this.tellerInfo?.can_receive_tip) {
           this.action = first_action;
-          this.actionMessage = `Enter your pin to set tip for <b> ${this.tellerInfo.client.client_full_name}</b>`;
+          this.actionMessage = `Enter your pin to set tip for <b> ${this.tellerInfo?.client.client_full_name}</b>`;
         }
         break;
 
       case 'active':
-        if (this.tellerInfo.is_active) {
+        if (this.tellerInfo?.is_active) {
           this.action = second_action;
-          this.actionMessage = `Enter your pin to deactivate <b>${this.tellerInfo.client.client_full_name}</b>`;
-        } else if (!this.tellerInfo.is_active) {
+          this.actionMessage = `Enter your pin to deactivate <b>${this.tellerInfo?.client.client_full_name}</b>`;
+        } else if (!this.tellerInfo?.is_active) {
           this.action = first_action;
-          this.actionMessage = `Enter your pin to activate <b>${this.tellerInfo.client.client_full_name}</b> `;
+          this.actionMessage = `Enter your pin to activate <b>${this.tellerInfo?.client.client_full_name}</b> `;
         }
         break;
 
@@ -121,7 +122,7 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
           this.actionMessage = `Enter your pin to revoke admin privileges for ${this.tellerInfo.client.client_full_name}`;
         } else if (this.tellerInfo?.teller_type?.value !== 'A') {
           this.action = first_action;
-          this.actionMessage = `Enter your pin to grant admin privileges to <b>${this.tellerInfo.client.client_full_name}</b> `;
+          this.actionMessage = `Enter your pin to grant admin privileges to <b>${this.tellerInfo?.client.client_full_name}</b> `;
         }
         break;
 
@@ -131,23 +132,23 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
           this.actionMessage = `Enter your pin to revoke superadmin privileges for <b>${this.tellerInfo.client.client_full_name}</b>`;
         } else if (this.tellerInfo?.teller_type?.value !== 'S') {
           this.action = first_action;
-          this.actionMessage = `Enter your pin to grant superadmin privileges to <b>${this.tellerInfo.client.client_full_name}</b>`;
+          this.actionMessage = `Enter your pin to grant superadmin privileges to <b>${this.tellerInfo?.client.client_full_name}</b>`;
         }
         break;
     }
 
-    const data = {
+    this.dialogService.openDialog({
       title: 'do teller action',
       type: 'pin',
       message: this.actionMessage,
       action: 'do teller action',
-    };
-    console.log(data);
+    });
 
     // this.store.dispatch(new OpenActionDialog(data));
   }
 
   doTellerAction() {
+    this.dialogService.dispatchLoading();
     const response = {
       title: '',
       type: 'loading',
@@ -158,9 +159,9 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
     // this.store.dispatch(new OpenDialog(response));
 
     const body = {
-      teller: this.tellerInfo.id,
+      teller: this.tellerInfo?.id ?? '',
       action: this.action,
-      // pin_code: this.variableService.pin,
+      pin_code: this.pin,
     };
     console.log(body);
 
@@ -168,53 +169,59 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
       next: answer => {
         const response = answer as doTellerActionModel;
         // this.store.dispatch(new CloseDialog({ response: 'close' }));
-
+        this.dialogService.closeLoading();
         if (!response.object.success) {
-          const data = {
-            title: '',
+          this.dialogService.openToast({
+            title: 'failed',
             type: 'failed',
             message: response.object.response_message,
-          };
-          console.log(data);
+          });
 
           // this.store.dispatch(new OpenDialog(data));
         } else {
           this.isActionDone.emit(true);
 
-          const data = {
-            title: '',
+          this.dialogService.openToast({
+            title: 'success',
             type: 'success',
             message: response.object.response_message,
-          };
-          console.log(data);
+          });
 
           // this.store.dispatch(new OpenDialog(data));
         }
       },
-      error: (error: HttpErrorResponse) => {
-        this.isActionDone.emit(true);
+      // error: (error: HttpErrorResponse) => {
+      //   this.isActionDone.emit(true);
 
-        // this.store.dispatch(new CloseDialog({ response: 'close' }));
+      //   // this.store.dispatch(new CloseDialog({ response: 'close' }));
 
-        if (error.error.response_message) {
-          const data = {
-            title: '',
-            type: 'failed',
-            message: error.error.response_message,
-          };
-          console.log(data);
+      //   if (error.error.response_message) {
+      //     const data = {
+      //       title: '',
+      //       type: 'failed',
+      //       message: error.error.response_message,
+      //     };
+      //     console.log(data);
 
-          // this.store.dispatch(new OpenDialog(data));
-        } else {
-          const data = {
-            title: '',
-            type: 'failed',
-            message: 'An error occurred while doing action',
-          };
-          console.log(data);
+      //     // this.store.dispatch(new OpenDialog(data));
+      //   } else {
+      //     const data = {
+      //       title: '',
+      //       type: 'failed',
+      //       message: 'An error occurred while doing action',
+      //     };
+      //     console.log(data);
 
-          // this.store.dispatch(new OpenDialog(data));
-        }
+      //     // this.store.dispatch(new OpenDialog(data));
+      //   }
+      // },
+      error: () => {
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          type: 'failed',
+          title: 'Échec',
+          message: 'failed',
+        });
       },
     });
   }

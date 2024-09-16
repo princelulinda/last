@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { bankListResponse } from '../../../components/auth/auth.model';
+import { BankListResponseModel } from '../../../components/auth/auth.model';
 import { ApiService, ConfigService } from '..';
-import { bankModel } from '../../db/models/bank/bank.model';
+import { BankModel } from '../../db/models/bank/bank.model';
 import { addBankResponse } from '../../../components/dashboards/dashboard.model';
 
-import { WalletCard } from '../../../components/wallet/wallet.models';
-import {
-  PeriodModel,
-  TransactionObjectModel,
-} from '../../../components/merchant/products/products.model';
-import { nyamuranziCard } from '../../../components/nyamuranzi/models';
+import { WalletCardModel } from '../../../components/wallet/wallet.models';
+import { nyamuranziCardModel } from '../../../components/nyamuranzi/nyamuranzi.models';
 import { WithdrawalModel } from '../../../components/withdrawal/withdrawal.models';
+import { DissectedDateModel } from '../../../components/statements/statement.model';
+import { PaginationConfig } from '../../../global/models/pagination.models';
+import { TransactionModel } from '../../../components/merchant/products/products.model';
 
 @Injectable({
   providedIn: 'root',
@@ -45,10 +44,10 @@ export class BankService {
     this._isBankingAndServicesSelected.next(arg);
   }
 
-  getBanksList(): Observable<bankModel[]> {
+  getBanksList(): Observable<BankModel[]> {
     const url = '/banks/clientlist/?';
     return this.apiService
-      .get<{ objects: bankModel[]; count: number }>(url)
+      .get<{ objects: BankModel[]; count: number }>(url)
       .pipe(
         map(data => {
           const banks = data.objects;
@@ -57,11 +56,11 @@ export class BankService {
         })
       );
   }
-  getBanksListAll(): Observable<{ objects: bankModel[]; count: number }> {
+  getBanksListAll(): Observable<{ objects: BankModel[]; count: number }> {
     const url = '/banks/list/?bank_type=MFI&list_for_add_bank=true';
 
     return this.apiService
-      .get<{ objects: bankModel[]; count: number }>(url)
+      .get<{ objects: BankModel[]; count: number }>(url)
       .pipe(
         map(data => {
           return data;
@@ -81,23 +80,27 @@ export class BankService {
       })
     );
   }
-
   getAccountStatements(
-    accountId: number,
-    dateFrom: { year: string; month: string; day: string },
-    dateEnd: { year: string; month: string; day: string }
+    accountId: number | string,
+    dateFrom: { year: number; month: number; day: number },
+    dateEnd: { year: number; month: number; day: number }
   ) {
-    const url = `/operations/statement/?client_acc_id=${accountId}&year=${dateFrom.year}&year_to=${dateEnd.year}&month_from=${dateFrom.month}&day_from=${dateEnd.month}&month_to=${dateFrom.day}&day_to=${dateEnd.day}&limit=50&offset=0`;
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    const url = `/operations/statement/?client_acc_id=${accountId}&year=${dateFrom.year}&year_to=${dateEnd.year}&month_from=${dateFrom.month}&day_from=${dateFrom.day}&month_to=${dateEnd.month}&day_to=${dateEnd.day}&limit=50&offset=0`;
+    return this.apiService.get(url).pipe(map(data => data));
   }
 
-  getAllBanks(): Observable<{ objects: bankListResponse[] }> {
+  dissectDate(date: Date): DissectedDateModel {
+    const dissectedDate: DissectedDateModel = {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+    };
+
+    return dissectedDate;
+  }
+  getAllBanks(): Observable<{ objects: BankListResponseModel[] }> {
     const url = '/banks/list/?externel_request=true&bank_type=MFI';
-    return this.apiService.get<{ objects: bankListResponse[] }>(url);
+    return this.apiService.get<{ objects: BankListResponseModel[] }>(url);
   }
   // getBankStatusPing(body: any) {
   //     const url = `${environment.websocketUrl}ws/dbsapp/partners-ping/`;
@@ -109,10 +112,23 @@ export class BankService {
   //     );
   // }
 
-  getRecentTransactions(type: string, period: PeriodModel, client: string) {
+  getRecentTransactions(
+    pagination: PaginationConfig,
+    type: string,
+    period: {
+      start_date: string;
+      end_date: string;
+    },
+    client: string
+  ) {
+    if (!pagination) {
+      pagination = { filters: { limit: 0, offset: 0 } };
+    }
     return this.apiService
-      .get<TransactionObjectModel>(
-        `/operations/pending/logic/?req_type=${type}&=date_from=${period.start_date}&=date_to=${period.end_date}` +
+      .get<{
+        objects: TransactionModel[];
+      }>(
+        `/operations/pending/logic/?req_type=${type}&=date_from=${period.start_date}&=date_to=${period.end_date}&limit=${pagination.filters?.limit}&offset=${pagination.filters?.offset}` +
           client
       )
       .pipe(map(data => data));
@@ -128,8 +144,8 @@ export class BankService {
 
   getLastBeneficiary() {
     const url = '/operations/beneficiary/';
-    return this.apiService.get<TransactionObjectModel>(url).pipe(
-      map((data: TransactionObjectModel) => {
+    return this.apiService.get<{ objects: TransactionModel[] }>(url).pipe(
+      map((data: { objects: TransactionModel[] }) => {
         return data;
       })
     );
@@ -137,9 +153,9 @@ export class BankService {
 
   getTransfersList() {
     return this.apiService
-      .get<TransactionObjectModel>(
-        '/operations/pending/logic/?req_type=transfers&filter_for_client=true'
-      )
+      .get<{
+        objects: TransactionModel[];
+      }>('/operations/pending/logic/?req_type=transfers&filter_for_client=true')
       .pipe(map(data => data));
   }
 
@@ -151,13 +167,15 @@ export class BankService {
       })
     );
   }
-  getDefaultWallet(): Observable<{ object: WalletCard; count: number }> {
+  getDefaultWallet(): Observable<{ object: WalletCardModel; count: number }> {
     const url = '/dbs/wallet/default/';
-    return this.apiService.get<{ object: WalletCard; count: number }>(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService
+      .get<{ object: WalletCardModel; count: number }>(url)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
 
   getClientRecentTransactions() {
@@ -168,9 +186,9 @@ export class BankService {
       })
     );
   }
-  getRefereePersons(): Observable<{ object: nyamuranziCard }> {
+  getRefereePersons(): Observable<{ object: nyamuranziCardModel }> {
     return this.apiService
-      .get<{ object: nyamuranziCard }>('/client/refered/')
+      .get<{ object: nyamuranziCardModel }>('/client/refered/')
       .pipe(map(data => data));
   }
 }

@@ -3,17 +3,20 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { ApiService } from '..';
 import {
-  AddResponse,
+  AddResponseModel,
   BodyModel,
 } from '../../../components/settings/settings.models';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
-  accountsList,
-  Accountdetail,
+  AccountsListModel,
+  AccountDetailModel,
 } from '../../../components/account/models';
 import {
-  Walletdetail,
+  CreatWalletResponse,
+  WalletDetail,
   WalletList,
+  WalletTopUpBodyModel,
+  WalletTypModel,
 } from '../../../components/wallet/wallet.models';
 
 @Injectable({
@@ -27,11 +30,11 @@ export class ClientService {
   private selectedWalletSubject = new BehaviorSubject<WalletList | null>(null);
   selectedWallet$ = this.selectedWalletSubject.asObservable();
 
-  addAphoneNumber(body: BodyModel): Observable<AddResponse> {
+  addAphoneNumber(body: BodyModel): Observable<AddResponseModel> {
     const url = '/extid/creation/';
     return this.apiService.post(url, body).pipe(
       map(response => {
-        return response as AddResponse;
+        return response as AddResponseModel;
       })
     );
   }
@@ -43,20 +46,52 @@ export class ClientService {
 
   getWalletDetails(
     selectedWallet: string
-  ): Observable<{ object: Walletdetail }> {
+  ): Observable<{ object: WalletDetail }> {
     const url = '/dbs/wallets/' + selectedWallet + '/';
-    return this.apiService.get<{ object: Walletdetail }>(url);
+    return this.apiService.get<{ object: WalletDetail }>(url);
   }
 
-  getClientAccounts(clientId: number): Observable<{ objects: accountsList[] }> {
-    const url = '/accounts/' + clientId + '/?limit=6';
-    return this.apiService.get<{ objects: accountsList[] }>(url);
+  getClientAccounts(
+    clientId: number
+  ): Observable<{ objects: AccountsListModel[] }> {
+    const url = '/accounts/' + clientId + '/';
+    return this.apiService.get<{ objects: AccountsListModel[] }>(url);
+  }
+
+  getWalletType(): Observable<{ objects: WalletTypModel[] }> {
+    const url = '/dbs/wallettype/list/';
+    return this.apiService.get<{ objects: WalletTypModel[] }>(url);
+  }
+
+  creatWallet(
+    wallet_type: string,
+    title: string,
+    pin_code: number
+  ): Observable<CreatWalletResponse> {
+    const url = '/dbs/wallet/create/';
+    const body = {
+      wallet_type: wallet_type,
+      title: title,
+      pin_code,
+    };
+    return this.apiService.post(url, body).pipe(
+      map(response => {
+        return response as CreatWalletResponse;
+      })
+    );
   }
 
   getClientAccountDetails(
     selectedAccount: string
-  ): Observable<{ object: Accountdetail }> {
+  ): Observable<{ object: AccountDetailModel }> {
     const url = '/clients/manage/accounts/' + selectedAccount + '/';
-    return this.apiService.get<{ object: Accountdetail }>(url);
+    return this.apiService.get<{ object: AccountDetailModel }>(url);
+  }
+
+  walletPopUp(body: WalletTopUpBodyModel): Observable<CreatWalletResponse> {
+    const url = '/dbs/wallet/topup/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as CreatWalletResponse));
   }
 }

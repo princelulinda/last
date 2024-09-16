@@ -109,17 +109,17 @@
             <div class="">
               <div class="mt-2">
                 <div>
-                  <span i18n>Monthly transactions </span>
+                  <span i18n>Actual balance </span>
                 </div>
               </div>
               <div class="mt-2">
                 <div>
-                  <span i18n>Fees </span>
+                  <span i18n>Interest balance </span>
                 </div>
               </div>
               <div class="mt-2">
                 <div>
-                  <span i18n>Available balance </span>
+                  <span i18n>Available balance</span>
                 </div>
               </div>
               <div class="mt-2">
@@ -138,7 +138,7 @@
                         [amount]="account.acc_actual_balance"
                         [currency]="account.acc_currency"
                         [ngClass]="
-                          'fw-normal  fw-bold'
+                          'fs-normal  fw-bold'
                         "></app-amount-visibility>
                     </b>
                   </span>
@@ -153,7 +153,7 @@
                         [amount]="account.acc_actual_interests"
                         [currency]="account.acc_currency"
                         [ngClass]="
-                          'fw-normal  fw-bold'
+                          'fs-normal  fw-bold'
                         "></app-amount-visibility>
                     </b>
                   </span>
@@ -167,7 +167,7 @@
                         [amount]="account.acc_available_balance"
                         [currency]="account.acc_currency"
                         [ngClass]="
-                          'fw-normal  fw-bold'
+                          'fs-normal  fw-bold'
                         "></app-amount-visibility>
                     </b>
                   </span>
@@ -181,7 +181,7 @@
                         [amount]="account.acc_credit_limit"
                         [currency]="account.acc_currency"
                         [ngClass]="
-                          'fw-normal  fw-bold'
+                          'fs-normal  fw-bold'
                         "></app-amount-visibility>
                     </b>
                   </span>
@@ -208,14 +208,11 @@
               <div class="mt-2">
                 <div>
                   <span>
-                    <b>
-                      <app-amount-visibility
-                        [amount]="account.acc_monthly_transactions_count"
-                        [currency]="account.acc_currency"
-                        [ngClass]="
-                          'fw-normal  fw-bold'
-                        "></app-amount-visibility>
-                    </b>
+                    <div class="fs-normal fw-bold">
+                      {{
+                        account.acc_monthly_transactions_count | currency: ' '
+                      }}
+                    </div>
                   </span>
                 </div>
               </div>
@@ -228,7 +225,7 @@
                         [amount]="account.acc_calculated_monthly_fees"
                         [currency]="account.acc_currency"
                         [ngClass]="
-                          'fw-normal  fw-bold'
+                          'fs-normal  fw-bold'
                         "></app-amount-visibility>
                     </b>
                   </span>
@@ -296,6 +293,15 @@
         i18n>
         See full statement
       </button>
+      <div class="modal fade" id="statementModal" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered statement-dialog">
+          <div class="modal-content">
+            <app-statement
+              [accountId]="accountId"
+              [account]="account"></app-statement>
+          </div>
+        </div>
+      </div>
     </div>
   }
   <div></div>

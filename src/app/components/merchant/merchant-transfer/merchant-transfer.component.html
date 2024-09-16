@@ -6,23 +6,27 @@
       <b class="fs-5 text-dark" i18n>Merchant Transfer</b>
     </div>
 
-    <div role="button" class="d-flex align-items-center">
+    <div
+      role="button"
+      class="d-flex align-items-center"
+      (click)="goBack()"
+      tabindex="0">
       <span>
         <i class="fa fa-arrow-left fs-6"></i>
       </span>
       <b class="fs-5 ms-1"> Back</b>
     </div>
   </div>
-  <div class="d-grid text-dark ps-4 ms-2 mt-5">
+  <div class="d-grid text-dark ps-4 ms-2 mt-2">
     @if (merchantInfo) {
       <span class="fw-bold"
-        >{{ merchantInfo?.object?.response_data?.merchant_title }} (
-        {{ merchantInfo?.object?.response_data?.merchant_code }})</span
+        >{{ merchantInfo.merchant_title }} (
+        {{ merchantInfo.merchant_code }})</span
       >
     }
     @if (merchantInfo) {
       <span class="fw-bold opacity-50">
-        {{ merchantInfo?.object?.response_data?.merchant_main_account }}
+        {{ merchantInfo.merchant_main_account }}
       </span>
     }
     @if (!merchantInfo) {
@@ -32,6 +36,10 @@
     }
   </div>
   <div class="mt-4">
-    <app-credit-account></app-credit-account>
+    <app-credit-account
+      transferType="merchantTransfer"
+      (selectedCreditAccount)="
+        handleSelectedCreditAccount($event)
+      "></app-credit-account>
   </div>
 </div>

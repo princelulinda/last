@@ -1,21 +1,30 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
-  FormControl,
   FormGroup,
-  FormsModule,
+  FormControl,
   Validators,
+  ReactiveFormsModule,
 } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Params, RouterLink } from '@angular/router';
 import { SavingDetailService } from '../../../core/services/saving/saving.service';
-import { TontineDataModele } from '../saving.models';
-import { Observable } from 'rxjs';
+import {
+  AdhesionBodyModel,
+  AdhesionResponseModel,
+  TontineDataModele,
+} from '../saving.models';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { ReactiveFormsModule } from '@angular/forms';
 import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
+import { DialogService } from '../../../core/services';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import { AuthService } from '../../../core/services';
+import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
 @Component({
   selector: 'app-club-adhesion',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, FormsModule],
+  imports: [RouterLink, ReactiveFormsModule, LookupComponent, CommonModule],
   templateUrl: './club-adhesion.component.html',
   styleUrl: './club-adhesion.component.scss',
 })
@@ -23,18 +32,28 @@ export class ClubAdhesionComponent implements OnInit {
   mainConfig$!: Observable<activeMainConfigModel>;
   mainConfig!: activeMainConfigModel;
   tontineId!: number;
-  myForm!: FormGroup;
+  adhesionForm: FormGroup;
   isChecked = false;
   savingData!: TontineDataModele;
   part!: number;
   contribution!: number;
   showInfo = false;
+  errorMessage = '';
+  referenceId!: number;
+  userClientId!: number;
+  dialogState$!: Observable<DialogResponseModel>;
+  private onDestroy$ = new Subject<void>();
+  lookupEffectue = false;
+  pin!: string;
   constructor(
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private savingDetailService: SavingDetailService
+    private savingDetailService: SavingDetailService,
+    private dialogService: DialogService,
+    private authService: AuthService
   ) {
-    this.myForm = new FormGroup({
+    this.dialogState$ = this.dialogService.getDialogState();
+    this.adhesionForm = new FormGroup({
       contribution: new FormControl('', [
         Validators.required,
         Validators.pattern(/^\d+$/),
@@ -47,6 +66,13 @@ export class ClubAdhesionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authService
+      .getUserClientId()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(clientId => {
+        this.userClientId = clientId;
+      });
+
     this.route.params.subscribe({
       next: (params: Params) => {
         // Assurez-vous que 'tontineId' est un nombre en utilisant l'opérateur '+'
@@ -55,66 +81,115 @@ export class ClubAdhesionComponent implements OnInit {
           this.getSavingData();
           //  this.getSavingDat();
         }
-        console.log('Tontine ID:', this.tontineId);
       },
     });
-
-    this.myForm.get('contribution')?.valueChanges.subscribe(() => {
+    this.adhesionForm.get('contribution')?.valueChanges.subscribe(() => {
       this.calculateValue();
     });
-  }
 
-  getSavingData() {
-    this.savingDetailService.getSavingData(this.tontineId).subscribe({
-      next: (response: { tontine: TontineDataModele }) => {
-        // Puisque 'response.tontine' est un objet, vous pouvez l'assigner directement
-        // à 'this.savingData' si 'this.savingData' est de type 'TontineDataModele | null'
-        this.savingData = response.tontine;
-        console.log('Données de tontine:', this.savingData);
+    this.dialogState$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: (dialogResponse: DialogResponseModel) => {
+        if (dialogResponse.action === 'pin' && dialogResponse.response.pin) {
+          this.pin = dialogResponse.response.pin;
+          this.tontineAdhesion();
+        }
       },
-      error: (error: Error) =>
-        console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
 
-  // getSavingDat() {
-  //   this.savingDetailService.getSavingData(this.tontineId).subscribe({
-  //     next: (response: { tontine: TontineDataModele }) => {
-  //       // Puisque 'response.tontine' est un objet, vous pouvez l'assigner directement
-  //       this.savingData = {
-  //         name: response.tontine.name,
-  //         members_count: response.tontine.members_count,
-  //         penalities: response.tontine.penalities,
-  //         mise_perso: response.tontine.mise_perso,
-  //         contribution: response.tontine.contribution,
-  //       };
-  //       console.log('Données sélectionnées', this.savingData);
-  //     },
-  //     error: (error: Error) =>
-  //       console.error('Erreur lors de la récupération des tontines:', error),
-  //   });
-  // }
+  getMemberId(event: ItemModel | null) {
+    if (event) {
+      this.referenceId = event.id;
+      this.lookupEffectue = true;
+    } else {
+      this.referenceId = 0;
+      this.lookupEffectue = false;
+    }
+  }
+  getSavingData() {
+    this.savingDetailService.getTontineDetails(this.tontineId).subscribe({
+      next: (response: { object: TontineDataModele }) => {
+        this.savingData = response.object;
+      },
+    });
+  }
 
-  //function to calculate contributions amd shares
   calculateValue() {
     const contribution = parseFloat(
-      this.myForm.get('contribution')?.value || '0'
+      this.adhesionForm.get('contribution')?.value || '0'
     );
-    if (!isNaN(contribution)) {
-      // const calculatedValue =  this.savingData.mise_perso;
-      // const contr = contribution * this.savingData.contribution;
+    if (this.adhesionForm.get('contribution')?.valid) {
+      if (contribution && contribution > 0) {
+        const contributionValue = contribution * this.savingData.contribution;
+        const partvalue = contribution * this.savingData.mise_perso;
+        this.contribution = contributionValue;
+        this.part = partvalue;
+        this.showInfo = true;
+      }
     } else {
-      this.part = 0;
+      this.showInfo = false;
       this.contribution = 0;
     }
   }
 
+  openPinPopup() {
+    this.dialogService.openDialog({
+      type: 'pin',
+      title: 'Enter your PIN code',
+      message: 'Please enter your PIN code to continue.',
+      action: 'pin',
+    });
+  }
   toggleCheckbox() {
     this.isChecked = !this.isChecked;
     this.cdr.detectChanges();
-    this.myForm.patchValue({
+    this.adhesionForm.patchValue({
       isRenewable: this.isChecked,
     });
-    // console.log(this.myForm.value);
+  }
+  isFormValid(): boolean {
+    return this.adhesionForm.valid && this.isChecked;
+  }
+
+  tontineAdhesion() {
+    this.dialogService.dispatchLoading();
+    // this.loading = true;
+    const body: AdhesionBodyModel = {
+      tontine: this.tontineId,
+      membre_client: this.userClientId,
+
+      reference_member: '1',
+      parts: this.contribution,
+    };
+    this.savingDetailService
+      .tontineAdhesion(body)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (response: AdhesionResponseModel) => {
+          // this.loading = false;
+          this.dialogService.closeLoading();
+          if (response.object.success) {
+            this.dialogService.openToast({
+              type: 'success',
+              title: 'Succès',
+              message: response.object.response_message,
+            });
+          } else {
+            this.dialogService.openToast({
+              type: 'failed',
+              title: 'Échec',
+              message: response.object.response_message,
+            });
+          }
+        },
+        error: () => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            type: 'failed',
+            title: 'Échec',
+            message: 'failed',
+          });
+        },
+      });
   }
 }

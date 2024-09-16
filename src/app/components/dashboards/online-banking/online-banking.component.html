@@ -28,10 +28,11 @@
         <!-- Menus list-->
         <section class="pe-lg-3">
           <div
-            class="bg-secondary lg-radius p-4 border col-lg-9 col-md-12 mt-4">
+            class="bg-secondary lg-radius p-2 p-xl-4 border col-lg-9 col-md-12 mt-4">
             <div class="accordion" id="accordionExample">
               @for (menuGroup of menuGroups; track $index; let i = $index) {
-                <div class="accordion-item mb-3 p-2 sm-radius border bg-white">
+                <div
+                  class="accordion-item mb-3 p-2 sm-radius border-0 bg-white">
                   <div
                     class="accordion-header"
                     (click)="showMenus(i)"
@@ -78,13 +79,16 @@
                     aria-labelledby="headingOne"
                     data-bs-parent="#accordionExample">
                     <div
-                      class="accordion-body text-dark expand-collapse-section">
+                      class="accordion-body text-dark expand-collapse-section p-2 p-md-auto">
                       <!-- Ajoutez ici le contenu spécifique à ce menuGroup -->
                       @if (i === 0 && menuGroup.is_active) {
                         <div>
                           <!-- Contenu pour les banques (boucle *ngFor) -->
 
-                          @if (banks && banks.length > 0) {
+                          @if (
+                            (banks && banks.length > 0) ||
+                            (banksFiltered && banksFiltered.length > 0)
+                          ) {
                             <div class="p-2 row mb-4">
                               <!-- Bloc de banque -->
                               @for (bank of banks; track $index) {
@@ -112,26 +116,37 @@
                               }
 
                               <!-- Création de compte -->
-                              <div
-                                type="button"
-                                data-bs-toggle="modal"
-                                data-bs-target="#banksModal"
-                                #closeModal
-                                class="d-grid col-6 col-sm-4 col-md-3 justify-content-center">
+
+                              @for (bank of banksFiltered; track $index) {
                                 <div
-                                  class="d-flex w-100 mb-2 justify-content-center">
+                                  role="button"
+                                  title="Click to create account in this bank"
+                                  (click)="
+                                    openPinPopup();
+                                    getAddedBankId(bank.organization_id)
+                                  "
+                                  class="d-grid col-3 justify-content-center"
+                                  tabindex="0">
                                   <div
-                                    class="d-grid justify-content-center align-items-center img-container border lg-radius">
-                                    <i
-                                      class="fa-solid fa-plus fw-bold text-primary fs-4"></i>
+                                    class="d-flex w-100 mb-2 justify-content-center">
+                                    <div
+                                      class="d-grid justify-content-center align-items-center img-container border lg-radius">
+                                      <img
+                                        class="bank-image"
+                                        [src]="bank?.company?.image"
+                                        alt="{{
+                                          bank?.company?.fullname
+                                        }} Logo" />
+                                    </div>
+                                  </div>
+
+                                  <div class="text-center">
+                                    <span class="text-uppercase opacity-50">{{
+                                      bank?.company?.fullname
+                                    }}</span>
                                   </div>
                                 </div>
-                                <div class="text-center">
-                                  <span class="text-sm text-dark" i18n
-                                    >CREATE ACCOUNT</span
-                                  >
-                                </div>
-                              </div>
+                              }
                             </div>
                           }
 
@@ -163,14 +178,16 @@
                         <div>
                           <!-- Bloc de marchands -->
                           @if (merchants && merchants.length > 0) {
-                            <div class="p-2 row">
+                            <div class="p-2 row gap-3">
                               @for (merchant of merchants; track $index) {
                                 <div
-                                  (click)="getMerchant(merchant, $event)"
+                                  (click)="
+                                    openMerchantPayment('merchant', merchant)
+                                  "
                                   data-bs-toggle="modal"
                                   data-bs-target="#publicService"
                                   role="button"
-                                  class="d-grid col-3 justify-content-center"
+                                  class="col-5 col-md-4 col-lg-3 justify-content-center"
                                   tabindex="0">
                                   <div
                                     class="d-flex w-100 mb-2 justify-content-center">
@@ -179,7 +196,9 @@
                                       <img
                                         class="bank-image"
                                         [src]="merchant.lookup_image"
-                                        alt="" />
+                                        alt="{{
+                                          merchant.lookup_title
+                                        }} logo " />
                                     </div>
                                   </div>
                                   <div class="text-center">
@@ -195,7 +214,8 @@
                           @else {
                             <div class="d-flex pt-3 ps-3">
                               @for (_ of [1, 2, 3]; track $index) {
-                                <div class="d-grid mt-1 me-5">
+                                <div
+                                  class="d-grid mt-1 me-5 justify-content-center">
                                   <span class="text-center">
                                     <app-skeleton
                                       [height]="'60px'"
@@ -272,81 +292,7 @@
         </section>
       </div>
     </div>
-
-    <div class="modal fade" id="banksModal" data-mdb-backdrop="false">
-      <div class="modal-dialog inner-container overflow-auto">
-        <div class="modal-content bg-white" style="margin-top: 35%">
-          <main class="p-4">
-            <div class="text-end">
-              <span
-                role="button"
-                class="text-dark"
-                data-bs-dismiss="modal"
-                aria-label="Close">
-                <i class="fa-solid fa-xmark fs-4"></i>
-              </span>
-            </div>
-            <div class="text-dark fs-5 text-center p-2" i18n>
-              Create an account by choosing one of the banks bellow
-            </div>
-            <br />
-
-            @if (banksFiltered && banksFiltered.length > 0) {
-              <div class="p-2 row">
-                @for (bank of banksFiltered; track $index) {
-                  <div
-                    role="button"
-                    (click)="
-                      openPinPopup(); getAddedBankId(bank.organization_id)
-                    "
-                    class="d-grid col-3 justify-content-center"
-                    tabindex="0">
-                    <div class="d-flex w-100 mb-2 justify-content-center">
-                      <div
-                        class="d-grid justify-content-center align-items-center img-container border lg-radius">
-                        <img
-                          class="bank-image"
-                          [src]="bank?.company?.image"
-                          alt="{{ bank?.company?.fullname }} Logo" />
-                      </div>
-                    </div>
-
-                    <div class="text-center">
-                      <span class="text-uppercase">{{
-                        bank?.company?.fullname
-                      }}</span>
-                    </div>
-                  </div>
-                }
-              </div>
-            } @else if (!banksFiltered) {
-              <div class="d-flex pt-3 ps-3">
-                @for (_ of [1, 2, 3]; track $index) {
-                  <div class="d-grid mt-1 me-5">
-                    <span class="text-center">
-                      <app-skeleton
-                        [height]="'60px'"
-                        [width]="'60px'"></app-skeleton>
-                    </span>
-                    <span>
-                      <app-skeleton
-                        [height]="'7px'"
-                        [width]="'100px'"></app-skeleton>
-                    </span>
-                  </div>
-                }
-              </div>
-            } @else {
-              <div class="p-2 text-center text-l fw-bold" i18n>
-                You are already in all the available banks
-              </div>
-            }
-          </main>
-        </div>
-      </div>
-    </div>
   </div>
 } @else if (selectedBank) {
   <app-bank-home></app-bank-home>
 }
-<!-- <router-outlet></router-outlet> -->

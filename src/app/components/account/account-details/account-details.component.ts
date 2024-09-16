@@ -1,21 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { Accountdetail } from '../models';
+import { AccountDetailModel } from '../models';
 import { ClientService } from '../../../core/services/client/client.service';
 import { ActivatedRoute } from '@angular/router';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { DialogService } from '../../../core/services';
+import { StatementComponent } from '../../statements/statement/statement.component';
+import { AdminBranchListComponent } from '../../admin/agence/admin-branch-list/admin-branch-list.component';
 @Component({
   selector: 'app-account-details',
   standalone: true,
-  imports: [AmountVisibilityComponent, CommonModule],
+  imports: [
+    AmountVisibilityComponent,
+    CommonModule,
+    StatementComponent,
+    AdminBranchListComponent,
+  ],
   templateUrl: './account-details.component.html',
   styleUrl: './account-details.component.scss',
 })
 export class AccountDetailsComponent implements OnInit {
   isLoading = false;
-  account: Accountdetail | null = null;
+  account: AccountDetailModel | null = null;
   accountId!: string;
   showAmounts = false; // Variable to store the visibility state of amounts
   showAmounts$: Observable<boolean>; // Observable for the visibility state
@@ -34,25 +41,21 @@ export class AccountDetailsComponent implements OnInit {
     this.route.params.subscribe({
       next: data => {
         this.accountId = data['accountId'];
-        //console.log('iddddd',this.accountId)
         if (this.accountId) {
           this.getClientAccountDetails();
         }
       },
     });
-    this.getClientAccountDetails();
+    // this.getClientAccountDetails();
   }
 
   getClientAccountDetails() {
     this.isLoading = true;
     this.account = null;
     this.clientService.getClientAccountDetails(this.accountId).subscribe({
-      next: (response: { object: Accountdetail }) => {
+      next: (response: { object: AccountDetailModel }) => {
         this.account = response.object;
-        console.log('Données de tontine:', this.account);
       },
-      error: (error: Error) =>
-        console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
 

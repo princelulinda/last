@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AccountsListComponent } from '../accounts-list/accounts-list.component';
 import { RouterOutlet } from '@angular/router';
-import { accountsList } from '../models';
+import { AccountsListModel } from '../models';
 import { ConfigService } from '../../../core/services';
 import { Observable, Subject } from 'rxjs';
 import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
@@ -20,7 +20,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   dataLoaded = false;
   showAmounts = false; // Variable to store the visibility state of amounts
   showAmounts$: Observable<boolean>; // Observable for the visibility state
-  selectedAccount: accountsList | null = null;
+  selectedAccount: AccountsListModel | null = null;
   constructor(
     private dialogService: DialogService,
     private configService: ConfigService
@@ -47,7 +47,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  handleWalletSelected(account: accountsList) {
+  handleWalletSelected(account: AccountsListModel) {
     this.selectedAccount = account;
 
     console.log('Compte sélectionné :', account);

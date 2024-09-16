@@ -3,11 +3,23 @@ import { ApiService } from '..';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil, switchMap } from 'rxjs';
 import {
-  tarifResponse,
-  bankListResponse,
-  feesResonse,
-  simulateResponse,
+  TarifResponseModel,
+  BankListResponseModel,
+  FeesResonseModel,
+  SimulateResponseModel,
 } from '../../../components/tarif/tarif.model';
+import {
+  AddTarifModel,
+  TarifFeesResonseModel,
+  TarifTypeModel,
+  AddFeesModel,
+  AddTarifBodyModel,
+  addTarifToTableBodyModel,
+  ModifyFeesBodyModel,
+  ModifyFeesModel,
+  AddFeesBodyModel,
+  deleteFeesModel,
+} from '../../../components/config-tarif/config-tarif-model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,44 +32,38 @@ export class TarifService {
     //
   }
 
-  getBanks(): Observable<{ objects: bankListResponse[] }> {
+  getBanks(): Observable<{ objects: BankListResponseModel[] }> {
     const url = '/banks/list/?commission_type=I';
-    return this.apiService.get<{ objects: bankListResponse[] }>(url);
+    return this.apiService.get<{ objects: BankListResponseModel[] }>(url);
   }
 
-  getTarifType(bank_id: number): Observable<{ objects: tarifResponse[] }> {
+  getTarifType(bank_id: number): Observable<{ objects: TarifResponseModel[] }> {
     const url = '/dbs/tariff-table/?bank=' + bank_id;
-    return this.apiService.get<{ objects: tarifResponse[] }>(url);
+    return this.apiService.get<{ objects: TarifResponseModel[] }>(url);
   }
-  getAllTarifType() {
+  getAllTarifType(): Observable<{ objects: TarifTypeModel[] }> {
     const url = '/dbs/tariff-table/';
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService.get<{ objects: TarifTypeModel[] }>(url);
   }
 
-  getTarifFees(tarif_id: number): Observable<{ objects: feesResonse[] }> {
+  getTarifFees(tarif_id: number): Observable<{ objects: FeesResonseModel[] }> {
     const url = '/dbs/tariff-fees/?tarif_table=' + tarif_id;
-    return this.apiService.get<{ objects: feesResonse[] }>(url);
+    return this.apiService.get<{ objects: FeesResonseModel[] }>(url);
   }
 
-  TarifFees(tarif_id: string) {
+  TarifFees(
+    tarif_id: string
+  ): Observable<{ objects: TarifFeesResonseModel[] }> {
     const url = '/dbs/tariff-fees/?tarif_table=' + tarif_id;
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService.get<{ objects: TarifFeesResonseModel[] }>(url);
   }
 
   getSimulateWithTarifTable(
     tarifTable: number,
     amount: string
-  ): Observable<{ objects: simulateResponse[] }> {
+  ): Observable<{ objects: SimulateResponseModel[] }> {
     const url = `/dbs/tariff-simulation/?tarif_table=${tarifTable}&amount=${amount}`;
-    return this.apiService.get<{ objects: simulateResponse[] }>(url);
+    return this.apiService.get<{ objects: SimulateResponseModel[] }>(url);
   }
 
   getSimulate(type_code: string, amount: string, bank: string) {
@@ -72,10 +78,39 @@ export class TarifService {
       })
     );
   }
-  //   addTarif(body: any) {
-  //       const url = '/dbs/tariff-type/';
-  //       return this.apiService
-  //           .post(url, body)
-  //           .pipe(map((response) => response));
-  //   }
+  addTarif(body: AddTarifBodyModel): Observable<AddTarifModel> {
+    const url = '/dbs/tariff-type/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as AddTarifModel));
+  }
+  addTarifToTable(body: addTarifToTableBodyModel): Observable<AddTarifModel> {
+    const url = '/dbs/tariff-table/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as AddTarifModel));
+  }
+
+  addFees(body: AddFeesBodyModel): Observable<AddFeesModel> {
+    const url = '/dbs/tariff-fees/';
+    return this.apiService
+      .post(url, body)
+      .pipe(map(response => response as AddFeesModel));
+  }
+
+  modifyFees(
+    feeId: string,
+    body: ModifyFeesBodyModel
+  ): Observable<ModifyFeesModel> {
+    const url = '/dbs/tariff-fees/' + feeId + '/';
+    return this.apiService
+      .patch(url, body)
+      .pipe(map(response => response as AddFeesModel));
+  }
+  deleteFees(feeId: string): Observable<deleteFeesModel> {
+    const url = '/dbs/tariff-fees/' + feeId + '/';
+    return this.apiService
+      .delete(url)
+      .pipe(map(response => response as deleteFeesModel));
+  }
 }

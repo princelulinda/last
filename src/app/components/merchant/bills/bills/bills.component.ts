@@ -9,17 +9,18 @@ import {
   ConfigService,
   MerchantService,
 } from '../../../../core/services';
-import { Pagination } from '../../../../core/services/merchant/model';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { UserInfoModel } from '../../../../core/db/models/auth';
-import { BillsModel, paymentBillsModel } from '../../products/products.model';
 
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { PaginationConfig } from '../../../../global/models/pagination.models';
+import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
+import { BillsModel } from '../bills.model';
 
 @Component({
   selector: 'app-bills',
   standalone: true,
-  imports: [CommonModule, SkeletonComponent, RouterLink],
+  imports: [CommonModule, SkeletonComponent, RouterLink, PaginationComponent],
   templateUrl: './bills.component.html',
   styleUrl: './bills.component.scss',
 })
@@ -33,12 +34,13 @@ export class BillsComponent implements OnInit, OnDestroy {
 
   merchantBills!: BillsModel[] | null;
   paymentRequestBills!: BillsModel[];
-  countBills!: string | number;
+  // countBills!: string | number;
   isLoading = true;
   paymentRequestBillsLoading = true;
 
   clientInfo$: Observable<UserInfoModel>;
   isMerchant!: boolean;
+  totalData = 0;
 
   billsHeaders = [
     // {
@@ -87,16 +89,13 @@ export class BillsComponent implements OnInit, OnDestroy {
       canBeDisplayed: false,
     },
   ];
-  billsPagination: Pagination = {
+  billsPagination: PaginationConfig = {
     filters: {
-      limit: 15,
+      limit: 30,
       offset: 0,
     },
   };
 
-  canMoveToNext = false;
-  canMoveToPrevious = false;
-  pages = 1;
   activePage = 1;
 
   constructor(
@@ -126,16 +125,9 @@ export class BillsComponent implements OnInit, OnDestroy {
       .getBills(this.billsPagination)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: paymentBillsModel) => {
+        next: (response: { objects: BillsModel[]; count: number }) => {
+          this.totalData = response.count;
           this.merchantBills = response.objects;
-          this.countBills = response.count;
-          this.pages = Math.round(this.countBills / 6);
-          if (
-            this.countBills >
-            parseInt(this.billsPagination.filters?.limit as string)
-          ) {
-            this.canMoveToNext = true;
-          }
           this.isLoading = false;
         },
         error: () => {
@@ -143,13 +135,20 @@ export class BillsComponent implements OnInit, OnDestroy {
         },
       });
   }
+
+  onPaginationChange(pagination: PaginationConfig) {
+    this.billsPagination = pagination;
+    this.activePage = pagination.filters.offset / pagination.filters.limit + 1;
+    this.getBills();
+  }
+
   getPaymentRequestBills() {
     this.paymentRequestBillsLoading = true;
     this.merchantService
       .getBills(this.billsPagination, 'requestPayments')
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: paymentBillsModel) => {
+        next: response => {
           this.paymentRequestBills = response.objects;
           this.paymentRequestBillsLoading = false;
         },
@@ -157,36 +156,6 @@ export class BillsComponent implements OnInit, OnDestroy {
           this.paymentRequestBillsLoading = false;
         },
       });
-  }
-
-  getPagination(action = 'next') {
-    if (action === 'next') {
-      this.activePage++;
-    } else {
-      this.activePage--;
-    }
-    // action === 'next' ? this.activePage++ : this.activePage--;
-    if (this.activePage >= 1 && this.activePage <= this.pages) {
-      const _offset = (
-        parseInt(this.billsPagination.filters?.limit as string) *
-        (this.activePage - 1)
-      ).toString();
-      this.billsPagination.filters!.offset = _offset;
-      if (action === 'next') {
-        this.getBills();
-      } else if (action === 'prev') {
-        this.getBills();
-      }
-      this.canMoveToNext = true;
-      this.canMoveToPrevious = true;
-    }
-    if (this.activePage - 1 < 1) {
-      this.billsPagination.filters!.offset = '';
-      this.canMoveToPrevious = false;
-      this.canMoveToNext = false;
-    } else if (this.activePage + 1 > this.pages) {
-      this.canMoveToNext = false;
-    }
   }
 
   public ngOnDestroy(): void {

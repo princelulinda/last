@@ -1,8 +1,7 @@
 @if (mainConfig) {
   <header
-    class="w-100"
     style="height: 60px; z-index: 50; top: 0"
-    class="d-flex justify-content-center justify-content-lg-between w-100 p-1 px-3"
+    class="w-100 d-flex justify-content-center justify-content-lg-between w-100 p-1 px-3 overflow-hidden"
     [ngClass]="{
       'bg-white': mainConfig.activePlateform === 'workstation',
       'bg-primary':
@@ -14,11 +13,15 @@
     <section class="d-none d-lg-block">
       <!-- iHela Ryanje logo for onlineBanking, market, newsFeed Plateforms & Workstation -->
       @if (mainConfig.activePlateform !== 'workstation') {
-        <div class="col-8 h-100" style="max-width: 260px">
-          <img
-            class="bg-primary-2 img-fluid border border-3 px-4 py-1 sm-radius h-100"
-            src="/images/logo/ihela-ryanje.png"
-            alt="iHela Ryanje Logo" />
+        <div
+          class="bg-primary-2 border border-3 px-4 py-1 sm-radius h-100"
+          style="max-width: 260px">
+          <span class="ihela-ryanje-logo d-block">
+            <img
+              class="image sm-radius"
+              src="/images/logo/ihela-ryanje.png"
+              alt="iHela Ryanje Logo" />
+          </span>
         </div>
       } @else {
         @if (organization) {
@@ -33,10 +36,10 @@
                 style="min-width: 50px" />
             </div>
             <div class="d-flex flex-column h-100 justify-content-center me-2">
-              <span class="text-nowrap fw-bold textWhite">{{
+              <span class="text-nowrap fw-bold text-all-white">{{
                 organization.institution_client.client_full_name
               }}</span>
-              <span class="text-nowrap textWhite">{{
+              <span class="text-nowrap text-all-white">{{
                 organization.company_type_code
               }}</span>
             </div>
@@ -56,40 +59,40 @@
     <section
       class="d-flex align-items-center justify-content-around justify-content-lg-center position-relative">
       <!-- ONLY ON MOBILE : Active Aside menus -->
-      <span
-        class="d-lg-none me-md-1"
-        role="button"
-        tabindex="0"
-        [ngClass]="{
-          'text-all-white': mainConfig.activePlateform !== 'workstation',
-          'text-dark': mainConfig.activePlateform === 'workstation',
-        }">
-        <i class="fs-5 fa-solid fa-bars"></i>
-      </span>
+      @if (mainConfig.activePlateform !== 'bankingSettings' && 'workStation') {
+        <span
+          class="d-lg-none me-md-1"
+          role="button"
+          tabindex="0"
+          [routerLink]="menuRouterLink"
+          [ngClass]="{
+            'text-all-white': mainConfig.activePlateform !== 'workstation',
+            'text-dark': mainConfig.activePlateform === 'workstation',
+          }">
+          <i class="fs-5 fa-solid fa-bars"></i>
+        </span>
+      }
 
       <!-- show amount icon -->
       <span
         role="button"
-        class="ms-4 ms-md-5 ms-lg-2 p-2 me-md-1"
+        tabindex="0"
+        (click)="toggleEyeStatus()"
+        title="ctrl + shift + v to toggle Amount View"
+        class="ms-4 eye-square ms-md-5 ms-lg-2 p-2 me-md-1"
         [ngClass]="{
           'text-all-white': mainConfig.activePlateform !== 'workstation',
           'text-dark': mainConfig.activePlateform === 'workstation',
         }">
-        <span
-          [tabIndex]="0"
-          (click)="toggleEyeStatus()"
-          title="ctrl + shift + v to toggle Amount View"
-          tabindex="0">
-          @if (amountState === true) {
-            <span>
-              <i class="fa-solid fa-eye-slash"></i>
-            </span>
-          } @else {
-            <span>
-              <i class="fa-solid fa-eye"></i>
-            </span>
-          }
-        </span>
+        @if (amountState === true) {
+          <span>
+            <i class="fa-solid fa-eye-slash"></i>
+          </span>
+        } @else {
+          <span>
+            <i class="fa-solid fa-eye"></i>
+          </span>
+        }
       </span>
 
       <!-- chats icon -->
@@ -125,9 +128,20 @@
         }">
         <span type="button" data-bs-toggle="" aria-expanded="false">
           <!-- TOD ::  HEADER USER AVATAR IF AVAILABLE IN FUTURE  -->
-          <span>
-            <i class="fa-regular fa-circle-user fs-6"></i>
-          </span>
+          @if (userInfo) {
+            <span class="text-center d-flex justify-content-center mb-1">
+              <app-profile-card
+                [imageUrl]="userInfo.client.picture"
+                [fullName]="userInfo.client.client_full_name"
+                height="25px"
+                width="25px"
+                classes="fs-x-small"></app-profile-card>
+            </span>
+          } @else {
+            <span>
+              <i class="fa-regular fa-circle-user fs-6"></i>
+            </span>
+          }
         </span>
       </span>
 
@@ -143,7 +157,7 @@
           alt="Plateforms Switch Icon"
           [ngStyle]="{
             filter:
-              mainConfig.activePlateform !== 'workstation'
+              mainConfig.activePlateform !== 'workstation' || theme === 'dark'
                 ? 'invert(100%)'
                 : '',
           }"
@@ -154,9 +168,11 @@
 }
 
 <!-- NOTE :: PLATEFORM SWITCH ICON  -->
-<section>
-  @if (showPlateformPopup) {
-    <div class="float-end plateforn-card lg-radius mt-2 bg-white plateform">
+
+@if (showPlateformPopup) {
+  <section class="end-0 position-absolute z-5 platform-popup">
+    <div
+      class="float-end plateform-card overflow-x-hidden w-auto lg-radius border border-primary-2 mt-2 bg-white plateform">
       <div class="h-100 p-3 py-4 overflow-y-auto">
         <div class="d-flex flex-column h-100">
           <div class="px-1 flex-grow-2">
@@ -315,7 +331,7 @@
                 class="col-4 d-flex flex-column align-items-center p-2 sm-radius">
                 <div class="d-flex justify-content-center">
                   <i
-                    class="fa-solid fa-square-poll-vertical fs-1 icons-color"></i>
+                    class="fa-solid fa-square-poll-vertical fs-1 text-secondary opacity-50"></i>
                 </div>
                 <div i18n>Ser .Status</div>
               </div>
@@ -352,13 +368,14 @@
         </div>
       </div>
     </div>
-  }
-</section>
+  </section>
+}
 
 <!-- NOTE :: USER PROFILE INFO  -->
-<section>
-  @if (showUserInfoPopup) {
-    <div class="float-end plateforn-card border mt-2 bg-white userInfo">
+@if (showUserInfoPopup) {
+  <section class="end-0 position-absolute z-5 user-info-popup">
+    <div
+      class="float-end plateform-card overflow-hidden w-auto border mt-2 bg-white userInfo">
       <div class="h-100 p-2 overflow-y-auto">
         <div class="d-flex flex-column h-100">
           <div class="px-1 flex-grow-2">
@@ -383,17 +400,18 @@
                 class="d-flex align-items-end justify-content-end ms-4 mb-0">
                 <div class="p-1 rounded-circle">
                   <div
-                    class="d-flex align-items-end me-0 ms-0 p-2 rounded-circle border border-secondary">
+                    class="d-flex align-items-end bg-white me-0 ms-0 p-2 rounded-circle border border-secondary">
                     <!--user profile picture-->
                     <div
                       class="text-center border border-secondary d-flex flex-column align-items-center justify-content-center rounded-circle profile-picture-container">
                       @if (userInfo) {
                         <span class="text-center d-flex justify-content-center">
                           <app-profile-card
-                            [imageUrl]="userInfo.client.picture_url"
-                            [fullName]="
-                              userInfo.client.client_full_name
-                            "></app-profile-card>
+                            [imageUrl]="userInfo.client.picture"
+                            [fullName]="userInfo.client.client_full_name"
+                            height="87px"
+                            width="87px"
+                            classes="fs-x-large"></app-profile-card>
                         </span>
                       }
                     </div>
@@ -404,17 +422,14 @@
                   class="ms-0 d-grid w-100 mb-2"
                   style="line-height: 20px; transform: translateY(-9%)">
                   <span
-                    class="ms-2 mb-2 text-dark w-100 text-sm-md"
-                    style="word-break: break-word"
+                    class="ms-2 mb-2 text-dark w-100 text-sm-md text-break"
                     >{{ userInfo?.user?.username }}</span
                   >
 
-                  <span
-                    style="word-break: break-word"
-                    class="ms-2 text-secondary w-100 text-xsm">
+                  <span class="ms-2 text-secondary w-100 text-break fs-x-small">
                     <span>{{ userInfo?.client?.client_email }}</span> </span
                   ><br />
-                  <span class="ms-2 text-secondary text-xsm">{{
+                  <span class="ms-2 text-secondary fs-x-small">{{
                     userInfo?.client?.client_code
                   }}</span>
                 </div>
@@ -429,8 +444,7 @@
                   <a>
                     <div
                       role="button"
-                      class="d-flex align-items-center"
-                      style="font-size: 18px">
+                      class="d-flex fs-medium align-items-center">
                       <i
                         class="fa-solid text-secondary fa-user-circle me-2"></i>
                       <b class="text-dark ms-1" i18n>Profile</b>
@@ -452,16 +466,16 @@
                 </div>
                 <div
                   class="w-100 d-flex justify-content-between align-items-center mt-3">
-                  <div class="d-flex align-items-center fs-medium">
+                  <div class="d-flex align-items-center fs-medium col-9">
                     <span class="me-2"
                       ><i class="fa-solid text-secondary fa-language"></i
                     ></span>
                     <b class="text-dark" i18n>Language</b>
                   </div>
                   <select
-                    class="text-all-dark"
+                    class="text-all-dark form-select"
+                    style="height: 34px"
                     [formControl]="selectedLanguage"
-                    style="width: 60px"
                     (click)="changeLanguage()">
                     <option value="en">En</option>
                     <option value="fr">Fr</option>
@@ -504,6 +518,17 @@
                 </div>
 
                 <div
+                  role="button"
+                  tabindex="0"
+                  (click)="lockScreen()"
+                  class="my-3 d-flex align-items-center fs-medium">
+                  <span class="me-2 text-secondary"
+                    ><i class="fa-solid fa-lock"></i
+                  ></span>
+                  <b class="text-dark ms-1" i18n>Lock</b>
+                </div>
+
+                <div
                   class="w-100 d-flex justify-content-between text-dark fs-medium"
                   title="Logout"
                   tabindex="0"
@@ -518,20 +543,6 @@
                   </span>
                 </div>
               </section>
-              <!-- <div
-              class="col mb-2 d-flex justify-content-between align-items-end">
-              <app-footer></app-footer>
-            </div> -->
-              <!-- <div class="mt-3">
-            
-              <div class="mt-2 px-2 bg-white text-secondary text-sm-md">
-                <div class="d-flex justify-content-center flex-wrap">
-                  <app-footer
-                                        [showCopyRight]="false"
-                                    ></app-footer>
-                </div>
-              </div>
-            </div> -->
             </section>
           </div>
 
@@ -542,5 +553,5 @@
         </div>
       </div>
     </div>
-  }
-</section>
+  </section>
+}

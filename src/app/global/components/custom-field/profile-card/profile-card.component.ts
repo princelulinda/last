@@ -1,16 +1,21 @@
-import { NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-profile-card',
   standalone: true,
-  imports: [NgClass],
+  imports: [CommonModule],
   templateUrl: './profile-card.component.html',
   styleUrl: './profile-card.component.scss',
 })
 export class ProfileCardComponent implements OnInit {
   @Input() fullName = '';
   @Input() imageUrl: string | null = null;
+  @Input({ required: true }) width = '';
+
+  @Input({ required: true }) height = '';
+  @Input() classes = '';
+  @Input() radius = 'rounded-circle';
 
   initials = '';
 

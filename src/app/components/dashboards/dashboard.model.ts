@@ -1,48 +1,5 @@
-import { bankModel } from '../../core/db/models/bank/bank.model';
-
-export interface BillersModel {
-  id: string;
-  lookup_image: string;
-  lookup_title: string;
-  lookup_icon: string;
-  icon: string;
-  lookup_subtitle: string;
-  is_favorite_merchant: boolean;
-  success: string;
-  merchant_category_name: string;
-  accepts_simple_payment: boolean;
-}
-
-export interface objectsModel {
-  objects: BillersModel[];
-}
-
-export interface objectModel {
-  object: BillersModel;
-}
-
-export interface MerchantModel {
-  code: string;
-  id: number;
-  merchant_title: string;
-}
-
-export interface ProductModel {
-  id: number;
-  price: number;
-  lookup_icon: string;
-  lookup_image: string;
-  lookup_title: string;
-  lookup_subtitle: string;
-  lookup_description: string;
-  is_favorite_product: boolean;
-}
-
-export interface MerchantLookup {
-  id: number;
-  lookup_title: string;
-  lookup_image: string;
-}
+import { BankModel } from '../../core/db/models/bank/bank.model';
+import { MerchantModel } from '../merchant/merchant.models';
 
 export interface addBankResponse {
   object: {
@@ -52,23 +9,22 @@ export interface addBankResponse {
   };
 }
 
-export interface PayMerchant {
-  id: number;
-}
-export interface BankOptions {
+export interface BankOptionsModel {
   selectedDebitAccountType: string | null;
   debitAccount: string | null;
   debitWallet: string | null;
-  banks: bankModel[];
+  banks: BankModel[];
   creditAccountType: string | null;
-  accounts: Account[] | null;
-  wallets: Wallet[] | null;
+  accounts: AccountInfoModel[] | null;
+  wallets: WalletModel[] | null;
 }
-export interface Account {
+export interface AccountInfoModel {
   id: number;
+  acc_number?: string;
+  acc_holder?: string;
 }
 
-export interface Wallet {
+export interface WalletModel {
   id: number;
 }
 export interface MenuGroup {
@@ -117,7 +73,7 @@ export interface PublicationModel {
   total_shares: number;
 }
 
-export interface productCategoryModel {
+export interface ProductCategoryModel {
   id: number;
   icon: string;
   image: string;
@@ -126,10 +82,6 @@ export interface productCategoryModel {
   ordering: number;
   slug: string;
   value_added_tax_rate: string;
-}
-
-export interface productCategoryArray {
-  objects: productCategoryModel[];
 }
 
 export interface StatModel {
@@ -159,12 +111,13 @@ export interface SessionToShow {
   user: SessionName;
 }
 
-export interface BestOfferModel {
+export interface ProductOfferModel {
   id: number;
-  product: productOfferModel;
+  name: string;
+  price: string;
+  merchant: MerchantModel;
 }
-
-export interface productOfferModel {
+export interface RecentTransaction {
   id: number;
   name: string;
   price: string;

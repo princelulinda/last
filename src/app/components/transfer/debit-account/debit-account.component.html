@@ -1,4 +1,4 @@
-<div class="container h-100">
+<div class="h-100">
   <div class="rounded p-2 w-100 d-grid text-dark">
     <!-- If there is no bank selected -->
 
@@ -14,7 +14,7 @@
         </div>
 
         <div>
-          @if (clientBanks) {
+          @if (clientBanks && clientBanks.length > 0) {
             <div class="p-2 row gap-2">
               @for (bank of clientBanks; track $index) {
                 <div
@@ -38,9 +38,7 @@
                 </div>
               }
             </div>
-          }
-
-          @if (!clientBanks) {
+          } @else {
             <div class="d-flex pt-3">
               @for (_ of [1, 2, 3]; track $index) {
                 <div class="d-grid mt-1 me-5">

@@ -9,25 +9,24 @@
   >
 </div>
 @if (isLoading) {
-  <div
-    class="ms-lg-5 ms-4 me-4 me-lg-0 ps-lg-5 p-3"
-    style="max-width: 600px; height: 280px">
-    <app-skeleton [height]="'80%'"></app-skeleton>
+  <div class="ms-lg-5 ms-4 me-4 me-lg-0 ps-lg-5 p-3 skeletonsBlok">
+    <!-- <span class="fw-bold me-3 text-dark" i18n> Payment Request </span> -->
+    <app-skeleton [height]="'80%'" classes="rounded"></app-skeleton>
   </div>
 }
 @if (!isLoading && billDetails) {
   <section>
     <div
-      class="shadow lg-radius level-1 col-lg-7 ms-lg-5 ms-4 me-4 me-lg-0 ps-lg-5 p-3">
+      class="shadow lg-radius level-1 col-lg-7 ms-lg-5 ms-4 me-4 me-lg-0 p-3">
       <div class="d-flex justify-content-between">
         <span class="d-flex text-dark flex-grow-1">
-          <span style="width: 40%" class=""
+          <span class="merchantTitle"
             ><small class="opacity-75">Merchant name</small><br />
             <b>{{
               billDetails.merchant_teller.merchant.merchant_title
             }}</b></span
           >
-          <span style="width: 52%" class=""
+          <span class="w-50"
             ><small class="opacity-75">Merchant code</small><br /><b>{{
               billDetails.merchant_teller.merchant.merchant_code
             }}</b></span
@@ -46,8 +45,9 @@
             class="me-4 btn"
             role="button"
             printSectionId="bill"
-            ngxPrint>
-            <i class="fa-solid fa-print fs-4 opacity-75 text-info"></i>
+            ngxPrint
+            [useExistingCss]="true">
+            <i class="fa-solid fa-print fs-4 text-info opacity-75"></i>
           </button>
         </span>
         @if (billDetails.description) {
@@ -61,7 +61,7 @@
         }
       </div>
       <div class="d-flex text-dark">
-        <span style="width: 40%" class=""
+        <span class="statusBlock"
           ><small class="opacity-75">Status</small><br />
           <span
             class="p-2 text-light sm-radius fw-bold process-bill"
@@ -73,16 +73,16 @@
             >{{ billDetails.payment_status.title }}</span
           ></span
         >
-        <span style="width: 52%" class="ms-2"
+        <span class="ms-2 w-50"
           ><small class="opacity-75">Bill code</small><br /><b>{{
             billDetails.code
           }}</b></span
         >
       </div>
-      <hr style="width: 90%" class="" />
+      <hr class="amountBlock" />
       <span class="d-flex text-dark"
-        ><span class="opacity-75 flex-grow-7">Amount</span>
-        <span class="fw-bold fs-5 flex-grow-1">{{
+        ><span class="opacity-75 flex-grow-1">Amount</span>
+        <span class="fw-bold fs-5 me-5 pe-3">{{
           billDetails.total_amount | currency: 'BIF '
         }}</span></span
       >
@@ -90,20 +90,20 @@
   </section>
 }
 @if (!isLoading && billDetails.payment_status.value === 'Q') {
-  <section class="mt-4 col-md-7">
+  <section class="mt-4 col-md-7 ms-4">
     <app-debit-account
       (debitOptions)="selectedDebitOption($event)"
       (selectedAccount)="onAccountSelected($event)"
       (selectedWallet)="onWalletSelected($event)">
     </app-debit-account>
     @if (selectedAccount || selectedWallet) {
-      <div class="col-9 ms-4">
+      <form [formGroup]="descriptionForm" class="col-9 ms-4">
         <div class="form-floating mt-3 col-md-8">
           <input
             type="text"
             class="level-2 p-1 px-3 form-control input sm-radius text-dark form-control"
             id="description"
-            [formControl]="description"
+            formControlName="description"
             placeholder="cool" />
           <label for="description" class="form-label">Description</label>
         </div>
@@ -113,7 +113,7 @@
             class="bg-primary btn px-5 text-light sm-radius p-1"
             (click)="enterPin()"
             [disabled]="
-              !description.valid ||
+              !descriptionForm.valid ||
               (!selectedAccount && !selectedWallet) ||
               paymentLoading
             ">
@@ -127,7 +127,14 @@
             }
           </button>
         </div>
-      </div>
+      </form>
     }
   </section>
 }
+
+<section
+  id="bill"
+  class="d-none"
+  *ngIf="!isLoading && billData.active && billData.payload">
+  <app-merchant-bill></app-merchant-bill>
+</section>

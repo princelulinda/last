@@ -9,25 +9,34 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  bankListResponse,
-  tarifResponse,
-  feesResonse,
-  simulateResponse,
+  BankListResponseModel,
+  TarifResponseModel,
+  FeesResonseModel,
+  SimulateResponseModel,
 } from './tarif.model';
 import { AuthService } from '../../core/services';
 import { UserInfoModel } from '../../core/db/models/auth';
 import { NgStyle, NgClass } from '@angular/common';
+import { EmptyStateComponent } from '../../global/components/empty-states/empty-state/empty-state.component';
+import { AmountFieldComponent } from '../../global/components/custom-field/amount-field/amount-field.component';
 @Component({
   selector: 'app-tarif',
   standalone: true,
-  imports: [ReactiveFormsModule, SkeletonComponent, NgStyle, NgClass],
+  imports: [
+    ReactiveFormsModule,
+    SkeletonComponent,
+    NgStyle,
+    NgClass,
+    EmptyStateComponent,
+    AmountFieldComponent,
+  ],
   templateUrl: './tarif.component.html',
   styleUrl: './tarif.component.scss',
 })
 export class TarifComponent implements OnInit {
   theme = 'light';
-  bankList: bankListResponse[] | null = null;
-  simulates: simulateResponse[] | null = null;
+  bankList: BankListResponseModel[] | null = null;
+  simulates: SimulateResponseModel[] | null = null;
   isAgent = false;
   selectedType = 'internal';
   isLoadingTarif = false;
@@ -35,8 +44,8 @@ export class TarifComponent implements OnInit {
   isLoadingTariffType = false;
   isLoadingTariffFees = false;
   isLoadingSimulate = false;
-  tariffData: tarifResponse[] | null = null;
-  feesData: feesResonse[] | null = null;
+  tariffData: TarifResponseModel[] | null = null;
+  feesData: FeesResonseModel[] | null = null;
   companyName!: string;
   companyLogo!: string;
   tarifTitle!: string;
@@ -48,7 +57,7 @@ export class TarifComponent implements OnInit {
     private TarifService: TarifService,
     private authService: AuthService
   ) {
-    this.isAgent$ = this.authService.getUserIsAgent();
+    this.isAgent$ = this.authService.checkUserIsAgent();
   }
   userInfo!: UserInfoModel;
   clientInfo$!: Observable<number>;
@@ -65,7 +74,7 @@ export class TarifComponent implements OnInit {
   }
   getBanksList() {
     this.TarifService.getBanks().subscribe({
-      next: (response: { objects: bankListResponse[] }) => {
+      next: (response: { objects: BankListResponseModel[] }) => {
         this.bankList = response.objects;
         this.isLoadingBank = false;
         if (this.bankList.length === 0) {
@@ -82,7 +91,7 @@ export class TarifComponent implements OnInit {
       const bank_id = bankId;
       this.isLoadingTariffType = true;
       this.TarifService.getTarifType(bank_id).subscribe({
-        next: (response: { objects: tarifResponse[] }) => {
+        next: (response: { objects: TarifResponseModel[] }) => {
           this.isLoadingTariffType = false;
           this.tariffData = response.objects;
           if (this.tariffData.length === 0) {
@@ -102,7 +111,7 @@ export class TarifComponent implements OnInit {
       this.tarifTable = tarifId;
       this.isLoadingTariffFees = true;
       this.TarifService.getTarifFees(tarif_id).subscribe({
-        next: (response: { objects: feesResonse[] }) => {
+        next: (response: { objects: FeesResonseModel[] }) => {
           this.isLoadingTariffFees = false;
           this.feesData = response.objects;
           if (this.feesData.length === 0) {
@@ -117,13 +126,13 @@ export class TarifComponent implements OnInit {
   }
   getSimulate() {
     this.isLoadingSimulate = true;
-    const amount = this.simulateForm.controls.amount.value;
+    const amount = this.amountWritten;
     if (amount !== null) {
       this.TarifService.getSimulateWithTarifTable(
         this.tarifTable,
         amount.toString()
       ).subscribe({
-        next: (response: { objects: simulateResponse[] }) => {
+        next: (response: { objects: SimulateResponseModel[] }) => {
           this.isLoadingSimulate = false;
           this.simulates = response.objects;
           if (this.simulates.length === 0) {
@@ -144,7 +153,7 @@ export class TarifComponent implements OnInit {
     this.simulateForm.reset();
   }
 
-  selectBank(selectedBank: bankListResponse) {
+  selectBank(selectedBank: BankListResponseModel) {
     this.bankList?.forEach(bank => {
       bank.isSelected = bank === selectedBank;
     });
@@ -153,24 +162,19 @@ export class TarifComponent implements OnInit {
   selectType(name: string) {
     this.selectedType = name;
   }
-  selectedBankInfo(bank: bankListResponse) {
+  selectedBankInfo(bank: BankListResponseModel) {
     this.bankId = bank.id;
     this.companyLogo = bank.company.logo;
   }
-  selectedTarifInfo(tarif: tarifResponse) {
+  selectedTarifInfo(tarif: TarifResponseModel) {
     this.typeCode = tarif.type_code;
     this.tarifTitle = tarif.type_type;
     this.tarifName = tarif.type_name;
   }
-
-  // getAmount(event: any) {
-  //     this.amountInput = event.amount;
-  //     this.transferForm.patchValue({
-  //         amount: this.amountInput,
-  //     });
-  // }
-  // transferForm = new FormGroup({
-  //     amount: new FormControl<any>(this.amountInput, Validators.required),
+  amountWritten!: number | null;
+  inputAmount(event: { amount: number | null }) {
+    this.amountWritten = event.amount;
+  }
 
   simulateForm = new FormGroup({
     amount: new FormControl('', Validators.required),

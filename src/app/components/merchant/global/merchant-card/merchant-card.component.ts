@@ -1,12 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnDestroy,
+} from '@angular/core';
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { objectModel } from '../../../dashboards/dashboard.model';
-import { Favorite } from '../../../../core/services/merchant/model';
-import { MerchantService } from '../../../../core/services';
-import { Merchant_AutocompleteModel } from './merchant.model';
+import { DialogService, MerchantService } from '../../../../core/services';
+import { MerchantAutocompleteModel } from '../../merchant.models';
+import { VariableService } from '../../../../core/services/variable/variable.service';
 
 @Component({
   selector: 'app-merchant-card',
@@ -15,8 +20,8 @@ import { Merchant_AutocompleteModel } from './merchant.model';
   templateUrl: './merchant-card.component.html',
   styleUrl: './merchant-card.component.scss',
 })
-export class MerchantCardComponent {
-  @Input({ required: true }) merchant: Merchant_AutocompleteModel = {
+export class MerchantCardComponent implements OnDestroy {
+  @Input({ required: true }) merchant: MerchantAutocompleteModel = {
     accepts_simple_payment: false,
     id: 0,
     is_favorite_merchant: false,
@@ -28,42 +33,26 @@ export class MerchantCardComponent {
     lookup_title: '',
     merchant_category_name: '',
   };
+  @Input() type: 'column' | 'row' = 'column';
+  @Input() action: 'merchant-payment' | 'output' = 'merchant-payment';
+  @Input() disabledFavoriteAction = false;
+  @Output() selectedMerchantEvent =
+    new EventEmitter<MerchantAutocompleteModel>();
+
   isLoading = false;
-
-  // @Input() get_merchant!: boolean
-  // @Input() get_product = [];
-  // @Input() merchants!: MerchantModel;
-  // @Output() first6Output = new EventEmitter<BillersModel[]>();
-  // first6!: BillersModel[];
-  // @Input() favorite_merchant_making!: BillersModel | null;
-  // favorite_making!: boolean;
-  // favoriteMerchants!: BillersModel[];
-  // favoriteMerchantsNumber!: number;
-  // favoriteMerchantLoading!: boolean;
-  // merchantsDetail!: BillersModel[];
-  // @Output() merchantInfoOutput = new EventEmitter<string>();
-  // last4!: BillersModel[];
-  // start = 0;
-  // end = 4;
-
-  // merchantInfo!: BillersModel[];
 
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  constructor(private merchantService: MerchantService) {}
+  constructor(
+    private merchantService: MerchantService,
+    private variableService: VariableService,
+    private dialogService: DialogService
+  ) {}
 
-  makeFavoriteMerchants(favorite: Merchant_AutocompleteModel, event: Event) {
+  makeFavoriteMerchants(favorite: MerchantAutocompleteModel, event: Event) {
     this.isLoading = true;
     event.stopPropagation();
-    // const productCard: HTMLElement =
-    //     event.target?.parentElement.parentElement.parentElement.parentElement
-    //         .parentElement;
-    // remove data-bs for bootstrap modal
-    // productCard.removeAttribute('data-bs-target');
-    // productCard.removeAttribute('data-bs-toggle');
-    // this.favorite_merchant_making = favorite;
-    // this.favorite_making = false;
-    let body!: Favorite;
+    let body!: { merchant: string; merchant_action: string };
     if (!favorite.is_favorite_merchant) {
       body = {
         merchant: favorite.id.toString(),
@@ -75,21 +64,27 @@ export class MerchantCardComponent {
         merchant_action: 'revoke_favorite',
       };
     }
-    // add data-bs after click on favorite star
-    // productCard.setAttribute('data-bs-target', '#myModal');
-    // productCard.setAttribute('data-bs-toggle', 'modal');
     this.merchantService
       .makeFavoriteMerchants(body)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: result => {
-          const data = result as objectModel;
+          const data = result as {
+            object: {
+              response_data: MerchantAutocompleteModel;
+              success: boolean;
+              response_message: string;
+              response_code: string;
+            };
+          };
           const response = data.object;
           if (response.success) {
             if (!favorite.is_favorite_merchant) {
               this.merchant.is_favorite_merchant = true;
+              this.variableService.refreshFavoriteMerchants.set(true);
             } else {
               this.merchant.is_favorite_merchant = false;
+              this.variableService.refreshFavoriteMerchants.set(true);
             }
           }
           this.isLoading = false;
@@ -98,5 +93,21 @@ export class MerchantCardComponent {
           this.isLoading = false;
         },
       });
+  }
+
+  selectMerchant() {
+    if (this.action === 'merchant-payment') {
+      this.dialogService.openMerchantPaymentDialog({
+        type: 'merchant',
+        merchant: this.merchant,
+      });
+    } else if (this.action === 'output') {
+      this.selectedMerchantEvent.emit(this.merchant);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

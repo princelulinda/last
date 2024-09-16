@@ -1,21 +1,22 @@
 import { Component, OnInit, DoCheck, OnDestroy } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { bankModel } from '../../../core/db/models/bank/bank.model';
 import {
   ConfigService,
   DialogService,
   LoanService,
 } from '../../../core/services';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { VariableService } from '../../../core/services/variable/variable.service';
-// import { TransferService } from '../../../core/services/transfer/transfer.service';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { CommonModule } from '@angular/common';
+
+import { Observable, Subject, takeUntil } from 'rxjs';
+
+import { BankModel } from '../../../core/db/models/bank/bank.model';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import {
   LoanModel,
+  LoanPlanResponseModel,
   PlanModel,
   ResModel,
-  ResponseDataModel,
+  SimulationResDataModel,
   SimulationResModel,
 } from '../loan.models';
 import { LoanPlanComponent } from '../loan-plan/loan-plan.component';
@@ -31,8 +32,8 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   loanId!: string;
   loan: LoanModel | undefined;
-  selectedBank$: Observable<bankModel>;
-  selectedBank!: bankModel;
+  selectedBank$: Observable<BankModel>;
+  selectedBank!: BankModel;
   loanPlan: PlanModel[] | undefined;
   singleLoanPlan!: PlanModel;
   dialog$: Observable<DialogResponseModel>;
@@ -49,8 +50,6 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
     private configService: ConfigService,
     private loanService: LoanService,
     private _route: ActivatedRoute,
-    private variableService: VariableService,
-    // private transferService: TransferService,
     private dialogService: DialogService
   ) {
     this.selectedBank$ = this.configService.getSelectedBank();
@@ -117,8 +116,8 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
       .getAmortizationPlan(this.loanId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(loanPlan => {
-        const result = loanPlan as PlanModel[];
-        this.loanPlan = result;
+        const result = loanPlan as { object: LoanPlanResponseModel };
+        this.loanPlan = result.object.response_data;
       });
   }
 
@@ -126,7 +125,7 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
     const data = {
       loan_id: this.loanId,
       loan_plan_id: this.singleLoanPlan.id,
-      pin_code: this.variableService.pin,
+      pin_code: this.pin,
     };
     this.dialogService.dispatchLoading();
 
@@ -187,10 +186,9 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
 
       this.loanService.simulateLoan(data).subscribe({
         next: result => {
-          const response = result as { object: ResponseDataModel };
+          const response = result as { object: SimulationResDataModel };
 
-          this.simulationResult = response.object
-            .response_data as SimulationResModel;
+          this.simulationResult = response.object.response_data;
         },
       });
     }

@@ -12,6 +12,8 @@ $erp-bg-light: (
   'input': #f1f1f1,
   'all-white': #ffffff,
   'all-dark': #242526,
+  'overlay-secondary': rgba(220, 226, 235, 0.678),
+  'overlay': #11111180,
 );
 
 $erp-text-light: (
@@ -34,6 +36,8 @@ $erp-bg-dark: (
   'input': #3a3b3c,
   'all-white': #ffffff,
   'all-dark': #242526,
+  'overlay-secondary': #18191a94,
+  'overlay': #12121280,
 );
 
 $erp-text-dark: (
@@ -54,12 +58,6 @@ html[data-bs-theme='erp-light'] {
 
   @each $color, $value in $erp-text-light {
     @include generateTextClass($color, $value);
-  }
-
-  // Form inputs bootstrap
-  .form-control,
-  .form-select {
-    @extend .bg-input;
   }
 
   body,
@@ -88,12 +86,6 @@ html[data-bs-theme='erp-dark'] {
   // Default color;
   @extend .text-dark;
 
-  // Form inputs bootstrap
-  .form-control,
-  .form-select {
-    @extend .bg-input;
-  }
-
   body,
   input,
   textarea,
@@ -105,4 +97,34 @@ html[data-bs-theme='erp-dark'] {
 
   // reset border in dark
   --bs-border-color: #474747;
+}
+
+html[data-bs-theme='erp-dark'],
+html[data-bs-theme='erp-light'] {
+  // Form inputs bootstrap
+  .form-control,
+  .form-select,
+  .input-group {
+    @extend .bg-input;
+    &:focus,
+    &:focus-visible {
+      border-color: #c989866e;
+      outline: 0;
+      //   box-shadow: 0 0 0 0.2rem #c989862b;
+      box-shadow: none;
+    }
+  }
+
+  .form-check-input {
+    @extend .form-check-input;
+    @extend .bg-input;
+    &:focus,
+    &:checked {
+      border: none;
+      box-shadow: none;
+    }
+    &:checked {
+      @extend .bg-primary;
+    }
+  }
 }
