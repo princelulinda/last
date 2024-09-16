@@ -23,11 +23,7 @@ import {
 import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { SwitchBankComponent } from '../../../global/components/popups/switch-bank/switch-bank.component';
 import { AccountsListComponent } from '../../account/accounts-list/accounts-list.component';
-import {
-  DebitIndividualEventModel,
-  DebitOptionsModel,
-  InstitutionInfoModel,
-} from '../transfer.model';
+import { DebitOptionsModel, InstitutionInfoModel } from '../transfer.model';
 import { WalletListComponent } from '../../wallet/wallet-list/wallet-list.component';
 import {
   activeMainConfigModel,
@@ -103,16 +99,13 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     acc_number?: string;
   }>();
   @Input() isTransactionDone = false;
-  @Input() title = 'Debit Account';
   @Input() creditAccountType = '';
   @Input() selectedInstitutionType = '';
   @Input() selectedInstitution: InstitutionInfoModel | string = '';
-  @Input() closedModal = false;
-  @Input() isModalClosed = false;
+
   @Input() isWalletShown = true;
   @Input() isAccountShown = true;
-  @Input() isTermDeposit = false;
-  @Input() isOperation = false;
+
   lookup = new FormControl('');
 
   constructor(
@@ -159,20 +152,6 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isTransactionDone'] && this.isTransactionDone) {
       this.updateAccount();
-    }
-
-    if (changes['isModalClosed'] && this.isModalClosed) {
-      const options = {
-        account: '',
-        wallet: '',
-        selectedDebitOption: '',
-        creditAccountType: '',
-        isTransferDone: this.isTransactionDone,
-        isAmountChanging: false,
-        selectedInstitutionType: '',
-        selectedInstitution: '',
-      };
-      this.debitOptions.emit(options);
     }
   }
 
@@ -246,19 +225,6 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
 
   toggleBalance() {
     this.dialogService.displayAmount();
-  }
-  getIndividualClient(event: DebitIndividualEventModel) {
-    const options = {
-      account: event.account,
-      wallet: '',
-      selectedDebitOption: this.selectedDebitAccountType,
-      creditAccountType: event.creditAccountType ?? '',
-      isTransferDone: this.isTransactionDone,
-      isAmountChanging: false,
-      selectedInstitutionType: this.selectedInstitutionType,
-      selectedInstitution: this.selectedInstitution,
-    };
-    this.debitOptions.emit(options);
   }
 
   getAccountSelected(event: AccountsListModel | WalletList) {

@@ -16,6 +16,7 @@ import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
 import { OverviewModel } from './list.model';
 import { NotFoundPageComponent } from '../../empty-states/not-found-page/not-found-page.component';
 import { RouterLink } from '@angular/router';
+import { EmptyStateComponent } from '../../empty-states/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-list',
@@ -27,6 +28,7 @@ import { RouterLink } from '@angular/router';
     NotFoundPageComponent,
     RouterLink,
     FormsModule,
+    EmptyStateComponent,
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
@@ -43,6 +45,7 @@ export class ListComponent implements OnInit, OnDestroy {
   @Input() overviewUrl = '';
   @Input() todayDate = false;
   @Input() limit = 20;
+  @Input() addButtonLink: string | null = null;
   overviewCount = 0;
   totalItems = 0;
   searchName = new FormControl('');
