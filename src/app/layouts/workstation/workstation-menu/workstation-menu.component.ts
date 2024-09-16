@@ -52,14 +52,16 @@ export class WorkstationMenuComponent implements OnInit {
       },
     });
 
-    this.route.params.subscribe({
-      next: params => {
-        this.activatedTypeMenu = params['TypeMenu'];
-        if (this.menuGroups) {
-          this.getActiveMenuGroups();
-        }
-      },
-    });
+    if (this.route.params) {
+      this.route.params.subscribe({
+        next: params => {
+          this.activatedTypeMenu = params['TypeMenu'];
+          if (this.menuGroups) {
+            this.getActiveMenuGroups();
+          }
+        },
+      });
+    }
   }
 
   getMenuByGroup(group_id: string) {
