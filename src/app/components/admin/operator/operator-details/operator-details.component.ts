@@ -13,7 +13,7 @@ import {
   dialogTypeModel,
 } from '../../../../core/services/dialog/dialogs-models';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   ConfigService,
   DialogService,
@@ -37,7 +37,12 @@ import { PageMenusModel } from '../../menu/menu.models';
 @Component({
   selector: 'app-operator-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MultiSelectComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MultiSelectComponent,
+    RouterLink,
+  ],
   templateUrl: './operator-details.component.html',
   styleUrl: './operator-details.component.scss',
 })
@@ -154,12 +159,12 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
           {
             icon: 'circle-info',
             title: 'Operator Info',
-            url: `/w/workstation/admin/operators/${this.operatorOrganizationId}`,
+            url: `/w/workstation/a/admin/operators/${this.operatorOrganizationId}`,
           },
           {
             icon: 'universal-access',
             title: 'Operators Details',
-            url: `/w/workstation/admin/operators/${this.operatorOrganizationId}`,
+            url: `/w/workstation/a/admin/operators/${this.operatorOrganizationId}`,
             fragment: 'details',
           },
         ];
@@ -813,6 +818,10 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
       event.stopPropagation();
       this.router.navigate([link]);
     }
+  }
+
+  redirectTo(url: string) {
+    return `/w/workstation/a/admin/${url}`;
   }
 
   ngOnDestroy(): void {
