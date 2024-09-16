@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../../../core/services';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-top-loader',
@@ -20,12 +21,20 @@ export class TopLoaderComponent implements OnInit {
     type: '',
   };
 
+  dialog$: Observable<{
+    active: boolean;
+    type: 'spinner' | 'topLoader' | '';
+    action: string;
+  }>;
+
   showtopLoader = false;
 
-  constructor(private dialogService: DialogService) {}
+  constructor(private dialogService: DialogService) {
+    this.dialog$ = toObservable(this.dialogService.loading);
+  }
 
   ngOnInit() {
-    toObservable(this.dialogService.loading).subscribe({
+    this.dialog$.subscribe({
       next: resp => {
         if (resp.active && resp.type === 'topLoader') {
           this.showtopLoader = true;
