@@ -120,15 +120,20 @@ export class AdminService {
     return this.apiService.get(url).pipe(map(data => data));
   }
 
+  createOperator(body: { client: number; pin_code: number }) {
+    const url = '/hr/administration/operator/organization/create/';
+    return this.apiService.post(url, body).pipe(map(response => response));
+  }
+
   assignRolesToOperator(organizationId: string, body: RoleBodyModel) {
     const url = `/hr/operator/organizations/manage/${organizationId}/?list_type=all`;
     return this.apiService.patch(url, body).pipe(map(data => data));
   }
 
-  // updateOperatorRole(roleId: any, body: any) {
-  //   const url = '/hr/access/operator/roles/' + roleId + '/';
-  //   return this.apiService.patch(url, body).pipe(map(data => data));
-  // }
+  updateOperatorRole(roleId: number | string, body: RoleBodyModel) {
+    const url = '/hr/access/operator/roles/' + roleId + '/';
+    return this.apiService.patch(url, body).pipe(map(data => data));
+  }
 
   getBranches(pagination: PaginationConfig) {
     const url = `/hr/branches/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`;

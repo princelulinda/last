@@ -23,7 +23,7 @@ export class AdminServicesListComponent {
       field: ['name'],
       size: '',
       detail: {
-        link: '/w/workstation/desk/service/',
+        link: '/w/workstation/d/desk/service/',
         field: 'id',
       },
     },
@@ -33,7 +33,7 @@ export class AdminServicesListComponent {
       field: ['department.name'],
       size: '',
       detail: {
-        link: '/w/workstation/desk/department/',
+        link: '/w/workstation/d/desk/department/',
         field: 'department.id',
       },
     },
@@ -42,7 +42,7 @@ export class AdminServicesListComponent {
       field: ['department.direction.name'],
       size: '',
       detail: {
-        link: '/w/workstation/desk/direction/',
+        link: '/w/workstation/d/desk/direction/',
         field: 'department.direction.id',
       },
     },

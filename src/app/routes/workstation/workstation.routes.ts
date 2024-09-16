@@ -7,11 +7,8 @@ import { IntranetRoutes } from './intranet.routes';
 import { DeskRoutes } from './desk.routes';
 import { AdminRoutes } from './admin.routes';
 import { ReportingRoutes } from './reporting.routes';
-import { BankingLayoutComponent } from '../../layouts/workstation/banking-layout/banking-layout.component';
-import { MarketLayoutComponent } from '../../layouts/workstation/market-layout/market-layout.component';
-import { IntranetLayoutComponent } from '../../layouts/workstation/intranet-layout/intranet-layout.component';
-import { DeskLayoutComponent } from '../../layouts/workstation/desk-layout/desk-layout.component';
 import { MetadataComponent } from '../../components/metadatas/metadata/metadata.component';
+import { WorkstationMenuComponent } from '../../layouts/workstation/workstation-menu/workstation-menu.component';
 
 export const workstationRoutes: Routes = [
   //Dashboards
@@ -20,35 +17,51 @@ export const workstationRoutes: Routes = [
     component: WorkstationDashboardComponent,
   },
   {
-    path: 'banking',
-    component: BankingLayoutComponent,
-    children: workstationBankingRoutes,
+    path: ':TypeMenu',
+    component: WorkstationMenuComponent,
+    children: [
+      {
+        path: 'banking',
+        children: workstationBankingRoutes,
+      },
+      {
+        path: 'market',
+        children: workstationMarketRoutes,
+      },
+      {
+        path: 'intranet',
+        children: IntranetRoutes,
+      },
+      {
+        path: 'desk',
+        children: DeskRoutes,
+      },
+      {
+        path: 'reporting',
+        children: ReportingRoutes,
+      },
+      {
+        path: 'admin',
+        children: AdminRoutes,
+      },
+      {
+        path: 'metadata',
+        component: MetadataComponent,
+      },
+      {
+        path: '**',
+        loadComponent: () =>
+          import(
+            '../../global/components/errors/not-found-404/not-found-404.component'
+          ).then(m => m.NotFound404Component),
+      },
+    ],
   },
   {
-    path: 'market',
-    component: MarketLayoutComponent,
-    children: workstationMarketRoutes,
-  },
-  {
-    path: 'intranet',
-    component: IntranetLayoutComponent,
-    children: IntranetRoutes,
-  },
-  {
-    path: 'desk',
-    component: DeskLayoutComponent,
-    children: DeskRoutes,
-  },
-  {
-    path: 'reporting',
-    children: ReportingRoutes,
-  },
-  {
-    path: 'admin',
-    children: AdminRoutes,
-  },
-  {
-    path: 'metadata',
-    component: MetadataComponent,
+    path: '**',
+    loadComponent: () =>
+      import(
+        '../../global/components/errors/not-found-404/not-found-404.component'
+      ).then(m => m.NotFound404Component),
   },
 ];

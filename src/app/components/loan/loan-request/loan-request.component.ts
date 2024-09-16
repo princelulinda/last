@@ -203,7 +203,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
 
           if (this.plateform === 'workstation') {
             this.router.navigate([
-              '/w/workstation/desk/credit/request/' + response.object.id,
+              '/w/workstation/d/desk/credit/request/' + response.object.id,
             ]);
           } else if (this.plateform === 'onlineBanking') {
             this.router.navigate([

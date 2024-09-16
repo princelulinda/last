@@ -8,7 +8,7 @@
       @for (menu of typeMenus; track $index) {
         <a
           class="d-flex flex-column align-items-center mb-4 sm-radius py-2 p-1 w-100"
-          (click)="setLocalSelectedMenu(menu.id)"
+          (click)="setLocalSelecteTypedMenu(menu.id)"
           [ngClass]="{
             'text-secondary': !link.isActive,
             'text-all-white': link.isActive,

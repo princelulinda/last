@@ -31,7 +31,8 @@
             class="bg-secondary lg-radius p-2 p-xl-4 border col-lg-9 col-md-12 mt-4">
             <div class="accordion" id="accordionExample">
               @for (menuGroup of menuGroups; track $index; let i = $index) {
-                <div class="accordion-item mb-3 p-2 sm-radius border bg-white">
+                <div
+                  class="accordion-item mb-3 p-2 sm-radius border-0 bg-white">
                   <div
                     class="accordion-header"
                     (click)="showMenus(i)"

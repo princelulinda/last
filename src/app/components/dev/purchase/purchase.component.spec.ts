@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MarketLayoutComponent } from './market-layout.component';
+import { PurchaseComponent } from './purchase.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
 
-describe('MarketLayoutComponent', () => {
-  let component: MarketLayoutComponent;
-  let fixture: ComponentFixture<MarketLayoutComponent>;
+describe('PurchaseComponent', () => {
+  let component: PurchaseComponent;
+  let fixture: ComponentFixture<PurchaseComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MarketLayoutComponent],
+      imports: [PurchaseComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -22,7 +22,7 @@ describe('MarketLayoutComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MarketLayoutComponent);
+    fixture = TestBed.createComponent(PurchaseComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

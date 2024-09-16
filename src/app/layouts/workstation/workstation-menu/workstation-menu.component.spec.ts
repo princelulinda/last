@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BankingLayoutComponent } from './banking-layout.component';
+import { WorkstationMenuComponent } from './workstation-menu.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
 
-describe('BankingLayoutComponent', () => {
-  let component: BankingLayoutComponent;
-  let fixture: ComponentFixture<BankingLayoutComponent>;
+describe('WorkstationMenuComponent', () => {
+  let component: WorkstationMenuComponent;
+  let fixture: ComponentFixture<WorkstationMenuComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BankingLayoutComponent],
+      imports: [WorkstationMenuComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -22,7 +22,7 @@ describe('BankingLayoutComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BankingLayoutComponent);
+    fixture = TestBed.createComponent(WorkstationMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
