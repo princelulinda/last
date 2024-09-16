@@ -317,7 +317,7 @@ export class AuthSignUpComponent implements OnInit {
   }
   selectedBankId(bank: { organization_id: number }) {
     this.bankId = bank.organization_id;
-    console.log(this.bankId);
+    // console.log(this.bankId);
   }
   onPasswordChange(password: string) {
     this.multiStepForm.controls.authentificationInformation.patchValue({

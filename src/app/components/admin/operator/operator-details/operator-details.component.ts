@@ -82,7 +82,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
     ends_at: ['', Validators.required],
   });
   roleIndex: number | null = null;
-  // selectedRoleToUpdate: any;
+  selectedRoleToUpdate: RoleListModel | null = null;
   dialog$: Observable<DialogResponseModel>;
   dialog!: DialogResponseModel;
 
@@ -94,6 +94,8 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
   // selectedCounterToRemove!: number | string;
   // selectedBrancheToRemove: any;
   password = '';
+  activeMenu: number | null = null;
+  showSelectedMenu = false;
 
   counterLoading = false;
   otherBranchesLoading = true;
@@ -178,7 +180,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
           switch (this.dialog.action) {
             case 'Update Role':
               if (this.dialog.response.confirmation === 'YES') {
-                // this.updateRole();
+                this.updateRole();
               }
               break;
             case 'Remove Permission Password':
@@ -202,7 +204,12 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
 
     this.searchInput.valueChanges.pipe(debounceTime(300)).subscribe({
       next: value => {
-        this.getOperatorMenus(value ?? '');
+        if (this.searchType === 'roles') {
+          this.getOperatorRoles(false, value ?? '');
+        }
+        if (this.searchType === 'menus') {
+          this.getOperatorMenus(value ?? '');
+        }
       },
     });
 
@@ -417,45 +424,54 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  // updateRole() {
-  //   this.isLoading = true;
-  //   if (this.dialog.response.confirmation === 'YES') {
-  //     this.dialogService.dispatchLoading();
-  //   }
-  //   const body = {
-  //     ends_at:
-  //       this.dialog.response.confirmation !== 'YES'
-  //         ? this.transformLocalDate(this.editRoleForm.controls['ends_at'].value)
-  //         : this.transformLocalDate(Date.now()),
-  //   };
-  //   const closeModalbtn = document.querySelector('#editRoleForm .close-modal');
-  //   this.adminService
-  //     .updateOperatorRole(this.selectedRoleToUpdate.id, body)
-  //     .subscribe({
-  //       next: response => {
-  //         this.dialogService.closeLoading();
-  //         this.dialogService.openToast({
-  //           title: '',
-  //           message: 'Success',
-  //           type: 'success',
-  //         });
-  //         this.getOperatorRoles(true);
-  //         // this.selectedRole = (closeModalbtn as HTMLButtonElement).click();
-  //         this.isLoading = false;
-  //         return response;
-  //       },
-  //       error: error => {
-  //         this.dialogService.closeLoading();
-  //         this.dialogService.openToast({
-  //           title: '',
-  //           message: 'Failed',
-  //           type: 'failed',
-  //         });
-  //         this.isLoading = false;
-  //         return error;
-  //       },
-  //     });
-  // }
+  updateRole() {
+    this.isLoading = true;
+    if (this.dialog.response.confirmation === 'YES') {
+      this.dialogService.dispatchLoading();
+    }
+    const now = Date.now();
+    const body = {
+      ends_at:
+        this.dialog.response.confirmation !== 'YES'
+          ? this.transformLocalDate(this.editRoleForm.controls['ends_at'].value)
+          : this.transformLocalDate(now - 2 * 60 * 60 * 1000),
+    };
+    // const closeModalbtn = document.querySelector('#editRoleForm .close-modal');
+    this.adminService
+      .updateOperatorRole(
+        this.selectedRoleToUpdate?.id as number,
+        body as RoleBodyModel
+      )
+      .subscribe({
+        next: response => {
+          console.log(
+            'selected role to update will be',
+            this.selectedRoleToUpdate
+          );
+          console.log('body will be', body);
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            title: '',
+            message: 'Success',
+            type: 'success',
+          });
+          this.getOperatorRoles(true);
+          // this.selectedRole = (closeModalbtn as HTMLButtonElement).click();
+          this.isLoading = false;
+          return response;
+        },
+        error: error => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            title: '',
+            message: 'Failed',
+            type: 'failed',
+          });
+          this.isLoading = false;
+          return error;
+        },
+      });
+  }
 
   getAllBranches() {
     this.otherBranchesLoading = true;
@@ -639,13 +655,17 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
 
   hideActionPopup(event: MouseEvent, action?: string) {
     this.roleIndex = null;
-    event.stopPropagation();
-    if (action && action === 'disable') {
-      // this.roleIndex;
-      this.openConfirmDialog({
-        action: 'Update Role',
-        message: 'You Want To Temove All Permissions',
-      });
+    this.activeMenu = null;
+    this.showSelectedMenu = false;
+    if (event) {
+      event.stopPropagation();
+      if (action && action === 'disable') {
+        // this.roleIndex;
+        this.openConfirmDialog({
+          action: 'Update Role',
+          message: 'You Want To Temove All Permissions',
+        });
+      }
     }
   }
 
@@ -659,6 +679,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
 
   backToRoles() {
     this.selectedRole = null;
+    this.showSelectedMenu = false;
     this.showRoleMenus = false;
     this.roleMenus = null;
   }
@@ -774,6 +795,24 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
   showInfoSection() {
     this.showDetails = false;
     this.router.navigate([], { fragment: undefined });
+  }
+
+  toggleMenu(event: MouseEvent, index: number) {
+    if (event) {
+      event.stopPropagation();
+      this.activeMenu = this.activeMenu === index ? null : index;
+    }
+  }
+
+  toggleSelectedMenu() {
+    this.showSelectedMenu = !this.showSelectedMenu;
+  }
+
+  navigate(event: MouseEvent, link: string) {
+    if (event) {
+      event.stopPropagation();
+      this.router.navigate([link]);
+    }
   }
 
   ngOnDestroy(): void {

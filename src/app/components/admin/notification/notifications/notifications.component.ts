@@ -15,7 +15,7 @@ export class NotificationsComponent {
       field: ['subject'],
       size: '1',
       detail: {
-        link: '/w/workstation/desk/admin/notification/',
+        link: '/w/workstation/d/desk/admin/notification/',
         field: 'id',
       },
     },

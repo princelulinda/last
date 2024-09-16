@@ -176,3 +176,14 @@ export interface SubmitInvitationResponseModel {
   success: string;
   response_message: string;
 }
+
+// export interface CreateAccountBodyModel {
+
+// }
+// export interface ResetPasswordBodyModel{
+
+// }
+
+// export interface OtpVerificationBodyModel{
+
+// }
