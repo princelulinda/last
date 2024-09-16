@@ -104,9 +104,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     private adminService: AdminService,
     private dialogService: DialogService,
     private router: Router
-  ) {
-    this.menuService.setPageMenus(this.pagesMenus);
-  }
+  ) {}
 
   ngOnInit() {
     if (this.route && this.route.fragment) {
@@ -127,6 +125,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
         },
       });
     }
+    this.menuService.setPageMenus(this.pagesMenus);
   }
 
   selectClient($event: ItemModel | null) {
