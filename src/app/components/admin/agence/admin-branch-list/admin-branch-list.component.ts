@@ -15,7 +15,6 @@ export class AdminBranchListComponent {
       size: '',
       detail: {
         link: '/w/workstation/admin/branch/',
-
         field: 'id',
       },
     },
@@ -36,4 +35,5 @@ export class AdminBranchListComponent {
       boolean: true,
     },
   ];
+  selectedList: 'operators' | 'invitations' | 'newOperator' = 'operators';
 }
