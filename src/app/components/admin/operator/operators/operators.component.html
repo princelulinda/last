@@ -15,7 +15,11 @@
       <app-list
         [headers]="operatorHeader"
         url="/hr/operator/organizations/manage/?status=C&"
-        title="Operators">
+        title="Operators"
+        [addButtonLink]="{
+          url: '/w/workstation/a/admin/operators',
+          fragment: 'newOperator',
+        }">
       </app-list>
     </div>
   </ng-template>
@@ -26,7 +30,11 @@
       <app-list
         [headers]="invitationsHeader"
         url="/hr/operator/organizations/manage/?list_type=unoperator&"
-        title="Invitations"></app-list>
+        title="Invitations"
+        [addButtonLink]="{
+          url: '/w/workstation/a/admin/operators',
+          fragment: 'newOperator',
+        }"></app-list>
     </div>
   </ng-template>
 
