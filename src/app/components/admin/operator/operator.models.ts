@@ -213,3 +213,10 @@ export interface AllBranchModel {
   name: string;
   organization_tenant: OrganizationTenantModel;
 }
+
+export interface NewOperatorModel {
+  response_code: string;
+  response_data: { id: number };
+  response_message: string;
+  success: boolean;
+}

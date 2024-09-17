@@ -1,0 +1,43 @@
+.topLoader {
+  background: linear-gradient(
+    90deg,
+    #810019 0%,
+    #ff4242 34%,
+    #2070b8 75%,
+    #0c304b 100%
+  );
+  height: 5px;
+  z-index: 10000;
+
+  &::after,
+  ::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    left: -4%;
+
+    width: 90%;
+    border-radius: 4px;
+    transition: 0.3s ease-in-out;
+    background: linear-gradient(
+      90deg,
+      #0c304b2e 0%,
+      #2070b8 34%,
+      #ff4242 75%,
+      #81001a42 100%
+    );
+
+    animation: right-left 2s infinite linear;
+    @keyframes right-left {
+      0% {
+        left: -4%;
+      }
+      50% {
+        left: 35%;
+      }
+      100% {
+        left: -4%;
+      }
+    }
+  }
+}

@@ -15,7 +15,7 @@ export class AdminDepartementsListComponent {
       field: ['name'],
       size: '',
       detail: {
-        link: '/w/workstation/desk/department/',
+        link: '/w/workstation/d/desk/department/',
         field: 'id',
       },
     },

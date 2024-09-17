@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeskLayoutComponent } from './desk-layout.component';
-import { provideHttpClient } from '@angular/common/http';
+import { AdminAccessListComponent } from './admin-access-list.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
-describe('DeskLayoutComponent', () => {
-  let component: DeskLayoutComponent;
-  let fixture: ComponentFixture<DeskLayoutComponent>;
+describe('AdminAccessListComponent', () => {
+  let component: AdminAccessListComponent;
+  let fixture: ComponentFixture<AdminAccessListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeskLayoutComponent],
+      imports: [AdminAccessListComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DeskLayoutComponent);
+    fixture = TestBed.createComponent(AdminAccessListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

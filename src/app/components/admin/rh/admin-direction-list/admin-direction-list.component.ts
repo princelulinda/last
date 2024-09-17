@@ -15,7 +15,7 @@ export class AdminDirectionListComponent {
       field: ['name'],
       size: '',
       detail: {
-        link: '/w/workstation/desk/direction/',
+        link: '/w/workstation/d/desk/direction/',
         field: 'id',
       },
     },

@@ -23,54 +23,66 @@
   @if (
     !organizationDetailsLoading && !loadingPermission && organizationDetails
   ) {
-    <div class="d-flex flex-row gap-4 p-2 px-3 mb-4">
-      <div
-        class="rounded-circle bg-secondary me-4 position-relative d-flex align-items-center justify-content-center"
-        style="width: 104px; height: 104px">
-        @if (organizationDetails.operator.employee_client?.picture) {
-          <img
-            class="image rounded-circle"
-            src="{{ organizationDetails.operator.employee_client?.picture }}"
-            alt="{{ organizationDetails.operator.username }} Logo" />
-        }
-        <!-- if no picture -->
-        @if (
-          !organizationDetails.operator.employee_client ||
-          !organizationDetails.operator.employee_client.picture
-        ) {
-          <span class="text-secondary" style="font-size: 3rem">
-            <i class="fa-solid fa-user-tie fa-xl"></i>
+    <div class="d-flex flex-row justify-content-between">
+      <div class="d-flex flex-row gap-4 p-2 px-3 mb-4">
+        <div
+          class="rounded-circle bg-secondary me-4 position-relative d-flex align-items-center justify-content-center"
+          style="width: 104px; height: 104px">
+          @if (organizationDetails.operator.employee_client?.picture) {
+            <img
+              class="image rounded-circle"
+              src="{{ organizationDetails.operator.employee_client?.picture }}"
+              alt="{{ organizationDetails.operator.username }} Logo" />
+          }
+          <!-- if no picture -->
+          @if (
+            !organizationDetails.operator.employee_client ||
+            !organizationDetails.operator.employee_client.picture
+          ) {
+            <span class="text-secondary" style="font-size: 3rem">
+              <i class="fa-solid fa-user-tie fa-xl"></i>
+            </span>
+          }
+          <span
+            class="text-secondary position-absolute fs-5 clickable rounded-circle bg-white"
+            style="
+              bottom: 0;
+              right: -3%;
+              z-index: 10;
+              cursor: pointer;
+              height: 30px;
+              width: 30px;
+            "
+            title="Refresh"
+            tabindex="0"
+            (click)="refresh()">
+            <i
+              class="fa-solid fa-arrows-rotate text-secondary rounded-circle p-1"></i>
           </span>
-        }
-        <span
-          class="text-secondary position-absolute fs-5 clickable rounded-circle bg-white"
-          style="
-            bottom: 0;
-            right: -3%;
-            z-index: 10;
-            cursor: pointer;
-            height: 30px;
-            width: 30px;
-          "
-          title="Refresh"
-          tabindex="0"
-          (click)="refresh()">
-          <i
-            class="fa-solid fa-arrows-rotate text-secondary rounded-circle p-1"></i>
-        </span>
-      </div>
-      <div class="d-flex flex-column text-dark justify-content-center gap-2">
-        <b class="fs-large fw-bold">{{
-          organizationDetails.operator.employee_client?.client_full_name ??
-            '------'
-        }}</b>
-        <b>{{
-          organizationDetails.operator.employee_client?.client_code ?? '------'
-        }}</b>
-        <div class="d-flex flex-row gap-2">
-          <span class="text-secondary fw-bold">Reference person </span>
-          <span class="fw-bold">Pierre claver koko Banywera </span>
         </div>
+        <div class="d-flex flex-column text-dark justify-content-center gap-2">
+          <b class="fs-large fw-bold">{{
+            organizationDetails.operator.employee_client?.client_full_name ??
+              '------'
+          }}</b>
+          <b>{{
+            organizationDetails.operator.employee_client?.client_code ??
+              '------'
+          }}</b>
+          <div class="d-flex flex-row gap-2">
+            <span class="text-secondary fw-bold">Reference person </span>
+            <span class="fw-bold">Pierre claver koko Banywera </span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <span
+          class="text-primary"
+          role="button"
+          tabindex="0"
+          [routerLink]="redirectTo('operators')">
+          <u>Go to list</u></span
+        >
       </div>
     </div>
 
@@ -213,7 +225,7 @@
           <div>
             <div class="w-100 d-flex flex-row gap-2 align-items-center">
               <span>
-                <i class="fa-solid fa-circle text-primary fs-x-small"></i>
+                <i class="fa-solid fa-circle text-primary-1 fs-x-small"></i>
               </span>
               <span class="fw-bold" i18n>Document</span>
             </div>
@@ -268,7 +280,7 @@
         style="height: 250px">
         <div class="w-100 d-flex flex-row px-3 mt-2 gap-2 align-items-center">
           <span>
-            <i class="fa-solid fa-circle text-primary fs-x-small"></i>
+            <i class="fa-solid fa-circle text-primary-1 fs-x-small"></i>
           </span>
           <span class="fw-bold" i18n>Recent Operations</span>
         </div>

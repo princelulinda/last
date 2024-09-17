@@ -133,7 +133,7 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
     this.plateform$.subscribe({
       next: plateform => {
         if (plateform === 'workstation') {
-          this.baseRouterLink = '/w/workstation/market';
+          this.baseRouterLink = '/w/workstation/m/market';
         } else if (plateform === 'myMarket') {
           this.baseRouterLink = '/m/mymarket';
         }

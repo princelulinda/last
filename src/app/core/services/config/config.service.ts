@@ -395,8 +395,8 @@ export class ConfigService {
     });
     return this.typeMenusExist$;
   }
-  setLocalSelectedMenu(menu: string) {
-    this.apiService.setLocalSelectedMenu(menu);
+  setLocalSelectedTypeMenu(menu: string) {
+    this.apiService.setLocalSelectedTypeMenu(menu);
   }
   setSelectedTypeMenu(menu: TypeMenuModel) {
     this.dbService.addOnceUpdate(SelectedTypeMenu.tableName, menu);

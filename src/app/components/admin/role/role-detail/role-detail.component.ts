@@ -38,7 +38,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
       size: '',
       icon: 'menu.icon',
       detail: {
-        link: '/w/workstation/admin/menu/',
+        link: '/w/workstation/a/admin/menu/',
         field: 'menu.id',
       },
     },
@@ -179,7 +179,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
   }
 
   redirectTo(url: string) {
-    return `/w/workstation/admin/${url}`;
+    return `/w/workstation/a/admin/${url}`;
   }
 
   refreshData() {
