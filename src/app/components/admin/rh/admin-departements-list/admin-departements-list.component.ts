@@ -12,6 +12,8 @@ import {
   AdminCreateNewDepartmentBodyModel,
   AdminCreateNewDepartmentModel,
 } from '../rh.model';
+import { DialogService } from '../../../../core/services/dialog/dialog.service';
+import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
 
 @Component({
   selector: 'app-admin-departements-list',
@@ -45,26 +47,49 @@ export class AdminDepartementsListComponent {
     },
   ];
 
-  constructor(private adminService: AdminService) {}
+  isLoading = false;
+  id!: number | null;
+  constructor(
+    private adminService: AdminService,
+    private dialogService: DialogService
+  ) {}
   newDepartment = new FormGroup({
     departmentName: new FormControl('', Validators.required),
-    direction: new FormControl('', Validators.required),
   });
   departmentData!: AdminCreateNewDepartmentModel;
   createNewDepartment() {
+    this.isLoading = true;
     const body: AdminCreateNewDepartmentBodyModel = {
       name: this.newDepartment.value.departmentName,
-      direction: this.newDepartment.value.direction,
+      direction: this.id,
     };
     this.adminService.createNewDepartement(body).subscribe({
       next: data => {
         this.departmentData = data.object;
+        this.isLoading = false;
         // this.newDep=data.object;
         this.newDepartment.reset();
+        this.id = null;
+        this.dialogService.openToast({
+          title: '',
+          type: 'success',
+          message: 'success',
+        });
       },
-      error() {
-        //
+      error: err => {
+        this.isLoading = false;
+        this.dialogService.openToast({
+          title: '',
+          type: 'failed',
+          message: err?.object?.response_message ?? 'Failed',
+        });
       },
     });
+  }
+
+  getSelectedDepartment(event: ItemModel | null) {
+    if (event) {
+      this.id = event.id;
+    }
   }
 }

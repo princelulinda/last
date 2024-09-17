@@ -13,6 +13,14 @@ import { AdminCounterListComponent } from '../../components/admin/agence/admin-c
 import { AdminCounterDetailsComponent } from '../../components/admin/agence/admin-counter-details/admin-counter-details.component';
 import { AdminBranchListComponent } from '../../components/admin/agence/admin-branch-list/admin-branch-list.component';
 import { AdminBranchDetailsComponent } from '../../components/admin/agence/admin-branch-details/admin-branch-details.component';
+
+import { AdminDirectionListComponent } from '../../components/admin/rh/admin-direction-list/admin-direction-list.component';
+import { AdminDirectionDetailsComponent } from '../../components/admin/rh/admin-direction-details/admin-direction-details.component';
+import { AdminDepartementsDetailsComponent } from '../../components/admin/rh/admin-departements-details/admin-departements-details.component';
+import { AdminDepartementsListComponent } from '../../components/admin/rh/admin-departements-list/admin-departements-list.component';
+import { AdminServicesListComponent } from '../../components/admin/rh/admin-services-list/admin-services-list.component';
+import { AdminServicesDetailsComponent } from '../../components/admin/rh/admin-services-details/admin-services-details.component';
+import { ConfigTarifComponent } from '../../components/config-tarif/config-tarif.component';
 export const AdminRoutes: Routes = [
   // Operator
   {
@@ -83,4 +91,16 @@ export const AdminRoutes: Routes = [
     path: 'branch/:branchId',
     component: AdminBranchDetailsComponent,
   },
+  //directions
+  { path: 'directions', component: AdminDirectionListComponent },
+  { path: 'direction/:id', component: AdminDirectionDetailsComponent },
+
+  //departments
+  { path: 'departments', component: AdminDepartementsListComponent },
+  { path: 'department/:id', component: AdminDepartementsDetailsComponent },
+
+  //services
+  { path: 'services', component: AdminServicesListComponent },
+  { path: 'service/:id', component: AdminServicesDetailsComponent },
+  { path: 'tarif', component: ConfigTarifComponent },
 ];

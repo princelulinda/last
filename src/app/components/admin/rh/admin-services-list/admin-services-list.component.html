@@ -24,12 +24,17 @@
       <div class="d-flex justify-content-center">
         <div class="col-md-6">
           <div class="form-floating mb-3">
-            <input
+            <app-lookup
+              option="autocomplete"
+              (selectedItemEvent)="getSelectedDepartment($event)"
+              url="/hr/access/departments/objects_autocomplete/?search="
+              label="Departements"></app-lookup>
+            <!-- <input
               type="text"
               class="form-control"
               placeholder="credit"
               formControlName="departments" />
-            <label for="name" i18n>Departments</label>
+            <label for="name" i18n>Departments</label> -->
           </div>
         </div>
       </div>
@@ -44,15 +49,19 @@
       <div class="d-flex justify-content-center text-center mt-5">
         <small class="me-3" role="button" i18n>Cancel</small>
         <button
-          [disabled]="!newService.valid"
+          [disabled]="!newService.valid || isLoading || !id"
           (click)="createNewService()"
           class="btn bg-primary text-light">
-          <span class="px-2">
-            <!-- <i
-                          class="fa-solid fa-spin fa-circle-notch fs-5"
-                      ></i> -->
-          </span>
-          <span class="px-2"> Save </span>
+          @if (isLoading) {
+            <span>
+              <i
+                class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-2"></i>
+            </span>
+          }
+
+          @if (!isLoading) {
+            <span>Save</span>
+          }
         </button>
       </div>
     </div>

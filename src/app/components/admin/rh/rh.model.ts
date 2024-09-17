@@ -35,7 +35,7 @@ export interface CreateNewServiceModel {
 
 export interface AdminCreateNewDepartmentBodyModel {
   name: string | null | undefined;
-  direction: string | null | undefined;
+  direction: number | null | undefined;
 }
 export interface CreateNewDirectionBodyModel {
   name: string | null | undefined;
@@ -43,6 +43,10 @@ export interface CreateNewDirectionBodyModel {
 }
 export interface CreateNewServiceBodyModel {
   name: string | null | undefined;
-  department: string | null | undefined;
+  department: number | null | undefined;
   disallow_connexion: boolean;
+}
+export interface DirectionType {
+  id: string; // Example property
+  name: string; // Example property
 }

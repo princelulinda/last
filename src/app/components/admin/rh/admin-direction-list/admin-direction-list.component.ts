@@ -11,6 +11,7 @@ import {
   CreateNewDirectionBodyModel,
   CreateNewDirectionModel,
 } from '../rh.model';
+import { DialogService } from '../../../../core/services/dialog/dialog.service';
 
 @Component({
   selector: 'app-admin-direction-list',
@@ -39,7 +40,11 @@ export class AdminDirectionListComponent {
     },
   ];
 
-  constructor(private adminService: AdminService) {}
+  isLoading = false;
+  constructor(
+    private adminService: AdminService,
+    private dialogService: DialogService
+  ) {}
   newDirection = new FormGroup({
     directionName: new FormControl('', Validators.required),
     directionType: new FormControl('', Validators.required),
@@ -47,6 +52,7 @@ export class AdminDirectionListComponent {
 
   directionsData!: CreateNewDirectionModel;
   createNewDirection() {
+    this.isLoading = true;
     const body: CreateNewDirectionBodyModel = {
       name: this.newDirection.value.directionName,
       direction_type: this.newDirection.value.directionType,
@@ -55,9 +61,20 @@ export class AdminDirectionListComponent {
       next: data => {
         this.directionsData = data.object;
         this.newDirection.reset();
+        this.isLoading = false;
+        this.dialogService.openToast({
+          title: '',
+          type: 'success',
+          message: 'success',
+        });
       },
-      error() {
-        //
+      error: err => {
+        this.isLoading = false;
+        this.dialogService.openToast({
+          title: '',
+          type: 'failed',
+          message: err?.object?.response_message ?? 'Failed',
+        });
       },
     });
   }

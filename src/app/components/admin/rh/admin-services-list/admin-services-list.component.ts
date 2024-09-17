@@ -8,11 +8,14 @@ import {
 } from '@angular/forms';
 import { AdminService } from '../../../../core/services/admin/admin.service';
 import { CreateNewServiceBodyModel, CreateNewServiceModel } from '../rh.model';
+import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
+import { DialogService } from '../../../../core/services/dialog/dialog.service';
+import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
 
 @Component({
   selector: 'app-admin-services-list',
   standalone: true,
-  imports: [ListComponent, ReactiveFormsModule],
+  imports: [ListComponent, ReactiveFormsModule, LookupComponent],
   templateUrl: './admin-services-list.component.html',
   styleUrl: './admin-services-list.component.scss',
 })
@@ -54,27 +57,50 @@ export class AdminServicesListComponent {
       css: 'department.direction.direction_type.css',
     },
   ];
-  constructor(private adminService: AdminService) {}
+  id!: number | null;
+  isLoading = false;
+  constructor(
+    private adminService: AdminService,
+    private dialogService: DialogService
+  ) {}
   newService = new FormGroup({
     serviceName: new FormControl('', Validators.required),
-    departments: new FormControl('', Validators.required),
   });
 
   newServiceData!: CreateNewServiceModel;
   createNewService() {
+    this.isLoading = true;
     const body: CreateNewServiceBodyModel = {
       name: this.newService.value.serviceName,
-      department: this.newService.value.departments,
+      department: this.id,
       disallow_connexion: false,
     };
     this.adminService.createNewService(body).subscribe({
       next: data => {
-        this.newService.reset();
         this.newServiceData = data.object;
+        this.newService.reset();
+        this.id = null;
+        this.isLoading = false;
+        this.dialogService.openToast({
+          title: '',
+          type: 'success',
+          message: 'success',
+        });
       },
-      error() {
-        //
+      error: err => {
+        this.isLoading = false;
+        this.dialogService.openToast({
+          title: '',
+          type: 'failed',
+          message: err?.object?.response_message ?? 'Failed',
+        });
       },
     });
+  }
+
+  getSelectedDepartment(event: ItemModel | null) {
+    if (event) {
+      this.id = event.id;
+    }
   }
 }
