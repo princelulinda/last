@@ -21,7 +21,7 @@ export class AdminBranchListComponent {
       field: ['name'],
       size: '',
       detail: {
-        link: '/w/workstation/admin/branch/',
+        link: '/w/workstation/a/admin/branch/',
         field: 'id',
       },
     },

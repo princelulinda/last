@@ -11,6 +11,8 @@ import { PaginationConfig } from '../../../global/models/pagination.models';
 import { AdminMenuModel } from '../../../components/admin/menu/menu.models';
 import { RoleBodyModel } from '../../../components/admin/operator/operator.models';
 import {
+  AddCounterBodyModel,
+  AddCounterResponseModel,
   CounterDetailsModele,
   TellerDetailsModele,
   TreaureDetailsModele,
@@ -107,6 +109,15 @@ export class AdminService {
   getOperatorDetailsOrganization(organizationId: number | string) {
     const url = `/hr/operator/organizations/manage/${organizationId}/?list_type=all`;
     return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  addCounter(body: AddCounterBodyModel): Observable<AddCounterResponseModel> {
+    const url = `/hr/counter/`;
+    return this.apiService.post(url, body).pipe(
+      map(response => {
+        return response as AddCounterResponseModel;
+      })
+    );
   }
 
   getOperatorRole(organizationId: number | string, search = '') {
