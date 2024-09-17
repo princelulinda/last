@@ -138,7 +138,7 @@ export class MenuDetailComponent implements OnInit, OnDestroy {
     this.getAdminMenuDetails();
   }
   redirectTo(url: string) {
-    return `/w/workstation/admin/${url}`;
+    return `/w/workstation/a/admin/${url}`;
   }
 
   ngOnDestroy(): void {

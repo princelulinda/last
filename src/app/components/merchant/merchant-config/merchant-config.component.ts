@@ -68,7 +68,6 @@ export class MerchantConfigComponent implements OnInit {
   closeModal!: ElementRef<HTMLElement>;
 
   client: ItemModel | null = null;
-  isChecked = false;
   isCheck = true;
   merchantConfigForm: FormGroup;
   newTellerForm: FormGroup;
@@ -100,7 +99,7 @@ export class MerchantConfigComponent implements OnInit {
     });
 
     this.newTellerForm = new FormGroup({
-      isChecked: new FormControl(this.isChecked),
+      isChecked: new FormControl(false),
       client: new FormControl('', Validators.required),
       alias: new FormControl('', Validators.required),
     });
@@ -259,14 +258,6 @@ export class MerchantConfigComponent implements OnInit {
     });
   }
 
-  toggleNotificationsCheckbox() {
-    this.isChecked = !this.isChecked;
-
-    this.newTellerForm.patchValue({
-      isChecked: this.isChecked,
-    });
-  }
-
   toggleModal() {
     this.tellerCreationDone = false;
 
@@ -277,7 +268,6 @@ export class MerchantConfigComponent implements OnInit {
         isChecked: false,
         alias: '',
       });
-      this.isChecked = false;
     }, 50);
   }
 
@@ -452,5 +442,16 @@ export class MerchantConfigComponent implements OnInit {
     } else {
       this.getTellersByMerchant();
     }
+  }
+  handleEnter(event: Event) {
+    if (this.newTellerForm.valid) {
+      this.createNewTeller();
+    } else {
+      event.preventDefault();
+    }
+  }
+
+  handleEnter2(event: Event) {
+    event.preventDefault();
   }
 }

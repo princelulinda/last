@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AdminDirectionListComponent } from './admin-direction-list.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ActivatedRoute } from '@angular/router';
 
 describe('AdminDirectionListComponent', () => {
   let component: AdminDirectionListComponent;
@@ -14,7 +15,10 @@ describe('AdminDirectionListComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        // RouterModule.forRoot(AuthRoutes),
+        {
+          provide: ActivatedRoute,
+          useValue: {},
+        },
       ],
     }).compileComponents();
 

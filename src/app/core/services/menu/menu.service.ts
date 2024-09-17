@@ -33,6 +33,14 @@ export class MenuService {
     this.pageMenus.set([]);
   }
 
+  getLocalSelectedMenu(): string | null {
+    return this.apiService.getLocalSelectedMenu();
+  }
+
+  setLocalSelectedMenu(menu: number) {
+    this.apiService.setLocalSelectedMenu(menu);
+  }
+
   getMenuGroupByGroup(type: string) {
     return this.apiService
       .get('/menugroup/list/?group_type=' + type)
