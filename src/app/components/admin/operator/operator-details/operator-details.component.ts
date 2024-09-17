@@ -33,6 +33,7 @@ import {
 import { MultiSelectComponent } from '../../../dev/multi-select/multi-select.component';
 import { AutocompleteModel } from '../../../../global/models/global.models';
 import { PageMenusModel } from '../../menu/menu.models';
+import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
 
 @Component({
   selector: 'app-operator-details',
@@ -42,6 +43,7 @@ import { PageMenusModel } from '../../menu/menu.models';
     ReactiveFormsModule,
     MultiSelectComponent,
     RouterLink,
+    PaginationComponent,
   ],
   templateUrl: './operator-details.component.html',
   styleUrl: './operator-details.component.scss',
@@ -115,7 +117,12 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
 
   operatorAccessForm!: FormGroup;
 
-  otherBranchesPagination: PaginationConfig = new PaginationConfig();
+  otherBranchesPagination: PaginationConfig = {
+    filters: {
+      limit: 5,
+      offset: 0,
+    },
+  };
   branchesCurrentPage = 0;
   branchesCount!: number;
   brancheCountersPagination: PaginationConfig = new PaginationConfig();
@@ -144,7 +151,6 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
       });
     }
 
-    this.otherBranchesPagination.filters.limit = 15;
     this.brancheCountersPagination.filters.limit = 15;
     this.organization$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: organization => {
@@ -499,6 +505,13 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
         return error;
       },
     });
+  }
+
+  onPaginationChange(pagination: PaginationConfig) {
+    this.otherBranchesPagination = pagination;
+    this.branchesCurrentPage =
+      pagination.filters.offset / pagination.filters.limit + 1;
+    this.getAllBranches();
   }
 
   // removePermission() {

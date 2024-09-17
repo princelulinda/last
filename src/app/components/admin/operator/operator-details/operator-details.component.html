@@ -652,7 +652,7 @@
               selectedSection === 'counters' && selectedMenu === 'counters'
             ) {
               <div
-                class="my-3 d-flex flex-column gap-1 overflow-y-auto align-items-center w-100 mt-4">
+                class="my-3 d-flex flex-column gap-1 overflow-y-auto align-items-center w-100 mt-4 overflow-x-hidden">
                 @if (loadingPermission) {
                   <div class="w-100 d-flex justify-content-center">
                     <i class="fa-solid fa-spin fa-circle-notch fs-5 my-5"></i>
@@ -979,7 +979,7 @@
 
     <!--------------------------------------------------------------------------- MODAL SECTION --------------------------------------------------------------------------->
     <div
-      class="modal shadow"
+      class="modal"
       id="permissionModal"
       tabindex="-1"
       aria-labelledby="permissionModalLabel"
@@ -988,7 +988,7 @@
       <div
         class="modal-dialog modal-dialog-centered modal-dialog-scrollable z-2">
         <div
-          class="modal-content lg-radius px-4 py-3 bg-white"
+          class="modal-content lg-radius px-4 py-3 bg-white shadow-lg"
           style="min-width: 642px">
           <div class="d-flex w-100 justify-content-end">
             <button
@@ -1027,7 +1027,9 @@
                 </div>
 
                 <!------------------------------------------------- Selected Branches List -------------------------------------------------------------->
-                <div class="d-flex w-100 align-items-center flex-column gap-2">
+                <div
+                  class="d-flex w-100 align-items-center flex-column gap-2 overflow-y-auto"
+                  style="max-height: 300px">
                   @for (
                     branch of permissionDetails.permissions_branches;
                     track $index
@@ -1065,7 +1067,7 @@
               <div
                 class="mt-4 d-flex justify-content-center flex-column align-items-center">
                 <span>
-                  <i class="fa-solid fa-spin fa-circle-notch"></i>
+                  <i class="fa-solid fa-spin fa-circle-notch fa-lg"></i>
                 </span>
               </div>
             }
@@ -1080,7 +1082,7 @@
               </div>
             }
 
-            @if (otherBranches.length > 0) {
+            @if (branchesCount > 0 && !otherBranchesLoading) {
               <div class="d-flex w-100 align-items-center flex-column">
                 <div class="d-flex w-100 align-items-center flex-column mb-1">
                   <div class="row w-100 mb-2">
@@ -1100,24 +1102,39 @@
                 </div>
 
                 <!------------------------------------------------- Branches -------------------------------------------------------------->
-                <div class="d-flex w-100 align-items-center flex-column gap-2">
-                  <div class="row w-100 border border-secondary rounded-2 py-3">
-                    <div class="col-2">
-                      <i
-                        class="fa-regular fa-square text-secondary fw-bold fa-lg"></i>
+                <div
+                  class="d-flex w-100 align-items-center flex-column gap-2 overflow-y-auto">
+                  @for (branch of otherBranches; track $index) {
+                    <div
+                      class="row w-100 border border-secondary rounded-2 py-3">
+                      <div class="col-2">
+                        <i
+                          class="fa-regular fa-square text-secondary fw-bold fa-lg"></i>
+                      </div>
+                      <div class="col-4">
+                        <span class="fw-bold">{{ branch.name }}</span>
+                      </div>
+                      <div class="col-4">
+                        <span class="fw-bold">{{ branch.formatted_code }}</span>
+                      </div>
+                      <div class="col-2">
+                        <i
+                          class="fa-solid fa-plus text-success fw-bold fa-lg"></i>
+                      </div>
                     </div>
-                    <div class="col-4">
-                      <span class="fw-bold">iHela ryanje</span>
-                    </div>
-                    <div class="col-4">
-                      <span class="fw-bold">007</span>
-                    </div>
-                    <div class="col-2">
-                      <i
-                        class="fa-solid fa-plus text-success fw-bold fa-lg"></i>
-                    </div>
-                  </div>
+                  }
                 </div>
+              </div>
+            }
+
+            @if (branchesCount > 5) {
+              <div class="mb-4">
+                <app-pagination
+                  [isLoading]="otherBranchesLoading"
+                  [totalData]="branchesCount"
+                  [pageLimit]="otherBranchesPagination.filters.limit"
+                  (paginationChange)="onPaginationChange($event)">
+                </app-pagination>
               </div>
             }
           </div>
