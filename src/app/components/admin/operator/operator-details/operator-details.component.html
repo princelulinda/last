@@ -971,51 +971,15 @@
                   }
                 }
               </div>
-
-              <!-- <div class="d-flex flex-column w-100 mt-4 gap-3 align-items-center">
-              <div class="d-flex flex-row gap-2 align-items-center w-100">
-                <i class="fa-solid fa-play text-primary fs-l-medium"></i>
-                <span class="fs-l-medium fw-bold"> Menu </span>
-              </div>
-
-              <div class="w-100 rounded border row p-2">
-                <div class="d-flex flex-column gap-1 col">
-                  <div class="d-flex flex-row gap-2">
-                    <span class="text-secondary fw-bold fs-small">Name :</span>
-                    <span class="fw-bold fs-small">Group</span>
-                  </div>
-                  <div class="d-flex flex-row gap-2">
-                    <span class="text-secondary fw-bold fs-small">Url :</span>
-                  </div>
-                </div>
-
-                <div class="d-flex flex-column gap-1 col">
-                  <div class="d-flex flex-row gap-2">
-                    <span class="text-secondary fw-bold fs-small">Group :</span>
-                    <span class="fw-bold fs-small">Group</span>
-                  </div>
-                </div>
-
-                <div class="d-flex flex-column gap-1 col">
-                  <div class="d-flex flex-row gap-2">
-                    <span class="text-secondary fw-bold fs-small"
-                      >Active :</span
-                    >
-                    <span class="fw-bold"
-                      ><i class="fa-solid fa-circle-xmark text-danger"></i
-                    ></span>
-                  </div>
-                </div>
-              </div>
-            </div> -->
             }
           </div>
         </div>
       </div>
     </ng-template>
 
+    <!--------------------------------------------------------------------------- MODAL SECTION --------------------------------------------------------------------------->
     <div
-      class="modal"
+      class="modal shadow"
       id="permissionModal"
       tabindex="-1"
       aria-labelledby="permissionModalLabel"
@@ -1036,11 +1000,11 @@
 
           <div class="w-100 px-4">
             <div class="d-flex flex-row gap-3 mb-3">
-              <span class="fs-l-medium fw-bold">Selected branches</span>
+              <span class="fs-l-medium fw-bold" i18n>Selected branches</span>
               <span
                 class="text-all-white fw-bold fs-medium rounded-circle bg-danger d-flex justify-content-center align-items-center"
                 style="height: 27px; width: 27px"
-                >3</span
+                >{{ permissionDetails?.permissions_branches?.length }}</span
               >
             </div>
 
@@ -1054,10 +1018,10 @@
                 <div class="row w-100 mb-2">
                   <div class="col-2"></div>
                   <div class="col-4">
-                    <span class="text-secondary fw-bold">Branch name</span>
+                    <span class="text-secondary fw-bold" i18n>Branch name</span>
                   </div>
                   <div class="col-4">
-                    <span class="text-secondary fw-bold">Branch code</span>
+                    <span class="text-secondary fw-bold" i18n>Branch code</span>
                   </div>
                   <div class="col-2"></div>
                 </div>
@@ -1091,77 +1055,71 @@
             }
 
             <div class="d-flex flex-row gap-3 mb-3">
-              <span class="fs-l-medium fw-bold">Branches</span>
+              <span class="fs-l-medium fw-bold" i18n>Branches</span>
               <div
                 class="border my-auto w-100 bg-primary"
                 style="max-height: 0px"></div>
             </div>
 
-            <div class="d-flex w-100 align-items-center flex-column">
-              <div class="d-flex w-100 align-items-center flex-column mb-1">
-                <div class="row w-100 mb-2">
-                  <div class="col-2"></div>
-                  <div class="col-4">
-                    <span class="text-secondary fw-bold">Branch name</span>
-                  </div>
-                  <div class="col-4">
-                    <span class="text-secondary fw-bold">Branch code</span>
-                  </div>
-                  <div class="col-2"></div>
-                </div>
+            @if (otherBranchesLoading) {
+              <div
+                class="mt-4 d-flex justify-content-center flex-column align-items-center">
+                <span>
+                  <i class="fa-solid fa-spin fa-circle-notch"></i>
+                </span>
               </div>
+            }
 
-              <!------------------------------------------------- Branches -------------------------------------------------------------->
-              <div class="d-flex w-100 align-items-center flex-column gap-2">
-                <div class="row w-100 border border-secondary rounded-2 py-3">
-                  <div class="col-2">
-                    <i
-                      class="fa-regular fa-square text-secondary fw-bold fa-lg"></i>
-                  </div>
-                  <div class="col-4">
-                    <span class="fw-bold">iHela ryanje</span>
-                  </div>
-                  <div class="col-4">
-                    <span class="fw-bold">007</span>
-                  </div>
-                  <div class="col-2">
-                    <i class="fa-solid fa-plus text-success fw-bold fa-lg"></i>
+            @if (!otherBranchesLoading && otherBranches.length === 0) {
+              <div
+                class="mt-4 d-flex justify-content-center flex-column align-items-center">
+                <span class="empty-state fs-1">
+                  <i class="fa-solid fa-face-meh"></i>
+                </span>
+                <span class="empty-state fs-4" i18n> No Branches </span>
+              </div>
+            }
+
+            @if (otherBranches.length > 0) {
+              <div class="d-flex w-100 align-items-center flex-column">
+                <div class="d-flex w-100 align-items-center flex-column mb-1">
+                  <div class="row w-100 mb-2">
+                    <div class="col-2"></div>
+                    <div class="col-4">
+                      <span class="text-secondary fw-bold" i18n
+                        >Branch name</span
+                      >
+                    </div>
+                    <div class="col-4">
+                      <span class="text-secondary fw-bold" i18n
+                        >Branch code</span
+                      >
+                    </div>
+                    <div class="col-2"></div>
                   </div>
                 </div>
 
-                <div class="row w-100 border border-secondary rounded-2 py-3">
-                  <div class="col-2">
-                    <i
-                      class="fa-regular fa-square text-secondary fw-bold fa-lg"></i>
-                  </div>
-                  <div class="col-4">
-                    <span class="fw-bold">iHela ryanje</span>
-                  </div>
-                  <div class="col-4">
-                    <span class="fw-bold">007</span>
-                  </div>
-                  <div class="col-2">
-                    <i class="fa-solid fa-plus text-success fw-bold fa-lg"></i>
-                  </div>
-                </div>
-
-                <div class="row w-100 border border-secondary rounded-2 py-3">
-                  <div class="col-2">
-                    <i
-                      class="fa-regular fa-square text-secondary fw-bold fa-lg"></i>
-                  </div>
-                  <div class="col-4">
-                    <span class="fw-bold">iHela ryanje</span>
-                  </div>
-                  <div class="col-4">
-                    <span class="fw-bold">007</span>
-                  </div>
-                  <div class="col-2">
-                    <i class="fa-solid fa-plus text-success fw-bold fa-lg"></i>
+                <!------------------------------------------------- Branches -------------------------------------------------------------->
+                <div class="d-flex w-100 align-items-center flex-column gap-2">
+                  <div class="row w-100 border border-secondary rounded-2 py-3">
+                    <div class="col-2">
+                      <i
+                        class="fa-regular fa-square text-secondary fw-bold fa-lg"></i>
+                    </div>
+                    <div class="col-4">
+                      <span class="fw-bold">iHela ryanje</span>
+                    </div>
+                    <div class="col-4">
+                      <span class="fw-bold">007</span>
+                    </div>
+                    <div class="col-2">
+                      <i
+                        class="fa-solid fa-plus text-success fw-bold fa-lg"></i>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            }
           </div>
         </div>
       </div>
