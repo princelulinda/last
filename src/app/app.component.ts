@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 import { Observable } from 'rxjs';
 
@@ -19,6 +19,7 @@ import { ObrBillComponent } from './global/components/popups/bills-format/obr-bi
 import { MerchantBillComponent } from './global/components/popups/bills-format/merchant-bill/merchant-bill.component';
 import { MerchantPaymentComponent } from './global/components/popups/merchant-payment/merchant-payment.component';
 import { SleepModeComponent } from './layouts/sleep-mode/sleep-mode.component';
+import { TopLoaderComponent } from './global/components/loaders/top-loader/top-loader.component';
 
 @Component({
   selector: 'app-root',
@@ -34,9 +35,9 @@ import { SleepModeComponent } from './layouts/sleep-mode/sleep-mode.component';
     LandscapeBillComponent,
     ObrBillComponent,
     MerchantBillComponent,
-    NgOptimizedImage,
     MerchantPaymentComponent,
     SleepModeComponent,
+    TopLoaderComponent,
   ],
 })
 export class AppComponent implements OnInit {
