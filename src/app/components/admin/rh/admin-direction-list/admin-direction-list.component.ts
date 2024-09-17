@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ListComponent } from '../../../../global/components/list/list/list.component';
 import {
   FormControl,
@@ -12,6 +12,7 @@ import {
   CreateNewDirectionModel,
 } from '../rh.model';
 import { DialogService } from '../../../../core/services/dialog/dialog.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin-direction-list',
@@ -20,7 +21,7 @@ import { DialogService } from '../../../../core/services/dialog/dialog.service';
   templateUrl: './admin-direction-list.component.html',
   styleUrl: './admin-direction-list.component.scss',
 })
-export class AdminDirectionListComponent {
+export class AdminDirectionListComponent implements OnInit {
   headers = [
     {
       name: 'Name',
@@ -43,7 +44,8 @@ export class AdminDirectionListComponent {
   isLoading = false;
   constructor(
     private adminService: AdminService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private route: ActivatedRoute
   ) {}
   newDirection = new FormGroup({
     directionName: new FormControl('', Validators.required),
@@ -77,5 +79,15 @@ export class AdminDirectionListComponent {
         });
       },
     });
+  }
+  showAddNewDirection = false;
+  ngOnInit() {
+    if (this.route && this.route.fragment) {
+      this.route.fragment.subscribe({
+        next: fragment => {
+          this.showAddNewDirection = fragment === 'newDirection';
+        },
+      });
+    }
   }
 }

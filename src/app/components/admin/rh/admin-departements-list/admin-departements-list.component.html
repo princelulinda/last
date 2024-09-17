@@ -1,54 +1,57 @@
-<app-list
-  [headers]="headers"
-  url="/hr/access/departments/?"
-  [addButtonLink]="{
-    url: '/w/workstation/d/admin/departments/',
-    fragment: 'newDepartment',
-  }"
-  title="Departments"></app-list>
-<!-- @if () {} -->
-<form action="" [formGroup]="newDepartment">
-  <section>
-    <div class="col-md-3 mx-auto p-3">
-      <div class="text-dark text-center">
-        <b i18n>Add New Departement</b>
-      </div>
-
-      <div class="mt-4">
-        <div class="form-floating mb-3">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="credit"
-            formControlName="departmentName" />
-          <label for="name" i18n>Department Name</label>
+@if (!showAddNewDepartment) {
+  <app-list
+    [headers]="headers"
+    url="/hr/access/departments/?"
+    [addButtonLink]="{
+      url: '/w/workstation/d/admin/departments/',
+      fragment: 'newDepartment',
+    }"
+    title="Departments"></app-list>
+}
+@if (showAddNewDepartment) {
+  <form action="" [formGroup]="newDepartment">
+    <section>
+      <div class="col-md-3 mx-auto p-3">
+        <div class="text-dark text-center">
+          <b i18n>Add New Departement</b>
         </div>
-        <div>
-          <app-lookup
-            option="autocomplete"
-            (selectedItemEvent)="getSelectedDepartment($event)"
-            url="/hr/access/directions/objects_autocomplete/?search="
-            label="Directions"></app-lookup>
+
+        <div class="mt-4">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="credit"
+              formControlName="departmentName" />
+            <label for="name" i18n>Department Name</label>
+          </div>
+          <div>
+            <app-lookup
+              option="autocomplete"
+              (selectedItemEvent)="getSelectedDepartment($event)"
+              url="/hr/access/directions/objects_autocomplete/?search="
+              label="Directions"></app-lookup>
+          </div>
+        </div>
+        <div class="mt-5 text-center">
+          <span class="text-dark me-4 pointer" i18n>Cancel</span>
+          <button
+            [disabled]="isLoading || !id || !newDepartment.valid"
+            (click)="createNewDepartment()"
+            class="btn bg-primary text-light px-4">
+            @if (isLoading) {
+              <span>
+                <i
+                  class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-2"></i>
+              </span>
+            }
+
+            @if (!isLoading) {
+              <span>Save</span>
+            }
+          </button>
         </div>
       </div>
-      <div class="mt-5 text-center">
-        <span class="text-dark me-4 pointer" i18n>Cancel</span>
-        <button
-          [disabled]="isLoading || !id || !newDepartment.valid"
-          (click)="createNewDepartment()"
-          class="btn bg-primary text-light px-4">
-          @if (isLoading) {
-            <span>
-              <i
-                class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-2"></i>
-            </span>
-          }
-
-          @if (!isLoading) {
-            <span>Save</span>
-          }
-        </button>
-      </div>
-    </div>
-  </section>
-</form>
+    </section>
+  </form>
+}

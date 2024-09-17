@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ListComponent } from '../../../../global/components/list/list/list.component';
 import {
   FormControl,
@@ -11,6 +11,7 @@ import { CreateNewServiceBodyModel, CreateNewServiceModel } from '../rh.model';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { DialogService } from '../../../../core/services/dialog/dialog.service';
 import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin-services-list',
@@ -19,7 +20,7 @@ import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.m
   templateUrl: './admin-services-list.component.html',
   styleUrl: './admin-services-list.component.scss',
 })
-export class AdminServicesListComponent {
+export class AdminServicesListComponent implements OnInit {
   headers = [
     {
       name: 'Name',
@@ -61,7 +62,8 @@ export class AdminServicesListComponent {
   isLoading = false;
   constructor(
     private adminService: AdminService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private route: ActivatedRoute
   ) {}
   newService = new FormGroup({
     serviceName: new FormControl('', Validators.required),
@@ -101,6 +103,16 @@ export class AdminServicesListComponent {
   getSelectedDepartment(event: ItemModel | null) {
     if (event) {
       this.id = event.id;
+    }
+  }
+  showAddNewService = false;
+  ngOnInit() {
+    if (this.route && this.route.fragment) {
+      this.route.fragment.subscribe({
+        next: fragment => {
+          this.showAddNewService = fragment === 'newService';
+        },
+      });
     }
   }
 }
