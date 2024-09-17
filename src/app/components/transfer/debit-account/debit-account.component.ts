@@ -1,4 +1,4 @@
-import { CommonModule, NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -44,7 +44,6 @@ import { BankOptionsModel } from '../../dashboards/dashboard.model';
     SwitchBankComponent,
     AccountsListComponent,
     WalletListComponent,
-    NgClass,
   ],
   templateUrl: './debit-account.component.html',
   styleUrl: './debit-account.component.scss',

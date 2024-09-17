@@ -15,7 +15,7 @@ import {
 import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
 import { OverviewModel } from './list.model';
 import { NotFoundPageComponent } from '../../empty-states/not-found-page/not-found-page.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { EmptyStateComponent } from '../../empty-states/empty-state/empty-state.component';
 
 @Component({
@@ -45,7 +45,10 @@ export class ListComponent implements OnInit, OnDestroy {
   @Input() overviewUrl = '';
   @Input() todayDate = false;
   @Input() limit = 20;
-  @Input() addButtonLink: string | null = null;
+  @Input() addButtonLink: { url: string; fragment?: string } = {
+    url: '',
+    fragment: '',
+  };
   overviewCount = 0;
   totalItems = 0;
   searchName = new FormControl('');
@@ -119,7 +122,8 @@ export class ListComponent implements OnInit, OnDestroy {
 
   constructor(
     private generalService: GeneralService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private router: Router
   ) {
     this.amountState$ = this.dialogService.getAmountState();
     this.data_list = [];
@@ -150,6 +154,7 @@ export class ListComponent implements OnInit, OnDestroy {
     event.preventDefault();
     this.search();
   }
+
   getData() {
     let params: ParamModel[] = [];
     if (this.searchName.value !== '') {
