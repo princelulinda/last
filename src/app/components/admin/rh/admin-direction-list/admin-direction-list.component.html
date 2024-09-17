@@ -1,6 +1,10 @@
 <app-list
   [headers]="headers"
   url="/hr/access/directions/?"
+  [addButtonLink]="{
+    url: '/w/workstation/d/admin/directions/',
+    fragment: 'newDirection',
+  }"
   title="Directions"></app-list>
 
 <form action="" [formGroup]="newDirection">
