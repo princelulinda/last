@@ -1,1 +1,30 @@
-<app-list [headers]="headers" url="/hr/branches/?" title="Menus"> </app-list>
+<!--<app-list [headers]="headers" url="/hr/branches/?" title="Menus"> </app-list>-->
+
+<form [formGroup]="counterForm">
+  <div class="row">
+    <div class="col-5 mx-auto mt-3">
+      <div
+        class="fw-bold text-dark fs-medium text-center text-secondary"
+        i18n></div>
+      <div class="form-floating mt-4">
+        <input
+          type="text"
+          class="input form-control text-dark simulator-input"
+          id="name"
+          formControlName="name"
+          placeholder="name" />
+        <label for="name" class="text-dark" i18n>name <code>*</code></label>
+      </div>
+
+      <div class="form-floating mt-3">
+        <input
+          type="text"
+          class="input form-control bg-light text-dark simulator-input"
+          id="city"
+          formControlName="city"
+          placeholder="city" />
+        <label for="city" class="text-dark" i18n>city</label>
+      </div>
+    </div>
+  </div>
+</form>

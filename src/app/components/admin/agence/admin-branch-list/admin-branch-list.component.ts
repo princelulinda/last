@@ -1,13 +1,20 @@
 import { Component } from '@angular/core';
 import { ListComponent } from '../../../../global/components/list/list/list.component';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 @Component({
   selector: 'app-admin-branch-list',
   standalone: true,
-  imports: [ListComponent],
+  imports: [ListComponent, ReactiveFormsModule],
   templateUrl: './admin-branch-list.component.html',
   styleUrl: './admin-branch-list.component.scss',
 })
 export class AdminBranchListComponent {
+  counterForm!: FormGroup;
   headers = [
     {
       name: 'Name',
@@ -36,4 +43,10 @@ export class AdminBranchListComponent {
     },
   ];
   selectedList: 'operators' | 'invitations' | 'newOperator' = 'operators';
+  constructor() {
+    this.counterForm = new FormGroup({
+      name: new FormControl('', Validators.required),
+      city: new FormControl(''),
+    });
+  }
 }
