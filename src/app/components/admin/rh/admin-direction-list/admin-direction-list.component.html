@@ -39,26 +39,23 @@
           </select>
         </div>
       </div>
-      <!-- 
-        <div class="mt-4" style="height: 38vh">
-            <div class="mb-2 ms-3 text-dark" i18n>Choose the menus</div>
-            <app-multi-select
-                (selectedItemEvent)="getSelectedMenus($event)"
-                url="/menu/admin/objects_autocomplete/?search="
-            ></app-multi-select>
-        </div> -->
+
       <div class="d-flex justify-content-center text-center mt-5">
         <small class="me-3" role="button" i18n>Cancel</small>
         <button
           [disabled]="!newDirection.valid"
           (click)="createNewDirection()"
           class="btn bg-primary text-light">
-          <span class="px-2">
-            <!-- <i
-                        class="fa-solid fa-spin fa-circle-notch fs-5"
-                    ></i> -->
-          </span>
-          <span class="px-2"> Save </span>
+          @if (isLoading) {
+            <span>
+              <i
+                class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-2"></i>
+            </span>
+          }
+
+          @if (!isLoading) {
+            <span>Save</span>
+          }
         </button>
       </div>
     </div>
