@@ -254,6 +254,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
           const res = value as { object: PermissionModel };
           this.loadingPermission = false;
           this.permissionDetails = res.object;
+          console.log('data', res.object);
           this.defaultBranchesId =
             this.permissionDetails.permissions_branches.map(
               (b: { id: number; name: string }) => b.id
@@ -736,14 +737,15 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
   // }
 
   selectMenu(name: 'roles' | 'menus' | 'counters') {
-    if (name === 'roles') {
-      this.selectedSection = 'roles';
-    } else if (name === 'menus') {
-      this.selectedSection = 'menus';
-    }
+    // if (name === 'roles') {
+    //   this.selectedSection = 'roles';
+    // } else if (name === 'menus') {
+    //   this.selectedSection = 'menus';
+    // }
     if (this.searchInput.value !== '') {
       this.searchInput.reset();
     }
+    this.selectedSection = name;
     this.selectedMenu = name;
     this.searchType = name;
   }

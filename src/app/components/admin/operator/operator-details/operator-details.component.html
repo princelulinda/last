@@ -291,7 +291,7 @@
       <!-- Details -->
 
       <div class="mt-5 mx-3 h-75 row">
-        <div class="col-12 col-lg-10 col-xl-8 col-xxl-6">
+        <div class="col-12 col-lg-11 col-xl-9 col-xxl-8">
           <div class="d-flex border-bottom">
             <div
               class="px-4 clickable"
@@ -317,7 +317,15 @@
               <span class="fw-bold" i18n>Menu(s)</span>
             </div>
 
-            <div class="px-4 clickable">
+            <div
+              class="px-4 clickable"
+              (click)="selectMenu('counters')"
+              tabindex="0"
+              [ngClass]="
+                selectedMenu === 'counters'
+                  ? 'border-3 border-primary border-bottom'
+                  : ''
+              ">
               <span class="fw-bold" i18n>Counter(s)</span>
             </div>
           </div>
@@ -328,7 +336,7 @@
                 'justify-content-between': selectedMenu !== 'menus',
                 'justify-content-end': selectedMenu === 'menus',
               }">
-              @if (selectedSection === 'roles') {
+              @if (selectedSection === 'roles' && selectedMenu === 'roles') {
                 <div
                   class="py-1 sm-radius px-3 border border-2 d-flex align-items-center border-secondary clickable"
                   (click)="selectSection('assignment')"
@@ -338,10 +346,27 @@
                 </div>
               }
 
+              @if (
+                selectedSection === 'counters' && selectedMenu === 'counters'
+              ) {
+                <div
+                  class="py-1 sm-radius px-3 bg-primary d-flex align-items-center border-secondary clickable"
+                  tabindex="0"
+                  data-bs-toggle="modal"
+                  data-bs-target="#permissionModal"
+                  role="button">
+                  <span><i class="fa-solid fa-plus text-all-white"></i></span>
+                  <span class="ms-2 fw-bold text-all-white" i18n
+                    >Add Counter</span
+                  >
+                </div>
+              }
+
               <div class="h-100 d-flex flex-row gap-2">
                 @if (
                   (selectedMenu === 'roles' && roles) ||
-                  (selectedMenu === 'menus' && allMenus)
+                  (selectedMenu === 'menus' && allMenus) ||
+                  selectedMenu === 'counters'
                 ) {
                   <div
                     class="position-relative"
@@ -354,7 +379,11 @@
                       [placeholder]="
                         selectedMenu === 'roles'
                           ? 'Search Roles'
-                          : 'Search Menus'
+                          : selectedMenu === 'menus'
+                            ? 'Search Menus'
+                            : selectedMenu === 'counters'
+                              ? 'Search Counters'
+                              : ''
                       "
                       [formControl]="searchInput" />
                     <div
@@ -377,7 +406,11 @@
                   </div>
                 }
 
-                @if (selectedRole && selectedSection === 'roles') {
+                @if (
+                  selectedRole &&
+                  selectedSection === 'roles' &&
+                  selectedMenu === 'roles'
+                ) {
                   <div
                     class="d-flex align-items-center text-primary-1 px-3 py-2 rounded bg-primary-2 clickable fs-l-medium"
                     (click)="backToRoles()"
@@ -394,8 +427,13 @@
                 </span>
               </div>
             }
+
+            <!------------------------------------------------------------ ALL ROLES ------------------------------------------------------------------------->
             @if (
-              !rolesLoading && !selectedRole && selectedSection === 'roles'
+              !rolesLoading &&
+              !selectedRole &&
+              selectedSection === 'roles' &&
+              selectedMenu === 'roles'
             ) {
               <div class="my-3 pb-5 d-flex flex-column gap-3">
                 @if (!roles || roles.length === 0) {
@@ -520,7 +558,7 @@
 
             <!------------------------------------------------------------ ALL MENUS ------------------------------------------------------------------------->
 
-            @if (selectedSection === 'menus') {
+            @if (selectedSection === 'menus' && selectedMenu === 'menus') {
               <div
                 class="my-3 d-flex flex-column gap-3 overflow-y-auto align-items-center w-100">
                 @if (loadingAllMenus) {
@@ -604,6 +642,66 @@
                       </div>
                     </div>
                   }
+                }
+              </div>
+            }
+
+            <!---------------------------------------------------------------------- COUNTERS --------------------------------------------------------------------------------------->
+
+            @if (
+              selectedSection === 'counters' && selectedMenu === 'counters'
+            ) {
+              <div
+                class="my-3 d-flex flex-column gap-1 overflow-y-auto align-items-center w-100 mt-4">
+                @if (loadingPermission) {
+                  <div class="w-100 d-flex justify-content-center">
+                    <i class="fa-solid fa-spin fa-circle-notch fs-5 my-5"></i>
+                  </div>
+                }
+
+                @if (!loadingPermission && permissionDetails) {
+                  <div class="w-100 row">
+                    <div class="col d-flex justify-content-center">
+                      <span class="text-secondary fw-bold">Counter</span>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                      <span class="text-secondary fw-bold">Branch Name</span>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                      <span class="text-secondary fw-bold">Branch code</span>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                      <span class="text-secondary"></span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="d-flex flex-column gap-3 w-100 align-items-center mt-2">
+                    @for (
+                      item of permissionDetails.permissions_counters;
+                      track $index
+                    ) {
+                      <div
+                        class="w-100 row py-3 border border-secondary rounded-2">
+                        <div class="col d-flex justify-content-center">
+                          <span class="fw-bold">{{ item.name }}</span>
+                        </div>
+                        <div class="col d-flex justify-content-center">
+                          <span class="fw-bold">{{ item.branch.name }}</span>
+                        </div>
+                        <div class="col d-flex justify-content-center">
+                          <span class="fw-bold">-------</span>
+                        </div>
+                        <div class="col d-flex justify-content-center">
+                          <div class="d-flex flex-row gap-2">
+                            <i
+                              class="fa-solid fa-arrow-up-right-from-square text-primary"></i>
+                            <i class="fa-solid fa-trash-can text-primary"></i>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  </div>
                 }
               </div>
             }
@@ -915,5 +1013,20 @@
         </div>
       </div>
     </ng-template>
+
+    <div
+      class="modal"
+      id="permissionModal"
+      tabindex="-1"
+      aria-labelledby="permissionModalLabel"
+      data-bs-backdrop="false"
+      aria-hidden="true">
+      <div
+        class="modal-dialog modal-dialog-centered modal-dialog-scrollable z-2">
+        <div class="modal-content level-2 lg-radius px-4 py-3 bg-white">
+          <h1>Hello Motto</h1>
+        </div>
+      </div>
+    </div>
   }
 </div>
