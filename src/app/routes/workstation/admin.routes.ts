@@ -13,6 +13,7 @@ import { AdminCounterListComponent } from '../../components/admin/agence/admin-c
 import { AdminCounterDetailsComponent } from '../../components/admin/agence/admin-counter-details/admin-counter-details.component';
 import { AdminBranchListComponent } from '../../components/admin/agence/admin-branch-list/admin-branch-list.component';
 import { AdminBranchDetailsComponent } from '../../components/admin/agence/admin-branch-details/admin-branch-details.component';
+import { AdminAccessListComponent } from '../../components/admin/access/admin-access-list/admin-access-list.component';
 export const AdminRoutes: Routes = [
   // Operator
   {
@@ -82,5 +83,10 @@ export const AdminRoutes: Routes = [
   {
     path: 'branch/:branchId',
     component: AdminBranchDetailsComponent,
+  },
+
+  {
+    path: 'accesses',
+    component: AdminAccessListComponent,
   },
 ];

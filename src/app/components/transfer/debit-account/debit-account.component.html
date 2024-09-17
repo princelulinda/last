@@ -62,12 +62,10 @@
     <!--Title description-->
     @if (isWalletShown) {
       <div class="d-flex align-items-center justify-content-between">
-        @if (title !== '') {
-          <div>
-            <i class="fa fa-circle fs-x-small me-2 text-primary"></i>
-            <b class="fs-medium">{{ title }}</b>
-          </div>
-        }
+        <div>
+          <i class="fa fa-circle fs-x-small me-2 text-primary"></i>
+          <b class="fs-medium">Debit Account</b>
+        </div>
       </div>
     }
 
@@ -106,8 +104,6 @@
             <div
               class="d-flex me-4 p-1 bg-secondary justify-content-between rounded align-items-center"
               [ngClass]="{
-                'w-auto': isTermDeposit,
-
                 'w-100':
                   mainConfig && mainConfig.activePlateform === 'workstation',
               }">

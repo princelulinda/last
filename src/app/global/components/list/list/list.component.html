@@ -1,19 +1,18 @@
 <div class="w-100 ps-3 pb-3 pe-3 mb-3 vh-100 overflow-auto rounded">
   <section class="sticky-top bg-white z-2">
-    <!-- <div class="pb-3">
-     
-      <span class=" pb-3 ps-3 pe-3 border-bottom border-2 border-primary">{{ title }}</span>
-    </div> -->
     <div class="row bg-secondary my-3 pt-1 pb-1 d-flex align-items-center mt-1">
       <div class="d-flex col align-items-center gap-1">
-        <span
-          tabindex="0"
-          role="button"
-          [ngClass]="{ 'not-clickable': isLoading }"
-          class="bg-white text-center plus-square rounded-circle"
-          title="Add"
-          ><i class="fa-solid fa-plus text-success fs-x-small"></i
-        ></span>
+        @if (addButtonLink) {
+          <span
+            tabindex="0"
+            role="button"
+            [ngClass]="{ 'not-clickable': isLoading }"
+            [routerLink]="addButtonLink"
+            class="bg-white text-center plus-square rounded-circle"
+            title="Add"
+            ><i class="fa-solid fa-plus text-success fs-x-small"></i
+          ></span>
+        }
         <div
           class="d-flex align-items-center searchForm position-relative"
           [ngClass]="{ 'active ': isSearchInputNotEmpty() }">
@@ -381,9 +380,8 @@
   } @else if (
     response_data && data_list && data_list.length === 0 && !isLoading
   ) {
-    <div class="row mt-5 text-secondary text-center">
-      <div class="fs-xx-large"><i class="fa-solid fa-meh"></i></div>
-      <span class="fs-large" i18n>No data found</span>
+    <div>
+      <app-empty-state searchType="list"></app-empty-state>
     </div>
   }
 </div>
