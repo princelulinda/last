@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AdminDepartementsListComponent } from './admin-departements-list.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ActivatedRoute } from '@angular/router';
 
 describe('AdminDepartementsListComponent', () => {
   let component: AdminDepartementsListComponent;
@@ -14,7 +15,10 @@ describe('AdminDepartementsListComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        // RouterModule.forRoot(AuthRoutes),
+        {
+          provide: ActivatedRoute,
+          useValue: {},
+        },
       ],
     }).compileComponents();
 

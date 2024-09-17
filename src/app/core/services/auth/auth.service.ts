@@ -20,6 +20,7 @@ import {
   CreateAccountBodyModel,
   ResetPasswordBodyModel,
   OtpVerificationBodyModel,
+  SubmitInvitationResponseModel,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
 import { ConfigService } from '../config/config.service';
@@ -239,9 +240,20 @@ export class AuthService {
       .pipe(map(data => data));
   }
 
-  submitInvitationStatus(body: object) {
+  submitInvitationStatus(body: {
+    status: string;
+    operator: number;
+    pin_code: string;
+  }): Observable<{ object: SubmitInvitationResponseModel; count: number }> {
     const url = '/hr/administration/operator/organization/status/';
-    return this.apiService.post(url, body).pipe(map(data => data));
+    return this.apiService
+      .post(url, body)
+      .pipe(
+        map(
+          data =>
+            data as { object: SubmitInvitationResponseModel; count: number }
+        )
+      );
   }
 
   verifyEmail(email: string): Observable<EmailVerificationResponseModel> {

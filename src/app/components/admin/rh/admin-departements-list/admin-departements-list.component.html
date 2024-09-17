@@ -1,7 +1,12 @@
 <app-list
   [headers]="headers"
   url="/hr/access/departments/?"
+  [addButtonLink]="{
+    url: '/w/workstation/d/admin/departments/',
+    fragment: 'newDepartments',
+  }"
   title="Departments"></app-list>
+<!-- @if () {} -->
 <form action="" [formGroup]="newDepartment">
   <section>
     <div class="col-md-3 mx-auto p-3">

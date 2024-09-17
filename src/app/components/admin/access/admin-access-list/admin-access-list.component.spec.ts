@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListComponent } from './list.component';
-import { provideHttpClient } from '@angular/common/http';
+import { AdminAccessListComponent } from './admin-access-list.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
-describe('ListComponent', () => {
-  let component: ListComponent;
-  let fixture: ComponentFixture<ListComponent>;
+describe('AdminAccessListComponent', () => {
+  let component: AdminAccessListComponent;
+  let fixture: ComponentFixture<AdminAccessListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ListComponent],
+      imports: [AdminAccessListComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -22,7 +22,7 @@ describe('ListComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ListComponent);
+    fixture = TestBed.createComponent(AdminAccessListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

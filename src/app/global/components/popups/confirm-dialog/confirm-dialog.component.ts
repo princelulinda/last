@@ -44,7 +44,11 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
     title: '',
     type: '',
   };
-  loading: { active: boolean; type: 'loading' | ''; action: string } = {
+  loading: {
+    active: boolean;
+    type: 'spinner' | 'topLoader' | '';
+    action: string;
+  } = {
     action: '',
     active: false,
     type: '',

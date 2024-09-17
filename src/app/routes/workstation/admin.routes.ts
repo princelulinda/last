@@ -21,6 +21,7 @@ import { AdminDepartementsListComponent } from '../../components/admin/rh/admin-
 import { AdminServicesListComponent } from '../../components/admin/rh/admin-services-list/admin-services-list.component';
 import { AdminServicesDetailsComponent } from '../../components/admin/rh/admin-services-details/admin-services-details.component';
 import { ConfigTarifComponent } from '../../components/config-tarif/config-tarif.component';
+import { AdminAccessListComponent } from '../../components/admin/access/admin-access-list/admin-access-list.component';
 export const AdminRoutes: Routes = [
   // Operator
   {
@@ -103,4 +104,9 @@ export const AdminRoutes: Routes = [
   { path: 'services', component: AdminServicesListComponent },
   { path: 'service/:id', component: AdminServicesDetailsComponent },
   { path: 'tarif', component: ConfigTarifComponent },
+
+  {
+    path: 'accesses',
+    component: AdminAccessListComponent,
+  },
 ];

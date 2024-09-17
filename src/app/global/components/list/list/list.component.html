@@ -7,7 +7,8 @@
             tabindex="0"
             role="button"
             [ngClass]="{ 'not-clickable': isLoading }"
-            [routerLink]="addButtonLink"
+            [routerLink]="addButtonLink.url"
+            [fragment]="addButtonLink.fragment"
             class="bg-white text-center plus-square rounded-circle"
             title="Add"
             ><i class="fa-solid fa-plus text-success fs-x-small"></i

@@ -185,6 +185,12 @@ export interface ResetPasswordBodyModel {
   otp_type: string;
   otp_menu: string;
 }
+export interface SubmitInvitationResponseModel {
+  success: string;
+  response_message: string;
+}
+
+// export interface CreateAccountBodyModel {
 
 export interface OtpVerificationBodyModel {
   otp_menu: string;
