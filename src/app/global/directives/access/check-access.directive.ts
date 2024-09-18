@@ -38,17 +38,13 @@ export class CheckAccessDirective {
   constructor(
     private sanitizer: DomSanitizer,
     private el: ElementRef
-  ) {
-    console.log('DIRECTIVE ELEMENT ', el);
-  }
+  ) {}
 
   @Input({ required: true }) set appCheckAccess(
     condition: [string, string, '||' | '&&' | ''][]
   ) {
     const conditionString = this.buildConditionString(this.accesses, condition);
-    console.log('FINAL CONDITION', conditionString);
     const isChecked = this.parseCondition(conditionString);
-    console.log('ACCESSES CONDITIONS CHECKED', isChecked); // Affiche true ou false selon les conditions
     if (!isChecked) {
       (this.el.nativeElement as HTMLElement).remove();
     }
@@ -56,16 +52,19 @@ export class CheckAccessDirective {
 
   checkAccess(access: AccessModel, condition: string): boolean {
     const { access_type_list } = access;
-    // eslint-disable-next-line
     const see = access_type_list.includes('see');
-    // eslint-disable-next-line
     const authorize = access_type_list.includes('authorize');
-    // eslint-disable-next-line
     const execute = access_type_list.includes('execute');
-    // eslint-disable-next-line
     const validate = access_type_list.includes('validate');
 
-    return eval(condition);
+    const fx = new Function(
+      'see',
+      'authorize',
+      'execute',
+      'validate',
+      `return ${condition};`
+    );
+    return fx(see, authorize, execute, validate);
   }
 
   buildConditionString(
@@ -82,7 +81,7 @@ export class CheckAccessDirective {
         }
         return 'false'.concat(` ${operator} `);
       })
-      .join(' '); // Utilisez '||' si nécessaire
+      .join(' ');
   }
 
   parseCondition(condition: string) {
@@ -91,6 +90,7 @@ export class CheckAccessDirective {
       SecurityContext.SCRIPT,
       safeCondition
     );
-    return eval?.(`"use strict";(${sanitizedScript})`);
+    const geval = eval;
+    return geval(`"use strict";(${sanitizedScript})`);
   }
 }
