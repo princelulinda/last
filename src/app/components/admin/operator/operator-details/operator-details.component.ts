@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
-import { OrganizationModel } from '../../../auth/auth.model';
+import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
   FormControl,
@@ -8,6 +7,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+
+import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
+
+import { OrganizationModel } from '../../../auth/auth.model';
 import {
   DialogResponseModel,
   dialogTypeModel,
@@ -20,7 +23,6 @@ import {
   MenuService,
 } from '../../../../core/services';
 import { AdminService } from '../../../../core/services/admin/admin.service';
-import { CommonModule } from '@angular/common';
 import {
   AllBranchModel,
   AllMenuListModel,
@@ -31,10 +33,10 @@ import {
   RoleListModel,
   RoleMenuListModel,
 } from '../operator.models';
-import { MultiSelectComponent } from '../../../dev/multi-select/multi-select.component';
 import { AutocompleteModel } from '../../../../global/models/global.models';
 import { PageMenusModel } from '../../menu/menu.models';
 import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
+import { MultiSelectComponent } from '../../../../global/components/custom-field/multi-select/multi-select.component';
 
 @Component({
   selector: 'app-operator-details',
