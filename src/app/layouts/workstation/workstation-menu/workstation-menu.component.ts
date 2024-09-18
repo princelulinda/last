@@ -51,7 +51,7 @@ export class WorkstationMenuComponent implements OnInit {
   merchants!: MerchantAutocompleteModel[] | null;
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  operator!: ConnectedOperatorModel;
+  operator: ConnectedOperatorModel | null = null;
   operator$: Observable<ConnectedOperatorModel>;
 
   constructor(

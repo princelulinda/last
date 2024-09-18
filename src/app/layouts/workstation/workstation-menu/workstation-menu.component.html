@@ -167,7 +167,7 @@
     <section
       class="bg-white w-aside p-1 pt-4 d-flex flex-column"
       [ngClass]="{
-        'd-none': activatedTypeMenu === 'd' && !operator.organization?.is_erp,
+        'd-none': activatedTypeMenu === 'd' && !operator?.organization?.is_erp,
       }">
       @if (activeMenuGroups && activeMenuGroups.menu_group.length !== 0) {
         @for (group of activeMenuGroups.menu_group; track $index) {
