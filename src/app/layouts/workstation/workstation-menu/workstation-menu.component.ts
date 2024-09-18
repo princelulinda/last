@@ -9,6 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
 import { NgClass } from '@angular/common';
+import { ConnectedOperatorModel } from '../../../components/auth/auth.model';
 
 @Component({
   selector: 'app-workstation-menu',
@@ -22,17 +23,14 @@ export class WorkstationMenuComponent implements OnInit {
   private menuGroups$: Observable<MenuGroupsModel[]>;
   private menuGroups: MenuGroupsModel[] = [];
 
-  // intranetMenuGroups: MenuGroupsModel | null = null;
-  // activeMenuGroups: MenuGroupsModel | null = null;
-  // reportingMenuGroups: MenuGroupsModel | null = null;
-  // adminMenuGroups: MenuGroupsModel | null = null;
-
   activeMenuGroups: MenuGroupsModel | null = null;
-
   selectedGroup: GroupMenuModel | null = null;
 
   menu: MenuModel[] | null = null;
   loadingMenu = false;
+
+  operator!: ConnectedOperatorModel;
+  operator$: Observable<ConnectedOperatorModel>;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +38,7 @@ export class WorkstationMenuComponent implements OnInit {
     private menuService: MenuService
   ) {
     this.menuGroups$ = this.configService.getMenuGroups();
+    this.operator$ = this.configService.getConnectedOperator();
   }
 
   ngOnInit(): void {
@@ -49,6 +48,11 @@ export class WorkstationMenuComponent implements OnInit {
           this.menuGroups = menus;
           this.getActiveMenuGroups();
         }
+      },
+    });
+    this.operator$.subscribe({
+      next: operator => {
+        this.operator = operator;
       },
     });
 
