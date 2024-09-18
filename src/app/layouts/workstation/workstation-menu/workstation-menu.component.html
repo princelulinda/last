@@ -57,7 +57,7 @@
       </a>
       <a
         class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
-        routerLink="/w/workstation/m/market/m/payment-reports"
+        routerLink="/w/workstation/m/market/payment-reports"
         routerLinkActive="text-all-dark bg-primary-3"
         role="button"
         i18n>
@@ -100,18 +100,19 @@
             }">
             <input
               type="text"
-              class="col me-2"
+              class="col me-2 form-control"
+              placeholder="Search Merchant by name, code .."
               [formControl]="searchForm"
               (focus)="isSearchInputFocused = true"
               (blur)="isSearchInputFocused = false"
               (click)="onClick()" />
             <button type="submit" class="px-4 btn bg-primary">
-              <b class="text-all-white fs-medium">Search Merchant</b>
+              <b class="text-all-white fs-medium" i18n>Search Merchant</b>
             </button>
           </form>
         </div>
         <div class="col-5 text-end">
-          <b class="text-primary fs-large">My Market</b>
+          <b class="text-primary fs-large" i18n>My Market</b>
         </div>
       </section>
       <main class="flex-grow-1 px-2 px-md-4 py-2 overflow-y-auto ms-1">
