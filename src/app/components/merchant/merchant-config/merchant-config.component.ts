@@ -207,18 +207,11 @@ export class MerchantConfigComponent implements OnInit {
 
   createNewTeller() {
     this.isTellerLoading = true;
-    let action;
-
-    if (this.newTellerForm.value.isChecked) {
-      action = true;
-    } else {
-      action = false;
-    }
 
     const body = {
       client: this.client?.id,
       merchant: this.merchantInfo.id,
-      can_receive_notifications: action,
+      can_receive_notifications: this.newTellerForm.value.isChecked,
       alias: this.newTellerForm.value.alias,
     };
     this.merchantService.createNewTeller(body).subscribe({
@@ -246,13 +239,15 @@ export class MerchantConfigComponent implements OnInit {
         }
       },
 
-      error: () => {
+      error: err => {
         this.isTellerLoading = false;
         this.dialogService.closeLoading();
         this.dialogService.openToast({
           type: 'failed',
           title: '',
-          message: 'failed to create a new teller',
+          message:
+            err.error.object.response_message ??
+            'failed to create a new teller',
         });
       },
     });

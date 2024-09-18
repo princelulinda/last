@@ -544,15 +544,13 @@
               <div class="mt-3 col col-sm-9 col-md-7 col-xl-6 text-center">
                 <button
                   (click)="createNewTeller()"
-                  [disabled]="newTellerForm.valid"
+                  [disabled]="newTellerForm.invalid"
                   class="btn bg-primary px-4 text-all-white">
-                  @if (isTellerLoading) {
-                    <span class="fs-medium">
-                      <i class="fa-solid fa-spin fa-circle-notch"></i>
-                    </span>
-                  } @else {
-                    <b i18n>Confirm</b>
-                  }
+                  <b
+                    [ngClass]="{ isTellerLoading: isTellerLoading }"
+                    class="loaderBtn"
+                    >Confirm</b
+                  >
                 </button>
               </div>
             </form>
