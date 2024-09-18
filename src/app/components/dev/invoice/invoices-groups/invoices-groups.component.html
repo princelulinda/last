@@ -46,9 +46,9 @@
     class="d-flex justify-content-center justify-content-xl-start align-content-around flex-wrap gap-4">
     @for (item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track $index) {
       <div class="teller-card sm-radius shadow-sm gap-3">
-        <div class="d-flex flex-column gap-3">
-          <div class="d-flex justify-content-around mt-3">
-            <div class="d-flex flex-column gap-1">
+        <div class="d-flex flex-column h-100 gap-3">
+          <div class="row h-75 mt-3">
+            <div class="col-10 mx-auto d-flex flex-column gap-1">
               <div class="d-flex flex-row gap-4">
                 <div
                   class="rounded-circle bg-secondary d-flex justify-content-center p-2">
@@ -56,9 +56,9 @@
                     ><i class="fa-regular fa-folder-open fa-sm text-dark"></i
                   ></span>
                 </div>
-                <button class="btn btn-outline-warning xx-lg-radius py-1 px-2">
+                <!-- <button class="btn btn-outline-warning xx-lg-radius py-1 px-2">
                   <span class="warning">Pending</span>
-                </button>
+                </button> -->
               </div>
               <div class="text-dark">
                 <span>Groups 1</span>
@@ -67,7 +67,7 @@
             </div>
           </div>
           <div class="bg-secondary d-flex flex-column rounded-bottom mt-2 pb-2">
-            <div class="row d-flex align-items-start pb-2">
+            <div class="row d-flex align-items-start h-25 pb-2">
               <div class="col">
                 <hr class="bg-primary w-100 my-0" />
               </div>
