@@ -125,16 +125,16 @@ export interface OrganizationDetailsModel {
 }
 
 export interface PermissionModel {
-  can_create_in_branch: boolean;
-  can_delete_in_branch: boolean;
-  can_edit_in_branch: boolean;
-  can_see_in_branch: boolean;
-  id: number;
-  permissions_branches: {
+  can_create_in_branch?: boolean;
+  can_delete_in_branch?: boolean;
+  can_edit_in_branch?: boolean;
+  can_see_in_branch?: boolean;
+  id?: number;
+  permissions_branches?: {
     id: number;
     name: string;
   }[];
-  permissions_counters: {
+  permissions_counters?: {
     id: number;
     name: string;
     branch: {
@@ -142,6 +142,8 @@ export interface PermissionModel {
       name: string;
     };
   }[];
+  success?: boolean;
+  response_message?: string;
 }
 
 interface RoleMenuModel {
@@ -219,4 +221,15 @@ export interface NewOperatorModel {
   response_data: { id: number };
   response_message: string;
   success: boolean;
+}
+
+export interface BranchesCountersModel {
+  branch: AllBranchModel;
+  code: number;
+  created_at: string;
+  formatted_code: string;
+  id: number;
+  location?: string;
+  name: string;
+  has_access?: boolean;
 }
