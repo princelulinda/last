@@ -1,20 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { ConfigService, MenuService } from '../../../core/services';
+import {
+  ConfigService,
+  DialogService,
+  MenuService,
+  MerchantService,
+} from '../../../core/services';
 import {
   GroupMenuModel,
   MenuGroupsModel,
   MenuModel,
 } from '../../../core/db/models/menu/menu.models';
-import { Observable } from 'rxjs';
+import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
 import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
 import { NgClass } from '@angular/common';
 import { ConnectedOperatorModel } from '../../../components/auth/auth.model';
+import { MerchantCardComponent } from '../../../components/merchant/global/merchant-card/merchant-card.component';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MerchantAutocompleteModel } from '../../../components/merchant/merchant.models';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-workstation-menu',
   standalone: true,
-  imports: [RouterModule, EmptyStateComponent, NgClass],
+  imports: [
+    RouterModule,
+    EmptyStateComponent,
+    NgClass,
+    MerchantCardComponent,
+    ReactiveFormsModule,
+    SkeletonComponent,
+    EmptyStateComponent,
+  ],
   templateUrl: './workstation-menu.component.html',
   styleUrl: './workstation-menu.component.scss',
 })
@@ -28,6 +45,11 @@ export class WorkstationMenuComponent implements OnInit {
 
   menu: MenuModel[] | null = null;
   loadingMenu = false;
+  searchForm = new FormControl('');
+  isLoading = false;
+  isSearchInputFocused = false;
+  merchants!: MerchantAutocompleteModel[] | null;
+  private onDestroy$: Subject<void> = new Subject<void>();
 
   operator!: ConnectedOperatorModel;
   operator$: Observable<ConnectedOperatorModel>;
@@ -35,7 +57,9 @@ export class WorkstationMenuComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private configService: ConfigService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private merchantService: MerchantService,
+    private dialogService: DialogService
   ) {
     this.menuGroups$ = this.configService.getMenuGroups();
     this.operator$ = this.configService.getConnectedOperator();
@@ -65,6 +89,18 @@ export class WorkstationMenuComponent implements OnInit {
           }
         },
       });
+    }
+    this.searchForm.valueChanges
+      .pipe(debounceTime(300), takeUntil(this.onDestroy$))
+      .subscribe(value => {
+        this.getMerchants(value ?? '');
+      });
+  }
+
+  onClick() {
+    this.isSearchInputFocused = true;
+    if (this.isSearchInputFocused) {
+      this.getMerchants('');
     }
   }
 
@@ -112,5 +148,37 @@ export class WorkstationMenuComponent implements OnInit {
         this.activeMenuGroups = null;
         break;
     }
+  }
+
+  getMerchants(search: string) {
+    this.isLoading = true;
+    this.merchants = null;
+
+    this.merchantService
+      .getRecentMerchantsAutocomplete(search)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: data => {
+          const response = data as { objects: MerchantAutocompleteModel[] };
+          this.isLoading = false;
+          this.merchants = response.objects;
+        },
+        error: err => {
+          this.isLoading = false;
+
+          this.dialogService.openToast({
+            title: '',
+            type: 'failed',
+            message: 'Something went wrong, please try again',
+          });
+
+          return err;
+        },
+      });
+  }
+
+  isSearchInputNotEmpty(): boolean {
+    const searchValue = this.searchForm.value;
+    return typeof searchValue === 'string' && searchValue.trim() !== '';
   }
 }

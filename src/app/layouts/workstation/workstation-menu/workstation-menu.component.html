@@ -93,8 +93,18 @@
     <section class="d-flex flex-column flex-grow-1">
       <section class="row mx-0 bg-secondary p-4">
         <div class="col-md-6 text-end">
-          <form class="d-flex align-items-center col-md-10 ms-auto">
-            <input type="text" class="form-control col me-2" />
+          <form
+            class="d-flex align-items-center col-md-10 ms-auto"
+            [ngClass]="{
+              'active ': isSearchInputNotEmpty() || isSearchInputFocused,
+            }">
+            <input
+              type="text"
+              class="col me-2"
+              [formControl]="searchForm"
+              (focus)="isSearchInputFocused = true"
+              (blur)="isSearchInputFocused = false"
+              (click)="onClick()" />
             <button type="submit" class="px-4 btn bg-primary">
               <b class="text-all-white fs-medium">Search Merchant</b>
             </button>
@@ -105,7 +115,52 @@
         </div>
       </section>
       <main class="flex-grow-1 px-2 px-md-4 py-2 overflow-y-auto ms-1">
-        <router-outlet></router-outlet>
+        @if (!isSearchInputFocused && !this.searchForm.value) {
+          <router-outlet></router-outlet>
+        }
+        @if (isSearchInputFocused || this.searchForm.value) {
+          @if (!merchants) {
+            <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center">
+              @for (_ of [1, 2, 3, 4, 5, 6]; track $index) {
+                <div class="col-lg-3 col-sm-4 col-auto mb-3">
+                  <app-skeleton
+                    height="150px"
+                    width="150px"
+                    classes="mb-0 rounded-3"></app-skeleton>
+                  <div>
+                    <app-skeleton
+                      height="10px"
+                      width="60%"
+                      classes="rounded-3"></app-skeleton>
+                  </div>
+                  <div>
+                    <app-skeleton
+                      height="10px"
+                      width="40%"
+                      classes="rounded-3"></app-skeleton>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+          @if (merchants && merchants.length === 0) {
+            <div class="text-center">
+              <app-empty-state
+                [searchType]="'merchant'"
+                [searchTerm]="'search merchant'"></app-empty-state>
+            </div>
+          }
+
+          @if (merchants && merchants.length !== 0) {
+            <div class="d-flex flex-wrap gap-5 ms-3 mx-0 mt-2">
+              @for (merchant of merchants; track $index) {
+                <div class="col-auto">
+                  <app-merchant-card [merchant]="merchant"> </app-merchant-card>
+                </div>
+              }
+            </div>
+          }
+        }
       </main>
     </section>
   } @else {

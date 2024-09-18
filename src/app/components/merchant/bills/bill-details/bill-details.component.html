@@ -131,10 +131,12 @@
     }
   </section>
 }
-
-<section
-  id="bill"
-  class="d-none"
-  *ngIf="!isLoading && billData.active && billData.payload">
-  <app-merchant-bill></app-merchant-bill>
-</section>
+@if (!isLoading && billData) {
+  <section id="bill" class="d-none">
+    <app-merchant-bill
+      [merchantBillDialog]="{
+        payload: billData,
+        active: true,
+      }"></app-merchant-bill>
+  </section>
+}
