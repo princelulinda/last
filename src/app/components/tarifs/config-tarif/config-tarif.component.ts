@@ -10,20 +10,20 @@ import {
   ConfigService,
   DialogService,
   TarifService,
-} from '../../core/services';
+} from '../../../core/services';
 import {
   TarifFeesResonseModel,
   TarifTypeInfoModel,
   TarifTypeModel,
   AddTarifModel,
   AddFeesModel,
-  feesModel,
+  FeesModel,
   ModifyFeesModel,
-  deleteFeesModel,
-} from './config-tarif-model';
+  DeleteFeesModel,
+} from '../tarif.model';
 import { Observable, Subject } from 'rxjs';
-import { SkeletonComponent } from '../../global/components/loaders/skeleton/skeleton.component';
-import { DialogResponseModel } from '../../core/services/dialog/dialogs-models';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { NgClass } from '@angular/common';
 
 @Component({
@@ -77,7 +77,7 @@ export class ConfigTarifComponent implements OnInit {
   clientCreationCommissions!: string;
   merchantCreationCommissions!: string;
 
-  deleteFee!: deleteFeesModel;
+  deleteFee!: DeleteFeesModel;
   idTarif = '';
 
   bank_id = '';
@@ -182,7 +182,7 @@ export class ConfigTarifComponent implements OnInit {
     this.displayFormToAddFees = !this.displayFormToAddFees;
   }
 
-  showInput(fees: feesModel) {
+  showInput(fees: FeesModel) {
     this.show = true;
     this.selectedFeeId = fees.id;
     if (fees) {
@@ -418,7 +418,7 @@ export class ConfigTarifComponent implements OnInit {
   deleteFees() {
     this.dialogService.dispatchLoading();
     this.tarifService.deleteFees(this.selectedFeeId).subscribe({
-      next: (response: deleteFeesModel) => {
+      next: (response: DeleteFeesModel) => {
         this.getTarifFees(this.tarifTable);
         this.dialogService.closeLoading();
 

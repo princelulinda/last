@@ -20,7 +20,7 @@ import { AdminDepartementsDetailsComponent } from '../../components/admin/rh/adm
 import { AdminDepartementsListComponent } from '../../components/admin/rh/admin-departements-list/admin-departements-list.component';
 import { AdminServicesListComponent } from '../../components/admin/rh/admin-services-list/admin-services-list.component';
 import { AdminServicesDetailsComponent } from '../../components/admin/rh/admin-services-details/admin-services-details.component';
-import { ConfigTarifComponent } from '../../components/config-tarif/config-tarif.component';
+import { ConfigTarifComponent } from '../../components/tarifs/config-tarif/config-tarif.component';
 import { AdminAccessListComponent } from '../../components/admin/access/admin-access-list/admin-access-list.component';
 export const AdminRoutes: Routes = [
   // Operator
