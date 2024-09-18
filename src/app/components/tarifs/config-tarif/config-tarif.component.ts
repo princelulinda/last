@@ -5,12 +5,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import {
-  ApiService,
-  ConfigService,
-  DialogService,
-  TarifService,
-} from '../../../core/services';
+import { NgClass } from '@angular/common';
+
+import { Observable, Subject, takeUntil } from 'rxjs';
+
+import { DialogService, TarifService } from '../../../core/services';
 import {
   TarifFeesResonseModel,
   TarifTypeInfoModel,
@@ -21,10 +20,8 @@ import {
   ModifyFeesModel,
   DeleteFeesModel,
 } from '../tarif.model';
-import { Observable, Subject } from 'rxjs';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-config-tarif',
@@ -108,8 +105,6 @@ export class ConfigTarifComponent implements OnInit {
   }
   constructor(
     private tarifService: TarifService,
-    private apiService: ApiService,
-    private configService: ConfigService,
     private dialogService: DialogService
   ) {
     this.dialog$ = this.dialogService.getDialogState();
@@ -229,54 +224,60 @@ export class ConfigTarifComponent implements OnInit {
       type_code: this.tarifForm.value.typeCode,
       description: this.tarifForm.value.description,
     };
-    this.tarifService.addTarif(data).subscribe({
-      next: response => {
-        this.tarif = response.object;
-        this.tarif_type = this.tarif.id;
-        this.tarifForm.reset();
-        this.tariffType = '';
-        this.tariffCreated = true;
-        this.addTarifToTable();
-        this.dialogService.closeLoading();
-      },
-      error: error => {
-        this.dialogService.closeLoading();
-        this.dialogService.openToast({
-          type: 'failed',
-          title: 'Échec',
-          message:
-            error?.object?.response_message ??
-            $localize`Something went wrong please retry again !`,
-        });
-      },
-    });
+    this.tarifService
+      .addTarif(data)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          this.tarif = response.object;
+          this.tarif_type = this.tarif.id;
+          this.tarifForm.reset();
+          this.tariffType = '';
+          this.tariffCreated = true;
+          this.addTarifToTable();
+          this.dialogService.closeLoading();
+        },
+        error: error => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            type: 'failed',
+            title: 'Échec',
+            message:
+              error?.object?.response_message ??
+              $localize`Something went wrong please retry again !`,
+          });
+        },
+      });
   }
   addTarifToTable() {
     const data = {
       tarif_type: this.tarif_type,
       bank: this.bank_id,
     };
-    this.tarifService.addTarifToTable(data).subscribe({
-      next: response => {
-        this.tarif = response.object;
-        this.dialogService.openToast({
-          title: '',
-          type: 'success',
-          message: 'Tarif added Successfully',
-        });
-        this.TarifType = true;
-        this.getTarifType();
-      },
-      error: error => {
-        this.dialogService.openToast({
-          type: 'failed',
-          title: 'Échec',
-          message:
-            error?.object?.response_message ??
-            $localize`Something went wrong please retry again !`,
-        });
-      },
-    });
+    this.tarifService
+      .addTarifToTable(data)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          this.tarif = response.object;
+          this.dialogService.openToast({
+            title: '',
+            type: 'success',
+            message: 'Tarif added Successfully',
+          });
+          this.TarifType = true;
+          this.getTarifType();
+        },
+        error: error => {
+          this.dialogService.openToast({
+            type: 'failed',
+            title: 'Échec',
+            message:
+              error?.object?.response_message ??
+              $localize`Something went wrong please retry again !`,
+          });
+        },
+      });
   }
 
   tariffType = '';
@@ -329,30 +330,33 @@ export class ConfigTarifComponent implements OnInit {
       description: 'fees test',
     };
 
-    this.tarifService.addFees(newFees).subscribe({
-      next: (response: AddFeesModel) => {
-        this.getTarifFees(this.tarifTable);
-        this.displayFormToAddFees = false;
-        this.fees = response.object;
-        this.formToAddFees.reset();
-        this.dialogService.closeLoading();
-        this.dialogService.openToast({
-          title: '',
-          type: 'success',
-          message: 'Fees added Successfully',
-        });
-      },
-      error: error => {
-        this.dialogService.closeLoading();
-        this.dialogService.openToast({
-          type: 'failed',
-          title: 'Échec',
-          message:
-            error?.object?.response_message ??
-            $localize`Something went wrong please retry again !`,
-        });
-      },
-    });
+    this.tarifService
+      .addFees(newFees)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (response: AddFeesModel) => {
+          this.getTarifFees(this.tarifTable);
+          this.displayFormToAddFees = false;
+          this.fees = response.object;
+          this.formToAddFees.reset();
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            title: '',
+            type: 'success',
+            message: 'Fees added Successfully',
+          });
+        },
+        error: error => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            type: 'failed',
+            title: 'Échec',
+            message:
+              error?.object?.response_message ??
+              $localize`Something went wrong please retry again !`,
+          });
+        },
+      });
   }
   updateTariff(fees: string) {
     this.dialogService.dispatchLoading();
@@ -377,34 +381,37 @@ export class ConfigTarifComponent implements OnInit {
     this.feeModificationLoader = true;
     this.feesToModifyForm.disable();
 
-    this.tarifService.modifyFees(fees, newFees).subscribe({
-      next: (response: ModifyFeesModel) => {
-        this.feesToModifyForm.reset();
-        this.getTarifFees(this.tarifTable);
-        this.feeModificationLoader = false;
-        this.fees = response.object;
-        this.feesToModifyForm.enable();
-        this.show = false;
-        this.dialogService.closeLoading();
-        this.dialogService.openToast({
-          title: '',
-          type: 'success',
-          message: 'Fees updated Successfully',
-        });
-      },
-      error: error => {
-        this.feeModificationLoader = false;
-        this.feesToModifyForm.enable();
-        this.dialogService.closeLoading();
-        this.dialogService.openToast({
-          type: 'failed',
-          title: 'Échec',
-          message:
-            error?.object?.response_message ??
-            $localize`Something went wrong please retry again !`,
-        });
-      },
-    });
+    this.tarifService
+      .modifyFees(fees, newFees)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (response: ModifyFeesModel) => {
+          this.feesToModifyForm.reset();
+          this.getTarifFees(this.tarifTable);
+          this.feeModificationLoader = false;
+          this.fees = response.object;
+          this.feesToModifyForm.enable();
+          this.show = false;
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            title: '',
+            type: 'success',
+            message: 'Fees updated Successfully',
+          });
+        },
+        error: error => {
+          this.feeModificationLoader = false;
+          this.feesToModifyForm.enable();
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            type: 'failed',
+            title: 'Échec',
+            message:
+              error?.object?.response_message ??
+              $localize`Something went wrong please retry again !`,
+          });
+        },
+      });
   }
   openPinPopup() {
     this.dialogService.openDialog({
@@ -417,36 +424,39 @@ export class ConfigTarifComponent implements OnInit {
 
   deleteFees() {
     this.dialogService.dispatchLoading();
-    this.tarifService.deleteFees(this.selectedFeeId).subscribe({
-      next: (response: DeleteFeesModel) => {
-        this.getTarifFees(this.tarifTable);
-        this.dialogService.closeLoading();
+    this.tarifService
+      .deleteFees(this.selectedFeeId)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (response: DeleteFeesModel) => {
+          this.getTarifFees(this.tarifTable);
+          this.dialogService.closeLoading();
 
-        this.dialogService.openToast({
-          title: '',
-          type: 'success',
-          message: 'Fees Deleted Successfully',
-        });
-        // this.dialogService.openToast({
-        //   title: '',
-        //   type: 'success',
-        //   message: response.object.response_message,
-        // });
+          this.dialogService.openToast({
+            title: '',
+            type: 'success',
+            message: 'Fees Deleted Successfully',
+          });
+          // this.dialogService.openToast({
+          //   title: '',
+          //   type: 'success',
+          //   message: response.object.response_message,
+          // });
 
-        this.feeDeletedLoader = false;
-        this.deleteFee = response.object;
-        this.show = false;
-      },
-      error: error => {
-        this.dialogService.closeLoading();
-        this.dialogService.openToast({
-          type: 'failed',
-          title: 'Échec',
-          message:
-            error?.object?.response_message ??
-            $localize`Something went wrong please retry again !`,
-        });
-      },
-    });
+          this.feeDeletedLoader = false;
+          this.deleteFee = response.object;
+          this.show = false;
+        },
+        error: error => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            type: 'failed',
+            title: 'Échec',
+            message:
+              error?.object?.response_message ??
+              $localize`Something went wrong please retry again !`,
+          });
+        },
+      });
   }
 }
