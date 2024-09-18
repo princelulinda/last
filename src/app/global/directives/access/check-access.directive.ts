@@ -1,11 +1,6 @@
-import {
-  Directive,
-  Input,
-  SecurityContext,
-  // TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { Directive, Input, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+
 import { AccessModel } from '../../../components/admin/access/access.models';
 
 @Directive({
@@ -40,11 +35,7 @@ export class CheckAccessDirective {
   //   ['account.modif', '(execute)', ''],
   // ];
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    // private templateRef: TemplateRef<unknown>,
-    private viewContainerRef: ViewContainerRef
-  ) {}
+  constructor(private sanitizer: DomSanitizer) {}
 
   @Input({ required: true }) set appCheckAccess(
     condition: [string, string, '||' | '&&' | ''][]
@@ -53,10 +44,6 @@ export class CheckAccessDirective {
     console.log('FINAL CONDITION', conditionString);
     const isChecked = this.parseCondition(conditionString);
     console.log('ACCESSES CONDITIONS CHECKED', isChecked); // Affiche true ou false selon les conditions
-    if (!isChecked) {
-      this.viewContainerRef.clear();
-      // this.viewContainerRef.createEmbeddedView(this.templateRef);
-    }
   }
 
   checkAccess(access: AccessModel, condition: string): boolean {
