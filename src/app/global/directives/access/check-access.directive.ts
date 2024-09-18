@@ -1,4 +1,4 @@
-import { Directive, Input, SecurityContext } from '@angular/core';
+import { Directive, ElementRef, Input, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { AccessModel } from '../../../components/admin/access/access.models';
@@ -35,7 +35,12 @@ export class CheckAccessDirective {
   //   ['account.modif', '(execute)', ''],
   // ];
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(
+    private sanitizer: DomSanitizer,
+    private el: ElementRef
+  ) {
+    console.log('DIRECTIVE ELEMENT ', el);
+  }
 
   @Input({ required: true }) set appCheckAccess(
     condition: [string, string, '||' | '&&' | ''][]
@@ -44,6 +49,9 @@ export class CheckAccessDirective {
     console.log('FINAL CONDITION', conditionString);
     const isChecked = this.parseCondition(conditionString);
     console.log('ACCESSES CONDITIONS CHECKED', isChecked); // Affiche true ou false selon les conditions
+    if (!isChecked) {
+      (this.el.nativeElement as HTMLElement).remove();
+    }
   }
 
   checkAccess(access: AccessModel, condition: string): boolean {
