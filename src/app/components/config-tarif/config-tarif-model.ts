@@ -25,26 +25,10 @@ export interface TarifTypeInfoModel {
   type_type: string;
   type_name: string;
 }
-
 export interface AddTarifModel {
   object: AddTarifModel;
   tarif: string;
   id: string;
-}
-export interface AddFeesModel {
-  response_message: string;
-  agent_commission: string;
-  ihela_commission: string;
-  total_commission: string;
-  client_creation_commission: string;
-  amount_range: {
-    lower: string;
-    upper: string;
-  };
-
-  fees: string;
-
-  object: AddFeesModel;
 }
 export interface AddTarifBodyModel {
   type_type: string | undefined;
@@ -65,6 +49,22 @@ export interface ModifyFeesBodyModel {
 }
 export interface ModifyFeesModel {
   object: ModifyFeesModel;
+  fees: string;
+}
+export interface AddFeesModel {
+  // response_message: string;
+  // agent_commission: string;
+  // ihela_commission: string;
+  // total_commission: string;
+  // client_creation_commission: string;
+  // amount_range: {
+  //   lower: string;
+  //   upper: string;
+  // };
+
+  fees: string;
+
+  object: AddFeesModel;
 }
 export interface AddFeesBodyModel {
   tarif_table: string;

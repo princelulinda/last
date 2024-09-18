@@ -2,11 +2,12 @@ import { AfterViewInit, Component, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LandscpeBillModel } from '../../../../../core/services/dialog/dialogs-models';
 import { DialogService } from '../../../../../core/services';
+import { NgxPrintModule } from 'ngx-print';
 
 @Component({
   selector: 'app-landscape-bill',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgxPrintModule],
   templateUrl: './landscape-bill.component.html',
   styleUrls: ['./landscape-bill.component.scss'],
 })

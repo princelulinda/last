@@ -6,8 +6,10 @@ import { AdminDepartementsListComponent } from '../../components/admin/rh/admin-
 import { AdminServicesListComponent } from '../../components/admin/rh/admin-services-list/admin-services-list.component';
 import { AdminServicesDetailsComponent } from '../../components/admin/rh/admin-services-details/admin-services-details.component';
 import { ConfigTarifComponent } from '../../components/config-tarif/config-tarif.component';
+import { DeskDashboardComponent } from '../../components/dev/desk-dashboard/desk-dashboard.component';
 
 export const DeskRoutes: Routes = [
+  { path: '', component: DeskDashboardComponent },
   //directions
   { path: 'directions', component: AdminDirectionListComponent },
   { path: 'direction/:id', component: AdminDirectionDetailsComponent },

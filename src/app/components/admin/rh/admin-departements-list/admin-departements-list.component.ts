@@ -1,14 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ListComponent } from '../../../../global/components/list/list/list.component';
+import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { AdminService } from '../../../../core/services/admin/admin.service';
+import {
+  AdminCreateNewDepartmentBodyModel,
+  AdminCreateNewDepartmentModel,
+} from '../rh.model';
+import { DialogService } from '../../../../core/services/dialog/dialog.service';
+import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin-departements-list',
   standalone: true,
-  imports: [ListComponent],
+  imports: [ListComponent, LookupComponent, ReactiveFormsModule],
   templateUrl: './admin-departements-list.component.html',
   styleUrl: './admin-departements-list.component.scss',
 })
-export class AdminDepartementsListComponent {
+export class AdminDepartementsListComponent implements OnInit {
   headers = [
     {
       name: 'Name',
@@ -32,4 +47,61 @@ export class AdminDepartementsListComponent {
       css: 'direction.direction_type.css',
     },
   ];
+
+  isLoading = false;
+  id!: number | null;
+  constructor(
+    private adminService: AdminService,
+    private dialogService: DialogService,
+    private route: ActivatedRoute
+  ) {}
+  newDepartment = new FormGroup({
+    departmentName: new FormControl('', Validators.required),
+  });
+  departmentData!: AdminCreateNewDepartmentModel;
+  createNewDepartment() {
+    this.isLoading = true;
+    const body: AdminCreateNewDepartmentBodyModel = {
+      name: this.newDepartment.value.departmentName,
+      direction: this.id,
+    };
+    this.adminService.createNewDepartement(body).subscribe({
+      next: data => {
+        this.departmentData = data.object;
+        this.isLoading = false;
+        // this.newDep=data.object;
+        this.newDepartment.reset();
+        this.id = null;
+        this.dialogService.openToast({
+          title: '',
+          type: 'success',
+          message: 'success',
+        });
+      },
+      error: err => {
+        this.isLoading = false;
+        this.dialogService.openToast({
+          title: '',
+          type: 'failed',
+          message: err?.object?.response_message ?? 'Failed',
+        });
+      },
+    });
+  }
+
+  getSelectedDepartment(event: ItemModel | null) {
+    if (event) {
+      this.id = event.id;
+    }
+  }
+  showAddNewDepartment = false;
+  ngOnInit() {
+    if (this.route && this.route.fragment) {
+      this.route.fragment.subscribe({
+        next: fragment => {
+          this.showAddNewDepartment = fragment === 'newDepartment';
+        },
+      });
+    }
+  }
 }

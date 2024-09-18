@@ -26,6 +26,7 @@ export class TooltipDirective implements AfterViewInit {
       new bootstrap.Tooltip(tooltipTriggerEl, {
         placement,
         title,
+        trigger: 'hover',
       });
     }
 
@@ -35,6 +36,7 @@ export class TooltipDirective implements AfterViewInit {
         placement,
         content,
         title,
+        trigger: 'click',
       });
     }
   }

@@ -1,1 +1,14 @@
-<p>client-list works!</p>
+<!-- <p>client-list works!</p> -->
+
+<div class="details-container level-1 pb-2">
+  <main class="level-2">
+    <section
+      class="list rounded p-2"
+      style="height: inherit; overflow-y: auto; overflow-x: hidden">
+      <app-list
+        [headers]="headers"
+        url="/clients/list/all/?"
+        title="Clients List"></app-list>
+    </section>
+  </main>
+</div>

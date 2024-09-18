@@ -62,10 +62,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
   pin!: string;
   dialog!: DialogResponseModel;
 
-  billData: { active: boolean; payload: MerchantBillModel | null } = {
-    active: false,
-    payload: null,
-  };
+  billData!: MerchantBillModel | null;
   selectedAccount!: string;
   selectedWallet!: string;
   debitBank!: number;
@@ -135,8 +132,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
           this.descriptionForm.patchValue({
             description: this.billDetails.description,
           });
-          this.billData.active = true;
-          this.billData.payload = {
+          this.billData = {
             name: this.billDetails.client.client_full_name,
             debit_account: this.billDetails.payment_account.acc_short_number,
             product: {
