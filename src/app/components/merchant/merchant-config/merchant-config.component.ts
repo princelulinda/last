@@ -68,7 +68,6 @@ export class MerchantConfigComponent implements OnInit {
   closeModal!: ElementRef<HTMLElement>;
 
   client: ItemModel | null = null;
-  isChecked = false;
   isCheck = true;
   merchantConfigForm: FormGroup;
   newTellerForm: FormGroup;
@@ -100,7 +99,7 @@ export class MerchantConfigComponent implements OnInit {
     });
 
     this.newTellerForm = new FormGroup({
-      isChecked: new FormControl(this.isChecked),
+      isChecked: new FormControl(false),
       client: new FormControl('', Validators.required),
       alias: new FormControl('', Validators.required),
     });
@@ -208,18 +207,11 @@ export class MerchantConfigComponent implements OnInit {
 
   createNewTeller() {
     this.isTellerLoading = true;
-    let action;
-
-    if (this.newTellerForm.value.isChecked) {
-      action = true;
-    } else {
-      action = false;
-    }
 
     const body = {
       client: this.client?.id,
       merchant: this.merchantInfo.id,
-      can_receive_notifications: action,
+      can_receive_notifications: this.newTellerForm.value.isChecked,
       alias: this.newTellerForm.value.alias,
     };
     this.merchantService.createNewTeller(body).subscribe({
@@ -247,23 +239,17 @@ export class MerchantConfigComponent implements OnInit {
         }
       },
 
-      error: () => {
+      error: err => {
         this.isTellerLoading = false;
         this.dialogService.closeLoading();
         this.dialogService.openToast({
           type: 'failed',
           title: '',
-          message: 'failed to create a new teller',
+          message:
+            err.error.object.response_message ??
+            'failed to create a new teller',
         });
       },
-    });
-  }
-
-  toggleNotificationsCheckbox() {
-    this.isChecked = !this.isChecked;
-
-    this.newTellerForm.patchValue({
-      isChecked: this.isChecked,
     });
   }
 
@@ -277,7 +263,6 @@ export class MerchantConfigComponent implements OnInit {
         isChecked: false,
         alias: '',
       });
-      this.isChecked = false;
     }, 50);
   }
 
@@ -452,5 +437,16 @@ export class MerchantConfigComponent implements OnInit {
     } else {
       this.getTellersByMerchant();
     }
+  }
+  handleEnter(event: Event) {
+    if (this.newTellerForm.valid) {
+      this.createNewTeller();
+    } else {
+      event.preventDefault();
+    }
+  }
+
+  handleEnter2(event: Event) {
+    event.preventDefault();
   }
 }
