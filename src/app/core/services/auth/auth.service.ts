@@ -17,6 +17,9 @@ import {
   OrganizationModel,
   LoginOperatorApiResponseModel,
   OrganizationInvitationModel,
+  CreateAccountBodyModel,
+  ResetPasswordBodyModel,
+  OtpVerificationBodyModel,
   SubmitInvitationResponseModel,
 } from '../../../components/auth/auth.model';
 import { User, UserApiResponse } from '../../db/models';
@@ -202,20 +205,26 @@ export class AuthService {
     };
   }
 
-  createAccount(body: object): Observable<CreateAccountResponseModel> {
+  createAccount(
+    body: CreateAccountBodyModel
+  ): Observable<CreateAccountResponseModel> {
     const url = '/client/';
     return this.apiService
       .post(url, body)
       .pipe(map(response => response as CreateAccountResponseModel));
   }
 
-  requestOTP(body: object): Observable<ResetPasswordResponseModel> {
+  requestOTP(
+    body: ResetPasswordBodyModel
+  ): Observable<ResetPasswordResponseModel> {
     const url = '/otp/request/';
     return this.apiService
       .post(url, body)
       .pipe(map(response => response as ResetPasswordResponseModel));
   }
-  OTPverification(body: object): Observable<OtpVerificationResponseModel> {
+  OTPverification(
+    body: OtpVerificationBodyModel
+  ): Observable<OtpVerificationResponseModel> {
     const url = '/otp/verification/';
     return this.apiService
       .post(url, body)
