@@ -11,8 +11,9 @@ import { PaginationConfig } from '../../../global/models/pagination.models';
 import { AdminMenuModel } from '../../../components/admin/menu/menu.models';
 import { RoleBodyModel } from '../../../components/admin/operator/operator.models';
 import {
-  AddCounterBodyModel,
-  AddCounterResponseModel,
+  AddBranchResponseModel,
+  AddBranchCounterBodyModel,
+  AddCounterBranchResponseModel,
   CounterDetailsModele,
   TellerDetailsModele,
   TreaureDetailsModele,
@@ -111,11 +112,47 @@ export class AdminService {
     return this.apiService.get(url).pipe(map(data => data));
   }
 
-  addCounter(body: AddCounterBodyModel): Observable<AddCounterResponseModel> {
+  addBranchCounter(
+    body: AddBranchCounterBodyModel
+  ): Observable<AddCounterBranchResponseModel> {
     const url = `/hr/counter/`;
     return this.apiService.post(url, body).pipe(
       map(response => {
-        return response as AddCounterResponseModel;
+        return response as AddCounterBranchResponseModel;
+      })
+    );
+  }
+
+  addNewBranch(
+    name: string,
+    hr_chief: number
+  ): Observable<AddBranchResponseModel> {
+    const url = `/hr/branches/`;
+    const body = {
+      name,
+      hr_chief,
+    };
+    return this.apiService.post(url, body).pipe(
+      map(response => {
+        return response as AddBranchResponseModel;
+      })
+    );
+  }
+
+  addNewMainBox(
+    title: string,
+    counter: number,
+    currency: number
+  ): Observable<AddBranchResponseModel> {
+    const url = `/hr/counter-mainbox/`;
+    const body = {
+      title,
+      counter,
+      currency,
+    };
+    return this.apiService.post(url, body).pipe(
+      map(response => {
+        return response as AddBranchResponseModel;
       })
     );
   }

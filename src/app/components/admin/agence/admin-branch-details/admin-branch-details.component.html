@@ -1,38 +1,40 @@
 <div>
-  @if (!showDetails) {
-    <ng-container>
-      <ng-container *ngTemplateOutlet="details"> </ng-container>
-    </ng-container>
+  @if (selectedMenu === 'detail') {
+    <ng-container *ngTemplateOutlet="detail"> </ng-container>
   }
 
-  @if (showDetails) {
-    <ng-container>
-      <ng-container *ngTemplateOutlet="add"> </ng-container>
-    </ng-container>
+  @if (selectedMenu === 'newBranchCounter') {
+    <ng-container *ngTemplateOutlet="newBranchCounter"> </ng-container>
   }
-
+  @if (selectedMenu === 'branchCounter') {
+    <ng-container *ngTemplateOutlet="branchCounter"> </ng-container>
+  }
   <!--details-->
 
-  <ng-template #details>
+  <ng-template #detail>
     <div class="bg-secondary rounded p-2">
-      <div class="d-flex gap-3 align-items-center justify-content-end">
-        <div>
-          <button
-            class="border rounded p-1 px-2 btn"
-            (click)="refresh()"
-            tabindex="0"
-            [disabled]="loadingData">
-            <i class="fa-solid fa-arrows-rotate"></i>
-          </button>
-        </div>
-        <div
-          class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
-          routerLink="/w/workstation/a/admin/branch/"
-          role="button">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="fw-bold fs-medium">Branch detail</div>
+        <div class="d-flex align-items-center gap-3">
           <div>
-            <i class="fa fa-arrow-left"></i>
+            <button
+              class="border rounded p-1 px-2 btn"
+              (click)="refresh()"
+              tabindex="0"
+              [disabled]="loadingData">
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </button>
           </div>
-          <div>Back</div>
+          <div
+            class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
+            (click)="goBack()"
+            tabindex="0"
+            role="button">
+            <div>
+              <i class="fa fa-arrow-left"></i>
+            </div>
+            <div>Back</div>
+          </div>
         </div>
       </div>
     </div>
@@ -166,23 +168,52 @@
       }
     </div>
   </ng-template>
-  <!--add-->
-  <ng-template #add>
-    <div class="bg-secondary rounded p-2">
-      <div class="d-flex gap-3 align-items-center justify-content-end">
+  <!--branchCounter -->
+  <ng-template #branchCounter>
+    <div class="bg-secondary rounded p-2 mb-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="fw-bold fs-medium">Branch counter</div>
         <div>
-          <button class="border rounded p-1 px-2 btn text-all-white bg-primary">
-            Overview
-          </button>
-        </div>
-        <div
-          class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
-          routerLink="/w/workstation/a/admin/branch/"
-          role="button">
-          <div>
-            <i class="fa fa-arrow-left"></i>
+          <div
+            class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
+            role="button"
+            (click)="goBack()"
+            tabindex="0">
+            <div>
+              <i class="fa fa-arrow-left"></i>
+            </div>
+            <div>Back</div>
           </div>
-          <div>Back</div>
+        </div>
+      </div>
+    </div>
+
+    <app-list
+      [headers]="counterHeaders"
+      [url]="branchCountersUrl"
+      title="Branch Counters"
+      [addButtonLink]="{
+        url: '/w/workstation/a/admin/branch/' + branchId,
+        fragment: 'newBranchCounter',
+      }">
+    </app-list>
+  </ng-template>
+  <!--add-->
+  <ng-template #newBranchCounter>
+    <div class="bg-secondary rounded p-2 mb-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="fw-bold fs-medium">New counter</div>
+        <div>
+          <div
+            class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
+            role="button"
+            (click)="goBack()"
+            tabindex="0">
+            <div>
+              <i class="fa fa-arrow-left"></i>
+            </div>
+            <div>Back</div>
+          </div>
         </div>
       </div>
     </div>
@@ -241,7 +272,7 @@
             <button
               type="submit"
               class="bg-primary btn px-4 text-light"
-              (click)="addNewCounter()"
+              (click)="addBranchCounter()"
               [disabled]="!NewcounterForm.valid"
               i18n>
               @if (!isLoading) {

@@ -129,11 +129,22 @@ export interface BranchDetailsModele {
     };
   };
 }
-export interface AddCounterBodyModel {
+export interface AddBranchCounterBodyModel {
   branch: number;
   location: string;
 }
-export interface AddCounterResponseModel {
+export interface AddBranchBodyModel {
+  branch: number;
+  location: string;
+}
+export interface AddBranchResponseModel {
+  object: {
+    response_message: string;
+
+    success: boolean;
+  };
+}
+export interface AddCounterBranchResponseModel {
   object: {
     response_message: string;
 
