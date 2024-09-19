@@ -35,6 +35,8 @@ import {
   MenuGroupsModel,
   TypeMenuModel,
 } from '../../db/models/menu/menu.models';
+import { AccessModel } from '../../../components/admin/access/access.models';
+import { Access } from '../../db/models/access';
 
 @Injectable({
   providedIn: 'root',
@@ -403,6 +405,19 @@ export class ConfigService {
   }
   getSelectedTypeMenu(): Observable<TypeMenuModel> {
     return this.selectedTypeMenu$ as Observable<TypeMenuModel>;
+  }
+
+  // NOTE :: ACCESS METHODS
+  setActiveAccesses(data: AccessModel[]) {
+    this.dbService.addOnceUpdate(Access.tableName, data);
+  }
+
+  getActiveAccesses(): Promise<AccessModel[]> {
+    return this.dbService.getOnce(Access.tableName) as Promise<AccessModel[]>;
+  }
+
+  clearActiveAccesses(): void {
+    this.dbService.clearTable(Access.tableName);
   }
 
   // NOTE :: GENERAL METHOD
