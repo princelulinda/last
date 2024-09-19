@@ -67,7 +67,7 @@
 .logo {
   position: absolute;
   bottom: 0;
-  clip-path: inset(0 185px 0 183px);
+  clip-path: inset(0 192px 0 192px);
   //   left: -80%;
   height: 118px;
   //   transform: translateX(0%);
@@ -84,7 +84,7 @@
 @keyframes bounce {
   0% {
     transform: translateY(80px) scale(0);
-    clip-path: inset(0 185px 0 183px);
+    clip-path: inset(0 192px 0 192px);
   }
   25% {
     transform: translateY(-100px) scale(1.2);
@@ -103,24 +103,24 @@
   }
   100% {
     transform: translateY(0) scale(1);
-    clip-path: inset(0 185px 0 183px);
+    clip-path: inset(0 192px 0 192px);
   }
 }
 
 @keyframes slideIn {
   0% {
-    left: -87%;
-    clip-path: inset(0 185px 0 183px);
+    left: -95%;
+    clip-path: inset(0 192px 0 192px);
     // clip-path: inset(0 190px 0 0);
   }
   50% {
-    left: -140%;
-    clip-path: inset(0 185px 0 183px);
+    left: -155%;
+    clip-path: inset(0 192px 0 192px);
     // clip-path: inset(0 190px 0 0);
   }
   100% {
-    left: -140%;
-    clip-path: inset(0 0 0 183px);
+    left: -155%;
+    clip-path: inset(0 0 0 192px);
   }
 }
 
