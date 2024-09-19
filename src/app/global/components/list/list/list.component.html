@@ -9,7 +9,7 @@
             [ngClass]="{ 'not-clickable': isLoading }"
             [routerLink]="addButtonLink.url"
             [fragment]="addButtonLink.fragment"
-            class="bg-white text-center plus-square rounded-circle"
+            class="bg-white plus-square rounded-circle d-flex align-items-center justify-content-center"
             title="Add"
             ><i class="fa-solid fa-plus text-success fs-x-small"></i
           ></span>
@@ -206,7 +206,7 @@
 
             @if (i === 0) {
               <span
-                class="d-grid ms-2"
+                class="d-grid ms-2 empty-state"
                 role="button"
                 tabindex="0"
                 (click)="reverseList()">
