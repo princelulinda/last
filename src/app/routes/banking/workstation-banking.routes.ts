@@ -6,7 +6,7 @@ import { WalletDetailsComponent } from '../../components/wallet/wallet-details/w
 import { loanRoutes } from '../../components/loan/loan.routes';
 import { NyamuranziDetailsComponent } from '../../components/nyamuranzi/nyamuranzi-details/nyamuranzi-details.component';
 import { TransferComponent } from '../../components/transfer/transfer/transfer.component';
-import { TarifComponent } from '../../components/tarif/tarif.component';
+import { TarifComponent } from '../../components/tarifs/tarif/tarif.component';
 import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.component';
 import { AccountComponent } from '../../components/account/account/account.component';
 import { bankingSavingRoutes } from '../../components/saving/saving.routes';

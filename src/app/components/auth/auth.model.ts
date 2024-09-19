@@ -42,6 +42,14 @@ export interface CreateAccountResponseModel {
     };
   };
 }
+export interface CreateAccountBodyModel {
+  creation_client: number;
+  organization: number | null;
+  picture: string;
+  write_picture: string | null | undefined;
+  email: string | null | undefined;
+  username: string | null | undefined;
+}
 
 export interface BankListResponseModel {
   name: string;
@@ -172,6 +180,11 @@ export interface OrganizationInvitationModel {
   organization: OrganizationModel;
 }
 
+export interface ResetPasswordBodyModel {
+  otp_value: string | null | undefined;
+  otp_type: string;
+  otp_menu: string;
+}
 export interface SubmitInvitationResponseModel {
   success: string;
   response_message: string;
@@ -179,11 +192,12 @@ export interface SubmitInvitationResponseModel {
 
 // export interface CreateAccountBodyModel {
 
-// }
-// export interface ResetPasswordBodyModel{
-
-// }
-
-// export interface OtpVerificationBodyModel{
-
-// }
+export interface OtpVerificationBodyModel {
+  otp_menu: string;
+  otp_type: string;
+  otp_data: {
+    code: string | null | undefined;
+    newPassword: string | null | undefined;
+    confirnPassword: string | null | undefined;
+  };
+}

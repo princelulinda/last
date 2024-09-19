@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { TransfertBillModel } from '../../../../../core/services/dialog/dialogs-models';
 import { DialogService } from '../../../../../core/services';
+import { NgxPrintModule } from 'ngx-print';
 
 @Component({
   selector: 'app-transfer-bill',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgxPrintModule],
   templateUrl: './transfer-bill.component.html',
   styleUrls: ['./transfer-bill.component.scss'],
 })
@@ -18,6 +19,7 @@ export class TransferBillComponent implements AfterViewInit {
       payload: null,
     };
   private dialogElement!: HTMLDialogElement | null;
+  cardContent!: HTMLElement;
 
   constructor(private dialogService: DialogService) {
     effect(() => {
@@ -53,8 +55,15 @@ export class TransferBillComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.cardContent = document.getElementById('printable_text') as HTMLElement;
     this.dialogElement = document.getElementById(
       'transfer-bill'
     ) as HTMLDialogElement;
+    if (this.transferBillDialog.active && this.transferBillDialog.payload) {
+      if (this.transferBillDialog.payload.printable_text) {
+        this.cardContent.innerHTML =
+          this.transferBillDialog.payload.printable_text;
+      }
+    }
   }
 }

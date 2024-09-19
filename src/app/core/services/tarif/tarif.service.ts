@@ -7,19 +7,19 @@ import {
   BankListResponseModel,
   FeesResonseModel,
   SimulateResponseModel,
-} from '../../../components/tarif/tarif.model';
+} from '../../../components/tarifs/tarif.model';
 import {
   AddTarifModel,
   TarifFeesResonseModel,
   TarifTypeModel,
   AddFeesModel,
   AddTarifBodyModel,
-  addTarifToTableBodyModel,
+  AddTarifToTableBodyModel,
   ModifyFeesBodyModel,
   ModifyFeesModel,
   AddFeesBodyModel,
-  deleteFeesModel,
-} from '../../../components/config-tarif/config-tarif-model';
+  DeleteFeesModel,
+} from '../../../components/tarifs/tarif.model';
 
 @Injectable({
   providedIn: 'root',
@@ -84,7 +84,7 @@ export class TarifService {
       .post(url, body)
       .pipe(map(response => response as AddTarifModel));
   }
-  addTarifToTable(body: addTarifToTableBodyModel): Observable<AddTarifModel> {
+  addTarifToTable(body: AddTarifToTableBodyModel): Observable<AddTarifModel> {
     const url = '/dbs/tariff-table/';
     return this.apiService
       .post(url, body)
@@ -107,10 +107,10 @@ export class TarifService {
       .patch(url, body)
       .pipe(map(response => response as AddFeesModel));
   }
-  deleteFees(feeId: string): Observable<deleteFeesModel> {
+  deleteFees(feeId: string): Observable<DeleteFeesModel> {
     const url = '/dbs/tariff-fees/' + feeId + '/';
     return this.apiService
       .delete(url)
-      .pipe(map(response => response as deleteFeesModel));
+      .pipe(map(response => response as DeleteFeesModel));
   }
 }

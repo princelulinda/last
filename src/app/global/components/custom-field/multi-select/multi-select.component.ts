@@ -12,10 +12,10 @@ import {
   ApiService,
   ConfigService,
   GeneralService,
-} from '../../../core/services';
+} from '../../../../core/services';
 import { CommonModule } from '@angular/common';
-import { ModeModel } from '../../../core/services/config/main-config.models';
-import { AutocompleteModel } from '../../../global/models/global.models';
+import { ModeModel } from '../../../../core/services/config/main-config.models';
+import { AutocompleteModel } from '../../../../global/models/global.models';
 
 @Component({
   selector: 'app-multi-select',
