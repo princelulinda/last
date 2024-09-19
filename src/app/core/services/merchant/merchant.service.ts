@@ -32,6 +32,7 @@ import {
 import { Coords2Model } from '../../../global/components/google-map/map.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import { BillsModel } from '../../../components/merchant/bills/bills.model';
+import { InvoiceGroupModel } from '../../../components/dev/invoice/invoice.models';
 
 @Injectable({
   providedIn: 'root',
@@ -572,4 +573,24 @@ export class MerchantService {
       }>('/dbs/merchant/simple/payment/', data)
       .pipe(map(data => data));
   }
+
+  getBillsGroups(): Observable<{ objects: InvoiceGroupModel[] }> {
+    const url = `/dbs/bill-group/`;
+    return this.apiService
+      .get<{ objects: InvoiceGroupModel[] }>(url)
+      .pipe(map(data => data as { objects: InvoiceGroupModel[] }));
+  }
+  // getBillsByGroup(group_name: string): Observable<any> {
+  //   const url = `/dbs/merchant/bills/?bill_group=${group_name}/`;
+  //   return this.apiService
+  //     .get<any>(url)
+  //     .pipe(map((data: any) => data));
+  // }
+
+  // updateInvoicesGroup(id: number): Observable<any> {
+  //   const url = `/dbs/merchant/bills/${id}/add_bill_group/`;
+  //   return this.apiService
+  //     .post<any>(url)
+  //     .pipe(map(data => data));
+  // }
 }
