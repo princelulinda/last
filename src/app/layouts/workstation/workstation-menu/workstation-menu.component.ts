@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationStart,
+  Router,
+  RouterModule,
+} from '@angular/router';
 import {
   ConfigService,
   DialogService,
@@ -11,7 +16,7 @@ import {
   MenuGroupsModel,
   MenuModel,
 } from '../../../core/db/models/menu/menu.models';
-import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
+import { debounceTime, filter, Observable, Subject, takeUntil } from 'rxjs';
 import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
 import { NgClass } from '@angular/common';
 import { ConnectedOperatorModel } from '../../../components/auth/auth.model';
@@ -56,6 +61,7 @@ export class WorkstationMenuComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private configService: ConfigService,
     private menuService: MenuService,
     private merchantService: MerchantService,
@@ -79,6 +85,14 @@ export class WorkstationMenuComponent implements OnInit {
         this.operator = operator;
       },
     });
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationStart),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe(() => {
+        this.resetData();
+      });
 
     if (this.route.params) {
       this.route.params.subscribe({
@@ -97,10 +111,25 @@ export class WorkstationMenuComponent implements OnInit {
       });
   }
 
+  resetData() {
+    this.merchants = null;
+    this.searchForm.setValue('');
+    this.isSearchInputFocused = false;
+  }
+
   onClick() {
     this.isSearchInputFocused = true;
     if (this.isSearchInputFocused) {
       this.getMerchants('');
+    }
+  }
+
+  onBlur() {
+    if (
+      !this.searchForm.value &&
+      (this.merchants as MerchantAutocompleteModel[]).length === 0
+    ) {
+      this.isSearchInputFocused = false;
     }
   }
 
