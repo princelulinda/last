@@ -69,7 +69,7 @@
         <div class="row d-flex flex-wrap align-items-center">
           @if (savingClub && savingClub.length > 0 && suggestedTontines) {
             <div class="fs-large fw-bold text-secondary mb-3 text-center" i18n>
-              Saving clubs
+              Savings clubs
             </div>
             @for (tontine of savingClub; track $index) {
               <div class="col-8 col-sm-6 col-md-5 col-lg-4 mb-3">
@@ -109,7 +109,7 @@
           }
           @if (!savingClub || !suggestedTontines) {
             <div class="fs-large fw-bold text-secondary mb-3 text-center" i18n>
-              Saving clubs
+              Savings club
             </div>
             @for (_ of [1, 2, 3]; track $index) {
               <div class="col-8 col-sm-6 col-md-5 col-lg-4 mb-3">
@@ -155,7 +155,7 @@
           </div>
 
           @for (
-            suggestedTontines of suggestedTontines | slice: 0 : 3;
+            suggestedTontines of suggestedTontines.slice(0, 3);
             track $index
           ) {
             <div class="col-8 col-sm-6 col-md-5 col-lg-4 mt-4">
@@ -198,6 +198,7 @@
             <i class="fa fa-face-meh"></i> There is no suggested CLubs
           </div>
         }
+
         @if (!savingClub || !suggestedTontines) {
           <div class="fs-large fw-bold text-secondary" i18n>
             Club suggestions

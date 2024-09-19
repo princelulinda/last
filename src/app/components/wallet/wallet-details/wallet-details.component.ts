@@ -54,7 +54,7 @@ export class WalletDetailsComponent implements OnInit {
       next: (response: { object: WalletDetail }) => {
         this.wallet = response.object;
       },
-      error: (error: Error) =>
+      error: error =>
         console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
