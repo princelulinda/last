@@ -54,6 +54,7 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
   private readonly screenLockTimeout: number = 15 * 60 * 1000; // 15 minutes
   private screenLockEvent$: Observable<boolean>;
   private resetScreenLockEvent$ = new Subject<void>();
+  private channel: BroadcastChannel;
 
   constructor(
     private authService: AuthService,
@@ -73,6 +74,13 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
       tap(() => this.resetScreenLockEvent$.next()), // reset on any event
       switchMap(() => timer(this.screenLockTimeout).pipe(map(() => true)))
     );
+
+    this.channel = new BroadcastChannel('sleep-mode-channel');
+    this.channel.onmessage = event => {
+      if (event.data === 'activate') {
+        this.configService.switchScreenState('unlocked');
+      }
+    };
   }
 
   ngOnInit() {
@@ -81,6 +89,7 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
         if (user) {
           this.user = user;
           this.startWatching();
+          this.channel.postMessage('activate');
         }
       },
     });
