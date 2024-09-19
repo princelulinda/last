@@ -62,7 +62,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
       field: ['operator.name'],
       size: '',
       detail: {
-        link: '/w/workstation/a/admin/operators/',
+        link: '/w/workstation/a/admin/operator/',
         field: 'id',
       },
     },

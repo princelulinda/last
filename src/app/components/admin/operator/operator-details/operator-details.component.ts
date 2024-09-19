@@ -168,13 +168,15 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
           {
             icon: 'circle-info',
             title: 'Operator Info',
-            url: `/w/workstation/a/admin/operators/${this.operatorOrganizationId}`,
+            url: `/w/workstation/a/admin/operator/${this.operatorOrganizationId}`,
+            icon_classes: 'fs-medium',
           },
           {
             icon: 'universal-access',
             title: 'Operators Details',
-            url: `/w/workstation/a/admin/operators/${this.operatorOrganizationId}`,
+            url: `/w/workstation/a/admin/operator/${this.operatorOrganizationId}`,
             fragment: 'details',
+            icon_classes: 'fs-medium',
           },
         ];
         this.menuService.setPageMenus(this.pageMenus);

@@ -15,7 +15,7 @@ export class RolesComponent {
       field: ['role_name'],
       size: '',
       detail: {
-        link: '/w/workstation/a/admin/roles/',
+        link: '/w/workstation/a/admin/role/',
         field: 'id',
       },
     },
