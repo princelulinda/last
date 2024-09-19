@@ -179,11 +179,13 @@
     </div>
     <div class="row w-100 ms-2 mb-3 mt-2">
       @if (headers && data_list && data_list.length > 0) {
-        <div class="col-auto">
-          <input
-            type="checkbox"
-            class="form-check"
-            (change)="toggleAllCheckboxes($event)" />
+        <div class="col-auto pe-0">
+          <span class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              (change)="toggleAllCheckboxes($event)" />
+          </span>
         </div>
       }
 
@@ -191,7 +193,7 @@
         @if (header.canBeDisplayed) {
           <div
             [ngClass]="[
-              i === 0 ? 'd-flex' : '',
+              i === 0 ? 'd-flex align-items-center' : '',
               header.canBeDisplayed && header.size === '' ? 'col-lg' : '',
 
               header.canBeDisplayed && header.size !== ''
@@ -204,17 +206,17 @@
 
             @if (i === 0) {
               <span
-                class="d-grid fs-x-small lh"
+                class="d-grid ms-2"
                 role="button"
                 tabindex="0"
                 (click)="reverseList()">
-                <span class="ms-2">
-                  <i class="fa-solid fa-play fa-rotate-270"></i>
-                </span>
-                <br />
-                <span class="ms-2">
-                  <i class="fa-solid fa-play fa-rotate-90"></i>
-                </span>
+                <small>
+                  <i class="fa-solid fa-sort"></i>
+                </small>
+                <!-- <br />
+                <small>
+                  <i class="fa-solid fa-sort-down"></i>
+                </small> -->
               </span>
             }
           </div>
@@ -225,7 +227,7 @@
 
   @if (!response_data || isLoading) {
     <div class="col justify-content-center">
-      @for (_ of [1, 2, 3, 4]; track $index) {
+      @for (_ of [1, 2, 3, 4, 5, 6]; track $index) {
         <div class="col mb-4">
           <app-skeleton [width]="'100%'" [height]="'50px'" classes="sm-radius">
           </app-skeleton>
@@ -238,8 +240,10 @@
     @for (line of data_list; track line) {
       <div
         class="row d-flex ms-1 me-1 align-items-center justify-content-center p-1 px-3 border rounded mb-2 fs-small">
-        <div class="col-auto ps-0">
-          <input type="checkbox" class="form-check" />
+        <div class="col-auto p-0">
+          <span class="form-check">
+            <input type="checkbox" class="form-check-input" />
+          </span>
         </div>
 
         @for (data of line; let i = $index; track $index) {
@@ -259,7 +263,6 @@
                 @if (!data.boolean) {
                   <div
                     class="col d-flex align-items-center"
-                    [title]="data.value"
                     [ngClass]="[
                       data.class !== ''
                         ? ' d-flex justify-content-center badge-design mx-4 fs-small' +
