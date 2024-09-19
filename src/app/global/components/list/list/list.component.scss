@@ -7,39 +7,67 @@
   height: 30px;
 }
 
-.active {
-  width: 220px;
+.searchForm {
+  .search-input {
+    height: 28px;
+    opacity: 0;
+    transition: 0.3s ease;
+  }
+  &:hover,
+  &.active {
+    marker-end: 0.5rem;
+    cursor: pointer;
+    .search-input {
+      opacity: 1;
+    }
+    width: 220px;
+    transition: 0.3s ease-in-out;
+    opacity: 1;
+  }
 }
-.search-input {
-  height: 25px;
-  line-height: 30px;
-  padding: 0 20px;
-  visibility: hidden;
-  opacity: 0;
- transform: translateX(-10px);
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s 0.2s;
-}
+// .search-input {
+//   height: 25px;
 
-.search-button {
-  box-sizing: border-box;
-  transform: all 2s;
-}
-.searchForm:hover {
-  width: 220px;
-  cursor: pointer;
-}
-.searchForm:hover .search-input {
-  visibility: visible;
-  opacity: 1;
-  transform: translateX(0);
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s
-}
-.searchForm:hover .search-input {
-  background-color: white;
-}
-.modal-dialog{
-    min-width:50%;
-}
-.lh{
-    line-height: 0.8
+//   opacity: 0;
+//   width: 0;
+//   transform: translateX(-10px);
+//   &.active,
+//   &:hover {
+//     width: 220px;
+//     transition: 0.2s ease;
+//     transform: translate(0);
+//   }
+//   // line-height: 30px;
+//   // padding: 0 20px;
+//   // visibility: hidden;
+//   // opacity: 0;
+//   // transform: translateX(-10px);
+//   // transition:
+//   //   opacity 0.2s ease,
+//   //   transform 0.2s ease,
+//   //   visibility 0s 0.2s;
+// }
+
+// .search-button {
+//   box-sizing: border-box;
+//   transform: all 2s;
+// }
+// .searchForm:hover {
+//   width: 220px;
+//   // cursor: pointer;
+// }
+// .searchForm:hover .search-input {
+//   visibility: visible;
+//   opacity: 1;
+//   transform: translateX(0);
+//   transition:
+//     opacity 0.2s ease,
+//     transform 0.2s ease,
+//     visibility 0s;
+// }
+// .searchForm:hover .search-input {
+//   background-color: white;
+// }
+.modal-dialog {
+  min-width: 50%;
 }

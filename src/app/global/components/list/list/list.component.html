@@ -16,9 +16,9 @@
         }
         <div
           class="d-flex align-items-center searchForm position-relative"
-          [ngClass]="{ 'active ': isSearchInputNotEmpty() }">
+          [ngClass]="{ active: isSearchInputNotEmpty() }">
           <input
-            class="ps-4 search-input start-0 w-100 form-control input border-0 sm-radius ms-3 position-absolute"
+            class="ps-2 search-input start-0 w-100 form-control input border-0 sm-radius ms-3 position-absolute"
             [ngClass]="{
               'd-block ': isSearchInputNotEmpty(),
               'not-clickable': isLoading,
@@ -28,7 +28,7 @@
             [formControl]="searchName"
             (keydown.enter)="search()" />
           <span
-            class="btn bg-transparent search-btn"
+            class="btn search-btn"
             [ngClass]="{ 'not-clickable': isLoading }"
             role="button"
             (click)="search()"
@@ -384,7 +384,7 @@
   } @else if (
     response_data && data_list && data_list.length === 0 && !isLoading
   ) {
-    <div>
+    <div class="w-50 mx-auto">
       <app-empty-state searchType="list"></app-empty-state>
     </div>
   }
