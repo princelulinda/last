@@ -6,6 +6,17 @@ import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
+    const broadcastChannelMock = {
+      postMessage: jest.fn(),
+      onmessage: null,
+      onmessageerror: null,
+      close: jest.fn(),
+      name: 'sleep-mode-channel',
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    };
+    window.BroadcastChannel = jest.fn(() => broadcastChannelMock);
     await TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
