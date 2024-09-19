@@ -133,9 +133,9 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
         next: data => {
           const response = data as { objects: MerchantAutocompleteModel[] };
           this.merchants = response.objects;
-          this.last4Merchant = this.merchants.slice(-4);
+          this.last4Merchant = this.merchants.slice(-5);
 
-          this.recentMerchant = this.merchants.slice(0, 4);
+          this.recentMerchant = this.merchants.slice(0, 5);
 
           this.favorite_merchant_making = null;
         },
@@ -150,7 +150,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
         next: response => {
           const result = response as { objects: BillersAutocompleteModel[] };
           this.billers = result.objects;
-          this.recentBillers = this.billers.slice(0, 4);
+          this.recentBillers = this.billers.slice(0, 5);
         },
         error: () => {
           this.loadingmerchants = false;
@@ -198,7 +198,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: data => {
           const response = data as { objects: ProductAutocompleteModel[] };
-          this.products = response.objects.slice(0, 4);
+          this.products = response.objects.slice(0, 5);
         },
       });
   }
