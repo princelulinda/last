@@ -1,1 +1,116 @@
-<app-list [headers]="headers" url="/hr/branches/?" title="Menus"> </app-list>
+<div>
+  @if (selectedList === 'branchLIst') {
+    <ng-container *ngTemplateOutlet="branchLIst"> </ng-container>
+  }
+  @if (selectedList === 'newBranch') {
+    <ng-container *ngTemplateOutlet="newBranch"></ng-container>
+  }
+
+  <ng-template #branchLIst>
+    <div class="bg-secondary rounded p-2 mb-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="fw-bold fs-medium">Branch</div>
+        <div>
+          <div
+            class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
+            role="button"
+            (click)="goBack()"
+            tabindex="0">
+            <div>
+              <i class="fa fa-arrow-left"></i>
+            </div>
+            <div>Back</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-list
+      [headers]="headers"
+      url="/hr/branches/?"
+      title="Branchs"
+      [addButtonLink]="{
+        url: '/w/workstation/a/admin/branch/',
+        fragment: 'newBranch',
+      }">
+    </app-list>
+  </ng-template>
+
+  <ng-template #newBranch>
+    <div class="bg-secondary rounded p-2">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="fw-bold fs-medium">New Branch</div>
+        <div>
+          <div
+            class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
+            (click)="goBack()"
+            tabindex="0"
+            role="button">
+            <div>
+              <i class="fa fa-arrow-left"></i>
+            </div>
+            <div>Back</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="newBranchForm" class="mt-4">
+      <div class=" ">
+        <div class="mt-3 col-9">
+          <div class="d-flex align-items-center justify-content-between mt-4">
+            <div class="col-5">
+              <div class="d-flex align-items-center gap-2">
+                <div class="fs-small">Name:</div>
+                <div class="form-floating col-9">
+                  <input
+                    type="text"
+                    class="input form-control text-dark simulator-input"
+                    id="name"
+                    formControlName="name"
+                    placeholder="name" />
+                  <label for="name" class="text-dark" i18n
+                    >name <code>*</code></label
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-2 col-5">
+              <div class="fs-small">operator:</div>
+              <div class="col-9">
+                <div class="lookup">
+                  <app-lookup
+                    option="autocomplete"
+                    url="/hr/operator/organizations/manage/objects_autocomplete/?organization={{
+                      organizationId
+                    }}&search="
+                    label="Operators"
+                    (selectedItemEvent)="selectOperator($event)"></app-lookup>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center mt-5">
+            <button
+              type="submit"
+              class="bg-primary btn px-4 text-light"
+              [disabled]="!newBranchForm.valid || !selectedOperatorId"
+              (click)="addNewBranch()"
+              i18n>
+              @if (!isLoading) {
+                <span> Add </span>
+              }
+              @if (isLoading) {
+                <span>
+                  <i
+                    class="fa-solid fa-spin fa-circle-notch fs-5 text-dark"></i>
+                </span>
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+</div>

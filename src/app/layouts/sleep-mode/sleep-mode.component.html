@@ -5,10 +5,19 @@
   (mousemove)="animationStart()"
   (keydown)="animationStart()"
   tabindex="0">
-  <img
-    src="./images/sleepMode/globe.svg"
-    class="position-absolute globe col-12 col-md-auto mt-5 mt-md-0"
-    alt="" />
+  @if (activeMode === 'light') {
+    <img
+      src="./images/sleepMode/globe.svg"
+      class="position-absolute globe col-12 col-md-auto mt-5 mt-md-0"
+      alt="" />
+  }
+
+  @if (activeMode === 'dark') {
+    <img
+      src="./images/sleepMode/globeDark.svg"
+      class="position-absolute globe col-12 col-md-auto mt-5 mt-md-0"
+      alt="" />
+  }
 
   <img
     src="./images/sleepMode/print.svg"

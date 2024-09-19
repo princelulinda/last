@@ -16,11 +16,18 @@ import {
   ModeModel,
 } from '../../../core/services/config/main-config.models';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { ClipboardDirective } from '../../../global/directives/clipboard/clipboard.directive';
 
 @Component({
   selector: 'app-nyamuranzi-card',
   standalone: true,
-  imports: [NgClass, CommonModule, RouterLink, AmountVisibilityComponent],
+  imports: [
+    NgClass,
+    CommonModule,
+    RouterLink,
+    AmountVisibilityComponent,
+    ClipboardDirective,
+  ],
   templateUrl: './nyamuranzi-card.component.html',
   styleUrl: './nyamuranzi-card.component.scss',
 })
