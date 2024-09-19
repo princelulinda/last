@@ -148,7 +148,8 @@ export class ListComponent implements OnInit, OnDestroy {
   }
   isSearchInputNotEmpty(): boolean {
     const searchValue = this.searchName.value;
-    return typeof searchValue === 'string' && searchValue.trim() !== '';
+    // return typeof searchValue === 'string' && searchValue.trim() !== '';
+    return searchValue?.trim() !== '';
   }
   handleEnter(event: KeyboardEvent): void {
     event.preventDefault();

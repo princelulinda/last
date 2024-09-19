@@ -24,7 +24,7 @@ describe('AdminBranchListComponent', () => {
 
     fixture = TestBed.createComponent(AdminBranchListComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    //fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -27,7 +27,7 @@ export class SavingDetailService {
   }
 
   getSuggestedTontines(): Observable<{ objects: SuggestedTontinesModel[] }> {
-    const url = '/tontine/creation/?registered=false"';
+    const url = '/tontine/creation/?registered=false';
     return this.apiService.get<{ objects: SuggestedTontinesModel[] }>(url);
   }
 
