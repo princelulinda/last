@@ -25,7 +25,7 @@ export class AdminTreasureDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: params => {
-        this.treasureId = params['id'];
+        this.treasureId = params['treasureId'];
       },
     });
     this.getTreasureDetails();
