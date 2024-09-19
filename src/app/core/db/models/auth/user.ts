@@ -21,14 +21,15 @@ export interface ClientModel {
   };
   client_email: string;
   client_code: number;
-  picture: string;
-  picture_url: string;
+  picture: string | null;
+  picture_url: string | null;
   has_pin: boolean;
   is_agent: boolean;
   is_merchant: boolean;
   is_partner_bank: boolean;
   prefered_language: languageModel;
 }
+
 export interface UserInfoModel {
   user: UserApiResponse;
   client: ClientModel;
