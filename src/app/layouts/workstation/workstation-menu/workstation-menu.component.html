@@ -2,89 +2,89 @@
   @if (activatedTypeMenu === 'b') {
     <section class="bg-white w-aside p-1 pt-4 d-flex flex-column">
       <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
         role="button"
         routerLink="/w/workstation/b/banking/"
         [routerLinkActiveOptions]="{ exact: true }"
-        routerLinkActive="text-all-dark bg-primary-3"
+        routerLinkActive="text-all-dark bg-input"
         i18n>
         Home
       </a>
       <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
         routerLink="/w/workstation/b/banking/tarifs"
-        routerLinkActive="text-all-dark bg-primary-3"
+        routerLinkActive="text-all-dark bg-input"
         role="button"
         i18n>
         Tarifs
       </a>
       <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
         role="button"
-        routerLinkActive="text-all-dark bg-primary-3"
+        routerLinkActive="text-all-dark bg-input"
         i18n>
         Petty Cash
       </a>
       <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
         routerLink="/w/workstation/b/banking/transfer"
-        routerLinkActive="text-all-dark bg-primary-3"
+        routerLinkActive="text-all-dark bg-input"
         role="button"
         i18n>
         Transfer
       </a>
       <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
-        routerLinkActive="text-all-dark bg-primary-3"
+        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
+        routerLinkActive="text-all-dark bg-input"
         role="button"
         i18n>
         Statement
       </a>
     </section>
-    <main class="flex-grow-1 px-2 px-md-4 py-2 overflow-y-auto ms-1">
+    <main class="flex-grow-1 overflow-y-auto ms-1">
       <router-outlet></router-outlet>
     </main>
   } @else if (activatedTypeMenu === 'm') {
     <section class="bg-white w-aside p-1 pt-4 d-flex flex-column">
       <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
         role="button"
         routerLink="/w/workstation/m/market/"
         [routerLinkActiveOptions]="{ exact: true }"
-        routerLinkActive="text-all-dark bg-primary-3"
+        routerLinkActive="text-all-dark bg-input"
         i18n>
         <small>HOME</small>
       </a>
       <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
         routerLink="/w/workstation/m/market/payment-reports"
-        routerLinkActive="text-all-dark bg-primary-3"
+        routerLinkActive="text-all-dark bg-input"
         role="button"
         i18n>
         <small>PAYMENT REPORT</small>
       </a>
       <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
         routerLink="/w/workstation/m/market/transfer-reports"
-        routerLinkActive="text-all-dark bg-primary-3"
+        routerLinkActive="text-all-dark bg-input"
         role="button"
         i18n>
         <small>TRANSFER REPORT</small>
       </a>
       <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
         role="button"
         i18n>
         <small>SLATE</small>
       </a>
       <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
         role="button"
         i18n>
         <small>CLIENT ORDER</small>
       </a>
       <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-primary-3"
+        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
         role="button"
         i18n>
         <small>POINT OF SALE</small>
@@ -101,10 +101,10 @@
             <input
               type="text"
               class="col me-2 form-control"
-              placeholder="Search Merchant by name, code .."
+              placeholder="Search Merchant"
               [formControl]="searchForm"
               (focus)="isSearchInputFocused = true"
-              (blur)="isSearchInputFocused = false"
+              (blur)="onBlur()"
               (click)="onClick()" />
             <button type="submit" class="px-4 btn bg-primary">
               <b class="text-all-white fs-medium" i18n>Search Merchant</b>
@@ -115,15 +115,25 @@
           <b class="text-primary fs-large" i18n>My Market</b>
         </div>
       </section>
-      <main class="flex-grow-1 px-2 px-md-4 py-2 overflow-y-auto ms-1">
+      <main class="flex-grow-1 overflow-y-auto ms-1">
         @if (!isSearchInputFocused && !this.searchForm.value) {
           <router-outlet></router-outlet>
         }
         @if (isSearchInputFocused || this.searchForm.value) {
+          <div class="text-end mt-3 mb-3">
+            <span
+              (click)="resetData()"
+              role="button"
+              tabindex="0"
+              class="fw-bold text-dark"
+              i18n
+              ><i class="fa-solid fa-arrow-left"></i> Back</span
+            >
+          </div>
           @if (!merchants) {
-            <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center">
-              @for (_ of [1, 2, 3, 4, 5, 6]; track $index) {
-                <div class="col-lg-3 col-sm-4 col-auto mb-3">
+            <div class="d-flex flex-wrap gap-5 mt-2">
+              @for (_ of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track $index) {
+                <div class="col-auto mb-3">
                   <app-skeleton
                     height="150px"
                     width="150px"
@@ -131,35 +141,38 @@
                   <div>
                     <app-skeleton
                       height="10px"
-                      width="60%"
+                      width="100%"
                       classes="rounded-3"></app-skeleton>
                   </div>
                   <div>
                     <app-skeleton
                       height="10px"
-                      width="40%"
+                      width="50%"
                       classes="rounded-3"></app-skeleton>
                   </div>
                 </div>
               }
             </div>
           }
-          @if (merchants && merchants.length === 0) {
-            <div class="text-center">
-              <app-empty-state
-                [searchType]="'merchant'"
-                [searchTerm]="'search merchant'"></app-empty-state>
-            </div>
-          }
+          @if (merchants) {
+            @if (merchants.length === 0) {
+              <div class="text-center">
+                <app-empty-state
+                  [searchType]="'merchant'"
+                  [searchTerm]="'search merchant'"></app-empty-state>
+              </div>
+            }
 
-          @if (merchants && merchants.length !== 0) {
-            <div class="d-flex flex-wrap gap-5 ms-3 mx-0 mt-2">
-              @for (merchant of merchants; track $index) {
-                <div class="col-auto">
-                  <app-merchant-card [merchant]="merchant"> </app-merchant-card>
-                </div>
-              }
-            </div>
+            @if (merchants.length !== 0) {
+              <div class="d-flex flex-wrap gap-5 ms-3 mx-0 mt-2">
+                @for (merchant of merchants; track $index) {
+                  <div class="col-auto">
+                    <app-merchant-card [merchant]="merchant">
+                    </app-merchant-card>
+                  </div>
+                }
+              </div>
+            }
           }
         }
       </main>
@@ -175,13 +188,13 @@
           <div
             (click)="selectGroup(group)"
             tabindex="0"
-            class="py-1 mb-3 d-block px-4 xx-lg-radius bg-hover-primary-3"
+            class="py-1 mb-3 d-block px-4 xx-lg-radius bg-hover-input"
             role="button"
             [ngClass]="{
-              'text-all-dark bg-primary-3': selectedGroup === group,
+              'text-all-dark bg-input': selectedGroup === group,
               'text-secondary': selectedGroup !== group,
             }"
-            routerLinkActive="text-all-dark bg-primary-3">
+            routerLinkActive="text-all-dark bg-input">
             {{ group.name }}
           </div>
           <div
@@ -198,7 +211,7 @@
                   [ngClass]="{
                     'mb-2': $index === menu.length - 1,
                   }"
-                  class="py-1 ms-1 px-3 mb-1 xx-lg-radius bg-hover-primary-3 text-secondary d-block w-100"
+                  class="py-1 ms-1 px-3 mb-1 xx-lg-radius bg-hover-input text-secondary d-block w-100"
                   role="button">
                   {{ item.name }}
                 </a>
@@ -226,7 +239,7 @@
         </div>
       }
     </section>
-    <main class="flex-grow-1 px-2 px-md-4 py-2 overflow-y-auto ms-1">
+    <main class="flex-grow-1 overflow-y-auto ms-1">
       <router-outlet></router-outlet>
     </main>
   }

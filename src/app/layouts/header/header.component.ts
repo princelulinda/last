@@ -84,8 +84,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.mainConfig.activePlateform === 'myMarket'
           ) {
             this.menuRouterLink = '/m/banking_menu';
-          } else if (this.mainConfig.activePlateform === 'bankingSettings') {
-            this.menuRouterLink = '/b/settings_menu';
           }
         }
       },
@@ -101,7 +99,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.organization$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: org => {
-        this.organization = org;
+        if (org) {
+          this.organization = org;
+        }
       },
     });
     this.amountState$.subscribe({
