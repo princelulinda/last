@@ -22,8 +22,6 @@
   width: 159px;
   //   border: 1px black solid;
   position: relative;
-  //   overflow: hidden;
-  animation: loopSequence 4.5s infinite;
 }
 
 .mask {
@@ -37,8 +35,8 @@
   z-index: 5;
   bottom: 0;
   transition: width 2s ease-in-out;
-  animation: closeEllipse 0.5s ease-in-out forwards;
-  animation-delay: 0.4s;
+  animation: closeEllipse 0.4s ease-in-out forwards;
+  animation-delay: 0.3s;
 }
 
 .whiteMask {
@@ -50,8 +48,8 @@
   background-color: white;
   z-index: 3;
   transition: leave 2s ease-in-out;
-  animation: closeEllipse 0.5s ease-in-out forwards;
-  animation-delay: 0.4s;
+  animation: closeEllipse 0.4s ease-in-out forwards;
+  animation-delay: 0.3s;
 }
 
 .ellipse {
@@ -61,8 +59,15 @@
   height: 28px;
   //   overflow: hidden;
   transition: width 2s ease-in-out;
-  animation: closeEllipse 0.5s ease-in-out forwards;
-  animation-delay: 0.4s;
+  animation: closeEllipse 0.4s ease-in-out forwards;
+  animation-delay: 0.3s;
+}
+
+.shape {
+  width: 100%;
+  height: 28px;
+  background-color: rgba(241, 241, 241, 1);
+  border-radius: 50%;
 }
 
 .ellipse img {
@@ -77,8 +82,8 @@
   height: 118px;
   //   transform: translateX(0%);
   animation:
-    bounce 1.5s ease-in-out forwards,
-    slideIn 1s ease-in-out 1.5s forwards;
+    bounce 1.3s ease-in-out forwards,
+    slideIn 0.8s ease-in-out 1.3s forwards;
 }
 
 .logo img {
@@ -158,11 +163,5 @@
   }
   100% {
     right: -200px;
-  }
-}
-
-@keyframes loopSequence {
-  0%,
-  100% {
   }
 }

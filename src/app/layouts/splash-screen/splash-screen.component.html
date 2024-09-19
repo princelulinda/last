@@ -3,16 +3,18 @@
   class="p-4 position-absolute d-flex flex-column align-items-center"
   style="background-color: rgb(255, 255, 255)">
   <div class="flex-grow-1 d-flex justify-content-center align-items-center">
-    <div class="splashContainer d-flex justify-content-center">
-      <div class="ellipse">
-        <img src="/images/splash/ellipse.svg" alt="" />
+    @if (isAnimated) {
+      <div class="splashContainer d-flex justify-content-center">
+        <div class="ellipse">
+          <div class="shape"></div>
+        </div>
+        <div class="mask"></div>
+        <div class="whiteMask"></div>
+        <div class="logo">
+          <img src="/images/splash/iHelaRyanje.svg" alt="" />
+        </div>
       </div>
-      <div class="mask"></div>
-      <div class="whiteMask"></div>
-      <div class="logo">
-        <img src="/images/splash/iHelaRyanje.svg" alt="" />
-      </div>
-    </div>
+    }
   </div>
   <div class="text-center text-secondary">
     <span i18n>A product of</span> Onamob & iHelá Credit Union <br />
