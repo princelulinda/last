@@ -1011,12 +1011,12 @@
       role="dialog"
       tabindex="-1"
       aria-labelledby="permissionModalLabel"
-      data-bs-backdrop="false"
+      data-bs-backdrop="static"
       aria-hidden="true">
       @if (permissionModalSection === 'list') {
         <div class="modal-dialog modal-dialog-centered">
           <div
-            class="modal-content lg-radius px-4 py-3 bg-white shadow-lg"
+            class="modal-content lg-radius px-4 py-3 bg-white"
             style="min-width: 642px; max-height: 800px">
             <div class="d-flex w-100 justify-content-end">
               <button
@@ -1223,7 +1223,7 @@
       @if (permissionModalSection === 'details') {
         <div class="modal-dialog modal-lg modal-dialog-centered">
           <div
-            class="modal-content lg-radius px-4 py-3 bg-white shadow-lg"
+            class="modal-content lg-radius px-4 py-3 bg-white"
             style="min-width: 987px; min-height: 300px">
             <!-- Header section -->
             <div class="w-100 d-flex gap-3 flex-row align-items-center">

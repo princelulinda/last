@@ -7,12 +7,11 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
 import { SessionToShow, StatResModel } from '../dashboard.model';
 import { SessionsService } from '../../../core/services/sessions/sessions.service';
 import { GeneralService } from '../../../core/services';
-import { CheckAccessDirective } from '../../../global/directives/access/check-access.directive';
 
 @Component({
   selector: 'app-workstation-dashboard',
   standalone: true,
-  imports: [SkeletonComponent, CommonModule, CheckAccessDirective],
+  imports: [SkeletonComponent, CommonModule],
   templateUrl: './workstation-dashboard.component.html',
   styleUrl: './workstation-dashboard.component.scss',
 })

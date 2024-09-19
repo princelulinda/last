@@ -1,15 +1,52 @@
-<div class="map">
-  <google-map height="100%" width="100%" [center]="mapCenter" [zoom]="mapZoom">
-    @for (coord of coords; track coord) {
-      @if (coord.geometry) {
-        <map-marker
-          [position]="{
-            lat: coord.geometry.coordinates[0],
-            lng: coord.geometry.coordinates[0],
-          }"
-          [options]="markerOptions"></map-marker>
+@if (!detailed) {
+  <div class="map">
+    <google-map
+      height="100%"
+      width="100%"
+      [center]="mapCenter"
+      [zoom]="mapZoom">
+      @for (coord of coords; track coord) {
+        @if (coord.geometry) {
+          <map-marker
+            [position]="{
+              lat: coord.geometry.coordinates[0],
+              lng: coord.geometry.coordinates[0],
+            }"
+            [options]="markerOptions"></map-marker>
+        }
       }
-    }
-    <!-- (mapClick)="markerClick($event, coord)" -->
-  </google-map>
-</div>
+      <!-- (mapClick)="markerClick($event, coord)" -->
+    </google-map>
+  </div>
+}
+
+@if (detailed) {
+  <div class="map-container w-100">
+    <google-map
+      [center]="{ lat: lat, lng: lng }"
+      [zoom]="zoom"
+      (mapClick)="onMapClick($event)">
+      <map-marker
+        [position]="markerPosition"
+        [options]="markerOptions"></map-marker>
+    </google-map>
+
+    <div class="legend" *ngIf="lat && lng">
+      <div>
+        <b>Latitude:</b>
+        <span>{{ lat }}</span>
+      </div>
+      <div>
+        <b>Longitude:</b>
+        <span>{{ lng }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="noLocationMessage" class="d-flex justify-content-end w-100">
+      <span>
+        Using your location as the merchant's location is unavailable. Please
+        provide the merchant's location.
+      </span>
+    </div>
+  </div>
+}
