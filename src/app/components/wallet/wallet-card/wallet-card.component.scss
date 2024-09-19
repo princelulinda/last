@@ -237,3 +237,8 @@
   bottom: 8px;
   left: 18px;
 }
+
+.overmask {
+  z-index: 20;
+  background-color: rgba(255, 255, 255, 0.3);
+}
