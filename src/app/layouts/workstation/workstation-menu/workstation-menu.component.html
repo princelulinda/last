@@ -41,7 +41,7 @@
         Statement
       </a>
     </section>
-    <main class="flex-grow-1 px-2 px-md-4 py-2 overflow-y-auto ms-1">
+    <main class="flex-grow-1 overflow-y-auto ms-1">
       <router-outlet></router-outlet>
     </main>
   } @else if (activatedTypeMenu === 'm') {
@@ -101,7 +101,7 @@
             <input
               type="text"
               class="col me-2 form-control"
-              placeholder="Search Merchant by name, code .."
+              placeholder="Search Merchant"
               [formControl]="searchForm"
               (focus)="isSearchInputFocused = true"
               (blur)="onBlur()"
@@ -115,7 +115,7 @@
           <b class="text-primary fs-large" i18n>My Market</b>
         </div>
       </section>
-      <main class="flex-grow-1 px-2 px-md-4 py-2 overflow-y-auto ms-1">
+      <main class="flex-grow-1 overflow-y-auto ms-1">
         @if (!isSearchInputFocused && !this.searchForm.value) {
           <router-outlet></router-outlet>
         }
@@ -239,7 +239,7 @@
         </div>
       }
     </section>
-    <main class="flex-grow-1 px-2 px-md-4 py-2 overflow-y-auto ms-1">
+    <main class="flex-grow-1 overflow-y-auto ms-1">
       <router-outlet></router-outlet>
     </main>
   }
