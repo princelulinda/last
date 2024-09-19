@@ -32,7 +32,6 @@ export class SplashScreenComponent implements OnInit, AfterViewInit {
       if (this.splashScreenState) {
         this.splashScreenElement?.classList.add('show');
         this.splashScreenElement?.classList.remove('fade');
-        // this.isAnimated = true;
         this.startAnimationLoop();
       } else {
         this.splashScreenElement?.classList.add('fade');
