@@ -1,36 +1,17 @@
-<!-- <div class="container d-flex justify-content-center footer">
-  <span class="text-secondary d-flex align-items-center p-2">
-    @if (showCopyRight) {
-      <span>
-        Copyright &copy; iHela Credit Union <br> {{ year }} &middot; Provided by
-        <a class="text-secondary" target="_blank" href=" https://magis.bi/"
-          >MAGIS BI</a
-        >
-      </span>
-    }
-  </span>
-</div> -->
-
 <div
-  class="col container d-flex justify-content-center footer align-items-center pt-2">
+  class="col container d-flex justify-content-center footer align-items-center pt-2 text-center">
   <p class="text-dark">
     <span
       ><a class="text-dark" href="https://about.ihela.bi ">About</a> . Privacy .
       Terms and conditions . Jobs .
-      @if (break) {
-        <br />
-      }
       <a class="text-dark" href=" http://bankingdocs.ihela.bi/">API</a> .
       <a class="text-dark" href=" https://magis.bi">MAGIS</a> . Plus</span
     >
+    <br />
 
     @if (showCopyRight) {
       <span class="ms-2"
-        >Copyright &copy;
-        @if (break) {
-          <br />
-        }
-        iHela Credit Union {{ year }} . Provided by
+        >Copyright &copy; iHela Credit Union {{ year }} . Provided by
         <a class="text-dark" href=" https://magis.bi">MAGIS</a>
       </span>
     }

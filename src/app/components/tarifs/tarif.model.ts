@@ -1,3 +1,33 @@
+export interface BankListResponseModel {
+  id: number;
+  isSelected: boolean;
+  company: {
+    name: string;
+    logo: string;
+  };
+}
+export interface TarifResponseModel {
+  type_type: string;
+  type_code: string;
+  type_name: string;
+  id: number;
+  description: string;
+}
+export interface FeesResonseModel {
+  id: number;
+  total_commission: number;
+  agent_commission: number;
+  amount_range: {
+    lower: string;
+    upper: string;
+  };
+}
+export interface SimulateResponseModel {
+  total_commission: string;
+  agent_commission: string;
+  length: string;
+}
+
 export interface TarifTypeModel {
   type_type: string;
   type_code: string;
@@ -25,26 +55,10 @@ export interface TarifTypeInfoModel {
   type_type: string;
   type_name: string;
 }
-
 export interface AddTarifModel {
   object: AddTarifModel;
   tarif: string;
   id: string;
-}
-export interface AddFeesModel {
-  response_message: string;
-  agent_commission: string;
-  ihela_commission: string;
-  total_commission: string;
-  client_creation_commission: string;
-  amount_range: {
-    lower: string;
-    upper: string;
-  };
-
-  fees: string;
-
-  object: AddFeesModel;
 }
 export interface AddTarifBodyModel {
   type_type: string | undefined;
@@ -65,6 +79,22 @@ export interface ModifyFeesBodyModel {
 }
 export interface ModifyFeesModel {
   object: ModifyFeesModel;
+  fees: string;
+}
+export interface AddFeesModel {
+  // response_message: string;
+  // agent_commission: string;
+  // ihela_commission: string;
+  // total_commission: string;
+  // client_creation_commission: string;
+  // amount_range: {
+  //   lower: string;
+  //   upper: string;
+  // };
+
+  fees: string;
+
+  object: AddFeesModel;
 }
 export interface AddFeesBodyModel {
   tarif_table: string;
@@ -77,11 +107,11 @@ export interface AddFeesBodyModel {
   ihela_cios: string | null | undefined;
   description: string;
 }
-export interface addTarifToTableBodyModel {
+export interface AddTarifToTableBodyModel {
   tarif_type: string;
   bank: string;
 }
-export interface feesModel {
+export interface FeesModel {
   id: string;
   amount_range: { lower: string; upper: string };
   total_commission: string;
@@ -90,6 +120,6 @@ export interface feesModel {
   client_creation_commission: string;
   merchant_creation_commission: string;
 }
-export interface deleteFeesModel {
-  object: deleteFeesModel;
+export interface DeleteFeesModel {
+  object: DeleteFeesModel;
 }

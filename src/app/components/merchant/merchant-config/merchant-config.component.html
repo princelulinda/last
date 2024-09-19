@@ -351,6 +351,7 @@
         <div class="w-25 mb-4 d-flex">
           <button
             [disabled]="!tellers"
+            (keydown.enter)="handleEnter2($event)"
             class="btn border-primary text-dark"
             data-bs-toggle="modal"
             data-bs-target="#newTellerModal"
@@ -501,6 +502,8 @@
             <form
               class="d-flex flex-column align-items-center row mx-0"
               [formGroup]="newTellerForm"
+              (keydown.enter)="handleEnter($event)"
+              tabindex="0"
               [ngClass]="{
                 'not-clickable': isTellerLoading,
               }">
@@ -510,7 +513,8 @@
                   option="lookup"
                   (selectedItemEvent)="getClientInfo($event)"
                   url="/clients/list/all/object_lookup?lookup_data="
-                  label="Enter client id"></app-lookup>
+                  label="Enter client id"
+                  aria-required="true"></app-lookup>
               </div>
               <div class="form-floating mb-3 col col-sm-9 col-md-7">
                 <input
@@ -518,26 +522,23 @@
                   class="input border form-control bg-input"
                   id="slug"
                   placeholder="alias"
-                  formControlName="alias" />
+                  formControlName="alias"
+                  required />
                 <label for="slug" class="form-label ps-3">Alias</label>
               </div>
               <div class="d-flex col col-sm-9 col-md-7">
                 <span class="me-2 text-dark text-md" i18n
                   >Can receive notifications</span
                 >
-                <div
-                  role="button"
-                  (click)="toggleNotificationsCheckbox()"
-                  tabindex="0">
-                  @if (isChecked) {
-                    <span>
-                      <i class="fa-regular fa-square-check fs-4 text-dark"></i>
-                    </span>
-                  } @else if (!isChecked) {
-                    <span>
-                      <i class="fa-regular fa-square fs-4 text-dark"></i>
-                    </span>
-                  }
+                <div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input border p-2"
+                      role="button"
+                      type="checkbox"
+                      formControlName="isChecked"
+                      id="notificationCheckbox" />
+                  </div>
                 </div>
               </div>
               <div class="mt-3 col col-sm-9 col-md-7 col-xl-6 text-center">
@@ -545,13 +546,11 @@
                   (click)="createNewTeller()"
                   [disabled]="newTellerForm.invalid"
                   class="btn bg-primary px-4 text-all-white">
-                  @if (isTellerLoading) {
-                    <span class="fs-medium">
-                      <i class="fa-solid fa-spin fa-circle-notch"></i>
-                    </span>
-                  } @else {
-                    <b i18n>Confirm</b>
-                  }
+                  <b
+                    [ngClass]="{ isTellerLoading: isTellerLoading }"
+                    class="loaderBtn"
+                    >Confirm</b
+                  >
                 </button>
               </div>
             </form>

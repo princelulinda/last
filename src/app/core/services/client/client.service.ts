@@ -18,6 +18,10 @@ import {
   WalletTopUpBodyModel,
   WalletTypModel,
 } from '../../../components/wallet/wallet.models';
+import {
+  ClientInfoModel,
+  SignatureModel,
+} from '../../../global/components/lookups/lookup/lookup.model';
 
 @Injectable({
   providedIn: 'root',
@@ -93,5 +97,24 @@ export class ClientService {
     return this.apiService
       .post(url, body)
       .pipe(map(response => response as CreatWalletResponse));
+  }
+
+  getIndividualClientDetails(clientId: string): Observable<SignatureModel> {
+    const apiUrl = '/clients/manage/individuals/' + clientId + '/';
+    return this.apiService
+      .get(apiUrl)
+      .pipe(map(data => data as SignatureModel));
+  }
+
+  getCorporateClientDetails(clientId: string): Observable<SignatureModel> {
+    const apiUrl = '/clients/manage/corporate/' + clientId + '/';
+    return this.apiService
+      .get(apiUrl)
+      .pipe(map(data => data as SignatureModel));
+  }
+  client(bank_id: string): Observable<{ object: ClientInfoModel }> {
+    return this.apiService
+      .get('/account/details/?' + bank_id)
+      .pipe(map(data => data as { object: ClientInfoModel }));
   }
 }

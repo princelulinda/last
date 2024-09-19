@@ -1,24 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { TarifService } from '../../core/services/tarif/tarif.service';
-import { Observable } from 'rxjs';
-import { SkeletonComponent } from '../../global/components/loaders/skeleton/skeleton.component';
+import { NgStyle, NgClass } from '@angular/common';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+
+import { Observable } from 'rxjs';
+
+import { TarifService } from '../../../core/services/tarif/tarif.service';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import {
   BankListResponseModel,
   TarifResponseModel,
   FeesResonseModel,
   SimulateResponseModel,
-} from './tarif.model';
-import { AuthService } from '../../core/services';
-import { UserInfoModel } from '../../core/db/models/auth';
-import { NgStyle, NgClass } from '@angular/common';
-import { EmptyStateComponent } from '../../global/components/empty-states/empty-state/empty-state.component';
-import { AmountFieldComponent } from '../../global/components/custom-field/amount-field/amount-field.component';
+} from '../tarif.model';
+import { AuthService } from '../../../core/services';
+import { UserInfoModel } from '../../../core/db/models/auth';
+import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
+import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
+
 @Component({
   selector: 'app-tarif',
   standalone: true,
