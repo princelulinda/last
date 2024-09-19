@@ -1,15 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
-import { AdminService } from '../../../../core/services/admin/admin.service';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+import { Subject, takeUntil } from 'rxjs';
+
+import { AdminService } from '../../../../core/services/admin/admin.service';
 import { DialogService } from '../../../../core/services';
 import { VariableService } from '../../../../core/services/variable/variable.service';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from '../../../../global/components/list/list/list.component';
-import { CommonModule } from '@angular/common';
-import { MultiSelectComponent } from '../../../dev/multi-select/multi-select.component';
 import { AutocompleteModel } from '../../../../global/models/global.models';
 import { RoleMenuModel, RoleModel } from '../role.models';
+import { MultiSelectComponent } from '../../../../global/components/custom-field/multi-select/multi-select.component';
 
 @Component({
   selector: 'app-role-detail',

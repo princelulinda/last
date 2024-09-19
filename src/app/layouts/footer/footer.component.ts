@@ -9,7 +9,6 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
   @Input() showCopyRight = true;
-  @Input() break = false;
   year!: number;
 
   ngOnInit() {

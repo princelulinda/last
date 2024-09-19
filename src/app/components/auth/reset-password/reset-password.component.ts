@@ -6,6 +6,8 @@ import { AuthService, DialogService } from '../../../core/services';
 import {
   ResetPasswordResponseModel,
   OtpVerificationResponseModel,
+  OtpVerificationBodyModel,
+  ResetPasswordBodyModel,
 } from '../auth.model';
 import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
@@ -79,7 +81,7 @@ export class ResetPasswordComponent {
     this.isLoadingOTP = true;
     const otpValue = this.stepResetPassword.controls.clientEmail.value.email;
     const otpType = this.verifyType();
-    const data = {
+    const data: ResetPasswordBodyModel = {
       otp_value: otpValue,
       otp_type: otpType,
       otp_menu: 'password_reset',
@@ -101,7 +103,7 @@ export class ResetPasswordComponent {
   OTPverification() {
     this.isLoadingVerificationOTP = true;
     const otpType = this.verifyType();
-    const data = {
+    const data: OtpVerificationBodyModel = {
       otp_menu: 'password_reset',
       otp_type: otpType,
       otp_data: {

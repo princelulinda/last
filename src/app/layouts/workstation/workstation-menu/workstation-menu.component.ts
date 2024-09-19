@@ -14,6 +14,7 @@ import {
 import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
 import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
 import { NgClass } from '@angular/common';
+import { ConnectedOperatorModel } from '../../../components/auth/auth.model';
 import { MerchantCardComponent } from '../../../components/merchant/global/merchant-card/merchant-card.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MerchantAutocompleteModel } from '../../../components/merchant/merchant.models';
@@ -39,13 +40,7 @@ export class WorkstationMenuComponent implements OnInit {
   private menuGroups$: Observable<MenuGroupsModel[]>;
   private menuGroups: MenuGroupsModel[] = [];
 
-  // intranetMenuGroups: MenuGroupsModel | null = null;
-  // activeMenuGroups: MenuGroupsModel | null = null;
-  // reportingMenuGroups: MenuGroupsModel | null = null;
-  // adminMenuGroups: MenuGroupsModel | null = null;
-
   activeMenuGroups: MenuGroupsModel | null = null;
-
   selectedGroup: GroupMenuModel | null = null;
 
   menu: MenuModel[] | null = null;
@@ -56,6 +51,9 @@ export class WorkstationMenuComponent implements OnInit {
   merchants!: MerchantAutocompleteModel[] | null;
   private onDestroy$: Subject<void> = new Subject<void>();
 
+  operator: ConnectedOperatorModel | null = null;
+  operator$: Observable<ConnectedOperatorModel>;
+
   constructor(
     private route: ActivatedRoute,
     private configService: ConfigService,
@@ -64,6 +62,7 @@ export class WorkstationMenuComponent implements OnInit {
     private dialogService: DialogService
   ) {
     this.menuGroups$ = this.configService.getMenuGroups();
+    this.operator$ = this.configService.getConnectedOperator();
   }
 
   ngOnInit(): void {
@@ -73,6 +72,11 @@ export class WorkstationMenuComponent implements OnInit {
           this.menuGroups = menus;
           this.getActiveMenuGroups();
         }
+      },
+    });
+    this.operator$.subscribe({
+      next: operator => {
+        this.operator = operator;
       },
     });
 

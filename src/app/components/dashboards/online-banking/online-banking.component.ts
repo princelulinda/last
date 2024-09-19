@@ -17,7 +17,6 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import { addBankResponse, MenuGroup } from '../dashboard.model';
 import { BankModel } from '../../../core/db/models/bank/bank.model';
-import { TarifComponent } from '../../tarif/tarif.component';
 import {
   DialogResponseModel,
   MerchantPaymentTypesModel,
@@ -43,7 +42,6 @@ import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
     SkeletonComponent,
     CommonModule,
     WalletCardComponent,
-    TarifComponent,
     RouterLink,
     RouterOutlet,
     BankHomeComponent,
