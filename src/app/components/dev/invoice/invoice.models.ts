@@ -3,5 +3,6 @@ export interface InvoiceGroupModel {
   name: string;
   merchant_teller: {
     id: number;
+    alias: string;
   };
 }

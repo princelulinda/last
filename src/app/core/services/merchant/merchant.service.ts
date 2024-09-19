@@ -580,13 +580,20 @@ export class MerchantService {
       .get<{ objects: InvoiceGroupModel[] }>(url)
       .pipe(map(data => data as { objects: InvoiceGroupModel[] }));
   }
+
   // getBillsByGroup(group_name: string): Observable<any> {
   //   const url = `/dbs/merchant/bills/?bill_group=${group_name}/`;
   //   return this.apiService
   //     .get<any>(url)
   //     .pipe(map((data: any) => data));
   // }
-
+  // getSingleInvoices() {
+  //   const url = `/dbs/merchant/bills/?grouped=false/`;
+  //   return this.apiService
+  //     .get<any>(url)
+  //     .pipe(map((data: any) => data));
+  // }
+  // {id} : facture et body : id_group ofr the method updateInvoicesGroup
   // updateInvoicesGroup(id: number): Observable<any> {
   //   const url = `/dbs/merchant/bills/${id}/add_bill_group/`;
   //   return this.apiService
