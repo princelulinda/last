@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
-import { OrganizationModel } from '../../../auth/auth.model';
+import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
   FormControl,
@@ -8,6 +7,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+
+import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
+
+import { OrganizationModel } from '../../../auth/auth.model';
 import {
   DialogResponseModel,
   dialogTypeModel,
@@ -20,20 +23,20 @@ import {
   MenuService,
 } from '../../../../core/services';
 import { AdminService } from '../../../../core/services/admin/admin.service';
-import { CommonModule } from '@angular/common';
 import {
   AllBranchModel,
   AllMenuListModel,
+  BranchesCountersModel,
   OrganizationDetailsModel,
   PermissionModel,
   RoleBodyModel,
   RoleListModel,
   RoleMenuListModel,
 } from '../operator.models';
-import { MultiSelectComponent } from '../../../dev/multi-select/multi-select.component';
 import { AutocompleteModel } from '../../../../global/models/global.models';
 import { PageMenusModel } from '../../menu/menu.models';
 import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
+import { MultiSelectComponent } from '../../../../global/components/custom-field/multi-select/multi-select.component';
 
 @Component({
   selector: 'app-operator-details',
@@ -98,8 +101,8 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
   searchType = 'roles';
   searchInput = new FormControl('');
 
-  // selectedCounterToRemove!: number | string;
-  // selectedBrancheToRemove: any;
+  selectedCounterToRemove!: number | string;
+  selectedBrancheToRemove!: AllBranchModel | null;
   password = '';
   activeMenu: number | null = null;
   showSelectedMenu = false;
@@ -113,7 +116,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
   defaultCountersId: number[] = [];
 
   permissionModalSection = 'list';
-  // selectedCounters: any[] = [];
+  selectedCounters: BranchesCountersModel[] = [];
 
   operatorAccessForm!: FormGroup;
 
@@ -165,13 +168,15 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
           {
             icon: 'circle-info',
             title: 'Operator Info',
-            url: `/w/workstation/a/admin/operators/${this.operatorOrganizationId}`,
+            url: `/w/workstation/a/admin/operator/${this.operatorOrganizationId}`,
+            icon_classes: 'fs-medium',
           },
           {
             icon: 'universal-access',
             title: 'Operators Details',
-            url: `/w/workstation/a/admin/operators/${this.operatorOrganizationId}`,
+            url: `/w/workstation/a/admin/operator/${this.operatorOrganizationId}`,
             fragment: 'details',
+            icon_classes: 'fs-medium',
           },
         ];
         this.menuService.setPageMenus(this.pageMenus);
@@ -198,7 +203,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
               // this.password = this.variableService.password;
               if (this.dialog.response.password) {
                 this.password = this.dialog.response.password;
-                // this.removePermission();
+                this.removePermission();
               }
               break;
             case 'Add Permission Password':
@@ -260,21 +265,20 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
           const res = value as { object: PermissionModel };
           this.loadingPermission = false;
           this.permissionDetails = res.object;
-          console.log('data', res.object);
           this.defaultBranchesId =
-            this.permissionDetails.permissions_branches.map(
+            this.permissionDetails.permissions_branches?.map(
               (b: { id: number; name: string }) => b.id
-            );
+            ) as number[];
           this.defaultCountersId =
-            this.permissionDetails.permissions_counters.map(
+            this.permissionDetails.permissions_counters?.map(
               (c: { id: number; name: string }) => c.id
-            );
+            ) as number[];
 
           this.getAllBranches();
 
-          // if (this.selectedBrancheToRemove) {
-          //   this.getCountersByBranch(this.selectedBrancheToRemove.id);
-          // }
+          if (this.selectedBrancheToRemove) {
+            this.getCountersByBranch(this.selectedBrancheToRemove.id);
+          }
 
           this.operatorAccessForm = this.fb.group({
             can_see_in_branch: [this.permissionDetails.can_see_in_branch],
@@ -456,11 +460,6 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: response => {
-          console.log(
-            'selected role to update will be',
-            this.selectedRoleToUpdate
-          );
-          console.log('body will be', body);
           this.dialogService.closeLoading();
           this.dialogService.openToast({
             title: '',
@@ -514,91 +513,100 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
     this.getAllBranches();
   }
 
-  // removePermission() {
-  //   this.dialogService.dispatchLoading();
-  //   const body: {
-  //     password: string;
-  //     counters?: number[];
-  //     branches?: number[];
-  //   } = {
-  //     password: this.password,
-  //   };
-  //   // if (this.selectedCounterToRemove) {
-  //   //   body = {
-  //   //     ...body,
-  //   //     counters: [this.selectedCounterToRemove as number],
-  //   //   };
-  //   // } else if (this.selectedBrancheToRemove.id) {
-  //   //   body = {
-  //   //     ...body,
-  //   //     branches: [this.selectedBrancheToRemove.id],
-  //   //   };
-  //   // }
+  removePermission() {
+    this.dialogService.dispatchLoading();
+    let body: {
+      password: string;
+      counters?: number[];
+      branches?: number[];
+    } = {
+      password: this.password,
+    };
+    if (this.selectedCounterToRemove) {
+      body = {
+        ...body,
+        counters: [this.selectedCounterToRemove as number],
+      };
+    } else if (this.selectedBrancheToRemove?.id) {
+      body = {
+        ...body,
+        branches: [this.selectedBrancheToRemove.id],
+      };
+    }
 
-  //   this.adminService
-  //     .removeOperatorPermission(body, this.operatorOrganizationId)
-  //     ?.subscribe({
-  //       next: response => {
-  //         const res = response as any;
-  //         this.dialogService.closeLoading();
-  //         this.password = '';
-  //         if (res.object['success'] !== undefined && !res.object.success) {
-  //           this.dialogService.openToast({
-  //             message:
-  //               res?.response_message ??
-  //               'Something went wrong, please retry again!',
-  //             title: '',
-  //             type: 'failed',
-  //           });
-  //           return;
-  //         }
-  //         this.dialogService.openToast({
-  //           message: 'Success',
-  //           title: '',
-  //           type: 'success',
-  //         });
-  //         this.getOperatorPermissionDetails();
-  //       },
-  //       error: err => {
-  //         this.password = '';
-  //         this.dialogService.closeLoading();
-  //         this.dialogService.openToast({
-  //           message:
-  //             err?.response_message ??
-  //             'Something went wrong, please retry again!',
-  //           title: '',
-  //           type: 'failed',
-  //         });
-  //       },
-  //     });
-  // }
+    this.adminService
+      .removeOperatorPermission(body, this.operatorOrganizationId)
+      ?.subscribe({
+        next: response => {
+          const res = response as { object: PermissionModel };
+          console.log('response will be', res);
+          this.dialogService.closeLoading();
+          this.password = '';
+          if (res.object['success'] !== undefined && !res.object.success) {
+            this.dialogService.openToast({
+              message:
+                res.object?.response_message ??
+                'Something went wrong, please retry again!',
+              title: '',
+              type: 'failed',
+            });
+            return;
+          }
+          this.dialogService.openToast({
+            message: 'Success',
+            title: '',
+            type: 'success',
+          });
+          this.getOperatorPermissionDetails();
+        },
+        error: err => {
+          this.password = '';
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            message:
+              err?.response_message ??
+              'Something went wrong, please retry again!',
+            title: '',
+            type: 'failed',
+          });
+        },
+      });
+  }
 
   addPermission() {
     this.dialogService.dispatchLoading();
     this.addPermissionLoading = true;
-    const body = {
+    let body = {
       ...this.operatorAccessForm.value,
       password: this.password,
     };
-    // this.selectedCounterToRemove
-    //   ? (body = {
-    //       ...body,
-    //       counters: [this.selectedCounterToRemove as number],
-    //     })
-    //   : (body = { ...body });
-    // this.selectedBrancheToRemove.id
-    //   ? (body = {
-    //       ...body,
-    //       branches: [this.selectedBrancheToRemove.id as number],
-    //     })
-    //   : (body = { ...body });
-    // this.selectedBrancheToRemove.id && this.selectedCounterToRemove
-    //   ? (body = {
-    //       ...body,
-    //       branches: [this.selectedBrancheToRemove.id as number],
-    //       counters: [this.selectedCounterToRemove as number],
-    //     })
-    //   : (body = { ...body });
+    if (this.selectedCounterToRemove) {
+      body = {
+        ...body,
+        counters: [this.selectedCounterToRemove as number],
+      };
+    } else {
+      body = { ...body };
+    }
+
+    if (this.selectedBrancheToRemove?.id) {
+      body = {
+        ...body,
+        branches: [this.selectedBrancheToRemove.id as number],
+      };
+    } else {
+      body = { ...body };
+    }
+
+    if (this.selectedBrancheToRemove?.id && this.selectedCounterToRemove) {
+      body = {
+        ...body,
+        branches: [this.selectedBrancheToRemove.id as number],
+        counters: [this.selectedCounterToRemove as number],
+      };
+    } else {
+      body = { ...body };
+    }
 
     this.adminService
       .submitOperatorPermission(body, this.operatorOrganizationId)
@@ -628,36 +636,39 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  // getCountersByBranch(id: number) {
-  //   this.counterLoading = true;
-  //   this.selectedCounters = [];
-  //   this.adminService
-  //     .getBranchesCounters(id, this.brancheCountersPagination)
+  getCountersByBranch(id: number) {
+    this.counterLoading = true;
+    this.selectedCounters = [];
+    this.adminService
+      .getBranchesCounters(id, this.brancheCountersPagination)
 
-  //     .subscribe({
-  //       next: response => {
-  //         const res = response as any;
-  //         this.selectedCounters = res.objects;
-  //         this.selectedCounters = this.selectedCounters.map(item =>
-  //           this.defaultCountersId.includes(item.id)
-  //             ? { ...item, has_access: true }
-  //             : { ...item, has_access: false }
-  //         );
-  //         this.counterLoading = false;
-  //       },
-  //       error: err => {
-  //         this.counterLoading = false;
-  //         return err;
-  //       },
-  //     });
-  // }
+      .subscribe({
+        next: response => {
+          const res = response as {
+            objects: BranchesCountersModel[];
+            count: number;
+          };
+          this.selectedCounters = res.objects;
+          this.selectedCounters = this.selectedCounters.map(item =>
+            this.defaultCountersId.includes(item.id)
+              ? { ...item, has_access: true }
+              : { ...item, has_access: false }
+          );
+          this.counterLoading = false;
+        },
+        error: err => {
+          this.counterLoading = false;
+          return err;
+        },
+      });
+  }
 
-  // resetModal() {
-  //   this.selectedCounterToRemove = '';
-  //   this.selectedBrancheToRemove = null;
-  //   this.selectedCounters = [];
-  //   this.permissionModalSection = 'list';
-  // }
+  resetModal() {
+    this.selectedCounterToRemove = '';
+    this.selectedBrancheToRemove = null;
+    // this.selectedCounters = [];
+    this.permissionModalSection = 'list';
+  }
 
   openConfirmDialog(payload: {
     action: string;
@@ -738,16 +749,20 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
     this.selectedSection = section;
   }
 
-  // selectCounterOrBrancheToRemove(type: string, id: number, event?: Event) {
-  //   if (event) {
-  //     event.stopPropagation();
-  //   }
-  //   if (type === 'counter') {
-  //     this.selectedCounterToRemove = id;
-  //   } else if (type === 'branche') {
-  //     this.selectedBrancheToRemove = id;
-  //   }
-  // }
+  selectCounterOrBrancheToRemove(
+    type: string,
+    id: AllBranchModel | number | { id: number; name: string },
+    event?: Event
+  ) {
+    if (event) {
+      event.stopPropagation();
+    }
+    if (type === 'counter') {
+      this.selectedCounterToRemove = id as number;
+    } else if (type === 'branche') {
+      this.selectedBrancheToRemove = id as AllBranchModel;
+    }
+  }
 
   selectMenu(name: 'roles' | 'menus' | 'counters') {
     // if (name === 'roles') {
@@ -796,7 +811,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
           this.brancheCountersPagination.filters.offset =
             this.brancheCountersPagination.filters.limit *
             this.countersCurrentPage;
-          // this.getCountersByBranch(this.selectedBrancheToRemove.id);
+          this.getCountersByBranch(this.selectedBrancheToRemove?.id as number);
         }
         break;
     }

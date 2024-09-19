@@ -14,7 +14,7 @@ export class AdminCounterListComponent {
       field: ['name'],
       size: '',
       detail: {
-        link: '/w/workstation/admin/counter/',
+        link: '/w/workstation/a/admin/counter/',
         field: 'id',
       },
     },

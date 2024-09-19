@@ -10,10 +10,8 @@
 
 .wave-cont {
   height: 25%;
-  //   transform: translateX(-50%);
   background-image: url(/images/sleepMode/bgWave.svg);
   background-size: cover;
-  // background-repeat: no-repeat;
 }
 
 .wave {
@@ -30,7 +28,7 @@
 }
 
 .animation {
-  animation: combined-animation .4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: combined-animation 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 @keyframes combined-animation {
@@ -82,15 +80,13 @@
 }
 
 .stand {
-  z-index: 200000000;
-  display: block;
+  z-index: 1000;
   min-height: 100vh;
   min-width: 100vw;
 }
 
 .stop {
-  display: none;
-  visibility: hidden;
+  display: none !important;
   z-index: -1000;
 }
 

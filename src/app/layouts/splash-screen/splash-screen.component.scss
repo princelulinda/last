@@ -1,13 +1,3 @@
-.contour {
-  width: 270px;
-  height: 270px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0.3;
-  filter: blur(12px);
-  z-index: 4;
-}
 .show {
   z-index: 10000;
   inset: 0;
@@ -15,4 +5,139 @@
 .fade {
   inset: 0;
   z-index: -100;
+}
+
+.splashContainer {
+  height: 204px;
+  width: 159px;
+  //   border: 1px black solid;
+  position: relative;
+}
+
+.mask {
+  position: absolute;
+  height: 14px;
+  width: 100%;
+  background-color: rgba(241, 241, 241, 1);
+  //   border-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+  z-index: 5;
+  bottom: 0;
+  transition: width 2s ease-in-out;
+  animation: closeEllipse 0.4s ease-in-out forwards;
+  animation-delay: 0.3s;
+}
+
+.whiteMask {
+  position: absolute;
+  bottom: -90px;
+  height: 100px;
+  right: -30px;
+  width: 300px;
+  background-color: white;
+  z-index: 3;
+  transition: leave 2s ease-in-out;
+  animation: closeEllipse 0.4s ease-in-out forwards;
+  animation-delay: 0.3s;
+}
+
+.ellipse {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 28px;
+  //   overflow: hidden;
+  transition: width 2s ease-in-out;
+  animation: closeEllipse 0.4s ease-in-out forwards;
+  animation-delay: 0.3s;
+}
+
+.shape {
+  width: 100%;
+  height: 28px;
+  background-color: rgba(241, 241, 241, 1);
+  border-radius: 50%;
+}
+
+.ellipse img {
+  width: 100%;
+}
+
+.logo {
+  position: absolute;
+  bottom: 0;
+  clip-path: inset(0 192px 0 192px);
+  //   left: -80%;
+  height: 118px;
+  //   transform: translateX(0%);
+  animation:
+    bounce 1.3s ease-in-out forwards,
+    slideIn 0.8s ease-in-out 1.3s forwards;
+}
+
+.logo img {
+  height: 100%;
+  width: auto;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(80px) scale(0);
+    clip-path: inset(0 192px 0 192px);
+  }
+  25% {
+    transform: translateY(-100px) scale(1.2);
+  }
+  50% {
+    transform: translateY(0) scale(1);
+  }
+  65% {
+    transform: translateY(-60px) scale(1.15);
+  }
+  80% {
+    transform: translateY(0) scale(1);
+  }
+  90% {
+    transform: translateY(-30px) scale(1.1);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    clip-path: inset(0 192px 0 192px);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    left: -95%;
+    clip-path: inset(0 192px 0 192px);
+    // clip-path: inset(0 190px 0 0);
+  }
+  50% {
+    left: -155%;
+    clip-path: inset(0 192px 0 192px);
+    // clip-path: inset(0 190px 0 0);
+  }
+  100% {
+    left: -155%;
+    clip-path: inset(0 0 0 192px);
+  }
+}
+
+@keyframes closeEllipse {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+
+@keyframes leave {
+  0% {
+    right: -30px;
+  }
+  100% {
+    right: -200px;
+  }
 }

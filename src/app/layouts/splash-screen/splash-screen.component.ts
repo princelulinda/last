@@ -18,6 +18,7 @@ export class SplashScreenComponent implements OnInit, AfterViewInit {
 
   splashScreenElement: HTMLElement | null = null;
   splashScreenState = false;
+  isAnimated = false;
 
   imageUrl = '/images/logo/ihela-ryanje.png';
 
@@ -31,9 +32,11 @@ export class SplashScreenComponent implements OnInit, AfterViewInit {
       if (this.splashScreenState) {
         this.splashScreenElement?.classList.add('show');
         this.splashScreenElement?.classList.remove('fade');
+        this.startAnimationLoop();
       } else {
         this.splashScreenElement?.classList.add('fade');
         this.splashScreenElement?.classList.remove('show');
+        this.isAnimated = false;
       }
     });
   }
@@ -51,5 +54,20 @@ export class SplashScreenComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.splashScreenElement = document.getElementById('splashScreen');
+  }
+
+  startAnimationLoop() {
+    const animationCycle = () => {
+      this.isAnimated = true;
+      setTimeout(() => {
+        this.isAnimated = false;
+
+        if (this.splashScreenState) {
+          setTimeout(animationCycle, 100);
+        }
+      }, 6000);
+    };
+
+    animationCycle();
   }
 }

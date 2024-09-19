@@ -20,7 +20,7 @@ import { AdminDepartementsDetailsComponent } from '../../components/admin/rh/adm
 import { AdminDepartementsListComponent } from '../../components/admin/rh/admin-departements-list/admin-departements-list.component';
 import { AdminServicesListComponent } from '../../components/admin/rh/admin-services-list/admin-services-list.component';
 import { AdminServicesDetailsComponent } from '../../components/admin/rh/admin-services-details/admin-services-details.component';
-import { ConfigTarifComponent } from '../../components/config-tarif/config-tarif.component';
+import { ConfigTarifComponent } from '../../components/tarifs/config-tarif/config-tarif.component';
 import { AdminAccessListComponent } from '../../components/admin/access/admin-access-list/admin-access-list.component';
 export const AdminRoutes: Routes = [
   // Operator
@@ -30,7 +30,7 @@ export const AdminRoutes: Routes = [
   },
 
   {
-    path: 'operators/:id',
+    path: 'operator/:id',
     component: OperatorDetailsComponent,
   },
 
@@ -50,7 +50,7 @@ export const AdminRoutes: Routes = [
     component: RolesComponent,
   },
   {
-    path: 'roles/:id',
+    path: 'role/:id',
     component: RoleDetailComponent,
   },
   {
@@ -58,33 +58,28 @@ export const AdminRoutes: Routes = [
     component: AdminTellersListComponent,
   },
   {
-    path: 'tellers/:tellerId',
-
+    path: 'teller/:tellerId',
     component: AdminTellersDetailsComponent,
   },
   {
-    path: 'treasure',
+    path: 'treasures',
     component: AdminTreasureListComponent,
   },
   {
     path: 'treasure/:treasureId',
-
     component: AdminTreasureDetailsComponent,
   },
   {
-    path: 'counter',
-
+    path: 'counters',
     component: AdminCounterListComponent,
   },
   {
     path: 'counter/:counterId',
-
     component: AdminCounterDetailsComponent,
   },
 
   {
     path: 'branch',
-
     component: AdminBranchListComponent,
   },
 
@@ -92,6 +87,7 @@ export const AdminRoutes: Routes = [
     path: 'branch/:branchId',
     component: AdminBranchDetailsComponent,
   },
+
   //directions
   { path: 'directions', component: AdminDirectionListComponent },
   { path: 'direction/:id', component: AdminDirectionDetailsComponent },

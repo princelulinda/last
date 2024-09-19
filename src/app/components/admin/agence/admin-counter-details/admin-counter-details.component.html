@@ -1,191 +1,371 @@
 <div>
-  <div class="bg-secondary rounded p-2">
-    <div class="d-flex gap-3 align-items-center justify-content-end">
-      <button
-        class="border rounded p-1 px-2 btn"
-        (click)="refresh()"
-        tabindex="0"
-        [disabled]="loadingData">
-        refresh
-      </button>
-      <div
-        class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
-        (click)="goBack()"
-        tabindex="0"
-        role="button">
-        <div>
-          <i class="fa fa-arrow-left"></i>
+  @if (selectedMenu === 'detail') {
+    <ng-container *ngTemplateOutlet="detail"> </ng-container>
+  }
+
+  @if (selectedMenu === 'counterTellers') {
+    <ng-container *ngTemplateOutlet="counterTellers"> </ng-container>
+  }
+
+  @if (selectedMenu === 'counterTreasurers') {
+    <ng-container *ngTemplateOutlet="counterTreasurers"> </ng-container>
+  }
+
+  @if (selectedMenu === 'mainBoxList') {
+    <ng-container *ngTemplateOutlet="mainBoxList"> </ng-container>
+  }
+
+  @if (selectedMenu === 'newMainBox') {
+    <ng-container *ngTemplateOutlet="newMainBox"> </ng-container>
+  }
+  <!--detail-->
+  <ng-template #detail>
+    <div class="bg-secondary rounded p-2">
+      <div class="d-flex gap-3 align-items-center justify-content-end">
+        <button
+          class="border rounded p-1 px-2 btn"
+          (click)="refresh()"
+          tabindex="0"
+          [disabled]="loadingData">
+          refresh
+        </button>
+        <div
+          class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
+          (click)="goBack()"
+          tabindex="0"
+          role="button">
+          <div>
+            <i class="fa fa-arrow-left"></i>
+          </div>
+          <div>Back</div>
         </div>
-        <div>Back</div>
       </div>
     </div>
-  </div>
-  <div class="col-10">
-    @if (!counterDetails) {
-      <div
-        class="d-flex justify-content-center align-items-center"
-        style="height: 50vh">
-        <span class="spinner-border"> </span>
+    <div class="col-10">
+      @if (!counterDetails) {
+        <div
+          class="d-flex justify-content-center align-items-center"
+          style="height: 50vh">
+          <span class="spinner-border"> </span>
+        </div>
+      }
+      @if (counterDetails) {
+        <div class="">
+          <section class="mt-3 ms-3">
+            <!--counter-->
+            <div>
+              <div class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="bg-primary rounded-circle w-2 h-2 p-1"></div>
+                  <div class="fw-bold fs-normal" i18n>Counter</div>
+                  <div></div>
+                </div>
+
+                <div class="w-100">
+                  <hr class="w-100" />
+                </div>
+              </div>
+              <div class="mt-2">
+                <div class="">
+                  <div class="d-flex align-items-center gap-5 ms-5">
+                    <div class="d-grid">
+                      <div class="fs-normal text-dark" i18n>Name:</div>
+                      <div class="fs-normal text-dark mt-2" i18n>Code:</div>
+                      <div class="fs-normal text-dark mt-2" i18n>
+                        Created at:
+                      </div>
+                      <div class="fs-normal text-dark mt-2" i18n>Location</div>
+                    </div>
+                    <div class="d-grid ms-3">
+                      <div class="fs-normal text-dark fw-bold">
+                        {{ counterDetails.name ?? '-------' }}
+                      </div>
+                      <div class="fs-normal text-dark fw-bold mt-2">
+                        {{ counterDetails.formatted_code ?? '-------' }}
+                      </div>
+                      <div class="fs-normal text-dark fw-bold mt-2">
+                        {{
+                          counterDetails.created_at ?? '-------'
+                            | date: 'dd/MM/yyyy'
+                        }}
+                      </div>
+                      <div class="fs-normal text-dark fw-bold mt-2">
+                        {{ counterDetails.location ?? '-------' }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--branch-->
+            <div class="mt-3">
+              <div class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="bg-primary rounded-circle w-2 h-2 p-1"></div>
+                  <div class="fw-bold fs-normal" i18n>Branch</div>
+                  <div></div>
+                </div>
+
+                <div class="w-100">
+                  <hr class="w-100" />
+                </div>
+              </div>
+              <div class="mt-2">
+                <div class="">
+                  <div class="d-flex align-items-center gap-5 ms-5">
+                    <div class="d-grid">
+                      <div class="fs-normal text-dark" i18n>Name:</div>
+                      <div class="fs-normal text-dark mt-2" i18n>Code:</div>
+                      <div class="fs-normal text-dark mt-2" i18n>
+                        Created at:
+                      </div>
+                    </div>
+                    <div class="d-grid ms-3">
+                      <div class="fs-normal text-dark fw-bold">
+                        {{ counterDetails.branch.name ?? '-------' }}
+                      </div>
+                      <div class="fs-normal text-dark fw-bold mt-2">
+                        {{ counterDetails.branch.code ?? '-------' }}
+                      </div>
+                      <div class="fs-normal text-dark fw-bold mt-2">
+                        {{
+                          counterDetails.branch.created_at ?? '-------'
+                            | date: 'dd/MM/yyyy'
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--organisation-->
+            <div class="mt-3">
+              <div class="d-flex align-items-center gap-2">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="bg-primary rounded-circle w-2 h-2 p-1"></div>
+                  <div class="fw-bold fs-normal" i18n>Organization</div>
+                  <div></div>
+                </div>
+
+                <div class="w-100">
+                  <hr class="w-100" />
+                </div>
+              </div>
+              <div class="mt-2">
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex align-items-center gap-5 ms-5">
+                    <div class="d-grid">
+                      <div class="fs-normal text-dark" i18n>Name:</div>
+                      <div class="fs-normal text-dark mt-2" i18n>Code:</div>
+                      <div class="fs-normal text-dark mt-2" i18n>Type</div>
+                      <div class="fs-normal text-dark mt-2" i18n>Active</div>
+                    </div>
+                    <div class="d-grid ms-3">
+                      <div class="fs-normal text-dark fw-bold">
+                        {{
+                          counterDetails.branch.organization_tenant
+                            .institution_client.client_full_name ?? '-------'
+                        }}
+                      </div>
+                      <div class="fs-normal text-dark fw-bold mt-2">
+                        {{
+                          counterDetails.branch.organization_tenant
+                            .institution_client.client_code ?? '-------'
+                        }}
+                      </div>
+                      <div class="fs-normal text-dark fw-bold mt-2">
+                        {{
+                          counterDetails.branch.organization_tenant
+                            .institution_client.client_type.title ?? '-------'
+                        }}
+                      </div>
+                      <div class="fs-normal text-dark fw-bold mt-2">
+                        @if (
+                          counterDetails.branch.organization_tenant
+                            .institution_client.is_active
+                        ) {
+                          <i class="fa fa-check-circle text-success"></i>
+                        }
+                        @if (
+                          !counterDetails.branch.organization_tenant
+                            .institution_client.is_active
+                        ) {
+                          <i class="fa fa-check-circle text-danger"></i>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <img
+                      src="{{
+                        counterDetails.branch.organization_tenant
+                          .institution_client.picture
+                      }}"
+                      alt="Organization logo"
+                      class="img-fluid logo-size" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      }
+    </div>
+  </ng-template>
+
+  <!--counterTellers-->
+  <ng-template #counterTellers>
+    <div class="bg-secondary rounded p-2 mb-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="fw-bold fs-medium">Counter tellers</div>
+        <div>
+          <div
+            class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
+            role="button"
+            (click)="goBack()"
+            tabindex="0">
+            <div>
+              <i class="fa fa-arrow-left"></i>
+            </div>
+            <div>Back</div>
+          </div>
+        </div>
       </div>
-    }
-    @if (counterDetails) {
-      <div class="">
-        <section class="mt-3 ms-3">
-          <!--counter-->
-          <div>
-            <div class="d-flex align-items-center gap-2">
-              <div class="d-flex align-items-center gap-3">
-                <div class="bg-primary rounded-circle w-2 h-2 p-1"></div>
-                <div class="fw-bold fs-normal" i18n>Counter</div>
-                <div></div>
-              </div>
+    </div>
 
-              <div class="w-100">
-                <hr class="w-100" />
-              </div>
+    <app-list
+      title="Counter Tellers"
+      [headers]="tellerHeaders"
+      [url]="counterTellersUrl">
+    </app-list>
+  </ng-template>
+
+  <!-- treasurer list -->
+  <ng-template #counterTreasurers>
+    <div class="bg-secondary rounded p-2 mb-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="fw-bold fs-medium">Counter treasurers</div>
+        <div>
+          <div
+            class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
+            role="button"
+            (click)="goBack()"
+            tabindex="0">
+            <div>
+              <i class="fa fa-arrow-left"></i>
             </div>
-            <div class="mt-2">
-              <div class="">
-                <div class="d-flex align-items-center gap-5 ms-5">
-                  <div class="d-grid">
-                    <div class="fs-normal text-dark" i18n>Name:</div>
-                    <div class="fs-normal text-dark mt-2" i18n>Code:</div>
-                    <div class="fs-normal text-dark mt-2" i18n>Created at:</div>
-                    <div class="fs-normal text-dark mt-2" i18n>Location</div>
-                  </div>
-                  <div class="d-grid ms-3">
-                    <div class="fs-normal text-dark fw-bold">
-                      {{ counterDetails.name ?? '-------' }}
-                    </div>
-                    <div class="fs-normal text-dark fw-bold mt-2">
-                      {{ counterDetails.formatted_code ?? '-------' }}
-                    </div>
-                    <div class="fs-normal text-dark fw-bold mt-2">
-                      {{
-                        counterDetails.created_at ?? '-------'
-                          | date: 'dd/MM/yyyy'
-                      }}
-                    </div>
-                    <div class="fs-normal text-dark fw-bold mt-2">
-                      {{ counterDetails.location ?? '-------' }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div>Back</div>
           </div>
-
-          <!--branch-->
-          <div class="mt-3">
-            <div class="d-flex align-items-center gap-2">
-              <div class="d-flex align-items-center gap-3">
-                <div class="bg-primary rounded-circle w-2 h-2 p-1"></div>
-                <div class="fw-bold fs-normal" i18n>Branch</div>
-                <div></div>
-              </div>
-
-              <div class="w-100">
-                <hr class="w-100" />
-              </div>
-            </div>
-            <div class="mt-2">
-              <div class="">
-                <div class="d-flex align-items-center gap-5 ms-5">
-                  <div class="d-grid">
-                    <div class="fs-normal text-dark" i18n>Name:</div>
-                    <div class="fs-normal text-dark mt-2" i18n>Code:</div>
-                    <div class="fs-normal text-dark mt-2" i18n>Created at:</div>
-                  </div>
-                  <div class="d-grid ms-3">
-                    <div class="fs-normal text-dark fw-bold">
-                      {{ counterDetails.branch.name ?? '-------' }}
-                    </div>
-                    <div class="fs-normal text-dark fw-bold mt-2">
-                      {{ counterDetails.branch.code ?? '-------' }}
-                    </div>
-                    <div class="fs-normal text-dark fw-bold mt-2">
-                      {{
-                        counterDetails.branch.created_at ?? '-------'
-                          | date: 'dd/MM/yyyy'
-                      }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!--organisation-->
-          <div class="mt-3">
-            <div class="d-flex align-items-center gap-2">
-              <div class="d-flex align-items-center gap-3">
-                <div class="bg-primary rounded-circle w-2 h-2 p-1"></div>
-                <div class="fw-bold fs-normal" i18n>Organization</div>
-                <div></div>
-              </div>
-
-              <div class="w-100">
-                <hr class="w-100" />
-              </div>
-            </div>
-            <div class="mt-2">
-              <div class="d-flex justify-content-between">
-                <div class="d-flex align-items-center gap-5 ms-5">
-                  <div class="d-grid">
-                    <div class="fs-normal text-dark" i18n>Name:</div>
-                    <div class="fs-normal text-dark mt-2" i18n>Code:</div>
-                    <div class="fs-normal text-dark mt-2" i18n>Type</div>
-                    <div class="fs-normal text-dark mt-2" i18n>Active</div>
-                  </div>
-                  <div class="d-grid ms-3">
-                    <div class="fs-normal text-dark fw-bold">
-                      {{
-                        counterDetails.branch.organization_tenant
-                          .institution_client.client_full_name ?? '-------'
-                      }}
-                    </div>
-                    <div class="fs-normal text-dark fw-bold mt-2">
-                      {{
-                        counterDetails.branch.organization_tenant
-                          .institution_client.client_code ?? '-------'
-                      }}
-                    </div>
-                    <div class="fs-normal text-dark fw-bold mt-2">
-                      {{
-                        counterDetails.branch.organization_tenant
-                          .institution_client.client_type.title ?? '-------'
-                      }}
-                    </div>
-                    <div class="fs-normal text-dark fw-bold mt-2">
-                      @if (
-                        counterDetails.branch.organization_tenant
-                          .institution_client.is_active
-                      ) {
-                        <i class="fa fa-check-circle text-success"></i>
-                      }
-                      @if (
-                        !counterDetails.branch.organization_tenant
-                          .institution_client.is_active
-                      ) {
-                        <i class="fa fa-check-circle text-danger"></i>
-                      }
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <img
-                    src="{{
-                      counterDetails.branch.organization_tenant
-                        .institution_client.picture
-                    }}"
-                    alt="Organization logo"
-                    class="img-fluid logo-size" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        </div>
       </div>
-    }
-  </div>
+    </div>
+
+    <app-list
+      title="Counter Treasurers"
+      [headers]="tellerHeaders"
+      [url]="counterTreasurersUrl">
+    </app-list>
+  </ng-template>
+
+  <!--mainBoxList-->
+  <ng-template #mainBoxList>
+    <div class="bg-secondary rounded p-2 mb-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="fw-bold fs-medium">MainBox List</div>
+        <div>
+          <div
+            class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
+            role="button"
+            (click)="goBack()"
+            tabindex="0">
+            <div>
+              <i class="fa fa-arrow-left"></i>
+            </div>
+            <div>Back</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-list
+      title="Counter MainBox"
+      [headers]="mainBoxHeaders"
+      [url]="counterMainBoxUrl"
+      [addButtonLink]="{
+        url: '/w/workstation/a/admin/counter/' + counterId,
+        fragment: 'newMainBox',
+      }">
+    </app-list>
+  </ng-template>
+
+  <ng-template #newMainBox>
+    <div class="bg-secondary rounded p-2 mb-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="fw-bold fs-medium">New MainBox</div>
+        <div>
+          <div
+            class="d-flex align-items-center gap-3 me-3 border rounded p-1 px-2"
+            role="button"
+            (click)="goBack()"
+            tabindex="0">
+            <div>
+              <i class="fa fa-arrow-left"></i>
+            </div>
+            <div>Back</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="newMainBoxForm" class="mt-4">
+      <div class=" ">
+        <div class="mt-3 col-9">
+          <div class="d-flex align-items-center justify-content-between mt-4">
+            <div class="col-5">
+              <div class="d-flex align-items-center gap-2">
+                <div class="fs-small">currency:</div>
+                <div class="col-9">
+                  <div class="lookup">
+                    <app-lookup
+                      option="autocomplete"
+                      url="/currency/objects_autocomplete?search="
+                      label="Currency"
+                      (selectedItemEvent)="
+                        selectedcurrency($event)
+                      "></app-lookup>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-2 col-5">
+              <div class="fs-small">title:</div>
+              <div class="form-floating col-9">
+                <input
+                  type="text"
+                  class="input form-control text-dark simulator-input"
+                  id="title"
+                  formControlName="title"
+                  placeholder="title" />
+                <label for="title" class="text-dark" i18n
+                  >title <code>*</code></label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-5">
+            <button
+              type="submit"
+              class="bg-primary btn px-4 text-light"
+              [disabled]="!newMainBoxForm.valid || !selectedCurrencyId"
+              i18n
+              (click)="addNewMainBox()">
+              <span> Save </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
 </div>

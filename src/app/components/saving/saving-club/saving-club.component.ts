@@ -14,8 +14,9 @@ import { CommonModule } from '@angular/common';
 })
 export class SavingClubComponent implements OnInit {
   savingClub: TontineModel[] | [] | null = null;
+  isloading = false;
   suggestedTontines: SuggestedTontinesModel[] | [] | null = null;
-  thirdSuggestedTontines: SuggestedTontinesModel[] | [] | null = null;
+
   selected = '';
   constructor(
     private savingDetailService: SavingDetailService,
@@ -30,46 +31,19 @@ export class SavingClubComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
   getClientTontines() {
     this.savingDetailService.getClientTontines().subscribe({
-      next: (response: { objects: TontineModel[] }) => {
-        this.savingClub = response.objects.map((tontine: TontineModel) => ({
-          name: tontine.name,
-          members_count: tontine.members_count,
-          short_description: tontine.short_description,
-        }));
-      },
-    });
-  }
-
-  getthirdSuggestedTontines() {
-    this.savingDetailService.getSuggestedTontines().subscribe({
-      next: (response: { objects: SuggestedTontinesModel[] }) => {
-        this.thirdSuggestedTontines = response.objects
-          .slice(0, 3)
-          .map((thirdSuggestedTontines: SuggestedTontinesModel) => ({
-            id: thirdSuggestedTontines.id,
-            name: thirdSuggestedTontines.name,
-            members_count: thirdSuggestedTontines.members_count,
-            membership_fees: thirdSuggestedTontines.membership_fees,
-          }));
+      next: response => {
+        this.savingClub = response.objects;
       },
     });
   }
 
   getSuggestedTontines() {
     this.savingDetailService.getSuggestedTontines().subscribe({
-      next: (response: { objects: SuggestedTontinesModel[] }) => {
-        // Utilisez 'slice' pour obtenir les trois premiers éléments
-        this.suggestedTontines = response.objects
-          .slice(0, 4)
-          .map((suggestedTontines: SuggestedTontinesModel) => ({
-            id: suggestedTontines.id,
-            name: suggestedTontines.name,
-            members_count: suggestedTontines.members_count,
-            membership_fees: suggestedTontines.membership_fees,
-            // Assurez-vous d'ajouter ici toutes les propriétés nécessaires
-          }));
+      next: response => {
+        this.suggestedTontines = response.objects;
       },
     });
   }

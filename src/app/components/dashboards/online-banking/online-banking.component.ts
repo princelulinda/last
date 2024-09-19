@@ -17,13 +17,11 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import { addBankResponse, MenuGroup } from '../dashboard.model';
 import { BankModel } from '../../../core/db/models/bank/bank.model';
-import { TarifComponent } from '../../tarif/tarif.component';
 import {
   DialogResponseModel,
   MerchantPaymentTypesModel,
 } from '../../../core/services/dialog/dialogs-models';
 import {
-  activeMainConfigModel,
   ModeModel,
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
@@ -43,7 +41,6 @@ import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
     SkeletonComponent,
     CommonModule,
     WalletCardComponent,
-    TarifComponent,
     RouterLink,
     RouterOutlet,
     BankHomeComponent,
@@ -76,7 +73,6 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
   plateform!: PlateformModel;
   plateform$: Observable<PlateformModel>;
   activePlatform: string | null = null;
-  mainConfig$!: Observable<activeMainConfigModel>;
 
   private userInfo$: Observable<UserInfoModel>;
 
@@ -159,14 +155,8 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     this.selectedBank$ = this.configService.getSelectedBank();
     this.dialog$ = this.dialogService.getDialogState();
     this.plateform$ = this.configService.getPlateform();
-    this.mainConfig$ = this.configService.getMainConfig();
   }
   ngOnInit(): void {
-    this.mainConfig$.subscribe({
-      next: configs => {
-        this.activePlatform = configs.activePlateform;
-      },
-    });
     this.mode$.subscribe({
       next: datas => {
         this.mode = datas;
@@ -179,8 +169,10 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     });
     this.userInfo$.subscribe({
       next: userinfo => {
-        this.clientInfo = userinfo;
-        this.clientId = this.clientInfo.client.id;
+        if (userinfo) {
+          this.clientInfo = userinfo;
+          this.clientId = this.clientInfo.client.id;
+        }
       },
     });
 

@@ -131,7 +131,7 @@
           @if (userInfo) {
             <span class="text-center d-flex justify-content-center mb-1">
               <app-profile-card
-                [imageUrl]="userInfo.client.picture"
+                [imageUrl]="userInfo.client.picture ?? null"
                 [fullName]="userInfo.client.client_full_name"
                 height="25px"
                 width="25px"
@@ -548,7 +548,7 @@
 
           <div
             class="d-flex justify-content-end text-center flex-column flex-grow-1">
-            <app-footer [break]="true"></app-footer>
+            <app-footer></app-footer>
           </div>
         </div>
       </div>
