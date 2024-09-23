@@ -49,6 +49,13 @@ export const workstationRoutes: Routes = [
         component: MetadataComponent,
       },
       {
+        path: 'access-required',
+        loadComponent: () =>
+          import(
+            '../../global/components/errors/forbidden-403/forbidden-403.component'
+          ).then(m => m.Forbidden403Component),
+      },
+      {
         path: '**',
         loadComponent: () =>
           import(

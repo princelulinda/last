@@ -18,6 +18,7 @@ import {
 } from '../../../components/metadatas/metadata.model';
 import { OverviewModel } from '../../../global/components/list/list/list.model';
 import { confirmDialogModel } from '../../../global/components/popups/confirm-dialog/confirm-dialog.model';
+import { AccessModel } from '../../../components/admin/access/access.models';
 
 @Injectable({
   providedIn: 'root',
@@ -168,42 +169,42 @@ export class GeneralService {
     }, '');
   }
 
-  // getAccess() {
-  //   // const pathname = window.location.pathname;
-  //   const empty: any = [];
-  //   let subMenus: any[] = [];
+  getAccess(): AccessModel[] | [] {
+    // const pathname = window.location.pathname;
+    // const empty = [];
+    const subMenus: { component_url: string; id: number; name: string }[] = [];
 
-  //   // this.subMenus$.subscribe({
-  //   //   next: subMenus => {
-  //   let pathname = window.location.pathname;
+    // this.subMenus$.subscribe({
+    //   next: subMenus => {
+    let pathname = window.location.pathname;
 
-  //   // just for removing language prefixes in case i18n is activated
+    //NOTE:: just for removing language prefixes in case i18n is activated
+    if (['en', 'fr'].includes(pathname.split('/')[1])) {
+      pathname = pathname.slice(3);
+    }
 
-  //   if (['en', 'fr'].includes(pathname.split('/')[1])) {
-  //     pathname = pathname.slice(3);
-  //   }
-
-  //   if (subMenus && subMenus.length > 0) {
-  //     const subMenuSimularToPathname = this.findMostSimilar(
-  //       subMenus.map((submenus: any) => submenus.component_url),
-  //       pathname
-  //     );
-  //     const subMenuId = subMenus.find(
-  //       (subMenu: any) => subMenu.component_url === subMenuSimularToPathname
-  //     ).id;
-  //     // if (subMenuId) {
-  //     //   this.getSubMenu(subMenuId).subscribe({
-  //     //     next: (subMenus: any) => {
-  //     //       return subMenus.objects;
-  //     //     },
-  //     //   });
-  //     // } else {
-  //     //   return empty;
-  //     // }
-  //   } else {
-  //     return empty;
-  //   }
-  //   // },
-  //   // });
-  // }
+    if (subMenus && subMenus.length > 0) {
+      // const subMenuSimularToPathname = this.findMostSimilar(
+      //   subMenus.map(submenus => submenus.component_url),
+      //   pathname
+      // );
+      // const subMenuId: number = subMenus.find(
+      //   subMenu => subMenu.component_url === subMenuSimularToPathname
+      // ).id;
+      // if (subMenuId) {
+      //   this.getSubMenu(subMenuId).subscribe({
+      //     next: (subMenus: any) => {
+      //       return subMenus.objects;
+      //     },
+      //   });
+      // } else {
+      //   return empty;
+      // }
+      return [];
+    } else {
+      return [];
+    }
+    // },
+    // });
+  }
 }
