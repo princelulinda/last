@@ -10,6 +10,7 @@ import { SingleInvoicesComponent } from '../../components/dev/invoice/single-inv
 import { InvoicesGroupsComponent } from '../../components/dev/invoice/invoices-groups/invoices-groups.component';
 import { PurchaseComponent } from '../../components/dev/purchase/purchase.component';
 import { InvoiceComponent } from '../../components/dev/invoice/invoice.component';
+import { InvoicesByGroupComponent } from '../../components/dev/invoice/invoices-by-group/invoices-by-group.component';
 
 export const myMarketRoutes: Routes = [
   { path: '', component: MyMarketDashboardComponent },
@@ -22,5 +23,6 @@ export const myMarketRoutes: Routes = [
   { path: 'invoice', component: InvoiceComponent },
   { path: 'single-invoices', component: SingleInvoicesComponent },
   { path: 'invoices-groups', component: InvoicesGroupsComponent },
+  { path: 'invoices-by-group', component: InvoicesByGroupComponent },
   { path: 'purchase', component: PurchaseComponent },
 ];

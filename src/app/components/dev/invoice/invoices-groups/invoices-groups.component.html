@@ -1,104 +1,153 @@
-<div class="container-fluid">
-  <div class="row mb-2">
-    <div class="col-12 col-sm-6 col-md-4 col-lg-5 me-auto mb-2">
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search.."
-          aria-label="Search.."
-          aria-describedby="basic-addon2" />
-        <div class="input-group-append">
-          <span class="input-group-text btn bg-dark" id="basic-addon2"
-            ><i class="fa-solid fa-magnifying-glass fa-xl text-light"></i
-          ></span>
+@if (!isSelected_group) {
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-5 me-auto mb-2">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search.."
+            aria-label="Search.."
+            aria-describedby="basic-addon2" />
+          <div class="input-group-append">
+            <span class="input-group-text btn bg-dark" id="basic-addon2"
+              ><i class="fa-solid fa-magnifying-glass fa-xl text-light"></i
+            ></span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-7 col-lg-6 col-xl-7 col-xxl-6">
-      <div class="col-11 col-sm-12 mx-auto">
-        <div class="row">
-          <div
-            class="col-3 col-md-2 col-lg-3 col-xl-2 bg-secondary xx-lg-radius p-1 d-flex justify-content-center me-auto">
-            <div class="d-flex justify-content-center align-items-center">
-              <span class="me-2 fw-normal font-calibri fs-normal" i18n
-                >Filter</span
-              >
-              <i class="fa-solid fa-bars-staggered fs-normal fw-bolder"></i>
+      <div class="col-12 col-sm-6 col-md-7 col-lg-6 col-xl-7 col-xxl-6">
+        <div class="col-11 col-sm-12 mx-auto">
+          <div class="row">
+            <div
+              class="col-3 col-md-2 col-lg-3 col-xl-2 bg-secondary xx-lg-radius p-1 d-flex justify-content-center me-auto">
+              <div class="d-flex justify-content-center align-items-center">
+                <span class="me-2 fw-normal font-calibri fs-normal" i18n
+                  >Filter</span
+                >
+                <i class="fa-solid fa-bars-staggered fs-normal fw-bolder"></i>
+              </div>
+            </div>
+            <div
+              class="col-6 col-md-8 col-xl-1 p-1 d-flex justify-content-end align-items-center"
+              role="button"
+              routerLink="/m/mymarket/invoice">
+              <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
+              <span class="fw-bolder fs-5" i18n>Back</span>
             </div>
           </div>
-          <div
-            class="col-6 col-md-8 col-xl-1 p-1 d-flex justify-content-end align-items-center"
-            role="button"
-            routerLink="/m/mymarket/invoice">
-            <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
-            <span class="fw-bolder fs-5" i18n>Back</span>
-          </div>
         </div>
       </div>
     </div>
+    <hr class="bg-dark row HLine" />
   </div>
-  <hr class="bg-dark row HLine" />
-</div>
 
-<div class="col-11 mx-auto">
-  <div
-    class="d-flex justify-content-center justify-content-xl-start align-content-around flex-wrap gap-4">
-    @for (item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track $index) {
-      <div class="teller-card sm-radius shadow-sm gap-3">
-        <div class="d-flex flex-column gap-3">
-          <div class="d-flex justify-content-around mt-3">
-            <div class="d-flex flex-column gap-1">
-              <div class="d-flex flex-row gap-4">
-                <div
-                  class="rounded-circle bg-secondary d-flex justify-content-center p-2">
-                  <span class="d-flex align-items-center"
-                    ><i class="fa-regular fa-folder-open fa-sm text-dark"></i
-                  ></span>
+  <div class="col-11 mx-auto">
+    <div
+      class="d-flex justify-content-center justify-content-xl-start align-content-around flex-wrap gap-4">
+      @if (invoices_groups && invoices_groups.length > 0) {
+        @for (item of invoices_groups; track $index) {
+          <div
+            class="teller-card sm-radius shadow-sm gap-3"
+            role="button"
+            (click)="getBillsByGroup()"
+            tabindex="0">
+            <div class="d-flex flex-column h-100 gap-3">
+              <div class="row h-75 mt-3">
+                <div class="col-10 mx-auto d-flex flex-column gap-1">
+                  <div class="d-flex flex-row gap-4">
+                    <div
+                      class="rounded-circle bg-secondary d-flex justify-content-center p-2">
+                      <span class="d-flex align-items-center"
+                        ><i
+                          class="fa-regular fa-folder-open fa-sm text-dark"></i
+                      ></span>
+                    </div>
+                    <!-- <button class="btn btn-outline-warning xx-lg-radius py-1 px-2">
+                      <span class="warning">Pending</span>
+                    </button> -->
+                  </div>
+                  <div class="text-dark">
+                    <span>{{ item.name }}</span>
+                  </div>
+                  <div class="fs-x-small">20 Invoices</div>
                 </div>
-                <button class="btn btn-outline-warning xx-lg-radius py-1 px-2">
-                  <span class="warning">Pending</span>
-                </button>
               </div>
-              <div class="text-dark">
-                <span>Groups 1</span>
-              </div>
-              <div class="fs-x-small">20 Invoices</div>
-            </div>
-          </div>
-          <div class="bg-secondary d-flex flex-column rounded-bottom mt-2 pb-2">
-            <div class="row d-flex align-items-start pb-2">
-              <div class="col">
-                <hr class="bg-primary w-100 my-0" />
-              </div>
-              <div class="col">
-                <hr class="bg-primary w-100 my-0" />
-              </div>
-              <div class="col">
-                <hr class="bg-primary w-100 my-0" />
-              </div>
-              <div class="col">
-                <hr class="bg-primary w-100 my-0" />
-              </div>
-              <div class="col">
-                <hr class="bg-primary w-100 my-0" />
-              </div>
-            </div>
-            <div class="d-flex justify-content-around flex-row">
               <div
-                class="col-4 rounded-circle bg-white d-flex justify-content-center">
-                <span class="d-flex align-items-center"
-                  ><i class="fa-solid fa-user fa-lg pb-1 text-secondary"></i
-                ></span>
-              </div>
-              <div class="d-flex flex-column me-3">
-                <span class="fw-bold">Teller 1</span>
-                <span class="fs-small">0236</span>
+                class="bg-secondary d-flex flex-column rounded-bottom mt-2 pb-2">
+                <div class="row d-flex align-items-start h-25 pb-2">
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                </div>
+                <div class="d-flex justify-content-around flex-row">
+                  <div
+                    class="col-4 rounded-circle bg-white d-flex justify-content-center">
+                    <span class="d-flex align-items-center"
+                      ><i class="fa-solid fa-user fa-lg pb-1 text-secondary"></i
+                    ></span>
+                  </div>
+                  <div class="d-flex flex-column me-3">
+                    <span class="fw-bold">{{
+                      item.merchant_teller.alias
+                    }}</span>
+                    <span class="fs-small">{{ item.merchant_teller.id }}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        }
+      } @else if (!invoices_groups) {
+        <div class="row ms-2">
+          @for (item of [1, 2, 3, 4]; track $index) {
+            <div class="col-6 col-sm-4 col-xl-3 mb-2">
+              <app-skeleton
+                height="140px"
+                width="170px"
+                classes="sm-radius"></app-skeleton>
+              <div>
+                <app-skeleton
+                  height="10px"
+                  width="30px"
+                  classes="sm-radius"
+                  appearance="line"></app-skeleton>
+              </div>
+              <div>
+                <app-skeleton
+                  height="10px"
+                  width="50px"
+                  classes="sm-radius"
+                  appearance="line"></app-skeleton>
+              </div>
+            </div>
+          }
         </div>
-      </div>
-    }
+      } @else if (invoices_groups && invoices_groups.length === 0) {
+        <div class="row">
+          <span class="col-10 col-md-8 mx-auto mt-5">
+            <app-empty-state [searchType]="searchType"></app-empty-state>
+          </span>
+        </div>
+      }
+    </div>
   </div>
-</div>
+} @else if (isSelected_group) {
+  <app-invoices-by-group
+    [group_name]="GroupInfo.name"
+    [teller_id]="GroupInfo.merchant_teller.id"
+    [invoices]="invoices"
+    (goBackEvent)="getGoBackEvent($event)"></app-invoices-by-group>
+}
