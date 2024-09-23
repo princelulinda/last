@@ -188,14 +188,14 @@
           <div
             (click)="selectGroup(group)"
             tabindex="0"
-            class="py-1 mb-3 d-block px-4 xx-lg-radius bg-hover-input"
+            class="py-1 mb-3 d-block px-4 xx-lg-radius bg-hover-input d-flex justify-content-between"
             role="button"
             [ngClass]="{
               'text-all-dark bg-input': selectedGroup === group,
               'text-secondary': selectedGroup !== group,
             }"
             routerLinkActive="text-all-dark bg-input">
-            {{ group.name }}
+            {{ group.name }} <i class="fa-solid fa-chevron-right"></i>
           </div>
           <div
             class="bg-white h-100 w-100 position-absolute d-flex flex-column gap-1 px-1 align-items-center"
