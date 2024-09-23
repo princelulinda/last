@@ -41,7 +41,7 @@
         Statement
       </a>
     </section>
-    <main class="flex-grow-1 overflow-y-auto ms-1">
+    <main class="flex-grow-1 overflow-y-auto ms-1 px-2">
       <router-outlet></router-outlet>
     </main>
   } @else if (activatedTypeMenu === 'm') {
@@ -185,7 +185,7 @@
       }">
       @if (activeMenuGroups && activeMenuGroups.menu_group.length !== 0) {
         @for (group of activeMenuGroups.menu_group; track $index) {
-          <div
+          <section
             (click)="selectGroup(group)"
             tabindex="0"
             class="py-1 mb-1 d-block px-2 xx-lg-radius bg-hover-input d-flex justify-content-between align-items-center"
@@ -195,14 +195,16 @@
               'text-secondary': selectedGroup !== group,
             }"
             routerLinkActive="text-all-dark bg-input">
-            <span>
+            <span class="ms-1">
               {{ group.name }}
             </span>
-            <small>
+            <small class="pt-1">
               <i class="fa-solid fa-chevron-right"></i>
             </small>
-          </div>
-          <div
+          </section>
+
+          <!-- NOTE :: ON SELECTED GROUP -->
+          <section
             class="bg-white h-100 w-100 position-absolute d-flex flex-column gap-1 px-1 align-items-center"
             [ngClass]="selectedGroup === group ? 'showMenu' : 'hideMenu'">
             <div
@@ -239,41 +241,7 @@
                 </div>
               </div>
             }
-          </div>
-
-          <!-- <div
-            class="mx-2 mb-2 ms-4 text-capitalize border-start border-primary-3"
-            [ngClass]="{
-              ' d-block': selectedGroup === group,
-              'd-none': selectedGroup !== group,
-            }">
-            @if (menu && !loadingMenu) {
-              @for (item of menu; track $index) {
-                <a
-                  tabindex="1"
-                  [routerLink]="item.component_url"
-                  [ngClass]="{
-                    'mb-2': $index === menu.length - 1,
-                  }"
-                  class="py-1 ms-1 px-3 mb-1 xx-lg-radius bg-hover-input text-secondary d-block w-100"
-                  role="button">
-                  {{ item.name }}
-                </a>
-              }
-            } @else {
-              <div class="my-2">
-                <div class="spinner-grow spinner-grow-sm ms-2" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow spinner-grow-sm ms-2" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow spinner-grow-sm ms-2" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-              </div>
-            }
-          </div> -->
+          </section>
         }
       } @else {
         <div class="mt-5">
