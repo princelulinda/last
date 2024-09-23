@@ -30,7 +30,7 @@ export class AdminDepartementsListComponent implements OnInit {
       field: ['name'],
       size: '',
       detail: {
-        link: '/w/workstation/d/desk/department/',
+        link: '/w/workstation/a/admin/department/',
         field: 'id',
       },
     },

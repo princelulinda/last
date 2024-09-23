@@ -41,7 +41,7 @@
         Statement
       </a>
     </section>
-    <main class="flex-grow-1 overflow-y-auto ms-1">
+    <main class="flex-grow-1 overflow-y-auto ms-1 px-2">
       <router-outlet></router-outlet>
     </main>
   } @else if (activatedTypeMenu === 'm') {
@@ -179,30 +179,42 @@
     </section>
   } @else {
     <section
-      class="bg-white w-aside p-1 pt-4 d-flex flex-column"
+      class="bg-white w-aside p-1 pt-4 d-flex flex-column overflow-x-hidden position-relative"
       [ngClass]="{
         'd-none': activatedTypeMenu === 'd' && !operator?.organization?.is_erp,
       }">
       @if (activeMenuGroups && activeMenuGroups.menu_group.length !== 0) {
         @for (group of activeMenuGroups.menu_group; track $index) {
-          <div
+          <section
             (click)="selectGroup(group)"
             tabindex="0"
-            class="py-1 mb-3 d-block px-4 xx-lg-radius bg-hover-input"
+            class="py-1 mb-1 d-block px-2 xx-lg-radius bg-hover-input d-flex justify-content-between align-items-center"
             role="button"
             [ngClass]="{
               'text-all-dark bg-input': selectedGroup === group,
               'text-secondary': selectedGroup !== group,
             }"
             routerLinkActive="text-all-dark bg-input">
-            {{ group.name }}
-          </div>
-          <div
-            class="mx-2 mb-2 ms-4 text-capitalize border-start border-primary-3"
-            [ngClass]="{
-              ' d-block': selectedGroup === group,
-              'd-none': selectedGroup !== group,
-            }">
+            <span class="ms-1">
+              {{ group.name }}
+            </span>
+            <small class="pt-1">
+              <i class="fa-solid fa-chevron-right"></i>
+            </small>
+          </section>
+
+          <!-- NOTE :: ON SELECTED GROUP -->
+          <section
+            class="bg-white h-100 w-100 position-absolute d-flex flex-column gap-1 px-1 align-items-center"
+            [ngClass]="selectedGroup === group ? 'showMenu' : 'hideMenu'">
+            <div
+              class="p-2 d-flex align-items-center fw-bold align-items-center clickable w-100"
+              (click)="selectedGroup = null"
+              tabindex="0">
+              <small class="me-2"><i class="fa-solid fa-arrow-left"></i></small>
+              <span> {{ group.name }}</span>
+            </div>
+
             @if (menu && !loadingMenu) {
               @for (item of menu; track $index) {
                 <a
@@ -211,13 +223,13 @@
                   [ngClass]="{
                     'mb-2': $index === menu.length - 1,
                   }"
-                  class="py-1 ms-1 px-3 mb-1 xx-lg-radius bg-hover-input text-secondary d-block w-100"
+                  class="py-1 ms-1 w-100 px-3 mb-1 xx-lg-radius bg-hover-input text-secondary d-block w-100"
                   role="button">
                   {{ item.name }}
                 </a>
               }
             } @else {
-              <div class="my-2">
+              <div class="my-2 w-100">
                 <div class="spinner-grow spinner-grow-sm ms-2" role="status">
                   <span class="visually-hidden">Loading...</span>
                 </div>
@@ -229,7 +241,7 @@
                 </div>
               </div>
             }
-          </div>
+          </section>
         }
       } @else {
         <div class="mt-5">

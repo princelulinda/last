@@ -10,12 +10,8 @@ describe('MerchantListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MerchantListComponent],
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MerchantListComponent);
     component = fixture.componentInstance;
