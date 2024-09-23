@@ -3,7 +3,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AgentListComponent } from './agent-list.component';
 
-
 describe('AgentListComponent', () => {
   let component: AgentListComponent;
   let fixture: ComponentFixture<AgentListComponent>;
@@ -11,10 +10,7 @@ describe('AgentListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AgentListComponent],
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AgentListComponent);

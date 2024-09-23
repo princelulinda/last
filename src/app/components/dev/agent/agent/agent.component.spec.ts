@@ -10,10 +10,7 @@ describe('AgentComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AgentComponent],
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AgentComponent);
