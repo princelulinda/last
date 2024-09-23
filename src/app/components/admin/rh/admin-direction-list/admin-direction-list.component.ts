@@ -28,7 +28,7 @@ export class AdminDirectionListComponent implements OnInit {
       field: ['name'],
       size: '',
       detail: {
-        link: '/w/workstation/d/desk/direction/',
+        link: '/w/workstation/a/admin/direction/',
         field: 'id',
       },
     },
