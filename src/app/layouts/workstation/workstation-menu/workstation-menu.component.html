@@ -179,7 +179,7 @@
     </section>
   } @else {
     <section
-      class="bg-white w-aside p-1 pt-4 d-flex flex-column"
+      class="bg-white w-aside p-1 pt-4 d-flex flex-column overflow-x-hidden position-relative"
       [ngClass]="{
         'd-none': activatedTypeMenu === 'd' && !operator?.organization?.is_erp,
       }">
@@ -188,16 +188,55 @@
           <div
             (click)="selectGroup(group)"
             tabindex="0"
-            class="py-1 mb-3 d-block px-4 xx-lg-radius bg-hover-input"
+            class="py-1 mb-3 d-block px-4 xx-lg-radius bg-hover-input d-flex justify-content-between"
             role="button"
             [ngClass]="{
               'text-all-dark bg-input': selectedGroup === group,
               'text-secondary': selectedGroup !== group,
             }"
             routerLinkActive="text-all-dark bg-input">
-            {{ group.name }}
+            {{ group.name }} <i class="fa-solid fa-chevron-right"></i>
           </div>
           <div
+            class="bg-white h-100 w-100 position-absolute d-flex flex-column gap-1 px-1 align-items-center"
+            [ngClass]="selectedGroup === group ? 'menuSlide' : 'hideMenu'">
+            <div
+              class="py-2 w-100 d-flex justify-content-center align-items-center fw-bold align-items-center gap-2 clickable border-bottom fs-medium"
+              (click)="selectedGroup = null"
+              tabindex="0">
+              <i class="fa-solid fa-arrow-left"></i
+              ><span> {{ group.name }}</span>
+            </div>
+
+            @if (menu && !loadingMenu) {
+              @for (item of menu; track $index) {
+                <a
+                  tabindex="1"
+                  [routerLink]="item.component_url"
+                  [ngClass]="{
+                    'mb-2': $index === menu.length - 1,
+                  }"
+                  class="py-1 ms-1 w-100 px-3 mb-1 xx-lg-radius bg-hover-input text-secondary d-block w-100"
+                  role="button">
+                  {{ item.name }}
+                </a>
+              }
+            } @else {
+              <div class="my-2 w-100">
+                <div class="spinner-grow spinner-grow-sm ms-2" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow spinner-grow-sm ms-2" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow spinner-grow-sm ms-2" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- <div
             class="mx-2 mb-2 ms-4 text-capitalize border-start border-primary-3"
             [ngClass]="{
               ' d-block': selectedGroup === group,
@@ -229,7 +268,7 @@
                 </div>
               </div>
             }
-          </div>
+          </div> -->
         }
       } @else {
         <div class="mt-5">

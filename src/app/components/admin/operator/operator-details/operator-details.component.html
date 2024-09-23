@@ -659,7 +659,25 @@
                   </div>
                 }
 
-                @if (!loadingPermission && permissionDetails) {
+                @if (
+                  !loadingPermission &&
+                  permissionDetails &&
+                  permissionDetails.permissions_counters?.length === 0
+                ) {
+                  <div class="d-flex flex-column align-items-center mt-5">
+                    <span>
+                      <i
+                        class="fa-solid fa-face-meh fs-xx-large empty-state"></i>
+                    </span>
+                    <b class="fs-4 empty-state" i18n> No Counter </b>
+                  </div>
+                }
+
+                @if (
+                  !loadingPermission &&
+                  permissionDetails &&
+                  (permissionDetails.permissions_counters?.length ?? 0 > 0)
+                ) {
                   <div class="w-100 row">
                     <div class="col-3 d-flex justify-content-center">
                       <span class="text-secondary fw-bold">Counter</span>

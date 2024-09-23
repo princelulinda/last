@@ -2,3 +2,31 @@
   min-width: 167px;
   max-width: 167px;
 }
+
+.menuSlide {
+  transform: translateX(-3%);
+  animation: leftSlide 0.5s ease-in-out;
+}
+
+.hideMenu {
+  transform: translateX(120%);
+  animation: closeSlide 0.3s ease-in-out;
+}
+
+@keyframes leftSlide {
+  from {
+    transform: translateX(120%);
+  }
+  to {
+    transform: translateX(-3%);
+  }
+}
+
+@keyframes closeSlide {
+  from {
+    transform: translateX(-3%);
+  }
+  to {
+    transform: translateX(120%);
+  }
+}
