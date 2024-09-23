@@ -285,7 +285,7 @@ export class AuthService {
     if (localPlateform !== 'workstation') {
       this.getUserInfo().subscribe({
         next: userInfo => {
-          if (userInfo && userInfo.client.client_id) {
+          if (userInfo && userInfo.client && userInfo.client.client_id) {
             this.userClientId$.next(userInfo.client.client_id);
           }
         },

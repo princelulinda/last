@@ -42,6 +42,7 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
   activePlatform: string | null = null;
   mainConfig$!: Observable<activeMainConfigModel>;
   private userInfo$: Observable<UserInfoModel>;
+  location = window.location.origin;
 
   constructor(
     private bankService: BankService,
