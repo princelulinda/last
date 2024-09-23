@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '..';
+
 import { map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 
+import { ApiService } from '..';
 import {
   MappingBody,
   MappingResponseModel,
@@ -17,7 +18,6 @@ import {
 } from '../../../components/metadatas/metadata.model';
 import { OverviewModel } from '../../../global/components/list/list/list.model';
 import { confirmDialogModel } from '../../../global/components/popups/confirm-dialog/confirm-dialog.model';
-// import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -75,17 +75,20 @@ export class GeneralService {
     const url = `/banks/list/?bank_type=MOB&is_mappable=true`;
     return this.apiService.get<{ objects: MobileBanksModel[] }>(url);
   }
+
   getWorkstationStats() {
     const url =
       '/dbs/general/stats/?stats_type=agents_number,merchants_number,clients_created';
     return this.apiService.get(url).pipe(map(data => data));
   }
+
   mappAccount(body: MappingBody): Observable<MappingResponseModel> {
     const url = `/mappaccount/create/?request_type=ident`;
     return this.apiService
       .post(url, body)
       .pipe(map(response => response as MappingResponseModel));
   }
+
   getMetadata(
     search = '',
     pagination?: PaginationConfig
@@ -102,6 +105,7 @@ export class GeneralService {
         })
       );
   }
+
   createMetadata(
     body: MetadataBodyModel
   ): Observable<MetadataCreationResponseModel> {
@@ -110,6 +114,7 @@ export class GeneralService {
       .post(url, body)
       .pipe(map(response => response as MetadataCreationResponseModel));
   }
+
   getOverviewData(
     url: string
   ): Observable<{ object: OverviewModel[]; count: number }> {
@@ -118,18 +123,87 @@ export class GeneralService {
       .pipe(map(data => data));
   }
 
-  //   changePin(body:object) {
-  //     const url = '/client/change-pin/';
-  //     return this.apiService.post(url, body).pipe(
-  //         map((data: any) => {
-  //             return data;
-  //         })
-  //     );
-  // }
   changePin(body: object): Observable<confirmDialogModel> {
     const url = '/client/change-pin/';
     return this.apiService
       .post(url, body)
       .pipe(map(response => response as confirmDialogModel));
   }
+
+  //NOTE :: This a sensive string comparisons, that algorithme is from fast-levenshtein package
+  // private levenshteinDistance(str1: string, str2: string) {
+  //   const n = str1.length;
+  //   const m = str2.length;
+  //   const dp: string[] = [];
+
+  //   // Initialize DP table
+  //   for (let i = 0; i <= n; i++) {
+  //     dp[i] = [];
+  //     for (let j = 0; j <= m; j++) {
+  //       dp[i][j] = i === 0 ? j : j === 0 ? i : Infinity;
+  //     }
+  //   }
+
+  //   //NOTE ::  Calculate distances
+  //   for (let i = 1; i <= n; i++) {
+  //     for (let j = 1; j <= m; j++) {
+  //       const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
+  //       dp[i][j] = Math.min(
+  //         dp[i - 1][j] + 1, // deletion
+  //         dp[i][j - 1] + 1, // insertion
+  //         dp[i - 1][j - 1] + cost // substitution
+  //       );
+  //     }
+  //   }
+
+  //   return dp[n][m];
+  // }
+
+  // NOTE :: for finding a string with most similarity
+  // findMostSimilar(list: string[], searchElement: string) {
+  //   return list.reduce((bestMatch: string, element: string) => {
+  //     const currentDistance = this.levenshteinDistance(element, searchElement);
+  //     const bestDistance = this.levenshteinDistance(bestMatch, searchElement);
+  //     return currentDistance < bestDistance ? element : bestMatch;
+  //   }, '');
+  // }
+
+  // getAccess() {
+  //   // const pathname = window.location.pathname;
+  //   const empty: any = [];
+  //   let subMenus: any[] = [];
+
+  //   // this.subMenus$.subscribe({
+  //   //   next: subMenus => {
+  //   let pathname = window.location.pathname;
+
+  //   // just for removing language prefixes in case i18n is activated
+
+  //   if (['en', 'fr'].includes(pathname.split('/')[1])) {
+  //     pathname = pathname.slice(3);
+  //   }
+
+  //   if (subMenus && subMenus.length > 0) {
+  //     const subMenuSimularToPathname = this.findMostSimilar(
+  //       subMenus.map((submenus: any) => submenus.component_url),
+  //       pathname
+  //     );
+  //     const subMenuId = subMenus.find(
+  //       (subMenu: any) => subMenu.component_url === subMenuSimularToPathname
+  //     ).id;
+  //     // if (subMenuId) {
+  //     //   this.getSubMenu(subMenuId).subscribe({
+  //     //     next: (subMenus: any) => {
+  //     //       return subMenus.objects;
+  //     //     },
+  //     //   });
+  //     // } else {
+  //     //   return empty;
+  //     // }
+  //   } else {
+  //     return empty;
+  //   }
+  //   // },
+  //   // });
+  // }
 }
