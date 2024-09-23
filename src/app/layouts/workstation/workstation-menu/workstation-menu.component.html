@@ -188,24 +188,29 @@
           <div
             (click)="selectGroup(group)"
             tabindex="0"
-            class="py-1 mb-3 d-block px-4 xx-lg-radius bg-hover-input d-flex justify-content-between"
+            class="py-1 mb-1 d-block px-2 xx-lg-radius bg-hover-input d-flex justify-content-between align-items-center"
             role="button"
             [ngClass]="{
               'text-all-dark bg-input': selectedGroup === group,
               'text-secondary': selectedGroup !== group,
             }"
             routerLinkActive="text-all-dark bg-input">
-            {{ group.name }} <i class="fa-solid fa-chevron-right"></i>
+            <span>
+              {{ group.name }}
+            </span>
+            <small>
+              <i class="fa-solid fa-chevron-right"></i>
+            </small>
           </div>
           <div
             class="bg-white h-100 w-100 position-absolute d-flex flex-column gap-1 px-1 align-items-center"
-            [ngClass]="selectedGroup === group ? 'menuSlide' : 'hideMenu'">
+            [ngClass]="selectedGroup === group ? 'showMenu' : 'hideMenu'">
             <div
-              class="py-2 w-100 d-flex justify-content-center align-items-center fw-bold align-items-center gap-2 clickable border-bottom fs-medium"
+              class="p-2 d-flex align-items-center fw-bold align-items-center clickable w-100"
               (click)="selectedGroup = null"
               tabindex="0">
-              <i class="fa-solid fa-arrow-left"></i
-              ><span> {{ group.name }}</span>
+              <small class="me-2"><i class="fa-solid fa-arrow-left"></i></small>
+              <span> {{ group.name }}</span>
             </div>
 
             @if (menu && !loadingMenu) {
