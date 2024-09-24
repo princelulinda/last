@@ -8,4 +8,8 @@ export class TypeMenu extends BaseModel {
   @Field static menu_active_icon: string;
   @Field static menu_disabled_icon: string;
   @Field static active: boolean;
+
+  @UniqueField static groupName: string;
+  @Field static required_operator_auth: boolean;
+  @UniqueField static typeMenuvalue: string;
 }

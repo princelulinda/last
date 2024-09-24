@@ -83,7 +83,7 @@ export class WorkstationComponent implements OnInit {
       .subscribe({
         next: resp => {
           this.configService.setTypeMenus(resp.menuTypes.objects);
-          this.configService.setMenuGroup(resp.menuGroup.objects);
+          // this.configService.setMenuGroup(resp.menuGroup.objects);
           this.dialogService.closeDialog();
           this.dialogService.closeSplashScreen();
         },

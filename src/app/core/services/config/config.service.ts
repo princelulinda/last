@@ -10,8 +10,6 @@ import {
   SelectedBank,
   Operator,
   TypeMenu,
-  MenuGroup,
-  SelectedTypeMenu,
 } from '../../db/models';
 import { environment } from '../../../../environments/environment';
 
@@ -89,12 +87,6 @@ export class ConfigService {
 
     this.typeMenus$ = liveQuery(() =>
       this.dbService.getOnce(TypeMenu.tableName)
-    );
-    this.menuGroups$ = liveQuery(() =>
-      this.dbService.getOnce(MenuGroup.tableName)
-    );
-    this.selectedTypeMenu$ = liveQuery(() =>
-      this.dbService.getOnce(SelectedTypeMenu.tableName)
     );
   }
 
@@ -367,19 +359,13 @@ export class ConfigService {
   getTypeMenus(): Observable<TypeMenuModel[]> {
     return this.typeMenus$ as Observable<TypeMenuModel[]>;
   }
-  getMenuGroups(): Observable<MenuGroupsModel[]> {
-    return this.menuGroups$ as Observable<MenuGroupsModel[]>;
-  }
 
   setTypeMenus(payload: TypeMenuModel[]) {
     this.dbService.addOnceUpdate(TypeMenu.tableName, payload);
   }
-  setMenuGroup(payload: MenuGroupsModel[]) {
-    this.dbService.addOnceUpdate(MenuGroup.tableName, payload);
-  }
+
   clearAllMenu() {
     this.dbService.clearTable(TypeMenu.tableName);
-    this.dbService.clearTable(MenuGroup.tableName);
     // this.dbService.clearTable(SelectedTypeMenu.tableName);
   }
   checkTypeMenus(): Observable<boolean> {
@@ -400,9 +386,7 @@ export class ConfigService {
   setLocalSelectedTypeMenu(menu: string) {
     this.apiService.setLocalSelectedTypeMenu(menu);
   }
-  setSelectedTypeMenu(menu: TypeMenuModel) {
-    this.dbService.addOnceUpdate(SelectedTypeMenu.tableName, menu);
-  }
+
   getSelectedTypeMenu(): Observable<TypeMenuModel> {
     return this.selectedTypeMenu$ as Observable<TypeMenuModel>;
   }

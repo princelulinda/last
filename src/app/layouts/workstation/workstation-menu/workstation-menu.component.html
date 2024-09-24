@@ -178,12 +178,12 @@
       </main>
     </section>
   } @else {
-    <section
+    <!-- <section
       class="bg-white w-aside p-1 pt-4 d-flex flex-column overflow-x-hidden position-relative"
       [ngClass]="{
         'd-none': activatedTypeMenu === 'd' && !operator?.organization?.is_erp,
       }">
-      @if (activeMenuGroups && activeMenuGroups.menu_group.length !== 0) {
+      @if (activeMenuGroups && activeMenuGroups .length !== 0) {
         @for (group of activeMenuGroups.menu_group; track $index) {
           <section
             (click)="selectGroup(group)"
@@ -201,10 +201,10 @@
             <small class="pt-1">
               <i class="fa-solid fa-chevron-right"></i>
             </small>
-          </section>
+          </section> -->
 
-          <!-- NOTE :: ON SELECTED GROUP -->
-          <section
+    <!-- NOTE :: ON SELECTED GROUP -->
+    <!-- <section
             class="bg-white h-100 w-100 position-absolute d-flex flex-column gap-1 px-1 align-items-center"
             [ngClass]="selectedGroup === group ? 'showMenu' : 'hideMenu'">
             <div
@@ -250,7 +250,7 @@
             messageClass="fs-x-small"></app-empty-state>
         </div>
       }
-    </section>
+    </section> -->
     <main class="flex-grow-1 overflow-y-auto ms-1">
       <router-outlet></router-outlet>
     </main>

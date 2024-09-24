@@ -12,7 +12,7 @@ import {
   MerchantService,
 } from '../../../core/services';
 import {
-  GroupMenuModel,
+  MenuGroupsByTypeMenuModel,
   MenuGroupsModel,
   MenuModel,
 } from '../../../core/db/models/menu/menu.models';
@@ -42,11 +42,9 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
 })
 export class WorkstationMenuComponent implements OnInit {
   activatedTypeMenu: 'b' | 'm' | 'i' | 'd' | 'r' | 'a' | '' = '';
-  private menuGroups$: Observable<MenuGroupsModel[]>;
-  private menuGroups: MenuGroupsModel[] = [];
 
   activeMenuGroups: MenuGroupsModel | null = null;
-  selectedGroup: GroupMenuModel | null = null;
+  selectedGroup: MenuGroupsByTypeMenuModel | null = null;
 
   menu: MenuModel[] | null = null;
   loadingMenu = false;
@@ -67,19 +65,10 @@ export class WorkstationMenuComponent implements OnInit {
     private merchantService: MerchantService,
     private dialogService: DialogService
   ) {
-    this.menuGroups$ = this.configService.getMenuGroups();
     this.operator$ = this.configService.getConnectedOperator();
   }
 
   ngOnInit(): void {
-    this.menuGroups$.subscribe({
-      next: menus => {
-        if (menus) {
-          this.menuGroups = menus;
-          this.getActiveMenuGroups();
-        }
-      },
-    });
     this.operator$.subscribe({
       next: operator => {
         this.operator = operator;
@@ -98,9 +87,9 @@ export class WorkstationMenuComponent implements OnInit {
       this.route.params.subscribe({
         next: params => {
           this.activatedTypeMenu = params['TypeMenu'];
-          if (this.menuGroups) {
-            this.getActiveMenuGroups();
-          }
+          // if (this.menuGroups) {
+          //   this.getActiveMenuGroups();
+          // }
         },
       });
     }
@@ -144,40 +133,40 @@ export class WorkstationMenuComponent implements OnInit {
     });
   }
 
-  selectGroup(group: GroupMenuModel) {
+  selectGroup(group: MenuGroupsByTypeMenuModel) {
     this.selectedGroup = group;
     this.getMenuByGroup(this.selectedGroup.id.toString());
   }
 
-  private getActiveMenuGroups() {
-    switch (this.activatedTypeMenu) {
-      case 'a':
-        this.activeMenuGroups = this.menuGroups.find(
-          group => group.name === 'Admin'
-        ) as MenuGroupsModel;
-        break;
+  // private getActiveMenuGroups() {
+  //   switch (this.activatedTypeMenu) {
+  //     case 'a':
+  //       this.activeMenuGroups = this.menuGroups.find(
+  //         group => group.name === 'Admin'
+  //       ) as MenuGroupsModel;
+  //       break;
 
-      case 'd':
-        this.activeMenuGroups = this.menuGroups.find(
-          group => group.name === 'Admin'
-        ) as MenuGroupsModel;
-        break;
-      case 'i':
-        this.activeMenuGroups = this.menuGroups.find(
-          group => group.name === 'Intranet'
-        ) as MenuGroupsModel;
-        break;
-      case 'r':
-        this.activeMenuGroups = this.menuGroups.find(
-          group => group.name === 'Reporting'
-        ) as MenuGroupsModel;
-        break;
+  //     case 'd':
+  //       this.activeMenuGroups = this.menuGroups.find(
+  //         group => group.name === 'Admin'
+  //       ) as MenuGroupsModel;
+  //       break;
+  //     case 'i':
+  //       this.activeMenuGroups = this.menuGroups.find(
+  //         group => group.name === 'Intranet'
+  //       ) as MenuGroupsModel;
+  //       break;
+  //     case 'r':
+  //       this.activeMenuGroups = this.menuGroups.find(
+  //         group => group.name === 'Reporting'
+  //       ) as MenuGroupsModel;
+  //       break;
 
-      default:
-        this.activeMenuGroups = null;
-        break;
-    }
-  }
+  //     default:
+  //       this.activeMenuGroups = null;
+  //       break;
+  //   }
+  // }
 
   getMerchants(search: string) {
     this.isLoading = true;

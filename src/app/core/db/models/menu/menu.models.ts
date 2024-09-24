@@ -1,6 +1,6 @@
 export interface TypeMenuModel {
   id: number;
-  name: string;
+  name: TypeMenuNamesModel;
   icon: string | null;
   image: {
     active: string;
@@ -10,6 +10,15 @@ export interface TypeMenuModel {
   menu_active_icon: string;
   menu_disabled_icon: string;
   active: boolean;
+  menuGroups: {
+    id: number;
+    name: string;
+    menus: {
+      id: number;
+      name: string;
+      component_url: string;
+    }[];
+  }[];
 }
 export type TypeMenuNamesModel =
   | 'Dashboard'
@@ -20,7 +29,7 @@ export type TypeMenuNamesModel =
   | 'Reporting'
   | 'Admin';
 
-export interface GroupMenuModel {
+export interface MenuGroupsModel {
   id: number;
   name: TypeMenuNamesModel;
   icon: string | null;
@@ -32,10 +41,10 @@ export interface GroupMenuModel {
   active: boolean;
 }
 
-export interface MenuGroupsModel {
+export interface MenuGroupsByTypeMenuModel {
   id: number;
   name: TypeMenuNamesModel;
-  menu_group: GroupMenuModel[];
+  menu_group: MenuGroupsModel[];
   active: true;
 }
 
