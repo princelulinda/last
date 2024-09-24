@@ -11,6 +11,7 @@ import { SplashScreenComponent } from './layouts/splash-screen/splash-screen.com
 import {
   ModeModel,
   PlateformModel,
+  ScreenStateModel,
 } from './core/services/config/main-config.models';
 import { environment } from '../environments/environment';
 import { TransferBillComponent } from './global/components/popups/bills-format/transfer-bill/transfer-bill.component';
@@ -47,6 +48,9 @@ export class AppComponent implements OnInit {
   activeMode$: Observable<ModeModel>;
   mainBackground = 'bg-ihela';
 
+  screenState: ScreenStateModel = 'unlocked';
+  screenState$: Observable<ScreenStateModel>;
+
   constructor(
     private dbService: DbService,
     private configService: ConfigService,
@@ -55,6 +59,7 @@ export class AppComponent implements OnInit {
   ) {
     this.plateform$ = this.configService.getPlateform();
     this.activeMode$ = this.configService.getMode();
+    this.screenState$ = this.configService.getScreenState();
   }
 
   ngOnInit() {
@@ -71,16 +76,23 @@ export class AppComponent implements OnInit {
 
     this.plateform$.subscribe({
       next: plateform => {
-        this.plateform = plateform;
-        const plateformData = environment.plateformsUuid.filter(
-          plateformData => plateformData.name === plateform
-        )[0];
-        this.mainBackground = `bg-${plateformData.theme.name}`;
+        if (plateform) {
+          this.plateform = plateform;
+          const plateformData = environment.plateformsUuid.filter(
+            plateformData => plateformData.name === plateform
+          )[0];
+          this.mainBackground = `bg-${plateformData.theme.name}`;
+        }
       },
     });
     this.activeMode$.subscribe({
       next: mode => {
         this.activeMode = mode;
+      },
+    });
+    this.screenState$.subscribe({
+      next: state => {
+        this.screenState = state;
       },
     });
   }
