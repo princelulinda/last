@@ -2,9 +2,10 @@ import { AutocompleteModel } from '../../../global/models/global.models';
 import { RoleModel } from '../role/role.models';
 
 export interface AdminDepartementsDetailsModel {
-  object: {
-    name: string;
-  };
+  id: number;
+  name: string;
+  direction: number;
+  roles: RoleModel[];
 }
 export interface AdminDirectionsDetailsModel {
   object: {

@@ -49,7 +49,7 @@ export class AdminService {
   }
   getDepartmentDetails(
     depId: number | string
-  ): Observable<AdminDepartementsDetailsModel> {
+  ): Observable<{ object: AdminDepartementsDetailsModel }> {
     const url = `/hr/access/departments/${depId}/`;
     return this.apiService.get(url);
   }
@@ -252,5 +252,10 @@ export class AdminService {
   createNewRole(body: CreateNewRoleModel) {
     const url = `/hr/access/roles/`;
     return this.apiService.post(url, body).pipe(map(data => data));
+  }
+
+  editService(body: { name: string; direction: number }) {
+    const url = `/hr/access/services/`;
+    return this.apiService.patch(url, body).pipe(map(data => data));
   }
 }
