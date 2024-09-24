@@ -235,11 +235,7 @@
       </div>
     </div>
 
-    <app-list
-      title="Counter Tellers"
-      [headers]="tellerHeaders"
-      [url]="counterTellersUrl">
-    </app-list>
+    <app-list [headers]="tellerHeaders" [url]="counterTellersUrl"> </app-list>
   </ng-template>
 
   <!-- treasurer list -->
@@ -262,10 +258,7 @@
       </div>
     </div>
 
-    <app-list
-      title="Counter Treasurers"
-      [headers]="tellerHeaders"
-      [url]="counterTreasurersUrl">
+    <app-list [headers]="tellerHeaders" [url]="counterTreasurersUrl">
     </app-list>
   </ng-template>
 
@@ -290,7 +283,6 @@
     </div>
 
     <app-list
-      title="Counter MainBox"
       [headers]="mainBoxHeaders"
       [url]="counterMainBoxUrl"
       [addButtonLink]="{
