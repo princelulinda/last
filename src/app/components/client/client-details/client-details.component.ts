@@ -13,16 +13,18 @@ import {
   ClientCorporateModel,
   ClientLanguageWorkstationModel,
   ClientWorkstationModel,
+  IndividualClientModel,
   LanguageWorkstationModel,
 } from '../client.model';
 import { AccountsListModel } from '../../account/models';
 import { WalletList } from '../../wallet/wallet.models';
 import { MailModel } from '../../settings/settings.models';
+import { ClientProfileInfoComponent } from '../client-profile-info/client-profile-info.component';
 
 @Component({
   selector: 'app-client-details',
   standalone: true,
-  imports: [NgClass, CommonModule],
+  imports: [NgClass, CommonModule, ClientProfileInfoComponent],
   templateUrl: './client-details.component.html',
   styleUrl: './client-details.component.scss',
 })
@@ -48,7 +50,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   accounts!: AccountsListModel[];
   wallets!: WalletList[];
   selectedCategoryTypeId!: number;
-  clientIndiv!: ClientCorporateModel | null;
+  clientIndiv!: IndividualClientModel | null;
   clientEntreprise!: ClientCorporateModel | null;
   clientDetails!: ClientWorkstationModel;
   language!: { code: string; title: string };
@@ -281,7 +283,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
 
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (clientIndiv: { object: ClientCorporateModel }) => {
+        next: clientIndiv => {
           this.clientIndiv = clientIndiv.object;
         },
         error: error => {

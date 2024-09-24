@@ -26,6 +26,7 @@ import {
   ClientCorporateModel,
   ClientLanguageWorkstationModel,
   ClientWorkstationModel,
+  IndividualClientModel,
   LanguageWorkstationModel,
 } from '../../../components/client/client.model';
 
@@ -162,7 +163,7 @@ export class ClientService {
   getClientIndividualDetails(clientId: string) {
     const apiUrl = '/clients/manage/individuals/' + clientId + '/';
     return this.apiService
-      .get<{ object: ClientCorporateModel }>(apiUrl)
+      .get<{ object: IndividualClientModel }>(apiUrl)
       .pipe(map(data => data));
   }
 
@@ -171,5 +172,15 @@ export class ClientService {
     return this.apiService
       .get<{ object: ClientCorporateModel }>(apiUrl)
       .pipe(map(data => data));
+  }
+
+  UpdateIndividualClientDetails(clientId: string, data: object) {
+    return this.apiService
+      .patch(`/clients/manage/individuals/${clientId}/`, data)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
 }
