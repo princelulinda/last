@@ -1,0 +1,428 @@
+<div class="level-2">
+  <div
+    style="height: 60vh"
+    *ngIf="!credits"
+    class="text-center w-100 d-flex row justify-content-center align-items-center text-dark fs-4">
+    <span><i class="fa-solid fa-spin fa-circle-notch text-dark"></i></span>
+  </div>
+  <div class="row g-0 p-2 mx-1" *ngIf="credits">
+    <div class="col-lg-3 level-2 text-dark ps-2">
+      <div>
+        <app-selected-client-small-overview
+          [selectedClient]="
+            this.selectedClient
+          "></app-selected-client-small-overview>
+      </div>
+
+      <div class="p-0 level-1 text-dark overflow-y-auto overflow-x-hidden list">
+        <div>
+          <span
+            *ngIf="!credits"
+            style="min-height: 70vh"
+            class="text-center w-100 d-flex row justify-content-center align-items-center text-dark"
+            ><i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i
+          ></span>
+          <div *ngIf="credits && credits.count > 0">
+            <div
+              class="row d-flex justify-content-between align-items-center"
+              style="height: 35px">
+              <div
+                role="button"
+                title="Add an account"
+                class="col-5 ms-2 pt-1 not-clickable">
+                <i
+                  class="fa-solid fa-plus sm-radius p-1 fs-6 text-light mt-2 primary-light text-l-md"></i>
+              </div>
+              <div role="button" class="col-2 mt-1 mb-2 me-2">
+                @if (amountState === true) {
+                  <span title="Hide balances">
+                    <i class="fa-solid fa-eye-slash mt-3 text-primary-light"></i
+                  ></span>
+                } @else {
+                  <span title="Show balances">
+                    <i class="fa-solid fa-eye mt-3 text-primary-light"></i
+                  ></span>
+                }
+              </div>
+            </div>
+
+            <div
+              class="fig p-2"
+              role="button"
+              *ngFor="let credit of credits.objects">
+              <div
+                (click)="selectCredit(credit)"
+                tabindex="0"
+                class="px-2 ms-1 is-hoverable w-100"
+                style="border-bottom: 1px solid #c4c4c4"
+                [ngClass]="{ 'lg-radius bg-white': selectedCredit === credit }"
+                routerLink="/w/workstation/desk/client/details/{{
+                  clientId
+                }}/credit/{{ credit.id }}/"
+                routerLinkActive="selected">
+                <div class="rounded" style="line-height: 1em">
+                  <small class="d-flex" style="height: 8px"
+                    ><b
+                      class=""
+                      [ngClass]="{
+                        'text-dark': selectedCredit === credit,
+                      }"
+                      >{{ credit.cred_branch_defaults.branch.name ?? '---' }}</b
+                    >
+                    <span
+                      [class]="
+                        'text-' +
+                        credit.cred_status.css +
+                        'p-1 text-center ms-auto labelCard badge-design bg-' +
+                        credit.cred_status.css
+                      ">
+                      {{ credit.cred_status.value }}</span
+                    > </small
+                  ><br />
+                  <small
+                    ><b class="mt-0 text-sm">{{ credit.cred_code }}</b></small
+                  ><br />
+                  <small
+                    ><b class="mt-0 text-primary-light text-sm">{{
+                      credit.cred_mode
+                    }}</b></small
+                  ><br />
+
+                  <app-amount-visibility
+                    [amount]="credit.cred_amount"
+                    [currency]="balance_currency"
+                    [customClasses]="customClasses"></app-amount-visibility>
+
+                  <br />
+                  <div style="height: 10px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="selectedCredit !== '' && credits" class="col-lg-9">
+      <div class="details level-1 h-100 p-2 rounded-top text-dark">
+        <div
+          *ngIf="!credit && isLoading"
+          class="text-center w-100 h-100 d-flex row justify-content-center align-items-center text-dark">
+          <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
+        </div>
+        <div
+          class="text-dark text-center h-100 row align-items-center fw-bold fs-4"
+          style="opacity: 0.7; margin-left: 20%"
+          *ngIf="credits && credits.count === 0"
+          i18n>
+          No loans available
+        </div>
+        <div
+          *ngIf="credits && credits.count > 0 && !selectedCredit"
+          class="text-dark fw-bold h-100 w-100 fs-4 justify-content-center row align-items-center"
+          style="opacity: 0.5"
+          i18n>
+          Nothing is selected yet, please select one...
+        </div>
+        <div *ngIf="credit && !isLoading" class="p-3 level-2 m-auto">
+          <div>
+            <div class="d-flex">
+              <span class="fw-bold text-dark ms-4 text-md" style="opacity: 0.6"
+                >Credit details</span
+              >
+              <span
+                role="button"
+                class="ms-auto fs-4 text-dark"
+                title="refresh"
+                (click)="refresh()"
+                tabindex="0"
+                ><i class="fa-solid fa-arrows-rotate" style="opacity: 0.6"></i
+              ></span>
+            </div>
+            <br />
+            <div class="row justify-content-center">
+              <div class="row ms-3" style="overflow-y: auto">
+                <div class="col-auto">
+                  <div>
+                    <img
+                      [src]="organization?.institution_client?.picture"
+                      class="img-fluid image"
+                      alt=""
+                      style="width: 15%" />
+                    <br />
+                    <div class="fw-bold text-dark">
+                      {{ credit.cred_branch_defaults.branch.name ?? '---' }}
+                    </div>
+                  </div>
+                  <hr class="mt-4" style="width: 85%" />
+
+                  <div>
+                    <span class="text-dark opacity-75" i18n
+                      >Payment account</span
+                    >
+                    <br />
+                    <span class="fw-bold text-dark">{{
+                      credit.cred_financement_account.acc_number
+                    }}</span>
+                  </div>
+
+                  <div>
+                    <span class="text-dark opacity-75" i18n>Loan account</span>
+                    <br />
+                    <span class="fw-bold text-dark">{{
+                      credit.cred_client_main_account.acc_number
+                    }}</span>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="row justify-content-between" style="width: 90%">
+                    <div class="col">
+                      <span class="text-dark opacity-75" i18n
+                        >First payment</span
+                      >
+                      <br />
+                      <b class="text-dark">{{
+                        (credit.cred_first_date | date) ?? '---'
+                      }}</b>
+                    </div>
+
+                    <div class="col">
+                      <span class="text-dark opacity-75" i18n
+                        >Last payment</span
+                      >
+                      <br />
+                      <b class="text-dark">{{
+                        (credit.cred_expiry_date | date) ?? '---'
+                      }}</b>
+                    </div>
+
+                    <div class="col">
+                      <span class="text-dark opacity-75" i18n
+                        >Remaining capital</span
+                      >
+                      <br />
+                      <b *ngIf="!showAmount" class="text-dark"
+                        >{{ (credit.cred_remaining_amount | number) ?? '---' }}
+                        {{ credit.cred_client_main_account.acc_currency }}</b
+                      >
+                      <b *ngIf="showAmount" class="text-dark"
+                        >*** ***
+                        {{ credit.cred_client_main_account.acc_currency }}</b
+                      >
+                    </div>
+                  </div>
+
+                  <div
+                    class="row mt-3 bg-info justify-content-between sm-radius"
+                    style="width: 90%">
+                    <div class="col">
+                      <span class="fw-bold text-primary-light opacity-75" i18n
+                        >First delay date</span
+                      >
+                      <br />
+                      <b>---</b>
+                    </div>
+
+                    <div class="col">
+                      <span class="fw-bold text-primary-light opacity-75" i18n
+                        >Delay days</span
+                      >
+                      <br />
+                      <b>{{ (credit.delay_days | number) ?? '---' }}</b>
+                    </div>
+
+                    <div class="col">
+                      <span
+                        class="fw-bold text-primary-light opacity-75"
+                        style="opacity: 0.75"
+                        i18n
+                        >Delay amount</span
+                      >
+                      <br />
+                      <b *ngIf="!showAmount"
+                        >{{ (credit.delay_amount | number) ?? '----' }}
+                        {{ credit.cred_client_main_account.acc_currency }}</b
+                      >
+                      <b *ngIf="showAmount"
+                        >*** ***
+                        {{ credit.cred_client_main_account.acc_currency }}</b
+                      >
+                    </div>
+                  </div>
+                  <hr class="mt-5" style="width: 85%" />
+
+                  <div class="row justify-content-between" style="width: 90%">
+                    <div class="col">
+                      <span class="text-dark opacity-75" i18n>Capital</span>
+                      <br />
+                      <b *ngIf="!showAmount" class="text-dark"
+                        >{{ (credit.cred_amount | number) ?? '---' }}
+                        {{ credit.cred_client_main_account.acc_currency }}</b
+                      >
+                      <b *ngIf="showAmount" class="text-dark"
+                        >*** ***
+                        {{ credit.cred_client_main_account.acc_currency }}</b
+                      >
+                    </div>
+
+                    <div class="col">
+                      <span class="text-dark opacity-75" i18n
+                        >Echeance amount</span
+                      >
+                      <br />
+                      <b *ngIf="!showAmount" class="text-dark"
+                        >{{ (credit.cred_echeance_amount | number) ?? '---' }}
+                        {{ credit.cred_client_main_account.acc_currency }}</b
+                      >
+                      <b *ngIf="showAmount" class="text-dark"
+                        >*** ***
+                        {{ credit.cred_client_main_account.acc_currency }}</b
+                      >
+                    </div>
+
+                    <div class="col">
+                      <span class="text-dark opacity-75" i18n>Rate</span>
+                      <br />
+                      <b class="text-dark"
+                        >{{
+                          (credit.cred_interest_rate | number) ?? '---'
+                        }}
+                        %</b
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div
+                  class="row justify-content-between mt-2"
+                  style="width: 61%">
+                  <div class="col ms-4">
+                    <span class="text-dark opacity-75" i18n>Paid capital</span>
+                    <br />
+                    <b *ngIf="!showAmount" class="text-dark"
+                      >{{ (credit.cred_paid_capital | number) ?? '---' }}
+                      {{ credit.cred_client_main_account.acc_currency }}</b
+                    >
+                    <b *ngIf="showAmount" class="text-dark"
+                      >*** ***
+                      {{ credit.cred_client_main_account.acc_currency }}</b
+                    >
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark opacity-75" i18n>Duration</span>
+                    <br />
+                    <b class="text-dark">{{
+                      (credit.cred_period | number) ?? '---'
+                    }}</b>
+                  </div>
+                </div>
+                <div class="row justify-content-between" style="width: 90%">
+                  <div class="col ms-4">
+                    <span class="text-dark opacity-75" i18n
+                      >Total interests</span
+                    >
+                    <br />
+                    <!-- <app-amount-visibility
+                                        [amount]="(credit.cred_total_interests) ?? '---' "
+                                        [currency]="balance_currency"
+                                        ></app-amount-visibility> -->
+                    <b *ngIf="!showAmount" class="text-dark"
+                      >{{ (credit.cred_total_interests | number) ?? '---' }}
+                      {{ credit.cred_client_main_account.acc_currency }}</b
+                    >
+                    <b *ngIf="showAmount" class="text-dark"
+                      >*** ***
+                      {{ credit.cred_client_main_account.acc_currency }}</b
+                    >
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark opacity-75" i18n
+                      >Exigible capital</span
+                    >
+                    <br />
+                    <b *ngIf="!showAmount" class="text-dark">---</b>
+                    <b *ngIf="showAmount" class="text-dark">---</b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark opacity-75" i18n>Fees</span>
+                    <br />
+                    <b *ngIf="!showAmount" class="text-dark"
+                      >{{ (credit.cred_fees_paid | number) ?? '---' }}
+                      {{ credit.cred_client_main_account.acc_currency }}</b
+                    >
+                    <b *ngIf="showAmount" class="text-dark"
+                      >*** ***
+                      {{ credit.cred_client_main_account.acc_currency }}</b
+                    >
+                  </div>
+                </div>
+
+                <div
+                  class="row justify-content-between mt-2"
+                  style="width: 61%">
+                  <div class="col ms-4">
+                    <span class="text-dark opacity-75" i18n>Manager</span>
+                    <br />
+                    <b class="text-dark"
+                      >{{ credit.cred_manager.name ?? '---' }}
+                    </b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark opacity-75" i18n>Status</span>
+                    <br />
+                    <b
+                      [class]="
+                        'text-' +
+                        credit.cred_status.css +
+                        'p-2 sm-radius label-card badge-design bg-' +
+                        credit.cred_status.css
+                      "
+                      >{{ credit.cred_status.label ?? '---' }}
+                    </b>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button
+                  class="btn p-2 ms-4 buttonPlan primary-light mt-1 text-center"
+                  data-bs-toggle="modal"
+                  data-bs-target="#amortissmentModal"
+                  i18n>
+                  Depreciation plan
+                </button>
+              </div>
+              <div
+                class="modal fade"
+                id="amortissmentModal"
+                data-bs-backdrop="static">
+                <div
+                  class="modal-dialog modal-dialog-centered statement-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header d-flex">
+                      <div
+                        type="button"
+                        class="btn btn-close ms-auto"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></div>
+                    </div>
+                    <app-list
+                      [headers]="headersPlan"
+                      [url]="
+                        '/loans/plan/' + this.selectedCredit?.id + '/?'
+                      "></app-list>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

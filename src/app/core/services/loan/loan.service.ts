@@ -137,4 +137,9 @@ export class LoanService {
       `/loans/manage/?cred_client_main_account__acc_client=${client_id}&cred_client_main_account=${accountId}`
     );
   }
+
+  getCreditDetails(creditId: string | number) {
+    const apiUrl = '/loans/manage/' + creditId + '/';
+    return this.apiService.get(apiUrl).pipe(map(data => data));
+  }
 }
