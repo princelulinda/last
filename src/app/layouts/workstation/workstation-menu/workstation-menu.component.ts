@@ -111,7 +111,7 @@ export class WorkstationMenuComponent implements OnInit {
       next: menus => {
         this.menus = this.configService.toArray(menus);
         this.activatedTypeGroupMenus = this.getActiveMenuGroups();
-        this.getMenuByActivateRoute();
+        // this.getMenuByActivateRoute();
       },
     });
   }
@@ -220,33 +220,33 @@ export class WorkstationMenuComponent implements OnInit {
       });
   }
 
-  private getMenuByActivateRoute(): MenuGroupAndMenusSimpleModel | null {
-    let pathname = window.location.pathname;
-    //NOTE:: just for removing language prefixes in case i18n is activated
-    if (['en', 'fr'].includes(pathname.split('/')[1])) {
-      pathname = pathname.slice(3);
-    }
-    const selectedGroups = this.getActiveMenuGroups();
-    const allComponentUrls: string[] = [];
-    selectedGroups
-      .map(group => group.menus.map(menu => menu.component_url))
-      .map(item => allComponentUrls.push(...item));
+  // private getMenuByActivateRoute(): MenuGroupAndMenusSimpleModel | null {
+  //   let pathname = window.location.pathname;
+  //   //NOTE:: just for removing language prefixes in case i18n is activated
+  //   if (['en', 'fr'].includes(pathname.split('/')[1])) {
+  //     pathname = pathname.slice(3);
+  //   }
+  //   const selectedGroups = this.getActiveMenuGroups();
+  //   const allComponentUrls: string[] = [];
+  //   selectedGroups
+  //     .map(group => group.menus.map(menu => menu.component_url))
+  //     .map(item => allComponentUrls.push(...item));
 
-    console.log('SELECTED GROUPS', selectedGroups, allComponentUrls);
+  //   console.log('SELECTED GROUPS', selectedGroups, allComponentUrls);
 
-    const subMenuSimularToPathname = this.generalService.findMostSimilar(
-      allComponentUrls,
-      pathname
-    );
+  //   const subMenuSimularToPathname = this.generalService.findMostSimilar(
+  //     allComponentUrls,
+  //     pathname
+  //   );
 
-    console.log('Simular To  pathname', subMenuSimularToPathname);
+  //   console.log('Simular To  pathname', subMenuSimularToPathname);
 
-    // const subMenuId = selectedGroups.find(group =>
-    //   group?.menus?.find(menu => menu.component_url === subMenuSimularToPathname)
-    // )[0]
+  //   // const subMenuId = selectedGroups.find(group =>
+  //   //   group?.menus?.find(menu => menu.component_url === subMenuSimularToPathname)
+  //   // )[0]
 
-    return null;
-  }
+  //   return null;
+  // }
 
   private getMenuGroupByType(
     type: TypeMenuNamesModel
