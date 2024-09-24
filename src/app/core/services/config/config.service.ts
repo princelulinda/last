@@ -29,10 +29,7 @@ import {
   ThemeModel,
 } from './main-config.models';
 import { Organizations } from '../../db/models/organisations/organizations';
-import {
-  MenuGroupsModel,
-  TypeMenuModel,
-} from '../../db/models/menu/menu.models';
+import { TypeMenuModel } from '../../db/models/menu/menu.models';
 import { AccessModel } from '../../../components/admin/access/access.models';
 import { Access } from '../../db/models/access';
 
@@ -60,7 +57,6 @@ export class ConfigService {
   private allOrganizations$: unknown | Observable<OrganizationModel[]>;
 
   private typeMenus$: unknown | Observable<TypeMenuModel[]>;
-  private menuGroups$: unknown | Observable<MenuGroupsModel[]>;
   private typeMenusExist$ = new Subject<boolean>();
   private selectedTypeMenu$: unknown | Observable<TypeMenuModel>;
 

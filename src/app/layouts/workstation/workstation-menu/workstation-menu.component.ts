@@ -5,23 +5,23 @@ import {
   Router,
   RouterModule,
 } from '@angular/router';
+import { NgClass } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+import { debounceTime, filter, Observable, Subject, takeUntil } from 'rxjs';
+
 import {
   ConfigService,
   DialogService,
-  MenuService,
   MerchantService,
 } from '../../../core/services';
 import {
-  MenuGroupsByTypeMenuModel,
-  MenuGroupsModel,
-  MenuModel,
+  MenuGroupAndMenusSimpleModel,
+  TypeMenuModel,
 } from '../../../core/db/models/menu/menu.models';
-import { debounceTime, filter, Observable, Subject, takeUntil } from 'rxjs';
 import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
-import { NgClass } from '@angular/common';
 import { ConnectedOperatorModel } from '../../../components/auth/auth.model';
 import { MerchantCardComponent } from '../../../components/merchant/global/merchant-card/merchant-card.component';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MerchantAutocompleteModel } from '../../../components/merchant/merchant.models';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 
@@ -41,18 +41,20 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
   styleUrl: './workstation-menu.component.scss',
 })
 export class WorkstationMenuComponent implements OnInit {
+  private onDestroy$: Subject<void> = new Subject<void>();
   activatedTypeMenu: 'b' | 'm' | 'i' | 'd' | 'r' | 'a' | '' = '';
 
-  activeMenuGroups: MenuGroupsModel | null = null;
-  selectedGroup: MenuGroupsByTypeMenuModel | null = null;
+  activatedTypeGroupMenus: MenuGroupAndMenusSimpleModel[] | [] = [];
+  selectedGroup: MenuGroupAndMenusSimpleModel | null = null;
 
-  menu: MenuModel[] | null = null;
+  menus$: Observable<TypeMenuModel[]>;
+  menus: TypeMenuModel[] = [];
+
   loadingMenu = false;
   searchForm = new FormControl('');
   isLoading = false;
   isSearchInputFocused = false;
   merchants!: MerchantAutocompleteModel[] | null;
-  private onDestroy$: Subject<void> = new Subject<void>();
 
   operator: ConnectedOperatorModel | null = null;
   operator$: Observable<ConnectedOperatorModel>;
@@ -61,11 +63,11 @@ export class WorkstationMenuComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private configService: ConfigService,
-    private menuService: MenuService,
     private merchantService: MerchantService,
     private dialogService: DialogService
   ) {
     this.operator$ = this.configService.getConnectedOperator();
+    this.menus$ = this.configService.getTypeMenus();
   }
 
   ngOnInit(): void {
@@ -87,17 +89,25 @@ export class WorkstationMenuComponent implements OnInit {
       this.route.params.subscribe({
         next: params => {
           this.activatedTypeMenu = params['TypeMenu'];
-          // if (this.menuGroups) {
-          //   this.getActiveMenuGroups();
-          // }
+          if (this.menus) {
+            this.getActiveMenuGroups();
+          }
         },
       });
     }
+
     this.searchForm.valueChanges
       .pipe(debounceTime(300), takeUntil(this.onDestroy$))
       .subscribe(value => {
         this.getMerchants(value ?? '');
       });
+
+    this.menus$.subscribe({
+      next: menus => {
+        this.menus = this.configService.toArray(menus);
+        this.getActiveMenuGroups();
+      },
+    });
   }
 
   resetData() {
@@ -122,51 +132,39 @@ export class WorkstationMenuComponent implements OnInit {
     }
   }
 
-  getMenuByGroup(group_id: string) {
-    this.loadingMenu = true;
-    this.menu = null;
-    this.menuService.getMenuByGroup(group_id).subscribe({
-      next: menu => {
-        this.menu = menu.objects;
-        this.loadingMenu = false;
-      },
-    });
-  }
-
-  selectGroup(group: MenuGroupsByTypeMenuModel) {
+  selectGroup(group: MenuGroupAndMenusSimpleModel | null) {
     this.selectedGroup = group;
-    this.getMenuByGroup(this.selectedGroup.id.toString());
   }
 
-  // private getActiveMenuGroups() {
-  //   switch (this.activatedTypeMenu) {
-  //     case 'a':
-  //       this.activeMenuGroups = this.menuGroups.find(
-  //         group => group.name === 'Admin'
-  //       ) as MenuGroupsModel;
-  //       break;
+  private getActiveMenuGroups() {
+    switch (this.activatedTypeMenu) {
+      case 'a':
+        this.activatedTypeGroupMenus = this.menus.find(
+          typeMenu => typeMenu.name === 'Admin'
+        )?.menu_groups as MenuGroupAndMenusSimpleModel[];
+        break;
 
-  //     case 'd':
-  //       this.activeMenuGroups = this.menuGroups.find(
-  //         group => group.name === 'Admin'
-  //       ) as MenuGroupsModel;
-  //       break;
-  //     case 'i':
-  //       this.activeMenuGroups = this.menuGroups.find(
-  //         group => group.name === 'Intranet'
-  //       ) as MenuGroupsModel;
-  //       break;
-  //     case 'r':
-  //       this.activeMenuGroups = this.menuGroups.find(
-  //         group => group.name === 'Reporting'
-  //       ) as MenuGroupsModel;
-  //       break;
+      case 'd':
+        this.activatedTypeGroupMenus = this.menus.find(
+          typeMenu => typeMenu.name === 'Desk'
+        )?.menu_groups as MenuGroupAndMenusSimpleModel[];
+        break;
+      case 'i':
+        this.activatedTypeGroupMenus = this.menus.find(
+          typeMenu => typeMenu.name === 'Intranet'
+        )?.menu_groups as MenuGroupAndMenusSimpleModel[];
+        break;
+      case 'r':
+        this.activatedTypeGroupMenus = this.menus.find(
+          typeMenu => typeMenu.name === 'Reporting'
+        )?.menu_groups as MenuGroupAndMenusSimpleModel[];
+        break;
 
-  //     default:
-  //       this.activeMenuGroups = null;
-  //       break;
-  //   }
-  // }
+      default:
+        this.activatedTypeGroupMenus = [];
+        break;
+    }
+  }
 
   getMerchants(search: string) {
     this.isLoading = true;
@@ -181,7 +179,7 @@ export class WorkstationMenuComponent implements OnInit {
           this.isLoading = false;
           this.merchants = response.objects;
         },
-        error: err => {
+        error: () => {
           this.isLoading = false;
 
           this.dialogService.openToast({
@@ -189,8 +187,6 @@ export class WorkstationMenuComponent implements OnInit {
             type: 'failed',
             message: 'Something went wrong, please try again',
           });
-
-          return err;
         },
       });
   }

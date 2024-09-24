@@ -178,13 +178,13 @@
       </main>
     </section>
   } @else {
-    <!-- <section
+    <section
       class="bg-white w-aside p-1 pt-4 d-flex flex-column overflow-x-hidden position-relative"
       [ngClass]="{
         'd-none': activatedTypeMenu === 'd' && !operator?.organization?.is_erp,
       }">
-      @if (activeMenuGroups && activeMenuGroups .length !== 0) {
-        @for (group of activeMenuGroups.menu_group; track $index) {
+      @if (activatedTypeGroupMenus && activatedTypeGroupMenus.length !== 0) {
+        @for (group of activatedTypeGroupMenus; track $index) {
           <section
             (click)="selectGroup(group)"
             tabindex="0"
@@ -201,45 +201,33 @@
             <small class="pt-1">
               <i class="fa-solid fa-chevron-right"></i>
             </small>
-          </section> -->
+          </section>
 
-    <!-- NOTE :: ON SELECTED GROUP -->
-    <!-- <section
+          <!-- NOTE :: ON SELECTED GROUP -->
+          <section
             class="bg-white h-100 w-100 position-absolute d-flex flex-column gap-1 px-1 align-items-center"
             [ngClass]="selectedGroup === group ? 'showMenu' : 'hideMenu'">
             <div
               class="p-2 d-flex align-items-center fw-bold align-items-center clickable w-100"
-              (click)="selectedGroup = null"
+              (click)="selectGroup(null)"
               tabindex="0">
               <small class="me-2"><i class="fa-solid fa-arrow-left"></i></small>
-              <span> {{ group.name }}</span>
+              <span> {{ selectedGroup?.name }}</span>
             </div>
 
-            @if (menu && !loadingMenu) {
-              @for (item of menu; track $index) {
+            @if (selectedGroup && selectedGroup.menus.length !== 0) {
+              @for (item of selectedGroup.menus; track $index) {
                 <a
                   tabindex="1"
                   [routerLink]="item.component_url"
                   [ngClass]="{
-                    'mb-2': $index === menu.length - 1,
+                    'mb-2': $index === selectedGroup.menus.length - 1,
                   }"
-                  class="py-1 ms-1 w-100 px-3 mb-1 xx-lg-radius bg-hover-input text-secondary d-block w-100"
+                  class="py-1 ms-1 w-100 px-2 mb-1 xx-lg-radius bg-hover-input text-secondary d-block w-100 text-truncate"
                   role="button">
                   {{ item.name }}
                 </a>
               }
-            } @else {
-              <div class="my-2 w-100">
-                <div class="spinner-grow spinner-grow-sm ms-2" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow spinner-grow-sm ms-2" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-grow spinner-grow-sm ms-2" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-              </div>
             }
           </section>
         }
@@ -250,7 +238,7 @@
             messageClass="fs-x-small"></app-empty-state>
         </div>
       }
-    </section> -->
+    </section>
     <main class="flex-grow-1 overflow-y-auto ms-1">
       <router-outlet></router-outlet>
     </main>

@@ -10,15 +10,7 @@ export interface TypeMenuModel {
   menu_active_icon: string;
   menu_disabled_icon: string;
   active: boolean;
-  menuGroups: {
-    id: number;
-    name: string;
-    menus: {
-      id: number;
-      name: string;
-      component_url: string;
-    }[];
-  }[];
+  menu_groups: MenuGroupAndMenusSimpleModel[];
 }
 export type TypeMenuNamesModel =
   | 'Dashboard'
@@ -66,4 +58,14 @@ export interface MenuModel {
     menu_group_type: { title: TypeMenuNamesModel; value: string };
     active: boolean;
   };
+}
+
+export interface MenuGroupAndMenusSimpleModel {
+  id: number;
+  name: string;
+  menus: {
+    id: number;
+    name: string;
+    component_url: string;
+  }[];
 }
