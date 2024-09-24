@@ -1,25 +1,23 @@
-@if (selectedMenu === 'details') {
-  <ng-container *ngTemplateOutlet="details"> </ng-container>
+@if (loadingData) {
+  <div class="col d-flex justify-content-center align-items-center h-100">
+    <span>
+      <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
+    </span>
+  </div>
 }
-
-@if (selectedMenu === 'roles') {
-  <ng-container *ngTemplateOutlet="roles"> </ng-container>
-}
-
-@if (selectedMenu === 'newRole') {
-  <ng-container *ngTemplateOutlet="newRole"> </ng-container>
-}
-
-<ng-template #details>
-  @if (loadingData) {
-    <div class="col d-flex justify-content-center align-items-center h-100">
-      <span>
-        <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
-      </span>
-    </div>
+@if (!loadingData) {
+  @if (selectedMenu === 'details') {
+    <ng-container *ngTemplateOutlet="details"> </ng-container>
   }
 
-  @if (!loadingData) {
+  @if (selectedMenu === 'roles') {
+    <ng-container *ngTemplateOutlet="roles"> </ng-container>
+  }
+
+  @if (selectedMenu === 'newRole') {
+    <ng-container *ngTemplateOutlet="newRole"> </ng-container>
+  }
+  <ng-template #details>
     <section clas="mt-2">
       <div
         class="details rounded row justify-content-center align-items-center col-md-8 m-auto rounded pb-3 pt-2 border mt-3"
@@ -45,155 +43,164 @@
         </div>
       </div>
     </section>
-  }
-</ng-template>
+  </ng-template>
 
-<!------------------------------ Role List  ---------------------------->
+  <!------------------------------ Role List  ---------------------------->
 
-<ng-template #roles>
-  @if (!loadingData) {
-    <section class="mt-3">
-      <div class="col-md-10 m-auto p-2 rounded">
-        <h5 class="text-center text-dark fw-bold" i18n>Roles</h5>
-        <!-- not found message -->
-        @if (directionDetails?.object?.roles?.length === 0) {
-          <div
-            class="d-flex flex-column align-items-center mt-5"
-            style="color: #999999">
-            <span class="" style="font-size: 70px; opacity: 0.5">
-              <i class="fa-solid fa-face-meh"></i>
-            </span>
-            <b i18n class="fs-4" style="opacity: 0.5"> No Roles </b>
-          </div>
-        }
+  <ng-template #roles>
+    @if (!loadingData) {
+      <section class="mt-3">
+        <div class="col-md-10 m-auto p-2 rounded">
+          <h5 class="text-center text-dark fw-bold" i18n>Roles</h5>
+          <!-- not found message -->
+          @if (directionDetails?.object?.roles?.length === 0) {
+            <div
+              class="d-flex flex-column align-items-center mt-5"
+              style="color: #999999">
+              <span class="" style="font-size: 70px; opacity: 0.5">
+                <i class="fa-solid fa-face-meh"></i>
+              </span>
+              <b i18n class="fs-4" style="opacity: 0.5"> No Roles </b>
+            </div>
+          }
 
-        @if (directionDetails?.object?.roles?.length !== 0) {
-          <table class="table text-dark">
-            <thead>
-              <tr>
-                <th scope="col" i18n>Role Name</th>
-                <th scope="col" i18n>Role Type</th>
-                <th scope="col" i18n>Active</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (role of directionDetails?.object?.roles; track $index) {
+          @if (directionDetails?.object?.roles?.length !== 0) {
+            <table class="table text-dark">
+              <thead>
                 <tr>
-                  <td>
-                    <small
-                      routerLink="/w/workstation/desk/admin/role/{{ role.id }}"
-                      class="clickable d-block is-hoverable">
-                      <strong>{{ role.role_name }}</strong>
-                    </small>
-                  </td>
-                  <td>
-                    <small>
-                      <strong class="badge bg-{{ role.role_type.css }}">
-                        <span clas="me-2"
-                          ><i class="fa-solid fa-{{ role.role_type.icon }}"></i
-                        ></span>
-                        {{ role.role_type.title }}
-                      </strong>
-                    </small>
-                  </td>
-                  <td>
-                    @if (role.is_active) {
-                      <span>
-                        <i class="fa-solid fa-circle-check text-success"></i>
-                      </span>
-                    }
-
-                    @if (!role.is_active) {
-                      <span>
-                        <i class="fa-solid fa-circle-xmark text-danger"></i>
-                      </span>
-                    }
-                  </td>
+                  <th scope="col" i18n>Role Name</th>
+                  <th scope="col" i18n>Role Type</th>
+                  <th scope="col" i18n>Active</th>
                 </tr>
-              }
-            </tbody>
-          </table>
-        }
+              </thead>
+              <tbody>
+                @for (role of directionDetails?.object?.roles; track $index) {
+                  <tr>
+                    <td>
+                      <small
+                        routerLink="/w/workstation/desk/admin/role/{{
+                          role.id
+                        }}"
+                        class="clickable d-block is-hoverable">
+                        <strong>{{ role.role_name }}</strong>
+                      </small>
+                    </td>
+                    <td>
+                      <small>
+                        <strong class="badge bg-{{ role.role_type.css }}">
+                          <span clas="me-2"
+                            ><i
+                              class="fa-solid fa-{{ role.role_type.icon }}"></i
+                          ></span>
+                          {{ role.role_type.title }}
+                        </strong>
+                      </small>
+                    </td>
+                    <td>
+                      @if (role.is_active) {
+                        <span>
+                          <i class="fa-solid fa-circle-check text-success"></i>
+                        </span>
+                      }
+
+                      @if (!role.is_active) {
+                        <span>
+                          <i class="fa-solid fa-circle-xmark text-danger"></i>
+                        </span>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+        </div>
+      </section>
+    }
+  </ng-template>
+
+  <!------------------------------ New Role  ---------------------------->
+  <ng-template #newRole>
+    <div class="col-md-5 mx-auto mt-3">
+      <div class="text-center text-dark">
+        <b i18n>Add New Role</b>
       </div>
-    </section>
-  }
-</ng-template>
 
-<!------------------------------ New Role  ---------------------------->
-<ng-template #newRole>
-  <div class="col-md-5 mx-auto mt-3">
-    <div class="text-center text-dark">
-      <b i18n>Add New Role</b>
-    </div>
+      <div class="mt-4 row">
+        <div class="form-floating col-md-6">
+          <input
+            id="name"
+            type="text"
+            class="form-control"
+            placeholder="Gestion"
+            [formControl]="roleName" />
+          <label for="name" class="form-label ms-3" i18n>Role Name</label>
+        </div>
 
-    <div class="mt-4 row">
-      <div class="form-floating col-md-6">
-        <input
-          id="name"
-          type="text"
-          class="form-control"
-          placeholder="Gestion"
-          [formControl]="roleName" />
-        <label for="name" class="form-label ms-3" i18n>Role Name</label>
+        <div class="col-md-6">
+          <select
+            class="form-select text-dark"
+            aria-label="Role Group "
+            style="height: 100%"
+            [formControl]="roleGroup">
+            <option [selected]="!roleGroup.value" value="">
+              Select Role Group
+            </option>
+            <option value="T" [selected]="roleGroup.value === 'T'">
+              TELLER
+            </option>
+            <option value="R" [selected]="roleGroup.value === 'R'">
+              TREASURER
+            </option>
+            <option value="A" [selected]="roleGroup.value === 'A'">
+              ADMIN
+            </option>
+            <option value="S" [selected]="roleGroup.value === 'S'">
+              SUPERADMIN
+            </option>
+            <option value="O" [selected]="roleGroup.value === 'O'">
+              OTHER
+            </option>
+          </select>
+        </div>
       </div>
 
-      <div class="col-md-6">
-        <select
-          class="form-select text-dark"
-          aria-label="Role Group "
-          style="height: 100%"
-          [formControl]="roleGroup">
-          <option [selected]="!roleGroup.value" value="">
-            Select Role Group
-          </option>
-          <option value="T" [selected]="roleGroup.value === 'T'">TELLER</option>
-          <option value="R" [selected]="roleGroup.value === 'R'">
-            TREASURER
-          </option>
-          <option value="A" [selected]="roleGroup.value === 'A'">ADMIN</option>
-          <option value="S" [selected]="roleGroup.value === 'S'">
-            SUPERADMIN
-          </option>
-          <option value="O" [selected]="roleGroup.value === 'O'">OTHER</option>
-        </select>
+      <div class="mt-4">
+        <div class="mb-2 ms-3 text-dark" i18n>Choose the menus</div>
+        <app-multi-select
+          (selectedItemEvent)="getSelectedMenus($event)"
+          url="/menu/admin/objects_autocomplete/?search="
+          name="Roles"></app-multi-select>
+      </div>
+      <div class="text-center mt-3">
+        <span
+          class="me-3 clickable"
+          role="button"
+          tabindex="0"
+          (click)="selectMenu('details')"
+          i18n
+          >Cancel</span
+        >
+        <button
+          class="btn bg-primary text-light"
+          (click)="createNewRole()"
+          [disabled]="
+            selectedMenus.length === 0 ||
+            !roleName.valid ||
+            !roleGroup.valid ||
+            isLoading
+          ">
+          @if (isLoading) {
+            <span class="px-2">
+              <i class="fa-solid fa-spin fa-circle-notch fs-5"></i>
+            </span>
+          }
+
+          @if (!isLoading) {
+            <span class="px-2"> Save </span>
+          }
+        </button>
       </div>
     </div>
-
-    <div class="mt-4">
-      <div class="mb-2 ms-3 text-dark" i18n>Choose the menus</div>
-      <app-multi-select
-        (selectedItemEvent)="getSelectedMenus($event)"
-        url="/menu/admin/objects_autocomplete/?search="
-        name="Roles"></app-multi-select>
-    </div>
-    <div class="text-center mt-3">
-      <span
-        class="me-3 clickable"
-        role="button"
-        tabindex="0"
-        (click)="selectMenu('details')"
-        i18n
-        >Cancel</span
-      >
-      <button
-        class="btn bg-primary text-light"
-        (click)="createNewRole()"
-        [disabled]="
-          selectedMenus.length === 0 ||
-          !roleName.valid ||
-          !roleGroup.valid ||
-          isLoading
-        ">
-        @if (isLoading) {
-          <span class="px-2">
-            <i class="fa-solid fa-spin fa-circle-notch fs-5"></i>
-          </span>
-        }
-
-        @if (!isLoading) {
-          <span class="px-2"> Save </span>
-        }
-      </button>
-    </div>
-  </div>
-</ng-template>
+  </ng-template>
+}
