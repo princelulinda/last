@@ -18,14 +18,12 @@ export interface AdminDirectionsDetailsModel {
   };
 }
 export interface AdminServicesDetailsModel {
-  department: string;
-  id: string;
-
-  object: {
-    service_alpha_code: string;
-    name: string;
-    direction_type: string;
-  };
+  department: number;
+  id: number;
+  disallow_connexion: boolean;
+  service_alpha_code: string;
+  name: string;
+  roles: RoleModel[];
 }
 
 export interface AdminCreateNewDepartmentModel {

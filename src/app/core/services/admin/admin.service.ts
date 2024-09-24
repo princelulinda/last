@@ -55,7 +55,7 @@ export class AdminService {
   }
   getServiceDetails(
     servId: number | string
-  ): Observable<AdminServicesDetailsModel> {
+  ): Observable<{ object: AdminServicesDetailsModel }> {
     const url = `/hr/access/services/${servId}/`;
     return this.apiService.get(url);
   }
@@ -254,7 +254,12 @@ export class AdminService {
     return this.apiService.post(url, body).pipe(map(data => data));
   }
 
-  editService(body: { name: string; direction: number }) {
+  editService(body: {
+    name: string;
+    direction?: number;
+    department?: number;
+    disallow_connexion?: boolean;
+  }) {
     const url = `/hr/access/services/`;
     return this.apiService.patch(url, body).pipe(map(data => data));
   }
