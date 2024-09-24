@@ -30,7 +30,7 @@
           <div class="d-flex flex-column g-0">
             <span class="p-0 m-0 fs-small">Name</span>
             <!-- <span class="p-0 m-0 fw-bold mt-0">Bibentyo Bundi</span> -->
-            @if (clientInfo) {
+            @if (clientInfo && clientInfo.client) {
               <span class="fw-bold">{{
                 clientInfo.client.client_full_name
               }}</span>
@@ -91,7 +91,7 @@
               class="btn px-1 p-0 btnBack"
               [routerLink]="
                 activePlatform === 'workstation'
-                  ? '/w/workstation/b/bankingwallets'
+                  ? '/w/workstation/b/banking/wallets'
                   : activePlatform === 'onlineBanking'
                     ? '/b/banking/wallets'
                     : ''

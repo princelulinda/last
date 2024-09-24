@@ -15,9 +15,9 @@ describe('AgentCreationComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         {
-          provide : ActivatedRoute,
-          useValue : {}
-        }
+          provide: ActivatedRoute,
+          useValue: {},
+        },
       ],
     }).compileComponents();
 

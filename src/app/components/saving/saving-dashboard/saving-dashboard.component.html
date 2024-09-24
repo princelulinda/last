@@ -7,7 +7,7 @@
       class="d-flex align-items-center"
       [routerLink]="
         activePlatform === 'workstation'
-          ? '/w/workstation/b/banking'
+          ? '/w/workstation/b/banking/'
           : activePlatform === 'onlineBanking'
             ? '/b/banking/'
             : ''
@@ -78,7 +78,7 @@
             class="d-grid col-lg-3 col-md-6 align-items-center clickable"
             [routerLink]="
               activePlatform === 'workstation'
-                ? '/w/workstation/b/bankingsaving/saving-club'
+                ? '/w/workstation/b/banking/saving/saving-club'
                 : activePlatform === 'onlineBanking'
                   ? '/b/banking/saving/saving-club'
                   : ''
