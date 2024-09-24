@@ -100,7 +100,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
           icon: 'users',
           link: [
             '/b/banking/saving/saving-club',
-            '/w/workstation/b/bankingsaving/saving-club',
+            '/w/workstation/b/banking/saving/saving-club',
           ],
         },
       ],
@@ -169,7 +169,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     });
     this.userInfo$.subscribe({
       next: userinfo => {
-        if (userinfo && userinfo.client.id) {
+        if (userinfo && userinfo.client) {
           this.clientInfo = userinfo;
           this.clientId = this.clientInfo.client.id;
         }

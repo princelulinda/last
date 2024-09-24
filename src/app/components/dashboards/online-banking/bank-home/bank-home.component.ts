@@ -33,31 +33,31 @@ export class BankHomeComponent implements OnInit, OnDestroy {
       name: 'Accounts',
       icon: 'user-circle',
       image: '',
-      link: ['/b/banking/accounts', '/w/workstation/b/bankingaccounts'],
+      link: ['/b/banking/accounts', '/w/workstation/b/banking/accounts'],
     },
     {
       name: 'Savings',
       icon: 'piggy-bank',
       image: '',
-      link: ['/b/banking/saving', '/w/workstation/b/bankingsaving'],
+      link: ['/b/banking/saving', '/w/workstation/b/banking/saving'],
     },
     {
       name: 'Loans',
       icon: '',
       image: ['loan-black.svg', 'loan-white.svg'],
-      link: ['/b/banking/loan', '/w/workstation/b/bankingloan'],
+      link: ['/b/banking/loan', '/w/workstation/b/banking/loan'],
     },
     {
       name: 'Withdrawals',
       icon: '',
       image: ['withdrawal-black.svg', 'withdrawal-white.svg'],
-      link: ['/b/banking/withdrawal', '/w/workstation/b/bankingwithdrawal'],
+      link: ['/b/banking/withdrawal', '/w/workstation/b/banking/withdrawal'],
     },
     {
       name: 'Transfer',
       icon: 'paper-plane',
       image: '',
-      link: ['/b/banking/transfer', '/w/workstation/b/bankingtransfer'],
+      link: ['/b/banking/transfer', '/w/workstation/b/banking/transfer'],
     },
   ];
 

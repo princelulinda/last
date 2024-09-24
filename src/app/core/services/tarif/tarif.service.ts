@@ -66,7 +66,7 @@ export class TarifService {
     return this.apiService.get<{ objects: SimulateResponseModel[] }>(url);
   }
 
-  getSimulate(type_code: string, amount: string, bank: string) {
+  getSimulate(type_code: string, amount: string, bank: number) {
     this.inputChanged$.next(amount);
     return this.inputChanged$.pipe(
       switchMap(newAmount => {

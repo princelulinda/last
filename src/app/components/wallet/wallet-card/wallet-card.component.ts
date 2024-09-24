@@ -87,20 +87,24 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.mode$.subscribe({
-      next: datas => {
-        this.mode = datas;
+      next: mode => {
+        if (mode) {
+          this.mode = mode;
+        }
       },
     });
 
     this.mainConfig$.subscribe({
       next: configs => {
-        this.activePlatform = configs.activePlateform;
+        if (configs) {
+          this.activePlatform = configs.activePlateform;
+        }
       },
     });
 
     this.userInfo$.subscribe({
       next: userinfo => {
-        if (userinfo) {
+        if (userinfo && userinfo.client) {
           this.clientInfo = userinfo;
           this.clientId = this.clientInfo.client.id;
           if (this.clientId) {
