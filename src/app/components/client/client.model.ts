@@ -31,7 +31,18 @@ export interface ClientCorporateModel {
   corp_head_quarters: string;
   fisc: FiscModel[];
   logo: string;
+  corp_group_name: string;
+  corp_social_capital_amount: string;
+  corp_turnover_amount: string;
+  is_suspect: boolean;
   addresses: AdresseClientModel[];
+  corp_risk_degree: {
+    titlel: string;
+    title: string;
+  };
+  in_suspected_country: boolean;
+  live_in_non_cooperative_country: boolean;
+  not_on_black_list: boolean;
 }
 
 export interface FiscModel {
@@ -77,8 +88,36 @@ export interface IndividualClientModel {
     slug: string;
   };
   addresses: AdresseClientModel[];
+  father_name: string;
+  mother_name: string;
+  marital_status: string;
+  matrimonial_status: string;
+  spouse_name: string;
+  spouse_telephone: string;
   telephones: string;
-  success: boolean;
+  card_id: {
+    id: number;
+    created_at: Date;
+    updated_at: Date;
+    card_id_type: string;
+    other_card_type: string;
+    reference_number: string;
+    place_of_issue: string;
+    date_of_issue: Date;
+    expiry_date: Date;
+    card_id_picture_recto: string;
+    card_id_picture_verso: string;
+    profile: number;
+  };
+  nationality: {
+    id: number;
+    name: string;
+    slug: string;
+  };
+  signature: string;
+  signature2: string;
+  username: string;
+  referee_person: string;
 }
 
 export interface AdresseClientModel {
@@ -91,8 +130,15 @@ export interface AdresseClientModel {
   city: number;
 }
 
-export interface ResponseModel {
+export interface ResponseDataForClientModel {
   response_data: IndividualClientModel;
+  success: boolean;
+  response_message: string;
+  response_code: string;
+}
+
+export interface ResponseDataForCorporateModel {
+  response_data: ClientCorporateModel;
   success: boolean;
   response_message: string;
   response_code: string;

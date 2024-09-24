@@ -20,7 +20,7 @@ import {
   ClientCorporateModel,
   ClientWorkstationModel,
   IndividualClientModel,
-  ResponseModel,
+  ResponseDataForClientModel,
 } from '../client.model';
 import { FileResponseModel } from '../../../global/components/file/file.model';
 
@@ -92,7 +92,7 @@ export class ClientProfileInfoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          const res = response as { object: ResponseModel };
+          const res = response as { object: ResponseDataForClientModel };
           if (response || res.object.success === true) {
             this.isLoading = false;
             this.dialogService.openToast({
