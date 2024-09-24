@@ -44,9 +44,18 @@
                     [ngClass]="{
                       'bg-primary  text-all-white rounded px-1 py-2 me-1':
                         selectedCreditAccountType === 'wallet',
+                      'not-clickable':
+                        mainConfig &&
+                        mainConfig.activePlateform === 'workstation',
                     }"
                     class="text-center rounded px-1 transition py-2 ms-1 width">
-                    <b i18n>Wallet</b>
+                    @if (
+                      mainConfig && mainConfig.activePlateform !== 'workstation'
+                    ) {
+                      <b i18n>Wallet</b>
+                    } @else {
+                      <b i18n>Petty Cash</b>
+                    }
                   </div>
                 </div>
               </div>
@@ -591,14 +600,10 @@
               class="mt-4 text-center">
               <button
                 type="button"
-                class="btn px-5"
+                class="btn px-5 bg-primary"
                 (click)="toggleTransferStep('second step')"
                 tabindex="0"
                 [ngClass]="{
-                  'primary-light':
-                    mainConfig && mainConfig.activePlateform === 'workstation',
-                  'bg-primary':
-                    mainConfig && mainConfig.activePlateform !== 'workstation',
                   'text-dark': mode === 'dark',
                   'text-white': mode === 'light',
                 }"
