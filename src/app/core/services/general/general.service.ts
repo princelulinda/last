@@ -139,7 +139,7 @@ export class GeneralService {
 
     // Initialize DP table
     for (let i = 0; i <= n; i++) {
-      dp[0] = [];
+      dp[i] = [];
       for (let j = 0; j <= m; j++) {
         dp[i][j] = i === 0 ? j : j === 0 ? i : Infinity;
       }
@@ -162,6 +162,7 @@ export class GeneralService {
 
   // NOTE :: for finding a string with most similarity
   findMostSimilar(list: string[], searchElement: string) {
+    console.log('MENU TO CHECK', list);
     return list.reduce((bestMatch: string, element: string) => {
       const currentDistance = this.levenshteinDistance(element, searchElement);
       const bestDistance = this.levenshteinDistance(bestMatch, searchElement);
