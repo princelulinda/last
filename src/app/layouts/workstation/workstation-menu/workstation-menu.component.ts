@@ -13,12 +13,14 @@ import { debounceTime, filter, Observable, Subject, takeUntil } from 'rxjs';
 import {
   ConfigService,
   DialogService,
+  GeneralService,
   MenuService,
   MerchantService,
 } from '../../../core/services';
 import {
   MenuGroupAndMenusSimpleModel,
   TypeMenuModel,
+  TypeMenuNamesModel,
 } from '../../../core/db/models/menu/menu.models';
 import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
 import { ConnectedOperatorModel } from '../../../components/auth/auth.model';
@@ -66,7 +68,8 @@ export class WorkstationMenuComponent implements OnInit {
     private configService: ConfigService,
     private merchantService: MerchantService,
     private menuService: MenuService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private generalService: GeneralService
   ) {
     this.operator$ = this.configService.getConnectedOperator();
     this.menus$ = this.configService.getTypeMenus();
@@ -92,7 +95,7 @@ export class WorkstationMenuComponent implements OnInit {
         next: params => {
           this.activatedTypeMenu = params['TypeMenu'];
           if (this.menus) {
-            this.getActiveMenuGroups();
+            this.activatedTypeGroupMenus = this.getActiveMenuGroups();
           }
         },
       });
@@ -107,7 +110,7 @@ export class WorkstationMenuComponent implements OnInit {
     this.menus$.subscribe({
       next: menus => {
         this.menus = this.configService.toArray(menus);
-        this.getActiveMenuGroups();
+        this.activatedTypeGroupMenus = this.getActiveMenuGroups();
       },
     });
   }
@@ -138,32 +141,22 @@ export class WorkstationMenuComponent implements OnInit {
     this.selectedGroup = group;
   }
 
-  private getActiveMenuGroups() {
+  private getActiveMenuGroups(): MenuGroupAndMenusSimpleModel[] | [] {
     switch (this.activatedTypeMenu) {
       case 'a':
-        this.activatedTypeGroupMenus = this.menus.find(
-          typeMenu => typeMenu.name === 'Admin'
-        )?.menu_groups as MenuGroupAndMenusSimpleModel[];
+        return this.getMenuGroupByType('Admin');
         break;
-
       case 'd':
-        this.activatedTypeGroupMenus = this.menus.find(
-          typeMenu => typeMenu.name === 'Desk'
-        )?.menu_groups as MenuGroupAndMenusSimpleModel[];
+        return this.getMenuGroupByType('Desk');
         break;
       case 'i':
-        this.activatedTypeGroupMenus = this.menus.find(
-          typeMenu => typeMenu.name === 'Intranet'
-        )?.menu_groups as MenuGroupAndMenusSimpleModel[];
+        return this.getMenuGroupByType('Intranet');
         break;
       case 'r':
-        this.activatedTypeGroupMenus = this.menus.find(
-          typeMenu => typeMenu.name === 'Reporting'
-        )?.menu_groups as MenuGroupAndMenusSimpleModel[];
+        return this.getMenuGroupByType('Reporting');
         break;
-
       default:
-        this.activatedTypeGroupMenus = [];
+        return [];
         break;
     }
   }
@@ -224,5 +217,31 @@ export class WorkstationMenuComponent implements OnInit {
           });
         },
       });
+  }
+
+  private getMenuByActivateRoute(): MenuGroupAndMenusSimpleModel | null {
+    let pathname = window.location.pathname;
+    //NOTE:: just for removing language prefixes in case i18n is activated
+    if (['en', 'fr'].includes(pathname.split('/')[1])) {
+      pathname = pathname.slice(3);
+    }
+    // const activatedTypeGroupMenus = this.getActiveMenuGroups();
+    // const subMenuSimularToPathname = this.generalService.findMostSimilar(
+    //   [],
+    //   pathname
+    // );
+
+    // const subMenuId: number = subMenus.find(
+    //   subMenu => subMenu.component_url === subMenuSimularToPathname
+    // ).id;
+
+    return null;
+  }
+
+  private getMenuGroupByType(
+    type: TypeMenuNamesModel
+  ): MenuGroupAndMenusSimpleModel[] {
+    return this.menus.find(typeMenu => typeMenu.name === type)
+      ?.menu_groups as MenuGroupAndMenusSimpleModel[];
   }
 }
