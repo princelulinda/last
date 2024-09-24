@@ -73,14 +73,18 @@
           }
 
           <div class="d-flex mt-2">
-            <b
-              class="px-2 py-1 level-2 border short rounded me-2 d-flex align-items-center justify-content-center text-dark"
-              [appClipboard]="
-                location + '/sign-up/?reference=' + clientInfo.client.client_id
-              "
-              role="button">
-              <i class="fa fa-share-nodes fs-5"></i>
-            </b>
+            @if (clientInfo && clientInfo.client) {
+              <b
+                class="px-2 py-1 level-2 border short rounded me-2 d-flex align-items-center justify-content-center text-dark"
+                [appClipboard]="
+                  location +
+                  '/sign-up/?reference=' +
+                  clientInfo.client.client_id
+                "
+                role="button">
+                <i class="fa fa-share-nodes fs-5"></i>
+              </b>
+            }
             <b
               class="px-1 py-1 level-2 short border rounded me-2 d-flex align-items-center justify-content-center text-dark"
               role="button">
