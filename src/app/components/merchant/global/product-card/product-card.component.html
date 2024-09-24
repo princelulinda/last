@@ -73,7 +73,9 @@
           <div
             class="d-flex flex-column justify-content-end row flex-grow-1 overflow-hidden position-relative p-1">
             <div class="ms-0 d-flex flex-row justify-content-between">
-              <div class="col-11" title="{{ product.lookup_title }}">
+              <div
+                class="col-11 text-truncate"
+                title="{{ product.lookup_title }}">
                 <span class="text-secondary font-calibri fs-normal mb-1">
                   {{ product.lookup_title }}
                 </span>
@@ -83,7 +85,7 @@
             <div
               class="position-absolute bg-primary rounded-circle redConer"></div>
             <div class="ms-0 d-flex flex-row justify-content-between mt-1">
-              <div class="col-8">
+              <div class="col-8 text-truncate">
                 <span class="text-secondary fs-small font-calibri">
                   {{ product.lookup_subtitle }}
                 </span>

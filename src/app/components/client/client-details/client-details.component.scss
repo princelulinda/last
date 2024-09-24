@@ -1,0 +1,63 @@
+.selectedMenu {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+
+.selectedTabb {
+    background-color: rgb(229, 242, 255);
+    border-radius: 5px;
+    min-width: 90px;
+    text-align: center;
+}
+.sub-menu {
+ min-height: 64px;
+ 
+}
+.badge {
+  
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    padding-top: 5px;
+}
+
+
+.availableMenu {
+    opacity: 0.85;
+}
+.pageLength {
+    min-height: 60vh;
+}
+.label {
+    opacity: 0.7;
+}
+.loaderContainer {
+    height: 400px;
+    width: 90%;
+}
+.mainContent {
+    border: 0.5px solid #c4c4c4;
+    width: 88%;
+    min-height: 60vh;
+}
+
+.creditOptions {
+    width: 118px;
+    left: 35%;
+}
+.widthCreditOption{
+    border-bottom: 1px solid #c4c4c4;
+    width: 65%;
+}
+
+.walletList{
+    overflow-y: auto;
+    height: 50vh;
+    overflow-x: hidden;
+}
+.accountsList{
+    overflow-y: auto;
+    height: 80vh;
+    overflow-x: hidden;
+}

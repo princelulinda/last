@@ -1,0 +1,252 @@
+<!-- <p>client-profile-info works!</p> -->
+@if (
+  clientIndiv ||
+  clientEntreprise ||
+  (selectedClient && selectedClient.client_is_custom === true)
+) {
+  <div
+    class="sm-radius userProfile"
+    [ngClass]="{
+      gradientLight: theme === 'light',
+      gradientDark: theme === 'dark',
+    }">
+    <div class="text-center">
+      @if (
+        (!modifyProfile && clientIndiv && !clientIndiv.picture) ||
+        (clientEntreprise && !clientEntreprise.logo)
+      ) {
+        <img
+          i18n
+          src="/images/client/userprofile.png"
+          alt="user profile"
+          class="image mt-3 profileSize" />
+      }
+      @if (
+        !modifyProfile &&
+        selectedClient &&
+        selectedClient.client_is_custom === true &&
+        !selectedClient.picture_url
+      ) {
+        <i class="fa-solid fa-people-group text-dark FaPeopleGroupStyle"></i>
+      }
+      @if (
+        !modifyProfile &&
+        selectedClient &&
+        selectedClient.client_is_custom === true &&
+        selectedClient.picture_url
+      ) {
+        <img
+          i18n
+          [src]="selectedClient.picture_url"
+          alt="selected client image"
+          class="image img-fluid mt-3 sm-radius" />
+      }
+
+      @if (!modifyProfile && clientIndiv && clientIndiv.picture) {
+        <img
+          i18n
+          [src]="clientIndiv.picture"
+          alt="individual client image"
+          class="image img-fluid mt-3 pb-2 imgSize" />
+      }
+      @if (!modifyProfile && clientEntreprise && clientEntreprise.logo) {
+        <img
+          i18n
+          [src]="clientEntreprise.logo"
+          alt="logo entreprise"
+          class="image img-fluid pe-4 ps-4 pt-4 mt-3 sm-radius" />
+      }
+      @if (!modifyProfile && clientIndiv) {
+        <span
+          class="text-center position-relative"
+          [title]="title"
+          role="button"
+          (click)="modifyProfilePicture()"
+          tabindex="0">
+          <i class="fa-solid fa-pen text-md ms-2"></i>
+        </span>
+      }
+      <!-- Upload profile picture -->
+      @if (clientIndiv && modifyProfile) {
+        <div>
+          <app-file
+            [uploadOneFile]="true"
+            (uploadOneFileEvent)="collectProfile($event)"
+            marginBottom="mb-2"></app-file>
+          @if (updateReady) {
+            <div>
+              <button
+                class="btn bg-primary text-light"
+                (click)="updateProfilePicture()"
+                i18n>
+                @if (!isLoading) {
+                  <span
+                    ><b> {{ title }}</b></span
+                  >
+                }
+                @if (isLoading) {
+                  <span><i class="fa-solid fa-spin fa-circle-notch"></i></span>
+                }
+              </button>
+            </div>
+          }
+        </div>
+      }
+      <br />
+      @if (
+        selectedClient &&
+        (clientIndiv ||
+          clientEntreprise ||
+          selectedClient.client_is_custom === true)
+      ) {
+        <span
+          class="fw-bold fs-5 text-break hyphens-auto"
+          [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"
+          [title]="selectedClient.client_full_name"
+          >{{ selectedClient.client_full_name }}</span
+        >
+      }
+      <br />
+      @if (selectedClient) {
+        <span
+          class="fs-6 fw-bold"
+          [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"
+          >{{ selectedClient.client_code }}</span
+        >
+      }
+      <br />
+      @if (clientIndiv) {
+        <span>
+          <span
+            class="fs-6 text-break hyphens-auto"
+            [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"
+            >{{ clientIndiv.email }}</span
+          >
+          <span
+            appClipboard="{{ clientIndiv.email }}"
+            class="ms-auto"
+            [ngClass]="{
+              'text-secondary': theme === 'light',
+              'text-dark1': theme === 'dark',
+            }">
+            <i
+              class="fa-regular fa-copy ms-2"
+              title="Copy the email"
+              role="button"></i> </span
+        ></span>
+      }
+
+      @if (
+        selectedClient &&
+        (clientEntreprise || selectedClient.client_is_custom === true)
+      ) {
+        <span>
+          <span
+            class="fs-6 text-break hyphens-auto"
+            [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"
+            >{{ selectedClient.client_email }}</span
+          >
+          <span
+            appClipboard="{{ selectedClient.client_email }}"
+            class="ms-auto"
+            [ngClass]="{
+              'text-secondary': theme === 'light',
+              'text-dark1': theme === 'dark',
+            }">
+            <i
+              class="fa-regular fa-copy ms-2"
+              title="Copy the email"
+              role="button"></i> </span
+        ></span>
+      }
+      <br />
+      @if (clientIndiv && clientIndiv.addresses.length > 0) {
+        <span [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'">
+          <span><i class="fa-solid fa-map-pin profileIcon"></i></span>
+          @for (client of clientIndiv.addresses; track $index) {
+            <span class="text-primary-light"
+              >-
+              {{ client.address_line }}
+              <br />
+            </span>
+          }
+        </span>
+      }
+      @if (clientEntreprise && clientEntreprise.addresses.length > 0) {
+        <span [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'">
+          <span><i class="fa-solid fa-map-pin profileIcon"></i></span>
+          @for (client of clientEntreprise.addresses; track $index) {
+            <span class="text-primary-light"
+              >-
+              {{ client.address_line }}
+              <br />
+            </span>
+          }
+        </span>
+      }
+
+      @if (clientIndiv && clientIndiv.telephones) {
+        <span class="fs-6 mt-1">
+          <span [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"
+            ><i class="fa-solid fa-mobile profileIcon"></i
+          ></span>
+          <span class="text-primary-light"> {{ clientIndiv.telephones }}</span>
+          <span
+            appClipboard="{{ clientIndiv.telephones }}"
+            class="ms-auto"
+            [ngClass]="{
+              'text-secondary': theme === 'light',
+              'text-dark1': theme === 'dark',
+            }">
+            <i
+              class="fa-regular fa-copy ms-2"
+              title="Copy the phone number"
+              role="button"></i> </span
+        ></span>
+      }
+
+      @if (
+        ((selectedClient &&
+          clientEntreprise &&
+          selectedClient.client_is_custom !== true) ||
+          selectedClient.client_is_custom === true) &&
+        selectedClient.client_phone_number
+      ) {
+        <span class="fs-6 mt-1"
+          ><i
+            class="fa-solid fa-mobile profileIcon"
+            [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"></i
+          ><span class="text-primary-light">
+            {{ selectedClient.client_phone_number }}</span
+          >
+          <span
+            appClipboard="{{ selectedClient.client_phone_number }}"
+            class="ms-auto"
+            [ngClass]="{
+              'text-secondary': theme === 'light',
+              'text-dark1': theme === 'dark',
+            }">
+            <i
+              class="fa-regular fa-copy ms-2"
+              title="Copy the phone number"
+              role="button"></i>
+          </span>
+        </span>
+      }
+      <br />
+      @if (selectedClient && selectedClient.client_is_secret === true) {
+        <span class="fw-bold fs-5 text-dark" i18n> Secret </span>
+      }
+      <br />
+      @if (selectedClient) {
+        <span
+          class="text-sm fw-bold text-primary-light mt-1"
+          [title]="selectedClient.created_at"
+          i18n
+          >Created at
+          {{ (selectedClient.created_at | date: 'medium') ?? '---' }}</span
+        >
+      }
+    </div>
+  </div>
+}
