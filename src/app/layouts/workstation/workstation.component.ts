@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { map, Observable, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { HeaderComponent } from '../header/header.component';
 import { AsideMenuComponent } from './aside-menu/aside-menu.component';
@@ -59,34 +59,29 @@ export class WorkstationComponent implements OnInit {
           this.dialogService.closeDialog();
           this.dialogService.closeSplashScreen();
         } else {
-          this.getOperatorMenusTypes_groups();
+          this.getOperatorMenus();
         }
       },
     });
   }
 
-  private getOperatorMenusTypes_groups() {
-    return this.menuService
-      .getTypeMenuGroups()
-      .pipe(
-        switchMap(data =>
-          this.menuService.getAllMenuGroup().pipe(
-            map(menuGroup => {
-              return {
-                menuTypes: data,
-                menuGroup: menuGroup,
-              };
-            })
-          )
-        )
-      )
-      .subscribe({
-        next: resp => {
-          this.configService.setTypeMenus(resp.menuTypes.objects);
-          this.configService.setMenuGroup(resp.menuGroup.objects);
-          this.dialogService.closeDialog();
-          this.dialogService.closeSplashScreen();
-        },
-      });
+  // NOTE :: TYPE MENUS GET ALL MENU GROUPS AND MENUS
+  private getOperatorMenus() {
+    return this.menuService.getTypeMenuGroups().subscribe({
+      next: resp => {
+        this.configService.setTypeMenus(resp.objects);
+        this.dialogService.closeDialog();
+        this.dialogService.closeSplashScreen();
+      },
+      error: err => {
+        this.dialogService.openToast({
+          message:
+            err?.object?.response_message ??
+            'Something went wrong, please retry again!',
+          title: '',
+          type: 'failed',
+        });
+      },
+    });
   }
 }
