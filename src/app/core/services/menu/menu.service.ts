@@ -72,10 +72,11 @@ export class MenuService {
 
   getMetadata(search = '', pagination?: PaginationConfig) {
     const url = `/metadata/?search=${search}&limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`;
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getAccesses() {
+    const url = `/hr/access/acl/roles/`;
+    return this.apiService.get(url).pipe(map(data => data));
   }
 }

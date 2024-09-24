@@ -199,7 +199,20 @@ export class WorkstationMenuComponent implements OnInit {
   }
 
   selectAMenu(menu: { id: number; name: string; component_url: string }) {
+    // NOTE :: GETTING ACCESS MENUS
+    // this.getAccesses();
+
     this.menuService.setLocalSelectedMenu(menu.id);
     this.dialogService.dispatchLoading('topLoader');
+
+    setTimeout(() => {
+      this.dialogService.closeLoading();
+    }, 4000);
   }
+
+  // private getAccesses() {
+  //   this.menuService.getAccesses().subscribe({
+  //     next: () => {},
+  //   });
+  // }
 }
