@@ -13,6 +13,7 @@ import { debounceTime, filter, Observable, Subject, takeUntil } from 'rxjs';
 import {
   ConfigService,
   DialogService,
+  MenuService,
   MerchantService,
 } from '../../../core/services';
 import {
@@ -64,6 +65,7 @@ export class WorkstationMenuComponent implements OnInit {
     private router: Router,
     private configService: ConfigService,
     private merchantService: MerchantService,
+    private menuService: MenuService,
     private dialogService: DialogService
   ) {
     this.operator$ = this.configService.getConnectedOperator();
@@ -194,5 +196,10 @@ export class WorkstationMenuComponent implements OnInit {
   isSearchInputNotEmpty(): boolean {
     const searchValue = this.searchForm.value;
     return typeof searchValue === 'string' && searchValue.trim() !== '';
+  }
+
+  selectAMenu(menu: { id: number; name: string; component_url: string }) {
+    this.menuService.setLocalSelectedMenu(menu.id);
+    this.dialogService.dispatchLoading('topLoader');
   }
 }

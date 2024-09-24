@@ -140,7 +140,7 @@ export class DialogService {
   }
 
   // Loading Methods
-  dispatchLoading(action?: string, type: 'spinner' | 'topLoader' = 'spinner') {
+  dispatchLoading(type: 'spinner' | 'topLoader' = 'spinner', action?: string) {
     this.loading.set({
       action: action ?? '',
       active: true,
