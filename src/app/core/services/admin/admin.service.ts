@@ -9,6 +9,7 @@ import {
   AdminServicesDetailsModel,
   CreateNewDirectionBodyModel,
   CreateNewDirectionModel,
+  CreateNewRoleModel,
   CreateNewServiceBodyModel,
   CreateNewServiceModel,
 } from '../../../components/admin/rh/rh.model';
@@ -246,5 +247,10 @@ export class AdminService {
     return this.apiService
       .post(url, body)
       .pipe(map(data => data as CreateNewServiceModel));
+  }
+
+  createNewRole(body: CreateNewRoleModel) {
+    const url = `/hr/access/roles/`;
+    return this.apiService.post(url, body).pipe(map(data => data));
   }
 }

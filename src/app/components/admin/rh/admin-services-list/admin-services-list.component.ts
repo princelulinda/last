@@ -27,7 +27,7 @@ export class AdminServicesListComponent implements OnInit {
       field: ['name'],
       size: '',
       detail: {
-        link: '/w/workstation/d/desk/service/',
+        link: '/w/workstation/a/admin/service/',
         field: 'id',
       },
     },
