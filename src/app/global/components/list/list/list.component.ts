@@ -38,7 +38,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
   @Input({ required: true }) headers!: Header[];
   @Input({ required: true }) url = '';
-  @Input() title = '';
+
   showAmount = false;
 
   @Input() hasOverview = true;

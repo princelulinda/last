@@ -7,7 +7,7 @@
       tabindex="0"
       [routerLink]="
         activePlatform === 'workstation'
-          ? '/w/workstation/b/banking'
+          ? '/w/workstation/b/banking/'
           : activePlatform === 'onlineBanking'
             ? '/b/banking/'
             : ''
@@ -48,14 +48,10 @@
   <div class="mt-5 text-center">
     <button
       (click)="doTransfer()"
-      class="btn px-5 text-all-white me-4"
+      class="btn px-5 text-all-white bg-primary me-4"
       type="button"
       tabindex="0"
-      [disabled]="!accountSelected"
-      [ngClass]="{
-        'primary-light': activePlatform && activePlatform === 'workstation',
-        'bg-primary': activePlatform && activePlatform !== 'workstation',
-      }">
+      [disabled]="!accountSelected">
       <b i18n>Send</b>
     </button>
     <button
