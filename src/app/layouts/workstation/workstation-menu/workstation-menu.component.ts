@@ -187,7 +187,7 @@ export class WorkstationMenuComponent implements OnInit {
           this.dialogService.openToast({
             title: '',
             type: 'failed',
-            message: 'Something went wrong, please try again',
+            message: 'There is an error accessing this menu, Please try again',
           });
         },
       });
@@ -200,19 +200,30 @@ export class WorkstationMenuComponent implements OnInit {
 
   selectAMenu(menu: { id: number; name: string; component_url: string }) {
     // NOTE :: GETTING ACCESS MENUS
-    // this.getAccesses();
+    this.getAccesses();
 
     this.menuService.setLocalSelectedMenu(menu.id);
     this.dialogService.dispatchLoading('topLoader');
-
-    setTimeout(() => {
-      this.dialogService.closeLoading();
-    }, 4000);
   }
 
-  // private getAccesses() {
-  //   this.menuService.getAccesses().subscribe({
-  //     next: () => {},
-  //   });
-  // }
+  private getAccesses() {
+    this.configService.clearActiveAccesses();
+    this.menuService
+      .getAccesses()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: accesses => {
+          this.configService.setActiveAccesses(accesses.objects);
+          this.dialogService.closeLoading();
+        },
+        error: () => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            message: '',
+            title: '',
+            type: 'failed',
+          });
+        },
+      });
+  }
 }

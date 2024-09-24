@@ -219,8 +219,8 @@
               @for (item of selectedGroup.menus; track $index) {
                 <a
                   tabindex="1"
-                  (click)="selectAMenu(item)"
                   [routerLink]="item.component_url"
+                  (click)="selectAMenu(item)"
                   [ngClass]="{
                     'mb-2': $index === selectedGroup.menus.length - 1,
                   }"
