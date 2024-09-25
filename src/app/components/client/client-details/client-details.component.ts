@@ -20,7 +20,7 @@ import { AccountsListModel } from '../../account/models';
 import { WalletList } from '../../wallet/wallet.models';
 import { MailModel } from '../../settings/settings.models';
 import { ClientProfileInfoComponent } from '../client-profile-info/client-profile-info.component';
-import { ClientGeneralInformationsComponent } from './client-general-informations/client-general-informations.component';
+import { ClientGeneralInformationsComponent } from '../client-general-informations/client-general-informations.component';
 
 @Component({
   selector: 'app-client-details',
