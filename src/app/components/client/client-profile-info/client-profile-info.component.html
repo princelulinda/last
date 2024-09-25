@@ -100,7 +100,7 @@
           selectedClient.client_is_custom === true)
       ) {
         <span
-          class="fw-bold fs-5 text-break hyphens-auto"
+          class="fw-bold text-break hyphens-auto"
           [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"
           [title]="selectedClient.client_full_name"
           >{{ selectedClient.client_full_name }}</span
@@ -235,7 +235,7 @@
       }
       <br />
       @if (selectedClient && selectedClient.client_is_secret === true) {
-        <span class="fw-bold fs-5 text-dark" i18n> Secret </span>
+        <span class="fw-bold text-dark" i18n> Secret </span>
       }
       <br />
       @if (selectedClient) {

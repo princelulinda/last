@@ -1,0 +1,64 @@
+input.autocomplete {
+    height: 45px;
+}
+.form-floating > label {
+    padding: 0.5rem;
+}
+.autoCompleteItems {
+    position: absolute;
+    z-index: 10;
+    max-height: 250px;
+    overflow: auto;
+    transition: 0.3s ease-in;
+    .list {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.3rem 0;
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 0;
+        .item {
+            cursor: pointer;
+            &:hover {
+                box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 3%);
+                transition: 0.2s ease-out;
+            }
+        }
+    }
+}
+
+.center {
+    line-height: 18px;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-top: auto;
+    margin-bottom: auto;
+}
+
+.lookup.form-control:focus {
+    // border-color: inherit;
+    //   -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.search-input {
+    height: 45px;
+    // @media screen and (max-width: 768px) {
+    //     width: 260px;
+    // }
+}
+.search-btn {
+    right: 10px;
+    top: 25%;
+    
+}
+
+.has-border{
+    background-color: #938c8c;
+    height: 1px;
+    width: 100px;
+}
+
+.sensetiveInfoSize {
+    min-height: 20vh;  
+}

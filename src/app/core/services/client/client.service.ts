@@ -192,4 +192,40 @@ export class ClientService {
         })
       );
   }
+
+  modifyCategoryCorporate(
+    clientId: string,
+    categoryId: number,
+
+    data: object
+  ) {
+    return this.apiService
+      .post(
+        `/client/elements/update/${clientId}/?client_category=${categoryId}`,
+        data
+      )
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+
+  modifySectorCorporate(
+    clientId: string,
+
+    sectorId: string,
+    data: object
+  ) {
+    return this.apiService
+      .post(
+        `/client/elements/update/${clientId}/?&activity_sector=${sectorId}`,
+        data
+      )
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
 }
