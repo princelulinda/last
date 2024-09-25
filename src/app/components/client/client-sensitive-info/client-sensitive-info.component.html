@@ -1,0 +1,185 @@
+<!-- <p>client-sensitive-info works!</p> -->
+@if (selectedSensitiveInfo === true) {
+  <div class="mb-4 content sm-radius mt-3 ms-1 sensetiveInfoSize">
+    @if (
+      clientEntreprise ||
+      clientIndiv ||
+      (selectClient &&
+        selectClient.client_category_type.is_custom === true &&
+        selectClient !== null)
+    ) {
+      <div class="row justify-content-between mx-auto">
+        <div class="text-start col d-inline-block text-truncate">
+          <span class="fs-small text-dark label" i18n>Client category</span>
+          <br />
+          @if (!isSensitiveInfoFormShown && selectClient !== null) {
+            <span
+              [title]="selectClient.client_category.title"
+              class="text-dark fw-bold fs-normall"
+              >{{ selectClient.client_category.title }}</span
+            >
+          }
+          @if (isSensitiveInfoFormShown) {
+            <span>
+              <app-lookup
+                option="autocomplete"
+                label="Client Category"
+                url="/clients/config/category/objects_autocomplete/?search="
+                (selectedItemEvent)="setSelectedCategory($event)"></app-lookup
+            ></span>
+          }
+
+          <br />
+          @if (isSensitiveInfoFormShown) {
+            <div class="text-center mb-3">
+              <button
+                class="ms-3 btn px-3 buttonSub bg-info"
+                [ngClass]="{
+                  'text-light': theme === 'light',
+                  'text-dark': theme === 'dark',
+                  'not-clickable': loadingCategory,
+                }"
+                (click)="enterPinCategory()"
+                tabindex="0">
+                <span i18n>Update</span>
+              </button>
+            </div>
+          }
+          @if (!isSensitiveInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+        <div class="ms-auto text-start col col d-inline-block text-truncate">
+          <span class="text-dark fs-small label" i18n>Activity sector</span
+          ><br />
+          @if (
+            !isSensitiveInfoFormShown &&
+            selectClient !== null &&
+            selectClient.activity_sector
+          ) {
+            <span
+              [title]="selectClient.activity_sector.title"
+              class="text-dark fw-bold fs-normall"
+              >{{ selectClient.activity_sector.title }}</span
+            >
+          }
+          @if (isSensitiveInfoFormShown) {
+            <span>
+              <app-lookup
+                option="autocomplete"
+                label="Activity Sector"
+                url="/clients/config/activitysector/objects_autocomplete/?search="
+                (selectedItemEvent)="setSelectedSector($event)"></app-lookup>
+            </span>
+          }
+
+          <br />
+          @if (isSensitiveInfoFormShown) {
+            <div class="text-center mb-3">
+              <button
+                class="ms-3 btn px-3 buttonSub bg-info"
+                [ngClass]="{
+                  'text-light': theme === 'light',
+                  'text-dark': theme === 'dark',
+                  'not-clickable': loadingSector,
+                }"
+                (click)="enterPinSector()"
+                tabindex="0">
+                <span i18n>Update</span>
+              </button>
+            </div>
+          }
+          @if (!isSensitiveInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+        @if (!isSensitiveInfoFormShown) {
+          <div class="ms-auto text-start col d-inline-block text-truncate">
+            <span class="fs-small text-dark label" i18n
+              >Client category type</span
+            ><br />
+            @if (selectClient !== null) {
+              <span
+                class="text-dark fw-bold fs-normall"
+                [title]="selectClient.client_category_type.title"
+                >{{ selectClient.client_category_type.title }}</span
+              >
+            }
+
+            <br />
+            <div class="has-border mt-2"></div>
+          </div>
+        }
+        @if (!isSensitiveInfoFormShown) {
+          <div class="ms-auto text-start col">
+            <span class="fs-small text-dark label"></span><br />
+            <span class="text-dark fw-bold">---</span>
+            <br />
+            <div class="has-border mt-2"></div>
+          </div>
+        }
+      </div>
+    }
+
+    @if (clientIndiv && !isSensitiveInfoFormShown) {
+      <div class="row justify-content-between mt-3 mx-auto">
+        <div class="text-start col">
+          <span class="fs-small text-dark label" i18n>Id card number</span>
+          <br />
+          @if (clientIndiv) {
+            <span class="text-dark fw-bold fs-normall"
+              >{{ clientIndiv.card_id.card_id_type }}
+              {{ clientIndiv.card_id.reference_number }}</span
+            >
+          }
+
+          <br />
+        </div>
+        <div class="ms-auto text-start col">
+          <span class="text-dark fs-small label" i18n>Place of issue</span
+          ><br />
+          @if (clientIndiv) {
+            <span class="text-dark fw-bold fs-normall">{{
+              clientIndiv.card_id.place_of_issue
+            }}</span>
+          }
+
+          <br />
+        </div>
+        <div class="ms-auto text-start col">
+          <span class="fs-small text-dark label" i18n>Date of issue</span><br />
+          @if (clientIndiv) {
+            <span class="text-dark fw-bold fs-normall">{{
+              clientIndiv.card_id.date_of_issue
+            }}</span>
+          }
+
+          <br />
+        </div>
+        <div class="ms-auto text-start col">
+          <span class="fs-small text-dark label" i18n>Expiry date</span><br />
+          @if (clientIndiv) {
+            <span class="text-dark fw-bold fs-normall">{{
+              clientIndiv.card_id.expiry_date
+            }}</span>
+          }
+
+          <br />
+        </div>
+      </div>
+    }
+
+    @if (isSensitiveInfoFormShown) {
+      <div class="text-center mb-3">
+        <b
+          role="button"
+          (click)="isSensitiveInfoFormShown = false"
+          class="text-info fs-small"
+          i18n
+          tabindex="0"
+          >Cancel</b
+        >
+      </div>
+    }
+  </div>
+}
