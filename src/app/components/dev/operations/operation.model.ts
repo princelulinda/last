@@ -233,3 +233,43 @@ export interface OperationTransactionModel {
   reference: string;
   solde: string;
 }
+
+export interface CounterListModel {
+  code: number;
+  created_at: string;
+  formatted_code: string;
+  id: number;
+  name: string;
+  branch: {
+    chief: number;
+    code: number;
+    created_at: string;
+    formatted_code: string;
+    hr_chief: string;
+    id: number;
+    name: string;
+    organization_tenant: {
+      accepts_login: boolean;
+      bank_ihela_code: number;
+      company_type_code: string;
+      company_type_name: string;
+      id: number;
+      is_active: boolean;
+      is_erp: boolean;
+      is_main: boolean;
+      org_accounting_type: number;
+      institution_client: {
+        client_code: string;
+        client_full_name: string;
+        id: number;
+        client_type: {
+          title: string;
+          value: string;
+          css: string;
+        };
+        picture: string;
+        prefered_language: string;
+      };
+    };
+  };
+}

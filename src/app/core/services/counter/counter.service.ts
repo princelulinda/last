@@ -41,4 +41,10 @@ export class CounterService {
     const url = `/operations/all/statement/?trans_pending_operation=${operationId}&limit=${pagination.filters.limit}&offset=${pagination.filters.offset}`;
     return this.apiService.get(url).pipe(map(data => data));
   }
+
+  //counters
+  getCounters(search = '', pagination: PaginationConfig) {
+    const url = `/hr/counter/?search=${search}&limit=${pagination.filters.limit}&offset=${pagination.filters.offset}`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
 }
