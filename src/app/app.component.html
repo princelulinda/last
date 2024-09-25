@@ -22,10 +22,12 @@
   <app-sleep-mode></app-sleep-mode>
 </Section>
 
+<!-- TODO :: TO FIND A WAY TO REMOVE Z-INDEX ON SCREEN LOCKED :: HEADER IS VISIBLE -->
 <main
-  class="app-container position-relative overflow-x-hidden {{
-    mainBackground
-  }}">
+  class="app-container position-relative overflow-x-hidden {{ mainBackground }}"
+  [ngClass]="{
+    'z-0': screenState === 'locked',
+  }">
   <!-- NOTE :: GLOBAL POPUPS ON THE PROJECT -->
   <section>
     <app-confirm-dialog></app-confirm-dialog>

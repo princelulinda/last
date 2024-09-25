@@ -21,7 +21,7 @@ export class TopLoaderComponent implements OnInit {
     type: '',
   };
 
-  dialog$: Observable<{
+  loader$: Observable<{
     active: boolean;
     type: 'spinner' | 'topLoader' | '';
     action: string;
@@ -30,11 +30,11 @@ export class TopLoaderComponent implements OnInit {
   showtopLoader = false;
 
   constructor(private dialogService: DialogService) {
-    this.dialog$ = toObservable(this.dialogService.loading);
+    this.loader$ = toObservable(this.dialogService.loading);
   }
 
   ngOnInit() {
-    this.dialog$.subscribe({
+    this.loader$.subscribe({
       next: resp => {
         if (resp.active && resp.type === 'topLoader') {
           this.showtopLoader = true;

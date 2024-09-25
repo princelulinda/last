@@ -92,7 +92,10 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
       }
       this.loading = this.dialogService.loading();
 
-      if (this.dialog.active || this.loading.active) {
+      if (
+        this.dialog.active ||
+        (this.loading.active && this.loading.type === 'spinner')
+      ) {
         if (this.dialogElement) {
           this.dialogElement.showModal();
         }

@@ -22,6 +22,13 @@ import {
   ClientInfoModel,
   SignatureModel,
 } from '../../../global/components/lookups/lookup/lookup.model';
+import {
+  ClientCorporateModel,
+  ClientLanguageWorkstationModel,
+  ClientWorkstationModel,
+  IndividualClientModel,
+  LanguageWorkstationModel,
+} from '../../../components/client/client.model';
 
 @Injectable({
   providedIn: 'root',
@@ -116,5 +123,73 @@ export class ClientService {
     return this.apiService
       .get('/account/details/?' + bank_id)
       .pipe(map(data => data as { object: ClientInfoModel }));
+  }
+  modifyClientLanguage(clientId = '', langCode: string, data: object) {
+    return this.apiService
+      .post(`/client/elements/update/${clientId}/?language=${langCode}`, data)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+
+  getLanguages() {
+    const apiUrl = '/languages/';
+    return this.apiService
+      .get<{ object: LanguageWorkstationModel }>(apiUrl)
+      .pipe(map(data => data));
+  }
+
+  getClientLanguage(clientId: string) {
+    const apiUrl = `/client/getelement/?client_id=${clientId}&element=language&phone_number=`;
+    return this.apiService
+      .get<{ object: ClientLanguageWorkstationModel }>(apiUrl)
+      .pipe(map(data => data));
+  }
+
+  getClientDetails(clientId: string) {
+    return this.apiService
+      .get<{
+        object: ClientWorkstationModel;
+      }>('/clients/list/all/' + clientId + '/')
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+
+  getClientIndividualDetails(clientId: string) {
+    const apiUrl = '/clients/manage/individuals/' + clientId + '/';
+    return this.apiService
+      .get<{ object: IndividualClientModel }>(apiUrl)
+      .pipe(map(data => data));
+  }
+
+  getClientCorporateDetails(clientId: string) {
+    const apiUrl = '/clients/manage/corporate/' + clientId + '/';
+    return this.apiService
+      .get<{ object: ClientCorporateModel }>(apiUrl)
+      .pipe(map(data => data));
+  }
+
+  UpdateIndividualClientDetails(clientId: string, data: object) {
+    return this.apiService
+      .patch(`/clients/manage/individuals/${clientId}/`, data)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+  UpdateCorporateDetails(clientId: string, data: object) {
+    return this.apiService
+      .patch(`/clients/manage/corporate/${clientId}/`, data)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
 }
