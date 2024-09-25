@@ -3,7 +3,10 @@ import { AfterViewInit, Component, effect, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ConfigService, DialogService } from '../../core/services';
-import { PlateformModel } from '../../core/services/config/main-config.models';
+import {
+  ModeModel,
+  PlateformModel,
+} from '../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-splash-screen',
@@ -15,6 +18,8 @@ import { PlateformModel } from '../../core/services/config/main-config.models';
 export class SplashScreenComponent implements OnInit, AfterViewInit {
   plateform$: Observable<PlateformModel>;
   plateform!: PlateformModel;
+  theme$!: Observable<ModeModel>;
+  theme!: ModeModel;
 
   splashScreenElement: HTMLElement | null = null;
   splashScreenState = false;
@@ -27,6 +32,7 @@ export class SplashScreenComponent implements OnInit, AfterViewInit {
     private dialogService: DialogService
   ) {
     this.plateform$ = this.configService.getPlateform();
+    this.theme$ = this.configService.getMode();
     effect(() => {
       this.splashScreenState = this.dialogService.splashScreen();
       if (this.splashScreenState) {
@@ -48,6 +54,11 @@ export class SplashScreenComponent implements OnInit, AfterViewInit {
         if (plateform === 'workstation') {
           this.imageUrl = '/images/logo/magis-erp.png';
         }
+      },
+    });
+    this.theme$.subscribe({
+      next: theme => {
+        this.theme = theme;
       },
     });
   }

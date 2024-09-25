@@ -29,19 +29,6 @@
   animation-delay: 0.3s;
 }
 
-.whiteMask {
-  position: absolute;
-  bottom: -90px;
-  height: 100px;
-  right: -30px;
-  width: 300px;
-  background-color: white;
-  z-index: 3;
-  transition: leave 2s ease-in-out;
-  animation: closeEllipse 0.4s ease-in-out forwards;
-  animation-delay: 0.3s;
-}
-
 .ellipse {
   position: absolute;
   bottom: 0;
@@ -83,7 +70,7 @@
 
 @keyframes bounce {
   0% {
-    transform: translateY(80px) scale(0);
+    transform: translateY(60px) scale(0);
     clip-path: inset(0 192px 0 192px);
   }
   25% {
