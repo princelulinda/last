@@ -120,12 +120,13 @@
         [isLoading]="isLoading"
         [totalData]="count"
         [pageLimit]="pagination.filters.limit"
+        [limit]="false"
         (paginationChange)="onPaginationChange($event)">
       </app-pagination>
     </div>
   </main>
 
-  <footer
+  <!-- <footer
     [ngClass]="{
       'not-clickable': isLoading,
     }">
@@ -137,5 +138,5 @@
         <i class="fa-solid fa-user-xmark"></i>
       </div>
     </div>
-  </footer>
+  </footer> -->
 </div>
