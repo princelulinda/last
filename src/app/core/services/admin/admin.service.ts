@@ -9,6 +9,7 @@ import {
   AdminServicesDetailsModel,
   CreateNewDirectionBodyModel,
   CreateNewDirectionModel,
+  CreateNewRoleModel,
   CreateNewServiceBodyModel,
   CreateNewServiceModel,
 } from '../../../components/admin/rh/rh.model';
@@ -48,13 +49,13 @@ export class AdminService {
   }
   getDepartmentDetails(
     depId: number | string
-  ): Observable<AdminDepartementsDetailsModel> {
+  ): Observable<{ object: AdminDepartementsDetailsModel }> {
     const url = `/hr/access/departments/${depId}/`;
     return this.apiService.get(url);
   }
   getServiceDetails(
     servId: number | string
-  ): Observable<AdminServicesDetailsModel> {
+  ): Observable<{ object: AdminServicesDetailsModel }> {
     const url = `/hr/access/services/${servId}/`;
     return this.apiService.get(url);
   }
@@ -246,5 +247,20 @@ export class AdminService {
     return this.apiService
       .post(url, body)
       .pipe(map(data => data as CreateNewServiceModel));
+  }
+
+  createNewRole(body: CreateNewRoleModel) {
+    const url = `/hr/access/roles/`;
+    return this.apiService.post(url, body).pipe(map(data => data));
+  }
+
+  editService(body: {
+    name: string;
+    direction?: number;
+    department?: number;
+    disallow_connexion?: boolean;
+  }) {
+    const url = `/hr/access/services/`;
+    return this.apiService.patch(url, body).pipe(map(data => data));
   }
 }

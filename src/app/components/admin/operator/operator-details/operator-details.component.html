@@ -1338,11 +1338,16 @@
                           message: 'Enter your password',
                         })
                       ">
-                      <span *ngIf="!addPermissionLoading" i18n> Save</span>
-                      <span *ngIf="addPermissionLoading">
-                        <i
-                          class="fa-solid fa-spin fa-circle-notch text-dark"></i>
-                      </span>
+                      @if (!addPermissionLoading) {
+                        <span i18n> Save</span>
+                      }
+
+                      @if (addPermissionLoading) {
+                        <span>
+                          <i
+                            class="fa-solid fa-spin fa-circle-notch text-dark"></i>
+                        </span>
+                      }
                     </button>
                   </div>
                 </form>

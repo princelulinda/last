@@ -1,25 +1,29 @@
+import { AutocompleteModel } from '../../../global/models/global.models';
+import { RoleModel } from '../role/role.models';
+
 export interface AdminDepartementsDetailsModel {
-  object: {
-    name: string;
-  };
+  id: number;
+  name: string;
+  direction: number;
+  roles: RoleModel[];
 }
 export interface AdminDirectionsDetailsModel {
   object: {
+    id: number;
     name: string;
     direction_type: {
       title: string;
     };
+    roles: RoleModel[];
   };
 }
 export interface AdminServicesDetailsModel {
-  department: string;
-  id: string;
-
-  object: {
-    service_alpha_code: string;
-    name: string;
-    direction_type: string;
-  };
+  department: number;
+  id: number;
+  disallow_connexion: boolean;
+  service_alpha_code: string;
+  name: string;
+  roles: RoleModel[];
 }
 
 export interface AdminCreateNewDepartmentModel {
@@ -49,4 +53,15 @@ export interface CreateNewServiceBodyModel {
 export interface DirectionType {
   id: string; // Example property
   name: string; // Example property
+}
+
+export interface CreateNewRoleModel {
+  is_active: boolean;
+  disable_during_leave: boolean;
+  role_name: string;
+  role_tye: string;
+  menus: AutocompleteModel[];
+  role_group: string;
+  content_type: string;
+  object_id: number;
 }
