@@ -25,7 +25,7 @@
   z-index: 5;
   bottom: 0;
   transition: width 2s ease-in-out;
-  animation: closeEllipse 0.4s ease-in-out forwards;
+  animation: closeEllipse 0.2s ease-in-out forwards;
   animation-delay: 0.3s;
 }
 
@@ -36,7 +36,7 @@
   height: 28px;
   //   overflow: hidden;
   transition: width 2s ease-in-out;
-  animation: closeEllipse 0.4s ease-in-out forwards;
+  animation: closeEllipse 0.2s ease-in-out forwards;
   animation-delay: 0.3s;
 }
 
