@@ -12,6 +12,8 @@ import { SelectedClientSmallOverviewComponent } from '../selected-client-small-o
 import { CurrencyModel } from '../../../global/models/global.models';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { OrganizationModel } from '../../auth/auth.model';
+import { LoanListModel, LoanModel } from '../../loan/loan.models';
+import { ClientWorkstationModel } from '../client.model';
 
 @Component({
   selector: 'app-client-credits',
@@ -43,38 +45,17 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
   balance_currency: CurrencyModel = 'BIF';
   customClasses = 'text-success fs-x-small';
 
-  @Input() selectedClient!: {
-    id: string;
-    client_id: number;
-    client_phone_number: number;
-    client_code: string;
-    client_full_name: string;
-    picture_url: string;
-    client_is_custom: boolean;
-    client_type: string;
-  };
+  @Input() selectedClient!: ClientWorkstationModel;
 
   plan!: boolean;
-  credits!:
-    | {
-        cred_status: {
-          css: string;
-          label: string;
-        };
-      }
-    | null
-    | unknown
-    | [];
-  credit!: [] | null;
+  credits!: LoanListModel[] | null;
+  credit!: LoanModel | null;
   creditId!: number;
   // client: any;
   clientId!: number;
-  id = '';
-  selectedCredit!: {
-    id: number;
-  };
+  id!: number;
+  selectedCredit!: LoanListModel;
   // clientDetails: any;
-  // amortissmentPlan: any;
 
   headersPlan = [
     {
@@ -149,12 +130,12 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
         this.organization = organization;
       },
     });
-    this.clientId = this.selectedClient.client_id;
-    this.id = this.selectedClient.id;
+    this.clientId = this.selectedClient.client_id as number;
+    this.id = this.selectedClient.id as number;
     this.getCreditsList();
   }
 
-  selectCredit(credit: { id: number }) {
+  selectCredit(credit: LoanListModel) {
     this.selectedCredit = credit;
 
     this.getCreditDetails();
@@ -177,8 +158,8 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
       .getLoanListByClient(this.id)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (credits: unknown) => {
-          this.credits = credits;
+        next: (credits: { objects: LoanListModel[] }) => {
+          this.credits = credits.objects;
           console.log('=================>credits value:', this.credits);
         },
         error: () => {
@@ -196,13 +177,12 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.credit = null;
     this.loanService
-      .getCreditDetails(this.selectedCredit.id)
+      .getCreditDetails(this.selectedCredit.id.toString())
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (credit: unknown) => {
-          const creditObject = credit as { object: unknown };
+        next: (credit: { object: LoanModel }) => {
           this.isLoading = false;
-          this.credit = creditObject.object as [];
+          this.credit = credit.object;
         },
         error: () => {
           this.isLoading = false;

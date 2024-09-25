@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ClientWorkstationModel } from '../client.model';
 
 @Component({
   selector: 'app-selected-client-small-overview',
@@ -13,28 +14,7 @@ export class SelectedClientSmallOverviewComponent implements OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   clientId!: number;
 
-  @Input() selectedClient!:
-    | {
-        id: string;
-        client_id: number;
-        client_phone_number: number;
-        client_code: string;
-        client_full_name: string;
-        picture_url: string;
-        client_is_custom: boolean;
-        client_type: string;
-      }
-    | undefined;
-  // @Input() selectedClient = {
-  //   id: '',
-  //   client_id: 0,
-  //   client_phone_number: 0,
-  //   client_code: '',
-  //   client_full_name: '',
-  //   picture_url: '',
-  //   client_is_custom: false,
-  //   client_type: '',
-  // };
+  @Input() selectedClient!: ClientWorkstationModel | undefined;
 
   // constructor() {
   //     //comment
