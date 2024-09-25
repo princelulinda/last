@@ -1,0 +1,1298 @@
+<div class="bg-secondary details-container pb-4">
+  <main class="level-2 p-2" style="min-height: 67vh">
+    <!-- navigation bar -->
+    <nav class="sm-radius p-3 bg-primary-2">
+      <span
+        (click)="selectOperationType('')"
+        tabindex="0"
+        class="sm-radius p-2 level-2 px-5 clickable text-all-dark"
+        [ngClass]="operationTypeSelected === '' ? 'bg-all-white fw-bold' : ''">
+        <small i18n>All</small>
+      </span>
+      <span
+        (click)="selectOperationType('transfers')"
+        tabindex="0"
+        class="sm-radius p-2 px-5 not-clickable text-all-dark"
+        [ngClass]="
+          operationTypeSelected === 'transfers' ? 'bg-all-white fw-bold' : ''
+        ">
+        <small i18n>Transfert</small>
+      </span>
+      <span
+        (click)="selectOperationType('deposits')"
+        tabindex="0"
+        class="sm-radius p-2 px-5 not-clickable text-all-dark"
+        [ngClass]="
+          operationTypeSelected === 'deposits' ? 'bg-all-white fw-bold' : ''
+        ">
+        <small>Deposit</small>
+      </span>
+      <span
+        (click)="selectOperationType('withdrawals')"
+        tabindex="0"
+        class="sm-radius p-2 px-5 not-clickable text-all-dark"
+        [ngClass]="
+          operationTypeSelected === 'withdrawals' ? 'bg-all-white fw-bold' : ''
+        ">
+        <small i18n>Withdrawal</small>
+      </span>
+      <span
+        (click)="selectOperationType('bills_payment')"
+        tabindex="0"
+        class="sm-radius p-2 px-5 not-clickable text-all-dark"
+        [ngClass]="
+          operationTypeSelected === 'bills_payment'
+            ? 'bg-all-white fw-bold'
+            : ''
+        ">
+        <small i18n>Bills</small>
+      </span>
+      <span
+        (click)="selectOperationType('other')"
+        tabindex="0"
+        class="sm-radius p-2 px-5 not-clickable text-all-dark"
+        [ngClass]="
+          operationTypeSelected === 'other' ? 'bg-all-white fw-bold' : ''
+        ">
+        <small i18n>Other operations</small>
+      </span>
+    </nav>
+
+    <!-- search , filter and refresh -->
+    <div
+      class="d-flex mt-3 justify-content-between align-items-center align-items-center mx-1">
+      <div class="d-flex align-items-center flex-grow-1">
+        <div class="col-3">
+          <form
+            class="input-group flex-nowrap"
+            style="border: none"
+            [formGroup]="searchForm"
+            (ngSubmit)="getOperationsList()">
+            <input
+              type="search"
+              class="form-control"
+              placeholder="search ..."
+              formControlName="search"
+              aria-label="search"
+              [disabled]="loadingList"
+              (input)="searchEmptyDetection()"
+              aria-describedby="addon-wrapping" />
+            <button
+              class="input-group-text bg-secondary"
+              role="button"
+              type="submit"
+              [disabled]="searchForm.value.search === ''"
+              [ngClass]="{
+                'text-all-white': theme === 'light',
+                'text-all-dark': theme === 'dark',
+                'not-clickable': loadingList,
+              }"
+              id="addon-wrapping">
+              @if (loadingList) {
+                <span>
+                  <i class="fas fa-spinner fa-pulse"></i>
+                </span>
+              }
+
+              @if (!loadingList) {
+                <span>
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+              }
+            </button>
+          </form>
+        </div>
+        <div
+          class="level-1 p-1 px-3 ms-4 d-flex align-items-center rounded-pill text-dark not-clickable"
+          (click)="displayFilters()"
+          tabindex="0">
+          <span i18n>Filter</span>
+          <span class="ms-2">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </span>
+        </div>
+        <!-- 
+        @if(showFilters) {
+          <app-filters
+            (selectedPeriod)="getSelectedPeriod($event)"></app-filters>
+        } -->
+      </div>
+
+      <div>
+        <span
+          class="refresh"
+          tabindex="0"
+          [ngClass]="{
+            'no-clickable': loadingList,
+            clickable: !loadingList,
+          }"
+          (click)="refresh()"
+          title="Refresh">
+          <span class="me-1 text-dark text-sm">
+            @if (!loadingList) {
+              <span><i class="fa-solid fa-arrows-rotate"></i></span>
+            }
+
+            @if (loadingList) {
+              <span>
+                <i class="fas fa-spinner fa-pulse"></i>
+              </span>
+            }
+          </span>
+          <span class="text-dark" i18n>Refresh</span>
+        </span>
+      </div>
+    </div>
+
+    <hr class="border-dark mx-1" />
+
+    <!-- table section -->
+    <section class="mt-4 pt-3 row mx-0">
+      <!-- table header -->
+      <div class="row mx-2">
+        <b class="text-md text-dark col-md-2 fw-bold px-1" i8n>Created By</b>
+        <b class="text-md text-dark col-md-2 fw-bold px-1" i8n>Operation</b>
+        <b class="text-md text-dark col-md-2 fw-bold px-1" i8n>Amount</b>
+        <b class="text-md text-dark col-md-3 fw-bold px-1" i8n>Description</b>
+        <b class="text-md text-dark col-md-2 fw-bold px-1" i8n>Reference</b>
+        <b class="text-md text-dark col-md-1 fw-bold px-1" i8n>Status</b>
+      </div>
+
+      <!-- Not Found message -->
+      @if (!loadingList && operations?.length === 0) {
+        <div
+          class="d-flex flex-column align-items-center mt-5 empty-state-icon col-5 mx-auto">
+          <span style="font-size: 45px">
+            <i class="fa-solid fa-face-meh"></i>
+          </span>
+          <b class="text-md fw-bold" i18n> No Operations </b>
+        </div>
+      }
+
+      <!-- skeletons loader -->
+      @if (loadingList) {
+        <section class="mt-3">
+          @for (item of [1, 2, 3, 4]; track $index) {
+            <div style="height: 90px" class="sm-radius mt-3">
+              <!-- <ngx-skeleton-loader
+                [theme]="{
+                  weight: '100%',
+                  height: '100%',
+                }"></ngx-skeleton-loader> -->
+
+              <app-skeleton height="100%" classes="rounded"></app-skeleton>
+            </div>
+          }
+        </section>
+      }
+
+      <!-- table body -->
+
+      @if (!loadingList) {
+        <section class="accordion mt-3" id="operation-list">
+          @for (item of operations; track $index) {
+            <div class="border sm-radius p-3 mt-3 accordion-item bg-white">
+              <div
+                class="row align-items-center clickable accordion-header"
+                tabindex="0"
+                (click)="
+                  setSelectedCollapseMenu('details'); selectOperation(item.id)
+                "
+                data-bs-toggle="collapse"
+                attr.data-bs-target="#collapse-{{ $index }}"
+                aria-expanded="false"
+                attr.aria-controls="collapse-{{ $index }}">
+                <div class="col-2 d-flex flex-column px-1">
+                  <b class="text-md text-primary">
+                    {{ item.client_account.account_holder || '-----' }}
+                  </b>
+                  <span class="mt-2 text-md text-dark">
+                    {{ (item.created_at | date: 'mediumDate') ?? '-----' }}
+                    -
+                    {{ (item.created_at | date: 'shortTime') ?? '-----' }}
+                  </span>
+                </div>
+                <div class="col-2 d-flex flex-column px-1">
+                  <b class="text-dark text-md fw-bold">{{
+                    item.operation_type.code || '-----'
+                  }}</b>
+                  <span class="text-dark mt-2">{{
+                    item.created_by.username || '-----'
+                  }}</span>
+                </div>
+                <div class="col-2 px-1 text-dark">
+                  <app-amount-visibility
+                    [amount]="item.amount"
+                    currency="BIF"
+                    customClasses="text-sucess fw-bold"></app-amount-visibility>
+                </div>
+                <div class="col-3 px-1" [title]="item.description_debit">
+                  <div class="text-dark is-truncate-2">
+                    {{ item.description_debit || '------' }}
+                  </div>
+                </div>
+                <div class="col-2 px-1">
+                  <b class="d-block text-dark text-truncate text-md fw-bold">{{
+                    item.code || '-----'
+                  }}</b>
+                </div>
+                <div
+                  class="col-1 d-flex justify-content-around align-items-center px-1">
+                  <!-- <span
+                                  style="height: 25px; width: 25px"
+                                  role="button"
+                                  class="d-flex justify-content-center sm-radius border align-items-center not-clickable"
+                              > -->
+                  <span
+                    class="badge-design bg-{{
+                      item?.status?.css
+                    }} text-all-dark"
+                    >{{ item?.status?.title || '----' }}</span
+                  >
+                  <!-- </span> -->
+                </div>
+              </div>
+
+              <!-- collapse -->
+              <section
+                id="collapse-{{ $index }}"
+                class="accordion-collapse collapse mt-3 border sm-radius p-3 bg-secondary"
+                data-bs-parent="#operation-list">
+                <header>
+                  <span
+                    tabindex="0"
+                    class="sm-radius p-2 px-4 me-3 clickable"
+                    (click)="setSelectedCollapseMenu('details')"
+                    [ngClass]="{
+                      'text-primary level-2':
+                        selectedMenuOnCallapse === 'details',
+                      'text-dark': selectedMenuOnCallapse !== 'details',
+                    }">
+                    <small i18n><b>Details</b></small>
+                  </span>
+                  <span
+                    class="sm-radius p-2 px-4 me-3"
+                    tabindex="0"
+                    role="button"
+                    (click)="
+                      setSelectedCollapseMenu('transactions');
+                      getOperationTransactions(item.id)
+                    "
+                    [ngClass]="{
+                      'text-primary level-2':
+                        selectedMenuOnCallapse === 'transactions',
+                      'text-dark': selectedMenuOnCallapse !== 'transactions',
+                    }">
+                    <small i18n><b>Transactions</b></small>
+                  </span>
+                </header>
+
+                <!-- details section -->
+                @if (selectedMenuOnCallapse === 'details') {
+                  <section class="mt-4 row justify-content-between">
+                    <!-- first section -->
+                    <section class="col-md-5">
+                      <div class="sm-radius p-4 bg-primary-3">
+                        <div class="row">
+                          <span class="text-all-dark col-3" i18n>Name:</span>
+                          <div class="col-7">
+                            <span class="text-md fw-bold text-all-dark">
+                              {{
+                                item.client_account.account_holder || '-----'
+                              }}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="row mt-3">
+                          <span class="text-all-dark col-3" i18n>Account:</span>
+                          <div class="col-7">
+                            <span class="text-md fw-bold text-all-dark">
+                              {{
+                                item.client_account.account_number || '-----'
+                              }}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="row mt-3">
+                          <span class="text-all-dark col-3" i18n>Amount: </span>
+                          <div class="col-7">
+                            <span class="text-md fw-bold text-all-dark">
+                              <app-amount-visibility
+                                [amount]="item.amount"
+                                currency="BIF"></app-amount-visibility>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- <div class="h-50 overflow-scroll"> -->
+                      <div class="mt-4 mx-3 h-50 overflow-scroll border">
+                        <div i18n>
+                          <b class="text-dark">Other Info</b>
+                        </div>
+                        <!-- Transfer type -->
+                        @if (item.other_info.transfer_type) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.transfer_type.label
+                            }}</small>
+
+                            @if (
+                              item.other_info.transfer_type.type === 'value' &&
+                              item.other_info.transfer_type.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.transfer_type.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- deposit_type -->
+                        @if (item.other_info.deposit_type) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.deposit_type.label
+                            }}</small>
+
+                            @if (
+                              item.other_info.deposit_type.type === 'value' &&
+                              item.other_info.deposit_type.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.deposit_type.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- withdrawal_type -->
+                        @if (item.other_info.withdrawal_type) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.withdrawal_type.label
+                            }}</small>
+
+                            @if (
+                              item.other_info.withdrawal_type.type ===
+                                'value' && item.other_info.withdrawal_type.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.withdrawal_type.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- debit account commissions -->
+                        @if (item.other_info.cios_debit_account_type) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.cios_debit_account_type.label
+                            }}</small>
+                            @if (
+                              item.other_info.cios_debit_account_type.type ===
+                                'value' &&
+                              item.other_info.cios_debit_account_type.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.cios_debit_account_type.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- Transfer sub type -->
+                        @if (item.other_info.transfer_sub_type) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.transfer_sub_type.label
+                            }}</small>
+
+                            @if (
+                              item.other_info.transfer_sub_type.type ===
+                                'value' &&
+                              item.other_info.transfer_sub_type.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.transfer_sub_type.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- account_holder -->
+
+                        @if (item.other_info.account_holder) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.account_holder.label
+                            }}</small>
+
+                            @if (
+                              item.other_info.account_holder.type === 'value' &&
+                              item.other_info.account_holder.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.account_holder.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- account -->
+                        @if (item.other_info.account) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.account.label
+                            }}</small>
+                            @if (
+                              item.other_info.account.type === 'object' &&
+                              item.other_info.account.data.detail
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.account.data.detail
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.account.type === 'object' &&
+                              item.other_info.account.data.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.account.data.data.detail
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- client account -->
+                        @if (item.other_info.client_account) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.client_account.label
+                            }}</small>
+                            @if (
+                              item.other_info.client_account.type ===
+                                'object' &&
+                              item.other_info.client_account.data.detail
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.client_account.data.detail
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.client_account.type ===
+                                'object' &&
+                              item.other_info.client_account.data.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.client_account.data.data.detail
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- loan -->
+
+                        @if (item.other_info.loan) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.loan.label
+                            }}</small>
+                            @if (
+                              item.other_info.loan.type === 'object' &&
+                              item.other_info.loan.data.detail
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.loan.data.detail
+                              }}</b>
+                            }
+
+                            @if (
+                              item.other_info.loan.type === 'object' &&
+                              item.other_info.loan.data.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.loan.data.data.detail
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- access bank -->
+
+                        @if (item.other_info.access_bank) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.access_bank.label
+                            }}</small>
+
+                            @if (
+                              item.other_info.access_bank.type === 'object' &&
+                              item.other_info.access_bank.data.detail
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.access_bank.data.detail
+                              }}</b>
+                            }
+
+                            @if (
+                              item.other_info.access_bank.type === 'object' &&
+                              item.other_info.access_bank.data.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.access_bank.data.data.detail
+                              }}</b>
+                            }
+                          </span>
+                        }
+
+                        <!-- debit bank -->
+                        @if (item.other_info.debit_bank) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.debit_bank.label
+                            }}</small>
+                            @if (
+                              item.other_info.debit_bank.type === 'object' &&
+                              item.other_info.debit_bank.data.detail
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.debit_bank.data.detail
+                              }}</b>
+                            }
+
+                            @if (
+                              item.other_info.debit_bank.type === 'object' &&
+                              item.other_info.debit_bank.data.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.debit_bank.data.data.detail
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- credit bank -->
+                        @if (item.other_info.credit_bank) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.credit_bank.label
+                            }}</small>
+                            @if (
+                              item.other_info.credit_bank.type === 'object' &&
+                              item.other_info.credit_bank.data.detail
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.credit_bank.data.detail
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.credit_bank.type === 'object' &&
+                              item.other_info.credit_bank.data.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.credit_bank.data.data.detail
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- agent -->
+                        @if (item.other_info.agent) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.agent.label
+                            }}</small>
+                            @if (
+                              item.other_info.agent.type === 'object' &&
+                              item.other_info.agent.data.detail
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.agent.data.detail
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.agent.type === 'object' &&
+                              item.other_info.agent.data.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.agent.data.data.detail
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- merchant -->
+                        @if (item.other_info.merchant) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.merchant.label
+                            }}</small>
+                            @if (
+                              item.other_info.merchant.type === 'object' &&
+                              item.other_info.merchant.data.detail
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.merchant.data.detail
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.merchant.type === 'object' &&
+                              item.other_info.merchant.data.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.merchant.data.data.detail
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- merchant payment -->
+                        @if (item.other_info.merchant_payment) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.merchant_payment.label
+                            }}</small>
+                            @if (
+                              item.other_info.merchant_payment.type ===
+                                'object' &&
+                              item.other_info.merchant_payment.data.detail
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.merchant_payment.data.detail
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.merchant_payment.type ===
+                                'object' &&
+                              item.other_info.merchant_payment.data.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.merchant_payment.data.data
+                                  .detail
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- Debit account holder -->
+                        @if (item.other_info.debit_account_holder) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.debit_account_holder.label
+                            }}</small>
+                            @if (
+                              item.other_info.debit_account_holder.type ===
+                                'value' &&
+                              item.other_info.debit_account_holder.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.debit_account_holder.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- debit account -->
+                        @if (item.other_info.debit_account) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.debit_account.label
+                            }}</small>
+                            @if (
+                              item.other_info.debit_account.type === 'object' &&
+                              item.other_info.debit_account.data.detail
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.debit_account.data.detail
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.debit_account.type === 'object' &&
+                              item.other_info.debit_account.data.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.debit_account.data.data.detail
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- Access Client -->
+                        @if (item.other_info.access_client) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.access_client.label
+                            }}</small>
+                            @if (
+                              item.other_info.access_client.type === 'object' &&
+                              item.other_info.access_client.data.detail
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.access_client.data.detail
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.access_client.type === 'object' &&
+                              item.other_info.access_client.data.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.access_client.data.data.detail
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- Connected Client -->
+                        @if (item.other_info.connected_client) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.connected_client.label
+                            }}</small>
+                            @if (
+                              item.other_info.connected_client.type ===
+                                'object' &&
+                              item.other_info.connected_client.data.detail
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.connected_client.data.detail
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.connected_client.type ===
+                                'object' &&
+                              item.other_info.connected_client.data.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.connected_client.data.data
+                                  .detail
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- Credit account holder -->
+                        @if (item.other_info.credit_account_holder) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.credit_account_holder.label
+                            }}</small>
+                            @if (
+                              item.other_info.credit_account_holder.type ===
+                                'value' &&
+                              item.other_info.credit_account_holder.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.credit_account_holder.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- credit account -->
+                        @if (item.other_info.credit_account) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.credit_account.label
+                            }}</small>
+                            @if (
+                              item.other_info.credit_account.type ===
+                                'object' &&
+                              item.other_info.credit_account.data.detail
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.credit_account.data.detail
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.credit_account.type ===
+                                'object' &&
+                              item.other_info.credit_account.data.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.credit_account.data.data.detail
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- amount -->
+                        @if (item.other_info.amount) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.amount.label
+                            }}</small>
+                            @if (
+                              item.other_info.amount.type === 'decimal' &&
+                              item.other_info.amount.data !== 'None'
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.amount.data | number
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.amount.type === 'decimal' &&
+                              item.other_info.amount.data === 'None'
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.amount.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- commissions amount -->
+                        @if (item.other_info.cios_amount) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.cios_amount.label
+                            }}</small>
+                            @if (
+                              item.other_info.cios_amount.type === 'decimal' &&
+                              item.other_info.cios_amount.data !== 'None'
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.cios_amount.data | number
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.cios_amount.type === 'decimal' &&
+                              item.other_info.cios_amount.data === 'None'
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.cios_amount.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- ihela commissions amount -->
+                        @if (item.other_info.ihela_cios_amount) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.ihela_cios_amount.label
+                            }}</small>
+                            @if (
+                              item.other_info.ihela_cios_amount.type ===
+                                'decimal' &&
+                              item.other_info.ihela_cios_amount.data !== 'None'
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.ihela_cios_amount.data | number
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.ihela_cios_amount.type ===
+                                'decimal' &&
+                              item.other_info.ihela_cios_amount.data === 'None'
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.ihela_cios_amount.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- Agent commission -->
+                        @if (item.other_info.agent_commission_amount) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.agent_commission_amount.label
+                            }}</small>
+                            @if (
+                              item.other_info.agent_commission_amount.type ===
+                                'decimal' &&
+                              item.other_info.agent_commission_amount.data !==
+                                'None'
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.agent_commission_amount.data
+                                  | number
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.agent_commission_amount.type ===
+                                'decimal' &&
+                              item.other_info.agent_commission_amount.data ===
+                                'None'
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.agent_commission_amount.data
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.agent_commission_amount.type ===
+                                'value' &&
+                              item.other_info.agent_commission_amount.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.agent_commission_amount.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- client recruiter commission -->
+                        @if (item.other_info.client_recruiter_cios_amount) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.client_recruiter_cios_amount.label
+                            }}</small>
+                            @if (
+                              item.other_info.client_recruiter_cios_amount
+                                .type === 'decimal' &&
+                              item.other_info.client_recruiter_cios_amount
+                                .data !== 'None'
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.client_recruiter_cios_amount
+                                  .data | number
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.client_recruiter_cios_amount
+                                .type === 'decimal' &&
+                              item.other_info.client_recruiter_cios_amount
+                                .data === 'None'
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.client_recruiter_cios_amount
+                                  .data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- total commissions -->
+                        @if (item.other_info.total_commission_amount) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.total_commission_amount.label
+                            }}</small>
+                            @if (
+                              item.other_info.total_commission_amount.type ===
+                                'decimal' &&
+                              item.other_info.total_commission_amount.data !==
+                                'None'
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.total_commission_amount.data
+                                  | number
+                              }}</b>
+                            }
+                            @if (
+                              item.other_info.total_commission_amount.type ===
+                                'decimal' &&
+                              item.other_info.total_commission_amount.data ===
+                                'None'
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.total_commission_amount.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- merchant reference -->
+                        @if (item.other_info.merchant_reference) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.merchant_reference.label
+                            }}</small>
+                            @if (
+                              item.other_info.merchant_reference.type ===
+                                'value' &&
+                              item.other_info.merchant_reference.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.merchant_reference.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+
+                        <!-- description -->
+                        @if (item.other_info.description) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.description.label
+                            }}</small>
+                            @if (
+                              item.other_info.description.type === 'value' &&
+                              item.other_info.description.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.description.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                        <!-- transaction by -->
+                        @if (item.other_info.transaction_by) {
+                          <span class="d-flex mt-2 flex-column">
+                            <small class="text-primary">{{
+                              item.other_info.transaction_by.label
+                            }}</small>
+                            @if (
+                              item.other_info.transaction_by.type === 'value' &&
+                              item.other_info.transaction_by.data
+                            ) {
+                              <b class="text-dark">{{
+                                item.other_info.transaction_by.data
+                              }}</b>
+                            }
+                          </span>
+                        }
+                      </div>
+                      <!-- </div> -->
+                    </section>
+
+                    <!-- second section -->
+                    <section class="col-md-5">
+                      <!-- first block -->
+                      <div class="sm-radius p-3 bg-primary-3">
+                        <div class="d-flex flex-column">
+                          <span class="text-primary" i18n
+                            >Debit Description</span
+                          >
+                          <div>
+                            <span class="text-all-dark mt-2">
+                              {{ item.description_debit || '-----' }}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="d-flex flex-column mt-3">
+                          <span class="text-primary" i18n
+                            >Credit Description</span
+                          >
+                          <div>
+                            <span class="text-all-dark mt-2">
+                              {{ item.description_credit }}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-column mt-3">
+                          <span class="text-primary" i18n>Reference</span>
+                          <div>
+                            <span class="text-all-dark mt-2">
+                              {{ item.code }}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="d-flex flex-column mt-3">
+                          <span class="text-primary" i18n>Bank Reference</span>
+                          <div>
+                            <span class="text-all-dark mt-2">
+                              {{ item.reference || '-----' }}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="d-flex flex-column mt-3">
+                          <span class="text-primary" i18n
+                            >Bank Pending Reference</span
+                          >
+                          <div>
+                            <span class="text-all-dark mt-2">
+                              {{ item.pending_reference || '-----' }}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="d-flex flex-column mt-3">
+                          <span class="text-primary" i18n
+                            >External Reference</span
+                          >
+                          <div>
+                            <span class="text-all-dark mt-2">
+                              {{ item.external_reference || '-----' }}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="d-flex flex-column mt-3">
+                          <span class="text-primary" i18n
+                            >Bank Extourne Reference</span
+                          >
+                          <div>
+                            <span class="text-all-dark mt-2">
+                              {{ item.extourne_reference || '-----' }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- second block -->
+                      <div class="level-2 sm-radius p-3 mt-4">
+                        <div class="d-flex flex-column">
+                          <span>
+                            <span class="text-primary"> Created by </span>
+                            <b class="text-dark">{{
+                              item.created_by.username || '-----'
+                            }}</b>
+                          </span>
+                          <span class="text-dark">
+                            <span i18n>At</span>
+                            {{ (item.created_at | date: 'medium') ?? '-----' }}
+                          </span>
+                        </div>
+                        @if (item.approved_by) {
+                          <div class="mt-2 d-flex flex-column">
+                            <span>
+                              <span class="text-primary"> Approved by </span>
+                              <b class="text-dark">{{
+                                item.approved_by || '-----'
+                              }}</b>
+                            </span>
+                            <span
+                              [ngClass]="{
+                                'text-all-white': theme === 'dark',
+                              }">
+                              <span i18n>At</span>
+                              {{
+                                (item.approved_at | date: 'medium') ?? '-----'
+                              }}
+                            </span>
+                          </div>
+                        }
+                        <!-- <div class="mt-2 d-flex flex-column">
+                                                 <span>
+                                                     <span
+                                                         class="text-primary"
+                                                     >
+                                                         Approved by
+                                                     </span>
+                                                     <b
+                                                         >BIGIRIMANA Neondine
+                                                         (BOX04)</b
+                                                     >
+                                                 </span>
+                                                 <span>
+                                                     at December 21, 2023 10:52 AM
+                                                 </span>
+                                             </div> -->
+                      </div>
+                    </section>
+
+                    <!-- buttons section -->
+                    <div class="text-center mt-3">
+                      <button
+                        class="btn text-all-white bg-primary me-3 disabled">
+                        <span>
+                          <span class="me-2"
+                            ><i class="fa-solid fa-rotate"></i
+                          ></span>
+                          Check status
+                        </span>
+                      </button>
+                      <button class="btn text-all-white bg-primary disabled">
+                        <span>
+                          <span class="me-2"
+                            ><i class="fa-solid fa-rotate-left"></i
+                          ></span>
+                          Extourne
+                        </span>
+                      </button>
+                    </div>
+                  </section>
+                }
+
+                <!-- transaction section -->
+                @if (selectedMenuOnCallapse === 'transactions') {
+                  <section>
+                    <!-- not found message -->
+                    @if (!transactionLoading && transactions.length === 0) {
+                      <div
+                        class="d-flex flex-column align-items-center mt-5 empty-state-icon">
+                        <span style="font-size: 60px">
+                          <i class="fa-solid fa-face-meh"></i>
+                        </span>
+                        <b class="text-l" i18n> No Transaction </b>
+                      </div>
+                    }
+
+                    <!-- loader section -->
+                    @if (transactionLoading) {
+                      <section
+                        class="fs-1 text-primary d-flex justify-content-center align-items-center my-5 py-5">
+                        <span>
+                          <i
+                            class="fa-solid fa-spin fa-circle-notch text-primary"></i>
+                        </span>
+                      </section>
+                    }
+
+                    @if (!transactionLoading && transactions.length !== 0) {
+                      <section class="row mt-4 pt-3">
+                        <!-- transaction table header -->
+                        <div class="row mx-0 text-dark">
+                          <b class="col-3 p-0" i8n>Account</b>
+                          <b class="col-3" i8n>Description</b>
+                          <b class="col-2" i8n>Reference</b>
+                          <b class="col-2" i8n>Debit</b>
+                          <b class="col-2" i8n>Credit</b>
+                        </div>
+
+                        @for (transaction of transactions; track $index) {
+                          <div
+                            class="row mx-0 py-2 px-0 border-bottom text-dark"
+                            style="border-bottom-style: dashed !important">
+                            <div class="col-3 d-flex flex-column">
+                              <b class="text-primary">{{
+                                transaction?.account?.account_number ?? '------'
+                              }}</b>
+                              <small>{{
+                                transaction?.account?.account_title ?? '------'
+                              }}</small>
+                            </div>
+                            <div class="col-3">
+                              <small>{{
+                                transaction.description || '------'
+                              }}</small>
+                            </div>
+                            <div class="col-2">
+                              <small>{{
+                                transaction.reference || '------'
+                              }}</small>
+                            </div>
+                            <div class="col-2">
+                              <b>
+                                <small class="text-danger">{{
+                                  transaction.debit || ''
+                                }}</small>
+                              </b>
+                            </div>
+                            <div class="col-2">
+                              <b>
+                                <small class="text-success">{{
+                                  transaction.credit || ''
+                                }}</small>
+                              </b>
+                            </div>
+                          </div>
+                        }
+
+                        <!-- transaction pagination  -->
+                        @if (
+                          !transactionLoading &&
+                          transactionCount > transactionPagination.filters.limit
+                        ) {
+                          <div
+                            class="mt-4 d-flex align-items-center justify-content-center text-light">
+                            <button
+                              title="Previous"
+                              (click)="doListMove('prev', 'transactions')"
+                              [disabled]="transactionCurrentPage === 0"
+                              class="border-0 me-2 btn d-inline-flex align-items-center rounded p-2 fs-4 text-primary">
+                              <i class="fa-solid fa-play fa-rotate-180"></i>
+                            </button>
+                            @if (transactionPagination.filters.limit) {
+                              <button
+                                title="Next"
+                                (click)="doListMove('next', 'transactions')"
+                                [disabled]="
+                                  transactionCount <
+                                  transactionCurrentPage *
+                                    transactionPagination.filters.limit
+                                "
+                                class="border-0 ms-2 btn fs-4 d-inline-flex align-items-center rounded p-2 text-primary">
+                                <i class="fa-solid fa-play"></i>
+                              </button>
+                            }
+                          </div>
+                        }
+                      </section>
+                    }
+                  </section>
+                }
+              </section>
+            </div>
+          }
+        </section>
+      }
+
+      <!-- table footer pagination  -->
+      <div class="my-4">
+        <app-pagination
+          [isLoading]="loadingList"
+          [totalData]="count"
+          [pageLimit]="operationPagination.filters.limit"
+          (paginationChange)="onPaginationChange($event)">
+        </app-pagination>
+      </div>
+    </section>
+  </main>
+</div>
