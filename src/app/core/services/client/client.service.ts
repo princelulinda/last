@@ -183,4 +183,13 @@ export class ClientService {
         })
       );
   }
+  UpdateCorporateDetails(clientId: string, data: object) {
+    return this.apiService
+      .patch(`/clients/manage/corporate/${clientId}/`, data)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
 }

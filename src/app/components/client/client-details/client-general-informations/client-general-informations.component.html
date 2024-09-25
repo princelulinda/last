@@ -1,0 +1,841 @@
+<!-- details  individuels -->
+@if (clientIndiv && selectedGeneralInfo === true) {
+  <div class="mb-4 mt-3 sm-radius individualDetails">
+    <form [formGroup]="individualClientInfo">
+      <div class="row justify-content-between mt-2 mx-auto">
+        <div class="text-start col d-inline-block text-truncate">
+          <span class="fs-small text-dark label" i18n>Username</span>
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <span
+              class="text-dark fw-bold fs-normal"
+              [title]="clientIndiv.username"
+              >{{ clientIndiv.username }}</span
+            >
+          }
+
+          @if (isGeneralInfoFormShown) {
+            <span>
+              <input
+                class="form-control input"
+                formControlName="username"
+                type="text"
+                placeholder="Username"
+            /></span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+        <div class="text-start col d-inline-block text-truncate">
+          <span class="fs-small text-dark label" i18n>First Name</span>
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <span
+              class="text-dark fw-bold fs-normal"
+              [title]="clientIndiv.firstname"
+              >{{ clientIndiv.firstname }}</span
+            >
+          }
+
+          @if (isGeneralInfoFormShown) {
+            <span>
+              <input
+                class="form-control input"
+                formControlName="firstname"
+                type="text"
+                placeholder="firstname"
+            /></span>
+          }
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+        <div class="text-start col d-inline-block text-truncate">
+          <span class="fs-small text-dark label" i18n>Last Name</span>
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <span
+              class="text-dark fw-bold fs-normal"
+              [title]="clientIndiv.lastname"
+              >{{ clientIndiv.lastname }}</span
+            >
+          }
+
+          @if (isGeneralInfoFormShown) {
+            <span>
+              <input
+                class="form-control input"
+                formControlName="lastname"
+                type="text"
+                placeholder="lastname"
+            /></span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+        <div class="ms-auto text-start col">
+          <span class="text-dark fs-small label" i18n>Gender</span><br />
+          <span class="text-dark fw-bold fs-normal">{{ clientIndiv.sex }}</span>
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+      </div>
+      <br />
+      <div class="row justify-content-between mx-auto">
+        <div class="text-start col">
+          <span class="fs-small text-dark label" i18n>Nationality</span><br />
+          <span class="text-dark fw-bold fs-normal">{{ nationality }}</span>
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+        <div class="ms-auto text-start col">
+          <span class="fs-small text-dark label" i18n>Marital status</span>
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <span class="text-dark fw-bold fs-normal">{{
+              clientIndiv.marital_status
+            }}</span>
+          }
+
+          @if (isGeneralInfoFormShown) {
+            <span>
+              <input
+                class="form-control input"
+                formControlName="maritalStatus"
+                type="text"
+                placeholder="Single,Married,Engaged,Widower"
+            /></span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+        <div class="ms-auto text-start col">
+          <span class="text-dark fs-small label" i18n>Date of birth</span><br />
+          @if (!isGeneralInfoFormShown) {
+            <span class="text-dark fw-bold fs-normal">{{
+              clientIndiv.birthday
+            }}</span>
+          }
+
+          @if (isGeneralInfoFormShown) {
+            <span>
+              <input
+                class="form-control input"
+                formControlName="dateOfBirth"
+                type="date"
+                placeholder="Date of birth"
+            /></span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+        <div class="ms-auto text-start col">
+          <span class="fs-small text-dark label" i18n>Place of birth</span
+          ><br />
+          @if (!isGeneralInfoFormShown) {
+            <span class="text-dark fw-bold fs-normal">{{ placeOfBirth }}</span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+      </div>
+      <br />
+      <div class="row justify-content-between mx-auto">
+        <div class="text-start col d-inline-block text-truncate">
+          <span class="fs-small text-dark label" i18n>Spouse name</span>
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <span
+              class="text-dark fw-bold fs-normal"
+              [title]="clientIndiv.spouse_name"
+              >{{ clientIndiv.spouse_name }}</span
+            >
+          }
+
+          @if (isGeneralInfoFormShown) {
+            <span>
+              <input
+                class="form-control input"
+                formControlName="spouseName"
+                type="text"
+                placeholder="Spouse name"
+            /></span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+        <div class="ms-auto text-start col">
+          <span class="text-dark fs-small label" i18n>Spouse tel</span><br />
+          @if (!isGeneralInfoFormShown) {
+            <span class="text-dark fw-bold fs-normal">{{
+              clientIndiv.spouse_telephone
+            }}</span>
+          }
+
+          @if (isGeneralInfoFormShown) {
+            <span>
+              <input
+                class="form-control input"
+                formControlName="spouseTel"
+                type="tel"
+                placeholder="Spouse phone number"
+            /></span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+        <div class="ms-auto text-start col d-inline-block text-truncate">
+          <span class="fs-small text-dark label" i18n>Father name</span><br />
+          @if (!isGeneralInfoFormShown) {
+            <span
+              class="text-dark fw-bold fs-normal"
+              [title]="clientIndiv.father_name"
+              >{{ clientIndiv.father_name }}</span
+            >
+          }
+
+          @if (isGeneralInfoFormShown) {
+            <span>
+              <input
+                class="form-control input"
+                formControlName="fatherName"
+                type="text"
+                placeholder="Father name"
+            /></span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+        <div class="ms-auto text-start col d-inline-block text-truncate">
+          <span class="fs-small text-dark label" i18n>Mother name</span><br />
+          @if (!isGeneralInfoFormShown) {
+            <span
+              class="text-dark fw-bold fs-normal"
+              [title]="clientIndiv.mother_name"
+              >{{ clientIndiv.mother_name }}</span
+            >
+          }
+          @if (isGeneralInfoFormShown) {
+            <span>
+              <input
+                class="form-control input"
+                formControlName="motherName"
+                type="text"
+                placeholder="Mother name"
+            /></span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+      </div>
+      <br />
+      <div class="row justify-content-between mx-auto">
+        <div class="text-start col d-inline-block text-truncate">
+          <span class="fs-small text-dark label" i18n>Matrimonial status</span
+          ><br />
+          @if (!isGeneralInfoFormShown) {
+            <span class="text-dark fw-bold fs-normal">{{
+              clientIndiv.matrimonial_status
+            }}</span>
+          }
+
+          @if (isGeneralInfoFormShown) {
+            <span>
+              <input
+                class="form-control input"
+                formControlName="matrimonialStatus"
+                type="text"
+                placeholder="Matrimonial status"
+            /></span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+
+        <div class="ms-auto text-start col d-inline-block text-truncate">
+          <span class="fs-small text-dark label" i18n>Referencer name</span>
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <span
+              class="text-dark fw-bold fs-normal"
+              [title]="clientIndiv.referee_person"
+              >{{ clientIndiv.referee_person }}</span
+            >
+          }
+
+          @if (isGeneralInfoFormShown) {
+            <span>
+              <input
+                class="form-control input"
+                formControlName="refereeName"
+                type="text"
+                placeholder="Referee person"
+            /></span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+
+        <div class="ms-auto text-start col d-inline-block text-truncate">
+          <span class="fs-small text-dark label" i18n>Profession</span><br />
+          @if (!isGeneralInfoFormShown) {
+            <span
+              class="text-dark fw-bold fs-normal"
+              [title]="clientIndiv.other_profession"
+              >{{ clientIndiv.other_profession }}</span
+            >
+          }
+
+          @if (isGeneralInfoFormShown) {
+            <span>
+              <input
+                class="form-control input"
+                formControlName="profession"
+                type="text"
+                placeholder="Other profession"
+            /></span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+        <div class="ms-auto text-start col">
+          <span class="fs-small text-dark label"></span><br />
+          <span class="text-dark fw-bold">---</span>
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+      </div>
+      <br />
+      <div class="row justify-content-center mx-auto">
+        <div class="text-start col d-inline-block text-truncate">
+          <span class="fs-small text-dark label" i18n>Signature 1</span><br />
+          @if (
+            !isGeneralInfoFormShown || (clientIndiv.signature && !addSignature1)
+          ) {
+            <div>
+              @if (clientIndiv.signature) {
+                <div>
+                  <img
+                    [src]="clientIndiv.signature"
+                    alt="signature1 image"
+                    class="image lg-radius mb-2 signatureBlock" />
+                </div>
+              }
+
+              @if (
+                isGeneralInfoFormShown &&
+                clientIndiv.signature &&
+                !addSignature1
+              ) {
+                <div>
+                  <button
+                    class="btn bg-info text-light"
+                    (click)="modifyOrAddSignature()">
+                    Modify the signature
+                  </button>
+                </div>
+              }
+
+              @if (!clientIndiv.signature) {
+                <span class="text-dark fw-bold fs-normal">{{
+                  clientIndiv.signature
+                }}</span>
+              }
+            </div>
+          }
+
+          @if (isGeneralInfoFormShown && addSignature1) {
+            <span>
+              <app-file
+                [uploadOneFile]="true"
+                (uploadOneFileEvent)="collectSignature1($event)"></app-file
+            ></span>
+          }
+
+          @if (
+            isGeneralInfoFormShown && !clientIndiv.signature && !addSignature1
+          ) {
+            <span>
+              <button
+                class="btn bg-info text-light"
+                (click)="modifyOrAddSignature()">
+                Add a signature
+              </button>
+            </span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+
+        <div
+          class="ms-auto text-start col d-inline-block text-truncate"
+          [ngClass]="{
+            'mb-5': !addSignature2,
+          }">
+          <span class="fs-small text-dark label" i18n>Signature 2</span>
+          <br />
+          @if (
+            !isGeneralInfoFormShown ||
+            (clientIndiv.signature2 && !addSignature2)
+          ) {
+            <div>
+              @if (clientIndiv.signature2 && !addSignature2) {
+                <div>
+                  <img
+                    [src]="clientIndiv.signature2"
+                    alt="signature2 image"
+                    class="image lg-radius mb-2 signatureBlock" />
+                </div>
+              }
+
+              @if (
+                isGeneralInfoFormShown &&
+                clientIndiv.signature &&
+                !addSignature2
+              ) {
+                <div>
+                  <button
+                    class="btn bg-info text-light"
+                    (click)="modifyOrAddSignature2()">
+                    Modify the signature
+                  </button>
+                </div>
+              }
+
+              @if (!clientIndiv.signature2) {
+                <span class="text-dark fw-bold fs-normal">{{
+                  clientIndiv.signature2
+                }}</span>
+              }
+            </div>
+          }
+
+          @if (isGeneralInfoFormShown && addSignature2) {
+            <span>
+              <app-file
+                [uploadOneFile]="true"
+                (uploadOneFileEvent)="collectSignature2($event)"></app-file>
+            </span>
+          }
+
+          @if (
+            isGeneralInfoFormShown && !clientIndiv.signature2 && !addSignature2
+          ) {
+            <span>
+              <button
+                class="btn bg-info text-light"
+                (click)="modifyOrAddSignature2()">
+                Add a signature
+              </button>
+            </span>
+          }
+
+          <br />
+          @if (!isGeneralInfoFormShown) {
+            <div class="has-border mt-2"></div>
+          }
+        </div>
+      </div>
+      @if (isGeneralInfoFormShown) {
+        <div class="text-center mb-3">
+          <b
+            role="button"
+            (click)="
+              isGeneralInfoFormShown = false;
+              this.addSignature1 = false;
+              this.addSignature2 = false
+            "
+            tabindex="0"
+            class="text-info fs-small"
+            i18n
+            >Cancel</b
+          >
+          <button
+            class="ms-3 btn px-3 buttonSubmit bg-info"
+            [ngClass]="{
+              'text-light': theme === 'light',
+              'text-dark': theme === 'dark',
+              'not-clickable': isLoading,
+            }"
+            (click)="updateIndividualClientDetails()">
+            @if (!isLoading) {
+              <span i18n>Update</span>
+            }
+
+            @if (isLoading) {
+              <span
+                ><i class="text-dark fa-solid fa-spin fa-circle-notch"></i
+              ></span>
+            }
+          </button>
+        </div>
+      }
+    </form>
+  </div>
+}
+
+<!-- details  corporates -->
+@if (clientEntreprise && selectedGeneralInfo === true) {
+  <div class="mb-4 sm-radius mt-3 ms-1 corporateDetails">
+    <form [formGroup]="corporateClientInfo">
+      @if (selectedGeneralInfo === true) {
+        <div class="row justify-content-between mt-2 mx-auto">
+          <div class="text-start col d-inline-block text-truncate">
+            <span class="fs-small text-dark label" i18n>Name</span>
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <span
+                class="text-dark fw-bold fs-normal"
+                [title]="clientEntreprise.corp_name"
+                >{{ clientEntreprise.corp_name }}</span
+              >
+            }
+            @if (isGeneralInfoFormShown) {
+              <span>
+                <input
+                  class="form-control input"
+                  formControlName="name"
+                  type="text"
+                  placeholder="Name"
+              /></span>
+            }
+
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <div class="has-border mt-2"></div>
+            }
+          </div>
+          <div class="ms-auto text-start col">
+            <span class="text-dark fs-small label" i18n>Initials</span><br />
+            @if (!isGeneralInfoFormShown) {
+              <span class="text-dark fw-bold fs-normal">{{
+                clientEntreprise.corp_abrv_name
+              }}</span>
+            }
+            @if (isGeneralInfoFormShown) {
+              <span>
+                <input
+                  class="form-control input"
+                  formControlName="initials"
+                  type="text"
+                  placeholder="Initials"
+              /></span>
+            }
+
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <div class="has-border mt-2"></div>
+            }
+          </div>
+          <div class="ms-auto text-start col d-inline-block text-truncate">
+            <span class="fs-small text-dark label" i18n>Group name</span><br />
+            @if (!isGeneralInfoFormShown) {
+              <span
+                class="text-dark fw-bold fs-normal"
+                [title]="clientEntreprise.corp_group_name"
+                >{{ clientEntreprise.corp_group_name }}</span
+              >
+            }
+            @if (isGeneralInfoFormShown) {
+              <span>
+                <input
+                  class="form-control input"
+                  formControlName="groupName"
+                  type="text"
+                  placeholder="Group name"
+              /></span>
+            }
+
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <div class="has-border mt-2"></div>
+            }
+          </div>
+          <div class="ms-auto text-start col">
+            <span class="fs-small text-dark label"></span><br />
+            <span class="text-dark fw-bold">---</span>
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <div class="has-border mt-2"></div>
+            }
+          </div>
+        </div>
+      }
+
+      @if (selectedGeneralInfo === true) {
+        <div class="row justify-content-between mx-auto">
+          <div class="text-start col">
+            <span class="fs-small text-dark label">Social capital</span>
+            <br />
+            <span class="text-dark fw-bold fs-normal"
+              >{{
+                clientEntreprise.corp_social_capital_amount | number
+              }}
+              BIF</span
+            >
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <div class="has-border mt-2"></div>
+            }
+          </div>
+          <div class="ms-auto text-start col">
+            <span class="text-dark fs-small label" i18n>Turnover amount</span
+            ><br />
+            <span class="text-dark fw-bold fs-normal"
+              >{{ clientEntreprise.corp_turnover_amount | number }} BIF</span
+            >
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <div class="has-border mt-2"></div>
+            }
+          </div>
+          <div class="ms-auto text-start col">
+            <span class="fs-small text-dark label" i18n>Is suspect</span><br />
+            @if (!isGeneralInfoFormShown) {
+              <span class="text-dark fw-bold">
+                @if (clientEntreprise.is_suspect === true) {
+                  <span
+                    ><i class="fa-solid fa-circle-check fs-5 text-success"></i
+                  ></span>
+                }
+                @if (clientEntreprise.is_suspect === false) {
+                  <span>
+                    <i class="fa-solid fa-circle-xmark fs-5 text-danger"></i>
+                  </span>
+                }
+              </span>
+            }
+            @if (isGeneralInfoFormShown) {
+              <span>
+                <input
+                  class="form-check-input"
+                  formControlName="isSuspect"
+                  type="checkbox"
+              /></span>
+            }
+
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <div class="has-border mt-2"></div>
+            }
+          </div>
+          <div class="ms-auto text-start col">
+            <span class="fs-small text-dark label" i18n>Risk degree</span><br />
+            @if (!isGeneralInfoFormShown) {
+              <span class="text-dark fw-bold fs-normal">{{
+                clientEntreprise.corp_risk_degree.titlel
+              }}</span>
+            }
+            @if (isGeneralInfoFormShown) {
+              <span>
+                <input
+                  class="form-control input"
+                  formControlName="riskDegree"
+                  type="text"
+                  placeholder="L(Low) or H(High)"
+                  maxlength="5"
+              /></span>
+            }
+
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <div class="has-border mt-2"></div>
+            }
+          </div>
+        </div>
+      }
+
+      @if (selectedGeneralInfo === true) {
+        <div class="row justify-content-between mx-auto">
+          <div class="text-start col">
+            <span class="fs-small text-dark label" i18n>Suspected country</span>
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <span class="text-dark fw-bold">
+                @if (clientEntreprise.in_suspected_country === true) {
+                  <span
+                    ><i class="fa-solid fa-circle-check fs-5 text-success"></i
+                  ></span>
+                }
+
+                @if (clientEntreprise.in_suspected_country === false) {
+                  <span
+                    ><i class="fa-solid fa-circle-xmark fs-5 text-danger"></i
+                  ></span>
+                }
+              </span>
+            }
+
+            @if (isGeneralInfoFormShown) {
+              <span>
+                <input
+                  class="form-check-input"
+                  formControlName="suspectedCountry"
+                  type="checkbox"
+              /></span>
+            }
+
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <div class="has-border mt-2"></div>
+            }
+          </div>
+          <div class="ms-auto text-start col">
+            <span class="text-dark fs-small label" i18n
+              >Non cooperative country</span
+            ><br />
+            @if (!isGeneralInfoFormShown) {
+              <span class="text-dark fw-bold">
+                @if (
+                  clientEntreprise.live_in_non_cooperative_country === true
+                ) {
+                  <span
+                    ><i class="fa-solid fa-circle-check fs-5 text-success"></i
+                  ></span>
+                }
+
+                @if (
+                  clientEntreprise.live_in_non_cooperative_country === false
+                ) {
+                  <span
+                    ><i class="fa-solid fa-circle-xmark fs-5 text-danger"></i
+                  ></span>
+                }
+              </span>
+            }
+
+            @if (isGeneralInfoFormShown) {
+              <span>
+                <input
+                  class="form-check-input"
+                  formControlName="nonCooperativeCountry"
+                  type="checkbox"
+              /></span>
+            }
+
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <div class="has-border mt-2"></div>
+            }
+          </div>
+          <div class="ms-auto text-start col">
+            <span class="fs-small text-dark label" i18n>Not on blacklist</span
+            ><br />
+            @if (!isGeneralInfoFormShown) {
+              <span class="text-dark fw-bold">
+                @if (clientEntreprise.not_on_black_list === true) {
+                  <span
+                    ><i class="fa-solid fa-circle-check fs-5 text-success"></i
+                  ></span>
+                }
+
+                @if (clientEntreprise.not_on_black_list === false) {
+                  <span
+                    ><i class="fa-solid fa-circle-xmark fs-5 text-danger"></i
+                  ></span>
+                }
+              </span>
+            }
+
+            @if (isGeneralInfoFormShown) {
+              <span>
+                <input
+                  class="form-check-input"
+                  formControlName="notOnBlacklist"
+                  type="checkbox"
+              /></span>
+            }
+
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <div class="has-border mt-2"></div>
+            }
+          </div>
+          <div class="ms-auto text-start col">
+            <span class="fs-small text-dark label"></span><br />
+            <span class="text-dark fw-bold">---</span>
+            <br />
+            @if (!isGeneralInfoFormShown) {
+              <div class="has-border mt-2"></div>
+            }
+          </div>
+        </div>
+      }
+      @if (isGeneralInfoFormShown) {
+        <div class="text-center mb-3">
+          <b
+            role="button"
+            (click)="isGeneralInfoFormShown = false"
+            tabindex="0"
+            class="text-info fs-small"
+            i18n
+            >Cancel</b
+          >
+          <button
+            class="ms-3 btn px-3 buttonSub bg-info"
+            [ngClass]="{
+              'text-light': theme === 'light',
+              'text-dark': theme === 'dark',
+              'not-clickable': isLoading,
+            }"
+            (click)="updateCorporateDetails()">
+            @if (!isLoading) {
+              <span i18n>Update</span>
+            }
+            @if (isLoading) {
+              <span>
+                <i class="text-dark fa-solid fa-spin fa-circle-notch"></i>
+              </span>
+            }
+          </button>
+        </div>
+      }
+    </form>
+  </div>
+}

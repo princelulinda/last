@@ -19,6 +19,7 @@ export interface RoleModel {
   role_name: string;
   role_type: RoleTypeModel;
   content_object: ContentModel;
+  disable_during_leave?: boolean;
 }
 
 export interface RoleMenuModel {

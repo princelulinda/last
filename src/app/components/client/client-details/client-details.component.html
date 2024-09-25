@@ -37,7 +37,7 @@
                   >Accounts</span
                 >
                 <span
-                  class="mt-0 ms-1 fw-bold badge primary-light text-center"
+                  class="mt-0 ms-1 fw-bold badge bg-info text-center"
                   [ngClass]="theme === 'light' ? 'text-light' : 'text-dark'">
                   @if (accounts) {
                     <span> {{ accounts.length }}</span>
@@ -64,7 +64,7 @@
                 >
                 @if (wallets) {
                   <span
-                    class="mt-0 ms-1 fw-bold badge primary-light text-center"
+                    class="mt-0 ms-1 fw-bold badge bg-info text-center"
                     [ngClass]="theme === 'light' ? 'text-light' : 'text-dark'">
                     {{ wallets.length }}
                   </span>
@@ -87,12 +87,12 @@
                   @if (selectedCreditSetting) {
                     <span>
                       <i
-                        class="fa-solid fa-play text-primary-light fa-rotate-90 ms-1"></i>
+                        class="fa-solid fa-play text-info fa-rotate-90 ms-1"></i>
                     </span>
                   }
                   @if (!selectedCreditSetting) {
                     <span>
-                      <i class="fa-solid fa-play ms-1 text-primary-light"></i>
+                      <i class="fa-solid fa-play ms-1 text-info"></i>
                     </span>
                   }
                 </small>
@@ -218,7 +218,7 @@
                           <div class="col availableMenu text-dark">
                             <span
                               [ngClass]="{
-                                'text-primary-light': selectedGeneralInfo,
+                                'text-info': selectedGeneralInfo,
                               }"
                               i18n>
                               General information</span
@@ -252,25 +252,18 @@
                         </div>
                         @if (selectedGeneralInfo === true) {
                           <div>
-                            <!-- <app-client-general-informations
-                                                            [selectedClient]="
-                                                                this.selectedClient
-                                                            "
-                                                            [clientId]="clientId"
-                                                            [clientEntreprise]="
-                                                                this.clientEntreprise
-                                                            "
-                                                            [clientIndiv]="this.clientIndiv"
-                                                            [selectedGeneralInfo]="
-                                                                this.selectedGeneralInfo
-                                                            "
-                                                            [isGeneralInfoFormShown]="
-                                                                this.isGeneralInfoFormShown
-                                                            "
-                                                            (refreshUpdates)="
-                                                                seeUpdates($event)
-                                                            "
-                                                        ></app-client-general-informations> -->
+                            <app-client-general-informations
+                              [selectedClient]="this.selectedClient"
+                              [clientId]="clientId"
+                              [clientEntreprise]="this.clientEntreprise"
+                              [clientIndiv]="this.clientIndiv"
+                              [selectedGeneralInfo]="this.selectedGeneralInfo"
+                              [isGeneralInfoFormShown]="
+                                this.isGeneralInfoFormShown
+                              "
+                              (refreshUpdates)="
+                                seeUpdates($event)
+                              "></app-client-general-informations>
                           </div>
                         }
                       </div>
@@ -281,7 +274,7 @@
                           <div class="col availableMenu text-dark">
                             <span
                               [ngClass]="{
-                                'text-primary-light': selectedSensitiveInfo,
+                                'text-info': selectedSensitiveInfo,
                               }"
                               i18n
                               >Sensitive information</span
@@ -345,7 +338,7 @@
                           <div class="col availableMenu text-dark">
                             <span
                               [ngClass]="{
-                                'text-primary-light': selectedContactInfo,
+                                'text-info': selectedContactInfo,
                               }"
                               i18n
                               >Contact details</span
@@ -386,7 +379,7 @@
                           <div class="col availableMenu text-dark">
                             <span
                               [ngClass]="{
-                                'text-primary-light': selectedTaxInfo,
+                                'text-info': selectedTaxInfo,
                               }"
                               i18n
                               >Tax information</span
