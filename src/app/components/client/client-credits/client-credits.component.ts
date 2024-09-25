@@ -34,10 +34,6 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
   organization$!: Observable<OrganizationModel | null>;
   organization!: OrganizationModel | null;
 
-  showAmount$!: Observable<boolean>;
-  showAmount = false;
-  showAmountStat = false;
-
   amountState$!: Observable<boolean>;
   amountState = false;
 
@@ -113,13 +109,6 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.showAmount$.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: showAmount => {
-        this.showAmount = !showAmount;
-        this.showAmountStat = !showAmount;
-      },
-    });
-
     this.amountState$.subscribe({
       next: state => {
         this.amountState = state;
@@ -130,8 +119,8 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
         this.organization = organization;
       },
     });
-    this.clientId = this.selectedClient.client_id as number;
-    this.id = this.selectedClient.id as number;
+    this.clientId = this.selectedClient?.client_id as number;
+    this.id = this.selectedClient?.id as number;
     this.getCreditsList();
   }
 
@@ -139,14 +128,6 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
     this.selectedCredit = credit;
 
     this.getCreditDetails();
-  }
-
-  showBalance() {
-    this.showAmount = !this.showAmount;
-  }
-  showBalanceStat() {
-    this.showAmountStat = !this.showAmountStat;
-    // this.store.dispatch(new displayAmount({ show: this.showAmountStat }));
   }
 
   selectPlan() {
