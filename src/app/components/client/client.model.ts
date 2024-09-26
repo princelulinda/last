@@ -143,3 +143,22 @@ export interface ResponseDataForCorporateModel {
   response_message: string;
   response_code: string;
 }
+
+export interface CreditsLineModel {
+  id: number | string;
+  crel_credit_limit: number;
+  crel_account_info: {
+    acc_account_type: string;
+    acc_short_number: string;
+  };
+  crel_expiry_date: string;
+  crel_fees: number;
+  obj_created_by: string;
+  crel_penalities_rate: string;
+  crel_debitor_rate: string;
+  crel_code: string;
+  crel_paid: boolean;
+  crel_branch_info: {
+    name: string;
+  };
+}

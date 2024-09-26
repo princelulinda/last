@@ -120,7 +120,8 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
       },
     });
     this.clientId = this.selectedClient?.client_id as number;
-    this.id = this.selectedClient?.id as number;
+    this.id = 1144;
+    this.selectedClient.id = this.id;
     this.getCreditsList();
   }
 

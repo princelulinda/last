@@ -14,7 +14,7 @@ export class SelectedClientSmallOverviewComponent implements OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
   clientId!: number;
 
-  @Input() selectedClient!: ClientWorkstationModel | undefined;
+  @Input() selectedClient!: ClientWorkstationModel;
 
   // constructor() {
   //     //comment
