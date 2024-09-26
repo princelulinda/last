@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import {
   ClientService,
@@ -38,7 +45,7 @@ export class ClientSensitiveInfoComponent implements OnInit, OnDestroy {
   theme$: Observable<ModeModel>;
   selectedSectorId!: ItemModel | null;
   updateReady = false;
-  // selectedSector!: string;
+  selectSextor!: string;
   selectedCategoryId!: ItemModel | null;
   selectClient: ClientWorkstationModel | null = null;
 
@@ -95,7 +102,7 @@ export class ClientSensitiveInfoComponent implements OnInit, OnDestroy {
     this.clientService
       .modifyCategoryCorporate(
         this.clientId as string,
-        (this.selectedCategoryId as ItemModel).id,
+        (this.selectedCategoryId as ItemModel).lookup_title,
         data
       )
       .pipe(takeUntil(this.onDestroy$))
@@ -138,14 +145,14 @@ export class ClientSensitiveInfoComponent implements OnInit, OnDestroy {
     this.loadingSector = true;
 
     const data = {
-      activity_sector: (this.selectedSectorId as ItemModel).lookup_title,
+      activity_sector: (this.selectedSectorId as ItemModel).id,
     };
     this.dialogService.dispatchLoading();
 
     this.clientService
       .modifySectorCorporate(
         this.clientId as string,
-        (this.selectedSectorId as ItemModel).lookup_title,
+        (this.clientEntreprise as ClientCorporateModel).activity_sector,
         data
       )
 
@@ -204,9 +211,9 @@ export class ClientSensitiveInfoComponent implements OnInit, OnDestroy {
 
   setSelectedSector(selectedSectorId: ItemModel | null) {
     if (selectedSectorId) {
-      this.selectedSectorId = selectedSectorId;
+      this.selectSextor = selectedSectorId.lookup_title;
     } else {
-      this.selectedSectorId = null;
+      this.selectSextor = '';
     }
   }
 
