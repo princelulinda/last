@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import { map } from 'rxjs';
+import { AssignOperatorBodyModel } from '../../../components/dev/operations/operation.model';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +46,31 @@ export class CounterService {
   //counters
   getCounters(search = '', pagination: PaginationConfig) {
     const url = `/hr/counter/?search=${search}&limit=${pagination.filters.limit}&offset=${pagination.filters.offset}`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getCounterDetails(counterId: number) {
+    const url = `/hr/counter/${counterId}`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  assignOperatorToCounter(body: AssignOperatorBodyModel) {
+    const url = '/hr/counter/operator/assignment/';
+    return this.apiService.post(url, body).pipe(map(data => data));
+  }
+
+  getCounterTeller(counterId: number) {
+    const url = `/hr/tellers/list/?counter=${counterId}&`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getCounterTreasurer(counterId: number) {
+    const url = `/hr/treasurers/list/?counter=${counterId}&`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
+  getCounterMainBox(counterId: number) {
+    const url = `/hr/counter-mainbox/?counter=${counterId}`;
     return this.apiService.get(url).pipe(map(data => data));
   }
 }
