@@ -1,24 +1,39 @@
+import { ItemModel } from '../../global/components/lookups/lookup/lookup.model';
+import { SectorActivityModel } from '../merchant/merchant.models';
+
 export interface ClientWorkstationModel {
   id: number | string;
   client_id: number | string;
-  client_full_name: string;
-  client_type: string;
   client_code: string;
+  client_type: string;
+  client_full_name: string;
+  client_email: string;
+  client_phone_number: string;
+  client_is_secret: boolean;
+  client_detail: IndividualClientModel;
   client_classification: {
     title: string;
     value: string;
     css: string;
   };
+  absolute_url: string;
+  create_account_url: string;
+  picture_url: string;
+  client_category: {
+    id: string;
+    title: string;
+    text: string;
+    comment: string;
+    absolute_url: string;
+  };
+  client_category_type: ClientCategoryTypeModel;
+  activity_sector: SectorActivityModel;
   client_last_activity: string;
   client_category_title: string;
   client_category_id: number;
   client_category_type_title: string;
   client_category_type_id: number;
   client_is_custom: boolean;
-  picture_url: string;
-  client_email: string;
-  client_phone_number: string;
-  client_is_secret: boolean;
   created_at: Date;
 }
 
@@ -77,6 +92,7 @@ export interface IndividualClientModel {
   firstname: string;
   email: string;
   lastname: string;
+  middle_name: string;
   picture: string;
   sex: string;
   birthday: string;
@@ -142,6 +158,28 @@ export interface ResponseDataForCorporateModel {
   success: boolean;
   response_message: string;
   response_code: string;
+}
+
+export interface ClientCategoryTypeModel {
+  id: number;
+  title: string;
+  text: string;
+  client_type: {
+    title: string;
+    value: string;
+  };
+  is_custom: boolean;
+  absolute_url: string;
+  client_category_code_reporting: string;
+  loan_nature_code_reporting: string;
+}
+export interface ResponseDataAfterUpdate {
+  response_code: string;
+  response_data: {
+    changed: ItemModel;
+  };
+  response_message: string;
+  success: boolean;
 }
 
 export interface CreditsLineModel {

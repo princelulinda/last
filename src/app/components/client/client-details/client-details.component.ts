@@ -20,8 +20,8 @@ import { AccountsListModel } from '../../account/models';
 import { WalletList } from '../../wallet/wallet.models';
 import { MailModel } from '../../settings/settings.models';
 import { ClientProfileInfoComponent } from '../client-profile-info/client-profile-info.component';
-import { ClientGeneralInformationsComponent } from './client-general-informations/client-general-informations.component';
-
+import { ClientGeneralInformationsComponent } from '../client-general-informations/client-general-informations.component';
+import { ClientSensitiveInfoComponent } from '../client-sensitive-info/client-sensitive-info.component';
 @Component({
   selector: 'app-client-details',
   standalone: true,
@@ -30,6 +30,7 @@ import { ClientGeneralInformationsComponent } from './client-general-information
     CommonModule,
     ClientProfileInfoComponent,
     ClientGeneralInformationsComponent,
+    ClientSensitiveInfoComponent,
   ],
   templateUrl: './client-details.component.html',
   styleUrl: './client-details.component.scss',

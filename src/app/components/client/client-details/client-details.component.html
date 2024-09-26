@@ -206,7 +206,7 @@
                       clientEntreprise ||
                       selectedClient.client_is_custom === true)
                   ) {
-                    <div class="pe-1 fw-bold fs-5">
+                    <div class="pe-1 fw-bold">
                       <div
                         class="sub-menu border text-l align-items-center ms-1 sm-radius p-2"
                         [ngClass]="{
@@ -308,26 +308,19 @@
                         </div>
                         @if (selectedSensitiveInfo === true) {
                           <div>
-                            <!-- <app-client-sensitive-info
-                                                            [selectedClient]="
-                                                                this.selectedClient
-                                                            "
-                                                            [clientEntreprise]="
-                                                                this.clientEntreprise
-                                                            "
-                                                            [clientIndiv]="this.clientIndiv"
-                                                            [clientId]="clientId"
-                                                            [isSensitiveInfoFormShown]="
-                                                                this
-                                                                    .isSensitiveInfoFormShown
-                                                            "
-                                                            [selectedSensitiveInfo]="
-                                                                this.selectedSensitiveInfo
-                                                            "
-                                                            (refreshUpdates)="
-                                                                seeUpdates($event)
-                                                            "
-                                                        ></app-client-sensitive-info> -->
+                            <app-client-sensitive-info
+                              [selectedClient]="this.selectedClient"
+                              [clientEntreprise]="this.clientEntreprise"
+                              [clientIndiv]="this.clientIndiv"
+                              [clientId]="clientId"
+                              [isSensitiveInfoFormShown]="
+                                this.isSensitiveInfoFormShown
+                              "
+                              [selectedSensitiveInfo]="
+                                this.selectedSensitiveInfo
+                              "
+                              (refreshUpdates)="seeUpdates($event)">
+                            </app-client-sensitive-info>
                           </div>
                         }
                       </div>
