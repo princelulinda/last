@@ -1,4 +1,5 @@
 import { ItemModel } from '../../global/components/lookups/lookup/lookup.model';
+
 import { SectorActivityModel } from '../merchant/merchant.models';
 
 export interface ClientWorkstationModel {
@@ -180,4 +181,53 @@ export interface ResponseDataAfterUpdate {
   };
   response_message: string;
   success: boolean;
+}
+
+export interface AccountTypeModel {
+  id: string;
+  account_type: {
+    title: string;
+  };
+  currency: string;
+  branch: {
+    name: string;
+  };
+  client_category: {
+    title: string;
+  };
+  client_category_type: {
+    title: string;
+  };
+}
+
+export interface ClientDetailModel {
+  client_category_id: string;
+  client_category_type_id: string;
+}
+export interface AccountCalculatedBalanceModel {
+  response_message: string;
+  response_data: {
+    transactions_balance: string;
+  };
+}
+export interface ResponseMOdel {
+  object: {
+    response_message: string;
+
+    success: boolean;
+  };
+}
+export interface AccountStatusModel {
+  status: {
+    status_css: string;
+    status_title: string | null;
+    reason: string | null;
+    reason_explained: string | null;
+  };
+
+  operator: {
+    name: string | null;
+  };
+
+  created_at: string | null;
 }

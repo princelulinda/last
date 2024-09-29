@@ -1,0 +1,1058 @@
+<div class="position-relative">
+  @if (!account) {
+    <span
+      class="text-center w-100 d-flex justify-content-center align-items-center text-dark"
+      style="height: 80vh"
+      title="Loading account details ...">
+      <i class="spinner-border"></i>
+    </span>
+  }
+
+  <!-- details for workStation -->
+  @if (account) {
+    <div class="bg-white rounded w-100 overflow-hidden">
+      <div class="d-flex justify-content-end">
+        <div class="me-5">
+          <b class="opacity-75 text-l d-flex justify-content-start" i18n>
+            <span role="button" class="ms-5" (click)="refresh()" tabindex="0"
+              ><i
+                class="fa-solid fa-arrows-rotate fs-5 text-dark"
+                style="opacity: 0.7"></i></span
+          ></b>
+        </div>
+
+        <br />
+      </div>
+      <div class="d-flex">
+        <!--details-->
+        @if (account && selectedSetting === 'details') {
+          <div class="row justify-content-center">
+            <div class="row ms-3 d-flex overflow-auto justify-content-between">
+              <div class="col-auto">
+                <div>
+                  <img
+                    [src]="organization.institution_client.picture"
+                    class="img-fluid image"
+                    alt="image"
+                    style="width: 15%" />
+                </div>
+                <span>
+                  <b class="ms-1 text-md">
+                    {{ account.acc_branch_object.name }}</b
+                  >
+                </span>
+                <br />
+                <span
+                  ><b class="text-md">
+                    {{ account.acc_account_type }}
+                  </b> </span
+                ><br />
+              </div>
+              <div class="col-auto me-5 pt-3">
+                <span
+                  ><span style="opacity: 0.75" class="text-dark" i18n
+                    >Account number</span
+                  >
+                  <br />
+                  <b class="text-dark text-md">
+                    {{ account.acc_number }}
+                  </b>
+                  <span class="ms-auto" [appClipboard]="account.acc_number">
+                    <i
+                      class="fa-regular fa-copy ms-2"
+                      title="Copy the account number"
+                      role="button"></i> </span></span
+                ><br />
+                <span
+                  ><span class="text-dark" style="opacity: 0.75" i18n
+                    >Additional title</span
+                  >
+                  <br />
+                  <span class="fw-bold">---</span></span
+                >
+              </div>
+              <div class="row justify-content-between" style="width: 88.9%">
+                <div class="col">
+                  <span class="text-dark" style="opacity: 0.75" i18n
+                    >Status</span
+                  >
+                  <br />
+                  <span
+                    ><span class="text-dark" i18n
+                      >{{ account.acc_status.status_title }}
+                    </span>
+                    <i
+                      [class]="
+                        'fa-solid fa-' +
+                        account.acc_status.status_icon +
+                        '  ms-1 text-' +
+                        account.acc_status.status_css
+                      "></i
+                  ></span>
+                </div>
+
+                <div class="col">
+                  <span class="text-dark" style="opacity: 0.75" i18n
+                    >Currency</span
+                  >
+                  <br />
+                  @if (account.acc_currency === 'BIF') {
+                    <div class="mt-auto mb-auto pt-auto">
+                      <img
+                        src="images/Bndi.png"
+                        style="width: 25px"
+                        alt="image" />
+                      <b class="p-2 text-l-md">{{ account.acc_currency }} </b>
+
+                      <br />
+                    </div>
+                  }
+                </div>
+
+                <div class="col">
+                  <span class="text-dark" style="opacity: 0.75" i18n
+                    >Manager</span
+                  >
+                  <br />
+                  <b class="text-dark">{{
+                    account.account_manager.name ?? '---'
+                  }}</b>
+                </div>
+              </div>
+              @if (account) {
+                <div>
+                  <div
+                    class="row justify-content-between mt-2"
+                    style="width: 88.9%">
+                    <div class="col">
+                      <span class="text-dark" style="opacity: 0.75" i18n
+                        >Created by</span
+                      >
+                      <br />
+
+                      <b class="text-dark">{{
+                        account.obj_created_by ?? '---'
+                      }}</b>
+                    </div>
+
+                    <div class="col">
+                      <span class="text-dark" style="opacity: 0.75" i18n
+                        >Created at</span
+                      >
+                      <br />
+                      <b class="text-dark"
+                        >{{ (account.created_at | date: 'medium') ?? '---' }}
+                      </b>
+                    </div>
+
+                    <div class="col">
+                      <span class="text-dark" style="opacity: 0.75" i18n
+                        >Agency</span
+                      >
+                      <br />
+                      <b class="text-dark"
+                        >{{ account.acc_branch ?? '---' }}
+                      </b>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <hr class="mt-2" style="width: 85%" />
+            @if (account) {
+              <div>
+                <div class="row justify-content-between" style="width: 90%">
+                  <div class="col ms-4">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Available balance</span
+                    >
+                    <br />
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_available_balance"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility
+                    ></b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Actual balance</span
+                    >
+                    <br />
+
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_actual_balance"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility
+                    ></b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Reserved balance</span
+                    >
+                    <br />
+
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_reserved_balance"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility
+                    ></b>
+                  </div>
+                </div>
+
+                <div
+                  class="row justify-content-between mt-2"
+                  style="width: 90%">
+                  <div class="col ms-4">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Credit limit</span
+                    >
+                    <br />
+
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_credit_limit"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility
+                    ></b>
+                  </div>
+
+                  <div class="col" [class.show]="">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Monthly transactions</span
+                    >
+                    <br />
+
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_monthly_transactions_count"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility
+                    ></b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Monthly fees</span
+                    >
+                    <br />
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_calculated_monthly_fees"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility
+                    ></b>
+                  </div>
+                </div>
+              </div>
+              <hr class="mt-2" style="width: 85%" />
+              <div>
+                <div class="row justify-content-between" style="width: 90%">
+                  <div class="col ms-4">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Last year balance</span
+                    >
+                    <br />
+
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_last_y_balance"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility
+                    ></b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Last month balance</span
+                    >
+                    <br />
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_last_m_balance"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility
+                    ></b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Daily balance</span
+                    >
+                    <br />
+
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_daily_balance"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility
+                    ></b>
+                  </div>
+                </div>
+
+                <div
+                  class="row justify-content-between mt-2"
+                  [ngStyle]="{
+                    width:
+                      accountCalculatedBalance &&
+                      accountCalculatedBalance.response_message ===
+                        'Account found.'
+                        ? '90%'
+                        : '61',
+                  }">
+                  <div class="col ms-4">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Year debit cumul</span
+                    >
+                    <br />
+
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_y_cumul_debit"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility
+                    ></b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Month debit cumul</span
+                    >
+                    <br />
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_m_cumul_debit"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility
+                    ></b>
+                  </div>
+
+                  @if (
+                    accountCalculatedBalance &&
+                    accountCalculatedBalance.response_message ===
+                      'Account found.'
+                  ) {
+                    <div
+                      class="col"
+                      [ngClass]="{
+                        'text-danger ':
+                          accountCalculatedBalance.response_data
+                            .transactions_balance !==
+                          this.account.acc_actual_balance,
+                      }">
+                      <span class="text-dark" style="opacity: 0.75" i18n
+                        >Calculated balance</span
+                      >
+                      <br />
+                      <b>
+                        <app-amount-visibility
+                          [amount]="
+                            accountCalculatedBalance.response_data
+                              .transactions_balance
+                          "
+                          [currency]="account.acc_currency"
+                          [ngClass]="'text-dark'"></app-amount-visibility>
+
+                        @if (
+                          accountCalculatedBalance.response_data
+                            .transactions_balance !==
+                          this.account.acc_actual_balance
+                        ) {
+                          <span class="fw-bold text-danger"
+                            ><i
+                              class="fa-solid fa-triangle-exclamation fs-6"></i
+                          ></span>
+                        }
+                      </b>
+                    </div>
+                  }
+                </div>
+
+                <div
+                  class="row justify-content-between mt-2"
+                  style="width: 61%">
+                  <div class="col ms-4">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Year cumul credit</span
+                    >
+                    <br />
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_y_cumul_credit"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility>
+                    </b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Month cumul credit</span
+                    >
+                    <br />
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_m_cumul_credit"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility>
+                    </b>
+                  </div>
+                </div>
+
+                <div
+                  class="row justify-content-between mt-2"
+                  style="width: 61%">
+                  <div class="col ms-4">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Inactivity months</span
+                    >
+                    <br />
+                    <b class="text-dark"
+                      >{{ account.no_trx_months ?? '---' }}
+                    </b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Minimal signatories</span
+                    >
+                    <br />
+                    <b class="text-dark"
+                      >{{ account.min_signatories_number ?? '---' }}
+                    </b>
+                  </div>
+                </div>
+              </div>
+              <hr class="mt-2" style="width: 85%" />
+
+              <div>
+                <div class="row justify-content-between" style="width: 90%">
+                  <div class="col ms-4">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Last EOD balance</span
+                    >
+                    <br />
+
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_last_eod_balance"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility>
+                    </b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Number of debits</span
+                    >
+                    <br />
+                    <b class="text-dark"
+                      >{{ (account.acc_debits_number | number) ?? '---' }}
+                    </b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Number of credits</span
+                    >
+                    <br />
+                    <b class="text-dark"
+                      >{{ (account.acc_credits_number | number) ?? '---' }}
+                    </b>
+                  </div>
+                </div>
+
+                <div
+                  class="row justify-content-between mt-2"
+                  style="width: 90%">
+                  <div class="col ms-4">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Debitor rate</span
+                    >
+                    <br />
+                    <b class="text-dark"
+                      >{{ (account.acc_debitor_rate | number) ?? '---' }}
+                      %
+                    </b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Creditor rate</span
+                    >
+                    <br />
+                    <b class="text-dark"
+                      >{{ (account.acc_creditor_rate | number) ?? '---' }}
+                      %
+                    </b>
+                  </div>
+
+                  <div class="col">
+                    <span class="text-dark" style="opacity: 0.75" i18n
+                      >Total interests</span
+                    >
+                    <br />
+                    <b>
+                      <app-amount-visibility
+                        [amount]="account.acc_actual_interests"
+                        [currency]="account.acc_currency"
+                        [ngClass]="'text-dark'"></app-amount-visibility>
+                    </b>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+        <!--chang status-->
+        @if (selectedSetting === 'status') {
+          <div class="container" style="width: 100%; min-height: 50vh">
+            <span
+              class="fw-bold text-dark fs-medium"
+              style="opacity: 0.6; margin-left: 5%"
+              i18n>
+              Status history</span
+            >
+            <div class="d-flex">
+              <span style="margin-left: 5%"
+                ><input
+                  type="text"
+                  class="bg-secondary not-clickable"
+                  style="border: none; width: 290px; height: 39px" />
+                <small
+                  class="text-dark position-relative"
+                  style="opacity: 0.8; right: 75%"
+                  i18n
+                  >Search...</small
+                >
+                <div
+                  role="button"
+                  class="not-clickable searchButton text-dark position-relative">
+                  <i
+                    class="fa-solid fa-magnifying-glass ms-1 text-dark fs-5 pt-2 ps-1"></i>
+                </div>
+              </span>
+              <div
+                role="button"
+                class="d-flex not-clickable bg-secondary pt-2 ps-3"
+                style="border-radius: 25px; width: 91px; height: 37px">
+                <span i18n>Filter</span>
+                <i class="fa-solid fa-bars-staggered pt-1 ps-2"></i>
+              </div>
+              <div
+                role="button"
+                (click)="changeStatus()"
+                tabindex="0"
+                class="fw-bold sm-radius pt-1 ms-auto ps-2 me-2 bg-primary text-all-white"
+                style="width: 142px; height: 35px"
+                i18n>
+                <i class="fa-solid fa-pen pt-1"></i> Change status
+              </div>
+              @if (alterStatus) {
+                <div
+                  class="chosen position-absolute bg-white mt-3 shadow lg-radius">
+                  <form [formGroup]="statusss">
+                    <div
+                      class="col-lg-6 mt-4 text-dark"
+                      style="margin-left: 26%">
+                      <div class="col-lg-12 text-dark">
+                        <label
+                          for="Status type"
+                          class="fw-bold"
+                          style="opacity: 0.8"
+                          >Status type</label
+                        >
+                        <br />
+                        <select
+                          class="col-lg-12 status bg-white border rounded stat"
+                          formControlName="statusType"
+                          id="statusType">
+                          @for (statusType of statusType; track $index) {
+                            <option [ngValue]="statusType">
+                              {{ statusType.name }}
+                            </option>
+                          }
+                        </select>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="col-lg-6 text-dark" style="margin-left: 26%">
+                      <div class="col-lg-12 text-dark">
+                        <label
+                          for="Status reason"
+                          class="fw-bold"
+                          style="opacity: 0.8"
+                          >Status reason</label
+                        >
+                        <br />
+                        <select
+                          class="col-lg-12 status bg-white border rounded stat"
+                          id="statusReason"
+                          formControlName="statusReason">
+                          @for (statusReason of statusReason; track $index) {
+                            <option [ngValue]="statusReason">
+                              {{ statusReason.name }}
+                            </option>
+                          }
+                        </select>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="col-6 form-floating" style="margin-left: 26%">
+                      <input
+                        style="height: 80px"
+                        class="form-control input level-1 status bg-white border"
+                        type="text"
+                        placeholder="Status reason details"
+                        formControlName="statusReasonExplained" />
+                      <label for="Status reason details" class="form-label"
+                        >Status reason details</label
+                      >
+                    </div>
+                  </form>
+
+                  <div class="text-center mt-4">
+                    <b
+                      role="button"
+                      (click)="alterStatus = false"
+                      tabindex="0"
+                      class="text-primary-light"
+                      i18n
+                      >Cancel</b
+                    >
+                    <button
+                      class="ms-3 btn px-3 bg-primary text-all-white"
+                      [disabled]="
+                        !statusss.value.statusReason ||
+                        !statusss.value.statusReasonExplained ||
+                        !statusss.value.statusType
+                      "
+                      style="width: 142px; height: 35px"
+                      (click)="changeAccountStatus()"
+                      tabindex="0">
+                      @if (!isChangingStatus) {
+                        <span i18n>Confirm</span>
+                      }
+                      @if (isChangingStatus) {
+                        <span
+                          ><i
+                            class="text-dark fa-solid fa-spin fa-circle-notch"></i
+                        ></span>
+                      }
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+            <hr style="width: 85%; margin-left: 5%; margin-top: -2%" />
+
+            @if (!accountStatus) {
+              <div class="text-center w-100 h-100" style="margin-top: 15%">
+                <i class="fa-solid fa-spin fa-circle-notch text-dark fs-5"></i>
+              </div>
+            }
+            @if (accountStatus) {
+              @if (accountStatus.length === 0) {
+                <div
+                  class="text-dark text-center fs-5"
+                  style="opacity: 0.7"
+                  i18n>
+                  No status for this account
+                </div>
+              }
+              @if (accountStatus && accountStatus.length > 0) {
+                <table style="width: 95%; margin: 20px">
+                  <thead>
+                    <tr>
+                      <th i18n>Status</th>
+                      <th i18n>Reason</th>
+                      <th i18n>Reason explained</th>
+                      <th i18n>By</th>
+                      <th i18n>Date</th>
+                    </tr>
+                  </thead>
+                  <br />
+                  @for (status of accountStatus; track $index) {
+                    <tbody>
+                      <tr
+                        class="mt-3 sm-radius"
+                        style="border: 1px solid #c4c4c4; height: 50px">
+                        <td class="fw-bold p-3">
+                          <span
+                            [class]="
+                              'text-' +
+                              status.status.status_css +
+                              ' p-2 sm-radius badge-design bg-' +
+                              status.status.status_css
+                            "
+                            >{{
+                              status.status.status_title ?? '------------'
+                            }}</span
+                          >
+                        </td>
+                        <td class="fw-bold">
+                          {{ status.status.reason ?? '------------' }}
+                        </td>
+                        <td class="fw-bold">
+                          {{ status.status.reason_explained ?? '------------' }}
+                        </td>
+                        <td class="fw-bold">
+                          {{ status.operator.name ?? '------------' }}
+                        </td>
+                        <td class="fw-bold">
+                          {{ status.created_at ?? '------------' | date }}
+                        </td>
+                      </tr>
+                      <br />
+                    </tbody>
+                  }
+                  <br />
+                </table>
+              }
+            }
+          </div>
+        }
+        <!-- general-->
+        @if (selectedSetting === 'General') {
+          <div class="ps-3 w-100" style="min-height: 50vh">
+            <span class="text-dark fw-bold" style="opacity: 0.5"
+              >Account Setting > {{ selectedSetting }}</span
+            >
+            <br />
+
+            <div>
+              <div class="row mt-3">
+                <div class="col-lg-12 text-dark">
+                  <app-lookup
+                    option="autocomplete"
+                    url="/hr/operator/organizations/manage/objects_autocomplete/?organization={{
+                      organizationId
+                    }}&search="
+                    (selectedItemEvent)="setSelectedManageType($event)"
+                    label="Manager"
+                    for="manage"></app-lookup>
+                </div>
+              </div>
+              <div class="d-flex mt-3">
+                <div class="col-lg-6 text-dark form-floating">
+                  <input
+                    class="form-control input bordeer bg-white border"
+                    type="text"
+                    placeholder="Account additional title" />
+                  <label class="form-label" for="account"
+                    >Account additional title</label
+                  >
+                </div>
+                <div class="col-lg-6 ms-3 text-dark form-floating">
+                  <input
+                    class="form-control input bordeer bg-white border"
+                    type="text"
+                    placeholder="Account description" />
+                  <label class="form-label" for="descri"
+                    >Account description</label
+                  >
+                </div>
+              </div>
+              <div class="text-center mt-3">
+                <b
+                  role="button"
+                  class="text-primary-light"
+                  (click)="selectSetting('details')"
+                  tabindex="0"
+                  i18n
+                  >Cancel</b
+                >
+                <button
+                  class="btn ms-3 not-clickable primary-light"
+                  type="submit">
+                  <span i18n>Save</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+        <!-- update account's type-->
+        @if (selectedSetting === 'Update Account Type') {
+          <div class="ps-3 w-100" style="min-height: 50vh">
+            <span class="text-dark fw-bold ms-2" style="opacity: 0.5" i18n
+              >Account Setting > {{ selectedSetting }}</span
+            >
+            <br />
+            @if (!accountType) {
+              <div
+                class="text-center w-100 h-100 d-flex row justify-content-center align-items-center text-dark">
+                <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
+              </div>
+            }
+            <div class="mt-3 ms-2">
+              <span class="text-dark fw-bold">Actual account type :</span>
+              @if (account) {
+                <span class="text-primary">
+                  {{ account.acc_get_title }} /
+                  {{ account.acc_account_type }}</span
+                >
+              }
+              <span></span>
+            </div>
+            <br />
+            @if (accountType) {
+              <div class="row">
+                <div
+                  class="col-5 accType border pt-3 ps-2 mt-2 pe-2 ms-4 sm-radius"
+                  *ngFor="let accType of accountType; let index = index">
+                  <div class="fw-bold text-dark">
+                    <span
+                      >{{ accType.account_type.title }} ({{
+                        accType.currency
+                      }}
+                      )</span
+                    >
+                  </div>
+                  <br />
+                  <div class="text-dark">
+                    <span>Branch:</span>
+                    <span class="fw-bold">
+                      {{ accType.branch.name }}
+                    </span>
+                  </div>
+                  <br />
+                  <div class="text-dark">
+                    <span>Category: </span>
+                    <span class="fw-bold">
+                      {{ accType.client_category.title }}
+                    </span>
+                    <span class="fw-bold">
+                      ({{ accType.client_category_type.title }})</span
+                    >
+                  </div>
+                  <br />
+
+                  <div
+                    class="text-center bg-primary-2 mb-2 pt-2 sm-radius buttonSelect"
+                    role="button"
+                    (click)="enterPin(); selectAccountType(accType.id, index)"
+                    tabindex="0">
+                    @if (
+                      (!isChangingAccountType && index === accountTypeAt) ||
+                      index !== accountTypeAt
+                    ) {
+                      <span i18n> Select</span>
+                    }
+                    @if (index === accountTypeAt && isChangingAccountType) {
+                      <span
+                        ><i
+                          class="text-dark fa-solid fa-spin fa-circle-notch"></i
+                      ></span>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        @if (selectedSetting === 'Operations') {
+          <div class="ps-3">
+            <span class="text-dark fw-bold ms-2" style="opacity: 0.5" i18n
+              >Account Setting > {{ selectedSetting }}</span
+            >
+            <br />
+
+            <!-- Settings about creditor rate debitor rate and reserved amount -->
+            <div class="row mt-4 ms-3">
+              <span class="fw-bold" i18n
+                ><span class="fs-5 text-primary-light">•</span> Account
+                operation</span
+              >
+              <form
+                action=""
+                [formGroup]="operationActionForm"
+                (ngSubmit)="updateClientAccountDetails()">
+                <div class="row">
+                  <div class="col-5">
+                    <span i18n>
+                      <b>Set the Debitor rate for this account in % </b></span
+                    >
+                    <div class="mb-3 form-floating">
+                      <input
+                        type="text"
+                        placeholder="Description"
+                        class="form-control input sm-radius field"
+                        style="width: 83%; height: 60px"
+                        formControlName="acc_debitor_rate" />
+                      <label class="fs-5 text-dark" i18nn for="debitor"
+                        ><small> Debitor Rate</small> <code>*</code></label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-5">
+                    <span i18n>
+                      <b>Set the Creditor rate for this account in % </b></span
+                    >
+                    <div class="mb-3 form-floating">
+                      <input
+                        type="text"
+                        placeholder=""
+                        class="form-control input sm-radius field"
+                        style="width: 83%; height: 60px"
+                        formControlName="acc_creditor_rate" />
+                      <label class="fs-5 text-dark" i18n for="rate"
+                        ><small> Creditor Rate</small> <code>*</code></label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-5">
+                    <!-- acc_client_is_secret, acc_reserved_balance -->
+                    <span i18n>
+                      <b>Set the amount to reserve for this account </b></span
+                    >
+                    <app-amount-field (amountEvent)="getAmount($event)">
+                    </app-amount-field>
+                  </div>
+                  <div class="mb-3 d-flex justify-content-center">
+                    <button
+                      class="text-center btn bg-primary"
+                      style="color: #fff"
+                      [disabled]="!amountField">
+                      <span i18n> Update</span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        }
+
+        @if (selectedSetting === 'Solde') {
+          <app-not-found-page></app-not-found-page>
+        }
+
+        <!--Menus-->
+        <div
+          class="d-block mt-5 ms-auto position-relative"
+          style="line-height: 0.1em; z-index: 999">
+          <div
+            class="text-center pt-3 miniSettings bg-primary text-all-white"
+            (click)="selectSetting('details')"
+            tabindex="0"
+            role="button"
+            title="Account's details"
+            [ngClass]="{
+              'not-clickable': selectedSetting === 'details',
+            }">
+            <span><i class="fa-solid fa-circle-info fs-6"></i></span>
+          </div>
+          <br />
+          <div
+            class="text-center miniSettings bg-primary text-all-white pt-3"
+            title="Account's history"
+            data-bs-toggle="modal"
+            data-bs-target="#statementModal"
+            type="button">
+            <span><i class="fa-solid fa-clock-rotate-left fs-6"></i></span>
+          </div>
+          <br />
+          <div
+            class="text-center pt-3 miniSettings bg-primary text-all-white"
+            (click)="selectSetting('status')"
+            tabindex="0"
+            title="Account's status"
+            role="button">
+            <span><i class="fa-solid fa-check-to-slot fs-6"></i></span>
+          </div>
+          <br />
+          <div>
+            <!-- config menus general   Update account type     Operations -->
+            @if (selectedConfig) {
+              <div
+                class="d-block boxConfiguration position-absolute bg-primary text-all-white fw-bold">
+                <div
+                  class="pt-4 ps-5"
+                  role="button"
+                  [ngClass]="{
+                    'not-clickable': selectedSetting === 'General',
+                  }"
+                  (click)="selectSetting('General'); selectedConfig = false"
+                  tabindex="0"
+                  style="height: 30px"
+                  i18n>
+                  General
+                </div>
+                <hr class="mb-2 alignement" />
+                <div
+                  role="button"
+                  [ngClass]="{
+                    'not-clickable': selectedSetting === 'Update Account Type',
+                  }"
+                  (click)="
+                    selectSetting('Update Account Type'); selectedConfig = false
+                  "
+                  tabindex="0"
+                  class="pt-1 ps-2 me-2 not-clickable"
+                  i18n>
+                  Update account type
+                </div>
+                <hr class="alignement" />
+                <div
+                  (click)="selectSetting('Operations'); selectedConfig = false"
+                  tabindex="0"
+                  [ngClass]="{
+                    'not-clickable': selectedSetting === 'Operations',
+                  }"
+                  class="pt-1 ps-4 ms-3"
+                  role="button"
+                  i18n>
+                  Operations
+                </div>
+
+                <hr class="alignement" />
+                <div
+                  [ngClass]="{
+                    'not-clickable': selectedSetting === 'Solde',
+                  }"
+                  (click)="selectSetting('Solde'); selectedConfig = false"
+                  tabindex="0"
+                  class="pt-1 ps-5 ms-2 not-clickable"
+                  role="button"
+                  i18n>
+                  Solde
+                </div>
+              </div>
+            }
+            <div
+              class="text-center pt-3 miniSettings bg-primary text-all-white"
+              (click)="selectConfig()"
+              tabindex="0"
+              role="button"
+              title="Account's configurations">
+              <span><i class="fa-solid fa-screwdriver-wrench"></i></span>
+            </div>
+          </div>
+          <br />
+          <div
+            class="text-center pt-2 miniSettings bg-primary text-all-white not-clickable"
+            title="Signatures"
+            role="button">
+            <span><i class="fa-solid fa-pen-to-square fs-6 pt-1"></i></span>
+          </div>
+          <br />
+        </div>
+      </div>
+
+      <!--statements-->
+      <div class="modal fade" id="statementModal" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered statement-dialog">
+          <div class="modal-content">
+            <app-statement
+              [accountId]="accountId"
+              [account]="account"></app-statement>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
