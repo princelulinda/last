@@ -186,7 +186,7 @@ export class ClientAccountDetailComponent implements OnInit {
         },
       });
   }
-  //yes
+
   getAccountTypeList() {
     this.clientService
       .getAccountTypeList(
@@ -207,7 +207,7 @@ export class ClientAccountDetailComponent implements OnInit {
         },
       });
   }
-  //yes
+
   enterPin() {
     this.dialogService.openDialog({
       type: 'pin',
@@ -323,7 +323,7 @@ export class ClientAccountDetailComponent implements OnInit {
     this.accountTypeAt = atIndex;
     this.selectedAccountType = accountType;
   }
-  //yes
+
   getClientInfo() {
     this.clientService
       .getClientDetail('1192')
@@ -342,7 +342,6 @@ export class ClientAccountDetailComponent implements OnInit {
       });
   }
 
-  //yes
   getClientAccountStatus() {
     this.LoadingStatus = true;
     this.clientService
@@ -362,7 +361,7 @@ export class ClientAccountDetailComponent implements OnInit {
   setSelectedManageType($event: ItemModel | null) {
     this.selectedManageId = $event ? $event.id : null;
   }
-  //yes
+
   getAccountCalculatedBalance() {
     this.isLoading = true;
     this.account = null;
@@ -383,18 +382,18 @@ export class ClientAccountDetailComponent implements OnInit {
         },
       });
   }
-  //yes
+
   selectSetting(setting: string) {
     this.selectedSetting = setting;
     if (this.selectedSetting) {
       this.selectedConfig = false;
     }
   }
-  //yes
+
   selectConfig() {
     this.selectedConfig = !this.selectedConfig;
   }
-  //yes
+
   refresh() {
     this.account = null;
 
@@ -402,12 +401,11 @@ export class ClientAccountDetailComponent implements OnInit {
 
     this.getClientAccountDetails();
   }
-  //yes
+
   changeStatus() {
     this.alterStatus = !this.alterStatus;
   }
 
-  //yes
   changeAccountStatus() {
     this.isChangingStatus = true;
     this.dialogService.dispatchLoading();
