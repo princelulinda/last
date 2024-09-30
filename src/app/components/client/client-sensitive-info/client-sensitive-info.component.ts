@@ -44,8 +44,6 @@ export class ClientSensitiveInfoComponent implements OnInit, OnDestroy {
   dialog$: Observable<DialogResponseModel>;
   theme$: Observable<ModeModel>;
   selectedSectorId!: ItemModel | null;
-  updateReady = false;
-  selectSextor!: string;
   selectedCategoryId!: ItemModel | null;
   selectClient: ClientWorkstationModel | null = null;
 
@@ -102,7 +100,7 @@ export class ClientSensitiveInfoComponent implements OnInit, OnDestroy {
     this.clientService
       .modifyCategoryCorporate(
         this.clientId as string,
-        (this.selectedCategoryId as ItemModel).lookup_title,
+        (this.selectedCategoryId as ItemModel).id,
         data
       )
       .pipe(takeUntil(this.onDestroy$))
@@ -152,7 +150,7 @@ export class ClientSensitiveInfoComponent implements OnInit, OnDestroy {
     this.clientService
       .modifySectorCorporate(
         this.clientId as string,
-        (this.clientEntreprise as ClientCorporateModel).activity_sector,
+        (this.selectedSectorId as ItemModel).id,
         data
       )
 
@@ -209,11 +207,11 @@ export class ClientSensitiveInfoComponent implements OnInit, OnDestroy {
     });
   }
 
-  setSelectedSector(selectedSectorId: ItemModel | null) {
-    if (selectedSectorId) {
-      this.selectSextor = selectedSectorId.lookup_title;
+  setSelectedSector(id: ItemModel | null) {
+    if (id) {
+      this.selectedSectorId = id;
     } else {
-      this.selectSextor = '';
+      this.selectedSectorId = null;
     }
   }
 

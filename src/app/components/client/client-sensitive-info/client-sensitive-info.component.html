@@ -12,11 +12,11 @@
         <div class="text-start col d-inline-block text-truncate">
           <span class="fs-small text-dark label" i18n>Client category</span>
           <br />
-          @if (!isSensitiveInfoFormShown && selectClient) {
+          @if (!isSensitiveInfoFormShown && selectedClient) {
             <span
-              [title]="selectClient.client_category.title"
+              [title]="selectedClient.client_category_title"
               class="text-dark fw-bold fs-normall"
-              >{{ selectClient.client_category.title || '----' }}</span
+              >{{ selectedClient.client_category_title || '----' }}</span
             >
           }
           @if (isSensitiveInfoFormShown) {
@@ -52,20 +52,12 @@
         <div class="ms-auto text-start col col d-inline-block text-truncate">
           <span class="text-dark fs-small label" i18n>Activity sector</span
           ><br />
-          @if (!isSensitiveInfoFormShown) {
-            @if (clientEntreprise) {
-              <span
-                [title]="clientEntreprise.activity_sector"
-                class="text-dark fw-bold fs-normall"
-                >{{ clientEntreprise.activity_sector || '---' }}</span
-              >
-            } @else if (clientIndiv && selectClient) {
-              <span
-                [title]="selectClient.activity_sector.title"
-                class="text-dark fw-bold fs-normall"
-                >{{ selectClient.activity_sector.title || '---' }}</span
-              >
-            }
+          @if (!isSensitiveInfoFormShown && selectedClient.activity_sector) {
+            <span
+              [title]="selectedClient.activity_sector.title"
+              class="text-dark fw-bold fs-normall"
+              >{{ selectedClient.activity_sector.title || '---' }}</span
+            >
           }
           @if (isSensitiveInfoFormShown) {
             <span>
@@ -102,11 +94,11 @@
             <span class="fs-small text-dark label" i18n
               >Client category type</span
             ><br />
-            @if (selectClient) {
+            @if (selectedClient) {
               <span
                 class="text-dark fw-bold fs-normall"
-                [title]="selectClient.client_category_type.title"
-                >{{ selectClient.client_category_type.title || '----' }}</span
+                [title]="selectedClient.client_category_type_title"
+                >{{ selectedClient.client_category_type_title || '----' }}</span
               >
             }
 
