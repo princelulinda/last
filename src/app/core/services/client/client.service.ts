@@ -23,11 +23,16 @@ import {
   SignatureModel,
 } from '../../../global/components/lookups/lookup/lookup.model';
 import {
+  AccountCalculatedBalanceModel,
+  AccountStatusModel,
+  AccountTypeModel,
   ClientCorporateModel,
+  ClientDetailModel,
   ClientLanguageWorkstationModel,
   ClientWorkstationModel,
   IndividualClientModel,
   LanguageWorkstationModel,
+  ResponseMOdel,
 } from '../../../components/client/client.model';
 
 @Injectable({
@@ -69,9 +74,84 @@ export class ClientService {
     return this.apiService.get<{ objects: AccountsListModel[] }>(url);
   }
 
+  getAccountTypeList(
+    clientCategoryId: string,
+    clientTypeCategoryId: string,
+    branchId: string | null
+  ): Observable<{ objects: AccountTypeModel[] }> {
+    const url = `/account/config/defaults/?client_category=${clientCategoryId}&client_category_type=${clientTypeCategoryId}&branch=${branchId}`;
+    return this.apiService.get<{ objects: AccountTypeModel[] }>(url);
+  }
+
+  getAccountCalculatedBalance(
+    selectedAccount: string
+  ): Observable<{ object: AccountCalculatedBalanceModel }> {
+    const url = `/account/${selectedAccount}/transactions/balance/`;
+
+    return this.apiService.get<{ object: AccountCalculatedBalanceModel }>(url);
+  }
+
   getWalletType(): Observable<{ objects: WalletTypModel[] }> {
     const url = '/dbs/wallettype/list/';
     return this.apiService.get<{ objects: WalletTypModel[] }>(url);
+  }
+
+  changeAccountType(
+    account: string,
+    acc_defaults: string,
+    pin: string
+  ): Observable<ResponseMOdel> {
+    const url = '/account/config/defaults/update/';
+    const body = {
+      account,
+      acc_defaults,
+      pin,
+    };
+    return this.apiService.post(url, body).pipe(
+      map(response => {
+        return response as ResponseMOdel;
+      })
+    );
+  }
+
+  updateClientAccountDetails(
+    selectedAccount: string,
+    acc_debitor_rate: string,
+    acc_creditor_rate: string,
+    acc_reserved_balance_upd: string
+  ): Observable<ResponseMOdel> {
+    const url = '/clients/manage/accounts/' + selectedAccount + '/';
+    const body = {
+      selectedAccount,
+      acc_debitor_rate,
+      acc_creditor_rate,
+      acc_reserved_balance_upd,
+    };
+    return this.apiService.patch(url, body).pipe(
+      map(response => {
+        return response as ResponseMOdel;
+      })
+    );
+  }
+
+  changeAccountStatus(
+    account_status: string,
+    status_reason: string,
+    reason_explained: string,
+    clients: string
+  ): Observable<ResponseMOdel> {
+    const url = '/accounts/status/change/';
+    const body = {
+      account_status,
+      status_reason,
+      reason_explained,
+      clients,
+    };
+    return this.apiService.post(url, body).pipe(
+      map(response => {
+        return response as ResponseMOdel;
+      })
+    );
   }
 
   creatWallet(
@@ -92,6 +172,27 @@ export class ClientService {
     );
   }
 
+  createAccount(
+    branch: number | null,
+    client: number,
+    account_type: number | null,
+    sync: string,
+    acc_title: string
+  ): Observable<ResponseMOdel> {
+    const url = '/dbs/wallet/create/';
+    const body = {
+      branch,
+      client,
+      account_type,
+      sync,
+      acc_title,
+    };
+    return this.apiService.post(url, body).pipe(
+      map(response => {
+        return response as ResponseMOdel;
+      })
+    );
+  }
   getClientAccountDetails(
     selectedAccount: string
   ): Observable<{ object: AccountDetailModel }> {
@@ -160,6 +261,20 @@ export class ClientService {
       );
   }
 
+  getClientDetail(clientId: string) {
+    const url = '/clients/list/all/' + clientId + '/';
+    return this.apiService
+      .get<{ object: ClientDetailModel }>(url)
+      .pipe(map(data => data));
+  }
+
+  getClientAccountStatus(accountId: string) {
+    const url = `/account/status/list/?account_id=${accountId}`;
+    return this.apiService
+      .get<{ objects: AccountStatusModel[] }>(url)
+      .pipe(map(data => data));
+  }
+
   getClientIndividualDetails(clientId: string) {
     const apiUrl = '/clients/manage/individuals/' + clientId + '/';
     return this.apiService
@@ -195,7 +310,7 @@ export class ClientService {
 
   modifyCategoryCorporate(
     clientId: string,
-    categoryId: number,
+    categoryId: string,
 
     data: object
   ) {

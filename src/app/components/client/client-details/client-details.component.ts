@@ -22,6 +22,9 @@ import { MailModel } from '../../settings/settings.models';
 import { ClientProfileInfoComponent } from '../client-profile-info/client-profile-info.component';
 import { ClientGeneralInformationsComponent } from '../client-general-informations/client-general-informations.component';
 import { ClientSensitiveInfoComponent } from '../client-sensitive-info/client-sensitive-info.component';
+import { SelectedClientSmallOverviewComponent } from '../selected-client-small-overview/selected-client-small-overview.component';
+import { ClientAccountListComponent } from '../client-account-list/client-account-list.component';
+import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-client-details',
   standalone: true,
@@ -31,6 +34,9 @@ import { ClientSensitiveInfoComponent } from '../client-sensitive-info/client-se
     ClientProfileInfoComponent,
     ClientGeneralInformationsComponent,
     ClientSensitiveInfoComponent,
+    SelectedClientSmallOverviewComponent,
+    ClientAccountListComponent,
+    RouterOutlet,
   ],
   templateUrl: './client-details.component.html',
   styleUrl: './client-details.component.scss',
@@ -51,7 +57,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   walletId = '';
   languageInput = new FormControl('');
 
-  selectedAccount!: string | null;
+  selectedAccount!: AccountsListModel[] | null;
   selectedWallet!: string | null;
   selectedClient!: ClientWorkstationModel | null;
   accounts!: AccountsListModel[];
@@ -80,6 +86,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   isSensitiveInfoFormShown = false;
   isGeneralInfoFormShown = false;
   isTaxAdditionShown = false;
+  choosenAccount: AccountsListModel | null = null;
   inputActive = false;
   loadingSector = false;
   showLanguageCheckBox = false;
@@ -125,11 +132,22 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  selectdAccount(account: AccountsListModel) {
+    this.choosenAccount = account;
+
+    //console.log('Compte sélectionné :', account);
+  }
+  handleAccountSelected(account: AccountsListModel) {
+    this.choosenAccount = account;
+
+    console.log('Compte sélectionné :', account);
+  }
+
   selectMenu(menu: string) {
     this.selectedMenu = menu;
     if (menu === 'accounts' && this.accounts) {
       this.router.navigate([
-        '/w/workstation/desk/client/details/' +
+        '/w/workstation/d/desk/details/' +
           this.clientId +
           '/account/' +
           this.accounts[0]?.id,
@@ -185,7 +203,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     this.isTaxAdditionShown = !this.isTaxAdditionShown;
   }
 
-  selectAccount(account: string) {
+  selectAccount(account: AccountsListModel[]) {
     this.isLoading = true;
     this.selectedAccount = account;
     this.selectedSetting = '';

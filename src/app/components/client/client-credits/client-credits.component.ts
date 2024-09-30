@@ -1,4 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import {
   ConfigService,
@@ -44,13 +50,13 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
   @Input() selectedClient!: ClientWorkstationModel;
 
   plan!: boolean;
-  credits!: LoanListModel[] | null;
+  credits: LoanListModel[] | null = null;
   credit!: LoanModel | null;
   creditId!: number;
   // client: any;
   clientId!: number;
   id!: number;
-  selectedCredit!: LoanListModel;
+  selectedCredit: LoanListModel | null = null;
   // clientDetails: any;
 
   headersPlan = [
@@ -102,7 +108,8 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
   constructor(
     private loanService: LoanService,
     private configService: ConfigService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private cdr: ChangeDetectorRef
   ) {
     this.organization$ = this.configService.getSelectedOrganization();
     this.amountState$ = this.dialogService.getAmountState();
@@ -122,10 +129,12 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
     this.clientId = this.selectedClient?.client_id as number;
     this.id = this.selectedClient?.id as number;
     this.getCreditsList();
+    this.cdr.detectChanges();
   }
 
   selectCredit(credit: LoanListModel) {
     this.selectedCredit = credit;
+    console.log('the selectedCredit value:', this.selectedCredit);
 
     this.getCreditDetails();
   }
@@ -155,15 +164,19 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
   }
 
   getCreditDetails() {
+    console.log('getCreditDetails start');
+
+    console.log('the selectedCredit id ', this.selectedCredit?.id);
     this.isLoading = true;
     this.credit = null;
     this.loanService
-      .getCreditDetails(this.selectedCredit.id.toString())
+      .getCreditDetails(this.selectedCredit!.id.toString())
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (credit: { object: LoanModel }) => {
           this.isLoading = false;
           this.credit = credit.object;
+          console.log('the credit value', this.credit);
         },
         error: () => {
           this.isLoading = false;

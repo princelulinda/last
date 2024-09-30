@@ -15,6 +15,7 @@ import {
   SimulationResDataModel,
   SimulationResModel,
 } from '../../../components/loan/loan.models';
+import { CreditsLineModel } from '../../../components/client/client.model';
 
 @Injectable({
   providedIn: 'root',
@@ -130,7 +131,9 @@ export class LoanService {
       `/loans/manage/?cred_client_main_account__acc_client=${client_id}`
     );
   }
-  getLoanLineListByClient(client_id: string) {
+  getLoanLineListByClient(
+    client_id: string
+  ): Observable<{ objects: CreditsLineModel[] }> {
     return this.apiService.get(
       `/loans/manage/creditline/?crel_account__acc_client=${client_id}`
     );
@@ -148,5 +151,14 @@ export class LoanService {
     return this.apiService
       .get(apiUrl)
       .pipe(map(data => data as { object: LoanModel }));
+  }
+
+  getCreditLinesDetails(
+    lineId: string | number
+  ): Observable<{ object: CreditsLineModel }> {
+    const apiUrl = '/clients/manage/creditline/' + lineId + '/';
+    return this.apiService
+      .get(apiUrl)
+      .pipe(map(data => data as { object: CreditsLineModel }));
   }
 }
