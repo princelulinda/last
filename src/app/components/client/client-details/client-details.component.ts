@@ -86,7 +86,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   isSensitiveInfoFormShown = false;
   isGeneralInfoFormShown = false;
   isTaxAdditionShown = false;
-  choosenAccount: AccountsListModel | null = null;
+  choosenAccount: AccountsListModel | AccountsListModel[] | null = null;
   inputActive = false;
   loadingSector = false;
   showLanguageCheckBox = false;
