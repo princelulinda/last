@@ -1,7 +1,7 @@
 <div class="d-flex chosen" *ngIf="selectedClient">
   <img
-    *ngIf="selectedClient && !selectedClient.picture_url"
-    src="assets/images/userprofile.png"
+    *ngIf="!selectedClient.picture_url"
+    src="images/userprofile.png"
     alt="user_profile"
     class="image mb-2"
     style="width: 20%" />

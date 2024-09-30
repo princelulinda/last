@@ -68,7 +68,7 @@ export class ClientService {
   }
 
   getClientAccounts(
-    clientId: number
+    clientId: number | string
   ): Observable<{ objects: AccountsListModel[] }> {
     const url = '/accounts/' + clientId + '/';
     return this.apiService.get<{ objects: AccountsListModel[] }>(url);
@@ -174,7 +174,7 @@ export class ClientService {
 
   createAccount(
     branch: number | null,
-    client: number,
+    client: number | string,
     account_type: number | null,
     sync: string,
     acc_title: string
