@@ -123,9 +123,9 @@ export class AdminService {
     body: AddBranchCounterBodyModel
   ): Observable<AddCounterBranchResponseModel> {
     const url = `/hr/counter/`;
-    return this.apiService.post(url, body).pipe(
+    return this.apiService.post<AddCounterBranchResponseModel>(url, body).pipe(
       map(response => {
-        return response as AddCounterBranchResponseModel;
+        return response;
       })
     );
   }
@@ -139,9 +139,9 @@ export class AdminService {
       name,
       hr_chief,
     };
-    return this.apiService.post(url, body).pipe(
+    return this.apiService.post<AddBranchResponseModel>(url, body).pipe(
       map(response => {
-        return response as AddBranchResponseModel;
+        return response;
       })
     );
   }
@@ -228,19 +228,25 @@ export class AdminService {
     body: AdminCreateNewDepartmentBodyModel
   ): Observable<AdminCreateNewDepartmentModel> {
     const url = '/hr/access/departments/';
-    return this.apiService.post(url, body);
+    return this.apiService
+      .post<AdminCreateNewDepartmentModel>(url, body)
+      .pipe(map(data => data));
   }
   createNewDirection(
     body: CreateNewDirectionBodyModel
   ): Observable<CreateNewDirectionModel> {
     const url = `/hr/access/directions/`;
-    return this.apiService.post(url, body);
+    return this.apiService
+      .post<CreateNewDirectionModel>(url, body)
+      .pipe(map(data => data));
   }
   createNewService(
     body: CreateNewServiceBodyModel
   ): Observable<CreateNewServiceModel> {
     const url = `/hr/access/services/`;
-    return this.apiService.post(url, body);
+    return this.apiService
+      .post<CreateNewServiceModel>(url, body)
+      .pipe(map(data => data));
   }
 
   createNewRole(body: CreateNewRoleModel) {
