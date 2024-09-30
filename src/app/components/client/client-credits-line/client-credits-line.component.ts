@@ -27,7 +27,8 @@ import { ClientWorkstationModel, CreditsLineModel } from '../client.model';
 })
 export class ClientCreditsLineComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
-  @Input() selectedClient: ClientWorkstationModel | null = null;
+  @Input() selectedClient: ClientWorkstationModel =
+    {} as ClientWorkstationModel;
 
   organization$: Observable<OrganizationModel | null>;
   amountState$!: Observable<boolean>;

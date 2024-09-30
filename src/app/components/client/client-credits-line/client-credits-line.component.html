@@ -8,10 +8,12 @@
     <div class="row g-0 p-2 mx-1">
       <div class="col-lg-3 level-2 text-dark ps-2">
         <div>
-          <app-selected-client-small-overview
-            [selectedClient]="
-              this.selectedClient
-            "></app-selected-client-small-overview>
+          @if (selectedClient) {
+            <app-selected-client-small-overview
+              [selectedClient]="
+                this.selectedClient
+              "></app-selected-client-small-overview>
+          }
         </div>
 
         <div

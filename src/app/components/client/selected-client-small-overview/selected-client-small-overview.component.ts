@@ -20,7 +20,7 @@ export class SelectedClientSmallOverviewComponent implements OnDestroy, OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
   clientId!: number;
 
-  @Input() selectedClient!: ClientWorkstationModel;
+  @Input() selectedClient!: ClientWorkstationModel | null;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
