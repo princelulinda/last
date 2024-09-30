@@ -27,7 +27,7 @@ import { ClientWorkstationModel, CreditsLineModel } from '../client.model';
 })
 export class ClientCreditsLineComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
-  @Input() selectedClient!: ClientWorkstationModel;
+  @Input() selectedClient: ClientWorkstationModel | null = null;
 
   organization$: Observable<OrganizationModel | null>;
   amountState$!: Observable<boolean>;
@@ -65,8 +65,8 @@ export class ClientCreditsLineComponent implements OnInit, OnDestroy {
         this.organization = organization;
       },
     });
-    this.clientId = this.selectedClient.client_id as number;
-    this.id = this.selectedClient.id.toString();
+    this.clientId = this.selectedClient?.client_id as number;
+    this.id = (this.selectedClient?.id ?? '').toString();
     this.getCreditsLineList();
   }
 
