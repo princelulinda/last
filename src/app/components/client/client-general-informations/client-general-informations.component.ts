@@ -123,10 +123,6 @@ export class ClientGeneralInformationsComponent implements OnInit, OnDestroy {
   }
   updateIndividualClientDetails() {
     this.isLoading = true;
-    console.log(
-      'updateIndividualClientDetails',
-      this.individualClientInfo.value
-    );
 
     const data = {
       father_name: this.individualClientInfo.value.fatherName,

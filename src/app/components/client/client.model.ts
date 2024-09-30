@@ -1,4 +1,5 @@
 import { ItemModel } from '../../global/components/lookups/lookup/lookup.model';
+
 import { SectorActivityModel } from '../merchant/merchant.models';
 
 export interface ClientWorkstationModel {
@@ -52,7 +53,7 @@ export interface ClientCorporateModel {
   is_suspect: boolean;
   addresses: AdresseClientModel[];
   corp_risk_degree: {
-    titlel: string;
+    value: string;
     title: string;
   };
   in_suspected_country: boolean;
@@ -180,4 +181,72 @@ export interface ResponseDataAfterUpdate {
   };
   response_message: string;
   success: boolean;
+}
+
+export interface AccountTypeModel {
+  id: string;
+  account_type: {
+    title: string;
+  };
+  currency: string;
+  branch: {
+    name: string;
+  };
+  client_category: {
+    title: string;
+  };
+  client_category_type: {
+    title: string;
+  };
+}
+
+export interface ClientDetailModel {
+  client_category_id: string;
+  client_category_type_id: string;
+}
+export interface AccountCalculatedBalanceModel {
+  response_message: string;
+  response_data: {
+    transactions_balance: string;
+  };
+}
+export interface ResponseMOdel {
+  object: {
+    response_message: string;
+
+    success: boolean;
+  };
+}
+export interface AccountStatusModel {
+  status: {
+    status_css: string;
+    status_title: string | null;
+    reason: string | null;
+    reason_explained: string | null;
+  };
+
+  operator: {
+    name: string | null;
+  };
+
+  created_at: string | null;
+}
+
+export interface CreditsLineModel {
+  id: number | string;
+  crel_credit_limit: number;
+  crel_account_info: {
+    acc_account_type: string;
+    acc_short_number: string;
+  };
+  crel_expiry_date: string;
+  crel_fees: number;
+  obj_created_by: string;
+  crel_penalities_rate: string;
+  crel_debitor_rate: string;
+  crel_code: string;
+  crel_paid: boolean;
+  crel_branch_info: {
+    name: string;
+  };
 }
