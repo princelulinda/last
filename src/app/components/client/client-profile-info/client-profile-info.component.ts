@@ -98,7 +98,9 @@ export class ClientProfileInfoComponent implements OnInit, OnDestroy {
             this.dialogService.openToast({
               title: '',
               type: 'success',
-              message: 'Profile Picture is updated successfully',
+              message:
+                res.object.response_message ??
+                'Profile Picture is updated successfully',
             });
             this.refreshUpdates.emit('updated');
             this.updateReady = false;

@@ -490,20 +490,20 @@
       }
 
       @if (selectedMenu === 'accounts') {
-        <div class="level-2">
+        <div class="bg-white">
           <div
-            class="row g-0 p-2 mx-1"
+            class="row d-flex g-0 p-2 mx-1"
             [ngClass]="{
               'mt-5': !selectedCreditSetting,
               'mt-0': selectedCreditSetting,
             }">
-            <div class="col-3 level-2 text-dark ps-2 overflow-hidden w-100">
+            <div class="col-lg-3 bg-white text-dark ps-2 overflow-hidden">
               <app-selected-client-small-overview
                 [selectedClient]="
                   this.selectedClient
                 "></app-selected-client-small-overview>
 
-              <div class="p-0 level-1 text-dark accountsList h-100">
+              <div class="p-0 bg-secondary text-dark accountsList h-100">
                 <div>
                   <app-client-account-list
                     [SelectedclientId]="clientId"
@@ -513,25 +513,25 @@
               </div>
             </div>
 
-            @if (choosenAccount) {
-              <div class="col-9">
-                <div class="details level-1 h-100 p-2 rounded-top text-dark">
+            <div class="col-lg-9">
+              <div class="details bg-secondary h-100 p-2 rounded-top text-dark">
+                @if (choosenAccount) {
                   @if (accounts && accounts.length > 0) {
                     <div class="p-3 m-auto">
                       <router-outlet></router-outlet>
                     </div>
                   }
+                }
 
-                  @if (accounts && accounts.length === 0) {
-                    <div
-                      class="row h-100 w-75 align-items-center justify-content-center text-dark fs-3 fw-bold opacity-50"
-                      i18n>
-                      No accounts available
-                    </div>
-                  }
-                </div>
+                @if (accounts && accounts.length === 0) {
+                  <div
+                    class="row h-100 w-75 align-items-center justify-content-center text-dark fs-3 fw-bold opacity-50"
+                    i18n>
+                    No accounts available
+                  </div>
+                }
               </div>
-            }
+            </div>
           </div>
         </div>
       }
