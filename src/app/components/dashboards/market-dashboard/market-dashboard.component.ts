@@ -65,7 +65,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
   favoriteMerchantLoading = false;
-  favoriteMerchants!: MerchantModel[];
+  favoriteMerchants!: MerchantAutocompleteModel[];
   favoriteMerchantsNumber!: number;
   favorite_merchant_making!: MerchantModel | null;
 
@@ -107,7 +107,10 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .getFavoriteMerchantsAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: { objects: MerchantModel[] }) => {
+        next: (data: {
+          objects: MerchantAutocompleteModel[];
+          count: number;
+        }) => {
           this.favoriteMerchants = data.objects;
           this.favoriteMerchantsNumber = data.objects.length;
           this.favoriteMerchantLoading = false;
