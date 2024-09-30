@@ -7,6 +7,8 @@ import { CounterComponent } from '../../components/dev/operations/counter/counte
 import { ClientAccountDetailComponent } from '../../components/client/client-account-detail/client-account-detail.component';
 import { ClientDetailsComponent } from '../../components/client/client-details/client-details.component';
 import { ClientListComponent } from '../../components/client/client-list/client-list.component';
+import { CounterDetailsComponent } from '../../components/dev/operations/counter-details/counter-details.component';
+
 export const DeskRoutes: Routes = [
   { path: 'list', component: ClientListComponent },
 
@@ -25,4 +27,5 @@ export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
   { path: 'operations/list', component: OperationListComponent },
   { path: 'operations/counters', component: CounterComponent },
+  { path: 'operations/counter/:id', component: CounterDetailsComponent },
 ];

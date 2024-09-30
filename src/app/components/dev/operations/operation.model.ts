@@ -1,3 +1,6 @@
+import { CurrencyModel } from '../../../global/models/global.models';
+import { OrganizationModel } from '../../auth/auth.model';
+
 export interface OperationListModel {
   amount: number;
   code: string;
@@ -272,4 +275,170 @@ export interface CounterListModel {
       };
     };
   };
+}
+
+export interface CounterDetailsModel {
+  code: number;
+  created_at: string;
+  formatted_code: string;
+  id: number;
+  name: string;
+  branch: {
+    chief: number;
+    code: number;
+    created_at: string;
+    formatted_code: string;
+    hr_chief: string;
+    id: number;
+    name: string;
+    organization_tenant: {
+      accepts_login: boolean;
+      bank_ihela_code: number;
+      company_type_code: string;
+      company_type_name: string;
+      id: number;
+      is_active: boolean;
+      is_erp: boolean;
+      is_main: boolean;
+      org_accounting_type: number;
+      institution_client: {
+        client_code: string;
+        client_full_name: string;
+        id: number;
+        client_type: {
+          title: string;
+          value: string;
+          css: string;
+        };
+        picture: string;
+        prefered_language: string;
+      };
+    };
+  };
+}
+
+export interface AuxBoxModel {
+  absolute_url: string;
+  acc_number: string;
+  acc_short_number: string;
+  balance: string;
+  currency: CurrencyModel;
+  id: number;
+  ledger_status: string;
+  ledger_title: string;
+  category: {
+    code: number;
+    description: string;
+    id: number;
+    ledger_full_id: string;
+  };
+}
+
+export interface HrModel {
+  id: number;
+  is_teller: boolean;
+  is_treasurer: boolean;
+  operator: {
+    email: string;
+    id: number;
+    name: string;
+    username: string;
+    employee_client: {
+      client_id: number;
+      client_code: string;
+      client_state: string;
+      client_full_name: string;
+      id: number;
+      picture: string;
+      prefered_language: string;
+      client_type: {
+        css: string;
+        title: string;
+        value: string;
+      };
+      has_pin: boolean;
+      is_agent: boolean;
+      is_merchant: boolean;
+      is_partner_bank: boolean;
+    };
+  };
+  organization: OrganizationModel;
+}
+
+export interface CounterTellerModel {
+  auxiliary_box: AuxBoxModel;
+  balance: string;
+  connected: boolean;
+  counter: CounterDetailsModel;
+  currency: CurrencyModel;
+  hr_operator: HrModel;
+  hr_treasurer: HrModel;
+  id: number;
+}
+
+export interface CounterTreasurerModel {
+  id: string;
+  is_teller: boolean;
+  is_treasurer: boolean;
+  operator: {
+    email: string;
+    id: number;
+    name: string;
+    username: string;
+    employee_client: {
+      client_full_name: string;
+      client_code: string;
+      client_id: number;
+      client_email: string;
+      has_pin: boolean;
+      id: number;
+      is_agent: boolean;
+      is_merchant: boolean;
+      is_partner_bank: boolean;
+      picture: string;
+      prefered_language: string;
+      client_type: {
+        css: string;
+        title: string;
+        value: string;
+      };
+    };
+  };
+}
+
+interface AccountMappingModel {
+  account: AuxBoxModel;
+  account_type: {
+    css: string;
+    icon: string;
+    title: string;
+    value: string;
+  };
+  created_at: string;
+  id: number;
+  institution: string;
+  is_active: boolean;
+  name: string;
+}
+
+export interface MainBoxModel {
+  account: number;
+  account_mapping: AccountMappingModel;
+  counter: number;
+  currency: CurrencyModel;
+  id: number;
+  title: string;
+}
+
+export interface AssignOperatorBodyModel {
+  counter_pk: number;
+  operator_code: string;
+  pin_code: string;
+  treasurer?: number;
+}
+
+export interface AssignOperatorModel {
+  response_code: string;
+  response_message: string;
+  success: boolean;
 }

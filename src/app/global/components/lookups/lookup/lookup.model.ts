@@ -6,6 +6,9 @@ export interface ItemModel {
   lookup_image: string;
   lookup_subtitle: string;
   lookup_title: string;
+  username?: string;
+  is_teller?: boolean;
+  is_treasurer?: boolean;
 }
 
 interface MenuModel {

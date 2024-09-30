@@ -53,7 +53,7 @@ export interface ClientCorporateModel {
   is_suspect: boolean;
   addresses: AdresseClientModel[];
   corp_risk_degree: {
-    titlel: string;
+    value: string;
     title: string;
   };
   in_suspected_country: boolean;

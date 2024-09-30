@@ -75,6 +75,11 @@ export class MerchantService {
     return this.apiService.get(url).pipe(map(data => data));
   }
 
+  getRecentAllMerchantsAutocomplete(search?: string) {
+    const url = `/dbs/merchant/manage/objects_autocomplete/?search=${search}`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
   getFavoriteMerchantsAutocomplete(search: string) {
     const url = `/dbs/merchant/manage/objects_autocomplete/?search='${search}&is_favorite=true`;
     return this.apiService.get(url).pipe(map(data => data));
