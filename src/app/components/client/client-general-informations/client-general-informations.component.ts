@@ -9,21 +9,21 @@ import {
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, NgClass } from '@angular/common';
-import { FileComponent } from '../../../../global/components/file/file.component';
-import { ModeModel } from '../../../../core/services/config/main-config.models';
-import {
-  ClientService,
-  ConfigService,
-  DialogService,
-} from '../../../../core/services';
+import { FileComponent } from '../../../global/components/file/file.component';
 import {
   ClientCorporateModel,
   ClientWorkstationModel,
   IndividualClientModel,
   ResponseDataForClientModel,
   ResponseDataForCorporateModel,
-} from '../../client.model';
-import { FileResponseModel } from '../../../../global/components/file/file.model';
+} from '../client.model';
+import { ModeModel } from '../../../core/services/config/main-config.models';
+import {
+  ClientService,
+  ConfigService,
+  DialogService,
+} from '../../../core/services';
+import { FileResponseModel } from '../../../global/components/file/file.model';
 
 @Component({
   selector: 'app-client-general-informations',

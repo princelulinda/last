@@ -1,0 +1,13 @@
+.chosen{
+    animation: transition 0.5s ease-in;
+}
+@keyframes transition {
+    0% {
+        opacity: 0;
+        transform: translatey(100px);
+    }
+    100% {
+        opacity: 1;
+        transtransform: translatey(0px);
+    }
+}

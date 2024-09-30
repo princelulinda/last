@@ -572,12 +572,11 @@
                         tabindex="0"
                         class="text-primary ms-auto fw-bold">
                         {{ isFieldSelected(meta.name) ? 'Remove' : 'Add' }}
-                        <span *ngIf="isFieldSelected(meta.name)"
-                          ><i class="fa-solid fa-minus"></i
-                        ></span>
-                        <span *ngIf="!isFieldSelected(meta.name)"
-                          ><i class="fa-solid fa-plus"></i
-                        ></span>
+                        @if (isFieldSelected(meta.name)) {
+                          <span><i class="fa-solid fa-minus"></i></span>
+                        } @else if (!isFieldSelected(meta.name)) {
+                          <span><i class="fa-solid fa-plus"></i></span>
+                        }
                       </span>
                     </div>
                   </div>

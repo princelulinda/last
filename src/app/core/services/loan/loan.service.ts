@@ -3,6 +3,7 @@ import { ApiService } from '..';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import {
   BodyLoanModel,
+  LoanListModel,
   LoanListResponseModel,
   LoanModel,
   LoanPendingModel,
@@ -122,7 +123,9 @@ export class LoanService {
       `/loans/request/?limit=${limit}&offset=${offset}&client_id=${client_id}`
     );
   }
-  getLoanListByClient(client_id: string) {
+  getLoanListByClient(
+    client_id: number
+  ): Observable<{ objects: LoanListModel[] }> {
     return this.apiService.get(
       `/loans/manage/?cred_client_main_account__acc_client=${client_id}`
     );
@@ -136,5 +139,14 @@ export class LoanService {
     return this.apiService.get(
       `/loans/manage/?cred_client_main_account__acc_client=${client_id}&cred_client_main_account=${accountId}`
     );
+  }
+
+  getCreditDetails(
+    creditId: string | number
+  ): Observable<{ object: LoanModel }> {
+    const apiUrl = '/loans/manage/' + creditId + '/';
+    return this.apiService
+      .get(apiUrl)
+      .pipe(map(data => data as { object: LoanModel }));
   }
 }

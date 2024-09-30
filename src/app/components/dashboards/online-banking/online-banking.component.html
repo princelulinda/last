@@ -83,7 +83,7 @@
                       <!-- Ajoutez ici le contenu spécifique à ce menuGroup -->
                       @if (i === 0 && menuGroup.is_active) {
                         <div>
-                          <!-- Contenu pour les banques (boucle *ngFor) -->
+                          <!-- Contenu pour les banques (boucle) -->
 
                           @if (
                             (banks && banks.length > 0) ||
@@ -210,7 +210,7 @@
                               }
                             </div>
                           }
-                          <!-- Contenu pour les marchands (boucle *ngFor) -->
+                          <!-- Contenu pour les marchands (boucle) -->
                           @else {
                             <div class="d-flex pt-3 ps-3">
                               @for (_ of [1, 2, 3]; track $index) {
