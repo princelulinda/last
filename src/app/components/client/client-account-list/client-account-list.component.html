@@ -1,0 +1,220 @@
+@if (!accountsWorkStation) {
+  <div
+    class="text-center w-100 d-flex justify-content-center align-items-center text-dark"
+    style="height: 80vh"
+    title="Loading...">
+    <i class="spinner-border"></i>
+  </div>
+}
+
+<!-- list  -->
+@if (accountsWorkStation) {
+  <div>
+    @if (accountsWorkStation && accountsWorkStation.length > 0) {
+      <div
+        class="row d-flex justify-content-between align-items-center"
+        style="height: 35px">
+        <div
+          role="button"
+          data-bs-toggle="modal"
+          data-bs-target="#accountModal"
+          title="Add an account"
+          class="col-5 ms-2 pt-1">
+          <i
+            class="fa-solid fa-plus sm-radius p-1 text-l-md mt-2 bg-primary text-all-white"></i>
+        </div>
+        <div
+          role="button"
+          class="col-2 mt-1 mb-2 me-2"
+          (click)="toggleAmountVisibility()"
+          tabindex="0">
+          @if (showAmounts) {
+            <span title="Show balances">
+              <i class="fa-solid fa-eye mt-3"></i
+            ></span>
+          }
+          @if (!showAmounts) {
+            <span title="Hide balances">
+              <i class="fa-solid fa-eye-slash mt-3"></i
+            ></span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  @for (account of accountsWorkStation; track $index) {
+    <div class="mt-2" role="button">
+      <div
+        (click)="selectLoneAccount(account)"
+        tabindex="0"
+        class="px-2 ms-1 is-hoverable w-100 lg-radius"
+        [ngClass]="{
+          'bg-white': selectedLoneAccount === account,
+          ' border-primary border-2':
+            account && account.acc_status.status_code === 'B',
+          'border-secondary': account && account.acc_status.status_code === 'C',
+          'opacity-50': account && account.acc_status.status_code === 'C',
+          borderBottom:
+            account &&
+            account.acc_status.status_code !== 'B' &&
+            account.acc_status.status_code !== 'C',
+        }"
+        routerLink="/w/workstation/d/desk/details/{{
+          SelectedclientId
+        }}/account/{{ account.id }}/"
+        routerLinkActive="level-2">
+        <small
+          ><b
+            class=""
+            [ngClass]="{
+              'text-dark': selectedLoneAccount === account,
+            }"
+            >{{ account.acc_branch }}</b
+          ></small
+        ><br />
+
+        <div class="rounded" style="line-height: 1em">
+          <small
+            ><b class="mt-0 text-sm">{{ account.acc_get_title }}</b></small
+          ><br />
+          <small>
+            <b class="mt-0 mb-0 text-sm">
+              {{ account.get_acc_number }}
+            </b>
+          </small>
+          <br />
+          <small>
+            <app-amount-visibility
+              [amount]="account.acc_available_balance"
+              [currency]="account.acc_currency"
+              [ngClass]="
+                'fw-normal text-success fw-bold'
+              "></app-amount-visibility>
+          </small>
+
+          <br />
+          <div style="height: 10px"></div>
+        </div>
+      </div>
+    </div>
+  }
+}
+
+<div class="modal fade" id="accountModal" data-bs-backdrop="static">
+  <div
+    class="modal-dialog modal-dialog-centered statement-dialog justify-content-center">
+    <div class="modal-content" style="width: 70%">
+      <!-- <div class="modal-header"> -->
+      <div
+        type="button"
+        #accountCreated
+        class="p-2 btn btn-close ms-auto"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+        (click)="closeDialog()"
+        tabindex="0"></div>
+      <!-- </div> -->
+      <div class="modal-body">
+        <b class="accountCreation justify-content-start d-flex text-l" i18n
+          >New Account </b
+        ><br />
+
+        <div [formGroup]="subAccountForm">
+          <div class="col-lg-6 text-center text-dark">
+            <div class="row">
+              <div class="col-lg-8 text-start">
+                <span class="text-dark" i18n>
+                  <span style="opacity: 0.55">Title</span>
+                  <i class="text-danger">*</i>
+                </span>
+                <input
+                  class="form-control input level-1"
+                  type="text"
+                  formControlName="title" />
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-between mt-2">
+            <div class="col-6 mt-1">
+              <div style="line-height: 1em">
+                <span>
+                  <span style="opacity: 0.5" i18n>Account Type</span
+                  ><i class="text-danger">*</i></span
+                ><br />
+                <div class="col-8 mb-2">
+                  <app-lookup
+                    option="autocomplete"
+                    url="/clients/config/accounttype/objects_autocomplete?search="
+                    (selectedItemEvent)="setSelectedAccountType($event)"
+                    label="account type"></app-lookup>
+                </div>
+                <input
+                  class="form-check-input fs-5"
+                  type="checkbox"
+                  id="synchronised"
+                  formControlName="sync"
+                  role="button" />
+                <label for="Synchronised" class="mt-2 ms-lg-3">
+                  Synchronised</label
+                >
+              </div>
+            </div>
+            <div class="col-6">
+              <div style="line-height: 1.2em">
+                <span>
+                  <span style="opacity: 0.5" i18n>Agency</span
+                  ><i class="text-danger">*</i></span
+                ><br />
+                <div class="col-8">
+                  <app-lookup
+                    option="autocomplete"
+                    url="/hr/branches/objects_autocomplete/"
+                    (selectedItemEvent)="setSelectedAgency($event)"
+                    label="Agency"></app-lookup>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row p-3">
+          <div class="text-center mt-4 mb-4">
+            <b
+              role="button"
+              class="text-dark"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              (click)="closeDialog(); showAccount = false"
+              tabindex="0l"
+              [ngClass]="{
+                'not-clickable': isLoadingCreation,
+              }"
+              i18n
+              >Cancel</b
+            >
+            <button
+              [disabled]="!selectedAgencyId || !selectedAccountTypeId"
+              title="Create"
+              [ngClass]="{
+                'not-clickable': isLoadingCreation,
+              }"
+              (click)="createAccount()"
+              tabindex="0"
+              class="ms-lg-4 btn px-3 buttonConfirm bg-primary text-all-white">
+              @if (!isLoadingCreation) {
+                <span i18n>Confirm</span>
+              }
+              @if (isLoadingCreation) {
+                <span class="mt-lg-2">
+                  <i
+                    class="fa-solid fa-spin text-dark fa-circle-notch fs-4"></i>
+                </span>
+              }
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

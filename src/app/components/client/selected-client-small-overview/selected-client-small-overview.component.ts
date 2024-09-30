@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { ClientWorkstationModel } from '../client.model';
 
@@ -10,19 +16,17 @@ import { ClientWorkstationModel } from '../client.model';
   templateUrl: './selected-client-small-overview.component.html',
   styleUrl: './selected-client-small-overview.component.scss',
 })
-export class SelectedClientSmallOverviewComponent implements OnDestroy {
+export class SelectedClientSmallOverviewComponent implements OnDestroy, OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
   clientId!: number;
 
-  @Input() selectedClient!: ClientWorkstationModel | undefined;
+  @Input() selectedClient!: ClientWorkstationModel | null;
 
-  // constructor() {
-  //     //comment
-  // }
+  constructor(private cdr: ChangeDetectorRef) {}
 
-  // ngOnInit(): void {
-  //     //comment
-  // }
+  ngOnInit(): void {
+    this.cdr.detectChanges();
+  }
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
