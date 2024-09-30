@@ -1,4 +1,4 @@
-<div class="level-2">
+<div class="">
   @if (!credits) {
     <div
       class="text-center w-100 d-flex row justify-content-center align-items-center text-dark fs-4 general_view_point">
@@ -7,8 +7,8 @@
   }
   @if (credits) {
     <div class="row g-0 p-2 mx-1">
-      <div class="col-lg-3 level-2 text-dark ps-2">
-        <div>
+      <div class="col-lg-3 text-dark ps-2">
+        <div class="mb-2">
           <app-selected-client-small-overview
             [selectedClient]="
               this.selectedClient
@@ -48,18 +48,20 @@
                     }
                   </div>
                 </div>
+                <!-- the router link was after ngclass 
+                  routerLink="/w/workstation/desk/client/details/{{
+                        clientId
+                      }}/item/{{ item.id }}/" -->
                 @for (item of credits; track $index) {
                   <div class="fig p-2" role="button" tabindex="0">
                     <div
                       (click)="selectCredit(item)"
                       tabindex="0"
-                      class="px-2 ms-1 is-hoverable w-100 border border-bottom"
+                      class="px-2 ms-1 is-hoverable w-100"
                       [ngClass]="{
-                        'lg-radius bg-white': selectedCredit === item,
+                        'lg-radius bg-white pt-2': selectedCredit === item,
+                        'border-bottom': selectedCredit !== item,
                       }"
-                      routerLink="/w/workstation/desk/client/details/{{
-                        clientId
-                      }}/item/{{ item.id }}/"
                       routerLinkActive="selected">
                       <div class="rounded lh-1">
                         <small class="d-flex" style="height: 8px"
@@ -70,15 +72,17 @@
                             }"
                             >{{ item.cred_branch_defaults.branch.name }}</b
                           >
-                          <span
-                            [class]="
-                              'text-' +
-                              item.cred_status.css +
-                              'p-1 text-center ms-auto labelCard badge-design bg-' +
-                              item.cred_status.css
-                            ">
-                            {{ item.cred_status.value }}</span
-                          > </small
+                          <span class="ms-auto">
+                            <span
+                              [class]="
+                                'text-' +
+                                item.cred_status.css +
+                                'p-1 text-center d-flex align-items-center  labelCard badge-design bg-' +
+                                item.cred_status.css
+                              ">
+                              {{ item.cred_status.value }}</span
+                            >
+                          </span> </small
                         ><br />
                         <small
                           ><b class="mt-0 text-sm">{{
@@ -86,7 +90,7 @@
                           }}</b></small
                         ><br />
                         <small
-                          ><b class="mt-0 text-primary-light text-sm">{{
+                          ><b class="mt-0 text-primary-2 text-sm">{{
                             item.cred_mode
                           }}</b></small
                         ><br />
@@ -99,7 +103,6 @@
                           "></app-amount-visibility>
 
                         <br />
-                        <div style="height: 10px"></div>
                       </div>
                     </div>
                   </div>
@@ -109,7 +112,7 @@
           </div>
         </div>
       </div>
-      @if (selectedCredit.id.toString() !== '' && credits) {
+      @if (selectedCredit && selectedCredit.id.toString() !== '' && credits) {
         <div class="col-lg-9">
           <div class="details level-1 h-100 p-2 rounded-top text-dark">
             @if (!credit && isLoading) {
@@ -150,18 +153,22 @@
                   <div class="row justify-content-center">
                     <div class="row ms-3 overflow-y-auto">
                       <div class="col-auto">
-                        <div>
-                          <img
-                            [src]="organization?.institution_client?.picture"
-                            class="img-fluid image"
-                            alt=""
-                            style="width: 15%" />
+                        <div class="d-flex flex-column">
+                          <div
+                            class="col-9 col-sm-7 col-md-4 col-lg-3 col-xl-2">
+                            <img
+                              [src]="organization?.institution_client?.picture"
+                              class="img-fluid image w-100"
+                              alt="" />
+                          </div>
                           <br />
-                          <div class="fw-bold text-dark">
-                            {{ credit.cred_branch_defaults.branch.name }}
+                          <div class="col-12">
+                            <span class="fw-bold text-dark">{{
+                              credit.cred_branch_defaults.branch.name
+                            }}</span>
                           </div>
                         </div>
-                        <hr class="mt-4" style="width: 85%" />
+                        <hr class="col-12 col-lg-11 col-xl-10 mt-4" />
 
                         <div>
                           <span class="text-dark opacity-75" i18n
@@ -184,10 +191,9 @@
                         </div>
                       </div>
 
-                      <div>
-                        <div
-                          class="row justify-content-between"
-                          style="width: 90%">
+                      <div
+                        class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-10">
+                        <div class="row justify-content-between w-100">
                           <div class="col">
                             <span class="text-dark opacity-75" i18n
                               >First payment</span
@@ -222,8 +228,7 @@
                         </div>
 
                         <div
-                          class="row mt-3 bg-info justify-content-between sm-radius"
-                          style="width: 90%">
+                          class="row mt-3 bg-info justify-content-between sm-radius w-100">
                           <div class="col">
                             <span
                               class="fw-bold text-primary-light opacity-75"
@@ -260,11 +265,9 @@
                               "></app-amount-visibility>
                           </div>
                         </div>
-                        <hr class="mt-5" style="width: 85%" />
+                        <hr class="col-12 col-xl-11 mt-5" />
 
-                        <div
-                          class="row justify-content-between"
-                          style="width: 90%">
+                        <div class="row justify-content-between gap-4">
                           <div class="col">
                             <span class="text-dark opacity-75" i18n
                               >Capital</span
@@ -302,99 +305,103 @@
                             >
                           </div>
                         </div>
+                        <div>
+                          <div class="row justify-content-between mt-2">
+                            <div class="col ms-4">
+                              <span class="text-dark opacity-75" i18n
+                                >Paid capital</span
+                              >
+                              <br />
+                              <app-amount-visibility
+                                [amount]="
+                                  (credit.cred_paid_capital | number) ?? '---'
+                                "
+                                [currency]="
+                                  balance_currency
+                                "></app-amount-visibility>
+                            </div>
+
+                            <div class="col">
+                              <span class="text-dark opacity-75" i18n
+                                >Duration</span
+                              >
+                              <br />
+                              <b class="text-dark">{{
+                                (credit.cred_period | number) ?? '---'
+                              }}</b>
+                            </div>
+                            <div class="col"></div>
+                          </div>
+                          <div class="row justify-content-between">
+                            <div class="col ms-4">
+                              <span class="text-dark opacity-75" i18n
+                                >Total interests</span
+                              >
+                              <br />
+                              <app-amount-visibility
+                                [amount]="
+                                  (credit.cred_total_interests | number) ??
+                                  '---'
+                                "
+                                [currency]="
+                                  balance_currency
+                                "></app-amount-visibility>
+                            </div>
+
+                            <div class="col">
+                              <span class="text-dark opacity-75" i18n
+                                >Exigible capital</span
+                              >
+                              <br />
+                              <b class="text-dark">---</b>
+                            </div>
+
+                            <div class="col">
+                              <span class="text-dark opacity-75" i18n
+                                >Fees</span
+                              >
+                              <br />
+                              <app-amount-visibility
+                                [amount]="
+                                  (credit.cred_fees_paid | number) ?? '---'
+                                "
+                                [currency]="
+                                  balance_currency
+                                "></app-amount-visibility>
+                            </div>
+                          </div>
+
+                          <div class="row justify-content-between mt-2">
+                            <div class="col ms-4">
+                              <span class="text-dark opacity-75" i18n
+                                >Manager</span
+                              >
+                              <br />
+                              <b class="text-dark"
+                                >{{ credit.cred_manager.name }}
+                              </b>
+                            </div>
+
+                            <div class="col">
+                              <span class="text-dark opacity-75" i18n
+                                >Status</span
+                              >
+                              <br />
+                              <b
+                                [class]="
+                                  'text-' +
+                                  credit.cred_status.css +
+                                  'p-2 sm-radius label-card badge-design bg-' +
+                                  credit.cred_status.css
+                                "
+                                >{{ credit.cred_status.label }}
+                              </b>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
-                    <div>
-                      <div
-                        class="row justify-content-between mt-2"
-                        style="width: 61%">
-                        <div class="col ms-4">
-                          <span class="text-dark opacity-75" i18n
-                            >Paid capital</span
-                          >
-                          <br />
-                          <app-amount-visibility
-                            [amount]="
-                              (credit.cred_paid_capital | number) ?? '---'
-                            "
-                            [currency]="
-                              balance_currency
-                            "></app-amount-visibility>
-                        </div>
-
-                        <div class="col">
-                          <span class="text-dark opacity-75" i18n
-                            >Duration</span
-                          >
-                          <br />
-                          <b class="text-dark">{{
-                            (credit.cred_period | number) ?? '---'
-                          }}</b>
-                        </div>
-                      </div>
-                      <div
-                        class="row justify-content-between"
-                        style="width: 90%">
-                        <div class="col ms-4">
-                          <span class="text-dark opacity-75" i18n
-                            >Total interests</span
-                          >
-                          <br />
-                          <app-amount-visibility
-                            [amount]="
-                              (credit.cred_total_interests | number) ?? '---'
-                            "
-                            [currency]="
-                              balance_currency
-                            "></app-amount-visibility>
-                        </div>
-
-                        <div class="col">
-                          <span class="text-dark opacity-75" i18n
-                            >Exigible capital</span
-                          >
-                          <br />
-                          <b class="text-dark">---</b>
-                        </div>
-
-                        <div class="col">
-                          <span class="text-dark opacity-75" i18n>Fees</span>
-                          <br />
-                          <app-amount-visibility
-                            [amount]="(credit.cred_fees_paid | number) ?? '---'"
-                            [currency]="
-                              balance_currency
-                            "></app-amount-visibility>
-                        </div>
-                      </div>
-
-                      <div
-                        class="row justify-content-between mt-2"
-                        style="width: 61%">
-                        <div class="col ms-4">
-                          <span class="text-dark opacity-75" i18n>Manager</span>
-                          <br />
-                          <b class="text-dark"
-                            >{{ credit.cred_manager.name }}
-                          </b>
-                        </div>
-
-                        <div class="col">
-                          <span class="text-dark opacity-75" i18n>Status</span>
-                          <br />
-                          <b
-                            [class]="
-                              'text-' +
-                              credit.cred_status.css +
-                              'p-2 sm-radius label-card badge-design bg-' +
-                              credit.cred_status.css
-                            "
-                            >{{ credit.cred_status.label }}
-                          </b>
-                        </div>
-                      </div>
-                    </div>
                     <div>
                       <button
                         class="btn p-2 ms-4 buttonPlan primary-light mt-1 text-center"
@@ -421,7 +428,7 @@
                           <app-list
                             [headers]="headersPlan"
                             [url]="
-                              '/loans/plan/' + this.selectedCredit.id + '/?'
+                              '/loans/plan/' + this.selectedCredit!.id + '/?'
                             "></app-list>
                         </div>
                       </div>
