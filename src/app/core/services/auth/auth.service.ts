@@ -210,8 +210,8 @@ export class AuthService {
   ): Observable<CreateAccountResponseModel> {
     const url = '/client/';
     return this.apiService
-      .post(url, body)
-      .pipe(map(response => response as CreateAccountResponseModel));
+      .post<CreateAccountResponseModel>(url, body)
+      .pipe(map(response => response));
   }
 
   requestOTP(
@@ -219,16 +219,16 @@ export class AuthService {
   ): Observable<ResetPasswordResponseModel> {
     const url = '/otp/request/';
     return this.apiService
-      .post(url, body)
-      .pipe(map(response => response as ResetPasswordResponseModel));
+      .post<ResetPasswordResponseModel>(url, body)
+      .pipe(map(response => response));
   }
   OTPverification(
     body: OtpVerificationBodyModel
   ): Observable<OtpVerificationResponseModel> {
     const url = '/otp/verification/';
     return this.apiService
-      .post(url, body)
-      .pipe(map(response => response as OtpVerificationResponseModel));
+      .post<OtpVerificationResponseModel>(url, body)
+      .pipe(map(response => response));
   }
 
   getOperatorInvitations(

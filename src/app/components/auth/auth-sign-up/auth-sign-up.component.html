@@ -116,7 +116,7 @@
           </div>
           <div>
             <span class="text-danger fs-x-small"
-              ><i class="fa-solid fa-circle-info fs-6"></i> You must atleast
+              ><i class="fa-solid fa-circle-info fs-6"></i> You must at least
               enter the phone number or the email</span
             >
           </div>
@@ -212,7 +212,8 @@
                 emailToVerify &&
                 !isMatchEmail &&
                 emailToVerify.object.success === false &&
-                !EmailVerificationloader
+                !EmailVerificationloader &&
+                !isEmailUndefined()
               ) {
                 <span i18n class="text-success fs-x-small">Email is valid</span>
               }
@@ -411,7 +412,7 @@
                     id="floatingSelect"
                     name="martialStatus"
                     formControlName="martialStatus"
-                    placeholder="Martial Status"
+                    placeholder="Marital Status"
                     id="bg-input"
                     name="sellist">
                     <option value="Married" i18n>Married</option>
@@ -420,7 +421,7 @@
                     <option value="Widower" i18n>Widower</option>
                   </select>
                   <label for="sel1" class="text-dark" i18n>
-                    Select martial status
+                    Select marital status
                     <code>*</code></label
                   >
                 </div>

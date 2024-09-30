@@ -228,25 +228,19 @@ export class AdminService {
     body: AdminCreateNewDepartmentBodyModel
   ): Observable<AdminCreateNewDepartmentModel> {
     const url = '/hr/access/departments/';
-    return this.apiService
-      .post(url, body)
-      .pipe(map(data => data as AdminCreateNewDepartmentModel));
+    return this.apiService.post(url, body);
   }
   createNewDirection(
     body: CreateNewDirectionBodyModel
   ): Observable<CreateNewDirectionModel> {
     const url = `/hr/access/directions/`;
-    return this.apiService
-      .post(url, body)
-      .pipe(map(data => data as CreateNewDirectionModel));
+    return this.apiService.post(url, body);
   }
   createNewService(
     body: CreateNewServiceBodyModel
   ): Observable<CreateNewServiceModel> {
     const url = `/hr/access/services/`;
-    return this.apiService
-      .post(url, body)
-      .pipe(map(data => data as CreateNewServiceModel));
+    return this.apiService.post(url, body);
   }
 
   createNewRole(body: CreateNewRoleModel) {
