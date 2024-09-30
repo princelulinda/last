@@ -11,7 +11,7 @@ import {
 } from '../../../core/services';
 import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { LoanListModel, LoanListResponseModel } from '../loan.models';
+import { LoanListModel } from '../loan.models';
 
 @Component({
   selector: 'app-loan-list',
@@ -85,7 +85,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
       .getLoansListWithPagination(data)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(loans => {
-        const response = loans as { object: LoanListResponseModel };
+        const response = loans;
         this.loans = response.object.response_data;
       });
   }

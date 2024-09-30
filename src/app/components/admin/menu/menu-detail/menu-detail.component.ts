@@ -58,7 +58,7 @@ export class MenuDetailComponent implements OnInit, OnDestroy {
       .subscribe({
         next: menu => {
           this.loadingData = false;
-          const res = menu as { object: AdminMenuModel };
+          const res = menu;
           this.menuDetails = res.object;
           this.menuGroupId =
             this.menuDetails?.menu_group_info?.id.toString() || '';

@@ -14,6 +14,7 @@ import {
   ProductLookupModel,
 } from '../../../components/merchant/products/products.model';
 import {
+  BillersAutocompleteModel,
   doTellerBodyModel,
   MerchantAutocompleteModel,
   MerchantCategoriesAutocompleteModel,
@@ -538,14 +539,22 @@ export class MerchantService {
       .pipe(map(response => response));
   }
 
-  getTopProducts() {
+  getTopProducts(): Observable<{ objects: ProductAutocompleteModel[] }> {
     const url = `/dbs/merchant-product/objects_autocomplete/?limit=4&top_product=true`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ objects: ProductAutocompleteModel[] }>(url)
+      .pipe(map(data => data));
   }
 
-  getBillers() {
+  getBillers(): Observable<{
+    objects: BillersAutocompleteModel[];
+  }> {
     const url = `/dbs/merchant/manage/objects_autocomplete/?is_biller=true`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{
+        objects: BillersAutocompleteModel[];
+      }>(url)
+      .pipe(map(data => data));
   }
 
   getFavoriteProductAutocomplete(search: string) {
