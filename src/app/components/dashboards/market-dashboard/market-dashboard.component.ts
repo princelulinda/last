@@ -107,8 +107,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .getFavoriteMerchantsAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: response => {
-          const data = response as { objects: MerchantModel[] };
+        next: (data: { objects: MerchantModel[] }) => {
           this.favoriteMerchants = data.objects;
           this.favoriteMerchantsNumber = data.objects.length;
           this.favoriteMerchantLoading = false;
@@ -130,8 +129,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .getRecentMerchantsAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: data => {
-          const response = data as { objects: MerchantAutocompleteModel[] };
+        next: (response: { objects: MerchantAutocompleteModel[] }) => {
           this.merchants = response.objects;
           this.last4Merchant = this.merchants.slice(-5);
 
@@ -147,8 +145,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .getBIllers(this.billerChecked)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: response => {
-          const result = response as { objects: BillersAutocompleteModel[] };
+        next: (result: { objects: BillersAutocompleteModel[] }) => {
           this.billers = result.objects;
           this.recentBillers = this.billers.slice(0, 5);
         },
@@ -162,8 +159,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .getBrowseByCategory()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: result => {
-          const response = result as { objects: ProductCategoryModel[] };
+        next: (response: { objects: ProductCategoryModel[] }) => {
           this.productCategory = response.objects;
           this.first4ProductCategory = this.productCategory.slice(0, 4);
         },
@@ -175,10 +171,9 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .getBestOffer()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: response => {
-          const data = response as {
-            objects: { id: number; product: ProductOfferModel }[];
-          };
+        next: (data: {
+          objects: { id: number; product: ProductOfferModel }[];
+        }) => {
           this.offerData = data.objects.slice(0, 2);
         },
         error: () => {
@@ -196,8 +191,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .getRecentProducts()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: data => {
-          const response = data as { objects: ProductAutocompleteModel[] };
+        next: (response: { objects: ProductAutocompleteModel[] }) => {
           this.products = response.objects.slice(0, 5);
         },
       });

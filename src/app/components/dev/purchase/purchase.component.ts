@@ -10,11 +10,13 @@ import {
   EmptyStateModel,
 } from '../../../global/components/empty-states/empty-state/empty-state.component';
 import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-purchase',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     ProductCardComponent,
     SkeletonComponent,
@@ -33,6 +35,8 @@ export class PurchaseComponent implements OnInit {
   searchType: EmptyStateModel = 'product';
   isProductsSearch = false;
   disabledFavoriteAction = false;
+  selectedProduct = true;
+  selectedMerchant = false;
 
   constructor(
     private merchantService: MerchantService,

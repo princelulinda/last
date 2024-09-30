@@ -13,6 +13,7 @@ import { PaginationConfig } from '../../../global/models/pagination.models';
 import { PageMenusModel } from '../../../components/admin/menu/menu.models';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { AccessModel } from '../../../components/admin/access/access.models';
+import { MetadataModel } from '../../../components/metadatas/metadata.model';
 
 @Injectable({
   providedIn: 'root',
@@ -71,9 +72,9 @@ export class MenuService {
       .pipe(map(data => data));
   }
 
-  getMetadata(search = '', pagination?: PaginationConfig) {
+  getMetadata(search = '', pagination?: PaginationConfig): Observable<{ objects: MetadataModel[]; count: number }> {
     const url = `/metadata/?search=${search}&limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService.get(url).pipe(map(data => data as { objects: MetadataModel[]; count: number }));
   }
 
   getAccesses(): Observable<{ objects: AccessModel[]; count: number }> {

@@ -1,38 +1,50 @@
 <div class="container-fluid">
   <div class="row mb-2">
-    <div class="col-12 col-sm-6 col-md-4 col-lg-5 me-auto mb-2">
-      <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search.."
-          aria-label="Search"
-          [formControl]="search"
-          (keydown.enter)="searchProducts(search.value)"
-          (input)="searchProducts(search.value)"
-          aria-describedby="basic-addon2" />
-        <div
-          class="input-group-append bg-dark d-flex align-items-center"
-          role="button"
-          (click)="searchProducts(search.value)"
-          tabindex="0">
-          @if (!isLoading) {
-            <span class="px-3">
-              <i class="fa-solid fa-search text-light"></i>
-            </span>
-          } @else if (isLoading) {
-            <span class="px-3">
-              <i class="fa-solid fa-pulse px-1 fa-circle-notch text-white"></i>
-            </span>
-          }
+    @if (!selectedProduct) {
+      <div class="col-12 col-sm-6 col-md-4 col-lg-5 me-auto mb-2">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search.."
+            aria-label="Search"
+            [formControl]="search"
+            (keydown.enter)="searchProducts(search.value)"
+            (input)="searchProducts(search.value)"
+            aria-describedby="basic-addon2" />
+          <div
+            class="input-group-append bg-dark d-flex align-items-center"
+            role="button"
+            (click)="searchProducts(search.value)"
+            tabindex="0">
+            @if (!isLoading) {
+              <span class="px-3">
+                <i class="fa-solid fa-search text-light"></i>
+              </span>
+            } @else if (isLoading) {
+              <span class="px-3">
+                <i
+                  class="fa-solid fa-pulse px-1 fa-circle-notch text-white"></i>
+              </span>
+            }
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-7 col-lg-6 col-xl-7 col-xxl-6">
+    }
+    <div
+      class=""
+      [ngClass]="{
+        'col-12 col-sm-6 col-md-7 col-lg-6 col-xl-7 col-xxl-6':
+          !selectedProduct,
+        'col-12': selectedProduct,
+      }">
       <div class="col-11 col-sm-12 mx-auto">
         <div class="row">
           <div
-            class="col-3 col-md-2 col-lg-3 col-xl-2 bg-secondary xx-lg-radius p-1 d-flex justify-content-center me-auto">
+            class="col-3 col-md-2 col-lg-3 col-xl-2 bg-secondary xx-lg-radius p-1 d-flex justify-content-center me-auto"
+            [ngClass]="{
+              'd-none d-block': selectedProduct,
+            }">
             <div class="d-flex justify-content-center align-items-center">
               <span class="me-2 fw-normal font-calibri fs-normal" i18n
                 >Filter</span
@@ -41,7 +53,11 @@
             </div>
           </div>
           <div
-            class="col-6 col-md-8 col-xl-1 p-1 d-flex justify-content-end align-items-center"
+            class="p-1 d-flex align-items-center"
+            [ngClass]="{
+              'col-1 ms-auto': selectedProduct,
+              'col-6 col-md-8 col-xl-1 justify-content-end': !selectedProduct,
+            }"
             role="button"
             routerLink="/m/mymarket">
             <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
@@ -57,49 +73,98 @@
 <div class="container-fluid">
   <div
     class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-5">
-    @if (isLoading && products) {
-      <div>
-        <div class="row">
-          @for (item of [1, 2, 3]; track $index) {
-            <div class="d-grid mb-3 col-auto">
-              <div class="d-grid me-3">
-                <span>
-                  <app-skeleton
-                    height="130px"
-                    width="130px"
-                    classes="sm-radius"></app-skeleton>
-                </span>
+    @if (!selectedProduct) {
+      @if (isLoading && products) {
+        <div>
+          <div class="row">
+            @for (item of [1, 2, 3]; track $index) {
+              <div class="d-grid mb-3 col-auto">
+                <div class="d-grid me-3">
+                  <span>
+                    <app-skeleton
+                      height="130px"
+                      width="130px"
+                      classes="sm-radius"></app-skeleton>
+                  </span>
+                </div>
+                <div class="d-grid">
+                  <span class="">
+                    <app-skeleton
+                      height="10px"
+                      width="100px"
+                      classes="sm-radius"></app-skeleton>
+                  </span>
+                  <span class="">
+                    <app-skeleton
+                      height="10px"
+                      width="100px"
+                      classes="sm-radius"></app-skeleton>
+                  </span>
+                </div>
               </div>
-              <div class="d-grid">
-                <span class="">
-                  <app-skeleton
-                    height="10px"
-                    width="100px"
-                    classes="sm-radius"></app-skeleton>
-                </span>
-                <span class="">
-                  <app-skeleton
-                    height="10px"
-                    width="100px"
-                    classes="sm-radius"></app-skeleton>
-                </span>
-              </div>
-            </div>
-          }
+            }
+          </div>
         </div>
-      </div>
-    } @else if (!isLoading && products && products.length > 0) {
-      @for (product of products; track $index) {
-        <app-product-card
-          [product]="product"
-          [disabledFavoriteAction]="disabledFavoriteAction"></app-product-card>
+      } @else if (!isLoading && products && products.length > 0) {
+        @for (product of products; track $index) {
+          <app-product-card
+            [product]="product"
+            [disabledFavoriteAction]="
+              disabledFavoriteAction
+            "></app-product-card>
+        }
+      } @else if (products && products.length === 0) {
+        <div class="row">
+          <span class="col-8 mt-5">
+            <app-empty-state [searchType]="searchType"></app-empty-state>
+          </span>
+        </div>
       }
-    } @else if (products && products.length === 0) {
-      <div class="row">
-        <span class="col-8 mt-5">
-          <app-empty-state [searchType]="searchType"></app-empty-state>
-        </span>
-      </div>
+    } @else if (selectedProduct) {
+      <section class="d-grid gap-4">
+        <div class="d-flex gap-3">
+          <div class="bg-secondary p-4 sm-radius">
+            <span>
+              <i class="fa-solid fa-mountain-sun fa-lg text-secondary"></i>
+            </span>
+          </div>
+          <div class="d-flex-flex-column">
+            <b class="fs-medium">Tea</b>
+            <div class="text-secondary">Category</div>
+            <div class="text-primary-2">12 000 BIF</div>
+          </div>
+        </div>
+
+        @if (!selectedMerchant) {
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search.."
+              aria-label="Search"
+              [formControl]="search"
+              (keydown.enter)="searchProducts(search.value)"
+              (input)="searchProducts(search.value)"
+              aria-describedby="basic-addon2" />
+            <div
+              class="input-group-append d-flex align-items-center"
+              role="button"
+              (click)="searchProducts(search.value)"
+              tabindex="0">
+              @if (!isLoading) {
+                <span class="px-3">
+                  <i class="fa-solid fa-search fa-lg text-secondary"></i>
+                </span>
+              } @else if (isLoading) {
+                <span class="px-3">
+                  <i
+                    class="fa-solid fa-pulse px-1 fa-circle-notch text-white"></i>
+                </span>
+              }
+            </div>
+          </div>
+        }
+      </section>
     }
   </div>
 </div>
