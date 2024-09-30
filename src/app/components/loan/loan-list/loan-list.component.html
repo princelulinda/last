@@ -141,11 +141,14 @@
                     <div
                       class="d-flex justify-content-between align-items-center me-3">
                       <b>{{ selectedBank?.name }}</b>
-                      @if (loan.cred_status.value === 'PE') {
-                        <b class="text-all-dark less-danger px-1 rounded" i18n
-                          >Pending</b
-                        >
-                      }
+                      <!-- @if (loan.cred_status.value === 'PE') { -->
+                      <b
+                        class="text-all-white px-1 rounded"
+                        [ngClass]="'bg-' + loan.cred_status.css"
+                        i18n
+                        >{{ loan.cred_status.title }}</b
+                      >
+                      <!-- } -->
                     </div>
                     <div class="">
                       <span>
