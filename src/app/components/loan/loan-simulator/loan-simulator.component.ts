@@ -13,11 +13,18 @@ import { Subject, takeUntil } from 'rxjs';
 import { LoanService } from '../../../core/services/loan/loan.service';
 import { SimulationResDataModel, SimulationResModel } from '../loan.models';
 import { DialogService } from '../../../core/services';
+import { RouterLink } from '@angular/router';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({
   selector: 'app-loan-simulator',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    RouterLink,
+    AmountVisibilityComponent,
+  ],
   templateUrl: './loan-simulator.component.html',
   styleUrl: './loan-simulator.component.scss',
 })

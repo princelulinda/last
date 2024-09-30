@@ -1,12 +1,11 @@
-<div class="d-flex chosen" *ngIf="selectedClient">
-  <img
-    *ngIf="!selectedClient.picture_url"
-    src="images/userprofile.png"
-    alt="user_profile"
-    class="image mb-2"
-    style="width: 20%" />
-  <img
-    *ngIf="
+@if (selectedClient) {
+  <div class="d-flex chosen">
+    @if (selectedClient && !selectedClient.picture_url) {
+      <div class="bg-secondary px-3 pt-2">
+        <i class="fa-solid fa-user text-dark fa-2x"></i>
+      </div>
+    }
+    @if (
       (selectedClient &&
         selectedClient.client_type === 'C' &&
         selectedClient.client_is_custom !== true) ||
@@ -14,38 +13,37 @@
         (selectedClient.client_type === 'I' &&
           selectedClient.client_is_custom === true)) &&
         selectedClient.picture_url)
-    "
-    [src]="selectedClient.picture_url"
-    alt="Profile picture_url"
-    class="image lg-radius mb-2"
-    style="width: 100px; height: 50px" />
+    ) {
+      <img
+        [src]="selectedClient.picture_url"
+        alt="Profile picture_url"
+        class="image lg-radius mb-2 w-100 profile_picture_url" />
+    }
 
-  <img
-    *ngIf="
+    @if (
       selectedClient &&
       selectedClient.client_type === 'I' &&
       selectedClient.client_is_custom !== true &&
       selectedClient.picture_url
-    "
-    [src]="selectedClient.picture_url"
-    alt="Profile picture"
-    class="image lg-radius mb-2"
-    style="width: 50px; height: 50px" />
-  <br />
-  <span style="line-height: 1em" class="ms-2"
-    ><span
-      class="small fw-bold text-dark"
-      style="hyphens: auto; word-break: break"
-      >{{ selectedClient.client_full_name }}</span
-    >
+    ) {
+      <img
+        [src]="selectedClient.picture_url"
+        alt="Profile picture"
+        class="image lg-radius mb-2 profile_picture" />
+    }
+
     <br />
-    <span class="text-dark small" style="opacity: 0.7">{{
-      selectedClient.client_code
-    }}</span
-    ><br />
-    <span class="small fw-bold" style="color: rgb(32, 50, 98)">{{
-      selectedClient.client_phone_number
-    }}</span
-    ><br />
-  </span>
-</div>
+    <span class="ms-2 lh-1"
+      ><span class="small fw-bold text-dark text-break">{{
+        selectedClient.client_full_name
+      }}</span>
+      <br />
+      <span class="text-dark small opacity-50">{{
+        selectedClient.client_code
+      }}</span
+      ><br />
+      <span class="small fw-bold">{{ selectedClient.client_phone_number }}</span
+      ><br />
+    </span>
+  </div>
+}

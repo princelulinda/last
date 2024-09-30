@@ -1,0 +1,272 @@
+<div class="level-2">
+  @if (!creditsLine) {
+    <div
+      class="text-center w-100 d-flex row justify-content-center align-items-center text-dark fs-4 general_view_point">
+      <span><i class="fa-solid fa-spin fa-circle-notch text-dark"></i></span>
+    </div>
+  } @else if (creditsLine) {
+    <div class="row g-0 p-2 mx-1">
+      <div class="col-lg-3 level-2 text-dark ps-2">
+        <div>
+          @if (selectedClient) {
+            <app-selected-client-small-overview
+              [selectedClient]="
+                this.selectedClient
+              "></app-selected-client-small-overview>
+          }
+        </div>
+
+        <div
+          class="p-0 level-1 text-dark overflow-x-hidden overflow-y-auto list">
+          <div>
+            @if (!creditsLine) {
+              <span
+                class="text-center w-100 d-flex row justify-content-center align-items-center text-dark min-vh-75"
+                ><i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i
+              ></span>
+            } @else if (creditsLine && creditsLine.length > 0) {
+              <div>
+                <div
+                  class="row d-flex justify-content-between align-items-center"
+                  style="height: 35px">
+                  <div
+                    role="button"
+                    title="Add an account"
+                    class="col-5 ms-2 pt-1 not-clickable">
+                    <i
+                      class="fa-solid fa-plus sm-radius primary-light p-1 fs-6 text-light mt-2 text-l-md"></i>
+                  </div>
+                  <div
+                    [ngClass]="{
+                      'not-clickable': !creditsLine,
+                    }"
+                    role="button"
+                    class="col-2 mt-1 mb-2 me-2">
+                    @if (amountState === true) {
+                      <span title="Hide balances">
+                        <i
+                          class="fa-solid fa-eye-slash mt-3 text-primary-light"></i
+                      ></span>
+                    } @else {
+                      <span title="Show balances">
+                        <i class="fa-solid fa-eye mt-3 text-primary-light"></i
+                      ></span>
+                    }
+                  </div>
+                </div>
+
+                @for (creditLine of creditsLine; track $index) {
+                  <div class="fig p-2" role="button">
+                    <div
+                      (click)="selectCreditLine(creditLine)"
+                      tabindex="0"
+                      class="px-2 ms-1 is-hoverable border border-bottom w-100"
+                      [ngClass]="{
+                        'lg-radius bg-all-white':
+                          selectedCreditLine === creditLine,
+                      }"
+                      routerLink="/w/workstation/desk/client/details/{{
+                        clientId
+                      }}/creditLine/{{ creditLine.id }}/"
+                      routerLinkActive="selected">
+                      <div class="rounded lh-1">
+                        <small class="d-flex d-grid gap-2"
+                          ><b
+                            class="mb-2"
+                            [ngClass]="{
+                              'text-dark': selectedCreditLine === creditLine,
+                            }"
+                            >{{
+                              creditLine.crel_account_info.acc_account_type
+                            }}</b
+                          >
+                          @if (creditLine.crel_paid === true) {
+                            <span
+                              class="p-1 text-center ms-auto labelCard text-success bg-success"
+                              >P</span
+                            >
+                          }
+                          @if (creditLine.crel_paid === false) {
+                            <span
+                              class="p-1 text-center ms-auto labelCard text-danger bg-danger"
+                              >U</span
+                            >
+                          }</small
+                        ><br />
+                        <small
+                          ><b class="mt-0 text-sm">{{
+                            creditLine.crel_code
+                          }}</b></small
+                        ><br />
+                        <small
+                          ><b class="mt-0 text-primary-light text-sm">{{
+                            creditLine.crel_account_info.acc_short_number
+                          }}</b></small
+                        ><br />
+
+                        <small>
+                          <app-amount-visibility
+                            [amount]="
+                              (creditLine.crel_credit_limit | number) ?? '---'
+                            "
+                            [currency]="balance_currency"
+                            [customClasses]="
+                              customClasses[0]
+                            "></app-amount-visibility>
+                        </small>
+                        <br />
+                        <div class="my-2"></div>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      @if (selectedCreditLine.id !== '' && creditsLine) {
+        <div class="col-lg-9">
+          <div class="details level-1 h-100 p-2 rounded-top text-dark">
+            @if (!creditLine && isLoading) {
+              <div
+                class="text-center w-100 h-100 d-flex row justify-content-center align-items-center text-dark">
+                <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
+              </div>
+            } @else if (creditsLine && creditsLine.length === 0) {
+              <div
+                class="text-dark text-center h-100 row align-items-center fw-bold fs-4 opacity-75"
+                style="margin-left: 20%"
+                i18n>
+                No loans line available
+              </div>
+            } @else if (
+              creditsLine && creditsLine.length > 0 && !selectedCreditLine
+            ) {
+              <div
+                class="text-dark fw-bold h-100 w-100 fs-4 justify-content-center row align-items-center opacity-50"
+                i18n>
+                Nothing is selected yet, please select one...
+              </div>
+            }
+            @if (creditLine && !isLoading) {
+              <div class="p-3 level-2 m-auto">
+                <div class="d-flex">
+                  <span class="fw-bold text-dark ms-4 fs-medium opacity-50" i18n
+                    >Credit line details</span
+                  >
+                  <span
+                    role="button"
+                    class="ms-auto fs-4 text-dark"
+                    title="refresh"
+                    (click)="refresh()"
+                    tabindex="0"
+                    ><i class="fa-solid fa-arrows-rotate opacity-50"></i
+                  ></span>
+                </div>
+                <br />
+                <div class="row justify-content-center">
+                  <div class="row ms-3 overflow-y-auto">
+                    <div class="col-auto">
+                      <div>
+                        <img
+                          [src]="organization?.institution_client?.picture"
+                          class="img-fluid image"
+                          alt=""
+                          style="width: 15%" />
+                        <br />
+                        <div class="d-flex">
+                          <div class="fw-bold text-dark">
+                            {{ creditLine.crel_branch_info.name }}
+                          </div>
+                          <div class="ms-3 fw-bold text-dark">
+                            {{ creditLine.crel_account_info.acc_account_type }}
+                          </div>
+                        </div>
+                      </div>
+                      <hr class="mt-4" style="width: 85%" />
+
+                      <div>
+                        <span class="text-dark opacity-75" i18n>Amount</span>
+                        <br />
+                        <app-amount-visibility
+                          [amount]="
+                            (creditLine.crel_credit_limit | number) ?? '---'
+                          "
+                          [currency]="balance_currency"
+                          [customClasses]="
+                            customClasses[1]
+                          "></app-amount-visibility>
+                      </div>
+                      <br />
+
+                      <div>
+                        <span class="text-dark opacity-75" i18n
+                          >Debitor rate</span
+                        >
+                        <br />
+                        <span class="fw-bold text-dark"
+                          >{{
+                            (creditLine.crel_debitor_rate | number) ?? '---'
+                          }}
+                          %</span
+                        >
+                      </div>
+                      <br />
+
+                      <div>
+                        <span class="text-dark opacity-75" i18n
+                          >Penalities rate</span
+                        >
+                        <br />
+                        <span class="fw-bold text-dark"
+                          >{{
+                            (creditLine.crel_penalities_rate | number) ?? '---'
+                          }}
+                          %</span
+                        >
+                      </div>
+                      <br />
+                      <div>
+                        <span class="text-dark opacity-75" i18n>Fees</span>
+                        <br />
+                        <app-amount-visibility
+                          [amount]="(creditLine.crel_fees | number) ?? '---'"
+                          [currency]="balance_currency"
+                          [customClasses]="
+                            customClasses[1]
+                          "></app-amount-visibility>
+                      </div>
+                      <br />
+                      <div>
+                        <span class="text-dark opacity-75" i18n
+                          >Created by</span
+                        >
+                        <br />
+                        <span class="fw-bold text-dark">{{
+                          creditLine.obj_created_by
+                        }}</span>
+                      </div>
+                      <br />
+                      <div>
+                        <span class="text-dark opacity-75" i18n
+                          >Expiry date</span
+                        >
+                        <br />
+                        <span class="fw-bold text-dark">{{
+                          (creditLine.crel_expiry_date
+                            | date: 'MMM d, y, h:mm:ss') ?? '---'
+                        }}</span>
+                      </div>
+                      <br />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
