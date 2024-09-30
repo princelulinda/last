@@ -169,17 +169,17 @@ export class WorkstationMenuComponent implements OnInit {
       case 'i':
         return [
           this.getMenuGroupByType('Intranet'),
-          '/w/workstation/i/intranet',
+          '/w/workstation/i/intranet/',
         ];
         break;
       case 'r':
         return [
           this.getMenuGroupByType('Reporting'),
-          '/w/workstation/r/reporting',
+          '/w/workstation/r/reporting/',
         ];
         break;
       default:
-        return [[], '/w/workstation'];
+        return [[], '/w/workstation/'];
         break;
     }
   }
