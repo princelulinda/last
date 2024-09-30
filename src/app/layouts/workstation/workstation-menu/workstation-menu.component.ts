@@ -50,6 +50,8 @@ export class WorkstationMenuComponent implements OnInit {
   activatedTypeGroupMenus: MenuGroupAndMenusSimpleModel[] | [] = [];
   selectedGroup: MenuGroupAndMenusSimpleModel | null = null;
 
+  baseMenuUrl = '/w/workstation';
+
   menus$: Observable<TypeMenuModel[]>;
   menus: TypeMenuModel[] = [];
 
@@ -97,7 +99,8 @@ export class WorkstationMenuComponent implements OnInit {
         next: params => {
           this.activatedTypeMenu = params['TypeMenu'];
           if (this.menus) {
-            this.activatedTypeGroupMenus = this.getActiveMenuGroups();
+            [this.activatedTypeGroupMenus, this.baseMenuUrl] =
+              this.getActiveMenuGroups();
           }
         },
       });
@@ -120,7 +123,8 @@ export class WorkstationMenuComponent implements OnInit {
     this.menus$.subscribe({
       next: menus => {
         this.menus = this.configService.toArray(menus);
-        this.activatedTypeGroupMenus = this.getActiveMenuGroups();
+        [this.activatedTypeGroupMenus, this.baseMenuUrl] =
+          this.getActiveMenuGroups();
         // this.getMenuByActivateRoute();
       },
     });
@@ -154,22 +158,28 @@ export class WorkstationMenuComponent implements OnInit {
     this.selectedGroup = group;
   }
 
-  private getActiveMenuGroups(): MenuGroupAndMenusSimpleModel[] | [] {
+  private getActiveMenuGroups(): [MenuGroupAndMenusSimpleModel[] | [], string] {
     switch (this.activatedTypeMenu) {
       case 'a':
-        return this.getMenuGroupByType('Admin');
+        return [this.getMenuGroupByType('Admin'), '/w/workstation/a/'];
         break;
       case 'd':
-        return this.getMenuGroupByType('Desk');
+        return [this.getMenuGroupByType('Desk'), '/w/workstation/d/desk/'];
         break;
       case 'i':
-        return this.getMenuGroupByType('Intranet');
+        return [
+          this.getMenuGroupByType('Intranet'),
+          '/w/workstation/i/intranet',
+        ];
         break;
       case 'r':
-        return this.getMenuGroupByType('Reporting');
+        return [
+          this.getMenuGroupByType('Reporting'),
+          '/w/workstation/r/reporting',
+        ];
         break;
       default:
-        return [];
+        return [[], '/w/workstation'];
         break;
     }
   }
