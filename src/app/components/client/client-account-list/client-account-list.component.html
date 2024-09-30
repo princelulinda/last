@@ -1,7 +1,7 @@
 @if (!accountsWorkStation) {
   <div
     class="text-center w-100 d-flex justify-content-center align-items-center text-dark"
-    style="height: 80vh"
+    style="height: 50vh"
     title="Loading...">
     <i class="spinner-border"></i>
   </div>
@@ -12,7 +12,7 @@
   <div>
     @if (accountsWorkStation && accountsWorkStation.length > 0) {
       <div
-        class="row d-flex justify-content-between align-items-center"
+        class="row d-flex justify-content-between align-items-center mb-3"
         style="height: 35px">
         <div
           role="button"
@@ -48,13 +48,15 @@
       <div
         (click)="selectLoneAccount(account)"
         tabindex="0"
-        class="px-2 ms-1 is-hoverable w-100 lg-radius"
+        class="px-2 ms-1 is-hoverable lg-radius"
         [ngClass]="{
           'bg-white': selectedLoneAccount === account,
-          ' border-primary border-2':
-            account && account.acc_status.status_code === 'B',
-          'border-secondary': account && account.acc_status.status_code === 'C',
+          blockedAccount: account && account.acc_status.status_code === 'B',
+
+          closedAccount: account && account.acc_status.status_code === 'C',
+
           'opacity-50': account && account.acc_status.status_code === 'C',
+
           borderBottom:
             account &&
             account.acc_status.status_code !== 'B' &&

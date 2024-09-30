@@ -134,13 +134,12 @@ export class ClientAccountDetailComponent implements OnInit {
     this.route.params.subscribe({
       next: data => {
         this.accountId = data['accountId'];
-        //this.getClientAccountDetails();
+        this.getClientAccountDetails();
         // this.getAccountMiniStatement();
         //this.getAccountCalculatedBalance();
       },
     });
-    // this.accountId ="2"
-    this.getClientAccountDetails();
+
     this.getAccountCalculatedBalance();
   }
 
@@ -326,7 +325,7 @@ export class ClientAccountDetailComponent implements OnInit {
 
   getClientInfo() {
     this.clientService
-      .getClientDetail('1192')
+      .getClientDetail(this.clientMainId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (response: { object: ClientDetailModel }) => {

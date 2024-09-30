@@ -55,7 +55,7 @@ export class ClientAccountListComponent implements OnInit, OnDestroy {
   selectedAccount: AccountsListModel | null = null;
   selectedAccountTypeId: number | null = null;
   selectedAgencyId: number | null = null;
-  selectedLoneAccount: AccountsListModel | null = null;
+  selectedLoneAccount!: AccountsListModel;
   showAccount = false;
   isLoadingCreation = false;
   private onDestroy$ = new Subject<void>();
@@ -90,22 +90,21 @@ export class ClientAccountListComponent implements OnInit, OnDestroy {
       },
     });
   }
-  selectLoneAccount(account: AccountsListModel) {
-    this.selectedLoneAccount = account;
-
-    this.accountSelected.emit(account);
-  }
 
   getClientAccounts() {
     this.isLoading = true;
     this.clientService
-      .getClientAccounts(1192)
+      .getClientAccounts(this.SelectedclientId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
           this.accountsWorkStation = response.objects;
           this.isLoading = false;
-          //  this.accountSelected.emit(accountsWorkStation);
+
+          if (this.accountsWorkStation && this.accountsWorkStation.length > 0) {
+            this.selectedLoneAccount = this.accountsWorkStation[0];
+            this.accountSelected.emit(this.selectedLoneAccount);
+          }
         },
         error: err => {
           console.error('Erreur :', err);
@@ -113,6 +112,13 @@ export class ClientAccountListComponent implements OnInit, OnDestroy {
         },
       });
   }
+
+  selectLoneAccount(account: AccountsListModel) {
+    this.selectedLoneAccount = account;
+
+    this.accountSelected.emit(account);
+  }
+
   toggleAmountVisibility() {
     this.dialogService.displayAmount();
   }
@@ -134,7 +140,7 @@ export class ClientAccountListComponent implements OnInit, OnDestroy {
 
     this.isLoadingCreation = true;
     const branch = this.selectedAgencyId;
-    const client = 1192;
+    const client = this.SelectedclientId;
     const account_type = this.selectedAccountTypeId;
     const sync = this.subAccountForm.value.sync;
     const acc_title = this.subAccountForm.value.title;
