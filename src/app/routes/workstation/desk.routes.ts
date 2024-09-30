@@ -11,12 +11,12 @@ export const DeskRoutes: Routes = [
   { path: 'list', component: ClientListComponent },
 
   {
-    path: 'detail/:client_id',
+    path: 'details/:client_id',
     component: ClientDetailsComponent,
 
     children: [
       {
-        path: 'details/:accountId',
+        path: 'account/:accountId',
         component: ClientAccountDetailComponent,
       },
     ],

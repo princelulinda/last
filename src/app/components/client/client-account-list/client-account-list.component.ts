@@ -6,6 +6,7 @@ import {
   Output,
   ViewChild,
   OnDestroy,
+  Input,
 } from '@angular/core';
 
 import { ClientService } from '../../../core/services';
@@ -47,7 +48,7 @@ import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 export class ClientAccountListComponent implements OnInit, OnDestroy {
   isLoading = false;
   clientId!: number | null;
-  accountsWorkStation: AccountsListModel[] | [] | null = null;
+  accountsWorkStation: AccountsListModel[] | null = null;
   showAmounts = false;
   showAmounts$: Observable<boolean>; // Observable for the visibility state
   subAccountForm!: FormGroup;
@@ -59,8 +60,9 @@ export class ClientAccountListComponent implements OnInit, OnDestroy {
   isLoadingCreation = false;
   private onDestroy$ = new Subject<void>();
   @ViewChild('accountCreated') accountCreated!: ElementRef;
-  @Output() selectedAccountEvent = new EventEmitter<AccountsListModel>();
 
+  @Output() accountSelected = new EventEmitter<AccountsListModel>();
+  @Input() SelectedclientId: number | string = '';
   constructor(
     private clientService: ClientService,
     private dialogService: DialogService,
@@ -88,11 +90,10 @@ export class ClientAccountListComponent implements OnInit, OnDestroy {
       },
     });
   }
-
   selectLoneAccount(account: AccountsListModel) {
     this.selectedLoneAccount = account;
-    console.log('Account selected:', account);
-    this.selectedAccountEvent.emit(account);
+
+    this.accountSelected.emit(account);
   }
 
   getClientAccounts() {
@@ -104,6 +105,7 @@ export class ClientAccountListComponent implements OnInit, OnDestroy {
         next: response => {
           this.accountsWorkStation = response.objects;
           this.isLoading = false;
+          //  this.accountSelected.emit(accountsWorkStation);
         },
         error: err => {
           console.error('Erreur :', err);

@@ -60,7 +60,9 @@
             account.acc_status.status_code !== 'B' &&
             account.acc_status.status_code !== 'C',
         }"
-        [routerLink]="['/w/workstation/d/desk/details/' + account.id]"
+        routerLink="/w/workstation/d/desk/details/{{
+          SelectedclientId
+        }}/account/{{ account.id }}/"
         routerLinkActive="level-2">
         <small
           ><b
