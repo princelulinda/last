@@ -146,8 +146,8 @@ export interface MerchantAutocompleteModel {
 }
 
 export interface SectorActivityModel {
-  id: number | string;
-  title: string;
+  id: number | string | null;
+  title: string | null;
   text: string;
   activity_sector_code_reporting: string;
   comment: string;

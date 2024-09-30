@@ -6,17 +6,17 @@
       clientIndiv ||
       (selectClient &&
         selectClient.client_category_type.is_custom === true &&
-        selectClient !== null)
+        selectClient)
     ) {
       <div class="row justify-content-between mx-auto">
         <div class="text-start col d-inline-block text-truncate">
           <span class="fs-small text-dark label" i18n>Client category</span>
           <br />
-          @if (!isSensitiveInfoFormShown && selectClient !== null) {
+          @if (!isSensitiveInfoFormShown && selectClient) {
             <span
               [title]="selectClient.client_category.title"
               class="text-dark fw-bold fs-normall"
-              >{{ selectClient.client_category.title }}</span
+              >{{ selectClient.client_category.title || '----' }}</span
             >
           }
           @if (isSensitiveInfoFormShown) {
@@ -33,7 +33,7 @@
           @if (isSensitiveInfoFormShown) {
             <div class="text-center mb-3">
               <button
-                class="ms-3 btn px-3 buttonSub bg-info"
+                class="ms-3 btn px-3 buttonSub bg-primary"
                 [ngClass]="{
                   'text-light': theme === 'light',
                   'text-dark': theme === 'dark',
@@ -52,16 +52,20 @@
         <div class="ms-auto text-start col col d-inline-block text-truncate">
           <span class="text-dark fs-small label" i18n>Activity sector</span
           ><br />
-          @if (
-            !isSensitiveInfoFormShown &&
-            selectClient !== null &&
-            selectClient.activity_sector
-          ) {
-            <span
-              [title]="selectClient.activity_sector.title"
-              class="text-dark fw-bold fs-normall"
-              >{{ selectClient.activity_sector.title }}</span
-            >
+          @if (!isSensitiveInfoFormShown) {
+            @if (clientEntreprise) {
+              <span
+                [title]="clientEntreprise.activity_sector"
+                class="text-dark fw-bold fs-normall"
+                >{{ clientEntreprise.activity_sector || '---' }}</span
+              >
+            } @else if (clientIndiv && selectClient) {
+              <span
+                [title]="selectClient.activity_sector.title"
+                class="text-dark fw-bold fs-normall"
+                >{{ selectClient.activity_sector.title || '---' }}</span
+              >
+            }
           }
           @if (isSensitiveInfoFormShown) {
             <span>
@@ -77,7 +81,7 @@
           @if (isSensitiveInfoFormShown) {
             <div class="text-center mb-3">
               <button
-                class="ms-3 btn px-3 buttonSub bg-info"
+                class="ms-3 btn px-3 buttonSub bg-primary"
                 [ngClass]="{
                   'text-light': theme === 'light',
                   'text-dark': theme === 'dark',
@@ -98,11 +102,11 @@
             <span class="fs-small text-dark label" i18n
               >Client category type</span
             ><br />
-            @if (selectClient !== null) {
+            @if (selectClient) {
               <span
                 class="text-dark fw-bold fs-normall"
                 [title]="selectClient.client_category_type.title"
-                >{{ selectClient.client_category_type.title }}</span
+                >{{ selectClient.client_category_type.title || '----' }}</span
               >
             }
 
@@ -129,7 +133,7 @@
           @if (clientIndiv) {
             <span class="text-dark fw-bold fs-normall"
               >{{ clientIndiv.card_id.card_id_type }}
-              {{ clientIndiv.card_id.reference_number }}</span
+              {{ clientIndiv.card_id.reference_number || '----' }}</span
             >
           }
 
@@ -140,7 +144,7 @@
           ><br />
           @if (clientIndiv) {
             <span class="text-dark fw-bold fs-normall">{{
-              clientIndiv.card_id.place_of_issue
+              clientIndiv.card_id.place_of_issue || '---'
             }}</span>
           }
 
@@ -150,7 +154,7 @@
           <span class="fs-small text-dark label" i18n>Date of issue</span><br />
           @if (clientIndiv) {
             <span class="text-dark fw-bold fs-normall">{{
-              clientIndiv.card_id.date_of_issue
+              clientIndiv.card_id.date_of_issue || '---'
             }}</span>
           }
 
@@ -160,7 +164,7 @@
           <span class="fs-small text-dark label" i18n>Expiry date</span><br />
           @if (clientIndiv) {
             <span class="text-dark fw-bold fs-normall">{{
-              clientIndiv.card_id.expiry_date
+              clientIndiv.card_id.expiry_date || '---'
             }}</span>
           }
 
@@ -174,7 +178,7 @@
         <b
           role="button"
           (click)="isSensitiveInfoFormShown = false"
-          class="text-info fs-small"
+          class="text-primary fs-small"
           i18n
           tabindex="0"
           >Cancel</b

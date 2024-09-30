@@ -100,7 +100,7 @@
     }
 
     @if (type === 'row') {
-      <div class="d-flex">
+      <div class="d-flex flex-wrap">
         <div class="product-profile bg-secondary lg-radius shadow-sm">
           @if (product.lookup_image) {
             <img
@@ -112,7 +112,7 @@
             </span>
           }
         </div>
-        <div class="ms-3 d-flex flex-column me-2">
+        <div class="col-6 ms-3 d-flex flex-column me-2 text-truncate">
           <b class="fs-medium text-truncate">{{ product.lookup_title }}</b>
           <span class="text-truncate text-secondary">{{
             product.lookup_subtitle
