@@ -37,7 +37,7 @@
                   >Accounts</span
                 >
                 <span
-                  class="mt-0 ms-1 fw-bold badge bg-info text-center"
+                  class="mt-0 ms-1 fw-bold badge bg-primary text-center"
                   [ngClass]="theme === 'light' ? 'text-light' : 'text-dark'">
                   @if (accounts) {
                     <span> {{ accounts.length }}</span>
@@ -64,7 +64,7 @@
                 >
                 @if (wallets) {
                   <span
-                    class="mt-0 ms-1 fw-bold badge bg-info text-center"
+                    class="mt-0 ms-1 fw-bold badge bg-primary text-center"
                     [ngClass]="theme === 'light' ? 'text-light' : 'text-dark'">
                     {{ wallets.length }}
                   </span>
@@ -87,12 +87,12 @@
                   @if (selectedCreditSetting) {
                     <span>
                       <i
-                        class="fa-solid fa-play text-info fa-rotate-90 ms-1"></i>
+                        class="fa-solid fa-play text-primary fa-rotate-90 ms-1"></i>
                     </span>
                   }
                   @if (!selectedCreditSetting) {
                     <span>
-                      <i class="fa-solid fa-play ms-1 text-info"></i>
+                      <i class="fa-solid fa-play ms-1 text-primary"></i>
                     </span>
                   }
                 </small>
@@ -217,8 +217,9 @@
                         <div class="row p-2">
                           <div class="col availableMenu text-dark">
                             <span
+                              class="fs-large"
                               [ngClass]="{
-                                'text-info': selectedGeneralInfo,
+                                'text-primary': selectedGeneralInfo,
                               }"
                               i18n>
                               General information</span
@@ -273,8 +274,9 @@
                         <div class="row p-2">
                           <div class="col availableMenu text-dark">
                             <span
+                              class="fs-large"
                               [ngClass]="{
-                                'text-info': selectedSensitiveInfo,
+                                'text-primary': selectedSensitiveInfo,
                               }"
                               i18n
                               >Sensitive information</span
@@ -330,8 +332,9 @@
                         <div class="row p-2">
                           <div class="col availableMenu text-dark">
                             <span
+                              class="fs-large"
                               [ngClass]="{
-                                'text-info': selectedContactInfo,
+                                'text-primary': selectedContactInfo,
                               }"
                               i18n
                               >Contact details</span
@@ -371,8 +374,9 @@
                         <div class="row p-2">
                           <div class="col availableMenu text-dark">
                             <span
+                              class="fs-large"
                               [ngClass]="{
-                                'text-info': selectedTaxInfo,
+                                'text-primary': selectedTaxInfo,
                               }"
                               i18n
                               >Tax information</span

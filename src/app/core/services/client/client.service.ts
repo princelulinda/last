@@ -195,7 +195,7 @@ export class ClientService {
 
   modifyCategoryCorporate(
     clientId: string,
-    categoryId: number,
+    categoryId: string,
 
     data: object
   ) {

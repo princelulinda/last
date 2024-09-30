@@ -10,7 +10,7 @@
             <span
               class="text-dark fw-bold fs-normal"
               [title]="clientIndiv.username"
-              >{{ clientIndiv.username }}</span
+              >{{ clientIndiv.username || '----' }}</span
             >
           }
 
@@ -36,7 +36,7 @@
             <span
               class="text-dark fw-bold fs-normal"
               [title]="clientIndiv.firstname"
-              >{{ clientIndiv.firstname }}</span
+              >{{ clientIndiv.firstname || '----' }}</span
             >
           }
 
@@ -61,7 +61,7 @@
             <span
               class="text-dark fw-bold fs-normal"
               [title]="clientIndiv.lastname"
-              >{{ clientIndiv.lastname }}</span
+              >{{ clientIndiv.lastname || '----' }}</span
             >
           }
 
@@ -82,7 +82,9 @@
         </div>
         <div class="ms-auto text-start col">
           <span class="text-dark fs-small label" i18n>Gender</span><br />
-          <span class="text-dark fw-bold fs-normal">{{ clientIndiv.sex }}</span>
+          <span class="text-dark fw-bold fs-normal">{{
+            clientIndiv.sex || '----'
+          }}</span>
           <br />
           @if (!isGeneralInfoFormShown) {
             <div class="has-border mt-2"></div>
@@ -93,7 +95,9 @@
       <div class="row justify-content-between mx-auto">
         <div class="text-start col">
           <span class="fs-small text-dark label" i18n>Nationality</span><br />
-          <span class="text-dark fw-bold fs-normal">{{ nationality }}</span>
+          <span class="text-dark fw-bold fs-normal">{{
+            nationality || '----'
+          }}</span>
           <br />
           @if (!isGeneralInfoFormShown) {
             <div class="has-border mt-2"></div>
@@ -104,7 +108,7 @@
           <br />
           @if (!isGeneralInfoFormShown) {
             <span class="text-dark fw-bold fs-normal">{{
-              clientIndiv.marital_status
+              clientIndiv.marital_status || '----'
             }}</span>
           }
 
@@ -127,7 +131,7 @@
           <span class="text-dark fs-small label" i18n>Date of birth</span><br />
           @if (!isGeneralInfoFormShown) {
             <span class="text-dark fw-bold fs-normal">{{
-              clientIndiv.birthday
+              clientIndiv.birthday || '----'
             }}</span>
           }
 
@@ -150,7 +154,13 @@
           <span class="fs-small text-dark label" i18n>Place of birth</span
           ><br />
           @if (!isGeneralInfoFormShown) {
-            <span class="text-dark fw-bold fs-normal">{{ placeOfBirth }}</span>
+            @if (placeOfBirth) {
+              <span class="text-dark fw-bold fs-normal">{{
+                placeOfBirth || '----'
+              }}</span>
+            } @else {
+              <span class="text-dark fw-bold fs-normal">----</span>
+            }
           }
 
           <br />
@@ -168,7 +178,7 @@
             <span
               class="text-dark fw-bold fs-normal"
               [title]="clientIndiv.spouse_name"
-              >{{ clientIndiv.spouse_name }}</span
+              >{{ clientIndiv.spouse_name || '----' }}</span
             >
           }
 
@@ -191,7 +201,7 @@
           <span class="text-dark fs-small label" i18n>Spouse tel</span><br />
           @if (!isGeneralInfoFormShown) {
             <span class="text-dark fw-bold fs-normal">{{
-              clientIndiv.spouse_telephone
+              clientIndiv.spouse_telephone || '----'
             }}</span>
           }
 
@@ -216,7 +226,7 @@
             <span
               class="text-dark fw-bold fs-normal"
               [title]="clientIndiv.father_name"
-              >{{ clientIndiv.father_name }}</span
+              >{{ clientIndiv.father_name || '----' }}</span
             >
           }
 
@@ -241,7 +251,7 @@
             <span
               class="text-dark fw-bold fs-normal"
               [title]="clientIndiv.mother_name"
-              >{{ clientIndiv.mother_name }}</span
+              >{{ clientIndiv.mother_name || '----' }}</span
             >
           }
           @if (isGeneralInfoFormShown) {
@@ -267,7 +277,7 @@
           ><br />
           @if (!isGeneralInfoFormShown) {
             <span class="text-dark fw-bold fs-normal">{{
-              clientIndiv.matrimonial_status
+              clientIndiv.matrimonial_status || '----'
             }}</span>
           }
 
@@ -294,7 +304,7 @@
             <span
               class="text-dark fw-bold fs-normal"
               [title]="clientIndiv.referee_person"
-              >{{ clientIndiv.referee_person }}</span
+              >{{ clientIndiv.referee_person || '----' }}</span
             >
           }
 
@@ -320,7 +330,7 @@
             <span
               class="text-dark fw-bold fs-normal"
               [title]="clientIndiv.other_profession"
-              >{{ clientIndiv.other_profession }}</span
+              >{{ clientIndiv.other_profession || '----' }}</span
             >
           }
 
@@ -372,7 +382,7 @@
               ) {
                 <div>
                   <button
-                    class="btn bg-info text-light"
+                    class="btn bg-primary text-light"
                     (click)="modifyOrAddSignature()">
                     Modify the signature
                   </button>
@@ -381,7 +391,7 @@
 
               @if (!clientIndiv.signature) {
                 <span class="text-dark fw-bold fs-normal">{{
-                  clientIndiv.signature
+                  clientIndiv.signature || '----'
                 }}</span>
               }
             </div>
@@ -400,7 +410,7 @@
           ) {
             <span>
               <button
-                class="btn bg-info text-light"
+                class="btn bg-primary text-light"
                 (click)="modifyOrAddSignature()">
                 Add a signature
               </button>
@@ -441,7 +451,7 @@
               ) {
                 <div>
                   <button
-                    class="btn bg-info text-light"
+                    class="btn bg-primary text-light"
                     (click)="modifyOrAddSignature2()">
                     Modify the signature
                   </button>
@@ -450,7 +460,7 @@
 
               @if (!clientIndiv.signature2) {
                 <span class="text-dark fw-bold fs-normal">{{
-                  clientIndiv.signature2
+                  clientIndiv.signature2 || '----'
                 }}</span>
               }
             </div>
@@ -469,7 +479,7 @@
           ) {
             <span>
               <button
-                class="btn bg-info text-light"
+                class="btn bg-primary text-light"
                 (click)="modifyOrAddSignature2()">
                 Add a signature
               </button>
@@ -492,12 +502,12 @@
               this.addSignature2 = false
             "
             tabindex="0"
-            class="text-info fs-small"
+            class="text-primary fs-small"
             i18n
             >Cancel</b
           >
           <button
-            class="ms-3 btn px-3 buttonSubmit bg-info"
+            class="ms-3 btn px-3 buttonSubmit bg-primary"
             [ngClass]="{
               'text-light': theme === 'light',
               'text-dark': theme === 'dark',
@@ -533,7 +543,7 @@
               <span
                 class="text-dark fw-bold fs-normal"
                 [title]="clientEntreprise.corp_name"
-                >{{ clientEntreprise.corp_name }}</span
+                >{{ clientEntreprise.corp_name || '----' }}</span
               >
             }
             @if (isGeneralInfoFormShown) {
@@ -555,7 +565,7 @@
             <span class="text-dark fs-small label" i18n>Initials</span><br />
             @if (!isGeneralInfoFormShown) {
               <span class="text-dark fw-bold fs-normal">{{
-                clientEntreprise.corp_abrv_name
+                clientEntreprise.corp_abrv_name || '----'
               }}</span>
             }
             @if (isGeneralInfoFormShown) {
@@ -579,7 +589,7 @@
               <span
                 class="text-dark fw-bold fs-normal"
                 [title]="clientEntreprise.corp_group_name"
-                >{{ clientEntreprise.corp_group_name }}</span
+                >{{ clientEntreprise.corp_group_name || '----' }}</span
               >
             }
             @if (isGeneralInfoFormShown) {
@@ -669,7 +679,7 @@
             <span class="fs-small text-dark label" i18n>Risk degree</span><br />
             @if (!isGeneralInfoFormShown) {
               <span class="text-dark fw-bold fs-normal">{{
-                clientEntreprise.corp_risk_degree.titlel
+                clientEntreprise.corp_risk_degree.title || '----'
               }}</span>
             }
             @if (isGeneralInfoFormShown) {
@@ -813,12 +823,12 @@
             role="button"
             (click)="isGeneralInfoFormShown = false"
             tabindex="0"
-            class="text-info fs-small"
+            class="text-primary fs-small"
             i18n
             >Cancel</b
           >
           <button
-            class="ms-3 btn px-3 buttonSub bg-info"
+            class="ms-3 btn px-3 buttonSub bg-primary"
             [ngClass]="{
               'text-light': theme === 'light',
               'text-dark': theme === 'dark',

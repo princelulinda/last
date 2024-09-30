@@ -68,7 +68,7 @@
       }
       <!-- Upload profile picture -->
       @if (clientIndiv && modifyProfile) {
-        <div>
+        <div class="p-4">
           <app-file
             [uploadOneFile]="true"
             (uploadOneFileEvent)="collectProfile($event)"
@@ -164,7 +164,7 @@
         <span [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'">
           <span><i class="fa-solid fa-map-pin profileIcon"></i></span>
           @for (client of clientIndiv.addresses; track $index) {
-            <span class="text-info"
+            <span class="text-primary"
               >-
               {{ client.address_line }}
               <br />
@@ -176,7 +176,7 @@
         <span [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'">
           <span><i class="fa-solid fa-map-pin profileIcon"></i></span>
           @for (client of clientEntreprise.addresses; track $index) {
-            <span class="text-info"
+            <span class="text-primary"
               >-
               {{ client.address_line }}
               <br />
@@ -190,7 +190,7 @@
           <span [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"
             ><i class="fa-solid fa-mobile profileIcon"></i
           ></span>
-          <span class="text-info"> {{ clientIndiv.telephones }}</span>
+          <span class="text-primary"> {{ clientIndiv.telephones }}</span>
           <span
             appClipboard="{{ clientIndiv.telephones }}"
             class="ms-auto"
@@ -216,7 +216,7 @@
           ><i
             class="fa-solid fa-mobile profileIcon"
             [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"></i
-          ><span class="text-info">
+          ><span class="text-primary">
             {{ selectedClient.client_phone_number }}</span
           >
           <span
@@ -240,7 +240,7 @@
       <br />
       @if (selectedClient) {
         <span
-          class="text-sm fw-bold text-info mt-1"
+          class="text-sm fw-bold text-primary mt-1"
           [title]="selectedClient.created_at"
           i18n
           >Created at

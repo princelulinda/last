@@ -58,6 +58,7 @@ export class WorkstationMenuComponent implements OnInit {
   isLoading = false;
   isSearchInputFocused = false;
   merchants!: MerchantAutocompleteModel[] | null;
+  private isMenuChange = false;
 
   operator: ConnectedOperatorModel | null = null;
   operator$: Observable<ConnectedOperatorModel>;
@@ -88,6 +89,7 @@ export class WorkstationMenuComponent implements OnInit {
       )
       .subscribe(() => {
         this.resetData();
+        this.isMenuChange = true;
       });
 
     if (this.route.params) {
@@ -104,7 +106,15 @@ export class WorkstationMenuComponent implements OnInit {
     this.searchForm.valueChanges
       .pipe(debounceTime(300), takeUntil(this.onDestroy$))
       .subscribe(value => {
-        this.getMerchants(value ?? '');
+        if (this.isMenuChange) {
+          this.isMenuChange = false;
+          return;
+        }
+        if (value !== null && value.trim() !== '') {
+          this.getMerchants(value);
+        } else {
+          this.getMerchants('');
+        }
       });
 
     this.menus$.subscribe({
@@ -125,7 +135,9 @@ export class WorkstationMenuComponent implements OnInit {
   onClick() {
     this.isSearchInputFocused = true;
     if (this.isSearchInputFocused) {
-      this.getMerchants('');
+      if (!this.merchants) {
+        this.getMerchants('');
+      }
     }
   }
 
@@ -167,7 +179,7 @@ export class WorkstationMenuComponent implements OnInit {
     this.merchants = null;
 
     this.merchantService
-      .getRecentMerchantsAutocomplete(search)
+      .getRecentAllMerchantsAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {

@@ -122,7 +122,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
     this.merchants = null;
 
     this.merchantService
-      .getRecentMerchantsAutocomplete(search)
+      .getRecentAllMerchantsAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
