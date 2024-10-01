@@ -131,8 +131,7 @@ export class WorkstationMenuComponent implements OnInit {
           );
         const routeMenu = this.menuService.getMenuByActivateRoute(
           this.menus,
-          this.activatedTypeMenu,
-          this.router
+          this.activatedTypeMenu
         );
         if (routeMenu !== undefined) {
           this.selectGroup(routeMenu);

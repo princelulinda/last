@@ -16,7 +16,6 @@ import { PaginationConfig } from '../../../global/models/pagination.models';
 import { PageMenusModel } from '../../../components/admin/menu/menu.models';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { AccessModel } from '../../../components/admin/access/access.models';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -89,8 +88,7 @@ export class MenuService {
 
   getMenuByActivateRoute(
     menus: TypeMenuModel[],
-    typeMenu: URLTypeMenuModel,
-    router: Router
+    typeMenu: URLTypeMenuModel
   ): MenuGroupAndMenusSimpleModel | null | undefined {
     let pathname = window.location.pathname;
     //NOTE:: just for removing language prefixes in case i18n is activated
@@ -103,13 +101,7 @@ export class MenuService {
 
     [menuGroups, baseMenuUrl] = this.getActiveMenuGroups(menus, typeMenu);
 
-    console.log('BASE MENU URL', baseMenuUrl, baseMenuUrl.split('/').length);
-
-    if (
-      menuGroups &&
-      baseMenuUrl.split('/').length > 6 &&
-      router.config.some(route => route.path === pathname)
-    ) {
+    if (menuGroups && baseMenuUrl.split('/').length > 6) {
       selectedGroup =
         menuGroups.find(group =>
           group.menus.find(
