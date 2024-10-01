@@ -163,9 +163,8 @@ export class MerchantConfigComponent implements OnInit {
   getTellersByMerchant() {
     this.get_tellers = false;
     this.merchantService.getTellersByMerchant(this.merchantInfo.id).subscribe({
-      next: response => {
+      next: (tellers: tellersModel) => {
         this.get_tellers = true;
-        const tellers = response as tellersModel;
         this.tellers = tellers.objects;
       },
       error: () => {
@@ -190,9 +189,8 @@ export class MerchantConfigComponent implements OnInit {
     this.get_selectedTeller = false;
     this.merchantService
       .getMerchantsTellersDetails(this.tellerId)
-      .subscribe(response => {
+      .subscribe((data: tellerModel) => {
         this.get_selectedTeller = true;
-        const data = response as tellerModel;
         this.selectedTeller = data.object;
       });
   }
@@ -215,8 +213,7 @@ export class MerchantConfigComponent implements OnInit {
       alias: this.newTellerForm.value.alias,
     };
     this.merchantService.createNewTeller(body).subscribe({
-      next: result => {
-        const response = result as tellerModel;
+      next: (response: tellerModel) => {
         this.isTellerLoading = false;
         this.dialogService.closeLoading();
         if (response.object.success === false) {
@@ -429,11 +426,12 @@ export class MerchantConfigComponent implements OnInit {
     };
     this.get_tellers = false;
     if (search) {
-      this.merchantService.searchTellersByMerchant(data).subscribe(response => {
-        const tellers = response as tellersModel;
-        this.isLoading = false;
-        this.tellers = tellers.objects;
-      });
+      this.merchantService
+        .searchTellersByMerchant(data)
+        .subscribe((tellers: tellersModel) => {
+          this.isLoading = false;
+          this.tellers = tellers.objects;
+        });
     } else {
       this.getTellersByMerchant();
     }

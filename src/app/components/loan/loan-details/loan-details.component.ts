@@ -17,7 +17,7 @@ import {
   LoanService,
 } from '../../../core/services';
 import { LoanPlanComponent } from '../loan-plan/loan-plan.component';
-import { LoanModel, PlanModel, ResModel } from '../loan.models';
+import { LoanModel, PlanModel } from '../loan.models';
 import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 
@@ -119,7 +119,7 @@ export class LoanDetailsComponent implements OnInit, OnDestroy, DoCheck {
     this.loan = undefined;
 
     this.loanService.getLoanDetails(this.loanId).subscribe(loan => {
-      const res = loan as { object: LoanModel };
+      const res = loan;
       this.loan = res.object;
 
       this.selectedBank$.subscribe({
@@ -158,7 +158,7 @@ export class LoanDetailsComponent implements OnInit, OnDestroy, DoCheck {
       next: res => {
         this.dialogService.closeLoading();
 
-        const response = res as { object: ResModel };
+        const response = res;
         if (response.object.success == true) {
           this.getLoanDetails();
 

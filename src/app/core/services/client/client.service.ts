@@ -33,6 +33,9 @@ import {
   IndividualClientModel,
   LanguageWorkstationModel,
   PrimaryDataModel,
+  ResponseDataAfterUpdate,
+  ResponseDataForClientModel,
+  ResponseDataForCorporateModel,
   ResponseMOdel,
 } from '../../../components/client/client.model';
 
@@ -301,39 +304,47 @@ export class ClientService {
       .pipe(map(data => data));
   }
 
-  UpdateIndividualClientDetails(clientId: string, data: object) {
+  UpdateIndividualClientDetails(
+    clientId: string,
+    data: object
+  ): Observable<{ object: ResponseDataForClientModel }> {
     return this.apiService
       .patch(`/clients/manage/individuals/${clientId}/`, data)
       .pipe(
         map(data => {
-          return data;
+          return data as { object: ResponseDataForClientModel };
         })
       );
   }
-  UpdateCorporateDetails(clientId: string, data: object) {
+  UpdateCorporateDetails(
+    clientId: string,
+    data: object
+  ): Observable<{ object: ResponseDataForCorporateModel }> {
     return this.apiService
       .patch(`/clients/manage/corporate/${clientId}/`, data)
       .pipe(
         map(data => {
-          return data;
+          return data as { object: ResponseDataForCorporateModel };
         })
       );
   }
 
   modifyCategoryCorporate(
     clientId: string,
-    categoryId: string,
+    categoryId: number,
 
     data: object
   ) {
     return this.apiService
-      .post(
+      .post<{
+        object: ResponseDataAfterUpdate;
+      }>(
         `/client/elements/update/${clientId}/?client_category=${categoryId}`,
         data
       )
       .pipe(
         map(data => {
-          return data;
+          return data as { object: ResponseDataAfterUpdate };
         })
       );
   }
@@ -341,17 +352,19 @@ export class ClientService {
   modifySectorCorporate(
     clientId: string,
 
-    sectorId: string,
+    sectorId: number,
     data: object
   ) {
     return this.apiService
-      .post(
+      .post<{
+        object: ResponseDataAfterUpdate;
+      }>(
         `/client/elements/update/${clientId}/?&activity_sector=${sectorId}`,
         data
       )
       .pipe(
         map(data => {
-          return data;
+          return data as { object: ResponseDataAfterUpdate };
         })
       );
   }

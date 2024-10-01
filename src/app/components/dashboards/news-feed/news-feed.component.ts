@@ -69,7 +69,7 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: res => {
-          const prodResponse = res as { objects: ProductAutocompleteModel[] };
+          const prodResponse = res;
           this.topProducts = prodResponse.objects;
           this.loadingProducts = false;
         },
@@ -86,9 +86,7 @@ export class NewsFeedComponent implements OnDestroy, OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: res => {
-          const billersResponse = res as {
-            objects: BillersAutocompleteModel[];
-          };
+          const billersResponse = res;
           this.billers = billersResponse.objects;
           this.billersLoading = false;
         },

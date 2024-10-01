@@ -69,3 +69,5 @@ export interface MenuGroupAndMenusSimpleModel {
     component_url: string;
   }[];
 }
+
+export type URLTypeMenuModel = 'b' | 'm' | 'i' | 'd' | 'r' | 'a' | '';
