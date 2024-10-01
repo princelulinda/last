@@ -5,9 +5,12 @@ import { Observable } from 'rxjs';
 
 import { ApiService } from '..';
 import {
+  MenuGroupAndMenusSimpleModel,
   MenuGroupsModel,
   MenuModel,
   TypeMenuModel,
+  TypeMenuNamesModel,
+  URLTypeMenuModel,
 } from '../../db/models/menu/menu.models';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import { PageMenusModel } from '../../../components/admin/menu/menu.models';
@@ -81,5 +84,83 @@ export class MenuService {
     return this.apiService
       .get<{ objects: AccessModel[]; count: number }>(url)
       .pipe(map(data => data));
+  }
+
+  getMenuByActivateRoute(
+    menus: TypeMenuModel[],
+    typeMenu: URLTypeMenuModel
+  ): MenuGroupAndMenusSimpleModel | null {
+    let pathname = window.location.pathname;
+    //NOTE:: just for removing language prefixes in case i18n is activated
+    if (['en', 'fr'].includes(pathname.split('/')[1])) {
+      pathname = pathname.slice(3);
+    }
+    let menuGroups: MenuGroupAndMenusSimpleModel[] = [];
+    let baseMenuUrl = '';
+    let selectedGroup: MenuGroupAndMenusSimpleModel | null = null;
+
+    [menuGroups, baseMenuUrl] = this.getActiveMenuGroups(menus, typeMenu);
+
+    if (menuGroups && baseMenuUrl.split('/').length > 4) {
+      selectedGroup =
+        menuGroups.find(group =>
+          group.menus.find(
+            menu => `${baseMenuUrl}${menu.component_url}` === pathname
+          )
+        ) ?? null;
+
+      if (selectedGroup) {
+        selectedGroup.menus = selectedGroup?.menus.filter(
+          menu => `${baseMenuUrl}${menu.component_url}` === pathname
+        );
+      }
+
+      // if (selectedGroup) {
+      //   console.log('MENU ALLREADY EXIST');
+      // } else {
+      //   this.router.navigate([`${baseMenuUrl}access-required`]);
+      // }
+    }
+    return selectedGroup;
+  }
+
+  getActiveMenuGroups(
+    menus: TypeMenuModel[],
+    typeMenu: URLTypeMenuModel
+  ): [MenuGroupAndMenusSimpleModel[] | [], string] {
+    switch (typeMenu) {
+      case 'a':
+        return [this.getMenuGroupByType('Admin', menus), '/w/workstation/a/'];
+        break;
+      case 'd':
+        return [
+          this.getMenuGroupByType('Desk', menus),
+          '/w/workstation/d/desk/',
+        ];
+        break;
+      case 'i':
+        return [
+          this.getMenuGroupByType('Intranet', menus),
+          '/w/workstation/i/intranet/',
+        ];
+        break;
+      case 'r':
+        return [
+          this.getMenuGroupByType('Reporting', menus),
+          '/w/workstation/r/reporting/',
+        ];
+        break;
+      default:
+        return [[], '/w/workstation/'];
+        break;
+    }
+  }
+
+  private getMenuGroupByType(
+    type: TypeMenuNamesModel,
+    menus: TypeMenuModel[]
+  ): MenuGroupAndMenusSimpleModel[] {
+    return menus.find(typeMenu => typeMenu.name === type)
+      ?.menu_groups as MenuGroupAndMenusSimpleModel[];
   }
 }
