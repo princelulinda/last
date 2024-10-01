@@ -53,11 +53,9 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
   credits: LoanListModel[] | null = null;
   credit!: LoanModel | null;
   creditId!: number;
-  // client: any;
   clientId!: number;
   id!: number;
   selectedCredit: LoanListModel | null = null;
-  // clientDetails: any;
 
   headersPlan = [
     {
