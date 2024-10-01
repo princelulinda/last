@@ -129,14 +129,21 @@ export class WorkstationMenuComponent implements OnInit {
             this.menus,
             this.activatedTypeMenu
           );
-        this.selectGroup(
-          this.menuService.getMenuByActivateRoute(
-            this.menus,
-            this.activatedTypeMenu
-          )
+        const routeMenu = this.menuService.getMenuByActivateRoute(
+          this.menus,
+          this.activatedTypeMenu,
+          this.router
         );
-        if (this.selectedGroup?.menus) {
-          this.selectAMenu(this.selectedGroup.menus[0]);
+        if (routeMenu !== undefined) {
+          this.selectGroup(routeMenu);
+          if (this.selectedGroup?.menus) {
+            this.selectAMenu(
+              this.selectedGroup.menus[0],
+              this.selectedGroup.menus[0].component_url
+            );
+          } else {
+            this.router.navigate([`${this.baseMenuUrl}access-required`]);
+          }
         }
       },
     });
@@ -199,13 +206,16 @@ export class WorkstationMenuComponent implements OnInit {
     return typeof searchValue === 'string' && searchValue.trim() !== '';
   }
 
-  selectAMenu(menu: { id: number; name: string; component_url: string }) {
+  selectAMenu(
+    menu: { id: number; name: string; component_url: string },
+    url: string
+  ) {
     this.menuService.setLocalSelectedMenu(menu.id);
     // NOTE :: GETTING ACCESS MENUS
-    this.getAccesses();
+    this.getAccesses(url);
   }
 
-  private getAccesses() {
+  private getAccesses(url: string) {
     this.dialogService.dispatchLoading('topLoader');
     this.configService.clearActiveAccesses();
     this.menuService
@@ -215,6 +225,7 @@ export class WorkstationMenuComponent implements OnInit {
         next: accesses => {
           this.configService.setActiveAccesses(accesses.objects);
           this.dialogService.closeLoading();
+          this.router.navigate([`${this.baseMenuUrl}${url}`]);
         },
         error: () => {
           this.dialogService.closeLoading();

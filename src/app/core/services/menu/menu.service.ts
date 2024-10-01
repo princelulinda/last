@@ -16,6 +16,7 @@ import { PaginationConfig } from '../../../global/models/pagination.models';
 import { PageMenusModel } from '../../../components/admin/menu/menu.models';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { AccessModel } from '../../../components/admin/access/access.models';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -88,8 +89,9 @@ export class MenuService {
 
   getMenuByActivateRoute(
     menus: TypeMenuModel[],
-    typeMenu: URLTypeMenuModel
-  ): MenuGroupAndMenusSimpleModel | null {
+    typeMenu: URLTypeMenuModel,
+    router: Router
+  ): MenuGroupAndMenusSimpleModel | null | undefined {
     let pathname = window.location.pathname;
     //NOTE:: just for removing language prefixes in case i18n is activated
     if (['en', 'fr'].includes(pathname.split('/')[1])) {
@@ -101,7 +103,13 @@ export class MenuService {
 
     [menuGroups, baseMenuUrl] = this.getActiveMenuGroups(menus, typeMenu);
 
-    if (menuGroups && baseMenuUrl.split('/').length > 4) {
+    console.log('BASE MENU URL', baseMenuUrl, baseMenuUrl.split('/').length);
+
+    if (
+      menuGroups &&
+      baseMenuUrl.split('/').length > 6 &&
+      router.config.some(route => route.path === pathname)
+    ) {
       selectedGroup =
         menuGroups.find(group =>
           group.menus.find(
@@ -114,14 +122,10 @@ export class MenuService {
           menu => `${baseMenuUrl}${menu.component_url}` === pathname
         );
       }
-
-      // if (selectedGroup) {
-      //   console.log('MENU ALLREADY EXIST');
-      // } else {
-      //   this.router.navigate([`${baseMenuUrl}access-required`]);
-      // }
+      return selectedGroup;
+    } else {
+      return undefined;
     }
-    return selectedGroup;
   }
 
   getActiveMenuGroups(
