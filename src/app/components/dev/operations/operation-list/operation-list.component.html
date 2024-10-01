@@ -151,9 +151,9 @@
       <!-- table header -->
       <div class="row mx-2">
         <b class="text-md text-dark col-md-2 fw-bold px-1" i8n>Created By</b>
-        <b class="text-md text-dark col-md-2 fw-bold px-1" i8n>Operation</b>
-        <b class="text-md text-dark col-md-2 fw-bold px-1" i8n>Amount</b>
-        <b class="text-md text-dark col-md-3 fw-bold px-1" i8n>Description</b>
+        <b class="text-md text-dark col-md-1 fw-bold px-1" i8n>Operation</b>
+        <b class="text-md text-dark col-md-1 fw-bold px-1" i8n>Amount</b>
+        <b class="text-md text-dark col-md-5 fw-bold px-1" i8n>Description</b>
         <b class="text-md text-dark col-md-2 fw-bold px-1" i8n>Reference</b>
         <b class="text-md text-dark col-md-1 fw-bold px-1" i8n>Status</b>
       </div>
@@ -212,7 +212,7 @@
                     {{ (item.created_at | date: 'shortTime') ?? '-----' }}
                   </span>
                 </div>
-                <div class="col-2 d-flex flex-column px-1">
+                <div class="col-1 d-flex flex-column px-1">
                   <b class="text-dark text-md fw-bold">{{
                     item.operation_type.code || '-----'
                   }}</b>
@@ -220,14 +220,14 @@
                     item.created_by.username || '-----'
                   }}</span>
                 </div>
-                <div class="col-2 px-1 text-dark">
+                <div class="col-1 px-1 text-dark">
                   <app-amount-visibility
                     [amount]="item.amount"
                     currency="BIF"
                     customClasses="text-sucess fw-bold"></app-amount-visibility>
                 </div>
-                <div class="col-3 px-1" [title]="item.description_debit">
-                  <div class="text-dark is-truncate-2">
+                <div class="col-5 px-1" [title]="item.description_debit">
+                  <div class="text-dark is-truncate-2 pe-2">
                     {{ item.description_debit || '------' }}
                   </div>
                 </div>

@@ -104,10 +104,7 @@ export class OperationListComponent implements OnInit {
       )
       .subscribe({
         next: response => {
-          const res = response as {
-            objects: OperationListModel[];
-            count: number;
-          };
+          const res = response;
           this.tempSearch = searchValue;
           this.operations = res.objects;
           this.count = res.count;
@@ -137,10 +134,7 @@ export class OperationListComponent implements OnInit {
       )
       .subscribe({
         next: response => {
-          const res = response as {
-            objects: OperationTransactionModel[];
-            count: number;
-          };
+          const res = response;
           this.transactionLoading = false;
           this.transactionCount = res.count;
           this.transactions = res.objects;
