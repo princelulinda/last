@@ -20,21 +20,23 @@
         <span class="mb-2">{{ counterDetails.formatted_code }}</span>
         <span class="">{{ counterDetails.branch.name }}</span>
       </div>
-      <div
-        class="border-left border-5 d-flex flex-column col-sm-6 col-md-4 col-lg-3 ps-3">
-        <!-- <small class="text-secondary" i18n>Main Box</small> -->
-        <b class="text-dark text-md">{{ mainBox.account_mapping.name }}</b>
-        <b class="text-success text-md my-2">
-          <app-amount-visibility
-            [amount]="mainBox.account_mapping.account.balance"
-            [currency]="
-              mainBox.account_mapping.account.currency
-            "></app-amount-visibility>
-        </b>
-        <span class="text-md">{{
-          mainBox.account_mapping.account_type.title
-        }}</span>
-      </div>
+      @if (mainBox) {
+        <div
+          class="border-left border-5 d-flex flex-column col-sm-6 col-md-4 col-lg-3 ps-3">
+          <!-- <small class="text-secondary" i18n>Main Box</small> -->
+          <b class="text-dark text-md">{{ mainBox.account_mapping.name }}</b>
+          <b class="text-success text-md my-2">
+            <app-amount-visibility
+              [amount]="mainBox.account_mapping.account.balance"
+              [currency]="
+                mainBox.account_mapping.account.currency
+              "></app-amount-visibility>
+          </b>
+          <span class="text-md">{{
+            mainBox.account_mapping.account_type.title
+          }}</span>
+        </div>
+      }
     </section>
     @if (showDetails) {
       <ng-container *ngTemplateOutlet="details"> </ng-container>
