@@ -1,0 +1,323 @@
+<!--path-->
+<!-- <div class="details-container mb-2 ms-3">
+    <app-breadcrumb [crumbs]="crumbs"></app-breadcrumb>
+</div> -->
+
+<div class="level-1 p-2 py-4 details-container" style="min-height: 600px">
+  <div class="level-2 text-dark glob-cont" style="min-height: 600px">
+    @if (isLoading) {
+      <div
+        class="d-flex justify-content-center align-items-center"
+        style="height: 50vh">
+        <span class="spinner-border"> </span>
+      </div>
+    }
+    @if (!isLoading && agentDetails) {
+      <div class="d-flex">
+        <section
+          class="w-25 pb-5"
+          style="box-shadow: 1px 0px 4px rgba(0, 0, 0, 0.15)">
+          <div class="d-grid p-3">
+            <div class="grid">
+              <div
+                class="w-100 d-flex justify-content-end"
+                role="button"
+                title="Client Details"
+                [routerLink]="
+                  '/w/workstation/desk/client/details/' + agentDetails.client_id
+                ">
+                <b role="button" class="text-primary-light fs-5">
+                  <i class="fa fa-arrow-up-right-from-square"></i>
+                </b>
+              </div>
+            </div>
+          </div>
+          <div class="p-3">
+            <div class="row col-md-8 mx-auto">
+              <div class="mb-1 lg-radius" style="width: 150px; height: 150px">
+                @if (agentDetails.picture_url) {
+                  <img
+                    [src]="agentDetails.picture_url"
+                    alt=""
+                    class="lg-radius image" />
+                } @else {
+                  <img
+                    src="images/userprofile.png"
+                    class="lg-radius image"
+                    alt="" />
+                }
+              </div>
+              <div class="d-grid">
+                <b class="text-md text-truncate">
+                  {{ agentDetails.client.client_full_name }}</b
+                >
+                <span class="text-md-sm">
+                  {{ agentDetails.client.client_code }}</span
+                >
+              </div>
+            </div>
+            <div class="mt-3 mx-4">
+              <div>
+                <div class="mb-3">
+                  <b class="text-primary-light text-md-sm" i18n
+                    >Basic client info</b
+                  >
+                </div>
+
+                <div class="d-grid mb-2">
+                  <b class="text-secondary text-sm" i18n>Client type</b>
+                  <b>
+                    {{ agentDetails.client.client_type.title }}
+                  </b>
+                </div>
+                <div class="d-grid mb-2">
+                  <b class="text-secondary text-sm" i18n>Client email</b>
+                  <b>
+                    {{ agentDetails.client.client_email }}
+                  </b>
+                </div>
+                <div class="d-grid mb-2">
+                  <b class="text-secondary text-sm" i18n>Client category</b>
+                  <b> {{ agentDetails.client.client_cathegory }}</b>
+                </div>
+                <div class="d-grid mb-2">
+                  <b class="text-secondary text-sm" i18n>Merchant</b>
+                  <b class="fs-5">
+                    @if (agentDetails.client.is_merchant) {
+                      <span>
+                        <i class="fa fa-check-circle text-success"></i>
+                      </span>
+                    }
+                    @if (!agentDetails.client.is_merchant) {
+                      <span>
+                        <i class="fa fa-circle-xmark text-danger"></i>
+                      </span>
+                    }
+                  </b>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="w-75">
+          <!-- agent details section -->
+          @if (!isLoading && agentDetails) {
+            <section class="p-4">
+              <div class="d-grid">
+                @if (!isLoading) {
+                  <div
+                    tabindex="0"
+                    class="text-dark text-end"
+                    role="button"
+                    style="opacity: 0.7"
+                    title="Refresh details"
+                    (click)="refreshPage()">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                  </div>
+                }
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="d-flex align-items-center">
+                    <div
+                      class="rounded-circle overflow-hidden me-3"
+                      style="width: 100px; height: 100px">
+                      @if (agentDetails.picture) {
+                        <img
+                          class="image rounded-circle"
+                          [src]="agentDetails.picture"
+                          alt="" />
+                      } @else {
+                        <img
+                          src="images/userprofile.png"
+                          class="image rounded-circle"
+                          alt="" />
+                      }
+                    </div>
+                    <div class="d-grid">
+                      <b class="text-dark text-md">{{
+                        agentDetails.agent_name
+                      }}</b>
+                      <b class="text-dark text-md">{{
+                        agentDetails.client_id
+                      }}</b>
+                    </div>
+                  </div>
+                  <!--<div
+                            *ngIf="selectedMenu"
+                            (click)="goBack()"
+                            role="button"
+                            class="d-flex align-items-center text-l-md"
+                        >
+                            <span>
+                                <i class="fa fa-arrow-left"></i>
+                            </span>
+                            <b class="ms-1"> Back</b>
+                        </div>-->
+                </div>
+              </div>
+
+              <div class="mt-3">
+                <div class="row">
+                  <div class="d-grid col-6 mb-3">
+                    <b class="text-secondary text-sm" i18n>
+                      Agent main account</b
+                    >
+                    <b class="text-dark text-md-sm">{{
+                      agentDetails.agent_main_account_id
+                    }}</b>
+                  </div>
+                  <div class="d-grid col-6 mb-3"></div>
+                  <div class="d-grid col-6 mb-3">
+                    <b class="text-secondary text-sm" i18n>Available balance</b>
+                    <b class="text-dark text-md-sm">
+                      <app-amount-visibility
+                        [amount]="agentDetails.agent_balance"
+                        [currency]="agentDetails.balance_currency"
+                        [ngClass]="
+                          'text-dark text-md-sm'
+                        "></app-amount-visibility>
+                    </b>
+                  </div>
+                  <div class="d-grid col-6 mb-3">
+                    <b class="text-secondary text-sm">Created at</b>
+                    <b class="text-dark text-md-sm">{{
+                      agentDetails.created_at | date: 'medium'
+                    }}</b>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-3 d-grid">
+                <div>
+                  <div
+                    class="w-100 px-2 mb-3 py-1 border d-flex justify-content-between align-items-center">
+                    <b class="text-md-sm" i18n>Super Agent</b>
+                    @if (!isLoading) {
+                      <div class="d-flex align-items-center">
+                        @if (agentDetails.is_superagent) {
+                          <b
+                            class="text-sm me-3 badge-design bg-success rounded px-3"
+                            i18n
+                            >Yes</b
+                          >
+                        }
+                        @if (!agentDetails.is_superagent) {
+                          <b
+                            class="text-sm me-3 bg-danger badge-design rounded px-3"
+                            i18n
+                            >No</b
+                          >
+                        }
+                        <!-- <b
+                                        role="button"
+                                        class="text-sm text-secondary"
+                                        style="text-decoration: underline"
+                                        (click)="toggleAcceptsTobeAgent()"
+                                        i18n
+                                        >Change</b
+                                    >-->
+                      </div>
+                    }
+
+                    <!-- <b *ngIf="isLoading">
+                                    <i
+                                        class="fa-solid fa-pulse fa-spinner text-dark"
+                                    ></i>
+                                </b> -->
+                  </div>
+
+                  <div
+                    data-bs-toggle="modal"
+                    data-bs-target="#statementModal"
+                    class="w-100 px-2 clickable mb-3 mt-4 py-1 border d-flex justify-content-between align-items-center">
+                    <b class="text-md-sm" i18n>Statement</b>
+                  </div>
+                </div>
+              </div>
+            </section>
+          }
+          <!-- agent section when is superagent -->
+          @if (!isLoading && agentDetails.is_superagent) {
+            <section class="mt-3">
+              <div
+                class="mb-2 d-flex align-items-center fw-bold text-dark"
+                i18n>
+                <span class="text-primary me-2 text-xsm"
+                  ><i class="fa-solid fa-circle"></i
+                ></span>
+                Agents
+              </div>
+
+              <!-- skeletons  loader -->
+              @if (agentsLoading) {
+                <div class="row mx-0" style="gap: 2rem">
+                  <!-- <div
+                            class="col-sm-8 col-md-4"
+                            style="height: 105px"
+                            *ngFor="let item of [1, 2, 3, 4]"
+                        >
+                            <ngx-skeleton-loader
+                                [theme]="{ height: '100%' }"
+                            ></ngx-skeleton-loader>
+                        </div> -->
+                </div>
+              }
+              <!-- <div
+                        class="row mx-0"
+                        style="gap: 1.5rem"
+                        *ngIf="!agentsLoading"
+                    >
+                        <div
+                            class="border lg-radius border-primary border-2 d-flex justify-content-between p-3 col-sm-8 col-md-4 align-items-end clickable"
+                            routerLink="/w/workstation/desk/agent/detail/{{
+                                item.id
+                            }}"
+                            title="Show Details"
+                            *ngFor="let item of agent"
+                        >
+                            <div class="d-flex flex-column">
+                                <b class="text-md text-dark mb-3">
+                                    {{ item.agent_name ?? '-----' }}
+                                </b>
+                                <span class="text-dark">
+                                    {{ item.agent_code ?? '-----' }}
+                                </span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="text-dark me-2" i18n>
+                                    Active
+                                </span>
+                                <span>
+                                    <span class="ms-1" *ngIf="item.is_active">
+                                        <i
+                                            class="fa-solid fa-circle-check text-success"
+                                        ></i>
+                                    </span>
+                                    <span class="ms-1" *ngIf="!item.is_active">
+                                        <i
+                                            class="fa-solid fa-circle-xmark text-danger"
+                                        ></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div> -->
+            </section>
+          }
+        </section>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- agent statements -->
+@if (agentDetails) {
+  <div class="modal fade" id="statementModal" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered statement-dialog">
+      <div class="modal-content">
+        <app-statement
+          [accountId]="agentDetails.agent_main_account_id"></app-statement>
+      </div>
+    </div>
+  </div>
+}

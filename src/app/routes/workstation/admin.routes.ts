@@ -22,6 +22,9 @@ import { AdminServicesListComponent } from '../../components/admin/rh/admin-serv
 import { AdminServicesDetailsComponent } from '../../components/admin/rh/admin-services-details/admin-services-details.component';
 import { ConfigTarifComponent } from '../../components/tarifs/config-tarif/config-tarif.component';
 import { AdminAccessListComponent } from '../../components/admin/access/admin-access-list/admin-access-list.component';
+import { AgentListComponent } from '../../components/admin/agent/agent-list/agent-list.component';
+import { AgentDetailComponent } from '../../components/admin/agent/agent-detail/agent-detail.component';
+
 export const AdminRoutes: Routes = [
   // Operator
   {
@@ -105,4 +108,7 @@ export const AdminRoutes: Routes = [
     path: 'accesses',
     component: AdminAccessListComponent,
   },
+
+  { path: 'agent', component: AgentListComponent },
+  { path: 'agent/details/:id', component: AgentDetailComponent },
 ];
