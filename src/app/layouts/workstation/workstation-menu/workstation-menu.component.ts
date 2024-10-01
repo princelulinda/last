@@ -13,14 +13,13 @@ import { debounceTime, filter, Observable, Subject, takeUntil } from 'rxjs';
 import {
   ConfigService,
   DialogService,
-  GeneralService,
   MenuService,
   MerchantService,
 } from '../../../core/services';
 import {
   MenuGroupAndMenusSimpleModel,
   TypeMenuModel,
-  TypeMenuNamesModel,
+  URLTypeMenuModel,
 } from '../../../core/db/models/menu/menu.models';
 import { EmptyStateComponent } from '../../../global/components/empty-states/empty-state/empty-state.component';
 import { ConnectedOperatorModel } from '../../../components/auth/auth.model';
@@ -45,7 +44,7 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
 })
 export class WorkstationMenuComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
-  activatedTypeMenu: 'b' | 'm' | 'i' | 'd' | 'r' | 'a' | '' = '';
+  activatedTypeMenu: URLTypeMenuModel = '';
 
   activatedTypeGroupMenus: MenuGroupAndMenusSimpleModel[] | [] = [];
   selectedGroup: MenuGroupAndMenusSimpleModel | null = null;
@@ -71,8 +70,7 @@ export class WorkstationMenuComponent implements OnInit {
     private configService: ConfigService,
     private merchantService: MerchantService,
     private menuService: MenuService,
-    private dialogService: DialogService,
-    private generalService: GeneralService
+    private dialogService: DialogService
   ) {
     this.operator$ = this.configService.getConnectedOperator();
     this.menus$ = this.configService.getTypeMenus();
@@ -100,7 +98,10 @@ export class WorkstationMenuComponent implements OnInit {
           this.activatedTypeMenu = params['TypeMenu'];
           if (this.menus) {
             [this.activatedTypeGroupMenus, this.baseMenuUrl] =
-              this.getActiveMenuGroups();
+              this.menuService.getActiveMenuGroups(
+                this.menus,
+                this.activatedTypeMenu
+              );
           }
         },
       });
@@ -124,8 +125,25 @@ export class WorkstationMenuComponent implements OnInit {
       next: menus => {
         this.menus = this.configService.toArray(menus);
         [this.activatedTypeGroupMenus, this.baseMenuUrl] =
-          this.getActiveMenuGroups();
-        // this.getMenuByActivateRoute();
+          this.menuService.getActiveMenuGroups(
+            this.menus,
+            this.activatedTypeMenu
+          );
+        const routeMenu = this.menuService.getMenuByActivateRoute(
+          this.menus,
+          this.activatedTypeMenu
+        );
+        if (routeMenu !== undefined) {
+          this.selectGroup(routeMenu);
+          if (this.selectedGroup?.menus) {
+            this.selectAMenu(
+              this.selectedGroup.menus[0],
+              this.selectedGroup.menus[0].component_url
+            );
+          } else {
+            this.router.navigate([`${this.baseMenuUrl}access-required`]);
+          }
+        }
       },
     });
   }
@@ -157,33 +175,6 @@ export class WorkstationMenuComponent implements OnInit {
   selectGroup(group: MenuGroupAndMenusSimpleModel | null) {
     this.selectedGroup = group;
   }
-
-  private getActiveMenuGroups(): [MenuGroupAndMenusSimpleModel[] | [], string] {
-    switch (this.activatedTypeMenu) {
-      case 'a':
-        return [this.getMenuGroupByType('Admin'), '/w/workstation/a/'];
-        break;
-      case 'd':
-        return [this.getMenuGroupByType('Desk'), '/w/workstation/d/desk/'];
-        break;
-      case 'i':
-        return [
-          this.getMenuGroupByType('Intranet'),
-          '/w/workstation/i/intranet/',
-        ];
-        break;
-      case 'r':
-        return [
-          this.getMenuGroupByType('Reporting'),
-          '/w/workstation/r/reporting/',
-        ];
-        break;
-      default:
-        return [[], '/w/workstation/'];
-        break;
-    }
-  }
-
   getMerchants(search: string) {
     this.isLoading = true;
     this.merchants = null;
@@ -214,13 +205,16 @@ export class WorkstationMenuComponent implements OnInit {
     return typeof searchValue === 'string' && searchValue.trim() !== '';
   }
 
-  selectAMenu(menu: { id: number; name: string; component_url: string }) {
+  selectAMenu(
+    menu: { id: number; name: string; component_url: string },
+    url: string
+  ) {
     this.menuService.setLocalSelectedMenu(menu.id);
     // NOTE :: GETTING ACCESS MENUS
-    this.getAccesses();
+    this.getAccesses(url);
   }
 
-  private getAccesses() {
+  private getAccesses(url: string) {
     this.dialogService.dispatchLoading('topLoader');
     this.configService.clearActiveAccesses();
     this.menuService
@@ -230,6 +224,7 @@ export class WorkstationMenuComponent implements OnInit {
         next: accesses => {
           this.configService.setActiveAccesses(accesses.objects);
           this.dialogService.closeLoading();
+          this.router.navigate([`${this.baseMenuUrl}${url}`]);
         },
         error: () => {
           this.dialogService.closeLoading();
@@ -240,40 +235,5 @@ export class WorkstationMenuComponent implements OnInit {
           });
         },
       });
-  }
-
-  // private getMenuByActivateRoute(): MenuGroupAndMenusSimpleModel | null {
-  //   let pathname = window.location.pathname;
-  //   //NOTE:: just for removing language prefixes in case i18n is activated
-  //   if (['en', 'fr'].includes(pathname.split('/')[1])) {
-  //     pathname = pathname.slice(3);
-  //   }
-  //   const selectedGroups = this.getActiveMenuGroups();
-  //   const allComponentUrls: string[] = [];
-  //   selectedGroups
-  //     .map(group => group.menus.map(menu => menu.component_url))
-  //     .map(item => allComponentUrls.push(...item));
-
-  //   console.log('SELECTED GROUPS', selectedGroups, allComponentUrls);
-
-  //   const subMenuSimularToPathname = this.generalService.findMostSimilar(
-  //     allComponentUrls,
-  //     pathname
-  //   );
-
-  //   console.log('Simular To  pathname', subMenuSimularToPathname);
-
-  //   // const subMenuId = selectedGroups.find(group =>
-  //   //   group?.menus?.find(menu => menu.component_url === subMenuSimularToPathname)
-  //   // )[0]
-
-  //   return null;
-  // }
-
-  private getMenuGroupByType(
-    type: TypeMenuNamesModel
-  ): MenuGroupAndMenusSimpleModel[] {
-    return this.menus.find(typeMenu => typeMenu.name === type)
-      ?.menu_groups as MenuGroupAndMenusSimpleModel[];
   }
 }

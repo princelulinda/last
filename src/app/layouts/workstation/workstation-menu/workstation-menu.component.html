@@ -41,6 +41,7 @@
         Statement
       </a>
     </section>
+
     <main class="flex-grow-1 overflow-y-auto ms-1 px-2">
       <router-outlet></router-outlet>
     </main>
@@ -115,7 +116,8 @@
           <b class="text-primary fs-large" i18n>My Market</b>
         </div>
       </section>
-      <main class="flex-grow-1 overflow-y-auto ms-1">
+
+      <main class="flex-grow-1 overflow-y-auto ms-1 px-2">
         @if (!isSearchInputFocused && !this.searchForm.value) {
           <router-outlet></router-outlet>
         }
@@ -219,8 +221,7 @@
               @for (item of selectedGroup.menus; track $index) {
                 <a
                   tabindex="1"
-                  routerLink="{{ baseMenuUrl }}{{ item.component_url }}"
-                  (click)="selectAMenu(item)"
+                  (click)="selectAMenu(item, item.component_url)"
                   [ngClass]="{
                     'mb-2': $index === selectedGroup.menus.length - 1,
                   }"
