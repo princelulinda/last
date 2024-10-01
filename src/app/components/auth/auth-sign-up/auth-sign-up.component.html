@@ -531,6 +531,25 @@
                 >
               </div>
             </div>
+            @if (
+              this.multiStepForm.controls.cardInformation.value.cardType ===
+              'OTHER'
+            ) {
+              <div class="input-group mb-3">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="otherCard"
+                    formControlName="otherCard"
+                    placeholder="Delivery place"
+                    id="bg-input" />
+                  <label for="otherCard" class="form-label" i18n
+                    >Other card <code>*</code></label
+                  >
+                </div>
+              </div>
+            }
             <div class="col mb-3">
               <div class="form-floating">
                 <input
@@ -708,29 +727,36 @@
                   }
                 </div>
               }
-              @for (bank of getBanksList; track bank) {
-                <div
-                  tabindex="0"
-                  (click)="
-                    selectedBankId(bank); openPinPopup(); selectedBankIndex = i
-                  "
-                  class="col-md-3 lg-radius border border-secondary"
-                  role="button">
-                  <div class="text-center p-1">
-                    <div class="col d-flex justify-content-center">
-                      @if (bank.company.logo) {
-                        <img src="{{ bank.company.logo }}" width="90" alt="" />
-                      } @else {
-                        <span class="fs-3" i18n
-                          ><i class="fa-solid fa-building-columns"></i>
-                        </span>
-                      }
-                    </div>
-                    <div>
-                      <span i18n class="fs-x-small">{{ bank.name }}</span>
+              @if (!isLoadingBank) {
+                @for (bank of getBanksList; track bank) {
+                  <div
+                    tabindex="0"
+                    (click)="
+                      selectedBankId(bank);
+                      openPinPopup();
+                      selectedBankIndex = i
+                    "
+                    class="col-md-3 lg-radius border border-secondary"
+                    role="button">
+                    <div class="text-center p-1">
+                      <div class="col d-flex justify-content-center">
+                        @if (bank.company.logo) {
+                          <img
+                            src="{{ bank.company.logo }}"
+                            width="90"
+                            alt="" />
+                        } @else {
+                          <span class="fs-3" i18n
+                            ><i class="fa-solid fa-building-columns"></i>
+                          </span>
+                        }
+                      </div>
+                      <div>
+                        <span i18n class="fs-x-small">{{ bank.name }}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                }
               }
             </div>
           </div>

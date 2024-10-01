@@ -138,7 +138,7 @@ export class PasswordFieldComponent {
             passwordErrors.push('Must contain uppercase');
           }
           if (!this.hasSpecialChar(passwordControl.value)) {
-            passwordErrors.push('Must contain spacial characters (!@$%');
+            passwordErrors.push('Must contain special characters (!@$%');
           }
           errors.push(...passwordErrors);
         }
@@ -168,7 +168,7 @@ export class PasswordFieldComponent {
       !this.getPasswordErrors().includes('Password is required') &&
       !this.getPasswordErrors().includes('Must contain uppercase') &&
       !this.getPasswordErrors().includes(
-        'Must contain spacial characters (!@$%'
+        'Must contain special characters (!@$%'
       )
     ) {
       const password = this.passwordForm.value.password;
