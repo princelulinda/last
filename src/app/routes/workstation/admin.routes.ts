@@ -105,4 +105,11 @@ export const AdminRoutes: Routes = [
     path: 'accesses',
     component: AdminAccessListComponent,
   },
+  {
+    path: 'access-required',
+    loadComponent: () =>
+      import(
+        '../../global/components/errors/forbidden-403/forbidden-403.component'
+      ).then(m => m.Forbidden403Component),
+  },
 ];

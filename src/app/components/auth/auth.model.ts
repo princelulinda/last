@@ -77,6 +77,14 @@ export interface UploadedFileModel {
 
 export interface CardIdDataModel {
   expiry_date: string | null | undefined;
+  card_id_type: string | null | undefined;
+  other_card_type: string;
+  reference_number: string | null | undefined;
+  place_of_issue: string | null | undefined;
+  date_of_issue: string | null | undefined;
+}
+export interface DataModel {
+  card_id: CardIdDataModel;
 }
 export interface ReferenceNumberModel {
   id: number;
