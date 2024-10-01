@@ -22,9 +22,12 @@ import { MailModel } from '../../settings/settings.models';
 import { ClientProfileInfoComponent } from '../client-profile-info/client-profile-info.component';
 import { ClientGeneralInformationsComponent } from '../client-general-informations/client-general-informations.component';
 import { ClientSensitiveInfoComponent } from '../client-sensitive-info/client-sensitive-info.component';
+import { ClientContactsComponent } from '../client-contacts/client-contacts.component';
+
 import { SelectedClientSmallOverviewComponent } from '../selected-client-small-overview/selected-client-small-overview.component';
 import { ClientAccountListComponent } from '../client-account-list/client-account-list.component';
 import { RouterOutlet } from '@angular/router';
+
 @Component({
   selector: 'app-client-details',
   standalone: true,
@@ -35,6 +38,7 @@ import { RouterOutlet } from '@angular/router';
     ClientGeneralInformationsComponent,
     ClientSensitiveInfoComponent,
     SelectedClientSmallOverviewComponent,
+    ClientContactsComponent,
     ClientAccountListComponent,
     RouterOutlet,
   ],

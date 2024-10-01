@@ -365,7 +365,14 @@
                                                             [canAddPhoneNumber]="false"
                                                             [eMail]="emails"
                                                             [telephoneNumber]="phoneNumbers"
-                                                        ></app-client-phonenumbers-and-emails> -->
+                 
+                                                         ></app-client-phonenumbers-and-emails> -->
+
+                            <app-client-contacts
+                              [canAddEmail]="false"
+                              [canAddPhoneNumber]="false"
+                              [id]="clientId">
+                            </app-client-contacts>
                           </div>
                         }
                       </div>

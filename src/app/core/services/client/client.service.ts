@@ -32,6 +32,7 @@ import {
   ClientWorkstationModel,
   IndividualClientModel,
   LanguageWorkstationModel,
+  PrimaryDataModel,
   ResponseMOdel,
 } from '../../../components/client/client.model';
 
@@ -108,6 +109,17 @@ export class ClientService {
       pin,
     };
     return this.apiService.post(url, body).pipe(
+      map(response => {
+        return response as ResponseMOdel;
+      })
+    );
+  }
+
+  makeNumberOrEmailPrimary(
+    id: number,
+    primary: PrimaryDataModel
+  ): Observable<ResponseMOdel> {
+    return this.apiService.patch('/client/extid/' + id + '/', primary).pipe(
       map(response => {
         return response as ResponseMOdel;
       })

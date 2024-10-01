@@ -250,3 +250,15 @@ export interface CreditsLineModel {
     name: string;
   };
 }
+export interface PrimaryDataModel {
+  email?: string;
+  phoneNumber?: string;
+  is_primary: boolean;
+}
+
+export interface ContactInfo {
+  id: number;
+  is_primary: boolean;
+  ident: string;
+  is_verified: string;
+}
