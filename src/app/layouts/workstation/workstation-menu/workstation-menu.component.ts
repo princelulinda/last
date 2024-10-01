@@ -125,7 +125,10 @@ export class WorkstationMenuComponent implements OnInit {
         this.menus = this.configService.toArray(menus);
         [this.activatedTypeGroupMenus, this.baseMenuUrl] =
           this.getActiveMenuGroups();
-        // this.getMenuByActivateRoute();
+        this.selectGroup(this.getMenuByActivateRoute());
+        if (this.selectedGroup?.menus) {
+          this.selectAMenu(this.selectedGroup.menus[0]);
+        }
       },
     });
   }
@@ -242,33 +245,40 @@ export class WorkstationMenuComponent implements OnInit {
       });
   }
 
-  // private getMenuByActivateRoute(): MenuGroupAndMenusSimpleModel | null {
-  //   let pathname = window.location.pathname;
-  //   //NOTE:: just for removing language prefixes in case i18n is activated
-  //   if (['en', 'fr'].includes(pathname.split('/')[1])) {
-  //     pathname = pathname.slice(3);
-  //   }
-  //   const selectedGroups = this.getActiveMenuGroups();
-  //   const allComponentUrls: string[] = [];
-  //   selectedGroups
-  //     .map(group => group.menus.map(menu => menu.component_url))
-  //     .map(item => allComponentUrls.push(...item));
+  private getMenuByActivateRoute(): MenuGroupAndMenusSimpleModel | null {
+    let pathname = window.location.pathname;
+    //NOTE:: just for removing language prefixes in case i18n is activated
+    if (['en', 'fr'].includes(pathname.split('/')[1])) {
+      pathname = pathname.slice(3);
+    }
+    let menuGroups: MenuGroupAndMenusSimpleModel[] = [];
+    let baseMenuUrl = '';
+    let selectedGroup: MenuGroupAndMenusSimpleModel | null = null;
 
-  //   console.log('SELECTED GROUPS', selectedGroups, allComponentUrls);
+    [menuGroups, baseMenuUrl] = this.getActiveMenuGroups();
 
-  //   const subMenuSimularToPathname = this.generalService.findMostSimilar(
-  //     allComponentUrls,
-  //     pathname
-  //   );
+    if (menuGroups && baseMenuUrl.split('/').length > 4) {
+      selectedGroup =
+        menuGroups.find(group =>
+          group.menus.find(
+            menu => `${baseMenuUrl}${menu.component_url}` === pathname
+          )
+        ) ?? null;
 
-  //   console.log('Simular To  pathname', subMenuSimularToPathname);
+      if (selectedGroup) {
+        selectedGroup.menus = selectedGroup?.menus.filter(
+          menu => `${baseMenuUrl}${menu.component_url}` === pathname
+        );
+      }
 
-  //   // const subMenuId = selectedGroups.find(group =>
-  //   //   group?.menus?.find(menu => menu.component_url === subMenuSimularToPathname)
-  //   // )[0]
-
-  //   return null;
-  // }
+      if (selectedGroup) {
+        console.log('MENU ALLREADY EXIST');
+      } else {
+        this.router.navigate([`${baseMenuUrl}access-required`]);
+      }
+    }
+    return selectedGroup;
+  }
 
   private getMenuGroupByType(
     type: TypeMenuNamesModel
