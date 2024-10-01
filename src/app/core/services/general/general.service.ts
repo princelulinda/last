@@ -86,8 +86,8 @@ export class GeneralService {
   mappAccount(body: MappingBody): Observable<MappingResponseModel> {
     const url = `/mappaccount/create/?request_type=ident`;
     return this.apiService
-      .post(url, body)
-      .pipe(map(response => response as MappingResponseModel));
+      .post<MappingResponseModel>(url, body)
+      .pipe(map(response => response));
   }
 
   getMetadata(
@@ -112,8 +112,8 @@ export class GeneralService {
   ): Observable<MetadataCreationResponseModel> {
     const url = '/metadata/';
     return this.apiService
-      .post(url, body)
-      .pipe(map(response => response as MetadataCreationResponseModel));
+      .post<MetadataCreationResponseModel>(url, body)
+      .pipe(map(response => response));
   }
 
   getOverviewData(
@@ -127,8 +127,8 @@ export class GeneralService {
   changePin(body: object): Observable<confirmDialogModel> {
     const url = '/client/change-pin/';
     return this.apiService
-      .post(url, body)
-      .pipe(map(response => response as confirmDialogModel));
+      .post<confirmDialogModel>(url, body)
+      .pipe(map(response => response));
   }
 
   //NOTE :: This a sensive string comparisons, that algorithme is from fast-levenshtein package
