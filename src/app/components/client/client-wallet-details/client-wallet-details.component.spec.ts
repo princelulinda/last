@@ -10,8 +10,8 @@ describe('ClientWalletDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
       imports: [ClientWalletDetailsComponent, ActivatedRoute],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ClientWalletDetailsComponent);
