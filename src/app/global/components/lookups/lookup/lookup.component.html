@@ -6,7 +6,7 @@
         <div class="d-flex">
           @if (selectedItem.lookup_image && showProfile) {
             <div
-              class="rounded-2 pic overflow-hidden d-flex align-items-center justify-content-center bg-secondary border">
+              class="rounded-2 profile overflow-hidden d-flex align-items-center justify-content-center bg-secondary border">
               <img
                 [src]="selectedItem.lookup_image"
                 class="image"
@@ -16,7 +16,7 @@
 
           @if (!selectedItem.lookup_image && showProfile) {
             <div
-              class="rounded-2 pic overflow-hidden d-flex align-items-center justify-content-center bg-secondary border">
+              class="rounded-2 profile overflow-hidden d-flex align-items-center justify-content-center bg-secondary border">
               <i class="fa-solid fa-mountain-sun fa-lg"></i>
             </div>
           }
@@ -85,8 +85,9 @@
 
       @if (showAutoComplete) {
         <div
-          class="autoCompleteItems bg-white shadow rounded w-100 shadow py-2 mt-2">
-          <div class="list mx-1">
+          class="autoCompleteItems position-absolute z-10 overflow-auto bg-white shadow rounded w-100 shadow py-2 mt-2">
+          <div
+            class="list mx-1 d-flex flex-column justify-content-center ps-0 mb-0">
             <div class="d-flex ms-1">
               <b class="text-secondary">{{ label }}</b>
               <button
@@ -116,13 +117,13 @@
                 @for (item of items; track item) {
                   <div
                     tabindex="0"
-                    class="item py-1 px-3 text-dark rounded border-0 w-100"
+                    class="item py-1 px-3 text-dark rounded border-0 w-100 clickable"
                     (click)="selectItem(item)">
                     <div>
                       <div class="d-flex">
                         @if (showProfile && item.lookup_image) {
                           <div
-                            class="rounded-2 pic overflow-hidden d-flex align-items-center justify-content-center bg-white border">
+                            class="rounded-2 profile overflow-hidden d-flex align-items-center justify-content-center bg-white border">
                             <img
                               [src]="item.lookup_image"
                               class="image"
@@ -132,7 +133,7 @@
 
                         @if (showProfile && !item.lookup_image) {
                           <div
-                            class="rounded-2 pic overflow-hidden d-flex align-items-center justify-content-center bg-white border">
+                            class="rounded-2 profile overflow-hidden d-flex align-items-center justify-content-center bg-white border">
                             <i class="fa-solid fa-mountain-sun fa-lg"></i>
                           </div>
                         }
