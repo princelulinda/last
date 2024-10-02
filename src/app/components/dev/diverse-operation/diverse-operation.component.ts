@@ -18,7 +18,9 @@ export class DiverseOperationComponent {
   descriptionForm: FormGroup;
 
   tellerSender!: ItemModel | null;
+  tellerReceiver!: ItemModel | null;
   sender!: ItemModel | null;
+  receiver!: ItemModel | null;
 
   organization$: Observable<OrganizationModel | null>;
   constructor(
@@ -34,12 +36,18 @@ export class DiverseOperationComponent {
 
   selectOperation(operation: string | null) {
     this.operation = operation;
-    // this.descriptionForm.reset();
+    this.descriptionForm.reset();
   }
 
   getTellerSender(teller: ItemModel | null) {
     this.descriptionForm.reset();
     this.tellerSender = teller;
     this.sender = teller;
+  }
+
+  getTellerReceiver(teller: ItemModel | null) {
+    this.descriptionForm.reset();
+    this.tellerReceiver = teller;
+    this.receiver = teller;
   }
 }

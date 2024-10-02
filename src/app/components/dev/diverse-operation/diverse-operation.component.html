@@ -5,7 +5,7 @@
       <span class="fs-medium fw-bold text-secondary">Diverse operation</span>
     </div>
 
-    @if (operation) {
+    @if (operation && !(tellerSender && tellerReceiver)) {
       <div
         class="clickable py-1 px-2 shadow-sm d-flex border rounded-2 flex-row gap-2 align-items-center"
         tabindex="0"
@@ -85,6 +85,36 @@
           </div>
         </div>
       </div>
+
+      @if (tellerSender) {
+        <div
+          class="border-primary text-danger p-1 rounded my-3 ps-2 fw-bold"
+          style="width: 519px; border: 1px; border-style: dashed">
+          <span>Next</span>
+        </div>
+
+        <div
+          class="d-flex align-items-center rounded-2 bg-secondary ps-3"
+          style="width: 519px; height: 149px">
+          <div class="d-flex flex-column gap-2">
+            <span>Choose First Teller</span>
+
+            <div style="width: 250px">
+              <app-lookup
+                option="autocomplete"
+                url="/hr/tellers/list/objects_autocomplete/?search="
+                label="Teller"
+                (selectedItemEvent)="getTellerReceiver($event)"></app-lookup>
+            </div>
+
+            <div class="d-flex flex-row gap-2 text-danger align-items-center">
+              <i class="fa-solid fa-circle-info"></i>
+
+              <span>exemple: 54</span>
+            </div>
+          </div>
+        </div>
+      }
     </div>
   }
 </Section>
