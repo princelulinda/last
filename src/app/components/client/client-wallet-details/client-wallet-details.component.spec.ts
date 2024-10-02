@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ClientWalletDetailsComponent } from './client-wallet-details.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
 describe('ClientWalletDetailsComponent', () => {
   let component: ClientWalletDetailsComponent;
   let fixture: ComponentFixture<ClientWalletDetailsComponent>;
@@ -11,7 +11,7 @@ describe('ClientWalletDetailsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
-      imports: [ClientWalletDetailsComponent],
+      imports: [ClientWalletDetailsComponent, RouterTestingModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ClientWalletDetailsComponent);
