@@ -288,10 +288,11 @@
                               style="display: none" />
                             @if (draggedFiles) {
                               <div>
-                                @for (file of draggedFiles; track $index) {}
-                                <div class="file text-dark fw-bold">
-                                  {{ file.name }}
-                                </div>
+                                @for (file of draggedFiles; track $index) {
+                                  <div class="file text-dark fw-bold">
+                                    {{ file.name }}
+                                  </div>
+                                }
                               </div>
                             }
                           </div>
