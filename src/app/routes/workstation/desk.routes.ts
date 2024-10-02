@@ -8,6 +8,8 @@ import { ClientAccountDetailComponent } from '../../components/client/client-acc
 import { ClientDetailsComponent } from '../../components/client/client-details/client-details.component';
 import { ClientListComponent } from '../../components/client/client-list/client-list.component';
 import { CounterDetailsComponent } from '../../components/dev/operations/counter-details/counter-details.component';
+import { AgentDetailComponent } from '../../components/admin/agent/agent-detail/agent-detail.component';
+import { AgentListComponent } from '../../components/admin/agent/agent-list/agent-list.component';
 
 export const DeskRoutes: Routes = [
   { path: 'list', component: ClientListComponent },
@@ -28,4 +30,7 @@ export const DeskRoutes: Routes = [
   { path: 'operations/list', component: OperationListComponent },
   { path: 'operations/counters', component: CounterComponent },
   { path: 'operations/counter/:id', component: CounterDetailsComponent },
+
+  { path: 'agent', component: AgentListComponent },
+  { path: 'agent/details/:id', component: AgentDetailComponent },
 ];
