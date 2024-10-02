@@ -9,8 +9,8 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrl: './profile-card.component.scss',
 })
 export class ProfileCardComponent implements OnInit {
-  @Input() fullName = '';
-  @Input() imageUrl: string | null = null;
+  @Input() fullName: string | undefined = '';
+  @Input() imageUrl: string | null | undefined = null;
   @Input({ required: true }) width = '';
 
   @Input({ required: true }) height = '';
@@ -26,10 +26,12 @@ export class ProfileCardComponent implements OnInit {
   }
 
   calculateInitials(): void {
-    const names = this.fullName.split(' ');
-    this.initials = names
-      .map(name => name[0])
-      .join('')
-      .toUpperCase();
+    if (this.fullName) {
+      const names = this.fullName.split(' ');
+      this.initials = names
+        .map(name => name[0])
+        .join('')
+        .toUpperCase();
+    }
   }
 }
