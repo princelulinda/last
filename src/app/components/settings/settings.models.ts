@@ -1,4 +1,5 @@
 export interface MailModel {
+  id: number;
   ident: string;
   is_primary: boolean;
   is_verified: boolean;

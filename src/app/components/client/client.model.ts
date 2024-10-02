@@ -250,3 +250,80 @@ export interface CreditsLineModel {
     name: string;
   };
 }
+
+export interface PrimaryDataModel {
+  email?: string;
+  phoneNumber?: string;
+  is_primary: boolean;
+}
+
+export interface ContactInfo {
+  id: number;
+  is_primary: boolean;
+  ident: string;
+  is_verified: string;
+}
+export interface SignatoriesConfigsModel {
+  id: number;
+  status: {
+    value: string;
+    title: string;
+    css: string;
+  };
+  groups_count: number;
+  signatories: number;
+  pv_document: string;
+  minimum: number;
+  client: number;
+  confirmed_at: Date | null;
+  confirmed_by: number | null;
+  canceled_at: Date | null;
+  canceled_by: number | null;
+  signatory_groups: SignatoryGroupsModel[];
+  created_at: Date;
+}
+
+export interface SignatoryGroupsModel {
+  id: number;
+  signature_order: number;
+  status: {
+    value: string;
+    title: string;
+    css: string;
+  };
+  exclusive: boolean;
+  name: string;
+  signatories: number;
+  signatories_config: number;
+  description: string;
+}
+
+export interface SignatoriesModel {
+  id: number;
+  status: {
+    value: string;
+    title: string;
+    css: string;
+  };
+  SignatoryGroup: SignatoriesModel;
+  client_profile: IndividualClientModel;
+  confirmed_at: Date;
+  confirmed_by: number;
+  canceled_at: Date | null;
+  canceled_by: number | null;
+}
+
+export interface SignatoriesAccountsModel {
+  id: number;
+  status: {
+    value: string;
+    title: string;
+    css: string;
+  };
+  acounts: number;
+  signatories_config: number;
+  confirmed_at: Date;
+  confirmed_by: number;
+  canceled_at: Date | null;
+  canceled_by: number | null;
+}

@@ -20,3 +20,82 @@
 // .card-text{
 //     font-weight: 400;
 // }
+
+.bcontain {
+  width: 522px;
+  height: 264px;
+  gap: 0px;
+  border-radius: 20px;
+  border: 1px dotted;
+}
+
+.circle {
+  max-height: 45px;
+  max-width: 45px;
+  min-height: 45px;
+  min-width: 45px;
+  top: -10px;
+  left: -38px;
+}
+
+.backard {
+  width: 171px;
+  height: 82px;
+  border-top-left-radius: 0%;
+  border-top-right-radius: 16px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.btitle {
+  font-weight: 600;
+}
+
+.bbody {
+  font-weight: 500;
+  line-height: 14.63px;
+}
+
+.lrect {
+  width: 457px;
+  height: 90px;
+  border-radius: 22px;
+}
+
+.licon {
+  width: 65px;
+  height: 65px;
+  border-radius: 10px;
+}
+
+.lbody {
+  font-weight: 500;
+}
+
+.accard {
+  width: 310px;
+  height: 64px;
+  border-radius: 18px;
+}
+
+.acbar {
+  width: 8px;
+  height: 38px;
+  border-radius: 10px;
+}
+
+.adcard {
+  width: 158px;
+  height: 76px;
+  border-radius: 10px;
+}
+
+.adbar {
+  width: 10px;
+  height: 76px;
+}
+
+.adnum {
+  font-size: 30px;
+  font-weight: 700;
+}

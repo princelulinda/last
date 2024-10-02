@@ -18,12 +18,7 @@ import {
 } from '../../../core/services';
 import { VariableService } from '../../../core/services/variable/variable.service';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import {
-  LoanModel,
-  LoanPlanResponseModel,
-  PlanModel,
-  ResModel,
-} from '../loan.models';
+import { LoanModel, LoanPlanResponseModel, PlanModel } from '../loan.models';
 
 @Component({
   selector: 'app-loan-plan',
@@ -83,7 +78,7 @@ export class LoanPlanComponent implements OnInit, OnDestroy {
         .getAmortizationPlan(this.loan.id.toString())
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(loanPlan => {
-          const response = loanPlan as { object: LoanPlanResponseModel };
+          const response = loanPlan;
           this.loanPlan = response.object;
         });
     }
@@ -117,7 +112,7 @@ export class LoanPlanComponent implements OnInit, OnDestroy {
           this.dialogService.closeLoading();
 
           // console.log('!!!!!!!!!!!!!!!!RRRRRRRRRRRRRresponse', response);
-          const res = response as { object: ResModel };
+          const res = response;
           if (res.object.success == true) {
             this.dialogService.openToast({
               title: '',

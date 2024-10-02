@@ -117,11 +117,12 @@ a {
 .badge-design {
   min-height: 31px;
   @extend .sm-radius;
-  // @extend .d-flex;
-  // @extend .align-items-center;
-  // @extend .justify-content-center;
+  @extend .d-flex;
+  @extend .align-items-center;
+  @extend .justify-content-center;
   @extend .fw-bold;
   @extend .px-2;
+  @extend .fs-small;
   &.bg-success,
   &.success {
     background-color: #cefdd5 !important;

@@ -55,7 +55,14 @@ export interface WalletDetail {
   code: string;
   available_balance: number;
   currency: 'BIF';
+  wallet_type_title: string;
+  bank_slug: string | null;
+  is_default: boolean;
   account: {
     acc_holder: string;
+  };
+
+  client: {
+    client_email: string | null;
   };
 }

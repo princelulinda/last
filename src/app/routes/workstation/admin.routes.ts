@@ -28,13 +28,17 @@ import { ModalComponent } from '../../components/admin/customer-base/modal/modal
 export const AdminRoutes: Routes = [
   // Operator
   {
-    path: 'operators',
-    component: OperatorsComponent,
-  },
-
-  {
-    path: 'operator/:id',
-    component: OperatorDetailsComponent,
+    path: 'operator',
+    children: [
+      {
+        path: 'operators',
+        component: OperatorsComponent,
+      },
+      {
+        path: 'operator/:id',
+        component: OperatorDetailsComponent,
+      },
+    ],
   },
 
   // Menu
@@ -111,4 +115,11 @@ export const AdminRoutes: Routes = [
   //customer-base
   { path: 'shortcuts', component: ShortcutsComponent },
   { path: 'modal', component: ModalComponent },
+  {
+    path: 'access-required',
+    loadComponent: () =>
+      import(
+        '../../global/components/errors/forbidden-403/forbidden-403.component'
+      ).then(m => m.Forbidden403Component),
+  },
 ];

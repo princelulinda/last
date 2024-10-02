@@ -1,5 +1,5 @@
 @if (!operator?.organization?.is_erp) {
-  <div class="w-100 h-100 overflow-y-auto bg-secondary">
+  <div class="w-100 h-100 overflow-y-auto bg-erp font-montserrat">
     <div class="d-flex justify-content-between align-items-center p-5 bg-white">
       <div class="d-flex flex-column" style="max-width: 512px">
         <span class="fs-xx-large fw-bold text-primary"
@@ -10,9 +10,9 @@
           space.</span
         >
         <div
-          class="p-2 bg-primary rounded-3 px-5 text-all-white fw-bold mt-4 clickable"
+          class="py-2 bg-primary rounded-3 px-5 text-all-white fw-bold mt-4 clickable"
           style="width: fit-content">
-          <span>Get Started</span>
+          <span class="px-3">Get Started</span>
         </div>
       </div>
       <div class="py-2">
@@ -75,8 +75,84 @@
         </span>
       </div>
 
-      <div>
-        <img src="./images/desk/merchants.svg" alt="" />
+      <div class="bcontain shadow-sm">
+        <!-- <img src="./images/desk/merchants.svg" alt="" /> -->
+
+        <div class="d-flex flex-row justify-content-between py-2 ps-4">
+          <div class="position-relative mt-4 ms-5">
+            <div
+              class="circle d-flex justify-content-center align-items-center rounded-circle overflow-hidden bg-primary-3 border-white border position-absolute">
+              <i class="fa-solid fa-file-invoice-dollar text-primary fa-lg"></i>
+            </div>
+
+            <div
+              class="backard border border-primary bg-primary-3 py-1 fs-small ps-2 pe-3 text-all-dark">
+              <div class="w-100 border-bottom border-primary pb-1">
+                <span class="btitle">Merchants bills</span>
+              </div>
+
+              <p class="fs-x-small bbody pt-1">
+                View and manage merchant bills
+              </p>
+            </div>
+          </div>
+
+          <div class="position-relative mt-4 me-4">
+            <div
+              class="circle d-flex justify-content-center align-items-center rounded-circle overflow-hidden bg-primary-3 border-white border position-absolute">
+              <i class="fa-solid fa-cart-shopping text-primary fa-lg"></i>
+            </div>
+
+            <div
+              class="backard border border-primary bg-primary-3 py-1 fs-small ps-2 pe-3 text-all-dark">
+              <div class="w-100 border-bottom border-primary pb-1">
+                <span class="btitle">Merchants</span>
+              </div>
+
+              <p class="fs-x-small bbody pt-1">
+                Manage the profile of partner merchants
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row justify-content-between py-2 ps-4">
+          <div class="position-relative mt-4 ms-5">
+            <div
+              class="circle d-flex justify-content-center align-items-center rounded-circle overflow-hidden bg-primary-3 border-white border position-absolute">
+              <i class="fa-solid fa-list text-primary fa-lg"></i>
+            </div>
+
+            <div
+              class="backard border border-primary bg-primary-3 py-1 fs-small ps-2 pe-3 text-all-dark">
+              <div class="w-100 border-bottom border-primary pb-1">
+                <span class="btitle text-nowrap">Merchants category</span>
+              </div>
+
+              <p class="fs-x-small bbody pt-1">
+                View and configure merchant categories
+              </p>
+            </div>
+          </div>
+
+          <div class="position-relative mt-4 me-4">
+            <div
+              class="circle d-flex justify-content-center align-items-center rounded-circle overflow-hidden bg-primary-3 border-white border position-absolute">
+              <i class="fa-solid fa-user-tie text-primary fa-lg"></i>
+            </div>
+
+            <div
+              class="backard border border-primary bg-primary-3 py-1 fs-small ps-2 pe-3 text-all-dark">
+              <div class="w-100 border-bottom border-primary pb-1">
+                <span class="btitle text-nowrap">Merchants category</span>
+              </div>
+
+              <p class="fs-x-small bbody pt-1">
+                View and configure merchant categories
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -115,15 +191,55 @@
 
       <div class="d-flex flex-column">
         <div>
-          <img src="./images/desk/loans1.svg" alt="" />
+          <div class="lrect shadow-sm px-3 d-flex align-items-center">
+            <div class="d-flex gap-3">
+              <div
+                class="licon bg-primary-3 d-flex align-items-center justify-content-center">
+                <i
+                  class="fa-solid fa-hand-holding-dollar fa-2x text-primary"></i>
+              </div>
+
+              <div class="h-100 fs-medium d-flex flex-column">
+                <span class="btitle">Loans request</span>
+                <span class="lbody">Manage all loan requests.</span>
+              </div>
+            </div>
+          </div>
+          <!-- <img src="./images/desk/loans1.svg" alt="" /> -->
         </div>
 
         <div class="my-4 ps-5">
-          <img src="./images/desk/loans2.svg" alt="" />
+          <div class="lrect shadow-sm px-3 d-flex align-items-center">
+            <div class="d-flex gap-3">
+              <div
+                class="licon bg-primary-3 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-money-bill-1-wave fa-2x text-primary"></i>
+              </div>
+
+              <div class="h-100 fs-medium d-flex flex-column">
+                <span class="btitle">Credit line</span>
+                <span class="lbody text-nowrap"
+                  >Track and manage credit lines granted.</span
+                >
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="ps-5 ms-5">
-          <img src="./images/desk/loans3.svg" alt="" />
+          <div class="lrect shadow-sm px-3 d-flex align-items-center">
+            <div class="d-flex gap-3">
+              <div
+                class="licon bg-primary-3 d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-sack-dollar fa-2x text-primary"></i>
+              </div>
+
+              <div class="h-100 fs-medium d-flex flex-column">
+                <span class="btitle">Loans</span>
+                <span class="lbody">Analyze your overall loan portfolio.</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -184,13 +300,40 @@
         </span>
 
         <span class="fs-l-medium mt-3" style="line-height: 24.38px">
-          Simplify your accounting management: define your accounting plans,
-          manage user access rights and monitor your company's activity.
+          Simplify your accounting manageManagement: define your accounting
+          plans, manage user access rights and monitor your company's activity.
         </span>
       </div>
 
-      <div class="pe-5 me-5">
-        <img src="./images/desk/accounting.svg" alt="" />
+      <div class="pe-5 me-5 d-flex flex-column gap-4">
+        <!-- <img src="./images/desk/accounting.svg" alt="" /> -->
+
+        <div>
+          <div
+            class="accard shadow-sm px-2 d-flex gap-2 flex-row align-items-center">
+            <div class="acbar bg-primary-3"></div>
+
+            <span class="fs-l-medium btitle">Ledger aliases</span>
+          </div>
+        </div>
+
+        <div class="ms-5">
+          <div
+            class="accard shadow-sm px-2 d-flex gap-2 flex-row align-items-center">
+            <div class="acbar bg-primary-3"></div>
+
+            <span class="fs-l-medium btitle">Ledger</span>
+          </div>
+        </div>
+
+        <div class="ms-5 ps-5">
+          <div
+            class="accard shadow-sm px-2 d-flex gap-2 flex-row align-items-center">
+            <div class="acbar bg-primary-3"></div>
+
+            <span class="fs-l-medium btitle">Linkable accounts</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -207,8 +350,91 @@
         </span>
       </div>
 
-      <div>
-        <img src="./images/desk/administration.svg" alt="" />
+      <div class="d-flex flex-column gap-2 pe-3">
+        <!-- <img src="./images/desk/administration.svg" alt="" /> -->
+
+        <div class="d-flex flex-row gap-4 mx-auto">
+          <div
+            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
+            <div class="adbar bg-primary-3 border-end border-primary"></div>
+
+            <div class="d-flex flex-column">
+              <span class="fs-small" style="font-weight: 500">Directions</span>
+
+              <span class="adnum">5</span>
+            </div>
+          </div>
+
+          <div
+            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
+            <div class="adbar bg-primary-3 border-end border-primary"></div>
+
+            <div class="d-flex flex-column">
+              <span class="fs-small" style="font-weight: 500">Menus</span>
+
+              <span class="adnum">10+</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row gap-4">
+          <div
+            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
+            <div class="adbar bg-primary-3 border-end border-primary"></div>
+
+            <div class="d-flex flex-column">
+              <span class="fs-small" style="font-weight: 500">Services</span>
+
+              <span class="adnum">10+</span>
+            </div>
+          </div>
+
+          <div
+            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
+            <div class="adbar bg-primary-3 border-end border-primary"></div>
+
+            <div class="d-flex flex-column">
+              <span class="fs-small" style="font-weight: 500">Shortcuts</span>
+
+              <span class="adnum">10+</span>
+            </div>
+          </div>
+
+          <div
+            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
+            <div class="adbar bg-primary-3 border-end border-primary"></div>
+
+            <div class="d-flex flex-column">
+              <span class="fs-small" style="font-weight: 500">Tellers</span>
+
+              <span class="adnum">100+</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row gap-4 mx-auto pe-5">
+          <div
+            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
+            <div class="adbar bg-primary-3 border-end border-primary"></div>
+
+            <div class="d-flex flex-column">
+              <span class="fs-small" style="font-weight: 500">Operators</span>
+
+              <span class="adnum">100+</span>
+            </div>
+          </div>
+
+          <div
+            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center me-4 shadow-sm">
+            <div class="adbar bg-primary-3 border-end border-primary"></div>
+
+            <div class="d-flex flex-column">
+              <span class="fs-small" style="font-weight: 500">Branches</span>
+
+              <span class="adnum">100+</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -231,261 +457,3 @@
     </div>
   </div>
 }
-
-<!-- @if (!operator?.organization?.is_erp) {
-          <div class="w-100 h-100">
-            <div class="h-25 row d-flex flex-column justify-content-between mb-5">
-              <div class="row position-relative DivImage">
-                <img
-                  src="/images/desk/BgDesk.png"
-                  alt="picture"
-                  title="background picture"
-                  class="image DivImage" />
-                <div class="row position-absolute">
-                  <div class="col-4 me-auto text-start mt-1 mt-md-3">
-                    <span
-                      class="mx-0 mx-md-4 font-montserrat fs-large text-primary fontWDesk"
-                      >Desk</span
-                    >
-                  </div>
-                  <div
-                    class="col-7 col-md-3 text-end text-md-center text-primary mt-1 mt-md-3">
-                    <div class="row d-flex flex-col mx-md-1">
-                      <span class="mb-0 mb-md-1 text-primary fs-5">Ihela Siege</span>
-                      <span class="mb-0 mb-md-1 text-secondary fs-5">Branche</span>
-                      <span class="text-secondary fs-5">Counter 12</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="container h-25">
-                <div class="container">
-                  <div class="row">
-                    <div
-                      class="col-9 col-md-5 d-flex align-items-center justify-content-start justify-content-md-center me-auto bg-primary p-3 rounded-1"
-                      role="button">
-                      <span class="text-light font-calibri fs-large me-2"
-                        >Get started</span
-                      >
-                      <i class="fa-solid fa-arrow-right fs-5 text-light"></i>
-                    </div>
-                    <div class="col-3 col-md-7 h-100"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="container h-100 mb-3">
-              <div
-                class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 gy-4">
-                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-                  <div class="row h-100">
-                    <div class="col-12 col-md-11 border lg-radius HCard">
-                      <div
-                        class="w-100 w-md-75 row d-flex justify-content-center mb-3 mx-auto">
-                        <i
-                          class="fa-solid fa-mobile-screen-button fs-1 text-primary mt-1 mt-md-3 mb-2 mb-md-3 mx-auto"></i>
-                        <h5 class="font-l-medium text-center mb-1 mb-md-3 card-title">
-                          Mobile money
-                        </h5>
-                        <hr class="d-flex bg-primary w-75 my-0" />
-                      </div>
-                      <div class="row">
-                        <div class="col-11 mx-auto overflow-y-hidden p-0">
-                          <p class="font-l-medium text-secondary m-0 card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Proin tempus magna justo. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus, consequat id turpis
-                            sagittis,lacus,consequat. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus,
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-                  <div class="row h-100">
-                    <div class="col-12 col-md-11 border lg-radius HCard">
-                      <div
-                        class="w-100 w-md-75 row d-flex justify-content-center mb-3 mx-auto">
-                        <i
-                          class="fa-solid fa-file-pen fs-1 text-primary mt-1 mt-md-3 mb-2 mb-md-3 mx-auto"></i>
-                        <h5 class="font-l-medium text-center mb-1 mb-md-3 card-title">
-                          Report
-                        </h5>
-                        <hr class="d-flex bg-primary w-75 my-0" />
-                      </div>
-                      <div class="row">
-                        <div class="col-11 mx-auto overflow-hidden p-0">
-                          <p class="font-l-medium text-secondary m-0 card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Proin tempus magna justo. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus, consequat id turpis
-                            sagittis,lacus,consequat. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus,
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-                  <div class="row h-100">
-                    <div class="col-12 col-md-11 border lg-radius HCard">
-                      <div
-                        class="w-100 w-md-75 row d-flex justify-content-center mb-3 mx-auto">
-                        <i
-                          class="fa-solid fa-hand-holding-dollar fs-1 text-primary mt-1 mt-md-3 mb-2 mb-md-3 mx-auto"></i>
-                        <h5 class="font-l-medium text-center mb-1 mb-md-3 card-title">
-                          Loans
-                        </h5>
-                        <hr class="d-flex bg-primary w-75 my-0" />
-                      </div>
-                      <div class="row">
-                        <div class="col-11 mx-auto overflow-hidden p-0">
-                          <p class="font-l-medium text-secondary m-0 card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Proin tempus magna justo. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus, consequat id turpis
-                            sagittis,lacus,consequat. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus,
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-                  <div class="row h-100">
-                    <div class="col-12 col-md-11 border lg-radius HCard">
-                      <div
-                        class="w-100 w-md-75 row d-flex justify-content-center mb-3 mx-auto">
-                        <i
-                          class="fa-solid fa-money-bill-trend-up fs-1 text-primary mt-1 mt-md-3 mb-2 mb-md-3 mx-auto"></i>
-                        <h5 class="font-l-medium text-center mb-1 mb-md-3 card-title">
-                          Accounting
-                        </h5>
-                        <hr class="d-flex bg-primary w-75 my-0" />
-                      </div>
-                      <div class="row">
-                        <div class="col-11 mx-auto overflow-hidden p-0">
-                          <p class="font-l-medium text-secondary m-0 card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Proin tempus magna justo. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus, consequat id turpis
-                            sagittis,lacus,consequat. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus,
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-                  <div class="row h-100">
-                    <div class="col-12 col-md-11 border lg-radius HCard">
-                      <div
-                        class="w-100 w-md-75 row d-flex justify-content-center mb-3 mx-auto">
-                        <i
-                          class="fa-solid fa-user-tie fs-1 text-primary mt-1 mt-md-3 mb-2 mb-md-3 mx-auto"></i>
-                        <h5 class="font-l-medium text-center mb-1 mb-md-3 card-title">
-                          Admnistration
-                        </h5>
-                        <hr class="d-flex bg-primary w-75 my-0" />
-                      </div>
-                      <div class="row">
-                        <div class="col-11 mx-auto overflow-hidden p-0">
-                          <p class="font-l-medium text-secondary m-0 card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Proin tempus magna justo. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus, consequat id turpis
-                            sagittis,lacus,consequat. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus,
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-                  <div class="row h-100">
-                    <div class="col-12 col-md-11 border lg-radius HCard">
-                      <div
-                        class="w-100 w-md-75 row d-flex justify-content-center mb-3 mx-auto">
-                        <i
-                          class="fa-solid fa-users-between-lines fs-1 text-primary mt-1 mt-md-3 mb-2 mb-md-3 mx-auto"></i>
-                        <h5 class="font-l-medium text-center mb-1 mb-md-3 card-title">
-                          Clients
-                        </h5>
-                        <hr class="d-flex bg-primary w-75 my-0" />
-                      </div>
-                      <div class="row">
-                        <div class="col-11 mx-auto overflow-hidden p-0">
-                          <p class="font-l-medium text-secondary m-0 card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Proin tempus magna justo. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus, consequat id turpis
-                            sagittis,lacus,consequat. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus,
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-                  <div class="row h-100">
-                    <div class="col-12 col-md-11 border lg-radius HCard">
-                      <div
-                        class="w-100 w-md-75 row d-flex justify-content-center mb-3 mx-auto">
-                        <i
-                          class="fa-solid fa-gear fs-1 text-primary mt-1 mt-md-3 mb-2 mb-md-3 mx-auto"></i>
-                        <h5 class="font-l-medium text-center mb-1 mb-md-3 card-title">
-                          Operations
-                        </h5>
-                        <hr class="d-flex bg-primary w-75 my-0" />
-                      </div>
-                      <div class="row">
-                        <div class="col-11 mx-auto overflow-hidden p-0">
-                          <p class="font-l-medium text-secondary m-0 card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Proin tempus magna justo. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus, consequat id turpis
-                            sagittis,lacus,consequat. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus,
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-                  <div class="row h-100">
-                    <div class="col-12 col-md-11 border lg-radius HCard">
-                      <div
-                        class="w-100 w-md-75 row d-flex justify-content-center mb-3 mx-auto">
-                        <i
-                          class="fa-solid fa-receipt fs-1 text-primary mt-1 mt-md-3 mb-2 mb-md-3 mx-auto"></i>
-                        <h5 class="font-l-medium text-center mb-1 mb-md-3 card-title">
-                          Invoice
-                        </h5>
-                        <hr class="d-flex bg-primary w-75 my-0" />
-                      </div>
-                      <div class="row">
-                        <div class="col-11 mx-auto overflow-hidden p-0">
-                          <p class="font-l-medium text-secondary m-0 card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Proin tempus magna justo. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus, consequat id turpis
-                            sagittis,lacus,consequat. Nam pulvinar at tellus eu tempus.
-                            Proin augue lacus,
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        } -->

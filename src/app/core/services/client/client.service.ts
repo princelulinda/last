@@ -32,11 +32,17 @@ import {
   ClientWorkstationModel,
   IndividualClientModel,
   LanguageWorkstationModel,
+  PrimaryDataModel,
   ResponseDataAfterUpdate,
   ResponseDataForClientModel,
   ResponseDataForCorporateModel,
   ResponseMOdel,
+  SignatoriesAccountsModel,
+  SignatoriesConfigsModel,
+  SignatoriesModel,
+  SignatoryGroupsModel,
 } from '../../../components/client/client.model';
+import { PaginationConfig } from '../../../global/models/pagination.models';
 
 @Injectable({
   providedIn: 'root',
@@ -58,7 +64,7 @@ export class ClientService {
     );
   }
 
-  getWallets(clientId: number): Observable<{ objects: WalletList[] }> {
+  getWallets(clientId: number | string): Observable<{ objects: WalletList[] }> {
     const url = `/dbs/wallets/?client_id=${clientId}`;
     return this.apiService.get<{ objects: WalletList[] }>(url);
   }
@@ -111,6 +117,17 @@ export class ClientService {
       pin,
     };
     return this.apiService.post(url, body).pipe(
+      map(response => {
+        return response as ResponseMOdel;
+      })
+    );
+  }
+
+  makeNumberOrEmailPrimary(
+    id: number,
+    primary: PrimaryDataModel
+  ): Observable<ResponseMOdel> {
+    return this.apiService.patch('/client/extid/' + id + '/', primary).pipe(
       map(response => {
         return response as ResponseMOdel;
       })
@@ -355,5 +372,76 @@ export class ClientService {
           return data as { object: ResponseDataAfterUpdate };
         })
       );
+  }
+
+  addSignatoryConfig(body: object) {
+    const url = '/client/erp-signatories-configs/';
+    return this.apiService
+      .post<SignatoriesConfigsModel>(url, body)
+      .pipe(map(response => response));
+  }
+
+  getSignaroryConfigList(pagination?: PaginationConfig) {
+    return this.apiService
+      .get<{
+        objects: SignatoriesConfigsModel[];
+        count: number;
+      }>(
+        `/client/erp-signatories-configs/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`
+      )
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+
+  getSignaroryConfigDetails(configurationId: number) {
+    return this.apiService
+      .get<{
+        object: SignatoriesConfigsModel;
+      }>(`/client/erp-signatories-configs/${configurationId}/`)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+
+  getSignaroryConfigGroups() {
+    return this.apiService
+      .get<{ objects: SignatoryGroupsModel[] }>(`/client/erp-signatory-groups/`)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+  getSignarories() {
+    return this.apiService
+      .get<{ object: SignatoriesModel }>(`/client/erp-signatories/`)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+  getSignaroriesAccounts() {
+    return this.apiService
+      .get<{
+        object: SignatoriesAccountsModel;
+      }>(`/client/erp-signatories-accounts/`)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+
+  addSignatoryGroups(body: object) {
+    const url = '/client/erp-signatory-groups/';
+    return this.apiService
+      .post<{ object: SignatoryGroupsModel }>(url, body)
+      .pipe(map(response => response));
   }
 }

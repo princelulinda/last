@@ -1,38 +1,50 @@
 <div class="container-fluid">
   <div class="row mb-2">
-    <div class="col-12 col-sm-6 col-md-4 col-lg-5 me-auto mb-2">
-      <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search.."
-          aria-label="Search"
-          [formControl]="search"
-          (keydown.enter)="searchProducts(search.value)"
-          (input)="searchProducts(search.value)"
-          aria-describedby="basic-addon2" />
-        <div
-          class="input-group-append bg-dark d-flex align-items-center"
-          role="button"
-          (click)="searchProducts(search.value)"
-          tabindex="0">
-          @if (!isLoading) {
-            <span class="px-3">
-              <i class="fa-solid fa-search text-light"></i>
-            </span>
-          } @else if (isLoading) {
-            <span class="px-3">
-              <i class="fa-solid fa-pulse px-1 fa-circle-notch text-white"></i>
-            </span>
-          }
+    @if (!selectedProduct) {
+      <div class="col-12 col-sm-6 col-md-4 col-lg-5 me-auto mb-2">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search.."
+            aria-label="Search"
+            [formControl]="search"
+            (keydown.enter)="searchProducts(search.value)"
+            (input)="searchProducts(search.value)"
+            aria-describedby="basic-addon2" />
+          <div
+            class="input-group-append bg-dark d-flex align-items-center"
+            role="button"
+            (click)="searchProducts(search.value)"
+            tabindex="0">
+            @if (!isLoading) {
+              <span class="px-3">
+                <i class="fa-solid fa-search text-light"></i>
+              </span>
+            } @else if (isLoading) {
+              <span class="px-3">
+                <i
+                  class="fa-solid fa-pulse px-1 fa-circle-notch text-white"></i>
+              </span>
+            }
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-7 col-lg-6 col-xl-7 col-xxl-6">
+    }
+    <div
+      class=""
+      [ngClass]="{
+        'col-12 col-sm-6 col-md-7 col-lg-6 col-xl-7 col-xxl-6':
+          !selectedProduct,
+        'col-12': selectedProduct,
+      }">
       <div class="col-11 col-sm-12 mx-auto">
         <div class="row">
           <div
-            class="col-3 col-md-2 col-lg-3 col-xl-2 bg-secondary xx-lg-radius p-1 d-flex justify-content-center me-auto">
+            class="col-3 col-md-2 col-lg-3 col-xl-2 bg-secondary xx-lg-radius p-1 d-flex justify-content-center me-auto"
+            [ngClass]="{
+              'd-none d-block': selectedProduct,
+            }">
             <div class="d-flex justify-content-center align-items-center">
               <span class="me-2 fw-normal font-calibri fs-normal" i18n
                 >Filter</span
@@ -41,7 +53,11 @@
             </div>
           </div>
           <div
-            class="col-6 col-md-8 col-xl-1 p-1 d-flex justify-content-end align-items-center"
+            class="p-1 d-flex align-items-center"
+            [ngClass]="{
+              'col-2 col-lg-1 ms-auto': selectedProduct,
+              'col-6 col-md-8 col-xl-1 justify-content-end': !selectedProduct,
+            }"
             role="button"
             routerLink="/m/mymarket">
             <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
@@ -55,51 +71,278 @@
 </div>
 
 <div class="container-fluid">
-  <div
-    class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-5">
-    @if (isLoading && products) {
-      <div>
+  @if (!selectedProduct) {
+    <div
+      class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-5">
+      @if (isLoading && products) {
+        <div>
+          <div class="row">
+            @for (item of [1, 2, 3]; track $index) {
+              <div class="d-grid mb-3 col-auto">
+                <div class="d-grid me-3">
+                  <span>
+                    <app-skeleton
+                      height="130px"
+                      width="130px"
+                      classes="sm-radius"></app-skeleton>
+                  </span>
+                </div>
+                <div class="d-grid">
+                  <span class="">
+                    <app-skeleton
+                      height="10px"
+                      width="100px"
+                      classes="sm-radius"></app-skeleton>
+                  </span>
+                  <span class="">
+                    <app-skeleton
+                      height="10px"
+                      width="100px"
+                      classes="sm-radius"></app-skeleton>
+                  </span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      } @else if (!isLoading && products && products.length > 0) {
+        @for (product of products; track $index) {
+          <app-product-card
+            [product]="product"
+            [action]="action"
+            [disabledFavoriteAction]="disabledFavoriteAction"
+            (selectedProductEvent)="selectProduct($event)"></app-product-card>
+        }
+      } @else if (products && products.length === 0) {
         <div class="row">
-          @for (item of [1, 2, 3]; track $index) {
-            <div class="d-grid mb-3 col-auto">
-              <div class="d-grid me-3">
-                <span>
-                  <app-skeleton
-                    height="130px"
-                    width="130px"
-                    classes="sm-radius"></app-skeleton>
-                </span>
-              </div>
-              <div class="d-grid">
-                <span class="">
-                  <app-skeleton
-                    height="10px"
-                    width="100px"
-                    classes="sm-radius"></app-skeleton>
-                </span>
-                <span class="">
-                  <app-skeleton
-                    height="10px"
-                    width="100px"
-                    classes="sm-radius"></app-skeleton>
-                </span>
-              </div>
+          <span class="col-8 mt-5">
+            <app-empty-state [searchType]="searchType"></app-empty-state>
+          </span>
+        </div>
+      }
+    </div>
+  } @else if (selectedProduct) {
+    <section class="d-grid gap-4">
+      <div class="d-flex gap-3">
+        <div class="bg-secondary p-4 sm-radius">
+          <span>
+            <i class="fa-solid fa-mountain-sun fa-lg text-secondary"></i>
+          </span>
+        </div>
+        <div class="d-flex-flex-column">
+          <b class="fs-medium">{{ product.lookup_title }}</b>
+          <div class="text-secondary">Category</div>
+          @if (selectedMerchant) {
+            <div class="text-primary-2">
+              {{ product.price ?? supplier.product.measure.price }}
             </div>
+          } @else if (!selectedMerchant) {
+            <span>
+              <i class="fa-solid fa-spin fa-circle-notch fs-5 text-dark"></i>
+            </span>
           }
         </div>
       </div>
-    } @else if (!isLoading && products && products.length > 0) {
-      @for (product of products; track $index) {
-        <app-product-card
-          [product]="product"
-          [disabledFavoriteAction]="disabledFavoriteAction"></app-product-card>
+
+      @if (!selectedMerchant) {
+        <div class="col-9 col-sm-5 col-md-4">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search.."
+              aria-label="Search"
+              [formControl]="search"
+              (keydown.enter)="searchProducts(search.value)"
+              (input)="searchProducts(search.value)"
+              aria-describedby="basic-addon2" />
+            <div
+              class="input-group-append d-flex align-items-center"
+              role="button"
+              (click)="searchProducts(search.value)"
+              tabindex="0">
+              @if (!isLoading) {
+                <span class="px-3">
+                  <i class="fa-solid fa-search fa-lg text-secondary"></i>
+                </span>
+              } @else if (isLoading && !suppliers) {
+                <span class="px-3">
+                  <i
+                    class="fa-solid fa-pulse px-1 fa-circle-notch text-secondary"></i>
+                </span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="d-flex flex-wrap justify-content-center justify-content-sm-start gap-4">
+          @if (suppliers) {
+            @for (item of suppliers; track $index) {
+              <div
+                class="merchant-card bg-secondary position-relative d-grid gap-3 sm-radius"
+                role="button"
+                (click)="selectSupplier(item)"
+                tabindex="0">
+                <div class="row">
+                  <div
+                    class="col-3 border border-white border-5 bg-secondary rounded-circle position-absolute top-0 start-0 translate-middle-y ms-2">
+                    <span
+                      class="w-100 py-2 d-flex justify-content-center align-itmes-center">
+                      <i class="fa-solid fa-warehouse fa-lg text-secondary"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="d-flex flex-column ms-3">
+                  <b>{{ item.provider.client.client_full_name }}</b>
+                  <small>{{ item.provider.client.client_id }}</small>
+                </div>
+              </div>
+            }
+          } @else if (!suppliers) {
+            <div
+              class="d-flex flex-wrap justify-content-center justify-content-sm-start gap-4">
+              @for (item of [1, 2, 3, 4]; track $index) {
+                <app-skeleton
+                  height="100px"
+                  width="200px"
+                  classes="sm-radius"></app-skeleton>
+              }
+            </div>
+          }
+        </div>
+      } @else if (selectedMerchant) {
+        <div class="d-flex flex-column gap-5">
+          <div class="d-flex flex-column gap-3">
+            <b class="text-primary">Supplier Selected</b>
+            <div class="d-flex flex-row gap-3">
+              <div
+                class="selectedMerchant-card bg-secondary sm-radius d-flex gap-4 py-2">
+                <div
+                  class="col-2 border border-white border-5 bg-secondary rounded-circle d-flex align-items-center ms-2">
+                  <span class="w-100 d-flex justify-content-center">
+                    <i class="fa-solid fa-warehouse text-secondary"></i>
+                  </span>
+                </div>
+                <div class="d-flex flex-column align-self-center">
+                  <b>{{ supplier.provider.client.client_full_name }}</b>
+                  <small>{{ supplier.provider.client.client_id }}</small>
+                </div>
+              </div>
+              <div
+                class="bg-primary sm-radius p-3 px-4 d-flex align-items-center">
+                <i class="fa-solid fa-delete-left fa-lg text-white"></i>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-column gap-4">
+            <div class="row">
+              <div class="col-9 col-sm-5 col-md-4 col-lg-5 col-xl-4">
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="25.."
+                    aria-label="value"
+                    aria-describedby="basic-addon2" />
+                  <div
+                    class="input-group-append d-flex align-items-center border-start border-2"
+                    role="button"
+                    tabindex="0">
+                    <select
+                      class="form-select form-control"
+                      aria-label="value"
+                      aria-describedby="basic-addon2">
+                      <option>{{ supplier.product.measure.suffix }}</option>
+                      <option>l</option>
+                      <option>per</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-xxl-5">
+              <div class="col-9 col-sm-5 col-md-4 col-lg-5 col-xl-4">
+                <input type="pin" class="form-control" placeholder="PIN" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center gap-4 mt-5">
+          <button class="btn text-dark">
+            <b>Cancel</b>
+          </button>
+          <button class="btn bg-primary px-3 px-sm-5 text-white">
+            <b>Confirm</b>
+          </button>
+          <button
+            class="btn border-primary text-primary px-2 px-sm-4"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop">
+            <b>Add to group</b>
+          </button>
+        </div>
       }
-    } @else if (products && products.length === 0) {
-      <div class="row">
-        <span class="col-8 mt-5">
-          <app-empty-state [searchType]="searchType"></app-empty-state>
-        </span>
+    </section>
+  }
+</div>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="true"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content modal-card">
+      <div class="modal-body">
+        <div class="row">
+          <button
+            type="button"
+            class="btn-close ms-auto"
+            data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="d-flex flex-column">
+          <div class="text-center text-dark">Add to Group</div>
+          <div class="col-9 mt-5 mx-auto">
+            <div class="row bg-secondary py-3 rounded-top" role="button">
+              <div class="col-11 mx-auto">
+                <div class="row">
+                  <div class="col-10 col-sm-11">
+                    <span class="text-dark">New Group</span>
+                  </div>
+                  <div class="col-1">
+                    <div class="d-flex justify-content-end mt-1">
+                      <i class="fa-solid fa-chevron-right text-dark"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="row bg-secondary py-3 mt-1 rounded-bottom"
+              role="button">
+              <div class="col-11 mx-auto">
+                <div class="row">
+                  <div class="col-10 col-sm-11">
+                    <span class="text-dark">Add to Group</span>
+                  </div>
+                  <div class="col-1">
+                    <div class="d-flex justify-content-end mt-1">
+                      <i class="fa-solid fa-chevron-right text-dark"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    }
+    </div>
   </div>
 </div>

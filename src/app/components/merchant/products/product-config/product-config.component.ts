@@ -169,8 +169,7 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
       .getMetadata(searchValue, this.pagination)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: response => {
-          const data = response as { objects: MetadataModel[]; count: number };
+        next: (data: { objects: MetadataModel[]; count: number }) => {
           this.metadata = data;
           this.count = data.count;
           this.loadingData = false;
@@ -384,15 +383,14 @@ export class ProductConfigComponent implements OnInit, OnDestroy {
     };
 
     this.merchantService.updateProductInfo(body).subscribe({
-      next: result => {
-        const response = result as {
-          object: {
-            success: boolean;
-            response_message: string;
-            response_code: string;
-            response_data: UpdateProdcutInfoModel;
-          };
+      next: (response: {
+        object: {
+          success: boolean;
+          response_message: string;
+          response_code: string;
+          response_data: UpdateProdcutInfoModel;
         };
+      }) => {
         this.isLoading = false;
 
         this.dialogService.closeLoading();

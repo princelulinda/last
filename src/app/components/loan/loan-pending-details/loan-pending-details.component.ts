@@ -11,14 +11,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { BankModel } from '../../../core/db/models/bank/bank.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import {
-  LoanModel,
-  LoanPlanResponseModel,
-  PlanModel,
-  ResModel,
-  SimulationResDataModel,
-  SimulationResModel,
-} from '../loan.models';
+import { LoanModel, PlanModel, SimulationResModel } from '../loan.models';
 import { LoanPlanComponent } from '../loan-plan/loan-plan.component';
 
 @Component({
@@ -97,7 +90,7 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
       .getLoanRequestDetails(this.loanId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(loan => {
-        const res = loan as { object: LoanModel };
+        const res = loan;
 
         this.loan = res.object;
 
@@ -116,7 +109,7 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
       .getAmortizationPlan(this.loanId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(loanPlan => {
-        const result = loanPlan as { object: LoanPlanResponseModel };
+        const result = loanPlan;
         this.loanPlan = result.object.response_data;
       });
   }
@@ -133,7 +126,7 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
       next: response => {
         this.dialogService.closeLoading();
 
-        const res = response as { object: ResModel };
+        const res = response;
         if (res.object.success === true) {
           this.getLoanAmmortissmentPlan();
           this.getLoanDetails();
@@ -186,7 +179,7 @@ export class LoanPendingDetailsComponent implements OnInit, DoCheck, OnDestroy {
 
       this.loanService.simulateLoan(data).subscribe({
         next: result => {
-          const response = result as { object: SimulationResDataModel };
+          const response = result;
 
           this.simulationResult = response.object.response_data;
         },

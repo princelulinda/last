@@ -36,7 +36,12 @@ export class CounterComponent implements OnInit, OnDestroy {
   ];
 
   searchCounter = new FormControl('');
-  pagination = new PaginationConfig();
+  pagination: PaginationConfig = {
+    filters: {
+      limit: 10,
+      offset: 0,
+    },
+  };
   canMoveToPrev = false;
   canMoveToNext = true;
   currentPage = 0;
@@ -69,7 +74,6 @@ export class CounterComponent implements OnInit, OnDestroy {
 
   getCounters(searchValue = '') {
     this.isLoading = true;
-    this.pagination.filters.limit = 15;
 
     if (searchValue !== '') {
       // reset offset when we search

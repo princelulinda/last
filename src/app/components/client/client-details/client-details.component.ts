@@ -22,9 +22,14 @@ import { MailModel } from '../../settings/settings.models';
 import { ClientProfileInfoComponent } from '../client-profile-info/client-profile-info.component';
 import { ClientGeneralInformationsComponent } from '../client-general-informations/client-general-informations.component';
 import { ClientSensitiveInfoComponent } from '../client-sensitive-info/client-sensitive-info.component';
+import { ClientContactsComponent } from '../client-contacts/client-contacts.component';
+
 import { SelectedClientSmallOverviewComponent } from '../selected-client-small-overview/selected-client-small-overview.component';
 import { ClientAccountListComponent } from '../client-account-list/client-account-list.component';
 import { RouterOutlet } from '@angular/router';
+import { ClientWalletListComponent } from '../client-wallet-list/client-wallet-list.component';
+
+import { SignaturesComponent } from '../signatures/signatures.component';
 @Component({
   selector: 'app-client-details',
   standalone: true,
@@ -35,8 +40,11 @@ import { RouterOutlet } from '@angular/router';
     ClientGeneralInformationsComponent,
     ClientSensitiveInfoComponent,
     SelectedClientSmallOverviewComponent,
+    ClientContactsComponent,
     ClientAccountListComponent,
+    ClientWalletListComponent,
     RouterOutlet,
+    SignaturesComponent,
   ],
   templateUrl: './client-details.component.html',
   styleUrl: './client-details.component.scss',
@@ -87,6 +95,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   isGeneralInfoFormShown = false;
   isTaxAdditionShown = false;
   choosenAccount: AccountsListModel | AccountsListModel[] | null = null;
+  choosenWallet: WalletList | WalletList[] | null = null;
   inputActive = false;
   loadingSector = false;
   showLanguageCheckBox = false;
@@ -143,11 +152,17 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     console.log('Compte sélectionné :', account);
   }
 
+  handleWalletSelected(wallet: WalletList) {
+    this.choosenWallet = wallet;
+
+    console.log('Compte sélectionné :', wallet);
+  }
+
   selectMenu(menu: string) {
     this.selectedMenu = menu;
     if (menu === 'accounts' && this.accounts) {
       this.router.navigate([
-        '/w/workstation/d/desk/details/' +
+        '/b/banking/client-details/' +
           this.clientId +
           '/account/' +
           this.accounts[0]?.id,
@@ -155,7 +170,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     }
     if (menu === 'wallets' && this.wallets) {
       this.router.navigate([
-        '/w/workstation/desk/client/details/' +
+        '/w/workstation/d/desk/details/' +
           this.clientId +
           '/wallet/' +
           this.wallets[0]?.id,
@@ -164,7 +179,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
 
     if (menu === 'settings') {
       this.router.navigate([
-        '/w/workstation/desk/client/details/' + this.clientId + '/settings',
+        '/b/banking/client-details/' + this.clientId + '/settings',
       ]);
     }
     if (

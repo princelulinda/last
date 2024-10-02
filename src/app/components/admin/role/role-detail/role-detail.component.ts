@@ -101,8 +101,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const res = data as { object: RoleModel };
-          console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', res.object);
+          const res = data;
 
           this.roleDetails = res.object;
           this.role = new FormControl(res.object.content_object.value);
@@ -126,13 +125,8 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const res = data as { objects: RoleMenuModel[] };
-          console.log('######################', res);
+          const res = data;
           this.roleMenuIds = this.getAllIds(res.objects, 'menu.id');
-          console.log(
-            '!!!!!!!!!!!!!!!!!!!!!!!11111111111111111111111111',
-            this.roleMenuIds
-          );
         },
         error: error => {
           return error;
@@ -145,8 +139,6 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
     const body = {
       menus: this.menus as AutocompleteModel[],
     };
-
-    console.log('Body of Assign Role Menus:', body);
 
     this.adminService.assignRoleMenus(this.roleId, body).subscribe({
       next: data => {
