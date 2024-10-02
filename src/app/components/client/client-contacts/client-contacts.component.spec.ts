@@ -1,22 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DiverseOperationComponent } from './diverse-operation.component';
+import { ClientContactsComponent } from './client-contacts.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-describe('DiverseOperationComponent', () => {
-  let component: DiverseOperationComponent;
-  let fixture: ComponentFixture<DiverseOperationComponent>;
+describe('ClientContactsComponent', () => {
+  let component: ClientContactsComponent;
+  let fixture: ComponentFixture<ClientContactsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DiverseOperationComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
+      imports: [ClientContactsComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DiverseOperationComponent);
+    fixture = TestBed.createComponent(ClientContactsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -37,6 +37,7 @@ import { AutocompleteModel } from '../../../../global/models/global.models';
 import { PageMenusModel } from '../../menu/menu.models';
 import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
 import { MultiSelectComponent } from '../../../../global/components/custom-field/multi-select/multi-select.component';
+import { ProfileCardComponent } from '../../../../global/components/custom-field/profile-card/profile-card.component';
 
 @Component({
   selector: 'app-operator-details',
@@ -47,6 +48,7 @@ import { MultiSelectComponent } from '../../../../global/components/custom-field
     MultiSelectComponent,
     RouterLink,
     PaginationComponent,
+    ProfileCardComponent,
   ],
   templateUrl: './operator-details.component.html',
   styleUrl: './operator-details.component.scss',
@@ -168,13 +170,13 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
           {
             icon: 'circle-info',
             title: 'Operator Info',
-            url: `/w/workstation/a/admin/operator/${this.operatorOrganizationId}`,
+            url: `/w/workstation/a/admin/operator/operator/${this.operatorOrganizationId}`,
             icon_classes: 'fs-medium',
           },
           {
             icon: 'universal-access',
             title: 'Operators Details',
-            url: `/w/workstation/a/admin/operator/${this.operatorOrganizationId}`,
+            url: `/w/workstation/a/admin/operator/operator/${this.operatorOrganizationId}`,
             fragment: 'details',
             icon_classes: 'fs-medium',
           },
@@ -851,7 +853,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
   }
 
   redirectTo(url: string) {
-    return `/w/workstation/a/admin/${url}`;
+    return `/w/workstation/a/admin/operator/${url}`;
   }
 
   ngOnDestroy(): void {

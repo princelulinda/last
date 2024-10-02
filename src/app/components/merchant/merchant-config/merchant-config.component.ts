@@ -426,10 +426,12 @@ export class MerchantConfigComponent implements OnInit {
     };
     this.get_tellers = false;
     if (search) {
-      this.merchantService.searchTellersByMerchant(data).subscribe((tellers: tellersModel) => {
-        this.isLoading = false;
-        this.tellers = tellers.objects;
-      });
+      this.merchantService
+        .searchTellersByMerchant(data)
+        .subscribe((tellers: tellersModel) => {
+          this.isLoading = false;
+          this.tellers = tellers.objects;
+        });
     } else {
       this.getTellersByMerchant();
     }

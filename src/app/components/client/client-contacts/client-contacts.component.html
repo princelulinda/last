@@ -1,0 +1,374 @@
+<div>
+  <!-- Phone number section -->
+  <div>
+    <div class="row">
+      <div class="col pt-3 d-flex">
+        <span class="fs-2 text-primary">•</span>
+
+        <span class="ms-1 pt-2 text-dark fs-medium" i18n>Phone number</span>
+      </div>
+      <div class="col d-flex pt-4 justify-content-end">
+        @if (canAddPhoneNumber) {
+          <span>
+            <span
+              role="button"
+              class="text-dark"
+              (click)="addPhoneNumber()"
+              tabindex="0"
+              i18n>
+              Add
+              <i class="fa-solid fa-circle-plus text-success"></i></span
+          ></span>
+        }
+        <span
+          class="ms-5 text-dark"
+          role="button"
+          title="Refresh"
+          (click)="refreshContact('phoneNumber')"
+          tabindex="0"
+          i18n
+          ><i
+            class="fa-solid fa-arrows-rotate text-dark"
+            style="opacity: 0.7"></i
+        ></span>
+      </div>
+    </div>
+    <div class="bg-white p-3 lg-radius" style="margin-top: 10px">
+      @if (!newPhoneNumber) {
+        <div>
+          <div class="row w-100 text-dark d-flex mt-3">
+            <div class="col-2" i18n></div>
+            <div class="col-4 ms-3" i18n>Phone</div>
+            <div class="col-3" i18n>Level</div>
+            <div class="col" i18n>Status</div>
+          </div>
+          @if (!phoneNumbers) {
+            <div
+              class="row text-center align-items-center d-flex"
+              style="height: 20vh">
+              <span>
+                <i class="fa-solid fa-spin text-dark fa-circle-notch fs-2"></i>
+              </span>
+            </div>
+          }
+          @if (phoneNumbers) {
+            <div>
+              @for (number of phoneNumbers; track $index) {
+                <div
+                  class="w-100 bg-secondary border mt-3 miniSect2 p-3 align-items-center lg-radius">
+                  <div class="row d-flex justify-content-between">
+                    <div class="col-2 text-dark dropdown" role="button">
+                      <span
+                        class=""
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="fa-solid fa-bars" style="opacity: 0.8"></i>
+                      </span>
+                      <ul class="dropdown-menu px-2" style="width: 200px">
+                        <li
+                          i18n
+                          role="button"
+                          class="operation sm-radius p-1"
+                          (click)="
+                            makeNumberOrEmailPrimary(number, 'phoneNumber')
+                          "
+                          tabindex="0">
+                          @if (number.is_primary) {
+                            <span class="text-dark"
+                              >Remove the primary on this number</span
+                            >
+                          }
+                          @if (!number.is_primary) {
+                            <span class="text-dark"
+                              >Make this number primary</span
+                            >
+                          }
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="col-4 text-dark text-truncate">
+                      @if (
+                        !contactId ||
+                        (contactId && contactId.ident !== number.ident)
+                      ) {
+                        <span [title]="number.ident">{{ number.ident }}</span>
+                      }
+                    </div>
+
+                    <div
+                      class="col-3 fw-bold d-flex align-items-center text-primary"
+                      i18n>
+                      @if (number && number.is_primary === true) {
+                        <span>
+                          Primary
+                          <i class="fa-solid fa-check-double text-primary"></i
+                        ></span>
+                      }
+                    </div>
+                    <div
+                      class="col fw-bold d-flex justify-content-between position-relative">
+                      @if (number.is_verified) {
+                        <span
+                          class="badge-design bg-success px-4 p-1 text-center sm-radius border"
+                          i18n
+                          >Verified</span
+                        >
+                      }
+                      @if (!number.is_verified) {
+                        <span
+                          class="badge-design bg-danger p-1 text-center sm-radius border"
+                          i18n
+                          >Not Verified</span
+                        >
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+              <br />
+            </div>
+          }
+          @if (phoneNumbers?.length === 0) {
+            <div
+              class="fw-bold row align-items-center fs-5 justify-content-center d-flex text-dark"
+              style="height: 20vh; opacity: 0.4"
+              i18n>
+              No phone number available
+            </div>
+          }
+        </div>
+      }
+      @if (newPhoneNumber) {
+        <div class="mt-2">
+          <div class="d-flex text-center">
+            <div class="rounded text-dark">
+              <input
+                class="form-control input text-dark"
+                type="tel"
+                [formControl]="phoneNumber"
+                placeholder="+257 7*******" />
+            </div>
+
+            <div class="ms-3">
+              <button
+                type="submit"
+                (click)="openPinPopup('phoneNumber')"
+                tabindex="0"
+                [disabled]="!phoneNumber.valid"
+                title="add a phone number"
+                i18n
+                class="btn bg-primary text-light">
+                @if (!loading) {
+                  <span> Add</span>
+                }
+                @if (loading) {
+                  <span>
+                    <i
+                      class="fa-solid fa-spin text-light fa-circle-notch fs-5"></i>
+                  </span>
+                }
+              </button>
+
+              <b
+                role="button"
+                class="ms-4 text-dark"
+                (click)="newPhoneNumber = false"
+                tabindex="0"
+                i18n
+                >Cancel</b
+              >
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Email section -->
+
+  <div>
+    <div class="row mt-1">
+      <div class="col d-flex">
+        <span class="fs-2 pt-3 text-primary">•</span>
+        <span class="ms-1 pt-4 text-dark text-md" i18n> Email</span>
+      </div>
+      <div class="col d-flex pt-4 justify-content-end">
+        @if (canAddEmail) {
+          <span>
+            <span
+              role="button"
+              class="text-dark"
+              (click)="addAccount()"
+              tabindex="0"
+              i18n>
+              Add
+              <i class="fa-solid fa-circle-plus text-success"></i></span
+          ></span>
+        }
+        <span
+          class="ms-5 text-dark"
+          role="button"
+          title="Refresh"
+          (click)="refreshContact('email')"
+          tabindex="0"
+          i18n
+          ><i
+            class="fa-solid fa-arrows-rotate text-dark"
+            style="opacity: 0.7"></i
+        ></span>
+      </div>
+    </div>
+    <div class="bg-white p-3 lg-radius" style="margin-top: 10px">
+      @if (!newAccount) {
+        <div>
+          <div class="row w-100 text-dark d-flex mt-3">
+            <div class="col-2"></div>
+            <div class="col-4 ms-3" style="margin-left: 20px" i18n>Email</div>
+            <div class="col-3" i18n>Level</div>
+            <div class="col" i18n>Status</div>
+          </div>
+          @if (!emails) {
+            <div
+              class="row text-center align-items-center d-flex"
+              style="height: 20vh">
+              <span>
+                <i class="fa-solid fa-spin text-dark fa-circle-notch fs-2"></i>
+              </span>
+            </div>
+          }
+          @if (emails) {
+            <div>
+              @for (emailsData of emails; track $index) {
+                <div
+                  class="w-100 bg-secondary border miniSect1 mt-3 p-3 align-items-center lg-radius">
+                  @if (emails.length === 0) {
+                    <div
+                      class="fw-bold row align-items-center fs-5 justify-content-center d-flex text-dark"
+                      style="height: 20vh; opacity: 0.4"
+                      i18n>
+                      No email account available
+                    </div>
+                  }
+                  <div class="row d-flex justify-content-between">
+                    <div class="col-2 text-dark dropdown" role="button">
+                      <span
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="fa-solid fa-bars" style="opacity: 0.8"></i>
+                      </span>
+                      <ul class="dropdown-menu px-2" style="width: 200px">
+                        <li
+                          i18n
+                          role="button"
+                          class="operation sm-radius p-1"
+                          (click)="
+                            makeNumberOrEmailPrimary(emailsData, 'email')
+                          "
+                          tabindex="0">
+                          @if (emailsData.is_primary) {
+                            <span class="text-dark"
+                              >Remove the primary on this email</span
+                            >
+                          }
+                          @if (!emailsData.is_primary) {
+                            <span class="text-dark"
+                              >Make the email primary</span
+                            >
+                          }
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-4 text-dark fw-bold text-truncate">
+                      @if (
+                        !contactId ||
+                        (contactId && contactId.ident !== emailsData.ident)
+                      ) {
+                        <span [title]="emailsData.ident">
+                          {{ emailsData.ident }}
+                        </span>
+                      }
+                    </div>
+                    <div
+                      class="col-3 fw-bold d-flex align-items-center text-primary"
+                      i18n>
+                      @if (emailsData && emailsData.is_primary === true) {
+                        <span
+                          >Primary
+                          <i class="fa-solid fa-check-double text-primary"></i>
+                        </span>
+                      }
+                    </div>
+                    <div class="col d-flex fw-bold position-relative">
+                      @if (emailsData.is_verified) {
+                        <span
+                          class="badge-design bg-success px-4 p-1 text-center sm-radius border"
+                          i18n
+                          >Verified</span
+                        >
+                      }
+                      @if (!emailsData.is_verified) {
+                        <span
+                          class="badge-design bg-danger p-1 text-center sm-radius border"
+                          i18n
+                          >Not Verified</span
+                        >
+                      }
+                    </div>
+                  </div>
+                </div>
+                <br />
+              }
+            </div>
+          }
+        </div>
+      }
+      @if (newAccount) {
+        <div class="mt-2">
+          <div class="d-flex text-center">
+            <div class="rounded text-dark">
+              <input
+                class="form-control input text-dark"
+                type="email"
+                [formControl]="email"
+                mailto:placeholder="myemail@gmail.com" />
+            </div>
+
+            <div class="ms-3">
+              <button
+                (click)="openPinPopup('email')"
+                tabindex="0"
+                type="submit"
+                [disabled]="!email.valid"
+                title="add an account"
+                i18n
+                class="btn bg-primary text-light"
+                i18n>
+                @if (!loading) {
+                  <span> Add</span>
+                }
+                @if (loading) {
+                  <span>
+                    <i
+                      class="fa-solid fa-spin text-light fa-circle-notch fs-5"></i>
+                  </span>
+                }
+              </button>
+
+              <b
+                role="button"
+                class="ms-4 text-dark"
+                (click)="newAccount = false"
+                tabindex="0"
+                i18n
+                >Cancel</b
+              >
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
