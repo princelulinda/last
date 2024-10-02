@@ -150,7 +150,6 @@ export class AuthSignUpComponent implements OnInit {
     }),
   });
   userInfo!: CreateAccountResponseModel;
-  // expiry_date!:string | null | undefined;
   createAccount() {
     this.isLoadingCreation = true;
     const data = {
@@ -199,7 +198,6 @@ export class AuthSignUpComponent implements OnInit {
       (data.card_id as unknown as CardIdDataModel).expiry_date =
         this.multiStepForm.controls.cardInformation.value.expiryDate;
     }
-
     this.dialogService.dispatchLoading();
     this.authService.createAccount(data).subscribe({
       next: (response: CreateAccountResponseModel) => {

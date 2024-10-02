@@ -18,9 +18,7 @@ import {
   AcccountWorkstationModel,
   CreditTypeModel,
   DefaultValuesLoanModel,
-  LoanPendingModel,
   LoanTypeModel,
-  ResponseDataModel,
   // ResponseDataModel,
 } from '../loan.models';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
@@ -195,7 +193,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
 
     this.loanService.requestLoan(body).subscribe({
       next: res => {
-        const response = res as { object: LoanPendingModel };
+        const response = res;
 
         this.isLoading = false;
         if (response.object.amount || response.object.success) {
@@ -237,7 +235,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
 
   getLoansType() {
     this.loanService.getLoanType().subscribe(loansType => {
-      const response = loansType as { objects: LoanTypeModel };
+      const response = loansType;
       this.loansType = response.objects;
     });
   }
@@ -251,7 +249,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
     };
     this.loanService.getLoanTypeInfo(data).subscribe({
       next: loanInfo => {
-        const response = loanInfo as { object: ResponseDataModel };
+        const response = loanInfo;
         this.isLoading = false;
 
         if (response.object.success) {

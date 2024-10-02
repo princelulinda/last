@@ -10,6 +10,7 @@ import {
   LoanPlanResponseModel,
   LoanTypeModel,
   PayLoanModel,
+  ResModel,
   ResponseDataModel,
   SimulateLoanModel,
   SimulationResDataModel,
@@ -75,7 +76,7 @@ export class LoanService {
       .post('/loans/simulation/', body)
       .pipe(map(data => data as { object: SimulationResDataModel }));
   }
-  getLoanDetails(id: string) {
+  getLoanDetails(id: string): Observable<{ object: LoanModel }> {
     return this.apiService.get(`/loans/manage/${id}/`);
   }
   getAmortizationPlan(
@@ -83,7 +84,7 @@ export class LoanService {
   ): Observable<{ object: LoanPlanResponseModel }> {
     return this.apiService.get(`/loans/plan/${id}/`);
   }
-  payLoan(body: PayLoanModel) {
+  payLoan(body: PayLoanModel): Observable<{ object: ResModel }> {
     return this.apiService.post('/loans/clients/plan/payment/', body);
   }
   requestLoan(body: BodyLoanModel): Observable<{ object: LoanPendingModel }> {

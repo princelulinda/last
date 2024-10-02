@@ -1,30 +1,34 @@
 <section class="searchMenu w-100 position-relative">
   @if (selectedItem) {
-    <div class="d-flex border rounded p-2 w-100">
+    <div
+      class="d-flex border rounded p-2 w-100 d-flex justify-content-between align-items-center bg-white">
       <div style="line-height: 18px me-2">
         <div class="d-flex">
           @if (selectedItem.lookup_image && showProfile) {
-            <div style="width: 50px; height: 50px">
+            <div
+              class="rounded-2 pic overflow-hidden d-flex align-items-center justify-content-center bg-secondary border">
               <img
                 [src]="selectedItem.lookup_image"
                 class="image"
-                alt="profile"
-                style="border-radius: 50%" />
+                alt="profile" />
             </div>
           }
-          <div class="text-dark center ms-2">
+
+          @if (!selectedItem.lookup_image && showProfile) {
+            <div
+              class="rounded-2 pic overflow-hidden d-flex align-items-center justify-content-center bg-secondary border">
+              <i class="fa-solid fa-mountain-sun fa-lg"></i>
+            </div>
+          }
+          <div class="text-dark center ms-2 fw-bold">
             <span>{{ selectedItem.lookup_title }}</span
             ><br />
             <span class="subtitle">{{ selectedItem.lookup_subtitle }} </span>
           </div>
         </div>
       </div>
-      <span
-        class="text-danger border-0 position-absolute end-0"
-        style="top: -8px"
-        (click)="deselect()"
-        tabindex="0">
-        <i class="fa-solid fa-circle-xmark"></i>
+      <span class="text-danger clickable" (click)="deselect()" tabindex="0">
+        <i class="fa-regular fa-circle-xmark"></i>
       </span>
     </div>
   }
@@ -80,7 +84,7 @@
 
       @if (showAutoComplete) {
         <div
-          class="autoCompleteItems bg-secondary shadow rounded w-100 shadow py-2 mt-2">
+          class="autoCompleteItems bg-white shadow rounded w-100 shadow py-2 mt-2">
           <div class="list mx-1">
             <div class="d-flex">
               <b class="text-secondary">{{ label }} List</b>
@@ -108,7 +112,7 @@
             }
 
             @if (!isLoading && items) {
-              <div>
+              <div class="d-flex flex-column gap-1">
                 @for (item of items; track item) {
                   <div
                     tabindex="0"
@@ -116,16 +120,22 @@
                     (click)="selectItem(item)">
                     <div>
                       <div class="d-flex bg-secondary">
-                        @if (showProfile) {
-                          <div style="width: 50px; height: 50px">
+                        @if (showProfile && item.lookup_image) {
+                          <div
+                            class="rounded-2 pic overflow-hidden d-flex align-items-center justify-content-center bg-white border">
                             <img
                               [src]="item.lookup_image"
                               class="image"
-                              alt="profile"
-                              style="border-radius: 50%" />
+                              alt="profile" />
                           </div>
                         }
 
+                        @if (showProfile && !item.lookup_image) {
+                          <div
+                            class="rounded-2 pic overflow-hidden d-flex align-items-center justify-content-center bg-white border">
+                            <i class="fa-solid fa-mountain-sun fa-lg"></i>
+                          </div>
+                        }
                         <div class="center ms-2">
                           <span>{{ item.lookup_title }}</span
                           ><br />

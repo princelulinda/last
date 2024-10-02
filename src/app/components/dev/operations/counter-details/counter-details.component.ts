@@ -17,7 +17,6 @@ import { AmountVisibilityComponent } from '../../../../global/components/custom-
 import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
 import {
   AssignOperatorBodyModel,
-  AssignOperatorModel,
   CounterDetailsModel,
   CounterTellerModel,
   CounterTreasurerModel,
@@ -157,7 +156,7 @@ export class CounterDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const res = data as { object: CounterDetailsModel };
+          const res = data;
           this.counterDetails = res.object;
           this.isLoading = false;
         },
@@ -187,7 +186,7 @@ export class CounterDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: res => {
-          const response = res as { object: AssignOperatorModel };
+          const response = res;
           if (
             response.object['success'] !== undefined &&
             !response.object.success
@@ -246,7 +245,7 @@ export class CounterDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const res = data as { objects: CounterTellerModel[] };
+          const res = data;
           this.counterTellers = res.objects;
           this.tellerLoading = false;
         },
@@ -263,10 +262,7 @@ export class CounterDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const res = data as {
-            objects: CounterTreasurerModel[];
-            count: number;
-          };
+          const res = data;
           this.counterTreasurers = res.objects;
           this.treasurerLoading = false;
         },
@@ -281,7 +277,7 @@ export class CounterDetailsComponent implements OnInit, OnDestroy {
     this.mainBoxLoading = true;
     this.counterService.getCounterMainBox(this.counterId).subscribe({
       next: response => {
-        const res = response as { objects: MainBoxModel[] };
+        const res = response;
         this.mainBoxLoading = false;
         this.mainBox = res.objects[0];
       },

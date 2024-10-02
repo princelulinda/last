@@ -25,6 +25,7 @@ import { ClientSensitiveInfoComponent } from '../client-sensitive-info/client-se
 import { SelectedClientSmallOverviewComponent } from '../selected-client-small-overview/selected-client-small-overview.component';
 import { ClientAccountListComponent } from '../client-account-list/client-account-list.component';
 import { RouterOutlet } from '@angular/router';
+import { SignaturesComponent } from '../signatures/signatures.component';
 @Component({
   selector: 'app-client-details',
   standalone: true,
@@ -37,6 +38,7 @@ import { RouterOutlet } from '@angular/router';
     SelectedClientSmallOverviewComponent,
     ClientAccountListComponent,
     RouterOutlet,
+    SignaturesComponent,
   ],
   templateUrl: './client-details.component.html',
   styleUrl: './client-details.component.scss',
@@ -147,7 +149,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     this.selectedMenu = menu;
     if (menu === 'accounts' && this.accounts) {
       this.router.navigate([
-        '/w/workstation/d/desk/details/' +
+        '/b/banking/client-details/' +
           this.clientId +
           '/account/' +
           this.accounts[0]?.id,
@@ -155,7 +157,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     }
     if (menu === 'wallets' && this.wallets) {
       this.router.navigate([
-        '/w/workstation/desk/client/details/' +
+        '/b/banking/client-details/' +
           this.clientId +
           '/wallet/' +
           this.wallets[0]?.id,
@@ -164,7 +166,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
 
     if (menu === 'settings') {
       this.router.navigate([
-        '/w/workstation/desk/client/details/' + this.clientId + '/settings',
+        '/b/banking/client-details/' + this.clientId + '/settings',
       ]);
     }
     if (

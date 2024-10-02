@@ -81,21 +81,21 @@ export class TarifService {
   addTarif(body: AddTarifBodyModel): Observable<AddTarifModel> {
     const url = '/dbs/tariff-type/';
     return this.apiService
-      .post(url, body)
-      .pipe(map(response => response as AddTarifModel));
+      .post<AddTarifModel>(url, body)
+      .pipe(map(response => response));
   }
   addTarifToTable(body: AddTarifToTableBodyModel): Observable<AddTarifModel> {
     const url = '/dbs/tariff-table/';
     return this.apiService
-      .post(url, body)
-      .pipe(map(response => response as AddTarifModel));
+      .post<AddTarifModel>(url, body)
+      .pipe(map(response => response));
   }
 
   addFees(body: AddFeesBodyModel): Observable<AddFeesModel> {
     const url = '/dbs/tariff-fees/';
     return this.apiService
-      .post(url, body)
-      .pipe(map(response => response as AddFeesModel));
+      .post<AddFeesModel>(url, body)
+      .pipe(map(response => response));
   }
 
   modifyFees(

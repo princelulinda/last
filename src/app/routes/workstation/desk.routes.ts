@@ -8,6 +8,7 @@ import { ClientAccountDetailComponent } from '../../components/client/client-acc
 import { ClientDetailsComponent } from '../../components/client/client-details/client-details.component';
 import { ClientListComponent } from '../../components/client/client-list/client-list.component';
 import { CounterDetailsComponent } from '../../components/dev/operations/counter-details/counter-details.component';
+import { DiverseOperationComponent } from '../../components/dev/diverse-operation/diverse-operation.component';
 
 export const DeskRoutes: Routes = [
   { path: 'list', component: ClientListComponent },
@@ -25,7 +26,18 @@ export const DeskRoutes: Routes = [
   },
 
   { path: '', component: DeskDashboardComponent },
+
   { path: 'operations/list', component: OperationListComponent },
   { path: 'operations/counters', component: CounterComponent },
   { path: 'operations/counter/:id', component: CounterDetailsComponent },
+
+  { path: 'diverse_operations', component: DiverseOperationComponent },
+
+  {
+    path: 'access-required',
+    loadComponent: () =>
+      import(
+        '../../global/components/errors/forbidden-403/forbidden-403.component'
+      ).then(m => m.Forbidden403Component),
+  },
 ];

@@ -26,14 +26,20 @@ import {
   TreaureDetailsModele,
 } from '../../../components/admin/agence/agence.models';
 import { BranchDetailsModele } from '../../../components/admin/agence/agence.models';
+import {
+  RoleMenuModel,
+  RoleModel,
+} from '../../../components/admin/role/role.models';
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService {
   constructor(private apiService: ApiService) {}
 
-  getAdminMenuDetails(id: string) {
-    return this.apiService.get(`/menu/admin/${id}/`).pipe(map(data => data));
+  getAdminMenuDetails(id: string): Observable<{ object: AdminMenuModel }> {
+    return this.apiService
+      .get<{ object: AdminMenuModel }>(`/menu/admin/${id}/`)
+      .pipe(map(data => data));
   }
 
   updateAdminMenu(id: string, data: AdminMenuModel) {
@@ -59,9 +65,11 @@ export class AdminService {
     const url = `/hr/access/services/${servId}/`;
     return this.apiService.get(url);
   }
-  getRoleDetails(id: string) {
+  getRoleDetails(id: string): Observable<{ object: RoleModel }> {
     const url = `/hr/access/roles/${id}/`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ object: RoleModel }>(url)
+      .pipe(map(data => data));
   }
   getTellerDetails(
     tellerId: number
@@ -89,9 +97,11 @@ export class AdminService {
     return this.apiService.get<{ object: BranchDetailsModele }>(url);
   }
 
-  getRoleMenus(id: number | string) {
+  getRoleMenus(id: number | string): Observable<{ objects: RoleMenuModel[] }> {
     const url = `/hr/access/menu/roles/?role=${id}&`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ objects: RoleMenuModel[] }>(url)
+      .pipe(map(data => data));
   }
 
   assignRoleMenus(
@@ -123,9 +133,9 @@ export class AdminService {
     body: AddBranchCounterBodyModel
   ): Observable<AddCounterBranchResponseModel> {
     const url = `/hr/counter/`;
-    return this.apiService.post(url, body).pipe(
+    return this.apiService.post<AddCounterBranchResponseModel>(url, body).pipe(
       map(response => {
-        return response as AddCounterBranchResponseModel;
+        return response;
       })
     );
   }
@@ -139,9 +149,9 @@ export class AdminService {
       name,
       hr_chief,
     };
-    return this.apiService.post(url, body).pipe(
+    return this.apiService.post<AddBranchResponseModel>(url, body).pipe(
       map(response => {
-        return response as AddBranchResponseModel;
+        return response;
       })
     );
   }
@@ -229,24 +239,24 @@ export class AdminService {
   ): Observable<AdminCreateNewDepartmentModel> {
     const url = '/hr/access/departments/';
     return this.apiService
-      .post(url, body)
-      .pipe(map(data => data as AdminCreateNewDepartmentModel));
+      .post<AdminCreateNewDepartmentModel>(url, body)
+      .pipe(map(data => data));
   }
   createNewDirection(
     body: CreateNewDirectionBodyModel
   ): Observable<CreateNewDirectionModel> {
     const url = `/hr/access/directions/`;
     return this.apiService
-      .post(url, body)
-      .pipe(map(data => data as CreateNewDirectionModel));
+      .post<CreateNewDirectionModel>(url, body)
+      .pipe(map(data => data));
   }
   createNewService(
     body: CreateNewServiceBodyModel
   ): Observable<CreateNewServiceModel> {
     const url = `/hr/access/services/`;
     return this.apiService
-      .post(url, body)
-      .pipe(map(data => data as CreateNewServiceModel));
+      .post<CreateNewServiceModel>(url, body)
+      .pipe(map(data => data));
   }
 
   createNewRole(body: CreateNewRoleModel) {

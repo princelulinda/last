@@ -1,0 +1,51 @@
+.is-success{
+    animation: transition 0.5s ease-in;
+}
+@keyframes transition {
+    0% {
+        opacity: 0;
+        transform: translatey(100px);
+    }
+    100% {
+        opacity: 1;
+        transtransform: translatey(0px);
+    }
+}
+.selected{
+    border-radius: 5px;
+    background-color: #fff;
+    width: 210px; 
+}
+.fields{
+    width: 314px;
+  height: 48px;
+  border: 1px solid #C4C4C4;
+}
+
+
+
+.w-90{
+    width: 90px;
+}
+.btnConfigurations{
+    width: 169px;
+    height: 40px;
+}
+
+.signatories{
+    background-color: #aacef5;
+    width: 30px;
+    height: 30px;
+    margin-top: -0.3%;
+}
+.expand{
+    color: #2070b8;
+    margin-left: 20px;
+    float: inline-end;
+}
+.expand-rotated{
+    color: #2070b8;
+    margin-left: 20px;
+    float: inline-end;
+    transform: rotate(-45deg);
+}

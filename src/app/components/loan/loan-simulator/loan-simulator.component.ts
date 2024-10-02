@@ -11,7 +11,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 
 import { LoanService } from '../../../core/services/loan/loan.service';
-import { SimulationResDataModel, SimulationResModel } from '../loan.models';
+import { SimulationResModel } from '../loan.models';
 import { DialogService } from '../../../core/services';
 import { RouterLink } from '@angular/router';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
@@ -65,7 +65,7 @@ export class LoanSimulatorComponent implements OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const res = data as { object: SimulationResDataModel };
+          const res = data;
           if (res.object.success === true) {
             this.dialogService.openToast({
               title: '',
