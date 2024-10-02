@@ -20,10 +20,11 @@
               <i class="fa-solid fa-mountain-sun fa-lg"></i>
             </div>
           }
-          <div class="text-dark center ms-2 fw-bold">
+          <div
+            class="text-dark ms-2 fw-bold d-flex flex-column align-items-center justify-content-center">
             <span>{{ selectedItem.lookup_title }}</span
             ><br />
-            <span class="subtitle">{{ selectedItem.lookup_subtitle }} </span>
+            <span class="fs-x-small">{{ selectedItem.lookup_subtitle }} </span>
           </div>
         </div>
       </div>
@@ -78,7 +79,7 @@
             [formControl]="search"
             (input)="DoAutocomplete()"
             autocomplete="false" />
-          <label for="menu_group" class="form-label mx-3">{{ label }}</label>
+          <label for="menu_group" class="form-label">{{ label }}</label>
         </div>
       }
 
@@ -86,11 +87,10 @@
         <div
           class="autoCompleteItems bg-white shadow rounded w-100 shadow py-2 mt-2">
           <div class="list mx-1">
-            <div class="d-flex">
-              <b class="text-secondary">{{ label }} List</b>
+            <div class="d-flex ms-1">
+              <b class="text-secondary">{{ label }}</b>
               <button
-                style="right: 0 !important; position: absolute"
-                class="me-2 bg-transparent border-0"
+                class="me-2 bg-transparent border-0 end-0 position-absolute"
                 (click)="close()">
                 <span class="ms-1">
                   <i class="fa-solid fa-circle-xmark text-danger"></i>
@@ -116,10 +116,10 @@
                 @for (item of items; track item) {
                   <div
                     tabindex="0"
-                    class="item py-1 px-3 bg-secondary text-dark rounded border-0 w-100"
+                    class="item py-1 px-3 text-dark rounded border-0 w-100"
                     (click)="selectItem(item)">
                     <div>
-                      <div class="d-flex bg-secondary">
+                      <div class="d-flex">
                         @if (showProfile && item.lookup_image) {
                           <div
                             class="rounded-2 pic overflow-hidden d-flex align-items-center justify-content-center bg-white border">
@@ -139,7 +139,7 @@
                         <div class="center ms-2">
                           <span>{{ item.lookup_title }}</span
                           ><br />
-                          <span class="subtitle">{{
+                          <span class="fs-x-small">{{
                             item.lookup_subtitle
                           }}</span>
                         </div>

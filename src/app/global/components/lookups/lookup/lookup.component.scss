@@ -1,9 +1,7 @@
 input.autocomplete {
   height: 45px;
 }
-.form-floating > label {
-  padding: 0.5rem;
-}
+
 .autoCompleteItems {
   position: absolute;
   z-index: 10;
@@ -28,28 +26,8 @@ input.autocomplete {
   }
 }
 
-.subtitle {
-  font-size: 12px;
-}
-
-.center {
-  line-height: 18px;
-  margin-top: auto;
-  margin-bottom: auto;
-  padding-top: auto;
-  margin-bottom: auto;
-}
-
-.lookup.form-control:focus {
-  // border-color: inherit;
-  //   -webkit-box-shadow: none;
-  box-shadow: none;
-}
 .search-input {
   height: 45px;
-  // @media screen and (max-width: 768px) {
-  //     width: 260px;
-  // }
 }
 .search-btn {
   right: 10px;
