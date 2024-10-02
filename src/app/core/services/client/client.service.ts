@@ -37,7 +37,12 @@ import {
   ResponseDataForClientModel,
   ResponseDataForCorporateModel,
   ResponseMOdel,
+  SignatoriesAccountsModel,
+  SignatoriesConfigsModel,
+  SignatoriesModel,
+  SignatoryGroupsModel,
 } from '../../../components/client/client.model';
+import { PaginationConfig } from '../../../global/models/pagination.models';
 
 @Injectable({
   providedIn: 'root',
@@ -367,5 +372,76 @@ export class ClientService {
           return data as { object: ResponseDataAfterUpdate };
         })
       );
+  }
+
+  addSignatoryConfig(body: object) {
+    const url = '/client/erp-signatories-configs/';
+    return this.apiService
+      .post<SignatoriesConfigsModel>(url, body)
+      .pipe(map(response => response));
+  }
+
+  getSignaroryConfigList(pagination?: PaginationConfig) {
+    return this.apiService
+      .get<{
+        objects: SignatoriesConfigsModel[];
+        count: number;
+      }>(
+        `/client/erp-signatories-configs/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`
+      )
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+
+  getSignaroryConfigDetails(configurationId: number) {
+    return this.apiService
+      .get<{
+        object: SignatoriesConfigsModel;
+      }>(`/client/erp-signatories-configs/${configurationId}/`)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+
+  getSignaroryConfigGroups() {
+    return this.apiService
+      .get<{ objects: SignatoryGroupsModel[] }>(`/client/erp-signatory-groups/`)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+  getSignarories() {
+    return this.apiService
+      .get<{ object: SignatoriesModel }>(`/client/erp-signatories/`)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+  getSignaroriesAccounts() {
+    return this.apiService
+      .get<{
+        object: SignatoriesAccountsModel;
+      }>(`/client/erp-signatories-accounts/`)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+
+  addSignatoryGroups(body: object) {
+    const url = '/client/erp-signatory-groups/';
+    return this.apiService
+      .post<{ object: SignatoryGroupsModel }>(url, body)
+      .pipe(map(response => response));
   }
 }

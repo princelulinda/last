@@ -29,6 +29,7 @@ import { ClientAccountListComponent } from '../client-account-list/client-accoun
 import { RouterOutlet } from '@angular/router';
 import { ClientWalletListComponent } from '../client-wallet-list/client-wallet-list.component';
 
+import { SignaturesComponent } from '../signatures/signatures.component';
 @Component({
   selector: 'app-client-details',
   standalone: true,
@@ -43,6 +44,7 @@ import { ClientWalletListComponent } from '../client-wallet-list/client-wallet-l
     ClientAccountListComponent,
     ClientWalletListComponent,
     RouterOutlet,
+    SignaturesComponent,
   ],
   templateUrl: './client-details.component.html',
   styleUrl: './client-details.component.scss',
@@ -160,7 +162,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     this.selectedMenu = menu;
     if (menu === 'accounts' && this.accounts) {
       this.router.navigate([
-        '/w/workstation/d/desk/details/' +
+        '/b/banking/client-details/' +
           this.clientId +
           '/account/' +
           this.accounts[0]?.id,
@@ -177,7 +179,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
 
     if (menu === 'settings') {
       this.router.navigate([
-        '/w/workstation/desk/client/details/' + this.clientId + '/settings',
+        '/b/banking/client-details/' + this.clientId + '/settings',
       ]);
     }
     if (
