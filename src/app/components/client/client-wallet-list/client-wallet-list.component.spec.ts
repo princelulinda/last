@@ -7,7 +7,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 describe('ClientWalletListComponent', () => {
   let component: ClientWalletListComponent;
   let fixture: ComponentFixture<ClientWalletListComponent>;
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
