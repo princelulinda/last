@@ -28,13 +28,17 @@ import { AgentDetailComponent } from '../../components/admin/agent/agent-detail/
 export const AdminRoutes: Routes = [
   // Operator
   {
-    path: 'operators',
-    component: OperatorsComponent,
-  },
-
-  {
-    path: 'operator/:id',
-    component: OperatorDetailsComponent,
+    path: 'operator',
+    children: [
+      {
+        path: 'operators',
+        component: OperatorsComponent,
+      },
+      {
+        path: 'operator/:id',
+        component: OperatorDetailsComponent,
+      },
+    ],
   },
 
   // Menu
