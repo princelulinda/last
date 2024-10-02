@@ -59,7 +59,7 @@ export class ClientService {
     );
   }
 
-  getWallets(clientId: number): Observable<{ objects: WalletList[] }> {
+  getWallets(clientId: number | string): Observable<{ objects: WalletList[] }> {
     const url = `/dbs/wallets/?client_id=${clientId}`;
     return this.apiService.get<{ objects: WalletList[] }>(url);
   }

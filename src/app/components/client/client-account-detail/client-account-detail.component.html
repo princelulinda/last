@@ -99,7 +99,7 @@
                   @if (account.acc_currency === 'BIF') {
                     <div class="mt-auto mb-auto pt-auto">
                       <img
-                        src="images/Bndi.png"
+                        src="/images/Bndi.png"
                         style="width: 25px"
                         alt="image" />
                       <b class="p-2 text-l-md">{{ account.acc_currency }} </b>
@@ -172,8 +172,8 @@
                       <app-amount-visibility
                         [amount]="account.acc_available_balance"
                         [currency]="account.acc_currency"
-                        [ngClass]="'text-dark'"></app-amount-visibility
-                    ></b>
+                        [ngClass]="'text-dark'"></app-amount-visibility>
+                    </b>
                   </div>
 
                   <div class="col">

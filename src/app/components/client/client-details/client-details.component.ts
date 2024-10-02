@@ -27,6 +27,7 @@ import { ClientContactsComponent } from '../client-contacts/client-contacts.comp
 import { SelectedClientSmallOverviewComponent } from '../selected-client-small-overview/selected-client-small-overview.component';
 import { ClientAccountListComponent } from '../client-account-list/client-account-list.component';
 import { RouterOutlet } from '@angular/router';
+import { ClientWalletListComponent } from '../client-wallet-list/client-wallet-list.component';
 
 @Component({
   selector: 'app-client-details',
@@ -40,6 +41,7 @@ import { RouterOutlet } from '@angular/router';
     SelectedClientSmallOverviewComponent,
     ClientContactsComponent,
     ClientAccountListComponent,
+    ClientWalletListComponent,
     RouterOutlet,
   ],
   templateUrl: './client-details.component.html',
@@ -91,6 +93,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   isGeneralInfoFormShown = false;
   isTaxAdditionShown = false;
   choosenAccount: AccountsListModel | AccountsListModel[] | null = null;
+  choosenWallet: WalletList | WalletList[] | null = null;
   inputActive = false;
   loadingSector = false;
   showLanguageCheckBox = false;
@@ -147,6 +150,12 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     console.log('Compte sélectionné :', account);
   }
 
+  handleWalletSelected(wallet: WalletList) {
+    this.choosenWallet = wallet;
+
+    console.log('Compte sélectionné :', wallet);
+  }
+
   selectMenu(menu: string) {
     this.selectedMenu = menu;
     if (menu === 'accounts' && this.accounts) {
@@ -159,7 +168,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     }
     if (menu === 'wallets' && this.wallets) {
       this.router.navigate([
-        '/w/workstation/desk/client/details/' +
+        '/w/workstation/d/desk/details/' +
           this.clientId +
           '/wallet/' +
           this.wallets[0]?.id,
