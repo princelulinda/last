@@ -170,13 +170,13 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
           {
             icon: 'circle-info',
             title: 'Operator Info',
-            url: `/w/workstation/a/admin/operator/${this.operatorOrganizationId}`,
+            url: `/w/workstation/a/admin/operator/operator/${this.operatorOrganizationId}`,
             icon_classes: 'fs-medium',
           },
           {
             icon: 'universal-access',
             title: 'Operators Details',
-            url: `/w/workstation/a/admin/operator/${this.operatorOrganizationId}`,
+            url: `/w/workstation/a/admin/operator/operator/${this.operatorOrganizationId}`,
             fragment: 'details',
             icon_classes: 'fs-medium',
           },

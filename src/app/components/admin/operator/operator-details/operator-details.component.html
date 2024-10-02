@@ -30,6 +30,7 @@
           <app-profile-card
             width="104px"
             height="104px"
+            classes="fs-xx-large"
             [fullName]="
               organizationDetails.operator.employee_client?.client_full_name
             "
@@ -256,7 +257,8 @@
       </section>
 
       <!-- TODO :: OPERATIONS SECTION TO REPLACE WITH REAL DATA-->
-      <section
+
+      <!-- <section
         class="w-100 bg-secondary rounded-2 border border-secondary mt-4"
         style="height: 250px">
         <div class="w-100 d-flex flex-row px-3 mt-2 gap-2 align-items-center">
@@ -265,7 +267,7 @@
           </span>
           <span class="fw-bold" i18n>Recent Operations</span>
         </div>
-      </section>
+      </section> -->
     </ng-template>
 
     <ng-template #details>
@@ -407,7 +409,8 @@
               </div>
             }
 
-            <!------------------------------------------------------------ ALL ROLES ------------------------------------------------------------------------->
+            <!-- NOTE :: ALL ROLES -->
+
             @if (
               !rolesLoading &&
               !selectedRole &&
@@ -443,7 +446,7 @@
                           </div>
 
                           <div class="">
-                            <span class="text-primary fw-bold badge-design"
+                            <span class="text-primary fw-bold badge-design" i18n
                               >Teller</span
                             >
                           </div>
@@ -535,7 +538,7 @@
               </div>
             }
 
-            <!------------------------------------------------------------ ALL MENUS ------------------------------------------------------------------------->
+            <!-- NOTE :: ALL MENUS  -->
 
             @if (selectedSection === 'menus' && selectedMenu === 'menus') {
               <div
@@ -659,13 +662,17 @@
                 ) {
                   <div class="w-100 row">
                     <div class="col-3 d-flex justify-content-center">
-                      <span class="text-secondary fw-bold">Counter</span>
+                      <span class="text-secondary fw-bold" i18n>Counter</span>
                     </div>
                     <div class="col-4 d-flex justify-content-center">
-                      <span class="text-secondary fw-bold">Branch Name</span>
+                      <span class="text-secondary fw-bold" i18n
+                        >Branch Name</span
+                      >
                     </div>
                     <div class="col-3 d-flex justify-content-center">
-                      <span class="text-secondary fw-bold">Branch code</span>
+                      <span class="text-secondary fw-bold" i18n
+                        >Branch code</span
+                      >
                     </div>
                     <div class="col-2 d-flex justify-content-center">
                       <span class="text-secondary"></span>
@@ -1207,6 +1214,7 @@
                     [isLoading]="otherBranchesLoading"
                     [totalData]="branchesCount"
                     [pageLimit]="otherBranchesPagination.filters.limit"
+                    [limit]="false"
                     (paginationChange)="onPaginationChange($event)">
                   </app-pagination>
                 </div>
