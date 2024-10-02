@@ -11,6 +11,8 @@ describe('ClientWalletDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [ClientWalletDetailsComponent],
+
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -19,7 +21,6 @@ describe('ClientWalletDetailsComponent', () => {
           useValue: {},
         },
       ],
-      imports: [ClientWalletDetailsComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ClientWalletDetailsComponent);
