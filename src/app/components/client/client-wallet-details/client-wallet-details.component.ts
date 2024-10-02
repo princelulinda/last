@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ClipboardDirective } from '../../../global/directives/clipboard/clipboard.directive';
 import { ListComponent } from '../../../global/components/list/list/list.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-client-wallet-details',
   standalone: true,
@@ -24,7 +25,7 @@ export class ClientWalletDetailsComponent implements OnInit, OnDestroy {
   isLoading = false;
   wallet: WalletDetail | null = null;
   walletId!: string;
-
+  private onDestroy$ = new Subject<void>();
   headers = [
     {
       name: 'Date',
@@ -107,6 +108,7 @@ export class ClientWalletDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
