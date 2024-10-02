@@ -32,6 +32,7 @@ import {
   ClientWorkstationModel,
   IndividualClientModel,
   LanguageWorkstationModel,
+  PrimaryDataModel,
   ResponseDataAfterUpdate,
   ResponseDataForClientModel,
   ResponseDataForCorporateModel,
@@ -63,7 +64,7 @@ export class ClientService {
     );
   }
 
-  getWallets(clientId: number): Observable<{ objects: WalletList[] }> {
+  getWallets(clientId: number | string): Observable<{ objects: WalletList[] }> {
     const url = `/dbs/wallets/?client_id=${clientId}`;
     return this.apiService.get<{ objects: WalletList[] }>(url);
   }
@@ -116,6 +117,17 @@ export class ClientService {
       pin,
     };
     return this.apiService.post(url, body).pipe(
+      map(response => {
+        return response as ResponseMOdel;
+      })
+    );
+  }
+
+  makeNumberOrEmailPrimary(
+    id: number,
+    primary: PrimaryDataModel
+  ): Observable<ResponseMOdel> {
+    return this.apiService.patch('/client/extid/' + id + '/', primary).pipe(
       map(response => {
         return response as ResponseMOdel;
       })
@@ -374,7 +386,9 @@ export class ClientService {
       .get<{
         objects: SignatoriesConfigsModel[];
         count: number;
-      }>(`/client/erp-signatories-configs/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`)
+      }>(
+        `/client/erp-signatories-configs/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`
+      )
       .pipe(
         map(data => {
           return data;

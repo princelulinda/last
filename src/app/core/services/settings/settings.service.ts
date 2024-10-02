@@ -56,7 +56,7 @@ export class SettingsService {
   }
 
   getClientContact(
-    clientId: number,
+    clientId: number | string,
     contactType: string
   ): Observable<{ objects: MailModel[] }> {
     let url = '';
