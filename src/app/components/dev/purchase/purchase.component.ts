@@ -11,6 +11,7 @@ import {
 } from '../../../global/components/empty-states/empty-state/empty-state.component';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ProvidersModel } from '../invoice/invoice.models';
 
 @Component({
   selector: 'app-purchase',
@@ -22,6 +23,7 @@ import { CommonModule } from '@angular/common';
     SkeletonComponent,
     EmptyStateComponent,
     RouterLink,
+    SkeletonComponent,
   ],
   templateUrl: './purchase.component.html',
   styleUrl: './purchase.component.scss',
@@ -31,12 +33,16 @@ export class PurchaseComponent implements OnInit {
   merchantId!: string;
   search = new FormControl('');
   products: ProductAutocompleteModel[] = [];
+  product!: ProductAutocompleteModel;
+  suppliers!: ProvidersModel[];
+  supplier!: ProvidersModel;
   isLoading = true;
   searchType: EmptyStateModel = 'product';
   isProductsSearch = false;
   disabledFavoriteAction = false;
-  selectedProduct = true;
+  selectedProduct = false;
   selectedMerchant = false;
+  action: 'merchant-payment' | 'output' = 'output';
 
   constructor(
     private merchantService: MerchantService,
@@ -105,5 +111,24 @@ export class PurchaseComponent implements OnInit {
     } else {
       this.getPurchasedProducts();
     }
+  }
+  getSupplier() {
+    this.selectedProduct = true;
+    this.isLoading = true;
+    this.merchantService.getSupplier(this.product.id).subscribe({
+      next: (data: { objects: ProvidersModel[] }) => {
+        this.suppliers = data.objects;
+        this.isLoading = false;
+      },
+    });
+  }
+  selectProduct(product: ProductAutocompleteModel) {
+    this.product = product;
+    this.getSupplier();
+  }
+
+  selectSupplier(supplier: ProvidersModel) {
+    this.selectedMerchant = true;
+    this.supplier = supplier;
   }
 }

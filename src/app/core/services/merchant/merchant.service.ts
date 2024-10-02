@@ -35,7 +35,11 @@ import {
 import { Coords2Model } from '../../../global/components/google-map/map.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import { BillsModel } from '../../../components/merchant/bills/bills.model';
-import { InvoiceGroupModel } from '../../../components/dev/invoice/invoice.models';
+import {
+  InvoiceGroupModel,
+  InvoiceModel,
+  ProvidersModel,
+} from '../../../components/dev/invoice/invoice.models';
 import {
   ProductCategoryModel,
   ProductOfferModel,
@@ -636,7 +640,19 @@ export class MerchantService {
     const url = `/dbs/bill-group/`;
     return this.apiService
       .get<{ objects: InvoiceGroupModel[] }>(url)
-      .pipe(map(data => data as { objects: InvoiceGroupModel[] }));
+      .pipe(map(data => data));
+  }
+
+  createBill(): Observable<InvoiceModel> {
+    const url = `/dbs/merchant/bill-validation-init/ `;
+    return this.apiService.post<InvoiceModel>(url).pipe(map(data => data));
+  }
+
+  getSupplier(product_id: number): Observable<{ objects: ProvidersModel[] }> {
+    const url = `/dbs/merchant-product-provided/?product=${product_id}`;
+    return this.apiService
+      .get<{ objects: ProvidersModel[] }>(url)
+      .pipe(map(data => data));
   }
 
   // getBillsByGroup(group_name: string): Observable<any> {
