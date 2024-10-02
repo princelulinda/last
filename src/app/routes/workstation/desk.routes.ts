@@ -11,20 +11,25 @@ import { CounterDetailsComponent } from '../../components/dev/operations/counter
 import { DiverseOperationComponent } from '../../components/dev/diverse-operation/diverse-operation.component';
 import { ClientWalletDetailsComponent } from '../../components/client/client-wallet-details/client-wallet-details.component';
 export const DeskRoutes: Routes = [
-  { path: 'list', component: ClientListComponent },
-
   {
-    path: 'details/:client_id',
-    component: ClientDetailsComponent,
-
+    path: 'client',
     children: [
+      { path: 'list', component: ClientListComponent },
+
       {
-        path: 'account/:accountId',
-        component: ClientAccountDetailComponent,
-      },
-      {
-        path: 'wallet/:walletId',
-        component: ClientWalletDetailsComponent,
+        path: 'details/:client_id',
+        component: ClientDetailsComponent,
+
+        children: [
+          {
+            path: 'account/:accountId',
+            component: ClientAccountDetailComponent,
+          },
+          {
+            path: 'wallet/:walletId',
+            component: ClientWalletDetailsComponent,
+          },
+        ],
       },
     ],
   },
