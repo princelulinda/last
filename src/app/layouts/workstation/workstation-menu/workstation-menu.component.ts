@@ -49,6 +49,7 @@ export class WorkstationMenuComponent implements OnInit {
 
   activatedTypeGroupMenus: MenuGroupAndMenusSimpleModel[] | [] = [];
   selectedGroup: MenuGroupAndMenusSimpleModel | null = null;
+
   // TODO :: TO FIND A WAY TO REMOVE THIS VARIABLE AND USING ROUTERLINKACTIVE
   selectedMenu: MenuSimpleModel | null = null;
 
@@ -141,7 +142,9 @@ export class WorkstationMenuComponent implements OnInit {
           if (this.selectedGroup?.menus) {
             this.setSelectedMenu(
               this.selectedGroup.menus[0],
-              this.selectedGroup.menus[0].component_url
+              this.selectedGroup.menus[0].component_url,
+              undefined,
+              false
             );
           } else {
             this.router.navigate([`${this.baseMenuUrl}access-required`]);
@@ -208,17 +211,22 @@ export class WorkstationMenuComponent implements OnInit {
     return typeof searchValue === 'string' && searchValue.trim() !== '';
   }
 
-  setSelectedMenu(menu: MenuSimpleModel, url: string, event?: MouseEvent) {
+  setSelectedMenu(
+    menu: MenuSimpleModel,
+    url: string,
+    event?: MouseEvent,
+    enableRedirection?: boolean
+  ) {
     if (event) {
       event.preventDefault();
     }
     this.selectedMenu = menu;
     this.menuService.setLocalSelectedMenu(menu.id);
     // NOTE :: GETTING ACCESS MENUS
-    this.getAccesses(url);
+    this.getAccesses(url, enableRedirection);
   }
 
-  private getAccesses(url: string) {
+  private getAccesses(url: string, redirect = true) {
     this.dialogService.dispatchLoading('topLoader');
     this.configService.clearActiveAccesses();
     this.menuService
@@ -228,7 +236,9 @@ export class WorkstationMenuComponent implements OnInit {
         next: accesses => {
           this.configService.setActiveAccesses(accesses.objects);
           this.dialogService.closeLoading();
-          this.router.navigate([`${this.baseMenuUrl}${url}`]);
+          if (redirect) {
+            this.router.navigate([`${this.baseMenuUrl}${url}`]);
+          }
         },
         error: () => {
           this.selectedMenu = null;
