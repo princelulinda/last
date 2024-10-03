@@ -9,6 +9,7 @@ import { ClientDetailsComponent } from '../../components/client/client-details/c
 import { ClientListComponent } from '../../components/client/client-list/client-list.component';
 import { CounterDetailsComponent } from '../../components/dev/operations/counter-details/counter-details.component';
 import { DiverseOperationComponent } from '../../components/dev/diverse-operation/diverse-operation.component';
+import { DebitAccountWorkstationComponent } from '../../components/transfer/workstation/debit-account-workstation/debit-account-workstation.component';
 
 export const DeskRoutes: Routes = [
   { path: 'list', component: ClientListComponent },
@@ -32,6 +33,7 @@ export const DeskRoutes: Routes = [
   { path: 'operations/counter/:id', component: CounterDetailsComponent },
 
   { path: 'diverse_operations', component: DiverseOperationComponent },
+  { path: 'transfer', component: DebitAccountWorkstationComponent },
 
   {
     path: 'access-required',

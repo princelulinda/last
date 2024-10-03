@@ -11,27 +11,27 @@ import {
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { Subject, Observable } from 'rxjs';
-import { UserInfoModel } from '../../../core/db/models/auth';
+import { UserInfoModel } from '../../../../core/db/models/auth';
 import {
   BankService,
   ConfigService,
   AuthService,
   DialogService,
-} from '../../../core/services';
-import { BankModel } from '../../../core/db/models/bank/bank.model';
-import { SwitchBankComponent } from '../../../global/components/popups/switch-bank/switch-bank.component';
-import { AccountsListComponent } from '../../account/accounts-list/accounts-list.component';
-import { DebitOptionsModel, InstitutionInfoModel } from '../transfer.model';
-import { WalletListComponent } from '../../wallet/wallet-list/wallet-list.component';
+} from '../../../../core/services';
+import { BankModel } from '../../../../core/db/models/bank/bank.model';
+import { SwitchBankComponent } from '../../../../global/components/popups/switch-bank/switch-bank.component';
+import { AccountsListComponent } from '../../../account/accounts-list/accounts-list.component';
+import { DebitOptionsModel, InstitutionInfoModel } from '../../transfer.model';
+import { WalletListComponent } from '../../../wallet/wallet-list/wallet-list.component';
 import {
   activeMainConfigModel,
   ModeModel,
-} from '../../../core/services/config/main-config.models';
-import { AccountsListModel } from '../../account/models';
-import { WalletList } from '../../wallet/wallet.models';
-import { BankOptionsModel } from '../../dashboards/dashboard.model';
+} from '../../../../core/services/config/main-config.models';
+import { AccountsListModel } from '../../../account/models';
+import { WalletList } from '../../../wallet/wallet.models';
+import { BankOptionsModel } from '../../../dashboards/dashboard.model';
 
 @Component({
   selector: 'app-debit-account',
