@@ -209,7 +209,7 @@ export class MerchantPaymentComponent
     });
   }
 
-  private getMerchantDetails(merchantId: number) {
+  private getMerchantDetails(merchantId: string) {
     this.merchantDetails = null;
     this.loadingMerchantDetails = true;
     this.merchantService
@@ -608,17 +608,17 @@ export class MerchantPaymentComponent
     merchant: MerchantAutocompleteModel | BillersAutocompleteModel
   ) {
     this.selectedMerchant = merchant;
-    this.getMerchantDetails(merchant.id);
+    // this.getMerchantDetails(merchant.id);
   }
-  getSelectedProduct(product: ProductAutocompleteModel) {
-    this.selectedProduct = product;
-    if (this.type === 'product' && !this.productDetails) {
-      this.selectedPaymentMenu = 'Product-Payment';
-    }
-    if (!this.productDetails) {
-      this.getProductDetails(product.id);
-    }
-  }
+  // getSelectedProduct(product: ProductAutocompleteModel) {
+  //   this.selectedProduct = product;
+  //   if (this.type === 'product' && !this.productDetails) {
+  //     this.selectedPaymentMenu = 'Product-Payment';
+  //   }
+  //   if (!this.productDetails) {
+  //     this.getProductDetails(product.id);this.merchant
+  //   }
+  // }
 
   selectPaymentMenu(type: 'Direct-Payment' | 'Product-Payment' | '') {
     this.selectedPaymentMenu = type;

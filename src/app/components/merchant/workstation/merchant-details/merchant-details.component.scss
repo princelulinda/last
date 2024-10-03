@@ -1,0 +1,169 @@
+.w-100 {
+    width: 100px;
+}
+.pd {
+    padding-bottom: -5px;
+}
+.m-0 {
+    margin: -20px;
+}
+
+@keyframes anim {
+    0% {
+        top: 0px;
+    }
+    100% {
+        top: -4px;
+    }
+}
+.btn-w {
+    width: 100px;
+    height: 35px;
+}
+
+#add {
+    transition: all 1s;
+    position: relative;
+    top: 0px;
+    animation: anim 1s infinite;
+}
+.img-size {
+    width: 30px;
+    height: 30px;
+}
+
+.row-h {
+    min-height: 60px;
+}
+#new {
+    transition: all 2s ease-in-out;
+}
+
+main {
+    height: 67vh;
+}
+
+.w-57 {
+    width: 57%;
+}
+
+.w-40 {
+    width: 40%;
+}
+
+
+.w-80 {
+    width: 80%;
+}
+
+
+.glob-cont {
+    min-height: 600px;
+}
+.size-pic {
+    width: 70px;
+    height: 70px;
+}
+
+.point {
+    width: 10px;
+    height: 10px;
+}
+
+.switch {
+    border-radius: 40px;
+    width: 64px;
+    height: 25px;
+}
+
+.max-w {
+    min-width: 150px;
+}
+.rad-20 {
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+  
+}
+
+.spinner-container {
+    height: 500px;
+}
+
+.cont {
+    min-height: 600px;
+}
+
+// width for small screens
+@media only screen and (max-width: 767px) and (min-width: 0px) {
+    .w-resp {
+        width: 100%;
+    }
+
+    .w-resp-client {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 991px) and (min-width: 768px) {
+    .w-resp {
+        width: 50%;
+    }
+
+    .w-resp-client {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .w-resp {
+        width: 25%;
+    }
+
+    .w-resp-client {
+        width: 50%;
+    }
+}
+
+.prod-card {
+    width: 156px;
+    height: 146px;
+    font-size: 60px;
+}
+
+.m-left {
+    margin-left: -15%;
+   
+}
+
+.switch {
+    border-radius: 40px;
+    width: 64px;
+    height: 25px;
+    background-color: #d9d9d9;
+}
+
+.search-content {
+    min-width: 30px;
+    max-width: 200px;
+}
+.myModal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    .modal-overlay {
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        z-index: 20;
+        position: relative;
+    }
+    .modal-content {
+        position: fixed;
+        top: 60%;
+        left: 60%;
+        transform: translate(-50%, -50%);
+        z-index: 40;
+        width: 50%;
+    }
+}
