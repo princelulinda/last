@@ -110,6 +110,7 @@ export class MenuService {
     [menuGroups, baseMenuUrl] = this.getActiveMenuGroups(menus, typeMenu);
 
     if (menuGroups && baseMenuUrl.split('/').length > 4) {
+      // TODO :: FIRST IDEA
       const componentUrls: string[] = [];
 
       menuGroups.map(group =>
@@ -133,6 +134,24 @@ export class MenuService {
           menu => menu.component_url === matchComponentUrl
         );
       }
+
+      // NOTE :: SECOND IDEA
+      // selectedGroup =
+      //   menuGroups.find(group =>
+      //     group.menus.find(menu => {
+      //       // NOTE :: TO REMOVE SPLASH ON END (component_url)
+      //       if (menu.component_url.endsWith('/')) {
+      //         menu.component_url = menu.component_url.slice(0, -1);
+      //       }
+      //       return `${baseMenuUrl}${menu.component_url}` === pathname;
+      //     })
+      //   ) ?? null;
+
+      // if (selectedGroup) {
+      //   selectedGroup.menus = selectedGroup?.menus.filter(
+      //     menu => `${baseMenuUrl}${menu.component_url}` === pathname
+      //   );
+      // }
       return selectedGroup;
     } else {
       return undefined;

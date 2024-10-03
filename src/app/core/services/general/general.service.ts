@@ -163,8 +163,12 @@ export class GeneralService {
   // NOTE :: for finding a string with most similarity
   findMostSimilar(list: string[], searchElement: string): string {
     return list.reduce((bestMatch: string, element: string) => {
-      const currentDistance = this.levenshteinDistance(element, searchElement);
+      const currentDistance = this.levenshteinDistance(
+        element ?? '',
+        searchElement
+      );
       const bestDistance = this.levenshteinDistance(bestMatch, searchElement);
+      // console.log(currentDistance, bestDistance, element, bestMatch);
       return currentDistance < bestDistance ? element : bestMatch;
     }, '');
   }
