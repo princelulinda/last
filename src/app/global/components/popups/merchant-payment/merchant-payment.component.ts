@@ -610,15 +610,15 @@ export class MerchantPaymentComponent
     this.selectedMerchant = merchant;
     // this.getMerchantDetails(merchant.id);
   }
-  // getSelectedProduct(product: ProductAutocompleteModel) {
-  //   this.selectedProduct = product;
-  //   if (this.type === 'product' && !this.productDetails) {
-  //     this.selectedPaymentMenu = 'Product-Payment';
-  //   }
-  //   if (!this.productDetails) {
-  //     this.getProductDetails(product.id);this.merchant
-  //   }
-  // }
+  getSelectedProduct(product: ProductAutocompleteModel) {
+    this.selectedProduct = product;
+    if (this.type === 'product' && !this.productDetails) {
+      this.selectedPaymentMenu = 'Product-Payment';
+    }
+    if (!this.productDetails) {
+      this.getProductDetails(product.id);
+    }
+  }
 
   selectPaymentMenu(type: 'Direct-Payment' | 'Product-Payment' | '') {
     this.selectedPaymentMenu = type;
