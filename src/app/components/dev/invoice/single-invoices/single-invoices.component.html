@@ -32,403 +32,108 @@
     </div>
   </div>
   <hr class="bg-dark row HLine" />
-  <div
-    class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 d-flex justify-content-center justify-content-lg-start gap-5">
+  @if (!singleInvoices && loader) {
     <div
-      class="col-6 col-md-4 col-lg-3 col-xl-2 shadow-sm sm-radius HDiv position-relative">
-      <div class="container-fluid h-50 position-relative mt-2 mb-1">
-        <div class="col h-50">
-          <div class="row h-75">
-            <div
-              class="col-3 h-100 rounded-circle d-flex justify-content-center align-items-center me-auto bg-secondary">
-              <i class="fa-solid fa-warehouse text-secondary"></i>
+      class="text-center w-100 d-flex row justify-content-center align-items-center text-dark mt-5 pt-5 fs-4 minHeight">
+      <span><i class="fa-solid fa-spin fa-circle-notch text-dark"></i></span>
+    </div>
+  }
+  @if (singleInvoices) {
+    <div
+      class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 d-flex justify-content-center justify-content-lg-start gap-5">
+      @for (singleInvoice of singleInvoices; track $index) {
+        <div
+          class="col-6 col-md-4 col-lg-3 col-xl-2 shadow-sm sm-radius HDiv position-relative">
+          <div class="container-fluid h-50 position-relative mt-2 mb-1">
+            <div class="col h-50">
+              <div class="row h-75">
+                <div
+                  class="col-3 h-100 rounded-circle d-flex justify-content-center align-items-center me-auto bg-secondary">
+                  <i class="fa-solid fa-warehouse text-secondary"></i>
+                </div>
+                <div
+                  class="col-6 h-100 xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
+                  Pending
+                </div>
+              </div>
+              <div class="col position-absolute mt-1">
+                <div class="row fw-bolder fs-l-small">
+                  {{ singleInvoice.provider.client.client_full_name }}
+                </div>
+                <div class="row">{{ singleInvoice.id }}</div>
+              </div>
             </div>
-            <div
-              class="col-6 h-100 xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
-              Pending
-            </div>
+            <i
+              class="fa-solid fa-receipt text-primary opacity-50 position-absolute padIcon"></i>
           </div>
-          <div class="col position-absolute mt-1">
-            <div class="row fw-bolder fs-l-small">Maronko Supplier</div>
-            <div class="row">00123</div>
-          </div>
-        </div>
-        <i
-          class="fa-solid fa-receipt text-primary opacity-50 position-absolute padIcon"></i>
-      </div>
-      <div class="h-50 row bg-secondary rounded-bottom">
-        <div class="row">
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-        </div>
-        <div class="container">
-          <div class="">
+          <div class="h-50 row bg-secondary rounded-bottom">
             <div class="row">
-              <div class="col-6">
+              <div class="col">
+                <hr class="bg-primary w-100 my-0" />
+              </div>
+              <div class="col">
+                <hr class="bg-primary w-100 my-0" />
+              </div>
+              <div class="col">
+                <hr class="bg-primary w-100 my-0" />
+              </div>
+              <div class="col">
+                <hr class="bg-primary w-100 my-0" />
+              </div>
+              <div class="col">
+                <hr class="bg-primary w-100 my-0" />
+              </div>
+            </div>
+            <div class="container">
+              <div class="">
                 <div class="row">
-                  <div
-                    class="col d-flex justify-content-center align-items-center">
-                    <i class="fa-solid fa-box me-1 text-secondary"></i>
-                    <span class="text-dark">Tea</span>
+                  <div class="col-6">
+                    <div class="row">
+                      <div
+                        class="col d-flex justify-content-center align-items-center">
+                        <i class="fa-solid fa-box me-1 text-secondary"></i>
+                        @for (order of singleInvoice.orders; track $index) {
+                          <span class="text-dark">{{
+                            order.product.name
+                          }}</span>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-5">
+                    @for (order of singleInvoice.orders; track $index) {
+                      <div
+                        class="row h-100 d-flex align-items-center text-secondary justify-content-end">
+                        {{ order.element_metadata.original_data.quantity }}
+                        {{ order.product.measure.suffix }}
+                      </div>
+                    }
                   </div>
                 </div>
               </div>
-              <div class="col-5">
-                <div
-                  class="row h-100 d-flex align-items-center text-secondary justify-content-end">
-                  2 kg
-                </div>
+              <div class="div">
+                <span class="text-primary fw-bolder fs-4">
+                  <app-amount-visibility
+                    [amount]="singleInvoice.total_amount"
+                    [alwaysShowAmount]="true"
+                    [currency]="'BIF'"></app-amount-visibility>
+                </span>
               </div>
             </div>
           </div>
-          <div class="div">
-            <span class="text-primary fw-bolder fs-4">26 000 BIF</span>
-          </div>
         </div>
-      </div>
+      }
     </div>
-    <div
-      class="col-6 col-md-4 col-lg-3 col-xl-2 shadow-sm sm-radius HDiv position-relative">
-      <div class="container-fluid h-50 position-relative mt-2 mb-1">
-        <div class="col h-50">
-          <div class="row h-75">
-            <div
-              class="col-3 h-100 rounded-circle d-flex justify-content-center align-items-center me-auto bg-secondary">
-              <i class="fa-solid fa-warehouse text-secondary"></i>
-            </div>
-            <div
-              class="col-6 h-100 xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
-              Pending
-            </div>
-          </div>
-          <div class="col position-absolute mt-1">
-            <div class="row fw-bolder fs-l-small">Maronko Supplier</div>
-            <div class="row">00123</div>
-          </div>
-        </div>
-        <i
-          class="fa-solid fa-receipt text-primary opacity-50 position-absolute padIcon"></i>
-      </div>
-      <div class="h-50 row bg-secondary rounded-bottom">
-        <div class="row">
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-        </div>
-        <div class="container">
-          <div class="">
-            <div class="row">
-              <div class="col-6">
-                <div class="row">
-                  <div
-                    class="col d-flex justify-content-center align-items-center">
-                    <i class="fa-solid fa-box me-1 text-secondary"></i>
-                    <span class="text-dark">Tea</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-5">
-                <div
-                  class="row h-100 d-flex align-items-center text-secondary justify-content-end">
-                  2 kg
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="div">
-            <span class="text-primary fw-bolder fs-4">26 000 BIF</span>
-          </div>
-        </div>
-      </div>
+  }
+
+  @if (response_data > 0) {
+    <div class="mt-5 mb-5 pt-5 text-center">
+      <app-pagination
+        [isLoading]="loader"
+        [totalData]="response_data"
+        [pageLimit]="pagination.filters.limit"
+        (paginationChange)="onPaginationChange($event)">
+      </app-pagination>
     </div>
-    <div
-      class="col-6 col-md-4 col-lg-3 col-xl-2 shadow-sm sm-radius HDiv position-relative">
-      <div class="container-fluid h-50 position-relative mt-2 mb-1">
-        <div class="col h-50">
-          <div class="row h-75">
-            <div
-              class="col-3 h-100 rounded-circle d-flex justify-content-center align-items-center me-auto bg-secondary">
-              <i class="fa-solid fa-warehouse text-secondary"></i>
-            </div>
-            <div
-              class="col-6 h-100 xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
-              Pending
-            </div>
-          </div>
-          <div class="col position-absolute mt-1">
-            <div class="row fw-bolder fs-l-small">Maronko Supplier</div>
-            <div class="row">00123</div>
-          </div>
-        </div>
-        <i
-          class="fa-solid fa-receipt text-primary opacity-50 position-absolute padIcon"></i>
-      </div>
-      <div class="h-50 row bg-secondary rounded-bottom">
-        <div class="row">
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-        </div>
-        <div class="container">
-          <div class="">
-            <div class="row">
-              <div class="col-6">
-                <div class="row">
-                  <div
-                    class="col d-flex justify-content-center align-items-center">
-                    <i class="fa-solid fa-box me-1 text-secondary"></i>
-                    <span class="text-dark">Tea</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-5">
-                <div
-                  class="row h-100 d-flex align-items-center text-secondary justify-content-end">
-                  2 kg
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="div">
-            <span class="text-primary fw-bolder fs-4">26 000 BIF</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="col-6 col-md-4 col-lg-3 col-xl-2 shadow-sm sm-radius HDiv position-relative">
-      <div class="container-fluid h-50 position-relative mt-2 mb-1">
-        <div class="col h-50">
-          <div class="row h-75">
-            <div
-              class="col-3 h-100 rounded-circle d-flex justify-content-center align-items-center me-auto bg-secondary">
-              <i class="fa-solid fa-warehouse text-secondary"></i>
-            </div>
-            <div
-              class="col-6 h-100 xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
-              Pending
-            </div>
-          </div>
-          <div class="col position-absolute mt-1">
-            <div class="row fw-bolder fs-l-small">Maronko Supplier</div>
-            <div class="row">00123</div>
-          </div>
-        </div>
-        <i
-          class="fa-solid fa-receipt text-primary opacity-50 position-absolute padIcon"></i>
-      </div>
-      <div class="h-50 row bg-secondary rounded-bottom">
-        <div class="row">
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-        </div>
-        <div class="container">
-          <div class="">
-            <div class="row">
-              <div class="col-6">
-                <div class="row">
-                  <div
-                    class="col d-flex justify-content-center align-items-center">
-                    <i class="fa-solid fa-box me-1 text-secondary"></i>
-                    <span class="text-dark">Tea</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-5">
-                <div
-                  class="row h-100 d-flex align-items-center text-secondary justify-content-end">
-                  2 kg
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="div">
-            <span class="text-primary fw-bolder fs-4">26 000 BIF</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="col-6 col-md-4 col-lg-3 col-xl-2 shadow-sm sm-radius HDiv position-relative">
-      <div class="container-fluid h-50 position-relative mt-2 mb-1">
-        <div class="col h-50">
-          <div class="row h-75">
-            <div
-              class="col-3 h-100 rounded-circle d-flex justify-content-center align-items-center me-auto bg-secondary">
-              <i class="fa-solid fa-warehouse text-secondary"></i>
-            </div>
-            <div
-              class="col-6 h-100 xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
-              Pending
-            </div>
-          </div>
-          <div class="col position-absolute mt-1">
-            <div class="row fw-bolder fs-l-small">Maronko Supplier</div>
-            <div class="row">00123</div>
-          </div>
-        </div>
-        <i
-          class="fa-solid fa-receipt text-primary opacity-50 position-absolute padIcon"></i>
-      </div>
-      <div class="h-50 row bg-secondary rounded-bottom">
-        <div class="row">
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-        </div>
-        <div class="container">
-          <div class="">
-            <div class="row">
-              <div class="col-6">
-                <div class="row">
-                  <div
-                    class="col d-flex justify-content-center align-items-center">
-                    <i class="fa-solid fa-box me-1 text-secondary"></i>
-                    <span class="text-dark">Tea</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-5">
-                <div
-                  class="row h-100 d-flex align-items-center text-secondary justify-content-end">
-                  2 kg
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="div">
-            <span class="text-primary fw-bolder fs-4">26 000 BIF</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="col-6 col-md-4 col-lg-3 col-xl-2 shadow-sm sm-radius HDiv position-relative">
-      <div class="container-fluid h-50 position-relative mt-2 mb-1">
-        <div class="col h-50">
-          <div class="row h-75">
-            <div
-              class="col-3 h-100 rounded-circle d-flex justify-content-center align-items-center me-auto bg-secondary">
-              <i class="fa-solid fa-warehouse text-secondary"></i>
-            </div>
-            <div
-              class="col-6 h-100 xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
-              Pending
-            </div>
-          </div>
-          <div class="col position-absolute mt-1">
-            <div class="row fw-bolder fs-l-small">Maronko Supplier</div>
-            <div class="row">00123</div>
-          </div>
-        </div>
-        <i
-          class="fa-solid fa-receipt text-primary opacity-50 position-absolute padIcon"></i>
-      </div>
-      <div class="h-50 row bg-secondary rounded-bottom">
-        <div class="row">
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-          <div class="col">
-            <hr class="bg-primary w-100 my-0" />
-          </div>
-        </div>
-        <div class="container">
-          <div class="">
-            <div class="row">
-              <div class="col-6">
-                <div class="row">
-                  <div
-                    class="col d-flex justify-content-center align-items-center">
-                    <i class="fa-solid fa-box me-1 text-secondary"></i>
-                    <span class="text-dark">Tea</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-5">
-                <div
-                  class="row h-100 d-flex align-items-center text-secondary justify-content-end">
-                  2 kg
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="div">
-            <span class="text-primary fw-bolder fs-4">26 000 BIF</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  }
 </div>
