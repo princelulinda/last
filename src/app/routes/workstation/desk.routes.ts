@@ -9,18 +9,27 @@ import { ClientDetailsComponent } from '../../components/client/client-details/c
 import { ClientListComponent } from '../../components/client/client-list/client-list.component';
 import { CounterDetailsComponent } from '../../components/dev/operations/counter-details/counter-details.component';
 import { DiverseOperationComponent } from '../../components/dev/diverse-operation/diverse-operation.component';
-
+import { ClientWalletDetailsComponent } from '../../components/client/client-wallet-details/client-wallet-details.component';
 export const DeskRoutes: Routes = [
-  { path: 'list', component: ClientListComponent },
-
   {
-    path: 'details/:client_id',
-    component: ClientDetailsComponent,
-
+    path: 'client',
     children: [
+      { path: 'list', component: ClientListComponent },
+
       {
-        path: 'account/:accountId',
-        component: ClientAccountDetailComponent,
+        path: 'details/:client_id',
+        component: ClientDetailsComponent,
+
+        children: [
+          {
+            path: 'account/:accountId',
+            component: ClientAccountDetailComponent,
+          },
+          {
+            path: 'wallet/:walletId',
+            component: ClientWalletDetailsComponent,
+          },
+        ],
       },
     ],
   },
