@@ -45,3 +45,12 @@ export interface MeasureModel {
   unit_measure: number;
   unit_value: string;
 }
+
+export interface InvoiceResponseModel {
+  response_message: string;
+  response_code: string;
+  response_data: {
+    code: string;
+  };
+  success: boolean;
+}
