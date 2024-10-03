@@ -12,6 +12,10 @@ import {
   OperationListModel,
   OperationTransactionModel,
 } from '../../../components/dev/operations/operation.model';
+import {
+  BalanceActionModel,
+  BalanceModel,
+} from '../../../components/dev/operations/balance/balance.model';
 
 @Injectable({
   providedIn: 'root',
@@ -124,5 +128,36 @@ export class CounterService {
     return this.apiService
       .get<{ objects: MainBoxModel[] }>(url)
       .pipe(map(data => data));
+  }
+
+  getTreasuryBalanceList(search = '', pagination: PaginationConfig) {
+    const url = `/treasury/institutions/balances/?search=${search}&limit=${pagination.filters.limit}&offset=${pagination.filters.offset}`;
+    return this.apiService
+      .get<{ objects: BalanceModel[]; count: number }>(url)
+      .pipe(
+        map(treasuryBalance => {
+          return treasuryBalance;
+        })
+      );
+  }
+  addTreasuryBalanceList(balance: object) {
+    return this.apiService
+      .post<BalanceModel>('/treasury/institutions/balances/', balance)
+      .pipe(
+        map(treasury => {
+          return treasury;
+        })
+      );
+  }
+  validateOrSuspetBalance(balance: object) {
+    return this.apiService
+      .post<{
+        object: BalanceActionModel;
+      }>('/treasury/balance-action/', balance)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
   }
 }

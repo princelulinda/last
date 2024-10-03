@@ -71,6 +71,7 @@
 </div>
 
 <div class="container-fluid">
+  <!-- products -->
   @if (!selectedProduct) {
     <div
       class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-5">
@@ -121,7 +122,12 @@
         </div>
       }
     </div>
-  } @else if (selectedProduct) {
+  }
+  <!-- product detail -->
+  @else if (selectedProduct) {
+    <ng-container *ngTemplateOutlet="providers"></ng-container>
+  }
+  <ng-template #providers>
     <section class="d-grid gap-4">
       <div class="d-flex gap-3">
         <div class="bg-secondary p-4 sm-radius">
@@ -177,6 +183,7 @@
 
         <div
           class="d-flex flex-wrap justify-content-center justify-content-sm-start gap-4">
+          <!-- providers -->
           @if (suppliers) {
             @for (item of suppliers; track $index) {
               <div
@@ -211,83 +218,108 @@
             </div>
           }
         </div>
-      } @else if (selectedMerchant) {
-        <div class="d-flex flex-column gap-5">
-          <div class="d-flex flex-column gap-3">
-            <b class="text-primary">Supplier Selected</b>
-            <div class="d-flex flex-row gap-3">
-              <div
-                class="selectedMerchant-card bg-secondary sm-radius d-flex gap-4 py-2">
+      }
+      <!-- selected supplier and measure of product -->
+      @else if (selectedMerchant) {
+        <form action="adding an invoice" [formGroup]="invoiceForm">
+          <div class="d-flex flex-column gap-5">
+            <div class="d-flex flex-column gap-3">
+              <b class="text-primary">Supplier Selected</b>
+              <div class="d-flex flex-row gap-3">
                 <div
-                  class="col-2 border border-white border-5 bg-secondary rounded-circle d-flex align-items-center ms-2">
-                  <span class="w-100 d-flex justify-content-center">
-                    <i class="fa-solid fa-warehouse text-secondary"></i>
-                  </span>
+                  class="selectedMerchant-card bg-secondary sm-radius d-flex gap-4 py-2">
+                  <div
+                    class="col-2 border border-white border-5 bg-secondary rounded-circle d-flex align-items-center ms-2">
+                    <span class="w-100 d-flex justify-content-center">
+                      <i class="fa-solid fa-warehouse text-secondary"></i>
+                    </span>
+                  </div>
+                  <div class="d-flex flex-column align-self-center">
+                    <b>{{ supplier.provider.client.client_full_name }}</b>
+                    <small>{{ supplier.provider.client.client_id }}</small>
+                  </div>
                 </div>
-                <div class="d-flex flex-column align-self-center">
-                  <b>{{ supplier.provider.client.client_full_name }}</b>
-                  <small>{{ supplier.provider.client.client_id }}</small>
+                <div
+                  class="bg-primary sm-radius p-3 px-4 d-flex align-items-center">
+                  <i class="fa-solid fa-delete-left fa-lg text-white"></i>
                 </div>
-              </div>
-              <div
-                class="bg-primary sm-radius p-3 px-4 d-flex align-items-center">
-                <i class="fa-solid fa-delete-left fa-lg text-white"></i>
               </div>
             </div>
-          </div>
-          <div class="d-flex flex-column gap-4">
-            <div class="row">
-              <div class="col-9 col-sm-5 col-md-4 col-lg-5 col-xl-4">
-                <div class="input-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="25.."
-                    aria-label="value"
-                    aria-describedby="basic-addon2" />
-                  <div
-                    class="input-group-append d-flex align-items-center border-start border-2"
-                    role="button"
-                    tabindex="0">
-                    <select
-                      class="form-select form-control"
+            <div class="d-flex flex-column gap-4">
+              <div class="row">
+                <div class="col-9 col-sm-5 col-md-4 col-lg-5 col-xl-4">
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="25.."
+                      formControlName="measure_value"
                       aria-label="value"
-                      aria-describedby="basic-addon2">
-                      <option>{{ supplier.product.measure.suffix }}</option>
-                      <option>l</option>
-                      <option>per</option>
-                    </select>
+                      aria-describedby="basic-addon2" />
+                    <div
+                      class="input-group-append d-flex align-items-center border-start border-2"
+                      role="button"
+                      tabindex="0">
+                      @if (measures) {
+                        <select
+                          class="form-select form-control"
+                          formControlName="measure_type"
+                          aria-label="value"
+                          aria-describedby="basic-addon2">
+                          @for (item of measures; track $index) {
+                            <option id="{{ item.id }}">
+                              {{ item.suffix }}
+                            </option>
+                          }
+                        </select>
+                      }
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row mb-xxl-5">
-              <div class="col-9 col-sm-5 col-md-4 col-lg-5 col-xl-4">
-                <input type="pin" class="form-control" placeholder="PIN" />
+              <div class="row mb-xxl-5">
+                <div class="col-9 col-sm-5 col-md-4 col-lg-5 col-xl-4">
+                  <input
+                    type="pin"
+                    class="form-control"
+                    placeholder="PIN"
+                    formControlName="pin" />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="d-flex justify-content-center gap-4 mt-5">
-          <button class="btn text-dark">
-            <b>Cancel</b>
-          </button>
-          <button class="btn bg-primary px-3 px-sm-5 text-white">
-            <b>Confirm</b>
-          </button>
-          <button
-            class="btn border-primary text-primary px-2 px-sm-4"
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop">
-            <b>Add to group</b>
-          </button>
-        </div>
+          <!-- buttons of adding group , new group or cancel all -->
+          <div class="d-flex justify-content-center gap-4 mt-5">
+            <button class="btn text-dark" routerLink="/m/mymarket/purchase">
+              <b>Cancel</b>
+            </button>
+            <button
+              class="btn bg-primary px-3 px-sm-5 text-white"
+              (click)="createBill()"
+              tabindex="0"
+              [disabled]="!invoiceForm.valid">
+              @if (isLoading) {
+                <span>
+                  <i
+                    class="fa-solid fa-spin fa-circle-notch fa-lg text-white"></i>
+                </span>
+              } @else if (!isLoading) {
+                <b>Confirm</b>
+              }
+            </button>
+            <button
+              class="btn border-primary text-primary px-2 px-sm-4"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop">
+              <b>Add to group</b>
+            </button>
+          </div>
+        </form>
       }
     </section>
-  }
+  </ng-template>
 </div>
-<!-- Modal -->
+<!-- Modal of new group and existant group -->
 <div
   class="modal fade"
   id="staticBackdrop"
@@ -330,7 +362,7 @@
               <div class="col-11 mx-auto">
                 <div class="row">
                   <div class="col-10 col-sm-11">
-                    <span class="text-dark">Add to Group</span>
+                    <span class="text-dark">Existant Group</span>
                   </div>
                   <div class="col-1">
                     <div class="d-flex justify-content-end mt-1">

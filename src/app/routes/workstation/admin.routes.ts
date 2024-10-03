@@ -22,19 +22,23 @@ import { AdminServicesListComponent } from '../../components/admin/rh/admin-serv
 import { AdminServicesDetailsComponent } from '../../components/admin/rh/admin-services-details/admin-services-details.component';
 import { ConfigTarifComponent } from '../../components/tarifs/config-tarif/config-tarif.component';
 import { AdminAccessListComponent } from '../../components/admin/access/admin-access-list/admin-access-list.component';
-import { AgentListComponent } from '../../components/admin/agent/agent-list/agent-list.component';
-import { AgentDetailComponent } from '../../components/admin/agent/agent-detail/agent-detail.component';
+import { ShortcutsComponent } from '../../components/admin/customer-base/shortcuts/shortcuts.component';
+import { ModalComponent } from '../../components/admin/customer-base/modal/modal.component';
 
 export const AdminRoutes: Routes = [
   // Operator
   {
-    path: 'operators',
-    component: OperatorsComponent,
-  },
-
-  {
-    path: 'operator/:id',
-    component: OperatorDetailsComponent,
+    path: 'operator',
+    children: [
+      {
+        path: 'operators',
+        component: OperatorsComponent,
+      },
+      {
+        path: 'operator/:id',
+        component: OperatorDetailsComponent,
+      },
+    ],
   },
 
   // Menu
@@ -108,6 +112,9 @@ export const AdminRoutes: Routes = [
     path: 'accesses',
     component: AdminAccessListComponent,
   },
+  //customer-base
+  { path: 'shortcuts', component: ShortcutsComponent },
+  { path: 'modal', component: ModalComponent },
   {
     path: 'access-required',
     loadComponent: () =>
@@ -115,7 +122,4 @@ export const AdminRoutes: Routes = [
         '../../global/components/errors/forbidden-403/forbidden-403.component'
       ).then(m => m.Forbidden403Component),
   },
-
-  { path: 'agent', component: AgentListComponent },
-  { path: 'agent/details/:id', component: AgentDetailComponent },
 ];

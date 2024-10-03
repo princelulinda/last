@@ -7,7 +7,7 @@
       <i class="fa-solid fa-spin fa-circle-notch fs-large text-dark"></i>
     </span>
   }
-
+  <!-- 
   @if (
     !organizationDetailsLoading && !loadingPermission && !organizationDetails
   ) {
@@ -17,7 +17,7 @@
         <span class="fs-xx-large empty-state">Something went wrong!</span>
       </div>
     </div>
-  }
+  } -->
 
   <!-- Operator Badge -->
   @if (
@@ -26,33 +26,20 @@
     <div class="d-flex flex-row justify-content-between">
       <div class="d-flex flex-row gap-4 p-2 px-3 mb-4">
         <div
-          class="rounded-circle bg-secondary me-4 position-relative d-flex align-items-center justify-content-center"
-          style="width: 104px; height: 104px">
-          @if (organizationDetails.operator.employee_client?.picture) {
-            <img
-              class="image rounded-circle"
-              src="{{ organizationDetails.operator.employee_client?.picture }}"
-              alt="{{ organizationDetails.operator.username }} Logo" />
-          }
-          <!-- if no picture -->
-          @if (
-            !organizationDetails.operator.employee_client ||
-            !organizationDetails.operator.employee_client.picture
-          ) {
-            <span class="text-secondary" style="font-size: 3rem">
-              <i class="fa-solid fa-user-tie fa-xl"></i>
-            </span>
-          }
-          <span
-            class="text-secondary position-absolute fs-5 clickable rounded-circle bg-white"
-            style="
-              bottom: 0;
-              right: -3%;
-              z-index: 10;
-              cursor: pointer;
-              height: 30px;
-              width: 30px;
+          class="rounded-circle bg-secondary me-4 position-relative d-flex align-items-center justify-content-center">
+          <app-profile-card
+            width="104px"
+            height="104px"
+            classes="fs-xx-large"
+            [fullName]="
+              organizationDetails.operator.employee_client?.client_full_name
             "
+            [imageUrl]="
+              organizationDetails.operator.employee_client?.picture
+            "></app-profile-card>
+          <span
+            class="text-secondary position-absolute fs-5 clickable rounded-circle bg-white bottom-0 z-10 clickable"
+            style="right: -3%; height: 30px; width: 30px"
             title="Refresh"
             tabindex="0"
             (click)="refresh()">
@@ -69,10 +56,13 @@
             organizationDetails.operator.employee_client?.client_code ??
               '------'
           }}</b>
-          <div class="d-flex flex-row gap-2">
+
+          <!-- TODO :: TO BE REPLACED WITH REAL DATA -->
+
+          <!-- <div class="d-flex flex-row gap-2">
             <span class="text-secondary fw-bold">Reference person </span>
             <span class="fw-bold">Pierre claver koko Banywera </span>
-          </div>
+          </div> -->
         </div>
       </div>
       <div>
@@ -81,7 +71,7 @@
           role="button"
           tabindex="0"
           [routerLink]="redirectTo('operators')">
-          <u>Go to list</u></span
+          <u i18n>Go to list</u></span
         >
       </div>
     </div>
@@ -99,12 +89,9 @@
     }
     <!-- Info Section -->
     <ng-template #info>
-      <div class="row">
-        <!-- Left Side -->
-
-        <div class="col-8 d-flex flex-column p-2">
-          <!-- Details -->
-
+      <section class="row">
+        <!-- NOTE :: DETAILS SECTION -->
+        <section class="col-8 d-flex flex-column p-2">
           <div class="w-100 d-flex position-relative flex-column gap-0 mb-4">
             <div class="w-100 d-flex flex-row px-3 mb-3 align-items-center">
               <span class="me-2"
@@ -216,66 +203,62 @@
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <!-- Right Side -->
+        <!-- NOTE :: DOCUMENT SECTION -->
+        <!-- TODO :: DOCUMENT SECTION TO REPLACE WITH REAL DATA-->
 
-        <div class="col-4">
-          <!-- Document -->
-          <div>
-            <div class="w-100 d-flex flex-row gap-2 align-items-center">
-              <span>
-                <i class="fa-solid fa-circle text-primary-1 fs-x-small"></i>
-              </span>
-              <span class="fw-bold" i18n>Document</span>
+        <!-- <section class="col-4">
+          <div class="d-flex flex-row gap-2 align-items-center">
+            <span>
+              <i class="fa-solid fa-circle text-primary-1 fs-x-small"></i>
+            </span>
+            <span class="fw-bold" i18n>Document</span>
+          </div>
+
+          <div class="mt-2 px-3 pt-3 pb-5 border border-secondary rounded-2">
+            <div class="d-flex flex-column">
+              <span class="text-secondary fs-medium" i18n>CV</span>
+              <span href="#" class="fw-bold text-info clickable text-truncate"
+                ><u>cv_bibyento.pdf</u
+                ><i class="fa-solid fa-file-arrow-down ms-3 text-secondary"></i
+              ></span>
             </div>
-            <div class="mt-2 px-3 pt-3 pb-5 border border-secondary rounded-2">
-              <div class="d-flex flex-column">
-                <span class="text-secondary fs-medium" i18n>CV</span>
-                <span href="#" class="fw-bold text-info clickable text-truncate"
-                  ><u>cv_bibyento.pdf</u
-                  ><i
-                    class="fa-solid fa-file-arrow-down ms-3 text-secondary"></i
-                ></span>
-              </div>
 
-              <div class="d-flex flex-column mt-3">
-                <span class="text-secondary fs-medium" i18n
-                  >Attestation de residence</span
-                >
-                <span href="#" class="fw-bold text-info clickable text-truncate"
-                  ><u>residence_bibyento.docs</u
-                  ><i
-                    class="fa-solid fa-file-arrow-down ms-3 text-secondary"></i
-                ></span>
-              </div>
+            <div class="d-flex flex-column mt-3">
+              <span class="text-secondary fs-medium" i18n
+                >Attestation de residence</span
+              >
+              <span href="#" class="fw-bold text-info clickable text-truncate"
+                ><u>residence_bibyento.docs</u
+                ><i class="fa-solid fa-file-arrow-down ms-3 text-secondary"></i
+              ></span>
+            </div>
 
-              <div class="d-flex flex-column mt-3">
-                <span class="text-secondary fs-medium" i18n
-                  >Identite complete</span
-                >
-                <span href="#" class="fw-bold text-info clickable text-truncate"
-                  ><u>Identinte_complete_bibyento.docs</u
-                  ><i
-                    class="fa-solid fa-file-arrow-down ms-3 text-secondary"></i
-                ></span>
-              </div>
+            <div class="d-flex flex-column mt-3">
+              <span class="text-secondary fs-medium" i18n
+                >Identite complete</span
+              >
+              <span href="#" class="fw-bold text-info clickable text-truncate"
+                ><u>Identinte_complete_bibyento.docs</u
+                ><i class="fa-solid fa-file-arrow-down ms-3 text-secondary"></i
+              ></span>
+            </div>
 
-              <div class="d-flex flex-column mt-3">
-                <span class="text-secondary fs-medium" i18n>CNI</span>
-                <span href="#" class="fw-bold text-info clickable text-truncate"
-                  ><u>CNI_bibyento.docs</u
-                  ><i
-                    class="fa-solid fa-file-arrow-down ms-3 text-secondary"></i
-                ></span>
-              </div>
+            <div class="d-flex flex-column mt-3">
+              <span class="text-secondary fs-medium" i18n>CNI</span>
+              <span href="#" class="fw-bold text-info clickable text-truncate"
+                ><u>CNI_bibyento.docs</u
+                ><i class="fa-solid fa-file-arrow-down ms-3 text-secondary"></i
+              ></span>
             </div>
           </div>
-        </div>
-      </div>
+        </section> -->
+      </section>
 
-      <!-- Recent Operations Section -->
-      <div
+      <!-- TODO :: OPERATIONS SECTION TO REPLACE WITH REAL DATA-->
+
+      <!-- <section
         class="w-100 bg-secondary rounded-2 border border-secondary mt-4"
         style="height: 250px">
         <div class="w-100 d-flex flex-row px-3 mt-2 gap-2 align-items-center">
@@ -284,12 +267,10 @@
           </span>
           <span class="fw-bold" i18n>Recent Operations</span>
         </div>
-      </div>
+      </section> -->
     </ng-template>
 
     <ng-template #details>
-      <!-- Details -->
-
       <div class="mt-5 mx-3 h-75 row">
         <div class="col-12 col-lg-11 col-xl-9 col-xxl-8">
           <div class="d-flex border-bottom">
@@ -428,7 +409,8 @@
               </div>
             }
 
-            <!------------------------------------------------------------ ALL ROLES ------------------------------------------------------------------------->
+            <!-- NOTE :: ALL ROLES -->
+
             @if (
               !rolesLoading &&
               !selectedRole &&
@@ -464,7 +446,7 @@
                           </div>
 
                           <div class="">
-                            <span class="text-primary fw-bold badge-design"
+                            <span class="text-primary fw-bold badge-design" i18n
                               >Teller</span
                             >
                           </div>
@@ -477,7 +459,7 @@
                           (click)="
                             navigate(
                               $event,
-                              '/w/workstation/admin/roles/' + role.role_id
+                              '/w/workstation/a/admin/roles/' + role.role_id
                             )
                           ">
                           <span
@@ -556,7 +538,7 @@
               </div>
             }
 
-            <!------------------------------------------------------------ ALL MENUS ------------------------------------------------------------------------->
+            <!-- NOTE :: ALL MENUS  -->
 
             @if (selectedSection === 'menus' && selectedMenu === 'menus') {
               <div
@@ -680,13 +662,17 @@
                 ) {
                   <div class="w-100 row">
                     <div class="col-3 d-flex justify-content-center">
-                      <span class="text-secondary fw-bold">Counter</span>
+                      <span class="text-secondary fw-bold" i18n>Counter</span>
                     </div>
                     <div class="col-4 d-flex justify-content-center">
-                      <span class="text-secondary fw-bold">Branch Name</span>
+                      <span class="text-secondary fw-bold" i18n
+                        >Branch Name</span
+                      >
                     </div>
                     <div class="col-3 d-flex justify-content-center">
-                      <span class="text-secondary fw-bold">Branch code</span>
+                      <span class="text-secondary fw-bold" i18n
+                        >Branch code</span
+                      >
                     </div>
                     <div class="col-2 d-flex justify-content-center">
                       <span class="text-secondary"></span>
@@ -878,7 +864,7 @@
                       (click)="
                         navigate(
                           $event,
-                          '/w/workstation/admin/roles/' + selectedRole.role_id
+                          '/w/workstation/a/admin/roles/' + selectedRole.role_id
                         )
                       ">
                       <i
@@ -1037,11 +1023,12 @@
             class="modal-content lg-radius px-4 py-3 bg-white"
             style="min-width: 642px; max-height: 800px">
             <div class="d-flex w-100 justify-content-end">
-              <button
-                type="button"
-                class="btn-close"
+              <span
                 data-bs-dismiss="modal"
-                aria-label="Close"></button>
+                class="clickable fs-medium"
+                aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+              </span>
             </div>
 
             <div class="w-100 px-4">
@@ -1228,6 +1215,7 @@
                     [isLoading]="otherBranchesLoading"
                     [totalData]="branchesCount"
                     [pageLimit]="otherBranchesPagination.filters.limit"
+                    [limit]="false"
                     (paginationChange)="onPaginationChange($event)">
                   </app-pagination>
                 </div>

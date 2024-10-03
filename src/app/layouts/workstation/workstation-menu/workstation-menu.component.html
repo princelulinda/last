@@ -219,9 +219,12 @@
 
             @if (selectedGroup && selectedGroup.menus.length !== 0) {
               @for (item of selectedGroup.menus; track $index) {
+                <!-- routerLink="{{ baseMenuUrl }}{{ item.component_url }}" -->
+                <!-- [routerLinkActiveOptions]="{ exact: true }" -->
                 <a
-                  tabindex="1"
                   (click)="selectAMenu(item, item.component_url)"
+                  routerLinkActive="bg-input"
+                  tabindex="1"
                   [ngClass]="{
                     'mb-2': $index === selectedGroup.menus.length - 1,
                   }"
