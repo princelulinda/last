@@ -107,12 +107,16 @@ export class MenuService {
 
     [menuGroups, baseMenuUrl] = this.getActiveMenuGroups(menus, typeMenu);
 
-    if (menuGroups && baseMenuUrl.split('/').length > 6) {
+    if (menuGroups && baseMenuUrl.split('/').length > 4) {
       selectedGroup =
         menuGroups.find(group =>
-          group.menus.find(
-            menu => `${baseMenuUrl}${menu.component_url}` === pathname
-          )
+          group.menus.find(menu => {
+            // NOTE :: TO REMOVE SPLASH ON END (component_url)
+            if (menu.component_url.endsWith('/')) {
+              menu.component_url = menu.component_url.slice(0, -1);
+            }
+            return `${baseMenuUrl}${menu.component_url}` === pathname;
+          })
         ) ?? null;
 
       if (selectedGroup) {

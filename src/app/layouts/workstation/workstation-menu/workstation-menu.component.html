@@ -223,11 +223,11 @@
                 <!-- routerLink="{{ baseMenuUrl }}{{ item.component_url }}" -->
                 <a
                   href="{{ baseMenuUrl }}{{ item.component_url }}"
-                  (click)="selectAMenu(item, item.component_url, $event)"
-                  routerLinkActive="bg-input"
+                  (click)="setSelectedMenu(item, item.component_url, $event)"
                   tabindex="1"
                   [ngClass]="{
                     'mb-2': $index === selectedGroup.menus.length - 1,
+                    'bg-input': selectedMenu?.id === item.id,
                   }"
                   class="py-1 ms-1 w-100 px-2 mb-1 xx-lg-radius bg-hover-input text-secondary d-block w-100 text-truncate"
                   role="button">
