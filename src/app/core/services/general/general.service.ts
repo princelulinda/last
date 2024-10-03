@@ -27,6 +27,7 @@ export class GeneralService {
   private inputChanged$ = new Subject<string>();
 
   constructor(private apiService: ApiService) {}
+
   getData(
     url: string,
     pagination: PaginationConfig,
@@ -160,8 +161,7 @@ export class GeneralService {
   }
 
   // NOTE :: for finding a string with most similarity
-  findMostSimilar(list: string[], searchElement: string) {
-    console.log('MENU TO CHECK', list);
+  findMostSimilar(list: string[], searchElement: string): string {
     return list.reduce((bestMatch: string, element: string) => {
       const currentDistance = this.levenshteinDistance(element, searchElement);
       const bestDistance = this.levenshteinDistance(bestMatch, searchElement);

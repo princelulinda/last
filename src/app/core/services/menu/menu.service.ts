@@ -3,7 +3,7 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import { ApiService } from '..';
+import { ApiService, GeneralService } from '..';
 import {
   MenuGroupAndMenusSimpleModel,
   MenuGroupsModel,
@@ -24,7 +24,10 @@ import { MetadataModel } from '../../../components/metadatas/metadata.model';
 export class MenuService {
   private pageMenus: WritableSignal<PageMenusModel[]> = signal([]);
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private generalService: GeneralService
+  ) {}
 
   setPageMenus(menus: PageMenusModel[]) {
     this.pageMenus.set(menus);
@@ -97,10 +100,9 @@ export class MenuService {
     typeMenu: URLTypeMenuModel
   ): MenuGroupAndMenusSimpleModel | null | undefined {
     let pathname = window.location.pathname;
-    //NOTE:: just for removing language prefixes in case i18n is activated
-    if (['en', 'fr'].includes(pathname.split('/')[1])) {
-      pathname = pathname.slice(3);
-    }
+
+    pathname = this.extractBasePath(pathname);
+
     let menuGroups: MenuGroupAndMenusSimpleModel[] = [];
     let baseMenuUrl = '';
     let selectedGroup: MenuGroupAndMenusSimpleModel | null = null;
@@ -108,20 +110,27 @@ export class MenuService {
     [menuGroups, baseMenuUrl] = this.getActiveMenuGroups(menus, typeMenu);
 
     if (menuGroups && baseMenuUrl.split('/').length > 4) {
+      const componentUrls: string[] = [];
+
+      menuGroups.map(group =>
+        group.menus.map(menu => componentUrls.push(menu.component_url))
+      );
+
+      // NOTE :: GET MOST SIMILAR MENU BY COMPONENT URL
+      const matchComponentUrl: string = this.generalService.findMostSimilar(
+        componentUrls,
+        pathname
+      );
+
       selectedGroup =
         menuGroups.find(group =>
-          group.menus.find(menu => {
-            // NOTE :: TO REMOVE SPLASH ON END (component_url)
-            if (menu.component_url.endsWith('/')) {
-              menu.component_url = menu.component_url.slice(0, -1);
-            }
-            return `${baseMenuUrl}${menu.component_url}` === pathname;
-          })
+          group.menus.find(menu => menu.component_url === matchComponentUrl)
         ) ?? null;
 
+      // NOTE :: SELECTED MENU ONLY
       if (selectedGroup) {
         selectedGroup.menus = selectedGroup?.menus.filter(
-          menu => `${baseMenuUrl}${menu.component_url}` === pathname
+          menu => menu.component_url === matchComponentUrl
         );
       }
       return selectedGroup;
@@ -168,5 +177,21 @@ export class MenuService {
   ): MenuGroupAndMenusSimpleModel[] {
     return menus.find(typeMenu => typeMenu.name === type)
       ?.menu_groups as MenuGroupAndMenusSimpleModel[];
+  }
+
+  private extractBasePath(pathName: string): string {
+    const parts: string[] = pathName.split('/');
+
+    //NOTE:: just for removing language prefixes in case i18n is activated
+    if (['en', 'fr'].includes(parts[1])) {
+      pathName = pathName.slice(3);
+    }
+
+    for (let i = 0; i < parts.length; i++) {
+      if (Number(parts[i])) {
+        return parts.slice(0, i).join('/');
+      }
+    }
+    return pathName;
   }
 }
