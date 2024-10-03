@@ -207,8 +207,12 @@ export class WorkstationMenuComponent implements OnInit {
 
   selectAMenu(
     menu: { id: number; name: string; component_url: string },
-    url: string
+    url: string,
+    event?: MouseEvent
   ) {
+    if (event) {
+      event.preventDefault();
+    }
     this.menuService.setLocalSelectedMenu(menu.id);
     // NOTE :: GETTING ACCESS MENUS
     this.getAccesses(url);
