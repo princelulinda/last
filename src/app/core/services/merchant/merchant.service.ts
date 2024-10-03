@@ -38,6 +38,7 @@ import { BillsModel } from '../../../components/merchant/bills/bills.model';
 import {
   InvoiceGroupModel,
   InvoiceModel,
+  MeasureModel,
   ProvidersModel,
 } from '../../../components/dev/invoice/invoice.models';
 import {
@@ -651,9 +652,11 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
-  createBill(): Observable<InvoiceModel> {
+  createBill(invoice: InvoiceModel): Observable<InvoiceModel> {
     const url = `/dbs/merchant/bill-validation-init/ `;
-    return this.apiService.post<InvoiceModel>(url).pipe(map(data => data));
+    return this.apiService
+      .post<InvoiceModel>(url, invoice)
+      .pipe(map(data => data));
   }
 
   getSupplier(product_id: number): Observable<{ objects: ProvidersModel[] }> {
@@ -662,7 +665,14 @@ export class MerchantService {
       .get<{ objects: ProvidersModel[] }>(url)
       .pipe(map(data => data));
   }
-
+  getProductMeasure(
+    product_id: number
+  ): Observable<{ objects: MeasureModel[] }> {
+    const url = `/dbs/product-measure/?product=${product_id}`;
+    return this.apiService
+      .get<{ objects: MeasureModel[] }>(url)
+      .pipe(map(data => data));
+  }
   // getBillsByGroup(group_name: string): Observable<any> {
   //   const url = `/dbs/merchant/bills/?bill_group=${group_name}/`;
   //   return this.apiService
