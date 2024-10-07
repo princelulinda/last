@@ -126,9 +126,8 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as { objects: MerchantAutocompleteModel[] };
           this.isLoading = false;
-          this.merchants = response.objects;
+          this.merchants = data.objects;
           this.favorite_merchant_making = null;
         },
         error: err => {

@@ -18,6 +18,7 @@ import {
 } from '../../../core/services';
 import {
   MenuGroupAndMenusSimpleModel,
+  MenuSimpleModel,
   TypeMenuModel,
   URLTypeMenuModel,
 } from '../../../core/db/models/menu/menu.models';
@@ -48,6 +49,9 @@ export class WorkstationMenuComponent implements OnInit {
 
   activatedTypeGroupMenus: MenuGroupAndMenusSimpleModel[] | [] = [];
   selectedGroup: MenuGroupAndMenusSimpleModel | null = null;
+
+  // TODO :: TO FIND A WAY TO REMOVE THIS VARIABLE AND USING ROUTERLINKACTIVE
+  selectedMenu: MenuSimpleModel | null = null;
 
   baseMenuUrl = '/w/workstation';
 
@@ -129,21 +133,23 @@ export class WorkstationMenuComponent implements OnInit {
             this.menus,
             this.activatedTypeMenu
           );
-        const routeMenu = this.menuService.getMenuByActivateRoute(
-          this.menus,
-          this.activatedTypeMenu
-        );
-        if (routeMenu !== undefined) {
-          this.selectGroup(routeMenu);
-          if (this.selectedGroup?.menus) {
-            this.selectAMenu(
-              this.selectedGroup.menus[0],
-              this.selectedGroup.menus[0].component_url
-            );
-          } else {
-            this.router.navigate([`${this.baseMenuUrl}access-required`]);
-          }
-        }
+        // const routeMenu = this.menuService.getMenuByActivateRoute(
+        //   this.menus,
+        //   this.activatedTypeMenu
+        // );
+        // if (routeMenu !== undefined) {
+        //   this.selectGroup(routeMenu);
+        //   if (this.selectedGroup?.menus) {
+        //     this.setSelectedMenu(
+        //       this.selectedGroup.menus[0],
+        //       this.selectedGroup.menus[0].component_url,
+        //       undefined,
+        //       false
+        //     );
+        //   } else {
+        //     this.router.navigate([`${this.baseMenuUrl}access-required`]);
+        //   }
+        // }
       },
     });
   }
@@ -175,6 +181,7 @@ export class WorkstationMenuComponent implements OnInit {
   selectGroup(group: MenuGroupAndMenusSimpleModel | null) {
     this.selectedGroup = group;
   }
+
   getMerchants(search: string) {
     this.isLoading = true;
     this.merchants = null;
@@ -184,9 +191,8 @@ export class WorkstationMenuComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as { objects: MerchantAutocompleteModel[] };
           this.isLoading = false;
-          this.merchants = response.objects;
+          this.merchants = data.objects;
         },
         error: () => {
           this.isLoading = false;
@@ -205,16 +211,22 @@ export class WorkstationMenuComponent implements OnInit {
     return typeof searchValue === 'string' && searchValue.trim() !== '';
   }
 
-  selectAMenu(
-    menu: { id: number; name: string; component_url: string },
-    url: string
+  setSelectedMenu(
+    menu: MenuSimpleModel,
+    url: string,
+    event?: MouseEvent,
+    enableRedirection?: boolean
   ) {
+    if (event) {
+      event.preventDefault();
+    }
+    this.selectedMenu = menu;
     this.menuService.setLocalSelectedMenu(menu.id);
     // NOTE :: GETTING ACCESS MENUS
-    this.getAccesses(url);
+    this.getAccesses(url, enableRedirection);
   }
 
-  private getAccesses(url: string) {
+  private getAccesses(url: string, redirect = true) {
     this.dialogService.dispatchLoading('topLoader');
     this.configService.clearActiveAccesses();
     this.menuService
@@ -224,12 +236,15 @@ export class WorkstationMenuComponent implements OnInit {
         next: accesses => {
           this.configService.setActiveAccesses(accesses.objects);
           this.dialogService.closeLoading();
-          this.router.navigate([`${this.baseMenuUrl}${url}`]);
+          if (redirect) {
+            this.router.navigate([`${this.baseMenuUrl}${url}`]);
+          }
         },
         error: () => {
+          this.selectedMenu = null;
           this.dialogService.closeLoading();
           this.dialogService.openToast({
-            message: '',
+            message: 'Something went wrong, Please try again',
             title: '',
             type: 'failed',
           });

@@ -36,7 +36,6 @@ export class ShortcutsComponent {
   // theme$: Observable<any>;
 
   constructor(
-    // private store: Store,
     private variableService: VariableService,
     private dialogService: DialogService
   ) {

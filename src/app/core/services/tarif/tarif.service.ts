@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '..';
 import { Observable, Subject } from 'rxjs';
-import { map, takeUntil, switchMap } from 'rxjs';
+import { map } from 'rxjs';
 import {
   TarifResponseModel,
   BankListResponseModel,
@@ -66,18 +66,6 @@ export class TarifService {
     return this.apiService.get<{ objects: SimulateResponseModel[] }>(url);
   }
 
-  getSimulate(type_code: string, amount: string, bank: number) {
-    this.inputChanged$.next(amount);
-    return this.inputChanged$.pipe(
-      switchMap(newAmount => {
-        this.cancelPreviousRequest$.next();
-        const url = `/dbs/tariff-simulation/?type_code=${type_code}&amount=${newAmount}&bank=${bank}`;
-        return this.apiService
-          .get(url)
-          .pipe(takeUntil(this.cancelPreviousRequest$));
-      })
-    );
-  }
   addTarif(body: AddTarifBodyModel): Observable<AddTarifModel> {
     const url = '/dbs/tariff-type/';
     return this.apiService

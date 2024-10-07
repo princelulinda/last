@@ -1,0 +1,643 @@
+@if (selectedTaxInfo === true) {
+  <div class="mb-4 sm-radius ms-1 mt-3">
+    @if (clientEntreprise && clientEntreprise.fisc.length > 0) {
+      <div class="mb-4">
+        <form [formGroup]="taxForm">
+          @for (fisc of clientEntreprise.fisc; track $index) {
+            <div class="row justify-content-between mx-auto">
+              <div class="text-start col">
+                <span class="text-sm text-dark text-opacity" i18n
+                  >Trade Register Number</span
+                >
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <span class="text-dark fw-bold text-md-sm">{{
+                    fisc.trade_register_number
+                  }}</span>
+                }
+                @if (isTaxAdditionFormShown) {
+                  <span>
+                    <input
+                      class="form-control input"
+                      formControlName="trade_register_number"
+                      type="text"
+                      placeholder="Trade register number"
+                  /></span>
+                }
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <div class="has-border mt-2"></div>
+                }
+              </div>
+              <div
+                class="ms-auto text-start col"
+                [ngClass]="{ 'text-center': isTaxAdditionFormShown }">
+                <span class="text-dark text-sm text-opacity" i18n>TRN file</span
+                ><br />
+                @if (!isTaxAdditionFormShown) {
+                  <span class="text-dark fw-bold text-md-sm">
+                    @if (fisc && fisc.trn_file) {
+                      <a [href]="fisc.trn_file" i18n> Open file</a>
+                    }
+                    @if (!fisc.trn_file) {
+                      <span class="fw-bold text-dark">---</span>
+                    }
+                  </span>
+                }
+
+                @if (isTaxAdditionFormShown) {
+                  <span>
+                    <input
+                      type="file"
+                      name="file-1"
+                      id="file-1"
+                      (change)="onFileSelectedTrn($event)"
+                      class="inputfile inputfile-4"
+                      data-multiple-caption="{count} files selected"
+                      multiple
+                      [value]="trnFile.value"
+                      accept="image/*,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                    <label class="text-dark" for="file-1" disabled="true"
+                      ><figure>
+                        <i
+                          [ngStyle]="{
+                            opacity: imageSrcTrn ? '0.1' : '',
+                          }"
+                          class="fa-solid fa-camera cameraIcon"></i>
+                        @if (imageSrcTrn) {
+                          <img
+                            class="imgSelected rounded"
+                            alt="image"
+                            [src]="imageSrcTrn" />
+                        }
+                      </figure>
+                      @if (!fileNameTrn) {
+                        <span i18n>Choose a file&hellip;</span>
+                      }
+                      @if (fileNameTrn) {
+                        <span>{{ fileNameTrn }}</span>
+                      }
+                    </label>
+                  </span>
+                }
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <div class="has-border mt-2"></div>
+                }
+              </div>
+              <div class="ms-auto text-start col">
+                <span class="text-sm text-dark text-opacity" i18n
+                  >TRN issue date</span
+                ><br />
+
+                @if (!isTaxAdditionFormShown) {
+                  <span class="text-dark fw-bold text-md-sm">{{
+                    fisc.trn_issue_date
+                  }}</span>
+                }
+                @if (isTaxAdditionFormShown) {
+                  <span>
+                    <input
+                      class="form-control input"
+                      formControlName="trn_issue_date"
+                      type="date"
+                  /></span>
+                }
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <div class="has-border mt-2"></div>
+                }
+              </div>
+              <div class="ms-auto text-start col">
+                <span class="text-sm text-dark text-opacity" i18n
+                  >Postal code</span
+                ><br />
+                @if (!isTaxAdditionFormShown) {
+                  <span class="text-dark fw-bold text-md-sm">{{
+                    fisc.postal_code
+                  }}</span>
+                }
+                @if (isTaxAdditionFormShown) {
+                  <span>
+                    <input
+                      class="form-control input"
+                      formControlName="postal_code"
+                      type="text"
+                      placeholder="Postal code"
+                  /></span>
+                }
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <div class="has-border mt-2"></div>
+                }
+              </div>
+            </div>
+          }
+          <br />
+          @for (fisc of clientEntreprise.fisc; track $index) {
+            <div class="row justify-content-between mx-auto">
+              <div class="text-start col">
+                <span class="text-sm text-dark text-opacity" i18n
+                  >Tax Identification Code</span
+                >
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <span class="text-dark fw-bold text-md-sm">{{
+                    fisc.tax_identification_code
+                  }}</span>
+                }
+                @if (isTaxAdditionFormShown) {
+                  <span>
+                    <input
+                      class="form-control input"
+                      formControlName="tax_identification_code"
+                      type="text"
+                      placeholder="Tax identification code"
+                  /></span>
+                }
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <div class="has-border mt-2"></div>
+                }
+              </div>
+
+              <div
+                class="ms-auto text-start col"
+                [ngClass]="{ 'text-center': isTaxAdditionFormShown }">
+                <span class="text-dark text-sm text-opacity" i18n>TIC file</span
+                ><br />
+                @if (!isTaxAdditionFormShown) {
+                  <span class="text-dark fw-bold text-md-sm">
+                    @if (fisc && fisc.tic_file) {
+                      <a [href]="fisc.tic_file" i18n> Open file</a>
+                    }
+                    @if (!fisc.tic_file) {
+                      <span class="fw-bold text-dark">---</span>
+                    }
+                  </span>
+                }
+                @if (isTaxAdditionFormShown) {
+                  <span>
+                    <input
+                      type="file"
+                      name="file-1"
+                      id="file-2"
+                      (change)="onFileSelectedTic($event)"
+                      class="inputfile inputfile-4"
+                      data-multiple-caption="{count} files selected"
+                      multiple
+                      [value]="ticFile.value"
+                      accept="image/*,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                    <label class="text-dark" for="file-2" disabled="true"
+                      ><figure>
+                        <i
+                          [ngStyle]="{
+                            opacity: imageSrcTic ? '0.1' : '',
+                          }"
+                          class="fa-solid fa-camera cameraIcon"></i>
+                        @if (imageSrcTic) {
+                          <img
+                            class="imgSelected rounded"
+                            alt="imageselect"
+                            [src]="imageSrcTic" />
+                        }
+                      </figure>
+                      @if (!fileNameTic) {
+                        <span i18n>Choose a file&hellip;</span>
+                      }
+                      @if (fileNameTic) {
+                        <span>{{ fileNameTic }}</span>
+                      }
+                    </label>
+                  </span>
+                }
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <div class="has-border mt-2"></div>
+                }
+              </div>
+              <div class="ms-auto text-start col">
+                <span class="text-sm text-dark text-opacity" i18n
+                  >TIC issue date</span
+                ><br />
+                @if (!isTaxAdditionFormShown) {
+                  <span class="text-dark fw-bold text-md-sm">{{
+                    fisc.tic_issue_date
+                  }}</span>
+                }
+                @if (isTaxAdditionFormShown) {
+                  <span>
+                    <input
+                      class="form-control input"
+                      formControlName="tic_issue_date"
+                      type="date"
+                  /></span>
+                }
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <div class="has-border mt-2"></div>
+                }
+              </div>
+              <div class="ms-auto text-start col">
+                <span class="text-sm text-dark text-opacity" i18n
+                  >Fiscal center code</span
+                ><br />
+                @if (!isTaxAdditionFormShown) {
+                  <span class="text-dark fw-bold text-md-sm">{{
+                    fisc.fiscal_center_code
+                  }}</span>
+                }
+                @if (isTaxAdditionFormShown) {
+                  <span>
+                    <select
+                      class="status rounded selectBox"
+                      formControlName="fiscal_center_code">
+                      @for (fcc of fiscalCenterCode; track $index) {
+                        <option [value]="fcc.abbrev" i18n>
+                          {{ fcc.name }}
+                        </option>
+                      }
+                    </select></span
+                  >
+                }
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <div class="has-border mt-2"></div>
+                }
+              </div>
+            </div>
+          }
+          <br />
+          @for (fisc of clientEntreprise.fisc; track $index) {
+            <div class="row justify-content-between mx-auto">
+              <div class="text-start col">
+                <span class="text-sm text-dark text-opacity" i18n
+                  >Is value added tax payer</span
+                >
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <span class="text-dark fw-bold">
+                    @if (fisc.is_value_added_tax_payer === true) {
+                      <span
+                        ><i
+                          class="fa-solid fa-circle-check text-md-sm text-success"></i
+                      ></span>
+                    }
+                    @if (fisc.is_value_added_tax_payer === false) {
+                      <span
+                        ><i
+                          class="fa-solid fa-circle-xmark text-md-sm text-danger"></i
+                      ></span>
+                    }
+                  </span>
+                }
+                @if (isTaxAdditionFormShown) {
+                  <span>
+                    <input
+                      class="form-control-check"
+                      formControlName="is_value_added_tax_payer"
+                      type="checkbox"
+                  /></span>
+                }
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <div class="has-border mt-2"></div>
+                }
+              </div>
+              <div class="ms-auto text-start col">
+                <span class="text-dark text-sm text-opacity" i18n
+                  >Is consumption tax payer</span
+                ><br />
+                @if (!isTaxAdditionFormShown) {
+                  <span class="text-dark fw-bold">
+                    @if (fisc.is_consumption_tax_payer === true) {
+                      <span
+                        ><i
+                          class="fa-solid fa-circle-check text-md-sm text-success"></i
+                      ></span>
+                    }
+                    @if (fisc.is_consumption_tax_payer === false) {
+                      <span
+                        ><i
+                          class="fa-solid fa-circle-xmark text-md-sm text-danger"></i
+                      ></span>
+                    }
+                  </span>
+                }
+
+                @if (isTaxAdditionFormShown) {
+                  <span>
+                    <input
+                      class="form-control-check"
+                      formControlName="is_consumption_tax_payer"
+                      type="checkbox"
+                  /></span>
+                }
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <div class="has-border mt-2"></div>
+                }
+              </div>
+              <div class="ms-auto text-start col">
+                <span class="text-sm text-dark text-opacity" i18n
+                  >Is tl tax payer</span
+                ><br />
+                @if (!isTaxAdditionFormShown) {
+                  <span class="text-dark fw-bold">
+                    @if (fisc.is_tl_tax_payer === true) {
+                      <span
+                        ><i
+                          class="fa-solid fa-circle-check text-md-sm text-success"></i
+                      ></span>
+                    }
+                    @if (fisc.is_tl_tax_payer === false) {
+                      <span
+                        ><i
+                          class="fa-solid fa-circle-xmark text-md-sm text-danger"></i
+                      ></span>
+                    }
+                  </span>
+                }
+                @if (isTaxAdditionFormShown) {
+                  <span>
+                    <input
+                      class="form-control-check"
+                      formControlName="is_tl_tax_payer"
+                      type="checkbox"
+                  /></span>
+                }
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <div class="has-border mt-2"></div>
+                }
+              </div>
+              <div class="ms-auto text-start col">
+                <span class="text-sm text-dark text-opacity" i18n
+                  >Legal form</span
+                ><br />
+                @if (!isTaxAdditionFormShown) {
+                  <span class="text-dark fw-bold text-md-sm">{{
+                    fisc.legal_form
+                  }}</span>
+                }
+                @if (isTaxAdditionFormShown) {
+                  <span>
+                    <input
+                      class="form-control input"
+                      formControlName="legal_form"
+                      type="text"
+                      placeholder="Legal form"
+                  /></span>
+                }
+                <br />
+                @if (!isTaxAdditionFormShown) {
+                  <div class="has-border mt-2"></div>
+                }
+              </div>
+            </div>
+          }
+          <br />
+        </form>
+      </div>
+    }
+    @if (
+      !newTaxInfo &&
+      (clientIndiv ||
+        (clientEntreprise && clientEntreprise.fisc.length === 0) ||
+        (selectedClient &&
+          selectedClient.client_category_type.is_custom === true))
+    ) {}
+    <div class="text-center mb-4">
+      <button
+        class="btn px-3 addButton bg-primary text-all-white"
+        (click)="addNewTax()"
+        tabindex="0"
+        i18n>
+        Add tax
+      </button>
+    </div>
+    @if (isTaxAdditionFormShown) {
+      <div class="text-center mb-3">
+        <b
+          role="button"
+          (click)="isTaxAdditionFormShown = false"
+          tabindex="0"
+          class="bg-primary"
+          i18n
+          >Cancel</b
+        >
+        <button class="ms-3 btn px-3 addButton bg-primary text-all-white">
+          @if (!isLoading) {
+            <span i18n>Update</span>
+          }
+          @if (isLoading) {
+            <span
+              ><i class="text-dark fa-solid fa-spin fa-circle-notch"></i
+            ></span>
+          }
+        </button>
+      </div>
+    }
+    @if (newTaxInfo) {
+      <div class="mb-4">
+        <form [formGroup]="taxFormIndividuel">
+          <div class="row justify-content-between mx-auto">
+            <div class="text-start col">
+              <span class="text-sm text-dark text-opacity" i18n
+                >Trade Register Number</span
+              >
+              <br />
+
+              <span>
+                <input
+                  class="form-control input"
+                  formControlName="tradeRegisterNumber"
+                  type="text"
+                  placeholder="Trade register number"
+              /></span>
+              <br />
+            </div>
+            <div class="ms-auto text-start col">
+              <span class="text-dark text-sm text-opacity" i18n>TRN file</span
+              ><br />
+
+              <span>
+                <input
+                  class="form-control"
+                  formControlName="trnFile"
+                  type="file"
+              /></span>
+              <br />
+            </div>
+            <div class="ms-auto text-start col">
+              <span class="text-sm text-dark text-opacity" i18n
+                >TRN issue date</span
+              ><br />
+
+              <span>
+                <input
+                  class="form-control input"
+                  formControlName="trnIssueDate"
+                  type="date"
+              /></span>
+              <br />
+            </div>
+            <div class="ms-auto text-start col">
+              <span class="text-sm text-dark text-opacity" i18n>Legal form</span
+              ><br />
+
+              <span>
+                <input
+                  class="form-control input"
+                  formControlName="legalForm"
+                  type="text"
+                  placeholder="Legal form"
+              /></span>
+              <br />
+            </div>
+          </div>
+          <br />
+          <div class="row justify-content-between mx-auto">
+            <div class="text-start col">
+              <span class="text-sm text-dark text-opacity" i18n
+                >Tax Identification Code</span
+              >
+              <br />
+
+              <span>
+                <input
+                  class="form-control input"
+                  formControlName="taxIdentificationCode"
+                  type="text"
+                  placeholder="Tax identification code"
+              /></span>
+              <br />
+            </div>
+            <div class="ms-auto text-start col">
+              <span class="text-dark text-sm text-opacity" i18n>TIC file</span
+              ><br />
+
+              <span>
+                <input
+                  class="form-control input"
+                  formControlName="ticFile"
+                  type="file"
+              /></span>
+              <br />
+            </div>
+            <div class="ms-auto text-start col">
+              <span class="text-sm text-dark text-opacity" i18n
+                >TIC issue date</span
+              ><br />
+
+              <span>
+                <input
+                  class="form-control input"
+                  formControlName="ticIssueDate"
+                  type="date"
+              /></span>
+              <br />
+            </div>
+            <div class="ms-auto text-start col">
+              <span class="text-sm text-dark text-opacity" i18n
+                >Fiscal center code</span
+              ><br />
+
+              <span>
+                <select
+                  class="status rounded selectBox"
+                  formControlName="fiscalCenterCode">
+                  <option
+                    *ngFor="let fcc of fiscalCenterCode"
+                    [value]="fcc.abbrev"
+                    i18n>
+                    {{ fcc.name }}
+                  </option>
+                </select></span
+              >
+              <br />
+            </div>
+          </div>
+          <br />
+          <div class="row justify-content-between mx-auto">
+            <div class="text-start col">
+              <span class="text-sm text-dark text-opacity" i18n
+                >Is value added tax payer</span
+              >
+              <br />
+
+              <span>
+                <input
+                  class="form-control-check"
+                  formControlName="isValueAddedTaxPayer"
+                  type="checkbox"
+              /></span>
+              <br />
+            </div>
+            <div class="ms-auto text-start col">
+              <span class="text-dark text-sm text-opacity" i18n
+                >Is consumption tax payer</span
+              ><br />
+
+              <span>
+                <input
+                  class="form-control-check"
+                  formControlName="isConsumptionTaxPayer"
+                  type="checkbox"
+              /></span>
+              <br />
+            </div>
+            <div class="ms-auto text-start col">
+              <span class="text-sm text-dark text-opacity" i18n
+                >Is tl tax payer</span
+              ><br />
+
+              <span>
+                <input
+                  class="form-control-check"
+                  formControlName="isTlTaxPayer"
+                  type="checkbox"
+              /></span>
+              <br />
+            </div>
+            <div class="ms-auto text-start col">
+              <span class="text-sm text-dark text-opacity" i18n
+                >Postal code</span
+              ><br />
+
+              <span>
+                <input
+                  class="form-control input"
+                  formControlName="postalCode"
+                  type="text"
+                  placeholder="Postal code"
+              /></span>
+              <br />
+            </div>
+          </div>
+          <br />
+          <div class="text-center mb-3">
+            <b
+              role="button"
+              (click)="newTaxInfo = false"
+              tabindex="0"
+              class="text-all-white"
+              i18n
+              >Cancel</b
+            >
+            <button
+              class="ms-3 btn px-3 addButton bg-primary text-all-white"
+              [ngClass]="{
+                'not-clickable': isLoading,
+              }">
+              <span *ngIf="!isLoading" i18n>Add</span>
+              <span *ngIf="isLoading"
+                ><i class="text-dark fa-solid fa-spin fa-circle-notch"></i
+              ></span>
+            </button>
+          </div>
+        </form>
+      </div>
+    }
+  </div>
+}

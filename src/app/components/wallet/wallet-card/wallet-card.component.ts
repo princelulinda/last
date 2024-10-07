@@ -99,6 +99,10 @@ export class WalletCardComponent implements OnInit, OnDestroy {
         if (configs) {
           this.activePlatform = configs.activePlateform;
         }
+        if (this.activePlatform === 'onlineBanking') {
+          this.getDefaultWallet();
+          this.getWalletType();
+        }
       },
     });
 
@@ -112,7 +116,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
               next: datas => {
                 this.selectedBank = datas;
                 this.bankId = this.selectedBank?.id;
-                if (this.bankId) {
+                if (this.bankId && this.activePlatform !== 'workstation') {
                   this.getDefaultWallet();
                 }
               },
@@ -121,8 +125,6 @@ export class WalletCardComponent implements OnInit, OnDestroy {
         }
       },
     });
-    this.getDefaultWallet();
-    this.getWalletType();
   }
 
   // toggleAmount() {
