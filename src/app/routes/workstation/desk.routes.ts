@@ -12,6 +12,8 @@ import { DiverseOperationComponent } from '../../components/dev/diverse-operatio
 import { ClientWalletDetailsComponent } from '../../components/client/client-wallet-details/client-wallet-details.component';
 import { AgentListComponent } from '../../components/admin/agent/agent-list/agent-list.component';
 import { AgentDetailComponent } from '../../components/admin/agent/agent-detail/agent-detail.component';
+import { MerchantListComponent } from '../../components/merchant/workstation/merchant-list/merchant-list.component';
+import { MerchantDetailsComponent } from '../../components/merchant/workstation/merchant-details/merchant-details.component';
 export const DeskRoutes: Routes = [
   {
     path: 'client',
@@ -45,6 +47,9 @@ export const DeskRoutes: Routes = [
   { path: 'agent', component: AgentListComponent },
   { path: 'agent/details/:id', component: AgentDetailComponent },
   { path: 'diverse_operations', component: DiverseOperationComponent },
+
+  { path: 'merchant', component: MerchantListComponent },
+  { path: 'merchant/details/:id', component: MerchantDetailsComponent },
 
   {
     path: 'access-required',

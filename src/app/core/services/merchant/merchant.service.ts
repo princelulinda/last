@@ -42,6 +42,7 @@ import {
   InvoiceResponseModel,
   MeasureModel,
   ProvidersModel,
+  SingleInVoiceModel,
 } from '../../../components/dev/invoice/invoice.models';
 import {
   ProductCategoryModel,
@@ -95,7 +96,9 @@ export class MerchantService {
 
   getRecentAllMerchantsAutocomplete(search?: string) {
     const url = `/dbs/merchant/manage/objects_autocomplete/?search=${search}`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ objects: MerchantAutocompleteModel[] }>(url)
+      .pipe(map(data => data));
   }
 
   getFavoriteMerchantsAutocomplete(search: string): Observable<{
@@ -127,7 +130,7 @@ export class MerchantService {
     return this.apiService.post(url, body).pipe(map(data => data));
   }
 
-  getMerchantsDetails(id: number): Observable<{ object: MerchantModel }> {
+  getMerchantsDetails(id: string): Observable<{ object: MerchantModel }> {
     const url = `/dbs/merchant/manage/${id}/`;
     return this.apiService
       .get<{ object: MerchantModel }>(url)
@@ -701,17 +704,46 @@ export class MerchantService {
   //     .get<any>(url)
   //     .pipe(map((data: any) => data));
   // }
-  // getSingleInvoices() {
-  //   const url = `/dbs/merchant/bills/?grouped=false/`;
-  //   return this.apiService
-  //     .get<any>(url)
-  //     .pipe(map((data: any) => data));
-  // }
+  getSingleInvoices(pagination: PaginationConfig) {
+    const url = `/dbs/merchant/bills/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}&for_validation=true&grouped=false&merchant=44`;
+
+    return this.apiService
+      .get<{ objects: SingleInVoiceModel[]; count: number }>(url)
+      .pipe(map(data => data));
+  }
   // {id} : facture et body : id_group ofr the method updateInvoicesGroup
   // updateInvoicesGroup(id: number): Observable<any> {
   //   const url = `/dbs/merchant/bills/${id}/add_bill_group/`;
   //   return this.apiService
   //     .post<any>(url)
   //     .pipe(map(data => data));
+  // }
+
+  getProductsByMerchant(merchantId: string) {
+    const url = '/dbs/merchant-product/?merchant=' + merchantId + '&';
+
+    return this.apiService.get(url).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+
+  getMerchantsProductsDetails(id: string) {
+    const url = '/dbs/merchant-product/' + id + '/';
+    return this.apiService.get(url).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+
+  // searchProductByMerchant(data: any) {
+  //   const url =
+  //       '/dbs/merchant-product/objects_autocomplete/?merchant=' +
+  //       data.merchant +
+  //       '&search=' +
+  //       data.search;
+  //   return this.apiService.get(url).pipe(map((data) => data));
   // }
 }

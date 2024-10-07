@@ -421,22 +421,13 @@
                         </div>
                         @if (selectedTaxInfo) {
                           <div>
-                            <!-- <app-client-tax-info
-                                                            [selectedClient]="
-                                                                this.selectedClient
-                                                            "
-                                                            [clientEntreprise]="
-                                                                this.clientEntreprise
-                                                            "
-                                                            [clientIndiv]="this.clientIndiv"
-                                                            [selectedTaxInfo]="
-                                                                this.selectedTaxInfo
-                                                            "
-                                                            [isTaxAdditionFormShown]="
-                                                                this.isTaxAdditionShown
-                                                            "
-                                                            [clientId]="clientId"
-                                                        ></app-client-tax-info> -->
+                            <app-client-tax-info
+                              [selectedClient]="this.selectedClient"
+                              [clientEntreprise]="this.clientEntreprise"
+                              [clientIndiv]="this.clientIndiv"
+                              [selectedTaxInfo]="this.selectedTaxInfo"
+                              [isTaxAdditionFormShown]="this.isTaxAdditionShown"
+                              [clientId]="clientId"></app-client-tax-info>
                           </div>
                         }
                       </div>
