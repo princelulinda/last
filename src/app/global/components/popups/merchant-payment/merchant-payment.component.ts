@@ -42,7 +42,7 @@ import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { MerchantProductsComponent } from '../merchant-payment/merchant-products/merchant-products.component';
 import { CategoryMerchantsComponent } from '../merchant-payment/category-merchants/category-merchants.component';
 import { ProductCardComponent } from '../../../../components/merchant/global/product-card/product-card.component';
-import { DebitAccountComponent } from '../../../../components/transfer/debit-account/debit-account.component';
+import { DebitAccountComponent } from '../../../../components/transfer/banking/debit-account/debit-account.component';
 import { CreditAccountComponent } from '../../../../components/transfer/credit-account/credit-account.component';
 import {
   FormBuilder,

@@ -14,7 +14,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "ng lint",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "tauri": "tauri"
   },
   "lint-staged": {
     "*.{js,ts,json,css,html}": [

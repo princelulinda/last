@@ -12,7 +12,7 @@ import {
 } from '@angular/forms';
 import { BankModel } from '../../core/db/models/bank/bank.model';
 import { DialogResponseModel } from '../../core/services/dialog/dialogs-models';
-import { DebitAccountComponent } from '../transfer/debit-account/debit-account.component';
+import { DebitAccountComponent } from '../transfer/banking/debit-account/debit-account.component';
 import { LookupComponent } from '../../global/components/lookups/lookup/lookup.component';
 import { AmountFieldComponent } from '../../global/components/custom-field/amount-field/amount-field.component';
 import { AccountsListModel } from '../account/models';

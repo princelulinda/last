@@ -9,9 +9,11 @@ import { ClientDetailsComponent } from '../../components/client/client-details/c
 import { ClientListComponent } from '../../components/client/client-list/client-list.component';
 import { CounterDetailsComponent } from '../../components/dev/operations/counter-details/counter-details.component';
 import { DiverseOperationComponent } from '../../components/dev/diverse-operation/diverse-operation.component';
+
 import { ClientWalletDetailsComponent } from '../../components/client/client-wallet-details/client-wallet-details.component';
 import { AgentListComponent } from '../../components/admin/agent/agent-list/agent-list.component';
 import { AgentDetailComponent } from '../../components/admin/agent/agent-detail/agent-detail.component';
+
 import { MerchantListComponent } from '../../components/merchant/workstation/merchant-list/merchant-list.component';
 import { MerchantDetailsComponent } from '../../components/merchant/workstation/merchant-details/merchant-details.component';
 import { BalanceComponent } from '../../components/dev/operations/balance/balance.component';
@@ -66,6 +68,7 @@ export const DeskRoutes: Routes = [
   },
 
   { path: 'diverse_operations', component: DiverseOperationComponent },
+
   {
     path: 'balances',
     component: BalanceComponent,
