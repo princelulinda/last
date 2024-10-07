@@ -14,6 +14,7 @@ import { AgentListComponent } from '../../components/admin/agent/agent-list/agen
 import { AgentDetailComponent } from '../../components/admin/agent/agent-detail/agent-detail.component';
 import { MerchantListComponent } from '../../components/merchant/workstation/merchant-list/merchant-list.component';
 import { MerchantDetailsComponent } from '../../components/merchant/workstation/merchant-details/merchant-details.component';
+import { BalanceComponent } from '../../components/dev/operations/balance/balance.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -63,6 +64,10 @@ export const DeskRoutes: Routes = [
   },
 
   { path: 'diverse_operations', component: DiverseOperationComponent },
+  {
+    path: 'balances',
+    component: BalanceComponent,
+  },
 
   // NOTE :: MERCHANT MODULE
   {
