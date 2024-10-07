@@ -51,7 +51,6 @@ export class PurchaseComponent implements OnInit {
   tellers: TellerAutoCompleteModel[] = [];
   invoiceForm: FormGroup;
   dialogState$!: Observable<DialogResponseModel>;
-  measure_id!: number;
   isLoading = true;
   searchType: EmptyStateModel = 'product';
   isProductsSearch = false;
@@ -71,7 +70,7 @@ export class PurchaseComponent implements OnInit {
     this.dialogState$ = this.dialogService.getDialogState();
     this.invoiceForm = new FormGroup({
       measure_value: new FormControl('', Validators.required),
-      measure_type: new FormControl(this.measures[0]),
+      measure_type: new FormControl(4, Validators.required),
       pin: new FormControl('', Validators.required),
     });
   }
@@ -169,23 +168,15 @@ export class PurchaseComponent implements OnInit {
       },
     });
   }
-  getMeasureId() {
-    if (this.invoiceForm.value.measure_type === this.measures[0]) {
-      this.measure_id = this.measures[0].id;
-    } else if (this.invoiceForm.value.measure_type === this.measures[1]) {
-      this.measure_id = this.measures[1].id;
-    }
-  }
   createBill() {
     this.isLoading = true;
-    this.getMeasureId();
     const body = {
       provider: this.supplier.id,
       merchant: Number(this.merchantId),
       payment_data: {
         quantity: this.invoiceForm.value.measure_value,
       },
-      measure: this.measure_id,
+      measure: this.invoiceForm.value.measure_type,
       pin_code: this.invoiceForm.value.pin,
       merchant_product_id: this.product.id,
     };

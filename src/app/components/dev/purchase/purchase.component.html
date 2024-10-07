@@ -155,7 +155,7 @@
       </div>
 
       @if (!selectedMerchant) {
-        <div class="col-9 col-sm-5 col-md-4">
+        <div class="col-9 col-sm-5 col-md-4 mb-4">
           <div class="input-group">
             <input
               type="text"
@@ -186,7 +186,7 @@
         </div>
 
         <div
-          class="d-flex flex-wrap justify-content-center justify-content-sm-start gap-4">
+          class="d-flex flex-wrap justify-content-center justify-content-sm-start gap-5">
           <!-- providers -->
           @if (suppliers) {
             @for (item of suppliers; track $index) {
@@ -276,9 +276,18 @@
                       aria-label="value"
                       aria-describedby="basic-addon2">
                       @for (item of measures; track $index) {
-                        <option id="{{ item.id }}">
-                          {{ item.suffix }}
-                        </option>
+                        @if (item.id === 4) {
+                          <option
+                            id="{{ item.id }}"
+                            value="{{ item.id }}"
+                            selected>
+                            {{ item.suffix }}
+                          </option>
+                        } @else {
+                          <option id="{{ item.id }}" value="{{ item.id }}">
+                            {{ item.suffix }}
+                          </option>
+                        }
                       }
                     </select>
                   }
@@ -318,7 +327,8 @@
         <button
           class="btn border-primary text-primary px-2 px-sm-4"
           data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop">
+          data-bs-target="#staticBackdrop"
+          [disabled]="!invoiceForm.valid || isLoading === true">
           <b>Add to group</b>
         </button>
       </div>
@@ -336,7 +346,7 @@
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content modal-card">
-      <div class="modal-body">
+      <div class="modal-body bg-white">
         <div
           class="d-flex mb-4"
           [ngClass]="{
