@@ -125,7 +125,7 @@ export class MerchantService {
     return this.apiService.post(url, body).pipe(map(data => data));
   }
 
-  getMerchantsDetails(id: number): Observable<{ object: MerchantModel }> {
+  getMerchantsDetails(id:string): Observable<{ object: MerchantModel }> {
     const url = `/dbs/merchant/manage/${id}/`;
     return this.apiService
       .get<{ object: MerchantModel }>(url)
@@ -692,4 +692,34 @@ export class MerchantService {
   //     .post<any>(url)
   //     .pipe(map(data => data));
   // }
+
+
+  getProductsByMerchant(merchantId: string) {
+    const url = '/dbs/merchant-product/?merchant=' + merchantId + '&';
+
+    return this.apiService.get(url).pipe(
+        map((data) => {
+            return data;
+        })
+    );
+}
+
+getMerchantsProductsDetails(id: string) {
+  const url = '/dbs/merchant-product/' + id + '/';
+  return this.apiService.get(url).pipe(
+      map((data) => {
+          return data;
+      })
+  );
+}
+
+
+// searchProductByMerchant(data: any) {
+//   const url =
+//       '/dbs/merchant-product/objects_autocomplete/?merchant=' +
+//       data.merchant +
+//       '&search=' +
+//       data.search;
+//   return this.apiService.get(url).pipe(map((data) => data));
+// }
 }
