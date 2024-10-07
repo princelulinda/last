@@ -17,19 +17,13 @@
       </div>
     </div>
     <div>
-      <div class="row mt-4 justify-content-around">
-        @for (bankMenu of bankMenus; track $index) {
-          <a
-            role="button"
-            [routerLink]="
-              activePlatform === 'workstation'
-                ? bankMenu.link[1]
-                : activePlatform === 'onlineBanking'
-                  ? bankMenu.link[0]
-                  : ''
-            "
-            class="d-grid col-auto justify-content-center">
-            <div class="d-flex w-100 mb-2 justify-content-center">
+      <div class="d-flex flex-wrap justify-content-center mx-2 mx-lg-0 gap-3">
+        @if (activePlatform !== 'workstation') {
+          @for (bankMenu of bankMenus; track $index) {
+            <a
+              role="button"
+              [routerLink]="bankMenu.link"
+              class="me-3 me-xl-5 pe-xl-5 mb-3">
               <div
                 class="d-grid justify-content-center align-items-center menu-container rounded-circle bg-secondary">
                 @if (bankMenu.icon) {
@@ -47,12 +41,38 @@
                   }
                 }
               </div>
-            </div>
+              <div class="text-center">
+                <b>{{ bankMenu.name }}</b>
+              </div>
+            </a>
+          }
+        } @else {
+          @for (menu of corporateBankingMenus; track $index) {
+            <a role="button" [routerLink]="menu.component_url">
+              <div class="d-flex w-100 mb-2 justify-content-center">
+                <div
+                  class="d-grid justify-content-center align-items-center menu-container rounded-circle bg-secondary">
+                  @if (menu.icon) {
+                    <span>
+                      <i [class]="'fs-2 fa fa-' + menu.icon"></i>
+                    </span>
+                  }
 
-            <div class="text-center">
-              <b>{{ bankMenu.name }}</b>
-            </div>
-          </a>
+                  <!-- @if (menu.image) {
+                    @if (theme === 'light') {
+                      <img [src]="'/images/' + menu.image[0]" alt="" />
+                    }
+                    @if (theme === 'dark') {
+                      <img [src]="'/images/' + menu.image[1]" alt="" />
+                    }
+                  } -->
+                </div>
+              </div>
+              <div class="text-center">
+                <b>{{ menu.name }}</b>
+              </div>
+            </a>
+          }
         }
       </div>
     </div>
