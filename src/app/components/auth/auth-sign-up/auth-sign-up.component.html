@@ -274,7 +274,6 @@
                 .password !== '' &&
               multiStepForm.controls.authentificationInformation.value
                 .confirmPassword !== ''
-              
             ) {
               <span class="text-danger" i18n>Passwords are not match</span>
             }
@@ -602,11 +601,14 @@
                   placeholder=""
                   id="expiryDate" />
                 <label for="expiryDate" class="form-label" i18n
-                  >Expiry date 
-                  @if ( this.multiStepForm.controls
-                      .cardInformation.value
-                      .cardType === 'PASSPORT'){ <code class="me-1">*</code> }</label
-                >
+                  >Expiry date
+                  @if (
+                    this.multiStepForm.controls.cardInformation.value
+                      .cardType === 'PASSPORT'
+                  ) {
+                    <code class="me-1">*</code>
+                  }
+                </label>
               </div>
               @if (errorMessagee) {
                 <p class="text-danger">{{ errorMessagee }}</p>
