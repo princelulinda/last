@@ -10,7 +10,7 @@
         i18n>
         Home
       </a>
-      @for (menu of marketMenus; track $index) {
+      @for (menu of bankingMenus; track $index) {
         <a
           class="py-1 mb-2 text-secondary px-3 xx-lg-radius bg-hover-input"
           routerLink="{{ baseMenuUrl }}{{ menu.component_url }}"

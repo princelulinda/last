@@ -172,23 +172,29 @@ export class WorkstationMenuComponent implements OnInit {
         //   }
         // }
 
-        // if (this.activatedTypeMenu === 'b') {
-        //   [this.bankingMenus, this.baseMenuUrl] =
-        //     this.menuService.getBankingMenu(
-        //       'banking',
-        //       'Aside-Menu',
-        //       this.menus
-        //     );
-        // } else if (this.activatedTypeMenu === 'm') {
-        //   [this.marketMenus, this.baseMenuUrl] =
-        //     this.menuService.getBankingMenu('market', 'Aside-Menu', this.menus);
-        // } else {
-        //   [this.activatedTypeGroupMenus, this.baseMenuUrl] =
-        //     this.menuService.getActiveMenuGroups(
-        //       this.menus,
-        //       this.activatedTypeMenu
-        //     );
-        // }
+        if (this.activatedTypeMenu) {
+          if (this.activatedTypeMenu === 'b') {
+            [this.bankingMenus, this.baseMenuUrl] =
+              this.menuService.getBankingMenu(
+                'banking',
+                'Aside-Menu',
+                this.menus
+              );
+          } else if (this.activatedTypeMenu === 'm') {
+            [this.marketMenus, this.baseMenuUrl] =
+              this.menuService.getBankingMenu(
+                'market',
+                'Aside-Menu',
+                this.menus
+              );
+          } else {
+            [this.activatedTypeGroupMenus, this.baseMenuUrl] =
+              this.menuService.getActiveMenuGroups(
+                this.menus,
+                this.activatedTypeMenu
+              );
+          }
+        }
       },
     });
   }
