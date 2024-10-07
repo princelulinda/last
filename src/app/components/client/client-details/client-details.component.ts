@@ -30,6 +30,7 @@ import { RouterOutlet } from '@angular/router';
 import { ClientWalletListComponent } from '../client-wallet-list/client-wallet-list.component';
 
 import { SignaturesComponent } from '../signatures/signatures.component';
+import { ClientTaxInfoComponent } from '../client-tax-info/client-tax-info.component';
 @Component({
   selector: 'app-client-details',
   standalone: true,
@@ -45,6 +46,7 @@ import { SignaturesComponent } from '../signatures/signatures.component';
     ClientWalletListComponent,
     RouterOutlet,
     SignaturesComponent,
+    ClientTaxInfoComponent,
   ],
   templateUrl: './client-details.component.html',
   styleUrl: './client-details.component.scss',
