@@ -22,11 +22,17 @@ import {
   SignatoriesModel,
   SignatoryGroupsModel,
 } from '../client.model';
+import { ClientContactsComponent } from '../client-contacts/client-contacts.component';
 
 @Component({
   selector: 'app-signatures',
   standalone: true,
-  imports: [NgClass, CommonModule, ReactiveFormsModule],
+  imports: [
+    NgClass,
+    CommonModule,
+    ReactiveFormsModule,
+    ClientContactsComponent,
+  ],
   templateUrl: './signatures.component.html',
   styleUrl: './signatures.component.scss',
 })

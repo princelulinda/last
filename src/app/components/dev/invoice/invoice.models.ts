@@ -45,3 +45,29 @@ export interface MeasureModel {
   unit_measure: number;
   unit_value: string;
 }
+
+export interface OrdersModel {
+  id: number;
+  product: {
+    id: number;
+    name: string;
+    price: string | number;
+    measure: MeasureModel;
+  };
+  payment: number;
+  number: string | number;
+  total_amount: string | number;
+  element_metadata: {
+    original_data: {
+      quantity: string | number;
+      client_name: string;
+    };
+  };
+}
+export interface SingleInVoiceModel {
+  id: number;
+  created_at: Date;
+  provider: ProviderModel;
+  total_amount: string | number;
+  orders: OrdersModel[];
+}

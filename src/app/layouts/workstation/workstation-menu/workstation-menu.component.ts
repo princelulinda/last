@@ -190,9 +190,8 @@ export class WorkstationMenuComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const response = data as { objects: MerchantAutocompleteModel[] };
           this.isLoading = false;
-          this.merchants = response.objects;
+          this.merchants = data.objects;
         },
         error: () => {
           this.isLoading = false;

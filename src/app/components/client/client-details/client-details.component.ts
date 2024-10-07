@@ -164,7 +164,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     this.selectedMenu = menu;
     if (menu === 'accounts' && this.accounts) {
       this.router.navigate([
-        '/b/banking/client-details/' +
+        '/w/workstation/d/desk/details/' +
           this.clientId +
           '/account/' +
           this.accounts[0]?.id,
@@ -181,7 +181,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
 
     if (menu === 'settings') {
       this.router.navigate([
-        '/b/banking/client-details/' + this.clientId + '/settings',
+        '/w/workstation/d/desk/details/' + this.clientId + '/settings',
       ]);
     }
     if (
