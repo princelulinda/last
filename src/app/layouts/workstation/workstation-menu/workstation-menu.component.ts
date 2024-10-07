@@ -133,23 +133,23 @@ export class WorkstationMenuComponent implements OnInit {
             this.menus,
             this.activatedTypeMenu
           );
-        const routeMenu = this.menuService.getMenuByActivateRoute(
-          this.menus,
-          this.activatedTypeMenu
-        );
-        if (routeMenu !== undefined) {
-          this.selectGroup(routeMenu);
-          if (this.selectedGroup?.menus) {
-            this.setSelectedMenu(
-              this.selectedGroup.menus[0],
-              this.selectedGroup.menus[0].component_url,
-              undefined,
-              false
-            );
-          } else {
-            this.router.navigate([`${this.baseMenuUrl}access-required`]);
-          }
-        }
+        // const routeMenu = this.menuService.getMenuByActivateRoute(
+        //   this.menus,
+        //   this.activatedTypeMenu
+        // );
+        // if (routeMenu !== undefined) {
+        //   this.selectGroup(routeMenu);
+        //   if (this.selectedGroup?.menus) {
+        //     this.setSelectedMenu(
+        //       this.selectedGroup.menus[0],
+        //       this.selectedGroup.menus[0].component_url,
+        //       undefined,
+        //       false
+        //     );
+        //   } else {
+        //     this.router.navigate([`${this.baseMenuUrl}access-required`]);
+        //   }
+        // }
       },
     });
   }
@@ -181,6 +181,7 @@ export class WorkstationMenuComponent implements OnInit {
   selectGroup(group: MenuGroupAndMenusSimpleModel | null) {
     this.selectedGroup = group;
   }
+
   getMerchants(search: string) {
     this.isLoading = true;
     this.merchants = null;
