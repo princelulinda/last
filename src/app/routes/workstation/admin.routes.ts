@@ -22,11 +22,9 @@ import { AdminServicesListComponent } from '../../components/admin/rh/admin-serv
 import { AdminServicesDetailsComponent } from '../../components/admin/rh/admin-services-details/admin-services-details.component';
 import { ConfigTarifComponent } from '../../components/tarifs/config-tarif/config-tarif.component';
 import { AdminAccessListComponent } from '../../components/admin/access/admin-access-list/admin-access-list.component';
-import { ShortcutsComponent } from '../../components/admin/customer-base/shortcuts/shortcuts.component';
-import { ModalComponent } from '../../components/admin/customer-base/modal/modal.component';
 
 export const AdminRoutes: Routes = [
-  // Operator
+  //NOTE :: OPERATOR MODULE
   {
     path: 'operator',
     children: [
@@ -112,9 +110,7 @@ export const AdminRoutes: Routes = [
     path: 'accesses',
     component: AdminAccessListComponent,
   },
-  //customer-base
-  { path: 'shortcuts', component: ShortcutsComponent },
-  { path: 'modal', component: ModalComponent },
+
   {
     path: 'access-required',
     loadComponent: () =>

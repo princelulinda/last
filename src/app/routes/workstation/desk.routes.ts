@@ -14,14 +14,21 @@ import { AgentListComponent } from '../../components/admin/agent/agent-list/agen
 import { AgentDetailComponent } from '../../components/admin/agent/agent-detail/agent-detail.component';
 import { MerchantListComponent } from '../../components/merchant/workstation/merchant-list/merchant-list.component';
 import { MerchantDetailsComponent } from '../../components/merchant/workstation/merchant-details/merchant-details.component';
+import { BalanceComponent } from '../../components/dev/operations/balance/balance.component';
+import { ShortcutsComponent } from '../../components/admin/customer-base/shortcuts/shortcuts.component';
+import { ModalComponent } from '../../components/admin/customer-base/modal/modal.component';
+
 export const DeskRoutes: Routes = [
+  { path: '', component: DeskDashboardComponent },
+
+  // NOTE :: CLIENT MODULE
   {
     path: 'client',
     children: [
       { path: 'list', component: ClientListComponent },
 
       {
-        path: 'details/:client_id',
+        path: 'detail/:client_id',
         component: ClientDetailsComponent,
 
         children: [
@@ -38,18 +45,44 @@ export const DeskRoutes: Routes = [
     ],
   },
 
-  { path: '', component: DeskDashboardComponent },
+  // NOTE :: OPERATIONS MODULES
+  {
+    path: 'operations',
+    children: [
+      { path: 'list', component: OperationListComponent },
+      { path: 'counters', component: CounterComponent },
+      { path: 'counter/:id', component: CounterDetailsComponent },
+    ],
+  },
 
-  { path: 'operations/list', component: OperationListComponent },
-  { path: 'operations/counters', component: CounterComponent },
-  { path: 'operations/counter/:id', component: CounterDetailsComponent },
+  // NOTE :: MERCHANT MODULE
+  {
+    path: 'agent',
+    children: [
+      { path: '', component: AgentListComponent },
 
-  { path: 'agent', component: AgentListComponent },
-  { path: 'agent/details/:id', component: AgentDetailComponent },
+      { path: 'detail/:id', component: AgentDetailComponent },
+    ],
+  },
+
   { path: 'diverse_operations', component: DiverseOperationComponent },
+  {
+    path: 'balances',
+    component: BalanceComponent,
+  },
 
-  { path: 'merchant', component: MerchantListComponent },
-  { path: 'merchant/details/:id', component: MerchantDetailsComponent },
+  // NOTE :: MERCHANT MODULE
+  {
+    path: 'merchant',
+    children: [
+      { path: '', component: MerchantListComponent },
+      { path: 'detail/:id', component: MerchantDetailsComponent },
+    ],
+  },
+
+  // NOTE :: SHORTCUTS MODULE
+  { path: 'shortcuts', component: ShortcutsComponent },
+  { path: 'modal', component: ModalComponent },
 
   {
     path: 'access-required',
