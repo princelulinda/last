@@ -51,8 +51,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "5MB",
-                  "maximumError": "6MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "4MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -137,7 +137,7 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "csrc/environments/environment.ts",
+                  "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.bbs.ts"
                 }
               ]

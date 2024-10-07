@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
-import { SettingsService } from '../../../core/services';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { ConfigService, SettingsService } from '../../../core/services';
 import {
   AddResponseModel,
   BodyModel,
@@ -16,6 +16,8 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ModeModel } from '../../../core/services/config/main-config.models';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 
 @Component({
   selector: 'app-client-contacts',
@@ -33,6 +35,8 @@ export class ClientContactsComponent implements OnInit, OnDestroy {
   phoneNumbers: MailModel[] | null = null;
   contactId!: ContactInfo;
   isContactInfoFormShown = false;
+  theme$: Observable<ModeModel>;
+  theme!: ModeModel;
   pin!: string;
   @Input() id!: number | string;
   @Input() canAddPhoneNumber = false;
@@ -46,15 +50,39 @@ export class ClientContactsComponent implements OnInit, OnDestroy {
   email = new FormControl('', [Validators.required, Validators.email]);
   phoneNumber = new FormControl('', Validators.required);
 
+  dialogState$!: Observable<DialogResponseModel>;
   constructor(
     private settingsService: SettingsService,
     private dialogService: DialogService,
-    private clientService: ClientService
-  ) {}
+    private clientService: ClientService,
+    private configService: ConfigService
+  ) {
+    this.theme$ = this.configService.getMode();
+    this.dialogState$ = this.dialogService.getDialogState();
+  }
 
   ngOnInit(): void {
     this.getEmails();
     this.getPhoneNumbers();
+
+    this.dialogState$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: (dialogResponse: DialogResponseModel) => {
+        console.log('PIN reçu:', this.pin);
+        if (
+          dialogResponse.action === 'phoneNumber' &&
+          dialogResponse.response.pin
+        ) {
+          this.pin = dialogResponse.response.pin;
+          this.submitContact(dialogResponse.action);
+        } else if (
+          dialogResponse.action === 'email' &&
+          dialogResponse.response.pin
+        ) {
+          this.pin = dialogResponse.response.pin;
+          this.submitContact(dialogResponse.action);
+        }
+      },
+    });
   }
 
   getEmails() {
@@ -223,6 +251,7 @@ export class ClientContactsComponent implements OnInit, OnDestroy {
             });
             if (contactType === 'email') {
               this.refreshContact('email');
+              this.newAccount = false;
               this.loading = false;
             } else if (contactType === 'phoneNumber') {
               this.refreshContact('phoneNumber');

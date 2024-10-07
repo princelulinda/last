@@ -33,7 +33,7 @@
         ></span>
       </div>
     </div>
-    <div class="bg-white p-3 lg-radius" style="margin-top: 10px">
+    <div class="bg-secondary p-3 lg-radius" style="margin-top: 10px">
       @if (!newPhoneNumber) {
         <div>
           <div class="row w-100 text-dark d-flex mt-3">
@@ -55,7 +55,7 @@
             <div>
               @for (number of phoneNumbers; track $index) {
                 <div
-                  class="w-100 bg-secondary border mt-3 miniSect2 p-3 align-items-center lg-radius">
+                  class="w-100 bg-white border mt-3 miniSect2 p-3 align-items-center lg-radius">
                   <div class="row d-flex justify-content-between">
                     <div class="col-2 text-dark dropdown" role="button">
                       <span
@@ -220,7 +220,14 @@
         ></span>
       </div>
     </div>
-    <div class="bg-white p-3 lg-radius" style="margin-top: 10px">
+    <!--- [ngClass]="{
+      'bg-secondary': theme === 'light',
+      'bg-dark': theme === 'dark',
+    }"-->
+    <div
+      class="bg-secondary p-3 lg-radius"
+      style="margin-top: 10px"
+      [ngClass]="theme === 'light' ? 'bg-secondary' : 'bg-dark'">
       @if (!newAccount) {
         <div>
           <div class="row w-100 text-dark d-flex mt-3">
@@ -242,7 +249,7 @@
             <div>
               @for (emailsData of emails; track $index) {
                 <div
-                  class="w-100 bg-secondary border miniSect1 mt-3 p-3 align-items-center lg-radius">
+                  class="w-100 bg-white border miniSect1 mt-3 p-3 align-items-center lg-radius">
                   @if (emails.length === 0) {
                     <div
                       class="fw-bold row align-items-center fs-5 justify-content-center d-flex text-dark"

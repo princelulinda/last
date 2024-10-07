@@ -164,7 +164,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     this.selectedMenu = menu;
     if (menu === 'accounts' && this.accounts) {
       this.router.navigate([
-        '/w/workstation/d/desk/details/' +
+        '/w/workstation/d/desk/client/detail/' +
           this.clientId +
           '/account/' +
           this.accounts[0]?.id,
@@ -172,7 +172,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     }
     if (menu === 'wallets' && this.wallets) {
       this.router.navigate([
-        '/w/workstation/d/desk/details/' +
+        '/w/workstation/d/desk/client/detail/' +
           this.clientId +
           '/wallet/' +
           this.wallets[0]?.id,
@@ -181,7 +181,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
 
     if (menu === 'settings') {
       this.router.navigate([
-        '/w/workstation/d/desk/details/' + this.clientId + '/settings',
+        '/w/workstation/d/desk/client/detail/' + this.clientId + '/settings',
       ]);
     }
     if (

@@ -14,6 +14,7 @@ import { AgentListComponent } from '../../components/admin/agent/agent-list/agen
 import { AgentDetailComponent } from '../../components/admin/agent/agent-detail/agent-detail.component';
 import { MerchantListComponent } from '../../components/merchant/workstation/merchant-list/merchant-list.component';
 import { MerchantDetailsComponent } from '../../components/merchant/workstation/merchant-details/merchant-details.component';
+import { SignaturesComponent } from '../../components/client/signatures/signatures.component';
 export const DeskRoutes: Routes = [
   {
     path: 'client',
@@ -21,7 +22,7 @@ export const DeskRoutes: Routes = [
       { path: 'list', component: ClientListComponent },
 
       {
-        path: 'details/:client_id',
+        path: 'detail/:client_id',
         component: ClientDetailsComponent,
 
         children: [
@@ -32,6 +33,10 @@ export const DeskRoutes: Routes = [
           {
             path: 'wallet/:walletId',
             component: ClientWalletDetailsComponent,
+          },
+          {
+            path: 'settings',
+            component: SignaturesComponent,
           },
         ],
       },
@@ -48,8 +53,8 @@ export const DeskRoutes: Routes = [
   { path: 'agent/details/:id', component: AgentDetailComponent },
   { path: 'diverse_operations', component: DiverseOperationComponent },
 
-  {path: 'merchant', component:MerchantListComponent},
-  {path: 'merchant/details/:id', component:MerchantDetailsComponent},
+  { path: 'merchant', component: MerchantListComponent },
+  { path: 'merchant/details/:id', component: MerchantDetailsComponent },
 
   {
     path: 'access-required',
