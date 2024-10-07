@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ViewChild,
-  OnDestroy,
-  SimpleChanges,
-  OnChanges,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import {
@@ -23,7 +15,7 @@ import { MerchantService } from '../../../core/services/merchant/merchant.servic
 import {
   AuthService,
   ConfigService,
-  FullpathService,
+  MenuService,
 } from '../../../core/services';
 import { DialogService } from '../../../core/services';
 
@@ -52,6 +44,10 @@ import {
 } from '../../merchant/merchant.models';
 import { ReusableListComponent } from '../../../global/components/list/reusable-list/reusable-list.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import {
+  MenuSimpleModel,
+  TypeMenuModel,
+} from '../../../core/db/models/menu/menu.models';
 
 @Component({
   selector: 'app-my-market-dashboard',
@@ -74,46 +70,15 @@ import { AmountVisibilityComponent } from '../../../global/components/custom-fie
   templateUrl: './my-market-dashboard.component.html',
   styleUrl: './my-market-dashboard.component.scss',
 })
-export class MyMarketDashboardComponent
-  implements OnInit, OnDestroy, OnChanges
-{
+export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
-  baseRouterLink = '/m/mymarket';
-
-  @Input() accountId = '';
-  @Input() ledgerId = '';
 
   clientInfo: UserInfoModel[] | [] | null = null;
   clientInfo$: Observable<UserInfoModel>;
   amount: string | number | null = 0;
   selectedClient!: ItemModel | null;
   isLoadingInfo = false;
-  datas: object[] = [
-    {
-      element: 'One',
-      value: 800,
-    },
-    {
-      element: 'Two',
-      value: 700,
-    },
-    {
-      element: 'Three',
-      value: 300,
-    },
-    {
-      element: 'Four',
-      value: 200,
-    },
-    {
-      element: 'Five',
-      value: 100,
-    },
-    {
-      element: 'Six',
-      value: 50,
-    },
-  ];
+
   merchantId!: string | number;
   merchant!: MerchantModel | null;
   merchantMult!: MerchantAutocompleteModel[];
@@ -141,12 +106,53 @@ export class MyMarketDashboardComponent
   };
 
   successMessage!: MerchantBillModel;
-  pin!: string;
+  pin = '';
   indexMerchant = 0;
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
   activePlatform!: PlateformModel;
   mainConfig$!: Observable<activeMainConfigModel>;
+
+  corporateMarketMenus: MenuSimpleModel[] = [];
+  menus$: Observable<TypeMenuModel[]>;
+  marketMenus: MenuSimpleModel[] = [
+    {
+      component_url: 'product-config',
+      id: 1,
+      name: `Manage product`,
+      icon: 'box',
+    },
+    {
+      component_url: 'payment-reports',
+      id: 2,
+      name: `Payment reports`,
+      icon: 'file-excel',
+    },
+    {
+      component_url: 'merchant-config',
+      id: 3,
+      name: `Merchant config`,
+      icon: 'sliders',
+    },
+    {
+      component_url: '',
+      id: 4,
+      name: `Statements`,
+      icon: 'history',
+    },
+    {
+      component_url: 'merchant-transfer',
+      id: 5,
+      name: `Transfer`,
+      icon: 'paper-plane',
+    },
+    {
+      component_url: '',
+      id: 6,
+      name: `Generate Bill`,
+      icon: 'file-invoice',
+    },
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -154,23 +160,20 @@ export class MyMarketDashboardComponent
     private authService: AuthService,
     private dialogService: DialogService,
     private configService: ConfigService,
-    private fullPathService: FullpathService
+    private menuService: MenuService
   ) {
     this.clientInfo$ = this.authService.getUserInfo();
     this.dialog$ = this.dialogService.getDialogState();
     this.theme$ = this.configService.getMode();
     this.mainConfig$ = this.configService.getMainConfig();
+    this.menus$ = this.configService.getTypeMenus();
   }
+
   ngOnInit(): void {
     this.mainConfig$.subscribe({
       next: configs => {
         if (configs) {
           this.activePlatform = configs.activePlateform;
-          if (this.activePlatform === 'myMarket') {
-            this.baseRouterLink = '/m/mymarket';
-          } else if (this.activePlatform === 'workstation') {
-            this.baseRouterLink = '/w/workstation/';
-          }
         }
       },
     });
@@ -182,11 +185,25 @@ export class MyMarketDashboardComponent
         },
       });
     }
+
     this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: theme => {
         this.theme = theme;
       },
     });
+
+    this.menus$.subscribe({
+      next: menus => {
+        if (menus) {
+          [this.corporateMarketMenus] = this.menuService.getBankingMenu(
+            'market',
+            'Dashboard',
+            menus
+          );
+        }
+      },
+    });
+
     this.getConnectedMerchantInfo();
     this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (dialog: DialogResponseModel) => {
@@ -206,6 +223,7 @@ export class MyMarketDashboardComponent
     });
     this.getMerchantMultipleInfo();
   }
+
   enterPin() {
     this.dialogService.openDialog({
       type: 'pin',
@@ -440,61 +458,61 @@ export class MyMarketDashboardComponent
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
-  headers = [
-    {
-      name: 'Date',
-      field: ['date_created'],
-      size: '',
-      format: 'date',
-    },
-    {
-      name: 'Description',
-      field: ['description'],
-      size: '',
-    },
-    {
-      name: 'Reference',
-      field: ['reference'],
-      size: '',
-    },
-    {
-      name: 'Debit amount',
-      field: ['debit'],
-      size: '',
-      format: 'currency',
-    },
-    {
-      name: 'Credit amount',
-      field: ['credit'],
-      size: '',
-      format: 'currency',
-    },
-    {
-      name: 'Balance',
-      field: ['solde'],
-      size: '',
-      format: 'currency',
-    },
-  ];
+  // headers = [
+  //   {
+  //     name: 'Date',
+  //     field: ['date_created'],
+  //     size: '',
+  //     format: 'date',
+  //   },
+  //   {
+  //     name: 'Description',
+  //     field: ['description'],
+  //     size: '',
+  //   },
+  //   {
+  //     name: 'Reference',
+  //     field: ['reference'],
+  //     size: '',
+  //   },
+  //   {
+  //     name: 'Debit amount',
+  //     field: ['debit'],
+  //     size: '',
+  //     format: 'currency',
+  //   },
+  //   {
+  //     name: 'Credit amount',
+  //     field: ['credit'],
+  //     size: '',
+  //     format: 'currency',
+  //   },
+  //   {
+  //     name: 'Balance',
+  //     field: ['solde'],
+  //     size: '',
+  //     format: 'currency',
+  //   },
+  // ];
 
-  url = '';
-  ngOnChanges(changes: SimpleChanges) {
-    for (const propName in changes) {
-      const chng = changes[propName];
-      if (propName === 'accountId') {
-        this.url =
-          '/operations/all/statement/?trans_client_account_obj=' +
-          chng.currentValue +
-          '&';
-        this.accountId = chng.currentValue;
-      }
-      if (propName === 'ledgerId') {
-        this.url =
-          '/operations/all/statement/?trans_ledger_account_obj=' +
-          chng.currentValue +
-          '&';
-        this.ledgerId = chng.currentValue;
-      }
-    }
-  }
+  // url = '';
+  // ngOnChanges(changes: SimpleChanges) {
+  //   for (const propName in changes) {
+  //     const chng = changes[propName];
+  //     if (propName === 'accountId') {
+  //       this.url =
+  //         '/operations/all/statement/?trans_client_account_obj=' +
+  //         chng.currentValue +
+  //         '&';
+  //       this.accountId = chng.currentValue;
+  //     }
+  //     if (propName === 'ledgerId') {
+  //       this.url =
+  //         '/operations/all/statement/?trans_ledger_account_obj=' +
+  //         chng.currentValue +
+  //         '&';
+  //       this.ledgerId = chng.currentValue;
+  //     }
+  //   }
+  // }
 }

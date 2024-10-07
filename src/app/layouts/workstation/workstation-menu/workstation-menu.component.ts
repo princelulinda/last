@@ -89,6 +89,7 @@ export class WorkstationMenuComponent implements OnInit {
         this.operator = operator;
       },
     });
+
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationStart),

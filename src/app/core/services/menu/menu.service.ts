@@ -176,30 +176,36 @@ export class MenuService {
 
     switch (typeMenu) {
       case 'banking':
-        menuGroups = this.getMenuGroupByType('Banking', menus);
-        // console.log('MENU GROUPS', menuGroups, menus);
-        // alert('salu');
-        if (type === 'Aside-Menu') {
-          selectedGroup =
-            menuGroups.find(group => group.name === 'BankingHub')?.menus ?? [];
-        } else {
-          selectedGroup =
-            menuGroups.find(group => group.name === 'Banking services')
-              ?.menus ?? [];
+        if (menus) {
+          menuGroups = this.getMenuGroupByType('Banking', menus);
         }
-        console.log(selectedGroup);
+        if (menuGroups) {
+          if (type === 'Aside-Menu') {
+            selectedGroup =
+              menuGroups.find(group => group.name === 'BankingHub')?.menus ??
+              [];
+          } else {
+            selectedGroup =
+              menuGroups.find(group => group.name === 'Banking services')
+                ?.menus ?? [];
+          }
+        }
         return [selectedGroup, '/w/workstation/b/banking/'];
         break;
 
       case 'market':
-        menuGroups = this.getMenuGroupByType('Market', menus);
-        if (type === 'Aside-Menu') {
-          selectedGroup =
-            menuGroups.find(group => group.name === 'Merchant Reports')
-              ?.menus ?? [];
-        } else {
-          selectedGroup =
-            menuGroups.find(group => group.name === 'My Market')?.menus ?? [];
+        if (menus) {
+          menuGroups = this.getMenuGroupByType('Market', menus);
+        }
+        if (menuGroups) {
+          if (type === 'Aside-Menu') {
+            selectedGroup =
+              menuGroups.find(group => group.name === 'Merchant Reports')
+                ?.menus ?? [];
+          } else {
+            selectedGroup =
+              menuGroups.find(group => group.name === 'My Market')?.menus ?? [];
+          }
         }
         return [selectedGroup, '/w/workstation/m/market/'];
         break;
