@@ -705,7 +705,7 @@ export class MerchantService {
   //     .pipe(map((data: any) => data));
   // }
   getSingleInvoices(pagination: PaginationConfig) {
-    const url = `/dbs/merchant/bills/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}&for_validation=true&grouped=false&merchant=44`;
+    const url = `/dbs/merchant/bills/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}&for_validation=true&grouped=false`;
 
     return this.apiService
       .get<{ objects: SingleInVoiceModel[]; count: number }>(url)

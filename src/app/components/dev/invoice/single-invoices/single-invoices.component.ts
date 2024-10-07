@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MerchantService } from '../../../../core/services';
 import { Subject, takeUntil } from 'rxjs';
 import { SingleInVoiceModel } from '../invoice.models';
 import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
-import { MerchantAutocompleteModel } from '../../../merchant/merchant.models';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
 import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
 
@@ -18,8 +17,8 @@ import { PaginationComponent } from '../../../../global/components/list/paginati
 export class SingleInvoicesComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
   singleInvoices!: SingleInVoiceModel[] | null;
-  merchant!: MerchantAutocompleteModel;
-  merchantId!: number;
+  singleInVoice: SingleInVoiceModel | null = null;
+  merchantId!: string | number;
   pagination: PaginationConfig = {
     filters: {
       limit: 10,
@@ -30,9 +29,15 @@ export class SingleInvoicesComponent implements OnInit {
   loader = true;
   activePage = 1;
 
-  constructor(private merchantService: MerchantService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private merchantService: MerchantService
+  ) {}
   ngOnInit() {
-    this.getSingleInvoices();
+    this.route.params.subscribe(params => {
+      this.merchantId = params['id'];
+      this.getSingleInvoices();
+    });
   }
   getSingleInvoices() {
     this.loader = true;
@@ -45,14 +50,18 @@ export class SingleInvoicesComponent implements OnInit {
           this.loader = false;
           this.singleInvoices = response.objects;
           this.response_data = response.count;
-          // this.merchantId = this.merchant.id;
+          this.merchantId = (
+            this.singleInVoice as SingleInVoiceModel
+          ).merchant_teller.merchant.id;
+        },
+        error: () => {
+          this.loader = false;
         },
       });
   }
-  onPaginationChange(paginationConfig: PaginationConfig) {
-    this.pagination = paginationConfig;
-    this.activePage =
-      paginationConfig.filters.offset / paginationConfig.filters.limit + 1;
+  onPaginationChange(pagination: PaginationConfig) {
+    this.pagination = pagination;
+    this.activePage = pagination.filters.offset / pagination.filters.limit + 1;
     this.getSingleInvoices();
   }
 }

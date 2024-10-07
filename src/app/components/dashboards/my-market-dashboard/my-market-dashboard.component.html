@@ -32,7 +32,8 @@
 @if (!isLoadingInfo && merchant) {
   <div class="overflow-hidden">
     <div
-      class="d-lg-flex d-none position-relative shadow me-5 ms-3 border-top border-primary border-4 rectangleBlockSize">
+      class="d-lg-flex d-none position-relative shadow me-5 ms-3 border-top border-primary border-4 rectangleBlockSize"
+      [ngClass]="{ workstation: activePlatform === 'workstation' }">
       <img
         src="/images/products/Rectangle 1235.svg"
         class="mt-2 pt-4 position-absolute opacity-8 rectangleImageSize"
@@ -53,12 +54,21 @@
       </div>
       <div class="d-block ms-4 pt-4">
         <span class="text-dark fw-bold text-md">{{
-          merchant.merchant_title
+          merchant.merchant_title || '---'
         }}</span>
         <br />
-        <span class="text-dark text-sm">{{ merchant.merchant_code }}</span>
+        <span class="text-dark text-sm">{{
+          merchant.merchant_code || '---'
+        }}</span>
         <br />
-        <span class="text-dark text-sm">{{ merchant.merchant_location }}</span>
+        @if (merchant.merchant_location && activePlatform === 'myMarket') {
+          <span class="text-dark text-sm">{{
+            merchant.merchant_location || '---'
+          }}</span>
+        } @else {
+          <span class="text-dark text-sm">----</span>
+        }
+
         <br />
       </div>
       <!-- <div style="height: 35px; width: 1px" class="ms-4 level-3 mt-5"></div> -->
@@ -75,11 +85,11 @@
         </div>
         <!-- <br /> -->
         <span class="text-dark text-sm opacity-50">{{
-          merchant.client_category
+          merchant.client_category || '---'
         }}</span>
         <br />
         <span class="text-dark text-sm">{{
-          merchant.merchant_main_account
+          merchant.merchant_main_account || '---'
         }}</span>
         <br />
       </div>
@@ -411,13 +421,6 @@
             class="text-dark text-l p-2 text-center bg-primary sm-radius faBarsSize"
             ><i class="fa-solid fa-bars text-light fs-x-large"></i
           ></span>
-          <!-- <span class="ms-auto ps-4 pe-4">
-                    <input
-                        type="text"
-                        placeholder="Search"
-                        class="form-control input not-clickable"
-                    />
-                </span> -->
         </div>
         @if (!merchantMult) {
           <div class="row mt-4 ps-5 ms-1">
