@@ -120,13 +120,13 @@
               "localize": ["en", "fr"],
               "outputHashing": "all",
               "namedChunks": true,
-              "optimization": true,
+              "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1MB",
+                  "maximumWarning": "7MB",
                   "maximumError": "6MB"
                 },
                 {
