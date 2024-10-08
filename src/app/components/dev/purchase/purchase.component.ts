@@ -20,6 +20,7 @@ import {
   InvoiceResponseModel,
   MeasureModel,
   ProvidersModel,
+  InvoiceGroupModel,
 } from '../invoice/invoice.models';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { TellerAutoCompleteModel } from '../../merchant/merchant.models';
@@ -47,6 +48,7 @@ export class PurchaseComponent implements OnInit {
   product!: ProductAutocompleteModel;
   suppliers!: ProvidersModel[];
   supplier!: ProvidersModel;
+  invoices_groups!: InvoiceGroupModel[];
   measures: MeasureModel[] = [];
   tellers: TellerAutoCompleteModel[] = [];
   merchant_teller_id!: number;
@@ -59,8 +61,11 @@ export class PurchaseComponent implements OnInit {
   selectedProduct = false;
   selectedMerchant = false;
   action: 'merchant-payment' | 'output' = 'output';
-  selectedModal: 'add-to-group' | 'select-teller' | 'select-group' =
-    'add-to-group';
+  selectedModal:
+    | 'add-to-group'
+    | 'select-teller'
+    | 'select-group'
+    | 'select-teller-existant-group' = 'add-to-group';
 
   constructor(
     private merchantService: MerchantService,
@@ -281,34 +286,49 @@ export class PurchaseComponent implements OnInit {
     console.log('selected supplier:', this.supplier);
   }
   addToGroup(selectedButton: string) {
-    if (this.selectedModal === 'add-to-group') {
-      this.selectedModal = 'select-teller';
-    } else if (this.selectedModal === 'select-teller') {
-      console.log('the seletedButton1:', selectedButton);
-      if (selectedButton === 'existant-group') {
-        console.log(
-          'the selected Button value after the existant-group condition:',
-          selectedButton
-        );
-        this.merchant_teller_id = Number(selectedButton);
-        console.log('the id of the teller:', this.merchant_teller_id);
-
-        this.getBillsGroupsByTeller(this.merchant_teller_id);
-        this.selectedModal = 'select-group';
-        console.log('the seletedButton:', selectedButton);
-      }
-      // if(selectedButton === 'new-group'){
-      // }else
+    console.log('the seletedButton1 exitstant:', selectedButton);
+    if (selectedButton === 'existant-group') {
+      this.selectedModal = 'select-teller-existant-group';
+      console.log(
+        'the selected Button value when the existant-group condition select-teller:',
+        selectedButton
+      );
     }
+
+    // else if (this.selectedModal === 'select-teller') {
+    //   console.log('the seletedButton1:', selectedButton);
+    //   if (selectedButton === 'existant-group') {
+    //     console.log(
+    //       'the selected Button value after the existant-group condition:',
+    //       selectedButton
+    //     );
+    //     this.merchant_teller_id = Number(selectedButton);
+    //     console.log('the id of the teller:', this.merchant_teller_id);
+
+    //     this.getBillsGroupsByTeller(this.merchant_teller_id);
+    //     this.selectedModal = 'select-group';
+    //     console.log('the seletedButton:', selectedButton);
+    //   }
+    //   // if(selectedButton === 'new-group'){
+    //   // }else
+    // }
     // if (selectedButton === 'existant-group') {
     //     console.log('the selected Button value after the existant-group condition:', selectedButton);
     //     this.getBillsGroupsByTeller(Number(selectedButton));
     //   }
   }
 
+  getSelectedTellerId(teller_id: string) {
+    if (this.selectedModal === 'select-teller-existant-group') {
+      this.merchant_teller_id = Number(teller_id);
+      this.getBillsGroupsByTeller(this.merchant_teller_id);
+    }
+  }
   getBillsGroupsByTeller(merchant_teller_id: number) {
+    this.selectedModal = 'select-group';
     this.merchantService.getBillsGroupsByTeller(merchant_teller_id).subscribe({
-      next: data => {
+      next: (data: { objects: InvoiceGroupModel[] }) => {
+        this.invoices_groups = data.objects;
         console.log('the response of getBillsGroupsByTeller:', data);
       },
     });
@@ -317,7 +337,7 @@ export class PurchaseComponent implements OnInit {
     if (this.selectedModal === 'select-teller') {
       this.selectedModal = 'add-to-group';
     } else if (this.selectedModal === 'select-group') {
-      this.selectedModal = 'select-teller';
+      this.selectedModal = 'select-teller-existant-group';
     }
   }
   getProductMeasure() {
