@@ -209,7 +209,7 @@ export class MerchantPaymentComponent
     });
   }
 
-  private getMerchantDetails(merchantId: string) {
+  private getMerchantDetails(merchantId: number) {
     this.merchantDetails = null;
     this.loadingMerchantDetails = true;
     this.merchantService
@@ -608,7 +608,7 @@ export class MerchantPaymentComponent
     merchant: MerchantAutocompleteModel | BillersAutocompleteModel
   ) {
     this.selectedMerchant = merchant;
-    // this.getMerchantDetails(merchant.id);
+    this.getMerchantDetails(merchant.id);
   }
   getSelectedProduct(product: ProductAutocompleteModel) {
     this.selectedProduct = product;

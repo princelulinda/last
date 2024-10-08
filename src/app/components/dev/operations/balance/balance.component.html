@@ -28,8 +28,11 @@
           class="d-flex align-items-center justify-content-between col-5">
           <!-- input search for menus -->
           <form
-            (ngSubmit)="getTreasuryBalance()"
-            class="col-6 me-3 d-flex position-relative">
+            id="searchForm"
+            class="col-6 me-3 d-flex position-relative"
+            [ngClass]="{
+              'active ': isSearchInputNotEmpty() || isInputFocused,
+            }">
             <input
               type="search"
               class="form-control w-100 text-dark pe-4"
@@ -37,11 +40,14 @@
               placeholder="Search ...."
               aria-label="search"
               aria-describedby="basic-addon1"
-              [formControl]="search" />
+              [formControl]="searchInput"
+              (keydown.enter)="onSearchEnter($event)"
+              (focus)="isInputFocused = true"
+              (blur)="isInputFocused = false" />
             <span
               role="button"
               class="text-dark position-absolute treasuryBalance"
-              (click)="getTreasuryBalance()"
+              (click)="getTreasuryBalance('')"
               tabindex="0">
               @if (reloading) {
                 <span>
@@ -117,14 +123,11 @@
                   aria-controls="collapseExample">
                   <div class="col-2">
                     <div class="d-flex align-items-center">
-                      <div class="col-auto rounded-circle imgSize">
-                        <img
-                          [src]="
-                            institution.hr_noted_by.operator.picture ||
-                            '/images/userprofile.png'
-                          "
-                          alt="picture of operator"
-                          class="image float-start rounded-circle" />
+                      <div class="col-auto rounded-circle">
+                        <app-profile-card
+                          [imageUrl]="institution.hr_noted_by.operator.picture"
+                          [height]="'40px'"
+                          [width]="'40px'"></app-profile-card>
                       </div>
                       <div class="col ms-2 d-flex flex-column">
                         <b>{{
@@ -145,16 +148,26 @@
                     </p>
                   </div>
                   <div class="text-secondary col-2">
-                    <b>{{ institution.ext_balance | currency: 'BIF ' }}</b>
+                    <b>
+                      <app-amount-visibility
+                        [amount]="institution.ext_balance"
+                        [currency]="'BIF'"></app-amount-visibility>
+                    </b>
                   </div>
                   <div class="text-secondary col-2 pe-0">
-                    <b>{{ institution.cbs_balance | currency: 'BIF ' }}</b>
+                    <b>
+                      <app-amount-visibility
+                        [amount]="institution.cbs_balance"
+                        [currency]="'BIF'"></app-amount-visibility>
+                    </b>
                   </div>
                   <div
                     class="text-secondary col-2 d-flex align-items-center justify-content-between">
                     <div>
-                      <b
-                        >{{ institution.balance_difference | currency: 'BIF ' }}
+                      <b>
+                        <app-amount-visibility
+                          [amount]="institution.balance_difference"
+                          [currency]="'BIF'"></app-amount-visibility>
                       </b>
                       @if (
                         institution.balance_difference !== 0 &&
@@ -298,7 +311,7 @@
                         <button
                           (click)="selectBalanceAction('suspect')"
                           tabindex="0"
-                          class="btn text-primary me-3 balanceAction"
+                          class="btn text-primary me-3 border border-1 border-primary balanceAction"
                           data-bs-toggle="modal"
                           data-bs-target="#balance_action">
                           <b i18n>Suspect</b>
@@ -310,35 +323,18 @@
               </div>
             }
           </section>
-
-          <!-- pagination buttons -->
-          @if (
-            !reloading && institution_balance && institution_balance.length > 0
-          ) {
-            <div
-              class="mt-4 d-flex align-items-center justify-content-center text-light">
-              <button
-                title="Previous"
-                (click)="doListMove('prev')"
-                [disabled]="currentPage === 0"
-                class="border-0 me-2 btn d-inline-flex align-items-center rounded p-2 fs-4 text-primary">
-                <i class="fa-solid fa-play fa-rotate-180"></i>
-              </button>
-              @if (pagination.filters.limit) {
-                <button
-                  title="Next"
-                  (click)="doListMove('next')"
-                  tabindex="0"
-                  [disabled]="
-                    count < (currentPage + 1) * pagination.filters.limit
-                  "
-                  class="border-0 ms-2 btn fs-4 d-inline-flex align-items-center rounded p-2 text-primary">
-                  <i class="fa-solid fa-play"></i>
-                </button>
-              }
-            </div>
-          }
         </section>
+      }
+      <!-- pagination buttons -->
+      @if (count > 10) {
+        <div class="mb-3 w-100">
+          <app-pagination
+            [isLoading]="reloading"
+            [totalData]="count"
+            [pageLimit]="pagination.filters.limit"
+            (paginationChange)="onPaginationChange($event)">
+          </app-pagination>
+        </div>
       }
     </section>
   </main>

@@ -19,6 +19,7 @@ export interface Client {
 }
 
 export interface MerchantModel {
+  id: number;
   slug: string;
   merchant_title: string;
   merchant_logo: null;
