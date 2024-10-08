@@ -9,6 +9,7 @@ export interface InvoiceGroupModel {
     id: number;
     alias: string;
   };
+  bills: number;
 }
 
 export interface InvoiceModel {
@@ -76,6 +77,11 @@ export interface SingleInVoiceModel {
   total_amount: string | number;
   currency: string;
   orders: OrdersModel[];
+  payment_status: {
+    title: string;
+    value: string;
+    css: string;
+  };
 }
 
 export interface InvoiceResponseModel {

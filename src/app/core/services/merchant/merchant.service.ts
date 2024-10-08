@@ -658,10 +658,12 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
-  getBillsGroups(): Observable<{ objects: InvoiceGroupModel[] }> {
-    const url = `/dbs/bill-group/`;
+  getBillsGroups(
+    pagination: PaginationConfig
+  ): Observable<{ objects: InvoiceGroupModel[]; count: number }> {
+    const url = `/dbs/bill-group/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`;
     return this.apiService
-      .get<{ objects: InvoiceGroupModel[] }>(url)
+      .get<{ objects: InvoiceGroupModel[]; count: number }>(url)
       .pipe(map(data => data));
   }
 
@@ -704,8 +706,8 @@ export class MerchantService {
   //     .get<any>(url)
   //     .pipe(map((data: any) => data));
   // }
-  getSingleInvoices(pagination: PaginationConfig) {
-    const url = `/dbs/merchant/bills/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}&for_validation=true&grouped=false`;
+  getSingleInvoices(pagination: PaginationConfig, search: string) {
+    const url = `/dbs/merchant/bills/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}&for_validation=true&grouped=false&search=${search}`;
 
     return this.apiService
       .get<{ objects: SingleInVoiceModel[]; count: number }>(url)
