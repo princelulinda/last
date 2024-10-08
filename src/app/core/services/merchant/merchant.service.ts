@@ -130,7 +130,7 @@ export class MerchantService {
     return this.apiService.post(url, body).pipe(map(data => data));
   }
 
-  getMerchantsDetails(id: string): Observable<{ object: MerchantModel }> {
+  getMerchantsDetails(id: number): Observable<{ object: MerchantModel }> {
     const url = `/dbs/merchant/manage/${id}/`;
     return this.apiService
       .get<{ object: MerchantModel }>(url)
