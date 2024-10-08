@@ -71,3 +71,12 @@ export interface SingleInVoiceModel {
   total_amount: string | number;
   orders: OrdersModel[];
 }
+
+export interface InvoiceResponseModel {
+  response_message: string;
+  response_code: string;
+  response_data: {
+    code: string;
+  };
+  success: boolean;
+}

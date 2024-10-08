@@ -16,8 +16,13 @@ import {
 } from '../../../global/components/empty-states/empty-state/empty-state.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MeasureModel, ProvidersModel } from '../invoice/invoice.models';
+import {
+  InvoiceResponseModel,
+  MeasureModel,
+  ProvidersModel,
+} from '../invoice/invoice.models';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import { TellerAutoCompleteModel } from '../../merchant/merchant.models';
 
 @Component({
   selector: 'app-purchase',
@@ -43,9 +48,9 @@ export class PurchaseComponent implements OnInit {
   suppliers!: ProvidersModel[];
   supplier!: ProvidersModel;
   measures: MeasureModel[] = [];
+  tellers: TellerAutoCompleteModel[] = [];
   invoiceForm: FormGroup;
   dialogState$!: Observable<DialogResponseModel>;
-  measure_id!: number;
   isLoading = true;
   searchType: EmptyStateModel = 'product';
   isProductsSearch = false;
@@ -53,6 +58,8 @@ export class PurchaseComponent implements OnInit {
   selectedProduct = false;
   selectedMerchant = false;
   action: 'merchant-payment' | 'output' = 'output';
+  selectedModal: 'add-to-group' | 'select-teller' | 'select-group' =
+    'add-to-group';
 
   constructor(
     private merchantService: MerchantService,
@@ -63,23 +70,17 @@ export class PurchaseComponent implements OnInit {
     this.dialogState$ = this.dialogService.getDialogState();
     this.invoiceForm = new FormGroup({
       measure_value: new FormControl('', Validators.required),
-      measure_type: new FormControl(this.measures[0]),
+      measure_type: new FormControl(4, Validators.required),
       pin: new FormControl('', Validators.required),
     });
   }
   ngOnInit() {
     if (this.route && this.route.fragment) {
       this.route.fragment.subscribe({
-        next: fragment => {
-          if (this.selectedProduct) {
-            fragment = 'providers';
-            this.router.navigate(['/m/mymarket/purchase'], {
-              fragment: fragment,
-            });
+        next: () => {
+          if (!this.selectedMerchant && !this.selectedProduct) {
+            this.router.navigate(['/m/mymarket/purchase']);
           }
-          // else (this.selectedMerchant){
-          //   this.router.navigate(['/m/mymarket/purchase'], { fragment: ''});
-          // }
         },
       });
     }
@@ -101,6 +102,7 @@ export class PurchaseComponent implements OnInit {
 
       this.merchantService.getConnectedMerchantId(this.merchantId);
       this.getPurchasedProducts();
+      this.getTellersByMerchant();
     });
   }
   getPurchasedProducts(search?: string) {
@@ -166,31 +168,38 @@ export class PurchaseComponent implements OnInit {
       },
     });
   }
-  getMeasureId() {
-    if (this.invoiceForm.value.measure_type === this.measures[0]) {
-      this.measure_id = this.measures[0].id;
-    } else if (this.invoiceForm.value.measure_type === this.measures[1]) {
-      this.measure_id = this.measures[1].id;
-    }
-  }
   createBill() {
-    this.isLoading = !this.isLoading;
-    this.getMeasureId();
+    this.isLoading = true;
     const body = {
       provider: this.supplier.id,
       merchant: Number(this.merchantId),
       payment_data: {
         quantity: this.invoiceForm.value.measure_value,
       },
-      measure: this.measure_id,
+      measure: this.invoiceForm.value.measure_type,
       pin_code: this.invoiceForm.value.pin,
       merchant_product_id: this.product.id,
     };
     console.log('the body of  create bill', body);
     this.merchantService.createBill(body).subscribe({
-      next: data => {
-        this.isLoading = false;
-        console.log('the response of the post of the bill:', data);
+      next: (data: { object: InvoiceResponseModel }) => {
+        this.dialogService.closeLoading();
+        if (data.object.success === false) {
+          this.dialogService.openToast({
+            title: '',
+            type: 'failed',
+            message:
+              data.object.response_message ?? 'Failed to create an Invoice',
+          });
+          this.isLoading = false;
+        } else {
+          this.dialogService.openToast({
+            title: '',
+            type: 'success',
+            message: data.object.response_message ?? 'Invoice created',
+          });
+          this.cancel();
+        }
       },
 
       error: err => {
@@ -204,26 +213,92 @@ export class PurchaseComponent implements OnInit {
       },
     });
   }
+  // createBillGroup() {
+  //   this.isLoading = true;
+  //     this.getMeasureId();
+  //     const body = {
+  //       name: '',
+  //       merchant_teller: id,
+  //     };
+  //     console.log('the body of  create bill group', body);
+  //     this.merchantService.createBillGroup(body).subscribe({
+  //       next: data => {
+  //         this.dialogService.closeLoading();
+  //         if (data.object.success === false) {
+  //           this.dialogService.openToast({
+  //             title: '',
+  //             type: 'failed',
+  //             message:
+  //               data.object.response_message ?? 'Failed to create an Invoice',
+  //           });
+  //           this.isLoading = false;
+  //         } else {
 
-  // pinModal() {
-  //   this.dialogService.openDialog({
-  //     title: '',
-  //     type: 'pin',
-  //     message: 'Enter your pin code please',
-  //     action: 'create',
-  //   })
+  //           this.dialogService.openToast({
+  //             title: '',
+  //             type: 'success',
+  //             message: data.object.response_message ?? 'Invoice created',
+  //           });
+  //         this.cancel();
+  //         }
+  //       },
+
+  //       error: err => {
+  //         this.dialogService.closeLoading();
+  //         const errorMessage = err.error.object.response_message;
+  //         this.dialogService.openToast({
+  //           type: 'failed',
+  //           title: '',
+  //           message: errorMessage || 'failed to update merchant details',
+  //         });
+  //       },
+  //     });
   // }
+  getTellersByMerchant() {
+    this.merchantService
+      .getTellersByMerchantAutoComplete(Number(this.merchantId))
+      .subscribe({
+        next: data => {
+          this.tellers = data.objects;
+          console.log('the tellers info:', this.tellers);
+        },
+      });
+  }
+
   selectProduct(product: ProductAutocompleteModel) {
     this.product = product;
     this.getSupplier();
+    this.router.navigate(['/m/mymarket/purchase'], { fragment: 'providers' });
   }
 
   selectSupplier(supplier: ProvidersModel) {
     this.selectedMerchant = true;
     this.supplier = supplier;
+    this.router.navigate(['/m/mymarket/purchase'], {
+      fragment: 'selectedProvider',
+    });
     console.log('selected supplier:', this.supplier);
   }
-
+  addToGroup(selectedButton: string) {
+    if (this.selectedModal === 'add-to-group') {
+      this.selectedModal = 'select-teller';
+    } else if (this.selectedModal === 'select-teller') {
+      this.selectedModal = 'select-group';
+      // if(selectedButton === 'new-group'){
+      // }else
+      if (selectedButton === 'existant-group') {
+        // this.addToGroupByTeller();
+      }
+    }
+  }
+  // addToGroupByTeller() {}
+  goBackWithModal() {
+    if (this.selectedModal === 'select-teller') {
+      this.selectedModal = 'add-to-group';
+    } else if (this.selectedModal === 'select-group') {
+      this.selectedModal = 'select-teller';
+    }
+  }
   getProductMeasure() {
     this.merchantService.getProductMeasure(this.product.id).subscribe({
       next: (data: { objects: MeasureModel[] }) => {
@@ -231,5 +306,27 @@ export class PurchaseComponent implements OnInit {
         console.log('the measures :', this.measures);
       },
     });
+  }
+
+  goBack() {
+    if (this.selectedProduct === false && this.selectedMerchant === false) {
+      this.router.navigate(['/m/mymarket']);
+    } else if (
+      this.selectedProduct === true &&
+      this.selectedMerchant === false
+    ) {
+      this.selectedProduct = false;
+      this.router.navigate(['/m/mymarket/purchase']);
+    } else if (this.selectedMerchant === true) {
+      this.selectedMerchant = false;
+      this.router.navigate(['/m/mymarket/purchase'], { fragment: 'providers' });
+    }
+  }
+  cancel() {
+    if (this.selectedMerchant === true) {
+      this.selectedMerchant = false;
+      this.selectedProduct = false;
+      this.router.navigate(['/m/mymarket/purchase']);
+    }
   }
 }

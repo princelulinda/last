@@ -6,8 +6,7 @@ import { Observable } from 'rxjs';
 import { ApiService, GeneralService } from '..';
 import {
   MenuGroupAndMenusSimpleModel,
-  MenuGroupsModel,
-  MenuModel,
+  MenuSimpleModel,
   TypeMenuModel,
   TypeMenuNamesModel,
   URLTypeMenuModel,
@@ -47,29 +46,6 @@ export class MenuService {
 
   setLocalSelectedMenu(menu: number) {
     this.apiService.setLocalSelectedMenu(menu);
-  }
-
-  getMenuGroupByGroup(type: string) {
-    return this.apiService
-      .get('/menugroup/list/?group_type=' + type)
-      .pipe(map(data => data));
-  }
-
-  getAllMenuGroup(): Observable<{ objects: MenuGroupsModel[]; count: number }> {
-    return this.apiService
-      .get<{ objects: MenuGroupsModel[]; count: number }>('/menu-group/list/')
-      .pipe(map(data => data));
-  }
-
-  getMenuByGroup(
-    menu_group_id: string
-  ): Observable<{ objects: MenuModel[]; count: number }> {
-    return this.apiService
-      .get<{
-        objects: MenuModel[];
-        count: number;
-      }>('/menu/list/?menu_group=' + menu_group_id)
-      .pipe(map(data => data));
   }
 
   getTypeMenuGroups(): Observable<{ objects: TypeMenuModel[]; count: number }> {
@@ -186,6 +162,52 @@ export class MenuService {
         break;
       default:
         return [[], '/w/workstation/'];
+        break;
+    }
+  }
+
+  getBankingMenu(
+    typeMenu: 'banking' | 'market',
+    type: 'Aside-Menu' | 'Dashboard',
+    menus: TypeMenuModel[]
+  ): [MenuSimpleModel[] | [], string] {
+    let selectedGroup: MenuSimpleModel[] = [];
+    let menuGroups: MenuGroupAndMenusSimpleModel[] = [];
+
+    switch (typeMenu) {
+      case 'banking':
+        if (menus) {
+          menuGroups = this.getMenuGroupByType('Banking', menus);
+        }
+        if (menuGroups) {
+          if (type === 'Aside-Menu') {
+            selectedGroup =
+              menuGroups.find(group => group.name === 'BankingHub')?.menus ??
+              [];
+          } else {
+            selectedGroup =
+              menuGroups.find(group => group.name === 'Banking services')
+                ?.menus ?? [];
+          }
+        }
+        return [selectedGroup, '/w/workstation/b/banking/'];
+        break;
+
+      case 'market':
+        if (menus) {
+          menuGroups = this.getMenuGroupByType('Market', menus);
+        }
+        if (menuGroups) {
+          if (type === 'Aside-Menu') {
+            selectedGroup =
+              menuGroups.find(group => group.name === 'Merchant Reports')
+                ?.menus ?? [];
+          } else {
+            selectedGroup =
+              menuGroups.find(group => group.name === 'My Market')?.menus ?? [];
+          }
+        }
+        return [selectedGroup, '/w/workstation/m/market/'];
         break;
     }
   }

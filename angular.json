@@ -74,7 +74,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "1MB",
-                  "maximumError": "4MB"
+                  "maximumError": "6MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -93,14 +93,14 @@
               "localize": ["en", "fr"],
               "outputHashing": "all",
               "namedChunks": true,
-              "optimization": false,
+              "optimization": true,
               "extractLicenses": false,
               "sourceMap": true,
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "1MB",
-                  "maximumError": "4MB"
+                  "maximumError": "6MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -120,14 +120,14 @@
               "localize": ["en", "fr"],
               "outputHashing": "all",
               "namedChunks": true,
-              "optimization": false,
+              "optimization": true,
               "extractLicenses": false,
               "sourceMap": true,
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "3MB",
-                  "maximumError": "7MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "6MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -137,7 +137,7 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "csrc/environments/environment.ts",
+                  "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.bbs.ts"
                 }
               ]
@@ -153,7 +153,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "1MB",
-                  "maximumError": "4MB"
+                  "maximumError": "6MB"
                 },
                 {
                   "type": "anyComponentStyle",

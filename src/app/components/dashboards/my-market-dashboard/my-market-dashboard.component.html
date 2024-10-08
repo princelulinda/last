@@ -184,7 +184,7 @@
       </div>
     </section>
 
-    <section class="mt-2 row justify-content-between">
+    <section class="mt-2 row justify-content-between mx-0">
       <span
         ><i class="fa-solid fa-chart-simple text-primary-light"></i
         ><b class="text-dark" i18n> Chart</b></span
@@ -209,71 +209,67 @@
           </div>
         </div>
         <div
-          class="col-md-6 col-lg-8 col-xxl-6 mt-3 mt-md-0 mb-5 border-start border-1 border-secondary ms-0 ms-xl-auto text-center">
-          <div
-            class="d-flex justify-content-center justify-content-md-start px-5">
-            <div class="col-md-auto">
-              <a
-                routerLink="{{ baseRouterLink }}/product-config"
-                class="pt-1 level-1 ms-3 mt-2 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
-                role="button">
-                <b class="text-dark" i18n>Manage product</b>
-                <i class="fa-solid fa-box text-dark ms-3 opacity-75"></i>
-              </a>
-              <a
-                routerLink="{{ baseRouterLink }}/merchant-config"
-                role="button"
-                class="pt-1 level-1 ms-3 mt-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary">
-                <b class="text-dark" i18n>Merchant config</b>
-                <i class="fa-solid fa-sliders ms-3 text-dark opacity-75"> </i>
-              </a>
-
-              <a
-                class="level-1 pt-1 mt-3 ms-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
-                role="button"
-                routerLink="{{ baseRouterLink }}/merchant-transfer">
-                <div>
-                  <b class="text-dark" i18n>Transfer</b>
-                  <i class="fa-solid fa-paper-plane ms-3 text-dark opacity-75">
-                  </i>
-                </div>
-              </a>
-            </div>
-
-            <div class="ms-auto">
-              <div
-                role="button"
-                class="pt-1 level-1 ms-3 mt-2 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
-                routerLink="{{ baseRouterLink }}/payment-reports">
-                <b class="text-dark" i18n>Payment reports</b>
-                <i class="fa-solid fa-file-excel ms-3 text-success"></i>
-              </div>
-
-              <div
-                role="button"
-                class="pt-1 level-1 ms-3 mt-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary"
-                data-bs-toggle="modal"
-                data-bs-target="#staticBackdrop">
-                <b class="text-dark" i18n>Statements</b>
-                <i class="fa-solid fa-history ms-3 text-dark opacity-75"> </i>
-              </div>
-
-              <div
-                role="button"
-                (click)="openPopup()"
-                tabindex="0"
-                data-bs-toggle="modal"
-                data-bs-target="#billsModal"
-                #closeModal
-                class="pt-1 level-1 ms-3 mt-3 miniSettings d-flex border sm-radius align-items-center justify-content-center bg-secondary">
-                <b class="text-dark" i18n>Generate Bill</b>
-                <i class="fa-solid fa-file-invoice ms-3 text-dark opacity-75">
-                </i>
-              </div>
-            </div>
+          class="col-md-7 col-lg-8 col-xxl-7 mt-3 mt-md-0 mb-5 border-start border-1 text-center">
+          <div class="row mx-0 justify-content-between gap-2 gap-lg-3">
+            @if (activePlatform !== 'workstation') {
+              @for (menu of marketMenus; track $index) {
+                @let menuId = menu.id;
+                @if (menuId !== 4 && menuId !== 6) {
+                  <a
+                    routerLink="/m/mymarket/{{ menu.component_url }}"
+                    class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
+                    role="button">
+                    <b i18n>{{ menu.name }}</b>
+                    <span
+                      class="ms-3 opacity-75"
+                      [ngClass]="{
+                        'text-success': $index == 1,
+                      }">
+                      <i class="fa-solid fa-{{ menu.icon }}"></i>
+                    </span>
+                  </a>
+                } @else if (menuId === 4) {
+                  <a
+                    class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                    role="button">
+                    <b i18n>{{ menu.name }}</b>
+                    <span class="ms-3 opacity-75">
+                      <i class="fa-solid fa-{{ menu.icon }}"></i>
+                    </span>
+                  </a>
+                } @else if (menuId === 6) {
+                  <span
+                    class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
+                    role="button"
+                    (click)="openPopup()"
+                    tabindex="0"
+                    data-bs-toggle="modal"
+                    data-bs-target="#billsModal"
+                    #closeModal>
+                    <b i18n>{{ menu.name }}</b>
+                    <span class="ms-3 opacity-75">
+                      <i class="fa-solid fa-{{ menu.icon }}"></i>
+                    </span>
+                  </span>
+                }
+              }
+            } @else {
+              @for (menu of corporateMarketMenus; track $index) {
+                <a
+                  routerLink="/w/workstation/m/market/{{ menu.component_url }}"
+                  class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
+                  role="button">
+                  <b i18n>{{ menu.name }}</b>
+                  <span class="ms-3 opacity-75">
+                    <i class="fa-solid fa-{{ menu.icon }}"></i>
+                  </span>
+                </a>
+              }
+            }
           </div>
         </div>
-        <div class="row"></div>
       </div>
     </section>
     <section class="row justify-content-between">

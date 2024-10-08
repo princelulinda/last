@@ -2,7 +2,7 @@
   @if (activatedTypeMenu === 'b') {
     <section class="bg-white w-aside p-1 pt-4 d-flex flex-column">
       <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
+        class="py-1 mb-2 text-secondary px-3 xx-lg-radius bg-hover-input"
         role="button"
         routerLink="/w/workstation/b/banking/"
         [routerLinkActiveOptions]="{ exact: true }"
@@ -10,36 +10,16 @@
         i18n>
         Home
       </a>
-      <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
-        routerLink="/w/workstation/b/banking/tarifs"
-        routerLinkActive="text-all-dark bg-input"
-        role="button"
-        i18n>
-        Tarifs
-      </a>
-      <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
-        role="button"
-        routerLinkActive="text-all-dark bg-input"
-        i18n>
-        Petty Cash
-      </a>
-      <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
-        routerLink="/w/workstation/b/banking/transfer"
-        routerLinkActive="text-all-dark bg-input"
-        role="button"
-        i18n>
-        Transfer
-      </a>
-      <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
-        routerLinkActive="text-all-dark bg-input"
-        role="button"
-        i18n>
-        Statement
-      </a>
+      @for (menu of bankingMenus; track $index) {
+        <a
+          class="py-1 mb-2 text-secondary px-3 xx-lg-radius bg-hover-input"
+          routerLink="{{ baseMenuUrl }}{{ menu.component_url }}"
+          routerLinkActive="text-all-dark bg-input"
+          role="button"
+          i18n>
+          <small>{{ menu.name }}</small>
+        </a>
+      }
     </section>
 
     <main class="flex-grow-1 overflow-y-auto ms-1 px-2">
@@ -48,7 +28,7 @@
   } @else if (activatedTypeMenu === 'm') {
     <section class="bg-white w-aside p-1 pt-4 d-flex flex-column">
       <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
+        class="py-1 mb-2 text-secondary px-3 xx-lg-radius bg-hover-input"
         role="button"
         routerLink="/w/workstation/m/market/"
         [routerLinkActiveOptions]="{ exact: true }"
@@ -56,41 +36,18 @@
         i18n>
         <small>HOME</small>
       </a>
-      <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
-        routerLink="/w/workstation/m/market/payment-reports"
-        routerLinkActive="text-all-dark bg-input"
-        role="button"
-        i18n>
-        <small>PAYMENT REPORT</small>
-      </a>
-      <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
-        routerLink="/w/workstation/m/market/transfer-reports"
-        routerLinkActive="text-all-dark bg-input"
-        role="button"
-        i18n>
-        <small>TRANSFER REPORT</small>
-      </a>
-      <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
-        role="button"
-        i18n>
-        <small>SLATE</small>
-      </a>
-      <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
-        role="button"
-        i18n>
-        <small>CLIENT ORDER</small>
-      </a>
-      <a
-        class="py-1 mb-3 text-secondary px-4 xx-lg-radius bg-hover-input"
-        role="button"
-        i18n>
-        <small>POINT OF SALE</small>
-      </a>
+      @for (menu of marketMenus; track $index) {
+        <a
+          class="py-1 mb-2 text-secondary px-3 xx-lg-radius bg-hover-input text-uppercase"
+          routerLink="{{ baseMenuUrl }}{{ menu.component_url }}"
+          routerLinkActive="text-all-dark bg-input"
+          role="button"
+          i18n>
+          <small>{{ menu.name }}</small>
+        </a>
+      }
     </section>
+
     <section class="d-flex flex-column flex-grow-1">
       <section class="row mx-0 bg-secondary p-4">
         <div class="col-md-6 text-end">
