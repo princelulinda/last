@@ -43,10 +43,12 @@ export class SingleInvoicesComponent implements OnInit {
     private merchantService: MerchantService
   ) {}
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.merchantId = params['id'];
-      this.getSingleInvoices('');
-    });
+    if (this.route.params) {
+      this.route.params.subscribe(params => {
+        this.merchantId = params['id'];
+        this.getSingleInvoices('');
+      });
+    }
 
     this.searchInput.valueChanges
       .pipe(debounceTime(400), takeUntil(this.onDestroy$))
