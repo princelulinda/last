@@ -689,6 +689,15 @@ export class MerchantService {
       .post<{ object: InvoiceResponseModel }>(url, invoice)
       .pipe(map(data => data));
   }
+  createBillByGroup(
+    invoice: InvoiceModel,
+    group_id: number
+  ): Observable<{ object: InvoiceResponseModel }> {
+    const url = `/dbs/merchant/bill-validation-init/bill_group:${group_id} `;
+    return this.apiService
+      .post<{ object: InvoiceResponseModel }>(url, invoice)
+      .pipe(map(data => data));
+  }
 
   getSupplier(product_id: number): Observable<{ objects: ProvidersModel[] }> {
     const url = `/dbs/merchant-product-provided/?product=${product_id}`;
