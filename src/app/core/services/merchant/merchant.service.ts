@@ -665,6 +665,11 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
+  getBillsGroupsByTeller(merchant_teller_id: number) {
+    const url = `/dbs/bill-group/?merchant_teller=${merchant_teller_id}`;
+    return this.apiService.get(url).pipe(map(data => data));
+  }
+
   // createBillGroup(teller_info: any) {
   //   const url = `/dbs/bill-group`;
   //   return this.apiService.post(url, teller_info).pipe(map(data => data));

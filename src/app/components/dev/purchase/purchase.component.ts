@@ -49,6 +49,7 @@ export class PurchaseComponent implements OnInit {
   supplier!: ProvidersModel;
   measures: MeasureModel[] = [];
   tellers: TellerAutoCompleteModel[] = [];
+  merchant_teller_id!: number;
   invoiceForm: FormGroup;
   dialogState$!: Observable<DialogResponseModel>;
   isLoading = true;
@@ -283,15 +284,35 @@ export class PurchaseComponent implements OnInit {
     if (this.selectedModal === 'add-to-group') {
       this.selectedModal = 'select-teller';
     } else if (this.selectedModal === 'select-teller') {
-      this.selectedModal = 'select-group';
+      console.log('the seletedButton1:', selectedButton);
+      if (selectedButton === 'existant-group') {
+        console.log(
+          'the selected Button value after the existant-group condition:',
+          selectedButton
+        );
+        this.merchant_teller_id = Number(selectedButton);
+        console.log('the id of the teller:', this.merchant_teller_id);
+
+        this.getBillsGroupsByTeller(this.merchant_teller_id);
+        this.selectedModal = 'select-group';
+        console.log('the seletedButton:', selectedButton);
+      }
       // if(selectedButton === 'new-group'){
       // }else
-      if (selectedButton === 'existant-group') {
-        // this.addToGroupByTeller();
-      }
     }
+    // if (selectedButton === 'existant-group') {
+    //     console.log('the selected Button value after the existant-group condition:', selectedButton);
+    //     this.getBillsGroupsByTeller(Number(selectedButton));
+    //   }
   }
-  // addToGroupByTeller() {}
+
+  getBillsGroupsByTeller(merchant_teller_id: number) {
+    this.merchantService.getBillsGroupsByTeller(merchant_teller_id).subscribe({
+      next: data => {
+        console.log('the response of getBillsGroupsByTeller:', data);
+      },
+    });
+  }
   goBackWithModal() {
     if (this.selectedModal === 'select-teller') {
       this.selectedModal = 'add-to-group';
