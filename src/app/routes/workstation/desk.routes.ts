@@ -18,7 +18,6 @@ import { MerchantListComponent } from '../../components/merchant/workstation/mer
 import { MerchantDetailsComponent } from '../../components/merchant/workstation/merchant-details/merchant-details.component';
 import { BalanceComponent } from '../../components/dev/operations/balance/balance.component';
 import { ShortcutsComponent } from '../../components/admin/customer-base/shortcuts/shortcuts.component';
-import { ModalComponent } from '../../components/admin/customer-base/modal/modal.component';
 import { SignaturesComponent } from '../../components/client/signatures/signatures.component';
 import { ClientCreditsComponent } from '../../components/client/client-credits/client-credits.component';
 import { ClientCreditsLineComponent } from '../../components/client/client-credits-line/client-credits-line.component';
@@ -100,7 +99,6 @@ export const DeskRoutes: Routes = [
 
   // NOTE :: SHORTCUTS MODULE
   { path: 'shortcuts', component: ShortcutsComponent },
-  { path: 'modal', component: ModalComponent },
 
   {
     path: 'access-required',
