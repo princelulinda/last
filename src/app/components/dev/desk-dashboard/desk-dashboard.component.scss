@@ -1,44 +1,17 @@
-// .HCard{
-//     height: 20rem;
-// }
-// .DivImage{
-//     height: 6.5rem;
-// }
-
-// .textFont{
-//     font-size: 30px;
-// }
-// .fontWDesk{
-//     font-weight: 600;
-// }
-// .fontWeight{
-//     font-weight: 500;
-// }
-// .card-title{
-//     font-weight: 700;
-// }
-// .card-text{
-//     font-weight: 400;
-// }
-
-.bcontain {
+.merchant-features-container {
   width: 522px;
   height: 264px;
-  gap: 0px;
-  border-radius: 20px;
   border: 1px dotted;
 }
 
 .circle {
-  max-height: 45px;
-  max-width: 45px;
-  min-height: 45px;
-  min-width: 45px;
+  height: 45px;
+  width: 45px;
   top: -10px;
-  left: -38px;
+  left: -40px;
 }
 
-.backard {
+.merchant-feature {
   width: 171px;
   height: 82px;
   border-top-left-radius: 0%;
@@ -47,29 +20,14 @@
   border-bottom-right-radius: 16px;
 }
 
-.btitle {
-  font-weight: 600;
+.loan-feature-card {
+  width: 460px;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-.bbody {
-  font-weight: 500;
-  line-height: 14.63px;
-}
-
-.lrect {
-  width: 457px;
-  height: 90px;
-  border-radius: 22px;
-}
-
-.licon {
+.loan-feature-icon {
   width: 65px;
   height: 65px;
-  border-radius: 10px;
-}
-
-.lbody {
-  font-weight: 500;
 }
 
 .accard {
