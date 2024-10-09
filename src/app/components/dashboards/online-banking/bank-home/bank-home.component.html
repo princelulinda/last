@@ -59,16 +59,25 @@
                     <span>
                       <i [class]="'fs-2 fa fa-' + menu.icon"></i>
                     </span>
+                  } @else {
+                    @if (menu.name === 'Loans') {
+                      @if (theme === 'light') {
+                        <img src="/images/loan-black.svg" alt="loan" />
+                      } @else {
+                        <img src="/images/loan-white.svg" alt="loan" />
+                      }
+                    } @else if (menu.name === 'Withdrawals') {
+                      @if (theme === 'light') {
+                        <img
+                          src="/images/withdrawal-black.svg"
+                          alt="withdrawal" />
+                      } @else {
+                        <img
+                          src="/images/withdrawal-white.svg"
+                          alt="withdrawal" />
+                      }
+                    }
                   }
-
-                  <!-- @if (menu.image) {
-                    @if (theme === 'light') {
-                      <img [src]="'/images/' + menu.image[0]" alt="" />
-                    }
-                    @if (theme === 'dark') {
-                      <img [src]="'/images/' + menu.image[1]" alt="" />
-                    }
-                  } -->
                 </div>
               </div>
               <div class="text-center">
