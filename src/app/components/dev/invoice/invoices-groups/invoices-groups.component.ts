@@ -12,6 +12,8 @@ import {
   EmptyStateComponent,
   EmptyStateModel,
 } from '../../../../global/components/empty-states/empty-state/empty-state.component';
+import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
+import { PaginationConfig } from '../../../../global/models/pagination.models';
 
 @Component({
   selector: 'app-invoices-groups',
@@ -22,6 +24,7 @@ import {
     SkeletonComponent,
     InvoicesByGroupComponent,
     EmptyStateComponent,
+    PaginationComponent,
   ],
   templateUrl: './invoices-groups.component.html',
   styleUrl: './invoices-groups.component.scss',
@@ -33,6 +36,17 @@ export class InvoicesGroupsComponent implements OnInit {
   GroupInfo!: InvoiceGroupModel;
   invoices: [] | null = [];
   searchType: EmptyStateModel = 'product';
+  invocesPagination: PaginationConfig = {
+    filters: {
+      limit: 10,
+      offset: 0,
+    },
+  };
+
+  activePage = 1;
+  count = 0;
+  isLoading = true;
+
   ngOnInit() {
     this.getBillsGroup();
     this.router.navigate(['/m/mymarket/invoices-groups']);
@@ -43,17 +57,21 @@ export class InvoicesGroupsComponent implements OnInit {
     private router: Router
   ) {}
   getBillsGroup() {
+    this.isLoading = true;
     this.isSelected_group = false;
     this.invoices_groups = null;
     this.merchantService
-      .getBillsGroups()
+      .getBillsGroups(this.invocesPagination)
       .pipe(takeUntil(this.OnDestroy$))
       .subscribe({
-        next: (response: { objects: InvoiceGroupModel[] }) => {
+        next: response => {
           this.invoices_groups = response.objects;
           this.GroupInfo = response.objects[0];
+          this.count = response.count;
+          this.isLoading = false;
         },
         error: err => {
+          this.isLoading = false;
           this.dialogService.closeLoading();
           this.dialogService.openToast({
             title: '',
@@ -84,5 +102,11 @@ export class InvoicesGroupsComponent implements OnInit {
   getGoBackEvent(isSelected_group: boolean) {
     this.isSelected_group = isSelected_group;
     this.router.navigate(['/m/mymarket/invoices-groups']);
+  }
+
+  onPaginationChange(pagination: PaginationConfig) {
+    this.invocesPagination = pagination;
+    this.activePage = pagination.filters.offset / pagination.filters.limit + 1;
+    this.getBillsGroup();
   }
 }

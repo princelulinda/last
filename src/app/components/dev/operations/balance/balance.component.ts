@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
@@ -16,6 +16,9 @@ import { DialogService } from '../../../../core/services';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { BalanceActionModel, BalanceModel } from './balance.model';
 import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
+import { ProfileCardComponent } from '../../../../global/components/custom-field/profile-card/profile-card.component';
+import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
 
 @Component({
   selector: 'app-balance',
@@ -25,6 +28,9 @@ import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.m
     ReactiveFormsModule,
     LookupComponent,
     SkeletonComponent,
+    ProfileCardComponent,
+    AmountVisibilityComponent,
+    PaginationComponent,
   ],
   templateUrl: './balance.component.html',
   styleUrl: './balance.component.scss',
@@ -49,12 +55,17 @@ export class BalanceComponent implements OnInit {
   reloading = true;
   institutionPicked!: BalanceModel | null;
 
-  search = new FormControl('');
-  pagination = new PaginationConfig();
-  canMoveToPrev = false;
-  canMoveToNext = true;
-  currentPage = 0;
-  count!: number;
+  currentPage = 1;
+  count = 0;
+  pagination: PaginationConfig = {
+    filters: {
+      limit: 10,
+      offset: 0,
+    },
+  };
+
+  searchInput = new FormControl('');
+  isInputFocused = false;
 
   constructor(
     private fb: FormBuilder,
@@ -73,7 +84,7 @@ export class BalanceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTreasuryBalance();
+    this.getTreasuryBalance('');
     this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: dialog => {
         this.dialog = dialog;
@@ -84,6 +95,11 @@ export class BalanceComponent implements OnInit {
         }
       },
     });
+    this.searchInput.valueChanges
+      .pipe(debounceTime(400), takeUntil(this.onDestroy$))
+      .subscribe(value => {
+        this.getTreasuryBalance(value ?? '');
+      });
   }
   putPassword() {
     this.dialogService.openDialog({
@@ -96,22 +112,11 @@ export class BalanceComponent implements OnInit {
   getLedgerAlias(alias: ItemModel | null) {
     this.alias = alias;
   }
-  getTreasuryBalance() {
+  getTreasuryBalance(search: string) {
     this.reloading = true;
     this.institution_balance = null;
-
-    this.pagination.filters.limit = 15;
-    const searchValue = this.search.value ?? '';
-    if (searchValue !== '') {
-      // reset offset when we search
-      if (this.pagination?.filters.offset ?? 0 >= 1) {
-        this.pagination.filters.offset = 0;
-        this.currentPage = 0;
-      }
-    }
-
     this.counterService
-      .getTreasuryBalanceList(searchValue, this.pagination)
+      .getTreasuryBalanceList(search, this.pagination)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: balance => {
@@ -119,12 +124,20 @@ export class BalanceComponent implements OnInit {
           this.institution_balance = balance.objects;
           this.count = balance.count;
         },
+        error: () => {
+          this.reloading = false;
+        },
       });
   }
   refreshPage() {
-    this.search.setValue('');
+    this.searchInput.setValue('');
     this.institution_balance = null;
-    this.getTreasuryBalance();
+    this.getTreasuryBalance('');
+  }
+
+  isSearchInputNotEmpty(): boolean {
+    const searchValue = this.searchInput.value;
+    return typeof searchValue === 'string' && searchValue.trim() !== '';
   }
   verifyBalance(institution: BalanceModel) {
     this.verifying = true;
@@ -152,7 +165,7 @@ export class BalanceComponent implements OnInit {
           this.balanceForm.enable();
           this.balanceChecking = false;
           this.checkingBalance.nativeElement.click();
-          this.getTreasuryBalance();
+          this.getTreasuryBalance('');
           this.dialogService.openToast({
             title: '',
             type: 'success',
@@ -164,7 +177,7 @@ export class BalanceComponent implements OnInit {
           this.balanceChecking = false;
           this.balanceForm.enable();
           this.checkingBalance.nativeElement.click();
-          this.getTreasuryBalance();
+          this.getTreasuryBalance('');
           this.dialogService.openToast({
             title: '',
             type: 'failed',
@@ -246,25 +259,22 @@ export class BalanceComponent implements OnInit {
     }
   }
 
-  doListMove(action: string) {
-    if (action === 'next') {
-      this.currentPage += 1;
-    } else {
-      this.currentPage -= 1;
-    }
-
-    // condition just for typescript
-    if (this.pagination.filters.limit) {
-      this.pagination.filters.offset =
-        this.pagination.filters.limit * this.currentPage;
-      this.getTreasuryBalance();
-    }
-  }
   clickOnAll(institution: BalanceModel) {
     if (!this.verifying && this.institutionPicked !== institution) {
       this.verifyBalance(institution);
     } else if (this.verifying && this.institutionPicked === institution) {
       this.closeVerification();
     }
+  }
+  onPaginationChange(pagination: PaginationConfig) {
+    this.pagination = pagination;
+    this.currentPage = pagination.filters.offset / pagination.filters.limit + 1;
+    this.getTreasuryBalance('');
+  }
+
+  onSearchEnter(event: Event) {
+    event.preventDefault();
+    const searchValue = this.searchInput.value;
+    this.getTreasuryBalance(searchValue ?? '');
   }
 }
