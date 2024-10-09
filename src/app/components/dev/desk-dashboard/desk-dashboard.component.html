@@ -1,84 +1,85 @@
 @if (!operator?.organization?.is_erp) {
-  <div class="w-100 h-100 overflow-y-auto bg-erp font-montserrat">
-    <div class="d-flex justify-content-between align-items-center p-5 bg-white">
-      <div class="d-flex flex-column" style="max-width: 512px">
+  <main class="w-100 h-100 overflow-y-auto bg-erp font-montserrat">
+    <section
+      class="row mx-0 justify-content-between align-items-center p-5 bg-white">
+      <div class="d-flex flex-column col-lg-8 col-xl-6">
         <span class="fs-xx-large fw-bold text-primary"
           >Desk, the virtual workspace</span
         >
-        <span class="fs-l-medium" style="line-height: 24.38px"
+        <span class="fs-l-medium col-lg-11 col-xl-10 mt-1"
           >Effortlessly manage all aspects of your business in one unified
           space.</span
         >
-        <div
-          class="py-2 bg-primary rounded-3 px-5 text-all-white fw-bold mt-4 clickable"
-          style="width: fit-content">
-          <span class="px-3">Get Started</span>
+        <div class="mt-4">
+          <button class="px-5 btn bg-primary text-all-white fw-bold">
+            Get Started
+          </button>
         </div>
       </div>
-      <div class="py-2">
-        <img src="./images/desk/illistrationit.svg" alt="" />
+      <div class="py-2 col-4">
+        <img class="image" src="/images/desk/desk-illustration.svg" alt="" />
       </div>
-    </div>
+    </section>
 
-    <div class="d-flex flex-column pt-5">
-      <div
-        class="w-100 text-center fs-l-medium mx-auto mb-5"
-        style="max-width: 1090px">
-        <span
+    <section class="d-flex flex-column pt-5 col-lg-11 col-xl-10 mx-auto">
+      <div class="w-100 text-center fs-l-medium mx-auto mb-5">
+        <span i18n
           >The Desk is your personalized workspace, designed to give you quick
           and efficient access to all the essential information you need on a
           daily basis. It brings together all the features available to you
-          within our platform, including:</span
-        >
+          within our platform, <br />
+          including:
+        </span>
       </div>
 
-      <div class="d-flex flex-row justify-content-center mt-2">
-        <div class="pe-4 py-2 border-2 border-end">
-          <span class="fs-medium"> Mobile money </span>
+      <div class="d-flex flex-row justify-content-center mt-2 flex-wrap">
+        <div class="pe-lg-2 pe-xl-4 py-2 border-2 border-end">
+          <span class="fs-medium" i18n> Mobile money </span>
         </div>
-        <div class="px-4 py-2 border-2 border-end">
-          <span class="fs-medium">Reports</span>
+        <div class="px-lg-2 px-xl-4 py-2 border-2 border-end">
+          <span class="fs-medium" i18n>Reports</span>
         </div>
-        <div class="px-4 py-2 border-2 border-end">
-          <span class="fs-medium">Loans</span>
+        <div class="px-lg-2 px-xl-4 py-2 border-2 border-end">
+          <span class="fs-medium" i18n>Loans</span>
         </div>
-        <div class="px-4 py-2 border-2 border-end">
-          <span class="fs-medium">Clients</span>
+        <div class="px-lg-2 px-xl-4 py-2 border-2 border-end">
+          <span class="fs-medium" i18n>Clients</span>
         </div>
-        <div class="px-4 py-2 border-2 border-end">
-          <span class="fs-medium">Logistics</span>
+        <div class="px-lg-2 px-xl-4 py-2 border-2 border-end">
+          <span class="fs-medium" i18n>Logistics</span>
         </div>
-        <div class="px-4 py-2 border-2 border-end">
-          <span class="fs-medium">Accounting</span>
+        <div class="px-lg-2 px-xl-4 py-2 border-2 border-end">
+          <span class="fs-medium" i18n>Accounting</span>
         </div>
-        <div class="px-4 py-2 border-2 border-end">
-          <span class="fs-medium">Administration</span>
+        <div class="px-lg-2 px-xl-4 py-2 border-2 border-end">
+          <span class="fs-medium" i18n>Administration</span>
         </div>
-        <div class="ps-4 py-2 border-2">
-          <span class="fs-medium">Operations</span>
+        <div class="ps-lg-2 ps-xl-4 py-2 border-2">
+          <span class="fs-medium" i18n>Operations</span>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div
-      class="d-flex justify-content-between align-items-center p-5 bg-white mt-2">
-      <div class="d-flex flex-column" style="max-width: 527px">
+    <section
+      class="row mx-0 justify-content-between align-items-center p-3 p-xl-5 bg-white mt-2 flex-wrap">
+      <div class="d-flex flex-column col-lg-11 col-xl-5">
         <span class="fs-xx-large fw-bold">
-          <i class="fa-solid fa-mobile-screen-button text-primary me-2"></i>
-          Mobile money
+          <span class="text-primary me-2">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+          </span>
+          <span i18n> Mobile money </span>
         </span>
 
-        <span class="fs-l-medium mt-3" style="line-height: 24.38px">
+        <span class="fs-l-medium mt-3" i18n>
           Take control of your network. Effectively manage your agents,
           merchants and product categories. Access detailed reports to optimize
           your operations.
         </span>
       </div>
 
-      <div class="bcontain shadow-sm">
-        <!-- <img src="./images/desk/merchants.svg" alt="" /> -->
-
-        <div class="d-flex flex-row justify-content-between py-2 ps-4">
+      <section
+        class="merchant-features-container shadow-sm mt-3 mt-xl-0 col-auto x-lg-radius p-2 mx-3 mx-xl-0">
+        <section class="d-flex flex-row justify-content-between">
           <div class="position-relative mt-4 ms-5">
             <div
               class="circle d-flex justify-content-center align-items-center rounded-circle overflow-hidden bg-primary-3 border-white border position-absolute">
@@ -86,37 +87,35 @@
             </div>
 
             <div
-              class="backard border border-primary bg-primary-3 py-1 fs-small ps-2 pe-3 text-all-dark">
-              <div class="w-100 border-bottom border-primary pb-1">
-                <span class="btitle">Merchants bills</span>
-              </div>
+              class="merchant-feature border border-primary bg-primary-3 py-1 fs-small ps-2 pe-3 text-all-dark">
+              <small class="w-100 border-bottom border-primary pb-1">
+                <b i18n>Merchants bills</b>
+              </small>
 
-              <p class="fs-x-small bbody pt-1">
-                View and manage merchant bills
-              </p>
+              <p class="fs-x-small pt-1" i18n>View and manage merchant bills</p>
             </div>
           </div>
 
-          <div class="position-relative mt-4 me-4">
+          <div class="position-relative mt-4 me-2">
             <div
               class="circle d-flex justify-content-center align-items-center rounded-circle overflow-hidden bg-primary-3 border-white border position-absolute">
               <i class="fa-solid fa-cart-shopping text-primary fa-lg"></i>
             </div>
 
             <div
-              class="backard border border-primary bg-primary-3 py-1 fs-small ps-2 pe-3 text-all-dark">
-              <div class="w-100 border-bottom border-primary pb-1">
-                <span class="btitle">Merchants</span>
-              </div>
+              class="merchant-feature border border-primary bg-primary-3 py-1 fs-small ps-2 pe-3 text-all-dark">
+              <small class="d-block border-bottom border-primary pb-1">
+                <b i18n>Merchants</b>
+              </small>
 
-              <p class="fs-x-small bbody pt-1">
+              <p class="fs-x-small pt-1">
                 Manage the profile of partner merchants
               </p>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div class="d-flex flex-row justify-content-between py-2 ps-4">
+        <section class="d-flex flex-row justify-content-between mt-1">
           <div class="position-relative mt-4 ms-5">
             <div
               class="circle d-flex justify-content-center align-items-center rounded-circle overflow-hidden bg-primary-3 border-white border position-absolute">
@@ -124,46 +123,49 @@
             </div>
 
             <div
-              class="backard border border-primary bg-primary-3 py-1 fs-small ps-2 pe-3 text-all-dark">
-              <div class="w-100 border-bottom border-primary pb-1">
-                <span class="btitle text-nowrap">Merchants category</span>
-              </div>
+              class="merchant-feature border border-primary bg-primary-3 py-1 fs-small ps-2 pe-3 text-all-dark">
+              <small class="d-block border-bottom border-primary pb-1">
+                <b class="text-nowrap" i18n>Merchants category</b>
+              </small>
 
-              <p class="fs-x-small bbody pt-1">
+              <p class="fs-x-small pt-1" i18n>
                 View and configure merchant categories
               </p>
             </div>
           </div>
 
-          <div class="position-relative mt-4 me-4">
+          <div class="position-relative mt-4 me-2">
             <div
               class="circle d-flex justify-content-center align-items-center rounded-circle overflow-hidden bg-primary-3 border-white border position-absolute">
               <i class="fa-solid fa-user-tie text-primary fa-lg"></i>
             </div>
 
             <div
-              class="backard border border-primary bg-primary-3 py-1 fs-small ps-2 pe-3 text-all-dark">
-              <div class="w-100 border-bottom border-primary pb-1">
-                <span class="btitle text-nowrap">Merchants category</span>
-              </div>
+              class="merchant-feature border border-primary bg-primary-3 py-1 fs-small ps-2 pe-3 text-all-dark">
+              <small class="d-block border-bottom border-primary pb-1">
+                <b class="text-nowrap">Merchants category</b>
+              </small>
 
-              <p class="fs-x-small bbody pt-1">
+              <p class="fs-x-small pt-1">
                 View and configure merchant categories
               </p>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </section>
+      </section>
+    </section>
 
-    <div class="d-flex justify-content-between align-items-center p-5">
-      <div class="d-flex flex-column" style="max-width: 585px">
+    <section
+      class="row mx-0 justify-content-between align-items-center p-3 p-xl-5 flex-wrap">
+      <div class="d-flex flex-column col-lg-11 col-xl-6">
         <span class="fs-xx-large fw-bold">
-          <i class="fa-solid fa-chart-simple text-primary me-2"></i>
-          Reports
+          <span class="text-primary me-2"
+            ><i class="fa-solid fa-chart-simple"></i
+          ></span>
+          <span i18n> Reports </span>
         </span>
 
-        <span class="fs-l-medium mt-3" style="line-height: 24.38px">
+        <span class="fs-l-medium mt-3" i18n>
           View a complete set of financial statements to assess the performance
           and financial condition of your business. Reports such as balance
           sheet, income statement, depreciation tables and ratio analyzes are at
@@ -171,289 +173,307 @@
         </span>
       </div>
 
-      <div>
-        <img src="./images/desk/reports.svg" alt="" />
+      <div class="col-lg-9 mt-3 mt-xl-0 col-xl-5">
+        <img class="image" src="/images/desk/reports.svg" alt="Reports" />
       </div>
-    </div>
+    </section>
 
-    <div class="d-flex justify-content-between align-items-center p-5 bg-white">
-      <div class="d-flex flex-column" style="max-width: 585px">
+    <section
+      class="row mx-0 justify-content-between align-items-center p-3 p-xl-5 bg-white">
+      <div class="d-flex flex-column col-10 col-xl-5">
         <span class="fs-xx-large fw-bold">
-          <i class="fa-solid fa-coins text-primary me-2"></i>
-          Loans
+          <span class="text-primary me-2">
+            <i class="fa-solid fa-coins"></i>
+          </span>
+          <span i18n> Loans </span>
         </span>
 
-        <span class="fs-l-medium mt-3" style="line-height: 24.38px">
+        <span class="fs-l-medium mt-3" i18n>
           Monitor and control all loan-related operations. Access an overview of
           your loan portfolio and their states.
         </span>
       </div>
 
-      <div class="d-flex flex-column">
-        <div>
-          <div class="lrect shadow-sm px-3 d-flex align-items-center">
-            <div class="d-flex gap-3">
-              <div
-                class="licon bg-primary-3 d-flex align-items-center justify-content-center">
-                <i
-                  class="fa-solid fa-hand-holding-dollar fa-2x text-primary"></i>
-              </div>
-
-              <div class="h-100 fs-medium d-flex flex-column">
-                <span class="btitle">Loans request</span>
-                <span class="lbody">Manage all loan requests.</span>
-              </div>
+      <div class="d-flex flex-column col-auto mt-3 mt-xl-0">
+        <div class="pe-5 me-5">
+          <div
+            class="loan-feature-card x-lg-radius p-3 d-flex align-items-center gap-2">
+            <div
+              class="loan-feature-icon lg-radius bg-primary-3 d-flex align-items-center justify-content-center">
+              <i
+                class="fa-solid fa-hand-holding-dollar fa-2x text-primary-1"></i>
             </div>
-          </div>
-          <!-- <img src="./images/desk/loans1.svg" alt="" /> -->
-        </div>
 
-        <div class="my-4 ps-5">
-          <div class="lrect shadow-sm px-3 d-flex align-items-center">
-            <div class="d-flex gap-3">
-              <div
-                class="licon bg-primary-3 d-flex align-items-center justify-content-center">
-                <i class="fa-solid fa-money-bill-1-wave fa-2x text-primary"></i>
-              </div>
-
-              <div class="h-100 fs-medium d-flex flex-column">
-                <span class="btitle">Credit line</span>
-                <span class="lbody text-nowrap"
-                  >Track and manage credit lines granted.</span
-                >
-              </div>
+            <div class="fs-medium d-flex flex-column">
+              <b i18n>Loans request</b>
+              <span i18n class="text-nowrap">Manage all loan requests.</span>
             </div>
           </div>
         </div>
 
-        <div class="ps-5 ms-5">
-          <div class="lrect shadow-sm px-3 d-flex align-items-center">
-            <div class="d-flex gap-3">
-              <div
-                class="licon bg-primary-3 d-flex align-items-center justify-content-center">
-                <i class="fa-solid fa-sack-dollar fa-2x text-primary"></i>
-              </div>
+        <div class="ps-4 ms-3">
+          <div
+            class="my-4 my-xl-5 loan-feature-card x-lg-radius p-3 d-flex align-items-center gap-2">
+            <div
+              class="loan-feature-icon lg-radius bg-primary-3 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-money-bill-1-wave fa-2x text-primary-1"></i>
+            </div>
 
-              <div class="h-100 fs-medium d-flex flex-column">
-                <span class="btitle">Loans</span>
-                <span class="lbody">Analyze your overall loan portfolio.</span>
-              </div>
+            <div class="fs-medium d-flex flex-column">
+              <b i18n>Credit line</b>
+              <span i18n class="text-nowrap"
+                >Track and manage credit lines granted.</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="ms-auto">
+          <div
+            class="ms-5 loan-feature-card x-lg-radius p-3 d-flex align-items-center gap-2">
+            <div
+              class="loan-feature-icon lg-radius bg-primary-3 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-sack-dollar fa-2x text-primary-1"></i>
+            </div>
+
+            <div class="fs-medium d-flex flex-column">
+              <b i18n>Loans</b>
+              <span i18n class="text-nowrap"
+                >Analyze your overall loan portfolio.</span
+              >
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="d-flex justify-content-between align-items-center p-5">
-      <div class="d-flex flex-column" style="max-width: 386px">
+    <section
+      class="row mx-0 justify-content-between align-items-center px-3 py-5 p-xl-5">
+      <div class="d-flex flex-column col-lg-6 col-xl-4">
         <span class="fs-xx-large fw-bold">
-          <i class="fa-solid fa-users text-primary me-2"></i>
-          Clients
+          <span>
+            <i class="fa-solid fa-users text-primary me-2"></i>
+          </span>
+          <span i18n> Clients </span>
         </span>
 
-        <span class="fs-l-medium mt-3" style="line-height: 24.38px">
+        <span class="fs-l-medium mt-3" i18n>
           Manage your customers, their savings products and their interactions.
         </span>
       </div>
 
-      <div>
-        <img src="./images/desk/clientsChart.svg" alt="" />
+      <div class="col-6">
+        <img
+          class="image"
+          src="/images/desk/clientsChart.svg"
+          alt="clientsChart" />
       </div>
-    </div>
+    </section>
 
-    <div class="d-flex flex-column align-items-center bg-white p-5">
-      <span class="fs-l-medium"
+    <section
+      class="d-flex flex-column align-items-center bg-white px-3 py-4 p-xl-5">
+      <span class="fs-l-medium" i18n
         >Simplify the management of your business with the desk, go ahead and
         get started</span
       >
 
-      <div
-        class="p-2 bg-primary rounded-3 px-5 text-all-white fw-bold mt-4 clickable"
-        style="width: fit-content">
-        <span>Get Started</span>
+      <div class="mt-5">
+        <button class="btn bg-primary px-5 text-all-white py-3 lg-radius">
+          <b i18n class="px-3">Get Started</b>
+        </button>
       </div>
-    </div>
+    </section>
 
-    <div class="d-flex justify-content-between align-items-center p-5">
-      <div class="d-flex flex-column" style="max-width: 490px">
+    <section class="row mx-0 justify-content-between align-items-center p-5">
+      <div class="d-flex flex-column col-10 col-xl-5">
         <span class="fs-xx-large fw-bold">
-          <i class="fa-solid fa-truck-fast text-primary me-2"></i>
-          Logistics
+          <span class="text-primary me-2">
+            <i class="fa-solid fa-truck-fast"></i>
+          </span>
+
+          <span i18n> Logistics </span>
         </span>
 
-        <span class="fs-l-medium mt-3" style="line-height: 24.38px">
+        <span class="fs-l-medium mt-3" i18n>
           From procurement to delivery, ensure efficient management of your
           supply chain: warehousing, inventory, transport and tracking
         </span>
       </div>
 
-      <div>
-        <img src="./images/desk/logistics.svg" alt="" />
+      <div class="col-10 mt-3 mt-xl-0 col-xl-6">
+        <img
+          class="image"
+          src="/images/desk/logistics.svg"
+          alt="logistics chart" />
       </div>
-    </div>
+    </section>
 
-    <div class="d-flex justify-content-between align-items-center p-5 bg-white">
-      <div class="d-flex flex-column" style="max-width: 490px">
+    <section
+      class="row mx-0 justify-content-between align-items-center p-5 bg-white">
+      <div class="d-flex flex-column col-lg-10 col-xl-5">
         <span class="fs-xx-large fw-bold">
-          <i class="fa-solid fa-truck-fast text-primary me-2"></i>
-          Accounting
+          <span class="text-primary me-2">
+            <i class="fa-solid fa-truck-fast"></i>
+          </span>
+          <span i18n> Accounting </span>
         </span>
 
-        <span class="fs-l-medium mt-3" style="line-height: 24.38px">
-          Simplify your accounting manageManagement: define your accounting
-          plans, manage user access rights and monitor your company's activity.
+        <span class="fs-l-medium mt-3" i18n>
+          Simplify your accounting management: define your accounting plans,
+          manage user access rights and monitor your company's activity.
         </span>
       </div>
 
-      <div class="pe-5 me-5 d-flex flex-column gap-4">
-        <!-- <img src="./images/desk/accounting.svg" alt="" /> -->
-
+      <div class="pe-xxl-5 me-xxl-5 d-flex flex-column col-auto mt-3 mt-xl-0">
         <div>
           <div
-            class="accard shadow-sm px-2 d-flex gap-2 flex-row align-items-center">
-            <div class="acbar bg-primary-3"></div>
+            class="accounting-feature-card x-lg-radius py-2 px-2 d-flex align-items-center">
+            <span class="right-bar sm-radius ms-1 bg-primary-3"></span>
 
-            <span class="fs-l-medium btitle">Ledger aliases</span>
+            <b class="fs-l-medium ms-2 ps-1" i18n>Ledger aliases</b>
           </div>
         </div>
 
-        <div class="ms-5">
+        <div class="ms-5 my-4">
           <div
-            class="accard shadow-sm px-2 d-flex gap-2 flex-row align-items-center">
-            <div class="acbar bg-primary-3"></div>
+            class="accounting-feature-card x-lg-radius py-2 px-2 d-flex align-items-center">
+            <div class="right-bar sm-radius ms-1 bg-primary-3"></div>
 
-            <span class="fs-l-medium btitle">Ledger</span>
+            <b class="fs-l-medium ms-2 ps-1" i18n>Ledger</b>
           </div>
         </div>
 
         <div class="ms-5 ps-5">
           <div
-            class="accard shadow-sm px-2 d-flex gap-2 flex-row align-items-center">
-            <div class="acbar bg-primary-3"></div>
+            class="accounting-feature-card x-lg-radius py-2 px-2 d-flex align-items-center">
+            <div class="right-bar sm-radius ms-1 bg-primary-3"></div>
 
-            <span class="fs-l-medium btitle">Linkable accounts</span>
+            <b class="fs-l-medium ms-2 ps-1" i18n>Linkable accounts</b>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="d-flex justify-content-between align-items-center p-5">
-      <div class="d-flex flex-column" style="max-width: 456px">
+    <section class="row mx-0 justify-content-between align-items-center p-5">
+      <div class="d-flex flex-column col-lg-11 col-xl-5">
         <span class="fs-xx-large fw-bold">
           <i class="fa-solid fa-building-user text-primary me-2"></i>
-          Administration
+          <span i18n> Administration </span>
         </span>
 
-        <span class="fs-l-medium mt-3" style="line-height: 24.38px">
+        <span class="fs-l-medium mt-3" i18n>
           Manage the departments, directions, menus, services and user access of
           your application.
         </span>
       </div>
 
-      <div class="d-flex flex-column gap-2 pe-3">
-        <!-- <img src="./images/desk/administration.svg" alt="" /> -->
-
+      <div
+        class="d-flex flex-column gap-2 col-lg-11 col-xl-7 col-xxl-6 mt-3 mt-xl-0">
         <div class="d-flex flex-row gap-4 mx-auto">
           <div
-            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
-            <div class="adbar bg-primary-3 border-end border-primary"></div>
+            class="mt-3 admin-feature-card lg-radius bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
+            <div class="right-bar bg-primary-3 border-end border-primary"></div>
 
             <div class="d-flex flex-column">
-              <span class="fs-small" style="font-weight: 500">Directions</span>
+              <span class="fs-small text-secondary" i18n>Directions</span>
 
-              <span class="adnum">5</span>
+              <b class="fs-x-large">5</b>
             </div>
           </div>
 
           <div
-            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
-            <div class="adbar bg-primary-3 border-end border-primary"></div>
+            class="mt-3 admin-feature-card lg-radius bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
+            <div class="right-bar bg-primary-3 border-end border-primary"></div>
 
             <div class="d-flex flex-column">
-              <span class="fs-small" style="font-weight: 500">Menus</span>
+              <span class="fs-small text-secondary" i18n>Menus</span>
 
-              <span class="adnum">10+</span>
+              <b class="fs-x-large">10+</b>
             </div>
           </div>
         </div>
 
         <div class="d-flex flex-row gap-4">
           <div
-            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
-            <div class="adbar bg-primary-3 border-end border-primary"></div>
+            class="mt-3 admin-feature-card lg-radius bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
+            <div class="right-bar bg-primary-3 border-end border-primary"></div>
 
             <div class="d-flex flex-column">
-              <span class="fs-small" style="font-weight: 500">Services</span>
+              <span class="fs-small text-secondary" i18n>Services</span>
 
-              <span class="adnum">10+</span>
+              <b class="fs-x-large">10+</b>
             </div>
           </div>
 
           <div
-            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
-            <div class="adbar bg-primary-3 border-end border-primary"></div>
+            class="mt-3 admin-feature-card lg-radius bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
+            <div class="right-bar bg-primary-3 border-end border-primary"></div>
 
             <div class="d-flex flex-column">
-              <span class="fs-small" style="font-weight: 500">Shortcuts</span>
+              <span class="fs-small text-secondary" i18n>Shortcuts</span>
 
-              <span class="adnum">10+</span>
+              <b class="fs-x-large">10+</b>
             </div>
           </div>
 
           <div
-            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
-            <div class="adbar bg-primary-3 border-end border-primary"></div>
+            class="mt-3 admin-feature-card lg-radius bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
+            <div class="right-bar bg-primary-3 border-end border-primary"></div>
 
             <div class="d-flex flex-column">
-              <span class="fs-small" style="font-weight: 500">Tellers</span>
+              <span class="fs-small text-secondary" i18n>Tellers</span>
 
-              <span class="adnum">100+</span>
+              <b class="fs-x-large">100+</b>
             </div>
           </div>
         </div>
 
         <div class="d-flex flex-row gap-4 mx-auto pe-5">
           <div
-            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
-            <div class="adbar bg-primary-3 border-end border-primary"></div>
+            class="mt-3 admin-feature-card lg-radius bg-white overflow-hidden d-flex flex-row gap-3 align-items-center shadow-sm">
+            <div class="right-bar bg-primary-3 border-end border-primary"></div>
 
             <div class="d-flex flex-column">
-              <span class="fs-small" style="font-weight: 500">Operators</span>
+              <span class="fs-small text-secondary" i18n>Operators</span>
 
-              <span class="adnum">100+</span>
+              <b class="fs-x-large">100+</b>
             </div>
           </div>
 
           <div
-            class="mt-3 adcard bg-white overflow-hidden d-flex flex-row gap-3 align-items-center me-4 shadow-sm">
-            <div class="adbar bg-primary-3 border-end border-primary"></div>
+            class="mt-3 admin-feature-card lg-radius bg-white overflow-hidden d-flex flex-row gap-3 align-items-center me-4 shadow-sm">
+            <div class="right-bar bg-primary-3 border-end border-primary"></div>
 
             <div class="d-flex flex-column">
-              <span class="fs-small" style="font-weight: 500">Branches</span>
+              <span class="fs-small text-secondary" i18n>Branches</span>
 
-              <span class="adnum">100+</span>
+              <b class="fs-x-large">100+</b>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="d-flex justify-content-between align-items-center p-5 bg-white">
-      <div class="d-flex flex-column" style="max-width: 377px">
+    <section
+      class="row mx-0 justify-content-between align-items-center p-2 p-xl-5 bg-white">
+      <div class="d-flex flex-column col-11 col-xl-5 col-xxl-4">
         <span class="fs-xx-large fw-bold">
           <i class="fa-solid fa-gear text-primary me-2"></i>
-          Operations
+          <span i18n> Operations </span>
         </span>
 
-        <span class="fs-l-medium mt-3" style="line-height: 24.38px">
+        <span class="fs-l-medium mt-3" i18n>
           Accurately track all your transaction and efficiently manage your
           financial operations.
         </span>
       </div>
 
-      <div>
-        <img src="./images/desk/operations.svg" alt="" />
+      <div class="mt-3 mt-xl-0 col-11 col-xl-7">
+        <img
+          class="image"
+          src="/images/desk/operations.svg"
+          alt="operationsoperations" />
       </div>
-    </div>
-  </div>
+    </section>
+  </main>
 }
