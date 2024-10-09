@@ -63,30 +63,16 @@
               'text-light': theme === 'magis-light',
               'text-dark': theme === 'magis-dark',
             }">
-            <b class="fs-medium" i18n>Creation of remunerated demand deposit</b>
+            <b class="fs-medium text-all-white" i18n
+              >Creation of remunerated demand deposit</b
+            >
           </div>
         </div>
-        <!-- <div class="row justify-content-center mt-3" style="gap: 0rem 3rem">
-                <div
-                    role="button"
-                    routerLink="/w/workstation/desk/check/list"
-                    class="col-2 shortcut-btn p-4 primary-light sm-radius d-flex justify-content-center align-items-center text-center"
-                    [ngClass]="{
-                        'text-light': theme === 'magis-light',
-                        'text-dark': theme === 'magis-dark'
-                    }"
-                >
-                    <b class="fs-medium" i18n>Check</b>
-                </div>
-                <div class="col-2"></div>
-                <div class="col-2"></div>
-                <div class="col-2"></div>
-            </div> -->
       </div>
     }
     @if (selectedCuts === 'account') {
       <div>
-        <!-- <app-lookup-individual></app-lookup-individual> -->
+        <app-lookup-individual></app-lookup-individual>
       </div>
     }
     @if (selectedCuts === 'creation of term deposit') {
@@ -101,10 +87,3 @@
     }
   </main>
 </div>
-<!-- <footer> 
-  <div class="col">
-    <span class="me-3"><i class="fa-solid fa-circle-info"></i></span>
-    <span class="me-3"> <i class="fa-solid fa-user-xmark"></i></span>
-    <span class=""><i class="fa-solid fa-user-tag"></i></span>
-  </div>
-</footer> -->

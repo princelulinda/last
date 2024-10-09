@@ -334,6 +334,8 @@ export interface getMerchantsProductsDetailsModel {
   id: string;
 }
 export interface TopClientsByAmountModel {
+  balance_currency: CurrencyModel;
+  total_paid: string | number;
   response_data: TopClientsByAmountModel[];
   num_payments: number;
   client_code: string;

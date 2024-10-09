@@ -25,6 +25,9 @@ import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { MenuService } from '../../../../core/services/menu/menu.service';
 import { MetadataModel } from '../../../metadatas/metadata.model';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { AgentModel } from '../../../admin/agent/agent.model';
+import { StatementComponent } from '../../../statements/statement/statement.component';
 
 @Component({
   selector: 'app-merchant-details',
@@ -36,6 +39,8 @@ import { MetadataModel } from '../../../metadatas/metadata.model';
     CurrencyPipe,
     DatePipe,
     AmountVisibilityComponent,
+    SkeletonComponent,
+    StatementComponent,
   ],
   templateUrl: './merchant-details.component.html',
   styleUrl: './merchant-details.component.scss',
@@ -125,7 +130,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   currentPage = 0;
   pages!: string;
   count!: number;
-
+  agentDetails!: AgentModel;
   metadata!: MetadataModel[];
 
   loadingData = false;
@@ -189,37 +194,6 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
       plug: this?.merchant?.api_plug_name,
       cashin: this?.merchant?.has_cashin,
     });
-
-    // this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
-    //     next: (dialog: any) => {
-    //         if (dialog) {
-    //             this.dialog = dialog;
-    //             if (this.dialog && this.dialog.response) {
-    //                 if (
-    //                     this.dialog.response === 'pin submitted' &&
-    //                     this.dialog.action === 'toggle_simple_payment'
-    //                 ) {
-    //                     this.toggleAcceptsSimplePayment();
-    //                 }
-    //                 if (
-    //                     this.dialog.response === 'pin submitted' &&
-    //                     this.dialog.action === 'update_product_info'
-    //                 ) {
-    //                     this.updateProductInfo();
-    //                 } else if (
-    //                     this.dialog.action === 'update_merchant_info' &&
-    //                     this.dialog.response === 'pin submitted'
-    //                 ) {
-    //                     this.updateMerchantDetails();
-    //                 }
-    //             }
-    //         }
-    //     },
-    // });
-
-    // this.theme$.subscribe((theme: string) => {
-    //     this.theme = theme;
-    // });
 
     // this.getCoords(event);
     this.pagination.filters.limit = 10;
@@ -322,7 +296,6 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
           //     type: 'failed',
           //     message: response?.object?.response_message ?? 'Failed',
           // };
-          // this.store.dispatch(new OpenDialog(data));
         } else {
           this.getTellersByMerchant();
 
@@ -333,8 +306,6 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
           //         response?.object?.response_message ??
           //         'New Teller created successfully',
           // };
-          // this.store.dispatch(new OpenDialog(data));
-          // this.closeModal.nativeElement.click();
         }
       },
       error: () => {
@@ -422,7 +393,6 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
           //     type: 'failed',
           //     message: response.object.response_message,
           // };
-          // this.store.dispatch(new OpenDialog(data));
         } else {
           // const data = {
           //     title: '',
@@ -433,19 +403,10 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
           // this.merchant = null;
           this.getMerchantsDetails();
           this.selectedMenu = '';
-          // this.store.dispatch(new OpenDialog(data));
         }
       },
       error: () => {
         this.isLoading = false;
-
-        // const data = {
-        //     title: '',
-        //     type: 'failed',
-        //     message:
-        //         'Failed to update merchant details, please try again',
-        // };
-        // this.store.dispatch(new OpenDialog(data));
       },
     });
   }
@@ -492,8 +453,6 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
           }
         },
       });
-
-    // this.getCategory(this.category);
     if (this.clientId) {
       this.getClientId(this.clientId);
     }
@@ -502,60 +461,13 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   getClientId(event: string) {
     this.clientId = event;
   }
-  // getCategory(event: updateMerchantDetailsModel) {
-  //     if (event) {
-  //         this.category = event.id;
-  //     }
-  // }
+
   cancelChanges() {
     this.inputActive = false;
     this.selectedSubMenu = '';
   }
-
-  // addNewTeller() {
-  //     this.isLoading = true;
-  //     const body:any = {
-  //         client: this.clientId.id,
-  //         merchant: this.merchant.id,
-  //         can_receive_notifications: false,
-  //         alias: '',
-  //         id:0
-  //     };
-  //     this.merchantService
-  //         .createNewTeller(body)
-  //         .pipe(takeUntil(this.onDestroy$))
-  //         .subscribe({
-  //             next: (data) => {
-  //                 this.selectedMenu = 'tellers';
-  //                 this.selectedSubMenu = ' ';
-
-  //                 const datas = {
-  //                     title: '',
-  //                     type: 'success',
-  //                     message: 'New teller createad successfull',
-  //                 };
-  //                 // this.store.dispatch(new OpenDialog(datas));
-  //                 // this.getTellers();
-  //                 this.isLoading = false;
-  //                 // this.clientId = null;
-  //             },
-  //             error: () => {
-  //                 this.isLoading = false;
-  //                 const failure = {
-  //                     title: 'failure',
-  //                     type: 'failed',
-  //                     message: 'Failed to create new teller ',
-  //                 };
-  //                 // this.store.dispatch(new OpenDialog(failure));
-  //                 this.isLoading = false;
-  //                 // this.clientId = undefined;
-  //             },
-  //         });
-  // }
-
   cancelCreation() {
     this.selectedMenu = 'tellers';
-    // this.clientId = null;
   }
 
   getCoords(event: merchantLocationModel) {
@@ -566,26 +478,6 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // updateMerchantLocation() {
-  //     const body = {
-  //         merchant_location: {
-  //             latitude: this.merchantLocation.lat,
-  //             longitude: this.merchantLocation.lng,
-  //         },
-  //     };
-  //     this.merchantService
-  //         .UpdateMerchantDetails(this.merchantId, body)
-  //         .subscribe({
-  //             next: (response) => {
-  //                 if (response.object.success) {
-  //                     this.getMerchantsDetails();
-
-  //                     this.isSettingLocationDone = true;
-  //                 }
-  //             },
-  //         });
-  // }
-
   showModal() {
     // const response = {
     //     title: '',
@@ -595,59 +487,6 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     // };
     // this.store.dispatch(new OpenDialog(response));
   }
-
-  // toggleAcceptsSimplePayment() {
-  //     this.isLoading = true;
-  //     let action = '';
-
-  //     if (this.acceptsSimplePayment === true) {
-  //         action = 'not_accepts_simple_payment';
-  //     } else if (this.acceptsSimplePayment === false) {
-  //         action = 'accepts_simple_payment';
-  //     }
-  //     const body = {
-  //         action: [action],
-  //         merchant: this.merchantId,
-  //         // pin_code: this.variableService.pin,
-  //     };
-
-  //     this.merchantService.updateMerchantDetails(body).subscribe({
-  //         next: (response) => {
-  //             this.isLoading = false;
-
-  //             if (!response.object.success) {
-  //                 // const failure = {
-  //                 //     title: '',
-  //                 //     type: 'failed',
-  //                 //     message: response.object.response_message,
-  //                 // };
-  //                 // this.store.dispatch(new OpenDialog(failure));
-  //             } else {
-  //                 this.acceptsSimplePayment =
-  //                     action === 'accepts_simple_payment';
-  //                 this.merchant.accepts_simple_payment =
-  //                     this.acceptsSimplePayment;
-  //                 this.getMerchantsDetails();
-  //                 // const data = {
-  //                 //     title: '',
-  //                 //     type: 'success',
-  //                 //     message: response.object.response_message,
-  //                 // };
-  //                 // this.store.dispatch(new OpenDialog(data));
-  //             }
-  //         },
-  //         error: () => {
-  //             this.isLoading = false;
-
-  //             // const data = {
-  //             //     title: 'failure',
-  //             //     type: 'failed',
-  //             //     message: 'Failed to update merchant info ',
-  //             // };
-  //             // this.store.dispatch(new OpenDialog(data));
-  //         },
-  //     });
-  // }
 
   selectMenu(menu: string) {
     this.selectedMenu = menu;
@@ -668,7 +507,6 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   }
 
   getTellersByMerchant() {
-    // this.tellers = undefined;
     this.isActionDone = false;
     this.merchantService
       .getTellersByMerchant(this.merchantId)
@@ -678,14 +516,12 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   }
 
   displayTellerInfo(teller: { id: string }) {
-    // this.selectedTeller = undefined;
     this.tellerId = teller.id;
     this.getTellerDetails();
   }
 
   getTellerDetails() {
     this.isActionDone = false;
-    // this.selectedTeller = undefined;
     this.merchantService
       .getMerchantsTellersDetails(this.tellerId)
       .subscribe(data => {
@@ -694,24 +530,26 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   }
 
   getMerchantProducts() {
-    // this.products = undefined;
     this.merchantService
       .getProductsByMerchant(this.merchantId)
       .subscribe(products => {
         this.products = products.objects;
       });
   }
-
+  topClientsByAmountLoader = false;
   // Function for retrieving the top clients based on the amount spent.
   getTopClientsByAmount() {
+    this.topClientsByAmountLoader = true;
     // this.topClientsByAmount = undefined;
     this.merchantService.getTopClientsByAmount(this.merchantId).subscribe({
       next: data => {
         this.topClientsByAmount = data.object.response_data;
+        this.topClientsByAmountLoader = false;
         // Faites quelque chose d'autre avec les données...
       },
       error: (error: Error) => {
         // Gérez les erreurs éventuelles
+        this.topClientsByAmountLoader = false;
         console.error(error);
       },
     });
@@ -731,16 +569,19 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
       this.getTopClientsByTransactions();
     }
   }
+  getPaymentStatsLoader = false;
 
   // Function for retrieving payment statistics and storing them in the 'paymentStats' property.
   getPaymentStats() {
-    // this.paymentStats = undefined;
+    this.getPaymentStatsLoader = true;
     this.merchantService.getPaymentStats(this.merchantId).subscribe({
       next: data => {
         this.paymentStats = data.object.response_data;
+        this.getPaymentStatsLoader = false;
         // Faites quelque chose d'autre avec les données...
       },
       error: (error: Error) => {
+        this.getPaymentStatsLoader = false;
         // Gérez les erreurs éventuelles
         console.error(error);
       },
@@ -965,7 +806,6 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   }
 
   getProductDetails() {
-    // this.product = undefined;
     this.merchantService
       .getMerchantsProductsDetails(this.selectedProduct.id)
       .subscribe(product => {
@@ -999,8 +839,6 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Verifying pin while updating product infos
-
   verifyPinProductUpdate() {
     // const response = {
     //     title: '',
@@ -1014,81 +852,12 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   // Verifying pin while updating merchant infos
 
   openModal() {
-    // const data = {
-    //     title: 'Enter your pin to update merchant information',
-    //     type: 'pin',
-    //     message: 'Enter your pin to update merchant information',
-    //     action: 'update_merchant_info',
-    // };
-    // this.store.dispatch(new OpenDialog(data));
+    //
   }
-
-  // updateProductInfo() {
-  //     this.isLoading = true;
-  //     const selectedFieldNames = this.getSelectedFieldNames();
-
-  //     const body:any = {
-  //         product: this.selectedProduct.id,
-  //         merchant: this.merchantId,
-  //         action: this.action,
-  //         price: this.productConfigForm.value.price,
-  //         name: this.productConfigForm.value.name,
-  //         minimum_payment_amount: this.productConfigForm.value.min_payment,
-  //         maximum_payment_amount: this.productConfigForm.value.max_payment,
-  //         voucher_type: this.productConfigForm.value.position,
-  //         metadata: selectedFieldNames,
-  //         pin_code: this.variableService.pin,
-  //     };
-
-  //     this.merchantService.updateProductInfo(body).subscribe({
-  //         next: (response: any) => {
-  //             this.isLoading = false;
-
-  //             if (!response.object.success) {
-  //                 const failure = {
-  //                     title: '',
-  //                     type: 'failed',
-  //                     message:
-  //                         response?.object?.response_message ??
-  //                         'Failed. please try again',
-  //                 };
-  //                 // this.store.dispatch(new OpenDialog(failure));
-  //             } else {
-  //                 this.getProductDetails();
-  //                 this.getMerchantProducts();
-  //                 this.selectedSubMenu = 'details';
-  //                 const data = {
-  //                     title: '',
-  //                     type: 'success',
-  //                     message:
-  //                         response?.object?.response_message ??
-  //                         'Updated successfully',
-  //                 };
-  //                 // this.store.dispatch(new OpenDialog(data));
-  //             }
-  //         },
-  //         error: (error:Error) => {
-  //             this.isLoading = false;
-
-  //             // const data = {
-  //             //     title: 'failure',
-  //             //     type: 'failed',
-  //             //     message:
-  //             //         error?.object?.response_message ??
-  //             //         'Failed to update product info ',
-  //             // };
-  //             // this.store.dispatch(new OpenDialog(data));
-  //         },
-  //     });
-  // }
-
   seeUpdates(updates: string) {
     if (updates === 'success') {
       this.toggleMetadata = true;
       this.toggleMetadataForm = false;
-
-      // this.metadata = null;
-      // this.getMetadata();
     } else if (updates === 'list') {
       this.toggleMetadataForm = false;
       this.toggleMetadata = true;
@@ -1102,7 +871,6 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
       search: search,
       merchant: this.merchantId,
     };
-    // this.products = undefined;
     if (search) {
       this.isLoading = true;
 

@@ -1,8 +1,3 @@
-<!--path-->
-<!-- <div class="details-container mb-2">
-    <app-breadcrumb [crumbs]="crumbs"></app-breadcrumb>
-</div> -->
-
 <!--container-->
 <div class="level-1 p-2 py-4 details-container">
   <div
@@ -179,17 +174,12 @@
                           >Available balance</b
                         >
                         <b class="text-sm text-dark">
-                          <!-- <app-amount-visibility
-                                                [amount]="
-                                                    merchant.available_balance
-                                                "
-                                                [currency]="
-                                                    merchant.balance_currency
-                                                "
-                                                [ngClass]="
-                                                    'text-dark text-md-sm'
-                                                "
-                                            ></app-amount-visibility> -->
+                          <app-amount-visibility
+                            [amount]="merchant.available_balance"
+                            [currency]="merchant.balance_currency"
+                            [ngClass]="
+                              'text-dark text-md-sm'
+                            "></app-amount-visibility>
                         </b>
                       </div>
                       <div class="col">
@@ -567,16 +557,6 @@
                     <div>
                       <div class="row">
                         <div class="d-flex mb-3 align-items-center col-auto">
-                          <!-- <div class="d-grid me-3">
-                                            <span>
-                                                <ngx-skeleton-loader
-                                                    [theme]="{
-                                        'height.px': 130,
-                                        'width.px': 130,
-                                    }"
-                                                ></ngx-skeleton-loader>
-                                            </span>
-                                        </div> -->
                           <div class="d-grid">
                             <span class="">
                               <!-- <ngx-skeleton-loader
@@ -1484,7 +1464,7 @@
 
                           <hr class="w text-primary" />
                         </div>
-                        @if (paymentStats) {
+                        @if (paymentStats && !getPaymentStatsLoader) {
                           <div class="p-3">
                             <div class="row">
                               <div class="col-3 text-md-sm text-secondary" i18n>
@@ -1552,15 +1532,18 @@
                             }
                           </div>
                         }
-                        @if (!paymentStats) {
+                        @if (getPaymentStatsLoader) {
                           <div class="d-grid">
                             <div class="w-85 rounded mt-4">
-                              <!-- <ngx-skeleton-loader
-                                                    [theme]="{
-                                                        'height.px': 50
-                                                    }"
-                                                >
-                                                </ngx-skeleton-loader> -->
+                              @for (_ of [1, 2, 3]; track $index) {
+                                <div class="col mb-4">
+                                  <app-skeleton
+                                    [width]="'100%'"
+                                    [height]="'130px'"
+                                    classes="sm-radius">
+                                  </app-skeleton>
+                                </div>
+                              }
                             </div>
                           </div>
                         }
@@ -1624,7 +1607,9 @@
                           </div>
                         </div>
                       </div>
-                      @if (topClientsByTransactions) {
+                      @if (
+                        topClientsByTransactions && !topClientsByAmountLoader
+                      ) {
                         <div>
                           <div class="row mt-4">
                             <div class="col-4 text-md-sm text-secondary" i18n>
@@ -1640,6 +1625,7 @@
                               Amount
                             </div>
                           </div>
+
                           @if (
                             selectedOption === 'transaction' || !selectedOption
                           ) {
@@ -1700,7 +1686,7 @@
                           }
                         </div>
                       }
-                      @if (topClientsByAmount) {
+                      @if (topClientsByAmount && !topClientsByAmountLoader) {
                         <div>
                           @if (selectedOption === 'amount') {
                             <div>
@@ -1748,15 +1734,10 @@
 
                                   <div class="col-3">
                                     <div>
-                                      <!-- <app-amount-visibility
-                                                            [amount]="
-                                                                client.total_paid
-                                                            "
-                                                            [currency]="
-                                                                client.balance_currency
-                                                            "
-                                                            customClasses="text-md-sm text-primary fw-bold"
-                                                        ></app-amount-visibility> -->
+                                      <app-amount-visibility
+                                        [amount]="client.total_paid"
+                                        [currency]="client.balance_currency"
+                                        customClasses="text-md-sm text-primary fw-bold"></app-amount-visibility>
                                     </div>
                                   </div>
                                 </div>
@@ -1765,15 +1746,18 @@
                           }
                         </div>
                       }
-                      @if (!topClientsByAmount || !topClientsByTransactions) {
+                      @if (topClientsByAmountLoader) {
                         <div class="d-grid">
-                          <div class="w-85 rounded mt-4">
-                            <!-- <ngx-skeleton-loader
-                                                [theme]="{
-                                                    'height.px': 50
-                                                }"
-                                            >
-                                            </ngx-skeleton-loader> -->
+                          <div class="w-100 rounded mt-4">
+                            @for (_ of [1, 2, 3]; track $index) {
+                              <div class="col mb-4">
+                                <app-skeleton
+                                  [width]="'100%'"
+                                  [height]="'50px'"
+                                  classes="sm-radius">
+                                </app-skeleton>
+                              </div>
+                            }
                           </div>
                         </div>
                       }
@@ -1983,9 +1967,6 @@
               class="p-2 border level-2 w-100 pt-5"
               style="min-height: 600px">
               <h4 class="ms-4 ps-2 text-dark" i18n>New field</h4>
-              <!-- <app-metadata-form
-                        (refreshUpdates)="seeUpdates($event)"
-                    ></app-metadata-form> -->
             </div>
           }
         </div>
@@ -1998,10 +1979,8 @@
   <div class="modal fade" id="statementModal" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered statement-dialog">
       <div class="modal-content">
-        <!-- <app-statements
-                [accountId]="merchant.merchant_main_account_id"
-                [account]="merchant"
-            ></app-statements> -->
+        <app-statement
+          [accountId]="merchant.merchant_main_account_id"></app-statement>
       </div>
     </div>
   </div>
@@ -2011,13 +1990,6 @@
   <div
     class="modal-dialog w-100 d-flex justify-content-center h-100 align-items-center overflow-auto"
     style="min-width: 75%">
-    <div class="modal-content w-resp">
-      <!-- <app-merchant-teller-details
-                [tellerInfo]="selectedTeller"
-                (isActionDone)="getTellerOptions($event)"
-            ></app-merchant-teller-details>
-
-            <router-outlet></router-outlet> -->
-    </div>
+    <div class="modal-content w-resp"></div>
   </div>
 </div>

@@ -15,7 +15,7 @@ export class ClientListComponent {
       field: ['client_full_name'],
       size: '2',
       detail: {
-        link: '/w/workstation/d/desk/details/',
+        link: '/w/workstation/d/desk/client/detail/',
         field: 'client_id',
       },
     },
