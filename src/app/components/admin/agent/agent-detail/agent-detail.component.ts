@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { StatementComponent } from '../../../statements/statement/statement.component';
 import { AgentModel } from '../agent.model';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-agent-detail',
@@ -16,6 +17,7 @@ import { AgentModel } from '../agent.model';
     NgClass,
     StatementComponent,
     RouterLink,
+    SkeletonComponent,
   ],
   templateUrl: './agent-detail.component.html',
   styleUrl: './agent-detail.component.scss',
@@ -24,7 +26,6 @@ export class AgentDetailComponent implements OnInit {
   agentId = '';
   private onDestroy$: Subject<void> = new Subject<void>();
   agentDetails!: AgentModel;
-  // agentDetails:any;
   selectedMenu = '';
   isLoading = true;
   agentsLoading = true;
@@ -58,7 +59,6 @@ export class AgentDetailComponent implements OnInit {
   //agent details
   getAgentsDetails() {
     this.isLoading = true;
-    //   this.agentDetails = null;
     this.agentService
       .getAgentsDetails(this.agentId)
       .pipe(takeUntil(this.onDestroy$))
@@ -66,10 +66,6 @@ export class AgentDetailComponent implements OnInit {
         next: response => {
           this.agentDetails = response.object;
           this.isLoading = false;
-          // this.getClientDetails(this.agentDetails.client_id);
-          // if (this.agentDetails.is_superagent) {
-          //     this.getAgentsBySuperAgent(this.agentDetails.id);
-          // }
         },
         error: () => {
           this.isLoading = false;
