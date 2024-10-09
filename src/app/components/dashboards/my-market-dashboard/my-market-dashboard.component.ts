@@ -198,7 +198,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
           [this.corporateMarketMenus] = this.menuService.getBankingMenu(
             'market',
             'Dashboard',
-            menus
+            this.configService.toArray(menus)
           );
         }
       },

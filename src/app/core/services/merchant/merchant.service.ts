@@ -683,6 +683,15 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
+  getBillsGroupsByTeller(
+    merchant_teller_id: number
+  ): Observable<{ objects: InvoiceGroupModel[] }> {
+    const url = `/dbs/bill-group/?merchant_teller=${merchant_teller_id}`;
+    return this.apiService
+      .get<{ objects: InvoiceGroupModel[] }>(url)
+      .pipe(map(data => data));
+  }
+
   // createBillGroup(teller_info: any) {
   //   const url = `/dbs/bill-group`;
   //   return this.apiService.post(url, teller_info).pipe(map(data => data));
@@ -692,6 +701,15 @@ export class MerchantService {
     invoice: InvoiceModel
   ): Observable<{ object: InvoiceResponseModel }> {
     const url = `/dbs/merchant/bill-validation-init/ `;
+    return this.apiService
+      .post<{ object: InvoiceResponseModel }>(url, invoice)
+      .pipe(map(data => data));
+  }
+  createBillByGroup(
+    invoice: InvoiceModel,
+    group_id: number
+  ): Observable<{ object: InvoiceResponseModel }> {
+    const url = `/dbs/merchant/bill-validation-init/bill_group:${group_id} `;
     return this.apiService
       .post<{ object: InvoiceResponseModel }>(url, invoice)
       .pipe(map(data => data));
