@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  Input,
   ViewChild,
   OnDestroy,
   SimpleChanges,
@@ -80,8 +79,8 @@ export class MyMarketDashboardComponent
   private onDestroy$: Subject<void> = new Subject<void>();
   baseRouterLink = '/m/mymarket';
 
-  @Input() accountId = '';
-  @Input() ledgerId = '';
+  accountId = '';
+  ledgerId = '';
 
   clientInfo: UserInfoModel[] | [] | null = null;
   clientInfo$: Observable<UserInfoModel>;
