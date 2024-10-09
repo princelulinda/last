@@ -93,7 +93,6 @@ export class GeneralSettingsComponent implements OnInit, OnDestroy {
         }
       },
     });
-
     this.dialogState$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (dialogResponse: DialogResponseModel) => {
         console.log('PIN reçu:', this.pin);

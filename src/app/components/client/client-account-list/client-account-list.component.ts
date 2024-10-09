@@ -176,7 +176,7 @@ export class ClientAccountListComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.isLoadingCreation = false;
-          console.error('creation  failed');
+          //  console.error('creation  failed');
           this.dialogService.closeLoading();
           this.dialogService.openToast({
             type: 'failed',

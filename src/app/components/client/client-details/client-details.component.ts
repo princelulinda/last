@@ -31,6 +31,8 @@ import { ClientWalletListComponent } from '../client-wallet-list/client-wallet-l
 
 import { SignaturesComponent } from '../signatures/signatures.component';
 import { ClientTaxInfoComponent } from '../client-tax-info/client-tax-info.component';
+import { ClientCreditsLineComponent } from '../client-credits-line/client-credits-line.component';
+import { ClientCreditsComponent } from '../client-credits/client-credits.component';
 @Component({
   selector: 'app-client-details',
   standalone: true,
@@ -47,6 +49,8 @@ import { ClientTaxInfoComponent } from '../client-tax-info/client-tax-info.compo
     RouterOutlet,
     SignaturesComponent,
     ClientTaxInfoComponent,
+    ClientCreditsLineComponent,
+    ClientCreditsComponent,
   ],
   templateUrl: './client-details.component.html',
   styleUrl: './client-details.component.scss',
@@ -97,7 +101,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   isGeneralInfoFormShown = false;
   isTaxAdditionShown = false;
   choosenAccount: AccountsListModel | AccountsListModel[] | null = null;
-  choosenWallet: WalletList | WalletList[] | null = null;
+  choosenWallet: WalletList | null = null;
   inputActive = false;
   loadingSector = false;
   showLanguageCheckBox = false;
@@ -148,6 +152,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
 
     //console.log('Compte sélectionné :', account);
   }
+
   handleAccountSelected(account: AccountsListModel) {
     this.choosenAccount = account;
 
@@ -157,12 +162,13 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   handleWalletSelected(wallet: WalletList) {
     this.choosenWallet = wallet;
 
-    console.log('Compte sélectionné :', wallet);
+    console.log('wallet sélectionné :', wallet);
   }
 
   selectMenu(menu: string) {
     this.selectedMenu = menu;
     if (menu === 'accounts' && this.accounts) {
+      this.resetWalletVariables();
       this.router.navigate([
         '/w/workstation/d/desk/client/detail/' +
           this.clientId +
@@ -171,6 +177,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
       ]);
     }
     if (menu === 'wallets' && this.wallets) {
+      this.resetWalletVariables();
       this.router.navigate([
         '/w/workstation/d/desk/client/detail/' +
           this.clientId +
@@ -182,6 +189,11 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     if (menu === 'settings') {
       this.router.navigate([
         '/w/workstation/d/desk/client/detail/' + this.clientId + '/settings',
+      ]);
+    }
+    if (menu === 'details') {
+      this.router.navigate([
+        '/w/workstation/d/desk/client/detail/' + this.clientId,
       ]);
     }
     if (
@@ -500,9 +512,14 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
+  resetWalletVariables() {
+    this.choosenWallet = null;
+    this.choosenAccount = null;
+  }
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+    this.choosenWallet = null;
   }
 }
 // function output(): (

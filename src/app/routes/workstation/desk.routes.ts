@@ -9,13 +9,24 @@ import { ClientDetailsComponent } from '../../components/client/client-details/c
 import { ClientListComponent } from '../../components/client/client-list/client-list.component';
 import { CounterDetailsComponent } from '../../components/dev/operations/counter-details/counter-details.component';
 import { DiverseOperationComponent } from '../../components/dev/diverse-operation/diverse-operation.component';
+
 import { ClientWalletDetailsComponent } from '../../components/client/client-wallet-details/client-wallet-details.component';
 import { AgentListComponent } from '../../components/admin/agent/agent-list/agent-list.component';
 import { AgentDetailComponent } from '../../components/admin/agent/agent-detail/agent-detail.component';
+
 import { MerchantListComponent } from '../../components/merchant/workstation/merchant-list/merchant-list.component';
 import { MerchantDetailsComponent } from '../../components/merchant/workstation/merchant-details/merchant-details.component';
+import { BalanceComponent } from '../../components/dev/operations/balance/balance.component';
+import { ShortcutsComponent } from '../../components/admin/customer-base/shortcuts/shortcuts.component';
+import { ModalComponent } from '../../components/admin/customer-base/modal/modal.component';
 import { SignaturesComponent } from '../../components/client/signatures/signatures.component';
+import { ClientCreditsComponent } from '../../components/client/client-credits/client-credits.component';
+import { ClientCreditsLineComponent } from '../../components/client/client-credits-line/client-credits-line.component';
+
 export const DeskRoutes: Routes = [
+  { path: '', component: DeskDashboardComponent },
+
+  // NOTE :: CLIENT MODULE
   {
     path: 'client',
     children: [
@@ -35,6 +46,14 @@ export const DeskRoutes: Routes = [
             component: ClientWalletDetailsComponent,
           },
           {
+            path: 'credit/:creditId',
+            component: ClientCreditsComponent,
+          },
+          {
+            path: 'creditLine/:creditLineId',
+            component: ClientCreditsLineComponent,
+          },
+          {
             path: 'settings',
             component: SignaturesComponent,
           },
@@ -43,18 +62,45 @@ export const DeskRoutes: Routes = [
     ],
   },
 
-  { path: '', component: DeskDashboardComponent },
+  // NOTE :: OPERATIONS MODULES
+  {
+    path: 'operations',
+    children: [
+      { path: 'list', component: OperationListComponent },
+      { path: 'counters', component: CounterComponent },
+      { path: 'counter/:id', component: CounterDetailsComponent },
+    ],
+  },
 
-  { path: 'operations/list', component: OperationListComponent },
-  { path: 'operations/counters', component: CounterComponent },
-  { path: 'operations/counter/:id', component: CounterDetailsComponent },
+  // NOTE :: MERCHANT MODULE
+  {
+    path: 'agent',
+    children: [
+      { path: '', component: AgentListComponent },
 
-  { path: 'agent', component: AgentListComponent },
-  { path: 'agent/details/:id', component: AgentDetailComponent },
+      { path: 'detail/:id', component: AgentDetailComponent },
+    ],
+  },
+
   { path: 'diverse_operations', component: DiverseOperationComponent },
 
-  { path: 'merchant', component: MerchantListComponent },
-  { path: 'merchant/details/:id', component: MerchantDetailsComponent },
+  {
+    path: 'balances',
+    component: BalanceComponent,
+  },
+
+  // NOTE :: MERCHANT MODULE
+  {
+    path: 'merchant',
+    children: [
+      { path: '', component: MerchantListComponent },
+      { path: 'detail/:id', component: MerchantDetailsComponent },
+    ],
+  },
+
+  // NOTE :: SHORTCUTS MODULE
+  { path: 'shortcuts', component: ShortcutsComponent },
+  { path: 'modal', component: ModalComponent },
 
   {
     path: 'access-required',

@@ -1,6 +1,6 @@
 import { CurrencyModel } from '../../../global/models/global.models';
 
-export interface DetailsAgentResponseModel {
+export interface AgentModel {
   is_superagent: string;
   created_at: string | number | Date;
   balance_currency: CurrencyModel;

@@ -18,7 +18,7 @@ export class AgentListComponent {
       field: ['agent_name'],
       size: '',
       detail: {
-        link: '/w/workstation/a/admin/agent/details/',
+        link: '/w/workstation/d/desk/agent/detail/',
         field: 'id',
       },
     },
