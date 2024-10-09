@@ -48,7 +48,10 @@
           }
         } @else {
           @for (menu of corporateBankingMenus; track $index) {
-            <a role="button" [routerLink]="menu.component_url">
+            <a
+              role="button"
+              [routerLink]="menu.component_url"
+              class="me-3 me-xl-5 pe-xl-5 mb-3">
               <div class="d-flex w-100 mb-2 justify-content-center">
                 <div
                   class="d-grid justify-content-center align-items-center menu-container rounded-circle bg-secondary">
@@ -79,16 +82,16 @@
   </div>
 
   <div class="overflow-x-hidden overflow-y-hidden">
-    <!-- * Recent transactions-->
     <section>
       <div class="mt-5 pt-5 text-dark w-100 d-flex justify-content-end">
-        <span role="button" class="text-primary">View more transactions</span>
+        <span role="button" class="text-primary" i18n
+          >View more transactions</span
+        >
       </div>
 
       <section class="mt-3">
         <app-reusable-list
           [headers]="headers"
-          title="Recent Transactions"
           [url]="
             '/operations/pending/logic/?req_type=&=date_from=&=date_to=&filter_for_client=true&'
           "></app-reusable-list>
@@ -96,4 +99,3 @@
     </section>
   </div>
 </div>
-<!-- <router-outlet></router-outlet> -->
