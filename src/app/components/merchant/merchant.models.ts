@@ -371,3 +371,15 @@ export interface MetadataModel {
   metadata: null;
   length: number;
 }
+
+export interface TellerAutoCompleteModel {
+  id: number;
+  lookup_icon: string;
+  lookup_image: string;
+  lookup_title: string;
+  lookup_subtitle: string;
+  lookup_description: string;
+  lookup_has_image_or_icon: boolean;
+  merchant: string;
+  can_receive_tip: boolean;
+}

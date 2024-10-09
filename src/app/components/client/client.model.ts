@@ -66,6 +66,15 @@ export interface FiscModel {
   trade_register_number: string;
   trn_file: string;
   trn_issue_date: string;
+  tax_identification_code: string;
+  tic_file: string;
+  tic_issue_date: string;
+  postal_code: string;
+  is_value_added_tax_payer: boolean;
+  is_consumption_tax_payer: boolean;
+  is_tl_tax_payer: boolean;
+  legal_form: string;
+  fiscal_center_code: string;
 }
 
 export interface LanguageWorkstationModel {

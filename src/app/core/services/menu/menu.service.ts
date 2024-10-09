@@ -3,11 +3,10 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import { ApiService } from '..';
+import { ApiService, GeneralService } from '..';
 import {
   MenuGroupAndMenusSimpleModel,
-  MenuGroupsModel,
-  MenuModel,
+  MenuSimpleModel,
   TypeMenuModel,
   TypeMenuNamesModel,
   URLTypeMenuModel,
@@ -24,7 +23,10 @@ import { MetadataModel } from '../../../components/metadatas/metadata.model';
 export class MenuService {
   private pageMenus: WritableSignal<PageMenusModel[]> = signal([]);
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private generalService: GeneralService
+  ) {}
 
   setPageMenus(menus: PageMenusModel[]) {
     this.pageMenus.set(menus);
@@ -44,29 +46,6 @@ export class MenuService {
 
   setLocalSelectedMenu(menu: number) {
     this.apiService.setLocalSelectedMenu(menu);
-  }
-
-  getMenuGroupByGroup(type: string) {
-    return this.apiService
-      .get('/menugroup/list/?group_type=' + type)
-      .pipe(map(data => data));
-  }
-
-  getAllMenuGroup(): Observable<{ objects: MenuGroupsModel[]; count: number }> {
-    return this.apiService
-      .get<{ objects: MenuGroupsModel[]; count: number }>('/menu-group/list/')
-      .pipe(map(data => data));
-  }
-
-  getMenuByGroup(
-    menu_group_id: string
-  ): Observable<{ objects: MenuModel[]; count: number }> {
-    return this.apiService
-      .get<{
-        objects: MenuModel[];
-        count: number;
-      }>('/menu/list/?menu_group=' + menu_group_id)
-      .pipe(map(data => data));
   }
 
   getTypeMenuGroups(): Observable<{ objects: TypeMenuModel[]; count: number }> {
@@ -97,29 +76,58 @@ export class MenuService {
     typeMenu: URLTypeMenuModel
   ): MenuGroupAndMenusSimpleModel | null | undefined {
     let pathname = window.location.pathname;
-    //NOTE:: just for removing language prefixes in case i18n is activated
-    if (['en', 'fr'].includes(pathname.split('/')[1])) {
-      pathname = pathname.slice(3);
-    }
+
+    pathname = this.extractBasePath(pathname);
+
     let menuGroups: MenuGroupAndMenusSimpleModel[] = [];
     let baseMenuUrl = '';
     let selectedGroup: MenuGroupAndMenusSimpleModel | null = null;
 
     [menuGroups, baseMenuUrl] = this.getActiveMenuGroups(menus, typeMenu);
 
-    if (menuGroups && baseMenuUrl.split('/').length > 6) {
+    if (menuGroups && baseMenuUrl.split('/').length > 4) {
+      // TODO :: FIRST IDEA
+      const componentUrls: string[] = [];
+
+      menuGroups.map(group =>
+        group.menus.map(menu => componentUrls.push(menu.component_url))
+      );
+
+      // NOTE :: GET MOST SIMILAR MENU BY COMPONENT URL
+      const matchComponentUrl: string = this.generalService.findMostSimilar(
+        componentUrls,
+        pathname
+      );
+
       selectedGroup =
         menuGroups.find(group =>
-          group.menus.find(
-            menu => `${baseMenuUrl}${menu.component_url}` === pathname
-          )
+          group.menus.find(menu => menu.component_url === matchComponentUrl)
         ) ?? null;
 
+      // NOTE :: SELECTED MENU ONLY
       if (selectedGroup) {
         selectedGroup.menus = selectedGroup?.menus.filter(
-          menu => `${baseMenuUrl}${menu.component_url}` === pathname
+          menu => menu.component_url === matchComponentUrl
         );
       }
+
+      // NOTE :: SECOND IDEA
+      // selectedGroup =
+      //   menuGroups.find(group =>
+      //     group.menus.find(menu => {
+      //       // NOTE :: TO REMOVE SPLASH ON END (component_url)
+      //       if (menu.component_url.endsWith('/')) {
+      //         menu.component_url = menu.component_url.slice(0, -1);
+      //       }
+      //       return `${baseMenuUrl}${menu.component_url}` === pathname;
+      //     })
+      //   ) ?? null;
+
+      // if (selectedGroup) {
+      //   selectedGroup.menus = selectedGroup?.menus.filter(
+      //     menu => `${baseMenuUrl}${menu.component_url}` === pathname
+      //   );
+      // }
       return selectedGroup;
     } else {
       return undefined;
@@ -158,11 +166,73 @@ export class MenuService {
     }
   }
 
+  getBankingMenu(
+    typeMenu: 'banking' | 'market',
+    type: 'Aside-Menu' | 'Dashboard',
+    menus: TypeMenuModel[]
+  ): [MenuSimpleModel[] | [], string] {
+    let selectedGroup: MenuSimpleModel[] = [];
+    let menuGroups: MenuGroupAndMenusSimpleModel[] = [];
+
+    switch (typeMenu) {
+      case 'banking':
+        if (menus) {
+          menuGroups = this.getMenuGroupByType('Banking', menus);
+        }
+        if (menuGroups) {
+          if (type === 'Aside-Menu') {
+            selectedGroup =
+              menuGroups.find(group => group.name === 'BankingHub')?.menus ??
+              [];
+          } else {
+            selectedGroup =
+              menuGroups.find(group => group.name === 'Banking services')
+                ?.menus ?? [];
+          }
+        }
+        return [selectedGroup, '/w/workstation/b/banking/'];
+        break;
+
+      case 'market':
+        if (menus) {
+          menuGroups = this.getMenuGroupByType('Market', menus);
+        }
+        if (menuGroups) {
+          if (type === 'Aside-Menu') {
+            selectedGroup =
+              menuGroups.find(group => group.name === 'Merchant Reports')
+                ?.menus ?? [];
+          } else {
+            selectedGroup =
+              menuGroups.find(group => group.name === 'My Market')?.menus ?? [];
+          }
+        }
+        return [selectedGroup, '/w/workstation/m/market/'];
+        break;
+    }
+  }
+
   private getMenuGroupByType(
     type: TypeMenuNamesModel,
     menus: TypeMenuModel[]
   ): MenuGroupAndMenusSimpleModel[] {
     return menus.find(typeMenu => typeMenu.name === type)
       ?.menu_groups as MenuGroupAndMenusSimpleModel[];
+  }
+
+  private extractBasePath(pathName: string): string {
+    const parts: string[] = pathName.split('/');
+
+    //NOTE:: just for removing language prefixes in case i18n is activated
+    if (['en', 'fr'].includes(parts[1])) {
+      pathName = pathName.slice(3);
+    }
+
+    for (let i = 0; i < parts.length; i++) {
+      if (Number(parts[i])) {
+        return parts.slice(0, i).join('/');
+      }
+    }
+    return pathName;
   }
 }

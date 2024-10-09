@@ -9,7 +9,7 @@ import {
 } from './glob-mapping.model';
 import { GeneralService } from '../../../core/services';
 import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
-import { DebitAccountComponent } from '../../../components/transfer/debit-account/debit-account.component';
+import { DebitAccountComponent } from '../../../components/transfer/banking/debit-account/debit-account.component';
 import {
   activeMainConfigModel,
   ModeModel,

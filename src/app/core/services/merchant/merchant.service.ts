@@ -31,6 +31,7 @@ import {
   ProductsModel,
   searchTellerModel,
   SectorActivityAutocompleteModel,
+  TellerAutoCompleteModel,
   tellerModel,
   tellersModel,
   TopClientsByAmountModel,
@@ -44,8 +45,10 @@ import { BillsModel } from '../../../components/merchant/bills/bills.model';
 import {
   InvoiceGroupModel,
   InvoiceModel,
+  InvoiceResponseModel,
   MeasureModel,
   ProvidersModel,
+  SingleInVoiceModel,
 } from '../../../components/dev/invoice/invoice.models';
 import {
   ProductCategoryModel,
@@ -99,7 +102,9 @@ export class MerchantService {
 
   getRecentAllMerchantsAutocomplete(search?: string) {
     const url = `/dbs/merchant/manage/objects_autocomplete/?search=${search}`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ objects: MerchantAutocompleteModel[] }>(url)
+      .pipe(map(data => data));
   }
 
   getFavoriteMerchantsAutocomplete(search: string): Observable<{
@@ -460,6 +465,14 @@ export class MerchantService {
       })
     );
   }
+  getTellersByMerchantAutoComplete(
+    merchantId: number
+  ): Observable<{ objects: TellerAutoCompleteModel[] }> {
+    const url = `/dbs/merchant-teller/objects_autocomplete/?merchant=${merchantId}`;
+    return this.apiService
+      .get<{ objects: TellerAutoCompleteModel[] }>(url)
+      .pipe(map(data => data));
+  }
   doTellerAction(body: doTellerBodyModel) {
     const url = '/dbs/merchant-teller/teller/action/';
     return this.apiService.post(url, body).pipe(
@@ -661,17 +674,26 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
-  getBillsGroups(): Observable<{ objects: InvoiceGroupModel[] }> {
-    const url = `/dbs/bill-group/`;
+  getBillsGroups(
+    pagination: PaginationConfig
+  ): Observable<{ objects: InvoiceGroupModel[]; count: number }> {
+    const url = `/dbs/bill-group/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`;
     return this.apiService
-      .get<{ objects: InvoiceGroupModel[] }>(url)
+      .get<{ objects: InvoiceGroupModel[]; count: number }>(url)
       .pipe(map(data => data));
   }
 
-  createBill(invoice: InvoiceModel): Observable<InvoiceModel> {
+  // createBillGroup(teller_info: any) {
+  //   const url = `/dbs/bill-group`;
+  //   return this.apiService.post(url, teller_info).pipe(map(data => data));
+  // }
+
+  createBill(
+    invoice: InvoiceModel
+  ): Observable<{ object: InvoiceResponseModel }> {
     const url = `/dbs/merchant/bill-validation-init/ `;
     return this.apiService
-      .post<InvoiceModel>(url, invoice)
+      .post<{ object: InvoiceResponseModel }>(url, invoice)
       .pipe(map(data => data));
   }
 
@@ -689,18 +711,24 @@ export class MerchantService {
       .get<{ objects: MeasureModel[] }>(url)
       .pipe(map(data => data));
   }
+  addBillToGroup(id_group: number, id_invoice: string) {
+    const url = `/dbs/merchant/bills/${id_invoice}/add_bill_group/`;
+    const body = { id_group };
+    return this.apiService.post(url, body).pipe(map(data => data));
+  }
   // getBillsByGroup(group_name: string): Observable<any> {
   //   const url = `/dbs/merchant/bills/?bill_group=${group_name}/`;
   //   return this.apiService
   //     .get<any>(url)
   //     .pipe(map((data: any) => data));
   // }
-  // getSingleInvoices() {
-  //   const url = `/dbs/merchant/bills/?grouped=false/`;
-  //   return this.apiService
-  //     .get<any>(url)
-  //     .pipe(map((data: any) => data));
-  // }
+  getSingleInvoices(pagination: PaginationConfig, search: string) {
+    const url = `/dbs/merchant/bills/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}&for_validation=true&grouped=false&search=${search}`;
+
+    return this.apiService
+      .get<{ objects: SingleInVoiceModel[]; count: number }>(url)
+      .pipe(map(data => data));
+  }
   // {id} : facture et body : id_group ofr the method updateInvoicesGroup
   // updateInvoicesGroup(id: number): Observable<any> {
   //   const url = `/dbs/merchant/bills/${id}/add_bill_group/`;

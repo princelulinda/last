@@ -1,0 +1,107 @@
+<div class="container sm-radius my-3 pt-4 pb-4">
+  <div class="bg-white sm-radius p-4 mt-3 mb-3">
+    <div class="d-flex align-items-center justify-content-between">
+      <div>
+        <i class="fa fa-circle fs-x-small me-2 text-primary"></i>
+        <b class="fs-normal">Choose Debit Account</b>
+      </div>
+    </div>
+    <div class="d-flex h-50-px mt-2">
+      <div
+        class="d-flex me-4 p-1 bg-secondary justify-content-between rounded align-items-center">
+        <div
+          role="button"
+          (click)="selectDebitAccountType('account')"
+          tabindex="0"
+          [ngClass]="{
+            'bg-primary text-all-white  rounded px-1 py-2 me-1':
+              selectedDebitAccountType === 'account',
+          }"
+          class="text-center width">
+          <b i18n>Account</b>
+        </div>
+
+        <div
+          role="button"
+          tabindex="0"
+          (click)="selectDebitAccountType('wallet')"
+          [ngClass]="{
+            'bg-primary text-all-white  rounded px-1 py-2 me-1':
+              selectedDebitAccountType === 'wallet',
+          }"
+          class="text-center width">
+          <b i18n>Wallet</b>
+        </div>
+        <div
+          role="button"
+          tabindex="0"
+          (click)="selectDebitAccountType('merchant')"
+          [ngClass]="{
+            'bg-primary text-all-white  rounded px-1 py-2 me-1':
+              selectedDebitAccountType === 'merchant',
+          }"
+          class="text-center width">
+          <b i18n>Merchant</b>
+        </div>
+        <div
+          role="button"
+          tabindex="0"
+          (click)="selectDebitAccountType('agent')"
+          [ngClass]="{
+            'bg-primary text-all-white  rounded px-1 py-2 me-1':
+              selectedDebitAccountType === 'agent',
+          }"
+          class="text-center width">
+          <b i18n>Agent</b>
+        </div>
+      </div>
+    </div>
+    <div class="ms-4 mt-3">
+      @if (selectedDebitAccountType === 'account') {
+        <div>
+          <app-lookup-individual
+            (individualInfo)="
+              getIndividualClient($event)
+            "></app-lookup-individual>
+        </div>
+      } @else {
+        <div>
+          <div class="w-25">
+            @if (selectedDebitAccountType === 'wallet') {
+              <app-lookup
+                class="w-100"
+                [option]="'lookup'"
+                (selectedItemEvent)="getClient($event)"
+                [url]="lookupDebitAccountUrl"
+                lookupLabel="Search wallets"
+                label="Wallets"></app-lookup>
+            } @else if (selectedDebitAccountType === 'merchant') {
+              <app-lookup
+                class="w-100"
+                [option]="'lookup'"
+                (selectedItemEvent)="getClient($event)"
+                [url]="lookupDebitAccountUrl"
+                lookupLabel="Merchant Account"
+                label="Merchant accounts"></app-lookup>
+            } @else if (selectedDebitAccountType === 'agent') {
+              <app-lookup
+                class="w-100"
+                [option]="'lookup'"
+                (selectedItemEvent)="getClient($event)"
+                [url]="lookupDebitAccountUrl"
+                lookupLabel="Agent account"
+                label="Agent accounts"></app-lookup>
+            }
+          </div>
+        </div>
+      }
+
+      @if (debitAccount) {
+        <div class="ms-2 d-flex align-items-center mt-1">
+          <i class="fa fa-play text-primary-light me-2"></i>
+          <b class="text-primary-light">{{ debitAccount.lookup_title }}</b>
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -5,7 +5,7 @@ import { DatePipe, NgClass } from '@angular/common';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { StatementComponent } from '../../../statements/statement/statement.component';
-import { DetailsAgentResponseModel } from '../agent.model';
+import { AgentModel } from '../agent.model';
 
 @Component({
   selector: 'app-agent-detail',
@@ -23,7 +23,7 @@ import { DetailsAgentResponseModel } from '../agent.model';
 export class AgentDetailComponent implements OnInit {
   agentId = '';
   private onDestroy$: Subject<void> = new Subject<void>();
-  agentDetails!: DetailsAgentResponseModel;
+  agentDetails!: AgentModel;
   // agentDetails:any;
   selectedMenu = '';
   isLoading = true;
@@ -63,7 +63,7 @@ export class AgentDetailComponent implements OnInit {
       .getAgentsDetails(this.agentId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: { object: DetailsAgentResponseModel }) => {
+        next: response => {
           this.agentDetails = response.object;
           this.isLoading = false;
           // this.getClientDetails(this.agentDetails.client_id);

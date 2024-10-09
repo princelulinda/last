@@ -22,7 +22,7 @@ import {
   // ResponseDataModel,
 } from '../loan.models';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
-import { DebitAccountComponent } from '../../transfer/debit-account/debit-account.component';
+import { DebitAccountComponent } from '../../transfer/banking/debit-account/debit-account.component';
 import { AccountsListModel } from '../../account/models';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 

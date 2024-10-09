@@ -1,8 +1,3 @@
-<!--path-->
-<!-- <div class="details-container mb-2 ms-3">
-    <app-breadcrumb [crumbs]="crumbs"></app-breadcrumb>
-</div> -->
-
 <div class="level-1 p-2 py-4 details-container" style="min-height: 600px">
   <div class="level-2 text-dark glob-cont" style="min-height: 600px">
     @if (isLoading) {
@@ -24,7 +19,8 @@
                 role="button"
                 title="Client Details"
                 [routerLink]="
-                  '/w/workstation/desk/client/details/' + agentDetails.client_id
+                  '/w/workstation/d/desk/client/detail/' +
+                  agentDetails.client_id
                 ">
                 <b role="button" class="text-primary-light fs-5">
                   <i class="fa fa-arrow-up-right-from-square"></i>

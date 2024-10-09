@@ -20,7 +20,7 @@ export class MerchantListComponent implements OnInit, AfterViewInit, OnDestroy {
       field: ['merchant_title'],
       size: '',
       detail: {
-        link: '/w/workstation/d/desk/merchant/details/',
+        link: '/w/workstation/d/desk/merchant/detail/',
         field: 'id',
       },
     },

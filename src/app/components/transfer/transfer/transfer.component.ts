@@ -8,7 +8,7 @@ import {
 
 import { BeneficiariesComponent } from '../beneficiaries/beneficiaries/beneficiaries.component';
 
-import { DebitAccountComponent } from '../debit-account/debit-account.component';
+import { DebitAccountComponent } from '../banking/debit-account/debit-account.component';
 
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
