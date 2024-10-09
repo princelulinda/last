@@ -216,12 +216,8 @@ export class MenuService {
     type: TypeMenuNamesModel,
     menus: TypeMenuModel[]
   ): MenuGroupAndMenusSimpleModel[] {
-    if (menus) {
-      return menus.find(typeMenu => typeMenu.name === type)
-        ?.menu_groups as MenuGroupAndMenusSimpleModel[];
-    } else {
-      return [];
-    }
+    return menus.find(typeMenu => typeMenu.name === type)
+      ?.menu_groups as MenuGroupAndMenusSimpleModel[];
   }
 
   private extractBasePath(pathName: string): string {
