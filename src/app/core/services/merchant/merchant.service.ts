@@ -700,12 +700,14 @@ export class MerchantService {
     const body = { id_group };
     return this.apiService.post(url, body).pipe(map(data => data));
   }
-  // getBillsByGroup(group_name: string): Observable<any> {
-  //   const url = `/dbs/merchant/bills/?bill_group=${group_name}/`;
-  //   return this.apiService
-  //     .get<any>(url)
-  //     .pipe(map((data: any) => data));
-  // }
+  getBillsByGroup(
+    group_name: number
+  ): Observable<{ objects: SingleInVoiceModel[]; count: number }> {
+    const url = `/dbs/merchant/bills/?bill_group=${group_name}`;
+    return this.apiService
+      .get<{ objects: SingleInVoiceModel[]; count: number }>(url)
+      .pipe(map(data => data));
+  }
   getSingleInvoices(pagination: PaginationConfig, search: string) {
     const url = `/dbs/merchant/bills/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}&for_validation=true&grouped=false&search=${search}`;
 

@@ -50,7 +50,7 @@
           <div
             class="teller-card lg-radius border border-1 border-light shadow-sm gap-3"
             role="button"
-            (click)="getBillsByGroup()"
+            (click)="selectGroup(item.id)"
             tabindex="0">
             <div class="d-flex flex-column h-100 gap-3">
               <div class="row h-75 mt-3">
@@ -157,12 +157,46 @@
       }
     </div>
   </div>
-} @else if (isSelected_group) {
-  <app-invoices-by-group
-    [group_name]="GroupInfo.name"
-    [teller_id]="GroupInfo.merchant_teller.id"
-    [invoices]="invoices"
-    (goBackEvent)="getGoBackEvent($event)"></app-invoices-by-group>
+}
+@if (isSelected_group && invoices && invoices.length > 0) {
+  @for (invoice of invoices; track $index) {
+    <app-invoices-by-group
+      [invoices]="invoice"
+      [group_name]="GroupInfo"
+      (goBackEvent)="getGoBackEvent($event)"></app-invoices-by-group>
+  }
+}
+@if (isSelected_group && invoices && invoices.length === 0) {
+  <app-empty-state
+    [searchTerm]="'invoices'"
+    [searchType]="'other'"></app-empty-state>
+}
+
+@if (!invoices && isSelected_group) {
+  <div class="row ms-2">
+    @for (item of [1, 2, 3, 4]; track $index) {
+      <div class="col-6 col-sm-4 col-xl-3 mb-2">
+        <app-skeleton
+          height="140px"
+          width="170px"
+          classes="sm-radius"></app-skeleton>
+        <div>
+          <app-skeleton
+            height="10px"
+            width="30px"
+            classes="sm-radius"
+            appearance="line"></app-skeleton>
+        </div>
+        <div>
+          <app-skeleton
+            height="10px"
+            width="50px"
+            classes="sm-radius"
+            appearance="line"></app-skeleton>
+        </div>
+      </div>
+    }
+  </div>
 }
 
 @if (count > 10) {

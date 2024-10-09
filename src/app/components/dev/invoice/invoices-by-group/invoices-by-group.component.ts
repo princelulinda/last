@@ -5,18 +5,25 @@ import {
   EmptyStateComponent,
   EmptyStateModel,
 } from '../../../../global/components/empty-states/empty-state/empty-state.component';
+import { InvoiceGroupModel, SingleInVoiceModel } from '../invoice.models';
+import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({
   selector: 'app-invoices-by-group',
   standalone: true,
-  imports: [RouterLink, SkeletonComponent, EmptyStateComponent],
+  imports: [
+    RouterLink,
+    SkeletonComponent,
+    EmptyStateComponent,
+    AmountVisibilityComponent,
+  ],
   templateUrl: './invoices-by-group.component.html',
   styleUrl: './invoices-by-group.component.scss',
 })
 export class InvoicesByGroupComponent {
-  @Input() group_name = '';
+  @Input() group_name!: InvoiceGroupModel;
   @Input() teller_id!: number;
-  @Input() invoices: [] | null = [];
+  @Input({ required: true }) invoices!: SingleInVoiceModel;
   @Output() goBackEvent = new EventEmitter<boolean>();
   searchType: EmptyStateModel = 'product';
 
@@ -24,21 +31,4 @@ export class InvoicesByGroupComponent {
     const isSelected_group = false;
     this.goBackEvent.emit(isSelected_group);
   }
-
-  // constructor(
-  //   private route: ActivatedRoute
-  // ) {
-  //   this.groupInfo = this.route.snapshot.data['GroupInfo'];
-  // }
-
-  // ngOnInit() {
-  //   this.groupInfo
-  //   console.log('the groupInfo value:', this.groupInfo)
-  //   // this.groupInfo$ = this.route.paramMap.pipe(map(params => {
-  //   //   const state = params.get('state');
-  //   //   return new InvoiceGroupModel(state);
-  //   // }
-
-  //   // ));
-  // }
 }
