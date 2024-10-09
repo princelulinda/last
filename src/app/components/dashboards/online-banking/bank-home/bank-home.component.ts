@@ -133,7 +133,7 @@ export class BankHomeComponent implements OnInit, OnDestroy {
           [this.corporateBankingMenus] = this.menuService.getBankingMenu(
             'banking',
             'Dashboard',
-            menus
+            this.configService.toArray(menus)
           );
         }
       },

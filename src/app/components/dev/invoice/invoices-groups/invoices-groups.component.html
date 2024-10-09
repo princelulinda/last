@@ -48,7 +48,7 @@
       @if (invoices_groups && invoices_groups.length > 0) {
         @for (item of invoices_groups; track $index) {
           <div
-            class="teller-card sm-radius shadow-sm gap-3"
+            class="teller-card lg-radius border border-1 border-light shadow-sm gap-3"
             role="button"
             (click)="getBillsByGroup()"
             tabindex="0">
@@ -68,9 +68,13 @@
                     </button> -->
                   </div>
                   <div class="text-dark">
-                    <span>{{ item.name }}</span>
+                    <span>{{ item.name || '---' }}</span>
                   </div>
-                  <div class="fs-x-small">20 Invoices</div>
+                  @if (item.bills > 1) {
+                    <div class="fs-x-small">{{ item.bills }} invoices</div>
+                  } @else {
+                    <div class="fs-x-small">{{ item.bills }} invoice</div>
+                  }
                 </div>
               </div>
               <div
@@ -94,17 +98,26 @@
                 </div>
                 <div class="d-flex justify-content-around flex-row">
                   <div
-                    class="col-4 rounded-circle bg-white d-flex justify-content-center">
+                    class="col-4 rounded-circle bg-white d-flex justify-content-center userSize">
                     <span class="d-flex align-items-center"
                       ><i class="fa-solid fa-user fa-lg pb-1 text-secondary"></i
                     ></span>
                   </div>
-                  <div class="d-flex flex-column me-3">
-                    <span class="fw-bold">{{
-                      item.merchant_teller.alias
-                    }}</span>
-                    <span class="fs-small">{{ item.merchant_teller.id }}</span>
-                  </div>
+                  @if (item.merchant_teller) {
+                    <div class="d-flex flex-column me-3">
+                      <span class="fw-bold fs-normal">{{
+                        item.merchant_teller.alias || '---'
+                      }}</span>
+                      <span class="fs-small">{{
+                        item.merchant_teller.id || '----'
+                      }}</span>
+                    </div>
+                  } @else {
+                    <div class="d-flex flex-column me-3">
+                      <span class="fw-bold fs-normal">-----</span>
+                      <span class="fs-small">-----</span>
+                    </div>
+                  }
                 </div>
               </div>
             </div>
@@ -150,4 +163,15 @@
     [teller_id]="GroupInfo.merchant_teller.id"
     [invoices]="invoices"
     (goBackEvent)="getGoBackEvent($event)"></app-invoices-by-group>
+}
+
+@if (count > 10) {
+  <div class="mt-5 mb-5 pt-5 text-center">
+    <app-pagination
+      [isLoading]="isLoading"
+      [totalData]="count"
+      [pageLimit]="invocesPagination.filters.limit"
+      (paginationChange)="onPaginationChange($event)">
+    </app-pagination>
+  </div>
 }
