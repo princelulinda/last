@@ -12,6 +12,7 @@ import { AmountVisibilityComponent } from '../../../global/components/custom-fie
 import { SelectedClientSmallOverviewComponent } from '../selected-client-small-overview/selected-client-small-overview.component';
 import { RouterLink } from '@angular/router';
 import { ClientWorkstationModel, CreditsLineModel } from '../client.model';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-client-credits-line',
@@ -27,14 +28,12 @@ import { ClientWorkstationModel, CreditsLineModel } from '../client.model';
 })
 export class ClientCreditsLineComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
-  @Input() selectedClient: ClientWorkstationModel =
-    {} as ClientWorkstationModel;
+  @Input() selectedClient!: ClientWorkstationModel | null;
 
   organization$: Observable<OrganizationModel | null>;
-  amountState$!: Observable<boolean>;
+
   organization!: OrganizationModel | null;
 
-  amountState = false;
   isLoading = false;
 
   creditsLine!: CreditsLineModel[] | null;
@@ -45,20 +44,25 @@ export class ClientCreditsLineComponent implements OnInit, OnDestroy {
   selectedCreditLine!: CreditsLineModel;
   balance_currency: CurrencyModel = 'BIF';
   customClasses = ['text-success', 'fw-bold'];
-
+  showAmounts = false;
+  showAmounts$: Observable<boolean>;
+  theme$: Observable<ModeModel>;
+  theme!: ModeModel;
   constructor(
     private loanService: LoanService,
     private configService: ConfigService,
     private dialogService: DialogService
   ) {
     this.organization$ = this.configService.getSelectedOrganization();
-    this.amountState$ = this.dialogService.getAmountState();
+    this.showAmounts$ = this.dialogService.getAmountState();
+    this.theme$ = this.configService.getMode();
   }
 
   ngOnInit(): void {
-    this.amountState$.subscribe({
-      next: state => {
-        this.amountState = state;
+    this.theme$.subscribe({
+      next: theme => {
+        this.theme = theme;
+        //console.log('themmeee', this.theme);
       },
     });
     this.organization$.pipe(takeUntil(this.onDestroy$)).subscribe({
@@ -72,6 +76,7 @@ export class ClientCreditsLineComponent implements OnInit, OnDestroy {
   }
 
   selectCreditLine(creditLine: CreditsLineModel) {
+    // console.log('Selecting credit line:', creditLine);
     this.selectedCreditLine = creditLine;
     this.getCreditLineDetails();
   }
@@ -81,12 +86,26 @@ export class ClientCreditsLineComponent implements OnInit, OnDestroy {
       .getLoanLineListByClient(this.id)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (credits: { objects: CreditsLineModel[] }) => {
-          this.creditsLine = credits.objects;
+        next: response => {
+          this.creditsLine = response.objects;
+        },
+        error: err => {
+          console.error('Erreur :', err);
+          this.isLoading = false;
         },
       });
   }
+
+  toggleAmountVisibility() {
+    this.dialogService.displayAmount();
+  }
+
   getCreditLineDetails() {
+    if (!this.selectedCreditLine) {
+      //   console.error('selectedCreditLine is undefined');
+      return;
+    }
+
     this.isLoading = true;
     this.creditLine = null;
     this.loanService
@@ -109,12 +128,6 @@ export class ClientCreditsLineComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.creditsLine = null;
-    this.creditLine = null;
-
-    this.isLoading = true;
-
-    this.getCreditsLineList();
     this.getCreditLineDetails();
   }
 
