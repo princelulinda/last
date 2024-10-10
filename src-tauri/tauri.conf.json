@@ -2,6 +2,7 @@
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
     "beforeBuildCommand": "ng build --configuration=bbs",
+
     "beforeDevCommand": "ng serve --configuration=bbs",
     "devPath": "http://localhost:4200",
     "distDir": "../dist/ng-magis-erp"
