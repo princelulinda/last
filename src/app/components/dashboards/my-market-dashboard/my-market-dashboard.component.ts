@@ -27,7 +27,6 @@ import {
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
-import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
 import {
   activeMainConfigModel,
   ModeModel,
@@ -48,6 +47,7 @@ import {
   MenuSimpleModel,
   TypeMenuModel,
 } from '../../../core/db/models/menu/menu.models';
+import { LookupModel } from '../../../global/models/global.models';
 
 @Component({
   selector: 'app-my-market-dashboard',
@@ -78,7 +78,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   clientInfo: UserInfoModel[] | [] | null = null;
   clientInfo$: Observable<UserInfoModel>;
   amount: string | number | null = 0;
-  selectedClient!: ItemModel | null;
+  selectedClient!: LookupModel | null;
   isLoadingInfo = false;
 
   merchantId!: string | number;
@@ -245,7 +245,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
 
     const body = {
       amount: this.billForm.value.amount,
-      client: (this.selectedClient as ItemModel).id,
+      client: (this.selectedClient as LookupModel).id,
       description: this.billForm.value.description,
       merchant_id: this.merchantId,
       pin_code: this.pin,
@@ -273,7 +273,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
           }
           this.successMessage = {
             debit_account: '',
-            name: (this.selectedClient as ItemModel).lookup_title,
+            name: (this.selectedClient as LookupModel).lookup_title,
             merchantName: (this.merchant as MerchantModel).client
               .client_full_name,
 
@@ -322,7 +322,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
         },
       });
   }
-  selectClient(event: ItemModel | null) {
+  selectClient(event: LookupModel | null) {
     if (event) {
       this.selectedClient = event;
     } else {

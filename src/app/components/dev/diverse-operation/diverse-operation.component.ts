@@ -4,7 +4,7 @@ import { OrganizationModel } from '../../auth/auth.model';
 import { Observable } from 'rxjs';
 import { ConfigService } from '../../../core/services';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
-import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
+import { AutocompleteModel } from '../../../global/models/global.models';
 
 @Component({
   selector: 'app-diverse-operation',
@@ -17,10 +17,10 @@ export class DiverseOperationComponent {
   operation!: string | null;
   descriptionForm: FormGroup;
 
-  tellerSender!: ItemModel | null;
-  tellerReceiver!: ItemModel | null;
-  sender!: ItemModel | null;
-  receiver!: ItemModel | null;
+  tellerSender: AutocompleteModel | null = null;
+  tellerReceiver: AutocompleteModel | null = null;
+  sender: AutocompleteModel | null = null;
+  receiver: AutocompleteModel | null = null;
 
   organization$: Observable<OrganizationModel | null>;
   constructor(
@@ -39,13 +39,13 @@ export class DiverseOperationComponent {
     this.descriptionForm.reset();
   }
 
-  getTellerSender(teller: ItemModel | null) {
+  getTellerSender(teller: AutocompleteModel | null) {
     this.descriptionForm.reset();
     this.tellerSender = teller;
     this.sender = teller;
   }
 
-  getTellerReceiver(teller: ItemModel | null) {
+  getTellerReceiver(teller: AutocompleteModel | null) {
     this.descriptionForm.reset();
     this.tellerReceiver = teller;
     this.receiver = teller;

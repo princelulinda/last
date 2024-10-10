@@ -14,13 +14,13 @@ import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-mo
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { CommonModule } from '@angular/common';
 import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
-import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
 import {
   AssignOperatorBodyModel,
   CounterDetailsModel,
   CounterTellerModel,
   CounterTreasurerModel,
   MainBoxModel,
+  TreasurerAutocompleteModel,
 } from '../operation.model';
 
 @Component({
@@ -50,12 +50,11 @@ export class CounterDetailsComponent implements OnInit, OnDestroy {
   mainBoxLoading = false;
   assignationLoading = false;
 
-  // selectedMenu = 'details';
   showDetails = true;
 
-  selectedOperator!: ItemModel | null;
-  // selectedAgence: any;
-  selectedTreasurer!: ItemModel | null;
+  selectedOperator!: TreasurerAutocompleteModel | null;
+
+  selectedTreasurer!: TreasurerAutocompleteModel | null;
   pin!: string;
 
   isTeller!: boolean | null;
@@ -296,7 +295,7 @@ export class CounterDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectItem(data: ItemModel | null, itemName: string) {
+  selectItem(data: TreasurerAutocompleteModel | null, itemName: string) {
     if (itemName === 'operator') {
       this.selectedOperator = data;
       this.isTeller = data?.is_teller ?? null;
