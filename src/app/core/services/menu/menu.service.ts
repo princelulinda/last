@@ -3,7 +3,7 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import { ApiService, GeneralService } from '..';
+import { ApiService, ConfigService, DialogService, GeneralService } from '..';
 import {
   MenuGroupAndMenusSimpleModel,
   MenuSimpleModel,
@@ -16,6 +16,7 @@ import { PageMenusModel } from '../../../components/admin/menu/menu.models';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { AccessModel } from '../../../components/admin/access/access.models';
 import { MetadataModel } from '../../../components/metadatas/metadata.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,10 @@ export class MenuService {
 
   constructor(
     private apiService: ApiService,
-    private generalService: GeneralService
+    private generalService: GeneralService,
+    private dialogService: DialogService,
+    private configService: ConfigService,
+    private router: Router
   ) {}
 
   setPageMenus(menus: PageMenusModel[]) {
@@ -64,11 +68,33 @@ export class MenuService {
       .pipe(map(data => data as { objects: MetadataModel[]; count: number }));
   }
 
-  getAccesses(): Observable<{ objects: AccessModel[]; count: number }> {
+  getAccesses(
+    redirectTo: string,
+    activateRedirect = true
+  ): Observable<{ objects: AccessModel[]; count: number }> {
+    this.dialogService.dispatchLoading('topLoader');
+    this.configService.clearActiveAccesses();
     const url = `/hr/access/acl/roles/`;
     return this.apiService
       .get<{ objects: AccessModel[]; count: number }>(url)
-      .pipe(map(data => data));
+      .pipe(
+        map(data => {
+          this.manageAccesses(data.objects, redirectTo, activateRedirect);
+          return data;
+        })
+      );
+  }
+
+  private manageAccesses(
+    data: AccessModel[],
+    redirectTo: string,
+    activateRedirect: boolean
+  ) {
+    this.configService.setActiveAccesses(data);
+    this.dialogService.closeLoading();
+    if (activateRedirect) {
+      this.router.navigate([redirectTo]);
+    }
   }
 
   getMenuByActivateRoute(
@@ -234,5 +260,21 @@ export class MenuService {
       }
     }
     return pathName;
+  }
+
+  setSelectedMenu(
+    menu: MenuSimpleModel,
+    url: string,
+    event?: MouseEvent,
+    enableRedirection?: boolean
+  ): MenuSimpleModel {
+    if (event) {
+      event.preventDefault();
+    }
+
+    this.setLocalSelectedMenu(menu.id);
+    // NOTE :: GETTING ACCESS MENUS
+    this.getAccesses(url, enableRedirection);
+    return menu;
   }
 }
