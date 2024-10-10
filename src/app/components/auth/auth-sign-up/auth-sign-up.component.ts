@@ -167,7 +167,6 @@ export class AuthSignUpComponent implements OnInit {
   createAccount() {
     this.isLoadingCreation = true;
     const data = {
-      // creation_client: this.id,
       creation_client: this.id,
       organization: this.bankId,
       picture: '',
