@@ -31,6 +31,7 @@
               (selectedItemEvent)="selectClient($event)"
               option="lookup"
               url="/clients/list/all/object_lookup/?list_type=all&externel_request=true&lookup_data="
+              [lookupDefaultSearch]="activeLink"
               label="Search by client ID or Email"></app-lookup>
           </div>
           <div class="col">
