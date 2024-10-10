@@ -168,7 +168,7 @@ export class AuthSignUpComponent implements OnInit {
     this.isLoadingCreation = true;
     const data = {
       // creation_client: this.id,
-      creation_client: this.activeLink || this.id,
+      creation_client: this.id || this.activeLink,
       organization: this.bankId,
       picture: '',
       write_picture:
