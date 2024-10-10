@@ -165,9 +165,6 @@ export class SignaturesComponent implements OnInit, OnDestroy {
 
   selectSetting(setting: string) {
     this.selectedSetting = setting;
-    if (this.selectedSetting === 'contactDetails') {
-      this.selectedSection = '';
-    }
   }
 
   expandSignatures() {

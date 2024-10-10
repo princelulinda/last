@@ -59,14 +59,14 @@
           </div>
         }
 
-        <div class="p-2 bg-secondary text-dark text-start h-100">
+        <div class="p-2 bg-secondary text-start h-100">
           <div
             class="p-2"
             role="button"
             [ngClass]="{
-              selected: selectedSetting === 'signatures',
+              'bg-all-white text-all-dark': selectedSetting === 'signatures',
               'text-dark': theme === 'light',
-              'text-light': theme === 'dark',
+              'text-all-dark': theme === 'dark',
             }"
             (click)="selectSetting('signatures')"
             tabindex="0"
@@ -75,16 +75,17 @@
           </div>
 
           <div
-            class="p-2 text-dark"
+            class="p-2"
             role="button"
-            [ngClass]="{
-              selected: selectedSetting === 'contactDetails',
-              'text-dark': theme === 'light',
-              'text-light': theme === 'dark',
-            }"
             (click)="selectSetting('contactDetails')"
             tabindex="0"
-            i18n>
+            i18n
+            [ngClass]="{
+              'bg-all-white text-all-dark':
+                selectedSetting === 'contactDetails',
+              'text-dark': theme === 'light',
+              'text-all-dark': theme === 'dark',
+            }">
             Contact details
           </div>
         </div>

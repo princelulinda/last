@@ -53,7 +53,7 @@ export class ClientWalletListComponent implements OnInit, OnDestroy {
   selectedWllet: WalletList | null = null;
   selectedWalletTypeId: number | null = null;
   selectedAgencyId: number | null = null;
-  selectedLoneWallet!: WalletList;
+  selectedLoneWallet: WalletList | null = null;
   showWallet = false;
   isLoadingCreation = false;
   private onDestroy$ = new Subject<void>();
@@ -113,6 +113,7 @@ export class ClientWalletListComponent implements OnInit, OnDestroy {
           if (this.walletsWorkStation && this.walletsWorkStation.length > 0) {
             this.selectedLoneWallet = this.walletsWorkStation[0];
             this.walletSelected.emit(this.selectedLoneWallet);
+            console.log('Selected Wallet:', this.selectedLoneWallet);
           }
         },
         error: err => {
@@ -125,5 +126,6 @@ export class ClientWalletListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+    this.selectedWllet = null;
   }
 }

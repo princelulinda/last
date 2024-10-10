@@ -137,17 +137,6 @@
                       }}</b>
                     </div>
                   </div>
-                  <!--<div
-                            *ngIf="selectedMenu"
-                            (click)="goBack()"
-                            role="button"
-                            class="d-flex align-items-center text-l-md"
-                        >
-                            <span>
-                                <i class="fa fa-arrow-left"></i>
-                            </span>
-                            <b class="ms-1"> Back</b>
-                        </div>-->
                 </div>
               </div>
 
@@ -203,22 +192,8 @@
                             >No</b
                           >
                         }
-                        <!-- <b
-                                        role="button"
-                                        class="text-sm text-secondary"
-                                        style="text-decoration: underline"
-                                        (click)="toggleAcceptsTobeAgent()"
-                                        i18n
-                                        >Change</b
-                                    >-->
                       </div>
                     }
-
-                    <!-- <b *ngIf="isLoading">
-                                    <i
-                                        class="fa-solid fa-pulse fa-spinner text-dark"
-                                    ></i>
-                                </b> -->
                   </div>
 
                   <div
@@ -244,60 +219,6 @@
               </div>
 
               <!-- skeletons  loader -->
-              @if (agentsLoading) {
-                <div class="row mx-0" style="gap: 2rem">
-                  <!-- <div
-                            class="col-sm-8 col-md-4"
-                            style="height: 105px"
-                            *ngFor="let item of [1, 2, 3, 4]"
-                        >
-                            <ngx-skeleton-loader
-                                [theme]="{ height: '100%' }"
-                            ></ngx-skeleton-loader>
-                        </div> -->
-                </div>
-              }
-              <!-- <div
-                        class="row mx-0"
-                        style="gap: 1.5rem"
-                        *ngIf="!agentsLoading"
-                    >
-                        <div
-                            class="border lg-radius border-primary border-2 d-flex justify-content-between p-3 col-sm-8 col-md-4 align-items-end clickable"
-                            routerLink="/w/workstation/desk/agent/detail/{{
-                                item.id
-                            }}"
-                            title="Show Details"
-                            *ngFor="let item of agent"
-                        >
-                            <div class="d-flex flex-column">
-                                <b class="text-md text-dark mb-3">
-                                    {{ item.agent_name ?? '-----' }}
-                                </b>
-                                <span class="text-dark">
-                                    {{ item.agent_code ?? '-----' }}
-                                </span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="text-dark me-2" i18n>
-                                    Active
-                                </span>
-                                <span>
-                                    <span class="ms-1" *ngIf="item.is_active">
-                                        <i
-                                            class="fa-solid fa-circle-check text-success"
-                                        ></i>
-                                    </span>
-                                    <span class="ms-1" *ngIf="!item.is_active">
-                                        <i
-                                            class="fa-solid fa-circle-xmark text-danger"
-                                        ></i>
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-
-                    </div> -->
             </section>
           }
         </section>

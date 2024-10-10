@@ -630,10 +630,14 @@
               [ngClass]="{
                 'not-clickable': isLoading,
               }">
-              <span *ngIf="!isLoading" i18n>Add</span>
-              <span *ngIf="isLoading"
-                ><i class="text-dark fa-solid fa-spin fa-circle-notch"></i
-              ></span>
+              @if (!isLoading) {
+                <span i18n>Add</span>
+              }
+              @if (isLoading) {
+                <span
+                  ><i class="text-dark fa-solid fa-spin fa-circle-notch"></i
+                ></span>
+              }
             </button>
           </div>
         </form>

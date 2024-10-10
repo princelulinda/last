@@ -20,6 +20,7 @@ import { AmountVisibilityComponent } from '../../../global/components/custom-fie
 import { OrganizationModel } from '../../auth/auth.model';
 import { LoanListModel, LoanModel } from '../../loan/loan.models';
 import { ClientWorkstationModel } from '../client.model';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-client-credits',
@@ -40,14 +41,13 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
   organization$!: Observable<OrganizationModel | null>;
   organization!: OrganizationModel | null;
 
-  amountState$!: Observable<boolean>;
   amountState = false;
 
   isLoading = false;
   balance_currency: CurrencyModel = 'BIF';
   customClasses = 'text-success fs-x-small';
 
-  @Input() selectedClient!: ClientWorkstationModel;
+  @Input() selectedClient!: ClientWorkstationModel | null;
 
   plan!: boolean;
   credits: LoanListModel[] | null = null;
@@ -56,6 +56,10 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
   clientId!: number;
   id!: number;
   selectedCredit: LoanListModel | null = null;
+  showAmounts = false;
+  showAmounts$: Observable<boolean>;
+  theme$: Observable<ModeModel>;
+  theme!: ModeModel;
 
   headersPlan = [
     {
@@ -110,15 +114,18 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {
     this.organization$ = this.configService.getSelectedOrganization();
-    this.amountState$ = this.dialogService.getAmountState();
+
+    this.showAmounts$ = this.dialogService.getAmountState();
+    this.theme$ = this.configService.getMode();
   }
 
   ngOnInit(): void {
-    this.amountState$.subscribe({
-      next: state => {
-        this.amountState = state;
+    this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: theme => {
+        this.theme = theme;
       },
     });
+
     this.organization$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: organization => {
         this.organization = organization;
@@ -137,6 +144,10 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
     this.getCreditDetails();
   }
 
+  toggleAmountVisibility() {
+    this.dialogService.displayAmount();
+  }
+
   selectPlan() {
     this.plan = !this.plan;
   }
@@ -148,7 +159,7 @@ export class ClientCreditsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (credits: { objects: LoanListModel[] }) => {
           this.credits = credits.objects;
-          console.log('=================>credits value:', this.credits);
+          //console.log('=================>credits value:', this.credits);
         },
         error: () => {
           this.isLoading = false;

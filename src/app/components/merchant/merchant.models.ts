@@ -225,6 +225,7 @@ export interface PayMerchantBodyModel {
   debit_bank: number;
   debit_account: string;
   debit_type: string;
+  debit_account_holder: string;
   pin_code: string;
   payment_data?: Record<string, string>;
   lookup_data?: Record<string, string>;
@@ -333,6 +334,8 @@ export interface getMerchantsProductsDetailsModel {
   id: string;
 }
 export interface TopClientsByAmountModel {
+  balance_currency: CurrencyModel;
+  total_paid: string | number;
   response_data: TopClientsByAmountModel[];
   num_payments: number;
   client_code: string;
