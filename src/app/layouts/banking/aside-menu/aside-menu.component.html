@@ -401,14 +401,14 @@
 
   @if (selectedBank) {
     <section class="mt-5 pt-5 d-none d-lg-block border-top">
-      <div class="border sm-radius d-flex align-items-center p-2">
+      <div class="border sm-radius d-flex align-items-center py-2 px-1">
         <div class="bank-logo">
           <img
             [src]="selectedBank.company.image"
             class="img-fluid"
             alt="{{ selectedBank.company.fullname }} Logo" />
         </div>
-        <div class="ms-3 d-flex flex-column">
+        <div class="ms-1 d-flex flex-column">
           <span class="fw-bold text-secondary" i18n>
             {{ selectedBank.company.fullname }}
           </span>

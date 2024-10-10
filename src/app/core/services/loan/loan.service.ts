@@ -132,12 +132,12 @@ export class LoanService {
       `/loans/manage/?cred_client_main_account__acc_client=${client_id}`
     );
   }
+
   getLoanLineListByClient(
     client_id: string
   ): Observable<{ objects: CreditsLineModel[] }> {
-    return this.apiService.get(
-      `/loans/manage/creditline/?crel_account__acc_client=${client_id}`
-    );
+    const url = `/clients/manage/creditline/?crel_account__acc_client=${client_id}`;
+    return this.apiService.get<{ objects: CreditsLineModel[] }>(url);
   }
   getLoanDetailsByClient(client_id: string, accountId: string) {
     return this.apiService.get(

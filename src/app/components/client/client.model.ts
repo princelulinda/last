@@ -1,5 +1,4 @@
-import { ItemModel } from '../../global/components/lookups/lookup/lookup.model';
-
+import { AutocompleteModel } from '../../global/models/global.models';
 import { SectorActivityModel } from '../merchant/merchant.models';
 
 export interface ClientWorkstationModel {
@@ -186,7 +185,7 @@ export interface ClientCategoryTypeModel {
 export interface ResponseDataAfterUpdate {
   response_code: string;
   response_data: {
-    changed: ItemModel;
+    changed: AutocompleteModel;
   };
   response_message: string;
   success: boolean;

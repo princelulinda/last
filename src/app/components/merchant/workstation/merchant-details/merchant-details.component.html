@@ -1,1 +1,1995 @@
-<p>Merchant details works</p>
+<!--container-->
+<div class="level-1 p-2 py-4 details-container">
+  <div
+    class="level-2 text-dark glob-cont overflow-hidden"
+    style="max-height: max-content">
+    <!-- Loader for the whole container  -->
+    @if (!merchant) {
+      <div
+        class="spinner-container d-flex justify-content-center align-items-center w-100">
+        <span class="spinner-border"> </span>
+      </div>
+    }
+    @if (merchant) {
+      <div class="d-flex">
+        <!-- Section for merchant profile -->
+
+        <section class="w-25 shadow pb-5">
+          <div class="d-grid p-3">
+            <div class="grid">
+              <div class="w-100 d-flex justify-content-end">
+                <b
+                  title="client details"
+                  [routerLink]="
+                    '/w/workstation/desk/client/details/' +
+                    merchant.client.client_id
+                  "
+                  role="button"
+                  class="text-primary-light fs-5">
+                  <i class="fa fa-arrow-up-right-from-square"></i>
+                </b>
+              </div>
+              <div class="d-flex justify-content-center">
+                <div class="d-grid">
+                  <div class="mb-1" style="width: 150px; height: 150px">
+                    @if (!merchant.client.picture) {
+                      <img
+                        src="images/userprofile.png"
+                        [alt]="merchant.client.client_full_name + '\'s picture'"
+                        class="img-fluid rad-20 image" />
+                    }
+                    @if (merchant.client.picture) {
+                      <img
+                        [src]="merchant.client.picture"
+                        [alt]="merchant.client.client_full_name + '\'s picture'"
+                        class="rad-20 img-fluid image level-1" />
+                    }
+                  </div>
+                  <div class="d-grid">
+                    <b class="text-md">{{
+                      merchant.client.client_full_name
+                    }}</b>
+                    <span class="text-md-sm">{{
+                      merchant.client.client_code
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3">
+              <div>
+                <div class="mb-3">
+                  <b class="text-primary-light text-md-sm" i18n
+                    >Basic client info</b
+                  >
+                </div>
+
+                <div class="d-grid mb-2">
+                  <b class="text-secondary text-sm" i18n>Client type</b>
+                  <b class="text-sm">{{ merchant.client.client_type.title }}</b>
+                </div>
+
+                <div class="d-grid mb-2">
+                  <b class="text-secondary text-sm" i18n>Client email</b>
+                  <b class="text-sm">{{ merchant.client.client_email }}</b>
+                </div>
+                <div class="d-grid mb-2">
+                  <b class="text-secondary text-sm" i18n>Client category</b>
+
+                  <b class="text-sm">{{ merchant.client_category }}</b>
+                </div>
+                <div class="d-grid mb-2">
+                  <b class="text-secondary text-sm" i18n>Agent</b>
+                  <b class="fs-5">
+                    @if (merchant.client.is_agent) {
+                      <span>
+                        <i class="fa fa-check-circle text-success"></i>
+                      </span>
+                    }
+                    @if (!merchant.client.is_agent) {
+                      <span>
+                        <i class="fa fa-circle-xmark text-danger"></i>
+                      </span>
+                    }
+                  </b>
+                </div>
+                <div class="d-grid mb-2">
+                  <b class="text-secondary text-sm" i18n>Merchant</b>
+                  <b class="fs-5">
+                    @if (merchant.client.is_merchant) {
+                      <span>
+                        <i class="fa fa-check-circle text-success"></i>
+                      </span>
+                    }
+                    @if (!merchant.client.is_merchant) {
+                      <span>
+                        <i class="fa fa-circle-xmark text-danger"></i>
+                      </span>
+                    }
+                  </b>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section for Merchant/products configurations -->
+
+        <section class="w-75">
+          <div class="p-4">
+            <div class="d-grid">
+              <!-- Merchants picture and code pined on the top of the section -->
+              <div class="d-flex justify-content-between align-items-start">
+                <div class="d-flex align-items-center">
+                  <div
+                    class="rounded-circle overflow-hidden me-3"
+                    style="width: 100px; height: 100px">
+                    @if (!merchant.client.picture) {
+                      <img
+                        class="image rounded-circle"
+                        src="images/userprofile.png"
+                        alt="" />
+                    }
+                    @if (merchant.client.picture) {
+                      <img
+                        [src]="merchant.client.picture"
+                        [alt]="merchant.client.client_full_name + '\'s picture'"
+                        class="image rounded-circle" />
+                    }
+                  </div>
+                  <div class="d-grid">
+                    <b class="text-l">{{ merchant.merchant_title }}</b>
+                    <b class="text-md">{{ merchant.merchant_code }}</b>
+                  </div>
+                </div>
+                @if (selectedMenu) {
+                  <div
+                    tabindex="0"
+                    (click)="goBack()"
+                    role="button"
+                    class="d-flex align-items-center text-l-md">
+                    <span>
+                      <i class="fa fa-arrow-left"></i>
+                    </span>
+                    <b class="ms-1" i18n> Back</b>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Overview/resumer of merchant details -->
+            @if (!selectedMenu) {
+              <div class="mt-3">
+                <div class="row">
+                  <div class="d-grid col">
+                    <div class="d-grid mt-3">
+                      <b class="text-secondary text-md-sm" i18n>Main account</b>
+                      <b class="text-md-sm text-dark">{{
+                        merchant.merchant_main_account
+                      }}</b>
+                    </div>
+                    <div class="d-flex row">
+                      <div class="d-grid mt-3 col">
+                        <b class="text-secondary text-md-sm" i18n
+                          >Available balance</b
+                        >
+                        <b class="text-sm text-dark">
+                          <app-amount-visibility
+                            [amount]="merchant.available_balance"
+                            [currency]="merchant.balance_currency"
+                            [ngClass]="
+                              'text-dark text-md-sm'
+                            "></app-amount-visibility>
+                        </b>
+                      </div>
+                      <div class="col">
+                        <div class="d-grid mt-3 ms-1">
+                          <b class="text-secondary text-md-sm" i18n> Slug</b>
+                          <b class="text-md-sm text-dark">{{
+                            merchant.slug
+                          }}</b>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex row">
+                      <div class="d-grid mt-3 col">
+                        <b class="text-secondary text-md-sm" i18n
+                          >Accept Simple Payment</b
+                        >
+                        @if (merchant.accepts_simple_payment) {
+                          <b>
+                            <i class="fa fa-check-circle text-success"></i>
+                          </b>
+                        }
+                        @if (!merchant.accepts_simple_payment) {
+                          <b>
+                            <i class="fa fa-circle-xmark text-danger"></i>
+                          </b>
+                        }
+                      </div>
+                      <div class="d-grid mt-3 col">
+                        <b class="text-secondary text-md-sm ms-1" i18n
+                          >Accept Cart</b
+                        >
+                        @if (merchant.accepts_cart) {
+                          <b>
+                            <i class="fa fa-check-circle text-success"></i>
+                          </b>
+                        }
+                        @if (!merchant.accepts_cart) {
+                          <b>
+                            <i class="fa fa-circle-xmark text-danger"></i>
+                          </b>
+                        }
+                      </div>
+                    </div>
+                    <div class="d-grid mt-3">
+                      <b class="text-secondary text-md-sm" i18n>Has cashin</b>
+                      @if (merchant.has_cashin) {
+                        <b>
+                          <i class="fa fa-check-circle text-success"></i>
+                        </b>
+                      }
+                      @if (!merchant.has_cashin) {
+                        <b>
+                          <i class="fa fa-circle-xmark text-danger"></i>
+                        </b>
+                      }
+                    </div>
+                    <div class="row">
+                      @if (merchant.reference_client) {
+                        <div class="col d-flex mt-3 gap-4">
+                          <div>
+                            <b class="text-secondary text-md-sm" i18n
+                              >Reference Person</b
+                            >
+                          </div>
+                          <div class="d-flex gap-2">
+                            <div class="size-pic sm-radius">
+                              @if (!merchant.reference_client.picture) {
+                                <img
+                                  alt=""
+                                  class="image sm-radius"
+                                  src="/src/assets/images/assets/images/userprofile.png" />
+                              }
+                              @if (merchant.reference_client.picture) {
+                                <img
+                                  class="image sm-radius"
+                                  alt=""
+                                  [src]="merchant.reference_client.picture" />
+                              }
+                            </div>
+                            <div>
+                              <div class="mt-2">
+                                <b>
+                                  {{
+                                    merchant.reference_client.client_full_name
+                                  }}</b
+                                >
+                              </div>
+
+                              <div>
+                                <b>
+                                  {{ merchant.reference_client.client_code }}</b
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      }
+                      <div class="col d-flex mt-3 justify-content-between">
+                        <div class="">
+                          <div>
+                            <b class="text-md-sm text-secondary" i18n
+                              >Accept simple payments</b
+                            >
+                          </div>
+                          @if (!isLoading) {
+                            <div>
+                              @if (merchant.accepts_simple_payment) {
+                                <div
+                                  tabindex="0"
+                                  (click)="showModal()"
+                                  class="switch border d-flex justify-content-end align-items-center px-1 bg-primary">
+                                  <span
+                                    class="fa fa-circle text-light"
+                                    role="button"></span>
+                                </div>
+                              }
+                              @if (!merchant.accepts_simple_payment) {
+                                <div
+                                  tabindex="0"
+                                  (click)="showModal()"
+                                  class="switch border d-flex align-items-center px-1 level-3">
+                                  <span
+                                    class="fa fa-circle text-light"
+                                    role="button"></span>
+                                </div>
+                              }
+                            </div>
+                          }
+                          <div>
+                            @if (isLoading) {
+                              <b>
+                                <i
+                                  class="fa-solid fa-pulse fa-spinner text-dark"></i>
+                              </b>
+                            }
+                          </div>
+                        </div>
+                        <div class="d-grid justify-content-end">
+                          <div
+                            tabindex="0"
+                            class="bg-primary d-flex justify-content-center p-2 px-2"
+                            (click)="selectMenu('products')"
+                            role="button"
+                            title="Product">
+                            <div>
+                              <i class="fa-solid fa-box text-light"></i>
+                            </div>
+                          </div>
+                          <div
+                            class="bg-primary d-flex justify-content-center mt-1 p-2 px-3"
+                            role="button"
+                            title="Statement"
+                            data-bs-toggle="modal"
+                            data-bs-target="#statementModal">
+                            <div>
+                              <i
+                                class="fa-solid fa-clock-rotate-left text-light"></i>
+                            </div>
+                          </div>
+                          <div
+                            tabindex="0"
+                            class="bg-primary d-flex justify-content-center mt-1 p-2 px-3"
+                            (click)="selectMenu('configuration')"
+                            role="button"
+                            title="Configuration">
+                            <div>
+                              <i
+                                class="fa-solid fa-screwdriver-wrench text-light"></i>
+                            </div>
+                          </div>
+                          <div
+                            tabindex="0"
+                            class="bg-primary d-flex justify-content-center mt-1 p-2 px-3"
+                            (click)="selectMenu('tellers')"
+                            role="button"
+                            title="Tellers">
+                            <div>
+                              <i
+                                class="fa-solid fa-person-chalkboard text-light"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+
+            <!-- Configurations/ teller addition -->
+            @if (selectedMenu === 'tellers') {
+              <div class="mt-5">
+                <div>
+                  <div class="d-grid text-secondary">
+                    <div class="d-flex align-items-center row">
+                      <div class="text-md-sm col-3 d-flex align-items-center">
+                        <b class="me-2" i18n>Notifications</b>
+                        <b>
+                          <i class="fa fa-bell"></i>
+                        </b>
+                      </div>
+                      <div class="text-md-sm col-3 d-flex align-items-center">
+                        <b class="me-2" i18n>Admin</b>
+                        <b>
+                          <i class="fa fa-user-tie"></i>
+                        </b>
+                      </div>
+                      <div class="text-md-sm col-3 d-flex align-items-center">
+                        <b class="me-2" i18n>Superadmin</b>
+                        <b>
+                          <i class="fa-brands fa-black-tie"></i>
+                        </b>
+                      </div>
+                    </div>
+                    <div class="d-flex gap-4">
+                      <hr class="w-75 mt-2" />
+                      <div class="w-25 mb-4 d-flex">
+                        <button
+                          [disabled]="!tellers"
+                          class="btn border-primary text-dark"
+                          data-bs-toggle="modal"
+                          data-bs-target="#newTellerModal"
+                          #closeModal
+                          (click)="toggleModal()">
+                          <b
+                            class="mini-title"
+                            [ngClass]="{
+                              'text-dark': theme === 'magis-dark',
+                            }"
+                            >Add teller</b
+                          >
+                        </button>
+                      </div>
+                    </div>
+                    <!--modAL-->
+                    <div
+                      class="modal fade"
+                      data-mdb-backdrop="false"
+                      id="newTellerModal">
+                      <div
+                        class="modal-dialog inner-container w-100 d-flex justify-content-center h-100 align-items-center overflow-auto"
+                        style="min-width: 75%">
+                        <div class="modal-content w-75 h-75">
+                          @if (tellerCreationDone) {
+                            <main class="p-4">
+                              <section class="">
+                                <div
+                                  class="w-100 d-flex justify-content-between">
+                                  <div class="mb-4">
+                                    <span
+                                      class="l-title"
+                                      [ngClass]="{
+                                        'text-dark': theme === 'magis-dark',
+                                      }"
+                                      >New Teller</span
+                                    >
+                                  </div>
+                                  <b
+                                    role="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#newTellerModal">
+                                    <i class="fa fs-4 fa-xmark"></i>
+                                  </b>
+                                </div>
+                              </section>
+                              <section>
+                                <div
+                                  [formGroup]="newTellerForm"
+                                  [ngClass]="{
+                                    'not-clickable': isTellerLoading,
+                                  }">
+                                  <div>
+                                    <div
+                                      class="d-flex justify-content-start mb-3">
+                                      <!-- <app-lookup
+                                                                    class="w-resp-client"
+                                                                    option="lookup"
+                                                                    (selectedItemEvent)="
+                                                                        getClientInfo(
+                                                                            $event
+                                                                        )
+                                                                    "
+                                                                    url="/clients/list/all/object_lookup?lookup_data="
+                                                                    lookupLabel="Enter client id"
+                                                                    itemsLabel="Enter client id"
+                                                                ></app-lookup> -->
+                                    </div>
+                                  </div>
+                                  <div class="form-floating my-4 col-lg-6">
+                                    <input
+                                      type="text"
+                                      class="input border form-control bg-input"
+                                      [ngClass]="{
+                                        'border-secondary':
+                                          theme === 'magis-light',
+                                        'border-dark bg-white text-dark':
+                                          theme === 'magis-dark',
+                                      }"
+                                      id="slug"
+                                      placeholder="alias"
+                                      formControlName="alias" />
+                                    <label
+                                      for="slug"
+                                      class="label-input ms-label"
+                                      [ngClass]="{
+                                        'text-dark': theme === 'magis-dark',
+                                      }"
+                                      >Alias</label
+                                    >
+                                  </div>
+                                  <div class="d-flex">
+                                    <span
+                                      class="me-2 text-md"
+                                      style="color: rgba(65, 65, 65, 1)"
+                                      [ngClass]="{
+                                        'text-dark': theme === 'magis-dark',
+                                      }"
+                                      i18n
+                                      >Can receive notifications</span
+                                    >
+                                    <div
+                                      tabindex="0"
+                                      role="button"
+                                      (click)="toggleNotificationsCheckbox()">
+                                      @if (isChecked) {
+                                        <span>
+                                          <i
+                                            class="fa-regular fa-square-check fs-4 text-dark"></i>
+                                        </span>
+                                      }
+                                      @if (!isChecked) {
+                                        <span>
+                                          <i
+                                            class="fa-regular fa-square fs-4 text-dark"></i>
+                                        </span>
+                                      }
+                                    </div>
+                                  </div>
+                                  <div class="mt-3">
+                                    <button
+                                      (click)="createNewTeller()"
+                                      [ngClass]="{
+                                        'not-clickable text-light':
+                                          newTellerForm.invalid,
+                                      }"
+                                      class="btn bg-primary px-4-5">
+                                      @if (isTellerLoading) {
+                                        <span class="">
+                                          <i
+                                            class="fa-solid fa-spin fa-circle-notch fs-4"></i>
+                                        </span>
+                                      }
+                                      <b
+                                        [ngClass]="{
+                                          'text-light': theme === 'magis-dark',
+                                        }"
+                                        *ngIf="!isTellerLoading"
+                                        >Confirm</b
+                                      >
+                                    </button>
+                                  </div>
+                                </div>
+                              </section>
+                            </main>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <b i18n>Tellers</b>
+                  </div>
+                  @if (!tellers) {
+                    <div>
+                      <div class="row">
+                        <div class="d-flex mb-3 align-items-center col-auto">
+                          <div class="d-grid">
+                            <span class="">
+                              <!-- <ngx-skeleton-loader
+                                                    [theme]="{
+                                        'height.px': 10,
+                                        'width.px': 100,
+                                    }"
+                                                ></ngx-skeleton-loader> -->
+                            </span>
+                            <span class="">
+                              <!-- <ngx-skeleton-loader
+                                                    [theme]="{
+                                        'height.px': 10,
+                                        'width.px': 100,
+                                    }"
+                                                ></ngx-skeleton-loader> -->
+                            </span>
+                            <span class="">
+                              <!-- <ngx-skeleton-loader
+                                                    [theme]="{
+                                        'height.px': 10,
+                                        'width.px': 100,
+                                    }"
+                                                ></ngx-skeleton-loader> -->
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                  @if (tellers && tellers.length > 0) {
+                    <div class="row">
+                      @for (teller of tellers; track teller) {
+                        <div
+                          tabindex="0"
+                          data-bs-toggle="modal"
+                          data-bs-target="#tellersModal"
+                          role="button"
+                          (click)="displayTellerInfo(teller)"
+                          class="col-lg-4 col-md-6 mb-3 is-hoverable"
+                          role="button">
+                          <div class="d-flex align-items-start">
+                            <div
+                              style="height: 86px; width: 86px"
+                              class="me-3 overflow-hidden rounded">
+                              @if (!teller.client.picture) {
+                                <img
+                                  alt=""
+                                  src="images/userprofile.png"
+                                  class="image rounded" />
+                              }
+
+                              @if (teller.client.picture) {
+                                <img
+                                  alt=""
+                                  [src]="teller.client.picture"
+                                  class="image rounded" />
+                              }
+                            </div>
+                            <div class="d-grid pt-0-1">
+                              <b class="text-dark text-md">{{
+                                teller?.client?.client_full_name
+                              }}</b>
+                              <b class="text-dark text-md">{{
+                                teller?.client?.client_code
+                              }}</b>
+                              <div class="d-flex align-items-center">
+                                @if (teller.can_receive_notifications) {
+                                  <b class="me-2">
+                                    <i class="fa fa-bell"></i>
+                                  </b>
+                                }
+
+                                @if (teller?.teller_type?.value === 'A') {
+                                  <b class="me-2">
+                                    <i class="fa fa-user-tie"></i>
+                                  </b>
+                                }
+                                @if (teller?.teller_type?.value === 'S') {
+                                  <b>
+                                    <i class="fa-brands fa-black-tie"></i>
+                                  </b>
+                                }
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+                  @if (tellers && tellers.length === 0) {
+                    <div class="my-4">
+                      <b class="text-l text-secondary" i18n>No tellers found</b>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+
+            <!-- Configuration/modification produit -->
+            @if (selectedMenu === 'products') {
+              <div class="mt-5">
+                @if (!selectedSubMenu) {
+                  <div>
+                    <div class="d-grid">
+                      <div
+                        class="mb-2 w-100 d-flex justify-content-between align-items-center">
+                        <b i18n>Products list</b>
+
+                        <div>
+                          <div class="d-flex align-items-center mt-3">
+                            <input
+                              type="text"
+                              class="input form-control py-1 border ps-5-6 rounded fs-5 level-2"
+                              name="search"
+                              [formControl]="search"
+                              (input)="searchProducts(search.value)" />
+                            <span style="z-index: 10" class="m-left mt-1">
+                              @if (!isLoading) {
+                                <span
+                                  tabindex="0"
+                                  (click)="searchProducts(search.value)"
+                                  role="button">
+                                  <i class="fa fa-search fs-4"></i>
+                                </span>
+                              }
+                              @if (isLoading) {
+                                <span
+                                  ><i
+                                    class="fa-solid fa-pulse fa-spinner fs-5 text-dark"></i
+                                ></span>
+                              }
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <hr class="w-100 mt-2" />
+                    </div>
+                    @if (isProductsSearch && search.value) {
+                      <div>
+                        <div class="d-flex justify-content-start">
+                          <span
+                            class="my-2 d-flex align-items-center fw-bold border rounded p-1">
+                            <span class="me-3">{{ search.value }}</span>
+                            <span
+                              tabindex="0"
+                              (click)="getProducts()"
+                              title="clear search results"
+                              role="button">
+                              <i class="fa text-danger fa-xmark"></i>
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    }
+                    @if (!products) {
+                      <div>
+                        <div class="row">
+                          <div class="d-grid mb-3 col-auto">
+                            <div class="d-grid me-3">
+                              <span>
+                                <!-- <ngx-skeleton-loader
+                                                    [theme]="{
+                                        'height.px': 130,
+                                        'width.px': 130,
+                                    }"
+                                                ></ngx-skeleton-loader> -->
+                              </span>
+                            </div>
+                            <div class="d-grid">
+                              <span class="">
+                                <!-- <ngx-skeleton-loader
+                                                    [theme]="{
+                                        'height.px': 10,
+                                        'width.px': 100,
+                                    }"
+                                                ></ngx-skeleton-loader> -->
+                              </span>
+                              <span class="">
+                                <!-- <ngx-skeleton-loader
+                                                    [theme]="{
+                                        'height.px': 10,
+                                        'width.px': 100,
+                                    }"
+                                                ></ngx-skeleton-loader> -->
+                              </span>
+                              <span class="">
+                                <!-- <ngx-skeleton-loader
+                                                    [theme]="{
+                                        'height.px': 10,
+                                        'width.px': 100,
+                                    }"
+                                                ></ngx-skeleton-loader> -->
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                    @if (products && products.length > 0) {
+                      <div class="row">
+                        @for (product of products; track products) {
+                          <div
+                            role="button"
+                            class="d-grid mb-2 col-3 is-hoverable">
+                            @if (!isProductsSearch) {
+                              <div class="d-grid">
+                                @if (!product.icon) {
+                                  <span
+                                    class="text-center prod-card d-flex level-1 p-3 rounded justify-content-center align-items-center">
+                                    <i
+                                      class="fa-solid text-light fa-box-open"></i>
+                                  </span>
+                                }
+                                @if (product.icon) {
+                                  <span
+                                    class="text-center d-flex level-1 p-3 prod-card rounded justify-content-center align-items-center">
+                                    <i
+                                      class="text-light fa-solid fa-{{
+                                        product.icon
+                                      }}"></i>
+                                  </span>
+                                }
+                                <b class="text-md">{{ product.name }}</b>
+                                <b>{{ product.price | currency: ' ' }}</b>
+                              </div>
+                            }
+                            @if (isProductsSearch) {
+                              <div class="d-grid">
+                                @if (!product.lookup_icon) {
+                                  <span
+                                    class="text-center prod-card d-flex level-1 p-3 rounded justify-content-center align-items-center">
+                                    <i
+                                      class="fa-solid text-light fa-box-open"></i>
+                                  </span>
+                                }
+                                @if (product.lookup_icon) {
+                                  <span
+                                    class="text-center d-flex level-1 p-3 prod-card rounded justify-content-center align-items-center">
+                                    <i
+                                      class="text-light fa-solid fa-{{
+                                        product.lookup_icon
+                                      }}"></i>
+                                  </span>
+                                }
+                                <b class="text-md">{{
+                                  product.lookup_title
+                                }}</b>
+                                <b>{{
+                                  product.lookup_title | currency: ' '
+                                }}</b>
+                              </div>
+                            }
+                          </div>
+                        }
+                      </div>
+                    }
+                    @if (products && products.length === 0) {
+                      <div class="my-4 d-flex align-items-center">
+                        <b class="text-l me-4 text-secondary" i18n
+                          >No products found</b
+                        >
+                      </div>
+                    }
+                  </div>
+                }
+                @if (selectedSubMenu === 'details') {
+                  <div>
+                    <div class="d-grid">
+                      <div
+                        class="mb-2 w-100 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                          <b class="text-md me-2" i18n>Product details</b>
+                          <span
+                            tabindex="0"
+                            [ngClass]="product ? 'clickable' : 'not-clickable'"
+                            (click)="editProductInfo()"
+                            role="button">
+                            <i class="fa fa-pen"></i>
+                          </span>
+                        </div>
+                      </div>
+                      <hr class="w-100 mt-2" />
+                    </div>
+                    @if (!product) {
+                      <div>
+                        @if (!product) {
+                          <div class="w-100 mt-4 d-flex justify-content-center">
+                            <span class="spinner-border"> </span>
+                          </div>
+                        }
+                      </div>
+                    }
+                    @if (product) {
+                      <div class="row">
+                        <div class="d-grid mb-3 col-6">
+                          <b class="text-secondary text-sm" i18n>Name</b>
+                          <b class="text-sm">{{ product.name }}</b>
+                        </div>
+                        <div class="d-grid mb-3 col-6">
+                          <b class="text-secondary text-sm" i18n>Price</b>
+                          <b class="text-sm">{{
+                            product.price | currency: ' '
+                          }}</b>
+                          @if (!product.price) {
+                            <b>---</b>
+                          }
+                        </div>
+                        <div class="d-grid mb-3 col-6">
+                          <b class="text-secondary text-sm" i18n>Min payment</b>
+                          <b class="text-sm">{{
+                            product.minimun_payment_amount | currency: ' '
+                          }}</b>
+                        </div>
+                        <div class="d-grid mb-3 col-6">
+                          <b class="text-secondary text-sm" i18n>Max payment</b>
+                          <b class="text-sm">{{
+                            product.minimun_payment_amount | currency: ' '
+                          }}</b>
+                        </div>
+                        <div class="d-grid mb-3 col-6">
+                          <b class="text-secondary text-sm" i18n>Position</b>
+                          @if (product.voucher_type === 'L') {
+                            <b class="text-sm" i18n>Landscape</b>
+                          }
+                          @if (product.voucher_type === 'P') {
+                            <b class="text-sm" i18n>Portrait</b>
+                          }
+                        </div>
+
+                        <div class="d-grid col-6 mb-3">
+                          <b class="text-secondary text-sm" i18n>Stockable</b>
+                          @if (product.is_stockable) {
+                            <span>
+                              <i class="fa fa-check-circle text-success"></i>
+                            </span>
+                          }
+                          @if (!product.is_stockable) {
+                            <span>
+                              <i class="fa fa-circle-xmark text-danger"></i>
+                            </span>
+                          }
+                        </div>
+                        <div class="d-grid col-6 mb-3">
+                          <b class="text-secondary text-sm" i18n>Cart</b>
+                          <b class="fs-5">
+                            @if (product.accepts_cart) {
+                              <span>
+                                <i class="fa fa-check-circle text-success"></i>
+                              </span>
+                            }
+                            @if (!product.accepts_cart) {
+                              <span>
+                                <i class="fa fa-circle-xmark text-danger"></i>
+                              </span>
+                            }
+                          </b>
+                        </div>
+                        <div class="d-grid col-6 mb-3">
+                          <b class="text-secondary text-sm" i18n>Incognito</b>
+                          <b class="fs-5">
+                            @if (product.incognito_mode) {
+                              <span>
+                                <i class="fa fa-check-circle text-success"></i>
+                              </span>
+                            }
+                            @if (!product.incognito_mode) {
+                              <span>
+                                <i class="fa fa-circle-xmark text-danger"></i>
+                              </span>
+                            }
+                          </b>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                }
+                @if (selectedSubMenu === 'configuration') {
+                  <div>
+                    <div class="d-grid">
+                      <div
+                        class="mb-2 w-100 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                          <b class="text-md me-2" i18n>Product details</b>
+                        </div>
+                      </div>
+                      <hr class="w-100 mt-2" />
+                    </div>
+
+                    <div
+                      [formGroup]="productConfigForm"
+                      [ngClass]="isLoading ? 'not-clickable' : 'clickable'"
+                      class="row justify-content-between mx-2">
+                      <div class="col-lg-5 mb-3">
+                        <div class="form-floating">
+                          <input
+                            type="text"
+                            id="name"
+                            class="form-control input border"
+                            placeholder="Name"
+                            formControlName="name" />
+                          <label for="name" i18n>Name</label>
+                        </div>
+                      </div>
+                      <div class="col-lg-5 mb-3">
+                        <div class="form-floating">
+                          <input
+                            type="text"
+                            id="price"
+                            class="form-control input border"
+                            placeholder="Price"
+                            formControlName="price" />
+                          <label for="price" i18n>Price</label>
+                        </div>
+                      </div>
+                      <div class="col-lg-5 mb-3">
+                        <div class="form-floating">
+                          <input
+                            type="text"
+                            id="min_payment"
+                            class="form-control input border"
+                            placeholder="Min payment"
+                            formControlName="min_payment" />
+                          <label for="min_payment" i18n>Min payment</label>
+                        </div>
+                      </div>
+                      <div class="col-lg-5 mb-3">
+                        <div class="form-floating">
+                          <input
+                            type="text"
+                            id="max_payment"
+                            class="form-control input border"
+                            placeholder="Max payment"
+                            formControlName="max_payment" />
+                          <label for="max_payment" i18n>Max payment</label>
+                        </div>
+                      </div>
+                      <div class="col-lg-5 mb-3">
+                        <select
+                          formControlName="position"
+                          [value]="product.voucher_type"
+                          class="form-select py-3 text-dark"
+                          aria-label="Default select example">
+                          <option value="L" selected i18n>Landscape</option>
+                          <option value="P" i18n>Portrait</option>
+                        </select>
+                      </div>
+                      <div class="col-12 row">
+                        <div
+                          class="mt-3 col-lg-4 col-md-6 col-sm-12 d-flex justify-content-between">
+                          <div
+                            class="d-flex w-100 justify-content-start align-items-center mb-3">
+                            <b class="text-md-sm me-3" i18n>Cart</b>
+                            <div
+                              tabindex="0"
+                              role="button"
+                              (click)="
+                                toggleProductSwitchBox(
+                                  'cart',
+                                  productConfigForm.value.cart
+                                    ? 'not_accepts_cart'
+                                    : 'accepts_cart'
+                                )
+                              "
+                              class="switch border d-flex align-items-center px-1 text-all-white"
+                              [ngClass]="
+                                productConfigForm.value.cart
+                                  ? 'justify-content-end bg-primary'
+                                  : 'justify-content-start'
+                              ">
+                              <span class="fa fa-circle"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="mt-3 col-lg-4 col-md-6 col-sm-12 d-flex justify-content-between">
+                          <div
+                            class="d-flex w-100 justify-content-start align-items-center mb-3">
+                            <b class="text-md-sm me-3" i18n>Stockable</b>
+                            <div
+                              tabindex="0"
+                              role="button"
+                              (click)="
+                                toggleProductSwitchBox(
+                                  'stockable',
+                                  productConfigForm.value.stockable
+                                    ? 'not_stockable'
+                                    : 'stockable'
+                                )
+                              "
+                              class="switch border d-flex align-items-center px-1 text-all-white"
+                              [ngClass]="{
+                                'justify-content-end bg-primary':
+                                  productConfigForm.value.stockable,
+                                'justify-content-start ':
+                                  !productConfigForm.value.stockable,
+                              }">
+                              <span class="fa fa-circle"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="mt-3 col-lg-4 col-md-6 col-sm-12 d-flex justify-content-between">
+                          <div
+                            class="d-flex w-100 justify-content-start align-items-center mb-3">
+                            <b class="text-md-sm me-3" i18n>Incognito</b>
+                            <div
+                              tabindex="0"
+                              role="button"
+                              (click)="
+                                toggleProductSwitchBox(
+                                  'incognito',
+                                  productConfigForm.value.incognito
+                                    ? 'not_incognito'
+                                    : 'incognito'
+                                )
+                              "
+                              class="switch border d-flex align-items-center px-1 text-all-white"
+                              [ngClass]="{
+                                'justify-content-end bg-primary':
+                                  productConfigForm.value.incognito,
+                                'justify-content-start ':
+                                  !productConfigForm.value.incognito,
+                              }">
+                              <span class="fa fa-circle"></span>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                        @if (selectedFields.length > 0) {
+                          <span class="text-dark fw-bold" i18n
+                            >Added fields</span
+                          >
+                        }
+                        <br />
+                        <div class="row justify-content-between pe-0 ps-0">
+                          @for (field of selectedFields; track field) {
+                            <div class="col-lg-5 mb-3 pe-0 ps-0">
+                              <div>
+                                <input
+                                  class="form-control input border not-clickable"
+                                  [placeholder]="field.name" />
+                              </div>
+                            </div>
+                          }
+                        </div>
+
+                        <div class="col-12 row mt-2">
+                          <b
+                            tabindex="0"
+                            role="button"
+                            (click)="toggleMetadataList()"
+                            class="text-primary"
+                            style="text-decoration: underline">
+                            Add option</b
+                          >
+                        </div>
+                      </div>
+                      <div class="col-12 d-flex justify-content-center mt-3">
+                        <button
+                          class="primary-light btn text-light px-3"
+                          (click)="verifyPinProductUpdate()"
+                          [disabled]="
+                            !productConfigForm.dirty &&
+                            selectedFields.length === 0
+                          ">
+                          @if (!isLoading) {
+                            <b i18n>Save</b>
+                          }
+                          @if (isLoading) {
+                            <span>
+                              <i
+                                class="fa-solid fa-spin fa-circle-notch fs-4"></i>
+                            </span>
+                          }
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- Configuration/modification marchand -->
+            @if (selectedMenu === 'configuration') {
+              <div class="mt-5">
+                <section
+                  [formGroup]="merchantConfigForm"
+                  [ngClass]="{
+                    'not-clickable': isLoading,
+                  }"
+                  *ngIf="merchant">
+                  <div class="row w-100">
+                    <div class="d-grid col-lg-6 mb-4">
+                      <div class="form-floating mb-4">
+                        <input
+                          type="text"
+                          class="input border form-control bg-input"
+                          [ngClass]="{
+                            'border-secondary': theme === 'magis-light',
+                            'border-dark bg-white text-dark':
+                              theme === 'magis-dark',
+                          }"
+                          id="name"
+                          placeholder="name"
+                          formControlName="name" />
+                        <label
+                          for="name"
+                          class="label-input"
+                          [ngClass]="{
+                            'text-dark': theme === 'magis-dark',
+                          }"
+                          >Name</label
+                        >
+                      </div>
+
+                      <div class="d-flex align-items-center gap-3 mb-4">
+                        <b class="text-dark"> Location</b>
+                        <div
+                          class="w-100 p-3 rounded bg-primary d-flex justify-content-between">
+                          <div class="text-all-white">Open map</div>
+
+                          <div>
+                            <i
+                              class="fas fa-street-view fs-4 text-all-white"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <label for="merchantLogo">
+                        <div
+                          class="lg-radius d-flex position-relative text-secondary level-1 ms-5 border justify-content-center align-items-center merchant-container"
+                          style="width: 138px; height: 150px">
+                          @if (!merchant.merchant_logo && !previewImage) {
+                            <img
+                              alt=""
+                              src="images/userprofile.png"
+                              class="img-fluid lg-radius merchant-logo" />
+                          }
+                          @if (merchant.merchant_logo && !previewImage) {
+                            <img
+                              alt=""
+                              [src]="merchant.merchant_logo"
+                              class="img-fluid lg-radius merchant-logo" />
+                          }
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="row w-100">
+                    <div class="form-floating mb-4 col-lg-6">
+                      <input
+                        type="text"
+                        class="input border form-control bg-input"
+                        [ngClass]="{
+                          'border-secondary': theme === 'magis-light',
+                          'border-dark bg-white text-dark':
+                            theme === 'magis-dark',
+                        }"
+                        id="slug"
+                        placeholder="slug"
+                        formControlName="slug" />
+                      <label
+                        for="slug"
+                        class="label-input ms-3"
+                        [ngClass]="{
+                          'text-dark': theme === 'magis-dark',
+                        }"
+                        >Slug</label
+                      >
+                    </div>
+                    <div class="form-floating mb-4 col-lg-6">
+                      <input
+                        type="text"
+                        class="input border form-control bg-input"
+                        [ngClass]="{
+                          'border-secondary': theme === 'magis-light',
+                          'border-dark bg-white text-dark':
+                            theme === 'magis-dark',
+                        }"
+                        id="plug"
+                        placeholder="plug"
+                        formControlName="plug" />
+                      <label
+                        for="plug"
+                        class="label-input ms-3"
+                        [ngClass]="{
+                          'text-dark': theme === 'magis-dark',
+                        }"
+                        >Api plug name</label
+                      >
+                    </div>
+
+                    <div class="p-1 px-3 col-lg-6 rounded">
+                      <!-- <app-lookup
+                                        class=""
+                                        option="autocomplete"
+                                        url="/dbs/merchant-category/objects_autocomplete?search="
+                                        (selectedItemEvent)="
+                                            getCategory($event)
+                                        "
+                                        lookupLabel="Category"
+                                        itemsLabel="Category"
+                                    ></app-lookup> -->
+                    </div>
+                  </div>
+                  <div class="mt-3">
+                    <div class="fw-bold text-dark">
+                      <div
+                        class="form-check d-flex justify-content-between w-75 ps-0 ms-2">
+                        <div class="col-12 d-flex justify-content-between row">
+                          <div
+                            class="mt-3 d-flex justify-content-between col-6">
+                            <div
+                              class="d-flex w-100 justify-content-start align-items-center mb-3">
+                              <b class="text-md-sm me-3"
+                                >Accept simple payment</b
+                              >
+                              <div
+                                tabindex="0"
+                                role="button"
+                                (click)="
+                                  toggletSwitchBox(
+                                    'simple_payment',
+                                    merchantConfigForm.value.simplePayment
+                                      ? 'not_accepts_simple_payment'
+                                      : 'accepts_simple_payment'
+                                  )
+                                "
+                                class="switch border d-flex align-items-center px-1 text-all-white"
+                                [ngClass]="
+                                  merchantConfigForm.value.simplePayment
+                                    ? 'justify-content-end bg-primary'
+                                    : 'justify-content-start'
+                                ">
+                                <span class="fa fa-circle"></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="mt-3 d-flex justify-content-between col-6">
+                            <div
+                              class="d-flex w-100 justify-content-start align-items-center mb-3">
+                              <b class="text-md-sm me-3">Accept cart</b>
+                              <div
+                                tabindex="0"
+                                role="button"
+                                (click)="
+                                  toggletSwitchBox(
+                                    'cart',
+                                    merchantConfigForm.value.cart
+                                      ? 'not_accepts_cart'
+                                      : 'accepts_cart'
+                                  )
+                                "
+                                class="switch border d-flex align-items-center px-1 text-all-white"
+                                [ngClass]="
+                                  merchantConfigForm.value.cart
+                                    ? 'justify-content-end bg-primary'
+                                    : 'justify-content-start'
+                                ">
+                                <span class="fa fa-circle"></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="mt-3 d-flex justify-content-between col-6">
+                            <div
+                              class="d-flex w-100 justify-content-start align-items-center mb-3">
+                              <b class="text-md-sm me-3">Incognito</b>
+                              <div
+                                tabindex="0"
+                                role="button"
+                                (click)="
+                                  toggletSwitchBox(
+                                    'incognito',
+                                    merchantConfigForm.value.incognitoMerchant
+                                      ? 'invisible'
+                                      : 'visible'
+                                  )
+                                "
+                                class="switch border d-flex align-items-center px-1 text-all-white"
+                                [ngClass]="
+                                  merchantConfigForm.value.incognitoMerchant
+                                    ? 'justify-content-end bg-primary'
+                                    : 'justify-content-start'
+                                ">
+                                <span class="fa fa-circle"></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="mt-3 d-flex justify-content-between col-6">
+                            <div
+                              class="d-flex w-100 justify-content-start align-items-center mb-3">
+                              <b class="text-md-sm me-3">Has cashin</b>
+                              <div
+                                tabindex="0"
+                                role="button"
+                                (click)="
+                                  toggletSwitchBox(
+                                    'has_cashin',
+                                    merchantConfigForm.value.cashin
+                                      ? 'not_has_cashin'
+                                      : 'has_cashin'
+                                  )
+                                "
+                                class="switch border d-flex align-items-center px-1 text-all-white"
+                                [ngClass]="
+                                  merchantConfigForm.value.cashin
+                                    ? 'justify-content-end bg-primary'
+                                    : 'justify-content-start'
+                                ">
+                                <span class="fa fa-circle"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex w-75 gap-4 align-items-center mt-5 justify-content-center">
+                    <div
+                      class="ms-3 d-flex justify-content-center align-items-center">
+                      <button
+                        (click)="openModal()"
+                        [disabled]="!merchantConfigForm.dirty"
+                        class="btn px-5 text-all-white bg-primary">
+                        @if (isLoading) {
+                          <span class="">
+                            <i
+                              class="fa-solid fa-spin fa-circle-notch fs-4"></i>
+                          </span>
+                        }
+                        @if (!isLoading) {
+                          <b>Save</b>
+                        }
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            }
+            @if (!selectedMenu) {
+              <div class="mt-3">
+                <hr />
+
+                <!-- Recents payment section -->
+
+                <div class="mt-4 mb-2">
+                  <div
+                    class="d-flex justify-content-between align-items-center px-4">
+                    <div class="d-flex gap-2 align-items-center">
+                      <div class="bg-primary point rounded-circle"></div>
+                      <div class="text-dark text-md-sm" i18n>
+                        Recent payments
+                      </div>
+                    </div>
+
+                    <div
+                      tabindex="0"
+                      (click)="refreshsPaymentStats('paymentStats')"
+                      role="button">
+                      <i class="fa-solid fa-rotate"></i>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="bg-primary-3 w-100 rounded p-3 mb-4">
+                    <div>
+                      <div>
+                        <div class="d-flex justify-content-center gap-5">
+                          <div class="level-2 rounded px-4 max-w">
+                            <div class="d-grid justify-content-center">
+                              <div class="d-flex justify-content-center">
+                                <div class="fw-bold text-dark text-md">
+                                  {{ merchant.payment_bills }}
+                                </div>
+                              </div>
+                              <div class="text-primary text-sm" i18n>
+                                Total payments
+                              </div>
+                            </div>
+                          </div>
+                          <div class="level-2 rounded px-4 max-w">
+                            <div class="d-grid">
+                              <div class="" i18n>
+                                <app-amount-visibility
+                                  [amount]="merchant.paid_amount"
+                                  [currency]="merchant.balance_currency"
+                                  customClasses="fw-bold text-dark text-md"></app-amount-visibility>
+                              </div>
+                              <div class="text-primary text-sm" i18n>
+                                Payments Volumes
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="text-primary text-sm" i18n>
+                            Last payments
+                          </span>
+
+                          <hr class="w text-primary" />
+                        </div>
+                        @if (paymentStats && !getPaymentStatsLoader) {
+                          <div class="p-3">
+                            <div class="row">
+                              <div class="col-3 text-md-sm text-secondary" i18n>
+                                Date
+                              </div>
+                              <div class="col-2 text-md-sm text-secondary" i18n>
+                                Client
+                              </div>
+                              <div class="col-5 text-md-sm text-secondary" i18n>
+                                Description
+                              </div>
+                              <div class="col-2 text-md-sm text-secondary" i18n>
+                                Amount
+                              </div>
+                            </div>
+                            @for (payments of paymentStats; track payments) {
+                              <div
+                                class="row border bg-white lg-radius d-flex align-items-center mt-2 p-1">
+                                <div class="col-3 d-grid">
+                                  <div class="text-md-sm text-secondary">
+                                    {{ payments.created_at | date: 'medium' }}
+                                  </div>
+                                  <div>
+                                    <b
+                                      [class]="
+                                        'text-' +
+                                        payments.payment_status.css +
+                                        ' badge-design bg-' +
+                                        payments.payment_status.css
+                                      ">
+                                      {{ payments.payment_status.title }}
+                                    </b>
+                                  </div>
+                                </div>
+
+                                <div class="col-2">
+                                  <div class="d-grid">
+                                    <div
+                                      class="text-md-sm text-secondary fw-bold">
+                                      {{ payments.client.client_full_name }}
+                                    </div>
+                                    <div class="text-md-sm text-secondary">
+                                      {{ payments.client.client_code }}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-5 d-flex flex-column">
+                                  <div class="text-primary text-md-sm">
+                                    {{ payments.description }}
+                                  </div>
+                                  <span class="text-secondary">
+                                    N#
+                                    {{ payments.code }}
+                                  </span>
+                                </div>
+                                <div class="col-2 d-flex flex-column">
+                                  <div class="text-primary fw-bold">
+                                    <app-amount-visibility
+                                      [amount]="payments.total_amount"
+                                      [currency]="payments.currency"
+                                      customClasses="text-md-sm text-primary fw-bold"></app-amount-visibility>
+                                  </div>
+                                </div>
+                              </div>
+                            }
+                          </div>
+                        }
+                        @if (getPaymentStatsLoader) {
+                          <div class="d-grid">
+                            <div class="w-85 rounded mt-4">
+                              @for (_ of [1, 2, 3]; track $index) {
+                                <div class="col mb-4">
+                                  <app-skeleton
+                                    [width]="'100%'"
+                                    [height]="'130px'"
+                                    classes="sm-radius">
+                                  </app-skeleton>
+                                </div>
+                              }
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Top clients section -->
+
+                  <div class="mt-4 mb-2">
+                    <div
+                      class="d-flex align-items-center justify-content-between px-4">
+                      <div class="d-flex gap-2 align-items-center">
+                        <div class="bg-primary point rounded-circle"></div>
+                        <div class="text-dark text-md-sm" i18n>Top clients</div>
+                      </div>
+                      <div
+                        tabindex="0"
+                        (click)="refreshsPaymentStats('amountOrTransaction')"
+                        role="button">
+                        <i class="fa-solid fa-rotate"></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-primary-3 w-100 rounded p-3">
+                    <div class="p-3">
+                      <div
+                        class="d-flex align-items-center gap-2 justify-content-end">
+                        <div>Filter By :</div>
+                        <div class="d-flex gap-4">
+                          <div
+                            tabindex="0"
+                            class="rounded btn-w d-flex text-center align-items-center justify-content-center"
+                            (click)="switchOption('transaction')"
+                            role="button"
+                            [ngClass]="{
+                              'bg-primary text-light':
+                                selectedOption === 'transaction' ||
+                                !selectedOption,
+                              'bg-white text-primary':
+                                selectedOption !== 'transaction' &&
+                                selectedOption,
+                            }">
+                            <div class="fw-bold text-md-sm" i18n>Payments</div>
+                          </div>
+
+                          <div
+                            tabindex="0"
+                            class="rounded btn-w d-flex text-center align-items-center justify-content-center"
+                            (click)="switchOption('amount')"
+                            role="button"
+                            [ngClass]="{
+                              'bg-primary text-light':
+                                selectedOption === 'amount',
+
+                              'bg-white text-primary':
+                                selectedOption !== 'amount',
+                            }">
+                            <div class="fw-bold text-md-sm" i18n>Amount</div>
+                          </div>
+                        </div>
+                      </div>
+                      @if (
+                        topClientsByTransactions && !topClientsByAmountLoader
+                      ) {
+                        <div>
+                          <div class="row mt-4">
+                            <div class="col-4 text-md-sm text-secondary" i18n>
+                              Name
+                            </div>
+                            <div class="col-3 text-md-sm text-secondary" i18n>
+                              Code
+                            </div>
+                            <div class="col-2 text-md-sm text-secondary" i18n>
+                              N. Transaction
+                            </div>
+                            <div class="col-3 text-md-sm text-secondary" i18n>
+                              Amount
+                            </div>
+                          </div>
+
+                          @if (
+                            selectedOption === 'transaction' || !selectedOption
+                          ) {
+                            <div>
+                              @for (
+                                client of topClientsByTransactions;
+                                track client
+                              ) {
+                                <div
+                                  class="row border bg-white lg-radius d-flex align-items-center p-2 mt-2 row-h">
+                                  <div
+                                    class="col-4 d-flex align-items-center gap-2">
+                                    <div>
+                                      @if (client.picture) {
+                                        <div class="img-size">
+                                          <img
+                                            alt=""
+                                            class="image rounded-circle"
+                                            [src]="client.picture" />
+                                        </div>
+                                      }
+                                      @if (!client.picture) {
+                                        <div class="img-size">
+                                          <img
+                                            alt=""
+                                            class="image rounded-circle"
+                                            src="images/userprofile.png" />
+                                        </div>
+                                      }
+                                    </div>
+                                    <div class="text-md-sm text-secondary ms-3">
+                                      {{ client.client_full_name }}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-3">
+                                    <div class="text-md-sm text-secondary">
+                                      {{ client.client_code }}
+                                    </div>
+                                  </div>
+                                  <div class="col-2">
+                                    <div class="text-md-sm text-secondary">
+                                      {{ client.num_payments }}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-3">
+                                    <div>
+                                      <app-amount-visibility
+                                        [amount]="client.total_paid"
+                                        [currency]="client.balance_currency"
+                                        customClasses="text-md-sm text-primary fw-bold"></app-amount-visibility>
+                                    </div>
+                                  </div>
+                                </div>
+                              }
+                            </div>
+                          }
+                        </div>
+                      }
+                      @if (topClientsByAmount && !topClientsByAmountLoader) {
+                        <div>
+                          @if (selectedOption === 'amount') {
+                            <div>
+                              @for (
+                                client of topClientsByAmount;
+                                track client
+                              ) {
+                                <div
+                                  class="row border bg-white lg-radius d-flex align-items-center p-2 mt-2 row-h">
+                                  <div
+                                    class="col-4 d-flex align-items-center gap-2">
+                                    <div>
+                                      @if (client.picture) {
+                                        <span>
+                                          <img
+                                            alt=""
+                                            class="image rounded-circle img-size"
+                                            [src]="client.picture" />
+                                        </span>
+                                      }
+                                      @if (!client.picture) {
+                                        <span>
+                                          <img
+                                            alt=""
+                                            class="image rounded-circle img-size"
+                                            src="images/userprofile.png" />
+                                        </span>
+                                      }
+                                    </div>
+                                    <div class="text-md-sm text-secondary ms-3">
+                                      {{ client.client_full_name }}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-3">
+                                    <div class="text-md-sm text-secondary">
+                                      {{ client.client_code }}
+                                    </div>
+                                  </div>
+                                  <div class="col-2">
+                                    <div class="text-md-sm text-secondary">
+                                      {{ client.num_payments }}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-3">
+                                    <div>
+                                      <app-amount-visibility
+                                        [amount]="client.total_paid"
+                                        [currency]="client.balance_currency"
+                                        customClasses="text-md-sm text-primary fw-bold"></app-amount-visibility>
+                                    </div>
+                                  </div>
+                                </div>
+                              }
+                            </div>
+                          }
+                        </div>
+                      }
+                      @if (topClientsByAmountLoader) {
+                        <div class="d-grid">
+                          <div class="w-100 rounded mt-4">
+                            @for (_ of [1, 2, 3]; track $index) {
+                              <div class="col mb-4">
+                                <app-skeleton
+                                  [width]="'100%'"
+                                  [height]="'50px'"
+                                  classes="sm-radius">
+                                </app-skeleton>
+                              </div>
+                            }
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+      </div>
+    }
+
+    <!-- Modal configuration metadata while clicking on Add option button in product configuration -->
+    @if (toggleMetadata) {
+      <div class="myModal">
+        <div
+          tabindex="0"
+          class="modal-overlay"
+          (click)="toggleMetadata = false; toggleMetadataForm = false"></div>
+        <div
+          class="modal-content level-2 sm-radius text-dark d-flex align-items-center justify-content-center">
+          @if (toggleMetadata && !toggleMetadataForm) {
+            <div
+              class="p-2 border w-100 sm-radius level-2"
+              style="min-height: 600px">
+              <div class="col-12 mb-2 mt-3">
+                <div class="d-flex">
+                  <span class="fw-bold text-dark text-md ms-3" i18n>
+                    Other option
+                  </span>
+                  <span
+                    tabindex="0"
+                    role="button"
+                    class="text-dark ms-auto me-3"
+                    (click)="toggleMetadata = false">
+                    <i class="fa-solid fa-xmark fs-4"></i>
+                  </span>
+                </div>
+                <div class="m-3 border row justify-content-center">
+                  <div class="col-6 pe-0 ps-0">
+                    <div class="col d-flex pt-3 ps-2 pe-2 level-1">
+                      <div class="col me-2 ms-3">
+                        <input
+                          type="search"
+                          placeholder="Name"
+                          class="form-control input text-dark"
+                          [disabled]="loadingData"
+                          aria-label="search"
+                          aria-describedby="basic-addon1"
+                          [formControl]="searchMetadata" />
+                        <span
+                          role="button"
+                          class="position-relative"
+                          style="top: -45%; right: -85%">
+                          @if (!loadingData) {
+                            <span
+                              ><i
+                                class="fa-solid fa-text-dark fa-magnifying-glass opacity-50 text-md"></i
+                            ></span>
+                          }
+                          @if (loadingData) {
+                            <span>
+                              <i class="fas fa-spinner fa-pulse"></i>
+                            </span>
+                          }
+                        </span>
+                      </div>
+
+                      <button
+                        class="bg-primary btn text-light px-3 ms-2"
+                        (click)="addNewField()"
+                        style="max-height: 38px">
+                        <b i18n>New</b>
+                      </button>
+                    </div>
+                    <div class="level-2 mt-2 p-2">
+                      @if (!loadingData && metadata.length === 0) {
+                        <div
+                          class="d-flex flex-column align-items-center mt-5 empty-state-icon">
+                          <span class="opacity-50" style="font-size: 50px">
+                            <i class="fa-solid fa-face-meh"></i>
+                          </span>
+                          <b class="fs-4 opacity-50" i18n>
+                            No Metadata Found
+                          </b>
+                        </div>
+                      }
+                      @if (loadingData && !metadata) {
+                        <div
+                          class="row justify-content-center align-items-center h-50">
+                          <i
+                            class="fa-solid text-dark fa-spin fa-circle-notch"></i>
+                        </div>
+                      }
+                      @if (!loadingData && metadata) {
+                        <section class="d-flex flex-column">
+                          @for (meta of metadata; track meta) {
+                            <div
+                              class="row ps-2 sm-radius d-flex justify-content-between flex-grow-1">
+                              <div
+                                class="col p-2 d-flex align-items-center"
+                                i18n>
+                                <span class="text-dark">{{ meta.name }}</span>
+                                <span
+                                  tabindex="0"
+                                  role="button"
+                                  (click)="
+                                    toggleFieldSelection(meta.id, meta.name)
+                                  "
+                                  class="text-primary ms-auto fw-bold">
+                                  {{
+                                    isFieldSelected(meta.name)
+                                      ? 'Remove'
+                                      : 'Add'
+                                  }}
+                                  @if (isFieldSelected(meta.name)) {
+                                    <span
+                                      ><i class="fa-solid fa-minus"></i
+                                    ></span>
+                                  }
+                                  @if (!isFieldSelected(meta.name)) {
+                                    <span
+                                      ><i class="fa-solid fa-plus"></i
+                                    ></span>
+                                  }
+                                </span>
+                              </div>
+                            </div>
+                          }
+
+                          <!-- pagination button -->
+                          <div
+                            class="mt-4 d-flex align-items-center justify-content-center">
+                            <button
+                              title="Previous"
+                              (click)="doListMove('prev')"
+                              [disabled]="currentPage === 0"
+                              class="border-0 me-2 btn d-inline-flex align-items-center rounded p-2 fs-4 text-primary">
+                              <i class="fa-solid fa-play fa-rotate-180"></i>
+                            </button>
+                            @if (pagination.filters.limit) {
+                              <button
+                                title="Next"
+                                (click)="doListMove('next')"
+                                [disabled]="
+                                  count <
+                                  (currentPage + 1) * pagination.filters.limit
+                                "
+                                class="border-0 ms-2 btn fs-4 d-inline-flex align-items-center rounded p-2 text-primary">
+                                <i class="fa-solid fa-play"></i>
+                              </button>
+                            }
+                          </div>
+                        </section>
+                      }
+                    </div>
+                  </div>
+
+                  <div
+                    class="col-6 p-3 level-2"
+                    style="border-left: 1px solid #c4c4c4">
+                    <span class="text-dark" i18n>Selected</span>
+                    @if (selectedFields.length === 0) {
+                      <div class="pt-3 d-flex ps-2 pe-4">
+                        <span class="text-secondary">No fields selected</span>
+                      </div>
+                    }
+                    @for (field of selectedFields; track field) {
+                      <div class="pt-3 d-flex ps-2 pe-4">
+                        <span
+                          ><i
+                            class="fa-circle fa-solid text-xsm text-primary"></i
+                        ></span>
+                        <span class="ms-2">{{ field.name }}</span>
+                        <span
+                          tabindex="0"
+                          class="ms-auto text-primary"
+                          role="button"
+                          (click)="toggleFieldSelection(field.id, field.name)">
+                          <i class="fa-solid fa-minus text-sm sm-radius"></i>
+                        </span>
+                      </div>
+                    }
+                  </div>
+                </div>
+                <div
+                  class="col-12 d-flex justify-content-center align-items-center mt-3">
+                  <b tabindex="0" (click)="toggleMetadata = false" role="button"
+                    >Cancel</b
+                  >
+                  <button
+                    class="bg-primary btn px-3 ms-4"
+                    (click)="toggleMetadata = false"
+                    [ngClass]="{
+                      'text-light': theme === 'magis-light',
+                      ' text-dark ': theme === 'magis-dark',
+                    }">
+                    <b i18n>Save</b>
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+          @if (toggleMetadataForm) {
+            <div
+              class="p-2 border level-2 w-100 pt-5"
+              style="min-height: 600px">
+              <h4 class="ms-4 ps-2 text-dark" i18n>New field</h4>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+@if (merchant) {
+  <div class="modal fade" id="statementModal" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered statement-dialog">
+      <div class="modal-content">
+        <app-statement
+          [accountId]="merchant.merchant_main_account_id"></app-statement>
+      </div>
+    </div>
+  </div>
+}
+
+<div class="modal fade" data-mdb-backdrop="static" id="tellersModal">
+  <div
+    class="modal-dialog w-100 d-flex justify-content-center h-100 align-items-center overflow-auto"
+    style="min-width: 75%">
+    <div class="modal-content w-resp"></div>
+  </div>
+</div>

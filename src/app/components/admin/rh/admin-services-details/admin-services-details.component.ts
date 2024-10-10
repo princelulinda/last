@@ -1,14 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AdminService } from '../../../../core/services/admin/admin.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+import { Subject, takeUntil } from 'rxjs';
+
+import { AdminService } from '../../../../core/services/admin/admin.service';
 import { AdminServicesDetailsModel } from '../rh.model';
 import { DialogService, MenuService } from '../../../../core/services';
-import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
 import { AutocompleteModel } from '../../../../global/models/global.models';
 import { PageMenusModel } from '../../menu/menu.models';
-import { CommonModule } from '@angular/common';
 import { MultiSelectComponent } from '../../../../global/components/custom-field/multi-select/multi-select.component';
 
 @Component({
@@ -38,7 +39,7 @@ export class AdminServicesDetailsComponent implements OnInit, OnDestroy {
   isLoading = false;
   object_id!: number;
   showEditForm = false;
-  selectedDepartment!: ItemModel;
+  selectedDepartment!: AutocompleteModel;
   name = new FormControl('', Validators.required);
 
   constructor(
@@ -190,7 +191,7 @@ export class AdminServicesDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  getSelectedDepartment(dep: ItemModel) {
+  getSelectedDepartment(dep: AutocompleteModel) {
     this.selectedDepartment = dep;
   }
 

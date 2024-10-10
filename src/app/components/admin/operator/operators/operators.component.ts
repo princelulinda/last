@@ -9,8 +9,8 @@ import { ListComponent } from '../../../../global/components/list/list/list.comp
 import { DialogService, MenuService } from '../../../../core/services';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { AdminService } from '../../../../core/services/admin/admin.service';
-import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
 import { NewOperatorModel } from '../operator.models';
+import { LookupModel } from '../../../../global/models/global.models';
 
 @Component({
   selector: 'app-operators',
@@ -130,7 +130,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     this.menuService.setPageMenus(this.pagesMenus);
   }
 
-  selectClient($event: ItemModel | null) {
+  selectClient($event: LookupModel | null) {
     this.clientId = $event ? $event.id : null;
   }
 

@@ -219,7 +219,11 @@
           </div>
         </div>
         <div
-          class="col-md-7 col-lg-8 col-xxl-7 mt-3 mt-md-0 mb-5 border-start border-1 text-center">
+          class="col-md-7 mt-3 mt-md-0 mb-5 border-start border-1 text-center"
+          [ngClass]="{
+            'col-lg-8 col-xxl-7': activePlatform !== 'workstation',
+            'col-lg-7 col-xl-6': activePlatform === 'workstation',
+          }">
           <div class="row mx-0 justify-content-between gap-2 gap-lg-3">
             @if (activePlatform !== 'workstation') {
               @for (menu of marketMenus; track $index) {
@@ -231,7 +235,7 @@
                     role="button">
                     <b i18n>{{ menu.name }}</b>
                     <span
-                      class="ms-3 opacity-75"
+                      class="ms-3 fs-l-medium"
                       [ngClass]="{
                         'text-success': $index == 1,
                       }">
@@ -245,7 +249,7 @@
                     data-bs-target="#staticBackdrop"
                     role="button">
                     <b i18n>{{ menu.name }}</b>
-                    <span class="ms-3 opacity-75">
+                    <span class="ms-3 fs-l-medium">
                       <i class="fa-solid fa-{{ menu.icon }}"></i>
                     </span>
                   </a>
@@ -259,7 +263,7 @@
                     data-bs-target="#billsModal"
                     #closeModal>
                     <b i18n>{{ menu.name }}</b>
-                    <span class="ms-3 opacity-75">
+                    <span class="ms-3 fs-l-medium">
                       <i class="fa-solid fa-{{ menu.icon }}"></i>
                     </span>
                   </span>
@@ -268,7 +272,8 @@
             } @else {
               @for (menu of corporateMarketMenus; track $index) {
                 <a
-                  routerLink="/w/workstation/m/market/{{ menu.component_url }}"
+                  href="{{ baseMenuUrl }}{{ menu.component_url }}"
+                  (click)="setSelectedMenu(menu, menu.component_url, $event)"
                   class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
                   role="button">
                   <b i18n>{{ menu.name }}</b>

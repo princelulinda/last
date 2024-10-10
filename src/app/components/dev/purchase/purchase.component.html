@@ -411,7 +411,10 @@
               </div>
             </div>
           </div>
-        } @else if (selectedModal === 'select-teller') {
+        } @else if (
+          selectedModal === 'select-teller' ||
+          selectedModal === 'select-teller-existant-group'
+        ) {
           <div class="d-flex flex-column gap-3">
             <div class="d-flex col-11 mx-auto">
               <div
@@ -455,7 +458,7 @@
                   <div
                     class="row bg-secondary py-3 rounded-top"
                     role="button"
-                    (click)="addToGroup(item.lookup_title)"
+                    (click)="getSelectedTellerId(item.id.toString())"
                     tabindex="0">
                     <div class="col-11 mx-auto">
                       <div class="row">
@@ -474,7 +477,7 @@
                   <div
                     class="row bg-secondary py-3"
                     role="button"
-                    (click)="addToGroup(item.lookup_title)"
+                    (click)="getSelectedTellerId(item.id.toString())"
                     tabindex="0">
                     <div class="col-11 mx-auto">
                       <div class="row">
@@ -493,7 +496,7 @@
                   <div
                     class="row bg-secondary py-3 mt-1 rounded-bottom"
                     role="button"
-                    (click)="addToGroup(item.lookup_title)"
+                    (click)="getSelectedTellerId(item.id.toString())"
                     tabindex="0">
                     <div class="col-11 mx-auto">
                       <div class="row">
@@ -546,69 +549,83 @@
               </div>
             </div>
             <div class="col-11 d-grid gap-1 mx-auto">
-              @for (
-                item of [1, 2, 3, 4];
-                track $index;
-                let first = $first, last = $last
-              ) {
-                @if (first) {
-                  <div
-                    class="row bg-secondary py-3 rounded-top"
-                    role="button"
-                    (click)="addToGroup('group')"
-                    tabindex="0">
-                    <div class="col-11 mx-auto">
-                      <div class="row">
-                        <div class="col-10 col-sm-11">
-                          <span class="text-dark">New Group</span>
-                        </div>
-                        <div class="col-1">
-                          <div class="d-flex justify-content-end mt-1">
-                            <i class="fa-solid fa-chevron-right text-dark"></i>
+              @if (invoices_groups && invoices_groups.length > 0) {
+                @for (
+                  item of [1, 2, 3, 4];
+                  track $index;
+                  let first = $first, last = $last
+                ) {
+                  @if (first) {
+                    <div
+                      class="row bg-secondary py-3 rounded-top"
+                      role="button"
+                      (click)="addToGroup('group')"
+                      tabindex="0">
+                      <div class="col-11 mx-auto">
+                        <div class="row">
+                          <div class="col-10 col-sm-11">
+                            <span class="text-dark">New Group</span>
+                          </div>
+                          <div class="col-1">
+                            <div class="d-flex justify-content-end mt-1">
+                              <i
+                                class="fa-solid fa-chevron-right text-dark"></i>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                } @else if (item !== 0 && !last) {
-                  <div
-                    class="row bg-secondary py-3"
-                    role="button"
-                    (click)="addToGroup('grp')"
-                    tabindex="0">
-                    <div class="col-11 mx-auto">
-                      <div class="row">
-                        <div class="col-10 col-sm-11">
-                          <span class="text-dark">New Group</span>
-                        </div>
-                        <div class="col-1">
-                          <div class="d-flex justify-content-end mt-1">
-                            <i class="fa-solid fa-chevron-right text-dark"></i>
+                  } @else if (item !== 0 && !last) {
+                    <div
+                      class="row bg-secondary py-3"
+                      role="button"
+                      (click)="addToGroup('grp')"
+                      tabindex="0">
+                      <div class="col-11 mx-auto">
+                        <div class="row">
+                          <div class="col-10 col-sm-11">
+                            <span class="text-dark">New Group</span>
+                          </div>
+                          <div class="col-1">
+                            <div class="d-flex justify-content-end mt-1">
+                              <i
+                                class="fa-solid fa-chevron-right text-dark"></i>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                } @else if (last) {
-                  <div
-                    class="row bg-secondary py-3 mt-1 rounded-bottom"
-                    role="button"
-                    (click)="addToGroup('group')"
-                    tabindex="0">
-                    <div class="col-11 mx-auto">
-                      <div class="row">
-                        <div class="col-10 col-sm-11">
-                          <span class="text-dark">Existant Group</span>
-                        </div>
-                        <div class="col-1">
-                          <div class="d-flex justify-content-end mt-1">
-                            <i class="fa-solid fa-chevron-right text-dark"></i>
+                  } @else if (last) {
+                    <div
+                      class="row bg-secondary py-3 mt-1 rounded-bottom"
+                      role="button"
+                      (click)="addToGroup('group')"
+                      tabindex="0">
+                      <div class="col-11 mx-auto">
+                        <div class="row">
+                          <div class="col-10 col-sm-11">
+                            <span class="text-dark">Existant Group</span>
+                          </div>
+                          <div class="col-1">
+                            <div class="d-flex justify-content-end mt-1">
+                              <i
+                                class="fa-solid fa-chevron-right text-dark"></i>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  }
                 }
+              } @else if (invoices_groups && invoices_groups.length === 0) {
+                <strong class="text-dark text-center">
+                  The Teller has no group
+                </strong>
+              } @else if (!invoices_groups) {
+                <span class="px-3 d-flex justify-content-center">
+                  <i
+                    class="fa-solid fa-pulse px-1 fa-circle-notch text-dark"></i>
+                </span>
               }
             </div>
           </div>
