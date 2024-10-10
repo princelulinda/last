@@ -269,9 +269,6 @@ export class WorkstationMenuComponent implements OnInit {
       event,
       enableRedirection
     );
-    // this.selectedMenu = menu;
-    // this.menuService.setLocalSelectedMenu(menu.id);
-    // NOTE :: GETTING ACCESS MENUS
     this.getAccesses(url, enableRedirection);
   }
 

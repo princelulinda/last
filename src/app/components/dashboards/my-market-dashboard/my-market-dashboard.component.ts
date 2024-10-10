@@ -73,6 +73,8 @@ import {
 export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
+  baseMenuUrl = '/w/workstation/m/market/';
+
   clientInfo: UserInfoModel[] | [] | null = null;
   clientInfo$: Observable<UserInfoModel>;
   amount: string | number | null = 0;
@@ -439,6 +441,37 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
             title: '',
             type: 'failed',
             message: 'something went wrong, please try again',
+          });
+        },
+      });
+  }
+
+  setSelectedMenu(
+    menu: MenuSimpleModel,
+    url: string,
+    event?: MouseEvent,
+    enableRedirection?: boolean
+  ) {
+    this.menuService.setSelectedMenu(
+      menu,
+      `${this.baseMenuUrl}${url}`,
+      event,
+      enableRedirection
+    );
+    this.getAccesses(url, enableRedirection);
+  }
+
+  private getAccesses(url: string, redirect = true) {
+    this.menuService
+      .getAccesses(`${this.baseMenuUrl}${url}`, redirect)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        error: () => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            message: 'Something went wrong, Please try again',
+            title: '',
+            type: 'failed',
           });
         },
       });
