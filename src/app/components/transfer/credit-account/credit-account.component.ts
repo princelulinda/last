@@ -575,7 +575,6 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
       debit_description: this.transferForm.value.debit_description,
       credit_description: this.transferForm.value.debit_description,
       description: this.transferForm.value.debit_description,
-      transfer_sub_type: 'wallet_account_transfer',
     };
 
     this.dialogService.dispatchLoading();
