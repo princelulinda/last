@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
 import {
   FormBuilder,
@@ -76,6 +81,7 @@ export class AuthSignUpComponent implements OnInit {
   uuid!: string;
   docFile!: string;
   id!: number;
+  activeLink = '';
 
   birthday = FormGroup;
   errorMessage!: string;
@@ -99,6 +105,11 @@ export class AuthSignUpComponent implements OnInit {
         }
       },
     });
+
+    this.route.queryParams.subscribe(params => {
+      const reference = params['reference'] || '';
+      this.activeLink = `${reference}`;
+    });
   }
 
   submit() {
@@ -117,7 +128,10 @@ export class AuthSignUpComponent implements OnInit {
     private authService: AuthService,
     private bankService: BankService,
     private dialogService: DialogService,
-    private dbService: DbService
+    private dbService: DbService,
+
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.dialog$ = this.dialogService.getDialogState();
   }
@@ -153,7 +167,8 @@ export class AuthSignUpComponent implements OnInit {
   createAccount() {
     this.isLoadingCreation = true;
     const data = {
-      creation_client: this.id,
+      // creation_client: this.id,
+      creation_client: this.activeLink || this.id,
       organization: this.bankId,
       picture: '',
       write_picture:

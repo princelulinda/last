@@ -43,7 +43,7 @@ export interface CreateAccountResponseModel {
   };
 }
 export interface CreateAccountBodyModel {
-  creation_client: number;
+  creation_client: string | number;
   organization: number | null;
   picture: string;
   write_picture: string | null | undefined;
