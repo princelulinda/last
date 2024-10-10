@@ -272,7 +272,8 @@
             } @else {
               @for (menu of corporateMarketMenus; track $index) {
                 <a
-                  routerLink="/w/workstation/m/market/{{ menu.component_url }}"
+                  href="{{ baseMenuUrl }}{{ menu.component_url }}"
+                  (click)="setSelectedMenu(menu, menu.component_url, $event)"
                   class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
                   role="button">
                   <b i18n>{{ menu.name }}</b>

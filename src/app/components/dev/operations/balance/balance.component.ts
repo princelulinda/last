@@ -6,8 +6,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
+
+import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
+
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
@@ -15,10 +17,10 @@ import { CounterService } from '../../../../core/services/counter/counter.servic
 import { DialogService } from '../../../../core/services';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { BalanceActionModel, BalanceModel } from './balance.model';
-import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
 import { ProfileCardComponent } from '../../../../global/components/custom-field/profile-card/profile-card.component';
 import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
+import { AutocompleteModel } from '../../../../global/models/global.models';
 
 @Component({
   selector: 'app-balance',
@@ -48,7 +50,7 @@ export class BalanceComponent implements OnInit {
   balanceChecking = false;
   balanceAction!: string;
   balanceActionChecked!: BalanceActionModel;
-  alias!: ItemModel | null;
+  alias: AutocompleteModel | null = null;
   institution_balance!: BalanceModel[] | null;
   verifying = false;
   balanceActionDoing = false;
@@ -109,7 +111,7 @@ export class BalanceComponent implements OnInit {
       action: 'put',
     });
   }
-  getLedgerAlias(alias: ItemModel | null) {
+  getLedgerAlias(alias: AutocompleteModel | null) {
     this.alias = alias;
   }
   getTreasuryBalance(search: string) {
@@ -149,7 +151,7 @@ export class BalanceComponent implements OnInit {
   }
   addBalance() {
     const body = {
-      institution: (this.alias as ItemModel).id,
+      institution: (this.alias as AutocompleteModel).id,
       ext_balance: this.balanceForm.value.external_balance,
       pin_code: this.balanceForm.value.pin,
     };

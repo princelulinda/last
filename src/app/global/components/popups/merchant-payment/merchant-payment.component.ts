@@ -389,14 +389,17 @@ export class MerchantPaymentComponent
       debit_type: '',
       pin_code: this.pin,
       debit_account: '',
+      debit_account_holder: '',
     };
 
     if (this.debitAccount) {
       data.debit_type = 'account';
       data.debit_account = this.debitAccount.acc_number.toString();
+      data.debit_account_holder = this.debitAccount.acc_holder;
     } else if (this.debitWallet) {
       data.debit_type = 'wallet';
-      data.debit_account = this.debitWallet.account.account_holder;
+      data.debit_account = this.debitWallet.code;
+      data.debit_account_holder = this.debitWallet.account.account_holder;
     }
 
     if (

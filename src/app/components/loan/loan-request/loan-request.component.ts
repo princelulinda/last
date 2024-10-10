@@ -15,8 +15,8 @@ import { DbService } from '../../../core/db';
 import { LoanService } from '../../../core/services/loan/loan.service';
 import { DialogService } from '../../../core/services';
 import {
-  AcccountWorkstationModel,
-  CreditTypeModel,
+  // AcccountWorkstationModel,
+  // CreditTypeModel,
   DefaultValuesLoanModel,
   LoanTypeModel,
   // ResponseDataModel,
@@ -25,6 +25,7 @@ import { LookupComponent } from '../../../global/components/lookups/lookup/looku
 import { DebitAccountComponent } from '../../transfer/banking/debit-account/debit-account.component';
 import { AccountsListModel } from '../../account/models';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
+import { AutocompleteModel } from '../../../global/models/global.models';
 
 @Component({
   selector: 'app-loan-request',
@@ -48,10 +49,10 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
   amountBackground = 'rgba(241, 241, 241, 1)';
 
   account!: AccountsListModel;
-  accountWorkstation: AcccountWorkstationModel | null = null;
+  accountWorkstation: AutocompleteModel | null = null;
   amount: number | null = 0;
   loansType!: LoanTypeModel;
-  creditType: CreditTypeModel | null = null;
+  creditType: AutocompleteModel | null = null;
   defaultValuesLoan!: DefaultValuesLoanModel;
 
   isFormVisible = false;
@@ -286,7 +287,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
     });
   }
 
-  getCreditType(event: CreditTypeModel | null) {
+  getCreditType(event: AutocompleteModel | null) {
     //
     this.creditType = event;
 
@@ -298,7 +299,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
     // console.log('eveeeentt', this.creditType);
   }
 
-  getAccount(event: AcccountWorkstationModel | null) {
+  getAccount(event: AutocompleteModel | null) {
     this.accountWorkstation = event;
 
     // ==================================================================================

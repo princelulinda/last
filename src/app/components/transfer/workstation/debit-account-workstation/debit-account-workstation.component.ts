@@ -7,10 +7,8 @@ import { activeMainConfigModel } from '../../../../core/services/config/main-con
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { LookupIndividualComponent } from '../../../dev/lookup-individual/lookup-individual.component';
 
-import {
-  ClientInfoModel,
-  ItemModel,
-} from '../../../../global/components/lookups/lookup/lookup.model';
+import { ClientInfoModel } from '../../../../global/components/lookups/lookup/lookup.model';
+import { LookupModel } from '../../../../global/models/global.models';
 
 @Component({
   selector: 'app-debit-account-workstation',
@@ -32,7 +30,7 @@ export class DebitAccountWorkstationComponent implements OnInit {
     acc_number: string | undefined;
   }>();
 
-  debitAccount!: ItemModel | null;
+  debitAccount!: LookupModel | null;
   individualClientInfo: ClientInfoModel | null = null;
 
   constructor(private configService: ConfigService) {
@@ -79,7 +77,7 @@ export class DebitAccountWorkstationComponent implements OnInit {
     this.individualClientInfo = event;
   }
 
-  getClient(client: ItemModel | null) {
+  getClient(client: LookupModel | null) {
     this.debitAccount = client;
 
     const options = {

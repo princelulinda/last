@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../../../core/services/admin/admin.service';
-import { CounterDetailsModele } from '../agence.models';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -10,15 +8,20 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { AdminService } from '../../../../core/services/admin/admin.service';
+import { CounterDetailsModele } from '../agence.models';
 import { ProfileCardComponent } from '../../../../global/components/custom-field/profile-card/profile-card.component';
 import { PageMenusModel } from '../../menu/menu.models';
 import { MenuService } from '../../../../core/services';
 import { ListComponent } from '../../../../global/components/list/list/list.component';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
-import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
 import { DialogService } from '../../../../core/services';
+import { AutocompleteModel } from '../../../../global/models/global.models';
+
 @Component({
   selector: 'app-admin-counter-details',
   standalone: true,
@@ -262,7 +265,7 @@ export class AdminCounterDetailsComponent implements OnInit {
     this.getCounterDetails();
     this.counterDetails = null;
   }
-  selectedcurrency($event: ItemModel | null) {
+  selectedcurrency($event: AutocompleteModel | null) {
     this.selectedCurrencyId = $event ? $event.id : null;
   }
   getCounterDetails() {

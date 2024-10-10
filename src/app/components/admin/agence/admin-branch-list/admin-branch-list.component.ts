@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ListComponent } from '../../../../global/components/list/list/list.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+
 import {
   FormControl,
   FormGroup,
@@ -7,17 +9,18 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
+import { Observable, Subject, takeUntil } from 'rxjs';
+
 import { DialogService } from '../../../../core/services';
+import { ListComponent } from '../../../../global/components/list/list/list.component';
 
 import { AdminService } from '../../../../core/services/admin/admin.service';
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MenuService } from '../../../../core/services';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { OrganizationModel } from '../../../auth/auth.model';
 import { ConfigService } from '../../../../core/services';
-import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
-import { Location } from '@angular/common';
+import { AutocompleteModel } from '../../../../global/models/global.models';
 
 @Component({
   selector: 'app-admin-branch-list',
@@ -118,7 +121,7 @@ export class AdminBranchListComponent implements OnInit, OnDestroy {
     });
   }
 
-  selectOperator($event: ItemModel | null) {
+  selectOperator($event: AutocompleteModel | null) {
     this.selectedOperatorId = $event ? $event.id : null;
   }
 

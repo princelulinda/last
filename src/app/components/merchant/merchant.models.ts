@@ -225,6 +225,7 @@ export interface PayMerchantBodyModel {
   debit_bank: number;
   debit_account: string;
   debit_type: string;
+  debit_account_holder: string;
   pin_code: string;
   payment_data?: Record<string, string>;
   lookup_data?: Record<string, string>;
