@@ -37,10 +37,10 @@ import { AccountDetailModel } from '../../account/models';
 import { DialogService } from '../../../core/services';
 
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
-import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 import { NotFoundPageComponent } from '../../../global/components/empty-states/not-found-page/not-found-page.component';
+import { AutocompleteModel } from '../../../global/models/global.models';
 
 @Component({
   selector: 'app-client-account-detail',
@@ -357,7 +357,7 @@ export class ClientAccountDetailComponent implements OnInit {
         },
       });
   }
-  setSelectedManageType($event: ItemModel | null) {
+  setSelectedManageType($event: AutocompleteModel | null) {
     this.selectedManageId = $event ? $event.id : null;
   }
 

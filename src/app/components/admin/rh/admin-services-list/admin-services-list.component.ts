@@ -10,8 +10,8 @@ import { AdminService } from '../../../../core/services/admin/admin.service';
 import { CreateNewServiceBodyModel, CreateNewServiceModel } from '../rh.model';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { DialogService } from '../../../../core/services/dialog/dialog.service';
-import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
 import { ActivatedRoute } from '@angular/router';
+import { AutocompleteModel } from '../../../../global/models/global.models';
 
 @Component({
   selector: 'app-admin-services-list',
@@ -100,7 +100,7 @@ export class AdminServicesListComponent implements OnInit {
     });
   }
 
-  getSelectedDepartment(event: ItemModel | null) {
+  getSelectedDepartment(event: AutocompleteModel | null) {
     if (event) {
       this.id = event.id;
     }
