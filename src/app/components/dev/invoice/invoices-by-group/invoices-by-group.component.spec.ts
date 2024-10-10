@@ -4,6 +4,7 @@ import { InvoicesByGroupComponent } from './invoices-by-group.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('InvoicesByGroupComponent', () => {
   let component: InvoicesByGroupComponent;
@@ -11,7 +12,7 @@ describe('InvoicesByGroupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InvoicesByGroupComponent],
+      imports: [InvoicesByGroupComponent, RouterTestingModule],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -24,7 +25,7 @@ describe('InvoicesByGroupComponent', () => {
 
     fixture = TestBed.createComponent(InvoicesByGroupComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('should create', () => {

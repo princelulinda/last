@@ -121,10 +121,9 @@ export class InvoicesGroupsComponent implements OnInit {
       });
   }
 
-  selectGroup(groupId: number) {
+  selectGroup(groupId: InvoiceGroupModel) {
     this.isLoading = true;
-    this.invoices = null;
-    this.getInvoicesByGroup(groupId);
+    this.getInvoicesByGroup(groupId.id);
     this.isSelected_group = true;
   }
 }

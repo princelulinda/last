@@ -42,6 +42,7 @@ import {
   InvoiceResponseModel,
   MeasureModel,
   ProvidersModel,
+  SingleInvoiceActionModel,
   SingleInVoiceModel,
 } from '../../../components/dev/invoice/invoice.models';
 import {
@@ -750,4 +751,14 @@ export class MerchantService {
   //       data.search;
   //   return this.apiService.get(url).pipe(map((data) => data));
   // }
+
+  validateBill(
+    billId: number,
+    body: object
+  ): Observable<{ object: SingleInvoiceActionModel }> {
+    const url = `/dbs/merchant/bills/${billId}/validate_bill/`;
+    return this.apiService
+      .post<{ object: SingleInvoiceActionModel }>(url, body)
+      .pipe(map(data => data));
+  }
 }
