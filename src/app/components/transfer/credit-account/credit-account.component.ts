@@ -568,12 +568,9 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
       credit_bank: this.selectedInstitution?.id,
       credit_type: this.selectedCreditAccountType,
       debit_account: this.debitNumber,
-      debit_account_holder: this.debitHolder,
       debit_bank: this.selectedBank.id ?? this.walletBankId ?? '',
       debit_type: this.selectedDebitAccountType,
       pin_code: this.pin,
-      debit_description: this.transferForm.value.debit_description,
-      credit_description: this.transferForm.value.debit_description,
       description: this.transferForm.value.debit_description,
     };
 
