@@ -23,7 +23,7 @@ export class ClientWalletDetailsComponent implements OnInit, OnDestroy {
   selectedSetting = 'details';
   selectedConfig = false;
   isLoading = false;
-  wallet: WalletDetail | null = null;
+  walletDetails: WalletDetail | null = null;
   walletId!: string;
   private onDestroy$ = new Subject<void>();
   headers = [
@@ -83,10 +83,10 @@ export class ClientWalletDetailsComponent implements OnInit, OnDestroy {
 
   getClientWalletDetails() {
     this.isLoading = true;
-    this.wallet = null;
+    this.walletDetails = null;
     this.clientService.getWalletDetails(this.walletId).subscribe({
       next: (response: { object: WalletDetail }) => {
-        this.wallet = response.object;
+        this.walletDetails = response.object;
       },
       error: error =>
         console.error('Erreur lors de la récupération des tontines:', error),
@@ -94,7 +94,7 @@ export class ClientWalletDetailsComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
-    this.wallet = null;
+    this.walletDetails = null;
 
     this.isLoading = true;
 

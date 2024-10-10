@@ -50,7 +50,8 @@
           @for (menu of corporateBankingMenus; track $index) {
             <a
               role="button"
-              [routerLink]="menu.component_url"
+              href="{{ baseMenuUrl }} {{ menu.component_url }}"
+              (click)="setSelectedMenu(menu, menu.component_url, $event)"
               class="me-3 me-xl-5 pe-xl-5 mb-3">
               <div class="d-flex w-100 mb-2 justify-content-center">
                 <div

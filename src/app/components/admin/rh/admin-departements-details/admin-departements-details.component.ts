@@ -6,7 +6,6 @@ import { AdminDepartementsDetailsModel } from '../rh.model';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService, MenuService } from '../../../../core/services';
 import { AutocompleteModel } from '../../../../global/models/global.models';
-import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
 import { CommonModule } from '@angular/common';
 import { PageMenusModel } from '../../menu/menu.models';
 import { MultiSelectComponent } from '../../../../global/components/custom-field/multi-select/multi-select.component';
@@ -34,7 +33,7 @@ export class AdminDepartementsDetailsComponent implements OnInit, OnDestroy {
 
   showEditForm = false;
 
-  selectedDirection!: ItemModel | null;
+  selectedDirection: AutocompleteModel | null = null;
   name = new FormControl('', Validators.required);
   selectedMenu: 'details' | 'roles' | 'newRole' = 'details';
   selectedMenus: AutocompleteModel[] = [];
@@ -192,7 +191,7 @@ export class AdminDepartementsDetailsComponent implements OnInit, OnDestroy {
   getSelectedMenus(menus: AutocompleteModel[] | null) {
     this.selectedMenus = menus as AutocompleteModel[];
   }
-  getSelectedDirection(dir: ItemModel) {
+  getSelectedDirection(dir: AutocompleteModel) {
     this.selectedDirection = dir;
   }
 

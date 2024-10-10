@@ -263,29 +263,20 @@ export class WorkstationMenuComponent implements OnInit {
     event?: MouseEvent,
     enableRedirection?: boolean
   ) {
-    if (event) {
-      event.preventDefault();
-    }
-    this.selectedMenu = menu;
-    this.menuService.setLocalSelectedMenu(menu.id);
-    // NOTE :: GETTING ACCESS MENUS
+    this.selectedMenu = this.menuService.setSelectedMenu(
+      menu,
+      url,
+      event,
+      enableRedirection
+    );
     this.getAccesses(url, enableRedirection);
   }
 
   private getAccesses(url: string, redirect = true) {
-    this.dialogService.dispatchLoading('topLoader');
-    this.configService.clearActiveAccesses();
     this.menuService
-      .getAccesses()
+      .getAccesses(`${this.baseMenuUrl}${url}`, redirect)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: accesses => {
-          this.configService.setActiveAccesses(accesses.objects);
-          this.dialogService.closeLoading();
-          if (redirect) {
-            this.router.navigate([`${this.baseMenuUrl}${url}`]);
-          }
-        },
         error: () => {
           this.selectedMenu = null;
           this.dialogService.closeLoading();

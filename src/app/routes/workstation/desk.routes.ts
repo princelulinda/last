@@ -18,6 +18,9 @@ import { MerchantListComponent } from '../../components/merchant/workstation/mer
 import { MerchantDetailsComponent } from '../../components/merchant/workstation/merchant-details/merchant-details.component';
 import { BalanceComponent } from '../../components/dev/operations/balance/balance.component';
 import { ShortcutsComponent } from '../../components/admin/customer-base/shortcuts/shortcuts.component';
+import { SignaturesComponent } from '../../components/client/signatures/signatures.component';
+import { ClientCreditsComponent } from '../../components/client/client-credits/client-credits.component';
+import { ClientCreditsLineComponent } from '../../components/client/client-credits-line/client-credits-line.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -40,6 +43,18 @@ export const DeskRoutes: Routes = [
           {
             path: 'wallet/:walletId',
             component: ClientWalletDetailsComponent,
+          },
+          {
+            path: 'credit/:creditId',
+            component: ClientCreditsComponent,
+          },
+          {
+            path: 'creditLine/:creditLineId',
+            component: ClientCreditsLineComponent,
+          },
+          {
+            path: 'settings',
+            component: SignaturesComponent,
           },
         ],
       },

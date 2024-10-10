@@ -30,7 +30,7 @@ import { UploadedFileModel } from '../auth.model';
 import { BankService } from '../../../core/services/bank/bank.service';
 import { DbService } from '../../../core/db/db.service';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
-import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
+import { LookupModel } from '../../../global/models/global.models';
 
 @Component({
   selector: 'app-auth-sign-up',
@@ -354,7 +354,7 @@ export class AuthSignUpComponent implements OnInit {
       type: 'confirm',
     });
   }
-  selectClient(event: ItemModel | null) {
+  selectClient(event: LookupModel | null) {
     if (event) {
       this.id = event.id;
     }

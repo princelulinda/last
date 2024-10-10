@@ -13,8 +13,8 @@ import {
   AdminCreateNewDepartmentModel,
 } from '../rh.model';
 import { DialogService } from '../../../../core/services/dialog/dialog.service';
-import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
 import { ActivatedRoute } from '@angular/router';
+import { AutocompleteModel } from '../../../../global/models/global.models';
 
 @Component({
   selector: 'app-admin-departements-list',
@@ -89,7 +89,7 @@ export class AdminDepartementsListComponent implements OnInit {
     });
   }
 
-  getSelectedDepartment(event: ItemModel | null) {
+  getSelectedDepartment(event: AutocompleteModel | null) {
     if (event) {
       this.id = event.id;
     }

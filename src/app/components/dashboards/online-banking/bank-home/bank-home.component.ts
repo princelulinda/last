@@ -7,7 +7,11 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { SwitchBankComponent } from '../../../../global/components/popups/switch-bank/switch-bank.component';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { BankModel } from '../../../../core/db/models/bank/bank.model';
-import { ConfigService, MenuService } from '../../../../core/services';
+import {
+  ConfigService,
+  DialogService,
+  MenuService,
+} from '../../../../core/services';
 import {
   ModeModel,
   PlateformModel,
@@ -33,6 +37,8 @@ import {
 })
 export class BankHomeComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
+
+  baseMenuUrl = '/w/workstation/b/banking/';
 
   bankMenus = [
     {
@@ -100,61 +106,6 @@ export class BankHomeComponent implements OnInit, OnDestroy {
     },
   ];
 
-  clientVerified = '&filter_for_client=true';
-  selectedBank!: BankModel;
-
-  theme$: Observable<ModeModel>;
-  theme!: ModeModel;
-
-  activePlatform!: PlateformModel;
-  plateform$: Observable<PlateformModel>;
-
-  menus$: Observable<TypeMenuModel[]>;
-  corporateBankingMenus: MenuSimpleModel[] = [];
-
-  constructor(
-    private configService: ConfigService,
-    private menuService: MenuService
-  ) {
-    this.theme$ = this.configService.getMode();
-    this.plateform$ = this.configService.getPlateform();
-    this.menus$ = this.configService.getTypeMenus();
-  }
-  ngOnInit(): void {
-    this.plateform$.subscribe({
-      next: plateform => {
-        this.activePlatform = plateform;
-      },
-    });
-
-    this.menus$.subscribe({
-      next: menus => {
-        if (menus) {
-          [this.corporateBankingMenus] = this.menuService.getBankingMenu(
-            'banking',
-            'Dashboard',
-            this.configService.toArray(menus)
-          );
-        }
-      },
-    });
-
-    this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: theme => {
-        this.theme = theme;
-      },
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-  }
-
-  deselectBank() {
-    this.configService.resetSelectedBank();
-  }
-
   transactionHeaders = [
     {
       name: 'Date',
@@ -200,4 +151,91 @@ export class BankHomeComponent implements OnInit, OnDestroy {
       canBeDisplayed: false,
     },
   ];
+
+  clientVerified = '&filter_for_client=true';
+  selectedBank!: BankModel;
+
+  theme$: Observable<ModeModel>;
+  theme!: ModeModel;
+
+  activePlatform!: PlateformModel;
+  plateform$: Observable<PlateformModel>;
+
+  menus$: Observable<TypeMenuModel[]>;
+  corporateBankingMenus: MenuSimpleModel[] = [];
+
+  constructor(
+    private configService: ConfigService,
+    private menuService: MenuService,
+    private dialogService: DialogService
+  ) {
+    this.theme$ = this.configService.getMode();
+    this.plateform$ = this.configService.getPlateform();
+    this.menus$ = this.configService.getTypeMenus();
+  }
+  ngOnInit(): void {
+    this.plateform$.subscribe({
+      next: plateform => {
+        this.activePlatform = plateform;
+      },
+    });
+
+    this.menus$.subscribe({
+      next: menus => {
+        if (menus) {
+          [this.corporateBankingMenus] = this.menuService.getBankingMenu(
+            'banking',
+            'Dashboard',
+            this.configService.toArray(menus)
+          );
+        }
+      },
+    });
+
+    this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: theme => {
+        this.theme = theme;
+      },
+    });
+  }
+
+  deselectBank() {
+    this.configService.resetSelectedBank();
+  }
+
+  setSelectedMenu(
+    menu: MenuSimpleModel,
+    url: string,
+    event?: MouseEvent,
+    enableRedirection?: boolean
+  ) {
+    this.menuService.setSelectedMenu(
+      menu,
+      `${this.baseMenuUrl}${url}`,
+      event,
+      enableRedirection
+    );
+    this.getAccesses(url, enableRedirection);
+  }
+
+  private getAccesses(url: string, redirect = true) {
+    this.menuService
+      .getAccesses(`${this.baseMenuUrl}${url}`, redirect)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        error: () => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            message: 'Something went wrong, Please try again',
+            title: '',
+            type: 'failed',
+          });
+        },
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
 }

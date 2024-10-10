@@ -1,4 +1,7 @@
-import { CurrencyModel } from '../../../global/models/global.models';
+import {
+  AutocompleteModel,
+  CurrencyModel,
+} from '../../../global/models/global.models';
 import { OrganizationModel } from '../../auth/auth.model';
 
 export interface OperationListModel {
@@ -441,4 +444,10 @@ export interface AssignOperatorModel {
   response_code: string;
   response_message: string;
   success: boolean;
+}
+
+export interface TreasurerAutocompleteModel extends AutocompleteModel {
+  username?: string;
+  is_teller?: boolean;
+  is_treasurer?: boolean;
 }
