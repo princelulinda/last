@@ -28,6 +28,7 @@ import { MetadataModel } from '../../../metadatas/metadata.model';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { AgentModel } from '../../../admin/agent/agent.model';
 import { StatementComponent } from '../../../statements/statement/statement.component';
+import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 
 @Component({
   selector: 'app-merchant-details',
@@ -41,6 +42,7 @@ import { StatementComponent } from '../../../statements/statement/statement.comp
     AmountVisibilityComponent,
     SkeletonComponent,
     StatementComponent,
+    LookupComponent,
   ],
   templateUrl: './merchant-details.component.html',
   styleUrl: './merchant-details.component.scss',
