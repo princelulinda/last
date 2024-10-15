@@ -245,7 +245,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
       .getOperatorMenus(this.operatorOrganizationId, search)
       .subscribe({
         next: value => {
-          const res = value as { objects: AllMenuListModel[] };
+          const res = value;
           this.allMenus = res.objects;
           this.loadingAllMenus = false;
         },
@@ -264,7 +264,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
       .getOperatorPermissionDetails(this.operatorOrganizationId.toString())
       .subscribe({
         next: value => {
-          const res = value as { object: PermissionModel };
+          const res = value;
           this.loadingPermission = false;
           this.permissionDetails = res.object;
           this.defaultBranchesId =
@@ -304,7 +304,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: value => {
-          const res = value as { object: OrganizationDetailsModel };
+          const res = value;
           this.organizationDetailsLoading = false;
           this.organizationDetails = res.object;
         },
@@ -323,7 +323,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          const res = data as { objects: RoleListModel[] };
+          const res = data;
           this.roles = res.objects;
           this.rolesLoading = this.roles.length === 0 ? false : true;
           this.rolesId = this.getAllIds(this.roles, 'id');
@@ -491,7 +491,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
     this.otherBranches = [];
     this.adminService.getBranches(this.otherBranchesPagination).subscribe({
       next: response => {
-        const res = response as { objects: AllBranchModel[]; count: number };
+        const res = response;
         this.otherBranches = res.objects;
         this.branchesCount = res.count;
         if (this.defaultBranchesId) {
@@ -540,7 +540,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
       .removeOperatorPermission(body, this.operatorOrganizationId)
       ?.subscribe({
         next: response => {
-          const res = response as { object: PermissionModel };
+          const res = response;
           console.log('response will be', res);
           this.dialogService.closeLoading();
           this.password = '';
@@ -646,10 +646,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
 
       .subscribe({
         next: response => {
-          const res = response as {
-            objects: BranchesCountersModel[];
-            count: number;
-          };
+          const res = response;
           this.selectedCounters = res.objects;
           this.selectedCounters = this.selectedCounters.map(item =>
             this.defaultCountersId.includes(item.id)

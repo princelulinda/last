@@ -16,7 +16,16 @@ import {
 import { AutocompleteModel } from '../../../global/models/global.models';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import { AdminMenuModel } from '../../../components/admin/menu/menu.models';
-import { RoleBodyModel } from '../../../components/admin/operator/operator.models';
+import {
+  AllBranchModel,
+  AllMenuListModel,
+  BranchesCountersModel,
+  NewOperatorModel,
+  OrganizationDetailsModel,
+  PermissionModel,
+  RoleBodyModel,
+  RoleListModel,
+} from '../../../components/admin/operator/operator.models';
 import {
   AddBranchResponseModel,
   AddBranchCounterBodyModel,
@@ -42,9 +51,12 @@ export class AdminService {
       .pipe(map(data => data));
   }
 
-  updateAdminMenu(id: string, data: AdminMenuModel) {
+  updateAdminMenu(
+    id: string,
+    data: AdminMenuModel
+  ): Observable<{ object: AdminMenuModel }> {
     return this.apiService
-      .patch(`/menu/admin/${id}/`, data)
+      .patch<{ object: AdminMenuModel }>(`/menu/admin/${id}/`, data)
       .pipe(map(data => data));
   }
   getDirectionDetails(
@@ -114,19 +126,32 @@ export class AdminService {
     return this.apiService.patch(url, body).pipe(map(data => data));
   }
 
-  getOperatorMenus(operatorId: string | number, search = '') {
+  getOperatorMenus(
+    operatorId: string | number,
+    search = ''
+  ): Observable<{ objects: AllMenuListModel[] }> {
     const url = `/menu/admin/objects_autocomplete/?operator=${operatorId}&search=${search}`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ objects: AllMenuListModel[] }>(url)
+      .pipe(map(data => data));
   }
 
-  getOperatorPermissionDetails(id: string) {
+  getOperatorPermissionDetails(
+    id: string
+  ): Observable<{ object: PermissionModel }> {
     const url = `/hr/administration/operator/organization/permission_detail/${id}/`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ object: PermissionModel }>(url)
+      .pipe(map(data => data));
   }
 
-  getOperatorDetailsOrganization(organizationId: number | string) {
+  getOperatorDetailsOrganization(
+    organizationId: number | string
+  ): Observable<{ object: OrganizationDetailsModel }> {
     const url = `/hr/operator/organizations/manage/${organizationId}/?list_type=all`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ object: OrganizationDetailsModel }>(url)
+      .pipe(map(data => data));
   }
 
   addBranchCounter(
@@ -174,14 +199,24 @@ export class AdminService {
     );
   }
 
-  getOperatorRole(organizationId: number | string, search = '') {
+  getOperatorRole(
+    organizationId: number | string,
+    search = ''
+  ): Observable<{ objects: RoleListModel[] }> {
     const url = `/hr/access/operator/roles/objects_autocomplete/?hr_operator=${organizationId}&state=active&search=${search}`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ objects: RoleListModel[] }>(url)
+      .pipe(map(data => data));
   }
 
-  createOperator(body: { client: number; pin_code: number }) {
+  createOperator(body: {
+    client: number;
+    pin_code: number;
+  }): Observable<{ object: NewOperatorModel }> {
     const url = '/hr/administration/operator/organization/create/';
-    return this.apiService.post(url, body).pipe(map(response => response));
+    return this.apiService
+      .post<{ object: NewOperatorModel }>(url, body)
+      .pipe(map(response => response));
   }
 
   assignRolesToOperator(organizationId: string, body: RoleBodyModel) {
@@ -194,9 +229,13 @@ export class AdminService {
     return this.apiService.patch(url, body).pipe(map(data => data));
   }
 
-  getBranches(pagination: PaginationConfig) {
+  getBranches(
+    pagination: PaginationConfig
+  ): Observable<{ objects: AllBranchModel[]; count: number }> {
     const url = `/hr/branches/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ objects: AllBranchModel[]; count: number }>(url)
+      .pipe(map(data => data));
   }
 
   removeOperatorPermission(
@@ -206,10 +245,10 @@ export class AdminService {
       counters?: number[];
     },
     operatorId: number
-  ) {
+  ): Observable<{ object: PermissionModel }> | null {
     if (body.branches || body.counters) {
       const url = `/hr/administration/operator/organization/permission_remove/${operatorId}/`;
-      return this.apiService.patch(url, body);
+      return this.apiService.patch<{ object: PermissionModel }>(url, body);
     }
     return null;
   }
@@ -230,9 +269,20 @@ export class AdminService {
     return this.apiService.patch(url, body).pipe(map(data => data));
   }
 
-  getBranchesCounters(branchId: number, pagination: PaginationConfig) {
+  getBranchesCounters(
+    branchId: number,
+    pagination: PaginationConfig
+  ): Observable<{
+    objects: BranchesCountersModel[];
+    count: number;
+  }> {
     const url = `/hr/counter/?branch=${branchId}&limit=${pagination.filters.limit}&offset=${pagination.filters.offset}`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{
+        objects: BranchesCountersModel[];
+        count: number;
+      }>(url)
+      .pipe(map(data => data));
   }
   createNewDepartement(
     body: AdminCreateNewDepartmentBodyModel

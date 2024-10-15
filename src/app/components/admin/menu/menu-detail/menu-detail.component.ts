@@ -94,7 +94,7 @@ export class MenuDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          const res = response as { object: AdminMenuModel };
+          const res = response;
           this.isLoading = false;
           if (res.object['success'] !== undefined) {
             this.dialogService.openToast({
