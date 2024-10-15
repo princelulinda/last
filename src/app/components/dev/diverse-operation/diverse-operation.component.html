@@ -9,11 +9,28 @@
       <div
         class="clickable py-1 px-2 shadow-sm d-flex border rounded-2 flex-row gap-2 align-items-center"
         tabindex="0"
-        (click)="selectOperation(null)">
+        (click)="goBack()">
         <div>
           <i class="fa fa-arrow-left"></i>
         </div>
         <span>Back</span>
+      </div>
+    }
+
+    @if (operation === 'Box Transfer' && tellerSender && tellerReceiver) {
+      <div class="d-flex flex-row gap-3 ps-3 border-start">
+        <div
+          class="clickable py-1 px-3 shadow-sm d-flex bg-success rounded-2 flex-row gap-2 align-items-center text-all-white"
+          tabindex="0">
+          <span>Confirm</span>
+        </div>
+
+        <div
+          class="clickable py-1 px-3 shadow-sm d-flex border border-primary rounded-2 flex-row gap-2 align-items-center"
+          tabindex="0"
+          (click)="goBack()">
+          <span>Cancel</span>
+        </div>
       </div>
     }
   </div>
@@ -59,43 +76,15 @@
   }
 
   @if (operation === 'Box Transfer') {
-    <div class="p-4">
-      <div class="pt-1 mb-4">
-        <span class="fs-medium fw-bold text-secondary">Box Transfer</span>
-      </div>
-
-      <div
-        class="d-flex align-items-center rounded-2 bg-secondary ps-3"
-        style="width: 519px; height: 149px">
-        <div class="d-flex flex-column gap-2">
-          <span>Choose First Teller</span>
-
-          <div style="width: 250px">
-            <app-lookup
-              option="autocomplete"
-              url="/hr/tellers/list/objects_autocomplete/?search="
-              label="Teller"
-              (selectedItemEvent)="getTellerSender($event)"></app-lookup>
-          </div>
-
-          <div class="d-flex flex-row gap-2 text-danger align-items-center">
-            <i class="fa-solid fa-circle-info"></i>
-
-            <span>exemple: 54</span>
-          </div>
-        </div>
-      </div>
-
-      @if (tellerSender) {
-        <div
-          class="border-primary text-danger p-1 rounded my-3 ps-2 fw-bold"
-          style="width: 519px; border: 1px; border-style: dashed">
-          <span>Next</span>
+    <div class="d-flex flex-row gap-5">
+      <div class="p-4" style="width: 519px; min-width: 519px">
+        <div class="pt-1 mb-4">
+          <span class="fs-medium fw-bold text-secondary">Box Transfer</span>
         </div>
 
         <div
-          class="d-flex align-items-center rounded-2 bg-secondary ps-3"
-          style="width: 519px; height: 149px">
+          class="d-flex align-items-center rounded-2 bg-secondary ps-3 w-100"
+          style="height: 149px">
           <div class="d-flex flex-column gap-2">
             <span>Choose First Teller</span>
 
@@ -104,7 +93,7 @@
                 option="autocomplete"
                 url="/hr/tellers/list/objects_autocomplete/?search="
                 label="Teller"
-                (selectedItemEvent)="getTellerReceiver($event)"></app-lookup>
+                (selectedItemEvent)="getTellerSender($event)"></app-lookup>
             </div>
 
             <div class="d-flex flex-row gap-2 text-danger align-items-center">
@@ -114,7 +103,49 @@
             </div>
           </div>
         </div>
-      }
+
+        @if (tellerSender) {
+          <div
+            class="border-primary text-primary p-1 rounded my-3 ps-2 fw-bold w-100"
+            style="border: 1px; border-style: dashed">
+            <span>Next</span>
+          </div>
+
+          <div
+            class="d-flex align-items-center rounded-2 bg-secondary ps-3 w-100"
+            style="height: 149px">
+            <div class="d-flex flex-column gap-2">
+              <span>Choose First Teller</span>
+
+              <div style="width: 250px">
+                <app-lookup
+                  option="autocomplete"
+                  url="/hr/tellers/list/objects_autocomplete/?search="
+                  label="Teller"
+                  (selectedItemEvent)="getTellerReceiver($event)"></app-lookup>
+              </div>
+
+              <div class="d-flex flex-row gap-2 text-danger align-items-center">
+                <i class="fa-solid fa-circle-info"></i>
+
+                <span>exemple: 54</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="row w-75 gap-4 pt-5">
+        <div class="col-5 d-flex flex-column pt-5">
+          <label for="amount pb-2">Montant a deposer:</label>
+
+          <input
+            type="number"
+            class="w-100 rounded-2 form-control"
+            id="amount"
+            name="amount" />
+        </div>
+      </div>
     </div>
   }
 </Section>
