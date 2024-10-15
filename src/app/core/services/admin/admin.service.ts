@@ -15,7 +15,10 @@ import {
 } from '../../../components/admin/rh/rh.model';
 import { AutocompleteModel } from '../../../global/models/global.models';
 import { PaginationConfig } from '../../../global/models/pagination.models';
-import { AdminMenuModel } from '../../../components/admin/menu/menu.models';
+import {
+  AdminMenuBodyModel,
+  AdminMenuModel,
+} from '../../../components/admin/menu/menu.models';
 import {
   AllBranchModel,
   AllMenuListModel,
@@ -25,6 +28,7 @@ import {
   PermissionModel,
   RoleBodyModel,
   RoleListModel,
+  RoleMenuModels,
 } from '../../../components/admin/operator/operator.models';
 import {
   AddBranchResponseModel,
@@ -59,6 +63,15 @@ export class AdminService {
       .patch<{ object: AdminMenuModel }>(`/menu/admin/${id}/`, data)
       .pipe(map(data => data));
   }
+
+  setAdminMenu(
+    menuData: AdminMenuBodyModel
+  ): Observable<{ object: RoleMenuModels }> {
+    return this.apiService
+      .post<{ object: RoleMenuModels }>('/menu/admin/', menuData)
+      .pipe(map(data => data));
+  }
+
   getDirectionDetails(
     directionId: number | string
   ): Observable<AdminDirectionsDetailsModel> {

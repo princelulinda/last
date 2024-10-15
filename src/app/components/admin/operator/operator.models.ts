@@ -146,7 +146,7 @@ export interface PermissionModel {
   response_message?: string;
 }
 
-interface RoleMenuModel {
+export interface RoleMenuModels {
   id: number;
   active: boolean;
   component_url: string;
@@ -157,11 +157,12 @@ interface RoleMenuModel {
   mobile_url: string;
   required_operator_auth: boolean;
   menu_group_info: MenuGroupInfoModel | null;
+  response_message?: string;
 }
 
 export interface RoleMenuListModel {
   id: number;
-  menu: RoleMenuModel;
+  menu: RoleMenuModels;
   role: {
     id: number;
     role_name: string;
