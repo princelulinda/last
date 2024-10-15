@@ -59,7 +59,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 #### - Les Fonctions
 
-    Les noms des fonctions  sont écrites sous format Camel Case (eg. ngOnInit() ,...)
+    Les noms des fonctions  sont écrits sous format Camel Case (eg. ngOnInit() ,...)
 
     Les noms des  fonctions doivent être informatifs ( eg. clickSideMenu(),  getDailyStatement() ,.... )
 
@@ -70,20 +70,32 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
     Les types de retour doivent etre définis
     (eg. getDailyStatement():{ name:string, logo:string | null }[] { })
 
+#### - Les Models
+
+- ##### Nomenclature des fichiers qui contient les models: toujours en minuscule; suivre le mode suivant
+  #### [nom].models.ts.
+  eg ( merchant.models.ts )
+- ##### Nomenclature des interfaces et autres types : toujours capitalized; suivre le mode suivant
+  #### [Nom][Action]Model ==> Action et optionnel
+  eg :
+  - ClientModel : Un modèle qui représente un client
+  - ClientCreationBodyModel : Un modèle qui représente les données nécessaires pour la création d'un client
+  - ClientCreationResponseModel : Un modèle qui représente les données de réponse lors de la création d'un client
+
 ### Organisations des dossiers / fichiers
 
-* ##### Les noms des dossiers doivent être séparés par un trait d'union
-* ##### Nomenclature des fichiers: toujours en minuscule; suivre le mode suivant
+- ##### Les noms des dossiers doivent être séparés par un trait d'union
+- ##### Nomenclature des fichiers: toujours en minuscule; suivre le mode suivant
   #### [nom-du-fichier].[type].[extension].
-* ##### Les images doivent être mis dans le sous dossier images du dossier public
-* ##### Les icones doivent être mis dans le sous dossier icons du dossier public
-* ##### Les configurations sass (colors, fonts, others) doivent être mis dans le sous dossier sass du dossier public
-* ##### Le dossier core contient tous ce qui concerne Dexie , Guards , Services , Interceptors
-* ##### Le dossier Components contient tous les autres components pour des pages
-* ##### Le dossier Global contient tous Components, Pipes, Directives, Models qui sont utilisés partout dans le projet
-* ##### Le dossier routes contient toutes les routes qui sont importées dans app-routes
+- ##### Les images doivent être mis dans le sous dossier images du dossier public
+- ##### Les icones doivent être mis dans le sous dossier icons du dossier public
+- ##### Les configurations sass (colors, fonts, others) doivent être mis dans le sous dossier sass du dossier public
+- ##### Le dossier core contient tous ce qui concerne Dexie , Guards , Services , Interceptors
+- ##### Le dossier Components contient tous les autres components pour des pages
+- ##### Le dossier Global contient tous Components, Pipes, Directives, Models qui sont utilisés partout dans le projet
+- ##### Le dossier routes contient toutes les routes qui sont importées dans app-routes
 
-### Permission a demander
+### Demande d'autorisation avant de réaliser ces actions
 
-* #### Avant d'installer un nouveau package
-* #### Modifier un component ou fichier global ou un fichier de configuration
+- #### Avant d'installer un nouveau package
+- #### Modifier un component ou fichier global ou un fichier de configuration
