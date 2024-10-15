@@ -1,0 +1,72 @@
+@if (!walletsWorkStation) {
+  <div
+    class="text-center w-100 d-flex justify-content-center align-items-center text-dark"
+    style="height: 50vh"
+    title="Loading...">
+    <i class="spinner-border"></i>
+  </div>
+}
+
+<!-- list  -->
+@if (walletsWorkStation) {
+  <div>
+    @if (walletsWorkStation && walletsWorkStation.length > 0) {
+      <div class="row align-items-center" style="height: 35px">
+        <div
+          role="button"
+          class="col-2 mt-1 mb-2 me-2"
+          (click)="toggleAmountVisibility()"
+          tabindex="0">
+          @if (showAmounts) {
+            <span title="Show balances">
+              <i class="fa-solid fa-eye mt-3"></i
+            ></span>
+          }
+          @if (!showAmounts) {
+            <span title="Hide balances">
+              <i class="fa-solid fa-eye-slash mt-3"></i
+            ></span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  @for (wallet of walletsWorkStation; track $index) {
+    <div class="mt-2" role="button">
+      <div
+        (click)="selectLoneAccount(wallet)"
+        tabindex="0"
+        class="px-2 ms-1 is-hoverable lg-radius"
+        [ngClass]="{
+          'bg-white': selectedLoneWallet === wallet,
+        }"
+        routerLink="/w/workstation/d/desk/client/detail/{{
+          SelectedclientId
+        }}/wallet/{{ wallet.id }}/"
+        routerLinkActive="level-2">
+        <div class="rounded" style="line-height: 1em">
+          <small
+            ><span class="mt-0 text-sm">
+              {{ wallet.title }}
+            </span></small
+          ><br />
+          <small>
+            <span class="mt-0 mb-0 text-sm">
+              {{ wallet.code }}
+            </span>
+          </small>
+          <br />
+          <small>
+            <app-amount-visibility
+              [amount]="wallet.available_balance"
+              [currency]="wallet.currency"
+              [ngClass]="
+                'fw-normal text-success fw-bold'
+              "></app-amount-visibility>
+          </small>
+        </div>
+      </div>
+    </div>
+  }
+}

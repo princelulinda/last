@@ -48,9 +48,9 @@
       @if (invoices_groups && invoices_groups.length > 0) {
         @for (item of invoices_groups; track $index) {
           <div
-            class="teller-card sm-radius shadow-sm gap-3"
+            class="teller-card lg-radius border border-1 border-light shadow-sm gap-3"
             role="button"
-            (click)="getBillsByGroup()"
+            (click)="selectGroup(item)"
             tabindex="0">
             <div class="d-flex flex-column h-100 gap-3">
               <div class="row h-75 mt-3">
@@ -68,9 +68,13 @@
                     </button> -->
                   </div>
                   <div class="text-dark">
-                    <span>{{ item.name }}</span>
+                    <span>{{ item.name || '---' }}</span>
                   </div>
-                  <div class="fs-x-small">20 Invoices</div>
+                  @if (item.bills > 1) {
+                    <div class="fs-x-small">{{ item.bills }} invoices</div>
+                  } @else {
+                    <div class="fs-x-small">{{ item.bills }} invoice</div>
+                  }
                 </div>
               </div>
               <div
@@ -94,17 +98,26 @@
                 </div>
                 <div class="d-flex justify-content-around flex-row">
                   <div
-                    class="col-4 rounded-circle bg-white d-flex justify-content-center">
+                    class="col-4 rounded-circle bg-white d-flex justify-content-center userSize">
                     <span class="d-flex align-items-center"
                       ><i class="fa-solid fa-user fa-lg pb-1 text-secondary"></i
                     ></span>
                   </div>
-                  <div class="d-flex flex-column me-3">
-                    <span class="fw-bold">{{
-                      item.merchant_teller.alias
-                    }}</span>
-                    <span class="fs-small">{{ item.merchant_teller.id }}</span>
-                  </div>
+                  @if (item.merchant_teller) {
+                    <div class="d-flex flex-column me-3">
+                      <span class="fw-bold fs-normal">{{
+                        item.merchant_teller.alias || '---'
+                      }}</span>
+                      <span class="fs-small">{{
+                        item.merchant_teller.id || '----'
+                      }}</span>
+                    </div>
+                  } @else {
+                    <div class="d-flex flex-column me-3">
+                      <span class="fw-bold fs-normal">-----</span>
+                      <span class="fs-small">-----</span>
+                    </div>
+                  }
                 </div>
               </div>
             </div>
@@ -144,10 +157,55 @@
       }
     </div>
   </div>
-} @else if (isSelected_group) {
-  <app-invoices-by-group
-    [group_name]="GroupInfo.name"
-    [teller_id]="GroupInfo.merchant_teller.id"
-    [invoices]="invoices"
-    (goBackEvent)="getGoBackEvent($event)"></app-invoices-by-group>
+}
+@if (isSelected_group && invoices && invoices.length > 0) {
+  @for (invoice of invoices; track $index) {
+    <app-invoices-by-group
+      [invoices]="invoice"
+      [group_name]="GroupInfo"
+      (goBackEvent)="getGoBackEvent($event)"></app-invoices-by-group>
+  }
+}
+@if (isSelected_group && invoices && invoices.length === 0) {
+  <app-empty-state
+    [searchTerm]="'invoices'"
+    [searchType]="'other'"></app-empty-state>
+}
+
+@if (!invoices && isSelected_group) {
+  <div class="row ms-2">
+    @for (item of [1, 2, 3, 4]; track $index) {
+      <div class="col-6 col-sm-4 col-xl-3 mb-2">
+        <app-skeleton
+          height="140px"
+          width="170px"
+          classes="sm-radius"></app-skeleton>
+        <div>
+          <app-skeleton
+            height="10px"
+            width="30px"
+            classes="sm-radius"
+            appearance="line"></app-skeleton>
+        </div>
+        <div>
+          <app-skeleton
+            height="10px"
+            width="50px"
+            classes="sm-radius"
+            appearance="line"></app-skeleton>
+        </div>
+      </div>
+    }
+  </div>
+}
+
+@if (count > 10) {
+  <div class="mt-5 mb-5 pt-5 text-center">
+    <app-pagination
+      [isLoading]="isLoading"
+      [totalData]="count"
+      [pageLimit]="invocesPagination.filters.limit"
+      (paginationChange)="onPaginationChange($event)">
+    </app-pagination>
+  </div>
 }

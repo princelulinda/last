@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ViewChild,
-  OnDestroy,
-  SimpleChanges,
-  OnChanges,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import {
@@ -23,7 +15,7 @@ import { MerchantService } from '../../../core/services/merchant/merchant.servic
 import {
   AuthService,
   ConfigService,
-  FullpathService,
+  MenuService,
 } from '../../../core/services';
 import { DialogService } from '../../../core/services';
 
@@ -35,7 +27,6 @@ import {
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
-import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
 import {
   activeMainConfigModel,
   ModeModel,
@@ -52,6 +43,11 @@ import {
 } from '../../merchant/merchant.models';
 import { ReusableListComponent } from '../../../global/components/list/reusable-list/reusable-list.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import {
+  MenuSimpleModel,
+  TypeMenuModel,
+} from '../../../core/db/models/menu/menu.models';
+import { LookupModel } from '../../../global/models/global.models';
 
 @Component({
   selector: 'app-my-market-dashboard',
@@ -74,46 +70,17 @@ import { AmountVisibilityComponent } from '../../../global/components/custom-fie
   templateUrl: './my-market-dashboard.component.html',
   styleUrl: './my-market-dashboard.component.scss',
 })
-export class MyMarketDashboardComponent
-  implements OnInit, OnDestroy, OnChanges
-{
+export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
-  baseRouterLink = '/m/mymarket';
 
-  @Input() accountId = '';
-  @Input() ledgerId = '';
+  baseMenuUrl = '/w/workstation/m/market/';
 
   clientInfo: UserInfoModel[] | [] | null = null;
   clientInfo$: Observable<UserInfoModel>;
   amount: string | number | null = 0;
-  selectedClient!: ItemModel | null;
+  selectedClient!: LookupModel | null;
   isLoadingInfo = false;
-  datas: object[] = [
-    {
-      element: 'One',
-      value: 800,
-    },
-    {
-      element: 'Two',
-      value: 700,
-    },
-    {
-      element: 'Three',
-      value: 300,
-    },
-    {
-      element: 'Four',
-      value: 200,
-    },
-    {
-      element: 'Five',
-      value: 100,
-    },
-    {
-      element: 'Six',
-      value: 50,
-    },
-  ];
+
   merchantId!: string | number;
   merchant!: MerchantModel | null;
   merchantMult!: MerchantAutocompleteModel[];
@@ -141,12 +108,53 @@ export class MyMarketDashboardComponent
   };
 
   successMessage!: MerchantBillModel;
-  pin!: string;
+  pin = '';
   indexMerchant = 0;
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
   activePlatform!: PlateformModel;
   mainConfig$!: Observable<activeMainConfigModel>;
+
+  corporateMarketMenus: MenuSimpleModel[] = [];
+  menus$: Observable<TypeMenuModel[]>;
+  marketMenus: MenuSimpleModel[] = [
+    {
+      component_url: 'product-config',
+      id: 1,
+      name: `Manage product`,
+      icon: 'box',
+    },
+    {
+      component_url: 'payment-reports',
+      id: 2,
+      name: `Payment reports`,
+      icon: 'file-excel',
+    },
+    {
+      component_url: 'merchant-config',
+      id: 3,
+      name: `Merchant config`,
+      icon: 'sliders',
+    },
+    {
+      component_url: '',
+      id: 4,
+      name: `Statements`,
+      icon: 'history',
+    },
+    {
+      component_url: 'merchant-transfer',
+      id: 5,
+      name: `Transfer`,
+      icon: 'paper-plane',
+    },
+    {
+      component_url: '',
+      id: 6,
+      name: `Generate Bill`,
+      icon: 'file-invoice',
+    },
+  ];
 
   constructor(
     private route: ActivatedRoute,
@@ -154,23 +162,20 @@ export class MyMarketDashboardComponent
     private authService: AuthService,
     private dialogService: DialogService,
     private configService: ConfigService,
-    private fullPathService: FullpathService
+    private menuService: MenuService
   ) {
     this.clientInfo$ = this.authService.getUserInfo();
     this.dialog$ = this.dialogService.getDialogState();
     this.theme$ = this.configService.getMode();
     this.mainConfig$ = this.configService.getMainConfig();
+    this.menus$ = this.configService.getTypeMenus();
   }
+
   ngOnInit(): void {
     this.mainConfig$.subscribe({
       next: configs => {
         if (configs) {
           this.activePlatform = configs.activePlateform;
-          if (this.activePlatform === 'myMarket') {
-            this.baseRouterLink = '/m/mymarket';
-          } else if (this.activePlatform === 'workstation') {
-            this.baseRouterLink = '/w/workstation/';
-          }
         }
       },
     });
@@ -182,11 +187,25 @@ export class MyMarketDashboardComponent
         },
       });
     }
+
     this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: theme => {
         this.theme = theme;
       },
     });
+
+    this.menus$.subscribe({
+      next: menus => {
+        if (menus) {
+          [this.corporateMarketMenus] = this.menuService.getBankingMenu(
+            'market',
+            'Dashboard',
+            this.configService.toArray(menus)
+          );
+        }
+      },
+    });
+
     this.getConnectedMerchantInfo();
     this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (dialog: DialogResponseModel) => {
@@ -206,6 +225,7 @@ export class MyMarketDashboardComponent
     });
     this.getMerchantMultipleInfo();
   }
+
   enterPin() {
     this.dialogService.openDialog({
       type: 'pin',
@@ -225,7 +245,7 @@ export class MyMarketDashboardComponent
 
     const body = {
       amount: this.billForm.value.amount,
-      client: (this.selectedClient as ItemModel).id,
+      client: (this.selectedClient as LookupModel).id,
       description: this.billForm.value.description,
       merchant_id: this.merchantId,
       pin_code: this.pin,
@@ -253,7 +273,7 @@ export class MyMarketDashboardComponent
           }
           this.successMessage = {
             debit_account: '',
-            name: (this.selectedClient as ItemModel).lookup_title,
+            name: (this.selectedClient as LookupModel).lookup_title,
             merchantName: (this.merchant as MerchantModel).client
               .client_full_name,
 
@@ -302,7 +322,7 @@ export class MyMarketDashboardComponent
         },
       });
   }
-  selectClient(event: ItemModel | null) {
+  selectClient(event: LookupModel | null) {
     if (event) {
       this.selectedClient = event;
     } else {
@@ -426,6 +446,37 @@ export class MyMarketDashboardComponent
       });
   }
 
+  setSelectedMenu(
+    menu: MenuSimpleModel,
+    url: string,
+    event?: MouseEvent,
+    enableRedirection?: boolean
+  ) {
+    this.menuService.setSelectedMenu(
+      menu,
+      `${this.baseMenuUrl}${url}`,
+      event,
+      enableRedirection
+    );
+    this.getAccesses(url, enableRedirection);
+  }
+
+  private getAccesses(url: string, redirect = true) {
+    this.menuService
+      .getAccesses(`${this.baseMenuUrl}${url}`, redirect)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        error: () => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            message: 'Something went wrong, Please try again',
+            title: '',
+            type: 'failed',
+          });
+        },
+      });
+  }
+
   getAmount(event: { amount: number | null }) {
     this.amount = event.amount;
     this.billForm.patchValue({
@@ -439,62 +490,5 @@ export class MyMarketDashboardComponent
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
-  }
-  headers = [
-    {
-      name: 'Date',
-      field: ['date_created'],
-      size: '',
-      format: 'date',
-    },
-    {
-      name: 'Description',
-      field: ['description'],
-      size: '',
-    },
-    {
-      name: 'Reference',
-      field: ['reference'],
-      size: '',
-    },
-    {
-      name: 'Debit amount',
-      field: ['debit'],
-      size: '',
-      format: 'currency',
-    },
-    {
-      name: 'Credit amount',
-      field: ['credit'],
-      size: '',
-      format: 'currency',
-    },
-    {
-      name: 'Balance',
-      field: ['solde'],
-      size: '',
-      format: 'currency',
-    },
-  ];
-
-  url = '';
-  ngOnChanges(changes: SimpleChanges) {
-    for (const propName in changes) {
-      const chng = changes[propName];
-      if (propName === 'accountId') {
-        this.url =
-          '/operations/all/statement/?trans_client_account_obj=' +
-          chng.currentValue +
-          '&';
-        this.accountId = chng.currentValue;
-      }
-      if (propName === 'ledgerId') {
-        this.url =
-          '/operations/all/statement/?trans_ledger_account_obj=' +
-          chng.currentValue +
-          '&';
-        this.ledgerId = chng.currentValue;
-      }
-    }
   }
 }

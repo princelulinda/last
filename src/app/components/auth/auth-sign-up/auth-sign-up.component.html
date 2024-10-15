@@ -31,7 +31,8 @@
               (selectedItemEvent)="selectClient($event)"
               option="lookup"
               url="/clients/list/all/object_lookup/?list_type=all&externel_request=true&lookup_data="
-              label="Search by client ID"></app-lookup>
+              [lookupDefaultSearch]="activeLink"
+              label="Search by client ID or Email"></app-lookup>
           </div>
           <div class="col">
             <button
@@ -273,10 +274,9 @@
               multiStepForm.controls.authentificationInformation.value
                 .password !== '' &&
               multiStepForm.controls.authentificationInformation.value
-                .confirmPassword !== '' &&
-              isMatchConfirmPassword
+                .confirmPassword !== ''
             ) {
-              <span class="text-danger" i18n>Password doesn't match</span>
+              <span class="text-danger" i18n>Passwords are not match</span>
             }
           </div>
           <div class="col">
@@ -602,8 +602,14 @@
                   placeholder=""
                   id="expiryDate" />
                 <label for="expiryDate" class="form-label" i18n
-                  >Expiry date<code class="me-1">*</code></label
-                >
+                  >Expiry date
+                  @if (
+                    this.multiStepForm.controls.cardInformation.value
+                      .cardType === 'PASSPORT'
+                  ) {
+                    <code class="me-1">*</code>
+                  }
+                </label>
               </div>
               @if (errorMessagee) {
                 <p class="text-danger">{{ errorMessagee }}</p>

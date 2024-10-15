@@ -5,6 +5,7 @@ import {
   AgentResModel,
   MerchantModel,
 } from '../../../components/dev/agent/agent.models';
+import { AgentModel } from '../../../components/admin/agent/agent.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,5 +26,11 @@ export class AgentService {
     return this.apiService
       .get(this.ApiLinkMerchant)
       .pipe(map(data => data as { objects: MerchantModel[] }));
+  }
+
+  getAgentsDetails(id: string): Observable<{ object: AgentModel }> {
+    return this.apiService
+      .get<{ object: AgentModel }>('/dbs/agents/' + id + '/')
+      .pipe(map(data => data));
   }
 }

@@ -22,7 +22,7 @@ import {
 } from '../client.model';
 import { ModeModel } from '../../../core/services/config/main-config.models';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
+import { AutocompleteModel } from '../../../global/models/global.models';
 
 @Component({
   selector: 'app-client-sensitive-info',
@@ -43,8 +43,8 @@ export class ClientSensitiveInfoComponent implements OnInit, OnDestroy {
   dialog!: DialogResponseModel;
   dialog$: Observable<DialogResponseModel>;
   theme$: Observable<ModeModel>;
-  selectedSectorId!: ItemModel | null;
-  selectedCategoryId!: ItemModel | null;
+  selectedSectorId!: AutocompleteModel | null;
+  selectedCategoryId!: AutocompleteModel | null;
   selectClient: ClientWorkstationModel | null = null;
 
   @Input() isSensitiveInfoFormShown = false;
@@ -93,14 +93,14 @@ export class ClientSensitiveInfoComponent implements OnInit, OnDestroy {
     this.loadingCategory = true;
 
     const data = {
-      client_category: (this.selectedCategoryId as ItemModel).id,
+      client_category: (this.selectedCategoryId as AutocompleteModel).id,
     };
 
     this.dialogService.dispatchLoading();
     this.clientService
       .modifyCategoryCorporate(
         this.clientId as string,
-        (this.selectedCategoryId as ItemModel).id,
+        (this.selectedCategoryId as AutocompleteModel).id,
         data
       )
       .pipe(takeUntil(this.onDestroy$))
@@ -143,14 +143,14 @@ export class ClientSensitiveInfoComponent implements OnInit, OnDestroy {
     this.loadingSector = true;
 
     const data = {
-      activity_sector: (this.selectedSectorId as ItemModel).id,
+      activity_sector: (this.selectedSectorId as AutocompleteModel).id,
     };
     this.dialogService.dispatchLoading();
 
     this.clientService
       .modifySectorCorporate(
         this.clientId as string,
-        (this.selectedSectorId as ItemModel).id,
+        (this.selectedSectorId as AutocompleteModel).id,
         data
       )
 
@@ -207,7 +207,7 @@ export class ClientSensitiveInfoComponent implements OnInit, OnDestroy {
     });
   }
 
-  setSelectedSector(id: ItemModel | null) {
+  setSelectedSector(id: AutocompleteModel | null) {
     if (id) {
       this.selectedSectorId = id;
     } else {
@@ -215,7 +215,7 @@ export class ClientSensitiveInfoComponent implements OnInit, OnDestroy {
     }
   }
 
-  setSelectedCategory(id: ItemModel | null) {
+  setSelectedCategory(id: AutocompleteModel | null) {
     if (id) {
       this.selectedCategoryId = id;
     } else {

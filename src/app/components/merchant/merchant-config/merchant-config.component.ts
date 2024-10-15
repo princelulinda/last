@@ -22,13 +22,13 @@ import {
   tellerObjectModel,
   tellersModel,
 } from '../merchant.models';
-import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { MerchantService } from '../../../core/services/merchant/merchant.service';
 import { DialogService } from '../../../core/services';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { MerchantTellerDetailsComponent } from './merchant-teller-details/merchant-teller-details.component';
+import { LookupModel } from '../../../global/models/global.models';
 
 @Component({
   selector: 'app-merchant-config',
@@ -67,7 +67,7 @@ export class MerchantConfigComponent implements OnInit {
   @ViewChild('closeModal', { static: false })
   closeModal!: ElementRef<HTMLElement>;
 
-  client: ItemModel | null = null;
+  client: LookupModel | null = null;
   isCheck = true;
   merchantConfigForm: FormGroup;
   newTellerForm: FormGroup;
@@ -195,7 +195,7 @@ export class MerchantConfigComponent implements OnInit {
       });
   }
 
-  getClientInfo(event: ItemModel | null = null) {
+  getClientInfo(event: LookupModel | null = null) {
     this.client = event;
 
     this.newTellerForm.patchValue({
@@ -426,10 +426,12 @@ export class MerchantConfigComponent implements OnInit {
     };
     this.get_tellers = false;
     if (search) {
-      this.merchantService.searchTellersByMerchant(data).subscribe((tellers: tellersModel) => {
-        this.isLoading = false;
-        this.tellers = tellers.objects;
-      });
+      this.merchantService
+        .searchTellersByMerchant(data)
+        .subscribe((tellers: tellersModel) => {
+          this.isLoading = false;
+          this.tellers = tellers.objects;
+        });
     } else {
       this.getTellersByMerchant();
     }

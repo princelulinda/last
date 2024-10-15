@@ -20,7 +20,6 @@ import { AmountVisibilityComponent } from '../../../global/components/custom-fie
 
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 
-import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
 import {
   FormControl,
   FormGroup,
@@ -30,6 +29,7 @@ import {
 } from '@angular/forms';
 
 import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
+import { AutocompleteModel } from '../../../global/models/global.models';
 @Component({
   selector: 'app-client-account-list',
   standalone: true,
@@ -128,10 +128,10 @@ export class ClientAccountListComponent implements OnInit, OnDestroy {
     this.selectedAgencyId = null;
     // this.subAccountForm.reset();
   }
-  setSelectedAccountType($event: ItemModel | null) {
+  setSelectedAccountType($event: AutocompleteModel | null) {
     this.selectedAccountTypeId = $event ? $event.id : null;
   }
-  setSelectedAgency($event: ItemModel | null) {
+  setSelectedAgency($event: AutocompleteModel | null) {
     this.selectedAgencyId = $event ? $event.id : null;
   }
 
@@ -176,7 +176,7 @@ export class ClientAccountListComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.isLoadingCreation = false;
-          console.error('creation  failed');
+          //  console.error('creation  failed');
           this.dialogService.closeLoading();
           this.dialogService.openToast({
             type: 'failed',

@@ -24,7 +24,7 @@ import {
   DialogResponseModel,
   MerchantBillModel,
 } from '../../../../core/services/dialog/dialogs-models';
-import { DebitAccountComponent } from '../../../transfer/debit-account/debit-account.component';
+import { DebitAccountComponent } from '../../../transfer/banking/debit-account/debit-account.component';
 import { AccountsListModel } from '../../../account/models';
 import { WalletList } from '../../../wallet/wallet.models';
 import { DebitOptionsModel } from '../../../transfer/transfer.model';

@@ -42,7 +42,7 @@ import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { MerchantProductsComponent } from '../merchant-payment/merchant-products/merchant-products.component';
 import { CategoryMerchantsComponent } from '../merchant-payment/category-merchants/category-merchants.component';
 import { ProductCardComponent } from '../../../../components/merchant/global/product-card/product-card.component';
-import { DebitAccountComponent } from '../../../../components/transfer/debit-account/debit-account.component';
+import { DebitAccountComponent } from '../../../../components/transfer/banking/debit-account/debit-account.component';
 import { CreditAccountComponent } from '../../../../components/transfer/credit-account/credit-account.component';
 import {
   FormBuilder,
@@ -389,14 +389,17 @@ export class MerchantPaymentComponent
       debit_type: '',
       pin_code: this.pin,
       debit_account: '',
+      debit_account_holder: '',
     };
 
     if (this.debitAccount) {
       data.debit_type = 'account';
       data.debit_account = this.debitAccount.acc_number.toString();
+      data.debit_account_holder = this.debitAccount.acc_holder;
     } else if (this.debitWallet) {
       data.debit_type = 'wallet';
-      data.debit_account = this.debitWallet.account.account_holder;
+      data.debit_account = this.debitWallet.code;
+      data.debit_account_holder = this.debitWallet.account.account_holder;
     }
 
     if (

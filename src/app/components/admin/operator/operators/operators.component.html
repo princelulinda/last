@@ -9,21 +9,21 @@
   @if (selectedList === 'newOperator') {
     <ng-container *ngTemplateOutlet="newOperator"></ng-container>
   }
-  <!-- Operators list template -->
+  <!--NOTE :: Operators list template -->
   <ng-template #operators>
     <div class="h-100 overflow-y-auto bg-white">
       <app-list
         [headers]="operatorHeader"
         url="/hr/operator/organizations/manage/?status=C&"
         [addButtonLink]="{
-          url: '/w/workstation/a/admin/operators',
+          url: '/w/workstation/a/admin/operator/operators',
           fragment: 'newOperator',
         }">
       </app-list>
     </div>
   </ng-template>
 
-  <!-- Invitations list template -->
+  <!-- NOTE :: Invitations list template -->
   <ng-template #invitations>
     <div class="h-100 overflow-y-auto bg-white">
       <app-list
@@ -31,13 +31,13 @@
         url="/hr/operator/organizations/manage/?list_type=unoperator&"
         title="Invitations"
         [addButtonLink]="{
-          url: '/w/workstation/a/admin/operators',
+          url: '/w/workstation/a/admin/operator/operators',
           fragment: 'newOperator',
         }"></app-list>
     </div>
   </ng-template>
 
-  <!-- New Operator Form template -->
+  <!-- NOTE :: New Operator Form template -->
   <ng-template #newOperator>
     <div class="h-100 overflow-y-auto bg-white pt-3">
       <section class="newOperator p-2 pb-3 rounded col-sm-9 col-lg-8 m-auto">
@@ -49,7 +49,7 @@
           <app-lookup
             option="lookup"
             url="/clients/list/all/object_lookup/?list_type=all&lookup_data="
-            label="Search by client ID"
+            label="Search by client ID, email "
             (selectedItemEvent)="selectClient($event)"></app-lookup>
         </div>
 

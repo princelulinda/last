@@ -1,14 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ListComponent } from '../../../../global/components/list/list/list.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+
+import { Subject, takeUntil } from 'rxjs';
+
+import { ListComponent } from '../../../../global/components/list/list/list.component';
 import { DialogService, MenuService } from '../../../../core/services';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { AdminService } from '../../../../core/services/admin/admin.service';
-import { Subject, takeUntil } from 'rxjs';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ItemModel } from '../../../../global/components/lookups/lookup/lookup.model';
 import { NewOperatorModel } from '../operator.models';
+import { LookupModel } from '../../../../global/models/global.models';
 
 @Component({
   selector: 'app-operators',
@@ -62,7 +64,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
       field: ['operator.name'],
       size: '',
       detail: {
-        link: '/w/workstation/a/admin/operator/',
+        link: '/w/workstation/a/admin/operator/operator/',
         field: 'id',
       },
     },
@@ -82,12 +84,12 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     {
       icon: 'list-ul',
       title: 'Operators List',
-      url: '/w/workstation/a/admin/operators',
+      url: '/w/workstation/a/admin/operator/operators',
     },
     {
       icon: 'user-clock',
       title: 'Invitations',
-      url: '/w/workstation/a/admin/operators',
+      url: '/w/workstation/a/admin/operator/operators',
       fragment: 'invitations',
     },
   ];
@@ -128,7 +130,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
     this.menuService.setPageMenus(this.pagesMenus);
   }
 
-  selectClient($event: ItemModel | null) {
+  selectClient($event: LookupModel | null) {
     this.clientId = $event ? $event.id : null;
   }
 
@@ -163,7 +165,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
             message: 'Success',
             type: 'success',
           });
-          this.router.navigate(['/w/workstation/a/admin/operators'], {
+          this.router.navigate(['/w/workstation/a/admin/operator/operators/'], {
             fragment: 'invitations',
           });
         },

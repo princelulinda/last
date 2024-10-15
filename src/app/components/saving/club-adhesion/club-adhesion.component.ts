@@ -20,7 +20,8 @@ import { LookupComponent } from '../../../global/components/lookups/lookup/looku
 import { DialogService } from '../../../core/services';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { AuthService } from '../../../core/services';
-import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
+import { LookupModel } from '../../../global/models/global.models';
+
 @Component({
   selector: 'app-club-adhesion',
   standalone: true,
@@ -79,7 +80,6 @@ export class ClubAdhesionComponent implements OnInit {
         this.tontineId = params['tontineId'];
         if (this.tontineId) {
           this.getSavingData();
-          //  this.getSavingDat();
         }
       },
     });
@@ -97,7 +97,7 @@ export class ClubAdhesionComponent implements OnInit {
     });
   }
 
-  getMemberId(event: ItemModel | null) {
+  getMemberId(event: LookupModel | null) {
     if (event) {
       this.referenceId = event.id;
       this.lookupEffectue = true;

@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
 import {
   FormBuilder,
@@ -25,7 +30,7 @@ import { UploadedFileModel } from '../auth.model';
 import { BankService } from '../../../core/services/bank/bank.service';
 import { DbService } from '../../../core/db/db.service';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
-import { ItemModel } from '../../../global/components/lookups/lookup/lookup.model';
+import { LookupModel } from '../../../global/models/global.models';
 
 @Component({
   selector: 'app-auth-sign-up',
@@ -76,6 +81,7 @@ export class AuthSignUpComponent implements OnInit {
   uuid!: string;
   docFile!: string;
   id!: number;
+  activeLink = '';
 
   birthday = FormGroup;
   errorMessage!: string;
@@ -99,6 +105,11 @@ export class AuthSignUpComponent implements OnInit {
         }
       },
     });
+
+    this.route.queryParams.subscribe(params => {
+      const reference = params['reference'] || '';
+      this.activeLink = `${reference}`;
+    });
   }
 
   submit() {
@@ -117,7 +128,10 @@ export class AuthSignUpComponent implements OnInit {
     private authService: AuthService,
     private bankService: BankService,
     private dialogService: DialogService,
-    private dbService: DbService
+    private dbService: DbService,
+
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.dialog$ = this.dialogService.getDialogState();
   }
@@ -339,7 +353,7 @@ export class AuthSignUpComponent implements OnInit {
       type: 'confirm',
     });
   }
-  selectClient(event: ItemModel | null) {
+  selectClient(event: LookupModel | null) {
     if (event) {
       this.id = event.id;
     }

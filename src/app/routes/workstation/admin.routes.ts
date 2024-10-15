@@ -22,16 +22,21 @@ import { AdminServicesListComponent } from '../../components/admin/rh/admin-serv
 import { AdminServicesDetailsComponent } from '../../components/admin/rh/admin-services-details/admin-services-details.component';
 import { ConfigTarifComponent } from '../../components/tarifs/config-tarif/config-tarif.component';
 import { AdminAccessListComponent } from '../../components/admin/access/admin-access-list/admin-access-list.component';
-export const AdminRoutes: Routes = [
-  // Operator
-  {
-    path: 'operators',
-    component: OperatorsComponent,
-  },
 
+export const AdminRoutes: Routes = [
+  //NOTE :: OPERATOR MODULE
   {
-    path: 'operator/:id',
-    component: OperatorDetailsComponent,
+    path: 'operator',
+    children: [
+      {
+        path: 'operators',
+        component: OperatorsComponent,
+      },
+      {
+        path: 'operator/:id',
+        component: OperatorDetailsComponent,
+      },
+    ],
   },
 
   // Menu
@@ -105,6 +110,7 @@ export const AdminRoutes: Routes = [
     path: 'accesses',
     component: AdminAccessListComponent,
   },
+
   {
     path: 'access-required',
     loadComponent: () =>

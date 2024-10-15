@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
-import { DebitAccountComponent } from '../../transfer/debit-account/debit-account.component';
+import { DebitAccountComponent } from '../../transfer/banking/debit-account/debit-account.component';
 import { AccountsListModel } from '../../account/models';
 import {
   FormControl,

@@ -12,13 +12,13 @@ import {
 } from '@angular/forms';
 import { BankModel } from '../../core/db/models/bank/bank.model';
 import { DialogResponseModel } from '../../core/services/dialog/dialogs-models';
-import { DebitAccountComponent } from '../transfer/debit-account/debit-account.component';
+import { DebitAccountComponent } from '../transfer/banking/debit-account/debit-account.component';
 import { LookupComponent } from '../../global/components/lookups/lookup/lookup.component';
 import { AmountFieldComponent } from '../../global/components/custom-field/amount-field/amount-field.component';
 import { AccountsListModel } from '../account/models';
 import { WalletList } from '../wallet/wallet.models';
-import { ItemModel } from '../../global/components/lookups/lookup/lookup.model';
 import { ResModel } from '../loan/loan.models';
+import { LookupModel } from '../../global/models/global.models';
 @Component({
   selector: 'app-withdrawal',
   standalone: true,
@@ -39,7 +39,6 @@ export class WithdrawalComponent implements OnInit, OnDestroy {
   backgroundColor = '#f1f1f1';
 
   dialog$: Observable<DialogResponseModel>;
-  // dialog: any;
   withdrawForm: FormGroup;
   menuSelected = 'agent';
   valueCheck = false;
@@ -50,16 +49,14 @@ export class WithdrawalComponent implements OnInit, OnDestroy {
   message!: string;
   pin = '';
 
-  // accessBankId: any;
-  // accessClientId: any;
   agentCode!: string;
   debitAccount!: string;
   debitType!: string;
   withdrawalType = 'c2a_normal';
 
-  agent!: ItemModel | null;
-  // debit: any = {};
-  account!: AccountsListModel | WalletList | null;
+  agent: LookupModel | null = null;
+  account: AccountsListModel | WalletList | null = null;
+
   constructor(
     private bankService: BankService,
     private dialogService: DialogService,
@@ -95,9 +92,11 @@ export class WithdrawalComponent implements OnInit, OnDestroy {
     this.withdrawForm.reset();
   }
 
-  getAgentCode(event: ItemModel | null) {
-    this.agent = event as ItemModel;
-    this.agentCode = this.agent.lookup_subtitle;
+  getAgentCode(event: LookupModel | null) {
+    this.agent = event;
+    if (this.agent) {
+      this.agentCode = this.agent?.lookup_subtitle;
+    }
   }
 
   getAccountSelected(event: AccountsListModel | WalletList) {

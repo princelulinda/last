@@ -75,26 +75,6 @@ export interface LoanTypeModel {
   title: string;
 }
 
-export interface CreditTypeModel {
-  id: number;
-  lookup_description: string | null;
-  lookup_has_image_or_icon: boolean;
-  lookup_icon: string | null;
-  lookup_image: string | null;
-  lookup_subtitle: string;
-  lookup_title: string;
-}
-
-export interface AcccountWorkstationModel {
-  id?: number;
-  lookup_description?: string;
-  lookup_has_image_or_icon?: boolean;
-  lookup_icon?: string | null;
-  lookup_image?: string;
-  lookup_subtitle?: string;
-  lookup_title?: string;
-}
-
 export interface BranchModel {
   chief: number;
   code: number;

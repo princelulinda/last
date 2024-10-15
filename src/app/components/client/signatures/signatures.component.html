@@ -1,0 +1,627 @@
+<!-- <p>signatures works!</p> -->
+<div class="bg-white">
+  @if (!client) {
+    <div
+      class="text-center w-100 d-flex row justify-content-center align-items-center text-dark fs-4 minHeight">
+      <span><i class="fa-solid fa-spin fa-circle-notch text-dark"></i></span>
+    </div>
+  }
+  @if (client) {
+    <div class="row g-0 p-2 mx-1 bg-white me-0 pe-0">
+      <div
+        class="col-lg-3 bg-white text-dark ps-2 signatoryBlock overflow-hidden">
+        @if (client) {
+          <div class="d-flex chosen">
+            @if (client && !client.picture_url) {
+              <img
+                i18n
+                src="/images/userprofile.png"
+                alt="user profile"
+                class="image imageSize mb-2" />
+            }
+
+            @if (
+              client &&
+              (client.client_type === 'C' ||
+                client.client_is_custom === true) &&
+              client.picture_url
+            ) {
+              <img
+                i18n
+                alt="picture of client"
+                [src]="client.picture_url"
+                class="image lg-radius mb-2 imgSize" />
+            }
+
+            @if (client && client.client_type === 'I' && client.picture_url) {
+              <img
+                i18n
+                alt="picture of client"
+                [src]="client.picture_url"
+                class="image lg-radius mb-2 imgSize" />
+            }
+
+            <br />
+            <span class="ms-2 lineHeight"
+              ><span class="small fw-bold text-dark">{{
+                client.client_full_name || '---'
+              }}</span>
+              <br />
+              <span class="text-dark small opacity-75">{{
+                client.client_code || '---'
+              }}</span
+              ><br />
+              <span class="small fw-bold text-primary">{{
+                client.client_phone_number || '---'
+              }}</span
+              ><br />
+            </span>
+          </div>
+        }
+
+        <div class="p-2 bg-secondary text-start h-100">
+          <div
+            class="p-2"
+            role="button"
+            [ngClass]="{
+              'bg-all-white text-all-dark': selectedSetting === 'signatures',
+              'text-dark': theme === 'light',
+              'text-all-dark': theme === 'dark',
+            }"
+            (click)="selectSetting('signatures')"
+            tabindex="0"
+            i18n>
+            Signature configuration
+          </div>
+
+          <div
+            class="p-2"
+            role="button"
+            (click)="selectSetting('contactDetails')"
+            tabindex="0"
+            i18n
+            [ngClass]="{
+              'bg-all-white text-all-dark':
+                selectedSetting === 'contactDetails',
+              'text-dark': theme === 'light',
+              'text-all-dark': theme === 'dark',
+            }">
+            Contact details
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-9">
+        <div class="details bg-secondary h-100 p-3 rounded-top text-dark">
+          @if (selectedSetting === 'signatures') {
+            <div class="bg-white ps-3 pe-4 lg-radius selectedConfig">
+              @if (
+                selectedSection === 'signaturesList' && !selectedConfiguration
+              ) {
+                <div>
+                  @if (!signatoryConfig && isLoadingConfigs) {
+                    <div
+                      class="text-dark align-items-center row text-center minHeight">
+                      <span
+                        ><i
+                          class="fa-solid text-dark fa-spin fa-circle-notch fs-4"></i
+                      ></span>
+                    </div>
+                  }
+                  @if (signatoryConfig && !isLoadingConfigs) {
+                    <div>
+                      <div class="d-flex">
+                        <span
+                          class="ms-3 mt-3"
+                          role="button"
+                          (click)="refresh()"
+                          tabindex="0">
+                          <i
+                            class="fa-solid fa-arrows-rotate fs-5 text-dark fw-bold opacity-50"></i>
+                        </span>
+                        <button
+                          class="btn p-2 bg-primary btnConfigurations ms-auto mt-3 text-center"
+                          (click)="selectSection('configurations')"
+                          tabindex="0"
+                          [ngClass]="{
+                            'text-light': theme === 'light',
+                            'text-dark': theme === 'dark',
+                          }"
+                          i18n>
+                          Add Configuration
+                        </button>
+                      </div>
+
+                      <br />
+                      <div class="row text-dark fw-bold me-5 ms-5 d-flex mt-3">
+                        <div class="col fw-bold ps-4" i18n>Created at</div>
+                        <div class="col fw-bold text-center" i18n>
+                          Signatory & Groups
+                        </div>
+
+                        <div class="col fw-bold text-center" i18n>Status</div>
+                      </div>
+                      @if (!isLoadingConfigs && signatoryConfig.length === 0) {
+                        <div
+                          class="d-flex flex-column align-items-center mt-5 empty-state-icon">
+                          <span class="opacity-75 noConfig">
+                            <i class="fa-solid fa-face-meh"></i>
+                          </span>
+                          <b class="fs-4 opacity-50" i18n>
+                            No Configurations Found
+                          </b>
+                        </div>
+                      }
+                      @for (configs of signatoryConfig; track $index) {
+                        <div
+                          class="row mt-3 p-2 ms-5 me-5 border sm-radius d-flex justify-content-between"
+                          role="button"
+                          (click)="selectConfiguration(configs.id)"
+                          tabindex="0">
+                          <div
+                            class="col text-dark ps-3 pt-2 mt-1 fw-bold align-items-center"
+                            i18n>
+                            {{ (configs.created_at | date: 'medium') || '---' }}
+                          </div>
+                          <div
+                            class="col text-dark text-center fw-bold align-items-center"
+                            i18n>
+                            <span> {{ configs.signatories | number }}</span>
+                            <br />
+                            <span class="opacity-75">
+                              {{ configs.groups_count | number }}
+                              Group(s)</span
+                            >
+                          </div>
+
+                          <div class="col d-flex align-items-center">
+                            <div
+                              [class]="
+                                'text-' +
+                                configs.status.css +
+                                ' p-2 text-center w-90 badge-design sm-radius ms-auto me-auto bg-' +
+                                configs.status.css
+                              "
+                              i18n>
+                              {{ configs.status.title || '---' }}
+                            </div>
+                          </div>
+                        </div>
+                      }
+
+                      <div
+                        class="mt-4 d-flex align-items-center justify-content-center text-light">
+                        <button
+                          title="Previous"
+                          (click)="doListMove('prev')"
+                          tabindex="0"
+                          [disabled]="currentPage === 0"
+                          class="border-0 me-2 btn d-inline-flex align-items-center rounded p-2 fs-4 text-primary">
+                          <i class="fa-solid fa-play fa-rotate-180"></i>
+                        </button>
+                        @if (pagination.filters.limit) {
+                          <button
+                            title="Next"
+                            (click)="doListMove('next')"
+                            tabindex="0"
+                            [disabled]="
+                              count <
+                              (currentPage + 1) * pagination.filters.limit
+                            "
+                            class="border-0 ms-2 btn fs-4 d-inline-flex align-items-center rounded p-2 text-primary">
+                            <i class="fa-solid fa-play"></i>
+                          </button>
+                        }
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
+
+              @if (selectedSection === 'configurations') {
+                <div>
+                  <div class="p-2 d-flex">
+                    <div
+                      class="ms-1"
+                      role="button"
+                      (click)="selectSection('signaturesList')"
+                      tabindex="0">
+                      <i
+                        class="fa-solid fa-arrow-left fs-5 text-dark fw-bold"></i>
+                    </div>
+                    <div
+                      class="ms-auto"
+                      role="button"
+                      (click)="refresh()"
+                      tabindex="0">
+                      <i
+                        class="fa-solid fa-arrows-rotate fs-5 text-dark fw-bold opacity-50"></i>
+                    </div>
+                  </div>
+                  <form [formGroup]="configForm">
+                    <div class="p-2 ms-2 col-6">
+                      <input
+                        class="form-control input fields"
+                        type="text"
+                        placeholder="Minimum"
+                        formControlName="minimum"
+                        pattern="[0-9]*"
+                        title="Fill with numbers" />
+                      @if (minimumControl?.invalid && minimumControl?.touched) {
+                        <span class="text-danger">Can accept only numbers</span>
+                      }
+                    </div>
+
+                    <div
+                      class="mt-1 p-2 border bg-secondary p-2 sm-radius dragAndDrop">
+                      <div draggable="true" ngClass="{{ dragAreaClass }}">
+                        <div class="row">
+                          <div class="col-md-12 text-center mt-2">
+                            <i
+                              class="fa-solid fa-circle-check fs-1 text-primary"></i>
+                            <br />
+                            <span class="text-dark fw-bold fs-5 opacity-50" i18n
+                              >Drag and drop <br />
+                              documents</span
+                            >
+                            <a
+                              class="fs-5"
+                              href="javascript:void(0)"
+                              (click)="file.click()"
+                              tabindex="0"
+                              i18n>
+                              or Browse
+                            </a>
+                            <input
+                              type="file"
+                              #file
+                              [multiple]="false"
+                              (change)="onFileChange($event)"
+                              class="d-none" />
+                            @if (draggedFiles) {
+                              <div>
+                                @for (file of draggedFiles; track $index) {
+                                  <div class="file text-dark fw-bold">
+                                    {{ file.name }}
+                                  </div>
+                                }
+                              </div>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                      @if (error) {
+                        <div class="text-danger" i18n>
+                          Only one file at time allow
+                        </div>
+                      }
+                    </div>
+                    <div class="text-center mt-3">
+                      <button
+                        class="btn text-center bg-primary addSignatoryConfiguration"
+                        [ngClass]="{
+                          'text-light': theme === 'light',
+                          'text-dark': theme === 'dark',
+                          'not-clickable': isLoading,
+                        }"
+                        type="submit"
+                        [disabled]="!configForm.value.minimum"
+                        (click)="addSignatoryConfiguration()"
+                        tabindex="0">
+                        @if (!isLoading) {
+                          <span i18n>Save</span>
+                        }
+
+                        @if (isLoading) {
+                          <span
+                            ><i class="fa-solid fa-spin fa-circle-notch"></i
+                          ></span>
+                        }
+                      </button>
+                    </div>
+                  </form>
+                  <hr class="lineSize" />
+                </div>
+              }
+
+              @if (selectedConfiguration) {
+                <div>
+                  <div>
+                    @if (!signatoryConfigDetails) {
+                      <div
+                        class="text-dark align-items-center row text-center minHeight">
+                        <span
+                          ><i
+                            class="fa-solid text-dark fa-spin fa-circle-notch fs-4"></i
+                        ></span>
+                      </div>
+                    }
+                    @if (signatoryConfigDetails) {
+                      <div>
+                        <div class="p-2 d-flex">
+                          <div
+                            class="ms-1"
+                            role="button"
+                            (click)="selectedConfiguration = false"
+                            tabindex="0">
+                            <i
+                              class="fa-solid fa-arrow-left fs-5 text-dark fw-bold"></i>
+                          </div>
+                          <div
+                            class="ms-auto"
+                            role="button"
+                            (click)="refreshConfigurationDetails()"
+                            tabindex="0">
+                            <i
+                              class="fa-solid fa-arrows-rotate fs-5 text-dark fw-bold opacity-50"></i>
+                          </div>
+                        </div>
+                        @if (signatoryConfigDetails) {
+                          <div class="d-flex ps-3 pe-2">
+                            <div>
+                              <span class="text-dark fw-bold" i18n
+                                >Minimum :</span
+                              >
+                              <span class="ms-2">{{
+                                (signatoryConfigDetails.minimum | number) ||
+                                  '---'
+                              }}</span>
+                            </div>
+                            <div class="ms-auto">
+                              <div
+                                [class]="
+                                  'text-' +
+                                  signatoryConfigDetails.status.css +
+                                  'p-1 w-100 badge-design  text-center sm-radius border bg-' +
+                                  signatoryConfigDetails.status.css
+                                "
+                                i18n>
+                                {{
+                                  signatoryConfigDetails.status.title || '---'
+                                }}
+                              </div>
+                            </div>
+                          </div>
+                        }
+
+                        @if (signatoryConfigDetails) {
+                          <div class="ps-3 pe-2 mt-3">
+                            <span class="text-dark fw-bold" i18n
+                              >Confirm by :</span
+                            >
+                            <span class="ms-2" i18n>{{
+                              signatoryConfigDetails.confirmed_by || '---'
+                            }}</span>
+                            <span class="ms-2 fw-bold" i18n> at</span>
+                            <span class="ms-2" i18n>
+                              {{
+                                (signatoryConfigDetails.confirmed_by
+                                  | date: 'medium') || '---'
+                              }}</span
+                            >
+                          </div>
+                        }
+
+                        @if (signatoryConfigDetails) {
+                          <div class="ps-3 pe-2 mt-2">
+                            <span class="text-dark fw-bold" i18n
+                              >cancelled by :</span
+                            >
+                            <span class="ms-2">{{
+                              signatoryConfigDetails.canceled_by || '---'
+                            }}</span>
+                          </div>
+                        }
+
+                        @if (signatoryConfigDetails) {
+                          <div class="ps-3 pe-2 mt-4 d-flex">
+                            <span class="text-dark fw-bold" i18n
+                              >Signatories :</span
+                            >
+                            <div
+                              class="ms-2 pt-1 text-center signatories sm-radius fw-bold"
+                              [ngClass]="{
+                                'text-dark': theme === 'light',
+                                'text-light': theme === 'dark',
+                              }">
+                              {{
+                                (signatoryConfigDetails.signatories | number) ||
+                                  '---'
+                              }}
+                            </div>
+                          </div>
+                        }
+
+                        <div class="ps-3 pe-2 mt-3 d-flex">
+                          <span class="text-dark fw-bold groups" i18n
+                            >Groups
+                          </span>
+                          <div class="ms-2 w-75">
+                            <hr />
+                          </div>
+                          <button
+                            class="btn text-light bg-primary ms-3"
+                            (click)="addGroup()"
+                            tabindex="0"
+                            i18n>
+                            Add group
+                          </button>
+                        </div>
+                        @if (toggleGroupForm) {
+                          <div>
+                            <div class="p-2 ms-2">
+                              <span i18n>Group</span>
+                              <br />
+                              <form [formGroup]="signatoryGroupForm">
+                                <div class="row">
+                                  <div class="col-6">
+                                    <input
+                                      class="form-control input fields"
+                                      type="text"
+                                      placeholder="Name"
+                                      formControlName="name" />
+                                  </div>
+                                  <div class="col-6">
+                                    <input
+                                      class="form-control input fields"
+                                      type="text"
+                                      placeholder="Order"
+                                      formControlName="signature_order" />
+                                    @if (
+                                      signatureOrderControl?.invalid &&
+                                      signatureOrderControl?.touched
+                                    ) {
+                                      <span class="text-danger"
+                                        >Can accept only numbers</span
+                                      >
+                                    }
+                                  </div>
+                                </div>
+                                <div class="row mt-2">
+                                  <div class="col-6">
+                                    <input
+                                      class="form-control input fields"
+                                      type="text"
+                                      placeholder="Description"
+                                      formControlName="description" />
+                                  </div>
+                                  <div class="col-6 pt-3">
+                                    <label class="fw-bold">
+                                      <i
+                                        class="fa-solid fa-circle-question fs-6 text-primary"></i>
+                                      Exclusif<input
+                                        class="form-control-check ms-3"
+                                        type="checkbox"
+                                        formControlName="exclusive" />
+                                    </label>
+                                  </div>
+                                </div>
+
+                                <div class="text-center mt-3">
+                                  <b
+                                    class="text-primary me-3"
+                                    role="button"
+                                    (click)="toggleGroupForm = false"
+                                    tabindex="0"
+                                    i18n
+                                    >Cancel</b
+                                  >
+                                  <button
+                                    class="btn text-center bg-primary addSignatoryGroup"
+                                    [ngClass]="{
+                                      'text-light': theme === 'light',
+                                      'text-dark': theme === 'dark',
+                                      'not-clickable': loading,
+                                    }"
+                                    [disabled]="
+                                      !signatoryGroupForm.value.name ||
+                                      !signatoryGroupForm.value
+                                        .signature_order ||
+                                      !signatoryGroupForm.value.description
+                                    "
+                                    type="submit"
+                                    (click)="addSignatoryGroup()"
+                                    tabindex="0">
+                                    @if (!loading) {
+                                      <span i18n>Save</span>
+                                    }
+
+                                    @if (loading) {
+                                      <span
+                                        ><i
+                                          class="fa-solid fa-spin fa-circle-notch"></i
+                                      ></span>
+                                    }
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        }
+
+                        @if (
+                          signatoryConfigDetails &&
+                          signatoryConfigDetails.signatory_groups.length > 0 &&
+                          !toggleGroupForm
+                        ) {
+                          <div
+                            class="row w-100 text-dark fw-bold ms-2 me-2 d-flex mt-3">
+                            <div class="col ps-4" i18n>Order</div>
+
+                            <div class="col" i18n>Group name</div>
+
+                            <div class="col" i18n>N.signatories</div>
+                            <div class="col" i18n>Status</div>
+                          </div>
+                        }
+
+                        @if (
+                          signatoryConfigDetails &&
+                          signatoryConfigDetails.signatory_groups.length ===
+                            0 &&
+                          !toggleGroupForm
+                        ) {
+                          <div
+                            class="row h-100 align-items-center justify-content-center fw-bold opacity-50 text-md">
+                            There is no group
+                          </div>
+                        }
+                        @for (
+                          group of signatoryConfigDetails.signatory_groups;
+                          track $index
+                        ) {
+                          <div
+                            class="row mt-3 p-2 ms-3 me-2 border sm-radius d-flex justify-content-between">
+                            <div class="col pt-2 ps-4 text-dark">
+                              # {{ $index + 1 }}
+                            </div>
+                            <div
+                              class="col text-dark d-flex align-items-center"
+                              i18n>
+                              {{ group.name || '---' }}
+                            </div>
+
+                            <div
+                              class="col d-flex align-items-center text-primary">
+                              <span class="fw-bold">
+                                {{
+                                  (group.signatories | number) || '---'
+                                }} </span
+                              ><span class="m-2" i18n> signatory(s)</span>
+                            </div>
+                            <div
+                              class="col d-flex align-items-center position-relative">
+                              <span
+                                [class]="
+                                  'text-' +
+                                  group.status.title +
+                                  'p-1 w-100 badge-design text-center sm-radius border bg-' +
+                                  group.status.css
+                                "
+                                i18n
+                                >{{ group.status.title || '---' }}</span
+                              >
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          }
+
+          @if (selectedSetting === 'contactDetails') {
+            <div class="bg-white ps-3 pe-4 lg-radius selectedSetting">
+              <app-client-contacts
+                [canAddEmail]="true"
+                [canAddPhoneNumber]="true"
+                [id]="clientId"></app-client-contacts>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

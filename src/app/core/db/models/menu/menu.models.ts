@@ -59,15 +59,17 @@ export interface MenuModel {
     active: boolean;
   };
 }
+export interface MenuSimpleModel {
+  id: number;
+  name: string;
+  component_url: string;
+  icon: string | null;
+}
 
 export interface MenuGroupAndMenusSimpleModel {
   id: number;
   name: string;
-  menus: {
-    id: number;
-    name: string;
-    component_url: string;
-  }[];
+  menus: MenuSimpleModel[];
 }
 
 export type URLTypeMenuModel = 'b' | 'm' | 'i' | 'd' | 'r' | 'a' | '';

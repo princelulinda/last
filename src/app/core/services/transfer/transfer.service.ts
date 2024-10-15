@@ -5,6 +5,7 @@ import {
   InstitutionInfoModel,
   TransferResponseModel,
 } from '../../../components/transfer/transfer.model';
+import { ConnectedOperatorModel } from '../../../components/auth/auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -66,6 +67,17 @@ export class TransferService {
   doTransfer(data: object): Observable<TransferResponseModel> {
     return this.apiService
       .post('/operations/transfer/', data)
+      .pipe(map(data => data as TransferResponseModel));
+  }
+  doTransferWorkstation(
+    institution_id: ConnectedOperatorModel | number | undefined,
+    data: object
+  ): Observable<TransferResponseModel> {
+    return this.apiService
+      .post(
+        `/corporate/operation/transfer/${institution_id}/perform_object_action/`,
+        data
+      )
       .pipe(map(data => data as TransferResponseModel));
   }
 

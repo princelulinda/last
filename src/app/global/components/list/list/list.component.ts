@@ -148,7 +148,6 @@ export class ListComponent implements OnInit, OnDestroy {
   }
   isSearchInputNotEmpty(): boolean {
     const searchValue = this.searchName.value;
-    // return typeof searchValue === 'string' && searchValue.trim() !== '';
     return searchValue?.trim() !== '';
   }
   handleEnter(event: KeyboardEvent): void {
@@ -182,7 +181,7 @@ export class ListComponent implements OnInit, OnDestroy {
           this.response_data = data;
           this.totalItems = data.count;
           this.data_list = [];
-          this.searchName.setValue('');
+          // this.searchName.setValue('');
 
           if (this.clientPagination.filters.limit) {
             this.pages = ~~(

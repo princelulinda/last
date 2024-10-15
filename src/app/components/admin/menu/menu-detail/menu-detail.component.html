@@ -1,304 +1,237 @@
-<div class="level-1 details-container">
-  <header class="level-1 header">
-    <div class="tabs">
-      <div
-        class="tabs-item text-dark"
-        tabindex="0"
-        (click)="selectMenu('details')"
-        [ngClass]="{ 'level-2': selectedMenu === 'details' }">
-        <small i18n>Menu Details</small>
-      </div>
-    </div>
-    <div>
+<main class="p-2">
+  @if (selectedMenu === 'details') {
+    <section class="text-end mx-2 text-end mx-2 col-11 mt-3">
       <a
-        title="Menus List"
-        style="text-decoration: none"
-        [routerLink]="redirectTo('menu')"
-        class="link"
-        i18n
-        >Menus List</a
-      >
-    </div>
-  </header>
-  <main class="level-2 p-2" style="height: 70vh">
-    @if (selectedMenu === 'details') {
-      <section class="text-end mx-2">
-        @if (!loadingData) {
-          <span
-            class="refresh clickable"
-            title="Refresh"
-            role="button"
-            tabindex="0"
-            (click)="refreshData()">
-            <i class="fa-solid fa-arrows-rotate text-dark me-1"></i>
-            <small class="text-dark" i18n>Refresh</small>
-          </span>
-        }
-
-        @if (loadingData) {
-          <span>
-            <i class="fas fa-spinner fa-pulse text-dark"></i>
-          </span>
-        }
-      </section>
-    }
-
-    @if (errorMessage) {
-      <div class="text-center py-3 fs-4 w-50 m-auto mt-3 text-danger" i18n>
-        <span class="fs-5 me-1">
-          <i class="fa-solid fa-ban"></i>
-        </span>
-        {{ errorMessage }}
-      </div>
-    }
-    @if (loadingData) {
-      <div class="preloader mt-2">
-        <span>
-          <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
-        </span>
-      </div>
-    }
-    @if (selectedMenu === 'details' && menuDetails) {
-      <section
-        class="details row justify-content-center align-items-center mx-2 py-2 rounded">
-        <div class="col-lg-9 col-sm-12 col-md-12">
-          @if (menuDetails) {
-            <section class="titles">
-              <h4 class="my-4 fw-bold text-dark d-flex align-items-center">
-                <span i18n class="me-2">Menu</span>
-                {{ menuDetails.name }}
-                <small
-                  role="button"
-                  tabindex="0"
-                  (click)="showUpdateForm = !showUpdateForm"
-                  class="text-success clickable ms-2 text-md">
-                  <i
-                    class="fa-sharp fa-pen-clip"
-                    role="button"
-                    title="Modify the menu"></i>
-                </small>
-              </h4>
-            </section>
-          }
-
-          <!-- details -->
-          @if (!showUpdateForm) {
-            <div class="row mt-3" style="gap: 1rem">
-              <div class="align-items-center col-sm-7 col-md-6 col-xl-4">
-                <div class="mb-1 text-secondary mx-2" i18n>Name</div>
-                <div class="field text-dark rounded py-2 px-3">
-                  <b>{{ menuDetails.name }}</b>
-                </div>
-              </div>
-
-              <div class="align-items-center col-sm-7 col-md-6 col-xl-4">
-                <div class="mb-1 text-secondary mx-2" i18n>Icon Name</div>
-                <div class="field text-dark rounded py-2 px-3 d-flex">
-                  @if (menuDetails.icon) {
-                    <b>{{ menuDetails.icon }}</b>
-                  }
-
-                  @if (!menuDetails.icon) {
-                    <b>----</b>
-                  }
-                </div>
-              </div>
-              <div class="align-items-center col-sm-7 col-md-6 col-xl-4">
-                <div class="mb-1 text-secondary mx-2" i18n>Menu Group</div>
-                <div class="field text-dark rounded py-2 px-3">
-                  <b>{{
-                    menuDetails.menu_group_info
-                      ? menuDetails.menu_group_info.name
-                      : '----'
-                  }}</b>
-                </div>
-              </div>
-              <div class="align-items-center col-sm-7 col-md-6 col-xl-4">
-                <div class="mb-1 text-secondary mx-2" i18n>Web URL</div>
-                <div class="field text-dark rounded p-2">
-                  @if (menuDetails.component_url) {
-                    <b>{{ menuDetails.component_url }}</b>
-                  }
-
-                  @if (!menuDetails.component_url) {
-                    <b>----</b>
-                  }
-                </div>
-              </div>
-              <div class="align-items-center col-sm-7 col-md-6 col-xl-4">
-                <div class="mb-1 text-secondary mx-2" i18n>Mobile URL</div>
-                <div class="field text-dark rounded p-2">
-                  @if (menuDetails.mobile_url) {
-                    <b>{{ menuDetails.mobile_url }}</b>
-                  }
-
-                  @if (!menuDetails.mobile_url) {
-                    <b>----</b>
-                  }
-                </div>
-              </div>
-              <div class="align-items-center col-sm-7 col-md-6 col-xl-4 d-flex">
-                <b class="me-2 text-dark" i18n>Active</b>
-                <div class="text-dark rounded py-2 px-3">
-                  @if (menuDetails.active) {
-                    <span>
-                      <i class="fa-solid fa-circle-check text-success fs-6"></i>
-                    </span>
-                  }
-                  @if (!menuDetails.active) {
-                    <span
-                      ><i class="fa-solid fa-circle-xmark text-danger fs-6"></i>
-                    </span>
-                  }
-                </div>
-              </div>
-            </div>
-          }
-
-          <!-- update section -->
-          @if (showUpdateForm) {
-            <div
-              class="col-lg-9 col-sm-12 col-md-12 row mt-3"
-              style="gap: 1rem">
-              <div class="form-floating col-sm-7 col-md-6 col-xl-5">
-                <input
-                  class="form-control input"
-                  type="text"
-                  placeholder="Name"
-                  [formControl]="menuName" />
-                <label for="name" i18n class="text-dark mx-3"
-                  >Name <code>*</code></label
-                >
-              </div>
-              <div class="form-floating col-sm-7 col-md-6 col-xl-5">
-                <input
-                  class="form-control"
-                  type="text"
-                  placeholder="Icon name"
-                  [formControl]="icon" />
-                <label for="icon" i18n class="text-dark mx-3"
-                  >Icon Name <code>*</code></label
-                >
-              </div>
-              <div class="col-sm-7 col-md-6 col-xl-5">
-                <app-lookup
-                  option="autocomplete"
-                  label="Menus"
-                  [selectedId]="+menuGroupId"
-                  url="/menugroup/list/objects_autocomplete/?search="
-                  (selectedItemEvent)="
-                    setSelectedMenu($event?.id?.toString() ?? '')
-                  "></app-lookup>
-              </div>
-
-              <div class="form-floating col-sm-7 col-md-6 col-xl-5">
-                <input
-                  class="form-control"
-                  placeholder="Url"
-                  [formControl]="menuUrl" />
-                <label for="webUrl" class="text-dark mx-3" i18n>Web URL</label>
-              </div>
-              <div class="form-floating col-sm-7 col-md-6 col-xl-5">
-                <input
-                  class="form-control"
-                  placeholder="Url"
-                  [formControl]="mobileUrl" />
-                <label for="mobileUrl" class="text-dark mx-3" i18n
-                  >Mobile URL</label
-                >
-              </div>
-              <div class="col-sm-7 col-md-6 col-xl-5 d-flex align-items-center">
-                <b i18n class="text-dark me-3">Active</b>
-                <div class="">
-                  <input
-                    class="form-check-input fs-5"
-                    type="checkbox"
-                    [checked]="menuDetails.active"
-                    [formControl]="menuActive" />
-                </div>
-              </div>
-              <!-- buttons -->
-              <section class="text-center mt-4 col-sm-7 col-md-6 col-xl-10">
-                <small
-                  role="button"
-                  tabindex="0"
-                  class="me-4 text-dark"
-                  [ngClass]="{
-                    'not-clickable': isLoading,
-                  }"
-                  (click)="showUpdateForm = false"
-                  i18n
-                  >Cancel</small
-                >
-                <button
-                  (click)="updateAdminMenu()"
-                  [disabled]="isLoading"
-                  class="btn bg-primary text-light"
-                  type="submit">
-                  @if (!isLoading) {
-                    <span i18n>Modify</span>
-                  }
-                  @if (isLoading) {
-                    <span>
-                      <i
-                        class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-3"></i>
-                    </span>
-                  }
-                </button>
-              </section>
-            </div>
-          }
-        </div>
-      </section>
-    }
-  </main>
-  <footer class="footer">
-    <div class="icons-footer">
-      <div
+        class="text-primary me-2 pe-3 border-end"
         role="button"
         tabindex="0"
-        class="icons-footer-item text-dark"
-        (click)="showUpdateForm = !showUpdateForm">
-        <i
-          class="fa-sharp fa-pen-clip text-dark"
-          role="button"
-          title="Modify the menu"
-          style="font-size: 15px"></i>
-      </div>
+        routerLink="/w/workstation/a/admin/menus">
+        <u i18n>Go to list</u></a
+      >
+      <span
+        class="refresh clickable ps-2"
+        title="Refresh"
+        role="button"
+        tabindex="0"
+        (click)="refreshData()">
+        @if (!loadingData) {
+          <small>
+            <i class="fa-solid fa-arrows-rotate me-1"></i>
+          </small>
+        } @else {
+          <small>
+            <i class="fas fa-spinner fa-pulse me-1"></i>
+          </small>
+        }
+        <small i18n>Refresh</small>
+      </span>
+    </section>
+  }
 
-      <div
-        class="icons-footer-item text-dark"
-        [routerLink]="redirectTo('menu')">
-        <i
-          role="button"
-          class="fa-solid fa-bars text-dark"
-          title="List Menu"></i>
-      </div>
-
-      <div
-        class="icons-footer-item text-dark"
-        [routerLink]="redirectTo('operators')">
-        <i
-          role="button"
-          title="List Operator"
-          class="fa-solid fa-credit-card text-dark"></i>
-      </div>
-      <div
-        class="icons-footer-item text-dark"
-        [routerLink]="redirectTo('roles')">
-        <i
-          class="fa-solid fa-ruler text-dark"
-          role="button"
-          title="List role"></i>
-      </div>
-      <div
-        class="icons-footer-item text-dark"
-        [routerLink]="redirectTo('agence/counters')">
-        <i
-          role="button"
-          class="fa-solid fa-receipt text-dark"
-          title="List counter"></i>
-      </div>
+  @if (errorMessage) {
+    <div class="text-center py-3 fs-4 w-50 m-auto mt-3 text-danger" i18n>
+      <span class="fs-5 me-1">
+        <i class="fa-solid fa-ban"></i>
+      </span>
+      {{ errorMessage }}
     </div>
-  </footer>
-</div>
+  }
+  @if (loadingData) {
+    <div class="preloader mt-5 pt-5">
+      <span>
+        <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
+      </span>
+    </div>
+  }
+  @if (selectedMenu === 'details' && menuDetails && !loadingData) {
+    <section
+      class="details row justify-content-center align-items-center mx-2 py-2 rounded">
+      <div class="col-lg-9 col-sm-12 col-md-12">
+        @if (menuDetails) {
+          <section class="titles">
+            <h4 class="my-4 fw-bold text-dark d-flex align-items-center">
+              <span i18n class="me-2">Menu</span>
+              {{ menuDetails.name }}
+              <small
+                role="button"
+                tabindex="0"
+                (click)="showUpdateForm = !showUpdateForm"
+                class="text-success clickable ms-2 text-md">
+                <i
+                  class="fa-sharp fa-pen-clip"
+                  role="button"
+                  title="Modify the menu"></i>
+              </small>
+            </h4>
+          </section>
+        }
+
+        <!-- details -->
+        @if (!showUpdateForm) {
+          <div class="row mt-3" style="gap: 1rem">
+            <div class="align-items-center col-sm-7 col-md-6 col-xl-4">
+              <div class="mb-1 text-secondary mx-2" i18n>Name</div>
+              <div class="field text-dark rounded py-2 px-3">
+                <b>{{ menuDetails.name }}</b>
+              </div>
+            </div>
+
+            <div class="align-items-center col-sm-7 col-md-6 col-xl-4">
+              <div class="mb-1 text-secondary mx-2" i18n>Icon Name</div>
+              <div class="field text-dark rounded py-2 px-3 d-flex">
+                @if (menuDetails.icon) {
+                  <b>{{ menuDetails.icon }}</b>
+                }
+
+                @if (!menuDetails.icon) {
+                  <b>----</b>
+                }
+              </div>
+            </div>
+            <div class="align-items-center col-sm-7 col-md-6 col-xl-4">
+              <div class="mb-1 text-secondary mx-2" i18n>Menu Group</div>
+              <div class="field text-dark rounded py-2 px-3">
+                <b>{{
+                  menuDetails.menu_group_info
+                    ? menuDetails.menu_group_info.name
+                    : '----'
+                }}</b>
+              </div>
+            </div>
+            <div class="align-items-center col-sm-7 col-md-6 col-xl-4">
+              <div class="mb-1 text-secondary mx-2" i18n>Web URL</div>
+              <div class="field text-dark rounded p-2">
+                @if (menuDetails.component_url) {
+                  <b>{{ menuDetails.component_url }}</b>
+                }
+
+                @if (!menuDetails.component_url) {
+                  <b>----</b>
+                }
+              </div>
+            </div>
+            <div class="align-items-center col-sm-7 col-md-6 col-xl-4">
+              <div class="mb-1 text-secondary mx-2" i18n>Mobile URL</div>
+              <div class="field text-dark rounded p-2">
+                @if (menuDetails.mobile_url) {
+                  <b>{{ menuDetails.mobile_url }}</b>
+                }
+
+                @if (!menuDetails.mobile_url) {
+                  <b>----</b>
+                }
+              </div>
+            </div>
+            <div class="align-items-center col-sm-7 col-md-6 col-xl-4 d-flex">
+              <b class="me-2 text-dark" i18n>Active</b>
+              <div class="text-dark rounded py-2 px-3">
+                @if (menuDetails.active) {
+                  <span>
+                    <i class="fa-solid fa-circle-check text-success fs-6"></i>
+                  </span>
+                }
+                @if (!menuDetails.active) {
+                  <span
+                    ><i class="fa-solid fa-circle-xmark text-danger fs-6"></i>
+                  </span>
+                }
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- update section -->
+        @if (showUpdateForm) {
+          <div class="col-lg-9 col-sm-12 col-md-12 row mt-3" style="gap: 1rem">
+            <div class="form-floating col-sm-7 col-md-6 col-xl-5">
+              <input
+                class="form-control input"
+                type="text"
+                placeholder="Name"
+                [formControl]="menuName" />
+              <label for="name" i18n class="text-dark mx-3"
+                >Name <code>*</code></label
+              >
+            </div>
+            <div class="form-floating col-sm-7 col-md-6 col-xl-5">
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Icon name"
+                [formControl]="icon" />
+              <label for="icon" i18n class="text-dark mx-3"
+                >Icon Name <code>*</code></label
+              >
+            </div>
+            <div class="col-sm-7 col-md-6 col-xl-5">
+              <app-lookup
+                option="autocomplete"
+                label="Menus"
+                [selectedId]="+menuGroupId"
+                url="/menugroup/list/objects_autocomplete/?search="
+                (selectedItemEvent)="
+                  setSelectedMenu($event?.id?.toString() ?? '')
+                "></app-lookup>
+            </div>
+
+            <div class="form-floating col-sm-7 col-md-6 col-xl-5">
+              <input
+                class="form-control"
+                placeholder="Url"
+                [formControl]="menuUrl" />
+              <label for="webUrl" class="text-dark mx-3" i18n>Web URL</label>
+            </div>
+            <div class="form-floating col-sm-7 col-md-6 col-xl-5">
+              <input
+                class="form-control"
+                placeholder="Url"
+                [formControl]="mobileUrl" />
+              <label for="mobileUrl" class="text-dark mx-3" i18n
+                >Mobile URL</label
+              >
+            </div>
+            <div class="col-sm-7 col-md-6 col-xl-5 d-flex align-items-center">
+              <b i18n class="text-dark me-3">Active</b>
+              <div class="">
+                <input
+                  class="form-check-input fs-5"
+                  type="checkbox"
+                  [checked]="menuDetails.active"
+                  [formControl]="menuActive" />
+              </div>
+            </div>
+            <!-- buttons -->
+            <section class="text-center mt-4 col-sm-7 col-md-6 col-xl-10">
+              <small
+                role="button"
+                tabindex="0"
+                class="me-4 text-dark"
+                [ngClass]="{
+                  'not-clickable': isLoading,
+                }"
+                (click)="showUpdateForm = false"
+                i18n
+                >Cancel</small
+              >
+              <button
+                (click)="updateAdminMenu()"
+                [disabled]="isLoading"
+                class="btn bg-primary text-light"
+                type="submit">
+                @if (!isLoading) {
+                  <span i18n>Modify</span>
+                }
+                @if (isLoading) {
+                  <span>
+                    <i
+                      class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-3"></i>
+                  </span>
+                }
+              </button>
+            </section>
+          </div>
+        }
+      </div>
+    </section>
+  }
+</main>

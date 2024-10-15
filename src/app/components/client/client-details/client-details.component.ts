@@ -22,9 +22,17 @@ import { MailModel } from '../../settings/settings.models';
 import { ClientProfileInfoComponent } from '../client-profile-info/client-profile-info.component';
 import { ClientGeneralInformationsComponent } from '../client-general-informations/client-general-informations.component';
 import { ClientSensitiveInfoComponent } from '../client-sensitive-info/client-sensitive-info.component';
+import { ClientContactsComponent } from '../client-contacts/client-contacts.component';
+
 import { SelectedClientSmallOverviewComponent } from '../selected-client-small-overview/selected-client-small-overview.component';
 import { ClientAccountListComponent } from '../client-account-list/client-account-list.component';
 import { RouterOutlet } from '@angular/router';
+import { ClientWalletListComponent } from '../client-wallet-list/client-wallet-list.component';
+
+import { SignaturesComponent } from '../signatures/signatures.component';
+import { ClientTaxInfoComponent } from '../client-tax-info/client-tax-info.component';
+import { ClientCreditsLineComponent } from '../client-credits-line/client-credits-line.component';
+import { ClientCreditsComponent } from '../client-credits/client-credits.component';
 @Component({
   selector: 'app-client-details',
   standalone: true,
@@ -35,8 +43,14 @@ import { RouterOutlet } from '@angular/router';
     ClientGeneralInformationsComponent,
     ClientSensitiveInfoComponent,
     SelectedClientSmallOverviewComponent,
+    ClientContactsComponent,
     ClientAccountListComponent,
+    ClientWalletListComponent,
     RouterOutlet,
+    SignaturesComponent,
+    ClientTaxInfoComponent,
+    ClientCreditsLineComponent,
+    ClientCreditsComponent,
   ],
   templateUrl: './client-details.component.html',
   styleUrl: './client-details.component.scss',
@@ -87,6 +101,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   isGeneralInfoFormShown = false;
   isTaxAdditionShown = false;
   choosenAccount: AccountsListModel | AccountsListModel[] | null = null;
+  choosenWallet: WalletList | null = null;
   inputActive = false;
   loadingSector = false;
   showLanguageCheckBox = false;
@@ -137,25 +152,34 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
 
     //console.log('Compte sélectionné :', account);
   }
+
   handleAccountSelected(account: AccountsListModel) {
     this.choosenAccount = account;
 
     console.log('Compte sélectionné :', account);
   }
 
+  handleWalletSelected(wallet: WalletList) {
+    this.choosenWallet = wallet;
+
+    console.log('wallet sélectionné :', wallet);
+  }
+
   selectMenu(menu: string) {
     this.selectedMenu = menu;
     if (menu === 'accounts' && this.accounts) {
+      this.resetWalletVariables();
       this.router.navigate([
-        '/w/workstation/d/desk/details/' +
+        '/w/workstation/d/desk/client/detail/' +
           this.clientId +
           '/account/' +
           this.accounts[0]?.id,
       ]);
     }
     if (menu === 'wallets' && this.wallets) {
+      this.resetWalletVariables();
       this.router.navigate([
-        '/w/workstation/desk/client/details/' +
+        '/w/workstation/d/desk/client/detail/' +
           this.clientId +
           '/wallet/' +
           this.wallets[0]?.id,
@@ -164,7 +188,12 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
 
     if (menu === 'settings') {
       this.router.navigate([
-        '/w/workstation/desk/client/details/' + this.clientId + '/settings',
+        '/w/workstation/d/desk/client/detail/' + this.clientId + '/settings',
+      ]);
+    }
+    if (menu === 'details') {
+      this.router.navigate([
+        '/w/workstation/d/desk/client/detail/' + this.clientId,
       ]);
     }
     if (
@@ -483,9 +512,14 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
+  resetWalletVariables() {
+    this.choosenWallet = null;
+    this.choosenAccount = null;
+  }
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+    this.choosenWallet = null;
   }
 }
 // function output(): (

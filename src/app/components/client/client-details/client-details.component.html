@@ -14,12 +14,7 @@
               role="button"
               class="mt-2 p-2"
               tabindex="0">
-              <small
-                class="fw-bold"
-                [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"
-                i18n>
-                Details
-              </small>
+              <small class="fw-bold text-all-dark" i18n> Details </small>
             </div>
             <div
               (click)="selectMenu('accounts')"
@@ -31,11 +26,7 @@
               class="mt-2 p-2 ms-5"
               tabindex="0">
               <small class="fw-bold d-flex">
-                <span
-                  [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"
-                  i18n
-                  >Accounts</span
-                >
+                <span class="text-all-dark" i18n>Accounts</span>
                 <span
                   class="mt-0 ms-1 fw-bold badge bg-primary text-center"
                   [ngClass]="theme === 'light' ? 'text-light' : 'text-dark'">
@@ -57,11 +48,7 @@
               class="mt-2 ms-5 p-2"
               tabindex="0">
               <small class="fw-bold d-flex">
-                <span
-                  [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"
-                  i18n
-                  >Wallets</span
-                >
+                <span class="text-all-dark" i18n>Wallets</span>
                 @if (wallets) {
                   <span
                     class="mt-0 ms-1 fw-bold badge bg-primary text-center"
@@ -79,11 +66,7 @@
                 [ngClass]="{ selectedTabb: selectedCreditSetting }"
                 tabindex="0">
                 <small class="fw-bold">
-                  <span
-                    [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"
-                    i18n>
-                    Credits
-                  </span>
+                  <span class="text-all-dark" i18n> Credits </span>
                   @if (selectedCreditSetting) {
                     <span>
                       <i
@@ -100,7 +83,7 @@
               @if (selectedCreditSetting) {
                 <div class="d-block level-2 ps-3 shadow position-relative">
                   <div
-                    class="fw-bold text-dark"
+                    class="fw-bold text-all-dark"
                     role="button"
                     (click)="selectMenu('credits')"
                     [ngClass]="{
@@ -111,7 +94,7 @@
                   </div>
 
                   <div
-                    class="fw-bold text-dark"
+                    class="fw-bold text-all-dark"
                     role="button"
                     [ngClass]="{
                       'not-clickable': selectedMenu === 'creditsLine',
@@ -133,12 +116,7 @@
                 selectedTabb:
                   selectedMenu === 'settings' && !selectedCreditSetting,
               }">
-              <small
-                class="fw-bold"
-                [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"
-                i18n
-                >Settings</small
-              >
+              <small class="fw-bold text-all-dark" i18n>Settings</small>
             </div>
 
             <div
@@ -360,12 +338,11 @@
                         </div>
                         @if (selectedContactInfo) {
                           <div class="p-3 ms-1 text-md sm-radius">
-                            <!-- <app-client-phonenumbers-and-emails
-                                                            [canAddEmail]="false"
-                                                            [canAddPhoneNumber]="false"
-                                                            [eMail]="emails"
-                                                            [telephoneNumber]="phoneNumbers"
-                                                        ></app-client-phonenumbers-and-emails> -->
+                            <app-client-contacts
+                              [canAddEmail]="false"
+                              [canAddPhoneNumber]="false"
+                              [id]="clientId">
+                            </app-client-contacts>
                           </div>
                         }
                       </div>
@@ -422,22 +399,13 @@
                         </div>
                         @if (selectedTaxInfo) {
                           <div>
-                            <!-- <app-client-tax-info
-                                                            [selectedClient]="
-                                                                this.selectedClient
-                                                            "
-                                                            [clientEntreprise]="
-                                                                this.clientEntreprise
-                                                            "
-                                                            [clientIndiv]="this.clientIndiv"
-                                                            [selectedTaxInfo]="
-                                                                this.selectedTaxInfo
-                                                            "
-                                                            [isTaxAdditionFormShown]="
-                                                                this.isTaxAdditionShown
-                                                            "
-                                                            [clientId]="clientId"
-                                                        ></app-client-tax-info> -->
+                            <app-client-tax-info
+                              [selectedClient]="this.selectedClient"
+                              [clientEntreprise]="this.clientEntreprise"
+                              [clientIndiv]="this.clientIndiv"
+                              [selectedTaxInfo]="this.selectedTaxInfo"
+                              [isTaxAdditionFormShown]="this.isTaxAdditionShown"
+                              [clientId]="clientId"></app-client-tax-info>
                           </div>
                         }
                       </div>
@@ -451,40 +419,47 @@
       }
 
       @if (selectedMenu === 'wallets') {
-        <div class="level-2">
+        <div class="bg-white">
           <div
             class="row g-0 p-2 mx-1"
             [ngClass]="{
               'mt-5': !selectedCreditSetting,
               'mt-0': selectedCreditSetting,
             }">
-            <div class="col-lg-3 level-2 text-dark ps-2">
-              <!-- <app-selected-client-small-overview
-                                [selectedClient]="this.selectedClient"
-                            ></app-selected-client-small-overview> -->
+            <div class="col-lg-3 bg-white text-dark ps-2">
+              <app-selected-client-small-overview
+                [selectedClient]="
+                  this.selectedClient
+                "></app-selected-client-small-overview>
 
-              <div class="p-0 level-1 walletList text-dark">
+              <div class="p-0 bg-secondary walletList text-dark">
                 <div>
-                  <!-- <app-client-wallets-list
-                                        [clientId]="clientId"
-                                        (selectedWalletEvent)="selectWallet($event)"
-                                        (walletsEvent)="walletEvent($event)"
-                                    >
-                                    </app-client-wallets-list> -->
+                  <app-client-wallet-list
+                    [SelectedclientId]="clientId"
+                    (walletSelected)="handleWalletSelected($event)">
+                  </app-client-wallet-list>
                 </div>
               </div>
             </div>
-            @if (selectedWallet !== '') {
-              <div class="col-lg-9">
-                <div class="details level-1 h-100 p-2 rounded-top text-dark">
-                  @if (selectedMenu === 'wallets' && wallets) {
+            <div class="col-lg-9">
+              <div class="details bg-secondary h-100 p-2 rounded-top text-dark">
+                @if (choosenWallet) {
+                  @if (wallets && wallets.length > 0) {
                     <div class="p-3 m-auto">
-                      <!-- <router-outlet></router-outlet> -->
+                      <router-outlet></router-outlet>
                     </div>
                   }
-                </div>
+                }
+
+                @if (wallets && wallets.length === 0) {
+                  <div
+                    class="row h-100 w-75 align-items-center justify-content-center text-dark fs-3 fw-bold opacity-50"
+                    i18n>
+                    No wallets available
+                  </div>
+                }
               </div>
-            }
+            </div>
           </div>
         </div>
       }
@@ -537,22 +512,20 @@
       }
       @if (selectedMenu === 'credits') {
         <div class="level-2 pageLength">
-          <!-- <app-client-credits
-                        [selectedClient]="this.selectedClient"
-                    ></app-client-credits> -->
+          <app-client-credits
+            [selectedClient]="this.selectedClient"></app-client-credits>
         </div>
       }
 
       @if (selectedMenu === 'creditsLine') {
-        <div class="level-2 pageLength">
-          <!-- <app-client-credits-line
-                        [selectedClient]="this.selectedClient"
-                    ></app-client-credits-line> -->
+        <div class="bg-wite pageLength mt-4">
+          <app-client-credits-line
+            [selectedClient]="this.selectedClient"></app-client-credits-line>
         </div>
       }
       @if (selectedMenu === 'settings') {
-        <div class="level-2 pageLength">
-          <!-- <app-signatures></app-signatures> -->
+        <div class="pageLength">
+          <app-signatures></app-signatures>
         </div>
       }
     </main>

@@ -9,30 +9,12 @@ $color3: #89bebe;
 $body-max-width: 200px;
 $pie-dimensions: $body-max-width;
 
-// body {
-//   background-color: #fce4ec;
-//   font-family: Roboto, sans-serif;
-//   color: #d81b60;
-// }
-
-// h1 {
-//   margin-bottom: 3rem;
-// }
-
-// .container {
-
-//   max-width: $body-max-width;
-//   text-align: center;
-// }
 
 .pie-chart {
-  // position: relative;
   width: $pie-dimensions;
   height: $pie-dimensions;
-  // border-radius: 50%;
   background: $color3;
   margin-left: -40%;
-  // background-image: linear-gradient(to right, transparent 50%, $color2 0);
   &::before,
   &::after {
     content: "";
@@ -54,8 +36,6 @@ $pie-dimensions: $body-max-width;
 }
 
 .pie-text {
-  // position: absolute;
-  // font-weight: bold;
   &.text1 {
     color: $color1;
     left: 0;
@@ -110,6 +90,9 @@ $pie-dimensions: $body-max-width;
 
 .rectangleBlockSize {
   height: 120px;
+  &.workstation {
+    height: 137px;
+  }
 }
 
 .userProfileSize {

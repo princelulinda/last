@@ -1,0 +1,89 @@
+<!-- <div class="details-container mb-2 ms-3">
+    <app-breadcrumb [crumbs]="crumbs"></app-breadcrumb>
+</div> -->
+<div class="details-container level-1 pt-4">
+  <main
+    class="level-2 py-2 px-5 pt-4 rounded container-preloader"
+    style="height: 67vh">
+    @if (selectedCuts) {
+      <div
+        tabindex="0"
+        class="text-end d-flex align-items-center justify-content-end mb-2"
+        (click)="selectCuts('')">
+        <span role="button" class="text-secondary">
+          <span class="me-2"><i class="fa-solid fa-arrow-left"></i></span>
+          <span i18n class="fs-medium"><b>Back</b></span>
+        </span>
+      </div>
+    }
+    @if (!selectedCuts) {
+      <div class="row justify-content-center mt-5" style="gap: 1rem 3rem">
+        <div class="row justify-content-center" style="gap: 0rem 3rem">
+          <div
+            tabindex="0"
+            (click)="selectCuts('account')"
+            role="button"
+            class="col-2 shortcut-btn p-4 bg-primary sm-radius d-flex justify-content-center align-items-center text-center"
+            [ngClass]="{
+              'text-light': theme === 'magis-light',
+              'text-dark': theme === 'magis-dark',
+            }">
+            <b class="fs-medium text-all-white" i18n>Account</b>
+          </div>
+          <div
+            tabindex="0"
+            (click)="selectCuts('creation of term deposit')"
+            role="button"
+            class="col-2 shortcut-btn p-4 bg-primary sm-radius d-flex justify-content-center align-items-center text-center"
+            [ngClass]="{
+              'text-light': theme === 'magis-light',
+              'text-dark': theme === 'magis-dark',
+            }">
+            <b class="fs-medium text-all-white" i18n
+              >Creation of term deposit</b
+            >
+          </div>
+          <div
+            tabindex="0"
+            (click)="selectCuts('credit-request')"
+            role="button"
+            class="col-2 shortcut-btn p-4 bg-primary sm-radius d-flex justify-content-center align-items-center text-center"
+            [ngClass]="{
+              'text-light': theme === 'magis-light',
+              'text-dark': theme === 'magis-dark',
+            }">
+            <b class="fs-medium text-all-white" i18n>Credit request</b>
+          </div>
+          <div
+            tabindex="0"
+            (click)="selectCuts('')"
+            role="button"
+            class="col-2 shortcut-btn disabled p-4 bg-primary sm-radius d-flex justify-content-center align-items-center text-center"
+            [ngClass]="{
+              'text-light': theme === 'magis-light',
+              'text-dark': theme === 'magis-dark',
+            }">
+            <b class="fs-medium text-all-white" i18n
+              >Creation of remunerated demand deposit</b
+            >
+          </div>
+        </div>
+      </div>
+    }
+    @if (selectedCuts === 'account') {
+      <div>
+        <app-lookup-individual></app-lookup-individual>
+      </div>
+    }
+    @if (selectedCuts === 'creation of term deposit') {
+      <div>
+        <!-- <app-add-term-deposit bgColor="level-2"></app-add-term-deposit> -->
+      </div>
+    }
+    @if (selectedCuts === 'credit-request') {
+      <div>
+        <!-- <app-loan-request></app-loan-request> -->
+      </div>
+    }
+  </main>
+</div>

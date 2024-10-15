@@ -1,0 +1,209 @@
+<!-- details for workStation -->
+
+@if (!walletDetails) {
+  <span
+    class="text-center w-100 d-flex justify-content-center align-items-center text-dark"
+    style="height: 50vh"
+    title="Loading account details ...">
+    <i class="spinner-border"></i>
+  </span>
+}
+
+@if (walletDetails && selectedSetting === 'details') {
+  <div class="bg-white rounded w-100 ps-2 overflow-hidden">
+    <b class="refreshPosition" i18n>
+      <span role="button" class="ms-auto me-4" (click)="refresh()" tabindex="0"
+        ><i
+          class="fa-solid fa-arrows-rotate fs-5 text-dark"
+          style="opacity: 0.7"></i></span
+    ></b>
+    <br />
+
+    <b style="font-size: 27px">{{ walletDetails.account.acc_holder }}</b>
+
+    <div class="d-flex">
+      @if (walletDetails.currency) {
+        <div class="currency">
+          <img src="/images/Bndi.png" style="width: 30px" alt="burundi image" />
+        </div>
+      }
+      <div style="line-height: 20px">
+        <span class="ms-2"
+          ><span class="text-secondary text-dark" i18n>wallet number </span
+          ><b style="font-size: 18px; font-weight: 900">
+            {{ walletDetails.code }}
+          </b>
+          <span [appClipboard]="walletDetails.code" class="ms-auto">
+            <i
+              class="fa-regular fa-copy ms-2"
+              title="Copy the Wallet number"
+              role="button"></i> </span></span
+        ><br />
+        <b class="ms-2" style="font-size: 15px">{{ walletDetails.title }} </b
+        ><br />
+        <b class="ms-2" style="font-size: 18px">{{ walletDetails.currency }} </b
+        ><span class="text-secondary text-dark" i18n>Currency</span><br />
+      </div>
+      <div class="ms-auto">
+        <div class="mt-0">
+          <div style="line-height: 20px; text-align: center">
+            <span
+              ><b style="font-size: 18px; font-weight: 900">
+                {{ walletDetails.title }}
+              </b> </span
+            ><br />
+            <div class="d-flex" style="font-size: 15px">
+              <span i18n
+                >DEFAULT WALLET
+                <b>
+                  @if (
+                    walletDetails.wallet_type_title === 'DEFAULT WALLET' ||
+                    walletDetails.is_default
+                  ) {
+                    <i class="fa-solid fa-circle-check text-success"></i>
+                  }
+                  @if (walletDetails.wallet_type_title === '!DEFAULT WALLET') {
+                    <i class="fa-solid fa-circle-xmark text-danger"></i>
+                  }</b
+              ></span>
+              <span class="ms-2"><strong>-</strong></span>
+              <span class="ms-auto">
+                <span class="ms-2" i18n>SIMPLE WALLET</span>
+                <b>
+                  @if (
+                    walletDetails.wallet_type_title === 'SIMPLE WALLET' ||
+                    !walletDetails.is_default
+                  ) {
+                    <i class="fa-solid fa-circle-check text-success"></i>
+                  }
+
+                  @if (walletDetails.wallet_type_title === '!SIMPLE WALLET') {
+                    <i class="fa-solid fa-circle-xmark text-danger"></i>
+                  }</b
+              ></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex">
+      <div class="ms-auto">
+        <div class="mt-2 label text-capitalize balances fw-bolder" i18n>
+          Balances
+        </div>
+
+        <div class="mt-0" style="display: flex; justify-content: center">
+          <div class="d-flex rounded p-2">
+            <span class="text-capitalize fw-bolder" style="opacity: 0.8" i18n
+              >Actual Balance
+
+              <app-amount-visibility
+                [amount]="walletDetails.actual_balance"
+                [currency]="walletDetails.currency"
+                [ngClass]="'text-dark'"></app-amount-visibility>
+            </span>
+            <div
+              class="col-auto ms-2"
+              style="border-left: 2px solid #c5c5c5; height: 100%"></div>
+            <span
+              class="ms-2 text-capitalize fw-bolder"
+              style="opacity: 0.8"
+              i18n
+              >Available Balance
+              <span
+                class="text-success value rounded text-start fw-bolder"
+                style="font-size: 20px">
+                <app-amount-visibility
+                  [amount]="walletDetails.available_balance"
+                  [currency]="walletDetails.currency"
+                  [ngClass]="'text-dark'"></app-amount-visibility>
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: center">
+          <div class="col-auto">
+            <div
+              class="d-flex justify-content-between align-items-center"
+              style="text-align: center">
+              <span class="label text-capitalize" i18n>Bank slug:</span>
+              <span class="value rounded text-start px-3 py-2 fw-bolder">
+                {{ walletDetails.bank_slug ?? '---' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: center">
+          <div class="col-auto">
+            <div
+              class="d-flex justify-content-between align-items-center"
+              style="text-align: center">
+              <span class="label text-capitalize" i18n>Email:</span>
+              <span class="value rounded text-start px-3 py-2 fw-bolder">
+                {{ walletDetails.client.client_email }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="d-block mt-5 ms-auto position-relative"
+        style="line-height: 0.1em; z-index: 999">
+        <div
+          class="text-center p-2 bg-primary text-all-white"
+          (click)="selectSetting('details')"
+          tabindex="0"
+          role="button"
+          title="Account's details"
+          [ngClass]="{
+            'not-clickable': selectedSetting === 'details',
+          }">
+          <span><i class="fa-solid fa-circle-info fs-6"></i></span>
+        </div>
+        <br />
+        <div
+          class="text-center bg-primary text-all-white p-2"
+          title="Account's history"
+          data-bs-toggle="modal"
+          data-bs-target="#statementModal"
+          type="button">
+          <span><i class="fa-solid fa-clock-rotate-left fs-6"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+@if (walletDetails) {
+  <div class="modal fade" id="statementModal" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered statement-dialog">
+      <div class="modal-content">
+        <!-- <div class="modal-header d-flex"> -->
+        <div class="ms-auto text-end">
+          <button
+            type="button"
+            title="Close"
+            #closeModal
+            class="text-dark btn fs-4 p-0 pe-1"
+            data-bs-dismiss="modal"
+            aria-label="Close">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <!-- </div> -->
+        <div class="p-3">
+          <app-list
+            [headers]="headers"
+            title="Wallet statement"
+            [url]="
+              '/operations/statement/?account_is_wallet=true&reverse_order=true&client_acc_id=' +
+              this.walletId +
+              '&'
+            "></app-list>
+        </div>
+      </div>
+    </div>
+  </div>
+}

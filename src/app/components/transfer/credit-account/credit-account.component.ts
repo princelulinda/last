@@ -42,6 +42,7 @@ import {
   TransferResponseModel,
 } from '../transfer.model';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import { ConnectedOperatorModel } from '../../auth/auth.model';
 
 @Component({
   selector: 'app-credit-account',
@@ -100,7 +101,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   values: CreditDetailsModel[] = [];
 
   transferResponse!: TransferResponseModel;
-
+  institutionId: ConnectedOperatorModel | number | undefined;
+  institutionId$!: Observable<ConnectedOperatorModel>;
   creditNumber: string | null | undefined;
 
   creditName: string | null | undefined;
@@ -157,6 +159,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     this.selectedBank$ = this.configService.getSelectedBank();
     this.isBalanceShown$ = this.dialogService.getAmountState();
     this.dialog$ = this.dialogService.getDialogState();
+    this.institutionId$ = this.configService.getConnectedOperator();
   }
 
   ngOnInit() {
@@ -166,6 +169,11 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
     this.selectedBank$.subscribe({
       next: datas => {
         this.selectedBank = datas;
+      },
+    });
+    this.institutionId$.subscribe({
+      next: datas => {
+        this.institutionId = datas.organization?.id;
       },
     });
     this.userInfo$.subscribe({
@@ -190,6 +198,11 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
         this.mode = datas;
       },
     });
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.mainConfig = configs;
+      },
+    });
 
     this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (dialogResponse: DialogResponseModel) => {
@@ -199,14 +212,15 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
         ) {
           this.pin = dialogResponse.response.pin;
 
-          this.validateTransfer();
+          if (
+            this.mainConfig &&
+            this.mainConfig.activePlateform !== 'workstation'
+          ) {
+            this.validateTransfer();
+          } else {
+            this.validateTransferWorkstation();
+          }
         }
-      },
-    });
-
-    this.mainConfig$.subscribe({
-      next: configs => {
-        this.mainConfig = configs;
       },
     });
 
@@ -466,6 +480,112 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
 
     this.transferService
       .doTransfer(data)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: response => {
+          this.dialogService.closeLoading();
+
+          this.isLoading = false;
+          this.pin = '';
+
+          if (response.object.success === false) {
+            this.isAmountChanging = false;
+
+            this.dialogService.openToast({
+              type: 'failed',
+              title: '',
+              message:
+                response?.object?.response_message ??
+                $localize`Something went wrong please retry again !`,
+            });
+          } else {
+            this.isTransferDone.emit(true);
+            this.isAmountChanging = true;
+
+            this.transferResponse = response.object
+              .response_data as unknown as TransferResponseModel;
+            this.selectedInstitutionType = '';
+            this.selectedCreditAccountType = '';
+            this.pendingTransfers = [];
+            this.isAmountChanging = false;
+            this.lookup.setValue('');
+            this.isPopupShown = true;
+            this.selectedCreditAccountType = '';
+            this.creditAccountAdded = false;
+
+            this.initOperations();
+
+            this.transferForm.patchValue({
+              accountNumber: '',
+              accountHolder: '',
+              debit_description: '',
+            });
+            this.transferStep = 'first step';
+            this.transferStepChange.emit('first step');
+            this.creditAccount = null;
+            this.bankService.updateTransaction(true);
+            this.dialogService.openToast({
+              type: 'success',
+              title: '',
+              message:
+                response?.object?.response_message ??
+                $localize`Transaction made successfully !`,
+            });
+          }
+        },
+        error: error => {
+          this.dialogService.closeLoading();
+
+          this.isAmountChanging = false;
+
+          this.isLoading = false;
+          this.dialogService.openToast({
+            type: 'failed',
+            title: '',
+            message:
+              error?.object?.response_message ??
+              $localize`Something went wrong please retry again `,
+          });
+        },
+      });
+  }
+  public validateTransferWorkstation() {
+    this.amountToSend = this.amount;
+
+    this.isLoading = true;
+
+    if (this.selectedCreditAccountType === 'wallet') {
+      this.selectedInstitution = this
+        .defaultBank as unknown as InstitutionInfoModel;
+    }
+
+    const data = {
+      action_type: 'hr_make_transfer',
+      transfer_type: 'send',
+      amount: this.amount,
+      credit_account: this.transferForm.value.accountNumber,
+      credit_account_holder: this.transferForm.value.accountHolder,
+      credit_bank: this.selectedInstitution?.id,
+      credit_type: this.selectedCreditAccountType,
+      debit_account: this.debitNumber,
+      debit_bank: this.selectedBank.id ?? this.walletBankId ?? '',
+      debit_type: this.selectedDebitAccountType,
+      pin_code: this.pin,
+      description: this.transferForm.value.debit_description,
+    };
+
+    this.dialogService.dispatchLoading();
+
+    if (this.selectedCreditAccountType === 'wallet') {
+      this.creditNumber = this.creditAccount?.account_number;
+      this.creditName = this.creditAccount?.name;
+    } else {
+      this.creditNumber = this.transferForm.value.accountNumber;
+      this.creditName = this.transferForm.value.accountHolder;
+    }
+
+    this.transferService
+      .doTransferWorkstation(this.institutionId, data)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {

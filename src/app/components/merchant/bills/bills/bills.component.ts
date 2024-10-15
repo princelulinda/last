@@ -125,7 +125,7 @@ export class BillsComponent implements OnInit, OnDestroy {
       .getBills(this.billsPagination)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: { objects: BillsModel[]; count: number }) => {
+        next: response => {
           this.totalData = response.count;
           this.merchantBills = response.objects;
           this.isLoading = false;

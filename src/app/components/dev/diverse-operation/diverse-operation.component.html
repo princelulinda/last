@@ -2,7 +2,9 @@
   <div
     class="w-100 bg-secondary d-flex align-items-center justify-content-between px-3 py-2">
     <div class="py-1">
-      <span class="fs-medium fw-bold text-secondary">Diverse operation</span>
+      <span class="fs-medium fw-bold text-secondary" i18n
+        >Diverse operation</span
+      >
     </div>
 
     @if (operation && !(tellerSender && tellerReceiver)) {
@@ -13,7 +15,7 @@
         <div>
           <i class="fa fa-arrow-left"></i>
         </div>
-        <span>Back</span>
+        <span i18n>Back</span>
       </div>
     }
 
@@ -37,8 +39,7 @@
 
   @if (!operation) {
     <div
-      class="d-flex flex-column gap-1 mx-auto w-100 fs-medium fw-bold mt-5 pt-3"
-      style="max-width: 770px">
+      class="d-flex flex-column gap-1 mx-auto fs-medium fw-bold mt-5 pt-3 col-10 mx-auto">
       <div
         class="bg-secondary d-flex flex-row justify-content-between py-3 px-4 rounded-top-2 align-items-center clickable"
         tabindex="0"

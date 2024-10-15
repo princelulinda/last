@@ -2,13 +2,18 @@ import { ClientModel } from '../../core/db/models/auth';
 import { CurrencyModel } from '../../global/models/global.models';
 
 export interface tellersModel {
+  length: number;
   objects: tellerObjectModel[];
 }
 export interface tellerModel {
+  success: boolean;
+  response_message: string;
+  id: number;
   object: tellerObjectModel;
 }
 
 export interface tellerObjectModel {
+  length: number;
   id: string;
   client: ClientModel;
   merchant: tellerMerchantModel;
@@ -67,6 +72,10 @@ export interface doTellerBodyModel {
   action: string;
 }
 export interface updateMerchantDetailsModel {
+  object: {
+    success: string;
+  };
+  id: number;
   merchant: string;
   merchant_title: string;
   slug: string;
@@ -76,12 +85,17 @@ export interface updateMerchantDetailsModel {
 }
 
 export interface MerchantModel {
+  payment_bills: string;
+  has_cashin: string;
   id: string;
   slug: string;
   merchant_title: string;
   merchant_code: string;
   merchant_logo: string;
-  merchant_location: string;
+  merchant_location: {
+    longitude: number;
+    latitude: number;
+  };
   action: string[];
   client: ClientModel;
   accepts_simple_payment: boolean;
@@ -93,7 +107,7 @@ export interface MerchantModel {
   visible: boolean;
   available_balance: string;
   api_plug_name: string;
-  is_active: boolean;
+  is_active: string;
   merchant_main_account: string;
   merchant_main_account_id: string;
   client_category: string;
@@ -130,6 +144,14 @@ export interface newTellerModel {
   merchant: string;
   can_receive_notifications: boolean;
   alias: string;
+}
+export interface updateMerchantDetailsBodyModel {
+  merchant: string;
+  merchant_title: string;
+  slug: string;
+  action: string[];
+  merchant_category: string;
+  merchant_logo: string;
 }
 
 export interface MerchantAutocompleteModel {
@@ -203,6 +225,7 @@ export interface PayMerchantBodyModel {
   debit_bank: number;
   debit_account: string;
   debit_type: string;
+  debit_account_holder: string;
   pin_code: string;
   payment_data?: Record<string, string>;
   lookup_data?: Record<string, string>;
@@ -268,4 +291,98 @@ export interface MerchantSimplePaymentResponseModel {
     }[];
   };
   success: boolean;
+}
+export interface merchantLocationModel {
+  lng: string;
+  lat: string;
+}
+export interface ProductsModel {
+  lookup_title: string;
+  lookup_icon: string;
+  price: string | number;
+  name: string;
+  icon: string;
+  length: number;
+}
+export interface ProductModel {
+  is_stockable: string;
+  incognito_mode: string;
+  accepts_cart: string;
+  voucher_type: string;
+  minimun_payment_amount: string;
+  maximum_payment_amount: string | number;
+  price: number;
+  name: string;
+}
+// export interface ProductsObjectsModel{
+// lookup_title: string;
+// lookup_icon: string;
+// price: string|number;
+// name: string;
+// icon: string;
+// length: number;
+// }
+
+export interface getMerchantsProductsDetailsModel {
+  is_stockable: boolean;
+  incognito_mode: string;
+  accepts_cart: string;
+  voucher_type: string;
+  minimun_payment_amount: number;
+  price: number;
+  name: string;
+  id: string;
+}
+export interface TopClientsByAmountModel {
+  balance_currency: CurrencyModel;
+  total_paid: string | number;
+  response_data: TopClientsByAmountModel[];
+  num_payments: number;
+  client_code: string;
+  client_full_name: string;
+  picture: string;
+}
+export interface topClientsByTransactionsModel {
+  response_data: topClientsByTransactionsModel[];
+  balance_currency: CurrencyModel;
+  total_paid: string | number;
+  num_payments: number;
+  client_code: string;
+  client_full_name: string;
+  picture: string;
+}
+export interface getPaymentStatsModel {
+  response_data: getPaymentStatsModel[];
+  currency: CurrencyModel;
+  total_amount: string | number;
+  code: string;
+  description: string;
+  client: {
+    client_full_name: string;
+    client_code: string;
+  };
+  payment_status: {
+    title: string;
+    css: string;
+  };
+  created_at: string | number | Date;
+}
+export interface MetadataModel {
+  id: number;
+  name: string;
+  objects: MetadataModel;
+  metadata: null;
+  length: number;
+}
+
+export interface TellerAutoCompleteModel {
+  id: number;
+  lookup_icon: string;
+  lookup_image: string;
+  lookup_title: string;
+  lookup_subtitle: string;
+  lookup_description: string;
+  lookup_has_image_or_icon: boolean;
+  merchant: string;
+  can_receive_tip: boolean;
 }

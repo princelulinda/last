@@ -132,7 +132,7 @@ export class MarketDashboardComponent implements OnInit, OnDestroy {
       .getRecentMerchantsAutocomplete(search)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (response: { objects: MerchantAutocompleteModel[] }) => {
+        next: response => {
           this.merchants = response.objects;
           this.last4Merchant = this.merchants.slice(-5);
 
