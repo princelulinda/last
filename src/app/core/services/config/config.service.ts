@@ -424,10 +424,9 @@ export class ConfigService {
 
   private getPreferedMode(): ModeModel {
     if (!this.activeMainConfig || !this.activeMainConfig.activeMode) {
-      const prefered =
-        (window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light') ?? 'light';
+      const prefered = window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
       return prefered;
     } else {
       return this.activeMainConfig.activeMode;
