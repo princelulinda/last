@@ -97,63 +97,42 @@ export class MenuService {
     }
   }
 
-  getMenuByActivateRoute(
+  getMenuGroupByActivateRoute(
     menus: TypeMenuModel[],
-    typeMenu: URLTypeMenuModel
+    typeMenu: URLTypeMenuModel,
+    signature: string
   ): MenuGroupAndMenusSimpleModel | null | undefined {
-    let pathname = window.location.pathname;
-
-    pathname = this.extractBasePath(pathname);
-
     let menuGroups: MenuGroupAndMenusSimpleModel[] = [];
-    let baseMenuUrl = '';
     let selectedGroup: MenuGroupAndMenusSimpleModel | null = null;
 
-    [menuGroups, baseMenuUrl] = this.getActiveMenuGroups(menus, typeMenu);
+    [menuGroups] = this.getActiveMenuGroups(menus, typeMenu);
 
-    if (menuGroups && baseMenuUrl.split('/').length > 4) {
-      // TODO :: FIRST IDEA
-      const componentUrls: string[] = [];
+    if (signature && menuGroups) {
+      // TODO :: TO REMOVE AFTER
+      for (const group of menuGroups) {
+        for (const menu of group.menus) {
+          if (menu.name == 'Operators') {
+            menu.signature = '30410983 hello operator';
+          }
 
-      menuGroups.map(group =>
-        group.menus.map(menu => componentUrls.push(menu.component_url))
-      );
-
-      // NOTE :: GET MOST SIMILAR MENU BY COMPONENT URL
-      const matchComponentUrl: string = this.generalService.findMostSimilar(
-        componentUrls,
-        pathname
-      );
+          if (menu.name == 'Clients') {
+            menu.signature = '1234 salut client';
+          }
+        }
+      }
 
       selectedGroup =
         menuGroups.find(group =>
-          group.menus.find(menu => menu.component_url === matchComponentUrl)
+          group.menus.find(menu => menu.signature === signature.trim())
         ) ?? null;
 
       // NOTE :: SELECTED MENU ONLY
       if (selectedGroup) {
         selectedGroup.menus = selectedGroup?.menus.filter(
-          menu => menu.component_url === matchComponentUrl
+          menu => menu.signature === signature.trim()
         );
       }
 
-      // NOTE :: SECOND IDEA
-      // selectedGroup =
-      //   menuGroups.find(group =>
-      //     group.menus.find(menu => {
-      //       // NOTE :: TO REMOVE SPLASH ON END (component_url)
-      //       if (menu.component_url.endsWith('/')) {
-      //         menu.component_url = menu.component_url.slice(0, -1);
-      //       }
-      //       return `${baseMenuUrl}${menu.component_url}` === pathname;
-      //     })
-      //   ) ?? null;
-
-      // if (selectedGroup) {
-      //   selectedGroup.menus = selectedGroup?.menus.filter(
-      //     menu => `${baseMenuUrl}${menu.component_url}` === pathname
-      //   );
-      // }
       return selectedGroup;
     } else {
       return undefined;

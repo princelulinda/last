@@ -123,36 +123,42 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       id: 1,
       name: `Manage product`,
       icon: 'box',
+      signature: '',
     },
     {
       component_url: 'payment-reports',
       id: 2,
       name: `Payment reports`,
       icon: 'file-excel',
+      signature: '',
     },
     {
       component_url: 'merchant-config',
       id: 3,
       name: `Merchant config`,
       icon: 'sliders',
+      signature: '',
     },
     {
       component_url: '',
       id: 4,
       name: `Statements`,
       icon: 'history',
+      signature: '',
     },
     {
       component_url: 'merchant-transfer',
       id: 5,
       name: `Transfer`,
       icon: 'paper-plane',
+      signature: '',
     },
     {
       component_url: '',
       id: 6,
       name: `Generate Bill`,
       icon: 'file-invoice',
+      signature: '',
     },
   ];
 

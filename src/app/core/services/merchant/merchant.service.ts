@@ -787,8 +787,10 @@ export class MerchantService {
     body: object
   ): Observable<{ object: SingleInvoiceActionModel }> {
     const url = `/dbs/merchant/bills/${billId}/validate_bill/`;
-    return this.apiService
-      .post<{ object: SingleInvoiceActionModel }>(url, body)
+    return this.apiService.post<{ object: SingleInvoiceActionModel }>(
+      url,
+      body
+    );
   }
 
   searchProductByMerchant(data: {

@@ -64,6 +64,7 @@ export interface MenuSimpleModel {
   name: string;
   component_url: string;
   icon: string | null;
+  signature: string | null;
 }
 
 export interface MenuGroupAndMenusSimpleModel {
