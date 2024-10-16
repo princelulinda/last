@@ -27,6 +27,8 @@ import { ConnectedOperatorModel } from '../../../components/auth/auth.model';
 import { MerchantCardComponent } from '../../../components/merchant/global/merchant-card/merchant-card.component';
 import { MerchantAutocompleteModel } from '../../../components/merchant/merchant.models';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { VariableService } from '../../../core/services/variable/variable.service';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-workstation-menu',
@@ -62,14 +64,17 @@ export class WorkstationMenuComponent implements OnInit {
   menus: TypeMenuModel[] = [];
 
   loadingMenu = false;
-  searchForm = new FormControl('');
+  searchForm: FormControl = new FormControl('');
   isLoading = false;
   isSearchInputFocused = false;
-  merchants!: MerchantAutocompleteModel[] | null;
+  merchants: MerchantAutocompleteModel[] | null = null;
   private isMenuChange = false;
 
   operator: ConnectedOperatorModel | null = null;
   operator$: Observable<ConnectedOperatorModel>;
+
+  private routeSignature$: Observable<string>;
+  routeSignature = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -77,10 +82,12 @@ export class WorkstationMenuComponent implements OnInit {
     private configService: ConfigService,
     private merchantService: MerchantService,
     private menuService: MenuService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private variableService: VariableService
   ) {
     this.operator$ = this.configService.getConnectedOperator();
     this.menus$ = this.configService.getTypeMenus();
+    this.routeSignature$ = toObservable(this.variableService.MENU_ACCESS_KEY);
   }
 
   ngOnInit(): void {
@@ -133,6 +140,12 @@ export class WorkstationMenuComponent implements OnInit {
       });
     }
 
+    this.routeSignature$.subscribe({
+      next: signature => {
+        this.routeSignature = signature;
+      },
+    });
+
     this.searchForm.valueChanges
       .pipe(debounceTime(300), takeUntil(this.onDestroy$))
       .subscribe(value => {
@@ -150,29 +163,10 @@ export class WorkstationMenuComponent implements OnInit {
     this.menus$.subscribe({
       next: menus => {
         this.menus = this.configService.toArray(menus);
-        // [this.activatedTypeGroupMenus, this.baseMenuUrl] =
-        //   this.menuService.getActiveMenuGroups(
-        //     this.menus,
-        //     this.activatedTypeMenu
-        //   );
-        // const routeMenu = this.menuService.getMenuByActivateRoute(
-        //   this.menus,
-        //   this.activatedTypeMenu
-        // );
-        // if (routeMenu !== undefined) {
-        //   this.selectGroup(routeMenu);
-        //   if (this.selectedGroup?.menus) {
-        //     this.setSelectedMenu(
-        //       this.selectedGroup.menus[0],
-        //       this.selectedGroup.menus[0].component_url,
-        //       undefined,
-        //       false
-        //     );
-        //   } else {
-        //     this.router.navigate([`${this.baseMenuUrl}access-required`]);
-        //   }
-        // }
 
+        // this.manageMenuByActivatedRoute();
+
+        // NOTE :: GETTING MENUS BY TYPE MENU
         if (this.activatedTypeMenu) {
           if (this.activatedTypeMenu === 'b') {
             [this.bankingMenus, this.baseMenuUrl] =
@@ -287,5 +281,30 @@ export class WorkstationMenuComponent implements OnInit {
           });
         },
       });
+  }
+
+  private manageMenuByActivatedRoute(): void {
+    [this.activatedTypeGroupMenus, this.baseMenuUrl] =
+      this.menuService.getActiveMenuGroups(this.menus, this.activatedTypeMenu);
+
+    const routeMenu = this.menuService.getMenuGroupByActivateRoute(
+      this.menus,
+      this.activatedTypeMenu,
+      this.routeSignature
+    );
+
+    if (routeMenu !== undefined) {
+      this.selectGroup(routeMenu);
+      if (this.selectedGroup?.menus) {
+        this.setSelectedMenu(
+          this.selectedGroup.menus[0],
+          this.selectedGroup.menus[0].component_url,
+          undefined,
+          false
+        );
+      } else {
+        this.router.navigate([`${this.baseMenuUrl}access-required`]);
+      }
+    }
   }
 }
