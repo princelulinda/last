@@ -519,6 +519,8 @@ export class PurchaseComponent implements OnInit {
       this.selectedMerchant === false
     ) {
       this.selectedProduct = false;
+      this.products = null;
+      this.getPurchasedProducts();
       this.router.navigate(['/m/mymarket/purchase']);
     } else if (this.selectedMerchant === true) {
       this.selectedMerchant = false;
