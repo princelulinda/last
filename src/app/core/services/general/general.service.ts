@@ -130,46 +130,4 @@ export class GeneralService {
       .post<confirmDialogModel>(url, body)
       .pipe(map(response => response));
   }
-
-  //NOTE :: This a sensive string comparisons, that algorithme is from fast-levenshtein package
-  private levenshteinDistance(str1: string, str2: string) {
-    const n = str1.length;
-    const m = str2.length;
-    const dp: string | number[][] = [];
-
-    // Initialize DP table
-    for (let i = 0; i <= n; i++) {
-      dp[i] = [];
-      for (let j = 0; j <= m; j++) {
-        dp[i][j] = i === 0 ? j : j === 0 ? i : Infinity;
-      }
-    }
-
-    //NOTE ::  Calculate distances
-    for (let i = 1; i <= n; i++) {
-      for (let j = 1; j <= m; j++) {
-        const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
-        dp[i][j] = Math.min(
-          dp[i - 1][j] + 1, // deletion
-          dp[i][j - 1] + 1, // insertion
-          dp[i - 1][j - 1] + cost // substitution
-        );
-      }
-    }
-
-    return dp[n][m];
-  }
-
-  // NOTE :: for finding a string with most similarity
-  findMostSimilar(list: string[], searchElement: string): string {
-    return list.reduce((bestMatch: string, element: string) => {
-      const currentDistance = this.levenshteinDistance(
-        element ?? '',
-        searchElement
-      );
-      const bestDistance = this.levenshteinDistance(bestMatch, searchElement);
-      // console.log(currentDistance, bestDistance, element, bestMatch);
-      return currentDistance < bestDistance ? element : bestMatch;
-    }, '');
-  }
 }

@@ -151,7 +151,7 @@ export class ApiService {
       .patch<T>(`${environment.apiUrl}${path}`, JSON.stringify(body), {
         headers: this.headers,
       })
-      .pipe(catchError(this.formatErrors)) as Observable<T>;
+      .pipe(catchError(this.formatErrors));
   }
 
   post<T>(
