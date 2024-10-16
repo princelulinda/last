@@ -28,74 +28,74 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 # NG-MAGIS-ERP
 
-## Bonnes pratiques ( Frontend Web )
+## Best practices (Web Frontend)
 
 ### Nomenclatures
 
-#### - Les variables
+#### - Variables
 
-    Les variables  sont écrites sous format Camel Case (eg. firstName)
+    Variables are written in Camel Case format (eg. firstName)
 
-    Les noms des  variables doivent être informatifs ( eg. showSideMenu,    dailyStatementPagination )
+    Variable names must be informative (eg. showSideMenu, dailyStatementPagination)
 
-    Les types des variables doivent être définis ( eg. firstName: string; age:number … )
+    Variable types must be defined (eg. firstName: string; age:number …)
 
-##### Initialisations des variables:
+##### Variable initializations:
 
-    Les variables de type string:   eg. firstName:string = ""
+    String variables: eg. firstName:string = ""
 
-    Les variables de type boolean:   eg. isAgent:boolean = false
+    Boolean type variables: eg. isAgent:boolean = false
 
-    Les variables de type number:   eg. count:number = 0
+    Variables of type number: eg. count:number = 0
 
-    Les variables de type {name:string,logo:string | null} :
-     eg. company:{name:string,logo:string | null} = {name:'MAGIS BI' , logo:null }
+    Variables of type {name:string,logo:string | null}:
+     eg. company:{name:string,logo:string | null} = {name:'MAGIS BI', logo:null }
 
-    Les variables de type []:
+    Variables of type []:
      eg. statements: { name:string, logo:string | null}[] = [ ]
 
-    Les variables de type observable  doivent avoir un suffix  '$'
-    eg. wallet$  = Obervable<{ name:string, logo:string | null } >
+    Variables of observable type must have a suffix '$'
+    eg. wallet$ = Obervable<{ name:string, logo:string | null } >
 
-#### - Les Fonctions
+#### - Functions
 
-    Les noms des fonctions  sont écrits sous format Camel Case (eg. ngOnInit() ,...)
+    Function names are written in Camel Case format (eg. ngOnInit(),...)
 
-    Les noms des  fonctions doivent être informatifs ( eg. clickSideMenu(),  getDailyStatement() ,.... )
+    Function names must be informative (eg. clickSideMenu(), getDailyStatement(),....)
 
-    Les noms des fonctions  commencent par un verbe conjugué eg. getDailyStatement(){....}
+    Function names start with a conjugated verb eg. getDailyStatement(){....}
 
-    Les types des paramètres doivent être définis eg. getDailyStatement(id:number){....}
+    Parameter types must be defined eg. getDailyStatement(id:number){....}
 
-    Les types de retour doivent etre définis
+    Return types must be defined
     (eg. getDailyStatement():{ name:string, logo:string | null }[] { })
 
-#### - Les Models
+#### - The Models
 
-- ##### Nomenclature des fichiers qui contient les models: toujours en minuscule; suivre le mode suivant
-  #### [nom].models.ts.
-  eg ( merchant.models.ts )
-- ##### Nomenclature des interfaces et autres types : toujours capitalized; suivre le mode suivant
-  #### [Nom][Action]Model ==> Action et optionnel
-  eg :
-  - ClientModel : Un modèle qui représente un client
-  - ClientCreationBodyModel : Un modèle qui représente les données nécessaires pour la création d'un client
-  - ClientCreationResponseModel : Un modèle qui représente les données de réponse lors de la création d'un client
+- ##### Nomenclature of the files which contains the models: always in lower case; follow the following mode
+  #### [name].models.ts.
+  eg (merchant.models.ts)
+- ##### Nomenclature of interfaces and other types: always capitalized; follow the following mode
+  #### [Name][Action]Model ==> Action and optional
+  eg:
+  - ClientModel: A model that represents a client
+  - ClientCreationBodyModel: A model that represents the data necessary for creating a client
+  - ClientCreationResponseModel: A model that represents response data when creating a client
 
-### Organisations des dossiers / fichiers
+### Folder/file organizations
 
-- ##### Les noms des dossiers doivent être séparés par un trait d'union
-- ##### Nomenclature des fichiers: toujours en minuscule; suivre le mode suivant
-  #### [nom-du-fichier].[type].[extension].
-- ##### Les images doivent être mis dans le sous dossier images du dossier public
-- ##### Les icones doivent être mis dans le sous dossier icons du dossier public
-- ##### Les configurations sass (colors, fonts, others) doivent être mis dans le sous dossier sass du dossier public
-- ##### Le dossier core contient tous ce qui concerne Dexie , Guards , Services , Interceptors
-- ##### Le dossier Components contient tous les autres components pour des pages
-- ##### Le dossier Global contient tous Components, Pipes, Directives, Models qui sont utilisés partout dans le projet
-- ##### Le dossier routes contient toutes les routes qui sont importées dans app-routes
+- ##### Folder names must be separated by a hyphen
+- ##### File nomenclature: always lowercase; follow the following mode
+  #### [file-name].[type].[extension].
+- ##### Images must be put in the images subfolder of the public folder
+- ##### The icons must be put in the icons subfolder of the public folder
+- ##### The sass configurations (colors, fonts, others) must be put in the sass subfolder of the public folder
+- ##### The core folder contains everything related to Dexie, Guards, Services, Interceptors
+- ##### The Components folder contains all other components for pages
+- ##### The Global folder contains all Components, Pipes, Directives, Models which are used everywhere in the project
+- ##### The routes folder contains all the routes that are imported into app-routes
 
-### Demande d'autorisation avant de réaliser ces actions
+### Request authorization before carrying out these actions
 
-- #### Avant d'installer un nouveau package
-- #### Modifier un component ou fichier global ou un fichier de configuration
+- #### Before installing a new package
+- #### Modify a component or global file or a configuration file
