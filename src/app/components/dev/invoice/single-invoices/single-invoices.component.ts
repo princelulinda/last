@@ -1,10 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import {
-  ConfigService,
-  DialogService,
-  MerchantService,
-} from '../../../../core/services';
+import { DialogService, MerchantService } from '../../../../core/services';
 import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
 import { SingleInVoiceModel } from '../invoice.models';
 import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
@@ -14,7 +10,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
-import { ModeModel } from '../../../../core/services/config/main-config.models';
+import { MerchantModel } from '../../../merchant/merchant.models';
 
 @Component({
   selector: 'app-single-invoices',
@@ -23,7 +19,6 @@ import { ModeModel } from '../../../../core/services/config/main-config.models';
     RouterLink,
     AmountVisibilityComponent,
     PaginationComponent,
-    NgClass,
     ReactiveFormsModule,
     EmptyStateComponent,
     NgClass,
@@ -52,24 +47,17 @@ export class SingleInvoicesComponent implements OnInit {
 
   dialog$: Observable<DialogResponseModel>;
   dialog!: DialogResponseModel;
-  theme!: ModeModel;
-  theme$: Observable<ModeModel>;
+  merchant: MerchantModel | null = null;
+  is_teller_admin!: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private merchantService: MerchantService,
-    private dialogService: DialogService,
-    private configService: ConfigService
+    private dialogService: DialogService
   ) {
     this.dialog$ = this.dialogService.getDialogState();
-    this.theme$ = this.configService.getMode();
   }
   ngOnInit() {
-    this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: theme => {
-        this.theme = theme;
-      },
-    });
     this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (dialog: DialogResponseModel) => {
         if (dialog) {
@@ -88,7 +76,6 @@ export class SingleInvoicesComponent implements OnInit {
     if (this.route.params) {
       this.route.params.subscribe(params => {
         this.merchantId = params['id'];
-        this.getSingleInvoices('');
       });
     }
 
@@ -97,18 +84,45 @@ export class SingleInvoicesComponent implements OnInit {
       .subscribe(value => {
         this.getSingleInvoices(value ?? '');
       });
+
+    this.getConnectedMerchantInfo();
   }
+
+  getConnectedMerchantInfo() {
+    this.merchant = null;
+    this.merchantService
+      .getConnectedMerchantInfo()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: data => {
+          this.merchant = data.object.response_data;
+          this.is_teller_admin = this.merchant.is_teller_admin;
+          this.merchantId = this.merchant.id;
+          this.getSingleInvoices('');
+        },
+        error: () => {
+          this.dialogService.openToast({
+            title: '',
+            type: 'failed',
+            message: 'Something went wrong, please try again',
+          });
+        },
+      });
+  }
+
   getSingleInvoices(search: string) {
     this.loader = true;
     this.singleInvoices = null;
     this.merchantService
-      .getSingleInvoices(this.pagination, search)
+      .getSingleInvoices(this.pagination, search, this.merchantId as number)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
           this.loader = false;
-          this.singleInvoices = response.objects;
-          this.response_data = response.count;
+          this.singleInvoices = response.objects.filter(
+            invoice => invoice.provider
+          );
+          this.response_data = this.singleInvoices.length;
         },
         error: () => {
           this.loader = false;

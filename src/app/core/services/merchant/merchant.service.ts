@@ -743,8 +743,12 @@ export class MerchantService {
       .get<{ objects: SingleInVoiceModel[]; count: number }>(url)
       .pipe(map(data => data));
   }
-  getSingleInvoices(pagination: PaginationConfig, search: string) {
-    const url = `/dbs/merchant/bills/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}&for_validation=true&grouped=false&search=${search}`;
+  getSingleInvoices(
+    pagination: PaginationConfig,
+    search: string,
+    merchantId: number
+  ) {
+    const url = `/dbs/merchant/bills/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}&for_validation=true&grouped=fals&merchant=${merchantId}e&search=${search}`;
 
     return this.apiService
       .get<{ objects: SingleInVoiceModel[]; count: number }>(url)
@@ -787,8 +791,10 @@ export class MerchantService {
     body: object
   ): Observable<{ object: SingleInvoiceActionModel }> {
     const url = `/dbs/merchant/bills/${billId}/validate_bill/`;
-    return this.apiService
-      .post<{ object: SingleInvoiceActionModel }>(url, body)
+    return this.apiService.post<{ object: SingleInvoiceActionModel }>(
+      url,
+      body
+    );
   }
 
   searchProductByMerchant(data: {

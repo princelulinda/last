@@ -46,7 +46,6 @@
     </div>
   }
   @if (singleInvoices) {
-    <!-- @if (filteredInvoices && filteredInvoices.length > 0) {} -->
     <div
       class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 d-flex justify-content-center justify-content-lg-start gap-5">
       @for (singleInvoice of singleInvoices; track $index) {
@@ -155,11 +154,11 @@
     </div>
   }
 
-  @if (singleInvoices && singleInvoices.length === 0) {
+  @if (singleInvoices && response_data === 0) {
     <div class="text-center">
       <app-empty-state
         [searchTerm]="'single invoice'"
-        [searchType]="'other'"></app-empty-state>
+        [searchType]="'list'"></app-empty-state>
     </div>
   }
 
@@ -176,26 +175,17 @@
 
   <div class="modal fade arounded" id="invoicesModal" data-mdb-backdrop="false">
     <div class="modal-dialog sm-radius">
-      <div class="modal-content bg-primary-3">
+      <div class="modal-content bg-primary-3 x-lg-radius">
         <div class="modal-header p-2 bg-primary-3">
           <div class="row col-11 mx-auto p-2" i18n>
             <div
               class="col-2 p-0"
               role="button"
               data-bs-dismiss="modal"
-              aria-label="Close"
-              [ngClass]="{
-                'text-dark': theme === 'dark',
-              }">
+              aria-label="Close">
               <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
             </div>
-            <div
-              class="col-6 p-0 text-center fs-normal"
-              [ngClass]="{
-                'text-dark': theme === 'dark',
-              }">
-              Invoice Details
-            </div>
+            <div class="col-6 p-0 text-center fs-normal">Invoice Details</div>
             <div class="col-4 p-0 text-end">
               <img
                 class="imgSize"
@@ -204,7 +194,7 @@
             </div>
           </div>
         </div>
-        <div class="modal-body bg-white x-lg-radius p-2">
+        <div class="modal-body bg-white lg-radius p-2">
           @if (selectedInvoice !== null) {
             <div class="row col-11 mx-auto">
               <div

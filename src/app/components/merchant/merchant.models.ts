@@ -114,6 +114,7 @@ export interface MerchantModel {
   client_category_id: string;
   balance_currency: CurrencyModel;
   paid_amount: string;
+  is_teller_admin: boolean;
 }
 
 export interface MerchantStatsModel {

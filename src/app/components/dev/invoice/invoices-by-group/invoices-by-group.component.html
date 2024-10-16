@@ -1,73 +1,3 @@
-<div class="container-fluid">
-  <div class="row align-items-center">
-    <div
-      class="col-12 col-sm-6 col-md-5 col-lg-6 col-xl-5 me-auto mb-2 mb-sm-0">
-      <div class="row">
-        <div class="col-4 col-md-4">
-          <div class="border-end">
-            <span class="fs-medium fw-bold">{{
-              group_name.name || '---'
-            }}</span>
-          </div>
-        </div>
-        <div class="col-2 col-xxl-3">
-          <div class="d-flex gap-2">
-            <span><i class="fa-solid fa-receipt text-primary-2"></i></span>
-            <span>{{ group_name.bills }}</span>
-          </div>
-        </div>
-        <div class="col-6 col-md-6 col-lg-6 col-xl-6 col-xxl-5">
-          <div class="d-flex gap-2">
-            <div class="col-2">
-              <span><i class="fa-solid fa-user text-primary-2"></i></span>
-            </div>
-            <div class="col-6">
-              <span>{{ group_name.merchant_teller.alias || '---' }}</span>
-            </div>
-            <div class="col-4">
-              <span class="text-secondary">{{
-                group_name.merchant_teller.id
-              }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-7 col-lg-6 col-xl-7 col-xxl-6">
-      <div class="col-11 col-sm-12 mx-auto">
-        <div class="row">
-          <div class="col-8 col-sm-9 col-md-8 me-auto">
-            <div class="input-group mb-3">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search.."
-                aria-label="Search.."
-                aria-describedby="basic-addon2" />
-              <div class="input-group-append">
-                <span class="input-group-text btn bg-dark" id="basic-addon2"
-                  ><i class="fa-solid fa-magnifying-glass fa-xl text-light"></i
-                ></span>
-              </div>
-            </div>
-          </div>
-          <div
-            class="col-1 col-sm-2 col-md-2 col-lg-2 col-xl-1 p-1 d-flex justify-content-end align-items-center"
-            role="button"
-            (click)="goBack()"
-            tabindex="0">
-            <span class=""
-              ><i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i
-            ></span>
-            <span class="fw-bolder fs-5" i18n>Back</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <hr class="bg-dark row HLine" />
-</div>
-
 <div class="d-flex flex-column justify-content-center gap-5">
   <div
     class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-5">
@@ -158,12 +88,131 @@
       </div>
     }
   </div>
-
-  <div class="d-flex justify-content-center">
-    <div class="d-flex">
-      <button class="btn bg-primary px-5">
-        <span class="text-white px-5 py-2">Validate</span>
-      </button>
-    </div>
-  </div>
 </div>
+<!-- @if (merchantInfo && merchantInfo.is_teller_admin === true) { -->
+<!-- <div class="modal fade arounded" id="invoicesModal" data-mdb-backdrop="false">
+    <div class="modal-dialog sm-radius">
+      <div class="modal-content bg-primary-3 x-lg-radius">
+        <div class="modal-header p-2 bg-primary-3">
+          <div class="row col-11 mx-auto p-2" i18n>
+            <div
+              class="col-2 p-0"
+              role="button"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
+            </div>
+            <div
+              class="col-6 p-0 text-center fs-normal"
+            >
+              Invoice Details
+            </div>
+            <div class="col-4 p-0 text-end">
+              <img
+                class="imgSize"
+                src="/images/logo/ihela-ryanje.png"
+                alt="logo ihela" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-body bg-white lg-radius p-2">
+          @if (invoices) {
+            <div class="row col-11 mx-auto">
+              <div
+                class="p-2 col-3 mb-3 mt-2 fs-normal xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
+                {{ invoices.payment_status.title || '---' }}
+              </div>
+              <div class="p-0 col-11 mb-2 fs-medium fw-bold">
+                <b class="p-0">{{ invoices.code }}</b>
+              </div>
+  
+              <div class="p-0 h-50">
+                <div
+                  class="row mx-auto mt-2 mb-3 border border-1 border-dark sm-radius">
+                  <div
+                    class="iconSize d-flex justify-content-center m-3 p-4 align-items-center bg-secondary rounded-circle">
+                    <i class="fa-solid fa-warehouse text-secondary"></i>
+                  </div>
+                  @if (invoices.provider.client !== null) {
+                    <div class="col-6 mt-3 ms-2">
+                      <div class="row fw-bolder fs-small">
+                        {{
+                          invoices.provider.client.client_full_name ||
+                            '---'
+                        }}
+                      </div>
+                      <div class="row fs-small">
+                        {{ invoices.id || '---' }}
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+              <div class="row p-0 mx-auto sm-radius bg-secondary">
+                <div class="row mb-2">
+                  <span i18n class="fs-small fw-bold mt-3">Item</span>
+                </div>
+                <div class="row col-11 ms-3 borderDashed mb-2"></div>
+                <div class="row mb-2">
+                  <div class="col-6">
+                    @for (order of invoices.orders; track $index) {
+                      @if (order.product) {
+                        <span class="fs-normal fw-bold">{{
+                          order.product.name || '---'
+                        }}</span>
+                        <br />
+                      }
+                      @if (order.element_metadata.original_data) {
+                        <span class="fs-small">
+                          {{
+                            order.element_metadata.original_data.quantity ||
+                              '---'
+                          }}
+                          {{ order.product.measure.suffix || '---' }}
+                        </span>
+                        <br />
+                        <span class="fs-small">
+                          {{ order.product.measure.price || '---' }}/{{
+                            order.product.measure.suffix
+                          }}
+                        </span>
+                      }
+                    }
+                  </div>
+                  <div class="col-5">
+                    <span class="text-primary fs-normal fw-bolder fs-4">
+                      <app-amount-visibility
+                        [amount]="invoices.total_amount"
+                        [alwaysShowAmount]="true"
+                        [currency]="'BIF'"></app-amount-visibility>
+                    </span>
+                  </div>
+                </div>
+                <div class="row col-11 ms-3 borderDashed mb-2"></div>
+                <div class="row">
+                  <span class="fs-normal fw-bold">
+                    {{
+                      invoices.merchant_teller.merchant.merchant_title
+                    }}
+                  </span>
+                  <span class="mb-4" i18n>
+                    Done by Teller NO{{ invoices.merchant_teller.id }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          }
+          <div
+            i18n
+            role="button"
+            class="bg-primary fw-bold sm-radius text-light text-center fs-medium m-3 p-2"
+            (click)="enterPin()"
+            tabindex="0">
+            Validate
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+<!-- } -->
