@@ -5,13 +5,15 @@
       <div class="row">
         <div class="col-4 col-md-4">
           <div class="border-end">
-            <span class="fs-medium fw-bold">{{ group_name }}</span>
+            <span class="fs-medium fw-bold">{{
+              group_name.name || '---'
+            }}</span>
           </div>
         </div>
         <div class="col-2 col-xxl-3">
           <div class="d-flex gap-2">
             <span><i class="fa-solid fa-receipt text-primary-2"></i></span>
-            <span>20</span>
+            <span>{{ group_name.bills }}</span>
           </div>
         </div>
         <div class="col-6 col-md-6 col-lg-6 col-xl-6 col-xxl-5">
@@ -20,10 +22,12 @@
               <span><i class="fa-solid fa-user text-primary-2"></i></span>
             </div>
             <div class="col-6">
-              <span>Teller 2</span>
+              <span>{{ group_name.merchant_teller.alias || '---' }}</span>
             </div>
             <div class="col-4">
-              <span class="text-secondary">{{ teller_id }}</span>
+              <span class="text-secondary">{{
+                group_name.merchant_teller.id
+              }}</span>
             </div>
           </div>
         </div>
@@ -68,110 +72,91 @@
   <div
     class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-5">
     @if (invoices) {
-      @for (item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track $index) {
-        <div class="d-flex">
-          <div class="col-2">
-            <div class="invoice-by-group-card sm-radius shadow-sm">
-              <div class="col-10 d-grid gap-2 mx-auto">
-                <div class="row mt-2">
-                  <div class="col-3 rounded-circle bg-secondary d-flex mx-auto">
-                    <span
-                      class="w-100 d-flex justify-content-center align-items-center">
-                      <i class="fa-solid fa-warehouse"></i>
-                    </span>
-                  </div>
-                  <div class="col-8 d-flex justify-content-end">
-                    <div class="border border-warning xx-lg-radius py-1 px-2">
-                      <span class="text-warning">Pending</span>
-                    </div>
-                  </div>
+      <div class="d-flex">
+        <div class="col-2">
+          <div class="invoice-by-group-card sm-radius shadow-sm">
+            <div class="col-10 d-grid gap-2 mx-auto">
+              <div class="row mt-2">
+                <div class="col-3 rounded-circle bg-secondary d-flex mx-auto">
+                  <span
+                    class="w-100 d-flex justify-content-center align-items-center">
+                    <i class="fa-solid fa-warehouse"></i>
+                  </span>
                 </div>
-                <div class="d-flex flex-column d-grid gap-2">
-                  <span class="fs-small fw-bold text-dark"
-                    >Maronko Supplier</span
-                  >
-                  <span class="fs-x-small text-secondary">00123</span>
+                <div class="col-8 d-flex justify-content-end">
+                  <div class="border border-warning xx-lg-radius py-1 px-2">
+                    <span class="text-warning">{{
+                      invoices.payment_status.title
+                    }}</span>
+                  </div>
                 </div>
               </div>
-              <div class="bg-secondary position-relative mt-3">
-                <div class="position-absolute top-0 end-0 translate-middle">
-                  <span
-                    ><i class="fa-solid fa-receipt text-primary-2"></i
-                  ></span>
-                </div>
-                <div class="d-grid gap-2 d-flex flex-column">
-                  <div class="row d-flex align-items-start">
-                    <div class="col">
-                      <hr class="bg-primary w-100 my-0" />
-                    </div>
-                    <div class="col">
-                      <hr class="bg-primary w-100 my-0" />
-                    </div>
-                    <div class="col">
-                      <hr class="bg-primary w-100 my-0" />
-                    </div>
-                    <div class="col">
-                      <hr class="bg-primary w-100 my-0" />
-                    </div>
-                    <div class="col">
-                      <hr class="bg-primary w-100 my-0" />
-                    </div>
+              <div class="d-flex flex-column d-grid gap-2">
+                @if (invoices.provider.client) {
+                  <span class="fs-small fw-bold text-dark">{{
+                    invoices.provider.client.client_full_name
+                  }}</span>
+                }
+
+                <span class="fs-x-small text-secondary">{{ invoices.id }}</span>
+              </div>
+            </div>
+            <div class="bg-secondary position-relative mt-3">
+              <div class="position-absolute top-0 end-0 translate-middle">
+                <span><i class="fa-solid fa-receipt text-primary-2"></i></span>
+              </div>
+              <div class="d-grid gap-2 d-flex flex-column">
+                <div class="row d-flex align-items-start">
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
                   </div>
-                  <div class="col-10 mx-auto">
-                    <div class="row mt-2">
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                </div>
+                <div class="col-10 mx-auto">
+                  <div class="row mt-2">
+                    @for (order of invoices.orders; track $index) {
                       <div class="col-2 me-auto">
                         <div class="d-flex gap-1">
                           <span><i class="fa-solid fa-box fa-sm"></i></span>
-                          <span class="fs-small">Tea</span>
+                          <span class="fs-small">{{
+                            order.product.name || '---'
+                          }}</span>
                         </div>
                       </div>
                       <div class="col-4">
-                        <span class="fs-small text-secondary">2 Kg</span>
+                        <span class="fs-small text-secondary"
+                          >{{ order.product.measure.quantity }}
+                          {{ order.product.measure.suffix || '---' }}</span
+                        >
                       </div>
-                    </div>
-                    <div class="fs-medium fw-bold text-primary mb-2">
-                      <span>26 000 BIF</span>
-                    </div>
+                    }
+                  </div>
+                  <div class="fs-medium fw-bold text-primary mb-2">
+                    <span>
+                      <app-amount-visibility
+                        [amount]="invoices.total_amount"
+                        [currency]="'BIF'"
+                        [alwaysShowAmount]="true"></app-amount-visibility>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      }
-    } @else if (!invoices) {
-      <div class="row ms-2">
-        @for (item of [1, 2, 3, 4]; track $index) {
-          <div class="col-6 col-sm-4 col-xl-3 mb-2">
-            <app-skeleton
-              height="140px"
-              width="170px"
-              classes="sm-radius"></app-skeleton>
-            <div>
-              <app-skeleton
-                height="10px"
-                width="30px"
-                classes="sm-radius"
-                appearance="line"></app-skeleton>
-            </div>
-            <div>
-              <app-skeleton
-                height="10px"
-                width="50px"
-                classes="sm-radius"
-                appearance="line"></app-skeleton>
-            </div>
-          </div>
-        }
       </div>
     }
-    <!-- @else if (invoices && invoices.length === 0) {
-      <div class="row">
-        <span class="col-10 col-md-8 mx-auto mt-5">
-          <app-empty-state [searchType]="searchType"></app-empty-state>
-        </span>
-      </div>
-    } -->
   </div>
 
   <div class="d-flex justify-content-center">

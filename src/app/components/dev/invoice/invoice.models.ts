@@ -1,6 +1,6 @@
 import { ClientModel } from '../../../core/db/models/auth';
-import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
 import { ProductModel } from '../../merchant/products/products.model';
+import { MerchantModel } from '../agent/agent.models';
 
 export interface InvoiceGroupModel {
   id: number;
@@ -69,9 +69,12 @@ export interface OrdersModel {
 export interface SingleInVoiceModel {
   id: number;
   created_at: Date;
+  code: string;
   merchant_teller: {
+    id: number;
     client: ClientModel;
-    merchant: MerchantAutocompleteModel;
+    merchant: MerchantModel;
+    alias: string;
   };
   provider: ProviderModel;
   total_amount: string | number;
@@ -91,4 +94,11 @@ export interface InvoiceResponseModel {
     code: string;
   };
   success: boolean;
+}
+
+export interface SingleInvoiceActionModel {
+  success: boolean;
+  response_message: string;
+  response_code: string;
+  response_data: object;
 }
