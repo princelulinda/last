@@ -415,27 +415,28 @@ export class MerchantConfigComponent implements OnInit {
       this.selected = '';
     }
   }
+  // the searchTellers is for an autocomplete api
 
-  searchTellers(search: string) {
-    this.isTellersSearch = true;
-    this.isLoading = true;
+  // searchTellers(search: string) {
+  //   this.isTellersSearch = true;
+  //   this.isLoading = true;
 
-    const data = {
-      search: search,
-      merchant: this.merchantInfo.id,
-    };
-    this.get_tellers = false;
-    if (search) {
-      this.merchantService
-        .searchTellersByMerchant(data)
-        .subscribe((tellers: tellersModel) => {
-          this.isLoading = false;
-          this.tellers = tellers.objects;
-        });
-    } else {
-      this.getTellersByMerchant();
-    }
-  }
+  //   const data = {
+  //     search: search,
+  //     merchant: this.merchantInfo.id,
+  //   };
+  //   this.get_tellers = false;
+  //   if (search) {
+  //     this.merchantService
+  //       .searchTellersByMerchant(data)
+  //       .subscribe((tellers: tellersModel) => {
+  //         this.isLoading = false;
+  //         this.tellers = tellers.objects;
+  //       });
+  //   } else {
+  //     this.getTellersByMerchant();
+  //   }
+  // }
   handleEnter(event: Event) {
     if (this.newTellerForm.valid) {
       this.createNewTeller();

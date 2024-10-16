@@ -530,13 +530,17 @@ export class MerchantService {
       .pipe(map(data => data));
   }
   /******************************************************************************* */
-  searchTellersByMerchant(data: searchTellerModel): Observable<tellersModel> {
+  searchTellersByMerchant(
+    data: searchTellerModel
+  ): Observable<{ objects: TellerAutoCompleteModel[] }> {
     const url =
       '/dbs/merchant-teller/objects_autocomplete/?merchant=' +
       data.merchant +
       '&search=' +
       data.search;
-    return this.apiService.get<tellersModel>(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ objects: TellerAutoCompleteModel[] }>(url)
+      .pipe(map(data => data));
   }
   getMerchantsLocation() {
     const url = '/dbs/merchant/maplist/';
