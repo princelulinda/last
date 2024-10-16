@@ -1,3 +1,151 @@
-<div>
-  <app-list [headers]="headers" url="/menu/admin/?"></app-list>
-</div>
+@if (showList) {
+  <ng-container *ngTemplateOutlet="list"></ng-container>
+}
+
+@if (!showList) {
+  <ng-container *ngTemplateOutlet="newMenu"></ng-container>
+}
+
+<ng-template #list>
+  <div>
+    <app-list
+      [headers]="headers"
+      url="/menu/admin/?"
+      [addButtonLink]="{
+        url: '/w/workstation/a/admin/menu',
+        fragment: 'newMenu',
+      }"></app-list>
+  </div>
+</ng-template>
+
+<ng-template #newMenu>
+  <section class="newMenu py-1 rounded pt-5">
+    <h4 class="text-center text-dark my-2 mb-3 w-75 m-auto fw-bold" i18n>
+      New Menu
+    </h4>
+    <form
+      [formGroup]="menuForm"
+      (ngSubmit)="submitAdminMenu()"
+      class="rounded mb-2">
+      <div
+        class="row justify-content-center align-items-center mx-4"
+        style="gap: 0.7rem">
+        <div
+          class="d-block d-lg-flex col-sm-6 col-lg-5 col-xl-4 justify-content-between align-items-center">
+          <label
+            for="nameMenu"
+            class="form-label text-capitalize fw-bold text-dark"
+            i18n
+            >Name <code>*</code></label
+          >
+          <div class="form-floating col-xl-7">
+            <input
+              id="nameMenu"
+              name="nameMenu"
+              formControlName="name"
+              class="form-control"
+              placeholder="operator" />
+            <label for="nameMenu" class="form-label" i18n>Name </label>
+          </div>
+        </div>
+        <div
+          class="d-block d-lg-flex col-sm-6 col-lg-5 col-xl-4 justify-content-between align-items-center">
+          <label for="menu_group" class="fw-bold text-dark" i18n
+            >Menu Group <code>*</code></label
+          >
+          <div class="col-lg-9 col-xl-7 col-xl-5" style="z-index: 10">
+            <app-lookup
+              option="autocomplete"
+              url="/menugroup/list/objects_autocomplete/?search="
+              label="Menus"
+              (selectedItemEvent)="setSelectedMenuId($event?.id)"></app-lookup>
+          </div>
+        </div>
+        <div
+          class="d-block d-lg-flex col-sm-6 col-lg-5 col-xl-4 justify-content-between align-items-center">
+          <label
+            for="urlComponent"
+            class="form-label text-capitalize fw-bold text-dark"
+            i18n
+            >Web URL</label
+          >
+          <div class="form-floating col-xl-7">
+            <input
+              id="urlComponent"
+              formControlName="component_url"
+              class="form-control"
+              placeholder="component/url" />
+            <label for="urlComponent" class="form-label" i18n>Web URL</label>
+          </div>
+        </div>
+        <div
+          class="d-block d-lg-flex col-sm-6 col-lg-5 col-xl-4 justify-content-between align-items-center">
+          <label
+            for="icon"
+            class="form-label text-capitalize fw-bold text-dark"
+            i18n
+            >Icon Name <code>*</code></label
+          >
+          <div class="form-floating col-xl-7">
+            <input
+              id="icon"
+              formControlName="icon"
+              class="form-control"
+              placeholder="users" />
+            <label for="icon" class="form-label" i18n>Icon Name</label>
+          </div>
+        </div>
+
+        <div
+          class="d-block d-lg-flex col-sm-6 col-lg-5 col-xl-4 justify-content-between align-items-center">
+          <label
+            for="MobileUrl"
+            class="form-label text-capitalize fw-bold text-dark"
+            i18n
+            >Mobile URL</label
+          >
+          <div class="form-floating col-xl-7">
+            <input
+              id="mobileUrl"
+              formControlName="mobile_url"
+              class="form-control"
+              placeholder="url" />
+            <label for="mobileUrl" class="form-label" i18n>Mobile URL</label>
+          </div>
+        </div>
+        <div
+          class="col-sm-6 col-lg-5 col-xl-4 d-flex mx-md-2 mx-lg-0 align-items-center">
+          <label
+            for="isActiveCheck"
+            class="form-check-label me-3 fw-bold text-dark mt-2"
+            i18n
+            >Active</label
+          >
+          <input
+            type="checkbox"
+            id="isActiveCheck"
+            name="active"
+            formControlName="active"
+            class="form-check-input fs-5" />
+        </div>
+
+        <!-- for style -->
+        <div class="col-sm-6 col-lg-5 col-xl-4"></div>
+      </div>
+
+      <div class="text-center mt-3 mt-md-4">
+        <button
+          class="btn bg-primary text-light fw-bold"
+          type="submit"
+          [disabled]="!menuForm.valid || !selectedMenuId || isLoading"
+          i18n>
+          <span class="px-2" *ngIf="!isLoading">Save</span>
+          <span *ngIf="isLoading">
+            <i
+              class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-3"></i>
+          </span>
+        </button>
+      </div>
+    </form>
+  </section>
+</ng-template>
