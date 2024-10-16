@@ -25,3 +25,77 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+# NG-MAGIS-ERP
+
+## Best practices (Web Frontend)
+
+### Nomenclatures
+
+#### - Variables
+
+    Variables are written in Camel Case format (eg. firstName)
+
+    Variable names must be informative (eg. showSideMenu, dailyStatementPagination)
+
+    Variable types must be defined (eg. firstName: string; age:number …)
+
+##### Variable initializations:
+
+    String variables: eg. firstName:string = ""
+
+    Boolean type variables: eg. isAgent:boolean = false
+
+    Variables of type number: eg. count:number = 0
+
+    Variables of type {name:string,logo:string | null}:
+     eg. company:{name:string,logo:string | null} = {name:'MAGIS BI', logo:null }
+
+    Variables of type []:
+     eg. statements: { name:string, logo:string | null}[] = [ ]
+
+    Variables of observable type must have a suffix '$'
+    eg. wallet$ = Obervable<{ name:string, logo:string | null } >
+
+#### - Functions
+
+    Function names are written in Camel Case format (eg. ngOnInit(),...)
+
+    Function names must be informative (eg. clickSideMenu(), getDailyStatement(),....)
+
+    Function names start with a conjugated verb eg. getDailyStatement(){....}
+
+    Parameter types must be defined eg. getDailyStatement(id:number){....}
+
+    Return types must be defined
+    (eg. getDailyStatement():{ name:string, logo:string | null }[] { })
+
+#### - The Models
+
+- ##### Nomenclature of the files which contains the models: always in lower case; follow the following mode
+  #### [name].models.ts.
+  eg (merchant.models.ts)
+- ##### Nomenclature of interfaces and other types: always capitalized; follow the following mode
+  #### [Name][Action]Model ==> Action and optional
+  eg:
+  - ClientModel: A model that represents a client
+  - ClientCreationBodyModel: A model that represents the data necessary for creating a client
+  - ClientCreationResponseModel: A model that represents response data when creating a client
+
+### Folder/file organizations
+
+- ##### Folder names must be separated by a hyphen
+- ##### File nomenclature: always lowercase; follow the following mode
+  #### [file-name].[type].[extension].
+- ##### Images must be put in the images subfolder of the public folder
+- ##### The icons must be put in the icons subfolder of the public folder
+- ##### The sass configurations (colors, fonts, others) must be put in the sass subfolder of the public folder
+- ##### The core folder contains everything related to Dexie, Guards, Services, Interceptors
+- ##### The Components folder contains all other components for pages
+- ##### The Global folder contains all Components, Pipes, Directives, Models which are used everywhere in the project
+- ##### The routes folder contains all the routes that are imported into app-routes
+
+### Request authorization before carrying out these actions
+
+- #### Before installing a new package
+- #### Modify a component or global file or a configuration file

@@ -12,9 +12,10 @@ export class VariableService {
 
   refreshFavoriteProducts: WritableSignal<boolean> = signal(false);
   refreshFavoriteMerchants: WritableSignal<boolean> = signal(false);
-  // pin: any;
 
   announceTopUpComplete() {
     this.topUpCompleteSource.next();
   }
+
+  MENU_ACCESS_KEY: WritableSignal<string> = signal('');
 }

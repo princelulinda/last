@@ -148,7 +148,8 @@
               <span class="less-grey">Amount</span>
               <app-amount-visibility
                 amount="{{ simulationResult?.amount }}"
-                currency="BIF"></app-amount-visibility>
+                currency="BIF"
+                [alwaysShowAmount]="true"></app-amount-visibility>
             </div>
           </div>
           <div class="col-lg-4 mb-3">
@@ -156,7 +157,8 @@
               <span class="less-grey">Echeance Amount</span>
               <app-amount-visibility
                 amount="{{ simulationResult?.echeance_amount }}"
-                currency="BIF"></app-amount-visibility>
+                currency="BIF"
+                [alwaysShowAmount]="true"></app-amount-visibility>
             </div>
           </div>
           <div class="col-lg-4 mb-3">
@@ -176,7 +178,8 @@
               <span class="less-grey">Exigible Amount</span>
               <app-amount-visibility
                 amount="{{ simulationResult?.exigible_amount }}"
-                currency="BIF"></app-amount-visibility>
+                currency="BIF"
+                [alwaysShowAmount]="true"></app-amount-visibility>
             </div>
           </div>
           <div class="col-lg-4 mb-3">
@@ -190,7 +193,8 @@
               <span class="less-grey">Total Interests</span>
               <app-amount-visibility
                 amount="{{ simulationResult?.total_interests }}"
-                currency="BIF"></app-amount-visibility>
+                currency="BIF"
+                [alwaysShowAmount]="true"></app-amount-visibility>
             </div>
           </div>
           <div class="col-lg-4 mb-3">
@@ -225,27 +229,32 @@
             <b class="col-2">
               <app-amount-visibility
                 amount="{{ plan.crep_echeance_amount }}"
-                currency="BIF"></app-amount-visibility>
+                currency="BIF"
+                [alwaysShowAmount]="true"></app-amount-visibility>
             </b>
             <b class="col-2">
               <app-amount-visibility
                 amount="{{ plan.crep_capital }}"
-                currency="BIF"></app-amount-visibility>
+                currency="BIF"
+                [alwaysShowAmount]="true"></app-amount-visibility>
             </b>
             <b class="col-2">
               <app-amount-visibility
                 amount="{{ plan.crep_interest }}"
-                currency="BIF"></app-amount-visibility
+                currency="BIF"
+                [alwaysShowAmount]="true"></app-amount-visibility
             ></b>
             <b class="col-2">
               <app-amount-visibility
                 amount="{{ plan.crep_due_interest }}"
-                currency="BIF"></app-amount-visibility>
+                currency="BIF"
+                [alwaysShowAmount]="true"></app-amount-visibility>
             </b>
             <b class="col-2">
               <app-amount-visibility
                 amount="{{ plan.crep_due_capital }}"
-                currency="BIF"></app-amount-visibility>
+                currency="BIF"
+                [alwaysShowAmount]="true"></app-amount-visibility>
             </b>
           </div>
         }

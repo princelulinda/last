@@ -26,7 +26,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
   bankingPlateformIcon = '/icons/banking-light-icon.svg';
 
   plateforms: {
-    plateform: PlateformModel;
+    plateform: PlateformModel | 'market';
     title: string;
     image: string;
     icon: string;
@@ -58,7 +58,7 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
       link: '/o/onamob',
     },
     {
-      plateform: 'marketPlace',
+      plateform: 'market',
       title: 'Switch On Market Place',
       image: '',
       icon: 'fa-solid fa-cart-shopping fa-xl',
@@ -98,13 +98,23 @@ export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
     });
   }
 
-  switchPlateform(plateform: PlateformModel) {
-    this.configService.switchPlateform(plateform);
+  switchPlateform(plateform: PlateformModel | 'market') {
+    if (plateform === 'market') {
+      this.configService.switchPlateform('marketPlace');
+    } else {
+      this.configService.switchPlateform(plateform);
+    }
   }
 
   public ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+  isMarketPlatform(): boolean {
+    return (
+      this.mainConfig?.activePlateform === 'marketPlace' ||
+      this.mainConfig?.activePlateform === 'myMarket'
+    );
   }
 
   // toggleMarket() {

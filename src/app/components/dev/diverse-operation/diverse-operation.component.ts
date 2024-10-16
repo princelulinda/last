@@ -50,4 +50,52 @@ export class DiverseOperationComponent {
     this.tellerReceiver = teller;
     this.receiver = teller;
   }
+
+  returnPage() {
+    this.operation = null;
+    // this.account = null;
+    this.tellerReceiver = null;
+    this.tellerSender = null;
+    // this.ledger = null;
+  }
+
+  goBack() {
+    if (this.operation === 'Treasure Movement') {
+      this.operation = null;
+      // if (this.optionSelected && !this.ledger) {
+      //   this.operation = null;
+      //   this.descriptionForm.reset();
+      // } else if (this.ledger && !this.account) {
+      //   this.ledger = null;
+      //   this.descriptionForm.reset();
+      // } else if (this.account) {
+      //   this.account = null;
+      //   this.descriptionForm.reset();
+      // }
+    } else if (this.operation === 'Box Transfer') {
+      if (!this.sender && !this.receiver) {
+        this.operation = null;
+        this.descriptionForm.reset();
+      } else if (this.sender && !this.receiver) {
+        this.sender = null;
+        this.tellerSender = null;
+        this.descriptionForm.reset();
+      } else if (this.receiver) {
+        this.receiver = null;
+        this.tellerReceiver = null;
+        this.descriptionForm.reset();
+      }
+    } else if (this.operation === 'Transfer') {
+      this.operation = null;
+    }
+  }
+
+  cancel() {
+    this.operation = null;
+    this.sender = null;
+    this.tellerSender = null;
+    this.receiver = null;
+    this.tellerReceiver = null;
+    this.descriptionForm.reset();
+  }
 }
