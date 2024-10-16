@@ -69,6 +69,7 @@ export class TransferService {
       .post('/operations/transfer/', data)
       .pipe(map(data => data as TransferResponseModel));
   }
+
   doTransferWorkstation(
     institution_id: ConnectedOperatorModel | number | undefined,
     data: object
@@ -76,6 +77,7 @@ export class TransferService {
     return this.apiService
       .post(
         `/corporate/operation/transfer/${institution_id}/perform_object_action/`,
+
         data
       )
       .pipe(map(data => data as TransferResponseModel));

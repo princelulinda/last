@@ -549,6 +549,7 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
         },
       });
   }
+
   public validateTransferWorkstation() {
     this.amountToSend = this.amount;
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TransferComponent } from '../../transfer/transfer/transfer.component';
 import { NotFoundPageComponent } from '../../../global/components/empty-states/not-found-page/not-found-page.component';
-import { MerchantService } from '../../../core/services';
+import { ConfigService, MerchantService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
 import { CreditAccountComponent } from '../../transfer/credit-account/credit-account.component';
 import { Location } from '@angular/common';
@@ -16,6 +16,7 @@ import {
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { MerchantModel } from '../merchant.models';
+import { ConnectedOperatorModel } from '../../auth/auth.model';
 @Component({
   selector: 'app-merchant-transfer',
   standalone: true,
@@ -25,6 +26,8 @@ import { MerchantModel } from '../merchant.models';
 })
 export class MerchantTransferComponent implements OnInit, OnDestroy {
   merchantInfo: MerchantModel | null = null;
+  institutionId: ConnectedOperatorModel | number | undefined;
+  institutionId$!: Observable<ConnectedOperatorModel>;
   selectedCreditAccountForm:
     | {
         accountNumber: string;
@@ -44,11 +47,19 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
   constructor(
     private merchantService: MerchantService,
     private dialogService: DialogService,
-    private location: Location
+    private location: Location,
+    private configService: ConfigService
   ) {
     this.dialogState$ = this.dialogService.getDialogState();
+    this.institutionId$ = this.configService.getConnectedOperator();
   }
   ngOnInit(): void {
+    this.institutionId$.subscribe({
+      next: datas => {
+        this.institutionId = datas.organization?.id;
+      },
+    });
+
     this.getConnectedMerchantInfo();
 
     this.dialogState$.pipe(takeUntil(this.onDestroy$)).subscribe({
