@@ -9,7 +9,6 @@ import { ListComponent } from '../../../../global/components/list/list/list.comp
 import { DialogService, MenuService } from '../../../../core/services';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { AdminService } from '../../../../core/services/admin/admin.service';
-import { NewOperatorModel } from '../operator.models';
 import { LookupModel } from '../../../../global/models/global.models';
 
 @Component({
@@ -146,7 +145,7 @@ export class OperatorsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: res => {
-          const response = res as { object: NewOperatorModel };
+          const response = res;
           this.isLoading = false;
           this.clientId = null;
           this.pin.reset();

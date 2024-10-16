@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { DeskDashboardComponent } from '../../components/dev/desk-dashboard/desk-dashboard.component';
 import { OperationListComponent } from '../../components/dev/operations/operation-list/operation-list.component';
 import { CounterComponent } from '../../components/dev/operations/counter/counter.component';
-//import { ClientAccountListComponent } from '../../components/client/client-account-list/client-account-list.component';
+
 import { ClientAccountDetailComponent } from '../../components/client/client-account-detail/client-account-detail.component';
 import { ClientDetailsComponent } from '../../components/client/client-details/client-details.component';
 import { ClientListComponent } from '../../components/client/client-list/client-list.component';
@@ -22,6 +22,9 @@ import { SignaturesComponent } from '../../components/client/signatures/signatur
 import { ClientCreditsComponent } from '../../components/client/client-credits/client-credits.component';
 import { ClientCreditsLineComponent } from '../../components/client/client-credits-line/client-credits-line.component';
 
+import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
+import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
+
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
 
@@ -29,7 +32,10 @@ export const DeskRoutes: Routes = [
   {
     path: 'client',
     children: [
-      { path: 'list', component: ClientListComponent },
+      {
+        path: 'list',
+        component: ClientListComponent,
+      },
 
       {
         path: 'detail/:client_id',
@@ -59,11 +65,16 @@ export const DeskRoutes: Routes = [
         ],
       },
     ],
+    canActivate: [GetMenuKeyGuard],
+    data: {
+      signature: MENU_KEYS.CLIENT,
+    },
   },
 
   // NOTE :: OPERATIONS MODULES
   {
     path: 'operations',
+
     children: [
       { path: 'list', component: OperationListComponent },
       { path: 'counters', component: CounterComponent },

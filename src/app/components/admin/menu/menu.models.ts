@@ -32,3 +32,13 @@ export interface PageMenusModel {
   fragment?: string;
   icon_classes?: string;
 }
+
+export interface AdminMenuBodyModel {
+  active: boolean;
+  color: string;
+  component_url: string;
+  icon: string;
+  menu_group: number;
+  mobile_url: string;
+  name: string;
+}

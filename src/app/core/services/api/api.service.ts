@@ -138,17 +138,17 @@ export class ApiService {
       .pipe(catchError(this.formatErrors)) as Observable<T>;
   }
 
-  patch(
+  patch<T>(
     path: string,
     body: object = {},
     headers: HttpHeaders = new HttpHeaders()
-  ): Observable<object> {
+  ): Observable<T> {
     if (headers['lazyUpdate']) {
       this.headers = headers;
     }
 
     return this.http
-      .patch(`${environment.apiUrl}${path}`, JSON.stringify(body), {
+      .patch<T>(`${environment.apiUrl}${path}`, JSON.stringify(body), {
         headers: this.headers,
       })
       .pipe(catchError(this.formatErrors));
@@ -169,9 +169,9 @@ export class ApiService {
       .pipe(catchError(this.formatErrors));
   }
 
-  delete(path: string): Observable<object> {
+  delete<T>(path: string): Observable<T> {
     return this.http
-      .delete(`${environment.apiUrl}${path}`)
+      .delete<T>(`${environment.apiUrl}${path}`)
       .pipe(catchError(this.formatErrors));
   }
 }
