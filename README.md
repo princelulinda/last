@@ -98,4 +98,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ### Request authorization before carrying out these actions
 
 - #### Before installing a new package
-- #### Modify a component or global file or a configuration file
+- #### Modify a global component or a global file or a configuration file
+
