@@ -1,19 +1,41 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { OrganizationModel } from '../../auth/auth.model';
 import { Observable } from 'rxjs';
 import { ConfigService } from '../../../core/services';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { AutocompleteModel } from '../../../global/models/global.models';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-diverse-operation',
   standalone: true,
-  imports: [LookupComponent],
+  imports: [LookupComponent, ReactiveFormsModule, CommonModule],
   templateUrl: './diverse-operation.component.html',
   styleUrl: './diverse-operation.component.scss',
 })
 export class DiverseOperationComponent {
+  one = new FormControl(0);
+  two = new FormControl(0);
+  three = new FormControl(0);
+  four = new FormControl(0);
+  five = new FormControl(0);
+  six = new FormControl(0);
+
+  resOne = 0;
+  resTwo = 0;
+  resThree = 0;
+  resFour = 0;
+  resFive = 0;
+  resSix = 0;
+  totalSum = 0;
+
   operation!: string | null;
   descriptionForm: FormGroup;
 
@@ -32,6 +54,70 @@ export class DiverseOperationComponent {
       description: ['', Validators.required],
       external_reference: ['', Validators.required],
     });
+
+    this.one.valueChanges.subscribe(() => {
+      if (this.one.value && this.one.value > 0) {
+        this.resOne = this.one.value * 100;
+      } else {
+        this.resOne = 0;
+      }
+      this.calculateSum();
+    });
+
+    this.two.valueChanges.subscribe(() => {
+      if (this.two.value && this.two.value > 0) {
+        this.resTwo = this.two.value * 500;
+      } else {
+        this.resTwo = 0;
+      }
+      this.calculateSum();
+    });
+
+    this.three.valueChanges.subscribe(() => {
+      if (this.three.value && this.three.value > 0) {
+        this.resThree = this.three.value * 1000;
+      } else {
+        this.resThree = 0;
+      }
+      this.calculateSum();
+    });
+
+    this.four.valueChanges.subscribe(() => {
+      if (this.four.value && this.four.value > 0) {
+        this.resFour = this.four.value * 2000;
+      } else {
+        this.resFour = 0;
+      }
+      this.calculateSum();
+    });
+
+    this.five.valueChanges.subscribe(() => {
+      if (this.five.value && this.five.value > 0) {
+        this.resFive = this.five.value * 5000;
+      } else {
+        this.resFive = 0;
+      }
+      this.calculateSum();
+    });
+
+    this.six.valueChanges.subscribe(() => {
+      if (this.six.value && this.six.value > 0) {
+        this.resSix = this.six.value * 10000;
+      } else {
+        this.resSix = 0;
+      }
+      this.calculateSum();
+    });
+  }
+
+  calculateSum() {
+    this.totalSum =
+      this.resOne +
+      this.resTwo +
+      this.resThree +
+      this.resFour +
+      this.resFive +
+      this.resSix;
   }
 
   selectOperation(operation: string | null) {
@@ -86,6 +172,8 @@ export class DiverseOperationComponent {
         this.descriptionForm.reset();
       }
     } else if (this.operation === 'Transfer') {
+      this.operation = null;
+    } else if (this.operation === 'Transfer Movement') {
       this.operation = null;
     }
   }

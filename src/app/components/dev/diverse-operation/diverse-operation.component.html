@@ -193,12 +193,13 @@
                     <input
                       type="number"
                       name=""
+                      [formControl]="one"
                       class="w-100 form-control rounded-2 billet text-center"
                       id="" />
                   </div>
                   <div class="col-1">=</div>
 
-                  <div class="col-4">0</div>
+                  <div class="col-4">{{ resOne | currency: ' ' }}</div>
                 </div>
 
                 <div class="w-100 row fs-small mx-auto text-start fw-bold mt-1">
@@ -208,12 +209,13 @@
                     <input
                       type="number"
                       name=""
+                      [formControl]="two"
                       class="w-100 form-control rounded-2 billet text-center"
                       id="" />
                   </div>
                   <div class="col-1">=</div>
 
-                  <div class="col-4">0</div>
+                  <div class="col-4">{{ resTwo | currency: ' ' }}</div>
                 </div>
 
                 <div class="w-100 row fs-small mx-auto text-start fw-bold mt-1">
@@ -223,12 +225,13 @@
                     <input
                       type="number"
                       name=""
+                      [formControl]="three"
                       class="w-100 form-control rounded-2 billet text-center"
                       id="" />
                   </div>
                   <div class="col-1">=</div>
 
-                  <div class="col-4">0</div>
+                  <div class="col-4">{{ resThree | currency: ' ' }}</div>
                 </div>
 
                 <div class="w-100 row fs-small mx-auto text-start fw-bold mt-1">
@@ -238,12 +241,13 @@
                     <input
                       type="number"
                       name=""
+                      [formControl]="four"
                       class="w-100 form-control rounded-2 billet text-center"
                       id="" />
                   </div>
                   <div class="col-1">=</div>
 
-                  <div class="col-4">0</div>
+                  <div class="col-4">{{ resFour | currency: ' ' }}</div>
                 </div>
 
                 <div class="w-100 row fs-small mx-auto text-start fw-bold mt-1">
@@ -253,12 +257,13 @@
                     <input
                       type="number"
                       name=""
+                      [formControl]="five"
                       class="w-100 form-control rounded-2 billet text-center"
                       id="" />
                   </div>
                   <div class="col-1">=</div>
 
-                  <div class="col-4">0</div>
+                  <div class="col-4">{{ resFive | currency: ' ' }}</div>
                 </div>
 
                 <div class="w-100 row fs-small mx-auto text-start fw-bold mt-1">
@@ -268,22 +273,18 @@
                     <input
                       type="number"
                       name=""
+                      [formControl]="six"
                       class="w-100 form-control rounded-2 billet text-center"
                       id="" />
                   </div>
                   <div class="col-1">=</div>
 
-                  <div class="col-4">0</div>
+                  <div class="col-4">{{ resSix | currency: ' ' }}</div>
                 </div>
 
-                <div
-                  class="mt-4 w-100 mx-auto d-flex flex-row align-items-center gap-3">
-                  <label for="total"><span class="fw-bold">Total:</span></label>
-                  <input
-                    type="text"
-                    class="form-control rounded-2"
-                    id="total"
-                    name="total" />
+                <div class="mt-4 w-100 mx-auto">
+                  <span class="fw-bold">Total: </span>
+                  <span>{{ totalSum | currency: ' ' }}</span>
                 </div>
               </div>
 
