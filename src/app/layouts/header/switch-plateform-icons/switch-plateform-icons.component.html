@@ -15,19 +15,26 @@
             (mainConfig.activePlateform === plateF.plateform &&
               plateF.plateform === 'workstation'),
           'text-primary':
-            mainConfig.activePlateform === plateF.plateform &&
-            mainConfig.activePlateform !== 'workstation' &&
-            mainConfig.activeMode === 'light',
+            (mainConfig.activePlateform === plateF.plateform &&
+              mainConfig.activePlateform !== 'workstation' &&
+              mainConfig.activeMode === 'light') ||
+            (isMarketPlatform() && plateF.plateform === 'market'),
           'text-primary-1':
             mainConfig.activePlateform === plateF.plateform &&
             mainConfig.activePlateform !== 'workstation' &&
             mainConfig.activeMode === 'dark',
 
-          'bg-hover-primary-2': mainConfig.activePlateform !== plateF.plateform,
+          'bg-hover-primary-2':
+            mainConfig.activePlateform !== plateF.plateform &&
+            !(
+              isMarketPlatform() &&
+              (plateF.plateform === 'market' || plateF.plateform === 'myMarket')
+            ),
 
           'bg-all-white':
-            mainConfig.activePlateform === plateF.plateform &&
-            plateF.plateform !== 'workstation',
+            (mainConfig.activePlateform === plateF.plateform &&
+              plateF.plateform !== 'workstation') ||
+            (isMarketPlatform() && plateF.plateform === 'market'),
           'bg-primary':
             mainConfig.activePlateform === plateF.plateform &&
             plateF.plateform === 'workstation',

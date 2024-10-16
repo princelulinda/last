@@ -14,6 +14,7 @@ import { RoleMenuModel, RoleModel } from '../role.models';
 import { MultiSelectComponent } from '../../../../global/components/custom-field/multi-select/multi-select.component';
 import { PageMenusModel } from '../../menu/menu.models';
 import { MenuService } from '../../../../core/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-role-detail',
@@ -77,14 +78,15 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
   roleType!: FormControl;
   is_active!: FormControl;
 
-  menus: AutocompleteModel[] | null = [];
+  menuArr: AutocompleteModel[] | null = [];
   private pageMenus: PageMenusModel[] = [];
   constructor(
     private adminService: AdminService,
     private route: ActivatedRoute,
     private dialogService: DialogService,
     private variableService: VariableService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -118,21 +120,21 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
         this.pageMenus = [
           {
             icon: 'circle-info',
-            title: 'Branch Details',
-            fragment: 'detail',
+            title: 'Role Details',
+
             url: `/w/workstation/a/admin/role/${this.roleId}`,
           },
 
           {
             icon: 'fa-solid fa-list-ul',
-            title: 'Branch List',
+            title: ' Menus',
             fragment: 'menus',
             url: `/w/workstation/a/admin/role/${this.roleId}`,
           },
 
           {
             icon: 'fa-solid fa-plus',
-            title: 'New BranchCounter',
+            title: 'Add New Menu',
             fragment: 'newMenu',
             url: `/w/workstation/a/admin/role/${this.roleId}`,
           },
@@ -167,6 +169,12 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
       });
   }
 
+  goBack() {
+    this.router.navigate(['/w/workstation/a/admin/role', this.roleId], {
+      fragment: 'menus',
+    });
+  }
+
   getRoleMenus() {
     this.adminService
       .getRoleMenus(this.roleId)
@@ -185,7 +193,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
   assignRoleMenus() {
     this.isLoading = true;
     const body = {
-      menus: this.menus as AutocompleteModel[],
+      menus: this.menuArr as AutocompleteModel[],
     };
 
     this.adminService.assignRoleMenus(this.roleId, body).subscribe({
@@ -197,7 +205,11 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
           message: 'Success',
           type: 'success',
         });
-        // this.selectMenu('menus');
+
+        this.router.navigate(['/w/workstation/a/admin/role', this.roleId], {
+          fragment: 'menus',
+        });
+
         return data;
       },
       error: err => {
@@ -213,7 +225,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
   }
 
   menusSelected(menus: AutocompleteModel[] | null) {
-    this.menus = menus;
+    this.menuArr = menus;
   }
 
   redirectTo(url: string) {
@@ -225,20 +237,6 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
     this.loadingData = true;
     this.getRoleDetails();
   }
-
-  // private getAllIds(data: RoleMenuModel[], path: string) {
-  //   const ids: number[] = [];
-  //   const fields: string[] = path.split('.');
-  //   console.log('Fields:', fields);
-  //   for (const item of data) {
-  //     let temp: RoleMenuModel | number = item;
-  //     for (const field of fields) {
-  //       temp = (temp as RoleMenuModel)[field as keyof RoleMenuModel]
-  //     }
-  //     ids.push(temp as number);
-  //   }
-  //   return ids;
-  // }
 
   private getAllIds(data: RoleMenuModel[], path: string): number[] {
     const ids: number[] = [];

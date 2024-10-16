@@ -181,11 +181,19 @@
               (selectedItemEvent)="menusSelected($event)"></app-multi-select>
           </div>
           <div class="text-center mt-3 mb-3">
-            <span class="text-dark me-3 clickable" tabindex="0">Cancel</span>
+            <span
+              class="text-dark me-3 clickable"
+              tabindex="0"
+              (click)="goBack()"
+              >Cancel</span
+            >
+            <!--
+              [disabled]="menus?.length === 0 || isLoading"-->
             <button
               class="btn text-light bg-primary px-4"
               (click)="assignRoleMenus()"
-              i18n>
+              i18n
+              [disabled]="menuArr?.length === 0 || isLoading">
               @if (!isLoading) {
                 <span>Assign</span>
               }
