@@ -5,7 +5,7 @@
         class="text-primary me-2 pe-3 border-end"
         role="button"
         tabindex="0"
-        routerLink="/w/workstation/a/admin/menus">
+        routerLink="/w/workstation/a/admin/menu">
         <u i18n>Go to list</u></a
       >
       <span
@@ -43,7 +43,9 @@
       </span>
     </div>
   }
-  @if (selectedMenu === 'details' && menuDetails && !loadingData) {
+  @if (
+    selectedMenu === 'details' && menuDetails && !loadingData && !errorMessage
+  ) {
     <section
       class="details row justify-content-center align-items-center mx-2 py-2 rounded">
       <div class="col-lg-9 col-sm-12 col-md-12">

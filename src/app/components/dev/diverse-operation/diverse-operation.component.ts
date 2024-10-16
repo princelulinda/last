@@ -89,4 +89,13 @@ export class DiverseOperationComponent {
       this.operation = null;
     }
   }
+
+  cancel() {
+    this.operation = null;
+    this.sender = null;
+    this.tellerSender = null;
+    this.receiver = null;
+    this.tellerReceiver = null;
+    this.descriptionForm.reset();
+  }
 }
