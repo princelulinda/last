@@ -322,9 +322,14 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
-  getPurchasedProducts(merchantId: string, search?: string) {
+  getPurchasedProducts(
+    merchantId: string,
+    search?: string
+  ): Observable<{ objects: ProductAutocompleteModel[] }> {
     const url = `/dbs/merchant-product/objects_autocomplete/?merchant=${merchantId}&search=${search ?? ''}&provided=true`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ objects: ProductAutocompleteModel[] }>(url)
+      .pipe(map(data => data));
   }
 
   createNewTeller(body: newTellerModel): Observable<tellerModel> {
@@ -531,7 +536,7 @@ export class MerchantService {
       data.merchant +
       '&search=' +
       data.search;
-    return this.apiService.get(url).pipe(map(data => data as tellersModel));
+    return this.apiService.get<tellersModel>(url).pipe(map(data => data));
   }
   getMerchantsLocation() {
     const url = '/dbs/merchant/maplist/';
@@ -685,9 +690,10 @@ export class MerchantService {
   }
 
   getBillsGroupsByTeller(
-    merchant_teller_id: number
+    merchant_teller_id: number,
+    search?: string
   ): Observable<{ objects: InvoiceGroupModel[] }> {
-    const url = `/dbs/bill-group/?merchant_teller=${merchant_teller_id}`;
+    const url = `/dbs/bill-group/?merchant_teller=${merchant_teller_id}&search=${search ?? ''}`;
     return this.apiService
       .get<{ objects: InvoiceGroupModel[] }>(url)
       .pipe(map(data => data));
@@ -710,14 +716,24 @@ export class MerchantService {
     invoice: InvoiceModel,
     group_id: number
   ): Observable<{ object: InvoiceResponseModel }> {
-    const url = `/dbs/merchant/bill-validation-init/bill_group:${group_id} `;
+    const url = `/dbs/merchant/bill-validation-init/?bill_group=${group_id}/ `;
+    const body = {
+      bill_group: group_id,
+      ...invoice,
+    };
     return this.apiService
-      .post<{ object: InvoiceResponseModel }>(url, invoice)
+      .post<{ object: InvoiceResponseModel }>(url, body)
       .pipe(map(data => data));
   }
 
   getSupplier(product_id: number): Observable<{ objects: ProvidersModel[] }> {
     const url = `/dbs/merchant-product-provided/?product=${product_id}`;
+    return this.apiService
+      .get<{ objects: ProvidersModel[] }>(url)
+      .pipe(map(data => data));
+  }
+  searchSupplier(search: string): Observable<{ objects: ProvidersModel[] }> {
+    const url = `/dbs/merchant-product-provided/?search=${search}`;
     return this.apiService
       .get<{ objects: ProvidersModel[] }>(url)
       .pipe(map(data => data));
@@ -787,8 +803,10 @@ export class MerchantService {
     body: object
   ): Observable<{ object: SingleInvoiceActionModel }> {
     const url = `/dbs/merchant/bills/${billId}/validate_bill/`;
-    return this.apiService
-      .post<{ object: SingleInvoiceActionModel }>(url, body)
+    return this.apiService.post<{ object: SingleInvoiceActionModel }>(
+      url,
+      body
+    );
   }
 
   searchProductByMerchant(data: {
@@ -802,6 +820,15 @@ export class MerchantService {
       data.search;
     return this.apiService
       .get<{ objects: ProductsModel[] }>(url)
+      .pipe(map(data => data));
+  }
+  createGroup(body: {
+    name: string;
+    merchant_teller: number;
+  }): Observable<{ object: InvoiceResponseModel }> {
+    const url = `/dbs/bill-group/`;
+    return this.apiService
+      .post<{ object: InvoiceResponseModel }>(url, body)
       .pipe(map(data => data));
   }
 }

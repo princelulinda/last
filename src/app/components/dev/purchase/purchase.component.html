@@ -76,7 +76,7 @@
   @if (!selectedProduct) {
     <div
       class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-5">
-      @if (isLoading && products) {
+      @if (!products) {
         <div>
           <div class="row">
             @for (item of [1, 2, 3]; track $index) {
@@ -142,15 +142,10 @@
         <div class="d-flex-flex-column">
           <b class="fs-medium">{{ product.lookup_title }}</b>
           <div class="text-secondary">Category</div>
-          @if (selectedMerchant) {
-            <div class="text-primary-2">
-              {{ product.price ?? supplier.product.measure.price }}
-            </div>
-          } @else if (!selectedMerchant) {
-            <span>
-              <i class="fa-solid fa-spin fa-circle-notch fs-5 text-dark"></i>
-            </span>
-          }
+
+          <div class="text-primary-2">
+            {{ product.price ?? supplier.product.measure.price }}
+          </div>
         </div>
       </div>
 
@@ -162,20 +157,20 @@
               class="form-control"
               placeholder="Search.."
               aria-label="Search"
-              [formControl]="search"
-              (keydown.enter)="searchProducts(search.value)"
-              (input)="searchProducts(search.value)"
+              [formControl]="searchSupplier"
+              (keydown.enter)="searchSuppliers(search.value)"
+              (input)="searchSuppliers(search.value)"
               aria-describedby="basic-addon2" />
             <div
               class="input-group-append d-flex align-items-center"
               role="button"
-              (click)="searchProducts(search.value)"
+              (click)="searchSuppliers(search.value)"
               tabindex="0">
               @if (!isLoading) {
                 <span class="px-3">
                   <i class="fa-solid fa-search fa-lg text-secondary"></i>
                 </span>
-              } @else if (isLoading && !suppliers) {
+              } @else if (isLoading || !suppliers) {
                 <span class="px-3">
                   <i
                     class="fa-solid fa-pulse px-1 fa-circle-notch text-secondary"></i>
@@ -188,7 +183,7 @@
         <div
           class="d-flex flex-wrap justify-content-center justify-content-sm-start gap-5">
           <!-- providers -->
-          @if (suppliers) {
+          @if (suppliers && suppliers.length > 0) {
             @for (item of suppliers; track $index) {
               <div
                 class="merchant-card bg-secondary position-relative d-grid gap-3 sm-radius"
@@ -220,6 +215,10 @@
                   classes="sm-radius"></app-skeleton>
               }
             </div>
+          } @else if (suppliers && suppliers.length === 0) {
+            <span class="col-8 mt-5">
+              <app-empty-state [searchType]="searchType"></app-empty-state>
+            </span>
           }
         </div>
       }
@@ -275,8 +274,12 @@
                       formControlName="measure_type"
                       aria-label="value"
                       aria-describedby="basic-addon2">
-                      @for (item of measures; track $index) {
-                        @if (item.id === 4) {
+                      @for (
+                        item of measures;
+                        track $index;
+                        let first = $first
+                      ) {
+                        @if (first) {
                           <option
                             id="{{ item.id }}"
                             value="{{ item.id }}"
@@ -354,7 +357,9 @@
           }">
           @if (
             selectedModal === 'select-teller' ||
-            selectedModal === 'select-group'
+            selectedModal === 'select-group' ||
+            selectedModal === 'select-teller-existant-group' ||
+            selectedModal === 'create-group'
           ) {
             <div class="d-flex justify-content-start mt-1">
               <span role="button" (click)="goBackWithModal()">
@@ -368,6 +373,7 @@
             data-bs-dismiss="modal"
             aria-label="Close"></button>
         </div>
+        <!-- add to a new group or existant group -->
         @if (selectedModal === 'add-to-group') {
           <div class="d-flex flex-column">
             <div class="text-center text-dark">Add to Group</div>
@@ -411,7 +417,9 @@
               </div>
             </div>
           </div>
-        } @else if (
+        }
+        <!-- select a teller -->
+        @else if (
           selectedModal === 'select-teller' ||
           selectedModal === 'select-teller-existant-group'
         ) {
@@ -428,16 +436,16 @@
                     class="form-control"
                     placeholder="Search.."
                     aria-label="Search"
-                    [formControl]="search"
-                    (keydown.enter)="searchProducts(search.value)"
-                    (input)="searchProducts(search.value)"
+                    [formControl]="searchTeller"
+                    (keydown.enter)="searchTellers(search.value)"
+                    (input)="searchTellers(search.value)"
                     aria-describedby="basic-addon2" />
                   <div
                     class="input-group-append d-flex align-items-center"
                     role="button"
+                    (click)="searchTellers(search.value)"
                     tabindex="0">
-                    @if (!isLoading) {
-                    } @else if (isLoading) {
+                    @if (isLoading) {
                       <span class="px-3">
                         <i
                           class="fa-solid fa-pulse px-1 fa-circle-notch text-secondary"></i>
@@ -458,7 +466,9 @@
                   <div
                     class="row bg-secondary py-3 rounded-top"
                     role="button"
-                    (click)="getSelectedTellerId(item.id.toString())"
+                    (click)="
+                      getSelectedTeller(item.id.toString(), item.lookup_title)
+                    "
                     tabindex="0">
                     <div class="col-11 mx-auto">
                       <div class="row">
@@ -477,7 +487,9 @@
                   <div
                     class="row bg-secondary py-3"
                     role="button"
-                    (click)="getSelectedTellerId(item.id.toString())"
+                    (click)="
+                      getSelectedTeller(item.id.toString(), item.lookup_title)
+                    "
                     tabindex="0">
                     <div class="col-11 mx-auto">
                       <div class="row">
@@ -496,7 +508,9 @@
                   <div
                     class="row bg-secondary py-3 mt-1 rounded-bottom"
                     role="button"
-                    (click)="getSelectedTellerId(item.id.toString())"
+                    (click)="
+                      getSelectedTeller(item.id.toString(), item.lookup_title)
+                    "
                     tabindex="0">
                     <div class="col-11 mx-auto">
                       <div class="row">
@@ -515,12 +529,13 @@
               }
             </div>
           </div>
+          <!-- select a group -->
         } @else if (selectedModal === 'select-group') {
           <div class="d-flex flex-column gap-3">
             <div class="d-flex col-11 mx-auto">
               <div
                 class="d-flex justify-content-start align-items-center text-dark">
-                Teller1
+                {{ this.merchant_teller_name }}
               </div>
               <div class="col-9 col-sm-5 col-md-6 ms-auto">
                 <div class="input-group">
@@ -529,16 +544,15 @@
                     class="form-control"
                     placeholder="Search.."
                     aria-label="Search"
-                    [formControl]="search"
-                    (keydown.enter)="searchProducts(search.value)"
-                    (input)="searchProducts(search.value)"
+                    [formControl]="searchGroup"
+                    (keydown.enter)="searchBillsGroups(search.value)"
+                    (input)="searchBillsGroups(search.value)"
                     aria-describedby="basic-addon2" />
                   <div
                     class="input-group-append d-flex align-items-center"
                     role="button"
                     tabindex="0">
-                    @if (!isLoading) {
-                    } @else if (isLoading) {
+                    @if (isLoading) {
                       <span class="px-3">
                         <i
                           class="fa-solid fa-pulse px-1 fa-circle-notch text-secondary"></i>
@@ -551,7 +565,7 @@
             <div class="col-11 d-grid gap-1 mx-auto">
               @if (invoices_groups && invoices_groups.length > 0) {
                 @for (
-                  item of [1, 2, 3, 4];
+                  item of invoices_groups;
                   track $index;
                   let first = $first, last = $last
                 ) {
@@ -559,12 +573,12 @@
                     <div
                       class="row bg-secondary py-3 rounded-top"
                       role="button"
-                      (click)="addToGroup('group')"
+                      (click)="createBillByGroup(item.id)"
                       tabindex="0">
                       <div class="col-11 mx-auto">
                         <div class="row">
                           <div class="col-10 col-sm-11">
-                            <span class="text-dark">New Group</span>
+                            <span class="text-dark">{{ item.name }}</span>
                           </div>
                           <div class="col-1">
                             <div class="d-flex justify-content-end mt-1">
@@ -575,16 +589,16 @@
                         </div>
                       </div>
                     </div>
-                  } @else if (item !== 0 && !last) {
+                  } @else if (!first && !last) {
                     <div
                       class="row bg-secondary py-3"
                       role="button"
-                      (click)="addToGroup('grp')"
+                      (click)="createBillByGroup(item.id)"
                       tabindex="0">
                       <div class="col-11 mx-auto">
                         <div class="row">
                           <div class="col-10 col-sm-11">
-                            <span class="text-dark">New Group</span>
+                            <span class="text-dark">{{ item.name }}</span>
                           </div>
                           <div class="col-1">
                             <div class="d-flex justify-content-end mt-1">
@@ -599,12 +613,12 @@
                     <div
                       class="row bg-secondary py-3 mt-1 rounded-bottom"
                       role="button"
-                      (click)="addToGroup('group')"
+                      (click)="createBillByGroup(item.id)"
                       tabindex="0">
                       <div class="col-11 mx-auto">
                         <div class="row">
                           <div class="col-10 col-sm-11">
-                            <span class="text-dark">Existant Group</span>
+                            <span class="text-dark">{{ item.name }}</span>
                           </div>
                           <div class="col-1">
                             <div class="d-flex justify-content-end mt-1">
@@ -628,6 +642,46 @@
                 </span>
               }
             </div>
+          </div>
+        } @else if (selectedModal === 'create-group') {
+          <div class="d-flex flex-column gap-5">
+            <div class="d-flex col-11 mx-auto">
+              <div
+                class="d-flex justify-content-start align-items-center text-dark">
+                {{ this.merchant_teller_name }}
+              </div>
+            </div>
+
+            <form
+              action="create-group"
+              class="d-flex flex-column gap-3"
+              [formGroup]="createGroupForm">
+              <div class="col-8 d-grid gap-1 mx-auto">
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="floatingInput"
+                    placeholder="Group name"
+                    formControlName="group_name" />
+                  <label for="floatingInput">Group Name</label>
+                </div>
+              </div>
+              <Button
+                class="col-5 btn border-primary sm-radius text-primary mx-auto"
+                (click)="createGroup(this.merchant_teller_id)"
+                tabindex="0"
+                [disabled]="!createGroupForm.valid">
+                @if (isLoading) {
+                  <span>
+                    <i
+                      class="fa-solid fa-spin fa-circle-notch fa-lg text-primary"></i>
+                  </span>
+                } @else if (!isLoading) {
+                  <span class="p-2">Create group</span>
+                }
+              </Button>
+            </form>
           </div>
         }
       </div>

@@ -1,4 +1,5 @@
 import { ClientModel } from '../../../core/db/models/auth';
+import { Teller_typeModel } from '../../merchant/merchant.models';
 import { ProductModel } from '../../merchant/products/products.model';
 import { MerchantModel } from '../agent/agent.models';
 
@@ -8,6 +9,11 @@ export interface InvoiceGroupModel {
   merchant_teller: {
     id: number;
     alias: string;
+    client: ClientModel;
+    merchant: MerchantModel;
+    can_receive_notifications: boolean;
+    is_active: boolean;
+    teller_type: Teller_typeModel;
   };
   bills: number;
 }
@@ -20,7 +26,6 @@ export interface InvoiceModel {
   };
   measure: number;
   pin_code: number;
-  merchant_product_id: number;
 }
 
 export interface ProvidersModel {
