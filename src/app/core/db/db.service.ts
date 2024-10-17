@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Dexie, liveQuery } from 'dexie';
 
-import { User, UserApiResponse } from './models';
+import { User } from './models';
 import { getAllMetadataKeys } from './models/base.model';
 import { environment } from '../../../environments/environment';
 import { ApiService } from '../services/api/api.service';
 import 'reflect-metadata/lite';
-import { ClientModel, UserInfoModel } from './models/auth';
+import { UserInfoModel } from './models/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -174,9 +174,9 @@ export class DbService {
     return liveQuery(() => querier);
   }
 
-  async setUser(data: { user: UserApiResponse; client: ClientModel }) {
-    if (data?.user.token !== null) {
-      this.setLocalStorageUserToken(data.user.token);
+  async setUser(data: UserInfoModel) {
+    const token = this.apiService.getLocalToken();
+    if (token) {
       this.setLocalStorageClientId(data.client.client_id.toString());
       await this.addOnce(User.tableName, data);
     }

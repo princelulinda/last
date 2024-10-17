@@ -1,12 +1,6 @@
 <div class="h-100">
-  <div class="rounded p-2 w-100 d-grid text-dark">
-    <!-- If there is no bank selected -->
-
-    @if (
-      mainConfig &&
-      mainConfig.activePlateform !== 'workstation' &&
-      !selectedBank
-    ) {
+  <div class="rounded p-2 d-grid text-dark">
+    @if (!selectedBank) {
       <div class="expand-collapse-section">
         <div>
           <i class="fa fa-circle text-primary fs-x-small me-2"></i>
