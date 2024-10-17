@@ -79,23 +79,17 @@ export class LoginComponent implements OnInit {
           password: this.loginForm.value.password,
         })
         .subscribe({
-          next: data => {
+          next: () => {
             this.loginLoader = false;
-            console.log(data);
-            // const userData = (data as { user: UserApiResponse }).user;
             this.dialogService.closeLoading();
             this.authService.populateClient(this.router, 'newsFeed');
-            // if (userData.token) {
-            //   this.redirectToNext();
-            // }
           },
           error: () => {
             this.loginLoader = false;
             this.dialogService.closeLoading();
-
             this.dialogService.openToast({
               type: 'failed',
-              title: 'Échec',
+              title: '',
               message: 'An error occured!',
             });
           },

@@ -1,5 +1,19 @@
 import { languageModel } from '../../core/db/models/auth';
 
+export interface LoginResponseModel {
+  user: {
+    email: string;
+    phone_number: string;
+    has_pin: boolean;
+    ihela_code: string;
+    full_name: string;
+    username: string;
+    token: string;
+    device_data: null;
+    fcm_data: null;
+  };
+}
+
 export interface EmailVerificationResponseModel {
   object: {
     success: boolean;
