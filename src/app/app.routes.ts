@@ -7,7 +7,7 @@ import { newsFeedRoutes } from './routes/newsFeed/newsFeed.routes';
 import { marketPlaceRoutes } from './routes/market-place/marketPlace.routes';
 import { BankingComponent } from './layouts/banking/banking.component';
 import { bankingSettingsRoutes } from './components/settings/settings.routes';
-import { OnamobDashboardComponent } from './components/dashboards/onamob-dashboard/onamob-dashboard.component';
+import { OnamobDashboardComponent } from './components/dashboards/banking/onamob-dashboard/onamob-dashboard.component';
 import { myMarketRoutes } from './routes/my-market/mymarket.routes';
 import { workstationRoutes } from './routes/workstation/workstation.routes';
 import { DBReadyGuard } from './core/guards/db-ready/db-ready.guard';

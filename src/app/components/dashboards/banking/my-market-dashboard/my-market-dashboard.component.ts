@@ -11,43 +11,43 @@ import {
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { MerchantService } from '../../../core/services/merchant/merchant.service';
+import { MerchantService } from '../../../../core/services/merchant/merchant.service';
 import {
   AuthService,
   ConfigService,
   MenuService,
-} from '../../../core/services';
-import { DialogService } from '../../../core/services';
+} from '../../../../core/services';
+import { DialogService } from '../../../../core/services';
 
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import {
   DialogResponseModel,
   MerchantBillModel,
-} from '../../../core/services/dialog/dialogs-models';
-import { UserInfoModel } from '../../../core/db/models/auth';
-import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
-import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
+} from '../../../../core/services/dialog/dialogs-models';
+import { UserInfoModel } from '../../../../core/db/models/auth';
+import { AmountFieldComponent } from '../../../../global/components/custom-field/amount-field/amount-field.component';
+import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import {
   activeMainConfigModel,
   ModeModel,
   PlateformModel,
-} from '../../../core/services/config/main-config.models';
-import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
-import { MerchantBillComponent } from '../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
-import { AllProductsComponent } from '../../merchant/products/all-products/all-products.component';
-import { StatementComponent } from '../../statements/statement/statement.component';
+} from '../../../../core/services/config/main-config.models';
+import { MerchantCardComponent } from '../../../merchant/global/merchant-card/merchant-card.component';
+import { MerchantBillComponent } from '../../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
+import { AllProductsComponent } from '../../../merchant/products/all-products/all-products.component';
+import { StatementComponent } from '../../../statements/statement/statement.component';
 import {
   MerchantAutocompleteModel,
   MerchantModel,
   MerchantStatsModel,
-} from '../../merchant/merchant.models';
-import { ReusableListComponent } from '../../../global/components/list/reusable-list/reusable-list.component';
-import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+} from '../../../merchant/merchant.models';
+import { ReusableListComponent } from '../../../../global/components/list/reusable-list/reusable-list.component';
+import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import {
   MenuSimpleModel,
   TypeMenuModel,
-} from '../../../core/db/models/menu/menu.models';
-import { LookupModel } from '../../../global/models/global.models';
+} from '../../../../core/db/models/menu/menu.models';
+import { LookupModel } from '../../../../global/models/global.models';
 
 @Component({
   selector: 'app-my-market-dashboard',

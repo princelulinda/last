@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { OnlineBankingComponent } from '../../components/dashboards/online-banking/online-banking.component';
+import { OnlineBankingComponent } from '../../components/dashboards/banking/online-banking/online-banking.component';
 import { WalletComponent } from '../../components/wallet/wallet/wallet.component';
 import { WalletDetailsComponent } from '../../components/wallet/wallet-details/wallet-details.component';
 import { loanRoutes } from '../../components/loan/loan.routes';
