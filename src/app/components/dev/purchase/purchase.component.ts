@@ -225,6 +225,7 @@ export class PurchaseComponent implements OnInit {
             message:
               data.object.response_message ?? 'Failed to create an Invoice',
           });
+          this.isLoading = false;
         } else {
           this.dialogService.openToast({
             title: '',
@@ -237,12 +238,12 @@ export class PurchaseComponent implements OnInit {
       },
 
       error: err => {
+        this.isLoading = false;
         this.dialogService.closeLoading();
-        const errorMessage = err.error.object.response_message;
         this.dialogService.openToast({
           type: 'failed',
           title: '',
-          message: errorMessage || 'failed to update merchant details',
+          message: err.error.message.toString() || 'failed to add a new bill',
         });
       },
     });
@@ -287,11 +288,11 @@ export class PurchaseComponent implements OnInit {
         this.isLoading = false;
         console.log('the error of creating a bill', err);
         this.dialogService.closeLoading();
-        const errorMessage = err.error.object.response_message;
         this.dialogService.openToast({
           type: 'failed',
           title: '',
-          message: errorMessage || 'failed to update merchant details',
+          message:
+            err.error.message.toString() || 'failed to add a bill in a group',
         });
       },
     });

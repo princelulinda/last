@@ -720,7 +720,7 @@ export class MerchantService {
     invoice: InvoiceModel,
     group_id: number
   ): Observable<{ object: InvoiceResponseModel }> {
-    const url = `/dbs/merchant/bill-validation-init/?bill_group=${group_id}/ `;
+    const url = `/dbs/merchant/bill-validation-init/ `;
     const body = {
       bill_group: group_id,
       ...invoice,
