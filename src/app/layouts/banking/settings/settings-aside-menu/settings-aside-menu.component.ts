@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 import { ConfigService } from '../../../../core/services';
 import { SettingsService } from '../../../../core/services/settings/settings.service';
-import { activeMainConfigModel } from '../../../../core/services/config/main-config.models';
+import { ActiveMainConfigModel } from '../../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-settings-aside-menu',
   standalone: true,
@@ -15,8 +15,8 @@ import { activeMainConfigModel } from '../../../../core/services/config/main-con
   styleUrl: './settings-aside-menu.component.scss',
 })
 export class SettingsAsideMenuComponent implements OnInit {
-  mainConfig$!: Observable<activeMainConfigModel>;
-  mainConfig!: activeMainConfigModel;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
+  mainConfig!: ActiveMainConfigModel;
   isSessionMenusShown = false;
   selectedMenu = '';
   isSecurityMenusShown = false;

@@ -28,7 +28,7 @@ import { UserInfoModel } from '../../../../core/db/models/auth';
 import { AmountFieldComponent } from '../../../../global/components/custom-field/amount-field/amount-field.component';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import {
-  activeMainConfigModel,
+  ActiveMainConfigModel,
   ModeModel,
   PlateformModel,
 } from '../../../../core/services/config/main-config.models';
@@ -113,7 +113,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   theme!: ModeModel;
   theme$: Observable<ModeModel>;
   activePlatform!: PlateformModel;
-  mainConfig$!: Observable<activeMainConfigModel>;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
 
   corporateMarketMenus: MenuSimpleModel[] = [];
   menus$: Observable<TypeMenuModel[]>;

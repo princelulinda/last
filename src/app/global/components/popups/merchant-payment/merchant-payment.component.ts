@@ -5,8 +5,15 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import {
@@ -43,18 +50,12 @@ import { MerchantProductsComponent } from '../merchant-payment/merchant-products
 import { CategoryMerchantsComponent } from '../merchant-payment/category-merchants/category-merchants.component';
 import { ProductCardComponent } from '../../../../components/merchant/global/product-card/product-card.component';
 import { DebitAccountComponent } from '../../../../components/transfer/banking/debit-account/debit-account.component';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+
 import { MetadataModel } from '../../../../components/metadatas/metadata.model';
 import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
 import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import { AccountsListModel } from '../../../../components/account/models';
-import { WalletList } from '../../../../components/wallet/wallet.models';
+import { WalletModel } from '../../../../components/wallet/wallet.models';
 import { AmountFieldComponent } from '../../custom-field/amount-field/amount-field.component';
 import { LookupComponent } from '../../lookups/lookup/lookup.component';
 import { AutocompleteModel } from '../../../models/global.models';
@@ -138,7 +139,7 @@ export class MerchantPaymentComponent
   dialog$: Observable<DialogResponseModel>;
 
   debitAccount: AccountsListModel | null = null;
-  debitWallet: WalletList | null = null;
+  debitWallet: WalletModel | null = null;
 
   simplePaymentForm = this.fb.group({
     amount: ['', Validators.required],
@@ -595,12 +596,12 @@ export class MerchantPaymentComponent
   }
 
   getDebitAccount(
-    data: AccountsListModel | WalletList | null,
+    data: AccountsListModel | WalletModel | null,
     type: 'wallet' | 'account'
   ) {
     if (type === 'wallet') {
       this.debitAccount = null;
-      this.debitWallet = data as WalletList;
+      this.debitWallet = data as WalletModel;
     } else if (type === 'account') {
       this.debitWallet = null;
       this.debitAccount = data as AccountsListModel;

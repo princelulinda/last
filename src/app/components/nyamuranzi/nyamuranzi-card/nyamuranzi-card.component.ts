@@ -12,7 +12,7 @@ import {
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { nyamuranziCardModel } from '../nyamuranzi.models';
 import {
-  activeMainConfigModel,
+  ActiveMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
@@ -40,7 +40,7 @@ export class NyamuranziCardComponent implements OnInit, OnDestroy {
   referees!: nyamuranziCardModel;
   noRefereed = false;
   activePlatform: string | null = null;
-  mainConfig$!: Observable<activeMainConfigModel>;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
   private userInfo$: Observable<UserInfoModel>;
   location = window.location.origin;
 

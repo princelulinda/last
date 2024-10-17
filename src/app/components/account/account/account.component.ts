@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { AccountsListModel } from '../models';
 import { ConfigService } from '../../../core/services';
 import { Observable, Subject } from 'rxjs';
-import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import { ActiveMainConfigModel } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
 import { DialogService } from '../../../core/services';
 @Component({
@@ -16,7 +16,7 @@ import { DialogService } from '../../../core/services';
 })
 export class AccountComponent implements OnInit, OnDestroy {
   activePlatform: string | null = null;
-  mainConfig$!: Observable<activeMainConfigModel>;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
   dataLoaded = false;
   showAmounts = false; // Variable to store the visibility state of amounts
   showAmounts$: Observable<boolean>; // Observable for the visibility state

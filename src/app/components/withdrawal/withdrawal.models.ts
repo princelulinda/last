@@ -1,4 +1,4 @@
-export interface WithdrawalModel {
+export interface WithdrawalBodyModel {
   agent_code: string;
   amount: number;
   debit_account: string;

@@ -1,5 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { NgClass, CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+
 import { Subject, Observable, takeUntil } from 'rxjs';
+
 import {
   AuthService,
   BankService,
@@ -8,25 +18,15 @@ import {
   DialogService,
 } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
-
-import { NgClass, CommonModule } from '@angular/common';
-import { WalletCardModel, WalletTypModel } from '../wallet.models';
+import { WalletModel, WalletTypModel } from '../wallet.models';
 import { BankModel } from '../../../core/db/models/bank/bank.model';
-import { ModeModel } from '../../../core/services/config/main-config.models';
-import { RouterLink } from '@angular/router';
-import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+  ActiveMainConfigModel,
+  ModeModel,
+} from '../../../core/services/config/main-config.models';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { StatementComponent } from '../../statements/statement/statement.component';
-interface mainConfigModel {
-  activeMode: string;
-  activePlateform: string;
-  activeTheme: string;
-}
+
 @Component({
   selector: 'app-wallet-card',
   standalone: true,
@@ -44,16 +44,20 @@ interface mainConfigModel {
 export class WalletCardComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
+  private userInfo$: Observable<UserInfoModel>;
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
+
   clientInfo!: UserInfoModel;
+
   selectedBank!: BankModel;
   selectedBank$!: Observable<BankModel>;
-  private userInfo$: Observable<UserInfoModel>;
-  mainConfig$!: Observable<mainConfigModel>;
+
+  mainConfig$!: Observable<ActiveMainConfigModel>;
   activePlatform: string | null = null;
-  defaultWalletId!: string;
-  defaultWallet!: WalletCardModel;
+
+  defaultWalletId!: number;
+  defaultWallet!: WalletModel;
   noWalletData = false;
   clientId: number | null = null;
   bankId: number | null = null;
@@ -61,6 +65,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   walletForm!: FormGroup;
   isLoading = false;
   walletsTypeData: WalletTypModel[] | [] | null = null;
+
   constructor(
     private bankService: BankService,
     private configService: ConfigService,
@@ -150,11 +155,10 @@ export class WalletCardComponent implements OnInit, OnDestroy {
       .getDefaultWallet()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: defaultWallet => {
-          this.defaultWallet = defaultWallet.object;
-          this.defaultWalletId = this.defaultWallet.response_data.id;
-          //console.log('defaultWalletId', this.defaultWalletId);
-          if (defaultWallet.object.success === false) {
+        next: response => {
+          this.defaultWallet = response.object.response_data;
+          this.defaultWalletId = this.defaultWallet.id;
+          if (response.object.success === false) {
             this.noWalletData = true;
           }
         },
@@ -162,17 +166,12 @@ export class WalletCardComponent implements OnInit, OnDestroy {
   }
   onSubmit() {
     if (this.walletForm.valid) {
-      console.log(this.walletForm.value);
       this.creatWallet();
-    } else {
-      console.log('Form is invalid');
     }
   }
 
   creatWallet() {
     this.dialogService.dispatchLoading();
-    // const selectedCategoryId = this.walletForm.get('category')?.value;
-    // this.loading = true;
 
     const selectedCategoryId = this.walletForm.get('category')?.value;
     const title = this.walletForm.get('name')?.value;
@@ -198,8 +197,7 @@ export class WalletCardComponent implements OnInit, OnDestroy {
             });
           }
         },
-        error: error => {
-          console.error('creation  failed', error);
+        error: () => {
           this.dialogService.closeLoading();
           this.dialogService.openToast({
             type: 'failed',

@@ -36,7 +36,7 @@ import { ReusableListComponent } from '../../../global/components/list/reusable-
 })
 export class StatementComponent implements OnChanges, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
-  @Input({ required: true }) accountId = '';
+  @Input({ required: true }) accountId: string | number = '';
   @Input() ledgerId = '';
   @Input() account:
     | AccountModel
@@ -113,7 +113,7 @@ export class StatementComponent implements OnChanges, OnDestroy {
   }
 
   getAccountStatements() {
-    const id: string = this.accountId || this.ledgerId || '';
+    const id = this.accountId || this.ledgerId;
     this.isLoadingStatement = true;
 
     const dateFromValue = this.dateFrom.value
