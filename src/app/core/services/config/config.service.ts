@@ -22,7 +22,7 @@ import {
 } from '../../../components/auth/auth.model';
 
 import {
-  activeMainConfigModel,
+  ActiveMainConfigModel,
   ModeModel,
   PlateformModel,
   ScreenStateModel,
@@ -37,8 +37,8 @@ import { Access } from '../../db/models/access';
   providedIn: 'root',
 })
 export class ConfigService {
-  private activeMainConfig!: activeMainConfigModel;
-  private mainConfig$: unknown | Observable<activeMainConfigModel>;
+  private activeMainConfig!: ActiveMainConfigModel;
+  private mainConfig$: unknown | Observable<ActiveMainConfigModel>;
 
   private actifPlateform$ = new Subject<PlateformModel>();
   private actifTheme$ = new Subject<ThemeModel>();
@@ -102,7 +102,7 @@ export class ConfigService {
         screenState = 'unlocked';
       }
 
-      const newActiveMainConfig: activeMainConfigModel = {
+      const newActiveMainConfig: ActiveMainConfigModel = {
         activeMode: mode,
         activePlateform: plateform,
         activeTheme: theme,
@@ -120,8 +120,8 @@ export class ConfigService {
 
   // NOTE :: GETTING MAIN CONFIGS METHODS
 
-  getMainConfig(): Observable<activeMainConfigModel> {
-    return this.mainConfig$ as Observable<activeMainConfigModel>;
+  getMainConfig(): Observable<ActiveMainConfigModel> {
+    return this.mainConfig$ as Observable<ActiveMainConfigModel>;
   }
 
   getPlateform(): Observable<PlateformModel> {
@@ -411,14 +411,14 @@ export class ConfigService {
 
   // NOTE :: PRIVATE CONFIG METHODS
 
-  private async getActiveMainConfig(): Promise<activeMainConfigModel> {
-    const data: activeMainConfigModel = await this.dbService.getOnce(
+  private async getActiveMainConfig(): Promise<ActiveMainConfigModel> {
+    const data: ActiveMainConfigModel = await this.dbService.getOnce(
       MainConfig.tableName
     );
     this.activeMainConfig = data;
     return data;
   }
-  private setMainConfig(payload: activeMainConfigModel): void {
+  private setMainConfig(payload: ActiveMainConfigModel): void {
     this.dbService.addOnceUpdate(MainConfig.tableName, payload);
   }
 

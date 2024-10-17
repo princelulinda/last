@@ -3,15 +3,15 @@ import { Router } from '@angular/router';
 
 import { interval, Subject, takeUntil, takeWhile } from 'rxjs';
 
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { BillersAutocompleteModel } from '../../merchant/merchant.models';
-import { ConfigService, MerchantService } from '../../../core/services';
-import { ShowMoreDirective } from '../../../global/directives/show-more/show-more.directive';
-import { PublicationsComponent } from '../../publications/publications.component';
-import { PlateformModel } from '../../../core/services/config/main-config.models';
-import { ProductCardComponent } from '../../merchant/global/product-card/product-card.component';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { BillersAutocompleteModel } from '../../../merchant/merchant.models';
+import { ConfigService, MerchantService } from '../../../../core/services';
+import { ShowMoreDirective } from '../../../../global/directives/show-more/show-more.directive';
+import { PublicationsComponent } from '../../../publications/publications.component';
+import { PlateformModel } from '../../../../core/services/config/main-config.models';
+import { ProductCardComponent } from '../../../merchant/global/product-card/product-card.component';
 import { CommonModule } from '@angular/common';
-import { ProductAutocompleteModel } from '../../merchant/products/products.model';
+import { ProductAutocompleteModel } from '../../../merchant/products/products.model';
 
 @Component({
   selector: 'app-news-feed',

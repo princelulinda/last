@@ -155,7 +155,7 @@ export class ClientAccountDetailComponent implements OnInit {
     this.selectedSetting = 'details';
 
     this.clientService
-      .getClientAccountDetails(this.accountId)
+      .getClientAccountDetails(Number(this.accountId))
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (response: { object: AccountDetailModel }) => {

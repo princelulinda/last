@@ -1,7 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-
-import { DebitAccountComponent } from '../../transfer/banking/debit-account/debit-account.component';
-import { AccountsListModel } from '../../account/models';
+import { ActivatedRoute } from '@angular/router';
 import {
   FormControl,
   FormGroup,
@@ -9,14 +7,17 @@ import {
   Validators,
 } from '@angular/forms';
 
+import { Observable, Subject, takeUntil } from 'rxjs';
+
+import { DebitAccountComponent } from '../../transfer/banking/debit-account/debit-account.component';
+import { AccountsListModel } from '../../account/models';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 import { DialogService } from '../../../core/services';
-import { CreatWalletResponse, WalletTopUpBodyModel } from '../wallet.models';
+import { WalletTopUpBodyModel } from '../wallet.models';
 import { ClientService } from '../../../core/services';
-import { Observable, Subject, takeUntil } from 'rxjs';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { ActivatedRoute } from '@angular/router';
 import { VariableService } from '../../../core/services/variable/variable.service';
+
 @Component({
   selector: 'app-wallet-topup',
   standalone: true,
@@ -93,7 +94,7 @@ export class WalletTopupComponent implements OnInit {
         .walletPopUp(body)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe({
-          next: (response: CreatWalletResponse) => {
+          next: response => {
             // this.loading = false;
             this.dialogService.closeLoading();
             if (response.object.success) {

@@ -22,7 +22,7 @@ import {
   DialogService,
   GeneralService,
 } from '../../../core/services';
-import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import { ActiveMainConfigModel } from '../../../core/services/config/main-config.models';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import {
   MetadataBodyModel,
@@ -74,7 +74,7 @@ export class MetadataFormComponent implements OnInit, OnDestroy {
     keyValue: new FormControl(''),
     value: new FormControl(''),
   });
-  plateform$!: Observable<activeMainConfigModel>;
+  plateform$!: Observable<ActiveMainConfigModel>;
   plateform = '';
   keyValues: {
     key: string | null | undefined;

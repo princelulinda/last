@@ -17,11 +17,11 @@ import { DebitOptionsModel } from '../transfer.model';
 import { Observable, Subject } from 'rxjs';
 import { ConfigService, DialogService } from '../../../core/services';
 import {
-  activeMainConfigModel,
+  ActiveMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
-import { CreditAccountComponent } from '../credit-account/credit-account.component';
-import { WalletList } from '../../wallet/wallet.models';
+import { CreditAccountComponent } from '../banking/credit-account/credit-account.component';
+import { WalletModel } from '../../wallet/wallet.models';
 import {
   FormControl,
   FormGroup,
@@ -60,7 +60,7 @@ export class TransferComponent implements OnInit, OnDestroy {
   @ViewChild('transferComponent') transferComponent!: CreditAccountComponent;
   isTransferDone = false;
   activePlatform: string | null = null;
-  mainConfig$!: Observable<activeMainConfigModel>;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
 
   constructor(
     private configService: ConfigService,
@@ -142,13 +142,13 @@ export class TransferComponent implements OnInit, OnDestroy {
     this.resetAccountSelection();
   }
 
-  getSelectedAccount(event: AccountsListModel | WalletList) {
+  getSelectedAccount(event: AccountsListModel | WalletModel) {
     if (this.selectedDebitType === 'account') {
       const accountEvent = event as AccountsListModel;
       this.debitNumber = accountEvent.acc_short_number;
       this.debitHolder = accountEvent.acc_holder;
     } else if (this.selectedDebitType === 'wallet') {
-      const walletEvent = event as WalletList;
+      const walletEvent = event as WalletModel;
       this.debitNumber = walletEvent.code;
       this.debitHolder = walletEvent.account.account_holder;
       this.walletBankId = walletEvent.bank_id;

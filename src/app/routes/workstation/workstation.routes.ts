@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { WorkstationDashboardComponent } from '../../components/dashboards/workstation-dashboard/workstation-dashboard.component';
+import { WorkstationDashboardComponent } from '../../components/dashboards/workstation/workstation-dashboard/workstation-dashboard.component';
 import { workstationBankingRoutes } from '../banking/workstation-banking.routes';
 import { workstationMarketRoutes } from '../my-market/workstation-market.routes';
 import { IntranetRoutes } from './intranet.routes';

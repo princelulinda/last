@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfigService } from '../../../core/services';
 import { Observable, Subject } from 'rxjs';
-import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import { ActiveMainConfigModel } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-saving-dashboard',
@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
 })
 export class SavingDashboardComponent implements OnInit, OnDestroy {
   activePlatform: string | null = null;
-  mainConfig$!: Observable<activeMainConfigModel>;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
 
   constructor(private configService: ConfigService) {
     this.mainConfig$ = this.configService.getMainConfig();

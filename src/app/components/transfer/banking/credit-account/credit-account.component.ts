@@ -19,15 +19,15 @@ import {
   BankService,
   ConfigService,
   DialogService,
-} from '../../../core/services';
-import { TransferService } from '../../../core/services/transfer/transfer.service';
-import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
-import { UserInfoModel } from '../../../core/db/models/auth';
+} from '../../../../core/services';
+import { TransferService } from '../../../../core/services/transfer/transfer.service';
+import { AmountFieldComponent } from '../../../../global/components/custom-field/amount-field/amount-field.component';
+import { UserInfoModel } from '../../../../core/db/models/auth';
 import {
-  activeMainConfigModel,
+  ActiveMainConfigModel,
   ModeModel,
-} from '../../../core/services/config/main-config.models';
-import { BankModel } from '../../../core/db/models/bank/bank.model';
+} from '../../../../core/services/config/main-config.models';
+import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import {
   AmountEventModel,
   CreditAccountModel,
@@ -40,9 +40,9 @@ import {
   PopupEventModel,
   SelectedCreditAccountEventModel,
   TransferResponseModel,
-} from '../transfer.model';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { ConnectedOperatorModel } from '../../auth/auth.model';
+} from '../../transfer.model';
+import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
+import { ConnectedOperatorModel } from '../../../auth/auth.model';
 
 @Component({
   selector: 'app-credit-account',
@@ -134,8 +134,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   @Input() showBack = false;
   @Input() bankId!: BankModel;
   clientInfo!: UserInfoModel;
-  mainConfig$!: Observable<activeMainConfigModel>;
-  mainConfig!: activeMainConfigModel;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
+  mainConfig!: ActiveMainConfigModel;
   private userInfo$: Observable<UserInfoModel>;
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;

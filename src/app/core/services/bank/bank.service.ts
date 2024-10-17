@@ -6,9 +6,9 @@ import { ApiService, ConfigService } from '..';
 import { BankModel } from '../../db/models/bank/bank.model';
 import { addBankResponse } from '../../../components/dashboards/dashboard.model';
 
-import { WalletCardModel } from '../../../components/wallet/wallet.models';
+import { WalletModel } from '../../../components/wallet/wallet.models';
 import { nyamuranziCardModel } from '../../../components/nyamuranzi/nyamuranzi.models';
-import { WithdrawalModel } from '../../../components/withdrawal/withdrawal.models';
+import { WithdrawalBodyModel } from '../../../components/withdrawal/withdrawal.models';
 import { DissectedDateModel } from '../../../components/statements/statement.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import { TransactionModel } from '../../../components/merchant/products/products.model';
@@ -73,7 +73,7 @@ export class BankService {
       .post(url, body)
       .pipe(map(response => response as addBankResponse));
   }
-  withdrawFromAgent(withdraw: WithdrawalModel) {
+  withdrawFromAgent(withdraw: WithdrawalBodyModel) {
     return this.apiService.post('/dbs/agent/withdrawal/', withdraw).pipe(
       map(data => {
         return data;
@@ -167,25 +167,31 @@ export class BankService {
       })
     );
   }
-  getDefaultWallet(): Observable<{ object: WalletCardModel; count: number }> {
-    const url = '/dbs/wallet/default/';
+  getDefaultWallet(): Observable<{
+    object: {
+      success: boolean;
+      response_data: WalletModel;
+      response_message: string;
+    };
+    count: number;
+  }> {
     return this.apiService
-      .get<{ object: WalletCardModel; count: number }>(url)
-      .pipe(
-        map(data => {
-          return data;
-        })
-      );
+      .get<{
+        object: {
+          success: boolean;
+          response_data: WalletModel;
+          response_message: string;
+        };
+        count: number;
+      }>('/dbs/wallet/default/')
+      .pipe(map(data => data));
   }
 
   getClientRecentTransactions() {
     const url = '/operations/pending/logic/?filter_for_client=true/';
-    return this.apiService.get(url).pipe(
-      map(data => {
-        return data;
-      })
-    );
+    return this.apiService.get(url).pipe(map(data => data));
   }
+
   getRefereePersons(): Observable<{ object: nyamuranziCardModel }> {
     return this.apiService
       .get<{ object: nyamuranziCardModel }>('/client/refered/')
