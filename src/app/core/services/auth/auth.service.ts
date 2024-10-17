@@ -52,8 +52,10 @@ export class AuthService {
   }
 
   login(payload: {
-    username: string;
-    password: string;
+    user: {
+      username: string;
+      password: string;
+    };
   }): Observable<LoginResponseModel> {
     return this.apiService
       .post<LoginResponseModel>('/users/login/', payload)

@@ -75,8 +75,10 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.value.username && this.loginForm.value.password) {
       this.authService
         .login({
-          username: this.loginForm.value.username,
-          password: this.loginForm.value.password,
+          user: {
+            username: this.loginForm.value.username,
+            password: this.loginForm.value.password,
+          },
         })
         .subscribe({
           next: () => {
