@@ -4,30 +4,30 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 
 import { Subject, Observable, takeUntil } from 'rxjs';
 
-import { WalletCardComponent } from '../../wallet/wallet-card/wallet-card.component';
-import { NyamuranziCardComponent } from '../../nyamuranzi/nyamuranzi-card/nyamuranzi-card.component';
+import { WalletCardComponent } from '../../../wallet/wallet-card/wallet-card.component';
+import { NyamuranziCardComponent } from '../../../nyamuranzi/nyamuranzi-card/nyamuranzi-card.component';
 import {
   AuthService,
   ConfigService,
   DialogService,
-} from '../../../core/services';
-import { BankService } from '../../../core/services/bank/bank.service';
-import { UserInfoModel } from '../../../core/db/models/auth';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import { addBankResponse, MenuGroup } from '../dashboard.model';
-import { BankModel } from '../../../core/db/models/bank/bank.model';
+} from '../../../../core/services';
+import { BankService } from '../../../../core/services/bank/bank.service';
+import { UserInfoModel } from '../../../../core/db/models/auth';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { MerchantService } from '../../../../core/services/merchant/merchant.service';
+import { addBankResponse, MenuGroup } from '../../dashboard.model';
+import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import {
   DialogResponseModel,
   MerchantPaymentTypesModel,
-} from '../../../core/services/dialog/dialogs-models';
+} from '../../../../core/services/dialog/dialogs-models';
 import {
   ModeModel,
   PlateformModel,
-} from '../../../core/services/config/main-config.models';
+} from '../../../../core/services/config/main-config.models';
 import { BankHomeComponent } from './bank-home/bank-home.component';
-import { ReusableListComponent } from '../../../global/components/list/reusable-list/reusable-list.component';
-import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
+import { ReusableListComponent } from '../../../../global/components/list/reusable-list/reusable-list.component';
+import { MerchantAutocompleteModel } from '../../../merchant/merchant.models';
 
 @Component({
   selector: 'app-online-banking',

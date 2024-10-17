@@ -43,7 +43,6 @@ import { MerchantProductsComponent } from '../merchant-payment/merchant-products
 import { CategoryMerchantsComponent } from '../merchant-payment/category-merchants/category-merchants.component';
 import { ProductCardComponent } from '../../../../components/merchant/global/product-card/product-card.component';
 import { DebitAccountComponent } from '../../../../components/transfer/banking/debit-account/debit-account.component';
-import { CreditAccountComponent } from '../../../../components/transfer/credit-account/credit-account.component';
 import {
   FormBuilder,
   FormControl,
@@ -59,6 +58,7 @@ import { WalletList } from '../../../../components/wallet/wallet.models';
 import { AmountFieldComponent } from '../../custom-field/amount-field/amount-field.component';
 import { LookupComponent } from '../../lookups/lookup/lookup.component';
 import { AutocompleteModel } from '../../../models/global.models';
+import { CreditAccountComponent } from '../../../../components/transfer/banking/credit-account/credit-account.component';
 
 @Component({
   selector: 'app-merchant-payment',

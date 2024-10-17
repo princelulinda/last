@@ -20,7 +20,7 @@ import {
   activeMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
-import { CreditAccountComponent } from '../credit-account/credit-account.component';
+import { CreditAccountComponent } from '../banking/credit-account/credit-account.component';
 import { WalletList } from '../../wallet/wallet.models';
 import {
   FormControl,

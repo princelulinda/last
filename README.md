@@ -98,4 +98,37 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ### Request authorization before carrying out these actions
 
 - #### Before installing a new package
-- #### Modify a component or global file or a configuration file
+- #### Modify a global component or a global file or a configuration file
+
+### The minimum necessary for certain functionalities
+
+#### \* Lists
+
+- ##### Importance of data
+- ##### Filters and search
+- ##### Pagination
+- ##### Empty state management
+- ##### Refresh and Back
+
+#### \* Details
+
+- ##### Importance of data
+- ##### Refresh and Back
+- ##### Empty state management
+
+### \* Forms
+
+- ##### Importance of data
+- ##### Data verifications
+- ##### Empty sensitive data
+- ##### Always use form-floating (bootstrap)
+
+### \* Translation
+
+- ##### Good English
+- ##### Punctuation
+- ##### Manage upper and lower case letters correctly
+
+### \* Images ( img )
+
+- ##### Complete the alt attribute with understandable content
