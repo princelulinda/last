@@ -1,12 +1,5 @@
 import { BaseModel, Field, UniqueField, MultiField } from '../base.model';
 
-export interface UserApiResponse {
-  username: string;
-  token: string;
-  fcm_data: object;
-  device_data: object;
-}
-
 export type languageModel = 'en' | 'fr' | 'ki' | 'sw';
 
 export interface ClientModel {
@@ -31,7 +24,10 @@ export interface ClientModel {
 }
 
 export interface UserInfoModel {
-  user: UserApiResponse;
+  user: {
+    username: string;
+    email: string | null;
+  };
   client: ClientModel;
 }
 
