@@ -141,8 +141,17 @@ export class SingleInvoicesComponent implements OnInit {
   }
 
   openPopup(singleInvoice: SingleInVoiceModel) {
-    this.selectedInvoice = singleInvoice;
-    this.openInvoicePopup = false;
+    if (this.is_teller_admin === true) {
+      this.selectedInvoice = singleInvoice;
+      this.openInvoicePopup = false;
+    } else {
+      this.openInvoicePopup = true;
+      this.dialogService.openToast({
+        title: '',
+        type: 'failed',
+        message: 'this merchant is not teller admin',
+      });
+    }
   }
 
   validateSingleInvoice() {
@@ -183,7 +192,7 @@ export class SingleInvoicesComponent implements OnInit {
           },
           error: msg => {
             this.dialogService.closeLoading();
-
+            this.closeModal.nativeElement.click();
             this.dialogService.openToast({
               title: '',
               type: 'failed',

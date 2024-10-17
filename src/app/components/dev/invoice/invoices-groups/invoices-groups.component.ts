@@ -186,6 +186,8 @@ export class InvoicesGroupsComponent implements OnInit {
           next: response => {
             if (response.object.success === true) {
               this.dialogService.closeLoading();
+              this.closeModal.nativeElement.click();
+              this.selectGroup(this.GroupInfo);
               this.dialogService.openToast({
                 title: '',
                 type: 'success',
@@ -204,15 +206,9 @@ export class InvoicesGroupsComponent implements OnInit {
                   'Something went wrong, please try again',
               });
             }
-            if (this.group_name) {
-              const group_id = (this.group_name as InvoiceGroupModel).id;
-              this.getInvoicesByGroup(group_id);
-            }
           },
           error: msg => {
             this.dialogService.closeLoading();
-            const group_id = (this.group_name as InvoiceGroupModel).id;
-            this.getInvoicesByGroup(group_id);
             this.closeModal.nativeElement.click();
             this.dialogService.openToast({
               title: '',
