@@ -23,7 +23,7 @@ import { ClientCreditsLineComponent } from '../../components/client/client-credi
 
 import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
 import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
-import { DeskDashboardComponent } from '../../components/dashboards/desk-dashboard/desk-dashboard.component';
+import { DeskDashboardComponent } from '../../components/dashboards/workstation/desk-dashboard/desk-dashboard.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },

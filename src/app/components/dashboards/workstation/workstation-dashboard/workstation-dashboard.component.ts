@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { SessionToShow, StatResModel } from '../dashboard.model';
-import { SessionsService } from '../../../core/services/sessions/sessions.service';
-import { GeneralService } from '../../../core/services';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { SessionToShow, StatResModel } from '../../dashboard.model';
+import { SessionsService } from '../../../../core/services/sessions/sessions.service';
+import { GeneralService } from '../../../../core/services';
 
 @Component({
   selector: 'app-workstation-dashboard',

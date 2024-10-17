@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { MarketDashboardComponent } from '../../components/dashboards/market-dashboard/market-dashboard.component';
+import { MarketDashboardComponent } from '../../components/dashboards/banking/market-dashboard/market-dashboard.component';
 import { myMarketRoutes } from '../my-market/mymarket.routes';
 import { OrdersComponent } from '../../components/merchant/orders/orders.component';
 import { CartsComponent } from '../../components/merchant/carts/carts.component';
