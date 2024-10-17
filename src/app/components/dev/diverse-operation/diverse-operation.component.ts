@@ -7,11 +7,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { OrganizationModel } from '../../auth/auth.model';
-import { Observable } from 'rxjs';
-import { ConfigService } from '../../../core/services';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { ConfigService, DialogService } from '../../../core/services';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { AutocompleteModel } from '../../../global/models/global.models';
 import { CommonModule } from '@angular/common';
+import { CounterService } from '../../../core/services/counter/counter.service';
+import { TransactionResModel } from './diverse-operation.model';
 
 @Component({
   selector: 'app-diverse-operation',
@@ -21,6 +23,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './diverse-operation.component.scss',
 })
 export class DiverseOperationComponent {
+  private onDestroy$: Subject<void> = new Subject<void>();
+
+  password = new FormControl('', [Validators.required]);
+  // description = new FormControl('');
   one = new FormControl(0);
   two = new FormControl(0);
   three = new FormControl(0);
@@ -38,6 +44,8 @@ export class DiverseOperationComponent {
 
   operation!: string | null;
   descriptionForm: FormGroup;
+  operationPerformed!: TransactionResModel;
+  operationSuccess!: boolean;
 
   tellerSender: AutocompleteModel | null = null;
   tellerReceiver: AutocompleteModel | null = null;
@@ -47,7 +55,9 @@ export class DiverseOperationComponent {
   organization$: Observable<OrganizationModel | null>;
   constructor(
     private fb: FormBuilder,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private dialogService: DialogService,
+    private counterService: CounterService
   ) {
     this.organization$ = this.configService.getSelectedOrganization();
     this.descriptionForm = this.fb.group({
@@ -185,5 +195,85 @@ export class DiverseOperationComponent {
     this.receiver = null;
     this.tellerReceiver = null;
     this.descriptionForm.reset();
+  }
+
+  isFormValid(): boolean {
+    return this.descriptionForm.valid && this.password.valid;
+  }
+
+  sendToTeller() {
+    const trans = {
+      password: this.password.value || '',
+      teller: this.tellerSender!.id,
+      teller_destination: this.tellerReceiver!.id,
+      description: this.descriptionForm.value.description,
+      notes: [
+        {
+          bank_note: 100,
+          number: this.one.value || 0,
+        },
+        {
+          bank_note: 500,
+          number: this.two.value || 0,
+        },
+        {
+          bank_note: 1000,
+          number: this.three.value || 0,
+        },
+        {
+          bank_note: 2000,
+          number: this.four.value || 0,
+        },
+        {
+          bank_note: 5000,
+          number: this.five.value || 0,
+        },
+        {
+          bank_note: 10000,
+          number: this.six.value || 0,
+        },
+      ],
+    };
+
+    this.dialogService.dispatchLoading();
+    this.descriptionForm.disable();
+    this.counterService
+      .sendToTeller(trans)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: operation => {
+          console.log('))))))))))))))))))))))))))))))Operation:', operation);
+          this.descriptionForm.enable();
+          this.dialogService.closeLoading();
+          this.operationPerformed = operation.object;
+          this.operationSuccess = this.operationPerformed.success;
+          if (this.operationSuccess) {
+            this.dialogService.openToast({
+              title: '',
+              type: 'success',
+              message: this.operationPerformed.response_message,
+            });
+            this.tellerReceiver = null;
+            this.tellerSender = null;
+          } else {
+            this.dialogService.openToast({
+              title: '',
+              type: 'failed',
+              message: this.operationPerformed.response_message,
+            });
+          }
+        },
+
+        error: error => {
+          this.dialogService.closeLoading();
+          this.descriptionForm.enable();
+          this.dialogService.openToast({
+            title: '',
+            type: 'failed',
+            message: 'Something went wrong, please retry again',
+          });
+          console.error('Error:', error);
+        },
+      });
   }
 }

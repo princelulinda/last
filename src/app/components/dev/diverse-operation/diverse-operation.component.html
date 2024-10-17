@@ -23,7 +23,10 @@
       <div class="d-flex flex-row gap-3 ps-3 border-start">
         <div
           class="clickable py-1 px-3 shadow-sm d-flex bg-success rounded-2 flex-row gap-2 align-items-center text-all-white"
-          tabindex="0">
+          tabindex="0"
+          [class.disabled]="!isFormValid()"
+          [attr.disabled]="!isFormValid() ? true : null"
+          (click)="sendToTeller()">
           <span>Confirm</span>
         </div>
 
@@ -83,7 +86,7 @@
           <span class="fs-medium fw-bold text-secondary">Box Transfer</span>
         </div>
         <div class="row w-100">
-          <div class="col-4 col-xl-4 col-xxl-5">
+          <div class="col-5">
             <div
               class="d-flex align-items-center rounded-3 bg-secondary ps-3 w-100 py-3">
               <div class="d-flex flex-column gap-2">
@@ -143,6 +146,7 @@
                     type="password"
                     name=""
                     placeholder="Password"
+                    [formControl]="password"
                     id=""
                     class="w-100 form-control rounded py-3 ps-3" />
 
@@ -155,24 +159,28 @@
             }
           </div>
           @if (tellerSender && tellerReceiver) {
-            <div class="col-8 col-xl-8 col-xxl-7 row">
-              <div class="col-6 col-xxl-7 d-flex flex-column">
-                <label for="amount pb-2"
-                  ><span class="fw-bold">Montant a deposer:</span></label
-                >
+            <div class="col-7 row">
+              <div class="col-12 col-xl-10 col-xxl-7 d-flex flex-column">
+                <form [formGroup]="descriptionForm">
+                  <label for="amount pb-2 fw-bold"
+                    ><span class="fw-bold">Description:</span></label
+                  >
 
-                <div class="position-relative overflow-hidden">
                   <input
                     type="text"
-                    class="w-100 pe-5 rounded-2 form-control"
-                    id="amount"
-                    placeholder="Amount"
-                    name="amount" />
-                  <div
-                    class="h-100 position-absolute top-0 end-0 d-flex align-items-center text-secondary pe-3">
-                    <span>BIF</span>
+                    class="w-100 rounded-2 form-control"
+                    id="description"
+                    formControlName="description"
+                    name="description" />
+                </form>
+                @if (
+                  descriptionForm.controls['description'].invalid &&
+                  descriptionForm.controls['description'].touched
+                ) {
+                  <div>
+                    <small class="text-danger">Description is required</small>
                   </div>
-                </div>
+                }
 
                 <Span class="fw-bold mt-3 mb-2" i18n>Billetage</Span>
 
@@ -288,17 +296,7 @@
                 </div>
               </div>
 
-              <div class="col-5 col-xxl-4 d-flex flex-column">
-                <label for="amount pb-2 fw-bold"
-                  ><span class="fw-bold">Description:</span></label
-                >
-
-                <input
-                  type="text"
-                  class="w-100 rounded-2 form-control"
-                  id="amount"
-                  name="amount" />
-              </div>
+              <div class="col-5 col-xxl-4 d-flex flex-column"></div>
             </div>
           }
         </div>

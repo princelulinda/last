@@ -16,6 +16,10 @@ import {
   BalanceActionModel,
   BalanceModel,
 } from '../../../components/dev/operations/balance/balance.model';
+import {
+  TransactionResModel,
+  TransactionToTellerModel,
+} from '../../../components/dev/diverse-operation/diverse-operation.model';
 
 @Injectable({
   providedIn: 'root',
@@ -154,6 +158,20 @@ export class CounterService {
       .post<{
         object: BalanceActionModel;
       }>('/treasury/balance-action/', balance)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
+
+  sendToTeller(
+    trans: TransactionToTellerModel
+  ): Observable<{ object: TransactionResModel }> {
+    return this.apiService
+      .post<{
+        object: TransactionResModel;
+      }>('/hr/note/mouvement/teller_to_teller_add/', trans)
       .pipe(
         map(data => {
           return data;
