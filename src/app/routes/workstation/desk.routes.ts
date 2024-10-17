@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { DeskDashboardComponent } from '../../components/dev/desk-dashboard/desk-dashboard.component';
 import { OperationListComponent } from '../../components/dev/operations/operation-list/operation-list.component';
 import { CounterComponent } from '../../components/dev/operations/counter/counter.component';
 
@@ -24,6 +23,7 @@ import { ClientCreditsLineComponent } from '../../components/client/client-credi
 
 import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
 import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
+import { DeskDashboardComponent } from '../../components/dashboards/desk-dashboard/desk-dashboard.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
