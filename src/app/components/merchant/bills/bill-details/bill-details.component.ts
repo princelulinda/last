@@ -26,7 +26,7 @@ import {
 } from '../../../../core/services/dialog/dialogs-models';
 import { DebitAccountComponent } from '../../../transfer/banking/debit-account/debit-account.component';
 import { AccountsListModel } from '../../../account/models';
-import { WalletList } from '../../../wallet/wallet.models';
+import { WalletModel } from '../../../wallet/wallet.models';
 import { DebitOptionsModel } from '../../../transfer/transfer.model';
 import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import { BillsModel } from '../bills.model';
@@ -235,7 +235,7 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onWalletSelected(account: WalletList) {
+  onWalletSelected(account: WalletModel) {
     this.descriptionForm.reset();
     if (account.account) {
       this.selectedWallet = account.code;

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClientService } from '../../../core/services';
-import { WalletDetail } from '../../wallet/wallet.models';
+import { walletDetailModel } from '../../wallet/wallet.models';
 import { ActivatedRoute } from '@angular/router';
 import { ClipboardDirective } from '../../../global/directives/clipboard/clipboard.directive';
 import { ListComponent } from '../../../global/components/list/list/list.component';
@@ -23,7 +23,7 @@ export class ClientWalletDetailsComponent implements OnInit, OnDestroy {
   selectedSetting = 'details';
   selectedConfig = false;
   isLoading = false;
-  walletDetails: WalletDetail | null = null;
+  walletDetails: walletDetailModel | null = null;
   walletId!: string;
   private onDestroy$ = new Subject<void>();
   headers = [
@@ -85,11 +85,9 @@ export class ClientWalletDetailsComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.walletDetails = null;
     this.clientService.getWalletDetails(this.walletId).subscribe({
-      next: (response: { object: WalletDetail }) => {
+      next: response => {
         this.walletDetails = response.object;
       },
-      error: error =>
-        console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
 

@@ -12,7 +12,8 @@ export type PlateformModel =
   | 'systemAdmin'
   | 'bankingSettings'
   | 'market';
-export interface activeMainConfigModel {
+
+export interface ActiveMainConfigModel {
   activeMode: ModeModel;
   activeTheme: ThemeModel;
   activePlateform: PlateformModel;

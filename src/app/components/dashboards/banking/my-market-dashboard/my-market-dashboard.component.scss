@@ -9,7 +9,6 @@ $color3: #89bebe;
 $body-max-width: 200px;
 $pie-dimensions: $body-max-width;
 
-
 .pie-chart {
   width: $pie-dimensions;
   height: $pie-dimensions;
@@ -17,7 +16,7 @@ $pie-dimensions: $body-max-width;
   margin-left: -40%;
   &::before,
   &::after {
-    content: "";
+    content: '';
     display: block;
     margin-left: 50%;
     height: 100%;
@@ -52,36 +51,34 @@ $pie-dimensions: $body-max-width;
     left: 106px;
   }
 }
-.miniSettings{
-
+.miniSettings {
   height: 50px;
   width: 165px;
   // background-color: #f6f6f6;
 }
-.roundBox{
+.roundBox {
   border-radius: 50%;
   height: 150px;
   width: 150px;
-
 }
 
-.elementPosition{
+.elementPosition {
   border-radius: 15px;
   // background-color: #810019;
   width: 150px;
   margin-left: -9.5%;
 }
-.cardShopping{
+.cardShopping {
   font-size: 258%;
   opacity: 0.5;
   left: 39%;
   top: 34%;
 }
-.dashboardBox{
+.dashboardBox {
   height: 130px;
   width: 224px;
 }
-.merchantsModal{
+.merchantsModal {
   margin-top: 35%;
   width: 1000px;
   margin-left: -45%;
@@ -100,16 +97,16 @@ $pie-dimensions: $body-max-width;
 }
 
 .merchantLogo {
-  width: 80%; 
+  width: 80%;
   border-radius: 50%;
 }
 .rectangleImageSize {
-  width: 65%; 
+  width: 65%;
   margin-left: 35%;
 }
 
 .switchButtonSize {
-  height: 35px; 
+  height: 35px;
   width: 80px;
 }
 
@@ -125,7 +122,7 @@ $pie-dimensions: $body-max-width;
 }
 
 .emojiBlock {
-  top: -55%; 
+  top: -55%;
   right: 15%;
 }
 

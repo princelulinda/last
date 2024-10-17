@@ -3,7 +3,6 @@ import { TransferComponent } from '../../transfer/transfer/transfer.component';
 import { NotFoundPageComponent } from '../../../global/components/empty-states/not-found-page/not-found-page.component';
 import { ConfigService, MerchantService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
-import { CreditAccountComponent } from '../../transfer/credit-account/credit-account.component';
 import { Location } from '@angular/common';
 import {
   InstitutionInfoModel,
@@ -17,6 +16,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { MerchantModel } from '../merchant.models';
 import { ConnectedOperatorModel } from '../../auth/auth.model';
+import { CreditAccountComponent } from '../../transfer/banking/credit-account/credit-account.component';
 @Component({
   selector: 'app-merchant-transfer',
   standalone: true,

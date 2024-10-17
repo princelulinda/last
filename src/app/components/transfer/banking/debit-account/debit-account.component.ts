@@ -11,8 +11,9 @@ import {
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { Subject, Observable } from 'rxjs';
+
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import {
   BankService,
@@ -26,11 +27,11 @@ import { AccountsListComponent } from '../../../account/accounts-list/accounts-l
 import { DebitOptionsModel, InstitutionInfoModel } from '../../transfer.model';
 import { WalletListComponent } from '../../../wallet/wallet-list/wallet-list.component';
 import {
-  activeMainConfigModel,
+  ActiveMainConfigModel,
   ModeModel,
 } from '../../../../core/services/config/main-config.models';
 import { AccountsListModel } from '../../../account/models';
-import { WalletList } from '../../../wallet/wallet.models';
+import { WalletModel } from '../../../wallet/wallet.models';
 import { BankOptionsModel } from '../../../dashboards/dashboard.model';
 
 @Component({
@@ -51,8 +52,8 @@ import { BankOptionsModel } from '../../../dashboards/dashboard.model';
 export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
   private onDestroy$: Subject<void> = new Subject<void>();
   clientInfo!: UserInfoModel;
-  mainConfig$!: Observable<activeMainConfigModel>;
-  mainConfig!: activeMainConfigModel;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
+  mainConfig!: ActiveMainConfigModel;
   private userInfo$: Observable<UserInfoModel>;
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;
@@ -90,7 +91,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
 
   @Output() selectedAccount = new EventEmitter<AccountsListModel>();
 
-  @Output() selectedWallet = new EventEmitter<WalletList>();
+  @Output() selectedWallet = new EventEmitter<WalletModel>();
 
   @Output() lookupOptions = new EventEmitter<{
     id?: string;
@@ -226,11 +227,11 @@ export class DebitAccountComponent implements OnInit, OnDestroy, OnChanges {
     this.dialogService.displayAmount();
   }
 
-  getAccountSelected(event: AccountsListModel | WalletList) {
+  getAccountSelected(event: AccountsListModel | WalletModel) {
     if (this.selectedDebitAccountType === 'account') {
       this.selectedAccount.emit(event as AccountsListModel);
     } else {
-      this.selectedWallet.emit(event as WalletList);
+      this.selectedWallet.emit(event as WalletModel);
     }
   }
   ngOnDestroy(): void {

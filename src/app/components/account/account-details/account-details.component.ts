@@ -23,7 +23,7 @@ import { AdminBranchListComponent } from '../../admin/agence/admin-branch-list/a
 export class AccountDetailsComponent implements OnInit {
   isLoading = false;
   account: AccountDetailModel | null = null;
-  accountId!: string;
+  accountId = '';
   showAmounts = false; // Variable to store the visibility state of amounts
   showAmounts$: Observable<boolean>; // Observable for the visibility state
   constructor(
@@ -52,11 +52,13 @@ export class AccountDetailsComponent implements OnInit {
   getClientAccountDetails() {
     this.isLoading = true;
     this.account = null;
-    this.clientService.getClientAccountDetails(this.accountId).subscribe({
-      next: (response: { object: AccountDetailModel }) => {
-        this.account = response.object;
-      },
-    });
+    this.clientService
+      .getClientAccountDetails(Number(this.accountId))
+      .subscribe({
+        next: (response: { object: AccountDetailModel }) => {
+          this.account = response.object;
+        },
+      });
   }
 
   refresh() {

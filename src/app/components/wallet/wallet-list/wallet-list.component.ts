@@ -15,10 +15,10 @@ import { UserInfoModel } from '../../../core/db/models/auth';
 import { CommonModule } from '@angular/common';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import {
-  activeMainConfigModel,
+  ActiveMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
-import { WalletList } from '../wallet.models';
+import { WalletModel } from '../wallet.models';
 import { RouterLink } from '@angular/router';
 import { VariableService } from '../../../core/services/variable/variable.service';
 @Component({
@@ -29,24 +29,24 @@ import { VariableService } from '../../../core/services/variable/variable.servic
   styleUrl: './wallet-list.component.scss',
 })
 export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
-  mainConfig$!: Observable<activeMainConfigModel>;
-  mainConfig!: activeMainConfigModel;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
+  mainConfig!: ActiveMainConfigModel;
   private userInfo$: Observable<UserInfoModel>;
   clientInfo!: UserInfoModel;
 
   isLoading = false;
-  walletsListData: WalletList[] | [] | null = null;
+  walletsListData: WalletModel[] | [] | null = null;
   userClientId!: number;
   activePlatform: string | null = null;
-  selectedLoneWallet: WalletList | null = null;
-  selectedWallet!: WalletList[];
+  selectedLoneWallet: WalletModel | null = null;
+  selectedWallet!: WalletModel[];
   isLoneWalletSelected = false;
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
-  // close the account's creation form
   closeForm = false;
+
   @Input() Type: 'transfer' | 'list' = 'transfer';
-  @Output() walletSelected = new EventEmitter<WalletList>();
+  @Output() walletSelected = new EventEmitter<WalletModel>();
 
   @Output() dataLoaded = new EventEmitter<boolean>();
 
@@ -115,8 +115,7 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
         this.isLoading = false;
         this.dataLoaded.emit(true); // Émet l'événement lorsque les données sont chargées
       },
-      error: err => {
-        console.error('Erreur :', err);
+      error: () => {
         this.isLoading = false;
         this.dataLoaded.emit(false); // Émet l'événement en cas d'erreur
       },
@@ -126,13 +125,14 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
     this.selectedLoneWallet = null;
   }
 
-  selectLoneAccount(wallet: WalletList) {
+  selectLoneAccount(wallet: WalletModel) {
     this.selectedLoneWallet = wallet;
     this.isLoneWalletSelected = true;
     this.isLoading = false;
     this.closeForm = false;
     this.walletSelected.emit(wallet);
   }
+
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();

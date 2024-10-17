@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { ConfigService, MerchantService } from '../../../core/services';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { ConfigService, MerchantService } from '../../../../core/services';
 import {
+  ActiveMainConfigModel,
   ModeModel,
   PlateformModel,
-} from '../../../core/services/config/main-config.models';
-import { mainConfigModel } from '../../wallet/wallet.models';
-import { MyMarketDashboardComponent } from '../my-market-dashboard/my-market-dashboard.component';
-import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
-import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
+} from '../../../../core/services/config/main-config.models';
+import { MyMarketDashboardComponent } from '../../banking/my-market-dashboard/my-market-dashboard.component';
+import { MerchantCardComponent } from '../../../merchant/global/merchant-card/merchant-card.component';
+import { MerchantAutocompleteModel } from '../../../merchant/merchant.models';
 
 @Component({
   selector: 'app-workstation-market-dashboard',
@@ -28,7 +28,7 @@ import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
   styleUrl: './workstation-market-dashboard.component.scss',
 })
 export class WorkstationMarketDashboardComponent implements OnInit, OnDestroy {
-  mainConfig$: Observable<mainConfigModel>;
+  mainConfig$: Observable<ActiveMainConfigModel>;
   currentMode!: ModeModel;
   plateform!: PlateformModel;
 

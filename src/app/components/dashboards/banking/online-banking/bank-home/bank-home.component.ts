@@ -4,23 +4,23 @@ import { RouterLink } from '@angular/router';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { SwitchBankComponent } from '../../../../global/components/popups/switch-bank/switch-bank.component';
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { BankModel } from '../../../../core/db/models/bank/bank.model';
+import { SwitchBankComponent } from '../../../../../global/components/popups/switch-bank/switch-bank.component';
+import { SkeletonComponent } from '../../../../../global/components/loaders/skeleton/skeleton.component';
+import { BankModel } from '../../../../../core/db/models/bank/bank.model';
 import {
   ConfigService,
   DialogService,
   MenuService,
-} from '../../../../core/services';
+} from '../../../../../core/services';
 import {
   ModeModel,
   PlateformModel,
-} from '../../../../core/services/config/main-config.models';
-import { ReusableListComponent } from '../../../../global/components/list/reusable-list/reusable-list.component';
+} from '../../../../../core/services/config/main-config.models';
+import { ReusableListComponent } from '../../../../../global/components/list/reusable-list/reusable-list.component';
 import {
   MenuSimpleModel,
   TypeMenuModel,
-} from '../../../../core/db/models/menu/menu.models';
+} from '../../../../../core/db/models/menu/menu.models';
 
 @Component({
   selector: 'app-bank-home',

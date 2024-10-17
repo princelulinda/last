@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ConnectedOperatorModel } from '../../auth/auth.model';
-import { ConfigService } from '../../../core/services';
+import { ConnectedOperatorModel } from '../../../auth/auth.model';
+import { ConfigService } from '../../../../core/services';
 import { Observable } from 'rxjs';
 
 @Component({

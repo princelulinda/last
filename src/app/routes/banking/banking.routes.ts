@@ -23,7 +23,7 @@ export const bankingRoutes: Routes = [
     path: '',
     loadComponent: () =>
       import(
-        '../../components/dashboards/online-banking/online-banking.component'
+        '../../components/dashboards/banking/online-banking/online-banking.component'
       ).then(m => m.OnlineBankingComponent),
   },
   {

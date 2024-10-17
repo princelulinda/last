@@ -3,21 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { Subject, takeUntil } from 'rxjs';
 
-import { ProductCategoryModel, ProductOfferModel } from '../dashboard.model';
+import { ProductCategoryModel, ProductOfferModel } from '../../dashboard.model';
 import {
   BillersAutocompleteModel,
   MerchantModel,
-} from '../../merchant/merchant.models';
-import { ProductAutocompleteModel } from '../../merchant/products/products.model';
-import { MerchantAutocompleteModel } from '../../merchant/merchant.models';
-import { MerchantService } from '../../../core/services/merchant/merchant.service';
-import { ProductCardComponent } from '../../merchant/global/product-card/product-card.component';
-import { MerchantCardComponent } from '../../merchant/global/merchant-card/merchant-card.component';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
-import { BillerCardComponent } from '../../merchant/global/biller-card/biller-card.component';
-import { DialogService } from '../../../core/services';
-import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
-import { CurrencyModel } from '../../../global/models/global.models';
+} from '../../../merchant/merchant.models';
+import { ProductAutocompleteModel } from '../../../merchant/products/products.model';
+import { MerchantAutocompleteModel } from '../../../merchant/merchant.models';
+import { MerchantService } from '../../../../core/services/merchant/merchant.service';
+import { ProductCardComponent } from '../../../merchant/global/product-card/product-card.component';
+import { MerchantCardComponent } from '../../../merchant/global/merchant-card/merchant-card.component';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { BillerCardComponent } from '../../../merchant/global/biller-card/biller-card.component';
+import { DialogService } from '../../../../core/services';
+import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { CurrencyModel } from '../../../../global/models/global.models';
 
 @Component({
   selector: 'app-market-dashboard',
