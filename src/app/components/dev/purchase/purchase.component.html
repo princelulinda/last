@@ -330,6 +330,7 @@
         <button
           class="btn border-primary text-primary px-2 px-sm-4"
           data-bs-toggle="modal"
+          (click)="selectedModal = 'add-to-group'"
           data-bs-target="#staticBackdrop"
           [disabled]="!invoiceForm.valid || isLoading === true">
           <b>Add to group</b>
@@ -371,6 +372,7 @@
             type="button"
             class="btn-close ms-auto"
             data-bs-dismiss="modal"
+            (click)="isLoading = false"
             aria-label="Close"></button>
         </div>
         <!-- add to a new group or existant group -->
