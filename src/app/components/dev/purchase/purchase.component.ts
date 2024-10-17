@@ -176,7 +176,6 @@ export class PurchaseComponent implements OnInit {
   }
   getSupplier() {
     this.suppliers = null;
-
     this.selectedProduct = true;
     this.isLoading = true;
     this.merchantService.getSupplier(this.product.id).subscribe({
@@ -364,6 +363,7 @@ export class PurchaseComponent implements OnInit {
             message: data.object.response_message ?? 'Group created',
           });
           this.isLoading = false;
+          this.searchTeller.patchValue('');
           this.selectedModal = 'select-teller-existant-group';
         }
       },
@@ -422,12 +422,16 @@ export class PurchaseComponent implements OnInit {
   addToGroup(selectedButton: string) {
     console.log('the seletedButton1 exitstant:', selectedButton);
     if (selectedButton === 'existant-group') {
+      this.searchTeller.patchValue('');
+      this.searchTellers(this.searchTeller.value);
       this.selectedModal = 'select-teller-existant-group';
       console.log(
         'the selected Button value when the existant-group condition select-teller:',
         selectedButton
       );
     } else if (selectedButton === 'new-group') {
+      this.searchTeller.patchValue('');
+      this.searchTellers(this.searchTeller.value);
       this.selectedModal = 'select-teller';
     }
 
@@ -498,8 +502,12 @@ export class PurchaseComponent implements OnInit {
     ) {
       this.selectedModal = 'add-to-group';
     } else if (this.selectedModal === 'select-group') {
+      this.searchTeller.patchValue('');
+      this.searchTellers(this.searchTeller.value);
       this.selectedModal = 'select-teller-existant-group';
     } else if (this.selectedModal === 'create-group') {
+      this.searchTeller.patchValue('');
+      this.searchTellers(this.searchTeller.value);
       this.selectedModal = 'select-teller';
     }
   }
@@ -524,6 +532,7 @@ export class PurchaseComponent implements OnInit {
       this.getPurchasedProducts();
       this.router.navigate(['/m/mymarket/purchase']);
     } else if (this.selectedMerchant === true) {
+      this.searchSupplier.patchValue('');
       this.selectedMerchant = false;
       this.router.navigate(['/m/mymarket/purchase'], { fragment: 'providers' });
     }

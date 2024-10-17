@@ -158,13 +158,13 @@
               placeholder="Search.."
               aria-label="Search"
               [formControl]="searchSupplier"
-              (keydown.enter)="searchSuppliers(search.value)"
-              (input)="searchSuppliers(search.value)"
+              (keydown.enter)="searchSuppliers(searchSupplier.value)"
+              (input)="searchSuppliers(searchSupplier.value)"
               aria-describedby="basic-addon2" />
             <div
               class="input-group-append d-flex align-items-center"
               role="button"
-              (click)="searchSuppliers(search.value)"
+              (click)="searchSuppliers(searchSupplier.value)"
               tabindex="0">
               @if (!isLoading) {
                 <span class="px-3">
@@ -284,11 +284,11 @@
                             id="{{ item.id }}"
                             value="{{ item.id }}"
                             selected>
-                            {{ item.suffix }}
+                            {{ item.name }}
                           </option>
                         } @else {
                           <option id="{{ item.id }}" value="{{ item.id }}">
-                            {{ item.suffix }}
+                            {{ item.name }}
                           </option>
                         }
                       }
@@ -437,13 +437,13 @@
                     placeholder="Search.."
                     aria-label="Search"
                     [formControl]="searchTeller"
-                    (keydown.enter)="searchTellers(search.value)"
-                    (input)="searchTellers(search.value)"
+                    (keydown.enter)="searchTellers(searchTeller.value)"
+                    (input)="searchTellers(searchTeller.value)"
                     aria-describedby="basic-addon2" />
                   <div
                     class="input-group-append d-flex align-items-center"
                     role="button"
-                    (click)="searchTellers(search.value)"
+                    (click)="searchTellers(searchTeller.value)"
                     tabindex="0">
                     @if (isLoading) {
                       <span class="px-3">
@@ -545,8 +545,8 @@
                     placeholder="Search.."
                     aria-label="Search"
                     [formControl]="searchGroup"
-                    (keydown.enter)="searchBillsGroups(search.value)"
-                    (input)="searchBillsGroups(search.value)"
+                    (keydown.enter)="searchBillsGroups(searchGroup.value)"
+                    (input)="searchBillsGroups(searchGroup.value)"
                     aria-describedby="basic-addon2" />
                   <div
                     class="input-group-append d-flex align-items-center"
