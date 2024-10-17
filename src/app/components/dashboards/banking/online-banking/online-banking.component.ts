@@ -15,7 +15,7 @@ import { BankService } from '../../../../core/services/bank/bank.service';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { MerchantService } from '../../../../core/services/merchant/merchant.service';
-import { addBankResponse, MenuGroup } from '../../dashboard.model';
+import { addBankResponse } from '../../dashboard.model';
 import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import {
   DialogResponseModel,
@@ -76,7 +76,7 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
 
   private userInfo$: Observable<UserInfoModel>;
 
-  menuGroups: MenuGroup[] = [
+  menuGroups = [
     {
       icon: 'building-columns',
       name: 'Banking services',

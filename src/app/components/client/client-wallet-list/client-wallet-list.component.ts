@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
-import { WalletList } from '../../wallet/wallet.models';
+import { WalletModel } from '../../wallet/wallet.models';
 
 import {
   FormControl,
@@ -46,20 +46,20 @@ import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 export class ClientWalletListComponent implements OnInit, OnDestroy {
   isLoading = false;
   clientId!: number | null;
-  walletsWorkStation: WalletList[] | null = null;
+  walletsWorkStation: WalletModel[] | null = null;
   showAmounts = false;
   showAmounts$: Observable<boolean>; // Observable for the visibility state
   subAccountForm!: FormGroup;
-  selectedWllet: WalletList | null = null;
+  selectedWllet: WalletModel | null = null;
   selectedWalletTypeId: number | null = null;
   selectedAgencyId: number | null = null;
-  selectedLoneWallet: WalletList | null = null;
+  selectedLoneWallet: WalletModel | null = null;
   showWallet = false;
   isLoadingCreation = false;
   private onDestroy$ = new Subject<void>();
   @ViewChild('walletCreated') walletCreated!: ElementRef;
 
-  @Output() walletSelected = new EventEmitter<WalletList>();
+  @Output() walletSelected = new EventEmitter<WalletModel>();
   @Input() SelectedclientId: number | string = '';
 
   constructor(
@@ -90,7 +90,7 @@ export class ClientWalletListComponent implements OnInit, OnDestroy {
     });
   }
 
-  selectLoneAccount(wallets: WalletList) {
+  selectLoneAccount(wallets: WalletModel) {
     this.selectedLoneWallet = wallets;
 
     this.walletSelected.emit(wallets);

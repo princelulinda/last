@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { AuthService, ConfigService } from '../../../core/services';
 import { UserInfoModel } from '../../../core/db/models/auth';
 import { CommonModule } from '@angular/common';
-import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import { ActiveMainConfigModel } from '../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-sub-header',
@@ -20,8 +20,8 @@ export class SubHeaderComponent implements OnInit, OnDestroy {
 
   dayMoment = 'Morning';
   clientInfo!: UserInfoModel;
-  mainConfig$!: Observable<activeMainConfigModel>;
-  mainConfig!: activeMainConfigModel;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
+  mainConfig!: ActiveMainConfigModel;
 
   private userInfo$: Observable<UserInfoModel>;
 

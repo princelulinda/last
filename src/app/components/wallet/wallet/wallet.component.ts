@@ -3,11 +3,11 @@ import { Observable, Subject } from 'rxjs';
 import { WalletListComponent } from '../wallet-list/wallet-list.component';
 
 import { RouterOutlet } from '@angular/router';
-import { WalletList } from '../wallet.models';
+import { WalletModel } from '../wallet.models';
 import { DialogService } from '../../../core/services';
 import { RouterLink } from '@angular/router';
 import { ConfigService } from '../../../core/services';
-import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import { ActiveMainConfigModel } from '../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-wallet',
   standalone: true,
@@ -22,10 +22,10 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   showAmounts = false; // Variable to store the visibility state of amounts
   showAmounts$: Observable<boolean>; // Observable for the visibility state
-  selectedWallet: WalletList | null = null;
+  selectedWallet: WalletModel | null = null;
   dataLoaded = false;
   activePlatform: string | null = null;
-  mainConfig$!: Observable<activeMainConfigModel>;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
   constructor(
     private dialogService: DialogService,
     private configService: ConfigService
@@ -46,7 +46,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     });
   }
 
-  handleWalletSelected(wallet: WalletList) {
+  handleWalletSelected(wallet: WalletModel) {
     this.selectedWallet = wallet;
 
     //console.log('Compte sélectionné :', wallet);

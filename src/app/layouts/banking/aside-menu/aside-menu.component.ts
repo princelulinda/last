@@ -8,7 +8,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { AuthService, ConfigService } from '../../../core/services';
 import { MenuService } from '../../../core/services/menu/menu.service';
 import {
-  activeMainConfigModel,
+  ActiveMainConfigModel,
   ModeModel,
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
@@ -23,8 +23,8 @@ import { BankModel } from '../../../core/db/models/bank/bank.model';
   styleUrls: ['./aside-menu.component.scss'],
 })
 export class AsideMenuComponent implements OnInit {
-  mainConfig$!: Observable<activeMainConfigModel>;
-  mainConfig!: activeMainConfigModel;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
+  mainConfig!: ActiveMainConfigModel;
 
   userInfo!: UserInfoModel;
   userInfo$: Observable<UserInfoModel>;

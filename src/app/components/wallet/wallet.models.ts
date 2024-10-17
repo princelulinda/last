@@ -1,45 +1,19 @@
+import { ClientModel } from '../../core/db/models/auth';
 import { CurrencyModel } from '../../global/models/global.models';
-
-export interface WalletCardModel {
-  response_data: {
-    id: string;
-    code: string;
-    currency: CurrencyModel;
-    available_balance: number;
-  };
-  success: boolean;
-}
-export interface WalletList {
-  title: string;
-  account: {
-    account_holder: string;
-  };
-  id: string;
-  code: string;
-  available_balance: number;
-  currency: CurrencyModel;
-  bank_id: string;
-}
+import { AccountDetailModel } from '../account/models';
 
 export interface WalletTypModel {
   title: string;
-
   id: string;
 }
 
-export interface CreatWalletResponse {
+export interface CreationWalletResponseModel {
   object: {
     response_message: string;
-
     success: boolean;
   };
 }
 
-export interface mainConfigModel {
-  activeMode: string;
-  activePlateform: string;
-  activeTheme: string;
-}
 export interface WalletTopUpBodyModel {
   amount: number;
   debit_account: number;
@@ -49,20 +23,35 @@ export interface WalletTopUpBodyModel {
   wallet_id: string;
 }
 
-export interface WalletDetail {
-  actual_balance: number;
-  title: string;
+export interface WalletModel {
+  id: number;
   code: string;
-  available_balance: number;
-  currency: 'BIF';
+  title: string;
+  available_balance: string;
+  actual_balance: string;
+  transactions: number;
+  currency: CurrencyModel;
   wallet_type_title: string;
-  bank_slug: string | null;
-  is_default: boolean;
-  account: {
-    acc_holder: string;
-  };
+  is_default: true;
+  account: { id: number; account_holder: string };
+  bank_id: number;
+  bank_slug: string;
+  client_id: number;
+}
 
-  client: {
-    client_email: string | null;
-  };
+export interface walletDetailModel {
+  id: number;
+  code: string;
+  title: string;
+  available_balance: string;
+  actual_balance: string;
+  transactions: number;
+  currency: CurrencyModel;
+  wallet_type_title: string;
+  is_default: true;
+  account: AccountDetailModel;
+  bank_id: number;
+  bank_slug: string | null;
+  client_id: number;
+  client: ClientModel;
 }

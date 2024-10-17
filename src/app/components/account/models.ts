@@ -1,3 +1,5 @@
+import { CurrencyModel } from '../../global/models/global.models';
+
 export interface AccountsListModel {
   acc_branch: string;
   title: string;
@@ -6,12 +8,11 @@ export interface AccountsListModel {
   code: string;
   get_acc_number: string;
   acc_available_balance: number;
-  acc_currency: 'BIF';
+  acc_currency: CurrencyModel;
   acc_get_title: string;
   acc_number: number;
   acc_short_number: string;
   acc_bank_id: string;
-
   acc_status: {
     status_code: string;
   };
