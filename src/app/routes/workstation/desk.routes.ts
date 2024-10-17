@@ -24,6 +24,7 @@ import { ClientCreditsLineComponent } from '../../components/client/client-credi
 import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
 import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
 import { DeskDashboardComponent } from '../../components/dashboards/workstation/desk-dashboard/desk-dashboard.component';
+import { BalanceSheetComponent } from '../../components/dev/balance-sheet/balance-sheet.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -106,6 +107,12 @@ export const DeskRoutes: Routes = [
       { path: '', component: MerchantListComponent },
       { path: 'detail/:id', component: MerchantDetailsComponent },
     ],
+  },
+
+  // NOTE :: BALANCE SHEET
+  {
+    path: 'balance-sheet',
+    component: BalanceSheetComponent,
   },
 
   // NOTE :: SHORTCUTS MODULE
