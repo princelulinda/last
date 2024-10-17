@@ -301,9 +301,11 @@
           <div class="row mb-xxl-5">
             <div class="col-9 col-sm-5 col-md-4 col-lg-5 col-xl-4">
               <input
-                type="pin"
+                type="password"
                 class="form-control"
                 placeholder="PIN"
+                maxlength="4"
+                pattern="[0-9]{4}"
                 formControlName="pin" />
             </div>
           </div>
@@ -373,6 +375,7 @@
             class="btn-close ms-auto"
             data-bs-dismiss="modal"
             (click)="isLoading = false"
+            #closeModal
             aria-label="Close"></button>
         </div>
         <!-- add to a new group or existant group -->
@@ -583,10 +586,12 @@
                             <span class="text-dark">{{ item.name }}</span>
                           </div>
                           <div class="col-1">
-                            <div class="d-flex justify-content-end mt-1">
-                              <i
-                                class="fa-solid fa-chevron-right text-dark"></i>
-                            </div>
+                            @if (selectedGroup) {
+                              <div class="d-flex justify-content-end mt-1">
+                                <i
+                                  class="fa-solid fa-spinner fa-spin-pulse text-dark"></i>
+                              </div>
+                            }
                           </div>
                         </div>
                       </div>
@@ -603,10 +608,12 @@
                             <span class="text-dark">{{ item.name }}</span>
                           </div>
                           <div class="col-1">
-                            <div class="d-flex justify-content-end mt-1">
-                              <i
-                                class="fa-solid fa-chevron-right text-dark"></i>
-                            </div>
+                            @if (selectedGroup) {
+                              <div class="d-flex justify-content-end mt-1">
+                                <i
+                                  class="fa-solid fa-spinner fa-spin-pulse text-dark"></i>
+                              </div>
+                            }
                           </div>
                         </div>
                       </div>
@@ -623,10 +630,12 @@
                             <span class="text-dark">{{ item.name }}</span>
                           </div>
                           <div class="col-1">
-                            <div class="d-flex justify-content-end mt-1">
-                              <i
-                                class="fa-solid fa-chevron-right text-dark"></i>
-                            </div>
+                            @if (selectedGroup) {
+                              <div class="d-flex justify-content-end mt-1">
+                                <i
+                                  class="fa-solid fa-spinner fa-spin-pulse text-dark"></i>
+                              </div>
+                            }
                           </div>
                         </div>
                       </div>

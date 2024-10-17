@@ -703,11 +703,6 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
-  // createBillGroup(teller_info: any) {
-  //   const url = `/dbs/bill-group`;
-  //   return this.apiService.post(url, teller_info).pipe(map(data => data));
-  // }
-
   createBill(
     invoice: InvoiceModel
   ): Observable<{ object: InvoiceResponseModel }> {
@@ -770,13 +765,6 @@ export class MerchantService {
       .get<{ objects: SingleInVoiceModel[]; count: number }>(url)
       .pipe(map(data => data));
   }
-  // {id} : facture et body : id_group ofr the method updateInvoicesGroup
-  // updateInvoicesGroup(id: number): Observable<any> {
-  //   const url = `/dbs/merchant/bills/${id}/add_bill_group/`;
-  //   return this.apiService
-  //     .post<any>(url)
-  //     .pipe(map(data => data));
-  // }
 
   getProductsByMerchant(
     merchantId: string

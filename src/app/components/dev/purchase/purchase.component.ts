@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogService, MerchantService } from '../../../core/services';
 import {
   ProductAutocompleteModel,
@@ -45,6 +45,7 @@ import { TellerAutoCompleteModel } from '../../merchant/merchant.models';
 })
 export class PurchaseComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
+  @ViewChild('closeModal') closeModal!: { nativeElement: HTMLElement };
   merchantId!: string;
   search = new FormControl('');
   searchGroup = new FormControl('');
@@ -69,6 +70,7 @@ export class PurchaseComponent implements OnInit {
   disabledFavoriteAction = false;
   selectedProduct = false;
   selectedMerchant = false;
+  selectedGroup = false;
   action: 'merchant-payment' | 'output' = 'output';
   selectedModal:
     | 'add-to-group'
@@ -105,15 +107,6 @@ export class PurchaseComponent implements OnInit {
       });
     }
     this.getConnectedMerchantInfo();
-
-    // this.dialogState$.pipe(takeUntil(this.onDestroy$)).subscribe({
-    //   next: (dialogResponse: DialogResponseModel) => {
-    //     if(dialogResponse.action === 'create' && dialogResponse.response.pin) {
-    //       this.invoiceForm.value.pin = dialogResponse.response.pin;
-    //       this.createBill();
-    //     }
-    //   }
-    // })
   }
 
   getConnectedMerchantInfo() {
@@ -194,7 +187,6 @@ export class PurchaseComponent implements OnInit {
         next: data => {
           this.isLoading = false;
           this.suppliers = data.objects;
-          console.log('the search result', data);
         },
       });
     } else {
@@ -212,7 +204,6 @@ export class PurchaseComponent implements OnInit {
       measure: this.invoiceForm.value.measure_type,
       pin_code: this.invoiceForm.value.pin,
     };
-    console.log('the body of  create bill', body);
     this.merchantService.createBill(body).subscribe({
       next: (data: { object: InvoiceResponseModel }) => {
         this.dialogService.closeLoading();
@@ -249,6 +240,7 @@ export class PurchaseComponent implements OnInit {
   }
   createBillByGroup(group_id: number) {
     this.isLoading = true;
+    this.selectedGroup = true;
     const body = {
       provider: this.supplier.id,
       merchant: Number(this.merchantId),
@@ -258,7 +250,6 @@ export class PurchaseComponent implements OnInit {
       measure: this.invoiceForm.value.measure_type,
       pin_code: this.invoiceForm.value.pin,
     };
-    console.log('the body of  create bill', body);
     this.merchantService.createBillByGroup(body, group_id).subscribe({
       next: (data: { object: InvoiceResponseModel }) => {
         this.dialogService.closeLoading();
@@ -271,6 +262,7 @@ export class PurchaseComponent implements OnInit {
               'Failed to create an Invoice in a group',
           });
           this.isLoading = false;
+          this.selectedGroup = false;
         } else {
           this.dialogService.openToast({
             title: '',
@@ -285,7 +277,6 @@ export class PurchaseComponent implements OnInit {
 
       error: err => {
         this.isLoading = false;
-        console.log('the error of creating a bill', err);
         this.dialogService.closeLoading();
         this.dialogService.openToast({
           type: 'failed',
@@ -296,47 +287,6 @@ export class PurchaseComponent implements OnInit {
       },
     });
   }
-  // createBillGroup() {
-  //   this.isLoading = true;
-  //     this.getMeasureId();
-  //     const body = {
-  //       name: '',
-  //       merchant_teller: id,
-  //     };
-  //     console.log('the body of  create bill group', body);
-  //     this.merchantService.createBillGroup(body).subscribe({
-  //       next: data => {
-  //         this.dialogService.closeLoading();
-  //         if (data.object.success === false) {
-  //           this.dialogService.openToast({
-  //             title: '',
-  //             type: 'failed',
-  //             message:
-  //               data.object.response_message ?? 'Failed to create an Invoice',
-  //           });
-  //           this.isLoading = false;
-  //         } else {
-
-  //           this.dialogService.openToast({
-  //             title: '',
-  //             type: 'success',
-  //             message: data.object.response_message ?? 'Invoice created',
-  //           });
-  //         this.cancel();
-  //         }
-  //       },
-
-  //       error: err => {
-  //         this.dialogService.closeLoading();
-  //         const errorMessage = err.error.object.response_message;
-  //         this.dialogService.openToast({
-  //           type: 'failed',
-  //           title: '',
-  //           message: errorMessage || 'failed to update merchant details',
-  //         });
-  //       },
-  //     });
-  // }
 
   createGroup(Merchant_teller_id: number) {
     this.isLoading = true;
@@ -344,10 +294,8 @@ export class PurchaseComponent implements OnInit {
       name: this.createGroupForm.value.group_name,
       merchant_teller: Merchant_teller_id,
     };
-    console.log('the body', body);
     this.merchantService.createGroup(body).subscribe({
       next: data => {
-        console.log('the group is created and the answer is :', data);
         this.dialogService.closeLoading();
         if (data.object.success === false) {
           this.dialogService.openToast({
@@ -376,7 +324,6 @@ export class PurchaseComponent implements OnInit {
       .subscribe({
         next: data => {
           this.tellers = data.objects;
-          console.log('the tellers info:', this.tellers);
         },
       });
   }
@@ -417,45 +364,17 @@ export class PurchaseComponent implements OnInit {
     this.router.navigate(['/m/mymarket/purchase'], {
       fragment: 'selectedProvider',
     });
-    console.log('selected supplier:', this.supplier);
   }
   addToGroup(selectedButton: string) {
-    console.log('the seletedButton1 exitstant:', selectedButton);
     if (selectedButton === 'existant-group') {
       this.searchTeller.patchValue('');
       this.searchTellers(this.searchTeller.value);
       this.selectedModal = 'select-teller-existant-group';
-      console.log(
-        'the selected Button value when the existant-group condition select-teller:',
-        selectedButton
-      );
     } else if (selectedButton === 'new-group') {
       this.searchTeller.patchValue('');
       this.searchTellers(this.searchTeller.value);
       this.selectedModal = 'select-teller';
     }
-
-    // else if (this.selectedModal === 'select-teller') {
-    //   console.log('the seletedButton1:', selectedButton);
-    //   if (selectedButton === 'existant-group') {
-    //     console.log(
-    //       'the selected Button value after the existant-group condition:',
-    //       selectedButton
-    //     );
-    //     this.merchant_teller_id = Number(selectedButton);
-    //     console.log('the id of the teller:', this.merchant_teller_id);
-
-    //     this.getBillsGroupsByTeller(this.merchant_teller_id);
-    //     this.selectedModal = 'select-group';
-    //     console.log('the seletedButton:', selectedButton);
-    //   }
-    //   // if(selectedButton === 'new-group'){
-    //   // }else
-    // }
-    // if (selectedButton === 'existant-group') {
-    //     console.log('the selected Button value after the existant-group condition:', selectedButton);
-    //     this.getBillsGroupsByTeller(Number(selectedButton));
-    //   }
   }
 
   getSelectedTeller(teller_id: string, teller_name: string) {
@@ -465,6 +384,7 @@ export class PurchaseComponent implements OnInit {
       this.merchant_teller_name = teller_name;
       this.getBillsGroupsByTeller(this.merchant_teller_id);
     } else if (this.selectedModal === 'select-teller') {
+      this.isLoading = false;
       this.merchant_teller_id = Number(teller_id);
       this.merchant_teller_name = teller_name;
       this.selectedModal = 'create-group';
@@ -474,11 +394,9 @@ export class PurchaseComponent implements OnInit {
     if (this.selectedModal === 'select-teller-existant-group') {
       this.selectedModal = 'select-group';
     }
-    this.searchGroup.patchValue('');
     this.merchantService.getBillsGroupsByTeller(merchant_teller_id).subscribe({
       next: (data: { objects: InvoiceGroupModel[] }) => {
         this.invoices_groups = data.objects;
-        console.log('the response of getBillsGroupsByTeller:', data);
       },
     });
   }
@@ -515,7 +433,6 @@ export class PurchaseComponent implements OnInit {
     this.merchantService.getProductMeasure(product_id).subscribe({
       next: (data: { objects: MeasureModel[] }) => {
         this.measures = data.objects;
-        console.log('the measures :', this.measures);
       },
     });
   }
@@ -539,6 +456,8 @@ export class PurchaseComponent implements OnInit {
   }
   cancel() {
     this.isLoading = false;
+    this.closeModal.nativeElement.click();
+    this.selectedGroup = false;
     this.invoiceForm.reset();
     if (this.selectedMerchant === true) {
       this.selectedMerchant = false;
