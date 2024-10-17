@@ -21,8 +21,9 @@ import {
   ResetPasswordBodyModel,
   OtpVerificationBodyModel,
   SubmitInvitationResponseModel,
+  LoginResponseModel,
 } from '../../../components/auth/auth.model';
-import { User, UserApiResponse } from '../../db/models';
+import { User } from '../../db/models';
 import { ConfigService } from '../config/config.service';
 import { UserInfoModel } from '../../db/models/auth';
 import { DialogService } from '../dialog/dialog.service';
@@ -50,20 +51,22 @@ export class AuthService {
     );
   }
 
-  login(login_data: {
-    username: string;
-    password: string;
-  }): Observable<object> {
-    const loginData = { user: login_data };
-    return this.apiService.post<object>('/users/login/', loginData).pipe(
-      map(data => {
-        const userData = (data as { user: UserApiResponse }).user;
-        if (userData.token) {
-          this.dbService.setLocalStorageUserToken(userData.token);
-        }
-        return data;
-      })
-    );
+  login(payload: {
+    user: {
+      username: string;
+      password: string;
+    };
+  }): Observable<LoginResponseModel> {
+    return this.apiService
+      .post<LoginResponseModel>('/users/login/', payload)
+      .pipe(
+        map(data => {
+          if (data.user.token) {
+            this.dbService.setLocalStorageUserToken(data.user.token);
+          }
+          return data;
+        })
+      );
   }
 
   isAuthenticated(): boolean {
@@ -182,9 +185,7 @@ export class AuthService {
     return {
       user: {
         username: data.user.username,
-        token: data.user.token,
-        fcm_data: {},
-        device_data: {},
+        email: data.user.email,
       },
       client: {
         id: data.client.id,

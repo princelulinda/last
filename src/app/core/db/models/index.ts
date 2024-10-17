@@ -1,4 +1,4 @@
-export { User, UserApiResponse } from './auth/user';
+export { User } from './auth/user';
 export { TypeMenu } from './menu';
 export { MainConfig } from './config/main-config';
 export { Bank } from './bank/banks/bank';
