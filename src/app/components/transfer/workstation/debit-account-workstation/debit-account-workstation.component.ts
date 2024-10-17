@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { ConfigService } from '../../../../core/services';
-import { activeMainConfigModel } from '../../../../core/services/config/main-config.models';
+import { ActiveMainConfigModel } from '../../../../core/services/config/main-config.models';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { LookupIndividualComponent } from '../../../dev/lookup-individual/lookup-individual.component';
 
@@ -19,8 +19,8 @@ import { LookupModel } from '../../../../global/models/global.models';
 })
 export class DebitAccountWorkstationComponent implements OnInit {
   clientInfo!: UserInfoModel;
-  mainConfig$!: Observable<activeMainConfigModel>;
-  mainConfig!: activeMainConfigModel;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
+  mainConfig!: ActiveMainConfigModel;
   @Input() selectedDebitAccountType = '';
 
   lookupDebitAccountUrl = '/clients/list/all/object_lookup?lookup_data=';

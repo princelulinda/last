@@ -17,7 +17,7 @@ import {
   LanguageWorkstationModel,
 } from '../client.model';
 import { AccountsListModel } from '../../account/models';
-import { WalletList } from '../../wallet/wallet.models';
+import { WalletModel } from '../../wallet/wallet.models';
 import { MailModel } from '../../settings/settings.models';
 import { ClientProfileInfoComponent } from '../client-profile-info/client-profile-info.component';
 import { ClientGeneralInformationsComponent } from '../client-general-informations/client-general-informations.component';
@@ -75,7 +75,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   selectedWallet!: string | null;
   selectedClient!: ClientWorkstationModel | null;
   accounts!: AccountsListModel[];
-  wallets!: WalletList[];
+  wallets!: WalletModel[];
   selectedCategoryTypeId!: number;
   clientIndiv!: IndividualClientModel | null;
   clientEntreprise!: ClientCorporateModel | null;
@@ -101,7 +101,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
   isGeneralInfoFormShown = false;
   isTaxAdditionShown = false;
   choosenAccount: AccountsListModel | AccountsListModel[] | null = null;
-  choosenWallet: WalletList | null = null;
+  choosenWallet: WalletModel | null = null;
   inputActive = false;
   loadingSector = false;
   showLanguageCheckBox = false;
@@ -159,7 +159,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     console.log('Compte sélectionné :', account);
   }
 
-  handleWalletSelected(wallet: WalletList) {
+  handleWalletSelected(wallet: WalletModel) {
     this.choosenWallet = wallet;
 
     console.log('wallet sélectionné :', wallet);
@@ -206,7 +206,7 @@ export class ClientDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  walletEvent(wallets: WalletList[]) {
+  walletEvent(wallets: WalletModel[]) {
     this.wallets = wallets;
   }
 

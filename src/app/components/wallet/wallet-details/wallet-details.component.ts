@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../../core/services/client/client.service';
-import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
-import { WalletDetail } from '../wallet.models';
+import { ActiveMainConfigModel } from '../../../core/services/config/main-config.models';
+import { walletDetailModel } from '../wallet.models';
 import { WalletListComponent } from '../wallet-list/wallet-list.component';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { CommonModule } from '@angular/common';
@@ -25,9 +25,9 @@ import { WalletTopupComponent } from '../wallet-topup/wallet-topup.component';
 export class WalletDetailsComponent implements OnInit {
   walletId!: string;
   isLoading = false;
-  mainConfig$!: Observable<activeMainConfigModel>;
-  mainConfig!: activeMainConfigModel;
-  wallet: WalletDetail | null = null;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
+  mainConfig!: ActiveMainConfigModel;
+  wallet: walletDetailModel | null = null;
   hasWalletList = false;
   isTopUpClicked!: string;
 
@@ -51,15 +51,12 @@ export class WalletDetailsComponent implements OnInit {
     this.isLoading = true;
     this.wallet = null;
     this.clientService.getWalletDetails(this.walletId).subscribe({
-      next: (response: { object: WalletDetail }) => {
+      next: response => {
         this.wallet = response.object;
       },
-      error: error =>
-        console.error('Erreur lors de la récupération des tontines:', error),
     });
   }
   onTopupSuccess() {
-    console.log('onTopupSuccess called');
     this.getClientWalletDetails(); // Actualiser les détails du portefeuille
     this.isTopUpClicked = '';
   }

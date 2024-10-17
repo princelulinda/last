@@ -24,7 +24,7 @@ import { TransferService } from '../../../../core/services/transfer/transfer.ser
 import { AmountFieldComponent } from '../../../../global/components/custom-field/amount-field/amount-field.component';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import {
-  activeMainConfigModel,
+  ActiveMainConfigModel,
   ModeModel,
 } from '../../../../core/services/config/main-config.models';
 import { BankModel } from '../../../../core/db/models/bank/bank.model';
@@ -134,8 +134,8 @@ export class CreditAccountComponent implements OnInit, OnDestroy {
   @Input() showBack = false;
   @Input() bankId!: BankModel;
   clientInfo!: UserInfoModel;
-  mainConfig$!: Observable<activeMainConfigModel>;
-  mainConfig!: activeMainConfigModel;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
+  mainConfig!: ActiveMainConfigModel;
   private userInfo$: Observable<UserInfoModel>;
   mode!: ModeModel;
   mode$!: Observable<ModeModel>;

@@ -11,7 +11,7 @@ import { GeneralService } from '../../../core/services';
 import { SkeletonComponent } from '../loaders/skeleton/skeleton.component';
 import { DebitAccountComponent } from '../../../components/transfer/banking/debit-account/debit-account.component';
 import {
-  activeMainConfigModel,
+  ActiveMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
 import { CommonModule } from '@angular/common';
@@ -36,7 +36,7 @@ export class GlobalMappingComponent implements OnInit, OnDestroy {
   userInfo$: Observable<UserInfoModel>;
   @Input() contact!: string;
   mobileBanks: MobileBanksModel[] | null = null;
-  mainConfig$!: Observable<activeMainConfigModel>;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
   activePlatform: string | null = null;
   banksLoading = true;
   clientName!: string;

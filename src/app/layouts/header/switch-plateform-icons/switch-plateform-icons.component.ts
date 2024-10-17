@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 
 import { ConfigService } from '../../../core/services';
 import {
-  activeMainConfigModel,
+  ActiveMainConfigModel,
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
 
@@ -20,8 +20,8 @@ import {
 export class SwitchPlateformIconsComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  mainConfig$: Observable<activeMainConfigModel>;
-  mainConfig!: activeMainConfigModel;
+  mainConfig$: Observable<ActiveMainConfigModel>;
+  mainConfig!: ActiveMainConfigModel;
 
   bankingPlateformIcon = '/icons/banking-light-icon.svg';
 

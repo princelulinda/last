@@ -16,7 +16,7 @@ import { DebitAccountComponent } from '../transfer/banking/debit-account/debit-a
 import { LookupComponent } from '../../global/components/lookups/lookup/lookup.component';
 import { AmountFieldComponent } from '../../global/components/custom-field/amount-field/amount-field.component';
 import { AccountsListModel } from '../account/models';
-import { WalletList } from '../wallet/wallet.models';
+import { WalletModel } from '../wallet/wallet.models';
 import { ResModel } from '../loan/loan.models';
 import { LookupModel } from '../../global/models/global.models';
 @Component({
@@ -55,7 +55,7 @@ export class WithdrawalComponent implements OnInit, OnDestroy {
   withdrawalType = 'c2a_normal';
 
   agent: LookupModel | null = null;
-  account: AccountsListModel | WalletList | null = null;
+  account: AccountsListModel | WalletModel | null = null;
 
   constructor(
     private bankService: BankService,
@@ -99,13 +99,13 @@ export class WithdrawalComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAccountSelected(event: AccountsListModel | WalletList) {
+  getAccountSelected(event: AccountsListModel | WalletModel) {
     this.account = event;
     if ((this.account as AccountsListModel).acc_short_number) {
       this.debitAccount = (this.account as AccountsListModel).acc_short_number;
       this.debitType = 'account';
     } else {
-      this.debitAccount = (this.account as WalletList).code;
+      this.debitAccount = (this.account as WalletModel).code;
       this.debitType = 'wallet';
     }
   }

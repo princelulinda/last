@@ -8,7 +8,7 @@ import { AuthService, ConfigService } from '../../core/services';
 import { UserInfoModel } from '../../core/db/models/auth';
 import { SwitchPlateformIconsComponent } from './switch-plateform-icons/switch-plateform-icons.component';
 import {
-  activeMainConfigModel,
+  ActiveMainConfigModel,
   ModeModel,
   PlateformModel,
 } from '../../core/services/config/main-config.models';
@@ -39,8 +39,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
 
-  mainConfig$!: Observable<activeMainConfigModel>;
-  mainConfig!: activeMainConfigModel;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
+  mainConfig!: ActiveMainConfigModel;
   organization$!: Observable<OrganizationModel | null>;
   organization!: OrganizationModel | null;
   userInfo!: UserInfoModel | null;

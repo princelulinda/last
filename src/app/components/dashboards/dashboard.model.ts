@@ -1,5 +1,6 @@
 import { BankModel } from '../../core/db/models/bank/bank.model';
 import { MerchantModel } from '../merchant/merchant.models';
+import { WalletModel } from '../wallet/wallet.models';
 
 export interface addBankResponse {
   object: {
@@ -22,29 +23,6 @@ export interface AccountInfoModel {
   id: number;
   acc_number?: string;
   acc_holder?: string;
-}
-
-export interface WalletModel {
-  id: number;
-}
-export interface MenuGroup {
-  icon: string;
-
-  name: string;
-
-  description: string;
-
-  menus: Menu[] | null;
-
-  is_active: boolean;
-}
-
-export interface Menu {
-  name: string;
-
-  icon: string;
-
-  link: string | string[];
 }
 
 export interface PublisherModel {

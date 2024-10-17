@@ -15,7 +15,7 @@ import {
 } from '../saving.models';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { activeMainConfigModel } from '../../../core/services/config/main-config.models';
+import { ActiveMainConfigModel } from '../../../core/services/config/main-config.models';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { DialogService } from '../../../core/services';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
@@ -30,8 +30,8 @@ import { LookupModel } from '../../../global/models/global.models';
   styleUrl: './club-adhesion.component.scss',
 })
 export class ClubAdhesionComponent implements OnInit {
-  mainConfig$!: Observable<activeMainConfigModel>;
-  mainConfig!: activeMainConfigModel;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
+  mainConfig!: ActiveMainConfigModel;
   tontineId!: number;
   adhesionForm: FormGroup;
   isChecked = false;

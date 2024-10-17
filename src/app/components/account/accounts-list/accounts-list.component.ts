@@ -18,7 +18,7 @@ import { AccountsListModel } from '../models';
 
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import {
-  activeMainConfigModel,
+  ActiveMainConfigModel,
   ModeModel,
 } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
@@ -30,7 +30,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './accounts-list.component.scss',
 })
 export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
-  mainConfig$!: Observable<activeMainConfigModel>;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
   activePlatform: string | null = null;
   private client_id$: Observable<number>;
   userClientId!: number;
