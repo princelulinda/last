@@ -194,6 +194,13 @@ export class DiverseOperationComponent {
     this.tellerSender = null;
     this.receiver = null;
     this.tellerReceiver = null;
+    this.one.reset(0);
+    this.two.reset(0);
+    this.three.reset(0);
+    this.four.reset(0);
+    this.five.reset(0);
+    this.six.reset(0);
+    this.password.reset('');
     this.descriptionForm.reset();
   }
 
@@ -253,8 +260,7 @@ export class DiverseOperationComponent {
               type: 'success',
               message: this.operationPerformed.response_message,
             });
-            this.tellerReceiver = null;
-            this.tellerSender = null;
+            this.cancel();
           } else {
             this.dialogService.openToast({
               title: '',
