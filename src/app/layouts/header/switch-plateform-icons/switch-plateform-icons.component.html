@@ -18,11 +18,16 @@
             (mainConfig.activePlateform === plateF.plateform &&
               mainConfig.activePlateform !== 'workstation' &&
               mainConfig.activeMode === 'light') ||
-            (isMarketPlatform() && plateF.plateform === 'market'),
+            (isMarketPlatform() &&
+              plateF.plateform === 'market' &&
+              mainConfig.activeMode === 'light'),
           'text-primary-1':
-            mainConfig.activePlateform === plateF.plateform &&
-            mainConfig.activePlateform !== 'workstation' &&
-            mainConfig.activeMode === 'dark',
+            (mainConfig.activePlateform === plateF.plateform &&
+              mainConfig.activePlateform !== 'workstation' &&
+              mainConfig.activeMode === 'dark') ||
+            (isMarketPlatform() &&
+              plateF.plateform === 'market' &&
+              mainConfig.activeMode === 'dark'),
 
           'bg-hover-primary-2':
             mainConfig.activePlateform !== plateF.plateform &&
