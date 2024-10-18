@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TransferComponent } from '../../transfer/transfer/transfer.component';
 import { NotFoundPageComponent } from '../../../global/components/empty-states/not-found-page/not-found-page.component';
-import { MerchantService } from '../../../core/services';
+import { ConfigService, MerchantService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
 import { Location } from '@angular/common';
 import {
@@ -15,7 +15,10 @@ import {
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { MerchantModel } from '../merchant.models';
+import { ConnectedOperatorModel } from '../../auth/auth.model';
 import { CreditAccountComponent } from '../../transfer/banking/credit-account/credit-account.component';
+import { TransferService } from '../../../core/services/transfer/transfer.service';
+import { ActiveMainConfigModel } from '../../../core/services/config/main-config.models';
 @Component({
   selector: 'app-merchant-transfer',
   standalone: true,
@@ -25,6 +28,8 @@ import { CreditAccountComponent } from '../../transfer/banking/credit-account/cr
 })
 export class MerchantTransferComponent implements OnInit, OnDestroy {
   merchantInfo: MerchantModel | null = null;
+  institutionId: ConnectedOperatorModel | number | undefined;
+  institutionId$!: Observable<ConnectedOperatorModel>;
   selectedCreditAccountForm:
     | {
         accountNumber: string;
@@ -38,24 +43,47 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
   selectedInstitution!: InstitutionInfoModel;
   selectedCreditAccountType!: string;
   dialogState$!: Observable<DialogResponseModel>;
+  mainConfig$: Observable<ActiveMainConfigModel>;
+  mainConfig!: ActiveMainConfigModel;
   pin!: string;
 
   private onDestroy$ = new Subject<void>();
   constructor(
     private merchantService: MerchantService,
     private dialogService: DialogService,
-    private location: Location
+    private location: Location,
+    private configService: ConfigService,
+    private transferService: TransferService
   ) {
     this.dialogState$ = this.dialogService.getDialogState();
+    this.institutionId$ = this.configService.getConnectedOperator();
+    this.mainConfig$ = this.configService.getMainConfig();
   }
   ngOnInit(): void {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        this.mainConfig = configs;
+      },
+    });
+
+    this.institutionId$.subscribe({
+      next: datas => {
+        this.institutionId = datas.organization?.id;
+      },
+    });
+
     this.getConnectedMerchantInfo();
 
     this.dialogState$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (dialogResponse: DialogResponseModel) => {
         if (dialogResponse.action === 'pin' && dialogResponse.response.pin) {
           this.pin = dialogResponse.response.pin;
-          this.doMerchantPayment();
+          if (this.mainConfig.activePlateform !== 'workstation') {
+            this.doMerchantPayment();
+          }
+          if (this.mainConfig.activePlateform === 'workstation') {
+            this.doMerchantPaymentWs();
+          }
         }
       },
     });
@@ -143,6 +171,54 @@ export class MerchantTransferComponent implements OnInit, OnDestroy {
     }
   }
 
+  doMerchantPaymentWs() {
+    this.dialogService.dispatchLoading();
+    // this.loading = true;
+    if (this.selectedCreditAccountForm) {
+      const data = {
+        transfer_type: 'send',
+        amount: this.selectedCreditAccountForm.amount,
+        debit_type: 'merchant',
+        credit_account: this.selectedCreditAccountForm.accountNumber,
+        credit_account_holder: this.selectedCreditAccountForm.accountHolder,
+        credit_bank: this.selectedInstitution.slug,
+        credit_type: this.selectedCreditAccountType,
+        pin_code: this.pin,
+        description: this.selectedCreditAccountForm.debit_description,
+        merchant_reference: this.selectedCreditAccountForm.merchant_reference,
+      };
+      this.transferService
+        .doTransferWorkstation(this.institutionId, data)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe({
+          next: (response: DoMerchantTransferResponseModel) => {
+            // this.loading = false;
+            this.dialogService.closeLoading();
+            if (response.object.success) {
+              this.dialogService.openToast({
+                type: 'success',
+                title: 'Succès',
+                message: response.object.response_message,
+              });
+            } else {
+              this.dialogService.openToast({
+                type: 'failed',
+                title: 'Échec',
+                message: response.object.response_message,
+              });
+            }
+          },
+          error: () => {
+            this.dialogService.closeLoading();
+            this.dialogService.openToast({
+              type: 'failed',
+              title: 'Échec',
+              message: 'failed',
+            });
+          },
+        });
+    }
+  }
   openPinPopup() {
     if (this.selectedCreditAccountForm) {
       this.dialogService.openDialog({

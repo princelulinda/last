@@ -24,11 +24,13 @@ import { ClientCreditsLineComponent } from '../../components/client/client-credi
 import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
 import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
 import { DeskDashboardComponent } from '../../components/dashboards/workstation/desk-dashboard/desk-dashboard.component';
-
+import { UnbankedWalletComponent } from '../../components/client/unbanked-wallet/unbanked-wallet.component';
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
 
   // NOTE :: CLIENT MODULE
+  { path: 'wallets', component: UnbankedWalletComponent },
+
   {
     path: 'client',
     children: [
