@@ -23,7 +23,7 @@
                     class="bank-image flex-grow-1 d-flex justify-content-center">
                     @if (bank.company.image) {
                       <img
-                        class="image"
+                        class="img-fluid object-fit-contain"
                         alt="{{ bank.company }}"
                         [src]="bank?.company?.image" />
                     } @else {
@@ -33,9 +33,7 @@
                     }
                   </div>
 
-                  <span class="text-uppercase">{{
-                    bank?.company?.fullname
-                  }}</span>
+                  <span class="text-center">{{ bank?.company?.fullname }}</span>
                 </div>
               }
             </section>
@@ -80,7 +78,9 @@
           </div>
 
           <div
-            class="d-flex p-1 bg-secondary justify-content-between sm-radius flex-wrap align-items-center">
+            class="d-flex p-1  {{
+              menusBg
+            }} justify-content-between sm-radius flex-wrap align-items-center">
             @if (isAccountShown) {
               <div
                 role="button"
@@ -121,10 +121,9 @@
         </section>
 
         @if (selectedDebitAccountType === 'account') {
-          <section>
+          <section class="account-list-container">
             <app-accounts-list
-              [Type]="'transfer'"
-              [isTransferDone]="isTransactionDone"
+              Type="transfer"
               (accountSelected)="
                 getAccountSelected($event)
               "></app-accounts-list>
@@ -132,10 +131,9 @@
         }
 
         @if (selectedDebitAccountType === 'wallet') {
-          <section>
+          <section class="account-list-container">
             <app-wallet-list
-              [Type]="'transfer'"
-              [isTransferDone]="isTransactionDone"
+              Type="transfer"
               (walletSelected)="getAccountSelected($event)"></app-wallet-list>
           </section>
         }
