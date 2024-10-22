@@ -402,7 +402,7 @@ export class ConfigService {
 
   // NOTE :: GENERAL METHOD
   toArray<T>(data: T[]): T[] {
-    if (Array.isArray(data)) {
+    if (Array.isArray(data) && data) {
       return data as T[];
     } else {
       return Array.from(Object.values(data)).slice(0, -1) as T[];
