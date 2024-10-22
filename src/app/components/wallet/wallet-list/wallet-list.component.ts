@@ -31,8 +31,8 @@ import { VariableService } from '../../../core/services/variable/variable.servic
 export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
   mainConfig$!: Observable<ActiveMainConfigModel>;
   mainConfig!: ActiveMainConfigModel;
-  private userInfo$: Observable<UserInfoModel>;
-  clientInfo!: UserInfoModel;
+  clientId$: Observable<number>;
+  clientId!: UserInfoModel;
 
   isLoading = false;
   walletsListData: WalletModel[] | [] | null = null;
@@ -70,20 +70,17 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
     private variableService: VariableService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
-    this.userInfo$ = this.authService.getUserInfo();
+    this.clientId$ = this.authService.getUserClientId();
     this.theme$ = this.configService.getMode();
   }
   ngOnInit(): void {
-    this.authService
-      .getUserClientId()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(clientId => {
-        this.userClientId = clientId;
+    this.clientId$.subscribe(clientId => {
+      this.userClientId = clientId;
 
-        if (this.userClientId) {
-          this.getClientWallet();
-        }
-      });
+      if (this.userClientId) {
+        this.getClientWallet();
+      }
+    });
     this.variableService.topUpComplete$.subscribe(() => {
       this.getClientWallet(); // Actualiser la liste des wallets
     });
@@ -121,6 +118,7 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
       },
     });
   }
+
   clearSelectedWallet() {
     this.selectedLoneWallet = null;
   }
