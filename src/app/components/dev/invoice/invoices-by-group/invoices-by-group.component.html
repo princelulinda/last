@@ -1,73 +1,3 @@
-<div class="container-fluid">
-  <div class="row align-items-center">
-    <div
-      class="col-12 col-sm-6 col-md-5 col-lg-6 col-xl-5 me-auto mb-2 mb-sm-0">
-      <div class="row">
-        <div class="col-4 col-md-4">
-          <div class="border-end">
-            <span class="fs-medium fw-bold">{{
-              group_name.name || '---'
-            }}</span>
-          </div>
-        </div>
-        <div class="col-2 col-xxl-3">
-          <div class="d-flex gap-2">
-            <span><i class="fa-solid fa-receipt text-primary-2"></i></span>
-            <span>{{ group_name.bills }}</span>
-          </div>
-        </div>
-        <div class="col-6 col-md-6 col-lg-6 col-xl-6 col-xxl-5">
-          <div class="d-flex gap-2">
-            <div class="col-2">
-              <span><i class="fa-solid fa-user text-primary-2"></i></span>
-            </div>
-            <div class="col-6">
-              <span>{{ group_name.merchant_teller.alias || '---' }}</span>
-            </div>
-            <div class="col-4">
-              <span class="text-secondary">{{
-                group_name.merchant_teller.id
-              }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-7 col-lg-6 col-xl-7 col-xxl-6">
-      <div class="col-11 col-sm-12 mx-auto">
-        <div class="row">
-          <div class="col-8 col-sm-9 col-md-8 me-auto">
-            <div class="input-group mb-3">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search.."
-                aria-label="Search.."
-                aria-describedby="basic-addon2" />
-              <div class="input-group-append">
-                <span class="input-group-text btn bg-dark" id="basic-addon2"
-                  ><i class="fa-solid fa-magnifying-glass fa-xl text-light"></i
-                ></span>
-              </div>
-            </div>
-          </div>
-          <div
-            class="col-1 col-sm-2 col-md-2 col-lg-2 col-xl-1 p-1 d-flex justify-content-end align-items-center"
-            role="button"
-            (click)="goBack()"
-            tabindex="0">
-            <span class=""
-              ><i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i
-            ></span>
-            <span class="fw-bolder fs-5" i18n>Back</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <hr class="bg-dark row HLine" />
-</div>
-
 <div class="d-flex flex-column justify-content-center gap-5">
   <div
     class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-5">
@@ -134,9 +64,9 @@
                           }}</span>
                         </div>
                       </div>
-                      <div class="col-4">
+                      <div class="col-6 text-truncate">
                         <span class="fs-small text-secondary"
-                          >{{ order.product.measure.quantity }}
+                          >{{ order.element_metadata.original_data.quantity }}
                           {{ order.product.measure.suffix || '---' }}</span
                         >
                       </div>
@@ -157,13 +87,5 @@
         </div>
       </div>
     }
-  </div>
-
-  <div class="d-flex justify-content-center">
-    <div class="d-flex">
-      <button class="btn bg-primary px-5">
-        <span class="text-white px-5 py-2">Validate</span>
-      </button>
-    </div>
   </div>
 </div>

@@ -19,7 +19,7 @@ export interface tellerObjectModel {
   merchant: tellerMerchantModel;
   is_active: boolean;
   can_receive_notifications: boolean;
-  teller_type: teller_typeModel;
+  teller_type: Teller_typeModel;
   can_receive_tip: boolean;
   alias: string;
   success: boolean;
@@ -46,7 +46,7 @@ export interface tellerMerchantModel {
   merchant_code: string;
 }
 
-export interface teller_typeModel {
+export interface Teller_typeModel {
   title: string;
   value: string;
 }
@@ -114,6 +114,7 @@ export interface MerchantModel {
   client_category_id: string;
   balance_currency: CurrencyModel;
   paid_amount: string;
+  is_teller_admin: boolean;
 }
 
 export interface MerchantStatsModel {

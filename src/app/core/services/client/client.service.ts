@@ -271,7 +271,8 @@ export class ClientService {
     return this.apiService
       .get<{
         object: ClientWorkstationModel;
-      }>('/clients/list/all/' + clientId + '/')
+      }>('/clients/list/all/' + clientId + '/?list_type=all')
+
       .pipe(
         map(data => {
           return data;

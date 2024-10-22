@@ -46,7 +46,6 @@
     </div>
   }
   @if (singleInvoices) {
-    <!-- @if (filteredInvoices && filteredInvoices.length > 0) {} -->
     <div
       class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 d-flex justify-content-center justify-content-lg-start gap-5">
       @for (singleInvoice of singleInvoices; track $index) {
@@ -123,7 +122,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-5">
+                    <div class="col-5 text-truncate">
                       @for (order of singleInvoice.orders; track $index) {
                         @if (order.element_metadata.original_data) {
                           <div
@@ -155,11 +154,11 @@
     </div>
   }
 
-  @if (singleInvoices && singleInvoices.length === 0) {
+  @if (singleInvoices && response_data === 0) {
     <div class="text-center">
       <app-empty-state
         [searchTerm]="'single invoice'"
-        [searchType]="'other'"></app-empty-state>
+        [searchType]="'list'"></app-empty-state>
     </div>
   }
 
@@ -173,134 +172,129 @@
       </app-pagination>
     </div>
   }
-
-  <div class="modal fade arounded" id="invoicesModal" data-mdb-backdrop="false">
-    <div class="modal-dialog sm-radius">
-      <div class="modal-content bg-primary-3">
-        <div class="modal-header p-2 bg-primary-3">
-          <div class="row col-11 mx-auto p-2" i18n>
-            <div
-              class="col-2 p-0"
-              role="button"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              [ngClass]="{
-                'text-dark': theme === 'dark',
-              }">
-              <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
-            </div>
-            <div
-              class="col-6 p-0 text-center fs-normal"
-              [ngClass]="{
-                'text-dark': theme === 'dark',
-              }">
-              Invoice Details
-            </div>
-            <div class="col-4 p-0 text-end">
-              <img
-                class="imgSize"
-                src="/images/logo/ihela-ryanje.png"
-                alt="logo ihela" />
+  @if (is_teller_admin) {
+    <div
+      class="modal fade arounded"
+      id="invoicesModal"
+      data-mdb-backdrop="false">
+      <div class="modal-dialog sm-radius">
+        <div class="modal-content bg-primary-3 x-lg-radius">
+          <div class="modal-header p-2 bg-primary-3">
+            <div class="row col-11 mx-auto p-2" i18n>
+              <div
+                class="col-2 p-0"
+                role="button"
+                data-bs-dismiss="modal"
+                aria-label="Close">
+                <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
+              </div>
+              <div class="col-6 p-0 text-center fs-normal">Invoice Details</div>
+              <div class="col-4 p-0 text-end">
+                <img
+                  class="imgSize"
+                  src="/images/logo/ihela-ryanje.png"
+                  alt="logo ihela" />
+              </div>
             </div>
           </div>
-        </div>
-        <div class="modal-body bg-white x-lg-radius p-2">
-          @if (selectedInvoice !== null) {
-            <div class="row col-11 mx-auto">
-              <div
-                class="p-2 col-3 mb-3 mt-2 fs-normal xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
-                {{ selectedInvoice.payment_status.title || '---' }}
-              </div>
-              <div class="p-0 col-11 mb-2 fs-medium fw-bold">
-                <b class="p-0">{{ selectedInvoice.code }}</b>
-              </div>
-
-              <div class="p-0 h-50">
+          <div class="modal-body bg-white lg-radius p-2">
+            @if (selectedInvoice !== null) {
+              <div class="row col-11 mx-auto">
                 <div
-                  class="row mx-auto mt-2 mb-3 border border-1 border-dark sm-radius">
+                  class="p-2 col-3 mb-3 mt-2 fs-normal xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
+                  {{ selectedInvoice.payment_status.title || '---' }}
+                </div>
+                <div class="p-0 col-11 mb-2 fs-medium fw-bold">
+                  <b class="p-0">{{ selectedInvoice.code }}</b>
+                </div>
+
+                <div class="p-0 h-50">
                   <div
-                    class="iconSize d-flex justify-content-center m-3 p-4 align-items-center bg-secondary rounded-circle">
-                    <i class="fa-solid fa-warehouse text-secondary"></i>
-                  </div>
-                  @if (selectedInvoice.provider.client !== null) {
-                    <div class="col-6 mt-3 ms-2">
-                      <div class="row fw-bolder fs-small">
-                        {{
-                          selectedInvoice.provider.client.client_full_name ||
-                            '---'
-                        }}
-                      </div>
-                      <div class="row fs-small">
-                        {{ selectedInvoice.id || '---' }}
-                      </div>
+                    class="row mx-auto mt-2 mb-3 border border-1 border-dark sm-radius">
+                    <div
+                      class="iconSize d-flex justify-content-center m-3 p-4 align-items-center bg-secondary rounded-circle">
+                      <i class="fa-solid fa-warehouse text-secondary"></i>
                     </div>
-                  }
-                </div>
-              </div>
-              <div class="row p-0 mx-auto sm-radius bg-secondary">
-                <div class="row mb-2">
-                  <span i18n class="fs-small fw-bold mt-3">Item</span>
-                </div>
-                <div class="row col-11 ms-3 borderDashed mb-2"></div>
-                <div class="row mb-2">
-                  <div class="col-6">
-                    @for (order of selectedInvoice.orders; track $index) {
-                      @if (order.product) {
-                        <span class="fs-normal fw-bold">{{
-                          order.product.name || '---'
-                        }}</span>
-                        <br />
-                      }
-                      @if (order.element_metadata.original_data) {
-                        <span class="fs-small">
+                    @if (selectedInvoice.provider.client !== null) {
+                      <div class="col-6 mt-3 ms-2">
+                        <div class="row fw-bolder fs-small">
                           {{
-                            order.element_metadata.original_data.quantity ||
+                            selectedInvoice.provider.client.client_full_name ||
                               '---'
                           }}
-                          {{ order.product.measure.suffix || '---' }}
-                        </span>
-                        <br />
-                        <span class="fs-small">
-                          {{ order.product.measure.price || '---' }}/{{
-                            order.product.measure.suffix
-                          }}
-                        </span>
-                      }
+                        </div>
+                        <div class="row fs-small">
+                          {{ selectedInvoice.id || '---' }}
+                        </div>
+                      </div>
                     }
                   </div>
-                  <div class="col-5">
-                    <span class="text-primary fs-normal fw-bolder fs-4">
-                      <app-amount-visibility
-                        [amount]="selectedInvoice.total_amount"
-                        [alwaysShowAmount]="true"
-                        [currency]="'BIF'"></app-amount-visibility>
+                </div>
+                <div class="row p-0 mx-auto sm-radius bg-secondary">
+                  <div class="row mb-2">
+                    <span i18n class="fs-small fw-bold mt-3">Item</span>
+                  </div>
+                  <div class="row col-11 ms-3 borderDashed mb-2"></div>
+                  <div class="row mb-2">
+                    <div class="col-6">
+                      @for (order of selectedInvoice.orders; track $index) {
+                        @if (order.product) {
+                          <span class="fs-normal fw-bold">{{
+                            order.product.name || '---'
+                          }}</span>
+                          <br />
+                        }
+                        @if (order.element_metadata.original_data) {
+                          <span class="fs-small">
+                            {{
+                              order.element_metadata.original_data.quantity ||
+                                '---'
+                            }}
+                            {{ order.product.measure.suffix || '---' }}
+                          </span>
+                          <br />
+                          <span class="fs-small">
+                            {{ order.product.measure.price || '---' }}/{{
+                              order.product.measure.suffix
+                            }}
+                          </span>
+                        }
+                      }
+                    </div>
+                    <div class="col-5">
+                      <span class="text-primary fs-normal fw-bolder fs-4">
+                        <app-amount-visibility
+                          [amount]="selectedInvoice.total_amount"
+                          [alwaysShowAmount]="true"
+                          [currency]="'BIF'"></app-amount-visibility>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="row col-11 ms-3 borderDashed mb-2"></div>
+                  <div class="row">
+                    <span class="fs-normal fw-bold">
+                      {{
+                        selectedInvoice.merchant_teller.merchant.merchant_title
+                      }}
+                    </span>
+                    <span class="mb-4" i18n>
+                      Done by Teller NO{{ selectedInvoice.merchant_teller.id }}
                     </span>
                   </div>
                 </div>
-                <div class="row col-11 ms-3 borderDashed mb-2"></div>
-                <div class="row">
-                  <span class="fs-normal fw-bold">
-                    {{
-                      selectedInvoice.merchant_teller.merchant.merchant_title
-                    }}
-                  </span>
-                  <span class="mb-4" i18n>
-                    Done by Teller NO{{ selectedInvoice.merchant_teller.id }}
-                  </span>
-                </div>
               </div>
+            }
+            <div
+              i18n
+              role="button"
+              class="bg-primary fw-bold sm-radius text-light text-center fs-medium m-3 p-2"
+              (click)="enterPin()"
+              tabindex="0">
+              Validate
             </div>
-          }
-          <div
-            i18n
-            role="button"
-            class="bg-primary fw-bold sm-radius text-light text-center fs-medium m-3 p-2"
-            (click)="enterPin()"
-            tabindex="0">
-            Validate
           </div>
         </div>
       </div>
     </div>
-  </div>
+  }
 </div>
