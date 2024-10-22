@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   FormControl,
@@ -26,14 +26,15 @@ import { VariableService } from '../../../core/services/variable/variable.servic
   styleUrl: './wallet-topup.component.scss',
 })
 export class WalletTopupComponent implements OnInit {
+  private onDestroy$ = new Subject<void>();
   selectedDebitAccountForm!: AccountsListModel;
   topupForm!: FormGroup;
   amount: number | null = null;
-  private onDestroy$ = new Subject<void>();
   dialogState$!: Observable<DialogResponseModel>;
-  pin: string | undefined;
+  pin = '';
   walletId!: string;
-  @Output() topupSuccess = new EventEmitter<void>();
+  // @Output() topupSuccess = new EventEmitter<void>();
+
   constructor(
     private dialogService: DialogService,
     private clientService: ClientService,
@@ -103,8 +104,9 @@ export class WalletTopupComponent implements OnInit {
                 title: 'Succès',
                 message: response.object.response_message,
               });
-              this.topupSuccess.emit();
-              this.variableService.announceTopUpComplete();
+              // this.topupSuccess.emit();
+              this.variableService.REFRESH_WALLET_LIST.set(true);
+              this.variableService.REFRESH_ACCOUNT_LIST.set(true);
             } else {
               this.dialogService.openToast({
                 type: 'failed',
@@ -117,7 +119,7 @@ export class WalletTopupComponent implements OnInit {
             this.dialogService.closeLoading();
             this.dialogService.openToast({
               type: 'failed',
-              title: 'Échec',
+              title: '',
               message: 'failed',
             });
           },
@@ -130,7 +132,6 @@ export class WalletTopupComponent implements OnInit {
       this.dialogService.openDialog({
         type: 'pin',
         title: 'Enter your PIN code',
-        //message: 'Please enter your PIN code to continue.',
         action: 'pin',
         message: `Wallet <b> ${
           this.walletId

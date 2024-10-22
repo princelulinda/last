@@ -1,4 +1,4 @@
-<div class="h-100">
+<div class="h-100 {{ containerBG }}">
   <div class="p-2 d text-dark">
     <!-- NOTE :: USER BANK LIST  -->
     @if (!selectedBank) {
@@ -23,7 +23,7 @@
                     class="bank-image flex-grow-1 d-flex justify-content-center">
                     @if (bank.company.image) {
                       <img
-                        class="image"
+                        class="img-fluid object-fit-contain"
                         alt="{{ bank.company }}"
                         [src]="bank?.company?.image" />
                     } @else {
@@ -33,9 +33,7 @@
                     }
                   </div>
 
-                  <span class="text-uppercase">{{
-                    bank?.company?.fullname
-                  }}</span>
+                  <span class="text-center">{{ bank?.company?.fullname }}</span>
                 </div>
               }
             </section>
@@ -123,8 +121,7 @@
         @if (selectedDebitAccountType === 'account') {
           <section class="account-list-container">
             <app-accounts-list
-              [Type]="'transfer'"
-              [isTransferDone]="isTransactionDone"
+              Type="transfer"
               (accountSelected)="
                 getAccountSelected($event)
               "></app-accounts-list>
@@ -134,8 +131,7 @@
         @if (selectedDebitAccountType === 'wallet') {
           <section class="account-list-container">
             <app-wallet-list
-              [Type]="'transfer'"
-              [isTransferDone]="isTransactionDone"
+              Type="transfer"
               (walletSelected)="getAccountSelected($event)"></app-wallet-list>
           </section>
         }

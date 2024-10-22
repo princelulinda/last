@@ -5,8 +5,8 @@ import {
   OnInit,
   Output,
   OnDestroy,
-  SimpleChanges,
-  OnChanges,
+  // SimpleChanges,
+  // OnChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -23,6 +23,8 @@ import {
   PlateformModel,
 } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
+import { VariableService } from '../../../core/services/variable/variable.service';
+import { toObservable } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-accounts-list',
   standalone: true,
@@ -30,8 +32,9 @@ import { RouterLink } from '@angular/router';
   templateUrl: './accounts-list.component.html',
   styleUrl: './accounts-list.component.scss',
 })
-export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
+export class AccountsListComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject<void>();
+  private refreshList$: Observable<boolean>;
 
   mainConfig$!: Observable<ActiveMainConfigModel>;
   activePlatform!: PlateformModel;
@@ -45,7 +48,7 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
   accountsListData: AccountsListModel[] | [] | null = null;
 
   selectedLoneAccount: AccountsListModel | null = null;
-  selectedAccount!: AccountsListModel[];
+  selectedAccount: AccountsListModel[] | null = null;
   isLoneAccountSelected = false;
 
   // close the account's creation form
@@ -53,25 +56,27 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
   @Input() Type: 'transfer' | 'list' = 'transfer';
   @Output() accountSelected = new EventEmitter<AccountsListModel>();
   @Output() dataLoaded = new EventEmitter<boolean>();
-  @Input() isTransferDone = false;
+  // @Input() isTransferDone = false;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['isTransferDone']) {
-      if (this.isTransferDone) {
-        alert(this.isTransferDone);
-        this.clearSelectedAccount();
-      }
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes['isTransferDone']) {
+  //     if (this.isTransferDone) {
+  //       alert(this.isTransferDone);
+  //       this.clearSelectedAccount();
+  //     }
+  //   }
+  // }
 
   constructor(
     private configService: ConfigService,
     private authService: AuthService,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private variableService: VariableService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
     this.clientId$ = this.authService.getUserClientId();
     this.theme$ = this.configService.getMode();
+    this.refreshList$ = toObservable(this.variableService.REFRESH_ACCOUNT_LIST);
   }
 
   ngOnInit(): void {
@@ -90,6 +95,16 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
     this.mainConfig$.subscribe({
       next: configs => {
         this.activePlatform = configs.activePlateform;
+      },
+    });
+
+    this.refreshList$.subscribe({
+      next: refresh => {
+        if (refresh) {
+          this.clearSelectedAccount();
+          this.getClientAccounts();
+          this.variableService.REFRESH_ACCOUNT_LIST.set(false);
+        }
       },
     });
   }

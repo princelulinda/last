@@ -1,5 +1,7 @@
 <div>
-  <app-debit-account (selectedAccount)="handleSelectedCreditAccount($event)">
+  <app-debit-account
+    [isWalletShown]="false"
+    (selectedAccount)="handleSelectedCreditAccount($event)">
   </app-debit-account>
   @if (selectedDebitAccountForm) {
     <div>
