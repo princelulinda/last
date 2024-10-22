@@ -20,6 +20,7 @@ import { AmountVisibilityComponent } from '../../../global/components/custom-fie
 import {
   ActiveMainConfigModel,
   ModeModel,
+  PlateformModel,
 } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
 @Component({
@@ -30,12 +31,16 @@ import { RouterLink } from '@angular/router';
   styleUrl: './accounts-list.component.scss',
 })
 export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
+  private onDestroy$ = new Subject<void>();
+
   mainConfig$!: Observable<ActiveMainConfigModel>;
-  activePlatform: string | null = null;
-  private client_id$: Observable<number>;
-  userClientId!: number;
+  activePlatform!: PlateformModel;
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
+
+  clientId$: Observable<number>;
+  clientId = 0;
+
   isLoading = false;
   accountsListData: AccountsListModel[] | [] | null = null;
 
@@ -53,12 +58,11 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isTransferDone']) {
       if (this.isTransferDone) {
+        alert(this.isTransferDone);
         this.clearSelectedAccount();
       }
     }
   }
-
-  private onDestroy$ = new Subject<void>();
 
   constructor(
     private configService: ConfigService,
@@ -66,25 +70,20 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
     private clientService: ClientService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
-    this.client_id$ = this.authService.getUserClientId();
+    this.clientId$ = this.authService.getUserClientId();
     this.theme$ = this.configService.getMode();
   }
 
   ngOnInit(): void {
-    this.authService
-      .getUserClientId()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(clientId => {
-        this.userClientId = clientId;
-        // console.log('User Client ID:', this.userClientId);
-        if (this.userClientId) {
-          this.getClientAccounts();
-        }
-      });
+    this.clientId$.subscribe(clientId => {
+      this.clientId = clientId;
+      if (this.clientId) {
+        this.getClientAccounts();
+      }
+    });
     this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: theme => {
         this.theme = theme;
-        //console.log('themmeee',this.theme)
       },
     });
 
@@ -95,15 +94,10 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-  }
-
   getClientAccounts() {
     this.isLoading = true;
     this.clientService
-      .getClientAccounts(this.userClientId)
+      .getClientAccounts(this.clientId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
@@ -111,8 +105,7 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
           this.isLoading = false;
           this.dataLoaded.emit(true);
         },
-        error: err => {
-          console.error('Erreur :', err);
+        error: () => {
           this.isLoading = false;
           this.dataLoaded.emit(false); // Émet l'événement en cas d'erreur
         },
@@ -135,5 +128,10 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
     this.accountsListData = null;
     this.isLoading = true;
     this.getClientAccounts();
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

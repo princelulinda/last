@@ -9,11 +9,8 @@
   }
   @if (!accountsListData && Type === 'transfer') {
     <div
-      class="bg-white p-3 border border-2 mt-2 lg-radius"
-      style="min-width: 300px">
-      <span
-        class="text-center w-100 h-100 align-items-center d-flex justify-content-center text-dark"
-        title="Loading accounts...">
+      class="bg-white p-3 border border-1 mt-2 lg-radius align-items-center d-flex justify-content-center">
+      <span>
         <i class="spinner-border"></i>
       </span>
     </div>
@@ -47,10 +44,11 @@
                   : null
               "
               tabindex="0"
-              class="d-grid ps-3 py-0 rounded b-left"
+              class="d-grid ps-3 py-0 sm-radius border-start border-primary border-7"
               [ngClass]="{
-                account: Type === 'transfer',
-                cliped: selectedLoneAccount === account && Type === 'list',
+                'bg-hover-secondary': Type === 'transfer',
+                ' position-relative bg-primary-3 fs-small cliped':
+                  selectedLoneAccount === account && Type === 'list',
                 'text-all-dark':
                   selectedLoneAccount === account &&
                   Type === 'list' &&
@@ -84,51 +82,50 @@
         </div>
       }
 
-      @if (Type === 'transfer' && selectedLoneAccount) {
-        <div class="mt-3 w-100 lg-radius border">
-          <div class="p-2 ms-2 lg-radius bg-white">
-            <div
-              class="d-flex align-items-start justify-content-between ps-2 py-0 b-left">
-              <div class="d-grid ps-3 py-0">
-                <b>{{ selectedLoneAccount.acc_holder }}</b>
-                <b class="fw-normal">{{
-                  selectedLoneAccount.get_acc_number
-                }}</b>
-                <b>
-                  <span>
-                    <app-amount-visibility
-                      [amount]="selectedLoneAccount.acc_available_balance"
-                      [currency]="selectedLoneAccount.acc_currency"
-                      [ngClass]="
-                        'fw-normal text-success'
-                      "></app-amount-visibility>
-                  </span>
-                </b>
-              </div>
+      <!-- NOTE :: TRANSFER ACCOUNT LIST ON SELECTED ACCOUNT -->
 
-              <div>
-                <span
-                  role="button"
-                  class="bg-danger text-white ms-5 pt-1 px-1 rounded-circle"
-                  (click)="clearSelectedAccount()"
-                  tabindex="0">
-                  <i class="fa fa-xmark"></i>
+      @if (Type === 'transfer' && selectedLoneAccount) {
+        <section class="mt-3 p-2 lg-radius border bg-white">
+          <div
+            class="d-flex align-items-start justify-content-between ps-2 py-0 border-start border-primary border-7">
+            <div class="d-grid ps-3 py-0">
+              <b>{{ selectedLoneAccount.acc_holder }}</b>
+              <b class="fw-normal">{{ selectedLoneAccount.get_acc_number }}</b>
+              <b>
+                <span>
+                  <app-amount-visibility
+                    [amount]="selectedLoneAccount.acc_available_balance"
+                    [currency]="selectedLoneAccount.acc_currency"
+                    [ngClass]="
+                      'fw-normal text-success'
+                    "></app-amount-visibility>
                 </span>
-              </div>
+              </b>
+            </div>
+
+            <div>
+              <span
+                role="button"
+                class="bg-danger text-white ms-5 pt-1 px-1 rounded-circle"
+                (click)="clearSelectedAccount()"
+                tabindex="0">
+                <i class="fa fa-xmark"></i>
+              </span>
             </div>
           </div>
-        </div>
+        </section>
       }
     </div>
   }
-  <!--*No accounts message-->
+
+  <!-- NOTE :: ACCOUNT EMPTY STATE -->
   @if (accountsListData && accountsListData.length === 0) {
-    <span
-      class="text-center w-100 h-100 align-items-center d-flex justify-content-center text-dark">
-      <span class="text-secondary">
-        <i class="fa fa-ban me-1"></i>
-        <b>You don't have any account</b>
+    <section
+      class="w-100 h-100 align-items-center d-flex justify-content-center">
+      <span class="empty-state">
+        <span> <i class="fa fa-ban me-1"></i></span>
+        <b i18n>You don't have any account</b>
       </span>
-    </span>
+    </section>
   }
 </div>
