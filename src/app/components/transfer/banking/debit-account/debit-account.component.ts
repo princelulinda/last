@@ -64,7 +64,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
   debitAccount: DebitOptionsModel | null = null;
   selectedDebitAccountType: 'account' | 'wallet' | null = null;
 
-  lookupDebitAccountUrl = '/clients/list/all/object_lookup?lookup_data=';
+  // lookupDebitAccountUrl = '/clients/list/all/object_lookup?lookup_data=';
   clientId: number | null = null;
 
   debitWallet: DebitOptionsModel | null = null;
@@ -82,9 +82,9 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
   // isBalanceShown$: Observable<boolean>;
 
   lookupType = '';
+
   @Output() debitOptions = new EventEmitter<{
     account: string;
-
     wallet: string;
 
     selectedDebitOption: string;
@@ -105,6 +105,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
     acc_holder?: string;
     acc_number?: string;
   }>();
+
   @Input() isTransactionDone = false;
   @Input() creditAccountType = '';
   @Input() selectedInstitutionType = '';
@@ -178,15 +179,17 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
   selectBank(bank: BankModel) {
     this.configService.setSelectedBank(bank);
   }
-  getClient(client: DebitOptionsModel) {
-    this.debitAccount = client;
-    const options = {
-      id: this.debitAccount.id,
-      acc_holder: this.debitAccount.lookup_title,
-      acc_number: this.debitAccount.lookup_sub_title,
-    };
-    this.lookupOptions.emit(options);
-  }
+
+  // getClient(client: DebitOptionsModel) {
+  //   this.debitAccount = client;
+  //   const options = {
+  //     id: this.debitAccount.id,
+  //     acc_holder: this.debitAccount.lookup_title,
+  //     acc_number: this.debitAccount.lookup_sub_title,
+  //   };
+  //   this.lookupOptions.emit(options);
+  // }
+
   selectDebitAccountType(accountType: 'account' | 'wallet') {
     this.selectedDebitAccountType = accountType;
     const options = {
@@ -200,9 +203,9 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
       selectedInstitution: this.selectedInstitution,
     };
     this.debitOptions.emit(options);
-    if (accountType !== this.selectedDebitAccountType) {
-      this.selectedDebitAccountType = null;
-    }
+    // if (accountType !== this.selectedDebitAccountType) {
+    //   this.selectedDebitAccountType = null;
+    // }
   }
 
   updateAccount() {

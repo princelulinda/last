@@ -121,7 +121,7 @@
         </section>
 
         @if (selectedDebitAccountType === 'account') {
-          <section>
+          <section class="account-list-container">
             <app-accounts-list
               [Type]="'transfer'"
               [isTransferDone]="isTransactionDone"
@@ -132,7 +132,7 @@
         }
 
         @if (selectedDebitAccountType === 'wallet') {
-          <section>
+          <section class="account-list-container">
             <app-wallet-list
               [Type]="'transfer'"
               [isTransferDone]="isTransactionDone"
