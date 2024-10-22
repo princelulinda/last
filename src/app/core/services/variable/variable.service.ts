@@ -14,11 +14,11 @@ export class VariableService {
     this.topUpCompleteSource.next();
   }
 
-  refreshFavoriteProducts: WritableSignal<boolean> = signal(false);
-  refreshFavoriteMerchants: WritableSignal<boolean> = signal(false);
+  REFRESH_FAVORITE_PRODUCTS: WritableSignal<boolean> = signal(false);
+  REFRESH_FAVORITE_MERCHANTS: WritableSignal<boolean> = signal(false);
 
   MENU_ACCESS_KEY: WritableSignal<string> = signal('');
 
-  refreshWallets: WritableSignal<boolean> = signal(false);
-  refreshAllAccounts: WritableSignal<boolean> = signal(false);
+  REFRESH_WALLET_LIST: WritableSignal<boolean> = signal(false);
+  REFRESH_ACCOUNT_LIST: WritableSignal<boolean> = signal(false);
 }

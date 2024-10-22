@@ -43,7 +43,7 @@ export class ProductsComponent implements OnInit {
   countProductLoader: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
   favoriteDisplay = false;
 
-  private refreshFavoriteProducts$: Observable<boolean>;
+  private REFRESH_FAVORITE_PRODUCTS$: Observable<boolean>;
 
   constructor(
     private merchantService: MerchantService,
@@ -51,8 +51,8 @@ export class ProductsComponent implements OnInit {
     private variableService: VariableService
   ) {
     this.theme$ = this.configService.getMode();
-    this.refreshFavoriteProducts$ = toObservable(
-      this.variableService.refreshFavoriteProducts
+    this.REFRESH_FAVORITE_PRODUCTS$ = toObservable(
+      this.variableService.REFRESH_FAVORITE_PRODUCTS
     );
   }
   ngOnInit(): void {
@@ -63,11 +63,11 @@ export class ProductsComponent implements OnInit {
     });
 
     // NOTE :: TO CHECK ACTION ON FAVORITE PRODUCTS
-    this.refreshFavoriteProducts$.subscribe({
+    this.REFRESH_FAVORITE_PRODUCTS$.subscribe({
       next: state => {
         if (state) {
           this.getFavoriteProducts('');
-          this.variableService.refreshFavoriteProducts.set(false);
+          this.variableService.REFRESH_FAVORITE_PRODUCTS.set(false);
         }
       },
     });

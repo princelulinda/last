@@ -64,7 +64,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
 
   favoriteMerchantLoading = false;
 
-  private refreshFavoriteMerchants$: Observable<boolean>;
+  private REFRESH_FAVORITE_MERCHANTS$: Observable<boolean>;
   seeMore!: boolean;
 
   constructor(
@@ -74,8 +74,8 @@ export class MerchantsComponent implements OnInit, OnDestroy {
     private variableService: VariableService
   ) {
     this.theme$ = this.configService.getMode();
-    this.refreshFavoriteMerchants$ = toObservable(
-      this.variableService.refreshFavoriteMerchants
+    this.REFRESH_FAVORITE_MERCHANTS$ = toObservable(
+      this.variableService.REFRESH_FAVORITE_MERCHANTS
     );
   }
 
@@ -89,11 +89,11 @@ export class MerchantsComponent implements OnInit, OnDestroy {
     });
 
     // NOTE :: TO CHECK ACTION ON FAVORITE PRODUCTS
-    this.refreshFavoriteMerchants$.subscribe({
+    this.REFRESH_FAVORITE_MERCHANTS$.subscribe({
       next: state => {
         if (state) {
           this.getFavoriteMerchants('');
-          this.variableService.refreshFavoriteMerchants.set(false);
+          this.variableService.REFRESH_FAVORITE_MERCHANTS.set(false);
         }
       },
     });
