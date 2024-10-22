@@ -12,5 +12,5 @@ export class SkeletonComponent {
   @Input() width = '';
   @Input({ required: true }) height = '';
   @Input() animation: 'glow' | 'wave' = 'wave';
-  @Input() classes = '';
+  @Input() classes = 'sm-radius  ';
 }

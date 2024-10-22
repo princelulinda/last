@@ -1,182 +1,143 @@
 <div class="h-100">
-  <div class="rounded p-2 d-grid text-dark">
+  <div class="p-2 d text-dark">
+    <!-- NOTE :: USER BANK LIST  -->
     @if (!selectedBank) {
-      <div class="expand-collapse-section">
+      <section class="expand-collapse-section">
         <div>
-          <i class="fa fa-circle text-primary fs-x-small me-2"></i>
+          <span class="text-primary fs-x-small me-2">
+            <i class="fa fa-circle"></i>
+          </span>
           <b i18n>Select a bank :</b>
         </div>
 
-        <div>
-          @if (clientBanks && clientBanks.length > 0) {
-            <div class="p-2 row gap-2">
+        <section>
+          @if (clientBanks && clientBanks.length > 0 && !loadingBanks) {
+            <section class="my-3 d-flex gap-3 flex-wrap">
               @for (bank of clientBanks; track $index) {
                 <div
                   (click)="selectBank(bank)"
                   tabindex="0"
                   role="button"
-                  class="d-grid col-6 col-sm-4 col-md-3 justify-content-center">
-                  <div class="d-flex w-100 mb-2 justify-content-center">
-                    <div
-                      class="d-grid justify-content-center align-items-center img-container border lg-radius">
+                  class="d-flex flex-column bank-card align-items-center border sm-radius p-2">
+                  <div
+                    class="bank-image flex-grow-1 d-flex justify-content-center">
+                    @if (bank.company.image) {
                       <img
-                        class="bank-image"
-                        alt=""
+                        class="img-fluid object-fit-contain"
+                        alt="{{ bank.company }}"
                         [src]="bank?.company?.image" />
-                    </div>
+                    } @else {
+                      <span class="fs-large">
+                        <i class="fa-solid fa-building-columns"></i>
+                      </span>
+                    }
                   </div>
 
-                  <div class="text-center">
-                    <span>{{ bank?.company?.fullname?.toUpperCase() }}</span>
-                  </div>
+                  <span class="text-center">{{ bank?.company?.fullname }}</span>
                 </div>
               }
-            </div>
-          } @else {
-            <div class="d-flex pt-3">
+            </section>
+          }
+          @if (clientBanks.length === 0 && loadingBanks) {
+            <div class="my-3 d-flex gap-3">
               @for (_ of [1, 2, 3]; track $index) {
-                <div class="d-grid mt-1 me-5">
-                  <span class="text-center">
-                    <app-skeleton [height]="'60px'" [width]="'60px'">
-                    </app-skeleton>
+                <div class="d-flex flex-column bank-card">
+                  <span>
+                    <app-skeleton [height]="'70px'" width="75%"> </app-skeleton>
                   </span>
                   <span>
-                    <app-skeleton [height]="'7px'" [width]="'100px'">
+                    <app-skeleton [height]="'7px'" [width]="'75%'">
                     </app-skeleton>
                   </span>
                 </div>
               }
             </div>
           }
-        </div>
-      </div>
+          @if (!clientBanks && !loadingBanks) {
+            <div class="fs-large my-4" i18n>No Banks Found</div>
+          }
+        </section>
+      </section>
     }
 
-    <!-- this section is showed if we have selectedBank or wallet is showed -->
-    <!--Title description-->
-    @if (isWalletShown) {
-      <div class="d-flex align-items-center justify-content-between">
-        <div>
-          <i class="fa fa-circle fs-x-small me-2 text-primary"></i>
-          <b class="fs-medium">Debit Account</b>
-        </div>
-      </div>
-    }
+    <div>
+      <i class="fa fa-circle fs-x-small me-2 text-primary"></i>
+      <b class="fs-medium">Debit Account</b>
+    </div>
 
-    <!-- this section is showed if we have selectedBank or wallet is showed -->
     @if (isWalletShown || selectedBank) {
-      <div
-        class="d-flex align-items-start"
-        [ngClass]="{
-          'overflow-scroll':
-            mainConfig && mainConfig.activePlateform === 'workstation',
-        }">
-        <div
-          class="d-grid mt-2"
-          [ngClass]="{
-            'w-100': mainConfig && mainConfig.activePlateform === 'workstation',
-          }">
-          @if (
-            mainConfig &&
-            mainConfig.activePlateform !== 'workstation' &&
-            selectedBank
-          ) {
-            <div class="mb-3 h-50-px">
+      <section>
+        <!-- NOTE :: MENUS AND SELECTED BANK -->
+        <section class="bank-menu my-2">
+          <div class="d-flex justify-content-center mb-3">
+            @if (selectedBank) {
               <app-switch-bank
                 (bankOptions)="getSwitchBankOptions($event)"
                 [isTransfer]="true"></app-switch-bank>
-            </div>
-          }
-
-          <!-- *Debit accounts type  -->
-          <div
-            [ngClass]="{
-              ' px-2':
-                mainConfig && mainConfig.activePlateform !== 'workstation',
-            }"
-            class="d-flex h-50-px">
-            <div
-              class="d-flex me-4 p-1 bg-secondary justify-content-between rounded align-items-center">
-              @if (isAccountShown) {
-                <div
-                  role="button"
-                  (click)="selectDebitAccountType('account')"
-                  tabindex="0"
-                  [ngClass]="{
-                    'd-none': !selectedBank,
-                    'bg-primary  text-all-white rounded px-1 py-2 me-1':
-                      selectedDebitAccountType === 'account',
-                  }"
-                  class="text-center px-1 py-2 ms-1 width">
-                  <b i18n>Account</b>
-                </div>
-              }
-
-              @if (isWalletShown) {
-                <div
-                  role="button"
-                  tabindex="0"
-                  (click)="selectDebitAccountType('wallet')"
-                  [ngClass]="{
-                    'bg-primary text-all-white  rounded px-1 py-2 me-1':
-                      selectedDebitAccountType === 'wallet',
-                    'not-clickable':
-                      mainConfig &&
-                      mainConfig.activePlateform === 'workstation',
-                  }"
-                  class="text-center pe-3 width">
-                  @if (
-                    mainConfig && mainConfig.activePlateform !== 'workstation'
-                  ) {
-                    <b i18n>Wallet</b>
-                  } @else {
-                    <b i18n>Petty Cash</b>
-                  }
-                </div>
-              }
-            </div>
-            <div
-              (click)="toggleBalance()"
-              role="button"
-              tabindex="0"
-              class="mb-2">
-              @if (!isBalanceShown) {
-                <span title="Show balance">
-                  <i class="fa-solid fa-eye mt-3"></i
-                ></span>
-              } @else {
-                <span title="Hide balance">
-                  <i class="fa-solid fa-eye-slash mt-3"></i
-                ></span>
-              }
-            </div>
+            }
           </div>
 
-          <!-- *END OF DEBIT ACCOUNTS TYPES-->
+          <div
+            class="d-flex p-1  {{
+              menusBg
+            }} justify-content-between sm-radius flex-wrap align-items-center">
+            @if (isAccountShown) {
+              <div
+                role="button"
+                (click)="selectDebitAccountType('account')"
+                tabindex="0"
+                [ngClass]="{
+                  'd-none': !selectedBank,
+                  'bg-primary  text-all-white':
+                    selectedDebitAccountType === 'account',
+                }"
+                class="text-center px-5 py-2 sm-radius">
+                <b i18n>Account</b>
+              </div>
+            }
 
-          <!-- *Accounts list container-->
-          @if (selectedDebitAccountType === 'account') {
+            @if (isWalletShown) {
+              <div
+                role="button"
+                tabindex="0"
+                (click)="selectDebitAccountType('wallet')"
+                [ngClass]="{
+                  'bg-primary text-all-white ':
+                    selectedDebitAccountType === 'wallet',
+                  'not-clickable':
+                    mainConfig && mainConfig.activePlateform === 'workstation',
+                }"
+                class="text-center px-5 py-2 sm-radius">
+                @if (
+                  mainConfig && mainConfig.activePlateform !== 'workstation'
+                ) {
+                  <b i18n>Wallet</b>
+                } @else {
+                  <b i18n>Petty Cash</b>
+                }
+              </div>
+            }
+          </div>
+        </section>
+
+        @if (selectedDebitAccountType === 'account') {
+          <section class="account-list-container">
             <app-accounts-list
-              [Type]="'transfer'"
-              [isTransferDone]="isTransactionDone"
+              Type="transfer"
               (accountSelected)="
                 getAccountSelected($event)
               "></app-accounts-list>
-          }
+          </section>
+        }
 
-          <!--* ___END OF ACCOUNTS LIST CONTAINER___-->
-
-          <!--* wallets list container-->
-          @if (selectedDebitAccountType === 'wallet') {
+        @if (selectedDebitAccountType === 'wallet') {
+          <section class="account-list-container">
             <app-wallet-list
-              [Type]="'transfer'"
-              [isTransferDone]="isTransactionDone"
+              Type="transfer"
               (walletSelected)="getAccountSelected($event)"></app-wallet-list>
-          }
-
-          <!-- *END OF SELECTED WALLET CONTAINER-->
-        </div>
-      </div>
+          </section>
+        }
+      </section>
     }
   </div>
 </div>

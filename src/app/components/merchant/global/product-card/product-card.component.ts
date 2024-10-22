@@ -94,10 +94,10 @@ export class ProductCardComponent implements OnInit, OnDestroy {
           if (response.success) {
             if (!favorite.is_favorite_product) {
               this.product.is_favorite_product = true;
-              this.variableService.refreshFavoriteProducts.set(true);
+              this.variableService.REFRESH_FAVORITE_PRODUCTS.set(true);
             } else {
               this.product.is_favorite_product = false;
-              this.variableService.refreshFavoriteProducts.set(true);
+              this.variableService.REFRESH_FAVORITE_PRODUCTS.set(true);
             }
           }
           this.isLoading = false;

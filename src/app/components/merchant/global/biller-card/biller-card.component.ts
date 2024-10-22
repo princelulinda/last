@@ -57,11 +57,11 @@ export class BillerCardComponent implements OnDestroy {
   //           if (!favorite.is_favorite_merchant) {
   //             this.merchant.is_favorite_merchant = true;
   //             // this.variableService.isFavorite.next(true);
-  //             this.variableService.refreshFavoriteMerchants.set(true);
+  //             this.variableService.REFRESH_FAVORITE_MERCHANTS.set(true);
   //           } else {
   //             this.merchant.is_favorite_merchant = false;
   //             // this.variableService.isFavorite.next(true);
-  //             this.variableService.refreshFavoriteMerchants.set(true);
+  //             this.variableService.REFRESH_FAVORITE_MERCHANTS.set(true);
   //           }
   //         }
   //         this.isLoading = false;

@@ -45,7 +45,7 @@ $fontSizes: (
   @include generateSizeClass($name, $size);
 }
 
-// global color
+// NOTE :: global color
 $globalTextColors: (
   'all-white': #ffffff,
   'all-dark': #414141,
@@ -55,21 +55,26 @@ $globalTextColors: (
   @include generateBgHoverClass($name, $value);
 }
 
-// global border color
+// NOTE :: global border color
 :root {
   --bs-border-color: #c4c4c4;
 }
 
-// reset link
+// NOTE :: BOOTSTRAP SPINNER SPEED
+.spinner-border {
+  --bs-spinner-animation-speed: 0.4s;
+}
+
+// NOTE :: reset link
 a {
   text-decoration: none !important;
 }
 
-//global empty state color
+// NOTE :: global empty state color
 .empty-state {
   color: #c4c4c4;
 }
-//global border radius
+// NOTE :: global border radius
 .xx-lg-radius {
   border-radius: 20px;
 }

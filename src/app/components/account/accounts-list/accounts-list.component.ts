@@ -5,8 +5,8 @@ import {
   OnInit,
   Output,
   OnDestroy,
-  SimpleChanges,
-  OnChanges,
+  // SimpleChanges,
+  // OnChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -20,8 +20,11 @@ import { AmountVisibilityComponent } from '../../../global/components/custom-fie
 import {
   ActiveMainConfigModel,
   ModeModel,
+  PlateformModel,
 } from '../../../core/services/config/main-config.models';
 import { RouterLink } from '@angular/router';
+import { VariableService } from '../../../core/services/variable/variable.service';
+import { toObservable } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-accounts-list',
   standalone: true,
@@ -29,18 +32,23 @@ import { RouterLink } from '@angular/router';
   templateUrl: './accounts-list.component.html',
   styleUrl: './accounts-list.component.scss',
 })
-export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
+export class AccountsListComponent implements OnInit, OnDestroy {
+  private onDestroy$ = new Subject<void>();
+  private refreshList$: Observable<boolean>;
+
   mainConfig$!: Observable<ActiveMainConfigModel>;
-  activePlatform: string | null = null;
-  private client_id$: Observable<number>;
-  userClientId!: number;
+  activePlatform!: PlateformModel;
   theme$: Observable<ModeModel>;
   theme!: ModeModel;
+
+  clientId$: Observable<number>;
+  clientId = 0;
+
   isLoading = false;
   accountsListData: AccountsListModel[] | [] | null = null;
 
   selectedLoneAccount: AccountsListModel | null = null;
-  selectedAccount!: AccountsListModel[];
+  selectedAccount: AccountsListModel[] | null = null;
   isLoneAccountSelected = false;
 
   // close the account's creation form
@@ -48,43 +56,39 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
   @Input() Type: 'transfer' | 'list' = 'transfer';
   @Output() accountSelected = new EventEmitter<AccountsListModel>();
   @Output() dataLoaded = new EventEmitter<boolean>();
-  @Input() isTransferDone = false;
+  // @Input() isTransferDone = false;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['isTransferDone']) {
-      if (this.isTransferDone) {
-        this.clearSelectedAccount();
-      }
-    }
-  }
-
-  private onDestroy$ = new Subject<void>();
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes['isTransferDone']) {
+  //     if (this.isTransferDone) {
+  //       alert(this.isTransferDone);
+  //       this.clearSelectedAccount();
+  //     }
+  //   }
+  // }
 
   constructor(
     private configService: ConfigService,
     private authService: AuthService,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private variableService: VariableService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
-    this.client_id$ = this.authService.getUserClientId();
+    this.clientId$ = this.authService.getUserClientId();
     this.theme$ = this.configService.getMode();
+    this.refreshList$ = toObservable(this.variableService.REFRESH_ACCOUNT_LIST);
   }
 
   ngOnInit(): void {
-    this.authService
-      .getUserClientId()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(clientId => {
-        this.userClientId = clientId;
-        // console.log('User Client ID:', this.userClientId);
-        if (this.userClientId) {
-          this.getClientAccounts();
-        }
-      });
+    this.clientId$.subscribe(clientId => {
+      this.clientId = clientId;
+      if (this.clientId) {
+        this.getClientAccounts();
+      }
+    });
     this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: theme => {
         this.theme = theme;
-        //console.log('themmeee',this.theme)
       },
     });
 
@@ -93,17 +97,22 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
         this.activePlatform = configs.activePlateform;
       },
     });
-  }
 
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
+    this.refreshList$.subscribe({
+      next: refresh => {
+        if (refresh) {
+          this.clearSelectedAccount();
+          this.getClientAccounts();
+          this.variableService.REFRESH_ACCOUNT_LIST.set(false);
+        }
+      },
+    });
   }
 
   getClientAccounts() {
     this.isLoading = true;
     this.clientService
-      .getClientAccounts(this.userClientId)
+      .getClientAccounts(this.clientId)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
@@ -111,8 +120,7 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
           this.isLoading = false;
           this.dataLoaded.emit(true);
         },
-        error: err => {
-          console.error('Erreur :', err);
+        error: () => {
           this.isLoading = false;
           this.dataLoaded.emit(false); // Émet l'événement en cas d'erreur
         },
@@ -135,5 +143,10 @@ export class AccountsListComponent implements OnInit, OnDestroy, OnChanges {
     this.accountsListData = null;
     this.isLoading = true;
     this.getClientAccounts();
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
