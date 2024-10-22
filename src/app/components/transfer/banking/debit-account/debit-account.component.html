@@ -1,4 +1,4 @@
-<div class="h-100 {{ containerBG }}">
+<div class="h-100">
   <div class="p-2 d text-dark">
     <!-- NOTE :: USER BANK LIST  -->
     @if (!selectedBank) {
@@ -78,7 +78,9 @@
           </div>
 
           <div
-            class="d-flex p-1 bg-secondary justify-content-between sm-radius flex-wrap align-items-center">
+            class="d-flex p-1  {{
+              menusBg
+            }} justify-content-between sm-radius flex-wrap align-items-center">
             @if (isAccountShown) {
               <div
                 role="button"

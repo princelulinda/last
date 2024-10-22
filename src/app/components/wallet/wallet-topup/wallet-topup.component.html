@@ -1,6 +1,7 @@
 <div>
   <app-debit-account
     [isWalletShown]="false"
+    menusBg="bg-white"
     (selectedAccount)="handleSelectedCreditAccount($event)">
   </app-debit-account>
   @if (selectedDebitAccountForm) {
@@ -22,7 +23,7 @@
                 formControlName="description"
                 placeholder="description" />
               <label for="description" class="text-dark" i18n
-                >description</label
+                >Description</label
               >
             </div>
 

@@ -115,7 +115,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
   @Input() isWalletShown = true;
   @Input() isAccountShown = true;
 
-  @Input() containerBG = '';
+  @Input() menusBg = 'bg-secondary';
 
   lookup = new FormControl('');
 
