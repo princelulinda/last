@@ -1,166 +1,35 @@
-.withdrawal-icon {
-    z-index: 2;
-    width: 27px;
-    right: 7%;
-}
-
-.more-icon {
-    z-index: 2;
-    width: 27px;
-    right: 7%;
-    height: 29px;
-}
-.transfer-icon {
-    border-radius: 23px;
-    z-index: 2;
-    width: 27px;
-    right: 7%;
-    height: 30px;
-}
-.withdrawal-content {
-    z-index: -10;
-    opacity: 0;
-    border-radius: 20px;
-    right: 15%;
-    width: 93px;
-}
-.more-content {
-    z-index: -10;
-    opacity: 0;
-    border-radius: 20px;
-    right: 15%;
-    width: 60px;
-}
-.transfer-content {
-    z-index: -10;
-    opacity: 0;
-    border-radius: 20px;
-    right: 15%;
-    width: 77px;
-}
-.withdrawal-icon:hover + .withdrawal-content {
-    opacity: 1;
-    z-index: 1;
-    transition: opacity 0.6s ease-in-out;
-}
-.more-icon:hover + .more-content {
-    opacity: 1;
-    z-index: 1;
-    transition: opacity 0.6s ease-in-out;
-}
-.transfer-icon:hover + .transfer-content {
-    opacity: 1;
-    z-index: 1;
-    transition: opacity 0.6s ease-in-out;
-}
-
-.statement-dialog {
-    min-width: 70%;
-    max-height: 800px;
-}
-
-.bordeer {
-    height: 45px;
-}
-
 .chosen {
-    animation: transition 0.5s ease-in;
-    width: 720px;
-    height: 385px;
-    z-index: 9999;
-    margin-top: -12%;
+  animation: transition 0.5s ease-in;
+  width: 720px;
+  height: 385px;
+  z-index: 9999;
+  margin-top: -12%;
 }
 @keyframes transition {
-    0% {
-        opacity: 0;
-        transform: translatey(100px);
-    }
-    100% {
-        opacity: 1;
-        transtransform: translatey(0px);
-    }
-}
-.stat {
-    border: none;
-    height: 50px;
-}
-.xlRadius {
-    border-radius: 25px;
+  0% {
+    opacity: 0;
+    transform: translatey(100px);
+  }
+  100% {
+    opacity: 1;
+    transtransform: translatey(0px);
+  }
 }
 
-td {
-    font-weight: 500;
-}
-
-.operations {
-    height: 206px;
-}
-.buttonPosition {
-    width: 30%;
-    margin-left: 35%;
-    margin-top: 14%;
-}
-.line {
-    width: 75%;
-    margin-left: 12%;
-    margin-top: 2%;
-}
-.space {
-    line-height: normal;
-}
-.accType {
-    line-height: 1em;
-    min-height: 150px;
-}
-.buttonSelect {
-    height: 29px;
-}
 .miniSettings {
-    width: 43px;
-    height: 40px;
-}
-.accountCreation {
-    opacity: 0.6;
-}
-
-.alignement {
-    width: 55px;
-    margin-left: 30%;
+  width: 43px;
+  height: 40px;
 }
 .boxConfiguration {
-    left: -155px;
-    height: 160px;
-    margin-top: -80px;
-    z-index: 9999;
+  left: -155px;
+  height: 160px;
+  margin-top: -80px;
+  z-index: 9999;
 }
 
-.bordered {
-    border-left: 1px solid #cdc6c6;
-}
-
-.creditLineContainer {
-    min-height: 15vh;
-}
-.creditLineContent {
-    margin-top: -3%;
-    left: 10%;
-}
-
-.moreOptions {
-    z-index: 9999;
-    height: 140px;
-    width: 150px;
-    margin-top: 2.5%;
-    margin-left: 4%;
-}
-
-.buttonConfirm {
-    margin-right: 110px;
-    width: 120px;
-}
 .searchButton {
-    height: 37px;
-    width: 39px;
-    top: -50%;
-    right: -75%;
+  height: 37px;
+  width: 39px;
+  top: -50%;
+  right: -75%;
 }
