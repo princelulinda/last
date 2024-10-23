@@ -142,18 +142,6 @@
                     <b class="text-md">{{ merchant.merchant_code }}</b>
                   </div>
                 </div>
-                @if (selectedMenu) {
-                  <div
-                    tabindex="0"
-                    (click)="goBack()"
-                    role="button"
-                    class="d-flex align-items-center text-l-md">
-                    <span>
-                      <i class="fa fa-arrow-left"></i>
-                    </span>
-                    <b class="ms-1" i18n> Back</b>
-                  </div>
-                }
               </div>
             </div>
 
@@ -320,46 +308,15 @@
                         </div>
                         <div class="d-grid justify-content-end">
                           <div
-                            tabindex="0"
-                            class="bg-primary d-flex justify-content-center p-2 px-2"
-                            (click)="selectMenu('products')"
-                            role="button"
-                            title="Product">
-                            <div>
-                              <i class="fa-solid fa-box text-light"></i>
-                            </div>
-                          </div>
-                          <div
                             class="bg-primary d-flex justify-content-center mt-1 p-2 px-3"
                             role="button"
+                            style="max-height: 40px"
                             title="Statement"
                             data-bs-toggle="modal"
                             data-bs-target="#statementModal">
                             <div>
                               <i
                                 class="fa-solid fa-clock-rotate-left text-light"></i>
-                            </div>
-                          </div>
-                          <div
-                            tabindex="0"
-                            class="bg-primary d-flex justify-content-center mt-1 p-2 px-3"
-                            (click)="selectMenu('configuration')"
-                            role="button"
-                            title="Configuration">
-                            <div>
-                              <i
-                                class="fa-solid fa-screwdriver-wrench text-light"></i>
-                            </div>
-                          </div>
-                          <div
-                            tabindex="0"
-                            class="bg-primary d-flex justify-content-center mt-1 p-2 px-3"
-                            (click)="selectMenu('tellers')"
-                            role="button"
-                            title="Tellers">
-                            <div>
-                              <i
-                                class="fa-solid fa-person-chalkboard text-light"></i>
                             </div>
                           </div>
                         </div>
