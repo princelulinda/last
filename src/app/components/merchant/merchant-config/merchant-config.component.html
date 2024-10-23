@@ -505,7 +505,7 @@
               (keydown.enter)="handleEnter($event)"
               tabindex="0"
               [ngClass]="{
-                'not-clickable': isTellerLoading,
+                'not-clickable': isLoading,
               }">
               <div class="mb-4 col col-sm-9 col-md-7">
                 <app-lookup
@@ -545,12 +545,9 @@
                 <button
                   (click)="createNewTeller()"
                   [disabled]="newTellerForm.invalid"
-                  class="btn bg-primary px-4 text-all-white">
-                  <b
-                    [ngClass]="{ isTellerLoading: isTellerLoading }"
-                    class="loaderBtn"
-                    >Confirm</b
-                  >
+                  [ngClass]="{ isLoading: isLoading }"
+                  class="btn bg-primary text-all-white w-75">
+                  Confirm
                 </button>
               </div>
             </form>
