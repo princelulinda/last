@@ -5,14 +5,20 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdminService } from '../../../../core/services/admin/admin.service';
 import { DialogService } from '../../../../core/services';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AdminMenuBodyModel } from '../menu.models';
 
 @Component({
   selector: 'app-menus',
   standalone: true,
-  imports: [ListComponent, LookupComponent, CommonModule, ReactiveFormsModule],
+  imports: [
+    ListComponent,
+    LookupComponent,
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+  ],
   templateUrl: './menus.component.html',
   styleUrl: './menus.component.scss',
 })
