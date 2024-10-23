@@ -131,7 +131,7 @@
     }
   </section>
 }
-@if (!isLoading && billData) {
+@if (!isLoading && billData && billData.printable_text) {
   <section id="bill" class="d-none">
     <app-merchant-bill
       [merchantBillDialog]="{

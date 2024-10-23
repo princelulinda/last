@@ -63,7 +63,8 @@
               [formControl]="searchForm"
               (focus)="isSearchInputFocused = true"
               (blur)="onBlur()"
-              (click)="onClick()" />
+              (click)="onClick()"
+              (keydown.enter)="onSearchMarchant($event)" />
             <button type="submit" class="px-4 btn bg-primary">
               <b class="text-all-white fs-medium" i18n>Search Merchant</b>
             </button>
