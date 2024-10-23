@@ -126,14 +126,14 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
           },
 
           {
-            icon: 'fa-solid fa-list-ul',
+            icon: 'list-ul',
             title: ' Menus',
             fragment: 'menus',
             url: `/w/workstation/a/admin/role/${this.roleId}`,
           },
 
           {
-            icon: 'fa-solid fa-plus',
+            icon: 'circle-plus',
             title: 'Add New Menu',
             fragment: 'newMenu',
             url: `/w/workstation/a/admin/role/${this.roleId}`,
