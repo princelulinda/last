@@ -1,0 +1,141 @@
+<div class="details-container bg-white h-100 overflow-y-auto p-3">
+  <main
+    class="level-2 py-2 px-5 pt-1 rounded container-preloader d-flex flex-column"
+    style="min-height: 70vh">
+    <section class="text-end mt-1">
+      <span
+        class="refresh"
+        tabindex="0"
+        [ngClass]="{
+          'no-clickable': isLoading,
+          clickable: !isLoading,
+        }"
+        (click)="refresh()"
+        title="Refresh">
+        <span class="me-1 text-dark text-sm">
+          @if (!isLoading) {
+            <span><i class="fa-solid fa-arrows-rotate"></i></span>
+          }
+
+          @if (isLoading) {
+            <span>
+              <i class="fas fa-spinner fa-pulse"></i>
+            </span>
+          }
+        </span>
+        <span class="text-dark" i18n>Refresh</span>
+      </span>
+    </section>
+
+    <div class="d-flex align-items-center mb-3 mt-1">
+      <div class="col-3 me-4 d-flex position-relative">
+        <input
+          type="search"
+          class="form-control w-100 text-dark pe-4"
+          placeholder="Search ..."
+          aria-label="search"
+          [formControl]="searchCounter"
+          aria-describedby="basic-addon1" />
+        <span
+          style="right: 3%; top: 22%"
+          role="button"
+          class="text-dark position-absolute">
+          @if (isLoading) {
+            <span>
+              <i class="fas fa-spinner fa-pulse"></i>
+            </span>
+          }
+
+          @if (!isLoading) {
+            <span (click)="getCounters()" tabindex="0">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+          }
+        </span>
+      </div>
+      <div class="filter-list d-flex align-items-center text-dark">
+        <span i18n>Filter list:</span>
+        <div class="list ms-4">
+          <span class="d-flex align-items-center p-1 px-2 level-1 rounded"
+            ><span i18n>Agency</span>
+            <span class="icon ms-2 mt-1 clickable"
+              ><i class="fa-solid fa-xmark"></i></span
+          ></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- not found message -->
+    @if (counters?.length === 0 && !isLoading) {
+      <div class="d-flex flex-column align-items-center mt-5">
+        <span class="empty-state-icon" style="font-size: 70px; opacity: 0.5">
+          <i class="fa-solid fa-face-meh"></i>
+        </span>
+        <b class="empty-state-icon fs-4" style="opacity: 0.5"> No Counters </b>
+      </div>
+    }
+    @if (isLoading) {
+      <section class="row mt-4" style="gap: 1rem 3rem">
+        @for (item of [1, 2, 3, 4, 5]; track $index) {
+          <div class="col-lg-3 counter-card">
+            <app-skeleton
+              width="100%"
+              height="130px"
+              classes="rounded"></app-skeleton>
+          </div>
+        }
+      </section>
+    }
+
+    @if (counters?.length !== 0 && !isLoading) {
+      <section class="mt-3 h-100 d-flex flex-column">
+        <div class="flex-grow-1">
+          <div class="counters row mx-0" style="gap: 1rem 3rem">
+            @for (counter of counters; track $index) {
+              <div
+                class="col-lg-3 rounded bg-secondary py-3 px-4 clickable counter-card d-flex justify-content-between text-dark"
+                routerLink="/w/workstation/d/desk/operations/counter/{{
+                  counter.id
+                }}">
+                <div class="info d-flex flex-column">
+                  <strong class="mb-1 fs-5">{{ counter.name }}</strong>
+                  <span class="mb-3">{{ counter.formatted_code }}</span>
+                  <span>{{ counter.branch.name }}</span>
+                </div>
+                <div
+                  class="icon d-flex align-items-end"
+                  style="font-size: 3rem">
+                  <span class="text-secondary d-flex align-items-end"
+                    ><i class="fa-solid fa-ticket"></i
+                  ></span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </section>
+    }
+    <div class="my-4">
+      <app-pagination
+        [isLoading]="isLoading"
+        [totalData]="count"
+        [pageLimit]="pagination.filters.limit"
+        (paginationChange)="onPaginationChange($event)">
+      </app-pagination>
+    </div>
+  </main>
+
+  <!-- <footer
+    [ngClass]="{
+      'not-clickable': isLoading,
+    }">
+    <div class="icons-footer">
+      <div class="icons-footer-item text-dark fs-5" role="button">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+      </div>
+      <div class="icons-footer-item text-dark fs-5" role="button">
+        <i class="fa-solid fa-user-xmark"></i>
+      </div>
+    </div>
+  </footer> -->
+</div>
