@@ -142,8 +142,13 @@ export class BalanceComponent implements OnInit {
     return typeof searchValue === 'string' && searchValue.trim() !== '';
   }
   verifyBalance(institution: BalanceModel) {
-    this.verifying = true;
-    this.institutionPicked = institution;
+    if (this.institutionPicked === institution) {
+      this.verifying = false;
+      this.institutionPicked = null;
+    } else {
+      this.verifying = true;
+      this.institutionPicked = institution;
+    }
   }
   closeVerification() {
     this.verifying = false;
@@ -161,9 +166,7 @@ export class BalanceComponent implements OnInit {
       .addTreasuryBalanceList(body)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: balance => {
-          console.log('egooooo', balance);
-          // if (balance) {
+        next: () => {
           this.balanceForm.enable();
           this.balanceChecking = false;
           this.checkingBalance.nativeElement.click();
@@ -173,9 +176,9 @@ export class BalanceComponent implements OnInit {
             type: 'success',
             message: 'Alias added for checking balance',
           });
-          // }
+          this.balanceForm.reset();
         },
-        error: (error: BalanceModel) => {
+        error: () => {
           this.balanceChecking = false;
           this.balanceForm.enable();
           this.checkingBalance.nativeElement.click();
@@ -185,7 +188,7 @@ export class BalanceComponent implements OnInit {
             type: 'failed',
             message: 'failed',
           });
-          console.error('Error:', error);
+          this.balanceForm.reset();
         },
       });
   }
@@ -240,6 +243,7 @@ export class BalanceComponent implements OnInit {
               });
             }
             this.refreshPage();
+            this.balanceActionForm.reset();
           },
           error: (error: { object: BalanceActionModel }) => {
             this.balanceActionDoing = false;
@@ -256,6 +260,7 @@ export class BalanceComponent implements OnInit {
               message: message,
             });
             this.refreshPage();
+            this.balanceActionForm.reset();
           },
         });
     }
