@@ -63,9 +63,6 @@
                           class="fa-regular fa-folder-open fa-sm text-dark"></i
                       ></span>
                     </div>
-                    <!-- <button class="btn btn-outline-warning xx-lg-radius py-1 px-2">
-                      <span class="warning">Pending</span>
-                    </button> -->
                   </div>
                   <div class="text-dark">
                     <span>{{ item.name || '---' }}</span>
@@ -177,14 +174,6 @@
       </div>
     }
   </div>
-
-  <!-- <div class="d-flex justify-content-center mt-5">
-    <div class="d-flex">
-      <button class="btn bg-primary px-5">
-        <span class="text-white px-5 py-2">Validate</span>
-      </button>
-    </div>
-  </div> -->
 }
 @if (isSelected_group && invoices && invoices.length === 0) {
   <app-empty-state
@@ -234,7 +223,7 @@
     <div class="modal-dialog sm-radius">
       <div class="modal-content bg-primary-3 x-lg-radius">
         <div class="modal-header p-2 bg-primary-3">
-          <div class="row col-11 mx-auto p-2" i18n>
+          <div class="row col-11 mx-auto p-2 text-secondary" i18n>
             <div
               class="col-2 p-0"
               role="button"
@@ -253,7 +242,7 @@
         </div>
         <div class="modal-body bg-white lg-radius p-2">
           @if (invoice) {
-            <div class="row col-11 mx-auto">
+            <div class="row mb-3 col-11 mx-auto">
               <div
                 class="p-2 col-3 mb-3 mt-2 fs-normal xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
                 {{ invoice.payment_status.title || '---' }}
@@ -296,7 +285,7 @@
                         <br />
                       }
                       @if (order.element_metadata.original_data) {
-                        <span class="fs-small">
+                        <span class="fs-small text-secondary">
                           {{
                             order.element_metadata.original_data.quantity ||
                               '---'
@@ -304,7 +293,7 @@
                           {{ order.product.measure.suffix || '---' }}
                         </span>
                         <br />
-                        <span class="fs-small">
+                        <span class="fs-small text-secondary">
                           {{ order.product.measure.price || '---' }}/{{
                             order.product.measure.suffix
                           }}
@@ -312,9 +301,10 @@
                       }
                     }
                   </div>
-                  <div class="col-5">
-                    <span class="text-primary fs-normal fw-bolder fs-4">
+                  <div class="col-5 mt-2">
+                    <span class="text-primary fs-normal fw-bolder">
                       <app-amount-visibility
+                        [customClasses]="'fs-normal'"
                         [amount]="invoice.total_amount"
                         [alwaysShowAmount]="true"
                         [currency]="'BIF'"></app-amount-visibility>
@@ -326,21 +316,23 @@
                   <span class="fs-normal fw-bold">
                     {{ invoice.merchant_teller.merchant.merchant_title }}
                   </span>
-                  <span class="mb-4" i18n>
+                  <span class="mb-4 fs-normal fw-bolder text-secondary" i18n>
                     Done by Teller NO{{ invoice.merchant_teller.id }}
                   </span>
                 </div>
               </div>
             </div>
           }
-          <div
-            i18n
-            role="button"
-            class="bg-primary fw-bold sm-radius text-light text-center fs-medium m-3 p-2"
-            (click)="enterPin()"
-            tabindex="0">
-            Validate
-          </div>
+          @if (invoice && invoice.payment_status.title === 'Initial') {
+            <div
+              i18n
+              role="button"
+              class="bg-primary fw-bold sm-radius text-light text-center fs-medium m-3 p-2"
+              (click)="enterPin()"
+              tabindex="0">
+              Validate
+            </div>
+          }
         </div>
       </div>
     </div>
