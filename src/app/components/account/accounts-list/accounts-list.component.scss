@@ -1,21 +1,23 @@
-
 .cliped {
-    position: relative;
-    border-top-left-radius: 7px;
-    border-bottom-left-radius: 7px;
-    background-color: #e3bfc6;
-    clip-path: polygon(95% 0, 99% 50%, 95% 100%, 0 100%, 0 0%);
-    font-size: 14px; 
-    }
+  // position: relative;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  // background-color: #e3bfc6;
+  clip-path: polygon(95% 0, 99% 50%, 95% 100%, 0 100%, 0 0%);
+  // font-size: 14px;
+}
 
-    .account:hover{
-        background-color: rgb(200, 191, 191);
-        }
-        
-        .b-left{
-        border-left: 7px solid rgb(129, 0, 25);
-        }
+// .account:hover {
+//   background-color: rgb(200, 191, 191);
+// }
 
- .account-w{
-    min-width: 260px
- }       
+// .b-left {
+//   border-left: 7px solid rgb(129, 0, 25);
+// }
+
+.border-7 {
+  border-width: 7px !important;
+}
+.account-w {
+  min-width: 260px;
+}

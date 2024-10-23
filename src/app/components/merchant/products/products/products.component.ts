@@ -52,7 +52,7 @@ export class ProductsComponent implements OnInit {
   ) {
     this.theme$ = this.configService.getMode();
     this.refreshFavoriteProducts$ = toObservable(
-      this.variableService.refreshFavoriteProducts
+      this.variableService.REFRESH_FAVORITE_PRODUCTS
     );
   }
   ngOnInit(): void {
@@ -67,7 +67,7 @@ export class ProductsComponent implements OnInit {
       next: state => {
         if (state) {
           this.getFavoriteProducts('');
-          this.variableService.refreshFavoriteProducts.set(false);
+          this.variableService.REFRESH_FAVORITE_PRODUCTS.set(false);
         }
       },
     });

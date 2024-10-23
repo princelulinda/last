@@ -1,23 +1,21 @@
-<!-- <p>all-products works!</p> -->
 <div class="row mt-4 ms-4 ms-lg-0">
   <span>
     <span>
       <i class="fa-solid fa-circle text-info fs-x-small"></i>
     </span>
-    <span i18n class="text-dark">
+    <span class="text-dark">
       @if (url === '') {
-        <b> All products</b>
+        <b i18n> All products</b>
       }
       @if (url !== '') {
-        <b> Products</b>
+        <b i18n> Products</b>
       }
     </span>
   </span>
 </div>
 <div>
-  <!-- style="border: 0.5px solid whitesmoke; border-radius: 5px" -->
   @if (loader && product) {
-    <div class="row mt-2 d-flex justify-content-between ms-4 ms-lg-0 mb-5">
+    <div class="row mx-0 mt-2 d-flex justify-content-between ms-4 ms-lg-0 mb-5">
       @for (item of countProductLoader; track $index) {
         <div class="col-lg-3 col-md-3 col mb-3">
           <app-skeleton
@@ -64,12 +62,6 @@
           placeholder="Search product"
           [formControl]="searchInput"
           (input)="searchFor()" />
-        <!-- <style>
-          /* Règle de style pour le texte du placeholder */
-          .form-control::placeholder {
-            color: rgb(204, 197, 197);
-          }
-        </style> -->
       </div>
     </div>
   }
@@ -80,7 +72,6 @@
           class="col-auto mb-3 sm-radius"
           (click)="selectProduct(product)"
           tabindex="0">
-          <!-- image -->
           <app-product-card [product]="product"> </app-product-card>
         </div>
       }
@@ -101,7 +92,6 @@
     <div
       i18n
       class="text-dark mt-3 d-flex justify-content-center align-items-center">
-      <!-- No recent products available -->
       <app-empty-state
         [searchTerm]="searchTerm"
         searchType="product"></app-empty-state>

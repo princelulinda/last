@@ -75,7 +75,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
   ) {
     this.theme$ = this.configService.getMode();
     this.refreshFavoriteMerchants$ = toObservable(
-      this.variableService.refreshFavoriteMerchants
+      this.variableService.REFRESH_FAVORITE_MERCHANTS
     );
   }
 
@@ -93,7 +93,7 @@ export class MerchantsComponent implements OnInit, OnDestroy {
       next: state => {
         if (state) {
           this.getFavoriteMerchants('');
-          this.variableService.refreshFavoriteMerchants.set(false);
+          this.variableService.REFRESH_FAVORITE_MERCHANTS.set(false);
         }
       },
     });

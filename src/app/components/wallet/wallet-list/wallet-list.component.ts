@@ -5,8 +5,8 @@ import {
   OnInit,
   Output,
   OnDestroy,
-  SimpleChanges,
-  OnChanges,
+  // SimpleChanges,
+  // OnChanges,
 } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { AuthService, ConfigService } from '../../../core/services';
@@ -21,6 +21,7 @@ import {
 import { WalletModel } from '../wallet.models';
 import { RouterLink } from '@angular/router';
 import { VariableService } from '../../../core/services/variable/variable.service';
+import { toObservable } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-wallet-list',
   standalone: true,
@@ -28,11 +29,14 @@ import { VariableService } from '../../../core/services/variable/variable.servic
   templateUrl: './wallet-list.component.html',
   styleUrl: './wallet-list.component.scss',
 })
-export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
+export class WalletListComponent implements OnInit, OnDestroy {
+  private onDestroy$ = new Subject<void>();
+  private refreshWalletList$: Observable<boolean>;
+
   mainConfig$!: Observable<ActiveMainConfigModel>;
   mainConfig!: ActiveMainConfigModel;
-  private userInfo$: Observable<UserInfoModel>;
-  clientInfo!: UserInfoModel;
+  clientId$: Observable<number>;
+  clientId!: UserInfoModel;
 
   isLoading = false;
   walletsListData: WalletModel[] | [] | null = null;
@@ -50,18 +54,17 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
 
   @Output() dataLoaded = new EventEmitter<boolean>();
 
-  private onDestroy$ = new Subject<void>();
   isWalletDetailsShown = false;
 
-  @Input() isTransferDone = false;
+  // @Input() isTransferDone = false;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['isTransferDone']) {
-      if (this.isTransferDone) {
-        this.clearSelectedWallet();
-      }
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes['isTransferDone']) {
+  //     if (this.isTransferDone) {
+  //       this.clearSelectedWallet();
+  //     }
+  //   }
+  // }
 
   constructor(
     private configService: ConfigService,
@@ -70,23 +73,23 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
     private variableService: VariableService
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
-    this.userInfo$ = this.authService.getUserInfo();
+    this.clientId$ = this.authService.getUserClientId();
     this.theme$ = this.configService.getMode();
+    this.refreshWalletList$ = toObservable(
+      this.variableService.REFRESH_WALLET_LIST
+    );
   }
   ngOnInit(): void {
-    this.authService
-      .getUserClientId()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(clientId => {
-        this.userClientId = clientId;
+    this.clientId$.subscribe(clientId => {
+      this.userClientId = clientId;
 
-        if (this.userClientId) {
-          this.getClientWallet();
-        }
-      });
-    this.variableService.topUpComplete$.subscribe(() => {
-      this.getClientWallet(); // Actualiser la liste des wallets
+      if (this.userClientId) {
+        this.getClientWallet();
+      }
     });
+    // this.variableService.topUpComplete$.subscribe(() => {
+    //   this.getClientWallet(); // Actualiser la liste des wallets
+    // });
 
     this.mainConfig$.subscribe({
       next: configs => {
@@ -105,6 +108,16 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
         this.mainConfig = configs;
       },
     });
+
+    this.refreshWalletList$.subscribe({
+      next: refresh => {
+        if (refresh) {
+          this.clearSelectedWallet();
+          this.getClientWallet();
+          this.variableService.REFRESH_WALLET_LIST.set(false);
+        }
+      },
+    });
   }
 
   getClientWallet() {
@@ -121,6 +134,7 @@ export class WalletListComponent implements OnInit, OnDestroy, OnChanges {
       },
     });
   }
+
   clearSelectedWallet() {
     this.selectedLoneWallet = null;
   }
