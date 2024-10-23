@@ -14,7 +14,8 @@
           aria-describedby="basic-addon2"
           [formControl]="searchInput"
           (focus)="isInputFocused = true"
-          (blur)="isInputFocused = false" />
+          (blur)="isInputFocused = false"
+          (keydown.enter)="onSearchEnter($event)" />
         <div class="input-group-append">
           <span class="input-group-text btn bg-dark" id="basic-addon2"
             ><i class="fa-solid fa-magnifying-glass fa-xl text-light"></i
@@ -91,21 +92,11 @@
             </div>
             <div class="h-50 row bg-secondary rounded-bottom">
               <div class="row">
-                <div class="col">
-                  <hr class="bg-primary w-100 my-0" />
-                </div>
-                <div class="col">
-                  <hr class="bg-primary w-100 my-0" />
-                </div>
-                <div class="col">
-                  <hr class="bg-primary w-100 my-0" />
-                </div>
-                <div class="col">
-                  <hr class="bg-primary w-100 my-0" />
-                </div>
-                <div class="col">
-                  <hr class="bg-primary w-100 my-0" />
-                </div>
+                @for (_ of [1, 2, 3, 4, 5]; track $index) {
+                  <div class="col">
+                    <hr class="bg-primary w-100 my-0" />
+                  </div>
+                }
               </div>
               <div class="container">
                 <div class="">

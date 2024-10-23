@@ -1,4 +1,6 @@
-@if (merchantBillDialog.active && merchantBillDialog.payload) {
+@if (
+  (merchantBillDialog.active && merchantBillDialog.payload) || merchantBill
+) {
   <div class="myModal" role="dialog" tabindex="0">
     <div class="modal-overlay" tabindex="-1" (click)="closeBillDialog()"></div>
     <div class="modal-content">
@@ -16,10 +18,12 @@
           </div>
           <div class="d-flex flex-column align-items-end text-all-white">
             <span class="text-end" style="font-size: 18px">{{
-              merchantBillDialog.payload.name
+              merchantBillDialog.payload?.name || merchantBill?.name || '---'
             }}</span>
             <small class="text-end">{{
-              merchantBillDialog.payload.debit_account
+              merchantBillDialog.payload?.debit_account ||
+                merchantBill?.debit_account ||
+                '---'
             }}</small>
             <small class="d-flex align-items-center mt-1 noprint">
               <span style="font-size: 14px">Print</span>
@@ -52,27 +56,37 @@
             class="text-dark d-flex row overflow-auto">
             <div class="d-flex flex-column text-dark col-6">
               @if (
-                merchantBillDialog.payload.product &&
-                merchantBillDialog.payload.product.name
+                (merchantBillDialog.payload?.product &&
+                  merchantBillDialog.payload?.product?.name) ||
+                (merchantBill?.product && merchantBill?.name)
               ) {
                 <div class="d-flex flex-column mb-2">
                   <b class="small-2" i18n>Product</b>
                   <div class="d-flex align-items-center">
                     <span style="font-size: 18px" class="fw-bold me-4" i18n>{{
-                      merchantBillDialog.payload.product.name
+                      merchantBillDialog.payload?.product?.name ||
+                        merchantBill?.name ||
+                        '---'
                     }}</span>
                     <small>{{
-                      merchantBillDialog.payload.product.value
+                      merchantBillDialog.payload?.product?.value ||
+                        merchantBill?.product?.value ||
+                        '---'
                     }}</small>
                   </div>
                 </div>
               }
 
-              @if (merchantBillDialog.payload.description) {
+              @if (
+                merchantBillDialog.payload?.description ||
+                merchantBill?.description
+              ) {
                 <div class="d-flex flex-column mb-2">
                   <b class="small-2" i18n>Description</b>
                   <span style="font-size: 18px" class="fw-bold">{{
-                    merchantBillDialog.payload.description
+                    merchantBillDialog.payload?.description ||
+                      merchantBill?.description ||
+                      '---'
                   }}</span>
                 </div>
               }
@@ -86,13 +100,16 @@
               <div class="d-flex flex-column mb-2">
                 <b class="small-2" i18n>Transaction code</b>
                 <span style="font-size: 18px" class="fw-bold">{{
-                  merchantBillDialog.payload.code
+                  merchantBillDialog.payload?.code ||
+                    merchantBill?.code ||
+                    '---'
                 }}</span>
               </div>
               <div class="d-flex flex-column">
                 <b class="small-2" i18n>Total</b>
                 <span style="font-size: 20px" class="fw-bold">{{
-                  merchantBillDialog.payload.amount | currency: 'BIF '
+                  merchantBillDialog.payload?.amount || merchantBill?.amount
+                    | currency: 'BIF '
                 }}</span>
               </div>
             </div>
@@ -104,13 +121,17 @@
                   Account
                 </b>
                 <span style="font-size: 18px" class="fw-bold text-end">{{
-                  merchantBillDialog.payload.merchantName
+                  merchantBillDialog.payload?.merchantName ||
+                    merchantBill?.merchantName ||
+                    '---'
                 }}</span>
               </div>
               <div class="d-flex flex-column align-items-end">
                 <b class="text-end small-2" i18n>Credit<br />Account</b>
                 <span style="font-size: 18px" class="fw-bold text-end">{{
-                  merchantBillDialog.payload.credit_account
+                  merchantBillDialog.payload?.credit_account ||
+                    merchantBill?.credit_account ||
+                    '---'
                 }}</span>
               </div>
             </div>
@@ -127,7 +148,8 @@
           <div class="d-flex flex-column align-items-end text-all-white">
             <b
               ><small>{{
-                merchantBillDialog.payload.date | date: 'medium'
+                merchantBillDialog.payload?.date || merchantBill?.date
+                  | date: 'medium'
               }}</small></b
             >
             <b class="d-flex justify-content-end"
