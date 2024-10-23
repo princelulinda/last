@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
-import { PaginationConfig } from '../../../../global/models/pagination.models';
-import { CounterService } from '../../../../core/services/counter/counter.service';
-import { ConfigService } from '../../../../core/services';
-import { ModeModel } from '../../../../core/services/config/main-config.models';
+import { PaginationConfig } from '../../../global/models/pagination.models';
+import { CounterService } from '../../../core/services/counter/counter.service';
+import { ConfigService } from '../../../core/services';
+import { ModeModel } from '../../../core/services/config/main-config.models';
 import { CommonModule } from '@angular/common';
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 import { RouterLink } from '@angular/router';
-import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
+import { PaginationComponent } from '../../../global/components/list/pagination/pagination.component';
 import { CounterListModel } from '../operation.model';
 
 @Component({

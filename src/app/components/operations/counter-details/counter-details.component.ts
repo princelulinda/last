@@ -3,17 +3,17 @@ import {
   ConfigService,
   DialogService,
   MenuService,
-} from '../../../../core/services';
+} from '../../../core/services';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { CounterService } from '../../../../core/services/counter/counter.service';
+import { CounterService } from '../../../core/services/counter/counter.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { PageMenusModel } from '../../../admin/menu/menu.models';
-import { OrganizationModel } from '../../../auth/auth.model';
-import { ModeModel } from '../../../../core/services/config/main-config.models';
-import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
-import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
+import { PageMenusModel } from '../../admin/menu/menu.models';
+import { OrganizationModel } from '../../auth/auth.model';
+import { ModeModel } from '../../../core/services/config/main-config.models';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
+import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { CommonModule } from '@angular/common';
-import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import {
   AssignOperatorBodyModel,
   CounterDetailsModel,

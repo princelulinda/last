@@ -55,7 +55,6 @@ export class MerchantConfigComponent implements OnInit {
   get_selectedTeller!: boolean;
   tellerId = '';
   isLoading = false;
-  isTellerLoading = false;
   tellerCreationDone = false;
   selected = '';
   acceptSimplePayment = false;
@@ -204,7 +203,7 @@ export class MerchantConfigComponent implements OnInit {
   }
 
   createNewTeller() {
-    this.isTellerLoading = true;
+    this.isLoading = true;
 
     const body = {
       client: this.client?.id,
@@ -214,7 +213,6 @@ export class MerchantConfigComponent implements OnInit {
     };
     this.merchantService.createNewTeller(body).subscribe({
       next: (response: tellerModel) => {
-        this.isTellerLoading = false;
         this.dialogService.closeLoading();
         if (response.object.success === false) {
           this.dialogService.openToast({
@@ -223,6 +221,7 @@ export class MerchantConfigComponent implements OnInit {
             message:
               response.object.response_message ?? 'Failed to create a Teller',
           });
+          this.isLoading = false;
         } else {
           this.getTellersByMerchant();
 
@@ -233,11 +232,12 @@ export class MerchantConfigComponent implements OnInit {
           });
 
           this.closeModal.nativeElement.click();
+          this.isLoading = false;
         }
       },
 
       error: err => {
-        this.isTellerLoading = false;
+        this.isLoading = false;
         this.dialogService.closeLoading();
         this.dialogService.openToast({
           type: 'failed',

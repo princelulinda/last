@@ -726,18 +726,16 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
-  getSupplier(product_id: number): Observable<{ objects: ProvidersModel[] }> {
-    const url = `/dbs/merchant-product-provided/?product=${product_id}`;
+  getSupplier(
+    product_id: number,
+    search: string
+  ): Observable<{ objects: ProvidersModel[] }> {
+    const url = `/dbs/merchant-product-provided/?product=${product_id}&search=${search}`;
     return this.apiService
       .get<{ objects: ProvidersModel[] }>(url)
       .pipe(map(data => data));
   }
-  searchSupplier(search: string): Observable<{ objects: ProvidersModel[] }> {
-    const url = `/dbs/merchant-product-provided/?search=${search}`;
-    return this.apiService
-      .get<{ objects: ProvidersModel[] }>(url)
-      .pipe(map(data => data));
-  }
+
   getProductMeasure(
     product_id: number
   ): Observable<{ objects: MeasureModel[] }> {
