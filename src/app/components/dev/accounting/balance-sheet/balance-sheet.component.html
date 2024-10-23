@@ -1,0 +1,343 @@
+<section class="w-100 h-100 bg-white overflow-y-auto p-3">
+  <div
+    class="w-100 bg-erp row mx-auto rounded-top-4 fw-bold fs-l-medium mb-2 mt-2">
+    <div class="p-2 col-6 border-end text-center">
+      <span>Actifs</span>
+    </div>
+    <div class="p-2 col-6 text-center">
+      <span>Passifs</span>
+    </div>
+  </div>
+  <div class="w-100 bg-white border row mx-auto fs-small mb-2">
+    <!-- ####################### ACTIFS SECTION ####################### -->
+    <div class="col-6 border-end d-flex flex-column p-0">
+      <!-- Parents -->
+      <div
+        class="d-flex flex-column gap-2 p-2 border-bottom"
+        [ngClass]="isParentCollapsed[1] ? 'bg-erp' : 'bg-white'">
+        <!-- Parent Collapse -->
+        <div class="d-flex flex-row w-100 align-items-center">
+          <a (click)="toggleParentCollapse(1)" href="javascript:void(0)">
+            @if (isParentCollapsed[1]) {
+              <span>
+                <i class="fa-solid fa-minus"></i>
+              </span>
+            } @else {
+              <span>
+                <i class="fa-solid fa-plus"></i>
+              </span>
+            }
+          </a>
+          <div class="d-flex flex-row justify-content-between ms-2 flex-grow-1">
+            <span [ngClass]="isParentCollapsed[1] ? '' : 'fw-bold'"
+              >2.1 Parent 1</span
+            >
+            <span class="fw-bold">BIF 10,000,000</span>
+          </div>
+        </div>
+        <div
+          [ngClass]="isParentCollapsed[1] ? 'show' : 'collapse'"
+          id="collapse1">
+          <div
+            class="d-flex flex-column gap-2 p-2 ps-3 bg-white rounded ms-2 position-relative">
+            <div class="border-start position-absolute start-0 leftBar"></div>
+            <!-- Sub-collapse -->
+            <div class="d-flex flex-row w-100 align-items-center">
+              <div
+                class="position-absolute start-0 pb-1 d-flex flex-row align-items-center">
+                <div class="bar border-top"></div>
+                <div class="circ border"></div>
+              </div>
+              <a (click)="toggleSubCollapse(12)" href="javascript:void(0)">
+                @if (isSubCollapsed[12]) {
+                  <span>
+                    <i class="fa-solid fa-minus"></i>
+                  </span>
+                } @else {
+                  <span>
+                    <i class="fa-solid fa-plus"></i>
+                  </span>
+                }
+              </a>
+              <div
+                class="d-flex flex-row justify-content-between ms-2 flex-grow-1">
+                <span>2.1 Children 1</span>
+                <span class="fw-bold">BIF 10,000,000</span>
+              </div>
+            </div>
+            <div
+              [ngClass]="isSubCollapsed[12] ? 'show' : 'collapse'"
+              id="collapse12">
+              <div
+                class="d-flex flex-column p-2 bg-erp rounded ms-2 position-relative ps-3">
+                <div
+                  class="border-start position-absolute start-0 leftBar"></div>
+                <!-- Sub-sub-collapse -->
+                <div class="d-flex flex-row w-100 align-items-center">
+                  <div
+                    class="position-absolute start-0 pb-1 d-flex flex-row align-items-center">
+                    <div class="bar border-top"></div>
+                    <div class="circ border"></div>
+                  </div>
+                  <a
+                    (click)="toggleSubSubCollapse(121)"
+                    href="javascript:void(0)">
+                    @if (isSubSubCollapsed[121]) {
+                      <span>
+                        <i class="fa-solid fa-minus"></i>
+                      </span>
+                    } @else {
+                      <span>
+                        <i class="fa-solid fa-plus"></i>
+                      </span>
+                    }
+                  </a>
+                  <div
+                    class="d-flex flex-row justify-content-between ms-2 flex-grow-1">
+                    <span>2.1 Grandchildren</span>
+                    <span class="fw-bold">BIF 10,000,000</span>
+                  </div>
+                </div>
+                <div
+                  [ngClass]="isSubSubCollapsed[121] ? 'show' : 'collapse'"
+                  id="collapse121">
+                  <div
+                    class="d-flex flex-row w-100 align-items-center bg-erp rounded p-2">
+                    <span
+                      >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Non molestias sapiente minus sequi illo vero aperiam
+                      voluptatibus quidem dignissimos dolorum voluptatem saepe,
+                      quam similique. Porro suscipit ab aperiam. Architecto,
+                      esse? Sit eum eligendi saepe officiis ducimus quis minus
+                      dicta quas, at hic numquam cupiditate culpa, neque sed
+                      excepturi. Aliquam earum libero voluptatum iste doloribus
+                      temporibus corporis perspiciatis iure voluptate aut.</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row w-100 align-items-center">
+              <div
+                class="position-absolute start-0 pb-1 d-flex flex-row align-items-center">
+                <div class="bar border-top"></div>
+                <div class="circ border"></div>
+              </div>
+              <a (click)="toggleSubCollapse(13)" href="javascript:void(0)">
+                @if (isSubCollapsed[13]) {
+                  <span>
+                    <i class="fa-solid fa-minus"></i>
+                  </span>
+                } @else {
+                  <span>
+                    <i class="fa-solid fa-plus"></i>
+                  </span>
+                }
+              </a>
+              <div
+                class="d-flex flex-row justify-content-between ms-2 flex-grow-1">
+                <span>2.2 Children 2</span>
+                <span class="fw-bold">BIF 10,000,000</span>
+              </div>
+            </div>
+            <div
+              [ngClass]="isSubCollapsed[13] ? 'show' : 'collapse'"
+              id="collapse12">
+              <div
+                class="d-flex flex-column p-2 bg-erp rounded ms-2 position-relative ps-3">
+                <div
+                  class="border-start position-absolute start-0 leftBar"></div>
+                <!-- Sub-sub-collapse -->
+                <div class="d-flex flex-row w-100 align-items-center">
+                  <div
+                    class="position-absolute start-0 pb-1 d-flex flex-row align-items-center">
+                    <div class="bar border-top"></div>
+                    <div class="circ border"></div>
+                  </div>
+                  <a
+                    (click)="toggleSubSubCollapse(131)"
+                    href="javascript:void(0)">
+                    @if (isSubSubCollapsed[131]) {
+                      <span>
+                        <i class="fa-solid fa-minus"></i>
+                      </span>
+                    } @else {
+                      <span>
+                        <i class="fa-solid fa-plus"></i>
+                      </span>
+                    }
+                  </a>
+                  <div
+                    class="d-flex flex-row justify-content-between ms-2 flex-grow-1">
+                    <span>2.1 MobiGrandchildren</span>
+                    <span class="fw-bold">BIF 10,000,000</span>
+                  </div>
+                </div>
+                <div
+                  [ngClass]="isSubSubCollapsed[131] ? 'show' : 'collapse'"
+                  id="collapse121">
+                  <div
+                    class="d-flex flex-row w-100 align-items-center bg-erp rounded p-2">
+                    <span>Details and more about this section</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="d-flex flex-column gap-2 p-2 border-bottom"
+        [ngClass]="isParentCollapsed[2] ? 'bg-erp' : 'bg-white'">
+        <!-- Parent Collapse -->
+        <div class="d-flex flex-row w-100 align-items-center">
+          <a (click)="toggleParentCollapse(2)" href="javascript:void(0)">
+            @if (isParentCollapsed[2]) {
+              <span>
+                <i class="fa-solid fa-minus"></i>
+              </span>
+            } @else {
+              <span>
+                <i class="fa-solid fa-plus"></i>
+              </span>
+            }
+          </a>
+          <div class="d-flex flex-row justify-content-between ms-2 flex-grow-1">
+            <span [ngClass]="isParentCollapsed[2] ? '' : 'fw-bold'"
+              >2.1 Immobilisation</span
+            >
+            <span class="fw-bold">BIF 10,000,000</span>
+          </div>
+        </div>
+        <div
+          [ngClass]="isParentCollapsed[2] ? 'show' : 'collapse'"
+          id="collapse1">
+          <div
+            class="d-flex flex-column gap-2 p-2 ps-3 bg-white rounded mx-2 position-relative">
+            <div class="border-start position-absolute start-0 leftBar"></div>
+            <!-- Sub-collapse -->
+            <div class="d-flex flex-row w-100 align-items-center">
+              <div
+                class="position-absolute start-0 pb-1 d-flex flex-row align-items-center">
+                <div class="bar border-top"></div>
+                <div class="circ border"></div>
+              </div>
+              <a (click)="toggleSubCollapse(22)" href="javascript:void(0)">
+                @if (isSubCollapsed[22]) {
+                  <span>
+                    <i class="fa-solid fa-minus"></i>
+                  </span>
+                } @else {
+                  <span>
+                    <i class="fa-solid fa-plus"></i>
+                  </span>
+                }
+              </a>
+              <div
+                class="d-flex flex-row justify-content-between ms-2 flex-grow-1">
+                <span>2.1 Magibilisation</span>
+                <span class="fw-bold">BIF 10,000,000</span>
+              </div>
+            </div>
+            <div
+              [ngClass]="isSubCollapsed[22] ? 'show' : 'collapse'"
+              id="collapse12">
+              <div class="d-flex flex-column p-2 bg-erp rounded">
+                <!-- Sub-sub-collapse -->
+                <div class="d-flex flex-row w-100 align-items-center">
+                  <a
+                    (click)="toggleSubSubCollapse(221)"
+                    href="javascript:void(0)">
+                    @if (isSubSubCollapsed[221]) {
+                      <span>
+                        <i class="fa-solid fa-minus"></i>
+                      </span>
+                    } @else {
+                      <span>
+                        <i class="fa-solid fa-plus"></i>
+                      </span>
+                    }
+                  </a>
+                  <div
+                    class="d-flex flex-row justify-content-between ms-2 flex-grow-1">
+                    <span>2.1 Grandchildren</span>
+                    <span class="fw-bold">BIF 10,000,000</span>
+                  </div>
+                </div>
+                <div
+                  [ngClass]="isSubSubCollapsed[221] ? 'show' : 'collapse'"
+                  id="collapse121">
+                  <div
+                    class="d-flex flex-row w-100 align-items-center bg-erp rounded p-2">
+                    <span
+                      >Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                      Adipisci ratione ipsam minus est vitae dignissimos
+                      nesciunt eum reprehenderit sequi rerum quibusdam eius
+                      odit, obcaecati dolore impedit perspiciatis esse nihil
+                      voluptatum?</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ####################### PASSIFS SECTION ####################### -->
+    <div class="col-6 d-flex flex-column p-0">
+      <div class="d-flex flex-column gap-2 p-2 border-bottom">
+        <!-- Parent Collapse -->
+        <div class="d-flex flex-row w-100 align-items-center">
+          <a (click)="toggleParentCollapse(11)" href="javascript:void(0)">
+            @if (isParentCollapsed[11]) {
+              <span>
+                <i class="fa-solid fa-minus"></i>
+              </span>
+            } @else {
+              <span>
+                <i class="fa-solid fa-plus"></i>
+              </span>
+            }
+          </a>
+          <div class="d-flex flex-row justify-content-between ms-2 flex-grow-1">
+            <span>2.2 Immobilisation</span>
+            <span class="fw-bold">BIF 5,000,000</span>
+          </div>
+        </div>
+        <div
+          [ngClass]="isParentCollapsed[11] ? 'show' : 'collapse'"
+          id="collapse11">
+          Some placeholder content for the collapse component.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-100 bg-erp row mx-auto fs-l-medium mb-2">
+    <div class="col-6 border-end p-2">
+      <div class="px-4 d-flex flex-row justify-content-between fw-bold">
+        <span>Total</span>
+        <span>BIF 100,000,000</span>
+      </div>
+    </div>
+
+    <div class="col-6 p-2">
+      <div class="px-4 d-flex flex-row justify-content-between fw-bold">
+        <span>Total</span>
+        <span>BIF 99,000,000</span>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="w-100 mx-auto d-flex justify-content-center p-2 fs-l-medium fw-bold bg-erp rounded-bottom-4">
+    <div class="d-flex flex-row gap-4">
+      <span>Difference:</span>
+      <span class="text-primary">BIF 1,000,000</span>
+    </div>
+  </div>
+</section>

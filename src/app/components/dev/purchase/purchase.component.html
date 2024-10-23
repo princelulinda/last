@@ -144,7 +144,11 @@
           <div class="text-secondary">Category</div>
 
           <div class="text-primary-2">
-            {{ product.price ?? supplier.product.measure.price }}
+            <app-amount-visibility
+              [alwaysShowAmount]="true"
+              [amount]="product.price ?? ''"
+              [currency]="'BIF'"></app-amount-visibility>
+            <!-- {{ product.price ?? supplier.product.measure.price }} -->
           </div>
         </div>
       </div>
@@ -192,7 +196,11 @@
                 tabindex="0">
                 <div class="row">
                   <div
-                    class="col-3 border border-white border-5 bg-secondary rounded-circle position-absolute top-0 start-0 translate-middle-y ms-2">
+                    class="col-3 border border-5 bg-secondary rounded-circle position-absolute top-0 start-0 translate-middle-y ms-2"
+                    [ngClass]="{
+                      'border-white': theme === 'light',
+                      'border-dark': theme === 'dark',
+                    }">
                     <span
                       class="w-100 py-2 d-flex justify-content-center align-itmes-center">
                       <i class="fa-solid fa-warehouse fa-lg text-secondary"></i>
@@ -201,7 +209,7 @@
                 </div>
                 <div class="d-flex flex-column ms-3">
                   <b>{{ item.provider.client.client_full_name }}</b>
-                  <small>{{ item.provider.client.client_id }}</small>
+                  <small>{{ item.provider.client.id }}</small>
                 </div>
               </div>
             }
@@ -228,13 +236,17 @@
   <ng-template #selectedProvider>
     <form action="adding an invoice" [formGroup]="invoiceForm">
       <div class="d-flex flex-column gap-5">
-        <div class="d-flex flex-column gap-3">
+        <div class="d-flex flex-column gap-2 mt-5">
           <b class="text-primary">Supplier Selected</b>
           <div class="d-flex flex-row gap-3">
             <div
               class="selectedMerchant-card bg-secondary sm-radius d-flex gap-4 py-2">
               <div
-                class="col-2 border border-white border-5 bg-secondary rounded-circle d-flex align-items-center ms-2">
+                class="col-2 border border-5 bg-secondary rounded-circle d-flex align-items-center ms-2"
+                [ngClass]="{
+                  'border-white': theme === 'light',
+                  'border-dark': theme === 'dark',
+                }">
                 <span class="w-100 d-flex justify-content-center">
                   <i class="fa-solid fa-warehouse text-secondary"></i>
                 </span>
@@ -244,26 +256,32 @@
                 <small>{{ supplier.provider.client.client_id }}</small>
               </div>
             </div>
-            <div
-              class="bg-primary sm-radius p-3 px-4 d-flex align-items-center"
+            <button
+              class="bg-primary border-0 sm-radius p-3 px-4 d-flex align-items-center"
               role="button"
               (click)="goBack()"
+              [disabled]="isLoading === true"
               tabindex="0">
               <i class="fa-solid fa-delete-left fa-lg text-white"></i>
-            </div>
+            </button>
           </div>
         </div>
         <div class="d-flex flex-column gap-4">
           <div class="row">
             <div class="col-9 col-sm-5 col-md-4 col-lg-5 col-xl-4">
               <div class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="25.."
-                  formControlName="measure_value"
-                  aria-label="value"
-                  aria-describedby="basic-addon2" />
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="25"
+                    id="measure"
+                    (keydown)="validateInput($event)"
+                    formControlName="measure_value"
+                    aria-label="value"
+                    aria-describedby="basic-addon2" />
+                  <label for="measure"></label>
+                </div>
                 <div
                   class="input-group-append d-flex align-items-center border-start border-2"
                   role="button"
@@ -272,25 +290,11 @@
                     <select
                       class="form-select form-control"
                       formControlName="measure_type"
-                      aria-label="value"
-                      aria-describedby="basic-addon2">
-                      @for (
-                        item of measures;
-                        track $index;
-                        let first = $first
-                      ) {
-                        @if (first) {
-                          <option
-                            id="{{ item.id }}"
-                            value="{{ item.id }}"
-                            selected>
-                            {{ item.name }}
-                          </option>
-                        } @else {
-                          <option id="{{ item.id }}" value="{{ item.id }}">
-                            {{ item.name }}
-                          </option>
-                        }
+                      aria-label="select">
+                      @for (item of measures; track $index) {
+                        <option id="{{ item.id }}" value="{{ item.id }}">
+                          {{ item.name }}
+                        </option>
                       }
                     </select>
                   }
@@ -300,13 +304,17 @@
           </div>
           <div class="row mb-xxl-5">
             <div class="col-9 col-sm-5 col-md-4 col-lg-5 col-xl-4">
-              <input
-                type="password"
-                class="form-control"
-                placeholder="PIN"
-                maxlength="4"
-                pattern="[0-9]{4}"
-                formControlName="pin" />
+              <div class="form-floating mb-3">
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="PIN"
+                  id="pin"
+                  maxlength="4"
+                  (keydown)="validateInput($event)"
+                  formControlName="pin" />
+                <label for="pin">PIN</label>
+              </div>
             </div>
           </div>
         </div>
@@ -370,13 +378,25 @@
               </span>
             </div>
           }
-          <button
+          <!-- <button
             type="button"
             class="btn-close ms-auto"
             data-bs-dismiss="modal"
             (click)="isLoading = false"
             #closeModal
-            aria-label="Close"></button>
+            aria-label="Close"></button> -->
+
+          <div class="d-flex justify-content-end w-100">
+            <div
+              type="button"
+              data-bs-dismiss="modal"
+              (click)="isLoading = false"
+              #closeModal
+              tabindex="0"
+              aria-label="Close">
+              <i class="fa-solid fa-xmark fa-lg"></i>
+            </div>
+          </div>
         </div>
         <!-- add to a new group or existant group -->
         @if (selectedModal === 'add-to-group') {
@@ -450,7 +470,7 @@
                     role="button"
                     (click)="searchTellers(searchTeller.value)"
                     tabindex="0">
-                    @if (isLoading) {
+                    @if (isLoading && !tellers) {
                       <span class="px-3">
                         <i
                           class="fa-solid fa-pulse px-1 fa-circle-notch text-secondary"></i>
@@ -462,75 +482,91 @@
             </div>
 
             <div class="col-11 d-grid gap-1 mx-auto">
-              @for (
-                item of tellers;
-                track $index;
-                let first = $first, last = $last
-              ) {
-                @if (first) {
-                  <div
-                    class="row bg-secondary py-3 rounded-top"
-                    role="button"
-                    (click)="
-                      getSelectedTeller(item.id.toString(), item.lookup_title)
-                    "
-                    tabindex="0">
-                    <div class="col-11 mx-auto">
-                      <div class="row">
-                        <div class="col-10 col-sm-11">
-                          <span class="text-dark">{{ item.lookup_title }}</span>
-                        </div>
-                        <div class="col-1">
-                          <div class="d-flex justify-content-end mt-1">
-                            <i class="fa-solid fa-chevron-right text-dark"></i>
+              @if (tellers) {
+                @for (
+                  item of tellers;
+                  track $index;
+                  let first = $first, last = $last
+                ) {
+                  @if (first) {
+                    <div
+                      class="row bg-secondary py-3 rounded-top"
+                      role="button"
+                      (click)="
+                        getSelectedTeller(item.id.toString(), item.lookup_title)
+                      "
+                      tabindex="0">
+                      <div class="col-11 mx-auto">
+                        <div class="row">
+                          <div class="col-10 col-sm-11">
+                            <span class="text-dark">{{
+                              item.lookup_title
+                            }}</span>
+                          </div>
+                          <div class="col-1">
+                            <div class="d-flex justify-content-end mt-1">
+                              <i
+                                class="fa-solid fa-chevron-right text-dark"></i>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                } @else if (!first && !last) {
-                  <div
-                    class="row bg-secondary py-3"
-                    role="button"
-                    (click)="
-                      getSelectedTeller(item.id.toString(), item.lookup_title)
-                    "
-                    tabindex="0">
-                    <div class="col-11 mx-auto">
-                      <div class="row">
-                        <div class="col-10 col-sm-11">
-                          <span class="text-dark">{{ item.lookup_title }}</span>
-                        </div>
-                        <div class="col-1">
-                          <div class="d-flex justify-content-end mt-1">
-                            <i class="fa-solid fa-chevron-right text-dark"></i>
+                  } @else if (!first && !last) {
+                    <div
+                      class="row bg-secondary py-3"
+                      role="button"
+                      (click)="
+                        getSelectedTeller(item.id.toString(), item.lookup_title)
+                      "
+                      tabindex="0">
+                      <div class="col-11 mx-auto">
+                        <div class="row">
+                          <div class="col-10 col-sm-11">
+                            <span class="text-dark">{{
+                              item.lookup_title
+                            }}</span>
+                          </div>
+                          <div class="col-1">
+                            <div class="d-flex justify-content-end mt-1">
+                              <i
+                                class="fa-solid fa-chevron-right text-dark"></i>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                } @else if (last) {
-                  <div
-                    class="row bg-secondary py-3 mt-1 rounded-bottom"
-                    role="button"
-                    (click)="
-                      getSelectedTeller(item.id.toString(), item.lookup_title)
-                    "
-                    tabindex="0">
-                    <div class="col-11 mx-auto">
-                      <div class="row">
-                        <div class="col-10 col-sm-11">
-                          <span class="text-dark">{{ item.lookup_title }}</span>
-                        </div>
-                        <div class="col-1">
-                          <div class="d-flex justify-content-end mt-1">
-                            <i class="fa-solid fa-chevron-right text-dark"></i>
+                  } @else if (last) {
+                    <div
+                      class="row bg-secondary py-3 mt-1 rounded-bottom"
+                      role="button"
+                      (click)="
+                        getSelectedTeller(item.id.toString(), item.lookup_title)
+                      "
+                      tabindex="0">
+                      <div class="col-11 mx-auto">
+                        <div class="row">
+                          <div class="col-10 col-sm-11">
+                            <span class="text-dark">{{
+                              item.lookup_title
+                            }}</span>
+                          </div>
+                          <div class="col-1">
+                            <div class="d-flex justify-content-end mt-1">
+                              <i
+                                class="fa-solid fa-chevron-right text-dark"></i>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  }
                 }
+              } @else if (!tellers) {
+                <span class="d-flex justify-content-center px-3">
+                  <i
+                    class="fa-solid fa-pulse px-1 fa-circle-notch text-secondary"></i>
+                </span>
               }
             </div>
           </div>
@@ -557,7 +593,7 @@
                     class="input-group-append d-flex align-items-center"
                     role="button"
                     tabindex="0">
-                    @if (isLoading) {
+                    @if (isLoading && !invoices_groups) {
                       <span class="px-3">
                         <i
                           class="fa-solid fa-pulse px-1 fa-circle-notch text-secondary"></i>
@@ -575,10 +611,11 @@
                   let first = $first, last = $last
                 ) {
                   @if (first) {
-                    <div
-                      class="row bg-secondary py-3 rounded-top"
+                    <button
+                      class="row bg-secondary py-3 border-0 rounded-top"
                       role="button"
-                      (click)="createBillByGroup(item.id)"
+                      (click)="selectGroup(item.id)"
+                      [disabled]="selectedGroup === true"
                       tabindex="0">
                       <div class="col-11 mx-auto">
                         <div class="row">
@@ -586,7 +623,7 @@
                             <span class="text-dark">{{ item.name }}</span>
                           </div>
                           <div class="col-1">
-                            @if (selectedGroup) {
+                            @if (selectedGroup && this.groupId === item.id) {
                               <div class="d-flex justify-content-end mt-1">
                                 <i
                                   class="fa-solid fa-spinner fa-spin-pulse text-dark"></i>
@@ -595,12 +632,13 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </button>
                   } @else if (!first && !last) {
-                    <div
-                      class="row bg-secondary py-3"
+                    <button
+                      class="row bg-secondary py-3 border-0"
                       role="button"
-                      (click)="createBillByGroup(item.id)"
+                      (click)="selectGroup(item.id)"
+                      [disabled]="selectedGroup === true"
                       tabindex="0">
                       <div class="col-11 mx-auto">
                         <div class="row">
@@ -608,7 +646,7 @@
                             <span class="text-dark">{{ item.name }}</span>
                           </div>
                           <div class="col-1">
-                            @if (selectedGroup) {
+                            @if (selectedGroup && this.groupId === item.id) {
                               <div class="d-flex justify-content-end mt-1">
                                 <i
                                   class="fa-solid fa-spinner fa-spin-pulse text-dark"></i>
@@ -617,12 +655,13 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </button>
                   } @else if (last) {
-                    <div
-                      class="row bg-secondary py-3 mt-1 rounded-bottom"
+                    <button
+                      class="row bg-secondary py-3 border-0 rounded-bottom"
                       role="button"
-                      (click)="createBillByGroup(item.id)"
+                      (click)="selectGroup(item.id)"
+                      [disabled]="selectedGroup === true"
                       tabindex="0">
                       <div class="col-11 mx-auto">
                         <div class="row">
@@ -630,7 +669,7 @@
                             <span class="text-dark">{{ item.name }}</span>
                           </div>
                           <div class="col-1">
-                            @if (selectedGroup) {
+                            @if (selectedGroup && this.groupId === item.id) {
                               <div class="d-flex justify-content-end mt-1">
                                 <i
                                   class="fa-solid fa-spinner fa-spin-pulse text-dark"></i>
@@ -639,7 +678,7 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </button>
                   }
                 }
               } @else if (invoices_groups && invoices_groups.length === 0) {
