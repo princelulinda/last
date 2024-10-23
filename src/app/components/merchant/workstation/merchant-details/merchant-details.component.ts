@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MerchantService } from '../../../../core/services/merchant/merchant.service';
 import {
   MerchantModel,
@@ -30,6 +30,7 @@ import { AgentModel } from '../../../admin/agent/agent.model';
 import { StatementComponent } from '../../../statements/statement/statement.component';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { PageMenusModel } from '../../../admin/menu/menu.models';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-merchant-details',
@@ -149,7 +150,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private merchantService: MerchantService,
     private fb: FormBuilder,
-
+    private router: Router,
     private menuService: MenuService
   ) {
     this.productConfigForm = new FormGroup({
@@ -193,6 +194,10 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
             case 'configuration':
               this.selectedMenu = 'configuration';
               break;
+            case 'statement':
+              this.selectedMenu = '';
+              this.openStatementModal();
+              break;
             case 'tellers':
               this.selectedMenu = 'tellers';
               break;
@@ -234,6 +239,13 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
             title: 'Tellers',
             url: `/w/workstation/d/desk/merchant/detail/${this.merchantId}`,
             fragment: 'tellers',
+            icon_classes: 'fs-medium',
+          },
+          {
+            icon: 'clock-rotate-left',
+            title: 'Statement',
+            url: `/w/workstation/d/desk/merchant/detail/${this.merchantId}`,
+            fragment: 'statement',
             icon_classes: 'fs-medium',
           },
         ];
@@ -535,6 +547,18 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
 
     if (this.merchantLocation) {
       // this.updateMerchantLocation();
+    }
+  }
+
+  openStatementModal() {
+    const modalEl = document.getElementById('statementModal');
+    if (modalEl !== null) {
+      const modal = new Modal(modalEl);
+      modal.show();
+
+      modalEl.addEventListener('hidden.bs.modal', () => {
+        this.router.navigate([]);
+      });
     }
   }
 
