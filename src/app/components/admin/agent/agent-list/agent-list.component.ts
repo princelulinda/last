@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { ListComponent } from '../../../../global/components/list/list/list.component';
 
 @Component({
@@ -9,9 +10,6 @@ import { ListComponent } from '../../../../global/components/list/list/list.comp
   styleUrl: './agent-list.component.scss',
 })
 export class AgentListComponent {
-  //   ngOnInit(): void {
-  //     //
-  //   }
   headers = [
     {
       name: 'Name',
@@ -22,6 +20,7 @@ export class AgentListComponent {
         field: 'id',
       },
     },
+
     { name: 'Agent Code', field: ['agent_code'], size: '' },
 
     { name: 'Type', field: ['agent_type'], size: '' },
