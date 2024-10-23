@@ -125,6 +125,7 @@
                     <div class="d-flex align-items-center">
                       <div class="col-auto rounded-circle">
                         <app-profile-card
+                          [fullName]="institution.hr_noted_by.operator.name"
                           [imageUrl]="institution.hr_noted_by.operator.picture"
                           [height]="'40px'"
                           [width]="'40px'"></app-profile-card>
