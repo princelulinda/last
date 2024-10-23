@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OperationResultComponent } from './operation-result.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('OperationResultComponent', () => {
   let component: OperationResultComponent;
@@ -9,6 +11,7 @@ describe('OperationResultComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [OperationResultComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OperationResultComponent);

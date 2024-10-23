@@ -16,8 +16,10 @@ export class AccountingService {
       .pipe(map(data => data));
   }
 
-  getOperatingResult() {
+  getOperatingResult(): Observable<{ object: BilanResponseModel }> {
     const url = `/ledger-global-report/operating_result/`;
-    return this.apiService.get(url).pipe(map(data => data));
+    return this.apiService
+      .get<{ object: BilanResponseModel }>(url)
+      .pipe(map(data => data));
   }
 }
