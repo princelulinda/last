@@ -26,7 +26,7 @@ import { AmountVisibilityComponent } from '../../../../global/components/custom-
 import { MenuService } from '../../../../core/services/menu/menu.service';
 import { MetadataModel } from '../../../metadatas/metadata.model';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { AgentModel } from '../../../admin/agent/agent.model';
+import { AgentModel } from '../../../agent/agent.model';
 import { StatementComponent } from '../../../statements/statement/statement.component';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { PageMenusModel } from '../../../admin/menu/menu.models';

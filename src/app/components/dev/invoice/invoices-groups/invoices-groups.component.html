@@ -2,19 +2,27 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-12 col-sm-6 col-md-4 col-lg-5 me-auto mb-2">
-        <div class="input-group mb-3">
+        <form
+          class="input-group mb-3"
+          [ngClass]="{
+            'active ': isSearchGroupNotEmpty() || isInputFocused,
+          }">
           <input
             type="text"
             class="form-control"
             placeholder="Search.."
             aria-label="Search.."
-            aria-describedby="basic-addon2" />
+            aria-describedby="basic-addon2"
+            [formControl]="searchGroup"
+            (focus)="isInputFocused = true"
+            (blur)="isInputFocused = false"
+            (keydown.enter)="onEnter($event)" />
           <div class="input-group-append">
             <span class="input-group-text btn bg-dark" id="basic-addon2"
               ><i class="fa-solid fa-magnifying-glass fa-xl text-light"></i
             ></span>
           </div>
-        </div>
+        </form>
       </div>
       <div class="col-12 col-sm-6 col-md-7 col-lg-6 col-xl-7 col-xxl-6">
         <div class="col-11 col-sm-12 mx-auto">
@@ -63,9 +71,6 @@
                           class="fa-regular fa-folder-open fa-sm text-dark"></i
                       ></span>
                     </div>
-                    <!-- <button class="btn btn-outline-warning xx-lg-radius py-1 px-2">
-                      <span class="warning">Pending</span>
-                    </button> -->
                   </div>
                   <div class="text-dark">
                     <span>{{ item.name || '---' }}</span>
@@ -160,9 +165,96 @@
 }
 @if (isSelected_group) {
   <div class="mb-5">
-    <app-invoice-header
-      [group_name]="GroupInfo"
-      (goBackEvent)="getGoBackEvent($event)"></app-invoice-header>
+    <!-- <app-invoice-header
+      [GroupInfo]="GroupInfo"
+      [invoices]="invoices"
+      (goBackEvent)="getGoBackEvent($event)"></app-invoice-header> -->
+    @if (GroupInfo) {
+      <header class="container-fluid">
+        <div class="row align-items-center">
+          <div
+            class="col-12 col-sm-6 col-md-5 col-lg-6 col-xl-5 me-auto mb-2 mb-sm-0">
+            <div class="row">
+              <div class="col-4 col-md-4">
+                <div class="border-end">
+                  <span class="fs-medium fw-bold">{{
+                    GroupInfo.name || '---'
+                  }}</span>
+                </div>
+              </div>
+              <div class="col-2 col-xxl-3">
+                <div class="d-flex gap-2">
+                  <span
+                    ><i class="fa-solid fa-receipt text-primary-2"></i
+                  ></span>
+                  <span>{{ GroupInfo.bills }}</span>
+                </div>
+              </div>
+              <div class="col-6 col-md-6 col-lg-6 col-xl-6 col-xxl-5">
+                <div class="d-flex gap-2">
+                  <div class="col-2">
+                    <span><i class="fa-solid fa-user text-primary-2"></i></span>
+                  </div>
+                  <div class="col-6">
+                    <span>{{ GroupInfo.merchant_teller.alias || '---' }}</span>
+                  </div>
+                  <div class="col-4">
+                    <span class="text-secondary">{{
+                      GroupInfo.merchant_teller.id
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-7 col-lg-6 col-xl-7 col-xxl-6">
+            <div class="col-11 col-sm-12 mx-auto">
+              <div class="row">
+                <div class="col-8 col-sm-9 col-md-8 me-auto">
+                  <form
+                    class="input-group mb-3"
+                    [ngClass]="{
+                      'active ': isSearchInvoiceNotEmpty() || isInputFocused,
+                    }">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Search.."
+                      aria-label="Search.."
+                      aria-describedby="basic-addon2"
+                      [formControl]="searchInvoiceByGroup"
+                      (focus)="isInputFocused = true"
+                      (blur)="isInputFocused = false"
+                      (keydown.enter)="onSearchInvoiceEnter($event)" />
+                    <div class="input-group-append">
+                      <span
+                        class="input-group-text btn bg-dark"
+                        id="basic-addon2"
+                        ><i
+                          class="fa-solid fa-magnifying-glass fa-xl text-light"></i
+                      ></span>
+                    </div>
+                  </form>
+                </div>
+                <div
+                  class="col-1 col-sm-2 col-md-2 col-lg-2 col-xl-1 p-1 d-flex justify-content-end align-items-center"
+                  role="button"
+                  (click)="getGoBackEvent()"
+                  tabindex="0">
+                  <span class=""
+                    ><i
+                      class="fa-solid fa-arrow-left fs-5 me-2"
+                      role="button"></i
+                  ></span>
+                  <span class="fw-bolder fs-5" i18n>Back</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="bg-dark row HLine" />
+      </header>
+    }
   </div>
   <div class="d-flex flex-wrap gap-5">
     @for (invoice of invoices; track $index) {
@@ -177,14 +269,6 @@
       </div>
     }
   </div>
-
-  <!-- <div class="d-flex justify-content-center mt-5">
-    <div class="d-flex">
-      <button class="btn bg-primary px-5">
-        <span class="text-white px-5 py-2">Validate</span>
-      </button>
-    </div>
-  </div> -->
 }
 @if (isSelected_group && invoices && invoices.length === 0) {
   <app-empty-state
@@ -234,7 +318,7 @@
     <div class="modal-dialog sm-radius">
       <div class="modal-content bg-primary-3 x-lg-radius">
         <div class="modal-header p-2 bg-primary-3">
-          <div class="row col-11 mx-auto p-2" i18n>
+          <div class="row col-11 mx-auto p-2 text-secondary" i18n>
             <div
               class="col-2 p-0"
               role="button"
@@ -253,7 +337,7 @@
         </div>
         <div class="modal-body bg-white lg-radius p-2">
           @if (invoice) {
-            <div class="row col-11 mx-auto">
+            <div class="row mb-3 col-11 mx-auto">
               <div
                 class="p-2 col-3 mb-3 mt-2 fs-normal xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
                 {{ invoice.payment_status.title || '---' }}
@@ -296,7 +380,7 @@
                         <br />
                       }
                       @if (order.element_metadata.original_data) {
-                        <span class="fs-small">
+                        <span class="fs-small text-secondary">
                           {{
                             order.element_metadata.original_data.quantity ||
                               '---'
@@ -304,7 +388,7 @@
                           {{ order.product.measure.suffix || '---' }}
                         </span>
                         <br />
-                        <span class="fs-small">
+                        <span class="fs-small text-secondary">
                           {{ order.product.measure.price || '---' }}/{{
                             order.product.measure.suffix
                           }}
@@ -312,9 +396,10 @@
                       }
                     }
                   </div>
-                  <div class="col-5">
-                    <span class="text-primary fs-normal fw-bolder fs-4">
+                  <div class="col-5 mt-2">
+                    <span class="text-primary fs-normal fw-bolder">
                       <app-amount-visibility
+                        [customClasses]="'fs-normal'"
                         [amount]="invoice.total_amount"
                         [alwaysShowAmount]="true"
                         [currency]="'BIF'"></app-amount-visibility>
@@ -326,21 +411,23 @@
                   <span class="fs-normal fw-bold">
                     {{ invoice.merchant_teller.merchant.merchant_title }}
                   </span>
-                  <span class="mb-4" i18n>
+                  <span class="mb-4 fs-normal fw-bolder text-secondary" i18n>
                     Done by Teller NO{{ invoice.merchant_teller.id }}
                   </span>
                 </div>
               </div>
             </div>
           }
-          <div
-            i18n
-            role="button"
-            class="bg-primary fw-bold sm-radius text-light text-center fs-medium m-3 p-2"
-            (click)="enterPin()"
-            tabindex="0">
-            Validate
-          </div>
+          @if (invoice && invoice.payment_status.title === 'Initial') {
+            <div
+              i18n
+              role="button"
+              class="bg-primary fw-bold sm-radius text-light text-center fs-medium m-3 p-2"
+              (click)="enterPin()"
+              tabindex="0">
+              Validate
+            </div>
+          }
         </div>
       </div>
     </div>

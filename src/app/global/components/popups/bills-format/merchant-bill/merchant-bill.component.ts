@@ -12,13 +12,14 @@ import { NgxPrintModule } from 'ngx-print';
   styleUrls: ['./merchant-bill.component.scss'],
 })
 export class MerchantBillComponent implements AfterViewInit {
-  @Input() merchantBillDialog: {
+  merchantBillDialog: {
     active: boolean;
     payload: MerchantBillModel | null;
   } = {
     active: false,
     payload: null,
   };
+  @Input() merchantBill!: MerchantBillModel | null;
   private dialogElement!: HTMLDialogElement | null;
   cardContent!: HTMLElement;
 
@@ -51,6 +52,9 @@ export class MerchantBillComponent implements AfterViewInit {
         this.cardContent.innerHTML =
           this.merchantBillDialog.payload.printable_text;
       }
+    }
+    if (this.merchantBill && this.merchantBill.printable_text) {
+      this.cardContent.innerHTML = this.merchantBill.printable_text;
     }
   }
 }

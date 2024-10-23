@@ -685,9 +685,10 @@ export class MerchantService {
   }
 
   getBillsGroups(
-    pagination: PaginationConfig
+    pagination: PaginationConfig,
+    search: string
   ): Observable<{ objects: InvoiceGroupModel[]; count: number }> {
-    const url = `/dbs/bill-group/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`;
+    const url = `/dbs/bill-group/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}&search=${search}`;
     return this.apiService
       .get<{ objects: InvoiceGroupModel[]; count: number }>(url)
       .pipe(map(data => data));
@@ -725,18 +726,16 @@ export class MerchantService {
       .pipe(map(data => data));
   }
 
-  getSupplier(product_id: number): Observable<{ objects: ProvidersModel[] }> {
-    const url = `/dbs/merchant-product-provided/?product=${product_id}`;
+  getSupplier(
+    product_id: number,
+    search: string
+  ): Observable<{ objects: ProvidersModel[] }> {
+    const url = `/dbs/merchant-product-provided/?product=${product_id}&search=${search}`;
     return this.apiService
       .get<{ objects: ProvidersModel[] }>(url)
       .pipe(map(data => data));
   }
-  searchSupplier(search: string): Observable<{ objects: ProvidersModel[] }> {
-    const url = `/dbs/merchant-product-provided/?search=${search}`;
-    return this.apiService
-      .get<{ objects: ProvidersModel[] }>(url)
-      .pipe(map(data => data));
-  }
+
   getProductMeasure(
     product_id: number
   ): Observable<{ objects: MeasureModel[] }> {
@@ -751,9 +750,10 @@ export class MerchantService {
     return this.apiService.post(url, body).pipe(map(data => data));
   }
   getBillsByGroup(
-    group_name: number
+    group_name: number,
+    search: string
   ): Observable<{ objects: SingleInVoiceModel[]; count: number }> {
-    const url = `/dbs/merchant/bills/?bill_group=${group_name}`;
+    const url = `/dbs/merchant/bills/?bill_group=${group_name}&search=${search}`;
     return this.apiService
       .get<{ objects: SingleInVoiceModel[]; count: number }>(url)
       .pipe(map(data => data));

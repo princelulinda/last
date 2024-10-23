@@ -218,6 +218,12 @@ export class WorkstationMenuComponent implements OnInit {
     }
   }
 
+  onSearchMarchant(event: Event) {
+    event.preventDefault();
+    const searchValue = this.searchForm.value;
+    this.getMerchants(searchValue ?? '');
+  }
+
   selectGroup(group: MenuGroupAndMenusSimpleModel | null) {
     this.selectedGroup = group;
   }
