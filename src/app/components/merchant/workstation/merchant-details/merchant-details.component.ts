@@ -44,6 +44,7 @@ import { PageMenusModel } from '../../../admin/menu/menu.models';
     SkeletonComponent,
     StatementComponent,
     LookupComponent,
+    RouterLink,
   ],
   templateUrl: './merchant-details.component.html',
   styleUrl: './merchant-details.component.scss',
