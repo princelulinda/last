@@ -1,4 +1,20 @@
-<div class="bg-white details-container h-100 overflow-y-auto px-1">
+<main class="h-100 p-4">
+  @if (errorMessage) {
+    <div class="text-center py-3 fs-4 w-50 m-auto mt-3 text-danger" i18n>
+      <span class="fs-5 me-1">
+        <i class="fa-solid fa-ban"></i>
+      </span>
+      {{ errorMessage }}
+    </div>
+  }
+  @if (loadingData) {
+    <div class="preloader">
+      <span class="mt-2">
+        <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
+      </span>
+    </div>
+  }
+
   @if (selectedMenu === 'detail') {
     <ng-container *ngTemplateOutlet="detail"> </ng-container>
   }
@@ -9,282 +25,145 @@
   @if (selectedMenu === 'newMenu') {
     <ng-container *ngTemplateOutlet="newMenu"> </ng-container>
   }
-  <!---- <header class="level-1 header">
-    <div class="tabs">
-      <div
-        class="tabs-item text-dark clickable"
+</main>
+
+<ng-template #detail>
+  <section class="links text-end mx-2">
+    @if (!loadingData) {
+      <span
         tabindex="0"
-        (click)="selectMenu('details')"
-        [ngClass]="{ 'fw-bold': selectedMenu === 'details' }">
-        <small i18n>Role Details</small>
-      </div>
-      <div
-        class="tabs-item text-dark clickable"
-        tabindex="0"
-        (click)="selectMenu('menus')"
-        [ngClass]="{ 'fw-bold': selectedMenu === 'menus' }">
-        <small i18n>Menus</small>
-      </div>
-      <div
-        class="tabs-item text-dark clickable"
-        tabindex="0"
-        (click)="selectMenu('newMenu')"
-        [ngClass]="{ 'fw-bold': selectedMenu === 'newMenu' }">
-        <small i18n>Add New Menu</small>
-      </div>
-    </div>
-    <div>
-      <a
-        title="Roles List"
-        style="text-decoration: none"
-        [routerLink]="redirectTo('roles')"
-        class="link"
-        i18n
-        >Roles List</a
-      >
-    </div>
-  </header>-->
-  <main class="level-2 p-2" style="height: 70vh">
-    @if (errorMessage) {
-      <div class="text-center py-3 fs-4 w-50 m-auto mt-3 text-danger" i18n>
-        <span class="fs-5 me-1">
-          <i class="fa-solid fa-ban"></i>
-        </span>
-        {{ errorMessage }}
-      </div>
+        class="refresh clickable"
+        title="Refresh"
+        role="button"
+        (click)="refreshData()">
+        <i class="fa-solid fa-arrows-rotate text-dark me-1"></i>
+        <small class="text-dark" i18n>Refresh</small>
+      </span>
     }
     @if (loadingData) {
-      <div class="preloader">
-        <span class="mt-2">
-          <i class="fa-solid fa-spin fa-circle-notch fs-4 text-dark"></i>
-        </span>
-      </div>
+      <span>
+        <i class="fas fa-spinner fa-pulse text-dark"></i>
+      </span>
     }
+  </section>
 
-    <ng-template #detail>
-      <section class="links text-end mx-2">
-        @if (!loadingData) {
-          <span
-            tabindex="0"
-            class="refresh clickable"
-            title="Refresh"
-            role="button"
-            (click)="refreshData()">
-            <i class="fa-solid fa-arrows-rotate text-dark me-1"></i>
-            <small class="text-dark" i18n>Refresh</small>
-          </span>
-        }
-        @if (loadingData) {
-          <span>
-            <i class="fas fa-spinner fa-pulse text-dark"></i>
-          </span>
-        }
-      </section>
-
-      <!-- details onglet-->
-      @if (roleDetails) {
-        <section class="details p-2 rounded col-lg-9 m-auto">
-          <h5
-            class="roleName m-auto fs-3 fw-bold text-dark"
-            [ngClass]="{
-              'col-sm-9 col-md-10 col-lg-11': showRoleForm,
-              'col-sm-8 col-md-12': !showRoleForm,
-            }">
-            {{ roleDetails.role_name }}
-          </h5>
-          <div
-            class="row align-items-center justify-content-center mt-3"
-            style="gap: 1rem"
-            [ngClass]="{ 'justify-content-md-start': !showRoleForm }">
-            <div class="col-10 col-sm-7 col-md-5 col-lg-6 col-xl-5">
-              @if (!showRoleForm) {
-                <div class="detail d-flex align-items-center row">
-                  <span class="text-capitalize col-md-4 col-lg-4 text-dark" i18n
-                    >Role</span
-                  >
-                  <span
-                    class="field text-dark rounded tex-center px-3 py-2 fw-bolder col-md-8 col-lg-8">
-                    {{ roleDetails.role_name }}
-                  </span>
-                </div>
-              }
+  <!-- details onglet-->
+  @if (roleDetails) {
+    <section class="details p-2 rounded col-lg-9 m-auto">
+      <h5
+        class="roleName m-auto fs-3 fw-bold text-dark"
+        [ngClass]="{
+          'col-sm-9 col-md-10 col-lg-11': showRoleForm,
+          'col-sm-8 col-md-12': !showRoleForm,
+        }">
+        {{ roleDetails.role_name }}
+      </h5>
+      <div
+        class="row align-items-center justify-content-center mt-3"
+        style="gap: 1rem"
+        [ngClass]="{ 'justify-content-md-start': !showRoleForm }">
+        <div class="col-10 col-sm-7 col-md-5 col-lg-6 col-xl-5">
+          @if (!showRoleForm) {
+            <div class="detail d-flex align-items-center row">
+              <span class="text-capitalize col-md-4 col-lg-4 text-dark" i18n
+                >Role</span
+              >
+              <span
+                class="field text-dark rounded tex-center px-3 py-2 fw-bolder col-md-8 col-lg-8">
+                {{ roleDetails.role_name }}
+              </span>
             </div>
-
-            <div class="col-10 col-sm-7 col-md-5 col-xl-4">
-              @if (!showRoleForm) {
-                <div class="detail d-flex align-items-center row">
-                  <span class="text-capitalize col-md-5 text-dark" i18n
-                    >Role Type</span
-                  >
-                  <span
-                    class="field text-dark rounded tex-center px-3 py-2 fw-bolder col-md-7">
-                    {{ roleDetails.role_type.title }}
-                  </span>
-                </div>
-              }
-            </div>
-
-            <div
-              class="col-10 col-sm-7 col-md-5 col-lg-6 col-xl-5"
-              [ngClass]="{ 'col-md-10 col-lg-11 col-xl-9': showRoleForm }">
-              @if (!showRoleForm) {
-                <div class="detail d-flex align-items-center row">
-                  <span class="text-capitalize col-md-4 text-dark" i18n
-                    >Active</span
-                  >
-                  <span
-                    class="field text-dark rounded tex-center px-3 py-2 fw-bolder col-md-6 col-lg-4">
-                    @if (roleDetails.is_active) {
-                      <span class="ms-1">
-                        <i class="fa-solid fa-circle-check text-success"></i>
-                      </span>
-                    }
-                    @if (!roleDetails.is_active) {
-                      <span class="ms-1">
-                        <i class="fa-solid fa-circle-xmark text-danger"></i>
-                      </span>
-                    }
-                  </span>
-                </div>
-              }
-            </div>
-          </div>
-        </section>
-      }
-    </ng-template>
-    <!-- menus onglet-->
-    <ng-template #menus>
-      @if (roleDetails) {
-        <section class="menus mt-2">
-          <h5 class="my-3 ms-3 fw-bold text-dark">
-            {{ roleDetails.content_object.value }}
-          </h5>
-          <div class="list level-2 p-2 rounded d-inline-block w-100">
-            <app-list [headers]="headers" [url]="url"></app-list>
-          </div>
-        </section>
-      }
-    </ng-template>
-
-    <!-- new Menu onglet -->
-    <ng-template #newMenu
-      >menus
-
-      <section class="mt-2">
-        <div class="col-md-6 col-lg-5 m-auto">
-          <h4 class="text-center text-dark mb-4" i18n>Assign New Menus</h4>
-          <div>
-            <app-multi-select
-              [defaultDataIds]="roleMenuIds"
-              title="Menu"
-              url="/menu/admin/objects_autocomplete/?search="
-              (selectedItemEvent)="menusSelected($event)"></app-multi-select>
-          </div>
-          <div class="text-center mt-3 mb-3">
-            <span
-              class="text-dark me-3 clickable"
-              tabindex="0"
-              (click)="goBack()"
-              >Cancel</span
-            >
-            <!--
-              [disabled]="menus?.length === 0 || isLoading"-->
-            <button
-              class="btn text-light bg-primary px-4"
-              (click)="assignRoleMenus()"
-              i18n
-              [disabled]="menuArr?.length === 0 || isLoading">
-              @if (!isLoading) {
-                <span>Assign</span>
-              }
-              @if (isLoading) {
-                <span>
-                  <i
-                    class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-3"></i>
-                </span>
-              }
-            </button>
-          </div>
+          }
         </div>
-      </section>
-    </ng-template>
-  </main>
-  <!-- <footer class="footer">
-    <div class="icons-footer">
-      <div
-        class="icons-footer-item text-dark"
-        [routerLink]="redirectTo('menu')">
-        <i
-          role="button"
-          class="fa-solid fa-bars text-dark"
-          title="List Menu"></i>
-      </div>
 
-      <div
-        class="icons-footer-item text-dark"
-        [routerLink]="redirectTo('operators')">
-        <i
-          role="button"
-          title="List Operator"
-          class="fa-solid fa-credit-card text-dark"></i>
+        <div class="col-10 col-sm-7 col-md-5 col-xl-4">
+          @if (!showRoleForm) {
+            <div class="detail d-flex align-items-center row">
+              <span class="text-capitalize col-md-5 text-dark" i18n
+                >Role Type</span
+              >
+              <span
+                class="field text-dark rounded tex-center px-3 py-2 fw-bolder col-md-7">
+                {{ roleDetails.role_type.title }}
+              </span>
+            </div>
+          }
+        </div>
+
+        <div
+          class="col-10 col-sm-7 col-md-5 col-lg-6 col-xl-5"
+          [ngClass]="{ 'col-md-10 col-lg-11 col-xl-9': showRoleForm }">
+          @if (!showRoleForm) {
+            <div class="detail d-flex align-items-center row">
+              <span class="text-capitalize col-md-4 text-dark" i18n
+                >Active</span
+              >
+              <span
+                class="field text-dark rounded tex-center px-3 py-2 fw-bolder col-md-6 col-lg-4">
+                @if (roleDetails.is_active) {
+                  <span class="ms-1">
+                    <i class="fa-solid fa-circle-check text-success"></i>
+                  </span>
+                }
+                @if (!roleDetails.is_active) {
+                  <span class="ms-1">
+                    <i class="fa-solid fa-circle-xmark text-danger"></i>
+                  </span>
+                }
+              </span>
+            </div>
+          }
+        </div>
       </div>
-      <div
-        class="icons-footer-item text-dark"
-        [routerLink]="redirectTo('roles')">
-        <i
-          class="fa-solid fa-ruler text-dark"
-          role="button"
-          title="List role"></i>
+    </section>
+  }
+</ng-template>
+
+<ng-template #menus>
+  @if (roleDetails) {
+    <section class="menus mt-2">
+      <h5 class="my-3 ms-3 fw-bold text-dark">
+        {{ roleDetails.content_object.value }}
+      </h5>
+      <div class="list level-2 p-2 rounded d-inline-block w-100">
+        <app-list [headers]="headers" [url]="url"></app-list>
       </div>
-      <div
-        class="icons-footer-item text-dark"
-        [routerLink]="redirectTo('agence/counters')">
-        <i
-          role="button"
-          class="fa-solid fa-receipt text-dark"
-          title="List counter"></i>
+    </section>
+  }
+</ng-template>
+
+<ng-template #newMenu>
+  <section class="mt-2">
+    <div class="col-md-6 col-lg-5 m-auto">
+      <h4 class="text-center text-dark mb-4" i18n>Assign New Menus</h4>
+      <div>
+        <app-multi-select
+          [defaultDataIds]="roleMenuIds"
+          title="Menu"
+          url="/menu/admin/objects_autocomplete/?search="
+          (selectedItemEvent)="menusSelected($event)"></app-multi-select>
+      </div>
+      <div class="text-center mt-3 mb-3">
+        <span class="text-dark me-3 clickable" tabindex="0" (click)="goBack()"
+          >Cancel</span
+        >
+
+        <button
+          class="btn text-light bg-primary px-4"
+          (click)="assignRoleMenus()"
+          i18n
+          [disabled]="menuArr?.length === 0 || isLoading">
+          @if (!isLoading) {
+            <span>Assign</span>
+          }
+          @if (isLoading) {
+            <span>
+              <i
+                class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-3"></i>
+            </span>
+          }
+        </button>
       </div>
     </div>
-  </footer>-->
-
-  <!--   <div
-  class="d-block mt-5 ms-auto  "
->
-  <div
-    class="text-center  p-2 px-2  miniSettings bg-primary text-all-white p-2 mb-1"
-    (click)="selectMenu('details')"
-    
-   [ngClass]="{
-    'disabled': selectedMenu !== 'details',
-  }"
-    tabindex="0"
-    role="button"
-    title="Role details"
-   >
-    <span><i class="fa-solid fa-circle-info fs-6"></i></span>
-  </div>
-  <div
-    class="text-center   px-2 p-2 miniSettings bg-primary text-all-white mb-1"
-    (click)="selectMenu('menus')"
-    [ngClass]="{
-      'disabled': selectedMenu !== 'menus',
-    }"
-    tabindex="0"
-    title="Menus"
-    role="button">
-    <span><i class="fa-solid fa-list"></i></span>
-  </div>
-  <div
-  class="text-center p-2 px-2 miniSettings bg-primary text-all-white mb-1"
-  [ngClass]="{
-    'disabled': selectedMenu !== 'newMenu',
-  }"
-  (click)="selectMenu('newMenu')"
-  tabindex="0"
-  title="Add new menus"
-  role="button">
-  <span><i class="fa-solid fa-plus "></i></span>
-</div>
-
-</div>-->
-</div>
+  </section>
+</ng-template>

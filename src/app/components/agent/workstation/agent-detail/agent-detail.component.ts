@@ -5,8 +5,9 @@ import { DatePipe, NgClass } from '@angular/common';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { StatementComponent } from '../../../statements/statement/statement.component';
-import { AgentModel } from '../agent.model';
+import { AgentModel } from '../../agent.model';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { ProfileCardComponent } from '../../../../global/components/custom-field/profile-card/profile-card.component';
 
 @Component({
   selector: 'app-agent-detail',
@@ -18,6 +19,7 @@ import { SkeletonComponent } from '../../../../global/components/loaders/skeleto
     StatementComponent,
     RouterLink,
     SkeletonComponent,
+    ProfileCardComponent,
   ],
   templateUrl: './agent-detail.component.html',
   styleUrl: './agent-detail.component.scss',
