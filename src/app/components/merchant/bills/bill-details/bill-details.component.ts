@@ -152,11 +152,6 @@ export class BillDetailsComponent implements OnInit, OnDestroy {
               this.billDetails.orders[0].api_sent_response?.response_data
                 ?.printable_text,
           };
-          if (this.billData && this.billData.printable_text) {
-            setTimeout(() => {
-              window.print();
-            }, 1000);
-          }
         },
         error: () => {
           this.isLoading = false;
