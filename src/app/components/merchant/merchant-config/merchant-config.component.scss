@@ -1,30 +1,26 @@
-.loaderBtn {
-    position: relative;
-    
-  }
-  .loaderBtn.isTellerLoading {
-    width: 100%;
+.btn {
+  position: relative;
+  height: 40px;
+  &.isLoading {
     color: transparent;
     pointer-events: none;
     opacity: 0.5;
-    cursor: pointer;
-    
+    font-size: 0;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px solid #fff;
+      border-top: 2px solid #810019;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 0.5s linear infinite;
+    }
   }
-  
-  .loaderBtn.isTellerLoading::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 2px solid #fff;
-    border-top: 2px solid red;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 1s linear infinite;
-  }
-  
+
   @keyframes spin {
     0% {
       transform: translate(-50%, -50%) rotate(0deg);
@@ -33,3 +29,4 @@
       transform: translate(-50%, -50%) rotate(360deg);
     }
   }
+}

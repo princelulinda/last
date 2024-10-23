@@ -201,7 +201,7 @@ export class PurchaseComponent implements OnInit {
     this.suppliers = null;
     this.selectedProduct = true;
     this.isLoading = true;
-    this.merchantService.getSupplier(this.product.id).subscribe({
+    this.merchantService.getSupplier(this.product.id, '').subscribe({
       next: (data: { objects: ProvidersModel[] }) => {
         this.suppliers = data.objects;
 
@@ -213,7 +213,7 @@ export class PurchaseComponent implements OnInit {
     this.suppliers = null;
     this.isLoading = true;
     if (search) {
-      this.merchantService.searchSupplier(search).subscribe({
+      this.merchantService.getSupplier(this.product.id, search).subscribe({
         next: data => {
           this.isLoading = false;
           this.suppliers = data.objects;
@@ -444,9 +444,10 @@ export class PurchaseComponent implements OnInit {
   }
   searchBillsGroups(search: string | null) {
     this.isLoading = true;
+    this.invoices_groups = null;
     if (search) {
       this.merchantService
-        .getBillsGroupsByTeller(Number(this.merchantId), search)
+        .getBillsGroupsByTeller(this.merchant_teller_id, search)
         .subscribe(groups => {
           this.isLoading = false;
           this.invoices_groups = groups.objects;
