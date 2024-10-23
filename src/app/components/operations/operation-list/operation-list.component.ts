@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { PaginationConfig } from '../../../../global/models/pagination.models';
+import { PaginationConfig } from '../../../global/models/pagination.models';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { CounterService } from '../../../../core/services/counter/counter.service';
+import { CounterService } from '../../../core/services/counter/counter.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { ModeModel } from '../../../../core/services/config/main-config.models';
-import { ConfigService } from '../../../../core/services';
+import { ModeModel } from '../../../core/services/config/main-config.models';
+import { ConfigService } from '../../../core/services';
 import { CommonModule } from '@angular/common';
-import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { PaginationComponent } from '../../../global/components/list/pagination/pagination.component';
 import {
   OperationListModel,
   OperationTransactionModel,

@@ -11,11 +11,11 @@ import {
   MainBoxModel,
   OperationListModel,
   OperationTransactionModel,
-} from '../../../components/dev/operations/operation.model';
+} from '../../../components/operations/operation.model';
 import {
   BalanceActionModel,
   BalanceModel,
-} from '../../../components/dev/operations/balance/balance.model';
+} from '../../../components/operations/balance/balance.model';
 import {
   TransactionResModel,
   TransactionToTellerModel,

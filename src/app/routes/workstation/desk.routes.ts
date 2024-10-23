@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 
-import { OperationListComponent } from '../../components/dev/operations/operation-list/operation-list.component';
-import { CounterComponent } from '../../components/dev/operations/counter/counter.component';
+import { OperationListComponent } from '../../components/operations/operation-list/operation-list.component';
+import { CounterComponent } from '../../components/operations/counter/counter.component';
 
 import { ClientAccountDetailComponent } from '../../components/client/client-account-detail/client-account-detail.component';
 import { ClientDetailsComponent } from '../../components/client/client-details/client-details.component';
 import { ClientListComponent } from '../../components/client/client-list/client-list.component';
-import { CounterDetailsComponent } from '../../components/dev/operations/counter-details/counter-details.component';
+import { CounterDetailsComponent } from '../../components/operations/counter-details/counter-details.component';
 import { DiverseOperationComponent } from '../../components/dev/diverse-operation/diverse-operation.component';
 
 import { ClientWalletDetailsComponent } from '../../components/client/client-wallet-details/client-wallet-details.component';
@@ -15,7 +15,7 @@ import { AgentDetailComponent } from '../../components/agent/workstation/agent-d
 
 import { MerchantListComponent } from '../../components/merchant/workstation/merchant-list/merchant-list.component';
 import { MerchantDetailsComponent } from '../../components/merchant/workstation/merchant-details/merchant-details.component';
-import { BalanceComponent } from '../../components/dev/operations/balance/balance.component';
+import { BalanceComponent } from '../../components/operations/balance/balance.component';
 import { ShortcutsComponent } from '../../components/admin/customer-base/shortcuts/shortcuts.component';
 import { SignaturesComponent } from '../../components/client/signatures/signatures.component';
 import { ClientCreditsComponent } from '../../components/client/client-credits/client-credits.component';

@@ -10,17 +10,17 @@ import { CommonModule } from '@angular/common';
 
 import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
 
-import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { PaginationConfig } from '../../../../global/models/pagination.models';
-import { CounterService } from '../../../../core/services/counter/counter.service';
-import { DialogService } from '../../../../core/services';
-import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
+import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
+import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { PaginationConfig } from '../../../global/models/pagination.models';
+import { CounterService } from '../../../core/services/counter/counter.service';
+import { DialogService } from '../../../core/services';
+import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { BalanceActionModel, BalanceModel } from './balance.model';
-import { ProfileCardComponent } from '../../../../global/components/custom-field/profile-card/profile-card.component';
-import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
-import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
-import { AutocompleteModel } from '../../../../global/models/global.models';
+import { ProfileCardComponent } from '../../../global/components/custom-field/profile-card/profile-card.component';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { PaginationComponent } from '../../../global/components/list/pagination/pagination.component';
+import { AutocompleteModel } from '../../../global/models/global.models';
 
 @Component({
   selector: 'app-balance',
