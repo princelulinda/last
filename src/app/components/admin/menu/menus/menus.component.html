@@ -134,6 +134,15 @@
       </div>
 
       <div class="text-center mt-3 mt-md-4">
+        <a
+          class="me-4 text-dark fw-bold"
+          routerLink="/w/workstation/a/admin/menu"
+          [ngClass]="{
+            'not-clickable': isLoading,
+          }"
+          i18n
+          >Cancel</a
+        >
         <button
           class="btn bg-primary text-light fw-bold"
           type="submit"

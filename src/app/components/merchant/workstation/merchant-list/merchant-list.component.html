@@ -15,46 +15,13 @@
 
 <!--container-->
 <div class="level-1 details-container">
-  <!--header-->
-  <header class="level-1 header">
-    <!--tabs-->
-    <div class="tabs">
-      <!--single tab-->
-      <div
-        tabindex="="
-        class="tabs-item text-dark"
-        (click)="selectMenu('list')"
-        [ngClass]="{ 'level-2': selectedMenu === 'list' }">
-        <small class="tabs-item-small" i18n>List</small>
-      </div>
-
-      <!--single tab-->
-      <div
-        tabindex="0"
-        class="tabs-item text-dark"
-        (click)="selectMenu('new')"
-        [ngClass]="{ 'level-2': selectedMenu === 'new' }">
-        <small i18n>New merchant</small>
-      </div>
-
-      <!--single tab-->
-      <div
-        tabindex="0"
-        class="tabs-item text-dark"
-        (click)="selectMenu('location')"
-        [ngClass]="{ 'level-2': selectedMenu === 'location' }">
-        <small i18n>Location</small>
-      </div>
-    </div>
-  </header>
-
   <!--top space between header and main-->
   <div class="space level-2"></div>
 
   <!--main-->
   <main class="level-2">
-    <div class="container level-2 p-0 w-100">
-      <div class="level-2 d-grid align-items-start p-1" style="height: 100%">
+    <div class="level-2 p-0 w-100">
+      <div class="level-2 d-grid align-items-start" style="height: 100%">
         <!--merchants list-->
         @if (selectedMenu === 'list') {
           <div class="d-flex align-items-start w-100">
@@ -192,37 +159,4 @@
       </div>
     </div>
   </main>
-
-  <!--bottom space between main and footer-->
-  <div class="space level-2"></div>
-
-  <!--footer-->
-  <footer class="footer">
-    <!--footer icons-->
-    <div class="icons-footer">
-      <!--single footer icon-->
-      <div
-        tabindex="0"
-        class="icons-footer-item text-dark"
-        (click)="selectedMenu = 'list'">
-        <i class="fa-sharp fa-bars"></i>
-      </div>
-
-      <!--single footer icon-->
-      <div
-        tabindex="0"
-        class="icons-footer-item text-dark"
-        (click)="selectedMenu = 'new'">
-        <i class="fa-solid fa-plus-circle"></i>
-      </div>
-
-      <!--single footer icon-->
-      <div
-        tabindex="0"
-        class="icons-footer-item text-dark"
-        (click)="selectedMenu = 'location'">
-        <i class="fa-solid fa-location-dot"></i>
-      </div>
-    </div>
-  </footer>
 </div>

@@ -26,6 +26,7 @@ import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
 import { DeskDashboardComponent } from '../../components/dashboards/workstation/desk-dashboard/desk-dashboard.component';
 import { UnbankedWalletComponent } from '../../components/client/unbanked-wallet/unbanked-wallet.component';
 import { BalanceSheetComponent } from '../../components/dev/accounting/balance-sheet/balance-sheet.component';
+import { OperationResultComponent } from '../../components/dev/accounting/operation-result/operation-result.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -116,6 +117,12 @@ export const DeskRoutes: Routes = [
   {
     path: 'balance-sheet',
     component: BalanceSheetComponent,
+  },
+
+  // NOTE :: OPERATION RESULT
+  {
+    path: 'operation-result',
+    component: OperationResultComponent,
   },
 
   // NOTE :: SHORTCUTS MODULE
