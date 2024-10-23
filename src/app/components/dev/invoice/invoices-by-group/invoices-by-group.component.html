@@ -37,31 +37,22 @@
               </div>
               <div class="d-grid gap-2 d-flex flex-column">
                 <div class="row d-flex align-items-start">
-                  <div class="col">
-                    <hr class="bg-primary w-100 my-0" />
-                  </div>
-                  <div class="col">
-                    <hr class="bg-primary w-100 my-0" />
-                  </div>
-                  <div class="col">
-                    <hr class="bg-primary w-100 my-0" />
-                  </div>
-                  <div class="col">
-                    <hr class="bg-primary w-100 my-0" />
-                  </div>
-                  <div class="col">
-                    <hr class="bg-primary w-100 my-0" />
-                  </div>
+                  @for (_ of [1, 2, 3, 4, 5]; track $index) {
+                    <div class="col">
+                      <hr class="bg-primary w-100 my-0" />
+                    </div>
+                  }
                 </div>
                 <div class="col-10 mx-auto">
                   <div class="row mt-2">
                     @for (order of invoices.orders; track $index) {
-                      <div class="col-2 me-auto">
+                      <div class="col-6 me-auto">
                         <div class="d-flex gap-1">
                           <span><i class="fa-solid fa-box fa-sm"></i></span>
-                          <span class="fs-small">{{
-                            order.product.name || '---'
-                          }}</span>
+                          <span
+                            class="fs-small text-truncate text-secondary fw-bold"
+                            >{{ order.product.name || '---' }}</span
+                          >
                         </div>
                       </div>
                       <div class="col-6 text-truncate">
@@ -72,9 +63,10 @@
                       </div>
                     }
                   </div>
-                  <div class="fs-medium fw-bold text-primary mb-2">
+                  <div class="fs-medium fw-bold text-primary mb-2 mt-2">
                     <span>
                       <app-amount-visibility
+                        [customClasses]="'fs-medium'"
                         [amount]="invoices.total_amount"
                         [currency]="'BIF'"
                         [alwaysShowAmount]="true"></app-amount-visibility>

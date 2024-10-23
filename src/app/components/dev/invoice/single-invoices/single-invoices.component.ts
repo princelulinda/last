@@ -140,6 +140,12 @@ export class SingleInvoicesComponent implements OnInit {
     return typeof searchValue === 'string' && searchValue.trim() !== '';
   }
 
+  onSearchEnter(event: Event) {
+    event.preventDefault();
+    const searchValue = this.searchInput.value;
+    this.getSingleInvoices(searchValue ?? '');
+  }
+
   openPopup(singleInvoice: SingleInVoiceModel) {
     if (this.is_teller_admin === true) {
       this.selectedInvoice = singleInvoice;

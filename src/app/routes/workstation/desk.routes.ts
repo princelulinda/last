@@ -1,21 +1,21 @@
 import { Routes } from '@angular/router';
 
-import { OperationListComponent } from '../../components/dev/operations/operation-list/operation-list.component';
-import { CounterComponent } from '../../components/dev/operations/counter/counter.component';
+import { OperationListComponent } from '../../components/operations/operation-list/operation-list.component';
+import { CounterComponent } from '../../components/operations/counter/counter.component';
 
 import { ClientAccountDetailComponent } from '../../components/client/client-account-detail/client-account-detail.component';
 import { ClientDetailsComponent } from '../../components/client/client-details/client-details.component';
 import { ClientListComponent } from '../../components/client/client-list/client-list.component';
-import { CounterDetailsComponent } from '../../components/dev/operations/counter-details/counter-details.component';
+import { CounterDetailsComponent } from '../../components/operations/counter-details/counter-details.component';
 import { DiverseOperationComponent } from '../../components/dev/diverse-operation/diverse-operation.component';
 
 import { ClientWalletDetailsComponent } from '../../components/client/client-wallet-details/client-wallet-details.component';
-import { AgentListComponent } from '../../components/admin/agent/agent-list/agent-list.component';
-import { AgentDetailComponent } from '../../components/admin/agent/agent-detail/agent-detail.component';
+import { AgentListComponent } from '../../components/agent/workstation/agent-list/agent-list.component';
+import { AgentDetailComponent } from '../../components/agent/workstation/agent-detail/agent-detail.component';
 
 import { MerchantListComponent } from '../../components/merchant/workstation/merchant-list/merchant-list.component';
 import { MerchantDetailsComponent } from '../../components/merchant/workstation/merchant-details/merchant-details.component';
-import { BalanceComponent } from '../../components/dev/operations/balance/balance.component';
+import { BalanceComponent } from '../../components/operations/balance/balance.component';
 import { ShortcutsComponent } from '../../components/admin/customer-base/shortcuts/shortcuts.component';
 import { SignaturesComponent } from '../../components/client/signatures/signatures.component';
 import { ClientCreditsComponent } from '../../components/client/client-credits/client-credits.component';
@@ -24,8 +24,10 @@ import { ClientCreditsLineComponent } from '../../components/client/client-credi
 import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
 import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
 import { DeskDashboardComponent } from '../../components/dashboards/workstation/desk-dashboard/desk-dashboard.component';
+//import { UnbankedWalletComponent } from '../../components/client/unbanked-wallet/unbanked-wallet.component';
+import { BalanceSheetComponent } from '../../components/dev/accounting/balance-sheet/balance-sheet.component';
+import { OperationResultComponent } from '../../components/dev/accounting/operation-result/operation-result.component';
 import { WalletListWsComponent } from '../../components/wallet/wallet-list-ws/wallet-list-ws.component';
-import { BalanceSheetComponent } from '../../components/dev/balance-sheet/balance-sheet.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -116,6 +118,12 @@ export const DeskRoutes: Routes = [
   {
     path: 'balance-sheet',
     component: BalanceSheetComponent,
+  },
+
+  // NOTE :: OPERATION RESULT
+  {
+    path: 'operation-result',
+    component: OperationResultComponent,
   },
 
   // NOTE :: SHORTCUTS MODULE

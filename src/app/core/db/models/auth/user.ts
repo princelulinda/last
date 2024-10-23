@@ -12,7 +12,7 @@ export interface ClientModel {
     value: string;
     css: object | null;
   };
-  client_email: string;
+  client_email: string | null;
   client_code: number;
   picture: string | null;
   picture_url: string | null;

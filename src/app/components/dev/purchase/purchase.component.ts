@@ -1,5 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DialogService, MerchantService } from '../../../core/services';
+import {
+  ConfigService,
+  DialogService,
+  MerchantService,
+} from '../../../core/services';
 import {
   ProductAutocompleteModel,
   ProductModel,
@@ -27,6 +31,8 @@ import {
 } from '../invoice/invoice.models';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { TellerAutoCompleteModel } from '../../merchant/merchant.models';
+import { ModeModel } from '../../../core/services/config/main-config.models';
+import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({
   selector: 'app-purchase',
@@ -35,6 +41,7 @@ import { TellerAutoCompleteModel } from '../../merchant/merchant.models';
     CommonModule,
     ReactiveFormsModule,
     ProductCardComponent,
+    AmountVisibilityComponent,
     SkeletonComponent,
     EmptyStateComponent,
     RouterLink,
@@ -58,7 +65,7 @@ export class PurchaseComponent implements OnInit {
   supplier!: ProvidersModel;
   invoices_groups!: InvoiceGroupModel[] | null;
   measures: MeasureModel[] = [];
-  tellers: TellerAutoCompleteModel[] = [];
+  tellers!: TellerAutoCompleteModel[] | null;
   merchant_teller_id!: number;
   merchant_teller_name = '';
   invoiceForm: FormGroup;
@@ -79,24 +86,47 @@ export class PurchaseComponent implements OnInit {
     | 'select-teller-existant-group'
     | 'create-group' = 'add-to-group';
 
+  theme!: ModeModel;
+  theme$!: Observable<ModeModel>;
+
+  groupId!: number;
+
   constructor(
     private merchantService: MerchantService,
     private dialogService: DialogService,
+    private configService: ConfigService,
     private route: ActivatedRoute,
     private router: Router
   ) {
+    this.theme$ = this.configService.getMode();
     this.dialogState$ = this.dialogService.getDialogState();
+
     this.invoiceForm = new FormGroup({
-      measure_value: new FormControl('', Validators.required),
+      measure_value: new FormControl('', [
+        Validators.pattern('^[0-9]*$'),
+        Validators.required,
+      ]),
       measure_type: new FormControl(Validators.required),
-      pin: new FormControl('', Validators.required),
+      pin: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(4),
+        Validators.pattern('^[0-9]*$'),
+      ]),
     });
+
     this.createGroupForm = new FormGroup({
       group_name: new FormControl('', Validators.required),
     });
   }
   ngOnInit() {
     this.isLoading = false;
+
+    this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: theme => {
+        this.theme = theme;
+      },
+    });
     if (this.route && this.route.fragment) {
       this.route.fragment.subscribe({
         next: () => {
@@ -171,7 +201,7 @@ export class PurchaseComponent implements OnInit {
     this.suppliers = null;
     this.selectedProduct = true;
     this.isLoading = true;
-    this.merchantService.getSupplier(this.product.id).subscribe({
+    this.merchantService.getSupplier(this.product.id, '').subscribe({
       next: (data: { objects: ProvidersModel[] }) => {
         this.suppliers = data.objects;
 
@@ -183,7 +213,7 @@ export class PurchaseComponent implements OnInit {
     this.suppliers = null;
     this.isLoading = true;
     if (search) {
-      this.merchantService.searchSupplier(search).subscribe({
+      this.merchantService.getSupplier(this.product.id, search).subscribe({
         next: data => {
           this.isLoading = false;
           this.suppliers = data.objects;
@@ -239,8 +269,6 @@ export class PurchaseComponent implements OnInit {
     });
   }
   createBillByGroup(group_id: number) {
-    this.isLoading = true;
-    this.selectedGroup = true;
     const body = {
       provider: this.supplier.id,
       merchant: Number(this.merchantId),
@@ -277,17 +305,25 @@ export class PurchaseComponent implements OnInit {
 
       error: err => {
         this.isLoading = false;
+        this.selectedGroup = false;
         this.dialogService.closeLoading();
         this.dialogService.openToast({
           type: 'failed',
           title: '',
           message:
-            err.error.message.toString() || 'failed to add a bill in a group',
+            err.error.object.response_data.pin_code[0] ||
+            'failed to add a bill in a group',
         });
       },
     });
   }
 
+  selectGroup(group_id: number) {
+    this.groupId = group_id;
+    this.selectedGroup = true;
+
+    this.createBillByGroup(group_id);
+  }
   createGroup(Merchant_teller_id: number) {
     this.isLoading = true;
     const body = {
@@ -329,6 +365,7 @@ export class PurchaseComponent implements OnInit {
   }
   searchTellers(search: string | null) {
     this.isLoading = true;
+    this.tellers = null;
     if (search) {
       const data = {
         search: search,
@@ -360,6 +397,11 @@ export class PurchaseComponent implements OnInit {
 
   selectSupplier(supplier: ProvidersModel) {
     this.selectedMerchant = true;
+    this.invoiceForm.setValue({
+      measure_value: '',
+      measure_type: this.measures[0].id,
+      pin: '',
+    });
     this.supplier = supplier;
     this.router.navigate(['/m/mymarket/purchase'], {
       fragment: 'selectedProvider',
@@ -402,9 +444,10 @@ export class PurchaseComponent implements OnInit {
   }
   searchBillsGroups(search: string | null) {
     this.isLoading = true;
+    this.invoices_groups = null;
     if (search) {
       this.merchantService
-        .getBillsGroupsByTeller(Number(this.merchantId), search)
+        .getBillsGroupsByTeller(this.merchant_teller_id, search)
         .subscribe(groups => {
           this.isLoading = false;
           this.invoices_groups = groups.objects;
@@ -463,6 +506,24 @@ export class PurchaseComponent implements OnInit {
       this.selectedMerchant = false;
       this.selectedProduct = false;
       this.router.navigate(['/m/mymarket/purchase']);
+    }
+  }
+  validateInput(event: KeyboardEvent) {
+    const allowedKeys = [
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      'Backspace',
+    ];
+    if (!allowedKeys.includes(event.key) && !event.key.match(/^[0-9]$/)) {
+      event.preventDefault();
     }
   }
 }

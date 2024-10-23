@@ -9,10 +9,10 @@
     </div>
   } @else {
     <div
-      class="d-flex flex-row"
+      class="d-flex flex-row flex-wrap gap-4 justify-content-center"
       [ngClass]="!limit ? 'align-items-center mx-auto' : ''">
       @if (limit) {
-        <div class="d-flex flex-row flex-nowrap align-items-center me-5">
+        <div class="d-flex flex-row align-items-center me-5">
           <span class="me-2"> Limit: </span>
           <select
             class="form-select form-select-sm"
@@ -32,7 +32,8 @@
         </div>
       }
       @if (totalData > pageLimit) {
-        <div class="h-100 d-flex align-items-center flex-row gap-2 flex-nowrap">
+        <div
+          class="h-100 d-flex align-items-center flex-row gap-2 flex-wrap gap-2 justify-content-center">
           <!-- Previous arrows -->
           <span
             class="border py-1 px-3 rounded-2"

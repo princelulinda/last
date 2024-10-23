@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   FormControl,
   FormGroup,
@@ -48,6 +48,7 @@ import {
   TypeMenuModel,
 } from '../../../../core/db/models/menu/menu.models';
 import { LookupModel } from '../../../../global/models/global.models';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-my-market-dashboard',
@@ -102,7 +103,6 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   isLoading = false;
   openBillPopup = false;
   isMerchantPopupOpened = false;
-  @ViewChild('closeModal') closeModal!: { nativeElement: HTMLElement };
   @ViewChild('closeMerchantsModal') closeMerchantsModal!: {
     nativeElement: HTMLElement;
   };
@@ -168,7 +168,8 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private dialogService: DialogService,
     private configService: ConfigService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private router: Router
   ) {
     this.clientInfo$ = this.authService.getUserInfo();
     this.dialog$ = this.dialogService.getDialogState();
@@ -242,6 +243,24 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   }
   openPopup() {
     this.openBillPopup = false;
+    this.router.navigate([], { fragment: 'billsModal' });
+    const modalElement = document.getElementById('billsModal');
+    if (modalElement !== null) {
+      const modal = new Modal(modalElement);
+      modal.show();
+      modalElement.addEventListener('hidden.bs.modal', () => {
+        this.router.navigate([]);
+      });
+    }
+  }
+  closePopup(): void {
+    const modalElement = document.getElementById('billsModal');
+    if (modalElement !== null) {
+      const modal = Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
+    }
   }
   openMerchantsPopup() {
     this.isMerchantPopupOpened = false;
@@ -293,7 +312,6 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
             },
             description: this.billForm.value.description as string,
             adress: '',
-            // receipt_date: '',
             credit_account: (this.merchant as MerchantModel).merchant_code,
           };
           this.openBillPopup = false;
@@ -311,7 +329,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
             message: response.object.response_message,
           });
           this.dialogService.openMerchantBillPopup(this.successMessage);
-          this.closeModal.nativeElement.click();
+          this.closePopup();
           this.billForm.reset();
         },
         error: msg => {
@@ -496,5 +514,18 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+
+  openStatementPopup() {
+    this.openBillPopup = false;
+    this.router.navigate([], { fragment: 'staticBackdrop' });
+    const modalElement = document.getElementById('staticBackdrop');
+    if (modalElement !== null) {
+      const modal = new Modal(modalElement);
+      modal.show();
+      modalElement.addEventListener('hidden.bs.modal', () => {
+        this.router.navigate([]);
+      });
+    }
   }
 }
