@@ -37,21 +37,11 @@
               </div>
               <div class="d-grid gap-2 d-flex flex-column">
                 <div class="row d-flex align-items-start">
-                  <div class="col">
-                    <hr class="bg-primary w-100 my-0" />
-                  </div>
-                  <div class="col">
-                    <hr class="bg-primary w-100 my-0" />
-                  </div>
-                  <div class="col">
-                    <hr class="bg-primary w-100 my-0" />
-                  </div>
-                  <div class="col">
-                    <hr class="bg-primary w-100 my-0" />
-                  </div>
-                  <div class="col">
-                    <hr class="bg-primary w-100 my-0" />
-                  </div>
+                  @for (_ of [1, 2, 3, 4, 5]; track $index) {
+                    <div class="col">
+                      <hr class="bg-primary w-100 my-0" />
+                    </div>
+                  }
                 </div>
                 <div class="col-10 mx-auto">
                   <div class="row mt-2">

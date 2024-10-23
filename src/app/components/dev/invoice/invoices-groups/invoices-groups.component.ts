@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
 
 import { DialogService, MerchantService } from '../../../../core/services';
 import { InvoiceGroupModel, SingleInVoiceModel } from '../invoice.models';
@@ -17,20 +17,21 @@ import { PaginationConfig } from '../../../../global/models/pagination.models';
 import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { MerchantModel } from '../../../merchant/merchant.models';
-import { InvoiceHeaderComponent } from '../invoice-header/invoice-header.component';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-invoices-groups',
   standalone: true,
   imports: [
     CommonModule,
+    NgClass,
     RouterLink,
     SkeletonComponent,
     InvoicesByGroupComponent,
     EmptyStateComponent,
     PaginationComponent,
     AmountVisibilityComponent,
-    InvoiceHeaderComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './invoices-groups.component.html',
   styleUrl: './invoices-groups.component.scss',
@@ -60,6 +61,10 @@ export class InvoicesGroupsComponent implements OnInit {
   invoice!: SingleInVoiceModel;
   merchant: MerchantModel | null = null;
   is_teller_admin!: boolean;
+  searchGroup = new FormControl('');
+  searchInvoiceByGroup = new FormControl('');
+  isInputFocused = false;
+
   constructor(
     private merchantService: MerchantService,
     private dialogService: DialogService,
@@ -69,7 +74,7 @@ export class InvoicesGroupsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getBillsGroup();
+    this.getBillsGroup('');
     this.router.navigate(['/m/mymarket/invoices-groups']);
     this.dialog$.pipe(takeUntil(this.OnDestroy$)).subscribe({
       next: (dialog: DialogResponseModel) => {
@@ -87,14 +92,25 @@ export class InvoicesGroupsComponent implements OnInit {
       },
     });
     this.getConnectedMerchantInfo();
+    this.searchGroup.valueChanges
+      .pipe(debounceTime(400), takeUntil(this.OnDestroy$))
+      .subscribe(value => {
+        this.getBillsGroup(value ?? '');
+      });
+
+    this.searchInvoiceByGroup.valueChanges
+      .pipe(debounceTime(400), takeUntil(this.OnDestroy$))
+      .subscribe(value => {
+        this.getInvoicesByGroup(this.GroupInfo.id, value ?? '');
+      });
   }
 
-  getBillsGroup() {
+  getBillsGroup(search: string) {
     this.isLoading = true;
     this.isSelected_group = false;
     this.invoices_groups = null;
     this.merchantService
-      .getBillsGroups(this.invocesPagination)
+      .getBillsGroups(this.invocesPagination, search)
       .pipe(takeUntil(this.OnDestroy$))
       .subscribe({
         next: response => {
@@ -115,22 +131,32 @@ export class InvoicesGroupsComponent implements OnInit {
       });
   }
 
-  getGoBackEvent(isSelected_group: boolean) {
-    this.isSelected_group = isSelected_group;
+  isSearchGroupNotEmpty(): boolean {
+    const searchValue = this.searchGroup.value;
+    return typeof searchValue === 'string' && searchValue.trim() !== '';
+  }
+
+  isSearchInvoiceNotEmpty(): boolean {
+    const searchValue = this.searchInvoiceByGroup.value;
+    return typeof searchValue === 'string' && searchValue.trim() !== '';
+  }
+
+  getGoBackEvent() {
+    this.isSelected_group = false;
     this.router.navigate(['/m/mymarket/invoices-groups']);
   }
 
   onPaginationChange(pagination: PaginationConfig) {
     this.invocesPagination = pagination;
     this.activePage = pagination.filters.offset / pagination.filters.limit + 1;
-    this.getBillsGroup();
+    this.getBillsGroup('');
   }
 
-  getInvoicesByGroup(group_id: number) {
+  getInvoicesByGroup(group_id: number, search: string) {
     this.isLoading = true;
     this.invoices = null;
     this.merchantService
-      .getBillsByGroup(group_id)
+      .getBillsByGroup(group_id, search)
       .pipe(takeUntil(this.OnDestroy$))
       .subscribe({
         next: response => {
@@ -153,7 +179,7 @@ export class InvoicesGroupsComponent implements OnInit {
   selectGroup(groupId: InvoiceGroupModel) {
     this.isLoading = true;
     this.GroupInfo = groupId;
-    this.getInvoicesByGroup(this.GroupInfo.id);
+    this.getInvoicesByGroup(this.GroupInfo.id, '');
     this.isSelected_group = true;
   }
 
@@ -249,5 +275,15 @@ export class InvoicesGroupsComponent implements OnInit {
           });
         },
       });
+  }
+  onEnter(event: Event) {
+    event.preventDefault();
+    const searchValue = this.searchGroup.value;
+    this.getBillsGroup(searchValue ?? '');
+  }
+  onSearchInvoiceEnter(event: Event) {
+    event.preventDefault();
+    const searchValue = this.searchInvoiceByGroup.value;
+    this.getInvoicesByGroup(this.GroupInfo.id, searchValue ?? '');
   }
 }

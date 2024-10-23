@@ -26,9 +26,10 @@ import { AmountVisibilityComponent } from '../../../../global/components/custom-
 import { MenuService } from '../../../../core/services/menu/menu.service';
 import { MetadataModel } from '../../../metadatas/metadata.model';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { AgentModel } from '../../../admin/agent/agent.model';
+import { AgentModel } from '../../../agent/agent.model';
 import { StatementComponent } from '../../../statements/statement/statement.component';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
+import { PageMenusModel } from '../../../admin/menu/menu.models';
 
 @Component({
   selector: 'app-merchant-details',
@@ -43,6 +44,7 @@ import { LookupComponent } from '../../../../global/components/lookups/lookup/lo
     SkeletonComponent,
     StatementComponent,
     LookupComponent,
+    RouterLink,
   ],
   templateUrl: './merchant-details.component.html',
   styleUrl: './merchant-details.component.scss',
@@ -141,6 +143,8 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   selectedFields: { name: string; id: number }[] = [];
   toggleMetadataForm = false;
 
+  pageMenus: PageMenusModel[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private merchantService: MerchantService,
@@ -176,11 +180,64 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (this.route && this.route.fragment) {
+      this.route.fragment.subscribe({
+        next: frag => {
+          switch (frag) {
+            case null:
+              this.selectedMenu = '';
+              break;
+            case 'products':
+              this.selectedMenu = 'products';
+              break;
+            case 'configuration':
+              this.selectedMenu = 'configuration';
+              break;
+            case 'tellers':
+              this.selectedMenu = 'tellers';
+              break;
+            default:
+              break;
+          }
+        },
+      });
+    }
     this.route.params.subscribe({
       next: data => {
         if (data) {
           this.merchantId = data['id'];
         }
+
+        this.pageMenus = [
+          {
+            icon: 'circle-info',
+            title: 'Detail',
+            url: `/w/workstation/d/desk/merchant/detail/${this.merchantId}`,
+            icon_classes: 'fs-medium',
+          },
+          {
+            icon: 'box',
+            title: 'Products',
+            url: `/w/workstation/d/desk/merchant/detail/${this.merchantId}`,
+            fragment: 'products',
+            icon_classes: 'fs-medium',
+          },
+          {
+            icon: 'screwdriver-wrench',
+            title: 'Configuration',
+            url: `/w/workstation/d/desk/merchant/detail/${this.merchantId}`,
+            fragment: 'configuration',
+            icon_classes: 'fs-medium',
+          },
+          {
+            icon: 'person-chalkboard',
+            title: 'Tellers',
+            url: `/w/workstation/d/desk/merchant/detail/${this.merchantId}`,
+            fragment: 'tellers',
+            icon_classes: 'fs-medium',
+          },
+        ];
+        this.menuService.setPageMenus(this.pageMenus);
         this.getMerchantsDetails();
         this.getTopClientsByAmount();
         this.getTopClientsByTransactions();
@@ -362,6 +419,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+    this.menuService.destroyPageMenus();
   }
 
   refresh() {
