@@ -1,5 +1,5 @@
-import { ClientModel } from '../../../core/db/models/auth';
-import { CurrencyModel } from '../../../global/models/global.models';
+import { ClientModel } from '../../core/db/models/auth';
+import { CurrencyModel } from '../../global/models/global.models';
 
 export interface AgentModel {
   is_superagent: string;

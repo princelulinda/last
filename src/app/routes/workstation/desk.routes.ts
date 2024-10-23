@@ -10,8 +10,8 @@ import { CounterDetailsComponent } from '../../components/dev/operations/counter
 import { DiverseOperationComponent } from '../../components/dev/diverse-operation/diverse-operation.component';
 
 import { ClientWalletDetailsComponent } from '../../components/client/client-wallet-details/client-wallet-details.component';
-import { AgentListComponent } from '../../components/admin/agent/agent-list/agent-list.component';
-import { AgentDetailComponent } from '../../components/admin/agent/agent-detail/agent-detail.component';
+import { AgentListComponent } from '../../components/agent/workstation/agent-list/agent-list.component';
+import { AgentDetailComponent } from '../../components/agent/workstation/agent-detail/agent-detail.component';
 
 import { MerchantListComponent } from '../../components/merchant/workstation/merchant-list/merchant-list.component';
 import { MerchantDetailsComponent } from '../../components/merchant/workstation/merchant-details/merchant-details.component';

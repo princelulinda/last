@@ -5,7 +5,7 @@ import {
   AgentResModel,
   MerchantModel,
 } from '../../../components/dev/agent/agent.models';
-import { AgentModel } from '../../../components/admin/agent/agent.model';
+import { AgentModel } from '../../../components/agent/agent.model';
 
 @Injectable({
   providedIn: 'root',
