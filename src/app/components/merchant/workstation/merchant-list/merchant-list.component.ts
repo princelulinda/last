@@ -5,6 +5,8 @@ import { VariableService } from '../../../../core/services/variable/variable.ser
 import { NgClass } from '@angular/common';
 import { ListComponent } from '../../../../global/components/list/list/list.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { PageMenusModel } from '../../../admin/menu/menu.models';
 
 @Component({
   selector: 'app-merchant-list',
@@ -70,6 +72,8 @@ export class MerchantListComponent implements OnInit, AfterViewInit, OnDestroy {
   client!: null;
   category!: null;
   isLoading = false;
+
+  pageMenus: PageMenusModel[] = [];
   // newMerchant$: any;
 
   private onDestroy$: Subject<void> = new Subject<void>();
@@ -79,6 +83,7 @@ export class MerchantListComponent implements OnInit, AfterViewInit, OnDestroy {
   // merchantLocations: any[] = [];
 
   constructor(
+    private route: ActivatedRoute,
     private merchantService: MerchantService,
     // private store: Store,
     private variableService: VariableService
@@ -106,6 +111,23 @@ export class MerchantListComponent implements OnInit, AfterViewInit, OnDestroy {
     //         }
     //     },
     // });
+
+    if (this.route && this.route.fragment) {
+      this.route.fragment.subscribe({
+        next: frag => {
+          switch (frag) {
+            case null:
+              this.selectedMenu = 'list';
+              break;
+            case 'new':
+              this.selectedMenu = 'new';
+              break;
+            default:
+              break;
+          }
+        },
+      });
+    }
 
     this.getMerchantsLocations();
   }
