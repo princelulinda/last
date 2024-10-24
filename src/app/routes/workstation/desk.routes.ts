@@ -27,8 +27,8 @@ import { DeskDashboardComponent } from '../../components/dashboards/workstation/
 //import { UnbankedWalletComponent } from '../../components/client/unbanked-wallet/unbanked-wallet.component';
 import { BalanceSheetComponent } from '../../components/dev/accounting/balance-sheet/balance-sheet.component';
 import { OperationResultComponent } from '../../components/dev/accounting/operation-result/operation-result.component';
+import { CreditLineListComponent } from '../../components/loan/workstation /credit-line/credit-line-list/credit-line-list.component';
 import { WalletListWsComponent } from '../../components/wallet/wallet-list-ws/wallet-list-ws.component';
-import { DebitAccountWorkstationComponent } from '../../components/transfer/workstation/debit-account-workstation/debit-account-workstation.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -137,5 +137,19 @@ export const DeskRoutes: Routes = [
       import(
         '../../global/components/errors/forbidden-403/forbidden-403.component'
       ).then(m => m.Forbidden403Component),
+  },
+  {
+    path: 'credit',
+    children: [
+      {
+        path: 'creditsline',
+        children: [
+          {
+            path: 'list',
+            component: CreditLineListComponent,
+          },
+        ],
+      },
+    ],
   },
 ];
