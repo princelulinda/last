@@ -24,12 +24,8 @@ export class DebitAccountWorkstationComponent implements OnInit {
   @Input() selectedDebitAccountType = '';
 
   lookupDebitAccountUrl = '/clients/list/all/object_lookup?lookup_data=';
-  @Output() lookupOptions = new EventEmitter<{
-    id: number | undefined;
-    acc_holder: string | undefined;
-    acc_number: string | undefined;
-  }>();
-
+  @Output() lookupOptions = new EventEmitter<LookupModel | null>();
+  @Output() selectedDebitAccountTypeChange = new EventEmitter<string>();
   debitAccount!: LookupModel | null;
   individualClientInfo: ClientInfoModel | null = null;
 
@@ -45,6 +41,7 @@ export class DebitAccountWorkstationComponent implements OnInit {
   }
   selectDebitAccountType(accountType: string) {
     this.selectedDebitAccountType = accountType;
+    this.selectedDebitAccountTypeChange.emit(this.selectedDebitAccountType); // Émet la valeur de selectedDebitAccountType
     if (accountType !== this.selectedDebitAccountType) {
       this.selectedDebitAccountType = '';
     }
@@ -54,7 +51,7 @@ export class DebitAccountWorkstationComponent implements OnInit {
         break;
 
       case 'wallet':
-        this.lookupDebitAccountUrl = '/banks/client/object_lookup?lookup_data=';
+        this.lookupDebitAccountUrl = '/dbs/wallets/object_lookup?lookup_data=';
         this.debitAccount = null;
         break;
 
@@ -80,13 +77,7 @@ export class DebitAccountWorkstationComponent implements OnInit {
   getClient(client: LookupModel | null) {
     this.debitAccount = client;
 
-    const options = {
-      id: this.debitAccount?.id,
-      acc_holder: this.debitAccount?.lookup_title,
-      acc_number: this.debitAccount?.lookup_subtitle,
-    };
-    console.log('Client selected:', options); // Ajoute cette ligne pour afficher l'événement dans la console
-
-    this.lookupOptions.emit(options);
+    //console.log('helllooo' , this.debitAccount)
+    this.lookupOptions.emit(this.debitAccount);
   }
 }
