@@ -1,1 +1,18 @@
-<p>credit-line-list works!</p>
+<div class="w-100 pb-0 p-3">
+  <main class="bg-white">
+    <section class="sm-radius p-2">
+      <app-list
+        [headers]="headers"
+        url="/clients/manage/creditline/?"></app-list>
+    </section>
+  </main>
+  <!--footer-->
+  <footer class="mt-3">
+    <div
+      class="text-dark"
+      title="Request a credit line"
+      routerLink="/w/workstation/desk/credit/creditsline">
+      <i class="fa-solid fa-plus-circle ms-3"></i>
+    </div>
+  </footer>
+</div>
