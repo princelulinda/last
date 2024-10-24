@@ -186,41 +186,14 @@ export class MerchantTellerDetailsComponent implements OnInit, OnDestroy {
             type: 'success',
             message: response.object.response_message,
           });
-
-          // this.store.dispatch(new OpenDialog(data));
         }
       },
-      // error: (error: HttpErrorResponse) => {
-      //   this.isActionDone.emit(true);
-
-      //   // this.store.dispatch(new CloseDialog({ response: 'close' }));
-
-      //   if (error.error.response_message) {
-      //     const data = {
-      //       title: '',
-      //       type: 'failed',
-      //       message: error.error.response_message,
-      //     };
-      //     console.log(data);
-
-      //     // this.store.dispatch(new OpenDialog(data));
-      //   } else {
-      //     const data = {
-      //       title: '',
-      //       type: 'failed',
-      //       message: 'An error occurred while doing action',
-      //     };
-      //     console.log(data);
-
-      //     // this.store.dispatch(new OpenDialog(data));
-      //   }
-      // },
-      error: () => {
+      error: err => {
         this.dialogService.closeLoading();
         this.dialogService.openToast({
           type: 'failed',
           title: 'Échec',
-          message: 'failed',
+          message: err.error.object.response_data.pin_code[0] ?? 'failed',
         });
       },
     });
