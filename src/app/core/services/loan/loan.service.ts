@@ -17,6 +17,7 @@ import {
   SimulationResModel,
 } from '../../../components/loan/loan.models';
 import { CreditsLineModel } from '../../../components/client/client.model';
+import { CreditLineResponseData } from '../../../components/loan/workstation /credit-line/credit-line.models';
 
 @Injectable({
   providedIn: 'root',
@@ -161,5 +162,11 @@ export class LoanService {
     return this.apiService
       .get(apiUrl)
       .pipe(map(data => data as { object: CreditsLineModel }));
+  }
+  creditLine(body: object) {
+    const url = '/clients/manage/creditline/';
+    return this.apiService
+      .post<{ object: CreditLineResponseData }>(url, body)
+      .pipe(map(response => response));
   }
 }
