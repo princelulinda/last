@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreditLineListComponent } from './credit-line-list.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ActivatedRoute } from '@angular/router';
 
 describe('CreditLineListComponent', () => {
   let component: CreditLineListComponent;
@@ -8,6 +11,14 @@ describe('CreditLineListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        {
+          provide: ActivatedRoute,
+          useValue: {},
+        },
+      ],
       imports: [CreditLineListComponent],
     }).compileComponents();
 
