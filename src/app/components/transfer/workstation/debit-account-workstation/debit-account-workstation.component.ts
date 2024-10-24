@@ -54,7 +54,7 @@ export class DebitAccountWorkstationComponent implements OnInit {
         break;
 
       case 'wallet':
-        this.lookupDebitAccountUrl = '/dbs/wallets/object_lookup?lookup_data=';
+        this.lookupDebitAccountUrl = '/banks/client/object_lookup?lookup_data=';
         this.debitAccount = null;
         break;
 
@@ -85,6 +85,7 @@ export class DebitAccountWorkstationComponent implements OnInit {
       acc_holder: this.debitAccount?.lookup_title,
       acc_number: this.debitAccount?.lookup_subtitle,
     };
+    console.log('Client selected:', options); // Ajoute cette ligne pour afficher l'événement dans la console
 
     this.lookupOptions.emit(options);
   }

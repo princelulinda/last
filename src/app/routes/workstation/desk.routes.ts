@@ -28,6 +28,7 @@ import { DeskDashboardComponent } from '../../components/dashboards/workstation/
 import { BalanceSheetComponent } from '../../components/dev/accounting/balance-sheet/balance-sheet.component';
 import { OperationResultComponent } from '../../components/dev/accounting/operation-result/operation-result.component';
 import { WalletListWsComponent } from '../../components/wallet/wallet-list-ws/wallet-list-ws.component';
+import { DebitAccountWorkstationComponent } from '../../components/transfer/workstation/debit-account-workstation/debit-account-workstation.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -99,6 +100,7 @@ export const DeskRoutes: Routes = [
   },
 
   { path: 'diverse_operations', component: DiverseOperationComponent },
+  { path: 'transfer-ws', component: DebitAccountWorkstationComponent },
 
   {
     path: 'balances',
