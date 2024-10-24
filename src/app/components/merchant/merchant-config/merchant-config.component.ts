@@ -165,13 +165,15 @@ export class MerchantConfigComponent implements OnInit {
       next: (tellers: tellersModel) => {
         this.get_tellers = true;
         this.tellers = tellers.objects;
+        console.log('the tellers value', this.tellers);
       },
-      error: () => {
+      error: err => {
         // TODO :: CODE
         this.dialogService.openToast({
           type: 'failed',
           title: '',
-          message: 'failed to get a teller',
+          message:
+            err.error.object.response_message ?? 'failed to get a teller',
         });
       },
     });
@@ -267,6 +269,7 @@ export class MerchantConfigComponent implements OnInit {
     this.isActionDone = event;
 
     this.getTellerDetails();
+    this.getTellersByMerchant();
   }
 
   updateMerchantDetails() {
