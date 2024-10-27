@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { ListComponent } from '../../../global/components/list/list/list.component';
+
 @Component({
-  selector: 'app-unbanked-wallet',
+  selector: 'app-wallet-list-ws',
   standalone: true,
   imports: [ListComponent],
-  templateUrl: './unbanked-wallet.component.html',
-  styleUrl: './unbanked-wallet.component.scss',
+  templateUrl: './wallet-list-ws.component.html',
+  styleUrl: './wallet-list-ws.component.scss',
 })
-export class UnbankedWalletComponent {
+export class WalletListWsComponent {
   headers = [
     {
       name: 'Name',
