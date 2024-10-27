@@ -124,7 +124,7 @@
           <br />
           @if (clientIndiv) {
             <span class="text-dark fw-bold fs-normall"
-              >{{ clientIndiv.card_id.card_id_type }}
+              >{{ clientIndiv.card_id.card_id_type || '----' }}
               {{ clientIndiv.card_id.reference_number || '----' }}</span
             >
           }
