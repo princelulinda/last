@@ -27,7 +27,7 @@ export class PasswordFieldComponent {
   @Output() passwordValid = new EventEmitter<string>();
   @Output() pinValid = new EventEmitter<string>();
 
-  @Input() useValidation: boolean | undefined;
+  @Input() noValidation: boolean | undefined;
 
   passwordForm: FormGroup;
   showPassword = false;
@@ -159,7 +159,7 @@ export class PasswordFieldComponent {
     return /[$@#$!%*?&=./(){}+.,-]/.test(password);
   }
   onSubmitPassword() {
-    if (this.useValidation) {
+    if (this.noValidation) {
       const password = this.passwordForm.value.password;
       this.passwordValid.emit(password);
     } else if (
