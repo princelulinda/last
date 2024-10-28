@@ -226,6 +226,9 @@ export class CreditLineListComponent implements OnInit, OnDestroy {
         },
       });
   }
+  goBack() {
+    this.router.navigate(['/w/workstation/d/desk/credit/creditsline/list']);
+  }
 
   openModal() {
     this.dialogService.openDialog({
