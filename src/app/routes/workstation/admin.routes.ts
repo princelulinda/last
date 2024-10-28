@@ -24,8 +24,13 @@ import { ConfigTarifComponent } from '../../components/tarifs/config-tarif/confi
 import { AdminAccessListComponent } from '../../components/admin/access/admin-access-list/admin-access-list.component';
 import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
 import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
+import { CreditListComponent } from '../../components/dev/credit/credit-list/credit-list.component';
 
 export const AdminRoutes: Routes = [
+  {
+    path: '',
+    component: CreditListComponent,
+  },
   //NOTE :: OPERATOR MODULE
   {
     path: 'operator',

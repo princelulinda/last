@@ -296,3 +296,30 @@ export interface PayLoanModel {
   loan_plan_id: number;
   pin_code: string;
 }
+
+export interface CreditListModel {
+  id: number;
+  cred_amount: string;
+  cred_client_main_account: number;
+  cred_branch_defaults: CredBranchModel;
+  cred_code: string;
+  cred_difference: string;
+  cred_description: string;
+  cred_echeance_amount: string;
+  cred_expiry_date: string;
+  cred_fees_paid: string;
+  cred_financement_account: number;
+  cred_first_date: string;
+  cred_holder: string;
+  cred_insurance_rate: string;
+  cred_interest_rate: string;
+  cred_manage: number;
+  cred_mode: string;
+  cred_payment_number: number;
+  cred_period: number;
+  cred_status: {
+    css: string;
+    title: string;
+    value: string;
+  };
+}
