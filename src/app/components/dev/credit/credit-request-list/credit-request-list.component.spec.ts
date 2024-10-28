@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreditRequestListComponent } from './credit-request-list.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('CreditRequestListComponent', () => {
   let component: CreditRequestListComponent;
@@ -9,6 +11,7 @@ describe('CreditRequestListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CreditRequestListComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CreditRequestListComponent);
