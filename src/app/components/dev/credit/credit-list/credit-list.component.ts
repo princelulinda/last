@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { CreditService } from '../../../../core/services/credit/credit.service';
-import { DialogService } from '../../../../core/services';
 import { ListComponent } from '../../../../global/components/list/list/list.component';
 import { CreditListModel } from '../../../loan/loan.models';
 
@@ -92,11 +91,7 @@ export class CreditListComponent implements OnInit, OnDestroy {
 
   // clientId: any;
 
-  constructor(
-    private creditService: CreditService,
-    private dialogService: DialogService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private creditService: CreditService) {}
 
   ngOnInit(): void {
     // this.route.params.subscribe({
