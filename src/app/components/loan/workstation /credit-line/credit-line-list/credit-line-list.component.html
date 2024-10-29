@@ -1,4 +1,4 @@
-<div class="w-100 mt-4">
+<div class="w-100">
   @if (!showCreditLine) {
     <main class="bg-white mt-5">
       <section class="sm-radius p-2">
@@ -15,10 +15,10 @@
 
   @if (showCreditLine) {
     <div class="sm-radius" id="creditLine">
-      <div class="text-end me-2">
+      <div class="text-end p-2 bg-secondary">
         <span
           role="button"
-          class="fw-bold text-dark"
+          class="fw-bold text-dark shadow-lg bg-secondary ps-4 pe-3 p-2 sm-radius"
           (click)="goBack()"
           tabindex="0"
           title="Go To Credit Line List"

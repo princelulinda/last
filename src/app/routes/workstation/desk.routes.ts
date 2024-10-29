@@ -28,6 +28,7 @@ import { UnbankedWalletComponent } from '../../components/client/unbanked-wallet
 import { BalanceSheetComponent } from '../../components/dev/accounting/balance-sheet/balance-sheet.component';
 import { OperationResultComponent } from '../../components/dev/accounting/operation-result/operation-result.component';
 import { CreditLineListComponent } from '../../components/loan/workstation /credit-line/credit-line-list/credit-line-list.component';
+import { CreditLineDetailsComponent } from '../../components/loan/workstation /credit-line/credit-line-details/credit-line-details.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -145,6 +146,15 @@ export const DeskRoutes: Routes = [
           {
             path: 'list',
             component: CreditLineListComponent,
+          },
+        ],
+      },
+      {
+        path: 'line',
+        children: [
+          {
+            path: 'details/:id',
+            component: CreditLineDetailsComponent,
           },
         ],
       },
