@@ -1,31 +1,26 @@
 @if (closing) {
-  <div class="col-4">
-    <form [formGroup]="searchForm" (ngSubmit)="getClientInfo()">
-      <div>
-        <input
-          class="form-control form-control-sm ps-5 text-dark field"
-          type="text"
-          style="border-radius: 15px; border: none; width: 200px"
-          placeholder="{{ placeholder }}"
-          formControlName="clientId" />
-      </div>
-
-      <div>
+  <div class="col-12 col-sm-9 col-md-6 col-lg-4 col-xl-3">
+    <form
+      [formGroup]="searchForm"
+      class="input-group input-group-sm"
+      (ngSubmit)="getClientInfo()">
+      <span class="input-group-text" id="searchInput">
         @if (!dataCheck) {
-          <button
-            style="bottom: 15px"
-            class="text-dark btn bg-transparent position-relative translate-middle-y"
-            type="submit">
+          <button class="text-dark btn bg-transparent" type="submit">
             <i class="fa-solid fa-search fs-7"></i>
           </button>
         } @else if (dataCheck) {
-          <span
-            style="bottom: 15px"
-            class="btn bg-transparent position-relative text-dark translate-middle-y"
+          <span class="btn bg-transparent text-dark"
             ><i class="fas fa-spinner fa-pulse"></i
           ></span>
         }
-      </div>
+      </span>
+      <input
+        class="form-control text-dark field"
+        type="text"
+        placeholder="{{ placeholder }}"
+        aria-describedby="searchInput"
+        formControlName="clientId" />
     </form>
   </div>
 }
@@ -36,8 +31,9 @@
       'd-flex justify-content-center': menuSelected === 'merchant_code',
     }">
     <div
-      class="{{ cardBackground }} lg-radius text-dark"
-      style="min-height: 320px; width: 248px">
+      class="{{
+        cardBackground
+      }} col-12 col-sm-11 col-md-6 col-lg-4 col-xl-3 col-xxl-2 lg-radius text-dark">
       <span
         type="button"
         (click)="closeInformation()"
@@ -56,7 +52,7 @@
         </span>
         <div class="d-flex justify-content-center">
           @if (clientId.acc_picture) {
-            <div class="lg-radius" style="width: 100px; height: 100px">
+            <div class="profilImg lg-radius">
               @if (clientId.acc_picture) {
                 <img
                   [src]="clientId.acc_picture"
@@ -65,25 +61,13 @@
               }
             </div>
           } @else if (!clientId.acc_picture) {
-            <!-- <img
-          src="./assets/images/userprofile.png"
-          class="img-fluid float-start"
-          alt="userImg"
-          style="
-            position: relative;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-          " /> -->
             <span class="bg-secondary sm-radius px-4 py-3">
               <i class="fa-solid fa-user fa-4x text-all-white"></i>
             </span>
           }
         </div>
         <div class="">
-          <span
-            class="d-flex justify-content-center mt-1"
-            style="flex-wrap: wrap"
+          <span class="d-flex justify-content-center flex-wrap mt-1"
             ><strong class="text-center">{{
               clientId.acc_holder
             }}</strong></span
@@ -93,9 +77,7 @@
               clientId.acc_number
             }}</strong></span
           >
-          <span
-            class="d-flex justify-content-center mt-1"
-            style="flex-wrap: wrap"
+          <span class="d-flex justify-content-center flex-wrap mt-1"
             ><strong class="text-center">{{
               clientId.acc_account_type
             }}</strong></span
@@ -119,9 +101,9 @@
             <span
               i18n
               (click)="showSignatures()"
+              role="button"
               tabindex="0"
-              class="text-primary d-flex justify-content-center mt-1"
-              style="cursor: pointer; text-decoration: underline"
+              class="text-primary d-flex justify-content-center text-decoration-underline mt-1"
               ><strong><a>Show Signatures</a></strong></span
             >
           }
@@ -129,9 +111,9 @@
             <span
               i18n
               (click)="hideSignatures()"
+              role="button"
               tabindex="0"
-              class="text-primary d-flex justify-content-center mt-1"
-              style="text-decoration: underline; cursor: pointer">
+              class="text-primary d-flex justify-content-center text-decoration-underline mt-1">
               <strong>Hide Signature</strong></span
             >
           }
@@ -148,7 +130,7 @@
               </span>
             }
             @if (signature && signature.signature) {
-              <span class="mb-3" style="height: 85px">
+              <span class="signatureSize mb-3">
                 <img
                   [src]="signature.signature"
                   class="img-fluid image sm-radius"
@@ -159,7 +141,7 @@
               <br />
             }
             @if (signature && signature.signature2) {
-              <span class="mb-3" style="height: 85px">
+              <span class="signatureSize mb-3">
                 <img
                   [src]="signature.signature2"
                   class="img-fluid image sm-radius"
@@ -180,14 +162,12 @@
               (signature && !signature.signature && !signature.signature2)
             ) {
               <span>
-                <span
-                  class="empty-state-icon d-flex justify-content-center"
-                  style="font-size: 40px">
-                  <i class="fa-solid fa-face-meh"></i>
+                <span class="d-flex justify-content-center text-secondary">
+                  <i class="fa-solid fa-face-meh fa-3x"></i>
                 </span>
                 <br />
                 <b
-                  class="empty-state-icon text-md d-flex justify-content-center"
+                  class="text-md d-flex justify-content-center text-secondary"
                   i18n>
                   No Signature to display
                 </b>
