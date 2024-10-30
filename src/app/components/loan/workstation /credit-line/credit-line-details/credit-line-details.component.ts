@@ -38,12 +38,14 @@ export class CreditLineDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: params => {
-        this.lineId = params['id'];
-        this.getCreditsLineDetails();
-      },
-    });
+    if (this.route.params) {
+      this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe({
+        next: params => {
+          this.lineId = params['id'];
+          this.getCreditsLineDetails();
+        },
+      });
+    }
     this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: dialog => {
         this.dialog = dialog;
