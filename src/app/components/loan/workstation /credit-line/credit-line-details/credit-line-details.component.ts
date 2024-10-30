@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -13,7 +13,7 @@ import { AmountVisibilityComponent } from '../../../../../global/components/cust
 @Component({
   selector: 'app-credit-line-details',
   standalone: true,
-  imports: [CommonModule, AmountVisibilityComponent],
+  imports: [CommonModule, NgClass, AmountVisibilityComponent],
   templateUrl: './credit-line-details.component.html',
   styleUrl: './credit-line-details.component.scss',
 })

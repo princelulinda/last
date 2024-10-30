@@ -60,6 +60,8 @@ export interface CreditLineModel {
   crel_fees: number;
   crel_fees_rate: string;
   crel_expiry_date: Date;
+  crel_authorized_at: Date;
+  crel_cancelled_at: Date;
   crel_debitor_rate: string;
   crel_penalities_rate: string;
   crel_authorized_by: string;
