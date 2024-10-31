@@ -1,7 +1,6 @@
 @if (!accountsWorkStation) {
   <div
-    class="text-center w-100 d-flex justify-content-center align-items-center text-dark"
-    style="height: 50vh"
+    class="text-center w-100 d-flex justify-content-center align-items-center text-dark loader"
     title="Loading...">
     <i class="spinner-border"></i>
   </div>
@@ -49,13 +48,15 @@
         class="px-2 ms-1 is-hoverable lg-radius"
         [ngClass]="{
           'bg-white': selectedLoneAccount === account,
-          blockedAccount: account && account.acc_status.status_code === 'B',
+          'border border-2 border-primary':
+            account && account.acc_status.status_code === 'B',
 
-          closedAccount: account && account.acc_status.status_code === 'C',
+          'border border-2 border-secondary':
+            account && account.acc_status.status_code === 'C',
 
           'opacity-50': account && account.acc_status.status_code === 'C',
 
-          borderBottom:
+          'border-bottom border-1 border-secondary':
             account &&
             account.acc_status.status_code !== 'B' &&
             account.acc_status.status_code !== 'C',
@@ -74,7 +75,7 @@
           ></small
         ><br />
 
-        <div class="rounded">
+        <div class="rounded mb-2">
           <small
             ><b class="mt-0 text-sm">{{ account.acc_get_title }}</b></small
           ><br />
@@ -84,7 +85,7 @@
             </b>
           </small>
           <br />
-          <small>
+          <small class="mb-2">
             <app-amount-visibility
               [amount]="account.acc_available_balance"
               [currency]="account.acc_currency"
@@ -92,9 +93,6 @@
                 'fw-normal text-success fw-bold'
               "></app-amount-visibility>
           </small>
-
-          <br />
-          <div class="p-2"></div>
         </div>
       </div>
     </div>

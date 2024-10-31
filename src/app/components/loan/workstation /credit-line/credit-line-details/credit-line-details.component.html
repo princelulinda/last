@@ -20,27 +20,31 @@
     @if (creditLine) {
       <div class="d-flex">
         <section class="w-25 shadow-sm pb-5 p-4">
-          <div class="mb-3 fs-medium">
-            <b class="text-primary" i18n>Basic Client Info </b>
-            <span class="ms-5"
-              ><i
-                class="fa-solid fa-arrow-up-right-from-square text-primary iconSize"></i
-            ></span>
+          <div class="row mb-3 fs-medium">
+            <div class="col">
+              <b class="text-primary" i18n>Basic Client Info </b>
+            </div>
+            <div class="col-2 text-end">
+              <span class=""
+                ><i
+                  class="fa-solid fa-arrow-up-right-from-square text-primary iconSize"></i
+              ></span>
+            </div>
           </div>
           <div class="d-flex justify-content-start mt-4">
             <div class="d-grid">
               @if (!creditLine.crel_manager_info.employee_client.picture) {
-                <div class="mb-1 imgSize">
+                <div class="mb-3 imgSize">
                   <img
                     src="images/userprofile.png"
-                    class="img-fluid lg-radius image"
+                    class="lg-radius image"
                     alt="user profile" />
                 </div>
               }
               @if (creditLine.crel_manager_info.employee_client.picture) {
-                <div class="mb-1 imgSize">
+                <div class="mb-3 imgSize">
                   <img
-                    class="image img-fluid imgBorder"
+                    class="image imgBorder"
                     [src]="creditLine.crel_manager_info.employee_client.picture"
                     alt="user profile" />
                 </div>
@@ -111,7 +115,7 @@
           <div
             class="w-100 mt-4 mb-4 border lg-radius pt-3 pb-3 p-0 bg-secondary position-relative">
             <div
-              class="position-absolute bg-white lg-radius shadow-lg p-1 pe-3 ps-3 titlePosition">
+              class="position-absolute bg-white lg-radius shadow-sm p-1 pe-3 ps-3 titlePosition">
               <b i18n class="fs-normal fw-bold">Account info</b>
             </div>
             <div class="d-flex justify-content-center mt-3 mb-3">
@@ -121,7 +125,7 @@
                   <div class="accountPicture">
                     <img
                       src="images/userprofile.png"
-                      class="img-fluid lg-radius image"
+                      class="lg-radius image"
                       alt="account picture" />
                   </div>
                 }
@@ -130,7 +134,7 @@
                     <img
                       [src]="creditLine.crel_account_info.acc_picture"
                       alt="account picture"
-                      class="img-fluid lg-radius image" />
+                      class="lg-radius image" />
                   </div>
                 }
 
