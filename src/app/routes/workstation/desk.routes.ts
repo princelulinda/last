@@ -32,6 +32,7 @@ import { WalletListWsComponent } from '../../components/wallet/wallet-list-ws/wa
 import { CreditListComponent } from '../../components/dev/credit/credit-list/credit-list.component';
 import { CreditRequestListComponent } from '../../components/dev/credit/credit-request-list/credit-request-list.component';
 import { CreditRequestComponent } from '../../components/dev/credit/credit-request/credit-request.component';
+import { CreditDetailsComponent } from '../../components/dev/credit/credit-details/credit-details.component';
 //import { DebitAccountWorkstationComponent } from '../../components/transfer/workstation/debit-account-workstation/debit-account-workstation.component';
 
 export const DeskRoutes: Routes = [
@@ -153,6 +154,10 @@ export const DeskRoutes: Routes = [
             component: CreditLineListComponent,
           },
         ],
+      },
+      {
+        path: 'details/:id',
+        component: CreditDetailsComponent,
       },
       {
         path: '',
