@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Modal } from 'bootstrap';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { StatementComponent } from '../../../statements/statement/statement.component';
 import { ListComponent } from '../../../../global/components/list/list/list.component';
 import { Subject, takeUntil } from 'rxjs';
@@ -12,7 +12,7 @@ import { ClientWorkstationModel } from '../../../client/client.model';
 @Component({
   selector: 'app-credit-details',
   standalone: true,
-  imports: [StatementComponent, ListComponent, CommonModule],
+  imports: [StatementComponent, ListComponent, CommonModule, RouterLink],
   templateUrl: './credit-details.component.html',
   styleUrl: './credit-details.component.scss',
 })

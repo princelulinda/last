@@ -3,6 +3,7 @@
   <div class="d-flex w-100 px-2 py-1 justify-content-end bg-secondary">
     <div
       class="d-flex align-items-center px-3 border rounded py-1 clickable"
+      routerLink="/w/workstation/d/desk/credit"
       tabindex="0">
       <span class="me-1"><i class="fa fa-arrow-left"></i></span>
       <b i18n> Back</b>
@@ -49,29 +50,27 @@
 
             <div class="d-flex flex-column gap-1 fw-bold">
               <span class="text-secondary">Client type</span>
-              <span>{{
-                client?.client_category_type?.title ?? '--------------'
-              }}</span>
+              <span>{{ client?.client_type ?? '--------------' }}</span>
             </div>
 
             <div class="d-flex flex-column gap-1 fw-bold">
               <span class="text-secondary">Main account</span>
-              <span>30001-001-001-1346-01</span>
+              <span>--------------</span>
             </div>
 
             <div class="d-flex flex-column gap-1 fw-bold">
               <span class="text-secondary">Credit limit</span>
-              <span>Pierre Claver Koko Banywerha</span>
+              <span>--------------</span>
             </div>
 
             <div class="d-flex flex-column gap-1 fw-bold">
               <span class="text-secondary">Loan account</span>
-              <span>30001-01-011-1234514149</span>
+              <span>--------------</span>
             </div>
 
             <div class="d-flex flex-column gap-1 fw-bold">
               <span class="text-secondary">Unpaid capital amount</span>
-              <span>30001-01-011-1234514149</span>
+              <span>--------------</span>
             </div>
           </div>
         }
