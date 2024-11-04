@@ -24,16 +24,18 @@ import { ClientCreditsLineComponent } from '../../components/client/client-credi
 import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
 import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
 import { DeskDashboardComponent } from '../../components/dashboards/workstation/desk-dashboard/desk-dashboard.component';
-import { UnbankedWalletComponent } from '../../components/client/unbanked-wallet/unbanked-wallet.component';
+//import { UnbankedWalletComponent } from '../../components/client/unbanked-wallet/unbanked-wallet.component';
 import { BalanceSheetComponent } from '../../components/dev/accounting/balance-sheet/balance-sheet.component';
 import { OperationResultComponent } from '../../components/dev/accounting/operation-result/operation-result.component';
 import { CreditLineListComponent } from '../../components/loan/workstation /credit-line/credit-line-list/credit-line-list.component';
+import { WalletListWsComponent } from '../../components/wallet/wallet-list-ws/wallet-list-ws.component';
+//import { DebitAccountWorkstationComponent } from '../../components/transfer/workstation/debit-account-workstation/debit-account-workstation.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
 
   // NOTE :: CLIENT MODULE
-  { path: 'wallets', component: UnbankedWalletComponent },
+  { path: 'wallets', component: WalletListWsComponent },
 
   {
     path: 'client',
@@ -99,6 +101,7 @@ export const DeskRoutes: Routes = [
   },
 
   { path: 'diverse_operations', component: DiverseOperationComponent },
+  // { path: 'transfer-ws', component: DebitAccountWorkstationComponent },
 
   {
     path: 'balances',

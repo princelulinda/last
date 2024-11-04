@@ -50,7 +50,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   handleWalletSelected(account: AccountsListModel) {
     this.selectedAccount = account;
 
-    console.log('Compte sélectionné :', account);
+    // console.log('Compte sélectionné :', account);
   }
 
   handleDataLoaded(loaded: boolean) {
