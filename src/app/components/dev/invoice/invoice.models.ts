@@ -5,10 +5,10 @@ import { MerchantModel } from '../agent/agent.models';
 
 export interface InvoiceGroupModel {
   id: number;
-  name: string;
+  name: string | null;
   merchant_teller: {
     id: number;
-    alias: string;
+    alias: string | null;
     client: ClientModel;
     merchant: MerchantModel;
     can_receive_notifications: boolean;

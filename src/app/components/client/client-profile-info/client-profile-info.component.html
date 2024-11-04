@@ -1,11 +1,10 @@
-<!-- <p>client-profile-info works!</p> -->
 @if (
   clientIndiv ||
   clientEntreprise ||
   (selectedClient && selectedClient.client_is_custom === true)
 ) {
   <div
-    class="sm-radius userProfile"
+    class="sm-radius"
     [ngClass]="{
       gradientLight: theme === 'light',
       gradientDark: theme === 'dark',
@@ -162,7 +161,7 @@
       <br />
       @if (clientIndiv && clientIndiv.addresses.length > 0) {
         <span [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'">
-          <span><i class="fa-solid fa-map-pin profileIcon"></i></span>
+          <span><i class="fa-solid fa-map-pin opacity-75"></i></span>
           @for (client of clientIndiv.addresses; track $index) {
             <span class="text-primary"
               >-
@@ -174,7 +173,7 @@
       }
       @if (clientEntreprise && clientEntreprise.addresses.length > 0) {
         <span [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'">
-          <span><i class="fa-solid fa-map-pin profileIcon"></i></span>
+          <span><i class="fa-solid fa-map-pin opacity-75"></i></span>
           @for (client of clientEntreprise.addresses; track $index) {
             <span class="text-primary"
               >-
@@ -188,7 +187,7 @@
       @if (clientIndiv && clientIndiv.telephones) {
         <span class="fs-6 mt-1">
           <span [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"
-            ><i class="fa-solid fa-mobile profileIcon"></i
+            ><i class="fa-solid fa-mobile opacity-75"></i
           ></span>
           <span class="text-primary"> {{ clientIndiv.telephones }}</span>
           <span
@@ -214,7 +213,7 @@
       ) {
         <span class="fs-6 mt-1"
           ><i
-            class="fa-solid fa-mobile profileIcon"
+            class="fa-solid fa-mobile opacity-75"
             [ngClass]="theme === 'light' ? 'text-dark' : 'text-light'"></i
           ><span class="text-primary">
             {{ selectedClient.client_phone_number }}</span

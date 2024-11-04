@@ -3,6 +3,7 @@ import { ApiService } from '..';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import {
   BodyLoanModel,
+  CreditResponseDataModel,
   LoanListModel,
   LoanListResponseModel,
   LoanModel,
@@ -10,6 +11,7 @@ import {
   LoanPlanResponseModel,
   LoanTypeModel,
   PayLoanModel,
+  RequestCreditResModel,
   ResModel,
   ResponseDataModel,
   SimulateLoanModel,
@@ -17,7 +19,10 @@ import {
   SimulationResModel,
 } from '../../../components/loan/loan.models';
 import { CreditsLineModel } from '../../../components/client/client.model';
-import { CreditLineResponseData } from '../../../components/loan/workstation /credit-line/credit-line.models';
+import {
+  CreditLineModel,
+  CreditLineResponseDataModel,
+} from '../../../components/loan/workstation /credit-line/credit-line.models';
 
 @Injectable({
   providedIn: 'root',
@@ -91,6 +96,12 @@ export class LoanService {
   requestLoan(body: BodyLoanModel): Observable<{ object: LoanPendingModel }> {
     return this.apiService.post('/loans/request/', body);
   }
+
+  requestCredit(
+    body: BodyLoanModel
+  ): Observable<{ object: RequestCreditResModel }> {
+    return this.apiService.post('/loans/request/', body);
+  }
   getLoanType(): Observable<{ objects: LoanTypeModel }> {
     return this.apiService.get('/loans/loan-type/');
   }
@@ -103,6 +114,20 @@ export class LoanService {
   }): Observable<{ object: ResponseDataModel }> {
     return this.apiService.get(
       `/loans/defaults-check/?account=${account_id}&loan_type=${loan_type_id}`
+    );
+  }
+
+  getCreditTypeInfo({
+    account_id,
+    loan_type_id,
+    branch,
+  }: {
+    account_id: string;
+    loan_type_id: string;
+    branch: number | undefined;
+  }): Observable<{ object: CreditResponseDataModel }> {
+    return this.apiService.get(
+      `/loans/defaults-check/?account=${account_id}&loan_type=${loan_type_id}&loan_branch_id=${branch}`
     );
   }
 
@@ -166,7 +191,22 @@ export class LoanService {
   creditLine(body: object) {
     const url = '/clients/manage/creditline/';
     return this.apiService
-      .post<{ object: CreditLineResponseData }>(url, body)
+      .post<{ object: CreditLineResponseDataModel }>(url, body)
       .pipe(map(response => response));
+  }
+  approveOrCancelCreditLine(body: object) {
+    const url = '/clients/manage/creditline/status/change/';
+    return this.apiService
+      .post<{ object: CreditLineResponseDataModel }>(url, body)
+      .pipe(map(response => response));
+  }
+
+  getCreditLineDetails(
+    lineId: string | number
+  ): Observable<{ object: CreditLineModel }> {
+    const apiUrl = '/clients/manage/creditline/' + lineId + '/';
+    return this.apiService
+      .get(apiUrl)
+      .pipe(map(data => data as { object: CreditLineModel }));
   }
 }

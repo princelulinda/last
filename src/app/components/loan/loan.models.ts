@@ -50,6 +50,13 @@ export interface ResponseDataModel {
   success: boolean;
 }
 
+export interface CreditResponseDataModel {
+  response_code: string;
+  response_data: WorkstationDefaultValuesCreditModel;
+  response_message: string;
+  success: boolean;
+}
+
 export interface SimulationResDataModel {
   response_code: string;
   response_data: SimulationResModel;
@@ -215,6 +222,32 @@ export interface DefaultValuesLoanModel {
   rattachement_financement_pre_doute: number;
 }
 
+export interface WorkstationDefaultValuesCreditModel {
+  branch: BranchModel;
+  client_category: number;
+  fees_account: number;
+  id: number;
+  penalities_account: number;
+  min_amount: number;
+  max_amount: number;
+  guarantee_rate: number;
+  periodicity: number;
+  profit_account: number;
+  loan_type: LoanTypeModel;
+  rattachement_cap_imp: number;
+  rattachement_cap_imp_a_surveiller: number;
+  rattachement_cap_imp_compromis: number;
+  rattachement_cap_imp_cont: number;
+  rattachement_cap_imp_doute: number;
+  rattachement_cap_imp_pre_doute: number;
+  rattachement_financement: number;
+  rattachement_financement_a_surveiller: number;
+  rattachement_financement_compromis: number;
+  rattachement_financement_cont: number;
+  rattachement_financement_doute: number;
+  rattachement_financement_pre_doute: number;
+}
+
 export interface CredClientAccountModel {
   acc_available_balance: string;
   acc_bank_id: number;
@@ -295,4 +328,71 @@ export interface PayLoanModel {
   loan_id: string;
   loan_plan_id: number;
   pin_code: string;
+}
+
+export interface CreditListModel {
+  id: number;
+  cred_amount: string;
+  cred_client_main_account: number;
+  cred_branch_defaults: CredBranchModel;
+  cred_code: string;
+  cred_difference: string;
+  cred_description: string;
+  cred_echeance_amount: string;
+  cred_expiry_date: string;
+  cred_fees_paid: string;
+  cred_financement_account: number;
+  cred_first_date: string;
+  cred_holder: string;
+  cred_insurance_rate: string;
+  cred_interest_rate: string;
+  cred_manage: number;
+  cred_mode: string;
+  cred_payment_number: number;
+  cred_period: number;
+  cred_status: {
+    css: string;
+    title: string;
+    value: string;
+  };
+}
+
+export interface RequestFormModel {
+  amount: string;
+  credit_type: string;
+  period: string;
+  first_date: string;
+  interest_rate: string;
+  penalities_rate: string;
+  fees_amount: string;
+  insurance_amount: number;
+  guarantee_rate: number;
+  payment_number: string;
+}
+
+export interface RequestCreditResModel {
+  amount: string;
+  authorized_at: Date;
+  canceled_at: Date;
+  created_at: Date;
+  cred_defaults: number;
+  fees_amount: string;
+  fees_rate: string;
+  first_date: Date;
+  hr_authorized_by: string;
+  hr_canceled_by: string;
+  hr_validated_by: string;
+  id: number;
+  interests_rate: string;
+  main_account: number;
+  obj_created_by: number;
+  payment_number: 20;
+  penalities_rate: string;
+  period: number;
+  status: {
+    value: string;
+    title: string;
+    css: string;
+  };
+  validated_at: Date;
 }
