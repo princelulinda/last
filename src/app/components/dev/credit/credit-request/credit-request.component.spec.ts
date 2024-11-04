@@ -1,22 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DebitAccountWorkstationComponent } from './debit-account-workstation.component';
+import { CreditRequestComponent } from './credit-request.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-describe('DebitAccountWorkstationComponent', () => {
-  let component: DebitAccountWorkstationComponent;
-  let fixture: ComponentFixture<DebitAccountWorkstationComponent>;
+describe('CreditRequestComponent', () => {
+  let component: CreditRequestComponent;
+  let fixture: ComponentFixture<CreditRequestComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DebitAccountWorkstationComponent],
+      imports: [CreditRequestComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DebitAccountWorkstationComponent);
+    fixture = TestBed.createComponent(CreditRequestComponent);
     component = fixture.componentInstance;
-    // fixture.detectChanges();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

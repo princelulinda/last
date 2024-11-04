@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <div>
         <i class="fa fa-circle fs-x-small me-2 text-primary"></i>
-        <b class="fs-normal">Choose Debit Account</b>
+        <b class="fs-normal">Choose Credit Account</b>
       </div>
     </div>
     <div class="d-flex h-50-px mt-2">
@@ -11,11 +11,11 @@
         class="d-flex me-4 p-1 bg-secondary justify-content-between rounded align-items-center">
         <div
           role="button"
-          (click)="selectDebitAccountType('account')"
+          (click)="selectCreditAccountType('account')"
           tabindex="0"
           [ngClass]="{
             'bg-primary text-all-white  rounded px-1 py-2 me-1':
-              selectedDebitAccountType === 'account',
+              selectedCreditAccountType === 'account',
           }"
           class="text-center width">
           <b i18n>Account</b>
@@ -24,11 +24,11 @@
         <div
           role="button"
           tabindex="0"
-          (click)="selectDebitAccountType('wallet')"
+          (click)="selectCreditAccountType('wallet')"
           tabindex="0"
           [ngClass]="{
             'bg-primary text-all-white  rounded px-1 py-2 me-1':
-              selectedDebitAccountType === 'wallet',
+              selectedCreditAccountType === 'wallet',
           }"
           class="text-center width">
           <b i18n>Wallet</b>
@@ -36,11 +36,11 @@
         <div
           role="button"
           tabindex="0"
-          (click)="selectDebitAccountType('merchant')"
+          (click)="selectCreditAccountType('merchant')"
           tabindex="0"
           [ngClass]="{
             'bg-primary text-all-white  rounded px-1 py-2 me-1':
-              selectedDebitAccountType === 'merchant',
+              selectedCreditAccountType === 'merchant',
           }"
           class="text-center width">
           <b i18n>Merchant</b>
@@ -48,11 +48,11 @@
         <div
           role="button"
           tabindex="0"
-          (click)="selectDebitAccountType('agent')"
+          (click)="selectCreditAccountType('agent')"
           tabindex="0"
           [ngClass]="{
             'bg-primary text-all-white  rounded px-1 py-2 me-1':
-              selectedDebitAccountType === 'agent',
+              selectedCreditAccountType === 'agent',
           }"
           class="text-center width">
           <b i18n>Agent</b>
@@ -60,7 +60,7 @@
       </div>
     </div>
     <div class="ms-4 mt-3">
-      @if (selectedDebitAccountType === 'account') {
+      @if (selectedCreditAccountType === 'account') {
         <div>
           <app-lookup-individual
             (individualInfo)="
@@ -70,7 +70,7 @@
       } @else {
         <div>
           <div class="w-25">
-            @if (selectedDebitAccountType === 'wallet') {
+            @if (selectedCreditAccountType === 'wallet') {
               @if (!walletName) {
                 <div class="d-flex">
                   <input
@@ -122,20 +122,20 @@
                   </div>
                 </div>
               }
-            } @else if (selectedDebitAccountType === 'merchant') {
+            } @else if (selectedCreditAccountType === 'merchant') {
               <app-lookup
                 class="w-100"
                 [option]="'lookup'"
                 (selectedItemEvent)="getClientToDebit($event)"
-                [url]="lookupDebitAccountUrl"
+                [url]="lookupCreditAccountUrl"
                 lookupLabel="Merchant Account"
                 label="Merchant accounts"></app-lookup>
-            } @else if (selectedDebitAccountType === 'agent') {
+            } @else if (selectedCreditAccountType === 'agent') {
               <app-lookup
                 class="w-100"
                 [option]="'lookup'"
                 (selectedItemEvent)="getClientToDebit($event)"
-                [url]="lookupDebitAccountUrl"
+                [url]="lookupCreditAccountUrl"
                 lookupLabel="Agent account"
                 label="Agent accounts"></app-lookup>
             }
@@ -143,10 +143,10 @@
         </div>
       }
 
-      @if (debitAccount) {
+      @if (creditAccount) {
         <div class="ms-2 d-flex align-items-center mt-1">
           <i class="fa fa-play text-primary-light me-2"></i>
-          <b class="text-primary-light">{{ debitAccount.lookup_title }}</b>
+          <b class="text-primary-light">{{ creditAccount.lookup_title }}</b>
         </div>
       }
     </div>

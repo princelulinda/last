@@ -1,0 +1,396 @@
+<main class="h-100 w-100 p-4 bg-secondary overflow-y-auto pb-5">
+  <div>
+    <div [ngClass]="{ 'not-clickable': isLoading }">
+      <div class="d-lg-flex row">
+        <div class="col-lg-6 row">
+          <div class="d-grid col-lg-8">
+            <div>
+              <b>Client account</b>
+            </div>
+            <app-lookup
+              option="autocomplete"
+              (selectedItemEvent)="getAccount($event)"
+              url="/clients/manage/accounts/objects_autocomplete?search="
+              label="Accounts"></app-lookup>
+          </div>
+        </div>
+        <div class="mb-4 col-lg-6 row">
+          <div class="form-floating col-lg-8">
+            <div class="d-grid">
+              <div>
+                <b>Credit Type</b>
+              </div>
+              <div>
+                <app-lookup
+                  option="autocomplete"
+                  (selectedItemEvent)="getCreditType($event)"
+                  label="Credit Type"
+                  url="/loans/loan-type/objects_autocomplete?search="></app-lookup>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="mb-4 col-lg-6 row">
+          <div class="form-floating col-lg-8">
+            <div class="d-grid">
+              <div>
+                <b>Branch</b>
+              </div>
+
+              <div>
+                <app-lookup
+                  option="autocomplete"
+                  (selectedItemEvent)="getBranch($event)"
+                  url="/hr/branches/objects_autocomplete?search="
+                  label="Branch">
+                </app-lookup>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      @if (!isFormVisible) {
+        <div class="w-75 mt-5 pt-2 d-flex justify-content-center">
+          <button
+            [disabled]="!account || !creditType"
+            type="submit"
+            class="btn px-5 bg-primary d-flex justify-content-center py-2 text-all-white border-0"
+            (click)="goToForm()">
+            @if (!isLoading) {
+              <b>Continue</b>
+            } @else {
+              <span>
+                <i class="fa-solid fa-pulse fa-circle-notch text-all-white"></i>
+              </span>
+            }
+          </button>
+        </div>
+      }
+      <div class="mt-4 ms-3">
+        @if (isFormVisible && account && creditType) {
+          <div [formGroup]="requestForm">
+            <div class="row align-items-start">
+              <div
+                class="col-lg-6 row align-items-center justify-content-between">
+                <div class="col-lg-8 d-grid">
+                  <app-amount-field
+                    [background]="amountBackground"
+                    (amountEvent)="getAmount($event)"></app-amount-field>
+
+                  <!--                 ############### TO DO AFTER ################                       -->
+
+                  <div class="row ms-2">
+                    <div class="col-4 d-flex">
+                      <b class="leg">Min: </b>
+                      <span class="val">{{
+                        defaultValuesLoan.min_amount | currency: ' '
+                      }}</span>
+                    </div>
+                    <div class="col-4 d-flex">
+                      <b class="leg">Max: </b>
+                      <span class="val">{{
+                        defaultValuesLoan.max_amount | currency: ' '
+                      }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-lg-6 row align-items-center justify-content-between">
+                <div class="col-lg-8 d-grid">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      class="input form-control mb-1 mt-2 fs-5 p-2-3 text-dark simulator-input"
+                      id="interest"
+                      placeholder="interests rate"
+                      formControlName="interest_rate" />
+                    <label for="interest"> Interests rate </label>
+                  </div>
+
+                  <div class="row ms-2">
+                    <div class="col-4 d-flex">
+                      <b class="leg">min: </b>
+                      <!--                      <span class="val"-->
+                      <!--                        >{{-->
+                      <!--                          defaultValuesLoan.min_interest_rate | number-->
+                      <!--                        }}-->
+                      <!--                        %</span-->
+                      <!--                      >-->
+
+                      <span class="val"> {{ 10 }} %</span>
+                    </div>
+                    <div class="col-4 d-flex">
+                      <b class="leg">max: </b>
+                      <!--                      <span class="val"-->
+                      <!--                        >{{-->
+                      <!--                          defaultValuesLoan.max_interest_rate | number-->
+                      <!--                        }}-->
+                      <!--                        %</span-->
+                      <!--                      >-->
+
+                      <span class="val">{{ 15 }} %</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="col-lg-6 row align-items-center justify-content-between">
+                <div class="col-lg-8">
+                  <div class="form-floating">
+                    <input
+                      type="date"
+                      class="input form-control mb-1 mt-2 fs-5 p-2-3 text-dark simulator-input"
+                      id="date"
+                      placeholder="date"
+                      formControlName="first_date" />
+                    <label for="date"> First date </label>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="col-lg-6 row align-items-center justify-content-between">
+                <div class="col-lg-8 d-grid">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      class="input form-control mb-1 mt-2 fs-5 p-2-3 text-dark simulator-input"
+                      id="penalities"
+                      placeholder="penalities"
+                      formControlName="penalities_rate" />
+                    <label for="penalities"> Penalties </label>
+                  </div>
+
+                  <div class="row ms-2">
+                    <div class="col-6 d-flex">
+                      <b class="leg">Min: </b>
+                      <span class="val"></span>
+                    </div>
+                    <div class="col-6 d-flex">
+                      <b class="leg">Max: </b>
+                      <span class="val"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="col-lg-6 row align-items-center justify-content-between">
+                <div class="col-lg-8 d-grid">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      name=""
+                      class="input form-control mb-1 mt-2 fs-5 p-2-3 text-dark simulator-input"
+                      id="feesAmount"
+                      placeholder="fees"
+                      formControlName="fees_amount"
+                      (input)="updateUnitValue()" />
+                    <label for="feesAmount"> Fees </label>
+                  </div>
+
+                  <div class="d-flex ps-2">
+                    <div
+                      class="d-flex align-items-center me-5"
+                      (click)="changeFeesUnit()"
+                      tabindex="0">
+                      @if (feesUnit === 'percent') {
+                        <span>
+                          <i class="fa-regular fa-square-check fs-4"></i>
+                        </span>
+                      } @else {
+                        <span>
+                          <i class="fa-regular fa-square fs-4"></i>
+                        </span>
+                      }
+                      <span class="ms-2">%</span>
+                    </div>
+
+                    <div
+                      class="d-flex align-items-center me-5"
+                      (click)="changeFeesUnit()"
+                      tabindex="0">
+                      @if (feesUnit === 'amount') {
+                        <span>
+                          <i class="fa-regular fa-square-check fs-4"></i>
+                        </span>
+                      } @else {
+                        <span>
+                          <i class="fa-regular fa-square fs-4"></i>
+                        </span>
+                      }
+                      <span class="ms-2">Amount</span>
+                    </div>
+                    <div class="d-flex">
+                      <span class="me-2 text-primary-light">
+                        <i class="fa fa-play"></i>
+                      </span>
+                      <span>{{ fees | currency: ' ' }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-lg-6 row align-items-center justify-content-between">
+                <div class="not-clickable col-lg-8 d-grid">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      (input)="updateUnitValues()"
+                      class="input form-control mb-1 mt-2 fs-5 p-2-3 text-dark simulator-input"
+                      id="insurance"
+                      placeholder="fees"
+                      formControlName="insurance_amount" />
+                    <label for="insurance">Insurance</label>
+                  </div>
+                  <div class="d-flex ps-2">
+                    <div
+                      tabindex="0"
+                      class="d-flex align-items-center me-5"
+                      (click)="changeInsuranceFeesUnit()">
+                      @if (insuranceFeesUnit === 'percent') {
+                        <span>
+                          <i class="fa-regular fa-square-check fs-4"></i>
+                        </span>
+                      } @else {
+                        <span>
+                          <i class="fa-regular fa-square fs-4"></i>
+                        </span>
+                      }
+                      <span class="ms-2">%</span>
+                    </div>
+                    <div
+                      tabindex="0"
+                      class="d-flex align-items-center me-5"
+                      (click)="changeInsuranceFeesUnit()">
+                      @if (insuranceFeesUnit === 'amount') {
+                        <span class="me-2">
+                          <i class="fa-regular fa-square-check fs-4"></i>
+                        </span>
+                      } @else {
+                        <span class="me-2">
+                          <i class="fa-regular fa-square fs-4"></i>
+                        </span>
+                      }
+                      <span>Amount</span>
+                    </div>
+                    <div class="d-flex">
+                      <span class="me-2 text-primary-light">
+                        <i class="fa fa-play"></i>
+                      </span>
+                      <span>{{ insuranceFees | currency: ' ' }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-lg-6 row align-items-center justify-content-between">
+                <div class="not-clickable col-lg-8 d-grid">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      (input)="updateUnitValues()"
+                      class="input form-control mb-1 mt-2 fs-5 p-2-3 text-dark simulator-input"
+                      id="guarantee"
+                      placeholder="fees"
+                      formControlName="guarantee_rate" />
+                    <label for="guarantee"> Guarantee </label>
+                  </div>
+
+                  <div class="d-flex ps-2">
+                    <div
+                      tabindex="0"
+                      class="d-flex align-items-center me-5"
+                      (click)="changeGuaranteeFeesUnit()">
+                      @if (guaranteeFeesUnit === 'percent') {
+                        <span>
+                          <i class="fa-regular fa-square-check fs-4"></i>
+                        </span>
+                      } @else {
+                        <span>
+                          <i class="fa-regular fa-square fs-4"></i>
+                        </span>
+                      }
+                      <span class="ms-2">%</span>
+                    </div>
+                    <div
+                      tabindex="0"
+                      class="d-flex align-items-center me-5"
+                      (click)="changeGuaranteeFeesUnit()">
+                      @if (guaranteeFeesUnit === 'amount') {
+                        <span class="me-2">
+                          <i class="fa-regular fa-square-check fs-4"></i>
+                        </span>
+                      } @else {
+                        <span class="me-2">
+                          <i class="fa-regular fa-square fs-4"></i>
+                        </span>
+                      }
+                      <span>Amount</span>
+                    </div>
+                    <div class="d-flex">
+                      <span class="me-2 text-primary-light">
+                        <i class="fa fa-play"></i>
+                      </span>
+                      <span>{{ guaranteeFees | currency: ' ' }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-lg-6 row align-items-center justify-content-between">
+                <div class="col-lg-8">
+                  <select
+                    style="border: 1px solid #9d9d9d"
+                    class="input form-select mb-1 mt-2 fs-4 p-2-3 text-dark simulator-input w-100"
+                    id="period"
+                    formControlName="period">
+                    <option value="" selected>Select frequency</option>
+                    <option value="1">Month</option>
+                    <option value="3">Quarter</option>
+                    <option value="6">Semester</option>
+                  </select>
+                </div>
+              </div>
+              <div
+                class="col-lg-6 row align-items-center justify-content-between">
+                <div class="col-lg-8">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      class="input form-control mb-1 mt-2 fs-5 p-2-3 text-dark simulator-input"
+                      id="payment"
+                      placeholder="payment number"
+                      formControlName="payment_number" />
+                    <label for="payment"> Payment number </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="w-100 mt-5 pt-2 d-flex justify-content-center">
+              <button
+                type="submit"
+                (click)="requestLoan()"
+                class="btn px-5 bg-primary d-flex justify-content-center py-2 border-0"
+                [disabled]="requestForm.invalid">
+                @if (!isLoading) {
+                  <b style="color: #fff" i18n>Confirm</b>
+                } @else {
+                  <span>
+                    <i class="fa-solid fa-pulse fa-circle-notch text-white"></i>
+                  </span>
+                }
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</main>

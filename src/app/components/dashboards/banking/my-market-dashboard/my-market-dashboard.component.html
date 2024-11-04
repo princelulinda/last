@@ -223,6 +223,7 @@
             'col-lg-7 col-xl-6': activePlatform === 'workstation',
           }">
           <div class="row mx-0 justify-content-between gap-2 gap-lg-3">
+            <!-- NOTE :: BANKING MENUS -->
             @if (activePlatform !== 'workstation') {
               @for (menu of marketMenus; track $index) {
                 @let menuId = menu.id;
@@ -243,6 +244,7 @@
                 } @else if (menuId === 4) {
                   <a
                     class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
+                    frag
                     (click)="openStatementPopup()"
                     role="button">
                     <b i18n>{{ menu.name }}</b>
@@ -263,6 +265,8 @@
                   </span>
                 }
               }
+
+              <!-- NOTE :: CORPORATE MENUS -->
             } @else {
               @for (menu of corporateMarketMenus; track $index) {
                 <a

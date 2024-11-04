@@ -3,6 +3,7 @@ import { ApiService } from '..';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import {
   BodyLoanModel,
+  CreditResponseDataModel,
   LoanListModel,
   LoanListResponseModel,
   LoanModel,
@@ -10,6 +11,7 @@ import {
   LoanPlanResponseModel,
   LoanTypeModel,
   PayLoanModel,
+  RequestCreditResModel,
   ResModel,
   ResponseDataModel,
   SimulateLoanModel,
@@ -94,6 +96,12 @@ export class LoanService {
   requestLoan(body: BodyLoanModel): Observable<{ object: LoanPendingModel }> {
     return this.apiService.post('/loans/request/', body);
   }
+
+  requestCredit(
+    body: BodyLoanModel
+  ): Observable<{ object: RequestCreditResModel }> {
+    return this.apiService.post('/loans/request/', body);
+  }
   getLoanType(): Observable<{ objects: LoanTypeModel }> {
     return this.apiService.get('/loans/loan-type/');
   }
@@ -106,6 +114,20 @@ export class LoanService {
   }): Observable<{ object: ResponseDataModel }> {
     return this.apiService.get(
       `/loans/defaults-check/?account=${account_id}&loan_type=${loan_type_id}`
+    );
+  }
+
+  getCreditTypeInfo({
+    account_id,
+    loan_type_id,
+    branch,
+  }: {
+    account_id: string;
+    loan_type_id: string;
+    branch: number | undefined;
+  }): Observable<{ object: CreditResponseDataModel }> {
+    return this.apiService.get(
+      `/loans/defaults-check/?account=${account_id}&loan_type=${loan_type_id}&loan_branch_id=${branch}`
     );
   }
 

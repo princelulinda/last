@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { UserInfoModel } from '../../../../core/db/models/auth';
 import { ConfigService } from '../../../../core/services';
@@ -14,8 +21,9 @@ import { FormControl } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TransferResponseModel } from '../../transfer.model';
 import { DialogService } from '../../../../core/services';
+
 @Component({
-  selector: 'app-debit-account-workstation',
+  selector: 'app-credit-account-workstastion',
   standalone: true,
   imports: [
     CommonModule,
@@ -23,10 +31,10 @@ import { DialogService } from '../../../../core/services';
     LookupIndividualComponent,
     ReactiveFormsModule,
   ],
-  templateUrl: './debit-account-workstation.component.html',
-  styleUrl: './debit-account-workstation.component.scss',
+  templateUrl: './credit-account-workstastion.component.html',
+  styleUrl: './credit-account-workstastion.component.scss',
 })
-export class DebitAccountWorkstationComponent implements OnInit {
+export class CreditAccountWorkstastionComponent implements OnInit, OnDestroy {
   clientInfo!: UserInfoModel;
   mainConfig$!: Observable<ActiveMainConfigModel>;
   // wallet information
@@ -36,18 +44,18 @@ export class DebitAccountWorkstationComponent implements OnInit {
   walletNumber: string | undefined;
   walletName: string | undefined;
   mainConfig!: ActiveMainConfigModel;
-  lookupDebitAccountUrl = '/clients/list/all/object_lookup?lookup_data=';
+  lookupCreditAccountUrl = '/clients/list/all/object_lookup?lookup_data=';
 
-  debitAccount!: LookupModel | null;
+  creditAccount!: LookupModel | null;
   individualClientInfo: ClientInfoModel | null = null;
 
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  @Input() selectedDebitAccountType = '';
+  @Input() selectedCreditAccountType = '';
 
   @Output() lookupOptions = new EventEmitter<LookupModel | null>();
   @Output() lookupOptionsWallet = new EventEmitter<TransferResponseModel>();
-  @Output() selectedDebitAccountTypeChange = new EventEmitter<string>();
+  @Output() selectedCreditAccountTypeChange = new EventEmitter<string>();
   @Output() deselectAccount = new EventEmitter<boolean>(false);
   constructor(
     private configService: ConfigService,
@@ -56,6 +64,7 @@ export class DebitAccountWorkstationComponent implements OnInit {
   ) {
     this.mainConfig$ = this.configService.getMainConfig();
   }
+
   ngOnInit(): void {
     this.mainConfig$.subscribe({
       next: configs => {
@@ -63,47 +72,47 @@ export class DebitAccountWorkstationComponent implements OnInit {
       },
     });
   }
-  selectDebitAccountType(accountType: string) {
-    this.selectedDebitAccountType = accountType;
-    this.selectedDebitAccountTypeChange.emit(this.selectedDebitAccountType);
+  selectCreditAccountType(accountType: string) {
+    this.selectedCreditAccountType = accountType;
+    this.selectedCreditAccountTypeChange.emit(this.selectedCreditAccountType);
     this.deselectAccount.emit(true);
-    if (accountType !== this.selectedDebitAccountType) {
-      this.selectedDebitAccountType = '';
+    if (accountType !== this.selectedCreditAccountType) {
+      this.selectedCreditAccountType = '';
     }
     switch (accountType) {
       case 'account':
-        this.debitAccount = null;
+        this.creditAccount = null;
         break;
 
       case 'wallet':
-        this.lookupDebitAccountUrl = '/dbs/wallets/object_lookup?lookup_data=';
-        this.debitAccount = null;
+        this.lookupCreditAccountUrl = '/dbs/wallets/object_lookup?lookup_data=';
+        this.creditAccount = null;
         break;
 
       case 'agent':
-        this.lookupDebitAccountUrl = '/dbs/agents/object_lookup?lookup_data=';
-        this.debitAccount = null;
+        this.lookupCreditAccountUrl = '/dbs/agents/object_lookup?lookup_data=';
+        this.creditAccount = null;
         break;
 
       case 'merchant':
-        this.lookupDebitAccountUrl =
+        this.lookupCreditAccountUrl =
           '/dbs/merchant/manage/object_lookup?lookup_data=';
-        this.debitAccount = null;
+        this.creditAccount = null;
         break;
 
       default:
         break;
     }
   }
+
   getIndividualClient(event: ClientInfoModel) {
     this.individualClientInfo = event;
   }
-
   getClientToDebit(client: LookupModel | null) {
-    this.debitAccount = client;
+    this.creditAccount = client;
 
     //console.log('helllooo' , this.debitAccount)
-    this.lookupOptions.emit(this.debitAccount);
+    this.lookupOptions.emit(this.creditAccount);
   }
 
   deselectDebitAccount() {
@@ -152,5 +161,10 @@ export class DebitAccountWorkstationComponent implements OnInit {
           });
         },
       });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

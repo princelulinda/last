@@ -1,25 +1,17 @@
-.teller-card {
-    height: 181px;
-    width: 150px;
-}
-.userSize {
-    height: 35px; 
+.group-card {
+  max-height: 180px;
+  width: 150px;
+  .profile {
+    height: 35px;
     width: 35px;
+  }
+}
+.iconSize {
+  width: 30px;
+  height: 30px;
 }
 
 .imgSize {
-    width: 69px;
-    height: 37px;
-}
-.iconSize {
-    width: 30px;
-    height: 30px;
-}
-
-.borderDashed {
-    border-bottom: 1px dashed #C4C4C4;
-}
-
-.modal-header {
-    border-bottom: none !important;
+  width: 69px;
+  height: 37px;
 }
