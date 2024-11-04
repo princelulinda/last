@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-credit-list',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
   templateUrl: './credit-list.component.html',
   styleUrl: './credit-list.component.scss',
 })
-export class CreditListComponent {}
+export class CreditListComponent {
+  constructor(private location: Location) {}
+
+  goBack(): void {
+    this.location.back();
+  }
+}
