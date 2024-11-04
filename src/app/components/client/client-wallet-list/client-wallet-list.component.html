@@ -1,7 +1,6 @@
 @if (!walletsWorkStation) {
   <div
-    class="text-center w-100 d-flex justify-content-center align-items-center text-dark"
-    style="height: 50vh"
+    class="text-center w-100 d-flex justify-content-center align-items-center text-dark loader"
     title="Loading...">
     <i class="spinner-border"></i>
   </div>
@@ -11,7 +10,7 @@
 @if (walletsWorkStation) {
   <div>
     @if (walletsWorkStation && walletsWorkStation.length > 0) {
-      <div class="row align-items-center" style="height: 35px">
+      <div class="row align-items-center">
         <div
           role="button"
           class="col-2 mt-1 mb-2 me-2"
@@ -45,7 +44,7 @@
           SelectedclientId
         }}/wallet/{{ wallet.id }}/"
         routerLinkActive="level-2">
-        <div class="rounded" style="line-height: 1em">
+        <div class="rounded lh-1">
           <small
             ><span class="mt-0 text-sm">
               {{ wallet.title }}

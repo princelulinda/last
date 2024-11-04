@@ -1,52 +1,36 @@
-.has-border{
-    background-color: #938c8c;
-    height: 1px;
-    width: 100px;
- }
-.gradientLight{
-    border: 0.5px solid #c4c4c4;
-    background: linear-gradient(
-            0deg,
-            rgba(0, 75, 144, 0.2) 0.16%,
-            rgba(213, 235, 254, 0) 75.46%
-        ),
-        #fff;
-    width: 259px;
-
+.gradientLight {
+  border: 0.5px solid #c4c4c4;
+  background: linear-gradient(
+      0deg,
+      rgba(0, 75, 144, 0.2) 0.16%,
+      rgba(213, 235, 254, 0) 75.46%
+    ),
+    #fff;
+  width: 259px;
 }
-.gradientDark{
-    border: 0.5px solid #c4c4c4;
-    background: linear-gradient(
-            0deg,
-            rgba(0, 75, 144, 0.2) 0.16%,
-            rgba(213, 235, 254, 0) 75.46%
-        ),
-        rgb(12,22,39);
-    width: 259px;
-
-}
-
-
-.profileIcon{
-    opacity: 0.7;
-}
-
-.userProfile {
-    height: inherit;
+.gradientDark {
+  border: 0.5px solid #c4c4c4;
+  background: linear-gradient(
+      0deg,
+      rgba(0, 75, 144, 0.2) 0.16%,
+      rgba(213, 235, 254, 0) 75.46%
+    ),
+    rgb(12, 22, 39);
+  width: 259px;
 }
 
 .profileSize {
-    width: 70px;
+  width: 70px;
 }
 
 .faPeopleGroupStyle {
-    width: 135px; 
-    height: 135px; 
-    border-radius: 25px;
+  width: 135px;
+  height: 135px;
+  border-radius: 25px;
 }
 
 .imgSize {
-    border-radius: 25px; 
-    width: 150px; 
-    height: 150px;
+  border-radius: 25px;
+  width: 150px;
+  height: 150px;
 }

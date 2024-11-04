@@ -24,11 +24,11 @@ import { ClientCreditsLineComponent } from '../../components/client/client-credi
 import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
 import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
 import { DeskDashboardComponent } from '../../components/dashboards/workstation/desk-dashboard/desk-dashboard.component';
-//import { UnbankedWalletComponent } from '../../components/client/unbanked-wallet/unbanked-wallet.component';
 import { BalanceSheetComponent } from '../../components/dev/accounting/balance-sheet/balance-sheet.component';
 import { OperationResultComponent } from '../../components/dev/accounting/operation-result/operation-result.component';
 import { CreditLineListComponent } from '../../components/loan/workstation /credit-line/credit-line-list/credit-line-list.component';
 import { WalletListWsComponent } from '../../components/wallet/wallet-list-ws/wallet-list-ws.component';
+import { CreditLineDetailsComponent } from '../../components/loan/workstation /credit-line/credit-line-details/credit-line-details.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -147,6 +147,15 @@ export const DeskRoutes: Routes = [
           {
             path: 'list',
             component: CreditLineListComponent,
+          },
+        ],
+      },
+      {
+        path: 'line',
+        children: [
+          {
+            path: 'details/:id',
+            component: CreditLineDetailsComponent,
           },
         ],
       },

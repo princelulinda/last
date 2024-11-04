@@ -1,8 +1,7 @@
 <div class="position-relative">
   @if (!account) {
     <span
-      class="text-center w-100 d-flex justify-content-center align-items-center text-dark"
-      style="height: 50vh"
+      class="text-center w-100 d-flex justify-content-center align-items-center text-dark loader"
       title="Loading account details ...">
       <i class="spinner-border"></i>
     </span>
@@ -480,7 +479,7 @@
                 role="button"
                 (click)="changeStatus()"
                 tabindex="0"
-                class="fw-bold sm-radius pt-1 ms-auto ps-2 me-2 bg-primary text-all-white btn-sz"
+                class="fw-bold sm-radius ms-auto ps-3 pe-3 p-1 me-2 bg-primary text-all-white"
                 i18n>
                 <i class="fa-solid fa-pen pt-1"></i> Change status
               </div>
