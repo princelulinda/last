@@ -94,6 +94,16 @@ export class CreditAccountWorkstastionComponent implements OnInit, OnDestroy {
         this.creditAccount = null;
         break;
 
+      case 'internal':
+        this.lookupCreditAccountUrl = '/ledger/objects_autocomplete?search=';
+        this.creditAccount = null;
+        break;
+      case 'treasury':
+        this.lookupCreditAccountUrl =
+          '/treasury/institutions/manage/objects_autocomplete?search=';
+        this.creditAccount = null;
+        break;
+
       case 'merchant':
         this.lookupCreditAccountUrl =
           '/dbs/merchant/manage/object_lookup?lookup_data=';
@@ -108,7 +118,7 @@ export class CreditAccountWorkstastionComponent implements OnInit, OnDestroy {
   getIndividualClient(event: ClientInfoModel) {
     this.individualClientInfo = event;
   }
-  getClientToDebit(client: LookupModel | null) {
+  getClientToCredit(client: LookupModel | null) {
     this.creditAccount = client;
 
     //console.log('helllooo' , this.debitAccount)

@@ -33,18 +33,33 @@
           class="text-center width">
           <b i18n>Wallet</b>
         </div>
+
         <div
           role="button"
           tabindex="0"
-          (click)="selectDebitAccountType('merchant')"
+          (click)="selectDebitAccountType('internal')"
           tabindex="0"
           [ngClass]="{
             'bg-primary text-all-white  rounded px-1 py-2 me-1':
-              selectedDebitAccountType === 'merchant',
+              selectedDebitAccountType === 'internal',
           }"
           class="text-center width">
-          <b i18n>Merchant</b>
+          <b i18n>Internal account</b>
         </div>
+
+        <div
+          role="button"
+          tabindex="0"
+          (click)="selectDebitAccountType('treasury')"
+          tabindex="0"
+          [ngClass]="{
+            'bg-primary text-all-white  rounded px-1 py-2 me-1':
+              selectedDebitAccountType === 'treasury',
+          }"
+          class="text-center width">
+          <b i18n>Alias</b>
+        </div>
+
         <div
           role="button"
           tabindex="0"
@@ -56,6 +71,19 @@
           }"
           class="text-center width">
           <b i18n>Agent</b>
+        </div>
+
+        <div
+          role="button"
+          tabindex="0"
+          (click)="selectDebitAccountType('merchant')"
+          tabindex="0"
+          [ngClass]="{
+            'bg-primary text-all-white  rounded px-1 py-2 me-1':
+              selectedDebitAccountType === 'merchant',
+          }"
+          class="text-center width">
+          <b i18n>Merchant</b>
         </div>
       </div>
     </div>
@@ -122,6 +150,7 @@
                   </div>
                 </div>
               }
+
             } @else if (selectedDebitAccountType === 'merchant') {
               <app-lookup
                 class="w-100"
@@ -138,6 +167,24 @@
                 [url]="lookupDebitAccountUrl"
                 lookupLabel="Agent account"
                 label="Agent accounts"></app-lookup>
+
+            } @else if (selectedDebitAccountType === 'internal') {
+              <app-lookup
+                class="w-100"
+                option="autocomplete"
+                (selectedItemEvent)="getClientToDebit($event)"
+                [url]="lookupDebitAccountUrl"
+                lookupLabel="Internal accounts"
+                label="Internal accounts"></app-lookup>
+
+            } @else if (selectedDebitAccountType === 'treasury') {
+              <app-lookup
+                class="w-100"
+                option="autocomplete"
+                (selectedItemEvent)="getClientToDebit($event)"
+                [url]="lookupDebitAccountUrl"
+                lookupLabel="Treasury account"
+                label="Treasury account"></app-lookup>
             }
           </div>
         </div>
