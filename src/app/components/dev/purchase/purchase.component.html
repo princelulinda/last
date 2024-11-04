@@ -141,7 +141,7 @@
         </div>
         <div class="d-flex-flex-column">
           <b class="fs-medium">{{ product.lookup_title }}</b>
-          <div class="text-secondary">Category</div>
+          <div class="text-secondary" i18n>Category</div>
 
           <div class="text-primary-2">
             <app-amount-visibility
@@ -280,7 +280,7 @@
                     formControlName="measure_value"
                     aria-label="value"
                     aria-describedby="basic-addon2" />
-                  <label for="measure"></label>
+                  <label for="measure" i18n>Quantity</label>
                 </div>
                 <div
                   class="input-group-append d-flex align-items-center border-start border-2"
@@ -334,7 +334,7 @@
               <i class="fa-solid fa-spin fa-circle-notch fa-lg text-white"></i>
             </span>
           } @else if (!isLoading) {
-            <b>Confirm</b>
+            <b i18n>Confirm</b>
           }
         </button>
         <button
@@ -343,7 +343,7 @@
           (click)="selectedModal = 'add-to-group'"
           data-bs-target="#staticBackdrop"
           [disabled]="!invoiceForm.valid || isLoading === true">
-          <b>Add to group</b>
+          <b i18n>Add to group</b>
         </button>
       </div>
     </form>
@@ -401,7 +401,7 @@
         <!-- add to a new group or existant group -->
         @if (selectedModal === 'add-to-group') {
           <div class="d-flex flex-column">
-            <div class="text-center text-dark">Add to Group</div>
+            <div class="text-center text-dark" i18n>Add to Group</div>
             <div class="col-9 mt-5 mx-auto">
               <div
                 class="row bg-secondary py-3 rounded-top"
@@ -411,7 +411,7 @@
                 <div class="col-11 mx-auto">
                   <div class="row">
                     <div class="col-10 col-sm-11">
-                      <span class="text-dark">New Group</span>
+                      <span class="text-dark" i18n>New Group</span>
                     </div>
                     <div class="col-1">
                       <div class="d-flex justify-content-end mt-1">
@@ -430,7 +430,7 @@
                 <div class="col-11 mx-auto">
                   <div class="row">
                     <div class="col-10 col-sm-11">
-                      <span class="text-dark">Existant Group</span>
+                      <span class="text-dark" i18n>Existant Group</span>
                     </div>
                     <div class="col-1">
                       <div class="d-flex justify-content-end mt-1">
