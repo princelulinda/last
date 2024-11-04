@@ -29,6 +29,11 @@ import { OperationResultComponent } from '../../components/dev/accounting/operat
 import { CreditLineListComponent } from '../../components/loan/workstation /credit-line/credit-line-list/credit-line-list.component';
 import { WalletListWsComponent } from '../../components/wallet/wallet-list-ws/wallet-list-ws.component';
 import { CreditLineDetailsComponent } from '../../components/loan/workstation /credit-line/credit-line-details/credit-line-details.component';
+import { CreditListComponent } from '../../components/dev/credit/credit-list/credit-list.component';
+import { CreditRequestListComponent } from '../../components/dev/credit/credit-request-list/credit-request-list.component';
+import { CreditRequestComponent } from '../../components/dev/credit/credit-request/credit-request.component';
+import { CreditDetailsComponent } from '../../components/dev/credit/credit-details/credit-details.component';
+//import { DebitAccountWorkstationComponent } from '../../components/transfer/workstation/debit-account-workstation/debit-account-workstation.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -158,6 +163,22 @@ export const DeskRoutes: Routes = [
             component: CreditLineDetailsComponent,
           },
         ],
+      },
+      {
+        path: 'details/:id',
+        component: CreditDetailsComponent,
+      },
+      {
+        path: '',
+        component: CreditListComponent,
+      },
+      {
+        path: 'request',
+        component: CreditRequestComponent,
+      },
+      {
+        path: 'requests',
+        component: CreditRequestListComponent,
       },
     ],
   },
