@@ -51,8 +51,7 @@
         <button
           (click)="DoLookup()"
           class="bg-transparent position-absolute search-btn text-dark"
-          id="validationTooltipUsernamePrepend"
-          type="submit">
+          id="validationTooltipUsernamePrepend">
           <i class="fa-solid fa-search fs-7"></i>
         </button>
       } @else {
@@ -90,13 +89,15 @@
             class="list mx-1 d-flex flex-column justify-content-center ps-0 mb-0">
             <div class="d-flex ms-1">
               <b class="text-secondary">{{ label }}</b>
-              <button
+              <span
                 class="me-2 bg-transparent border-0 end-0 position-absolute"
+                role="button"
+                tabindex="0"
                 (click)="close()">
                 <span class="ms-1">
                   <i class="fa-solid fa-circle-xmark text-danger"></i>
                 </span>
-              </button>
+              </span>
             </div>
 
             @if (isLoading) {
