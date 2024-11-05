@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ClientService } from '../../../core/services/client/client.service';
-import { ActiveMainConfigModel } from '../../../core/services/config/main-config.models';
-import { walletDetailModel } from '../wallet.models';
+import { ClientService } from '../../../../core/services/client/client.service';
+import { ActiveMainConfigModel } from '../../../../core/services/config/main-config.models';
+import { walletDetailModel } from '../../wallet.models';
 import { WalletListComponent } from '../wallet-list/wallet-list.component';
-import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { WalletTopupComponent } from '../wallet-topup/wallet-topup.component';
