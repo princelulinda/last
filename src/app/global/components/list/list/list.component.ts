@@ -17,6 +17,7 @@ import {
 import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
 import { NotFoundPageComponent } from '../../empty-states/not-found-page/not-found-page.component';
 import { EmptyStateComponent } from '../../empty-states/empty-state/empty-state.component';
+import { TooltipDirective } from '../../../directives/tooltip/tooltip.directive';
 
 @Component({
   selector: 'app-list',
@@ -29,6 +30,7 @@ import { EmptyStateComponent } from '../../empty-states/empty-state/empty-state.
     RouterLink,
     FormsModule,
     EmptyStateComponent,
+    TooltipDirective,
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
@@ -122,6 +124,7 @@ export class ListComponent implements OnInit, OnDestroy {
     title: 'Hide the overview',
   };
   overviewUrl = '';
+  loadingOverview = false;
 
   constructor(
     private generalService: GeneralService,
@@ -138,7 +141,6 @@ export class ListComponent implements OnInit, OnDestroy {
     this.overviewUrl = this.getOverviewUrl();
 
     this.getData();
-    this.getOverviewData();
 
     this.amountState$.subscribe({
       next: state => {
@@ -335,6 +337,7 @@ export class ListComponent implements OnInit, OnDestroy {
         },
       });
   }
+
   reverseList() {
     this.data_list.reverse();
     return;
@@ -408,17 +411,6 @@ export class ListComponent implements OnInit, OnDestroy {
       this.showFilters = true;
     }
   }
-  getOverviewData() {
-    this.generalService
-      .getOverviewData(this.overviewUrl)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: data => {
-          this.overViewData = data.object;
-          this.overviewCount = data.count;
-        },
-      });
-  }
 
   openPagination() {
     if (this.displayPaginationLimit) {
@@ -436,6 +428,25 @@ export class ListComponent implements OnInit, OnDestroy {
 
   canMoveNext(limit: number): boolean {
     return this.response_data.count < (this.currentPage + 1) * limit;
+  }
+
+  getOverviewData() {
+    // if (!this.loadingOverview && this.overViewData.length > 0) {
+    this.loadingOverview = true;
+    this.generalService
+      .getOverviewData(this.overviewUrl)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: data => {
+          this.overViewData = data.object;
+          this.overviewCount = data.count;
+          this.loadingOverview = false;
+        },
+        error: () => {
+          this.loadingOverview = false;
+        },
+      });
+    // }
   }
 
   // openOverview() {
