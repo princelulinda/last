@@ -4,7 +4,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 
 import { Subject, Observable, takeUntil } from 'rxjs';
 
-import { WalletCardComponent } from '../../../wallet/wallet-card/wallet-card.component';
+import { WalletCardComponent } from '../../../wallet/banking/wallet-card/wallet-card.component';
 import { NyamuranziCardComponent } from '../../../nyamuranzi/nyamuranzi-card/nyamuranzi-card.component';
 import {
   AuthService,

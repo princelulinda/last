@@ -16,16 +16,16 @@ import {
   ClientService,
   ConfigService,
   DialogService,
-} from '../../../core/services';
-import { UserInfoModel } from '../../../core/db/models/auth';
-import { WalletModel, WalletTypModel } from '../wallet.models';
-import { BankModel } from '../../../core/db/models/bank/bank.model';
+} from '../../../../core/services';
+import { UserInfoModel } from '../../../../core/db/models/auth';
+import { WalletModel, WalletTypModel } from '../../wallet.models';
+import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import {
   ActiveMainConfigModel,
   ModeModel,
-} from '../../../core/services/config/main-config.models';
-import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
-import { StatementComponent } from '../../statements/statement/statement.component';
+} from '../../../../core/services/config/main-config.models';
+import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { StatementComponent } from '../../../statements/statement/statement.component';
 
 @Component({
   selector: 'app-wallet-card',
