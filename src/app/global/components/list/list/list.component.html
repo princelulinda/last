@@ -389,9 +389,15 @@
     </div>
   }
 </div>
-<div class="modal fade" data-mdb-backdrop="false" id="myModal">
+
+<!-- NOTE :: OVERVIEW MODAL -->
+<section
+  role="dialog"
+  class="modal fade"
+  data-mdb-backdrop="false"
+  id="myModal">
   <div
-    class="modal-dialog w-100 lg-radius d-flex justify-content-center h-100 align-items-center overflow-auto">
+    class="modal-dialog modal-dialog-scrollable bg-white lg-radius d-flex justify-content-center h-100 align-items-center">
     <div class="modal-content w-resp">
       <div class="d-flex justify-content-end">
         <span data-bs-toggle="modal" data-bs-target="#myModal" role="button">
@@ -400,7 +406,7 @@
       </div>
       <div class="px-4 pb-4">
         <div class="w-100 d-grid">
-          <span class="text-dark fs-3">Overview</span>
+          <span class="text-dark fs-3" i18n>Overview</span>
           <hr class="text-dark mt-1" />
         </div>
         <div class="w-100 d-flex justify-content-center">
@@ -429,7 +435,7 @@
                           }}</small> </span
                         ><br />
                         <b class="text-secondary ms-4">
-                          {{ data.value_data.currency }}
+                          {{ data.value_data?.currency }}
                           {{ data.value | currency: ' ' }}
                         </b>
                       </div>
@@ -457,4 +463,4 @@
       </div>
     </div>
   </div>
-</div>
+</section>

@@ -8,15 +8,17 @@ import {
   MappingResponseModel,
   MobileBanksModel,
 } from '../../../global/components/global-mapping/glob-mapping.model';
-import { ParamModel } from '../../../global/components/list/reusable-list/reusable.model';
-import { getdataModel } from '../../../global/components/list/reusable-list/reusable.model';
+import {
+  ParamModel,
+  getdataModel,
+  OverviewModel,
+} from '../../../global/components/list/list.models';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import {
   MetadataBodyModel,
   MetadataCreationResponseModel,
   MetadataModel,
 } from '../../../components/metadatas/metadata.model';
-import { OverviewModel } from '../../../global/components/list/list/list.model';
 import { confirmDialogModel } from '../../../global/components/popups/confirm-dialog/confirm-dialog.model';
 
 @Injectable({

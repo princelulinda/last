@@ -1,21 +1,21 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 import { Subject, Observable, takeUntil } from 'rxjs';
 
 import { GeneralService, DialogService } from '../../../../core/services';
 import { PaginationConfig } from '../../../models/pagination.models';
 import {
-  Header,
+  ListHeadersModel,
   selectedPeriodModel,
   getdataModel,
   ParamModel,
-} from '../reusable-list/reusable.model';
+  OverviewModel,
+} from '../list.models';
 import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
-import { OverviewModel } from './list.model';
 import { NotFoundPageComponent } from '../../empty-states/not-found-page/not-found-page.component';
-import { Router, RouterLink } from '@angular/router';
 import { EmptyStateComponent } from '../../empty-states/empty-state/empty-state.component';
 
 @Component({
@@ -36,13 +36,12 @@ import { EmptyStateComponent } from '../../empty-states/empty-state/empty-state.
 export class ListComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  @Input({ required: true }) headers!: Header[];
+  @Input({ required: true }) headers: ListHeadersModel[] = [];
   @Input({ required: true }) url = '';
 
   showAmount = false;
 
   @Input() hasOverview = true;
-  @Input() overviewUrl = '';
   @Input() todayDate = false;
   @Input() limit = 20;
   @Input() addButtonLink: { url: string; fragment?: string } = {
@@ -89,10 +88,12 @@ export class ListComponent implements OnInit, OnDestroy {
       ],
     },
   ];
+
   clientPagination = new PaginationConfig();
   currentPage = 0;
+  pages = 0;
+
   response_data!: getdataModel;
-  pages!: number;
   boolean = false;
   isLoading = false;
   showFilters = false;
@@ -114,16 +115,17 @@ export class ListComponent implements OnInit, OnDestroy {
   pageInput = new FormControl();
 
   paginationsLimit = [50, 40, 30, 20, 10, 5];
+
   overviewOption = {
     hidden: false,
     image_url: '../../../../../assets/images/arrow-down.svg',
     title: 'Hide the overview',
   };
+  overviewUrl = '';
 
   constructor(
     private generalService: GeneralService,
-    private dialogService: DialogService,
-    private router: Router
+    private dialogService: DialogService
   ) {
     this.amountState$ = this.dialogService.getAmountState();
     this.data_list = [];
@@ -131,7 +133,13 @@ export class ListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.clientPagination.filters.limit = this.limit;
+
+    // NOTE :: GET FORMATTED OVERVIEW URL
+    this.overviewUrl = this.getOverviewUrl();
+
     this.getData();
+    this.getOverviewData();
+
     this.amountState$.subscribe({
       next: state => {
         this.amountState = state;
@@ -139,17 +147,19 @@ export class ListComponent implements OnInit, OnDestroy {
     });
   }
 
-  showAmounts() {
-    this.showAmount = !this.showAmount;
-  }
+  // showAmounts() {
+  //   this.showAmount = !this.showAmount;
+  // }
 
   toggleEyeStatus() {
     this.dialogService.displayAmount();
   }
+
   isSearchInputNotEmpty(): boolean {
     const searchValue = this.searchName.value;
     return searchValue?.trim() !== '';
   }
+
   handleEnter(event: KeyboardEvent): void {
     event.preventDefault();
     this.search();
@@ -320,8 +330,7 @@ export class ListComponent implements OnInit, OnDestroy {
             }
           }
         },
-        error: msg => {
-          console.log('Error Getting Location: ', msg);
+        error: () => {
           this.isLoading = false;
         },
       });
@@ -381,6 +390,7 @@ export class ListComponent implements OnInit, OnDestroy {
   search() {
     this.getData();
   }
+
   toggleAllCheckboxes(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.checkAll = target.checked;
@@ -428,21 +438,33 @@ export class ListComponent implements OnInit, OnDestroy {
     return this.response_data.count < (this.currentPage + 1) * limit;
   }
 
-  openOverview() {
-    if (!this.overviewOption.hidden) {
-      this.overviewOption.hidden = true;
-      this.overviewOption.image_url =
-        '../../../../../assets/images/arrow-up.svg';
-      this.overviewOption.title = 'Open the overview';
-    } else {
-      this.overviewOption.hidden = false;
-      this.overviewOption.image_url =
-        '../../../../../assets/images/arrow-down.svg';
-      this.overviewOption.title = 'Hide the overview';
+  // openOverview() {
+  //   if (!this.overviewOption.hidden) {
+  //     this.overviewOption.hidden = true;
+  //     this.overviewOption.image_url =
+  //       '../../../../../assets/images/arrow-up.svg';
+  //     this.overviewOption.title = 'Open the overview';
+  //   } else {
+  //     this.overviewOption.hidden = false;
+  //     this.overviewOption.image_url =
+  //       '../../../../../assets/images/arrow-down.svg';
+  //     this.overviewOption.title = 'Hide the overview';
+  //   }
+  // }
+
+  private getOverviewUrl(): string {
+    let url = this.url;
+    if (url.endsWith('?')) {
+      url = url.slice(0, -1);
+      if (!url.endsWith('/')) {
+        url = url.concat('/');
+      }
+      url = url.concat('objects_overview/');
     }
+    return url;
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
