@@ -126,6 +126,7 @@
       <section class="col text-secondary">
         @if (response_data && data_list && data_list.length > 0) {
           <div class="d-flex align-items-center">
+            <!-- NOTE :: PAGINATION -->
             <div class="ms-auto d-flex align-items-center">
               <small i18n
                 ><i class="text-secondary"
@@ -176,11 +177,11 @@
                 <i i18n class="fa-solid fa-angles-right fs-small"></i>
               </span>
             </div>
+
+            <!-- NOTE :: FILTERS -->
             <div
               role="button"
               title="Filters"
-              data-bs-toggle="modal"
-              data-bs-target="#filterModal"
               class="ms-3 justify-content-center d-flex align-items-center bg-primary-3 sm-radius filter-square">
               <span
                 ><i class="fa-solid fa-arrow-up-wide-short text-secondary"></i

@@ -126,6 +126,12 @@ export class GeneralService {
       .pipe(map(data => data));
   }
 
+  getListFilters(url: string): Observable<{ object: never[] }> {
+    return this.apiService
+      .get<{ object: never[] }>(url)
+      .pipe(map(data => data));
+  }
+
   changePin(body: object): Observable<confirmDialogModel> {
     const url = '/client/change-pin/';
     return this.apiService
