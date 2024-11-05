@@ -15,7 +15,7 @@ export class ProfileCardComponent implements OnInit {
 
   @Input({ required: true }) height = '';
   @Input() classes = '';
-  @Input() radius = 'rounded-circle';
+  @Input() radiusClass = 'rounded-circle';
 
   initials = '';
 

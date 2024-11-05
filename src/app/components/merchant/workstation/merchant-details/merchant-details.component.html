@@ -242,18 +242,15 @@
                           </div>
                           <div class="d-flex gap-2">
                             <div class="size-pic sm-radius">
-                              @if (!merchant.reference_client.picture) {
-                                <img
-                                  alt=""
-                                  class="image sm-radius"
-                                  src="/src/assets/images/assets/images/userprofile.png" />
-                              }
-                              @if (merchant.reference_client.picture) {
-                                <img
-                                  class="image sm-radius"
-                                  alt=""
-                                  [src]="merchant.reference_client.picture" />
-                              }
+                              <app-profile-card
+                                radiusClass="lg-radius"
+                                width="100%"
+                                height="100%"
+                                [imageUrl]="merchant.reference_client.picture"
+                                [fullName]="
+                                  merchant.reference_client.client_full_name
+                                ">
+                              </app-profile-card>
                             </div>
                             <div>
                               <div class="mt-2">
