@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Modal } from 'bootstrap';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { StatementComponent } from '../../../statements/statement/statement.component';
-import { ListComponent } from '../../../../global/components/list/list/list.component';
+import { StatementComponent } from '../../../../statements/statement/statement.component';
+import { ListComponent } from '../../../../../global/components/list/list/list.component';
 import { Subject, takeUntil } from 'rxjs';
-import { ClientService, LoanService } from '../../../../core/services';
+import { ClientService, LoanService } from '../../../../../core/services';
 import { CommonModule } from '@angular/common';
-import { LoanModel } from '../../../loan/loan.models';
-import { ClientWorkstationModel } from '../../../client/client.model';
+import { LoanModel } from '../../../../loan/loan.models';
+import { ClientWorkstationModel } from '../../../../client/client.model';
 
 @Component({
   selector: 'app-credit-details',

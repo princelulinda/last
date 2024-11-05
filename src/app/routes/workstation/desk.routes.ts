@@ -29,11 +29,11 @@ import { OperationResultComponent } from '../../components/dev/accounting/operat
 import { CreditLineListComponent } from '../../components/loan/workstation /credit-line/credit-line-list/credit-line-list.component';
 
 import { CreditLineDetailsComponent } from '../../components/loan/workstation /credit-line/credit-line-details/credit-line-details.component';
-import { CreditListComponent } from '../../components/dev/credit/credit-list/credit-list.component';
-import { CreditRequestListComponent } from '../../components/dev/credit/credit-request-list/credit-request-list.component';
-import { CreditRequestComponent } from '../../components/dev/credit/credit-request/credit-request.component';
-import { CreditDetailsComponent } from '../../components/dev/credit/credit-details/credit-details.component';
 import { WalletListWsComponent } from '../../components/wallet/workstation/wallet-list-ws/wallet-list-ws.component';
+import { CreditDetailsComponent } from '../../components/loan/workstation /credit/credit-details/credit-details.component';
+import { CreditListComponent } from '../../components/loan/workstation /credit/credit-list/credit-list.component';
+import { CreditRequestComponent } from '../../components/loan/workstation /credit/credit-request/credit-request.component';
+import { CreditRequestListComponent } from '../../components/loan/workstation /credit/credit-request-list/credit-request-list.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
