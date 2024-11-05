@@ -1,6 +1,7 @@
 import { Component, Input, Output, OnInit } from '@angular/core';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { GeneralService } from '../../../core/services';
+import { FiltersModel } from '../../../global/models/global.models';
 
 @Component({
   selector: 'app-filters',
@@ -13,7 +14,7 @@ export class FiltersComponent implements OnInit {
   @Input({ required: true }) url = '';
   @Output() filters = '';
 
-  filtersData = [];
+  filtersData: FiltersModel = { filters: [], ordering: [] };
   filtersUrl = '';
   isLoading = false;
 
@@ -21,7 +22,7 @@ export class FiltersComponent implements OnInit {
 
   ngOnInit() {
     this.filtersUrl = this.formatUrlToFilters();
-    this.getFilters();
+    // this.getFilters();
   }
 
   getFilters() {
@@ -44,7 +45,7 @@ export class FiltersComponent implements OnInit {
       if (!url.endsWith('/')) {
         url = url.concat('/');
       }
-      url = url.concat('objects_filters/');
+      url = url.concat('objects_filtering_data/');
     }
     return url;
   }
