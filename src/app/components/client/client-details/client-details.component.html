@@ -1,7 +1,7 @@
 <!-- <p>client-details works!</p> -->
 <div class="details-container mb-2">
   <div class="mx-0 p-2 ms-0 rounded">
-    <main class="sm-radius mainContent">
+    <main class="sm-radius w-100 border-1 border border-secondary pb-4">
       @if (selectedClient) {
         <header class="mt-3">
           <div class="d-flex ms-3">
@@ -9,6 +9,8 @@
               (click)="selectMenu('details')"
               [ngClass]="{
                 selectedTabb:
+                  selectedMenu === 'details' && !selectedCreditSetting,
+                'ps-4 pe-4 text-center sm-radius':
                   selectedMenu === 'details' && !selectedCreditSetting,
               }"
               role="button"
@@ -20,6 +22,8 @@
               (click)="selectMenu('accounts')"
               [ngClass]="{
                 selectedTabb:
+                  selectedMenu === 'accounts' && !selectedCreditSetting,
+                'ps-4 pe-4 text-center sm-radius':
                   selectedMenu === 'accounts' && !selectedCreditSetting,
               }"
               role="button"
@@ -42,6 +46,8 @@
               [ngClass]="{
                 selectedTabb:
                   selectedMenu === 'wallets' && !selectedCreditSetting,
+                'ps-4 pe-4 text-center sm-radius':
+                  selectedMenu === 'wallets' && !selectedCreditSetting,
 
                 'not-clickable': wallets && wallets.length === 0,
               }"
@@ -63,7 +69,10 @@
                 (click)="selectCreditSetting()"
                 class="ms-5 mt-2 p-2"
                 role="button"
-                [ngClass]="{ selectedTabb: selectedCreditSetting }"
+                [ngClass]="{
+                  selectedTabb: selectedCreditSetting,
+                  ' ps-4 pe-4 text-center sm-radius': selectedCreditSetting,
+                }"
                 tabindex="0">
                 <small class="fw-bold">
                   <span class="text-all-dark" i18n> Credits </span>
@@ -90,7 +99,9 @@
                       'not-clickable': selectedMenu === 'credits',
                     }"
                     tabindex="0">
-                    <div class="widthCreditOption">Credit</div>
+                    <div class="border-bottom border-1 border-secondary w-75">
+                      Credit
+                    </div>
                   </div>
 
                   <div
@@ -114,6 +125,8 @@
               tabindex="0"
               [ngClass]="{
                 selectedTabb:
+                  selectedMenu === 'settings' && !selectedCreditSetting,
+                'ps-4 pe-4 text-center sm-radius':
                   selectedMenu === 'settings' && !selectedCreditSetting,
               }">
               <small class="fw-bold text-all-dark" i18n>Settings</small>
@@ -187,14 +200,14 @@
                   ) {
                     <div class="pe-1 fw-bold">
                       <div
-                        class="sub-menu border text-l align-items-center ms-1 sm-radius p-2"
+                        class="border text-l align-items-center ms-1 sm-radius p-2"
                         [ngClass]="{
                           'not-clickable':
                             selectedClient &&
                             selectedClient.client_is_custom === true,
                         }">
                         <div class="row p-2">
-                          <div class="col availableMenu text-dark">
+                          <div class="col opacity-75 text-dark">
                             <span
                               class="fs-large"
                               [ngClass]="{
@@ -214,7 +227,7 @@
                             }
                           </div>
                           <div
-                            class="text-end col availableMenu text-dark"
+                            class="text-end col opacity-75 text-dark"
                             (click)="selectGeneralInfo()"
                             role="button"
                             tabindex="0">
@@ -249,9 +262,9 @@
                       </div>
 
                       <div
-                        class="sub-menu border text-l align-items-center ms-1 sm-radius p-2 mt-3">
+                        class="border text-l align-items-center ms-1 sm-radius p-2 mt-3">
                         <div class="row p-2">
-                          <div class="col availableMenu text-dark">
+                          <div class="col opacity-75 text-dark">
                             <span
                               class="fs-large"
                               [ngClass]="{
@@ -271,7 +284,7 @@
                             }
                           </div>
                           <div
-                            class="text-end col availableMenu text-dark"
+                            class="text-end col opacity-75 text-dark"
                             role="button"
                             (click)="selectSensitiveInfo()"
                             tabindex="0">
@@ -307,9 +320,9 @@
                       </div>
 
                       <div
-                        class="sub-menu border text-l align-items-center sm-radius p-2 ms-1 mt-3">
+                        class="border text-l align-items-center sm-radius p-2 ms-1 mt-3">
                         <div class="row p-2">
-                          <div class="col availableMenu text-dark">
+                          <div class="col opacity-75 text-dark">
                             <span
                               class="fs-large"
                               [ngClass]="{
@@ -320,7 +333,7 @@
                             >
                           </div>
                           <div
-                            class="text-end col availableMenu text-dark"
+                            class="text-end col opacity-75 text-dark"
                             role="button"
                             (click)="selectContactInfo()"
                             tabindex="0">
@@ -348,9 +361,9 @@
                       </div>
 
                       <div
-                        class="sub-menu border text-l align-items-center ms-1 sm-radius p-2 mt-3">
+                        class="border text-l align-items-center ms-1 sm-radius p-2 mt-3">
                         <div class="row p-2">
-                          <div class="col availableMenu text-dark">
+                          <div class="col opacity-75 text-dark">
                             <span
                               class="fs-large"
                               [ngClass]="{
@@ -381,7 +394,7 @@
                             }
                           </div>
                           <div
-                            class="text-end col availableMenu text-dark"
+                            class="text-end col opacity-75 text-dark"
                             role="button"
                             (click)="selectTaxInfo()"
                             tabindex="0">
@@ -432,7 +445,8 @@
                   this.selectedClient
                 "></app-selected-client-small-overview>
 
-              <div class="p-0 bg-secondary walletList text-dark">
+              <div
+                class="p-0 bg-secondary overflow-y-auto overflow-x-hidden walletList text-dark">
                 <div>
                   <app-client-wallet-list
                     [SelectedclientId]="clientId"
@@ -478,7 +492,8 @@
                   this.selectedClient
                 "></app-selected-client-small-overview>
 
-              <div class="p-0 bg-secondary text-dark accountsList h-100">
+              <div
+                class="p-0 bg-secondary text-dark overflow-x-hidden overflow-y-auto accountsList h-100">
                 <div>
                   <app-client-account-list
                     [SelectedclientId]="clientId"

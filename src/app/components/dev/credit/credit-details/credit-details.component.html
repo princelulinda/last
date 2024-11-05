@@ -1,0 +1,319 @@
+<section class="w-100 h-100 overflow-y-auto bg-white d-flex flex-column">
+  <!--  top-->
+  <div class="d-flex w-100 px-2 py-1 justify-content-end bg-secondary">
+    <div
+      class="d-flex align-items-center px-3 border rounded py-1 clickable"
+      routerLink="/w/workstation/d/desk/credit"
+      tabindex="0">
+      <span class="me-1"><i class="fa fa-arrow-left"></i></span>
+      <b i18n> Back</b>
+    </div>
+  </div>
+
+  <!--  details section  -->
+  @if (credLoading && clientLoading) {
+    <div
+      class="w-100 mx-auto flex-grow-1 d-flex justify-content-center align-items-center">
+      <i class="fa-solid fa-circle-notch fa-2xl fa-pulse"></i>
+    </div>
+  }
+
+  @if (!credLoading || !clientLoading) {
+    <div class="w-100 row flex-grow-1 overflow-y-auto mx-auto">
+      <!--    Left Side     -->
+      <div class="col-3 shadow-sm mt-1 pt-3 fw-bold px-3">
+        @if (clientLoading) {
+          <div
+            class="h-100 w-100 mx-auto d-flex align-items-center justify-content-center">
+            <i class="fa-solid fa-circle-notch fa-2xl fa-pulse"></i>
+          </div>
+        }
+        @if (!clientLoading && client) {
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fs-medium text-primary">Basic client info</span>
+
+            <i
+              class="fa-solid fa-arrow-up-right-from-square text-primary fw-bold fs-l-medium"></i>
+          </div>
+
+          <div class="profilePic overflow-hidden rounded-5 my-4">
+            <img
+              [src]="client?.picture_url ?? './images/userprofile.png'"
+              alt="client profile" />
+          </div>
+
+          <div class="d-flex flex-column gap-4">
+            <div class="d-flex flex-column gap-1 fw-bold">
+              <span class="text-secondary">Client name</span>
+              <span>{{ client?.client_full_name ?? '--------------' }}</span>
+            </div>
+
+            <div class="d-flex flex-column gap-1 fw-bold">
+              <span class="text-secondary">Client type</span>
+              <span>{{ client?.client_type ?? '--------------' }}</span>
+            </div>
+
+            <div class="d-flex flex-column gap-1 fw-bold">
+              <span class="text-secondary">Main account</span>
+              <span>--------------</span>
+            </div>
+
+            <div class="d-flex flex-column gap-1 fw-bold">
+              <span class="text-secondary">Credit limit</span>
+              <span>--------------</span>
+            </div>
+
+            <div class="d-flex flex-column gap-1 fw-bold">
+              <span class="text-secondary">Loan account</span>
+              <span>--------------</span>
+            </div>
+
+            <div class="d-flex flex-column gap-1 fw-bold">
+              <span class="text-secondary">Unpaid capital amount</span>
+              <span>--------------</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      @if (credLoading) {
+        <div class="col-9 px-3 pt-5 mt-5">
+          <div class="w-100 mx-auto p-5 mt-5 d-flex justify-content-center">
+            <i class="fa-solid fa-circle-notch fa-xl fa-pulse"></i>
+          </div>
+        </div>
+      }
+
+      @if (!credLoading && credit) {
+        <div class="col-9 px-3 pt-3">
+          <div class="w-100 d-flex align-items-center">
+            <div class="flex-grow-1 text-center">
+              <span class="fs-large text-primary fw-bold"
+                >2024-30001-000065</span
+              >
+            </div>
+            <div class="d-flex gap-1 flex-row align-items-center clickable">
+              <i class="fa-solid fa-arrows-rotate me-1 text-secondary"></i>
+              <span>Refresh</span>
+            </div>
+          </div>
+
+          <div
+            class="mt-3 px-3 py-4 bg-erp rounded-3 d-flex gap-2 flex-column position-relative mb-5">
+            <div
+              class="position-absolute border-secondary border bg-white rounded-4 px-3 py-1 start-0 ms-4 credBadge">
+              <span class="fw-bold">Credit info</span>
+            </div>
+            <div class="row mx-auto fw-bold w-100">
+              <div class="col-2 text-secondary">Credit amount:</div>
+              <div class="col-3 text-success">
+                {{ credit.cred_client_main_account.acc_currency }}
+                {{ ' ' }}
+                {{ credit.cred_amount | number }}
+              </div>
+
+              <div class="col-2"></div>
+
+              <div class="col-2 text-secondary">Paid capital:</div>
+              <div class="col-3">
+                {{ credit.cred_client_main_account.acc_currency }}
+                {{ ' ' }}
+                {{ credit.cred_paid_capital | number }}
+              </div>
+            </div>
+
+            <div class="row mx-auto fw-bold w-100">
+              <div class="col-2 text-secondary">Due amount:</div>
+              <div class="col-3">
+                {{ credit.cred_client_main_account.acc_currency }}
+                {{ ' ' }}
+                {{ credit.cred_remaining_amount | number }}
+              </div>
+
+              <div class="col-2"></div>
+
+              <div class="col-2 text-secondary">Paid interest:</div>
+              <div class="col-3">
+                {{ credit.cred_client_main_account.acc_currency }}
+                {{ ' ' }}
+                {{ credit.paid_interests }}
+              </div>
+            </div>
+
+            <div class="row mx-auto fw-bold w-100">
+              <div class="col-2 text-secondary">Total interest:</div>
+              <div class="col-3">
+                {{ credit.cred_client_main_account.acc_currency }}
+                {{ ' ' }}
+                {{ credit.cred_total_interests | number }}
+              </div>
+
+              <div class="col-2"></div>
+
+              <div class="col-2 text-secondary">Fees:</div>
+              <div class="col-3">
+                {{ credit.cred_client_main_account.acc_currency }}
+                {{ ' ' }}
+                {{ (credit.cred_fees_paid | number) ?? '---' }}
+              </div>
+            </div>
+
+            <div class="row mx-auto fw-bold w-100">
+              <div class="col-2 text-secondary">Total due:</div>
+              <div class="col-3">
+                {{ credit.cred_client_main_account.acc_currency }}
+                {{ ' ' }}
+                {{ credit.remaining_amount | number }}
+              </div>
+
+              <div class="col-2"></div>
+
+              <div class="col-2 text-secondary">Credit type:</div>
+              <div class="col-3">CREDIT ORDINAIRE</div>
+            </div>
+
+            <div class="row mx-auto fw-bold w-100">
+              <div class="col-2 text-secondary">Interest rate:</div>
+              <div class="col-3">{{ credit.cred_interest_rate }}%</div>
+
+              <div class="col-2"></div>
+
+              <div class="col-2 text-secondary">Penalties rate:</div>
+              <div class="col-3">{{ credit.cred_penalities_rate }}%</div>
+            </div>
+
+            <div class="row mx-auto fw-bold w-100">
+              <div class="col-2 text-secondary">Created at:</div>
+              <div class="col-3">Oct 2,2023</div>
+
+              <div class="col-2"></div>
+
+              <div class="col-2 text-secondary">Credit type:</div>
+              <div class="col-3">
+                <div
+                  class="rounded-3 bg-primary-2 px-3 py-1"
+                  style="max-width: fit-content">
+                  <span>{{
+                    credit.cred_branch_defaults.loan_type.title ?? '---'
+                  }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-100 mx-auto row">
+            <div
+              class="col-4 border-start border-2 d-flex flex-column px-3 gap-3">
+              <div class="d-flex flex-row justify-content-between">
+                <span>Duration:</span>
+                <span class="fw-bold"
+                  >{{ credit.cred_payment_number ?? '---' }} months</span
+                >
+              </div>
+
+              <div class="d-flex flex-row justify-content-between">
+                <span>First date of payment:</span>
+                <span class="fw-bold">
+                  {{ credit.cred_first_date | date }}
+                </span>
+              </div>
+
+              <div class="d-flex flex-row justify-content-between">
+                <span>Last date of payment:</span>
+                <span class="fw-bold">
+                  {{ credit.cred_expiry_date | date }}</span
+                >
+              </div>
+
+              <div class="d-flex flex-row justify-content-between">
+                <span>Next payment date:</span>
+                <span class="fw-bold">
+                  {{ credit.cred_next_payment_date ?? '---' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-3"></div>
+
+            <div
+              class="col-5 border-start border-2 d-flex flex-column px-3 gap-3 pe-5">
+              <div class="d-flex flex-row justify-content-between">
+                <span>Status:</span>
+                <div
+                  class="rounded-3 px-3 py-1"
+                  [ngClass]="'bg-' + credit.cred_status.css"
+                  style="max-width: fit-content">
+                  <span>{{ credit.cred_status.label ?? '---' }}</span>
+                </div>
+              </div>
+
+              <div class="d-flex flex-row justify-content-between">
+                <span>Days left:</span>
+                <span class="fw-bold">0</span>
+              </div>
+
+              <div class="d-flex flex-row justify-content-between">
+                <span>Overdue amount:</span>
+                <span class="fw-bold">
+                  {{ credit.cred_client_main_account.acc_currency }}
+                  {{ ' ' }}
+                  {{ credit.delay_amount }}
+                </span>
+              </div>
+
+              <div class="d-flex flex-row justify-content-between">
+                <span>Penalty:</span>
+                <span class="fw-bold">
+                  {{ credit.cred_client_main_account.acc_currency }}
+                </span>
+              </div>
+
+              <div class="d-flex flex-row justify-content-between">
+                <span>First due date:</span>
+                <span class="fw-bold">--</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 ps-4 mx-auto pt-3">
+            <div
+              class="py-1 px-3 rounded border border-primary fw-bold clickable"
+              style="max-width: fit-content"
+              data-bs-toggle="modal"
+              data-bs-target="#planModal">
+              View plan
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <div class="modal fade" id="planModal" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered statement-dialog">
+      <div class="modal-content">
+        <div class="d-flex p-3">
+          <div>
+            <span class="mb-5 text-dark text-secondary fs-x-large">Plan </span>
+          </div>
+          <div class="ms-auto text-end">
+            <button
+              type="button"
+              title="Close"
+              #closeModal
+              class="text-dark btn fs-4 p-0 pe-1"
+              data-bs-dismiss="modal"
+              aria-label="Close">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+
+        <app-list
+          [headers]="headers"
+          url="/loans/plan/105?"
+          title="Loan Plan"></app-list>
+      </div>
+    </div>
+  </div>
+</section>

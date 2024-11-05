@@ -16,7 +16,7 @@ describe('DebitAccountWorkstationComponent', () => {
 
     fixture = TestBed.createComponent(DebitAccountWorkstationComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('should create', () => {

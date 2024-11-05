@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe, Location } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -12,15 +12,8 @@ import { Subject } from 'rxjs';
 import { liveQuery } from 'dexie';
 
 import { DbService } from '../../../core/db';
-import { LoanService } from '../../../core/services/loan/loan.service';
-import { DialogService } from '../../../core/services';
-import {
-  // AcccountWorkstationModel,
-  // CreditTypeModel,
-  DefaultValuesLoanModel,
-  LoanTypeModel,
-  // ResponseDataModel,
-} from '../loan.models';
+import { DialogService, LoanService } from '../../../core/services';
+import { DefaultValuesLoanModel, LoanTypeModel } from '../loan.models';
 import { LookupComponent } from '../../../global/components/lookups/lookup/lookup.component';
 import { DebitAccountComponent } from '../../transfer/banking/debit-account/debit-account.component';
 import { AccountsListModel } from '../../account/models';
@@ -236,8 +229,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
 
   getLoansType() {
     this.loanService.getLoanType().subscribe(loansType => {
-      const response = loansType;
-      this.loansType = response.objects;
+      this.loansType = loansType.objects;
     });
   }
 
@@ -247,6 +239,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
     const data = {
       account_id: this.account?.id,
       loan_type_id: this.creditType?.id?.toString() || '',
+      branch: undefined,
     };
     this.loanService.getLoanTypeInfo(data).subscribe({
       next: loanInfo => {
@@ -324,47 +317,12 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
     }
   }
 
-  // changeInsuranceFeesUnit() {
-  //   if (this.insuranceFeesUnit === 'percent') {
-  //     this.insuranceFeesUnit = 'amount';
-  //     this.insuranceFees = this.requestForm.value.insurance_amount;
-  //   } else if (this.insuranceFeesUnit === 'amount') {
-  //     this.insuranceFeesUnit = 'percent';
-
-  //     this.insuranceFees =
-  //       (this.requestForm.value.insurance_amount *
-  //         this.defaultValuesLoan.insurance_rate) /
-  //       100;
-  //   }
-  // }
-
-  // changeGuaranteeFeesUnit() {
-  //   if (this.guaranteeFeesUnit === 'percent') {
-  //     this.guaranteeFeesUnit = 'amount';
-  //     this.guaranteeFees = this.requestForm.value.guarantee_rate;
-  //     console.log('feeeess  %', this.requestForm.value);
-  //   } else if (this.guaranteeFeesUnit === 'amount') {
-  //     this.guaranteeFeesUnit = 'percent';
-
-  //     this.guaranteeFees =
-  //       (this.requestForm.value.amount *
-  //         this.requestForm.value.guarantee_rate) /
-  //       100;
-
-  //     console.log(
-  //       'feeeess $',
-  //       this.requestForm.value,
-  //       this.defaultValuesLoan.max_amount_fees
-  //     );
-  //   }
-  // }
-
   updateUnitValues() {
     if (this.feesUnit == 'percent') {
       this.fees =
         (this.requestForm.value.amount * this.requestForm.value.fees_amount) /
         100;
-    } else if (this.insuranceFeesUnit == 'amount') {
+    } else if (this.feesUnit == 'amount') {
       this.fees = this.requestForm.value.fees_amount;
     }
 

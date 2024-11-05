@@ -94,8 +94,6 @@
                       <span class="fs-5">{{
                         bill.created_by.client_full_name
                       }}</span>
-                      <!-- <small>inforegideso@test.com</small> -->
-                      <!-- <small>{{ bill.partner_reference }}</small> -->
                     </div>
                   </div>
                 </div>
@@ -187,9 +185,6 @@
               <app-skeleton [height]="'80%'" classes="lg-radius"></app-skeleton>
             </div>
           }
-          <!-- <div
-            class="all-bill-bill col-11 col-sm-8 col-md-5 col-lg-4"
-            style="height: 300px"></div> -->
         </div>
       }
       @if (!isLoading && merchantBills) {
@@ -253,16 +248,3 @@
     </section>
   </div>
 </section>
-<!-- 
-@if (selectedMarket === 'myMarket' && isMerchant) {
-  <section class="merchant">
-    <div style="height: inherit; overflow-y: auto" class="p-3 rounded">
-          <app-list
-              url="/dbs/merchant/bills/?requested=true&report=true&"
-             
-              [headers]="billsHeaders"
-          ></app-list>
-      </div> 
-  </section>
-}
-  -->

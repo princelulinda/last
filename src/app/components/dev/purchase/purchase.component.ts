@@ -437,7 +437,7 @@ export class PurchaseComponent implements OnInit {
       this.selectedModal = 'select-group';
     }
     this.merchantService.getBillsGroupsByTeller(merchant_teller_id).subscribe({
-      next: (data: { objects: InvoiceGroupModel[] }) => {
+      next: data => {
         this.invoices_groups = data.objects;
       },
     });

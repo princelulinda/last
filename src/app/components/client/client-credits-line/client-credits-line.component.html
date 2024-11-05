@@ -67,7 +67,7 @@
                       clientId
                     }}/creditLine/{{ line.id }}/"
                     routerLinkActive="selected">
-                    <div class="rounded" style="line-height: 1em">
+                    <div class="rounded lh-1">
                       <small class="d-flex"
                         ><b
                           class="mb-2"
@@ -169,9 +169,8 @@
                       <div>
                         <img
                           [src]="organization?.institution_client?.picture"
-                          class="img-fluid image"
-                          alt=""
-                          style="width: 15%" />
+                          class="img-fluid image imgSize"
+                          alt="" />
                         <br />
                         <div class="d-flex">
                           <div class="fw-bold text-dark">
@@ -182,7 +181,7 @@
                           </div>
                         </div>
                       </div>
-                      <hr class="mt-4" style="width: 85%" />
+                      <hr class="mt-4" />
 
                       <div>
                         <span class="text-dark opacity-75" i18n>Amount</span>
