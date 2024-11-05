@@ -25,7 +25,7 @@ import { BankModel } from '../../../../core/db/models/bank/bank.model';
 import { SwitchBankComponent } from '../../../../global/components/popups/switch-bank/switch-bank.component';
 import { AccountsListComponent } from '../../../account/accounts-list/accounts-list.component';
 import { DebitOptionsModel, InstitutionInfoModel } from '../../transfer.model';
-import { WalletListComponent } from '../../../wallet/wallet-list/wallet-list.component';
+import { WalletListComponent } from '../../../wallet/banking/wallet-list/wallet-list.component';
 import {
   ActiveMainConfigModel,
   ModeModel,

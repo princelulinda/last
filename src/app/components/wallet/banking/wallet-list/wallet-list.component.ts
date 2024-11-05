@@ -9,18 +9,18 @@ import {
   // OnChanges,
 } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { AuthService, ConfigService } from '../../../core/services';
-import { ClientService } from '../../../core/services/client/client.service';
-import { UserInfoModel } from '../../../core/db/models/auth';
+import { AuthService, ConfigService } from '../../../../core/services';
+import { ClientService } from '../../../../core/services/client/client.service';
+import { UserInfoModel } from '../../../../core/db/models/auth';
 import { CommonModule } from '@angular/common';
-import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import {
   ActiveMainConfigModel,
   ModeModel,
-} from '../../../core/services/config/main-config.models';
-import { WalletModel } from '../wallet.models';
+} from '../../../../core/services/config/main-config.models';
+import { WalletModel } from '../../wallet.models';
 import { RouterLink } from '@angular/router';
-import { VariableService } from '../../../core/services/variable/variable.service';
+import { VariableService } from '../../../../core/services/variable/variable.service';
 import { toObservable } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-wallet-list',

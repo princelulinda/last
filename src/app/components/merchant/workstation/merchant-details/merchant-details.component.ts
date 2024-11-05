@@ -31,6 +31,7 @@ import { StatementComponent } from '../../../statements/statement/statement.comp
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { PageMenusModel } from '../../../admin/menu/menu.models';
 import { Modal } from 'bootstrap';
+import { ProfileCardComponent } from '../../../../global/components/custom-field/profile-card/profile-card.component';
 
 @Component({
   selector: 'app-merchant-details',
@@ -46,6 +47,7 @@ import { Modal } from 'bootstrap';
     StatementComponent,
     LookupComponent,
     RouterLink,
+    ProfileCardComponent,
   ],
   templateUrl: './merchant-details.component.html',
   styleUrl: './merchant-details.component.scss',
