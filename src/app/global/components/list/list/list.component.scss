@@ -68,8 +68,11 @@
 // .searchForm:hover .search-input {
 //   background-color: white;
 // }
-.modal-dialog {
-  min-width: 50%;
+
+.overview-modal {
+  min-width: 40%;
+  width: 600px;
+  min-height: 328px;
 }
 .table-item {
   min-height: 50px;
