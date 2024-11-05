@@ -10,9 +10,9 @@ import { DialogService } from '../../../../core/services';
 import {
   ParamModel,
   getdataModel,
-  Header,
+  ListHeadersModel,
   selectedPeriodModel,
-} from './reusable.model';
+} from '../list.models';
 import { PaginationConfig } from '../../../models/pagination.models';
 import { EmptyStateComponent } from '../../empty-states/empty-state/empty-state.component';
 
@@ -31,7 +31,7 @@ import { EmptyStateComponent } from '../../empty-states/empty-state/empty-state.
 export class ReusableListComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  @Input() headers!: Header[];
+  @Input() headers: ListHeadersModel[] = [];
   @Input() url = '';
   @Input() title = '';
   showAmount = false;

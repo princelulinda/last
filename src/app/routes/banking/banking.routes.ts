@@ -7,8 +7,8 @@ import { TransferComponent } from '../../components/transfer/transfer/transfer.c
 
 import { AccountComponent } from '../../components/account/account/account.component';
 
-import { WalletComponent } from '../../components/wallet/wallet/wallet.component';
-import { WalletDetailsComponent } from '../../components/wallet/wallet-details/wallet-details.component';
+import { WalletComponent } from '../../components/wallet/banking/wallet/wallet.component';
+import { WalletDetailsComponent } from '../../components/wallet/banking/wallet-details/wallet-details.component';
 import { TarifComponent } from '../../components/tarifs/tarif/tarif.component';
 import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.component';
 import { AccountDetailsComponent } from '../../components/account/account-details/account-details.component';

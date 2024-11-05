@@ -121,6 +121,7 @@ a {
 //global badge classes
 .badge-design {
   min-height: 31px;
+  max-width: 120px;
   @extend .sm-radius;
   @extend .d-flex;
   @extend .align-items-center;

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
-import { AutocompleteModel } from '../../../../global/models/global.models';
-import { DialogService, LoanService } from '../../../../core/services';
+import { LookupComponent } from '../../../../../global/components/lookups/lookup/lookup.component';
+import { AutocompleteModel } from '../../../../../global/models/global.models';
+import { DialogService, LoanService } from '../../../../../core/services';
 import {
   FormControl,
   FormGroup,
@@ -10,8 +10,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { WorkstationDefaultValuesCreditModel } from '../../../loan/loan.models';
-import { AmountFieldComponent } from '../../../../global/components/custom-field/amount-field/amount-field.component';
+import { WorkstationDefaultValuesCreditModel } from '../../../../loan/loan.models';
+import { AmountFieldComponent } from '../../../../../global/components/custom-field/amount-field/amount-field.component';
 
 @Component({
   selector: 'app-credit-request',

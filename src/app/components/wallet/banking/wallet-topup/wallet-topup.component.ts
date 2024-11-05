@@ -9,14 +9,14 @@ import {
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { DebitAccountComponent } from '../../transfer/banking/debit-account/debit-account.component';
-import { AccountsListModel } from '../../account/models';
-import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
-import { DialogService } from '../../../core/services';
-import { WalletTopUpBodyModel } from '../wallet.models';
-import { ClientService } from '../../../core/services';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { VariableService } from '../../../core/services/variable/variable.service';
+import { DebitAccountComponent } from '../../../transfer/banking/debit-account/debit-account.component';
+import { AccountsListModel } from '../../../account/models';
+import { AmountFieldComponent } from '../../../../global/components/custom-field/amount-field/amount-field.component';
+import { DialogService } from '../../../../core/services';
+import { WalletTopUpBodyModel } from '../../wallet.models';
+import { ClientService } from '../../../../core/services';
+import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
+import { VariableService } from '../../../../core/services/variable/variable.service';
 
 @Component({
   selector: 'app-wallet-topup',
