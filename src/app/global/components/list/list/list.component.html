@@ -51,6 +51,8 @@
         </div>
 
         <!-- NOTE :: REFRESH BUTTON -->
+        <!-- [appTooltip]="{ title: 'Refresh' }" -->
+
         <span
           tabindex="0"
           role="button"
@@ -58,7 +60,6 @@
             'not-clickable': isLoading,
           }"
           class="ms-3 d-flex fs-small align-items-center refresh text-secondary"
-          [appTooltip]="{ title: 'Refresh' }"
           (click)="search()"
           ><i class="fa-solid fa-rotate-right"></i
         ></span>
@@ -72,9 +73,9 @@
           data-bs-target="#myModal"
           [ngClass]="{ 'not-clickable': isLoading }"
           class="ms-3 d-flex fs-small align-items-center text-secondary"
-          [appTooltip]="{ title: 'Overview' }"
           ><i class="fa-solid fa-chart-simple"></i
         ></span>
+        <!-- [appTooltip]="{ title: 'Overview' }" -->
 
         <!-- NOTE :: EXPORT EXCEL BUTTON -->
         <span

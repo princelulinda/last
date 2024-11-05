@@ -17,7 +17,7 @@ import {
 import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
 import { NotFoundPageComponent } from '../../empty-states/not-found-page/not-found-page.component';
 import { EmptyStateComponent } from '../../empty-states/empty-state/empty-state.component';
-import { TooltipDirective } from '../../../directives/tooltip/tooltip.directive';
+// import { TooltipDirective } from '../../../directives/tooltip/tooltip.directive';
 
 @Component({
   selector: 'app-list',
@@ -30,7 +30,7 @@ import { TooltipDirective } from '../../../directives/tooltip/tooltip.directive'
     RouterLink,
     FormsModule,
     EmptyStateComponent,
-    TooltipDirective,
+    // TooltipDirective,
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
