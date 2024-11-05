@@ -85,6 +85,17 @@ export class DebitAccountWorkstationComponent implements OnInit {
         this.debitAccount = null;
         break;
 
+      case 'internal':
+        this.lookupDebitAccountUrl = '/ledger/objects_autocomplete?search=';
+        this.debitAccount = null;
+        break;
+
+      case 'treasury':
+        this.lookupDebitAccountUrl =
+          '/treasury/institutions/manage/objects_autocomplete?search=';
+        this.debitAccount = null;
+        break;
+
       case 'merchant':
         this.lookupDebitAccountUrl =
           '/dbs/merchant/manage/object_lookup?lookup_data=';

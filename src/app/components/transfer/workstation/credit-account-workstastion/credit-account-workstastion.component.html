@@ -36,6 +36,31 @@
         <div
           role="button"
           tabindex="0"
+          (click)="selectCreditAccountType('internal')"
+          tabindex="0"
+          [ngClass]="{
+            'bg-primary text-all-white  rounded px-1 py-2 me-1':
+              selectedCreditAccountType === 'internal',
+          }"
+          class="text-center width">
+          <b i18n>Internal account</b>
+        </div>
+
+        <div
+          role="button"
+          tabindex="0"
+          (click)="selectCreditAccountType('treasury')"
+          tabindex="0"
+          [ngClass]="{
+            'bg-primary text-all-white  rounded px-1 py-2 me-1':
+              selectedCreditAccountType === 'treasury',
+          }"
+          class="text-center width">
+          <b i18n>Alias</b>
+        </div>
+        <div
+          role="button"
+          tabindex="0"
           (click)="selectCreditAccountType('merchant')"
           tabindex="0"
           [ngClass]="{
@@ -67,6 +92,7 @@
               getIndividualClient($event)
             "></app-lookup-individual>
         </div>
+
       } @else {
         <div>
           <div class="w-25">
@@ -126,7 +152,7 @@
               <app-lookup
                 class="w-100"
                 [option]="'lookup'"
-                (selectedItemEvent)="getClientToDebit($event)"
+                (selectedItemEvent)="getClientToCredit($event)"
                 [url]="lookupCreditAccountUrl"
                 lookupLabel="Merchant Account"
                 label="Merchant accounts"></app-lookup>
@@ -134,10 +160,28 @@
               <app-lookup
                 class="w-100"
                 [option]="'lookup'"
-                (selectedItemEvent)="getClientToDebit($event)"
+                (selectedItemEvent)="getClientToCredit($event)"
                 [url]="lookupCreditAccountUrl"
                 lookupLabel="Agent account"
                 label="Agent accounts"></app-lookup>
+
+            } @else if (selectedCreditAccountType === 'internal') {
+              <app-lookup
+                class="w-100"
+                option="autocomplete"
+                (selectedItemEvent)="getClientToCredit($event)"
+                [url]="lookupCreditAccountUrl"
+                lookupLabel="Internal accounts"
+                label="Internal accounts"></app-lookup>
+
+            } @else if (selectedCreditAccountType === 'treasury') {
+              <app-lookup
+                class="w-100"
+                option="autocomplete"
+                (selectedItemEvent)="getClientToCredit($event)"
+                [url]="selectedCreditAccountType"
+                lookupLabel="Treasury account"
+                label="Treasury account"></app-lookup>
             }
           </div>
         </div>
