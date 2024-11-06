@@ -77,7 +77,7 @@ export class PurchaseComponent implements OnInit {
   dialogState$!: Observable<DialogResponseModel>;
   mainConfig$!: Observable<ActiveMainConfigModel>;
   activePlatform!: PlateformModel;
-  navigationUrl!: string;
+  navigationUrl: string | null = null;
   isLoading = true;
   searchType: EmptyStateModel = 'product';
   isProductsSearch = false;
@@ -137,15 +137,6 @@ export class PurchaseComponent implements OnInit {
         } else if (this.activePlatform === 'workstation') {
           this.navigationUrl = 'w/workstation/m/market';
         }
-        if (this.route && this.route.fragment) {
-          this.route.fragment.subscribe({
-            next: () => {
-              if (!this.selectedMerchant && !this.selectedProduct) {
-                this.router.navigate([this!.navigationUrl + '/purchase']);
-              }
-            },
-          });
-        }
       },
     });
 
@@ -154,7 +145,18 @@ export class PurchaseComponent implements OnInit {
         this.theme = theme;
       },
     });
-
+    if (this.navigationUrl !== null) {
+      console.log('the navigationUrl', this.navigationUrl);
+      if (this.route && this.route.fragment) {
+        this.route.fragment.subscribe({
+          next: () => {
+            if (!this.selectedMerchant && !this.selectedProduct) {
+              this.router.navigate([this!.navigationUrl + '/purchase']);
+            }
+          },
+        });
+      }
+    }
     this.getConnectedMerchantInfo();
   }
 
