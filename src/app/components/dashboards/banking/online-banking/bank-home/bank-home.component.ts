@@ -38,7 +38,7 @@ import {
 export class BankHomeComponent implements OnInit, OnDestroy {
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  baseMenuUrl = '/w/workstation/b/banking/';
+  baseHref = '';
 
   bankMenus = [
     {
@@ -177,6 +177,11 @@ export class BankHomeComponent implements OnInit, OnDestroy {
     this.plateform$.subscribe({
       next: plateform => {
         this.activePlatform = plateform;
+        if (plateform === 'workstation') {
+          this.baseHref = '/w/workstation/b/banking/';
+        } else {
+          this.baseHref = '/b/banking/';
+        }
       },
     });
 
@@ -211,7 +216,7 @@ export class BankHomeComponent implements OnInit, OnDestroy {
   ) {
     this.menuService.setSelectedMenu(
       menu,
-      `${this.baseMenuUrl}${url}`,
+      `${this.baseHref}${url}`,
       event,
       enableRedirection
     );
@@ -220,7 +225,7 @@ export class BankHomeComponent implements OnInit, OnDestroy {
 
   private getAccesses(url: string, redirect = true) {
     this.menuService
-      .getAccesses(`${this.baseMenuUrl}${url}`, redirect)
+      .getAccesses(`${this.baseHref}${url}`, redirect)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         error: () => {

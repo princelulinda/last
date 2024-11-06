@@ -11,13 +11,17 @@ import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.comp
 import { AccountComponent } from '../../components/account/account/account.component';
 import { bankingSavingRoutes } from '../../components/saving/saving.routes';
 import { AccountDetailsComponent } from '../../components/account/account-details/account-details.component';
+import { BankHomeComponent } from '../../components/dashboards/banking/online-banking/bank-home/bank-home.component';
 
 export const workstationBankingRoutes: Routes = [
   {
     path: '',
     component: OnlineBankingComponent,
   },
-
+  {
+    path: 'home',
+    component: BankHomeComponent,
+  },
   {
     path: 'wallets',
     component: WalletComponent,
