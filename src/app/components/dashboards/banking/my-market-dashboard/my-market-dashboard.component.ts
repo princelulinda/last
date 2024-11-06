@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterLink,
+} from '@angular/router';
 import {
   FormControl,
   FormGroup,
@@ -9,7 +14,7 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { filter, Observable, Subject, takeUntil } from 'rxjs';
 
 import { MerchantService } from '../../../../core/services/merchant/merchant.service';
 import {
@@ -231,6 +236,18 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       },
     });
     this.getMerchantMultipleInfo();
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        if (this.router.routerState.snapshot.root.fragment === 'billsModal') {
+          this.openPopup();
+        }
+        if (
+          this.router.routerState.snapshot.root.fragment === 'staticBackdrop'
+        ) {
+          this.openStatementPopup();
+        }
+      });
   }
 
   enterPin() {
