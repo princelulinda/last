@@ -328,14 +328,14 @@
 <!-- NOTE :: STATEMENT MODAL -->
 @if (merchantAccountId && account) {
   <div
-    class="modal modal-xl fade"
+    class="modal fade"
     id="statementModal"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
     tabindex="-1"
     aria-labelledby="staticBackdropLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-fullscreen">
       <div class="modal-content bg-white">
         <div class="row">
           <app-statement
@@ -352,7 +352,11 @@
     <div class="modal-content bg-white">
       <div class="modal-body">
         <div class="text-end">
-          <span role="button" class="text-dark" (click)="closePopup()">
+          <span
+            role="button"
+            class="text-dark"
+            data-bs-dismiss="modal"
+            aria-label="Close">
             <i class="fa-solid fa-xmark fs-4"></i>
           </span>
         </div>
