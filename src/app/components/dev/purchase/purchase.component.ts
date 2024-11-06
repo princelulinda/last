@@ -286,7 +286,7 @@ export class PurchaseComponent implements OnInit {
             title: '',
             type: 'failed',
             message:
-              data.object.response_message ??
+              data.object.response_data.merchant?.[0] ??
               'Failed to create an Invoice in a group',
           });
           this.isLoading = false;
@@ -332,24 +332,8 @@ export class PurchaseComponent implements OnInit {
     };
     this.merchantService.createGroup(body).subscribe({
       next: data => {
-        this.dialogService.closeLoading();
-        if (data.object.success === false) {
-          this.dialogService.openToast({
-            title: '',
-            type: 'failed',
-            message: data.object.response_message ?? 'Failed to create a Group',
-          });
-          this.isLoading = false;
-        } else {
-          this.dialogService.openToast({
-            title: '',
-            type: 'success',
-            message: data.object.response_message ?? 'Group created',
-          });
-          this.isLoading = false;
-          this.searchTeller.patchValue('');
-          this.selectedModal = 'select-teller-existant-group';
-        }
+        this.isLoading = true;
+        this.createBillByGroup(data.object.id);
       },
     });
   }
