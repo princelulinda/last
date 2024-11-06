@@ -782,6 +782,9 @@ export class MerchantPaymentComponent
     this.merchantPaymentDialog = document.getElementById(
       'merchant-payment'
     ) as HTMLDialogElement;
+    this.merchantPaymentDialog.addEventListener('cancel', event => {
+      event.preventDefault();
+    });
   }
 
   ngOnDestroy(): void {
