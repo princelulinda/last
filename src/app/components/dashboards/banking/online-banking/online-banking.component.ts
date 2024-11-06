@@ -45,6 +45,7 @@ import { MerchantAutocompleteModel } from '../../../merchant/merchant.models';
     RouterOutlet,
     BankHomeComponent,
     ReusableListComponent,
+    RouterLink,
   ],
 })
 export class OnlineBankingComponent implements OnInit, OnDestroy {
@@ -143,6 +144,8 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     },
   ];
 
+  baseHref = '';
+
   constructor(
     private bankService: BankService,
     private configService: ConfigService,
@@ -165,6 +168,11 @@ export class OnlineBankingComponent implements OnInit, OnDestroy {
     this.plateform$.subscribe({
       next: plateform => {
         this.plateform = plateform;
+        if (plateform === 'workstation') {
+          this.baseHref = '/w/workstation/b/banking/';
+        } else {
+          this.baseHref = '/b/banking/';
+        }
       },
     });
     this.userInfo$.subscribe({

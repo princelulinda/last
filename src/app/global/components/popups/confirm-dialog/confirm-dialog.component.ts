@@ -207,6 +207,10 @@ export class ConfirmDialogComponent implements AfterViewInit, OnInit {
     this.dialogElement =
       (document.getElementById('favDialog') as HTMLDialogElement) ?? null;
     this.toastElement = document.getElementById('alert');
+
+    this.dialogElement.addEventListener('cancel', event => {
+      event.preventDefault();
+    });
   }
   onPinChange(pin: string) {
     this.pinForm.patchValue({
