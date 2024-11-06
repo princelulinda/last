@@ -231,6 +231,18 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       },
     });
     this.getMerchantMultipleInfo();
+
+    if (this.route.fragment) {
+      this.route.fragment.subscribe({
+        next: fragment => {
+          if (fragment === 'generateBillModal') {
+            this.openGenerateBillPopup();
+          } else if (fragment === 'statementModal') {
+            this.openStatementPopup();
+          }
+        },
+      });
+    }
   }
 
   enterPin() {
@@ -241,10 +253,11 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       action: 'confirm pin',
     });
   }
-  openPopup() {
+
+  openGenerateBillPopup() {
     this.openBillPopup = false;
-    this.router.navigate([], { fragment: 'billsModal' });
-    const modalElement = document.getElementById('billsModal');
+    this.router.navigate([], { fragment: 'generateBillModal' });
+    const modalElement = document.getElementById('generateBillModal');
     if (modalElement !== null) {
       const modal = new Modal(modalElement);
       modal.show();
@@ -253,8 +266,9 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       });
     }
   }
+
   closePopup(): void {
-    const modalElement = document.getElementById('billsModal');
+    const modalElement = document.getElementById('generateBillModal');
     if (modalElement !== null) {
       const modal = Modal.getInstance(modalElement);
       if (modal) {
@@ -262,6 +276,7 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   openMerchantsPopup() {
     this.isMerchantPopupOpened = false;
   }
@@ -518,8 +533,8 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
 
   openStatementPopup() {
     this.openBillPopup = false;
-    this.router.navigate([], { fragment: 'staticBackdrop' });
-    const modalElement = document.getElementById('staticBackdrop');
+    this.router.navigate([], { fragment: 'statementModal' });
+    const modalElement = document.getElementById('statementModal');
     if (modalElement !== null) {
       const modal = new Modal(modalElement);
       modal.show();

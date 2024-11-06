@@ -23,6 +23,6 @@ export const myMarketRoutes: Routes = [
   { path: 'invoice', component: InvoiceComponent },
   { path: 'single-invoices', component: SingleInvoicesComponent },
   { path: 'invoices-groups', component: InvoicesGroupsComponent },
-  { path: 'invoices-by-group', component: InvoicesByGroupComponent },
+  { path: 'group/:id', component: InvoicesByGroupComponent },
   { path: 'purchase', component: PurchaseComponent },
 ];
