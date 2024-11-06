@@ -36,13 +36,15 @@
                 <i class="fa-solid fa-bars-staggered fs-normal fw-bolder"></i>
               </div>
             </div>
-            <div
-              class="col-6 col-md-8 col-xl-1 p-1 d-flex justify-content-end align-items-center"
-              role="button"
-              routerLink="/m/mymarket/invoice">
-              <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
-              <span class="fw-bolder fs-5" i18n>Back</span>
-            </div>
+            @if (activePlatform !== 'workstation') {
+              <div
+                class="col-6 col-md-8 col-xl-1 p-1 d-flex justify-content-end align-items-center"
+                role="button"
+                routerLink="/m/mymarket/invoice">
+                <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
+                <span class="fw-bolder fs-5" i18n>Back</span>
+              </div>
+            }
           </div>
         </div>
       </div>
@@ -223,7 +225,7 @@
                 <div
                   class="col-1 col-sm-2 col-md-2 col-lg-2 col-xl-1 p-1 d-flex justify-content-end align-items-center"
                   role="button"
-                  routerLink="/m/mymarket/invoices-groups"
+                  (click)="getGoBackEvent()"
                   tabindex="0">
                   <span class=""
                     ><i
