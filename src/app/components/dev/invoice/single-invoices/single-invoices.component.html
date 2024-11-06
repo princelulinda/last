@@ -101,36 +101,23 @@
               <div class="container">
                 <div class="">
                   <div class="row">
-                    <div class="col-6">
-                      <div class="row">
-                        <div
-                          class="col d-flex justify-content-center align-items-center">
-                          <i class="fa-solid fa-box me-1 text-secondary"></i>
-                          @for (order of singleInvoice.orders; track $index) {
-                            @if (order.product) {
-                              <span
-                                class="text-secondary text-truncate fs-small fw-bold"
-                                >{{ order.product.name || '---' }}</span
-                              >
-                            }
-                          }
+                    @for (order of singleInvoice.orders; track $index) {
+                      <div class="col-11 me-auto">
+                        <div class="d-flex gap-1">
+                          <span><i class="fa-solid fa-box fa-sm"></i></span>
+                          <span
+                            class="fs-small text-truncate text-secondary fw-bold"
+                            >{{ order.product.name || '---' }}</span
+                          >
                         </div>
                       </div>
-                    </div>
-                    <div class="col-5 p-0 text-truncate">
-                      @for (order of singleInvoice.orders; track $index) {
-                        @if (order.element_metadata.original_data) {
-                          <div
-                            class="row h-100 text-truncate fs-small d-flex align-items-center text-secondary justify-content-end">
-                            {{
-                              order.element_metadata.original_data.quantity ||
-                                '---'
-                            }}
-                            {{ order.product.measure.suffix || '---' }}
-                          </div>
-                        }
-                      }
-                    </div>
+                      <div class="col-11 text-truncate">
+                        <span class="fs-small text-secondary"
+                          >{{ order.element_metadata.original_data.quantity }}
+                          {{ order.product.measure.suffix || '---' }}</span
+                        >
+                      </div>
+                    }
                   </div>
                 </div>
                 <div class="mt-2">

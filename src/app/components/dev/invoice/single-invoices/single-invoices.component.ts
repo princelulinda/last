@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DialogService, MerchantService } from '../../../../core/services';
 import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
@@ -26,7 +26,7 @@ import { MerchantModel } from '../../../merchant/merchant.models';
   templateUrl: './single-invoices.component.html',
   styleUrl: './single-invoices.component.scss',
 })
-export class SingleInvoicesComponent implements OnInit {
+export class SingleInvoicesComponent implements OnInit, OnDestroy {
   @ViewChild('closeModal') closeModal!: { nativeElement: HTMLElement };
   private onDestroy$: Subject<void> = new Subject<void>();
   singleInvoices!: SingleInVoiceModel[] | null;
@@ -218,5 +218,10 @@ export class SingleInvoicesComponent implements OnInit {
       message: 'Please enter your pin to continue',
       action: 'confirm pin',
     });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

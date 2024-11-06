@@ -31,7 +31,11 @@ import {
 } from '../invoice/invoice.models';
 import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
 import { TellerAutoCompleteModel } from '../../merchant/merchant.models';
-import { ModeModel } from '../../../core/services/config/main-config.models';
+import {
+  ActiveMainConfigModel,
+  ModeModel,
+  PlateformModel,
+} from '../../../core/services/config/main-config.models';
 import { AmountVisibilityComponent } from '../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({
@@ -71,6 +75,9 @@ export class PurchaseComponent implements OnInit {
   invoiceForm: FormGroup;
   createGroupForm: FormGroup;
   dialogState$!: Observable<DialogResponseModel>;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
+  activePlatform!: PlateformModel;
+  navigationUrl!: string;
   isLoading = true;
   searchType: EmptyStateModel = 'product';
   isProductsSearch = false;
@@ -100,6 +107,7 @@ export class PurchaseComponent implements OnInit {
   ) {
     this.theme$ = this.configService.getMode();
     this.dialogState$ = this.dialogService.getDialogState();
+    this.mainConfig$ = this.configService.getMainConfig();
 
     this.invoiceForm = new FormGroup({
       measure_value: new FormControl('', [
@@ -121,21 +129,32 @@ export class PurchaseComponent implements OnInit {
   }
   ngOnInit() {
     this.isLoading = false;
+    this.mainConfig$.subscribe({
+      next: config => {
+        this.activePlatform = config.activePlateform;
+        if (this.activePlatform === 'onlineBanking') {
+          this.navigationUrl = '/m/mymarket';
+        } else if (this.activePlatform === 'workstation') {
+          this.navigationUrl = 'w/workstation/m/market';
+        }
+        if (this.route && this.route.fragment) {
+          this.route.fragment.subscribe({
+            next: () => {
+              if (!this.selectedMerchant && !this.selectedProduct) {
+                this.router.navigate([this!.navigationUrl + '/purchase']);
+              }
+            },
+          });
+        }
+      },
+    });
 
     this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: theme => {
         this.theme = theme;
       },
     });
-    if (this.route && this.route.fragment) {
-      this.route.fragment.subscribe({
-        next: () => {
-          if (!this.selectedMerchant && !this.selectedProduct) {
-            this.router.navigate(['/m/mymarket/purchase']);
-          }
-        },
-      });
-    }
+
     this.getConnectedMerchantInfo();
   }
 
@@ -376,7 +395,9 @@ export class PurchaseComponent implements OnInit {
     this.product = product;
     this.getSupplier();
     this.getProductMeasure(product.id);
-    this.router.navigate(['/m/mymarket/purchase'], { fragment: 'providers' });
+    this.router.navigate([this.navigationUrl + '/purchase'], {
+      fragment: 'providers',
+    });
   }
 
   selectSupplier(supplier: ProvidersModel) {
@@ -387,7 +408,7 @@ export class PurchaseComponent implements OnInit {
       pin: '',
     });
     this.supplier = supplier;
-    this.router.navigate(['/m/mymarket/purchase'], {
+    this.router.navigate([this.navigationUrl + '/purchase'], {
       fragment: 'selectedProvider',
     });
   }
@@ -466,7 +487,7 @@ export class PurchaseComponent implements OnInit {
 
   goBack() {
     if (this.selectedProduct === false && this.selectedMerchant === false) {
-      this.router.navigate(['/m/mymarket']);
+      this.router.navigate([this.navigationUrl]);
     } else if (
       this.selectedProduct === true &&
       this.selectedMerchant === false
@@ -474,11 +495,13 @@ export class PurchaseComponent implements OnInit {
       this.selectedProduct = false;
       this.products = null;
       this.getPurchasedProducts();
-      this.router.navigate(['/m/mymarket/purchase']);
+      this.router.navigate([this.navigationUrl + '/purchase']);
     } else if (this.selectedMerchant === true) {
       this.searchSupplier.patchValue('');
       this.selectedMerchant = false;
-      this.router.navigate(['/m/mymarket/purchase'], { fragment: 'providers' });
+      this.router.navigate([this.navigationUrl + '/purchase'], {
+        fragment: 'providers',
+      });
     }
   }
   cancel() {
@@ -489,7 +512,7 @@ export class PurchaseComponent implements OnInit {
     if (this.selectedMerchant === true) {
       this.selectedMerchant = false;
       this.selectedProduct = false;
-      this.router.navigate(['/m/mymarket/purchase']);
+      this.router.navigate([this.navigationUrl + '/purchase']);
     }
   }
   validateInput(event: KeyboardEvent) {
