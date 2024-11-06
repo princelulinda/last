@@ -232,15 +232,17 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     });
     this.getMerchantMultipleInfo();
 
-    this.route.fragment.subscribe({
-      next: fragment => {
-        if (fragment === 'generateBillModal') {
-          this.openGenerateBillPopup();
-        } else if (fragment === 'statementModal') {
-          this.openStatementPopup();
-        }
-      },
-    });
+    if (this.route.fragment) {
+      this.route.fragment.subscribe({
+        next: fragment => {
+          if (fragment === 'generateBillModal') {
+            this.openGenerateBillPopup();
+          } else if (fragment === 'statementModal') {
+            this.openStatementPopup();
+          }
+        },
+      });
+    }
   }
 
   enterPin() {
