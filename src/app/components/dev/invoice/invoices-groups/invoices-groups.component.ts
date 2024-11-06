@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 
@@ -34,7 +34,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './invoices-groups.component.html',
   styleUrl: './invoices-groups.component.scss',
 })
-export class InvoicesGroupsComponent implements OnInit {
+export class InvoicesGroupsComponent implements OnInit, OnDestroy {
   private OnDestroy$: Subject<void> = new Subject<void>();
   invoices_groups!: InvoiceGroupModel[] | null;
   isSelected_group = false;
@@ -117,5 +117,9 @@ export class InvoicesGroupsComponent implements OnInit {
     event.preventDefault();
     const searchValue = this.searchGroup.value;
     this.getBillsGroup(searchValue ?? '');
+  }
+  ngOnDestroy() {
+    this.OnDestroy$.next();
+    this.OnDestroy$.complete();
   }
 }
