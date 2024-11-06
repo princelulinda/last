@@ -245,7 +245,7 @@
                   <a
                     class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
                     [routerLink]="[]"
-                    [fragment]="'staticBackdrop'"
+                    [fragment]="'statementModal'"
                     role="button">
                     <b i18n>{{ menu.name }}</b>
                     <span class="ms-3 fs-l-medium">
@@ -257,7 +257,7 @@
                     class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
                     role="button"
                     [routerLink]="[]"
-                    [fragment]="'billsModal'"
+                    [fragment]="'generateBillModal'"
                     tabindex="0">
                     <b i18n>{{ menu.name }}</b>
                     <span class="ms-3 fs-l-medium">
@@ -325,11 +325,11 @@
     </section>
   </div>
 }
-
+<!-- NOTE :: STATEMENT MODAL -->
 @if (merchantAccountId && account) {
   <div
     class="modal modal-xl fade"
-    id="staticBackdrop"
+    id="statementModal"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
     tabindex="-1"
@@ -346,13 +346,9 @@
     </div>
   </div>
 }
-<!-- <span
-  class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
-  role="button"
-  (click)="openPopup()"
-  tabindex="0">generate bill</span> -->
-<div class="modal fade" id="billsModal" data-mdb-backdrop="false">
-  <div class="modal-dialog">
+<!-- NOTE :: GENERATE BILL MODAL -->
+<div class="modal fade" id="generateBillModal" data-mdb-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content bg-white">
       <div class="modal-body">
         <div class="text-end">
@@ -405,6 +401,7 @@
     </div>
   </div>
 </div>
+
 <div class="modal fade" id="merchantsModal" data-mdb-backdrop="false">
   <div class="modal-dialog">
     <div class="modal-content merchantsModal bg-white">
