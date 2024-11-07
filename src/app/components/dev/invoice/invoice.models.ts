@@ -97,6 +97,7 @@ export interface InvoiceResponseModel {
   response_code: string;
   response_data: {
     code: string;
+    merchant: string[];
   };
   success: boolean;
 }
@@ -106,4 +107,10 @@ export interface SingleInvoiceActionModel {
   response_message: string;
   response_code: string;
   response_data: object;
+}
+
+export interface createGroupResponseModel {
+  id: number;
+  name: string;
+  merchant_teller: number;
 }

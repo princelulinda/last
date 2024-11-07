@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import {
@@ -30,7 +22,7 @@ import { SkeletonComponent } from '../../../global/components/loaders/skeleton/s
   templateUrl: './lookup-individual.component.html',
   styleUrl: './lookup-individual.component.scss',
 })
-export class LookupIndividualComponent implements OnInit, OnChanges {
+export class LookupIndividualComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
   @Input() bankId = '';
   @Input() menuSelected = '';
@@ -70,23 +62,17 @@ export class LookupIndividualComponent implements OnInit, OnChanges {
 
     this.organization$ = this.configService.getSelectedOrganization();
   }
-  ngOnChanges(changes: SimpleChanges) {
-    for (const propName in changes) {
-      if (propName === 'menuSelected') {
-        if (this.menuSelected === 'merchant_code') {
-          this.placeholder = 'Merchant Code';
-        } else if (this.menuSelected !== 'merchant_code') {
-          this.placeholder = 'Search Client';
-        }
-      }
-    }
-  }
   ngOnInit(): void {
     this.organization$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((organization: OrganizationModel | null) => {
         this.organizationId = organization?.id;
       });
+    if (this.menuSelected === 'merchant_code') {
+      this.placeholder = 'Merchant Code';
+    } else if (this.menuSelected !== 'merchant_code') {
+      this.placeholder = 'Search Client';
+    }
   }
 
   getClientSignatures() {
