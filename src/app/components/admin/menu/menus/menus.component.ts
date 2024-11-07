@@ -29,6 +29,7 @@ export class MenusComponent implements OnInit {
     name: ['', Validators.required],
     component_url: [''],
     mobile_url: [''],
+    fragment: [''],
     icon: ['', Validators.required],
     active: [false],
   });
