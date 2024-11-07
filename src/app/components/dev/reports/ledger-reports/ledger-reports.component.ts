@@ -54,20 +54,22 @@ export class LedgerReportsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.fragment.subscribe({
-      next: fragment => {
-        switch (fragment) {
-          case 'operation':
-            this.selectedMenu = 'operation';
-            break;
+    if (this.route && this.route.fragment) {
+      this.route.fragment.subscribe({
+        next: fragment => {
+          switch (fragment) {
+            case 'operation':
+              this.selectedMenu = 'operation';
+              break;
 
-          case null:
-          default:
-            this.selectedMenu = 'balance';
-            break;
-        }
-      },
-    });
+            case null:
+            default:
+              this.selectedMenu = 'balance';
+              break;
+          }
+        },
+      });
+    }
 
     this.accountingService
       .getBalanceSheet()
