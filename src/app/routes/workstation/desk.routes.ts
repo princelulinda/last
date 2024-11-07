@@ -25,7 +25,6 @@ import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
 import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
 import { DeskDashboardComponent } from '../../components/dashboards/workstation/desk-dashboard/desk-dashboard.component';
 import { BalanceSheetComponent } from '../../components/dev/accounting/balance-sheet/balance-sheet.component';
-import { OperationResultComponent } from '../../components/dev/accounting/operation-result/operation-result.component';
 import { CreditLineListComponent } from '../../components/loan/workstation /credit-line/credit-line-list/credit-line-list.component';
 
 import { CreditLineDetailsComponent } from '../../components/loan/workstation /credit-line/credit-line-details/credit-line-details.component';
@@ -34,6 +33,7 @@ import { CreditDetailsComponent } from '../../components/loan/workstation /credi
 import { CreditListComponent } from '../../components/loan/workstation /credit/credit-list/credit-list.component';
 import { CreditRequestComponent } from '../../components/loan/workstation /credit/credit-request/credit-request.component';
 import { CreditRequestListComponent } from '../../components/loan/workstation /credit/credit-request-list/credit-request-list.component';
+import { LedgerReportsComponent } from '../../components/dev/reports/ledger-reports/ledger-reports.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -129,8 +129,8 @@ export const DeskRoutes: Routes = [
 
   // NOTE :: OPERATION RESULT
   {
-    path: 'operation-result',
-    component: OperationResultComponent,
+    path: 'ledger_reports',
+    component: LedgerReportsComponent,
   },
 
   // NOTE :: SHORTCUTS MODULE
