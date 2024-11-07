@@ -4,16 +4,16 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import {
   ClientInfoModel,
   SignatureModel,
-} from '../../../global/components/lookups/lookup/lookup.model';
+} from '../../lookups/lookup/lookup.model';
 import {
   ClientService,
   ConfigService,
   DialogService,
-} from '../../../core/services';
-import { DialogResponseModel } from '../../../core/services/dialog/dialogs-models';
-import { OrganizationModel } from '../../auth/auth.model';
+} from '../../../../core/services';
+import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
+import { OrganizationModel } from '../../../../components/auth/auth.model';
 import { CommonModule } from '@angular/common';
-import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
+import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-lookup-individual',
