@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MerchantListComponent } from './merchant-list.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('MerchantListComponent', () => {
   let component: MerchantListComponent;
@@ -10,7 +11,14 @@ describe('MerchantListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MerchantListComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        {
+          provide: ActivatedRoute,
+          useValue: {},
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MerchantListComponent);
