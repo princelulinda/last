@@ -67,7 +67,7 @@
                     <div
                       class="d-flex flex-row justify-content-between ms-2 flex-grow-1">
                       <span [ngClass]="isParentCollapsed[1] ? '' : 'fw-bold'"
-                        >{{ $index + 1 }}. {{ actif.description }}</span
+                        >{{ actif.code }}. {{ actif.description }}</span
                       >
                       <!-- <span class="fw-bold">BIF {{ actif.total | currency }}</span> -->
                       <span class="fw-bold"
@@ -267,7 +267,7 @@
                     <div
                       class="d-flex flex-row justify-content-between ms-2 flex-grow-1">
                       <span [ngClass]="isParentCollapsed[1] ? '' : 'fw-bold'"
-                        >{{ $index + 1 }}. {{ passif.description }}</span
+                        >{{ passif.code }}. {{ passif.description }}</span
                       >
                       <!-- <span class="fw-bold">BIF {{ passif.total | currency }}</span> -->
                       <span class="fw-bold"
@@ -368,7 +368,7 @@
                     <div
                       class="d-flex flex-row justify-content-between ms-2 flex-grow-1">
                       <span class="fw-bold"
-                        >{{ $index + 1 }}. {{ left.description }}</span
+                        >{{ left.code }}. {{ left.description }}</span
                       >
                       <span class="fw-bold"
                         ><app-amount-visibility
@@ -396,7 +396,7 @@
                     <div
                       class="d-flex flex-row justify-content-between ms-2 flex-grow-1">
                       <span [ngClass]="isParentOpCollapsed[1] ? '' : 'fw-bold'"
-                        >{{ $index + 1 }}. {{ right.description }}</span
+                        >{{ right.code }}. {{ right.description }}</span
                       >
                       <span class="fw-bold"
                         ><app-amount-visibility
