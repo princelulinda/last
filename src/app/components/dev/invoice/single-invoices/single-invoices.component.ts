@@ -1,6 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { DialogService, MerchantService } from '../../../../core/services';
+import {
+  ConfigService,
+  DialogService,
+  MerchantService,
+} from '../../../../core/services';
 import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
 import { SingleInVoiceModel } from '../invoice.models';
 import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
@@ -11,6 +15,10 @@ import { NgClass } from '@angular/common';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
 import { MerchantModel } from '../../../merchant/merchant.models';
+import {
+  ActiveMainConfigModel,
+  PlateformModel,
+} from '../../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-single-invoices',
@@ -49,15 +57,26 @@ export class SingleInvoicesComponent implements OnInit, OnDestroy {
   dialog!: DialogResponseModel;
   merchant: MerchantModel | null = null;
   is_teller_admin!: boolean;
+  activePlatform!: PlateformModel;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
 
   constructor(
     private route: ActivatedRoute,
     private merchantService: MerchantService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private configService: ConfigService
   ) {
     this.dialog$ = this.dialogService.getDialogState();
+    this.mainConfig$ = this.configService.getMainConfig();
   }
   ngOnInit() {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        if (configs) {
+          this.activePlatform = configs.activePlateform;
+        }
+      },
+    });
     this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (dialog: DialogResponseModel) => {
         if (dialog) {

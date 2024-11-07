@@ -541,6 +541,8 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       modalElement.addEventListener('hidden.bs.modal', () => {
         this.router.navigate([]);
       });
+    } else {
+      this.router.navigate([], { fragment: undefined });
     }
   }
 }

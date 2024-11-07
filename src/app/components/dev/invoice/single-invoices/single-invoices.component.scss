@@ -1,33 +1,24 @@
-.InputSearch{
-    outline: none; 
-    box-shadow: none; 
-    border: none
+.HDiv {
+  height: 190px;
+  width: 172px;
 }
-.HDiv{
-    height: 190px;
-    width: 172px;
+.HLine {
+  height: 0.1rem;
 }
-.HLine{
-    height: 0.1rem;
-}
-.padIcon{
-    padding-left: 8em;
-    margin-top: 2.5rem;
+.padIcon {
+  padding-left: 8em;
+  margin-top: 2.5rem;
 }
 
 .imgSize {
-    width: 69px;
-    height: 37px;
+  width: 69px;
+  height: 37px;
 }
 .iconSize {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
 .borderDashed {
-    border-bottom: 1px dashed #C4C4C4;
-}
-
-.modal-header {
-    border-bottom: none !important;
+  border-bottom: 1px dashed #c4c4c4;
 }
