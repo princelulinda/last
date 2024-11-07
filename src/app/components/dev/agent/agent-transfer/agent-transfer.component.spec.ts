@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TransferComponent } from './transfer.component';
+import { AgentTransferComponent } from './agent-transfer.component';
 
-describe('TransferComponent', () => {
-  let component: TransferComponent;
-  let fixture: ComponentFixture<TransferComponent>;
+describe('AgentTransferComponent', () => {
+  let component: AgentTransferComponent;
+  let fixture: ComponentFixture<AgentTransferComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TransferComponent],
+      imports: [AgentTransferComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TransferComponent);
+    fixture = TestBed.createComponent(AgentTransferComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
