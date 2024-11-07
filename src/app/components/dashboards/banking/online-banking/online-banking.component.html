@@ -4,7 +4,7 @@
       class="mb-3"
       [ngClass]="{
         'bg-ihela': plateform !== 'workstation',
-        'bg-erp': plateform === 'workstation',
+        'bg-erp': plateform === 'workstation'
       }">
       <div>
         <!--cards ( wallet and nyamuranzi )-->
@@ -12,7 +12,7 @@
           <!--wallet card-->
           <div
             [ngClass]="{
-              'border-end border-1  pe-5': plateform === 'onlineBanking',
+              'border-end border-1  pe-5': plateform === 'onlineBanking'
             }">
             <app-wallet-card></app-wallet-card>
           </div>
@@ -152,9 +152,10 @@
 
                           <!-- Bloc de chargement -->
                           @else {
-                            <div class="d-flex pt-3 ps-3">
+                            <div class="d-flex pt-3 px-2 gap-2 w-100 flex-wrap">
                               @for (_ of [1, 2, 3]; track $index) {
-                                <div class="d-grid mt-1 me-5">
+                                <div
+                                  class="d-flex flex-column align-items-center mt-1 me-5">
                                   <span class="text-center">
                                     <app-skeleton
                                       [height]="'60px'"
