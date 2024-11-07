@@ -15,6 +15,7 @@ export interface AdminMenuModel {
   active: boolean;
   color?: string;
   component_url: string;
+  fragment?: string;
   icon: string;
   id?: number;
   menu_group: number;
@@ -37,6 +38,7 @@ export interface AdminMenuBodyModel {
   active: boolean;
   color: string;
   component_url: string;
+  fragment?: string;
   icon: string;
   menu_group: number;
   mobile_url: string;
