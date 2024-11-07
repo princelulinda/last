@@ -1,17 +1,126 @@
-<form action="transfer">
-  <div class="d-flex flex-column">
-    <div class="d-flex">
-      <span><i class="fa-sharp fa-solid fa-play"></i></span>
-      <h5>Agent Transfer; BANKS</h5>
+<form
+  class="bg-secondary p-3 py-3 p-sm-4 ps-sm-5 pb-5 xx-lg-radius"
+  action="transfer">
+  <div class="d-flex flex-column gap-4">
+    <div class="d-flex gap-2">
+      <span><i class="fa-solid fa-play fa-lg text-primary"></i></span>
+      <span class="fs-medium fw-bold">Agent Transfer; BANKS</span>
+      <span class="d-flex gap-2 ms-auto">
+        <span class="d-flex align-items-center">
+          <i class="fa-solid fa-arrow-left fa-lg"></i>
+        </span>
+        <span class="fw-bold fs-l-medium">Back</span>
+      </span>
     </div>
-    <div class="d-flex flex-column">
-      <div class="d-flex">
-        <span><i class="fa-solid fa-circle"></i></span>
-        <h6>COMPTE A DEBITER</h6>
+    <div class="d-flex flex-column gap-2">
+      <div class="d-flex gap-2">
+        <span><i class="fa-solid fa-circle fa-2xs text-primary"></i></span>
+        <div class="fw-bold fs-small">COMPTE A DEBITER</div>
       </div>
 
-      <div class="d-flex flex-column"></div>
+      <div class="d-flex flex-column">
+        <div class="row d-flex gap-3">
+          <div
+            class="col-12 col-sm-8 col-md-6 col-lg-8 col-xl-6 bg-white bg-opacity-50 border p-2 py-3 xx-lg-radius">
+            <div class="d-flex gap-2">
+              <span
+                ><hr
+                  class="border-start py-5 bg-primary border-0 xx-lg-radius ps-2 pe-1 m-0"
+              /></span>
+              <div class="d-flex flex-column">
+                <span class="fw-bold">
+                  COMPTE PRINCIPAL AGENT - INDIVIDUELLE
+                </span>
+                <span> HABONIMANA BILLY </span>
+                <span> 0000000780-01 </span>
+                <span class="text-success"> *** *** BIF </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-12 col-sm-3 col-md-2 d-flex justify-content-center align-items-start">
+            <img
+              src="/images/sleepMode/iHelaRyanje.svg"
+              class="col-5 col-sm-12"
+              alt="ihelaLogo" />
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="d-flex"></div>
+    <div class="d-flex flex-column gap-2">
+      <div class="d-flex gap-2">
+        <span><i class="fa-solid fa-circle fa-xs text-primary"></i></span>
+        <div class="fw-bold fs-small">COMPTE A CREDITER</div>
+      </div>
+      <div class="d-flex flex-column gap-2">
+        <div class="row">
+          <div class="col-5 col-sm-4 col-md-3">
+            <div class="input-group mb-3">
+              <span class="form-control input-group-text">Agent</span>
+              <span class="input-group-text bg-primary">
+                <i class="fa-solid fa-user-tie text-white"></i>
+              </span>
+            </div>
+          </div>
+          <div class="col-1">
+            <i class="fa-solid fa-arrow-right fa-2x text-secondary"></i>
+          </div>
+          <div class="col-6 col-sm-4 col-md-3 col-lg-4 col-xl-3">
+            <span class="d-flex justify-content-center">
+              <img
+                src="/images/sleepMode/iHelaRyanje.svg"
+                class="col-6"
+                alt="ihelaLogo" />
+            </span>
+            <span class="d-flex justify-content-center fs-small"
+              >IHELA CREDIT UNION</span
+            >
+            <span class="d-flex justify-content-center">
+              <a href="#" class="text-primary text-decoration-underline"
+                >Change bank</a
+              >
+            </span>
+          </div>
+        </div>
+        <div
+          class="col-12 col-sm-8 col-md-6 col-lg-8 col-xl-6 d-flex bg-white p-2 border xx-lg-radius gap-2">
+          <span class="my-2 ms-1"
+            ><hr
+              class="border-start border-0 bg-primary xx-lg-radius py-4 ps-2 m-0"
+          /></span>
+          <div class="d-flex flex-column my-2">
+            <span> HABONIMANA BILLY </span>
+            <span> 0000000780-01 </span>
+          </div>
+          <span class="ms-auto">
+            <i class="fa-solid fa-circle-xmark fa-xl text-primary-2"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-8 col-md-6 col-lg-8 col-xl-6">
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="floatingInput"
+          placeholder="amount"
+          (keydown)="validateInput($event)" />
+        <label for="floatingInput">Amount</label>
+      </div>
+    </div>
+    <div class="col-12 col-sm-8 col-md-6 col-lg-8 col-xl-6">
+      <div class="form-floating">
+        <textarea
+          class="form-control textarea"
+          placeholder="Description"
+          id="floatingTextarea2"></textarea>
+        <label for="floatingTextarea2">Description</label>
+      </div>
+    </div>
+    <div
+      class="col-12 col-sm-8 col-md-6 col-lg-8 col-xl-6 d-flex justify-content-center mt-3">
+      <button class="btn bg-primary text-white fw-bold px-5">Confirm</button>
+    </div>
   </div>
 </form>
