@@ -103,17 +103,10 @@
                   ><i class="fa-solid fa-user"></i
                 ></span>
               </div>
-              <!-- @if (item.merchant_teller) { -->
               <div class="d-flex flex-column me-3">
                 <b>{{ item.merchant_teller.alias ?? '---' }}</b>
                 <small>{{ item.merchant_teller.id }}</small>
               </div>
-              <!-- } @else {
-                  <div class="d-flex flex-column me-3">
-                    <span class="fw-bold fs-normal">-----</span>
-                    <span class="fs-small">-----</span>
-                  </div>
-                } -->
             </section>
           </div>
         </div>
@@ -161,14 +154,14 @@
           <div
             class="col-12 col-sm-6 col-md-5 col-lg-6 col-xl-5 me-auto mb-2 mb-sm-0">
             <div class="row">
-              <div class="col-4 col-md-4">
+              <div class="col-5">
                 <div class="border-end">
                   <span class="fs-medium fw-bold">{{
                     GroupInfo.name || '---'
                   }}</span>
                 </div>
               </div>
-              <div class="col-2 col-xxl-3">
+              <div class="col-2">
                 <div class="d-flex gap-2">
                   <span
                     ><i class="fa-solid fa-receipt text-primary-2"></i
@@ -176,7 +169,7 @@
                   <span>{{ GroupInfo.bills }}</span>
                 </div>
               </div>
-              <div class="col-6 col-md-6 col-lg-6 col-xl-6 col-xxl-5">
+              <div class="col-5">
                 <div class="d-flex gap-2">
                   <div class="col-2">
                     <span><i class="fa-solid fa-user text-primary-2"></i></span>
@@ -263,7 +256,7 @@
 }
 
 @if (!invoices && isSelected_group) {
-  <div class="row ms-2 mt-5">
+  <div class="row col-9">
     @for (item of [1, 2, 3, 4]; track $index) {
       <div class="col-6 col-sm-4 col-xl-3 mb-2">
         <app-skeleton

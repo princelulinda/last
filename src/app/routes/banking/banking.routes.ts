@@ -14,10 +14,9 @@ import { WithdrawalComponent } from '../../components/withdrawal/withdrawal.comp
 import { AccountDetailsComponent } from '../../components/account/account-details/account-details.component';
 
 import { AgentCreationComponent } from '../../components/dev/agent/agent-creation/agent-creation.component';
-import { MerchantListComponent } from '../../components/dev/agent/merchant-list/merchant-list.component';
-import { AgentListComponent } from '../../components/dev/agent/agent-list/agent-list.component';
 import { AgentComponent } from '../../components/dev/agent/agent/agent.component';
 import { BankHomeComponent } from '../../components/dashboards/banking/online-banking/bank-home/bank-home.component';
+import { MerchantListComponent } from '../../components/dev/agent/merchant-list/merchant-list.component';
 
 export const bankingRoutes: Routes = [
   {
@@ -86,11 +85,17 @@ export const bankingRoutes: Routes = [
     component: AgentCreationComponent,
   },
   {
-    path: 'agentlist',
-    component: AgentListComponent,
-  },
-  {
-    path: 'merchantlist',
-    component: MerchantListComponent,
+    path: 'agent',
+    children: [
+      {
+        path: 'merchants',
+        children: [
+          {
+            path: 'list',
+            component: MerchantListComponent,
+          },
+        ],
+      },
+    ],
   },
 ];
