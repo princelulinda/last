@@ -11,7 +11,7 @@
             ? '/b/banking/'
             : ''
       ">
-      <div class="d-flex align-items-center gap-2">
+      <div class="d-flex align-items-center gap-2 z-index-10">
         <div>
           <i class="fa-solid fa-arrow-left"></i>
         </div>
@@ -24,22 +24,8 @@
     @if (dataLoaded) {
       <div class="d-flex align-items-center justify-content-between">
         <div class="fs-medium fw-bold font-calibri">Accounts</div>
-        <div (click)="toggleAmountVisibility()" tabindex="0" class="me-3">
-          @if (showAmounts) {
-            <span
-              class="text-dark fw-bold fs-normal font-calibri text-end"
-              i18n>
-              <i class="fa-solid fa-eye-slash"></i>
-            </span>
-          }
-          @if (!showAmounts) {
-            <span
-              class="text-dark fw-bold fs-normal font-calibri text-end"
-              i18n>
-              <i class="fa-solid fa-eye"></i>
-            </span>
-          }
-        </div>
+
+        <div></div>
       </div>
     }
     <app-accounts-list

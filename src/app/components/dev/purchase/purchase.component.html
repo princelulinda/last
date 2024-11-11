@@ -36,14 +36,14 @@
       [ngClass]="{
         'col-12 col-sm-6 col-md-7 col-lg-6 col-xl-7 col-xxl-6':
           !selectedProduct,
-        'col-12': selectedProduct,
+        'col-12': selectedProduct
       }">
       <div class="col-11 col-sm-12 mx-auto">
         <div class="row">
           <div
             class="col-3 col-md-2 col-lg-3 col-xl-2 bg-secondary xx-lg-radius p-1 d-flex justify-content-center me-auto"
             [ngClass]="{
-              'd-none d-block': selectedProduct,
+              'd-none d-block': selectedProduct
             }">
             <div class="d-flex justify-content-center align-items-center">
               <span class="me-2 fw-normal font-calibri fs-normal" i18n
@@ -56,7 +56,7 @@
             class="p-1 d-flex align-items-center"
             [ngClass]="{
               'col-2 col-lg-1 ms-auto': selectedProduct,
-              'col-6 col-md-8 col-xl-1 justify-content-end': !selectedProduct,
+              'col-6 col-md-8 col-xl-1 justify-content-end': !selectedProduct
             }"
             role="button"
             (click)="goBack()"
@@ -199,7 +199,7 @@
                     class="col-3 border border-5 bg-secondary rounded-circle position-absolute top-0 start-0 translate-middle-y ms-2"
                     [ngClass]="{
                       'border-white': theme === 'light',
-                      'border-dark': theme === 'dark',
+                      'border-dark': theme === 'dark'
                     }">
                     <span
                       class="w-100 py-2 d-flex justify-content-center align-itmes-center">
@@ -245,7 +245,7 @@
                 class="col-2 border border-5 bg-secondary rounded-circle d-flex align-items-center ms-2"
                 [ngClass]="{
                   'border-white': theme === 'light',
-                  'border-dark': theme === 'dark',
+                  'border-dark': theme === 'dark'
                 }">
                 <span class="w-100 d-flex justify-content-center">
                   <i class="fa-solid fa-warehouse text-secondary"></i>
@@ -364,7 +364,7 @@
         <div
           class="d-flex mb-4"
           [ngClass]="{
-            'col-11 mx-auto': selectedModal !== 'add-to-group',
+            'col-11 mx-auto': selectedModal !== 'add-to-group'
           }">
           @if (
             selectedModal === 'select-teller' ||
