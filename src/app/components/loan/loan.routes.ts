@@ -12,7 +12,6 @@ import { CreditLineListComponent } from '../../components/loan/workstation /cred
 import { CreditLineDetailsComponent } from '../../components/loan/workstation /credit-line/credit-line-details/credit-line-details.component';
 import { CreditDetailsComponent } from '../../components/loan/workstation /credit/credit-details/credit-details.component';
 import { CreditListComponent } from '../../components/loan/workstation /credit/credit-list/credit-list.component';
-import { CreditRequestComponent } from '../../components/loan/workstation /credit/credit-request/credit-request.component';
 import { CreditRequestListComponent } from '../../components/loan/workstation /credit/credit-request-list/credit-request-list.component';
 
 export const BankingLoanRoutes: Routes = [
@@ -52,37 +51,34 @@ export const BankingLoanRoutes: Routes = [
 
 export const WorkstationCreditRoutes: Routes = [
   {
-    path: 'creditsline',
-    children: [
-      {
-        path: 'list',
-        component: CreditLineListComponent,
-      },
-    ],
-  },
-  {
-    path: 'line',
-    children: [
-      {
-        path: 'details/:id',
-        component: CreditLineDetailsComponent,
-      },
-    ],
+    path: 'list',
+    component: CreditListComponent,
   },
   {
     path: 'details/:id',
     component: CreditDetailsComponent,
   },
   {
-    path: 'list',
-    component: CreditListComponent,
+    path: 'creditsline',
+    children: [
+      {
+        path: 'list',
+        component: CreditLineListComponent,
+      },
+      {
+        path: 'detail/:id',
+        component: CreditLineDetailsComponent,
+      },
+    ],
   },
+
   {
     path: 'request',
-    component: CreditRequestComponent,
-  },
-  {
-    path: 'requests',
-    component: CreditRequestListComponent,
+    children: [
+      {
+        path: 'list',
+        component: CreditRequestListComponent,
+      },
+    ],
   },
 ];
