@@ -66,7 +66,7 @@ export const WorkstationCreditRoutes: Routes = [
         component: CreditLineListComponent,
       },
       {
-        path: 'detail/:id',
+        path: 'details/:id',
         component: CreditLineDetailsComponent,
       },
     ],
