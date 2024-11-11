@@ -220,14 +220,13 @@
           class="col-md-7 mt-3 mt-md-0 mb-5 border-start border-1 text-center"
           [ngClass]="{
             'col-lg-8 col-xxl-7': activePlatform !== 'workstation',
-            'col-lg-7 col-xl-6': activePlatform === 'workstation',
+            'col-lg-7 col-xl-6': activePlatform === 'workstation'
           }">
           <div class="row mx-0 justify-content-between gap-2 gap-lg-3">
             <!-- NOTE :: BANKING MENUS -->
             @if (activePlatform !== 'workstation') {
               @for (menu of marketMenus; track $index) {
-                @let menuId = menu.id;
-                @if (menuId !== 4 && menuId !== 6) {
+                @if (menu.id !== 4 && menu.id !== 6) {
                   <a
                     routerLink="/m/mymarket/{{ menu.component_url }}"
                     class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
@@ -236,27 +235,28 @@
                     <span
                       class="ms-3 fs-l-medium"
                       [ngClass]="{
-                        'text-success': $index == 1,
+                        'text-success': $index === 1
                       }">
                       <i class="fa-solid fa-{{ menu.icon }}"></i>
                     </span>
                   </a>
-                } @else if (menuId === 4) {
+                } @else if (menu.id === 4) {
                   <a
                     class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
-                    frag
-                    (click)="openStatementPopup()"
+                    [routerLink]="[]"
+                    [fragment]="'statementModal'"
                     role="button">
                     <b i18n>{{ menu.name }}</b>
                     <span class="ms-3 fs-l-medium">
                       <i class="fa-solid fa-{{ menu.icon }}"></i>
                     </span>
                   </a>
-                } @else if (menuId === 6) {
+                } @else if (menu.id === 6) {
                   <span
                     class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
                     role="button"
-                    (click)="openPopup()"
+                    [routerLink]="[]"
+                    [fragment]="'generateBillModal'"
                     tabindex="0">
                     <b i18n>{{ menu.name }}</b>
                     <span class="ms-3 fs-l-medium">
@@ -324,17 +324,17 @@
     </section>
   </div>
 }
-
+<!-- NOTE :: STATEMENT MODAL -->
 @if (merchantAccountId && account) {
   <div
-    class="modal modal-xl fade"
-    id="staticBackdrop"
+    class="modal fade"
+    id="statementModal"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
     tabindex="-1"
     aria-labelledby="staticBackdropLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-fullscreen">
       <div class="modal-content bg-white">
         <div class="row">
           <app-statement
@@ -345,13 +345,17 @@
     </div>
   </div>
 }
-
-<div class="modal fade" id="billsModal" data-mdb-backdrop="false">
-  <div class="modal-dialog">
+<!-- NOTE :: GENERATE BILL MODAL -->
+<div class="modal fade" id="generateBillModal" data-mdb-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content bg-white">
       <div class="modal-body">
         <div class="text-end">
-          <span role="button" class="text-dark" (click)="closePopup()">
+          <span
+            role="button"
+            class="text-dark"
+            data-bs-dismiss="modal"
+            aria-label="Close">
             <i class="fa-solid fa-xmark fs-4"></i>
           </span>
         </div>
@@ -400,6 +404,7 @@
     </div>
   </div>
 </div>
+
 <div class="modal fade" id="merchantsModal" data-mdb-backdrop="false">
   <div class="modal-dialog">
     <div class="modal-content merchantsModal bg-white">

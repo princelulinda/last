@@ -32,7 +32,7 @@
 
           <div class="profilePic overflow-hidden rounded-5 my-4">
             <img
-              [src]="client?.picture_url ?? './images/userprofile.png'"
+              [src]="client.picture_url || './images/userprofile.png'"
               alt="client profile" />
           </div>
 
@@ -145,7 +145,7 @@
               <div class="col-2">
                 {{ credit.cred_client_main_account.acc_currency }}
                 {{ ' ' }}
-                {{ (credit.cred_fees_paid | number) ?? '---' }}
+                {{ (credit.cred_fees_paid | number) || '---' }}
               </div>
             </div>
 
@@ -217,7 +217,7 @@
               <div class="d-flex flex-row justify-content-between">
                 <span i18n>Duration:</span>
                 <span class="fw-bold"
-                  >{{ credit.cred_payment_number ?? '---' }} months</span
+                  >{{ credit.cred_payment_number || '---' }} months</span
                 >
               </div>
 
@@ -238,7 +238,7 @@
               <div class="d-flex flex-row justify-content-between">
                 <span i18n>Next payment date:</span>
                 <span class="fw-bold">
-                  {{ credit.cred_next_payment_date ?? '---' }}
+                  {{ credit.cred_next_payment_date || '---' }}
                 </span>
               </div>
             </div>

@@ -5,7 +5,7 @@
         <form
           class="input-group mb-3"
           [ngClass]="{
-            'active ': isSearchGroupNotEmpty() || isInputFocused,
+            'active ': isSearchGroupNotEmpty() || isInputFocused
           }">
           <input
             type="text"
@@ -36,13 +36,15 @@
                 <i class="fa-solid fa-bars-staggered fs-normal fw-bolder"></i>
               </div>
             </div>
-            <div
-              class="col-6 col-md-8 col-xl-1 p-1 d-flex justify-content-end align-items-center"
-              role="button"
-              routerLink="/m/mymarket/invoice">
-              <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
-              <span class="fw-bolder fs-5" i18n>Back</span>
-            </div>
+            @if (activePlatform !== 'workstation') {
+              <div
+                class="col-6 col-md-8 col-xl-1 p-1 d-flex justify-content-end align-items-center"
+                role="button"
+                routerLink="/m/mymarket/invoice">
+                <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
+                <span class="fw-bolder fs-5" i18n>Back</span>
+              </div>
+            }
           </div>
         </div>
       </div>
@@ -101,17 +103,10 @@
                   ><i class="fa-solid fa-user"></i
                 ></span>
               </div>
-              <!-- @if (item.merchant_teller) { -->
               <div class="d-flex flex-column me-3">
                 <b>{{ item.merchant_teller.alias ?? '---' }}</b>
                 <small>{{ item.merchant_teller.id }}</small>
               </div>
-              <!-- } @else {
-                  <div class="d-flex flex-column me-3">
-                    <span class="fw-bold fs-normal">-----</span>
-                    <span class="fs-small">-----</span>
-                  </div>
-                } -->
             </section>
           </div>
         </div>
@@ -127,14 +122,14 @@
             <div>
               <app-skeleton
                 height="10px"
-                width="30px"
+                width="160px"
                 classes="sm-radius"
                 appearance="line"></app-skeleton>
             </div>
             <div>
               <app-skeleton
                 height="10px"
-                width="50px"
+                width="100px"
                 classes="sm-radius"
                 appearance="line"></app-skeleton>
             </div>
@@ -159,14 +154,14 @@
           <div
             class="col-12 col-sm-6 col-md-5 col-lg-6 col-xl-5 me-auto mb-2 mb-sm-0">
             <div class="row">
-              <div class="col-4 col-md-4">
+              <div class="col-5">
                 <div class="border-end">
                   <span class="fs-medium fw-bold">{{
                     GroupInfo.name || '---'
                   }}</span>
                 </div>
               </div>
-              <div class="col-2 col-xxl-3">
+              <div class="col-2">
                 <div class="d-flex gap-2">
                   <span
                     ><i class="fa-solid fa-receipt text-primary-2"></i
@@ -174,7 +169,7 @@
                   <span>{{ GroupInfo.bills }}</span>
                 </div>
               </div>
-              <div class="col-6 col-md-6 col-lg-6 col-xl-6 col-xxl-5">
+              <div class="col-5">
                 <div class="d-flex gap-2">
                   <div class="col-2">
                     <span><i class="fa-solid fa-user text-primary-2"></i></span>
@@ -198,7 +193,7 @@
                   <form
                     class="input-group mb-3"
                     [ngClass]="{
-                      'active ': isSearchInvoiceNotEmpty() || isInputFocused,
+                      'active ': isSearchInvoiceNotEmpty() || isInputFocused
                     }">
                     <input
                       type="text"
@@ -261,7 +256,7 @@
 }
 
 @if (!invoices && isSelected_group) {
-  <div class="row ms-2 mt-5">
+  <div class="row col-9">
     @for (item of [1, 2, 3, 4]; track $index) {
       <div class="col-6 col-sm-4 col-xl-3 mb-2">
         <app-skeleton
@@ -271,14 +266,14 @@
         <div>
           <app-skeleton
             height="10px"
-            width="30px"
+            width="160px"
             classes="sm-radius"
             appearance="line"></app-skeleton>
         </div>
         <div>
           <app-skeleton
             height="10px"
-            width="50px"
+            width="100px"
             classes="sm-radius"
             appearance="line"></app-skeleton>
         </div>
@@ -287,7 +282,7 @@
   </div>
 }
 
-@if (count > 10) {
+@if (count > 12) {
   <div class="mt-5 mb-5 pt-5 text-center">
     <app-pagination
       [isLoading]="isLoading"

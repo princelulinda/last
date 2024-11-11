@@ -1,10 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 
 import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
 
-import { DialogService, MerchantService } from '../../../../core/services';
+import {
+  ConfigService,
+  DialogService,
+  MerchantService,
+} from '../../../../core/services';
 import { InvoiceGroupModel, SingleInVoiceModel } from '../invoice.models';
 import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import { InvoicesByGroupComponent } from '../invoices-by-group/invoices-by-group.component';
@@ -18,6 +22,10 @@ import { AmountVisibilityComponent } from '../../../../global/components/custom-
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { MerchantModel } from '../../../merchant/merchant.models';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  ActiveMainConfigModel,
+  PlateformModel,
+} from '../../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-invoices-groups',
@@ -36,7 +44,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './invoices-groups.component.html',
   styleUrl: './invoices-groups.component.scss',
 })
-export class InvoicesGroupsComponent implements OnInit {
+export class InvoicesGroupsComponent implements OnInit, OnDestroy {
   private OnDestroy$: Subject<void> = new Subject<void>();
   invoices_groups!: InvoiceGroupModel[] | null;
   isSelected_group = false;
@@ -45,7 +53,7 @@ export class InvoicesGroupsComponent implements OnInit {
   searchType: EmptyStateModel = 'product';
   invocesPagination: PaginationConfig = {
     filters: {
-      limit: 10,
+      limit: 12,
       offset: 0,
     },
   };
@@ -64,16 +72,27 @@ export class InvoicesGroupsComponent implements OnInit {
   searchGroup = new FormControl('');
   searchInvoiceByGroup = new FormControl('');
   isInputFocused = false;
+  activePlatform!: PlateformModel;
+  mainConfig$!: Observable<ActiveMainConfigModel>;
 
   constructor(
     private merchantService: MerchantService,
     private dialogService: DialogService,
-    private router: Router
+    private router: Router,
+    private configService: ConfigService
   ) {
     this.dialog$ = this.dialogService.getDialogState();
+    this.mainConfig$ = this.configService.getMainConfig();
   }
 
   ngOnInit() {
+    this.mainConfig$.subscribe({
+      next: configs => {
+        if (configs) {
+          this.activePlatform = configs.activePlateform;
+        }
+      },
+    });
     this.getBillsGroup('');
     this.router.navigate(['/m/mymarket/invoices-groups']);
     this.dialog$.pipe(takeUntil(this.OnDestroy$)).subscribe({
@@ -143,7 +162,9 @@ export class InvoicesGroupsComponent implements OnInit {
 
   getGoBackEvent() {
     this.isSelected_group = false;
-    this.router.navigate(['/m/mymarket/invoices-groups']);
+    if (this.activePlatform !== 'workstation') {
+      this.router.navigate(['/m/mymarket/invoices-groups']);
+    }
   }
 
   onPaginationChange(pagination: PaginationConfig) {
@@ -285,5 +306,9 @@ export class InvoicesGroupsComponent implements OnInit {
     event.preventDefault();
     const searchValue = this.searchInvoiceByGroup.value;
     this.getInvoicesByGroup(this.GroupInfo.id, searchValue ?? '');
+  }
+  ngOnDestroy() {
+    this.OnDestroy$.next();
+    this.OnDestroy$.complete();
   }
 }

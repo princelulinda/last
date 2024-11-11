@@ -24,7 +24,7 @@
             class="ps-2 search-input start-0 w-100 form-control input border-0 sm-radius ms-3 position-absolute"
             [ngClass]="{
               'd-block ': isSearchInputNotEmpty(),
-              'not-clickable': isLoading,
+              'not-clickable': isLoading
             }"
             type="text"
             placeholder="Search ..."
@@ -57,7 +57,7 @@
           tabindex="0"
           role="button"
           [ngClass]="{
-            'not-clickable': isLoading,
+            'not-clickable': isLoading
           }"
           class="ms-3 d-flex fs-small align-items-center refresh text-secondary"
           (click)="search()"
@@ -126,6 +126,7 @@
       <section class="col text-secondary">
         @if (response_data && data_list && data_list.length > 0) {
           <div class="d-flex align-items-center">
+            <!-- NOTE :: PAGINATION -->
             <div class="ms-auto d-flex align-items-center">
               <small i18n
                 ><i class="text-secondary"
@@ -176,15 +177,10 @@
                 <i i18n class="fa-solid fa-angles-right fs-small"></i>
               </span>
             </div>
-            <div
-              role="button"
-              title="Filters"
-              data-bs-toggle="modal"
-              data-bs-target="#filterModal"
-              class="ms-3 justify-content-center d-flex align-items-center bg-primary-3 sm-radius filter-square">
-              <span
-                ><i class="fa-solid fa-arrow-up-wide-short text-secondary"></i
-              ></span>
+
+            <!-- NOTE :: FILTERS -->
+            <div>
+              <app-filters [url]="url"></app-filters>
             </div>
           </div>
         }
@@ -213,7 +209,7 @@
 
               header.canBeDisplayed && header.size !== ''
                 ? 'col-lg-' + header.size
-                : '',
+                : ''
             ]">
             @if (data_list && data_list.length > 0) {
               <span i18n class="fw-bold"> {{ header.name }}</span>
@@ -282,7 +278,7 @@
                       data.class !== ''
                         ? ' d-flex justify-content-center badge-design mx-4 fs-small' +
                           data.class
-                        : 'text-truncate overflow-hidden',
+                        : 'text-truncate overflow-hidden'
                     ]">
                     @if (data.icon !== '') {
                       <span>

@@ -13,7 +13,7 @@
       url="/menu/admin/?"
       [addButtonLink]="{
         url: '/w/workstation/a/admin/menu',
-        fragment: 'newMenu',
+        fragment: 'newMenu'
       }"></app-list>
   </div>
 </ng-template>
@@ -113,6 +113,7 @@
             <label for="mobileUrl" class="form-label" i18n>Mobile URL</label>
           </div>
         </div>
+
         <div
           class="col-sm-6 col-lg-5 col-xl-4 d-flex mx-md-2 mx-lg-0 align-items-center">
           <label
@@ -128,17 +129,34 @@
             formControlName="active"
             class="form-check-input fs-5" />
         </div>
+        <div
+          class="d-block d-lg-flex col-sm-6 col-lg-5 col-xl-4 justify-content-between align-items-center">
+          <label
+            for="MobileUrl"
+            class="form-label text-capitalize fw-bold text-dark"
+            i18n
+            >Fragment</label
+          >
+          <div class="form-floating col-xl-7">
+            <input
+              id="fragment"
+              formControlName="fragment"
+              class="form-control"
+              placeholder="#personnal" />
+            <label for="fragment" class="form-label" i18n>Fragment</label>
+          </div>
+        </div>
 
         <!-- for style -->
         <div class="col-sm-6 col-lg-5 col-xl-4"></div>
       </div>
 
-      <div class="text-center mt-3 mt-md-4">
+      <div class="text-center mt-4 mt-md-5">
         <a
           class="me-4 text-dark fw-bold"
           routerLink="/w/workstation/a/admin/menu"
           [ngClass]="{
-            'not-clickable': isLoading,
+            'not-clickable': isLoading
           }"
           i18n
           >Cancel</a

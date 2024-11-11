@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 import { Subject, takeUntil } from 'rxjs';
+
 import { DialogService } from '../../../../core/services';
 import { AdminService } from '../../../../core/services/admin/admin.service';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { AdminMenuModel } from '../menu.models';
 
@@ -21,12 +23,14 @@ export class MenuDetailComponent implements OnInit, OnDestroy {
   menuGroupId!: string;
   menuDetails!: AdminMenuModel | null;
 
-  menuName!: FormControl;
-  menuUrl!: FormControl;
-  mobileUrl!: FormControl;
-  menuActive!: FormControl;
-  icon!: FormControl;
-  // menuGroup: any;
+  menuForm = this.fb.group({
+    name: ['', Validators.required],
+    component_url: [''],
+    mobile_url: [''],
+    fragment: [''],
+    icon: ['', Validators.required],
+    active: [false],
+  });
 
   selectedMenu = 'details';
   showUpdateForm = false;
@@ -38,7 +42,8 @@ export class MenuDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private adminService: AdminService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -62,18 +67,21 @@ export class MenuDetailComponent implements OnInit, OnDestroy {
           this.menuDetails = res.object;
           this.menuGroupId =
             this.menuDetails?.menu_group_info?.id.toString() || '';
-          this.menuName = new FormControl(res.object.name);
-          this.menuUrl = new FormControl(res.object.component_url);
-          this.menuActive = new FormControl(res.object.active);
-          this.icon = new FormControl(res.object.icon);
-          this.mobileUrl = new FormControl(this.menuDetails.mobile_url);
+
+          this.menuForm.patchValue({
+            name: this.menuDetails.name,
+            component_url: this.menuDetails.component_url,
+            mobile_url: this.menuDetails.mobile_url,
+            fragment: this.menuDetails.fragment,
+            icon: this.menuDetails.icon,
+            active: this.menuDetails.active,
+          });
           this.showUpdateForm = false;
         },
 
-        error: err => {
+        error: () => {
           this.loadingData = false;
           this.errorMessage = `Data not found`;
-          return err;
         },
       });
   }
@@ -81,13 +89,9 @@ export class MenuDetailComponent implements OnInit, OnDestroy {
   updateAdminMenu() {
     this.isLoading = true;
     const data: AdminMenuModel = {
-      name: this.menuName.value,
-      component_url: this.menuUrl.value,
-      active: this.menuActive.value,
-      icon: this.icon.value,
-      mobile_url: this.mobileUrl.value,
+      ...this.menuForm.value,
       menu_group: +this.selectedMenuId,
-    };
+    } as AdminMenuModel;
 
     this.adminService
       .updateAdminMenu(this.id, data)

@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import {
-  ActivatedRoute,
-  Router,
-  RouterLink,
-  RouterLinkActive,
-} from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
@@ -19,12 +14,7 @@ import { DialogResponseModel } from '../../../core/services/dialog/dialogs-model
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    RouterLink,
-    RouterLinkActive,
-    PasswordFieldComponent,
-  ],
+  imports: [ReactiveFormsModule, RouterLink, PasswordFieldComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -62,10 +52,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (this.authService.isAuthenticated()) {
-      console.log('LOGIN ALREADY AUTHENTICATED');
       this.redirectToNext();
-    } else {
-      console.log('LOGIN NOT AUTHENTICATED');
     }
   }
 
@@ -98,9 +85,11 @@ export class LoginComponent implements OnInit {
         });
     }
   }
+
   onPasswordChange(pin: string) {
     this.loginForm.get('password')?.setValue(pin);
   }
+
   changePasswordType() {
     if (!this.showPassword) {
       this.showPassword = true;

@@ -502,6 +502,7 @@ export class MerchantPaymentComponent
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
+          this.dialogService.closeLoading();
           if (!response.object.success) {
             this.dialogService.openToast({
               message:
@@ -512,12 +513,12 @@ export class MerchantPaymentComponent
             });
             return;
           }
-          this.dialogService.closeLoading();
           this.resetAllData();
           this.dialogService.closeMerchantPaymentDialog();
           this.manageSimplePaymentMerchantBill(response.object);
         },
         error: err => {
+          this.dialogService.closeLoading();
           this.dialogService.openToast({
             message:
               err?.object?.response_message ??
@@ -781,6 +782,9 @@ export class MerchantPaymentComponent
     this.merchantPaymentDialog = document.getElementById(
       'merchant-payment'
     ) as HTMLDialogElement;
+    this.merchantPaymentDialog.addEventListener('cancel', event => {
+      event.preventDefault();
+    });
   }
 
   ngOnDestroy(): void {

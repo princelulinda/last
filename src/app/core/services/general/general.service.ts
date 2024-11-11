@@ -20,6 +20,7 @@ import {
   MetadataModel,
 } from '../../../components/metadatas/metadata.model';
 import { confirmDialogModel } from '../../../global/components/popups/confirm-dialog/confirm-dialog.model';
+import { FiltersModel } from '../../../global/models/global.models';
 
 @Injectable({
   providedIn: 'root',
@@ -123,6 +124,12 @@ export class GeneralService {
   ): Observable<{ object: OverviewModel[]; count: number }> {
     return this.apiService
       .get<{ object: OverviewModel[]; count: number }>(url)
+      .pipe(map(data => data));
+  }
+
+  getListFilters(url: string): Observable<{ object: FiltersModel }> {
+    return this.apiService
+      .get<{ object: FiltersModel }>(url)
       .pipe(map(data => data));
   }
 

@@ -53,7 +53,7 @@
                         'http://10.30.1.42/media/clients/corporate/1_logo-magis_compressed.png',
                       imgSize:
                         creditLine.crel_manager_info.employee_client.picture !==
-                        'http://10.30.1.42/media/clients/corporate/1_logo-magis_compressed.png',
+                        'http://10.30.1.42/media/clients/corporate/1_logo-magis_compressed.png'
                     }">
                     <img
                       class="image imgBorder"
@@ -288,7 +288,7 @@
                         creditLine.crel_status.value === 'I' || 'E',
                       cancelled: creditLine.crel_status.value === 'C',
                       'text-info': creditLine.crel_status.value === 'I' || 'E',
-                      'text-warning': creditLine.crel_status.value === 'C',
+                      'text-warning': creditLine.crel_status.value === 'C'
                     }">
                     {{ creditLine.crel_status.title }}
                   </b>
@@ -338,6 +338,13 @@
               </div>
             </div>
           </div>
+          <div
+            class="text-primary mt-4 sm-radius w-100 fw-bold d-flex justify-content-between">
+            <div i18n>
+              <span><i class="fa-solid fa-circle-info text-primary"></i></span>
+              Last pdate {{ creditLine.updated_at | date }}
+            </div>
+          </div>
           @if (
             !creditLine.crel_authorized_by && !creditLine.crel_cancelled_by
           ) {
@@ -346,25 +353,18 @@
                 i18n
                 (click)="getActionSelected('authorize')"
                 tabindex="0"
-                class="btn me-3 bg-success">
+                class="btn me-5 ps-3 pe-3 bg-primary">
                 <b>Authorize</b>
               </button>
               <button
                 i18n
                 (click)="getActionSelected('cancel')"
                 tabindex="0"
-                class="btn me-3 bg-primary-2">
+                class="btn ps-4 pe-4 border border-1 border-primary">
                 <b>Cancel</b>
               </button>
             </div>
           }
-          <div
-            class="text-primary mt-4 sm-radius w-100 fw-bold d-flex justify-content-between">
-            <div i18n>
-              <span><i class="fa-solid fa-circle-info text-primary"></i></span>
-              Last pdate {{ creditLine.updated_at | date }}
-            </div>
-          </div>
         </section>
       </div>
     }
