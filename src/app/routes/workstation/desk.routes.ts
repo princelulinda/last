@@ -34,6 +34,7 @@ import { CreditListComponent } from '../../components/loan/workstation /credit/c
 import { CreditRequestComponent } from '../../components/loan/workstation /credit/credit-request/credit-request.component';
 import { CreditRequestListComponent } from '../../components/loan/workstation /credit/credit-request-list/credit-request-list.component';
 import { LedgerReportsComponent } from '../../components/dev/reports/ledger-reports/ledger-reports.component';
+import { CreditRequestDetailsComponent } from '../../components/loan/workstation /credit/credit-request-details/credit-request-details.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -179,6 +180,10 @@ export const DeskRoutes: Routes = [
       {
         path: 'requests',
         component: CreditRequestListComponent,
+      },
+      {
+        path: 'request/:id',
+        component: CreditRequestDetailsComponent,
       },
     ],
   },
