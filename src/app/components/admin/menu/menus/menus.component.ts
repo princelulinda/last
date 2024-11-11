@@ -29,6 +29,7 @@ export class MenusComponent implements OnInit {
     name: ['', Validators.required],
     component_url: [''],
     mobile_url: [''],
+    fragment: [''],
     icon: ['', Validators.required],
     active: [false],
   });
@@ -52,8 +53,13 @@ export class MenusComponent implements OnInit {
     {
       name: 'URL',
       field: ['component_url'],
-      size: '5',
+      size: '3',
       format: '',
+    },
+    {
+      name: 'Fragment',
+      field: ['fragment'],
+      size: '',
     },
     {
       name: 'Group',

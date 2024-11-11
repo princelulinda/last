@@ -3,7 +3,7 @@ import { VariableService } from '../../../../core/services/variable/variable.ser
 import { DialogService } from '../../../../core/services/dialog/dialog.service';
 import { NgClass } from '@angular/common';
 import { AccountComponent } from '../../../account/account/account.component';
-import { LookupIndividualComponent } from '../../../dev/lookup-individual/lookup-individual.component';
+import { LookupIndividualComponent } from '../../../../global/components/custom-field/lookup-individual/lookup-individual.component';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { LoanRequestComponent } from '../../../loan/loan-request/loan-request.component';
 
