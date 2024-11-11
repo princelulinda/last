@@ -39,7 +39,7 @@ export const environmentConfig: {
     plateformsUuid: [
       {
         name: 'authentification',
-        uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
+        uuid: '',
         theme: { name: 'ihela' },
         baseHref: '/',
       },
@@ -107,7 +107,7 @@ export const environmentConfig: {
     plateformsUuid: [
       {
         name: 'authentification',
-        uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
+        uuid: '',
         theme: { name: 'ihela' },
         baseHref: '/',
       },
@@ -115,7 +115,7 @@ export const environmentConfig: {
         name: 'newsFeed',
         uuid: '9c11211d-39cb-472d-ac7c-67820f067706',
         theme: { name: 'ihela' },
-        baseHref: '/n/newsFeed',
+        baseHref: '/n/newsfeed',
       },
       {
         name: 'onlineBanking',
@@ -131,7 +131,7 @@ export const environmentConfig: {
       },
       {
         name: 'onamob',
-        uuid: '65231163-2099-45e3-95de-0bdfa5882088',
+        uuid: 'bafc6065-b332-443b-8444-a811f9a5e6a2',
         theme: { name: 'onamob' },
         baseHref: '/o/onamob',
       },
@@ -143,25 +143,25 @@ export const environmentConfig: {
       },
       {
         name: 'myMarket',
-        uuid: '28544962-9f7a-4768-adad-66f336251822',
+        uuid: 'ef333aab-4887-4f33-baa8-862051151992',
         theme: { name: 'ihela' },
         baseHref: '/m/myMarket',
       },
       {
         name: 'workstation',
-        uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
+        uuid: 'bd75a7eb-37a1-4916-a144-54286dfbcc41',
         theme: { name: 'erp' },
         baseHref: '/auth/corporate',
       },
       {
         name: 'systemAdmin',
-        uuid: '1e35b443-1076-4971-ae04-85a9272d6ec9',
+        uuid: 'bd75a7eb-37a1-4916-a144-54286dfbcc41',
         theme: { name: 'magis' },
         baseHref: '/a/admin',
       },
     ],
-    appInfo: '9c11211d-39cb-472d-ac7c-67820f067706',
-    defaultAppSubject: '',
+    appInfo: '34c5a6b6-2246-4193-a094-54e0597a0563',
+    defaultAppSubject: '9c11211d-39cb-472d-ac7c-67820f067706',
     bigBangId: 1,
     publicServicesMerchantCategoryId: 3,
     sentryDsn: 'https://8343ed4cedf1ee0797427869307f4cc1@turabe.ihela.online/7',
