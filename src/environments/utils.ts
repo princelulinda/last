@@ -39,7 +39,7 @@ export const environmentConfig: {
     plateformsUuid: [
       {
         name: 'authentification',
-        uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
+        uuid: '',
         theme: { name: 'ihela' },
         baseHref: '/',
       },
@@ -107,7 +107,7 @@ export const environmentConfig: {
     plateformsUuid: [
       {
         name: 'authentification',
-        uuid: '44793f5f-1bd5-4569-9592-ec8a7c81d022',
+        uuid: '9c11211d-39cb-472d-ac7c-67820f067706',
         theme: { name: 'ihela' },
         baseHref: '/',
       },
@@ -161,7 +161,7 @@ export const environmentConfig: {
       },
     ],
     appInfo: '9c11211d-39cb-472d-ac7c-67820f067706',
-    defaultAppSubject: '',
+    defaultAppSubject: '9c11211d-39cb-472d-ac7c-67820f067706',
     bigBangId: 1,
     publicServicesMerchantCategoryId: 3,
     sentryDsn: 'https://8343ed4cedf1ee0797427869307f4cc1@turabe.ihela.online/7',
