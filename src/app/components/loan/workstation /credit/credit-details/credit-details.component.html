@@ -26,8 +26,15 @@
           <div class="d-flex justify-content-between align-items-center">
             <span class="fs-medium text-primary" i18n>Basic client info</span>
 
-            <i
-              class="fa-solid fa-arrow-up-right-from-square text-primary fw-bold fs-l-medium"></i>
+            <span
+              class="clickable"
+              tabindex="0"
+              [routerLink]="
+                '/w/workstation/d/desk/client/detail/' + client.client_id
+              ">
+              <i
+                class="fa-solid fa-arrow-up-right-from-square text-primary fw-bold fs-l-medium"></i>
+            </span>
           </div>
 
           <div class="profilePic overflow-hidden rounded-5 my-4">
@@ -323,7 +330,7 @@
 
         <app-list
           [headers]="headers"
-          url="/loans/plan/105?"
+          url="/loans/plan/105/?"
           title="Loan Plan"></app-list>
       </div>
     </div>
