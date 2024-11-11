@@ -26,14 +26,8 @@ import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
 import { DeskDashboardComponent } from '../../components/dashboards/workstation/desk-dashboard/desk-dashboard.component';
 import { BalanceSheetComponent } from '../../components/dev/accounting/balance-sheet/balance-sheet.component';
 import { OperationResultComponent } from '../../components/dev/accounting/operation-result/operation-result.component';
-import { CreditLineListComponent } from '../../components/loan/workstation /credit-line/credit-line-list/credit-line-list.component';
-
-import { CreditLineDetailsComponent } from '../../components/loan/workstation /credit-line/credit-line-details/credit-line-details.component';
 import { WalletListWsComponent } from '../../components/wallet/workstation/wallet-list-ws/wallet-list-ws.component';
-import { CreditDetailsComponent } from '../../components/loan/workstation /credit/credit-details/credit-details.component';
-import { CreditListComponent } from '../../components/loan/workstation /credit/credit-list/credit-list.component';
-import { CreditRequestComponent } from '../../components/loan/workstation /credit/credit-request/credit-request.component';
-import { CreditRequestListComponent } from '../../components/loan/workstation /credit/credit-request-list/credit-request-list.component';
+import { WorkstationCreditRoutes } from '../../components/loan/loan.routes';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -143,43 +137,10 @@ export const DeskRoutes: Routes = [
         '../../global/components/errors/forbidden-403/forbidden-403.component'
       ).then(m => m.Forbidden403Component),
   },
+
+  // NOTE :: WORKSTATION CREDIT
   {
     path: 'credit',
-    children: [
-      {
-        path: 'creditsline',
-        children: [
-          {
-            path: 'list',
-            component: CreditLineListComponent,
-          },
-        ],
-      },
-      {
-        path: 'line',
-        children: [
-          {
-            path: 'details/:id',
-            component: CreditLineDetailsComponent,
-          },
-        ],
-      },
-      {
-        path: 'details/:id',
-        component: CreditDetailsComponent,
-      },
-      {
-        path: '',
-        component: CreditListComponent,
-      },
-      {
-        path: 'request',
-        component: CreditRequestComponent,
-      },
-      {
-        path: 'requests',
-        component: CreditRequestListComponent,
-      },
-    ],
+    children: WorkstationCreditRoutes,
   },
 ];
