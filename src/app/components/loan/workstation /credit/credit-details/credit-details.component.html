@@ -80,7 +80,10 @@
                 }}</span>
               }
             </div>
-            <div class="d-flex gap-1 flex-row align-items-center clickable">
+            <div
+              class="d-flex gap-1 flex-row align-items-center clickable"
+              tabindex="0"
+              (click)="refresh()">
               <i class="fa-solid fa-arrows-rotate me-1 text-secondary"></i>
               <span i18n>Refresh</span>
             </div>
@@ -190,19 +193,11 @@
 
             <div class="position-absolute prof bg-white rounded p-1 fs-small">
               <div class="prof1 position-relative rounded overflow-hidden">
-                @if (credit.cred_manager.picture) {
-                  <img
-                    [src]="credit.cred_manager.picture"
-                    alt="Manager profile"
-                    class="image" />
-                }
-
-                @if (!credit.cred_manager.picture) {
-                  <img
-                    src="./images/client/userprofile.png"
-                    alt="Manager profile"
-                    class="w-100 h-100" />
-                }
+                <app-profile-card
+                  width="100%"
+                  height="100%"
+                  [imageUrl]="credit.cred_manager.picture"
+                  [fullName]="credit.cred_manager.name"></app-profile-card>
                 <div
                   class="position-absolute w-100 start-0 bottom-0 title text-center text-all-white fw-bold p-1"
                   i18n>

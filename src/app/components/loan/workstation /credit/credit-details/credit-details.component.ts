@@ -8,11 +8,18 @@ import { ClientService, LoanService } from '../../../../../core/services';
 import { CommonModule } from '@angular/common';
 import { LoanModel } from '../../../../loan/loan.models';
 import { ClientWorkstationModel } from '../../../../client/client.model';
+import { ProfileCardComponent } from '../../../../../global/components/custom-field/profile-card/profile-card.component';
 
 @Component({
   selector: 'app-credit-details',
   standalone: true,
-  imports: [StatementComponent, ListComponent, CommonModule, RouterLink],
+  imports: [
+    StatementComponent,
+    ListComponent,
+    CommonModule,
+    RouterLink,
+    ProfileCardComponent,
+  ],
   templateUrl: './credit-details.component.html',
   styleUrl: './credit-details.component.scss',
 })
@@ -109,6 +116,12 @@ export class CreditDetailsComponent implements OnInit, OnDestroy {
     });
 
     this.showPlan = false;
+  }
+
+  refresh() {
+    this.clientLoading = true;
+    this.credLoading = true;
+    this.getCreditDetails();
   }
 
   getCreditDetails() {
