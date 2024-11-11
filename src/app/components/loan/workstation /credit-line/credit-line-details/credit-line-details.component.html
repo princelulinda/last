@@ -65,19 +65,25 @@
                 </div>
               }
 
-              <div class="d-grid fs-normal">
-                <b i18n class="fw-bolder text-secondary">Client Name</b>
-                <b class=""> {{ creditLine.crel_manager_info.name }}</b>
-                <b i18n class="fw-bolder text-secondary mt-2">Client ID</b>
-                <b class="">
+              <div class="d-grid">
+                <b i18n class="fw-bolder text-secondary fs-normal"
+                  >Client Name</b
+                >
+                <b class="fs-normal">
+                  {{ creditLine.crel_manager_info.name }}</b
+                >
+                <b i18n class="fw-bolder fs-normal text-secondary mt-2"
+                  >Client ID</b
+                >
+                <b class="fs-normal">
                   {{ creditLine.crel_manager_info.employee_client.client_code }}
                 </b>
               </div>
               <div class="mt-3">
                 <div>
                   <div class="d-grid mb-2">
-                    <b class="text-secondary text-sm" i18n>Client email</b>
-                    <b class="text-sm">
+                    <b class="text-secondary fs-normal" i18n>Client email</b>
+                    <b class="fs-normal">
                       {{ creditLine.crel_manager_info.email }}
                     </b>
                   </div>
@@ -85,12 +91,12 @@
                     creditLine.crel_manager_info.employee_client.is_agent ===
                     true
                   ) {
-                    <div class="mb-2">
+                    <div class="d-grid mb-2">
                       <b i18n class="fs-normal fw-bolder text-secondary"
                         >Agent</b
                       >
-                      <span class="ms-2"
-                        ><i class="fa-solid fa-circle-xmark text-primary"></i
+                      <span
+                        ><i class="fa-solid fa-circle-xmark iconColor"></i
                       ></span>
                     </div>
                   }
@@ -98,12 +104,12 @@
                     creditLine.crel_manager_info.employee_client.is_merchant ===
                     true
                   ) {
-                    <div>
+                    <div class="d-grid">
                       <b i18n class="fs-normal fw-bolder text-secondary"
                         >Merchant</b
                       >
-                      <span class="ms-2"
-                        ><i class="fa-solid fa-circle-xmark text-primary"></i
+                      <span
+                        ><i class="fa-solid fa-circle-xmark iconColor"></i
                       ></span>
                     </div>
                   }
@@ -114,17 +120,21 @@
         </section>
 
         <section class="w-75 p-5">
-          <div class="d-flex justify-content-end fs-5">
+          <div
+            class="d-flex justify-content-end fw-bold fs-small text-secondary">
             <span
               title="Refresh the details"
               (click)="refreshPage()"
               tabindex="0">
-              <i class="fa-solid fa-arrows-rotate" type="button"> </i>
+              <i class="fa-solid fa-arrows-rotate me-1" type="button"> </i>
+              Refresh
             </span>
           </div>
-          <div class="d-flex justify-content-center fs-5">
-            <span i18n>Credit Line Number : </span>
-            <b> {{ creditLine.crel_code }}</b>
+          <div class="d-flex justify-content-center">
+            <span i18n class="fs-large fw-bold text-secondary me-2"
+              >Credit Line Number:
+            </span>
+            <b class="fs-large"> {{ creditLine.crel_code }}</b>
           </div>
 
           <div
@@ -228,8 +238,8 @@
           </div>
           <div class="row">
             <div class="col">
-              <div class="mt-3 row">
-                <div i18n class="fw-bold text-secondary col-4">Amount:</div>
+              <div class="mt-3 row fs-normal">
+                <div i18n class="col-4">Amount:</div>
                 <div class="fw-bold text-dark col-7">
                   <app-amount-visibility
                     [amount]="creditLine.crel_credit_limit"
@@ -237,8 +247,8 @@
                     [alwaysShowAmount]="true"></app-amount-visibility>
                 </div>
               </div>
-              <div class="mt-3 row">
-                <div i18n class="fw-bold text-secondary col-4">Fees:</div>
+              <div class="mt-3 row fs-normal">
+                <div i18n class="col-4">Fees:</div>
                 <div class="fw-bold text-dark col-7">
                   @if (creditLine.crel_fees > 100) {
                     <span>
@@ -253,33 +263,31 @@
                   }
                 </div>
               </div>
-              <div class="mt-3 row">
-                <div i18n class="fw-bold text-secondary col-4">
-                  Expiry date:
-                </div>
+              <div class="mt-3 row fs-normal">
+                <div i18n class="col-4">Expiry date:</div>
                 <div class="fw-bold text-dark col-7">
                   {{ creditLine.crel_expiry_date }}
                 </div>
               </div>
 
               <div class="mt-3">
-                <div class="row fw-bold fs-normal">
+                <div class="row fs-normal">
                   @if (creditLine.crel_authorized_by_info) {
-                    <div i18n class="col-4 text-secondary">Authorized by:</div>
-                    <div class="col-7">
+                    <div i18n class="col-4">Authorized by:</div>
+                    <div class="col-7 fw-bold">
                       {{ creditLine.crel_authorized_by_info.name || '------' }}
                     </div>
                   }
                   @if (creditLine.crel_cancelled_by_info) {
-                    <div i18n class="col-4 text-secondary">Cancelled by:</div>
-                    <div class="col-7">
+                    <div i18n class="col-4">Cancelled by:</div>
+                    <div class="col-7 fw-bold">
                       {{ creditLine.crel_cancelled_by_info.name || '------' }}
                     </div>
                   }
                 </div>
               </div>
-              <div class="row mt-3 fw-bold fs-normal">
-                <div class="col-4 text-secondary">Status</div>
+              <div class="row mt-3 fs-normal">
+                <div class="col-4">Status:</div>
                 <div class="col-7">
                   <b
                     class="ps-3 pe-3 p-2 sm-radius"
@@ -296,41 +304,39 @@
               </div>
             </div>
             <div class="col">
-              <div class="mt-3 row">
-                <div i18n class="fw-bold text-secondary col-4">
-                  Debitor Rate:
-                </div>
+              <div class="mt-3 row fs-normal">
+                <div i18n class="col-4">Debitor Rate:</div>
                 <div class="fw-bold text-dark col-7">
                   {{ creditLine.crel_debitor_rate }}%
                 </div>
               </div>
-              <div class="mt-3 row">
-                <div i18n class="fw-bold text-secondary col-4">
-                  Penalities Rate:
-                </div>
+              <div class="mt-3 row fs-normal">
+                <div i18n class="col-4">Penalities Rate:</div>
                 <div class="fw-bold text-dark col-7">
                   {{ creditLine.crel_penalities_rate }}%
                 </div>
               </div>
               <div class="mt-3">
-                <div class="row fw-bold">
-                  <div i18n class="col-4 text-secondary">Created at:</div>
-                  <div class="col-7">{{ creditLine.created_at | date }}</div>
+                <div class="row fs-normal">
+                  <div i18n class="col-4">Created at:</div>
+                  <div class="col-7 fw-bold">
+                    {{ creditLine.created_at | date }}
+                  </div>
                 </div>
               </div>
               <div class="mt-3">
                 @if (creditLine.crel_authorized_at) {
-                  <div class="row fw-bold">
-                    <div i18n class="col-4 text-secondary">Authorized at:</div>
-                    <div class="col-7">
+                  <div class="row fs-normal">
+                    <div i18n class="col-4">Authorized at:</div>
+                    <div class="col-7 fw-bold">
                       {{ creditLine.crel_authorized_at | date }}
                     </div>
                   </div>
                 }
                 @if (creditLine.crel_cancelled_at) {
-                  <div class="row fw-bold">
-                    <div i18n class="col-4 text-secondary">Cancelled at:</div>
-                    <div class="col-7">
+                  <div class="row fs-normal">
+                    <div i18n class="col-4">Cancelled at:</div>
+                    <div class="col-7 fw-bold">
                       {{ creditLine.crel_cancelled_at | date }}
                     </div>
                   </div>
@@ -339,7 +345,7 @@
             </div>
           </div>
           <div
-            class="text-primary mt-4 sm-radius w-100 fw-bold d-flex justify-content-between">
+            class="text-primary mt-5 sm-radius w-100 fs-normal d-flex justify-content-between">
             <div i18n>
               <span><i class="fa-solid fa-circle-info text-primary"></i></span>
               Last pdate {{ creditLine.updated_at | date }}
@@ -353,15 +359,15 @@
                 i18n
                 (click)="getActionSelected('authorize')"
                 tabindex="0"
-                class="btn me-5 ps-3 pe-3 bg-primary">
-                <b>Authorize</b>
+                class="btn me-5 ps-3 pe-3 bg-primary text-light fs-normal">
+                <b class="ps-2 pe-2">Authorize</b>
               </button>
               <button
                 i18n
                 (click)="getActionSelected('cancel')"
                 tabindex="0"
-                class="btn ps-4 pe-4 border border-1 border-primary">
-                <b>Cancel</b>
+                class="btn ps-4 pe-4 border border-1 border-primary fs-normal">
+                <b class="ps-2 pe-2">Cancel</b>
               </button>
             </div>
           }
