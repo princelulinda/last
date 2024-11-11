@@ -115,7 +115,7 @@ export const environmentConfig: {
         name: 'newsFeed',
         uuid: '9c11211d-39cb-472d-ac7c-67820f067706',
         theme: { name: 'ihela' },
-        baseHref: '/n/newsFeed',
+        baseHref: '/n/newsfeed',
       },
       {
         name: 'onlineBanking',
