@@ -9,11 +9,17 @@ import {
   CreditLineResponseDataModel,
 } from '../credit-line.models';
 import { AmountVisibilityComponent } from '../../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { ProfileCardComponent } from '../../../../../global/components/custom-field/profile-card/profile-card.component';
 
 @Component({
   selector: 'app-credit-line-details',
   standalone: true,
-  imports: [CommonModule, NgClass, AmountVisibilityComponent],
+  imports: [
+    CommonModule,
+    NgClass,
+    AmountVisibilityComponent,
+    ProfileCardComponent,
+  ],
   templateUrl: './credit-line-details.component.html',
   styleUrl: './credit-line-details.component.scss',
 })

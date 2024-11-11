@@ -44,24 +44,14 @@
                 </div>
               }
               @if (creditLine.crel_manager_info.employee_client.picture) {
-                <div class="">
-                  <div
-                    class="mb-3"
-                    [ngClass]="{
-                      profileImage:
-                        creditLine.crel_manager_info.employee_client.picture ===
-                        'http://10.30.1.42/media/clients/corporate/1_logo-magis_compressed.png',
-                      imgSize:
-                        creditLine.crel_manager_info.employee_client.picture !==
-                        'http://10.30.1.42/media/clients/corporate/1_logo-magis_compressed.png',
-                    }">
-                    <img
-                      class="image imgBorder"
-                      [src]="
-                        creditLine.crel_manager_info.employee_client.picture
-                      "
-                      alt="user profile" />
-                  </div>
+                <div class="mb-3">
+                  <app-profile-card
+                    width="150px"
+                    height="150px"
+                    [imageUrl]="
+                      creditLine.crel_manager_info.employee_client.picture
+                    "
+                    radiusClass="xx-lg-radius"></app-profile-card>
                 </div>
               }
 
@@ -117,6 +107,16 @@
               </div>
             </div>
           </div>
+          @if (creditLine.crel_manager_info.username) {
+            <div class="bg-secondary sm-radius mt-4 ps-3 p-2">
+              <div class="d-grid">
+                <span class="fs-normal fw-bold text-secondary">Manager</span>
+                <b class="fs-normal">{{
+                  creditLine.crel_manager_info.username
+                }}</b>
+              </div>
+            </div>
+          }
         </section>
 
         <section class="w-75 p-5">
@@ -145,28 +145,7 @@
             </div>
             <div class="d-flex justify-content-center mt-3 mb-3">
               <div
-                class="d-flex justify-content-center col-7 pe-5 gap-4 border-end border-1 border-secondary">
-                @if (!creditLine.crel_account_info.acc_picture) {
-                  <div class="pe-4">
-                    <div class="accountPicture">
-                      <img
-                        src="images/userprofile.png"
-                        class="lg-radius image"
-                        alt="account picture" />
-                    </div>
-                  </div>
-                }
-                @if (creditLine.crel_account_info.acc_picture) {
-                  <div class="pe-4">
-                    <div class="accountPicture">
-                      <img
-                        [src]="creditLine.crel_account_info.acc_picture"
-                        alt="account picture"
-                        class="lg-radius image" />
-                    </div>
-                  </div>
-                }
-
+                class="d-flex ps-4 col gap-4 border-end border-1 border-secondary">
                 <div class="d-grid">
                   <div class="text-dark mb-3 d-grid">
                     <b i18n class="fs-normal fw-bold text-secondary mb-0"
@@ -199,24 +178,16 @@
                   </div>
                 </div>
               </div>
-              <div class="col d-grid justify-content-center">
-                <div class="mb-3 d-grid">
+              <div class="col d-grid ms-5 ps-2">
+                <div class="">
                   <b i18n class="fs-normal fw-bold text-secondary mb-0">
                     Account type
                   </b>
-                  <b class="fw-bold text-dark">
+                  <br />
+                  <b class="fw-bold text-dark mb-2">
                     {{ creditLine.crel_account_info.acc_account_type }}
                   </b>
-                </div>
-                <div class="mb-3 d-grid">
-                  <b i18n class="fs-normal fw-bold text-secondary mb-0">
-                    Created at
-                  </b>
-                  <b class="fw-bold text-dark">
-                    {{ creditLine.created_at }}
-                  </b>
-                </div>
-                <div class="d-grid">
+                  <br class="mb-2" />
                   <b i18n class="fs-normal fw-bold text-secondary mb-0">
                     Available balance
                   </b>

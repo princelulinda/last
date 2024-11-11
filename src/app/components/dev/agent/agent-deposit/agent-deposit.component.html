@@ -1,0 +1,144 @@
+@if (isLoading) {
+  <div class="skeletonsBlok">
+    <app-skeleton [height]="'80%'" classes="rounded"></app-skeleton>
+  </div>
+}
+@if (!isLoading && agentInfo && agentMIF) {
+  <div class="bg-secondary p-3 lg-radius">
+    <div class="row">
+      <div class="col-9">
+        <span>
+          <i class="fa-solid fa-play text-primary me-2"></i>
+        </span>
+        <span class="fs-medium fw-bold">Deposit</span>
+      </div>
+      <div
+        class="col-3 pe-2 d-flex justify-content-end align-items-center fs-l-medium"
+        role="button"
+        tabindex="0"
+        routerLink="/b/banking/agent">
+        <i class="fa-solid fa-arrow-left fs-l-medium me-2"></i>
+        <span class="fw-bolder" i18n>Back</span>
+      </div>
+    </div>
+    <div class="">
+      <span>
+        <i class="fa-solid fa-circle text-primary" style="font-size: 8px"></i>
+      </span>
+      <span i18n class="fw-bolder fs-small ms-2">COMPTE A DEBITER</span>
+      @if (agentInfo && !isLoading) {
+        <div class="d-flex">
+          <div class="bg-white lg-radius p-3 me-auto">
+            <span>{{ agentInfo.agent_main_account }}</span>
+          </div>
+        </div>
+      }
+      <div>
+        <span>
+          <i class="fa-solid fa-circle text-primary" style="font-size: 8px"></i>
+        </span>
+        <span i18n class="fw-bolder fs-small ms-2">COMPTE A CREDITER</span>
+      </div>
+
+      <section>
+        @if (agentMIF && agentMIF.length > 0 && !isLoading && !selectedMIF) {
+          <section class="my-3 d-flex gap-3 flex-wrap">
+            @for (bank of agentMIF; track $index) {
+              <div
+                tabindex="0"
+                role="button"
+                (click)="selectBank(bank)"
+                class="d-flex flex-column bank-card align-items-center border sm-radius p-2">
+                <div
+                  class="bank-image flex-grow-1 d-flex justify-content-center">
+                  @if (bank.company.image) {
+                    <img
+                      class="img-fluid object-fit-contain"
+                      alt="{{ bank.company }}"
+                      [src]="bank?.company?.image" />
+                  } @else {
+                    <span class="fs-large">
+                      <i class="fa-solid fa-building-columns"></i>
+                    </span>
+                  }
+                </div>
+
+                <span class="text-center">{{ bank?.company?.fullname }}</span>
+              </div>
+            }
+          </section>
+        }
+        @if (!agentMIF && !isLoading) {
+          <div class="fs-large my-4" i18n>No Banks Found</div>
+        }
+      </section>
+      <section>
+        @if (selectedMIF) {
+          <!-- <div class="row">
+                <div class="col">
+                    <div>
+                        <span>agent</span>
+                        <span class="bg-primary"><i class="fa fa-user-tie fs-5 text-light"></i></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <i class="fa-solid fa-right-long"></i>
+                </div>
+                <div class="col">
+                  <div
+                    class="imgSize">
+                  @if (selectedMIF.company.image) {
+                    <img
+                      class="img-fluid object-fit-contain"
+                      alt="{{ selectedMIF.company }}"
+                      [src]="selectedMIF.company.image" />
+                      
+                  } @else {
+                    <span class="fs-large">
+                      <i class="fa-solid fa-building-columns"></i>
+                    </span>
+                  }
+                  <span class="text-center">{{ selectedMIF.company.fullname }}</span>
+                </div>
+                </div>
+            </div> -->
+          <div class="d-flex mb-4">
+            <div class="col-3">
+              <app-lookup
+                option="lookup"
+                url="/dbs/agents/object_lookup/?lookup_data="
+                label="Search By Agent ID"
+                (selectedItemEvent)="selectAgent($event)"></app-lookup>
+            </div>
+          </div>
+          <form [formGroup]="depositForm">
+            <div class="col-3 text-dark">
+              <app-amount-field
+                [isFormFloating]="true"
+                (amountEvent)="getAmount($event)"></app-amount-field>
+            </div>
+            <div class="form-floating col-3 mt-3 text-dark">
+              <input
+                type="text"
+                class="form-control input w-100"
+                placeholder="description"
+                formControlName="description" />
+              <label for="description" class="form-label">Description</label>
+            </div>
+            <div class="text-center col-3 mt-5 mb-4">
+              <button
+                (click)="enterPin()"
+                [disabled]="
+                  !depositForm.valid || isLoading || !selectedAgent || !amount
+                "
+                class="text-all-white btn bg-primary px-4"
+                i18n>
+                Confirm
+              </button>
+            </div>
+          </form>
+        }
+      </section>
+    </div>
+  </div>
+}

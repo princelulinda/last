@@ -2,6 +2,7 @@ export interface AgentModel {
   agent_name: string;
   agent_type: string;
   agent_main_account_id: number;
+  agent_main_account: string;
   agent_balance: string;
   cios_balance: string;
   picture: string;
