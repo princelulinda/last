@@ -9,7 +9,7 @@ import {
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { AgentModel } from '../agent.models';
 import { AgentService } from '../../../../core/services/agent/agent.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { AmountFieldComponent } from '../../../../global/components/custom-field/amount-field/amount-field.component';
 import {
@@ -53,26 +53,29 @@ export class AgentDepositComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     private bankService: BankService,
     private dialogService: DialogService,
-    private agentService: AgentService
+    private agentService: AgentService,
+    private router: Router
   ) {
     this.dialog$ = this.dialogService.getDialogState();
   }
 
   ngOnInit() {
-    // this.dialog$.pipe(takeUntil(this.OnDestroy$)).subscribe({
-    //   next: (dialog: DialogResponseModel) => {
-    //     if (dialog) {
-    //       this.dialog = dialog;
-    //       if (this.dialog && this.dialog.response) {
-    //         if (
-    //           this.dialog.action === 'confirm pin' &&
-    //           this.dialog.response.pin
-    //         ) {
-    //         }
-    //       }
-    //     }
-    //   },
-    // });
+    this.router.navigate([], { fragment: 'listMIF' });
+    this.dialog$.pipe(takeUntil(this.OnDestroy$)).subscribe({
+      next: (dialog: DialogResponseModel) => {
+        if (dialog) {
+          this.dialog = dialog;
+          if (this.dialog && this.dialog.response) {
+            if (
+              this.dialog.action === 'confirm pin' &&
+              this.dialog.response.pin
+            ) {
+              this.AgentDeposit();
+            }
+          }
+        }
+      },
+    });
     this.getBanks();
     this.getDatAgent();
   }
@@ -88,7 +91,6 @@ export class AgentDepositComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         },
         error: () => {
-          this.isLoading = false;
           this.dialogService.openToast({
             title: '',
             type: 'failed',
@@ -109,7 +111,6 @@ export class AgentDepositComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         },
         error: () => {
-          this.isLoading = false;
           this.dialogService.openToast({
             title: '',
             type: 'failed',
@@ -148,6 +149,58 @@ export class AgentDepositComponent implements OnInit, OnDestroy {
       message: 'Please enter your pin to continue',
       action: 'confirm pin',
     });
+  }
+
+  AgentDeposit() {
+    const data = {
+      deposit_type: 'from_agent',
+      credit_type: 'account',
+      credit_account: (this.selectedAgent as LookupModel).lookup_subtitle,
+      credit_bank: this.selectedMIF.id,
+      credit_account_holder: this.selectedAgent?.lookup_title,
+      amount: this.depositForm.value.amount,
+      description: this.depositForm.value.description,
+      pin_code: this.dialog.response.pin,
+    };
+
+    this.dialogService.dispatchLoading();
+    this.agentService
+      .AgentDeposit(data)
+      .pipe(takeUntil(this.OnDestroy$))
+      .subscribe({
+        next: response => {
+          this.dialogService.closeLoading();
+          if (response.object.success === false) {
+            this.dialogService.openToast({
+              title: '',
+              message: response.object.response_message,
+              type: 'failed',
+            });
+            this.depositForm.reset();
+          }
+          if (response.object.success === true) {
+            this.dialogService.openToast({
+              title: '',
+              message:
+                response.object?.response_message ??
+                'The bill has been successfully paid',
+              type: 'success',
+            });
+            this.depositForm.reset();
+          }
+        },
+        error: err => {
+          this.dialogService.closeLoading();
+          this.dialogService.openToast({
+            title: '',
+            message:
+              err?.object?.response_message ??
+              'Something went wrong, please retry again',
+            type: 'failed',
+          });
+          this.depositForm.reset();
+        },
+      });
   }
 
   ngOnDestroy() {

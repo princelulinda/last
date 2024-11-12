@@ -27,20 +27,20 @@
       </span>
       <span i18n class="fw-bolder fs-small ms-2">COMPTE A DEBITER</span>
       @if (agentInfo && !isLoading) {
-        <div class="d-flex">
+        <div class="d-flex mb-4 mt-2">
           <div class="bg-white lg-radius p-3 me-auto">
             <span>{{ agentInfo.agent_main_account }}</span>
           </div>
         </div>
       }
-      <div>
+      <div class="mb-3">
         <span>
           <i class="fa-solid fa-circle text-primary" style="font-size: 8px"></i>
         </span>
         <span i18n class="fw-bolder fs-small ms-2">COMPTE A CREDITER</span>
       </div>
 
-      <section>
+      <section id="listMIF">
         @if (agentMIF && agentMIF.length > 0 && !isLoading && !selectedMIF) {
           <section class="my-3 d-flex gap-3 flex-wrap">
             @for (bank of agentMIF; track $index) {
@@ -48,7 +48,7 @@
                 tabindex="0"
                 role="button"
                 (click)="selectBank(bank)"
-                class="d-flex flex-column bank-card align-items-center border sm-radius p-2">
+                class="d-flex flex-column bank-card align-items-center border border-white bg-white sm-radius p-2">
                 <div
                   class="bank-image flex-grow-1 d-flex justify-content-center">
                   @if (bank.company.image) {
@@ -74,34 +74,48 @@
       </section>
       <section>
         @if (selectedMIF) {
-          <!-- <div class="row">
-                <div class="col">
-                    <div>
-                        <span>agent</span>
-                        <span class="bg-primary"><i class="fa fa-user-tie fs-5 text-light"></i></span>
-                    </div>
-                </div>
-                <div class="col">
-                    <i class="fa-solid fa-right-long"></i>
-                </div>
-                <div class="col">
-                  <div
-                    class="imgSize">
-                  @if (selectedMIF.company.image) {
-                    <img
-                      class="img-fluid object-fit-contain"
-                      alt="{{ selectedMIF.company }}"
-                      [src]="selectedMIF.company.image" />
-                      
-                  } @else {
-                    <span class="fs-large">
-                      <i class="fa-solid fa-building-columns"></i>
-                    </span>
-                  }
-                  <span class="text-center">{{ selectedMIF.company.fullname }}</span>
-                </div>
-                </div>
-            </div> -->
+          <div class="col-5 d-flex justify-content-center align-items-center">
+            <div
+              class="col-4 selectedMIFColor ps-3 sm-radius d-flex justify-content-center align-items-center position-relative">
+              <span class="position-absolute" style="margin-right: 41px"
+                >agent</span
+              >
+              <span class="bg-primary rounded-end" style="margin-left: 91px"
+                ><i class="fa fa-user-tie p-2 fs-normal text-end text-light"></i
+              ></span>
+            </div>
+            <div class="col-3 text-center">
+              <span
+                ><i class="fa-solid fa-right-long fs-x-large text-secondary"></i
+              ></span>
+            </div>
+            <div class="col text-center">
+              <div class="">
+                @if (selectedMIF.company.image) {
+                  <img
+                    class="imgSize image"
+                    alt="{{ selectedMIF.company }}"
+                    [src]="selectedMIF.company.image" />
+                } @else {
+                  <span class="fs-large imgSize">
+                    <i class="fa-solid fa-building-columns"></i>
+                  </span>
+                }
+              </div>
+              <span class="text-center fs-small text-secondary">{{
+                selectedMIF.company.fullname
+              }}</span>
+              <br />
+              <span
+                ><a
+                  [routerLink]="[]"
+                  fragment="listMIF"
+                  class="text-primary fs-x-small">
+                  <u>Change bank</u>
+                </a></span
+              >
+            </div>
+          </div>
           <div class="d-flex mb-4">
             <div class="col-3">
               <app-lookup

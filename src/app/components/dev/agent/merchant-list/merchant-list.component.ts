@@ -58,7 +58,6 @@ export class MerchantListComponent implements OnInit, OnDestroy {
           this.Loading = false;
         },
         error: () => {
-          this.Loading = false;
           this.dialogService.openToast({
             title: '',
             type: 'failed',

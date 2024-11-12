@@ -44,7 +44,6 @@ export class AgentComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         },
         error: () => {
-          this.isLoading = false;
           this.dialogService.openToast({
             title: '',
             type: 'failed',

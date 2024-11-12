@@ -27,3 +27,9 @@ export interface MerchantModel {
   is_active: boolean;
   client: Client;
 }
+export interface ResponseAgentDepositModel {
+  response_data: object;
+  success: boolean;
+  response_message: string;
+  response_code: string;
+}
