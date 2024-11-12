@@ -141,6 +141,7 @@ export interface MainAccountModel {
   acc_get_title: string;
   acc_holder: string;
   acc_number: string;
+  acc_picture: string | null;
   acc_short_number: string;
 }
 
@@ -263,6 +264,16 @@ export interface CredClientAccountModel {
 export interface LoanModel {
   absolute_url: string;
   created_at: string;
+  obj_created_by?: {
+    id: number;
+    operator: {
+      username: string;
+      fullname: string;
+      employee_client: {
+        client_full_name: string;
+      };
+    };
+  };
   cred_amount: string;
   cred_branch_defaults: CredBranchModel;
   cred_capital_interests_total: string;
@@ -322,6 +333,12 @@ export interface LoanModel {
   period: number;
   status: CredStatusModel;
   success?: boolean;
+  validated_at: Date | null;
+  hr_validated_by: string | null;
+  authorized_at: Date | null;
+  hr_authorized_by: string | null;
+  canceled_at: Date | null;
+  hr_canceled_by: string | null;
 }
 
 export interface PayLoanModel {
