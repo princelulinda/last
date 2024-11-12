@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '../api/api.service';
 import { map, Observable } from 'rxjs';
-import { BilanResponseModel } from '../../../components/dev/accounting/accounting.model';
+
+import { ApiService } from '../api/api.service';
+import { LedgerReportsModel } from '../../../components/reports/ledger-reports.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,17 +10,16 @@ import { BilanResponseModel } from '../../../components/dev/accounting/accountin
 export class AccountingService {
   constructor(private apiService: ApiService) {}
 
-  getBalanceSheet(): Observable<{ object: BilanResponseModel }> {
-    const url = `/ledger-global-report/bilan/`;
-    return this.apiService
-      .get<{ object: BilanResponseModel }>(url)
-      .pipe(map(data => data));
-  }
+  getLedgerReport(
+    type: 'balance-sheet' | 'operating-result'
+  ): Observable<{ object: LedgerReportsModel }> {
+    const url =
+      type === 'balance-sheet'
+        ? `/ledger-global-report/bilan/`
+        : '/ledger-global-report/operating_result/';
 
-  getOperatingResult(): Observable<{ object: BilanResponseModel }> {
-    const url = `/ledger-global-report/operating_result/`;
     return this.apiService
-      .get<{ object: BilanResponseModel }>(url)
+      .get<{ object: LedgerReportsModel }>(url)
       .pipe(map(data => data));
   }
 }
