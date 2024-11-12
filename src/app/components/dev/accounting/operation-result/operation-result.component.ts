@@ -15,15 +15,15 @@ import { BalanceSheetModel } from '../accounting.model';
 export class OperationResultComponent implements OnInit {
   private onDestroy$: Subject<void> = new Subject<void>();
 
-  isParentCollapsed: Record<number, boolean> = {};
-  isSubCollapsed: Record<number, boolean> = {};
-  isSubSubCollapsed: Record<number, boolean> = {};
+  isParentOpCollapsed: Record<number, boolean> = {};
+  isSubOpCollapsed: Record<number, boolean> = {};
+  isSubSubOpCollapsed: Record<number, boolean> = {};
 
   opResult!: BalanceSheetModel;
-  isLoading = true;
+  isOpLoading = true;
 
-  totalLeft = 0;
-  totalRight = 0;
+  totalOpLeft = 0;
+  totalOpRight = 0;
 
   constructor(private accountingService: AccountingService) {}
 
@@ -33,59 +33,61 @@ export class OperationResultComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          this.isLoading = false;
+          this.isOpLoading = false;
           this.opResult = data.object.response_data;
-          this.calculateTotal();
+          this.calculateOpTotal();
         },
         error: () => {
-          this.isLoading = false;
+          this.isOpLoading = false;
         },
       });
   }
 
-  calculateTotal() {
+  calculateOpTotal() {
     this.opResult.left_hand.forEach(actif => {
       const num = Number(actif.total);
-      this.totalLeft += num;
+      this.totalOpLeft += num;
     });
 
     this.opResult.right_hand.forEach(passif => {
       const num = Number(passif.total);
-      this.totalRight += num;
+      this.totalOpRight += num;
     });
   }
 
-  toggleParentCollapse(collapseId: number) {
-    this.isParentCollapsed[collapseId] = !this.isParentCollapsed[collapseId];
+  toggleOpParentCollapse(collapseId: number) {
+    this.isParentOpCollapsed[collapseId] =
+      !this.isParentOpCollapsed[collapseId];
 
-    Object.keys(this.isParentCollapsed).forEach(key => {
+    Object.keys(this.isParentOpCollapsed).forEach(key => {
       if (+key !== collapseId) {
-        this.isParentCollapsed[+key] = false;
+        this.isParentOpCollapsed[+key] = false;
       }
     });
 
-    this.isSubCollapsed = {};
-    this.isSubSubCollapsed = {};
+    this.isSubOpCollapsed = {};
+    this.isSubSubOpCollapsed = {};
   }
 
-  toggleSubCollapse(collapseId: number) {
-    this.isSubCollapsed[collapseId] = !this.isSubCollapsed[collapseId];
+  toggleOpSubCollapse(collapseId: number) {
+    this.isSubOpCollapsed[collapseId] = !this.isSubOpCollapsed[collapseId];
 
-    Object.keys(this.isSubCollapsed).forEach(key => {
+    Object.keys(this.isSubOpCollapsed).forEach(key => {
       if (+key !== collapseId) {
-        this.isSubCollapsed[+key] = false;
+        this.isSubOpCollapsed[+key] = false;
       }
     });
 
-    this.isSubSubCollapsed = {};
+    this.isSubSubOpCollapsed = {};
   }
 
-  toggleSubSubCollapse(collapseId: number) {
-    this.isSubSubCollapsed[collapseId] = !this.isSubSubCollapsed[collapseId];
+  toggleOpSubSubCollapse(collapseId: number) {
+    this.isSubSubOpCollapsed[collapseId] =
+      !this.isSubSubOpCollapsed[collapseId];
 
-    Object.keys(this.isSubSubCollapsed).forEach(key => {
+    Object.keys(this.isSubSubOpCollapsed).forEach(key => {
       if (+key !== collapseId) {
-        this.isSubSubCollapsed[+key] = false;
+        this.isSubSubOpCollapsed[+key] = false;
       }
     });
   }

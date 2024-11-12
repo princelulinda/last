@@ -5,7 +5,6 @@ import { UserInfoModel } from '../../../../core/db/models/auth';
 import { ConfigService } from '../../../../core/services';
 import { ActiveMainConfigModel } from '../../../../core/services/config/main-config.models';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
-import { LookupIndividualComponent } from '../../../dev/lookup-individual/lookup-individual.component';
 
 import { ClientInfoModel } from '../../../../global/components/lookups/lookup/lookup.model';
 import { LookupModel } from '../../../../global/models/global.models';
@@ -14,6 +13,8 @@ import { FormControl } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TransferResponseModel } from '../../transfer.model';
 import { DialogService } from '../../../../core/services';
+import { LookupIndividualComponent } from '../../../../global/components/custom-field/lookup-individual/lookup-individual.component';
+
 @Component({
   selector: 'app-debit-account-workstation',
   standalone: true,

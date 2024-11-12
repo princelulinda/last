@@ -1,26 +1,28 @@
 <div class="bg-white position-fixed top-0 start-0 w-100 z-3">
   <div class="container">
-    <div class="row d-flex align-items-center py-2">
-      <div class="col">
+    <div class="d-flex align-items-center py-2 justify-content-between">
+      <div class="">
         <span i18n
           ><a routerLink="/">
             <img src="images/auth/ihela3.png" width="100" alt="" /></a
         ></span>
       </div>
-      <div class="col d-flex justify-content-end align-items-center">
-        <span class="me-5">
+      <div class="d-flex justify-content-end align-items-center">
+        <span class="me-4 me-md-5">
           <select class="bg-white border rounded px-2 fw-bold" name="" id="">
             <option value="">EN</option>
             <option value="">FR</option>
           </select>
         </span>
         <app-switch-mode />
-        <a
-          class="btn bg-primary px-4 p-1 ms-5 rounded text-white fw-bold"
-          role="button"
-          routerLink="/login/"
-          >Login</a
-        >
+        @if (login) {
+          <a
+            class="btn bg-primary px-4 p-1 ms-4 ms-md-5 rounded text-white fw-bold"
+            role="button"
+            routerLink="/login/"
+            >Login</a
+          >
+        }
       </div>
     </div>
   </div>

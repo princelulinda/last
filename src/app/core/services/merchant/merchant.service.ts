@@ -43,6 +43,7 @@ import { Coords2Model } from '../../../global/components/google-map/map.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import { BillsModel } from '../../../components/merchant/bills/bills.model';
 import {
+  createGroupResponseModel,
   InvoiceGroupModel,
   InvoiceModel,
   InvoiceResponseModel,
@@ -821,10 +822,10 @@ export class MerchantService {
   createGroup(body: {
     name: string;
     merchant_teller: number;
-  }): Observable<{ object: InvoiceResponseModel }> {
+  }): Observable<{ object: createGroupResponseModel }> {
     const url = `/dbs/bill-group/`;
     return this.apiService
-      .post<{ object: InvoiceResponseModel }>(url, body)
+      .post<{ object: createGroupResponseModel }>(url, body)
       .pipe(map(data => data));
   }
 }

@@ -15,7 +15,7 @@ export class CreditRequestListComponent {
       field: ['main_account.acc_holder', 'main_account.acc_number'],
       size: '',
       detail: {
-        link: '/w/workstation/desk/credit/request/',
+        link: '/w/workstation/d/desk/credit/request/',
         field: 'id',
       },
     },

@@ -6,26 +6,27 @@ import {
   MerchantModel,
 } from '../../../components/dev/agent/agent.models';
 import { AgentModel } from '../../../components/agent/agent.model';
+import { PaginationConfig } from '../../../global/models/pagination.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AgentService {
-  private ApiLinkAgent = '/dbs/agent/info/';
-  private ApiLinkMerchant = '/dbs/agent/merchants-created/';
-
   constructor(private apiService: ApiService) {}
 
   getAgentInfos(): Observable<{ object: AgentResModel }> {
     return this.apiService
-      .get(this.ApiLinkAgent)
-      .pipe(map(data => data as { object: AgentResModel }));
+      .get<{ object: AgentResModel }>('/dbs/agent/info/')
+      .pipe(map(data => data));
   }
 
-  getMerchantInfos(): Observable<{ objects: MerchantModel[] }> {
+  getMerchantInfos(
+    pagination: PaginationConfig
+  ): Observable<{ objects: MerchantModel[]; count: number }> {
+    const url = `/dbs/agent/merchants-created/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`;
     return this.apiService
-      .get(this.ApiLinkMerchant)
-      .pipe(map(data => data as { objects: MerchantModel[] }));
+      .get<{ objects: MerchantModel[]; count: number }>(url)
+      .pipe(map(data => data));
   }
 
   getAgentsDetails(id: string): Observable<{ object: AgentModel }> {

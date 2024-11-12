@@ -226,8 +226,7 @@
             <!-- NOTE :: BANKING MENUS -->
             @if (activePlatform !== 'workstation') {
               @for (menu of marketMenus; track $index) {
-                @let menuId = menu.id;
-                @if (menuId !== 4 && menuId !== 6) {
+                @if (menu.id !== 4 && menu.id !== 6) {
                   <a
                     routerLink="/m/mymarket/{{ menu.component_url }}"
                     class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
@@ -236,12 +235,12 @@
                     <span
                       class="ms-3 fs-l-medium"
                       [ngClass]="{
-                        'text-success': $index == 1,
+                        'text-success': $index === 1,
                       }">
                       <i class="fa-solid fa-{{ menu.icon }}"></i>
                     </span>
                   </a>
-                } @else if (menuId === 4) {
+                } @else if (menu.id === 4) {
                   <a
                     class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
                     [routerLink]="[]"
@@ -252,7 +251,7 @@
                       <i class="fa-solid fa-{{ menu.icon }}"></i>
                     </span>
                   </a>
-                } @else if (menuId === 6) {
+                } @else if (menu.id === 6) {
                   <span
                     class="d-flex border sm-radius align-items-center justify-content-center py-3 col-sm-4 col-md-5"
                     role="button"
@@ -328,14 +327,14 @@
 <!-- NOTE :: STATEMENT MODAL -->
 @if (merchantAccountId && account) {
   <div
-    class="modal modal-xl fade"
+    class="modal fade"
     id="statementModal"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
     tabindex="-1"
     aria-labelledby="staticBackdropLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-fullscreen">
       <div class="modal-content bg-white">
         <div class="row">
           <app-statement
@@ -352,7 +351,11 @@
     <div class="modal-content bg-white">
       <div class="modal-body">
         <div class="text-end">
-          <span role="button" class="text-dark" (click)="closePopup()">
+          <span
+            role="button"
+            class="text-dark"
+            data-bs-dismiss="modal"
+            aria-label="Close">
             <i class="fa-solid fa-xmark fs-4"></i>
           </span>
         </div>

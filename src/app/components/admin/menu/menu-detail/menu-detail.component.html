@@ -139,18 +139,34 @@
                 }
               </div>
             </div>
+            <div class="align-items-center col-sm-7 col-md-6 col-xl-4">
+              <div class="mb-1 text-secondary mx-2" i18n>Fragment</div>
+              <div class="field text-dark rounded p-2">
+                @if (menuDetails.fragment) {
+                  <b>{{ menuDetails.fragment }}</b>
+                }
+
+                @if (!menuDetails.fragment) {
+                  <b>----</b>
+                }
+              </div>
+            </div>
           </div>
         }
 
         <!-- update section -->
         @if (showUpdateForm) {
-          <div class="col-lg-9 col-sm-12 col-md-12 row mt-3" style="gap: 1rem">
+          <form
+            [formGroup]="menuForm"
+            (ngSubmit)="updateAdminMenu()"
+            class="col-lg-9 col-sm-12 col-md-12 row mt-3"
+            style="gap: 1rem">
             <div class="form-floating col-sm-7 col-md-6 col-xl-5">
               <input
                 class="form-control input"
                 type="text"
                 placeholder="Name"
-                [formControl]="menuName" />
+                formControlName="name" />
               <label for="name" i18n class="text-dark mx-3"
                 >Name <code>*</code></label
               >
@@ -160,7 +176,7 @@
                 class="form-control"
                 type="text"
                 placeholder="Icon name"
-                [formControl]="icon" />
+                formControlName="icon" />
               <label for="icon" i18n class="text-dark mx-3"
                 >Icon Name <code>*</code></label
               >
@@ -180,14 +196,14 @@
               <input
                 class="form-control"
                 placeholder="Url"
-                [formControl]="menuUrl" />
+                formControlName="component_url" />
               <label for="webUrl" class="text-dark mx-3" i18n>Web URL</label>
             </div>
             <div class="form-floating col-sm-7 col-md-6 col-xl-5">
               <input
                 class="form-control"
                 placeholder="Url"
-                [formControl]="mobileUrl" />
+                formControlName="mobile_url" />
               <label for="mobileUrl" class="text-dark mx-3" i18n
                 >Mobile URL</label
               >
@@ -199,9 +215,18 @@
                   class="form-check-input fs-5"
                   type="checkbox"
                   [checked]="menuDetails.active"
-                  [formControl]="menuActive" />
+                  formControlName="active" />
               </div>
             </div>
+
+            <div class="form-floating col-sm-7 col-md-6 col-xl-5">
+              <input
+                class="form-control"
+                placeholder="Fragment"
+                formControlName="fragment" />
+              <label for="fragment" class="text-dark mx-3" i18n>Fragment</label>
+            </div>
+
             <!-- buttons -->
             <section class="text-center mt-4 col-sm-7 col-md-6 col-xl-10">
               <small
@@ -216,22 +241,20 @@
                 >Cancel</small
               >
               <button
-                (click)="updateAdminMenu()"
                 [disabled]="isLoading"
-                class="btn bg-primary text-light"
+                class="btn bg-primary text-all-white"
                 type="submit">
                 @if (!isLoading) {
-                  <span i18n>Modify</span>
+                  <b i18n>Modify</b>
                 }
                 @if (isLoading) {
                   <span>
-                    <i
-                      class="fa-solid fa-spin fa-circle-notch fs-5 text-light px-3"></i>
+                    <i class="fa-solid fa-spin fa-circle-notch fs-5 px-3"></i>
                   </span>
                 }
               </button>
             </section>
-          </div>
+          </form>
         }
       </div>
     </section>

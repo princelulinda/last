@@ -1,19 +1,15 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
-import { RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
+
 import { ListComponent } from '../../../../../global/components/list/list/list.component';
-// import { CreditListModel } from '../../../loan/loan.models';
 
 @Component({
   selector: 'app-credit-list',
   standalone: true,
-  imports: [ListComponent, RouterLink],
+  imports: [ListComponent],
   templateUrl: './credit-list.component.html',
   styleUrl: './credit-list.component.scss',
 })
-export class CreditListComponent implements OnDestroy {
-  private onDestroy$: Subject<void> = new Subject<void>();
-
+export class CreditListComponent {
   headers = [
     {
       name: 'Client',
@@ -65,9 +61,4 @@ export class CreditListComponent implements OnDestroy {
     { name: '', abbrev: '' },
     { name: '', abbrev: '' },
   ];
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-  }
 }
