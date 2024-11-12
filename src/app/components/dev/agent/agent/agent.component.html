@@ -30,14 +30,20 @@
       <div class="col-12 col-md-5 position-relative">
         <div class="d-flex mt-4 ms-2">
           <div class="col-3">
-            <div
-              class="bg-secondary rounded-pill d-flex align-items-center justify-content-center ImgRounded">
-              <img
-                [src]="data.picture"
-                alt="profile picture"
-                title="profile picture"
-                class="image" />
-            </div>
+            @if (data.picture) {
+              <app-profile-card
+                [height]="'70px'"
+                [width]="'70px'"
+                [imageUrl]="data.picture">
+              </app-profile-card>
+            }
+            @if (!data.picture) {
+              <app-profile-card
+                [height]="'70px'"
+                [width]="'70px'"
+                [imageUrl]="'images/userprofile.png'">
+              </app-profile-card>
+            }
           </div>
           <div class="col d-flex flex-column text-start my-auto border-end">
             <span class="fw-semibold overflow-hidden SpnAgentName">{{

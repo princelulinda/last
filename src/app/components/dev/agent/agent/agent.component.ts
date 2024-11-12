@@ -6,10 +6,16 @@ import { AmountVisibilityComponent } from '../../../../global/components/custom-
 import { AgentService } from '../../../../core/services/agent/agent.service';
 import { AgentModel } from '../agent.models';
 import { DialogService } from '../../../../core/services';
+import { ProfileCardComponent } from '../../../../global/components/custom-field/profile-card/profile-card.component';
 @Component({
   selector: 'app-agent',
   standalone: true,
-  imports: [RouterLink, CommonModule, AmountVisibilityComponent],
+  imports: [
+    RouterLink,
+    CommonModule,
+    AmountVisibilityComponent,
+    ProfileCardComponent,
+  ],
   templateUrl: './agent.component.html',
   styleUrl: './agent.component.scss',
 })
