@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ListComponent } from '../../../../../global/components/list/list/list.component';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { CreditRequestComponent } from '../credit-request/credit-request.component';
 
 @Component({
   selector: 'app-credit-request-list',
   standalone: true,
-  imports: [ListComponent],
+  imports: [ListComponent, CommonModule, CreditRequestComponent],
   templateUrl: './credit-request-list.component.html',
   styleUrl: './credit-request-list.component.scss',
 })
-export class CreditRequestListComponent {
+export class CreditRequestListComponent implements OnInit {
   headers = [
     {
       name: 'Holder',
@@ -55,4 +58,17 @@ export class CreditRequestListComponent {
       class: 'badge',
     },
   ];
+
+  request = false;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    if (this.route && this.route.fragment) {
+      this.route.fragment.subscribe(fragment => {
+        this.request = fragment === 'new';
+        console.log('fragment', this.request);
+      });
+    }
+  }
 }
