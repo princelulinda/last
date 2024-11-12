@@ -1,28 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LedgerReportsComponent } from './ledger-reports.component';
+import { CreditRequestDetailsComponent } from './credit-request-details.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
-describe('LedgerReportsComponent', () => {
-  let component: LedgerReportsComponent;
-  let fixture: ComponentFixture<LedgerReportsComponent>;
+describe('CreditRequestDetailsComponent', () => {
+  let component: CreditRequestDetailsComponent;
+  let fixture: ComponentFixture<CreditRequestDetailsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LedgerReportsComponent],
+      imports: [CreditRequestDetailsComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
         {
           provide: ActivatedRoute,
-          useValue: {},
+          useValue: {
+            params: of({ id: '123' }),
+          },
         },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LedgerReportsComponent);
+    fixture = TestBed.createComponent(CreditRequestDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
