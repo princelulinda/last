@@ -311,4 +311,9 @@ export class CreditRequestComponent {
       },
     });
   }
+
+  cancel() {
+    this.router.navigate(['/w/workstation/d/desk/credit/request/list']);
+    // ::TODO: diselect everything
+  }
 }
