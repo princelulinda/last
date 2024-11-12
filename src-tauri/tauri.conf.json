@@ -2,66 +2,62 @@
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
     "beforeBuildCommand": "ng build --configuration=bbs",
-
     "beforeDevCommand": "ng serve --configuration=bbs",
-    "devPath": "http://localhost:4200",
-    "distDir": "../dist/ng-magis-erp"
+    "frontendDist": "../dist/ng-magis-erp",
+    "devUrl": "http://localhost:4200"
   },
-  "package": {
-    "productName": "ihela-ryanje",
-    "version": "0.0.1"
-  },
-  "tauri": {
-    "allowlist": {
-      "all": true
+  "bundle": {
+    "active": true,
+    "category": "DeveloperTool",
+    "copyright": "",
+    "targets": "all",
+    "externalBin": [],
+    "icon": [
+      "icons/32x32px.png",
+      "icons/128x128px.png",
+      "icons/284x284px.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
     },
-    "bundle": {
-      "active": true,
-      "category": "DeveloperTool",
-      "copyright": "",
+    "longDescription": "",
+    "macOS": {
+      "entitlements": null,
+      "exceptionDomain": "",
+      "frameworks": [],
+      "providerShortName": null,
+      "signingIdentity": null
+    },
+    "resources": [],
+    "shortDescription": "",
+    "linux": {
       "deb": {
         "depends": []
-      },
-      "externalBin": [],
-      "icon": [
-        "icons/32x32px.png",
-        "icons/128x128px.png",
-        "icons/284x284px.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ],
-      "identifier": "com.ihela.bi",
-      "longDescription": "",
-      "macOS": {
-        "entitlements": null,
-        "exceptionDomain": "",
-        "frameworks": [],
-        "providerShortName": null,
-        "signingIdentity": null
-      },
-      "resources": [],
-      "shortDescription": "",
-      "targets": "all",
-      "windows": {
-        "certificateThumbprint": null,
-        "digestAlgorithm": "sha256",
-        "timestampUrl": ""
       }
-    },
-    "security": {
-      "csp": null
-    },
-    "updater": {
-      "active": false
-    },
+    }
+  },
+  "productName": "ihela-ryanje",
+  "mainBinaryName": "ihela-ryanje",
+  "version": "0.0.1",
+  "identifier": "com.ihela.bi",
+  "plugins": {},
+  "app": {
     "windows": [
       {
         "fullscreen": false,
         "height": 600,
         "resizable": true,
         "title": "iHelá Ryãnje",
-        "width": 800
+        "width": 800,
+        "useHttpsScheme": true
       }
-    ]
+    ],
+    "security": {
+      "csp": null
+    }
   }
 }
