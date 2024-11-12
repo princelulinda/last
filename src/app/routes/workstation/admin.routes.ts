@@ -30,7 +30,7 @@ export const AdminRoutes: Routes = [
   {
     path: 'operator',
     data: {
-      signature: MENU_KEYS.OPERATOR,
+      signature: MENU_KEYS.OPERATORS,
     },
     canActivate: [GetMenuKeyGuard],
     children: [

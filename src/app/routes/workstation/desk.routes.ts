@@ -72,7 +72,7 @@ export const DeskRoutes: Routes = [
     ],
     canActivate: [GetMenuKeyGuard],
     data: {
-      signature: MENU_KEYS.CLIENT,
+      signature: MENU_KEYS.CLIENTS,
     },
   },
 
