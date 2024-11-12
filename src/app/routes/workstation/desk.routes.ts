@@ -21,7 +21,7 @@ import { SignaturesComponent } from '../../components/client/signatures/signatur
 import { ClientCreditsComponent } from '../../components/client/client-credits/client-credits.component';
 import { ClientCreditsLineComponent } from '../../components/client/client-credits-line/client-credits-line.component';
 
-import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
+// import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
 import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
 import { DeskDashboardComponent } from '../../components/dashboards/workstation/desk-dashboard/desk-dashboard.component';
 
@@ -71,9 +71,9 @@ export const DeskRoutes: Routes = [
       },
     ],
     canActivate: [GetMenuKeyGuard],
-    data: {
-      signature: MENU_KEYS.CLIENTS,
-    },
+    // data: {
+    //   signature: MENU_KEYS.CLIENTS,
+    // },
   },
 
   // NOTE :: OPERATIONS MODULES
