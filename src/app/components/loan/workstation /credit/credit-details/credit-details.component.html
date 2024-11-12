@@ -306,33 +306,35 @@
     </div>
   }
 
-  <div class="modal fade" id="planModal" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered statement-dialog">
-      <div class="modal-content">
-        <div class="d-flex p-3">
-          <div>
-            <span class="mb-5 text-dark text-secondary fs-x-large" i18n
-              >Plan
-            </span>
+  @if (credit) {
+    <div class="modal fade" id="planModal" data-bs-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered statement-dialog">
+        <div class="modal-content">
+          <div class="d-flex p-3">
+            <div>
+              <span class="mb-5 text-dark text-secondary fs-x-large" i18n
+                >Plan
+              </span>
+            </div>
+            <div class="ms-auto text-end">
+              <button
+                type="button"
+                title="Close"
+                #closeModal
+                class="text-dark btn fs-4 p-0 pe-1"
+                data-bs-dismiss="modal"
+                aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
           </div>
-          <div class="ms-auto text-end">
-            <button
-              type="button"
-              title="Close"
-              #closeModal
-              class="text-dark btn fs-4 p-0 pe-1"
-              data-bs-dismiss="modal"
-              aria-label="Close">
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-          </div>
-        </div>
 
-        <app-list
-          [headers]="headers"
-          url="/loans/plan/105/?"
-          title="Loan Plan"></app-list>
+          <app-list
+            [headers]="headers"
+            url="/loans/plan/{{ credit.id }}/?"
+            title="Loan Plan"></app-list>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </section>
