@@ -6,7 +6,7 @@ export interface ClientWorkstationModel {
   client_id: number | string;
   client_code: string;
   client_type: string;
-  client_full_name: string;
+  client_full_name: string | null;
   client_email: string;
   client_phone_number: string;
   client_is_secret: boolean;
