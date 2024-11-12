@@ -6,14 +6,14 @@
     class="mt-2 lg-radius position-relative p-2 shadow nyamu-card"
     [ngClass]="{
       'nyamu-light': mode === 'light',
-      'nyamu-dark': mode === 'dark',
+      'nyamu-dark': mode === 'dark'
     }">
     <div class="m-2">
       <div class="d-flex align-items-start justify-content-between">
         <div
           [ngClass]="{
             'text-dark': mode === 'light',
-            'text-white': mode === 'dark',
+            'text-white': mode === 'dark'
           }"
           class="d-grid">
           @if (!noRefereed) {

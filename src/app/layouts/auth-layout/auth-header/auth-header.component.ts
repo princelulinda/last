@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ConfigService } from '../../../core/services';
 import { environment } from '../../../../environments/environment';
@@ -13,6 +13,7 @@ import { SwitchModeComponent } from '../../../global/components/switch-mode/swit
 })
 export class AuthHeaderComponent {
   isProduction: boolean = environment.production;
+  @Input({ required: true }) login = true;
   appVersion: string | number = environment.appVersion;
 
   constructor(private configService: ConfigService) {}

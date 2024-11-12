@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  RouterOutlet,
+  RouterLink,
+  RouterLinkActive,
+  NavigationEnd,
+  Router,
+} from '@angular/router';
 import { AuthHeaderComponent } from './auth-header/auth-header.component';
 import { ResetPasswordComponent } from '../../components/auth/reset-password/reset-password.component';
 import { FooterComponent } from '../footer/footer.component';
@@ -28,9 +34,12 @@ export class AuthLayoutComponent implements OnInit {
   userInfo!: UserInfoModel;
   userInfo$: Observable<UserInfoModel>;
 
+  login = true;
+
   constructor(
     private authService: AuthService,
-    private dbService: DbService
+    private dbService: DbService,
+    private router: Router
   ) {
     this.userInfo$ = this.authService.getUserInfo();
   }
@@ -44,6 +53,19 @@ export class AuthLayoutComponent implements OnInit {
           );
         }
       },
+    });
+
+    if (this.router.url === '/login') {
+      this.login = false;
+    }
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        if (event.url === '/login') {
+          this.login = false;
+        } else {
+          this.login = true;
+        }
+      }
     });
   }
 }

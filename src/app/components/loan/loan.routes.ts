@@ -13,6 +13,7 @@ import { CreditLineDetailsComponent } from '../../components/loan/workstation /c
 import { CreditDetailsComponent } from '../../components/loan/workstation /credit/credit-details/credit-details.component';
 import { CreditListComponent } from '../../components/loan/workstation /credit/credit-list/credit-list.component';
 import { CreditRequestListComponent } from '../../components/loan/workstation /credit/credit-request-list/credit-request-list.component';
+import { CreditRequestDetailsComponent } from './workstation /credit/credit-request-details/credit-request-details.component';
 
 export const BankingLoanRoutes: Routes = [
   {
@@ -78,6 +79,10 @@ export const WorkstationCreditRoutes: Routes = [
       {
         path: 'list',
         component: CreditRequestListComponent,
+      },
+      {
+        path: ':id',
+        component: CreditRequestDetailsComponent,
       },
     ],
   },
