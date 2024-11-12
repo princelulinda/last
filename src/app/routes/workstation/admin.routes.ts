@@ -22,16 +22,16 @@ import { AdminServicesListComponent } from '../../components/admin/rh/admin-serv
 import { AdminServicesDetailsComponent } from '../../components/admin/rh/admin-services-details/admin-services-details.component';
 import { ConfigTarifComponent } from '../../components/tarifs/config-tarif/config-tarif.component';
 import { AdminAccessListComponent } from '../../components/admin/access/admin-access-list/admin-access-list.component';
-import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
+// import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
 import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
 
 export const AdminRoutes: Routes = [
   //NOTE :: OPERATOR MODULE
   {
     path: 'operator',
-    data: {
-      signature: MENU_KEYS.OPERATORS,
-    },
+    // data: {
+    //   signature: MENU_KEYS.OPERATORS,
+    // },
     canActivate: [GetMenuKeyGuard],
     children: [
       {
@@ -50,9 +50,9 @@ export const AdminRoutes: Routes = [
     path: 'menu',
     component: MenusComponent,
     canActivate: [GetMenuKeyGuard],
-    data: {
-      signature: MENU_KEYS.MENU,
-    },
+    // data: {
+    //   signature: MENU_KEYS.MENU,
+    // },
   },
   {
     path: 'menu/:id',
