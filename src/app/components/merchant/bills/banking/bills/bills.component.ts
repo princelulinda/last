@@ -8,14 +8,14 @@ import {
   AuthService,
   ConfigService,
   MerchantService,
-} from '../../../../core/services';
-import { ModeModel } from '../../../../core/services/config/main-config.models';
-import { UserInfoModel } from '../../../../core/db/models/auth';
+} from '../../../../../core/services';
+import { ModeModel } from '../../../../../core/services/config/main-config.models';
+import { UserInfoModel } from '../../../../../core/db/models/auth';
 
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { PaginationConfig } from '../../../../global/models/pagination.models';
-import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
-import { BillsModel } from '../bills.model';
+import { SkeletonComponent } from '../../../../../global/components/loaders/skeleton/skeleton.component';
+import { PaginationConfig } from '../../../../../global/models/pagination.models';
+import { PaginationComponent } from '../../../../../global/components/list/pagination/pagination.component';
+import { BillsModel } from '../../bills.model';
 
 @Component({
   selector: 'app-bills',

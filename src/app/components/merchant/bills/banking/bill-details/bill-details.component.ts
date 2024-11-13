@@ -14,23 +14,23 @@ import {
   DialogService,
   ConfigService,
   MerchantService,
-} from '../../../../core/services';
+} from '../../../../../core/services';
 
-import { MerchantBillComponent } from '../../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { MerchantBillComponent } from '../../../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
+import { SkeletonComponent } from '../../../../../global/components/loaders/skeleton/skeleton.component';
 
-import { ModeModel } from '../../../../core/services/config/main-config.models';
+import { ModeModel } from '../../../../../core/services/config/main-config.models';
 import {
   DialogResponseModel,
   MerchantBillModel,
-} from '../../../../core/services/dialog/dialogs-models';
-import { DebitAccountComponent } from '../../../transfer/banking/debit-account/debit-account.component';
-import { AccountsListModel } from '../../../account/models';
-import { WalletModel } from '../../../wallet/wallet.models';
-import { DebitOptionsModel } from '../../../transfer/transfer.model';
-import { BankModel } from '../../../../core/db/models/bank/bank.model';
-import { BillsModel } from '../bills.model';
-import { MerchantSimplePaymentBodyModel } from '../../merchant.models';
+} from '../../../../../core/services/dialog/dialogs-models';
+import { DebitAccountComponent } from '../../../../transfer/banking/debit-account/debit-account.component';
+import { AccountsListModel } from '../../../../account/models';
+import { WalletModel } from '../../../../wallet/wallet.models';
+import { DebitOptionsModel } from '../../../../transfer/transfer.model';
+import { BankModel } from '../../../../../core/db/models/bank/bank.model';
+import { BillsModel } from '../../bills.model';
+import { MerchantSimplePaymentBodyModel } from '../../../merchant.models';
 import { NgxPrintModule } from 'ngx-print';
 
 @Component({
