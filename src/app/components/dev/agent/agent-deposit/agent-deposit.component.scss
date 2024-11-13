@@ -11,10 +11,21 @@
   height: 26px;
 }
 
-.skeletonsBlok {
-  max-width: 600px;
-  height: 280px;
-}
 .selectedMIFColor {
   background: #d9d9d9;
+}
+
+.agentPosition {
+  margin-right: 41px;
+}
+
+.iconPosition {
+  margin-left: 91px;
+}
+.iconCircleSize {
+  font-size: 8px;
+}
+.blockSize {
+  width: 5px;
+  height: 49px;
 }

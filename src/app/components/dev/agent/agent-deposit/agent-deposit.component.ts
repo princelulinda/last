@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BankModel } from '../../../../core/db/models/bank/bank.model';
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 import {
   BankService,
   ConfigService,
@@ -9,7 +8,6 @@ import {
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { AgentModel } from '../agent.models';
 import { AgentService } from '../../../../core/services/agent/agent.service';
-import { Router, RouterLink } from '@angular/router';
 import { LookupComponent } from '../../../../global/components/lookups/lookup/lookup.component';
 import { AmountFieldComponent } from '../../../../global/components/custom-field/amount-field/amount-field.component';
 import {
@@ -20,16 +18,16 @@ import {
 } from '@angular/forms';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { LookupModel } from '../../../../global/models/global.models';
+import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 
 @Component({
   selector: 'app-agent-deposit',
   standalone: true,
   imports: [
-    SkeletonComponent,
-    RouterLink,
     LookupComponent,
     AmountFieldComponent,
     ReactiveFormsModule,
+    AmountVisibilityComponent,
   ],
   templateUrl: './agent-deposit.component.html',
   styleUrl: './agent-deposit.component.scss',
@@ -40,6 +38,7 @@ export class AgentDepositComponent implements OnInit, OnDestroy {
   isLoading = false;
   agentInfo!: AgentModel;
   selectedMIF!: BankModel;
+  selectedBank$!: Observable<BankModel>;
   depositForm = new FormGroup({
     description: new FormControl(''),
     amount: new FormControl(0, Validators.required),
@@ -53,14 +52,12 @@ export class AgentDepositComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     private bankService: BankService,
     private dialogService: DialogService,
-    private agentService: AgentService,
-    private router: Router
+    private agentService: AgentService
   ) {
     this.dialog$ = this.dialogService.getDialogState();
   }
 
   ngOnInit() {
-    this.router.navigate([], { fragment: 'listMIF' });
     this.dialog$.pipe(takeUntil(this.OnDestroy$)).subscribe({
       next: (dialog: DialogResponseModel) => {
         if (dialog) {
@@ -83,11 +80,11 @@ export class AgentDepositComponent implements OnInit, OnDestroy {
   getBanks() {
     this.isLoading = true;
     this.bankService
-      .getBanksList()
+      .getAgentBanksList()
       .pipe(takeUntil(this.OnDestroy$))
       .subscribe({
         next: banks => {
-          this.agentMIF = banks;
+          this.agentMIF = banks.objects;
           this.isLoading = false;
         },
         error: () => {
@@ -157,7 +154,7 @@ export class AgentDepositComponent implements OnInit, OnDestroy {
       credit_type: 'account',
       credit_account: (this.selectedAgent as LookupModel).lookup_subtitle,
       credit_bank: this.selectedMIF.id,
-      credit_account_holder: this.selectedAgent?.lookup_title,
+      credit_account_holder: (this.selectedAgent as LookupModel).lookup_title,
       amount: this.depositForm.value.amount,
       description: this.depositForm.value.description,
       pin_code: this.dialog.response.pin,
@@ -170,33 +167,30 @@ export class AgentDepositComponent implements OnInit, OnDestroy {
       .subscribe({
         next: response => {
           this.dialogService.closeLoading();
-          if (response.object.success === false) {
-            this.dialogService.openToast({
-              title: '',
-              message: response.object.response_message,
-              type: 'failed',
-            });
-            this.depositForm.reset();
-          }
+          this.isLoading = false;
           if (response.object.success === true) {
             this.dialogService.openToast({
               title: '',
-              message:
-                response.object?.response_message ??
-                'The bill has been successfully paid',
               type: 'success',
+              message:
+                response.object.response_message ?? 'successful to deposit',
+            });
+            this.depositForm.reset();
+          } else {
+            this.dialogService.openToast({
+              title: '',
+              type: 'failed',
+              message: response.object.response_message ?? 'failed to deposit',
             });
             this.depositForm.reset();
           }
         },
-        error: err => {
+        error: () => {
           this.dialogService.closeLoading();
           this.dialogService.openToast({
             title: '',
-            message:
-              err?.object?.response_message ??
-              'Something went wrong, please retry again',
             type: 'failed',
+            message: 'Something went wrong, please try again',
           });
           this.depositForm.reset();
         },

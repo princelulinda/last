@@ -197,4 +197,16 @@ export class BankService {
       .get<{ object: nyamuranziCardModel }>('/client/refered/')
       .pipe(map(data => data));
   }
+
+  getAgentBanksList(): Observable<{ objects: BankModel[]; count: number }> {
+    const url = '/banks/list/?bank_type=MF1';
+
+    return this.apiService
+      .get<{ objects: BankModel[]; count: number }>(url)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
 }
