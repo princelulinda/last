@@ -1,13 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-agent-transfer',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './agent-transfer.component.html',
   styleUrl: './agent-transfer.component.scss',
 })
 export class AgentTransferComponent {
+  selectedState: 'bank' | 'debit' | 'agent code' | 'amount' = 'bank';
   validateInput(event: KeyboardEvent) {
     const allowedKeys = [
       '0',
