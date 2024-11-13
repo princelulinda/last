@@ -116,13 +116,15 @@ export class CreditDetailsComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.route.fragment.subscribe({
-      next: fragment => {
-        if (fragment === 'loanPlan') {
-          this.openPlanModel();
-        }
-      },
-    });
+    if (this.route.fragment) {
+      this.route.fragment.subscribe({
+        next: fragment => {
+          if (fragment === 'loanPlan') {
+            this.openPlanModel();
+          }
+        },
+      });
+    }
 
     this.showPlan = false;
   }
