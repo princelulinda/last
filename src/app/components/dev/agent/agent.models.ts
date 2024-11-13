@@ -27,6 +27,7 @@ export interface MerchantModel {
   merchant_title: string;
   merchant_logo: null;
   is_active: boolean;
+  code: string;
   client: Client;
 }
 export interface ResponseAgentDepositModel {

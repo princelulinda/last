@@ -11,9 +11,9 @@ import { RouterModule, Router } from '@angular/router';
 import {
   addProductByMerchantDataModel,
   inputAmountModel,
-} from '../products.model';
-import { AmountFieldComponent } from '../../../../global/components/custom-field/amount-field/amount-field.component';
-import { DialogService, MerchantService } from '../../../../core/services';
+} from '../../products.model';
+import { AmountFieldComponent } from '../../../../../global/components/custom-field/amount-field/amount-field.component';
+import { DialogService, MerchantService } from '../../../../../core/services';
 
 @Component({
   selector: 'app-add-product',

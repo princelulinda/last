@@ -15,25 +15,25 @@ import {
   ProductAutocompleteModel,
   ProductModel,
   UpdateProdcutInfoModel,
-} from '../products.model';
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
-import { PaginationConfig } from '../../../../global/models/pagination.models';
+} from '../../products.model';
+import { SkeletonComponent } from '../../../../../global/components/loaders/skeleton/skeleton.component';
+import { DialogResponseModel } from '../../../../../core/services/dialog/dialogs-models';
+import { PaginationConfig } from '../../../../../global/models/pagination.models';
 import {
   ConfigService,
   DialogService,
   MenuService,
   MerchantService,
-} from '../../../../core/services';
-import { PlateformModel } from '../../../../core/services/config/main-config.models';
-import { ProductCardComponent } from '../../global/product-card/product-card.component';
+} from '../../../../../core/services';
+import { PlateformModel } from '../../../../../core/services/config/main-config.models';
+import { ProductCardComponent } from '../../../global/product-card/product-card.component';
 import {
   EmptyStateComponent,
   EmptyStateModel,
-} from '../../../../global/components/empty-states/empty-state/empty-state.component';
-import { MerchantModel } from '../../merchant.models';
-import { MetadataFormComponent } from '../../../metadatas/metadata-form/metadata-form.component';
-import { MetadataModel } from '../../../metadatas/metadata.model';
+} from '../../../../../global/components/empty-states/empty-state/empty-state.component';
+import { MerchantModel } from '../../../merchant.models';
+import { MetadataFormComponent } from '../../../../metadatas/metadata-form/metadata-form.component';
+import { MetadataModel } from '../../../../metadatas/metadata.model';
 
 @Component({
   selector: 'app-product-config',

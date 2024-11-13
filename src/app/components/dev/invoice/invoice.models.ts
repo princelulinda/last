@@ -47,7 +47,7 @@ export interface MeasureModel {
   id: number;
   name: string;
   quantity: number;
-  suffix: string;
+  suffix: string | null;
   price: number;
   unit_measure: number;
   unit_value: string;

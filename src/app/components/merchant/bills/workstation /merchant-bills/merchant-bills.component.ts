@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ListComponent } from '../../../../global/components/list/list/list.component';
+import { ListComponent } from '../../../../../global/components/list/list/list.component';
 
 @Component({
   selector: 'app-merchant-bills',

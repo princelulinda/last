@@ -33,7 +33,7 @@ import {
   PlateformModel,
 } from '../../../../core/services/config/main-config.models';
 import { MerchantCardComponent } from '../../../merchant/global/merchant-card/merchant-card.component';
-import { AllProductsComponent } from '../../../merchant/products/all-products/all-products.component';
+import { AllProductsComponent } from '../../../merchant/products/banking/all-products/all-products.component';
 import { StatementComponent } from '../../../statements/statement/statement.component';
 import {
   MerchantAutocompleteModel,

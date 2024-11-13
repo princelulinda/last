@@ -1,8 +1,10 @@
-<div class="container h-100">
-  <div class="row mb-2">
-    <div class="col-12 col-md-4 me-auto mb-2">
+<main class="p-2 h-100">
+  <header
+    class="d-sm-flex align-items-center justify-content-center mb-2 pb-2 border-bottom mx-0">
+    <div
+      class="col-sm-9 col-md-7 col-xl-5 me-auto mb-2 d-flex align-items-center">
       <form
-        class="input-group mb-3"
+        class="input-group"
         [ngClass]="{
           'active ': isSearchInputNotEmpty() || isInputFocused,
         }">
@@ -22,150 +24,125 @@
           ></span>
         </div>
       </form>
-    </div>
-    <div class="col-12 col-md-7">
-      <div class="row">
-        <div
-          class="col-3 col-md-2 col-lg-3 col-xl-2 bg-secondary xx-lg-radius p-1 d-flex justify-content-center align-items-center me-auto">
-          <span class="me-2 fw-normal font-calibri fs-normal" i18n>Filter</span>
-          <i class="fa-solid fa-bars-staggered fs-normal fw-bolder"></i>
-        </div>
-        @if (activePlatform !== 'workstation') {
-          <div
-            class="col-6 col-md-8 col-xl-1 p-1 d-flex justify-content-end align-items-center"
-            role="button"
-            routerLink="/m/mymarket/invoice">
-            <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
-            <span class="fw-bolder fs-5" i18n>Back</span>
-          </div>
-        }
+      <div
+        class="d-flex align-items-center bg-secondary rounded-pill py-1 px-3 ms-4">
+        <span class="me-2" i18n>Filter</span>
+        <span><i class="fa-solid fa-bars-staggered"></i></span>
       </div>
     </div>
-  </div>
-  <hr class="bg-dark row HLine" />
-  @if (!singleInvoices && loader) {
-    <div
-      class="text-center w-100 d-flex row justify-content-center align-items-center text-dark mt-5 pt-5 fs-4 minHeight">
-      <span><i class="fa-solid fa-spin fa-circle-notch text-dark"></i></span>
-    </div>
-  }
-  @if (singleInvoices) {
-    <div
-      class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 d-flex justify-content-center justify-content-lg-start gap-5">
-      @for (singleInvoice of singleInvoices; track $index) {
-        @if (singleInvoice && singleInvoice.provider !== null) {
-          <div
-            class="col-6 col-md-4 col-lg-3 col-xl-2 sm-radius HDiv position-relative"
-            role="button"
-            (click)="openPopup(singleInvoice)"
-            tabindex="0"
-            data-bs-toggle="modal"
-            data-bs-target="#invoicesModal"
-            #closeModal>
-            <div class="container-fluid h-50 position-relative mt-2 mb-1">
-              <div class="col h-50">
-                <div class="row h-75">
+    <span
+      class="clickable d-flex align-items-center justify-content-end justify-content-sm-start mt-2 mt-sm-0"
+      routerLink="/m/mymarket/invoice">
+      <span class="fs-medium me-2">
+        <i class="fa-solid fa-arrow-left"></i
+      ></span>
+      <b class="fs-medium" i18n>Back</b>
+    </span>
+  </header>
+
+  <section class="h-100">
+    @if (!singleInvoices && isLoading) {
+      <div class="d-flex justify-content-center align-items-center h-50">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    } @else if (singleInvoices && !isLoading) {
+      <div class="d-flex flex-wrap gap-4">
+        @for (singleInvoice of singleInvoices; track $index) {
+          @if (singleInvoice && singleInvoice.provider !== null) {
+            <div
+              class="invoice-card sm-radius position-relative d-flex flex-column"
+              role="button"
+              (click)="openPopup(singleInvoice)"
+              tabindex="0"
+              data-bs-toggle="modal"
+              data-bs-target="#invoicesModal"
+              #closeModal>
+              <section class="position-relative p-2 flex-grow-1">
+                <section class="d-flex justify-content-between">
                   <div
-                    class="col-3 h-100 rounded-circle d-flex justify-content-center align-items-center me-auto bg-secondary">
+                    class="rounded-circle warehouse-icon d-flex justify-content-center align-items-center p-1 bg-secondary fs-small">
                     <i class="fa-solid fa-warehouse text-secondary"></i>
                   </div>
                   @if (singleInvoice.payment_status) {
-                    <div
-                      class="col-5 p-0 h-100 fs-x-small fw-bolder xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
-                      {{ singleInvoice.payment_status.title || '----' }}
-                    </div>
+                    <span
+                      class="fs-x-small fw-bold rounded-pill py-1 px-3 border border-warning text-warning d-flex justify-content-center align-items-center">
+                      {{ singleInvoice.payment_status.title }}
+                    </span>
                   }
-                </div>
-                <div class="col position-absolute mt-2">
-                  @if (singleInvoice.provider.client !== null) {
-                    <div class="row fw-bolder fs-small">
-                      {{
-                        singleInvoice.provider.client.client_full_name || '---'
-                      }}
-                    </div>
-                  }
-                  <div class="row fs-x-small">
-                    {{ singleInvoice.id || '---' }}
-                  </div>
-                </div>
-              </div>
-              <i
-                class="fa-solid fa-receipt text-primary opacity-50 position-absolute padIcon"></i>
-            </div>
-            <div class="h-50 row bg-secondary rounded-bottom">
-              <div class="row">
-                @for (_ of [1, 2, 3, 4, 5]; track $index) {
-                  <div class="col">
-                    <hr class="bg-primary w-100 my-0" />
-                  </div>
-                }
-              </div>
-              <div class="container">
-                <div class="">
-                  <div class="row">
-                    @for (order of singleInvoice.orders; track $index) {
-                      <div class="col-11 me-auto">
-                        <div class="d-flex gap-1">
-                          <span><i class="fa-solid fa-box fa-sm"></i></span>
-                          <span
-                            class="fs-small text-truncate text-secondary fw-bold"
-                            >{{ order.product.name || '---' }}</span
-                          >
-                        </div>
-                      </div>
-                      <div class="col-11 text-truncate">
-                        <span class="fs-small text-secondary"
-                          >{{ order.element_metadata.original_data.quantity }}
-                          {{ order.product.measure.suffix || '---' }}</span
-                        >
-                      </div>
-                    }
-                  </div>
-                </div>
-                <div class="mt-2">
-                  <span class="text-primary fw-bolder">
+                </section>
+
+                <section class="d-flex flex-column mt-2">
+                  <b class="fs-small">
+                    {{ singleInvoice.merchant_teller.merchant.merchant_title }}
+                  </b>
+                  <span class="fs-x-small mt-1">
+                    {{ singleInvoice.merchant_teller.merchant.code }}
+                  </span>
+                  <div class="text-primary mt-2">
                     <app-amount-visibility
                       [amount]="singleInvoice.total_amount"
-                      [customClasses]="'fs-medium'"
+                      customClasses="fs-medium fw-bold"
                       [alwaysShowAmount]="true"
                       [currency]="'BIF'"></app-amount-visibility>
-                  </span>
+                  </div>
+                </section>
+                <span
+                  class="text-primary opacity-50 position-absolute receipt-icon fs-small">
+                  <i class="fa-solid fa-receipt"></i>
+                </span>
+              </section>
+
+              <section class="bg-secondary sm-radius rounded-top-0 p-2">
+                <div class="d-flex flex-column">
+                  @for (order of singleInvoice.orders; track $index) {
+                    <div class="d-flex">
+                      <span class="me-2"><i class="fa-solid fa-box"></i></span>
+                      <small class="text-truncate text-secondary fw-bold">{{
+                        order.product.name
+                      }}</small>
+                    </div>
+                    <div class="text-truncate fs-small text-secondary mt-1">
+                      {{ order.element_metadata.original_data.quantity }}
+                      {{ order.product.measure.suffix ?? '---' }}
+                    </div>
+                  }
                 </div>
-              </div>
+              </section>
             </div>
-          </div>
+          }
         }
-      }
-    </div>
-  }
+      </div>
+    } @else if (!isLoading && singleInvoices) {
+      <div class="text-center">
+        <app-empty-state
+          [searchTerm]="'single invoice'"
+          [searchType]="'list'"></app-empty-state>
+      </div>
+    }
 
-  @if (singleInvoices && response_data === 0) {
-    <div class="text-center">
-      <app-empty-state
-        [searchTerm]="'single invoice'"
-        [searchType]="'list'"></app-empty-state>
-    </div>
-  }
+    @if (invoicesCount > 10) {
+      <div class="mt-5 mb-5 pt-5 text-center">
+        <app-pagination
+          [isLoading]="isLoading"
+          [totalData]="invoicesCount"
+          [pageLimit]="pagination.filters.limit"
+          (paginationChange)="onPaginationChange($event)">
+        </app-pagination>
+      </div>
+    }
+  </section>
 
-  @if (response_data > 10) {
-    <div class="mt-5 mb-5 pt-5 text-center">
-      <app-pagination
-        [isLoading]="loader"
-        [totalData]="response_data"
-        [pageLimit]="pagination.filters.limit"
-        (paginationChange)="onPaginationChange($event)">
-      </app-pagination>
-    </div>
-  }
   @if (is_teller_admin) {
     <div
       class="modal fade arounded"
       id="invoicesModal"
       data-mdb-backdrop="false">
-      <div class="modal-dialog sm-radius">
+      <div class="modal-dialog sm-radius modal-dialog-centered">
         <div class="modal-content bg-primary-3 x-lg-radius">
-          <div class="modal-header p-2 bg-primary-3">
-            <div class="row col-11 mx-auto p-2 text-secondary" i18n>
+          <div class="modal-header p-2 bg-primary-3 border-0">
+            <div class="row col-11 mx-auto p-2 text-secondary">
               <div
                 class="col-2 p-0"
                 role="button"
@@ -173,10 +150,12 @@
                 aria-label="Close">
                 <i class="fa-solid fa-arrow-left fs-5 me-2" role="button"></i>
               </div>
-              <div class="col-6 p-0 text-center fs-normal">Invoice Details</div>
+              <div class="col-6 p-0 text-center fw-bold" i18n>
+                Invoice Details
+              </div>
               <div class="col-4 p-0 text-end">
                 <img
-                  class="imgSize"
+                  class="ihela-logo"
                   src="/images/logo/ihela-ryanje.png"
                   alt="logo ihela" />
               </div>
@@ -187,60 +166,52 @@
               <div class="row col-11 mx-auto mb-3">
                 <div
                   class="p-2 col-3 mb-3 mt-2 fs-normal fw-bolder xx-lg-radius border border-warning text-warning d-flex justify-content-center align-items-center">
-                  {{ selectedInvoice.payment_status.title || '---' }}
+                  {{ selectedInvoice.payment_status.title }}
                 </div>
-                <div class="p-0 col-11 mb-2 fs-medium fw-bold">
-                  <b class="p-0">{{ selectedInvoice.code }}</b>
+                <div class="col-11 mb-2 fs-medium fw-bold">
+                  <b>INV #{{ selectedInvoice.code }}</b>
                 </div>
 
                 <div class="p-0 h-50">
-                  <div
-                    class="row mx-auto mt-2 mb-3 border border-1 border-dark sm-radius">
+                  <div class="row mx-auto mt-2 mb-3 border sm-radius">
                     <div
-                      class="iconSize d-flex justify-content-center m-3 p-4 align-items-center bg-secondary rounded-circle">
+                      class="warehouse-icon d-flex justify-content-center m-3 p-4 align-items-center bg-secondary rounded-circle">
                       <i class="fa-solid fa-warehouse text-secondary"></i>
                     </div>
-                    @if (selectedInvoice.provider.client !== null) {
-                      <div class="col-6 mt-3 ms-2">
-                        <div class="row fw-bold fs-small">
-                          {{
-                            selectedInvoice.provider.client.client_full_name ||
-                              '---'
-                          }}
-                        </div>
-                        <div class="row fs-small">
-                          {{ selectedInvoice.id || '---' }}
-                        </div>
+                    <div class="col-6 mt-3 ms-2">
+                      <div class="fw-bold fs-small">
+                        {{
+                          selectedInvoice.merchant_teller.merchant
+                            .merchant_title
+                        }}
                       </div>
-                    }
+                      <div class="fs-small">
+                        {{ selectedInvoice.merchant_teller.merchant.code }}
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row p-0 mx-auto sm-radius bg-secondary">
-                  <div class="row mb-2">
-                    <span i18n class="fs-small fw-bold mt-3">Item</span>
+                  <div class="mb-2">
+                    <span i18n class="fs-small fw-bold mt-3" i18n>Item</span>
                   </div>
-                  <div class="row col-11 ms-3 borderDashed mb-2"></div>
-                  <div class="row mb-2">
+                  <div class="col-11 ms-3 borderDashed mb-2"></div>
+                  <div class="row mx-0 mb-2">
                     <div class="col-6">
                       @for (order of selectedInvoice.orders; track $index) {
                         @if (order.product) {
-                          <span class="fs-normal fw-bold">{{
-                            order.product.name || '---'
-                          }}</span>
+                          <span class="fw-bold">{{ order.product.name }}</span>
                           <br />
                         }
                         @if (order.element_metadata.original_data) {
                           <span class="fs-small text-secondary">
-                            {{
-                              order.element_metadata.original_data.quantity ||
-                                '---'
-                            }}
-                            {{ order.product.measure.suffix || '---' }}
+                            {{ order.element_metadata.original_data.quantity }}
+                            {{ order.product.measure.suffix ?? '----' }}
                           </span>
                           <br />
                           <span class="fs-small text-secondary">
-                            {{ order.product.measure.price || '---' }}/{{
-                              order.product.measure.suffix
+                            {{ order.product.price }}/{{
+                              order.product.measure.suffix ?? ''
                             }}
                           </span>
                         }
@@ -256,8 +227,8 @@
                       </span>
                     </div>
                   </div>
-                  <div class="row col-11 ms-3 borderDashed mb-2"></div>
-                  <div class="row">
+                  <div class="col-11 ms-3 borderDashed mb-2"></div>
+                  <div class="d-flex flex-column">
                     <span class="fs-normal fw-bold">
                       {{
                         selectedInvoice.merchant_teller.merchant.merchant_title
@@ -274,13 +245,15 @@
               selectedInvoice &&
               selectedInvoice.payment_status.title === 'Initial'
             ) {
-              <div
-                i18n
-                role="button"
-                class="bg-primary fw-bold sm-radius text-light text-center fs-medium m-3 p-2"
-                (click)="enterPin()"
-                tabindex="0">
-                Validate
+              <div class="col-11 mx-auto">
+                <button
+                  i18n
+                  role="button"
+                  class="btn bg-primary fw-bold sm-radius text-light text-center fs-medium w-100"
+                  (click)="enterPin()"
+                  tabindex="0">
+                  Validate
+                </button>
               </div>
             }
           </div>
@@ -288,4 +261,4 @@
       </div>
     </div>
   }
-</div>
+</main>
