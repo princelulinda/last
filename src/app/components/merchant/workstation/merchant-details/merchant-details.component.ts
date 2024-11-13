@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -32,7 +32,11 @@ import { LookupComponent } from '../../../../global/components/lookups/lookup/lo
 import { PageMenusModel } from '../../../admin/menu/menu.models';
 import { Modal } from 'bootstrap';
 import { ProfileCardComponent } from '../../../../global/components/custom-field/profile-card/profile-card.component';
-
+import { LookupModel } from '../../../../global/models/global.models';
+import { DialogService } from '../../../../core/services';
+import { MerchantTellerDetailsComponent } from '../../merchant-config/merchant-teller-details/merchant-teller-details.component';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-merchant-details',
   standalone: true,
@@ -48,6 +52,9 @@ import { ProfileCardComponent } from '../../../../global/components/custom-field
     LookupComponent,
     RouterLink,
     ProfileCardComponent,
+    MerchantTellerDetailsComponent,
+    RouterModule,
+    CommonModule,
   ],
   templateUrl: './merchant-details.component.html',
   styleUrl: './merchant-details.component.scss',
@@ -109,8 +116,8 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   isActionDone = false;
   products!: ProductsModel[];
 
-  client!: tellerModel;
-  selectedProduct!: getMerchantsProductsDetailsModel;
+  client: LookupModel | null = null;
+  selectedProduct!: number;
   product!: getMerchantsProductsDetailsModel;
   isChecked = false;
   isCheck = true;
@@ -139,7 +146,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   count!: number;
   agentDetails!: AgentModel;
   metadata!: MetadataModel[];
-
+  closeModal!: ElementRef<HTMLElement>;
   loadingData = false;
   isHover: boolean[] = [];
   values: { field: string }[] = [];
@@ -153,6 +160,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     private merchantService: MerchantService,
     private fb: FormBuilder,
     private router: Router,
+    private dialogService: DialogService,
     private menuService: MenuService
   ) {
     this.productConfigForm = new FormGroup({
@@ -274,6 +282,14 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     // this.getMetadata();
   }
 
+  getClientInfo(event: LookupModel | null = null) {
+    this.client = event;
+
+    this.newTellerForm.patchValue({
+      client: this.client?.id,
+    });
+  }
+
   toggleMetadataList() {
     this.toggleMetadata = !this.toggleMetadata;
     if (this.toggleMetadata === false) {
@@ -354,44 +370,45 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     }
 
     const body = {
-      client: this.client.id,
+      client: this.client?.id,
       merchant: this.merchant.id,
       can_receive_notifications: action,
       alias: this.newTellerForm.value.alias,
     };
     this.merchantService.createNewTeller(body).subscribe({
       next: (response: tellerModel) => {
-        this.isTellerLoading = false;
-
+        this.dialogService.closeLoading();
         if (response.object.success === false) {
-          // const data = {
-          //     title: '',
-          //     type: 'failed',
-          //     message: response?.object?.response_message ?? 'Failed',
-          // };
+          this.dialogService.openToast({
+            title: '',
+            type: 'failed',
+            message:
+              response.object.response_message ?? 'Failed to create a Teller',
+          });
+          this.isLoading = false;
         } else {
           this.getTellersByMerchant();
 
-          // const data = {
-          //     title: '',
-          //     type: 'success',
-          //     message:
-          //         response?.object?.response_message ??
-          //         'New Teller created successfully',
-          // };
+          this.dialogService.openToast({
+            title: '',
+            type: 'success',
+            message: response.object.response_message ?? 'Teller created',
+          });
+
+          this.closeModal.nativeElement.click();
+          this.isLoading = false;
         }
       },
-      error: () => {
-        this.isTellerLoading = false;
-
-        // const data = {
-        //     title: '',
-        //     type: 'failed',
-        //     message:
-        //         err?.object?.response_message ??
-        //         'Failed to create new teller, please try again',
-        // };
-        // this.store.dispatch(new OpenDialog(data));
+      error: err => {
+        this.isLoading = false;
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          type: 'failed',
+          title: '',
+          message:
+            err.error.object.response_message ??
+            'failed to create a new teller',
+        });
       },
     });
   }
@@ -722,8 +739,8 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectProduct(product: getMerchantsProductsDetailsModel) {
-    this.selectedProduct = product;
+  selectProduct(product: ProductsModel) {
+    this.selectedProduct = product.id;
     this.selectedSubMenu = 'details';
     this.getProductDetails();
   }
@@ -893,7 +910,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
 
   getProductDetails() {
     this.merchantService
-      .getMerchantsProductsDetails(this.selectedProduct.id)
+      .getMerchantsProductsDetails(this.selectedProduct)
       .subscribe(product => {
         this.product = product.object;
 

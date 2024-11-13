@@ -31,8 +31,8 @@ export interface DebitOptionsModel {
 }
 
 export interface DebitModel {
-  selectedDebitOption: 'account' | 'wallet';
-  details: AccountsListModel | WalletModel;
+  selectedDebitOption: 'account' | 'wallet' | '';
+  details: AccountsListModel | WalletModel | null;
   creditAccountType: string; // Ou le type approprié
   isTransferDone: boolean;
   isAmountChanging: boolean;
