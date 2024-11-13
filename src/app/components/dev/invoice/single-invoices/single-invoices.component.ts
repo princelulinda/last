@@ -147,7 +147,6 @@ export class SingleInvoicesComponent implements OnInit, OnDestroy {
             type: 'failed',
             message: 'failed to get single invoices list',
           });
-          this.isLoading = false;
         },
       });
   }
