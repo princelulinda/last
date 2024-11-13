@@ -182,13 +182,13 @@
 
         <div class="d-flex gap-4 flex-wrap me-5 ms-3">
           <div class="p-2 d-flex flex-column rounded create">
-            <span>Created-by</span>
+            <span i18n>Created-by</span>
             <span class="fw-bold">{{
               credit.obj_created_by?.operator?.employee_client?.client_full_name
             }}</span>
             <div class="w-100 mt-1"></div>
             <span
-              ><span>Created at</span>
+              ><span i18n>Created at</span>
               <span class="fw-bold">
                 {{ credit.created_at | date: 'yyyy-MM-dd, HH:mm:ss' }}</span
               ></span
@@ -200,7 +200,7 @@
               <span class="fw-bold">{{ credit.hr_validated_by }}</span>
               <div class="w-100 mt-1"></div>
               <span
-                ><span>Validated at</span>
+                ><span i18n>Validated at</span>
                 <span class="fw-bold">{{
                   credit.validated_at | date: 'yyyy-MM-dd, HH:mm:ss'
                 }}</span></span
@@ -210,11 +210,11 @@
 
           @if (credit.hr_authorized_by) {
             <div class="p-2 d-flex flex-column rounded auth">
-              <span>Authorized-by</span>
+              <span i18n>Authorized-by</span>
               <span class="fw-bold">{{ credit.hr_authorized_by }}</span>
               <div class="w-100 mt-1"></div>
               <span
-                ><span>Authorized at</span>
+                ><span i18n>Authorized at</span>
                 <span class="fw-bold">
                   {{
                     credit.authorized_at | date: 'yyyy-MM-dd, HH:mm:ss'
@@ -227,15 +227,13 @@
           @if (credit.hr_canceled_by) {
             <div
               class="p-2 d-flex flex-column rounded bg-primary-2 text-primary">
-              <span>Authorized-by</span>
-              <span class="fw-bold">{{ credit.hr_authorized_by }}</span>
+              <span i18n>Canceled-by</span>
+              <span class="fw-bold">{{ credit.hr_canceled_by }}</span>
               <div class="w-100 mt-1"></div>
               <span
-                ><span>Authorized at</span>
+                ><span i18n>Canceled at</span>
                 <span class="fw-bold">
-                  {{
-                    credit.authorized_at | date: 'yyyy-MM-dd, HH:mm:ss'
-                  }}</span
+                  {{ credit.canceled_at | date: 'yyyy-MM-dd, HH:mm:ss' }}</span
                 ></span
               >
             </div>
