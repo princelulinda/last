@@ -47,10 +47,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userInfo$: Observable<UserInfoModel>;
   amountState = false;
   amountState$: Observable<boolean>;
-  selectedLanguage = new FormControl('fr');
   showUserInfoPopup = false;
   showPlateformPopup = false;
   menuRouterLink = '';
+
+  languageControl = new FormControl('fr');
+  selectedLanguage: 'fr' | 'en' = 'fr';
 
   constructor(
     private dialogService: DialogService,
@@ -109,6 +111,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.amountState = state;
       },
     });
+
+    this.selectedLanguage = this.getUrlLang();
   }
 
   // eye amount keyshortcuts
@@ -130,27 +134,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   lockScreen() {
     this.configService.switchScreenState('locked');
-  }
-
-  changeLanguage() {
-    const url = window.location.href; // get current url
-    const a = document.createElement('a'); // create an a element
-    a.href = url; // set its href to the URL
-    const paths = a.pathname.split('/'); // split the pathname by /
-    paths.shift(); // remove the first empty element
-    console.log('pathsssss', paths);
-    if (paths[0].length == 2) {
-      paths[0] = this.selectedLanguage.value!; // replace it with the new one
-      const new_url =
-        a.protocol +
-        '//' +
-        a.host +
-        '/' +
-        paths.join('/') +
-        (a.search != '' ? a.search : '') +
-        (a.hash != '' ? a.hash : '');
-      window.location.href = new_url;
-    }
   }
 
   isCurrentDateInChristMassPeriod() {
@@ -201,6 +184,42 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.showPlateformPopup = false;
     }
   }
+
+  changeLanguage() {
+    if (this.selectedLanguage !== this.languageControl.value) {
+      this.selectedLanguage = this.languageControl.value as 'fr' | 'en';
+      const url = window.location.href; // get current url
+      const a = document.createElement('a'); // create an a element
+      a.href = url; // set its href to the URL
+      const paths = a.pathname.split('/'); // split the pathname by /
+      paths.shift(); // remove the first empty element
+      if (paths[0].length == 2) {
+        paths[0] = this.languageControl.value!; // replace it with the new one
+        const new_url =
+          a.protocol +
+          '//' +
+          a.host +
+          '/' +
+          paths.join('/') +
+          (a.search != '' ? a.search : '') +
+          (a.hash != '' ? a.hash : '');
+        window.location.href = new_url;
+      }
+    }
+  }
+
+  private getUrlLang(): 'en' | 'fr' {
+    const url = window.location.href; // get current url
+    const a = document.createElement('a'); // create an a element
+    a.href = url; // set its href to the URL
+    const paths = a.pathname.split('/'); // split the pathname by /
+    paths.shift(); // remove the first empty element
+    if (paths[0].length == 2) {
+      return paths[0] as 'en' | 'fr';
+    }
+    return 'en';
+  }
+
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();

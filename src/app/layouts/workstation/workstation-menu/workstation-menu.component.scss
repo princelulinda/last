@@ -13,6 +13,25 @@
   animation: closeSlide 0.2s ease-in-out;
 }
 
+.logo-clipath {
+  height: 236px;
+  clip-path: polygon(
+    36% 24%,
+    100.6% 2px,
+    100% 2%,
+    37.4% 24.58%,
+    37.06% 44.42%,
+    100% 23%,
+    100% 100%,
+    -3px 100.85%,
+    -1px 57.69%,
+    36% 45%
+  );
+  .logo {
+    height: 49px;
+    width: 100px;
+  }
+}
 @keyframes leftSlide {
   from {
     transform: translateX(120%);
