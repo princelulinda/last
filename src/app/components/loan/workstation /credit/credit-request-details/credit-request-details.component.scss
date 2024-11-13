@@ -9,3 +9,30 @@
     height: 100%;
   }
 }
+
+.create {
+  background: rgba(170, 206, 245, 1);
+  color: #2070b8;
+  div {
+    padding-top: 1.5px;
+    background-color: #2070b8;
+  }
+}
+
+.valid {
+  background: rgba(251, 251, 173, 1);
+  color: #a3a300;
+  div {
+    padding-top: 1.5px;
+    background-color: #a3a300;
+  }
+}
+
+.auth {
+  background: #cefdd5;
+  color: #058519;
+  div {
+    padding-top: 1.5px;
+    background-color: #058519;
+  }
+}

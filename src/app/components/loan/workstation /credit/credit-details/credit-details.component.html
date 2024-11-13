@@ -46,7 +46,7 @@
           <div class="d-flex flex-column gap-4">
             <div class="d-flex flex-column gap-1 fw-bold">
               <span class="text-secondary" i18n>Client name</span>
-              <span>{{ client?.client_full_name ?? '--------------' }}</span>
+              <span>{{ client.client_full_name ?? '--------------' }}</span>
             </div>
 
             <div class="d-flex flex-column gap-1 fw-bold">
@@ -184,15 +184,13 @@
 
             <div class="row mx-auto fw-bold w-100">
               <div class="col-2 text-secondary" i18n>Created at:</div>
-              <div class="col-2">Oct 2,2023</div>
+              <div class="col-2">-----</div>
 
               <div class="col-1"></div>
 
               <div class="col-2 text-secondary" i18n>Mode:</div>
               <div class="col-2">
-                <div
-                  class="rounded-3 bg-primary-2 px-3 py-1 text-primary text-truncate"
-                  style="max-width: fit-content">
+                <div class="badge-design bg-danger text-truncate">
                   <span>{{ credit.cred_mode }}</span>
                 </div>
               </div>
@@ -265,7 +263,7 @@
               </div>
 
               <div class="d-flex flex-row justify-content-between">
-                <span>Days left:</span>
+                <span i18n>Days left:</span>
                 <span class="fw-bold">0</span>
               </div>
 
@@ -296,8 +294,9 @@
             <div
               class="py-1 px-3 rounded border border-primary fw-bold clickable"
               style="max-width: fit-content"
-              data-bs-toggle="modal"
-              data-bs-target="#planModal">
+              tabindex="0"
+              (click)="openPlanModel()"
+              i18n>
               View plan
             </div>
           </div>
@@ -308,30 +307,10 @@
 
   <div class="modal fade" id="planModal" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered statement-dialog">
-      <div class="modal-content">
-        <div class="d-flex p-3">
-          <div>
-            <span class="mb-5 text-dark text-secondary fs-x-large" i18n
-              >Plan
-            </span>
-          </div>
-          <div class="ms-auto text-end">
-            <button
-              type="button"
-              title="Close"
-              #closeModal
-              class="text-dark btn fs-4 p-0 pe-1"
-              data-bs-dismiss="modal"
-              aria-label="Close">
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-          </div>
-        </div>
-
-        <app-list
-          [headers]="headers"
-          url="/loans/plan/105/?"
-          title="Loan Plan"></app-list>
+      <div class="modal-content bg-white overflow-hidden">
+        @if (credit) {
+          <app-loan-plan [loan]="credit"></app-loan-plan>
+        }
       </div>
     </div>
   </div>

@@ -1,24 +1,29 @@
 <main class="h-100 w-100 p-4 bg-secondary overflow-y-auto pb-5">
-  <div>
-    <div [ngClass]="{ 'not-clickable': isLoading }">
-      <div class="d-lg-flex row">
+  <div class="w-100">
+    <div class="w-100 text-center mb-5">
+      <span class="fs-xx-large fw-bold">Credit Request</span>
+    </div>
+    <div [ngClass]="{ 'not-clickable': isLoading }" class="w-75 mx-auto">
+      <div class="d-lg-flex row mx-auto">
         <div class="col-lg-6 row">
-          <div class="d-grid col-lg-8">
-            <div>
-              <b>Client account</b>
+          <div class="form-floating col-lg-8">
+            <div class="d-grid">
+              <div>
+                <b i18n>Client account</b>
+              </div>
+              <app-lookup
+                option="autocomplete"
+                (selectedItemEvent)="getAccount($event)"
+                url="/clients/manage/accounts/objects_autocomplete?search="
+                label="Accounts"></app-lookup>
             </div>
-            <app-lookup
-              option="autocomplete"
-              (selectedItemEvent)="getAccount($event)"
-              url="/clients/manage/accounts/objects_autocomplete?search="
-              label="Accounts"></app-lookup>
           </div>
         </div>
         <div class="mb-4 col-lg-6 row">
           <div class="form-floating col-lg-8">
             <div class="d-grid">
               <div>
-                <b>Credit Type</b>
+                <b i18n>Credit Type</b>
               </div>
               <div>
                 <app-lookup
@@ -32,12 +37,12 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row mx-auto">
         <div class="mb-4 col-lg-6 row">
           <div class="form-floating col-lg-8">
             <div class="d-grid">
               <div>
-                <b>Branch</b>
+                <b i18n>Branch</b>
               </div>
 
               <div>
@@ -54,19 +59,25 @@
       </div>
 
       @if (!isFormVisible) {
-        <div class="w-75 mt-5 pt-2 d-flex justify-content-center">
+        <div class="w-100 mt-5 pt-2 d-flex justify-content-center gap-3">
           <button
             [disabled]="!account || !creditType"
             type="submit"
             class="btn px-5 bg-primary d-flex justify-content-center py-2 text-all-white border-0"
             (click)="goToForm()">
             @if (!isLoading) {
-              <b>Continue</b>
+              <b i18n>Continue</b>
             } @else {
               <span>
                 <i class="fa-solid fa-pulse fa-circle-notch text-all-white"></i>
               </span>
             }
+          </button>
+
+          <button
+            class="btn px-5 border border-primary d-flex justify-content-center py-2 text-primary"
+            (click)="cancel()">
+            <b i18n>Cancel</b>
           </button>
         </div>
       }
@@ -85,13 +96,13 @@
 
                   <div class="row ms-2">
                     <div class="col-4 d-flex">
-                      <b class="leg">Min: </b>
+                      <b class="leg" i18n>Min: </b>
                       <span class="val">{{
                         defaultValuesLoan.min_amount | currency: ' '
                       }}</span>
                     </div>
                     <div class="col-4 d-flex">
-                      <b class="leg">Max: </b>
+                      <b class="leg" i18n>Max: </b>
                       <span class="val">{{
                         defaultValuesLoan.max_amount | currency: ' '
                       }}</span>
@@ -109,12 +120,12 @@
                       id="interest"
                       placeholder="interests rate"
                       formControlName="interest_rate" />
-                    <label for="interest"> Interests rate </label>
+                    <label for="interest" i18n> Interests rate </label>
                   </div>
 
                   <div class="row ms-2">
                     <div class="col-4 d-flex">
-                      <b class="leg">min: </b>
+                      <b class="leg" i18n>min: </b>
                       <!--                      <span class="val"-->
                       <!--                        >{{-->
                       <!--                          defaultValuesLoan.min_interest_rate | number-->
@@ -125,7 +136,7 @@
                       <span class="val"> {{ 10 }} %</span>
                     </div>
                     <div class="col-4 d-flex">
-                      <b class="leg">max: </b>
+                      <b class="leg" i18n>max: </b>
                       <!--                      <span class="val"-->
                       <!--                        >{{-->
                       <!--                          defaultValuesLoan.max_interest_rate | number-->
@@ -149,7 +160,7 @@
                       id="date"
                       placeholder="date"
                       formControlName="first_date" />
-                    <label for="date"> First date </label>
+                    <label for="date" i18n> First date </label>
                   </div>
                 </div>
               </div>
@@ -164,16 +175,16 @@
                       id="penalities"
                       placeholder="penalities"
                       formControlName="penalities_rate" />
-                    <label for="penalities"> Penalties </label>
+                    <label for="penalities" i18n> Penalties </label>
                   </div>
 
                   <div class="row ms-2">
                     <div class="col-6 d-flex">
-                      <b class="leg">Min: </b>
+                      <b class="leg" i18n>Min: </b>
                       <span class="val"></span>
                     </div>
                     <div class="col-6 d-flex">
-                      <b class="leg">Max: </b>
+                      <b class="leg" i18n>Max: </b>
                       <span class="val"></span>
                     </div>
                   </div>
@@ -192,7 +203,7 @@
                       placeholder="fees"
                       formControlName="fees_amount"
                       (input)="updateUnitValue()" />
-                    <label for="feesAmount"> Fees </label>
+                    <label for="feesAmount" i18n> Fees </label>
                   </div>
 
                   <div class="d-flex ps-2">
@@ -225,7 +236,7 @@
                           <i class="fa-regular fa-square fs-4"></i>
                         </span>
                       }
-                      <span class="ms-2">Amount</span>
+                      <span class="ms-2" i18n>Amount</span>
                     </div>
                     <div class="d-flex">
                       <span class="me-2 text-primary-light">
@@ -247,7 +258,7 @@
                       id="insurance"
                       placeholder="fees"
                       formControlName="insurance_amount" />
-                    <label for="insurance">Insurance</label>
+                    <label for="insurance" i18n>Insurance</label>
                   </div>
                   <div class="d-flex ps-2">
                     <div
@@ -278,7 +289,7 @@
                           <i class="fa-regular fa-square fs-4"></i>
                         </span>
                       }
-                      <span>Amount</span>
+                      <span i18n>Amount</span>
                     </div>
                     <div class="d-flex">
                       <span class="me-2 text-primary-light">
@@ -300,7 +311,7 @@
                       id="guarantee"
                       placeholder="fees"
                       formControlName="guarantee_rate" />
-                    <label for="guarantee"> Guarantee </label>
+                    <label for="guarantee" i18n> Guarantee </label>
                   </div>
 
                   <div class="d-flex ps-2">
@@ -332,7 +343,7 @@
                           <i class="fa-regular fa-square fs-4"></i>
                         </span>
                       }
-                      <span>Amount</span>
+                      <span i18n>Amount</span>
                     </div>
                     <div class="d-flex">
                       <span class="me-2 text-primary-light">
@@ -351,10 +362,10 @@
                     class="input form-select mb-1 mt-2 fs-4 p-2-3 text-dark simulator-input w-100"
                     id="period"
                     formControlName="period">
-                    <option value="" selected>Select frequency</option>
-                    <option value="1">Month</option>
-                    <option value="3">Quarter</option>
-                    <option value="6">Semester</option>
+                    <option value="" selected i18n>Select frequency</option>
+                    <option value="1" i18n>Month</option>
+                    <option value="3" i18n>Quarter</option>
+                    <option value="6" i18n>Semester</option>
                   </select>
                 </div>
               </div>
@@ -368,7 +379,7 @@
                       id="payment"
                       placeholder="payment number"
                       formControlName="payment_number" />
-                    <label for="payment"> Payment number </label>
+                    <label for="payment" i18n> Payment number </label>
                   </div>
                 </div>
               </div>

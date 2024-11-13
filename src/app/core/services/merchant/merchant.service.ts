@@ -764,7 +764,7 @@ export class MerchantService {
     search: string,
     merchantId: number
   ) {
-    const url = `/dbs/merchant/bills/?limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}&for_validation=true&grouped=fals&merchant=${merchantId}e&search=${search}`;
+    const url = `/dbs/merchant/bills/?for_validation=true&grouped=false&merchant=${merchantId}&&search=${search}&limit=${pagination?.filters.limit}&offset=${pagination?.filters.offset}`;
 
     return this.apiService
       .get<{ objects: SingleInVoiceModel[]; count: number }>(url)

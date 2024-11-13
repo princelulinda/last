@@ -3,13 +3,9 @@ import { Routes } from '@angular/router';
 import { OperationListComponent } from '../../components/operations/operation-list/operation-list.component';
 import { CounterComponent } from '../../components/operations/counter/counter.component';
 
-import { ClientAccountDetailComponent } from '../../components/client/client-account-detail/client-account-detail.component';
-import { ClientDetailsComponent } from '../../components/client/client-details/client-details.component';
-import { ClientListComponent } from '../../components/client/client-list/client-list.component';
 import { CounterDetailsComponent } from '../../components/operations/counter-details/counter-details.component';
 import { DiverseOperationComponent } from '../../components/dev/diverse-operation/diverse-operation.component';
 
-import { ClientWalletDetailsComponent } from '../../components/client/client-wallet-details/client-wallet-details.component';
 import { AgentListComponent } from '../../components/agent/workstation/agent-list/agent-list.component';
 import { AgentDetailComponent } from '../../components/agent/workstation/agent-detail/agent-detail.component';
 
@@ -17,18 +13,14 @@ import { MerchantListComponent } from '../../components/merchant/workstation/mer
 import { MerchantDetailsComponent } from '../../components/merchant/workstation/merchant-details/merchant-details.component';
 import { BalanceComponent } from '../../components/operations/balance/balance.component';
 import { ShortcutsComponent } from '../../components/admin/customer-base/shortcuts/shortcuts.component';
-import { SignaturesComponent } from '../../components/client/signatures/signatures.component';
-import { ClientCreditsComponent } from '../../components/client/client-credits/client-credits.component';
-import { ClientCreditsLineComponent } from '../../components/client/client-credits-line/client-credits-line.component';
 
-import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
+// import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
 import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
 import { DeskDashboardComponent } from '../../components/dashboards/workstation/desk-dashboard/desk-dashboard.component';
-import { BalanceSheetComponent } from '../../components/dev/accounting/balance-sheet/balance-sheet.component';
 
 import { WalletListWsComponent } from '../../components/wallet/workstation/wallet-list-ws/wallet-list-ws.component';
 import { WorkstationCreditRoutes } from '../../components/loan/loan.routes';
-import { LedgerReportsComponent } from '../../components/reports/ledger-reports/ledger-reports.component';
+import { ClientRoutes } from '../../components/client/client.routes';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -38,44 +30,11 @@ export const DeskRoutes: Routes = [
 
   {
     path: 'client',
-    children: [
-      {
-        path: 'list',
-        component: ClientListComponent,
-      },
-
-      {
-        path: 'detail/:client_id',
-        component: ClientDetailsComponent,
-
-        children: [
-          {
-            path: 'account/:accountId',
-            component: ClientAccountDetailComponent,
-          },
-          {
-            path: 'wallet/:walletId',
-            component: ClientWalletDetailsComponent,
-          },
-          {
-            path: 'credit/:creditId',
-            component: ClientCreditsComponent,
-          },
-          {
-            path: 'creditLine/:creditLineId',
-            component: ClientCreditsLineComponent,
-          },
-          {
-            path: 'settings',
-            component: SignaturesComponent,
-          },
-        ],
-      },
-    ],
+    children: ClientRoutes,
     canActivate: [GetMenuKeyGuard],
-    data: {
-      signature: MENU_KEYS.CLIENT,
-    },
+    // data: {
+    //   signature: MENU_KEYS.CLIENTS,
+    // },
   },
 
   // NOTE :: OPERATIONS MODULES
@@ -114,18 +73,6 @@ export const DeskRoutes: Routes = [
       { path: '', component: MerchantListComponent },
       { path: 'detail/:id', component: MerchantDetailsComponent },
     ],
-  },
-
-  // NOTE :: BALANCE SHEET
-  {
-    path: 'balance-sheet',
-    component: BalanceSheetComponent,
-  },
-
-  // NOTE :: OPERATION RESULT
-  {
-    path: 'ledger_reports',
-    component: LedgerReportsComponent,
   },
 
   // NOTE :: SHORTCUTS MODULE
