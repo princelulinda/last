@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { MyMarketDashboardComponent } from '../../components/dashboards/banking/my-market-dashboard/my-market-dashboard.component';
 import { MerchantConfigComponent } from '../../components/merchant/merchant-config/merchant-config.component';
-import { ProductConfigComponent } from '../../components/merchant/products/product-config/product-config.component';
-import { AddProductComponent } from '../../components/merchant/products/add-product/add-product.component';
+import { ProductConfigComponent } from '../../components/merchant/products/banking/product-config/product-config.component';
+import { AddProductComponent } from '../../components/merchant/products/banking/add-product/add-product.component';
 import { PaymentReportsComponent } from '../../components/merchant/statements/payment-reports/payment-reports.component';
 import { TransferReportsComponent } from '../../components/merchant/statements/transfer-reports/transfer-reports.component';
 import { MerchantTransferComponent } from '../../components/merchant/merchant-transfer/merchant-transfer.component';

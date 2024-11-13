@@ -4,15 +4,15 @@ import { CommonModule } from '@angular/common';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { MerchantService } from '../../../../core/services/merchant/merchant.service';
-import { ProductCardComponent } from '../../global/product-card/product-card.component';
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
+import { MerchantService } from '../../../../../core/services/merchant/merchant.service';
+import { ProductCardComponent } from '../../../global/product-card/product-card.component';
+import { SkeletonComponent } from '../../../../../global/components/loaders/skeleton/skeleton.component';
 import { AllProductsComponent } from '../all-products/all-products.component';
-import { ProductAutocompleteModel } from '../products.model';
-import { ModeModel } from '../../../../core/services/config/main-config.models';
-import { ConfigService } from '../../../../core/services';
-import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
-import { VariableService } from '../../../../core/services/variable/variable.service';
+import { ProductAutocompleteModel } from '../../products.model';
+import { ModeModel } from '../../../../../core/services/config/main-config.models';
+import { ConfigService } from '../../../../../core/services';
+import { EmptyStateComponent } from '../../../../../global/components/empty-states/empty-state/empty-state.component';
+import { VariableService } from '../../../../../core/services/variable/variable.service';
 
 @Component({
   selector: 'app-products',

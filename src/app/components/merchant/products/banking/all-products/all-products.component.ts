@@ -6,20 +6,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { MerchantService } from '../../../../core/services/merchant/merchant.service';
+import { MerchantService } from '../../../../../core/services/merchant/merchant.service';
 import {
   ApiService,
   AuthService,
   ConfigService,
-} from '../../../../core/services';
-import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
-import { ProductAutocompleteModel } from '../products.model';
-import { ModeModel } from '../../../../core/services/config/main-config.models';
-import { EmptyStateComponent } from '../../../../global/components/empty-states/empty-state/empty-state.component';
-import { ProductCardComponent } from '../../global/product-card/product-card.component';
-import { MerchantModel } from '../../merchant.models';
-import { PaginationConfig } from '../../../../global/models/pagination.models';
-import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
+} from '../../../../../core/services';
+import { SkeletonComponent } from '../../../../../global/components/loaders/skeleton/skeleton.component';
+import { ProductAutocompleteModel } from '../../products.model';
+import { ModeModel } from '../../../../../core/services/config/main-config.models';
+import { EmptyStateComponent } from '../../../../../global/components/empty-states/empty-state/empty-state.component';
+import { ProductCardComponent } from '../../../global/product-card/product-card.component';
+import { MerchantModel } from '../../../merchant.models';
+import { PaginationConfig } from '../../../../../global/models/pagination.models';
+import { PaginationComponent } from '../../../../../global/components/list/pagination/pagination.component';
 import { HttpParams } from '@angular/common/http';
 
 @Component({

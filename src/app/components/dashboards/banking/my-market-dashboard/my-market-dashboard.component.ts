@@ -34,7 +34,7 @@ import {
 } from '../../../../core/services/config/main-config.models';
 import { MerchantCardComponent } from '../../../merchant/global/merchant-card/merchant-card.component';
 import { MerchantBillComponent } from '../../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
-import { AllProductsComponent } from '../../../merchant/products/all-products/all-products.component';
+import { AllProductsComponent } from '../../../merchant/products/banking/all-products/all-products.component';
 import { StatementComponent } from '../../../statements/statement/statement.component';
 import {
   MerchantAutocompleteModel,
