@@ -12,7 +12,8 @@
     plateform === 'myMarket' ||
     plateform === 'onamob'
   ) {
-    <div class="d-flex flex-column flex-lg-row overflow-hidden h-100 bg-white">
+    <div
+      class="d-flex flex-column flex-lg-row overflow-hidden h-without-header bg-white">
       <!-- Desktop Aside Menu -->
       <aside
         class="d-none d-lg-block overflow-y-auto position-relative aside-menu z-5 h-100">
@@ -48,7 +49,7 @@
   }
 
   @if (plateform === 'bankingSettings') {
-    <div class="d-flex overflow-y-auto bg-white">
+    <div class="d-flex overflow-y-auto bg-white h-without-header">
       <!-- Desktop settings Aside Menu -->
       <aside
         class="d-none d-lg-block overflow-y-auto position-relative aside-menu z-5">
