@@ -4,6 +4,6 @@ import { VariableService } from '../../services/variable/variable.service';
 
 export const GetMenuKeyGuard: CanActivateFn = route => {
   const variableService = inject(VariableService);
-  variableService.MENU_ACCESS_KEY.set(route.data['signature']['key'] ?? '');
+  variableService.MENU_ACCESS_KEY.set(route.data['signature'] ?? '');
   return true;
 };

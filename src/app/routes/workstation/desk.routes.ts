@@ -21,14 +21,12 @@ import { SignaturesComponent } from '../../components/client/signatures/signatur
 import { ClientCreditsComponent } from '../../components/client/client-credits/client-credits.component';
 import { ClientCreditsLineComponent } from '../../components/client/client-credits-line/client-credits-line.component';
 
-import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
+// import { MENU_KEYS } from '../../global/utils/menu/all-menus.config';
 import { GetMenuKeyGuard } from '../../core/guards/menu-key/get-menu-key.guard';
 import { DeskDashboardComponent } from '../../components/dashboards/workstation/desk-dashboard/desk-dashboard.component';
-import { BalanceSheetComponent } from '../../components/dev/accounting/balance-sheet/balance-sheet.component';
 
 import { WalletListWsComponent } from '../../components/wallet/workstation/wallet-list-ws/wallet-list-ws.component';
 import { WorkstationCreditRoutes } from '../../components/loan/loan.routes';
-import { LedgerReportsComponent } from '../../components/reports/ledger-reports/ledger-reports.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -73,9 +71,9 @@ export const DeskRoutes: Routes = [
       },
     ],
     canActivate: [GetMenuKeyGuard],
-    data: {
-      signature: MENU_KEYS.CLIENT,
-    },
+    // data: {
+    //   signature: MENU_KEYS.CLIENTS,
+    // },
   },
 
   // NOTE :: OPERATIONS MODULES
@@ -114,18 +112,6 @@ export const DeskRoutes: Routes = [
       { path: '', component: MerchantListComponent },
       { path: 'detail/:id', component: MerchantDetailsComponent },
     ],
-  },
-
-  // NOTE :: BALANCE SHEET
-  {
-    path: 'balance-sheet',
-    component: BalanceSheetComponent,
-  },
-
-  // NOTE :: OPERATION RESULT
-  {
-    path: 'ledger_reports',
-    component: LedgerReportsComponent,
   },
 
   // NOTE :: SHORTCUTS MODULE
