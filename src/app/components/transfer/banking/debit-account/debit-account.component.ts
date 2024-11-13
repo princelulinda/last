@@ -171,6 +171,22 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
   selectDebitAccountType(accountType: 'account' | 'wallet') {
     this.selectedDebitAccountType = accountType;
   }
+
+  // selectDebitAccountType(accountType: 'account' | 'wallet') {
+  //   this.selectedDebitAccountType = accountType;
+  //   const options = {
+  //   account: '',
+  //   wallet: '',
+  //   selectedDebitOption: this.selectedDebitAccountType,
+  //   creditAccountType: '',
+  //   isTransferDone: this.isTransactionDone,
+  //   isAmountChanging: false,
+  //   selectedInstitutionType: this.selectedInstitutionType,
+  //   selectedInstitution: this.selectedInstitution,
+  //   };
+  //   this.debitOptions.emit(options);
+
+  //   }
   selectAndEmitAccount(
     accountType: 'account' | 'wallet',
     event: AccountsListModel | WalletModel
@@ -218,6 +234,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
 
     this.variableService.REFRESH_ACCOUNT_LIST.set(true);
 
+    this.debitOptions.emit(options);
     this.selectedDebitAccountType = (event.selectedDebitAccountType ?? null) as
       | 'account'
       | 'wallet'
@@ -225,7 +242,6 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
     this.debitAccount = event.debitAccount as unknown as DebitOptionsModel;
     this.debitWallet = event.debitWallet as unknown as DebitOptionsModel;
     this.banks = event.banks;
-    this.debitOptions.emit(options);
   }
 
   toggleBalance() {
