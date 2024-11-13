@@ -184,7 +184,7 @@
 
             <div class="row mx-auto fw-bold w-100">
               <div class="col-2 text-secondary" i18n>Created at:</div>
-              <div class="col-2">Oct 2,2023</div>
+              <div class="col-2">-----</div>
 
               <div class="col-1"></div>
 
@@ -263,7 +263,7 @@
               </div>
 
               <div class="d-flex flex-row justify-content-between">
-                <span>Days left:</span>
+                <span i18n>Days left:</span>
                 <span class="fw-bold">0</span>
               </div>
 
@@ -295,7 +295,8 @@
               class="py-1 px-3 rounded border border-primary fw-bold clickable"
               style="max-width: fit-content"
               tabindex="0"
-              (click)="openPlanModel()">
+              (click)="openPlanModel()"
+              i18n>
               View plan
             </div>
           </div>
