@@ -1,4 +1,6 @@
 import { BankModel } from '../../core/db/models/bank/bank.model';
+import { AccountsListModel } from '../account/models';
+import { WalletModel } from '../wallet/wallet.models';
 
 export interface AccountModel {
   account_holder: string;
@@ -28,6 +30,15 @@ export interface DebitOptionsModel {
   title?: string;
 }
 
+export interface DebitModel {
+  selectedDebitOption: 'account' | 'wallet';
+  details: AccountsListModel | WalletModel;
+  creditAccountType: string; // Ou le type approprié
+  isTransferDone: boolean;
+  isAmountChanging: boolean;
+  selectedInstitutionType: string;
+  selectedInstitution: InstitutionInfoModel | string; // Remplacez par le type approprié
+}
 export interface LookupDataModel {
   account_number: string | null | undefined;
   bank_slug: string | null | undefined;

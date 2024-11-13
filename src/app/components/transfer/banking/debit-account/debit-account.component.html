@@ -125,7 +125,7 @@
             <app-accounts-list
               Type="transfer"
               (accountSelected)="
-                getAccountSelected($event)
+                selectAndEmitAccount('account', $event)
               "></app-accounts-list>
           </section>
         }
@@ -134,7 +134,9 @@
           <section class="account-list-container">
             <app-wallet-list
               Type="transfer"
-              (walletSelected)="getAccountSelected($event)"></app-wallet-list>
+              (walletSelected)="
+                selectAndEmitAccount('wallet', $event)
+              "></app-wallet-list>
           </section>
         }
       </section>
