@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MerchantService } from '../../../../core/services/merchant/merchant.service';
@@ -32,11 +32,16 @@ import { LookupComponent } from '../../../../global/components/lookups/lookup/lo
 import { PageMenusModel } from '../../../admin/menu/menu.models';
 import { Modal } from 'bootstrap';
 import { ProfileCardComponent } from '../../../../global/components/custom-field/profile-card/profile-card.component';
-import { LookupModel } from '../../../../global/models/global.models';
+import {
+  AutocompleteModel,
+  LookupModel,
+} from '../../../../global/models/global.models';
 import { DialogService } from '../../../../core/services';
 import { MerchantTellerDetailsComponent } from '../../merchant-config/merchant-teller-details/merchant-teller-details.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
+import { UpdateProdcutInfoModel } from '../../products/products.model';
 @Component({
   selector: 'app-merchant-details',
   standalone: true,
@@ -94,7 +99,6 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   // inputTitle: FormControl = this.merchantForm.value.inputTitle;
   merchant!: MerchantModel;
   clientId!: string;
-  category!: string;
   theme = '';
 
   crumbs = [
@@ -111,11 +115,11 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   acceptsSimplePayment = false;
   tellers!: tellerObjectModel[];
   selectedTeller!: tellerObjectModel;
-
+  isMerchantLoading!: boolean;
   tellerId!: string;
   isActionDone = false;
   products!: ProductsModel[];
-
+  action: string[] = [];
   client: LookupModel | null = null;
   selectedProduct!: number;
   product!: getMerchantsProductsDetailsModel;
@@ -127,7 +131,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   incognitoMerchant = false;
   merchantLogo!: string;
   previewImage!: string;
-  action!: string[];
+  isloadingProduct = false;
   isTellerLoading = false;
   topClientsByAmount!: TopClientsByAmountModel[];
   topClientsByTransactions!: topClientsByTransactionsModel[];
@@ -135,7 +139,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   paymentStats!: getPaymentStatsModel[];
   tellerCreationDone = false;
   newTellerForm: FormGroup;
-
+  dialogState$!: Observable<DialogResponseModel>;
   toggleMetadata = false;
   searchMetadata = new FormControl('');
   pagination = new PaginationConfig();
@@ -143,6 +147,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   canMoveToNext = true;
   currentPage = 0;
   pages!: string;
+  pin!: string;
   count!: number;
   agentDetails!: AgentModel;
   metadata!: MetadataModel[];
@@ -152,8 +157,9 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   values: { field: string }[] = [];
   selectedFields: { name: string; id: number }[] = [];
   toggleMetadataForm = false;
-
+  loading_productDetails = false;
   pageMenus: PageMenusModel[] = [];
+  category!: number | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -163,6 +169,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private menuService: MenuService
   ) {
+    this.dialogState$ = this.dialogService.getDialogState();
     this.productConfigForm = new FormGroup({
       name: new FormControl(''),
       price: new FormControl(''),
@@ -191,6 +198,25 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.dialogState$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: (dialogResponse: DialogResponseModel) => {
+        console.log('PIN reçu:', this.pin);
+        if (
+          dialogResponse.action === 'merchantdetails' &&
+          dialogResponse.response.pin
+        ) {
+          this.pin = dialogResponse.response.pin;
+          this.updateMerchantDetails();
+        } else if (
+          dialogResponse.action === 'editproduct' &&
+          dialogResponse.response.pin
+        ) {
+          this.pin = dialogResponse.response.pin;
+          this.updateProductInfo();
+        }
+      },
+    });
+
     if (this.route && this.route.fragment) {
       this.route.fragment.subscribe({
         next: frag => {
@@ -279,7 +305,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     // this.getCoords(event);
     this.pagination.filters.limit = 10;
 
-    // this.getMetadata();
+    this.getMetadata();
   }
 
   getClientInfo(event: LookupModel | null = null) {
@@ -295,6 +321,12 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     if (this.toggleMetadata === false) {
       this.toggleMetadataForm = false;
     }
+  }
+
+  getCategory(event: AutocompleteModel | null): void {
+    // Récupérez l'événement et mettez à jour la variable
+    console.log(event);
+    this.category = event?.id;
   }
 
   addNewField() {
@@ -328,6 +360,71 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
+  //update
+  updateProductInfo() {
+    this.loading_productDetails = false;
+    this.dialogService.dispatchLoading();
+    this.isLoading = true;
+    const selectedFieldNames = this.getSelectedFieldNames();
+    const body = {
+      product: this?.selectedProduct,
+      merchant: this.merchant.id,
+      action: this.action,
+      price: this.productConfigForm.value.price,
+      name: this.productConfigForm.value.name,
+      minimun_payment_amount: this.productConfigForm.value.min_payment,
+      maximum_payment_amount: this.productConfigForm.value.max_payment,
+      voucher_type: this.productConfigForm.value.position,
+      cart: this.productConfigForm.value.accepts_cart,
+      stockable: this.productConfigForm.value.is_stockable,
+      incognito: this.productConfigForm.value.incognito_mode,
+      metadata: selectedFieldNames,
+      pin_code: this.pin,
+    };
+
+    this.merchantService.updateProductInfo(body).subscribe({
+      next: (response: {
+        object: {
+          success: boolean;
+          response_message: string;
+          response_code: string;
+          response_data: UpdateProdcutInfoModel;
+        };
+      }) => {
+        this.isLoading = false;
+
+        this.dialogService.closeLoading();
+        if (!response.object.success) {
+          this.dialogService.openToast({
+            title: 'failed',
+            type: 'failed',
+            message: response.object.response_message,
+          });
+        } else {
+          this.loading_productDetails = false;
+          this.getProductDetails();
+          this.getMerchantProducts();
+          this.selectedSubMenu = 'details';
+          this.dialogService.openToast({
+            title: 'success',
+            type: 'success',
+            message: response.object.response_message,
+          });
+        }
+      },
+      error: err => {
+        this.isLoading = false;
+        this.dialogService.closeLoading();
+        this.dialogService.openToast({
+          title: '',
+          type: 'failed',
+          message:
+            err?.error?.object.response_message ??
+            'Failed to update product info ',
+        });
+      },
+    });
+  }
   doListMove(action: string) {
     if (action === 'next') {
       this.currentPage += 1;
@@ -338,7 +435,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     if (this.pagination.filters.limit) {
       this.pagination.filters.offset =
         this.pagination.filters.limit * this.currentPage;
-      // this.getMetadata();
+      this.getMetadata();
     }
   }
 
@@ -447,6 +544,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
         },
       });
   }
+
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
@@ -459,50 +557,57 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     this.inputActive = false;
   }
   updateMerchantDetails() {
-    this.isLoading = true;
+    this.dialogService.dispatchLoading();
 
     const body = {
       merchant: this.merchant.id,
       merchant_title: this.merchantConfigForm.value.name,
       slug: this.merchantConfigForm.value.slug,
       action: this.action,
-      // pin_code: this.variableService.pin,
-      merchant_category: this.category,
+      pin_code: this.pin,
+      merchant_category:
+        this.category !== undefined ? this.category.toString() : '', // Convert to string
       merchant_logo: this.merchantLogo,
-      // category: this?.category?.id,
-      api_plugin_name: this.merchantConfigForm.value.plug,
     };
     this.action = [];
 
     this.merchantService.updateMerchantDetails(body).subscribe({
       next: response => {
         this.isLoading = false;
-
-        if (response.object.success === false) {
-          // const data = {
-          //     title: '',
-          //     type: 'failed',
-          //     message: response.object.response_message,
-          // };
-        } else {
-          // const data = {
-          //     title: '',
-          //     type: 'success',
-          //     message: 'Merchant details updated successfully',
-          // };
+        this.dialogService.closeLoading();
+        //this.get_merchantDetails = false;
+        if (response.object.success) {
+          this.dialogService.openToast({
+            title: '',
+            type: 'success',
+            message: response.object.response_message,
+          });
           this.selectedSubMenu = 'details';
           // this.merchant = null;
           this.getMerchantsDetails();
           this.selectedMenu = '';
+        } else {
+          this.dialogService.openToast({
+            title: '',
+            type: 'failed',
+            message: response.object.response_message,
+          });
         }
       },
-      error: () => {
-        this.isLoading = false;
+
+      error: err => {
+        this.dialogService.closeLoading();
+        const errorMessage = err.error.object.response_message;
+        this.dialogService.openToast({
+          type: 'failed',
+          title: '',
+          message: errorMessage || 'failed to update merchant details',
+        });
       },
     });
   }
   getMerchantsDetails() {
-    // this.merchant = undefined;
+    this.isMerchantLoading = true;
     this.merchantService
       .getMerchantsDetails(this.merchantId as unknown as number)
       .pipe(takeUntil(this.onDestroy$))
@@ -510,10 +615,10 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
         next: data => {
           if (data) {
             this.merchant = data.object;
-
+            this.isMerchantLoading = false;
             this.getTellersByMerchant();
             this.getMerchantProducts();
-
+            this.router.navigate([], { fragment: undefined });
             this.merchantConfigForm.patchValue({
               name: this.merchant.merchant_title,
               simplePayment: this.merchant.accepts_simple_payment,
@@ -909,9 +1014,11 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
   }
 
   getProductDetails() {
+    this.isloadingProduct = true;
     this.merchantService
       .getMerchantsProductsDetails(this.selectedProduct)
       .subscribe(product => {
+        this.isloadingProduct = true;
         this.product = product.object;
 
         this.productConfigForm.patchValue({
@@ -952,6 +1059,14 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     // this.store.dispatch(new OpenDialog(response));
   }
 
+  openPinPopup(contactType: string) {
+    this.dialogService.openDialog({
+      type: 'pin',
+      title: 'Enter your PIN code',
+      message: 'Please enter your PIN code to continue.',
+      action: contactType,
+    });
+  }
   // Verifying pin while updating merchant infos
 
   openModal() {

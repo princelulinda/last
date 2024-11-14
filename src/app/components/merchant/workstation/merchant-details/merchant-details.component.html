@@ -4,13 +4,13 @@
     class="level-2 text-dark glob-cont overflow-hidden"
     style="max-height: max-content">
     <!-- Loader for the whole container  -->
-    @if (!merchant) {
+    @if (isMerchantLoading) {
       <div
         class="spinner-container d-flex justify-content-center align-items-center w-100">
         <span class="spinner-border"> </span>
       </div>
     }
-    @if (merchant) {
+    @if (!isMerchantLoading) {
       <div class="d-flex">
         <!-- Section for merchant profile -->
 
@@ -763,16 +763,16 @@
                       </div>
                       <hr class="w-100 mt-2" />
                     </div>
-                    @if (!product) {
-                      <div>
-                        @if (!product) {
-                          <div class="w-100 mt-4 d-flex justify-content-center">
-                            <span class="spinner-border"> </span>
-                          </div>
-                        }
-                      </div>
-                    }
-                    @if (product) {
+
+                    <div>
+                      @if (isloadingProduct) {
+                        <div class="w-100 mt-4 d-flex justify-content-center">
+                          <span class="spinner-border"> </span>
+                        </div>
+                      }
+                    </div>
+
+                    @if (!isloadingProduct) {
                       <div class="row">
                         <div class="d-grid mb-3 col-6">
                           <b class="text-secondary text-sm" i18n>Name</b>
@@ -1040,7 +1040,7 @@
                       <div class="col-12 d-flex justify-content-center mt-3">
                         <button
                           class="bg-primary btn text-all-white px-3"
-                          (click)="verifyPinProductUpdate()"
+                          (click)="openPinPopup('editproduct')"
                           [disabled]="
                             !productConfigForm.dirty &&
                             selectedFields.length === 0
@@ -1175,16 +1175,12 @@
                     </div>
 
                     <div class="p-1 px-3 col-lg-6 rounded">
-                      <!-- <app-lookup
-                                        class=""
-                                        option="autocomplete"
-                                        url="/dbs/merchant-category/objects_autocomplete?search="
-                                        (selectedItemEvent)="
-                                            getCategory($event)
-                                        "
-                                        lookupLabel="Category"
-                                        itemsLabel="Category"
-                                    ></app-lookup> -->
+                      <app-lookup
+                        class="w-resp-client"
+                        option="autocomplete"
+                        url="/dbs/merchant-category/objects_autocomplete?search="
+                        label="Category"
+                        (selectedItemEvent)="getCategory($event)"></app-lookup>
                     </div>
                   </div>
                   <div class="mt-3">
@@ -1307,7 +1303,7 @@
                     <div
                       class="ms-3 d-flex justify-content-center align-items-center">
                       <button
-                        (click)="openModal()"
+                        (click)="openPinPopup('merchantdetails')"
                         [disabled]="!merchantConfigForm.dirty"
                         class="btn px-5 text-all-white bg-primary">
                         @if (isLoading) {
@@ -1697,7 +1693,7 @@
           class="modal-content level-2 sm-radius text-dark d-flex align-items-center justify-content-center">
           @if (toggleMetadata && !toggleMetadataForm) {
             <div
-              class="p-2 border w-100 sm-radius level-2"
+              class="p-2 border w-100 sm-radius bg-white"
               style="min-height: 600px">
               <div class="col-12 mb-2 mt-3">
                 <div class="d-flex">
@@ -1865,12 +1861,8 @@
                     >Cancel</b
                   >
                   <button
-                    class="bg-primary btn px-3 ms-4"
-                    (click)="toggleMetadata = false"
-                    [ngClass]="{
-                      'text-light': theme === 'magis-light',
-                      ' text-dark ': theme === 'magis-dark',
-                    }">
+                    class="bg-primary btn px-3 ms-4 text-all-white"
+                    (click)="toggleMetadata = false">
                     <b i18n>Save</b>
                   </button>
                 </div>
