@@ -22,6 +22,8 @@ Install rust and Tauri : [https://v2.tauri.app/fr/start/prerequisites/](https://
 
 Install these Ubuntu dependencies : 
 - Run `sudo apt-get install libjavascriptcoregtk-4.1-dev`
+- Run `sudo apt-get install libsoup2.4-dev`
+- Run `sudo apt-get install libwebkit2gtk-4.1-dev`
 
 ## Running unit tests
 
