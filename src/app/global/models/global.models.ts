@@ -22,29 +22,28 @@ export type CurrencyModel = 'BIF' | '$';
 
 type FiltersTypeModel =
   | 'select'
-  | 'select-multiple'
+  | 'select_multiple'
   | 'autocomplete'
   | 'bool'
   | 'range'
+  | 'date'
   | 'lookup'
   | 'form_value'
   | null;
-
-type FiltersDataModel =
-  | null
-  | 'None'
-  | { url: string }
-  | {
-      choices: [{ title: string; value: string; selected?: boolean }];
-    }
-  | { field_type: number };
 
 export interface FiltersModel {
   filters: {
     title: string;
     name: string;
     type: FiltersTypeModel;
-    data: FiltersDataModel;
+    data: {
+      url?: string;
+      choices?: { title: string; value: string; selected?: boolean }[];
+      field_type?: string;
+      min?: number;
+      max?: number;
+      step?: number;
+    } | null;
   }[];
   ordering: string[];
 }
