@@ -252,14 +252,8 @@
                 <div class="col-4">Status:</div>
                 <div class="col-7">
                   <b
-                    class="ps-3 pe-3 p-2 sm-radius"
-                    [ngClass]="{
-                      initialOrPending:
-                        creditLine.crel_status.value === 'I' || 'E',
-                      cancelled: creditLine.crel_status.value === 'C',
-                      'text-info': creditLine.crel_status.value === 'I' || 'E',
-                      'text-warning': creditLine.crel_status.value === 'C',
-                    }">
+                    class="ps-3 pe-3 p-2 sm-radius text-light"
+                    [class]="'bg-' + creditLine.crel_status.css">
                     {{ creditLine.crel_status.title }}
                   </b>
                 </div>
@@ -328,7 +322,10 @@
                 i18n
                 (click)="getActionSelected('cancel')"
                 tabindex="0"
-                class="btn ps-4 pe-4 border border-1 border-primary fs-normal">
+                class="btn ps-4 pe-4 border border-1 border-primary fs-normal"
+                [ngClass]="{
+                  'text-light': theme === 'dark',
+                }">
                 <b class="ps-2 pe-2">Cancel</b>
               </button>
             </div>
