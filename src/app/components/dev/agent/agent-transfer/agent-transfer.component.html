@@ -1,4 +1,4 @@
-<section>
+<section class="col-11 col-sm-10 col-md-11 col-lg-12 mx-auto mx-lg-0">
   <span
     class="d-flex gap-2 float-end mt-3 me-3"
     [ngClass]="{
@@ -10,7 +10,8 @@
     <span class="fw-bold fs-l-medium" i18n>Back</span>
   </span>
   @if (selectedState === 'bank') {
-    <div class="d-flex flex-column col-10 mx-auto">
+    <div
+      class="d-flex flex-column gap-4 col-12 col-sm-10 col-md-7 col-lg-9 col-xl-7 col-xxl-6">
       <div class="d-flex gap-2">
         <span class="d-flex align-items-center">
           <i class="fa-solid fa-paper-plane fa-lg text-primary"></i>
@@ -18,10 +19,10 @@
         <span class="fw-bold fs-l-medium">Transfers</span>
       </div>
       <div class="accordion d-grid gap-4" id="accordionFlushExample">
-        <div class="accordion-item bg-white lg-radius border">
+        <div class="accordion-item bg-white sm-radius border">
           <h2 class="accordion-header d-flex" id="firstHeading">
             <button
-              class="accordion-button bg-white shadow-none collapsed text-dark lg-radius"
+              class="accordion-button bg-white shadow-none collapsed text-dark sm-radius"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#collapseOne"
@@ -37,27 +38,55 @@
           </h2>
           <div
             id="collapseOne"
-            class="accordion-collapse collapse lg-radius"
+            class="accordion-collapse collapse sm-radius"
             aria-labelledby="firstHeading"
             data-bs-parent="#accordionFlushExample">
             <hr class="mx-3 my-0 text-dark" />
-            <div class="accordion-body text-dark">
-              <strong>This is the third item's accordion body.</strong> It is
-              hidden by default, until the collapse plugin adds the appropriate
-              classes that we use to style each element. These classes control
-              the overall appearance, as well as the showing and hiding via CSS
-              transitions. You can modify any of this with custom CSS or
-              overriding our default variables. It's also worth noting that just
-              about any HTML can go within the <code>.accordion-body</code>,
-              though the transition does limit overflow.
+            <div
+              class="accordion-body text-dark d-flex justify-content-center flex-wrap gap-4">
+              @if (banks) {
+                @for (bank of banks; track $index) {
+                  <div class="col-3 col-lg-2 d-grid gap-2">
+                    <div class="d-flex justify-content-center">
+                      <span
+                        class="small_card border lg-radius d-flex align-items-center">
+                        @if (bank.company.image) {
+                          <img
+                            src="{{ bank.company.image }}"
+                            class="logo"
+                            alt="{{ bank.company.fullname }}" />
+                        } @else {
+                          <span class="d-flex justify-content-center logo">
+                            <i
+                              class="fa-solid fa-mountain-sun fa-lg text-secondary"></i>
+                          </span>
+                        }
+                      </span>
+                    </div>
+
+                    <span class="fs-x-small text-center" i18n>{{
+                      bank.name
+                    }}</span>
+                  </div>
+                }
+              } @else if (!banks) {
+                @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9]; track $index) {
+                  <span class="col-3">
+                    <app-skeleton
+                      height="56px"
+                      width="56px"
+                      classes="lg-radius"></app-skeleton>
+                  </span>
+                }
+              }
             </div>
           </div>
         </div>
 
-        <div class="accordion-item bg-white lg-radius border">
+        <div class="accordion-item bg-white sm-radius border">
           <div class="accordion-header d-flex" id="flush-headingTwo">
             <button
-              class="accordion-button bg-white shadow-none collapsed text-dark lg-radius d-flex gap-2"
+              class="accordion-button bg-white shadow-none collapsed text-dark sm-radius d-flex gap-2"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#flush-collapseTwo"
@@ -71,22 +100,45 @@
           </div>
           <div
             id="flush-collapseTwo"
-            class="accordion-collapse collapse lg-radius"
+            class="accordion-collapse collapse sm-radius"
             aria-labelledby="flush-headingTwo"
             data-bs-parent="#accordionFlushExample">
             <hr class="mx-3 my-0 text-dark" />
-            <div class="accordion-body text-dark">
-              Placeholder content for this accordion, which is intended to
-              demonstrate the <code>.accordion-flush</code> class. This is the
-              second item's accordion body. Let's imagine this being filled with
-              some actual content.
+            <div
+              class="accordion-body text-dark d-flex justify-content-center flex-wrap gap-4">
+              @if (banks) {
+                @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track $index) {
+                  <div class="col-3 col-lg-2 d-grid gap-2">
+                    <div class="d-flex justify-content-center">
+                      <span
+                        class="small_card border lg-radius d-flex align-items-center">
+                        <span class="d-flex justify-content-center logo">
+                          <i
+                            class="fa-solid fa-mountain-sun fa-lg text-secondary"></i>
+                        </span>
+                      </span>
+                    </div>
+
+                    <span class="fs-x-small text-center" i18n>name</span>
+                  </div>
+                }
+              } @else if (!banks) {
+                @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9]; track $index) {
+                  <span class="col-3">
+                    <app-skeleton
+                      height="56px"
+                      width="56px"
+                      classes="lg-radius"></app-skeleton>
+                  </span>
+                }
+              }
             </div>
           </div>
         </div>
-        <div class="accordion-item bg-white lg-radius border">
+        <div class="accordion-item bg-white sm-radius border">
           <div class="accordion-header d-flex" id="flush-headingThree">
             <button
-              class="accordion-button bg-white shadow-none collapsed text-dark lg-radius d-flex gap-2"
+              class="accordion-button bg-white shadow-none collapsed text-dark sm-radius d-flex gap-2"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#flush-collapseThree"
@@ -100,7 +152,7 @@
           </div>
           <div
             id="flush-collapseThree"
-            class="accordion-collapse collapse lg-radius"
+            class="accordion-collapse collapse sm-radius"
             aria-labelledby="flush-headingThree"
             data-bs-parent="#accordionFlushExample">
             <hr class="mx-3 my-0 text-dark" />
@@ -114,10 +166,10 @@
             </div>
           </div>
         </div>
-        <div class="accordion-item bg-white lg-radius border">
+        <div class="accordion-item bg-white sm-radius border">
           <div class="accordion-header d-flex" id="flush-headingfour">
             <button
-              class="accordion-button bg-white shadow-none collapsed text-dark lg-radius d-flex gap-2"
+              class="accordion-button bg-white shadow-none collapsed text-dark sm-radius d-flex gap-2"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#flush-collapsefour"
@@ -131,7 +183,7 @@
           </div>
           <div
             id="flush-collapsefour"
-            class="accordion-collapse collapse lg-radius"
+            class="accordion-collapse collapse sm-radius"
             aria-labelledby="flush-headingfour"
             data-bs-parent="#accordionFlushExample">
             <hr class="mx-3 my-0 text-dark" />
