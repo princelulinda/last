@@ -99,7 +99,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
   dialog!: DialogResponseModel;
 
   roleNameToEdit = '';
-  selectedRolesToAssign: AutocompleteModel[] | RoleBodyModel[] = [];
+  selectedRolesToAssign: number[] | AutocompleteModel[] | RoleBodyModel[] = [];
   searchType = 'roles';
   searchInput = new FormControl('');
 
@@ -720,8 +720,8 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
     this.getRoleMenus();
   }
 
-  selectedItems(items: AutocompleteModel[] | null) {
-    this.selectedRolesToAssign = items as AutocompleteModel[];
+  selectedItems(items: number[] | null) {
+    this.selectedRolesToAssign = items as number[];
   }
 
   getRoleById(roleId: number, roles: RoleListModel[]) {
