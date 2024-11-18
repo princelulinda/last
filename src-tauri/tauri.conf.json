@@ -44,8 +44,8 @@
       },
       "appimage": {
         "files": {
-          "/usr/share/README.md": "../README.md", // copies the ../README.md file to <appimage>/usr/share/README.md
-          "/usr/public": "../public/" // copies the entire ../public directory to <appimage>/usr/public
+          "/usr/share/README.md": "../README.md",
+          "/usr/public": "../public/"
         }
       }
     }
