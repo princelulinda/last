@@ -298,6 +298,7 @@ export interface merchantLocationModel {
   lat: string;
 }
 export interface ProductsModel {
+  id: number;
   lookup_title: string;
   lookup_icon: string;
   price: string | number;

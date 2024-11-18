@@ -783,7 +783,7 @@ export class MerchantService {
   }
 
   getMerchantsProductsDetails(
-    id: string
+    id: number
   ): Observable<{ object: getMerchantsProductsDetailsModel }> {
     const url = '/dbs/merchant-product/' + id + '/';
     return this.apiService
