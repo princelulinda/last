@@ -189,7 +189,7 @@ export class AdminDepartementsDetailsComponent implements OnInit, OnDestroy {
   }
 
   getSelectedMenus(menus: number[] | null) {
-    this.selectedMenus = menus as number[];
+    this.selectedMenus = menus ?? [];
   }
   getSelectedDirection(dir: AutocompleteModel) {
     this.selectedDirection = dir;

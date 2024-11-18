@@ -143,10 +143,9 @@ export class AdminDirectionDetailsComponent implements OnInit, OnDestroy {
   }
 
   getSelectedMenus(menus: number[] | null) {
-    this.selectedMenus = menus as number[];
+    this.selectedMenus = menus ?? [];
   }
   selectMenu(menu: 'details' | 'roles' | 'newRole') {
-    // this.selectedMenu = menu;
     if (menu === 'details') {
       this.router.navigate([], { fragment: undefined });
     } else {

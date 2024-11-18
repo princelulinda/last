@@ -196,7 +196,7 @@ export class AdminServicesDetailsComponent implements OnInit, OnDestroy {
   }
 
   getSelectedMenus(menus: number[] | null) {
-    this.selectedMenus = menus as number[];
+    this.selectedMenus = menus ?? [];
   }
 
   selectMenu(menu: 'details' | 'roles' | 'newRole') {
