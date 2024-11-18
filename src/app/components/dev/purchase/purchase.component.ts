@@ -132,20 +132,23 @@ export class PurchaseComponent implements OnInit {
     this.mainConfig$.subscribe({
       next: config => {
         this.activePlatform = config.activePlateform;
-        if (this.activePlatform === 'myMarket') {
-          this.navigationUrl = '/m/mymarket';
-        } else if (this.activePlatform === 'workstation') {
-          this.navigationUrl = 'w/workstation/m/market';
-        }
-        if (this.route && this.route.fragment) {
-          this.route.fragment.subscribe({
-            next: () => {
-              if (!this.selectedMerchant && !this.selectedProduct) {
-                this.router.navigate([this!.navigationUrl + '/purchase']);
-              }
-            },
-          });
-        }
+
+        // BUG :: CHECK ROUTES ERRORS ON SWITCH MARKET TO MY MARKET
+
+        // if (this.activePlatform === 'myMarket') {
+        //   this.navigationUrl = '/m/mymarket';
+        // } else if (this.activePlatform === 'workstation') {
+        //   this.navigationUrl = 'w/workstation/m/market';
+        // }
+        // if (this.route && this.route.fragment) {
+        //   this.route.fragment.subscribe({
+        //     next: () => {
+        //       if (!this.selectedMerchant && !this.selectedProduct) {
+        //         this.router.navigate([this!.navigationUrl + '/purchase']);
+        //       }
+        //     },
+        //   });
+        // }
       },
     });
 
