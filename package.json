@@ -18,7 +18,11 @@
     "lint-staged": "lint-staged",
     "tauri": "tauri",
     "download-menu-signature::test": "wget -O src/app/global/utils/menu/all-menus.config.ts http://10.30.1.42/bank/generate_menu_ts_file/",
-    "download-menu-signature::prod": "wget -O src/app/global/utils/menu/all-menus.config.ts http://10.30.1.42/bank/generate_menu_ts_file/"
+    "download-menu-signature::prod": "wget -O src/app/global/utils/menu/all-menus.config.ts http://10.30.1.42/bank/generate_menu_ts_file/",
+    "deploy:bbs": "ng build --configuration=bbs && download-menu-signature::test",
+    "deploy:staging": "ng build --configuration=staging && download-menu-signature::test",
+    "deploy:prod": "ng build --configuration=production && download-menu-signature::prod",
+    "deploy:prod_public": "ng build --configuration=public_prod && download-menu-signature::prod"
   },
   "lint-staged": {
     "*.{js,ts,json,css,html,scss}": [
