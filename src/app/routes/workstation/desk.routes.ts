@@ -21,6 +21,9 @@ import { DeskDashboardComponent } from '../../components/dashboards/workstation/
 import { WalletListWsComponent } from '../../components/wallet/workstation/wallet-list-ws/wallet-list-ws.component';
 import { WorkstationCreditRoutes } from '../../components/loan/loan.routes';
 import { ClientRoutes } from '../../components/client/client.routes';
+import { MerchantBillsComponent } from '../../components/merchant/bills/workstation /merchant-bills/merchant-bills.component';
+import { MerchantProductComponent } from '../../components/merchant/products/workstation/merchant-product/merchant-product.component';
+import { MerchantCategoryComponent } from '../../components/merchant/workstation/merchant-category/merchant-category.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -72,6 +75,9 @@ export const DeskRoutes: Routes = [
     children: [
       { path: '', component: MerchantListComponent },
       { path: 'detail/:id', component: MerchantDetailsComponent },
+      { path: 'bills', component: MerchantBillsComponent },
+      { path: 'product', component: MerchantProductComponent },
+      { path: 'category', component: MerchantCategoryComponent },
     ],
   },
 

@@ -69,13 +69,13 @@
       <section>
         <!-- NOTE :: MENUS AND SELECTED BANK -->
         <section class="bank-menu my-2">
-          <div class="d-flex justify-content-center mb-3">
+          <!-- <div class="d-flex justify-content-center mb-3">
             @if (selectedBank) {
               <app-switch-bank
                 (bankOptions)="getSwitchBankOptions($event)"
                 [isTransfer]="true"></app-switch-bank>
             }
-          </div>
+          </div> -->
 
           <div
             class="d-flex p-1  {{
@@ -84,7 +84,7 @@
             @if (isAccountShown) {
               <div
                 role="button"
-                (click)="selectDebitAccountType('account')"
+                (click)="selectDebitType('account')"
                 tabindex="0"
                 [ngClass]="{
                   'd-none': !selectedBank,
@@ -100,7 +100,7 @@
               <div
                 role="button"
                 tabindex="0"
-                (click)="selectDebitAccountType('wallet')"
+                (click)="selectDebitType('wallet')"
                 [ngClass]="{
                   'bg-primary text-all-white ':
                     selectedDebitAccountType === 'wallet',
@@ -125,7 +125,7 @@
             <app-accounts-list
               Type="transfer"
               (accountSelected)="
-                getAccountSelected($event)
+                selectAndEmitAccount('account', $event)
               "></app-accounts-list>
           </section>
         }
@@ -134,7 +134,9 @@
           <section class="account-list-container">
             <app-wallet-list
               Type="transfer"
-              (walletSelected)="getAccountSelected($event)"></app-wallet-list>
+              (walletSelected)="
+                selectAndEmitAccount('wallet', $event)
+              "></app-wallet-list>
           </section>
         }
       </section>

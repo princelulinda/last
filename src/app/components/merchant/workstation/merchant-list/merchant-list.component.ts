@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { NgClass } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 
 import { ListComponent } from '../../../../global/components/list/list/list.component';
 
 @Component({
   selector: 'app-merchant-list',
   standalone: true,
-  imports: [NgClass, ListComponent, ReactiveFormsModule],
+  imports: [ListComponent],
   templateUrl: './merchant-list.component.html',
   styleUrl: './merchant-list.component.scss',
 })
@@ -17,10 +15,6 @@ export class MerchantListComponent {
       name: 'Name',
       field: ['merchant_title'],
       size: '',
-      detail: {
-        link: '/w/workstation/d/desk/merchant/detail/',
-        field: 'id',
-      },
     },
     { name: 'Merchant code', field: ['merchant_code'], size: '' },
 

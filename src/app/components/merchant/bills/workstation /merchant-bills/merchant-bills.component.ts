@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import { ListComponent } from '../../../../../global/components/list/list/list.component';
 
 @Component({
@@ -9,16 +10,11 @@ import { ListComponent } from '../../../../../global/components/list/list/list.c
   styleUrl: './merchant-bills.component.scss',
 })
 export class MerchantBillsComponent {
-  selectedMenu = 'list';
   headers = [
     {
       name: 'Merchant Name',
       field: ['merchant_teller.merchant.merchant_title'],
       size: '',
-      detail: {
-        link: '/w/workstation/desk/merchant/bills/details/',
-        field: 'id',
-      },
     },
     { name: 'Date', field: ['created_at'], size: '', format: 'date' },
 
@@ -42,8 +38,4 @@ export class MerchantBillsComponent {
       field: ['code'],
     },
   ];
-
-  selectMenu(menu: string) {
-    this.selectedMenu = menu;
-  }
 }

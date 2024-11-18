@@ -19,6 +19,7 @@ import { DebitAccountComponent } from '../../transfer/banking/debit-account/debi
 import { AccountsListModel } from '../../account/models';
 import { AmountFieldComponent } from '../../../global/components/custom-field/amount-field/amount-field.component';
 import { AutocompleteModel } from '../../../global/models/global.models';
+import { DebitModel } from '../../transfer/transfer.model';
 
 @Component({
   selector: 'app-loan-request',
@@ -41,7 +42,6 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
   plateform = '';
   amountBackground = 'rgba(241, 241, 241, 1)';
 
-  account!: AccountsListModel;
   accountWorkstation: AutocompleteModel | null = null;
   amount: number | null = 0;
   loansType!: LoanTypeModel;
@@ -64,6 +64,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
 
   private onDestroy$: Subject<void> = new Subject<void>();
   insurance: string | null = '';
+  selectedAccount!: AccountsListModel;
 
   constructor(
     private _location: Location,
@@ -145,8 +146,10 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAccountOptions(event: AccountsListModel) {
-    this.account = event;
+  handleDebitOptions(option: DebitModel) {
+    if (option.selectedDebitOption === 'account') {
+      this.selectedAccount = option.details as AccountsListModel;
+    }
   }
 
   requestLoan() {
@@ -155,8 +158,8 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
     if (this.plateform === 'workstation') {
       accountId = this.accountWorkstation?.id;
     } else {
-      if (this.account.id) {
-        accountId = this.account.id;
+      if (this.selectedAccount.id) {
+        accountId = this.selectedAccount.id;
       }
     }
     let interests_rate!: string;
@@ -237,9 +240,9 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     const data = {
-      account_id: this.account?.id,
+      account_id: this.selectedAccount.id,
       loan_type_id: this.creditType?.id?.toString() || '',
-      branch: undefined,
+      branch: this.selectedAccount,
     };
     this.loanService.getLoanTypeInfo(data).subscribe({
       next: loanInfo => {

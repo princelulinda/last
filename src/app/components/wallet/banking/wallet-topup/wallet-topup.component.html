@@ -2,9 +2,8 @@
   <app-debit-account
     [isWalletShown]="false"
     menusBg="bg-white"
-    (selectedAccount)="handleSelectedCreditAccount($event)">
-  </app-debit-account>
-  @if (selectedDebitAccountForm) {
+    (activeDebitOption)="handleDebitOptions($event)"></app-debit-account>
+  @if (selectedAccount) {
     <div>
       <form [formGroup]="topupForm">
         <div class="row">
