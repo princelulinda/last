@@ -6,21 +6,21 @@
   @if (request) {
     <ng-container *ngTemplateOutlet="add"> </ng-container>
   }
-  <ng-template #list>
-    <div class="bg-erp">
-      <app-list
-        [headers]="headers"
-        url="/loans/request/?"
-        overviewUrl="/loans/request/objects_overview"
-        title="Loan Requests"
-        [addButtonLink]="{
-          url: '/w/workstation/d/desk/credit/request/list',
-          fragment: 'new'
-        }"></app-list>
-    </div>
-  </ng-template>
-
-  <ng-template #add>
-    <app-credit-request></app-credit-request>
-  </ng-template>
 </div>
+<ng-template #list>
+  <div class="bg-erp">
+    <app-list
+      [headers]="headers"
+      url="/loans/request/?"
+      overviewUrl="/loans/request/objects_overview"
+      title="Loan Requests"
+      [addButtonLink]="{
+        url: '/w/workstation/d/desk/credit/request/list',
+        fragment: 'new',
+      }"></app-list>
+  </div>
+</ng-template>
+
+<ng-template #add>
+  <app-credit-request></app-credit-request>
+</ng-template>

@@ -13,10 +13,11 @@ import { DebitAccountComponent } from '../../../transfer/banking/debit-account/d
 import { AccountsListModel } from '../../../account/models';
 import { AmountFieldComponent } from '../../../../global/components/custom-field/amount-field/amount-field.component';
 import { DialogService } from '../../../../core/services';
-import { WalletTopUpBodyModel } from '../../wallet.models';
+import { WalletModel, WalletTopUpBodyModel } from '../../wallet.models';
 import { ClientService } from '../../../../core/services';
 import { DialogResponseModel } from '../../../../core/services/dialog/dialogs-models';
 import { VariableService } from '../../../../core/services/variable/variable.service';
+import { DebitModel } from '../../../transfer/transfer.model';
 
 @Component({
   selector: 'app-wallet-topup',
@@ -27,11 +28,12 @@ import { VariableService } from '../../../../core/services/variable/variable.ser
 })
 export class WalletTopupComponent implements OnInit {
   private onDestroy$ = new Subject<void>();
-  selectedDebitAccountForm!: AccountsListModel;
   topupForm!: FormGroup;
   amount: number | null = null;
   dialogState$!: Observable<DialogResponseModel>;
   pin = '';
+  selectedAccount: AccountsListModel | null = null;
+  selectedWallet: WalletModel | null = null;
   walletId!: string;
   // @Output() topupSuccess = new EventEmitter<void>();
 
@@ -75,17 +77,24 @@ export class WalletTopupComponent implements OnInit {
       amount: event.amount,
     });
   }
-  handleSelectedCreditAccount(event: AccountsListModel) {
-    this.selectedDebitAccountForm = event;
+
+  handleDebitOptions(option: DebitModel) {
+    if (option.selectedDebitOption === 'account') {
+      this.selectedAccount = option.details as AccountsListModel;
+      this.selectedWallet = null;
+    } else if (option.selectedDebitOption === 'wallet') {
+      this.selectedWallet = option.details as WalletModel;
+      this.selectedAccount = null;
+    }
   }
   walletPopUp() {
     this.dialogService.dispatchLoading();
     // this.loading = true;
-    if (this.selectedDebitAccountForm) {
+    if (this.selectedAccount) {
       const body: WalletTopUpBodyModel = {
         wallet_id: this.walletId,
-        debit_bank: this.selectedDebitAccountForm.acc_bank_id,
-        debit_account: this.selectedDebitAccountForm.acc_number,
+        debit_bank: this.selectedAccount.acc_bank_id,
+        debit_account: this.selectedAccount.acc_number,
         amount: this.topupForm.get('amount')?.value,
         pin_code: this.pin,
         description: this.topupForm.get('description')?.value,
@@ -128,7 +137,7 @@ export class WalletTopupComponent implements OnInit {
   }
 
   openPinPopup() {
-    if (this.selectedDebitAccountForm) {
+    if (this.selectedAccount) {
       this.dialogService.openDialog({
         type: 'pin',
         title: 'Enter your PIN code',
@@ -136,7 +145,7 @@ export class WalletTopupComponent implements OnInit {
         message: `Wallet <b> ${
           this.walletId
         } </b>  is about being toped up  from  <b>${
-          this.selectedDebitAccountForm.acc_number
+          this.selectedAccount.acc_number
         }</b> BIF <b>${this.topupForm.get('amount')?.value}</b>   `,
       });
     }

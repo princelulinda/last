@@ -220,7 +220,7 @@
           class="col-md-7 mt-3 mt-md-0 mb-5 border-start border-1 text-center"
           [ngClass]="{
             'col-lg-8 col-xxl-7': activePlatform !== 'workstation',
-            'col-lg-7 col-xl-6': activePlatform === 'workstation'
+            'col-lg-7 col-xl-6': activePlatform === 'workstation',
           }">
           <div class="row mx-0 justify-content-between gap-2 gap-lg-3">
             <!-- NOTE :: BANKING MENUS -->
@@ -235,7 +235,7 @@
                     <span
                       class="ms-3 fs-l-medium"
                       [ngClass]="{
-                        'text-success': $index === 1
+                        'text-success': $index === 1,
                       }">
                       <i class="fa-solid fa-{{ menu.icon }}"></i>
                     </span>

@@ -14,6 +14,17 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
+## Tauri configurations
+
+### Prerequisites
+
+Install rust and Tauri : [https://v2.tauri.app/fr/start/prerequisites/](https://v2.tauri.app/fr/start/prerequisites/)
+
+Install these Ubuntu dependencies : 
+- Run `sudo apt-get install libjavascriptcoregtk-4.1-dev`
+- Run `sudo apt-get install libsoup2.4-dev`
+- Run `sudo apt-get install libwebkit2gtk-4.1-dev`
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
