@@ -36,12 +36,22 @@
     "shortDescription": "",
     "linux": {
       "deb": {
-        "depends": []
+        "depends": [],
+        "files": {
+          "/usr/share/README.md": "../README.md",
+          "/usr/public": "../public/"
+        }
+      },
+      "appimage": {
+        "files": {
+          "/usr/share/README.md": "../README.md", // copies the ../README.md file to <appimage>/usr/share/README.md
+          "/usr/public": "../public/" // copies the entire ../public directory to <appimage>/usr/public
+        }
       }
     }
   },
-  "productName": "ihela-ryanje",
-  "mainBinaryName": "ihela-ryanje",
+  "productName": "ihelaryanje",
+  "mainBinaryName": "ihelaryanje",
   "version": "0.0.1",
   "identifier": "com.ihela.bi",
   "plugins": {},
