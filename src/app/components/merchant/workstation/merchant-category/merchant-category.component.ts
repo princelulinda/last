@@ -14,10 +14,6 @@ export class MerchantCategoryComponent {
       name: 'Name',
       field: ['name'],
       size: '',
-      detail: {
-        link: '/w/workstation/intranet/merchant/category/details/',
-        field: 'id',
-      },
     },
     { name: 'Active', field: ['is_active'], size: '', boolean: true },
     { name: 'Slug', field: ['slug'], size: '' },
