@@ -31,7 +31,6 @@ export class CreditRequestComponent {
   isFormVisible = false;
   creditType!: AutocompleteModel;
   branch!: AutocompleteModel;
-  amountBackground = 'rgba(241, 241, 241, 1)';
   defaultValuesLoan!: WorkstationDefaultValuesCreditModel;
   requestForm: FormGroup;
   fees!: number;
