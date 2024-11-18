@@ -103,6 +103,7 @@ export class CreditLineListComponent implements OnInit, OnDestroy {
         this.isChecked,
         Validators.required
       ),
+      description: new FormControl(''),
     });
     this.dialog$ = this.dialogService.getDialogState();
   }
@@ -192,6 +193,7 @@ export class CreditLineListComponent implements OnInit, OnDestroy {
       crel_fees: this.myForm.get('fees')?.value,
       crel_credit_limit: this.myForm.get('amount')?.value,
       crel_limit_expiry_date: this.myForm.get('facility')?.value,
+      description: this.myForm.get('description')?.value,
     };
     this.dialogService.dispatchLoading();
     this.loanService

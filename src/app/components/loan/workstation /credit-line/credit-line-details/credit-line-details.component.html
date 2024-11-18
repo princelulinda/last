@@ -24,7 +24,13 @@
             <div class="col">
               <b class="text-primary" i18n>Basic Client Info </b>
             </div>
-            <div class="col-2 text-end">
+            <div
+              class="col-2 text-end"
+              role="button"
+              [routerLink]="[
+                '/w/workstation/d/desk/client/detail/' +
+                  creditLine.crel_account_info.id,
+              ]">
               <span class=""
                 ><i
                   class="fa-solid fa-arrow-up-right-from-square text-primary fs-l-medium"></i

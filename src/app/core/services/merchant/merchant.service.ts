@@ -244,12 +244,15 @@ export class MerchantService {
       .pipe(map(data => data));
   }
   getMerchantMultipleInfo(): Observable<{
-    objects: MerchantAutocompleteModel[];
+    objects: MerchantAutocompleteModel[] | MerchantModel[];
     count: number;
   }> {
     const url = '/dbs/merchant/multiple-info/objects_autocomplete/';
     return this.apiService
-      .get<{ objects: MerchantAutocompleteModel[]; count: number }>(url)
+      .get<{
+        objects: MerchantAutocompleteModel[] | MerchantModel[];
+        count: number;
+      }>(url)
       .pipe(
         map(data => {
           return data;

@@ -103,6 +103,8 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
     nativeElement: HTMLElement;
   };
 
+  merchantChecked!: boolean;
+  merchantMultiInfo!: MerchantModel[];
   successMessage!: MerchantBillModel;
   pin = '';
   indexMerchant = 0;
@@ -374,19 +376,22 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: data => {
           this.isLoadingInfo = false;
+          this.merchantChecked = data.object.success;
 
           this.merchant = data.object.response_data;
-          this.account = {
-            acc_holder: this.merchant.merchant_title,
-            acc_number: this.merchant.merchant_main_account,
-          };
-          this.merchantAccountId = (
-            this.merchant as MerchantModel
-          ).merchant_main_account_id;
-          this.merchantId = this.merchant.id;
+          if (this.merchantChecked) {
+            this.account = {
+              acc_holder: this.merchant.merchant_title,
+              acc_number: this.merchant.merchant_main_account,
+            };
+            this.merchantAccountId = (
+              this.merchant as MerchantModel
+            ).merchant_main_account_id;
+            this.merchantId = this.merchant.id;
 
-          this.getMerchantInfos();
-          this.getMerchantStats();
+            this.getMerchantInfos();
+            this.getMerchantStats();
+          }
         },
         error: () => {
           this.isLoadingInfo = false;
@@ -419,12 +424,46 @@ export class MyMarketDashboardComponent implements OnInit, OnDestroy {
       });
   }
   getMerchantMultipleInfo() {
+    this.isLoadingInfo = true;
     this.merchantService
       .getMerchantMultipleInfo()
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: data => {
-          this.merchantMult = data.objects;
+          this.isLoadingInfo = false;
+          this.merchantMult = data.objects as MerchantAutocompleteModel[];
+          this.merchantMultiInfo = data.objects as MerchantModel[];
+          if (!this.merchantChecked && !this.merchantId) {
+            this.merchant = this.merchantMultiInfo[0];
+            this.merchantId = (this.merchant as MerchantModel).id;
+            this.account = {
+              acc_holder: (this.merchant as MerchantModel).merchant_title,
+              acc_number: (this.merchant as MerchantModel)
+                .merchant_main_account,
+            };
+            this.merchantAccountId = (
+              this.merchant as MerchantModel
+            ).merchant_main_account_id;
+            this.getMerchantInfos();
+            this.getMerchantStats();
+          } else if (!this.merchantChecked && this.merchantId) {
+            for (const merchant of this.merchantMultiInfo) {
+              if (this.merchantId === merchant.id) {
+                this.merchant = merchant;
+                this.merchantId = (this.merchant as MerchantModel).id;
+                this.account = {
+                  acc_holder: (this.merchant as MerchantModel).merchant_title,
+                  acc_number: (this.merchant as MerchantModel)
+                    .merchant_main_account,
+                };
+                this.merchantAccountId = (
+                  this.merchant as MerchantModel
+                ).merchant_main_account_id;
+                this.getMerchantInfos();
+                this.getMerchantStats();
+              }
+            }
+          }
         },
         error: () => {
           this.dialogService.openToast({
