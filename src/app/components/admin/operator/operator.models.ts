@@ -28,22 +28,14 @@ export interface RoleListModel {
 }
 
 export interface RoleBodyModel {
-  access_type?: string;
-  begins_at?: string;
+  access_type: string;
+  begins_at: string;
   ends_at: string;
-  roles?: {
+  roles: {
     access_type: string;
     begins_at: string;
     ends_at: string;
-    role: {
-      id: number;
-      lookup_description: string;
-      lookup_has_image_or_icon: boolean;
-      lookup_icon: string;
-      lookup_image: string;
-      lookup_subtitle: string;
-      lookup_title: string;
-    };
+    role: number;
   }[];
 }
 
