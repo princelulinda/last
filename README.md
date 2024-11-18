@@ -24,6 +24,7 @@ Install these Ubuntu dependencies :
 - Run `sudo apt-get install libjavascriptcoregtk-4.1-dev`
 - Run `sudo apt-get install libsoup2.4-dev`
 - Run `sudo apt-get install libwebkit2gtk-4.1-dev`
+- Run `sudo apt install libssl-dev`
 
 ## Running unit tests
 
