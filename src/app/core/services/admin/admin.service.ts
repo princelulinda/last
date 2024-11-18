@@ -13,7 +13,6 @@ import {
   CreateNewServiceBodyModel,
   CreateNewServiceModel,
 } from '../../../components/admin/rh/rh.model';
-import { AutocompleteModel } from '../../../global/models/global.models';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import {
   AdminMenuBodyModel,
@@ -132,7 +131,7 @@ export class AdminService {
   assignRoleMenus(
     id: string,
     body: {
-      menus: AutocompleteModel[];
+      menus: number[];
     }
   ) {
     const url = `/hr/access/roles/${id}/`;

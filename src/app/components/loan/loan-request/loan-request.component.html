@@ -21,8 +21,8 @@
           <div class="col-lg-6 row">
             <div class="d-grid">
               <app-debit-account
-                title="Account to credit"
-                (selectedAccount)="getAccountOptions($event)"
+                title="Account to debit"
+                (activeDebitOption)="handleDebitOptions($event)"
                 [isWalletShown]="isWalletShown"></app-debit-account>
             </div>
           </div>
@@ -71,7 +71,7 @@
         <div class="w-75 mt-5 pt-2 d-flex justify-content-center">
           <!-- [disabled]="(!account && !accountWorkstation) || !creditType" -->
           <button
-            [disabled]="!account || !creditType"
+            [disabled]="!selectedAccount || !creditType"
             (click)="goToForm()"
             type="submit"
             class="btn px-5 bg-primary d-flex justify-content-center py-2">
@@ -90,7 +90,9 @@
         <!-- ====================================================================== -->
         <!-- @if (isFormVisible && (account || accountWorkstation) && creditType) { -->
 
-        @if (isFormVisible && (account || accountWorkstation) && creditType) {
+        @if (
+          isFormVisible && (selectedAccount || accountWorkstation) && creditType
+        ) {
           <div [formGroup]="requestForm">
             <div class="d-flex"></div>
             @if (plateform === '') {

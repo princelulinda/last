@@ -139,7 +139,6 @@ export class InvoicesGroupsComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         },
         error: err => {
-          this.isLoading = false;
           this.dialogService.closeLoading();
           this.dialogService.openToast({
             title: '',
@@ -187,7 +186,6 @@ export class InvoicesGroupsComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         },
         error: err => {
-          this.isLoading = false;
           this.dialogService.openToast({
             title: '',
             type: 'failed',

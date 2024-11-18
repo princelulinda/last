@@ -107,7 +107,7 @@
                   class="p-1 px-2 rounded clickable d-block mb-1 text-center border fs-normal"
                   [ngClass]="{
                     'text-light':
-                      theme === 'light' && selectedItemIds.includes(item),
+                      theme === 'light' && selectedItemIds.includes(item.id),
                     'text-dark': theme === 'dark',
                   }"
                   tabindex="0">
@@ -134,7 +134,7 @@
                 <small
                   class="py-1 border rounded d-block mb-1 fs-normal text-dark d-flex align-items-center justify-content-center"
                   [ngClass]="{
-                    'bg-primary-3': defaultRolesId.includes(item),
+                    'bg-primary-3': defaultRolesId.includes(item.id),
                   }">
                   <span class="flex-grow-1 text-center">{{
                     item.lookup_title
@@ -172,7 +172,7 @@
                 <small
                   class="py-1 px-1 border fs-normal rounded d-block mb-1 d-flex align-items-center justify-content-center text-dark"
                   [ngClass]="{
-                    'bg-primary-3': selectedItemIds.includes(item),
+                    'bg-primary-3': selectedItemIds.includes(item.id),
                   }">
                   <span class="flex-grow-1 text-center">{{
                     item.lookup_title

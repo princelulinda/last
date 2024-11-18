@@ -30,14 +30,20 @@
       <div class="col-12 col-md-5 position-relative">
         <div class="d-flex mt-4 ms-2">
           <div class="col-3">
-            <div
-              class="bg-secondary rounded-pill d-flex align-items-center justify-content-center ImgRounded">
-              <img
-                [src]="data.picture"
-                alt="profile picture"
-                title="profile picture"
-                class="image" />
-            </div>
+            @if (data.picture) {
+              <app-profile-card
+                [height]="'70px'"
+                [width]="'70px'"
+                [imageUrl]="data.picture">
+              </app-profile-card>
+            }
+            @if (!data.picture) {
+              <app-profile-card
+                [height]="'70px'"
+                [width]="'70px'"
+                [imageUrl]="'images/userprofile.png'">
+              </app-profile-card>
+            }
           </div>
           <div class="col d-flex flex-column text-start my-auto border-end">
             <span class="fw-semibold overflow-hidden SpnAgentName">{{
@@ -113,7 +119,11 @@
     <div class="row justify-content-between mx-auto col-11 pt-4">
       <div class="col-12 col-md-2 d-flex mb-3 blockHeight">
         <div class="col-3"></div>
-        <div class="col-6 d-flex flex-column">
+        <div
+          class="col-6 d-flex flex-column"
+          role="button"
+          tabindex="0"
+          routerLink="">
           <div
             class="bg-secondary d-flex align-items-center justify-content-center rounded-pill mx-auto mb-1 iconSize">
             <i class="fa-solid fa-user-plus fs-2"></i>
@@ -124,7 +134,11 @@
       </div>
       <div class="col-12 col-md-2 d-flex mb-3 blockHeight">
         <div class="col-3"></div>
-        <div class="col-6 d-flex flex-column">
+        <div
+          class="col-6 d-flex flex-column"
+          role="button"
+          tabindex="0"
+          routerLink="/b/banking/agent/agent-transfer">
           <div
             class="bg-secondary d-flex align-items-center justify-content-center rounded-pill mx-auto mb-1 iconSize">
             <i class="fa-solid fa-paper-plane fs-2"></i>
@@ -135,7 +149,11 @@
       </div>
       <div class="col-12 col-md-2 d-flex mb-3 blockHeight">
         <div class="col-3"></div>
-        <div class="col-6 d-flex flex-column">
+        <div
+          class="col-6 d-flex flex-column"
+          role="button"
+          tabindex="0"
+          routerLink="/b/banking/agent/deposit">
           <div
             class="bg-secondary d-flex align-items-center justify-content-center rounded-pill mx-auto mb-1 iconSize">
             <i class="fa-solid fa-hand-holding-dollar fs-2"></i>
@@ -161,7 +179,11 @@
       </div>
       <div class="col-12 col-md-2 d-flex blockHeight">
         <div class="col-3"></div>
-        <div class="col-6 d-flex flex-column">
+        <div
+          class="col-6 d-flex flex-column"
+          role="button"
+          tabindex="0"
+          routerLink="">
           <div
             class="bg-secondary d-flex align-items-center justify-content-center rounded-pill mx-auto mb-1 iconSize">
             <i class="fa-solid fa-file-invoice-dollar fs-2"></i>

@@ -30,18 +30,13 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   @Input() url = '';
   @Input() name!: string;
   @Input() defaultDataIds: number[] = [];
-  @Output() selectedItemEvent = new EventEmitter<AutocompleteModel[] | null>();
-
-  //   search = new FormControl('');
-  // searchForm = new FormGroup({
-  //     search: new FormControl('')
-  // });
+  @Output() selectedItemEvent = new EventEmitter<number[] | null>();
   search = new FormControl('');
 
   newData: AutocompleteModel[] = [];
   selectedItem: AutocompleteModel[] = [];
-  defaultRolesId: AutocompleteModel[] = [];
-  selectedItemIds: AutocompleteModel[] = [];
+  defaultRolesId: number[] = [];
+  selectedItemIds: number[] = [];
   defaultData: AutocompleteModel[] = [];
   allData!: AutocompleteModel[];
   selectedData: AutocompleteModel[] = [];
@@ -59,7 +54,6 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
 
   constructor(
     private apiService: ApiService,
-    // private store: Store,
     private generalService: GeneralService,
     private configService: ConfigService
   ) {
@@ -95,18 +89,16 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   }
 
   selectItem(item: AutocompleteModel) {
-    if (!this.selectedItemIds.includes(item)) {
-      this.selectedItemIds.push(item);
-      // this.defaultRolesId.push(item.id);
+    if (!this.selectedItemIds.includes(item.id)) {
+      this.selectedItemIds.push(item.id);
       this.selectedData.unshift(item);
-      // this.defaultData.unshift(item);
       this.selectedItem.push(item);
     } else {
-      const indexIds = this.selectedItemIds.indexOf(item);
+      const indexIds = this.selectedItemIds.indexOf(item.id);
       const index1Default = this.defaultData.indexOf(item);
       const indexSelectedItem = this.selectedItem.indexOf(item);
       const indexSelectedData = this.selectedData.indexOf(item);
-      const indexDefaultRoles = this.defaultRolesId.indexOf(item);
+      const indexDefaultRoles = this.defaultRolesId.indexOf(item.id);
 
       this.selectedItemIds.splice(indexIds, 1);
       this.defaultData.splice(index1Default, 1);
@@ -150,20 +142,12 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   }
 
   private removeDefaultData(searching = false) {
-    // if (!this.defaultDataIds) {
-    //     this.newData = this.allData;
-    // }
-
     if (this.defaultDataIds) {
       if (!searching) {
         this.defaultData = this.allData.filter((item: AutocompleteModel) => {
           return this.defaultDataIds.includes(item.id);
         });
       }
-
-      // this.newData = this.allData.filter((item: any) => {
-      //     return !this.defaultDataIds.includes(item.id);
-      // });
     }
     this.newData = this.allData;
   }

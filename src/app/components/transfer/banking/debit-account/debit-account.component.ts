@@ -22,9 +22,13 @@ import {
   DialogService,
 } from '../../../../core/services';
 import { BankModel } from '../../../../core/db/models/bank/bank.model';
-import { SwitchBankComponent } from '../../../../global/components/popups/switch-bank/switch-bank.component';
+
 import { AccountsListComponent } from '../../../account/accounts-list/accounts-list.component';
-import { DebitOptionsModel, InstitutionInfoModel } from '../../transfer.model';
+import {
+  DebitModel,
+  DebitOptionsModel,
+  InstitutionInfoModel,
+} from '../../transfer.model';
 import { WalletListComponent } from '../../../wallet/banking/wallet-list/wallet-list.component';
 import {
   ActiveMainConfigModel,
@@ -32,7 +36,7 @@ import {
 } from '../../../../core/services/config/main-config.models';
 import { AccountsListModel } from '../../../account/models';
 import { WalletModel } from '../../../wallet/wallet.models';
-import { BankOptionsModel } from '../../../dashboards/dashboard.model';
+//import { BankOptionsModel } from '../../../dashboards/dashboard.model';
 import { VariableService } from '../../../../core/services/variable/variable.service';
 
 @Component({
@@ -43,7 +47,6 @@ import { VariableService } from '../../../../core/services/variable/variable.ser
     FormsModule,
     ReactiveFormsModule,
     SkeletonComponent,
-    SwitchBankComponent,
     AccountsListComponent,
     WalletListComponent,
   ],
@@ -69,7 +72,6 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
   clientId: number | null = null;
 
   debitWallet: DebitOptionsModel | null = null;
-  // defaultBank: string | undefined;
 
   selectedBank: BankModel | null = null;
   selectedBank$!: Observable<BankModel>;
@@ -78,12 +80,8 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
   clientBanks: BankModel[] = [];
   loadingBanks = false;
 
-  // index = 0;
-  // isBalanceShown = false;
-  // isBalanceShown$: Observable<boolean>;
-
   lookupType = '';
-
+  @Output() activeDebitOption = new EventEmitter<DebitModel>();
   @Output() debitOptions = new EventEmitter<{
     account: string;
     wallet: string;
@@ -126,11 +124,9 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private variableService: VariableService
   ) {
-    // this.mode$ = this.configService.getMode();
     this.userInfo$ = this.authService.getUserInfo();
     this.mainConfig$ = this.configService.getMainConfig();
     this.selectedBank$ = this.configService.getSelectedBank();
-    // this.isBalanceShown$ = this.dialogService.getAmountState();
   }
   ngOnInit() {
     this.mainConfig$.subscribe({
@@ -138,14 +134,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
         this.mainConfig = configs;
       },
     });
-    // this.mode$.subscribe({
-    //   next: datas => {
-    //     this.mode = datas;
-    //   },
-    // });
-    // this.isBalanceShown$.subscribe(isBalanceShown => {
-    //   this.isBalanceShown = isBalanceShown;
-    // });
+
     this.userInfo$.subscribe({
       next: userinfo => {
         this.clientInfo = userinfo;
@@ -161,11 +150,9 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
     this.getBanks();
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes['isTransactionDone'] && this.isTransactionDone) {
-  //     this.updateAccount();
-  //   }
-  // }
+  selectBank(bank: BankModel) {
+    this.configService.setSelectedBank(bank);
+  }
 
   getBanks() {
     this.loadingBanks = true;
@@ -180,19 +167,9 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
     });
   }
 
-  selectBank(bank: BankModel) {
-    this.configService.setSelectedBank(bank);
+  selectDebitType(accountType: 'account' | 'wallet') {
+    this.selectedDebitAccountType = accountType;
   }
-
-  // getClient(client: DebitOptionsModel) {
-  //   this.debitAccount = client;
-  //   const options = {
-  //     id: this.debitAccount.id,
-  //     acc_holder: this.debitAccount.lookup_title,
-  //     acc_number: this.debitAccount.lookup_sub_title,
-  //   };
-  //   this.lookupOptions.emit(options);
-  // }
 
   selectDebitAccountType(accountType: 'account' | 'wallet') {
     this.selectedDebitAccountType = accountType;
@@ -207,55 +184,31 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
       selectedInstitution: this.selectedInstitution,
     };
     this.debitOptions.emit(options);
-    // if (accountType !== this.selectedDebitAccountType) {
-    //   this.selectedDebitAccountType = null;
-    // }
   }
+  selectAndEmitAccount(
+    accountType: 'account' | 'wallet',
+    event: AccountsListModel | WalletModel
+  ) {
+    this.selectedDebitAccountType = accountType;
 
-  // updateAccount() {
-  //   const options = {
-  //     account: this.debitAccount ? this.debitAccount.account : '',
-  //     wallet: this.debitWallet ? this.debitWallet.wallet : '',
-  //     selectedDebitOption: this.selectedDebitAccountType as string,
-  //     creditAccountType: this.creditAccountType,
-  //     // isTransferDone: this.isTransactionDone,
-  //     isAmountChanging: false,
-  //     selectedInstitutionType: this.selectedInstitutionType,
-  //     selectedInstitution: this.selectedInstitution,
-  //   };
-
-  //   this.variableService.REFRESH_ACCOUNT_LIST.set(true);
-  //   this.variableService.REFRESH_WALLET_LIST.set(true);
-
-  //   this.debitOptions.emit(options);
-  // }
-
-  getSwitchBankOptions(event: BankOptionsModel) {
-    const options = {
-      account: '',
-      wallet: '',
-      selectedDebitOption: '',
-      creditAccountType: event.creditAccountType || '',
+    const selectedDetails = {
+      selectedDebitOption: this.selectedDebitAccountType,
+      details:
+        accountType === 'account'
+          ? (event as AccountsListModel)
+          : (event as WalletModel),
+      creditAccountType: '',
       isTransferDone: this.isTransactionDone,
       isAmountChanging: false,
       selectedInstitutionType: this.selectedInstitutionType,
       selectedInstitution: this.selectedInstitution,
     };
 
-    this.variableService.REFRESH_ACCOUNT_LIST.set(true);
+    // Émet l'objet combiné
+    this.activeDebitOption.emit(selectedDetails);
 
-    this.debitOptions.emit(options);
-    this.selectedDebitAccountType = (event.selectedDebitAccountType ?? null) as
-      | 'account'
-      | 'wallet'
-      | null;
-    this.debitAccount = event.debitAccount as unknown as DebitOptionsModel;
-    this.debitWallet = event.debitWallet as unknown as DebitOptionsModel;
-    this.banks = event.banks;
-  }
-
-  toggleBalance() {
-    this.dialogService.displayAmount();
+    // Log l'objet émis
+    console.log('Options emitted:', selectedDetails);
   }
 
   getAccountSelected(event: AccountsListModel | WalletModel) {
@@ -265,19 +218,28 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
       this.selectedWallet.emit(event as WalletModel);
     }
   }
+
+  toggleBalance() {
+    this.dialogService.displayAmount();
+  }
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
-    const options = {
-      account: '',
-      wallet: '',
+
+    const options: DebitModel = {
       selectedDebitOption: '',
       creditAccountType: '',
       isTransferDone: this.isTransactionDone,
       isAmountChanging: false,
       selectedInstitutionType: '',
       selectedInstitution: '',
+      details: null, // Add the details property
     };
-    this.debitOptions.emit(options);
+
+    // Emit the options object
+    this.activeDebitOption.emit(options);
+
+    // Log the emitted options
+    console.log('Options emitted on destroy:', options);
   }
 }

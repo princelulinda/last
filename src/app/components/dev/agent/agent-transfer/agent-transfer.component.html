@@ -1,126 +1,331 @@
-<form
-  class="bg-secondary p-3 py-3 p-sm-4 ps-sm-5 pb-5 xx-lg-radius"
-  action="transfer">
-  <div class="d-flex flex-column gap-4">
-    <div class="d-flex gap-2">
-      <span><i class="fa-solid fa-play fa-lg text-primary"></i></span>
-      <span class="fs-medium fw-bold">Agent Transfer; BANKS</span>
-      <span class="d-flex gap-2 ms-auto">
-        <span class="d-flex align-items-center">
-          <i class="fa-solid fa-arrow-left fa-lg"></i>
-        </span>
-        <span class="fw-bold fs-l-medium">Back</span>
-      </span>
-    </div>
-    <div class="d-flex flex-column gap-2">
+<section class="col-11 col-sm-10 col-md-11 col-lg-12 mx-auto mx-lg-0">
+  <span
+    class="d-flex gap-2 float-end mt-3 me-3"
+    [ngClass]="{
+      'mt-3 me-3': selectedState !== 'bank',
+    }">
+    <span class="d-flex align-items-center">
+      <i class="fa-solid fa-arrow-left fa-lg"></i>
+    </span>
+    <span class="fw-bold fs-l-medium" i18n>Back</span>
+  </span>
+  @if (selectedState === 'bank') {
+    <div
+      class="d-flex flex-column gap-4 col-12 col-sm-10 col-md-7 col-lg-9 col-xl-7 col-xxl-6">
       <div class="d-flex gap-2">
-        <span><i class="fa-solid fa-circle fa-2xs text-primary"></i></span>
-        <div class="fw-bold fs-small">COMPTE A DEBITER</div>
+        <span class="d-flex align-items-center">
+          <i class="fa-solid fa-paper-plane fa-lg text-primary"></i>
+        </span>
+        <span class="fw-bold fs-l-medium">Transfers</span>
       </div>
-
-      <div class="d-flex flex-column">
-        <div class="row d-flex gap-3">
-          <div
-            class="col-12 col-sm-8 col-md-6 col-lg-8 col-xl-6 bg-white bg-opacity-50 border p-2 py-3 xx-lg-radius">
-            <div class="d-flex gap-2">
-              <span
-                ><hr
-                  class="border-start py-5 bg-primary border-0 xx-lg-radius ps-2 pe-1 m-0"
-              /></span>
-              <div class="d-flex flex-column">
-                <span class="fw-bold">
-                  COMPTE PRINCIPAL AGENT - INDIVIDUELLE
+      <div class="accordion d-grid gap-4" id="accordionFlushExample">
+        <div class="accordion-item bg-white sm-radius border">
+          <h2 class="accordion-header d-flex" id="firstHeading">
+            <button
+              class="accordion-button bg-white shadow-none collapsed text-dark sm-radius"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne">
+              <span class="d-flex gap-2">
+                <span class="d-flex align-items-center">
+                  <i class="fa-solid fa-user-tie"></i>
                 </span>
-                <span> HABONIMANA BILLY </span>
-                <span> 0000000780-01 </span>
-                <span class="text-success"> *** *** BIF </span>
+                <span class="fw-bold" i18n>Agent</span>
+              </span>
+            </button>
+          </h2>
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse sm-radius"
+            aria-labelledby="firstHeading"
+            data-bs-parent="#accordionFlushExample">
+            <hr class="mx-3 my-0 text-dark" />
+            <div
+              class="accordion-body text-dark d-flex justify-content-center flex-wrap gap-4">
+              @if (banks) {
+                @for (bank of banks; track $index) {
+                  <div class="col-3 col-lg-2 d-grid gap-2">
+                    <div class="d-flex justify-content-center">
+                      <span
+                        class="small_card border lg-radius d-flex align-items-center">
+                        @if (bank.company.image) {
+                          <img
+                            src="{{ bank.company.image }}"
+                            class="logo"
+                            alt="{{ bank.company.fullname }}" />
+                        } @else {
+                          <span class="d-flex justify-content-center logo">
+                            <i
+                              class="fa-solid fa-mountain-sun fa-lg text-secondary"></i>
+                          </span>
+                        }
+                      </span>
+                    </div>
+
+                    <span class="fs-x-small text-center" i18n>{{
+                      bank.name
+                    }}</span>
+                  </div>
+                }
+              } @else if (!banks) {
+                @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9]; track $index) {
+                  <span class="col-3">
+                    <app-skeleton
+                      height="56px"
+                      width="56px"
+                      classes="lg-radius"></app-skeleton>
+                  </span>
+                }
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item bg-white sm-radius border">
+          <div class="accordion-header d-flex" id="flush-headingTwo">
+            <button
+              class="accordion-button bg-white shadow-none collapsed text-dark sm-radius d-flex gap-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#flush-collapseTwo"
+              aria-expanded="false"
+              aria-controls="flush-collapseTwo">
+              <span class="d-flex align-items-center">
+                <i class="fa-solid fa-building-columns"></i>
+              </span>
+              <span class="fw-bold" i18n>Bank</span>
+            </button>
+          </div>
+          <div
+            id="flush-collapseTwo"
+            class="accordion-collapse collapse sm-radius"
+            aria-labelledby="flush-headingTwo"
+            data-bs-parent="#accordionFlushExample">
+            <hr class="mx-3 my-0 text-dark" />
+            <div
+              class="accordion-body text-dark d-flex justify-content-center flex-wrap gap-4">
+              @if (banks) {
+                @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track $index) {
+                  <div class="col-3 col-lg-2 d-grid gap-2">
+                    <div class="d-flex justify-content-center">
+                      <span
+                        class="small_card border lg-radius d-flex align-items-center">
+                        <span class="d-flex justify-content-center logo">
+                          <i
+                            class="fa-solid fa-mountain-sun fa-lg text-secondary"></i>
+                        </span>
+                      </span>
+                    </div>
+
+                    <span class="fs-x-small text-center" i18n>name</span>
+                  </div>
+                }
+              } @else if (!banks) {
+                @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9]; track $index) {
+                  <span class="col-3">
+                    <app-skeleton
+                      height="56px"
+                      width="56px"
+                      classes="lg-radius"></app-skeleton>
+                  </span>
+                }
+              }
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item bg-white sm-radius border">
+          <div class="accordion-header d-flex" id="flush-headingThree">
+            <button
+              class="accordion-button bg-white shadow-none collapsed text-dark sm-radius d-flex gap-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#flush-collapseThree"
+              aria-expanded="false"
+              aria-controls="flush-collapseThree">
+              <span class="d-flex align-items-center">
+                <i class="fa-solid fa-building-columns"></i>
+              </span>
+              <span class="fw-bold" i18n>Microfinances</span>
+            </button>
+          </div>
+          <div
+            id="flush-collapseThree"
+            class="accordion-collapse collapse sm-radius"
+            aria-labelledby="flush-headingThree"
+            data-bs-parent="#accordionFlushExample">
+            <hr class="mx-3 my-0 text-dark" />
+            <div class="accordion-body text-dark">
+              Placeholder content for this accordion, which is intended to
+              demonstrate the <code>.accordion-flush</code> class. This is the
+              third item's accordion body. Nothing more exciting happening here
+              in terms of content, but just filling up the space to make it
+              look, at least at first glance, a bit more representative of how
+              this would look in a real-world application.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item bg-white sm-radius border">
+          <div class="accordion-header d-flex" id="flush-headingfour">
+            <button
+              class="accordion-button bg-white shadow-none collapsed text-dark sm-radius d-flex gap-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#flush-collapsefour"
+              aria-expanded="false"
+              aria-controls="flush-collapsefour">
+              <span class="d-flex align-items-center">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+              </span>
+              <span class="fw-bold" i18n>Mobile</span>
+            </button>
+          </div>
+          <div
+            id="flush-collapsefour"
+            class="accordion-collapse collapse sm-radius"
+            aria-labelledby="flush-headingfour"
+            data-bs-parent="#accordionFlushExample">
+            <hr class="mx-3 my-0 text-dark" />
+            <div class="accordion-body text-dark">
+              Placeholder content for this accordion, which is intended to
+              demonstrate the <code>.accordion-flush</code> class. This is the
+              third item's accordion body. Nothing more exciting happening here
+              in terms of content, but just filling up the space to make it
+              look, at least at first glance, a bit more representative of how
+              this would look in a real-world application.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <form
+      class="bg-secondary p-3 py-3 p-sm-3 ps-sm-5 pb-5 xx-lg-radius"
+      action="transfer">
+      <div
+        class="d-flex flex-column gap-4 col-12 col-sm-10 col-md-11 col-lg-10 col-xl-9 col-xxl-9">
+        <div class="d-flex gap-2">
+          <span><i class="fa-solid fa-play fa-lg text-primary"></i></span>
+          <span class="fs-medium fw-bold">Agent Transfer; BANKS</span>
+        </div>
+        <div class="d-flex flex-column gap-2">
+          <div class="d-flex gap-2">
+            <span><i class="fa-solid fa-circle fa-2xs text-primary"></i></span>
+            <div class="fw-bold fs-small">COMPTE A DEBITER</div>
+          </div>
+
+          <div class="d-flex flex-column">
+            <div class="row d-flex gx-lg-4 gx-xl-5 gy-4">
+              <div
+                class="col-12 col-sm-9 col-md-6 col-lg-9 col-xl-8 col-xxl-7 bg-white bg-opacity-50 border p-2 py-3 xx-lg-radius">
+                <div class="d-flex gap-2">
+                  <span
+                    ><hr
+                      class="border-start py-5 bg-primary border-0 xx-lg-radius ps-2 pe-1 m-0"
+                  /></span>
+                  <div class="d-flex flex-column">
+                    <span class="fw-bold">
+                      COMPTE PRINCIPAL AGENT - INDIVIDUELLE
+                    </span>
+                    <span> HABONIMANA BILLY </span>
+                    <span> 0000000780-01 </span>
+                    <span class="text-success"> *** *** BIF </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-12 col-sm-3 col-md-2 col-lg-3 col-xl-3 d-flex justify-content-center align-items-start">
+                <img
+                  src="/images/sleepMode/iHelaRyanje.svg"
+                  class="col-4 col-sm-12"
+                  alt="ihelaLogo" />
               </div>
             </div>
           </div>
-          <div
-            class="col-12 col-sm-3 col-md-2 d-flex justify-content-center align-items-start">
-            <img
-              src="/images/sleepMode/iHelaRyanje.svg"
-              class="col-5 col-sm-12"
-              alt="ihelaLogo" />
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="d-flex flex-column gap-2">
-      <div class="d-flex gap-2">
-        <span><i class="fa-solid fa-circle fa-xs text-primary"></i></span>
-        <div class="fw-bold fs-small">COMPTE A CREDITER</div>
-      </div>
-      <div class="d-flex flex-column gap-2">
-        <div class="row">
-          <div class="col-5 col-sm-4 col-md-3">
-            <div class="input-group mb-3">
-              <span class="form-control input-group-text">Agent</span>
-              <span class="input-group-text bg-primary">
-                <i class="fa-solid fa-user-tie text-white"></i>
+        <div class="d-flex flex-column gap-2">
+          <div class="d-flex gap-2">
+            <span><i class="fa-solid fa-circle fa-xs text-primary"></i></span>
+            <div class="fw-bold fs-small">COMPTE A CREDITER</div>
+          </div>
+          <div class="d-flex flex-column gap-2">
+            <div class="row">
+              <div class="col-5 col-sm-5 col-md-3 col-lg-5 col-xl-4 col-xxl-4">
+                <div class="input-group mb-3">
+                  <span
+                    class="form-control input-group-text d-flex justify-content-center"
+                    >Agent</span
+                  >
+                  <span class="input-group-text bg-primary">
+                    <i class="fa-solid fa-user-tie text-white"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="col-1">
+                <i class="fa-solid fa-arrow-right fa-2x text-secondary"></i>
+              </div>
+              <div class="col-6 col-sm-5 col-md-3 col-lg-5 col-xl-5 col-xxl-4">
+                <span class="d-flex justify-content-center">
+                  <img
+                    src="/images/sleepMode/iHelaRyanje.svg"
+                    class="col-5 col-sm-4"
+                    alt="ihelaLogo" />
+                </span>
+                <span
+                  class="d-flex justify-content-center fs-small text-secondary"
+                  >IHELA CREDIT UNION</span
+                >
+                <span class="d-flex justify-content-center">
+                  <a href="#" class="text-primary text-decoration-underline"
+                    >Change bank</a
+                  >
+                </span>
+              </div>
+            </div>
+            <div
+              class="col-12 col-sm-9 col-md-6 col-lg-9 col-xl-8 col-xxl-7 d-flex bg-white p-2 border xx-lg-radius gap-2">
+              <span class="my-2 ms-1"
+                ><hr
+                  class="border-start border-0 bg-primary xx-lg-radius py-4 ps-2 m-0"
+              /></span>
+              <div class="d-flex flex-column my-2">
+                <span> HABONIMANA BILLY </span>
+                <span> 0000000780-01 </span>
+              </div>
+              <span class="ms-auto">
+                <i class="fa-solid fa-circle-xmark fa-xl text-primary-2"></i>
               </span>
             </div>
           </div>
-          <div class="col-1">
-            <i class="fa-solid fa-arrow-right fa-2x text-secondary"></i>
+        </div>
+        <div class="col-12 col-sm-9 col-md-6 col-lg-9 col-xl-8 col-xxl-7">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingInput"
+              placeholder="amount"
+              (keydown)="validateInput($event)" />
+            <label for="floatingInput">Amount</label>
           </div>
-          <div class="col-6 col-sm-4 col-md-3 col-lg-4 col-xl-3">
-            <span class="d-flex justify-content-center">
-              <img
-                src="/images/sleepMode/iHelaRyanje.svg"
-                class="col-6"
-                alt="ihelaLogo" />
-            </span>
-            <span class="d-flex justify-content-center fs-small"
-              >IHELA CREDIT UNION</span
-            >
-            <span class="d-flex justify-content-center">
-              <a href="#" class="text-primary text-decoration-underline"
-                >Change bank</a
-              >
-            </span>
+        </div>
+        <div class="col-12 col-sm-9 col-md-6 col-lg-9 col-xl-8 col-xxl-7">
+          <div class="form-floating">
+            <textarea
+              class="form-control textarea"
+              placeholder="Description"
+              id="floatingTextarea2"></textarea>
+            <label for="floatingTextarea2">Description</label>
           </div>
         </div>
         <div
-          class="col-12 col-sm-8 col-md-6 col-lg-8 col-xl-6 d-flex bg-white p-2 border xx-lg-radius gap-2">
-          <span class="my-2 ms-1"
-            ><hr
-              class="border-start border-0 bg-primary xx-lg-radius py-4 ps-2 m-0"
-          /></span>
-          <div class="d-flex flex-column my-2">
-            <span> HABONIMANA BILLY </span>
-            <span> 0000000780-01 </span>
-          </div>
-          <span class="ms-auto">
-            <i class="fa-solid fa-circle-xmark fa-xl text-primary-2"></i>
-          </span>
+          class="col-12 col-sm-8 col-md-6 col-lg-8 col-xl-6 d-flex justify-content-center mt-3">
+          <button class="btn bg-primary text-white fw-bold px-5">
+            Confirm
+          </button>
         </div>
       </div>
-    </div>
-    <div class="col-12 col-sm-8 col-md-6 col-lg-8 col-xl-6">
-      <div class="form-floating mb-3">
-        <input
-          type="text"
-          class="form-control"
-          id="floatingInput"
-          placeholder="amount"
-          (keydown)="validateInput($event)" />
-        <label for="floatingInput">Amount</label>
-      </div>
-    </div>
-    <div class="col-12 col-sm-8 col-md-6 col-lg-8 col-xl-6">
-      <div class="form-floating">
-        <textarea
-          class="form-control textarea"
-          placeholder="Description"
-          id="floatingTextarea2"></textarea>
-        <label for="floatingTextarea2">Description</label>
-      </div>
-    </div>
-    <div
-      class="col-12 col-sm-8 col-md-6 col-lg-8 col-xl-6 d-flex justify-content-center mt-3">
-      <button class="btn bg-primary text-white fw-bold px-5">Confirm</button>
-    </div>
-  </div>
-</form>
+    </form>
+  }
+</section>
