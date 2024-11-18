@@ -2,18 +2,29 @@ import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { DialogService, LoanService } from '../../../../../core/services';
+import {
+  ConfigService,
+  DialogService,
+  LoanService,
+} from '../../../../../core/services';
 import { DialogResponseModel } from '../../../../../core/services/dialog/dialogs-models';
 import {
   CreditLineModel,
   CreditLineResponseDataModel,
 } from '../credit-line.models';
 import { AmountVisibilityComponent } from '../../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
+import { ProfileCardComponent } from '../../../../../global/components/custom-field/profile-card/profile-card.component';
+import { ModeModel } from '../../../../../core/services/config/main-config.models';
 
 @Component({
   selector: 'app-credit-line-details',
   standalone: true,
-  imports: [CommonModule, NgClass, AmountVisibilityComponent],
+  imports: [
+    CommonModule,
+    NgClass,
+    AmountVisibilityComponent,
+    ProfileCardComponent,
+  ],
   templateUrl: './credit-line-details.component.html',
   styleUrl: './credit-line-details.component.scss',
 })
@@ -27,17 +38,26 @@ export class CreditLineDetailsComponent implements OnInit, OnDestroy {
   dialog$: Observable<DialogResponseModel>;
   dialog!: DialogResponseModel;
   action!: string;
+  theme!: ModeModel;
+  theme$: Observable<ModeModel>;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private loanService: LoanService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private configService: ConfigService
   ) {
     this.dialog$ = this.dialogService.getDialogState();
+    this.theme$ = this.configService.getMode();
   }
 
   ngOnInit(): void {
+    this.theme$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: theme => {
+        this.theme = theme;
+      },
+    });
     if (this.route.params) {
       this.route.params.pipe(takeUntil(this.onDestroy$)).subscribe({
         next: params => {

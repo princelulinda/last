@@ -142,7 +142,11 @@ export class SingleInvoicesComponent implements OnInit, OnDestroy {
           this.invoicesCount = response.count;
         },
         error: () => {
-          this.isLoading = false;
+          this.dialogService.openToast({
+            title: '',
+            type: 'failed',
+            message: 'failed to get single invoices list',
+          });
         },
       });
   }

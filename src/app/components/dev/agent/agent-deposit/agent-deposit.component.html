@@ -1,0 +1,171 @@
+@if (isLoading) {
+  <div
+    class="pe-2 d-flex justify-content-end align-items-center fs-l-medium"
+    role="button"
+    tabindex="0"
+    routerLink="/b/banking/agent">
+    <i class="fa-solid fa-arrow-left fs-l-medium me-2"></i>
+    <span class="fw-bolder" i18n>Back</span>
+  </div>
+  <div
+    class="w-100 h-50 bg-secondary lg-radius d-flex justify-content-center align-items-center text-dark">
+    <span title="Loading  ..." class="fs-2 text-center">
+      <i class="fa-solid fa-spin fa-circle-notch"></i>
+    </span>
+  </div>
+}
+@if (!isLoading && agentInfo && agentMIF) {
+  <div class="bg-secondary p-3 lg-radius">
+    <div class="row">
+      <div class="col-9">
+        <span>
+          <i class="fa-solid fa-play text-primary me-2"></i>
+        </span>
+        <span class="fs-medium fw-bold">Deposit</span>
+      </div>
+      <div
+        class="col-3 pe-2 d-flex justify-content-end align-items-center fs-l-medium"
+        role="button"
+        tabindex="0"
+        routerLink="/b/banking/agent">
+        <i class="fa-solid fa-arrow-left fs-l-medium me-2"></i>
+        <span class="fw-bolder" i18n>Back</span>
+      </div>
+    </div>
+    <div class="">
+      <span>
+        <i class="fa-solid fa-circle text-primary iconCircleSize"></i>
+      </span>
+      <span i18n class="fw-bolder fs-small ms-2">COMPTE A DEBITER</span>
+      @if (agentInfo && !isLoading) {
+        <div class="d-flex mb-4 mt-2">
+          <div class="bg-white lg-radius ps-2 pt-1 pb-1 d-flex col-3">
+            <div
+              class="col-1 mt-2 p-0 sm-radius border-start border-5 border-primary blockSize"></div>
+            <div class="col ps-2">
+              <span class="fs-x-small">{{ agentInfo.agent_name }}</span>
+              <br />
+              <span class="fs-x-small">{{ agentInfo.agent_main_account }}</span>
+              <span class="text-success fs-x-small fw-bold">
+                <app-amount-visibility
+                  [amount]="agentInfo.available_balance"
+                  [currency]="'BIF'">
+                </app-amount-visibility>
+              </span>
+            </div>
+          </div>
+        </div>
+      }
+      <div class="mb-3">
+        <span>
+          <i class="fa-solid fa-circle text-primary iconCircleSize"></i>
+        </span>
+        <span i18n class="fw-bolder fs-small ms-2">COMPTE A CREDITER</span>
+      </div>
+
+      <section class="ps-3">
+        @if (agentMIF && agentMIF.length > 0 && !isLoading && !selectedMIF) {
+          <section class="my-3 d-flex gap-3 flex-wrap">
+            @for (bank of agentMIF; track $index) {
+              <div
+                tabindex="0"
+                role="button"
+                (click)="selectBank(bank)"
+                class="d-flex flex-column bank-card align-items-center border border-white bg-white sm-radius p-2">
+                <div
+                  class="bank-image flex-grow-1 d-flex justify-content-center">
+                  @if (bank.company.image) {
+                    <img
+                      class="img-fluid object-fit-contain"
+                      alt="{{ bank.company }}"
+                      [src]="bank?.company?.image" />
+                  } @else {
+                    <span class="fs-large">
+                      <i class="fa-solid fa-building-columns"></i>
+                    </span>
+                  }
+                </div>
+
+                <span class="text-center">{{ bank?.company?.fullname }}</span>
+              </div>
+            }
+          </section>
+        }
+        @if (!agentMIF && !isLoading) {
+          <div class="fs-large my-4" i18n>No Banks Found</div>
+        }
+      </section>
+      <section class="ps-3">
+        @if (selectedMIF) {
+          <div
+            class="col-5 mb-3 d-flex justify-content-center align-items-center">
+            <div
+              class="col-4 selectedMIFColor ps-3 sm-radius d-flex justify-content-center align-items-center position-relative">
+              <span class="position-absolute agentPosition">agent</span>
+              <span class="bg-primary rounded-end iconPosition"
+                ><i class="fa fa-user-tie p-2 fs-normal text-end text-light"></i
+              ></span>
+            </div>
+            <div class="col-3 text-center">
+              <span
+                ><i class="fa-solid fa-right-long fs-x-large text-secondary"></i
+              ></span>
+            </div>
+            <div class="col text-center">
+              <div class="">
+                @if (selectedMIF.company.image) {
+                  <img
+                    class="imgSize image"
+                    alt="{{ selectedMIF.company }}"
+                    [src]="selectedMIF.company.image" />
+                } @else {
+                  <span class="fs-large imgSize">
+                    <i class="fa-solid fa-building-columns"></i>
+                  </span>
+                }
+              </div>
+              <span class="text-center fs-small text-secondary">{{
+                selectedMIF.company.fullname
+              }}</span>
+            </div>
+          </div>
+          <div class="d-flex mb-4">
+            <div class="col-3">
+              <app-lookup
+                option="lookup"
+                url="/clients/list/all/object_lookup/?lookup_data="
+                label="Search By Agent ID"
+                (selectedItemEvent)="selectAgent($event)"></app-lookup>
+            </div>
+          </div>
+          <form [formGroup]="depositForm">
+            <div class="col-3 text-dark">
+              <app-amount-field
+                [isFormFloating]="true"
+                (amountEvent)="getAmount($event)"></app-amount-field>
+            </div>
+            <div class="form-floating col-3 mt-3 text-dark">
+              <input
+                type="text"
+                class="form-control input w-100"
+                placeholder="description"
+                formControlName="description" />
+              <label for="description" class="form-label">Description</label>
+            </div>
+            <div class="text-center col-3 mt-5 mb-4">
+              <button
+                (click)="enterPin()"
+                [disabled]="
+                  !depositForm.valid || isLoading || !selectedAgent || !amount
+                "
+                class="text-all-white btn bg-primary px-4"
+                i18n>
+                Confirm
+              </button>
+            </div>
+          </form>
+        }
+      </section>
+    </div>
+  </div>
+}
