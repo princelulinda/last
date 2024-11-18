@@ -44,7 +44,7 @@ export class CreditLineListComponent implements OnInit, OnDestroy {
       size: '',
       format: '',
       detail: {
-        link: '/w/workstation/d/desk/credit/creditsline/details/',
+        link: '/d/desk/credit/creditsline/details/',
         field: 'id',
       },
     },
