@@ -45,8 +45,8 @@ export class SingleInvoicesComponent implements OnInit, OnDestroy {
       offset: 0,
     },
   };
-  response_data = 0;
-  loader = true;
+  invoicesCount = 0;
+  isLoading = true;
   activePage = 1;
   searchInput = new FormControl('');
   isInputFocused = false;
@@ -130,21 +130,19 @@ export class SingleInvoicesComponent implements OnInit, OnDestroy {
   }
 
   getSingleInvoices(search: string) {
-    this.loader = true;
+    this.isLoading = true;
     this.singleInvoices = null;
     this.merchantService
       .getSingleInvoices(this.pagination, search, this.merchantId as number)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: response => {
-          this.loader = false;
-          this.singleInvoices = response.objects.filter(
-            invoice => invoice.provider
-          );
-          this.response_data = this.singleInvoices.length;
+          this.isLoading = false;
+          this.singleInvoices = response.objects;
+          this.invoicesCount = response.count;
         },
         error: () => {
-          this.loader = false;
+          this.isLoading = false;
         },
       });
   }

@@ -6,8 +6,8 @@ import { CartsComponent } from '../../components/merchant/carts/carts.component'
 import { MerchantsComponent } from '../../components/merchant/merchants/merchants.component';
 import { ProductsMarketPlaceRoutes } from '../../components/merchant/products/products.routes';
 import { MerchantTransferComponent } from '../../components/merchant/merchant-transfer/merchant-transfer.component';
-import { BillsComponent } from '../../components/merchant/bills/bills/bills.component';
-import { BillDetailsComponent } from '../../components/merchant/bills/bill-details/bill-details.component';
+import { BillDetailsComponent } from '../../components/merchant/bills/banking/bill-details/bill-details.component';
+import { BillsComponent } from '../../components/merchant/bills/banking/bills/bills.component';
 
 export const marketPlaceRoutes: Routes = [
   { path: '', component: MarketDashboardComponent },

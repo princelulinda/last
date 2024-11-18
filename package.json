@@ -16,7 +16,9 @@
     "test:coverage": "jest --coverage",
     "lint": "ng lint",
     "lint-staged": "lint-staged",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "download-menu-signature::test": "wget -O src/app/global/utils/menu/all-menus.config.ts http://10.30.1.42/bank/generate_menu_ts_file/",
+    "download-menu-signature::prod": "wget -O src/app/global/utils/menu/all-menus.config.ts http://10.30.1.42/bank/generate_menu_ts_file/"
   },
   "lint-staged": {
     "*.{js,ts,json,css,html,scss}": [

@@ -5,7 +5,7 @@ import {
   Router,
   RouterModule,
 } from '@angular/router';
-import { NgClass } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { debounceTime, filter, Observable, Subject, takeUntil } from 'rxjs';
@@ -41,6 +41,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
     ReactiveFormsModule,
     SkeletonComponent,
     EmptyStateComponent,
+    NgTemplateOutlet,
   ],
   templateUrl: './workstation-menu.component.html',
   styleUrl: './workstation-menu.component.scss',
