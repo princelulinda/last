@@ -33,7 +33,6 @@ import {
   PlateformModel,
 } from '../../../../core/services/config/main-config.models';
 import { MerchantCardComponent } from '../../../merchant/global/merchant-card/merchant-card.component';
-import { MerchantBillComponent } from '../../../../global/components/popups/bills-format/merchant-bill/merchant-bill.component';
 import { AllProductsComponent } from '../../../merchant/products/banking/all-products/all-products.component';
 import { StatementComponent } from '../../../statements/statement/statement.component';
 import {
@@ -41,7 +40,6 @@ import {
   MerchantModel,
   MerchantStatsModel,
 } from '../../../merchant/merchant.models';
-import { ReusableListComponent } from '../../../../global/components/list/reusable-list/reusable-list.component';
 import { AmountVisibilityComponent } from '../../../../global/components/custom-field/amount-visibility/amount-visibility.component';
 import {
   MenuSimpleModel,
@@ -63,8 +61,6 @@ import { Modal } from 'bootstrap';
     MerchantCardComponent,
     ReactiveFormsModule,
     FormsModule,
-    MerchantBillComponent,
-    ReusableListComponent,
     StatementComponent,
     AmountVisibilityComponent,
   ],

@@ -1,4 +1,3 @@
-import { AutocompleteModel } from '../../../global/models/global.models';
 import { RoleModel } from '../role/role.models';
 
 export interface AdminDepartementsDetailsModel {
@@ -60,7 +59,7 @@ export interface CreateNewRoleModel {
   disable_during_leave: boolean;
   role_name: string;
   role_tye: string;
-  menus: AutocompleteModel[];
+  menus: number[];
   role_group: string;
   content_type: string;
   object_id: number;

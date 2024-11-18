@@ -8,11 +8,18 @@ import { PaginationConfig } from '../../../../global/models/pagination.models';
 import { Subject, takeUntil } from 'rxjs';
 import { DialogService } from '../../../../core/services';
 import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
+import { ProfileCardComponent } from '../../../../global/components/custom-field/profile-card/profile-card.component';
 
 @Component({
   selector: 'app-merchant-list',
   standalone: true,
-  imports: [RouterLink, CommonModule, SkeletonComponent, PaginationComponent],
+  imports: [
+    RouterLink,
+    CommonModule,
+    SkeletonComponent,
+    PaginationComponent,
+    ProfileCardComponent,
+  ],
   templateUrl: './merchant-list.component.html',
   styleUrl: './merchant-list.component.scss',
 })
@@ -51,7 +58,6 @@ export class MerchantListComponent implements OnInit, OnDestroy {
           this.Loading = false;
         },
         error: () => {
-          this.Loading = false;
           this.dialogService.openToast({
             title: '',
             type: 'failed',

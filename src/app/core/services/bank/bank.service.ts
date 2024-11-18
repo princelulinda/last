@@ -205,4 +205,16 @@ export class BankService {
       .get<{ objects: AgentBanksModel[] }>(url)
       .pipe(map(data => data));
   }
+
+  getAgentBanksList(): Observable<{ objects: BankModel[]; count: number }> {
+    const url = '/banks/list/?bank_type=MF1';
+
+    return this.apiService
+      .get<{ objects: BankModel[]; count: number }>(url)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      );
+  }
 }

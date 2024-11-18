@@ -36,7 +36,7 @@ export class AdminDepartementsDetailsComponent implements OnInit, OnDestroy {
   selectedDirection: AutocompleteModel | null = null;
   name = new FormControl('', Validators.required);
   selectedMenu: 'details' | 'roles' | 'newRole' = 'details';
-  selectedMenus: AutocompleteModel[] = [];
+  selectedMenus: number[] = [];
   roleName = new FormControl('', Validators.required);
   roleGroup = new FormControl('', Validators.required);
   isLoading = false;
@@ -188,8 +188,8 @@ export class AdminDepartementsDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  getSelectedMenus(menus: AutocompleteModel[] | null) {
-    this.selectedMenus = menus as AutocompleteModel[];
+  getSelectedMenus(menus: number[] | null) {
+    this.selectedMenus = menus as number[];
   }
   getSelectedDirection(dir: AutocompleteModel) {
     this.selectedDirection = dir;
