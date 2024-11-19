@@ -1,62 +1,118 @@
 <div
   role="button"
   title="Filters"
+  (click)="toogleFilterCard()"
+  tabindex="0"
   class="ms-3 justify-content-center d-flex align-items-center bg-primary-3 sm-radius filter-square position-relative">
   <span><i class="fa-solid fa-arrow-up-wide-short text-secondary"></i></span>
 </div>
 <section
-  class="filter-card position-absolute bg-white sm-radius end-0 p-4 d-none">
-  <section class="row mx-0">
-    @for (filter of filtersData.filters; track $index) {
-      @if (filter.type === 'lookup') {
-        <div class="mb-3 col-10">
-          <app-lookup
-            [url]="filter.data?.url ?? ''"
-            [label]="filter.title"
-            option="lookup"
-            (selectedItemEvent)="getLookupData($event)"></app-lookup>
-        </div>
-      }
-      @if (filter.type === 'autocomplete') {
-        <div class="mb-3 col-10">
-          <app-lookup
-            [url]="filter.data?.url ?? ''"
-            [label]="filter.title"
-            option="autocomplete"
-            (selectedItemEvent)="getAutocompleteData($event)"></app-lookup>
-        </div>
-      }
+  class="filter-card position-absolute bg-white sm-radius end-0 p-4"
+  [ngClass]="{
+    show: showFiltersCard,
+    fade: !showFiltersCard,
+  }">
+  <div class="text-center fw-bold fs-large mb-3" i18n>Filters</div>
+  @if (filtersData && !isLoading) {
+    <form class="row mx-0" [formGroup]="filtersFormGroup">
+      @for (filter of filtersData.filters; track $index) {
+        @if (filter.type === 'lookup') {
+          <div class="mb-3 col-10">
+            <app-lookup
+              [url]="filter.data?.url ?? ''"
+              [label]="filter.title"
+              option="lookup"
+              (selectedItemEvent)="
+                getLookupData($event, filter.name)
+              "></app-lookup>
+          </div>
+        }
+        @if (filter.type === 'autocomplete') {
+          <div class="mb-3 col-10">
+            <app-lookup
+              [url]="filter.data?.url + '?search='"
+              [label]="filter.title"
+              option="autocomplete"
+              (selectedItemEvent)="
+                getAutocompleteData($event, filter.name)
+              "></app-lookup>
+          </div>
+        }
 
-      <!-- NOTE :: RADIO TYPE FILTER -->
-      @if (filter.type === 'select') {
-        <section class="d-flex gap-4 mb-3 flex-wrap">
-          @for (choice of filter.data?.choices; track $index) {
-            <div class="d-flex align-items-center">
+        <!-- NOTE :: RADIO TYPE FILTER -->
+        @if (filter.type === 'select') {
+          <section class="d-flex gap-4 mb-3 flex-wrap">
+            @for (choice of filter.data?.choices; track $index) {
+              <div class="d-flex align-items-center">
+                <input
+                  type="radio"
+                  id="#{{ choice.title }}"
+                  [name]="filter.name"
+                  [value]="choice.value"
+                  [formControlName]="filter.name"
+                  class="form-check-input mt-0" />
+                <label
+                  for="#{{ choice.title }}"
+                  class="form-check-label ms-3 fw-bold"
+                  i18n
+                  >{{ choice.title }}</label
+                >
+              </div>
+            }
+          </section>
+        }
+
+        @if (filter.type === 'date') {
+          <section>
+            <b class="mb-2 d-block">{{ filter.title }}</b>
+            <div class="form-floating mb-3 col-10">
               <input
-                type="radio"
-                id="#{{ choice.title }}"
-                [name]="filter.name"
-                [value]="choice.value"
-                class="form-check-input mt-0" />
-              <label
-                for="#{{ choice.title }}"
-                class="form-check-label ms-3 fw-bold"
-                i18n
-                >{{ choice.title }}</label
-              >
+                type="date"
+                [formControlName]="filter.name"
+                class="form-control"
+                id="#{{ filter.title }}"
+                placeholder="placeholder" />
+              <label class="form-label ms-2" for="#{{ filter.title }}">{{
+                filter.title
+              }}</label>
             </div>
-          }
-        </section>
-      }
+            <!-- <div class="form-floating mb-3 col-10">
+              <input
+                type="date"
+                formControlName="to"
+                class="form-control"
+                id="#{{ filter.title }}"
+                placeholder="placeholder" />
+              <label class="form-label ms-2" for="#{{ filter.title }}"
+                >To</label
+              > 
+            </div> -->
+          </section>
+        }
 
-      <!-- NOTE :: CHECK BOX MULTIPLE FILTER -->
-      @if (filter.type === 'select_multiple') {
-        <section class="d-flex gap-4 mb-3 flex-wrap">
+        @if (filter.type === 'range') {
+          <div>
+            <label [for]="filter.title" class="form-label">{{
+              filter.title
+            }}</label>
+            <input
+              type="range"
+              [min]="filter.data?.min"
+              [max]="filter.data?.max"
+              [step]="filter.data?.step"
+              class="form-range"
+              [id]="filter.title" />
+          </div>
+        }
+
+        <!-- NOTE :: CHECK BOX MULTIPLE FILTER -->
+        <!-- @if (filter.type === 'select_multiple') {
+        <section class="d-flex gap-4 mb-3 flex-wrap" formGroupName="address">
           @for (choice of filter.data?.choices; track $index) {
             <div class="d-flex align-items-center">
               <input
                 type="checkbox"
-                [name]="filter.name"
+                formControlName="street"
                 id="#{{ choice.title }}"
                 [value]="choice.value"
                 class="form-check-input mt-0" />
@@ -69,46 +125,63 @@
             </div>
           }
         </section>
-      }
+      } -->
 
-      <!-- NOTE :: INPUT TYPE FILTER -->
-      @if (filter.type === 'form_value') {
-        <div class="form-floating mb-3 col-10">
-          <input
-            [type]="filter.data?.field_type"
-            class="form-control"
-            id="#{{ filter.title }}"
-            placeholder="placeholder" />
-          <label class="form-label ms-2" for="#{{ filter.title }}">{{
-            filter.title
-          }}</label>
-        </div>
-      }
+        <!-- NOTE :: INPUT TYPE FILTER -->
+        @if (filter.type === 'form_value') {
+          <div class="form-floating mb-3 col-10">
+            <input
+              [type]="filter.data?.field_type"
+              [formControlName]="filter.name"
+              class="form-control"
+              id="#{{ filter.title }}"
+              placeholder="placeholder" />
+            <label class="form-label ms-2" for="#{{ filter.title }}">{{
+              filter.title
+            }}</label>
+          </div>
+        }
 
-      <!-- NOTE :: CHECK BOX FILTER -->
-      @if (filter.type === 'bool') {
-        <div class="d-flex align-items-center mb-3">
-          <input
-            type="checkbox"
-            [name]="filter.name"
-            id="#{{ filter.title }}"
-            class="form-check-input mt-0" />
-          <label
-            for="#{{ filter.title }}"
-            class="form-check-label ms-3 fw-bold"
-            i18n
-            >{{ filter.title }}</label
-          >
-        </div>
-      }
+        <!-- NOTE :: CHECK BOX FILTER -->
+        @if (filter.type === 'bool') {
+          <div class="d-flex align-items-center mb-3">
+            <input
+              type="checkbox"
+              [name]="filter.name"
+              [formControlName]="filter.name"
+              id="#{{ filter.title }}"
+              class="form-check-input mt-0" />
+            <label
+              for="#{{ filter.title }}"
+              class="form-check-label ms-3 fw-bold"
+              i18n
+              >{{ filter.title }}</label
+            >
+          </div>
+        }
 
-      <!-- NOTE :: RANGE BOX FILTER -->
-      @if (filter.type === 'range') {}
-    }
-    <div class="mt-5 text-center">
-      <button class="btn bg-primary text-all-white px-5 fw-bold" i18n>
-        Apply
-      </button>
+        <!-- NOTE :: RANGE BOX FILTER -->
+        <!-- @if (filter.type === 'range') {} -->
+      }
+      <div class="mt-5 text-center">
+        <button
+          class="btn bg-primary text-all-white px-5 fw-bold"
+          (click)="applyFilters()"
+          i18n>
+          Apply
+        </button>
+      </div>
+    </form>
+  }
+  @if (!filtersData && isLoading) {
+    <div>
+      <span class="spinner-border" role="status"></span>
     </div>
-  </section>
+  }
+  @if (!filtersData && !isLoading) {
+    <div class="d-flex flex-column align-items-center empty-state">
+      <span class="fs-2"><i class="fa-solid fa-face-meh"></i></span>
+      <b class="mt-3 fs-medium" i18n>No Filters</b>
+    </div>
+  }
 </section>

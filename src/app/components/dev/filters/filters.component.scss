@@ -3,6 +3,8 @@
   height: 30px;
 }
 .filter-card {
-  width: 500px;
-  height: 500px;
+  width: 450px;
+  min-height: 300px;
+  max-height: 500px;
+  overflow-y: auto;
 }
