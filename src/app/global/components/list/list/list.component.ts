@@ -23,7 +23,6 @@ import {
   OverviewModel,
 } from '../list.models';
 import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
-import { NotFoundPageComponent } from '../../empty-states/not-found-page/not-found-page.component';
 import { EmptyStateComponent } from '../../empty-states/empty-state/empty-state.component';
 import { FiltersComponent } from '../../../../components/dev/filters/filters.component';
 // import { TooltipDirective } from '../../../directives/tooltip/tooltip.directive';
@@ -35,7 +34,6 @@ import { FiltersComponent } from '../../../../components/dev/filters/filters.com
     ReactiveFormsModule,
     SkeletonComponent,
     CommonModule,
-    NotFoundPageComponent,
     RouterLink,
     FormsModule,
     EmptyStateComponent,
