@@ -110,7 +110,7 @@ export class FiltersComponent implements OnInit {
   }
 
   getFilters() {
-    this.isLoading = false;
+    this.isLoading = true;
     this.generalService.getListFilters(this.filtersUrl).subscribe({
       next: response => {
         this.filtersData = response.object;

@@ -13,7 +13,7 @@
     fade: !showFiltersCard,
   }">
   <div class="text-center fw-bold fs-large mb-3" i18n>Filters</div>
-  @if (filtersData && !isLoading) {
+  @if (filtersData.filters.length !== 0 && !isLoading) {
     <form class="row mx-0" [formGroup]="filtersFormGroup">
       @for (filter of filtersData.filters; track $index) {
         @if (filter.type === 'lookup') {
@@ -173,14 +173,14 @@
       </div>
     </form>
   }
-  @if (!filtersData && isLoading) {
-    <div>
+  @if (filtersData.filters.length === 0 && isLoading) {
+    <div class="d-flex justify-content-center mt-5 align-items-center">
       <span class="spinner-border" role="status"></span>
     </div>
   }
-  @if (!filtersData && !isLoading) {
-    <div class="d-flex flex-column align-items-center empty-state">
-      <span class="fs-2"><i class="fa-solid fa-face-meh"></i></span>
+  @if (filtersData.filters.length === 0 && !isLoading) {
+    <div class="d-flex flex-column align-items-center empty-state mt-4">
+      <span class="fs-1"><i class="fa-solid fa-face-meh"></i></span>
       <b class="mt-3 fs-medium" i18n>No Filters</b>
     </div>
   }
