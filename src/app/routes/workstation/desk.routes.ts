@@ -21,6 +21,7 @@ import { DeskDashboardComponent } from '../../components/dashboards/workstation/
 import { WalletListWsComponent } from '../../components/wallet/workstation/wallet-list-ws/wallet-list-ws.component';
 import { WorkstationCreditRoutes } from '../../components/loan/loan.routes';
 import { ClientRoutes } from '../../components/client/client.routes';
+import { DebitAccountWorkstationComponent } from '../../components/transfer/workstation/debit-account-workstation/debit-account-workstation.component';
 
 export const DeskRoutes: Routes = [
   { path: '', component: DeskDashboardComponent },
@@ -77,6 +78,7 @@ export const DeskRoutes: Routes = [
 
   // NOTE :: SHORTCUTS MODULE
   { path: 'shortcuts', component: ShortcutsComponent },
+  { path: 'debit', component: DebitAccountWorkstationComponent },
 
   {
     path: 'access-required',

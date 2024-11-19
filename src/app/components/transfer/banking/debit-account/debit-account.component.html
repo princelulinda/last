@@ -84,7 +84,7 @@
             @if (isAccountShown) {
               <div
                 role="button"
-                (click)="selectDebitType('account')"
+                (click)="selectDebitAccountType('account')"
                 tabindex="0"
                 [ngClass]="{
                   'd-none': !selectedBank,
@@ -100,7 +100,7 @@
               <div
                 role="button"
                 tabindex="0"
-                (click)="selectDebitType('wallet')"
+                (click)="selectDebitAccountType('wallet')"
                 [ngClass]="{
                   'bg-primary text-all-white ':
                     selectedDebitAccountType === 'wallet',
