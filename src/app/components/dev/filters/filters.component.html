@@ -41,24 +41,27 @@
 
         <!-- NOTE :: RADIO TYPE FILTER -->
         @if (filter.type === 'select') {
-          <section class="d-flex gap-4 mb-3 flex-wrap">
-            @for (choice of filter.data?.choices; track $index) {
-              <div class="d-flex align-items-center">
-                <input
-                  type="radio"
-                  id="#{{ choice.title }}"
-                  [name]="filter.name"
-                  [value]="choice.value"
-                  [formControlName]="filter.name"
-                  class="form-check-input mt-0" />
-                <label
-                  for="#{{ choice.title }}"
-                  class="form-check-label ms-3 fw-bold"
-                  i18n
-                  >{{ choice.title }}</label
-                >
-              </div>
-            }
+          <section class="mb-3 border sm-radius py-2 px-3">
+            <div class="mb-2 fw-bold">{{ filter.title }}</div>
+            <section class="d-flex gap-4 flex-wrap">
+              @for (choice of filter.data?.choices; track $index) {
+                <div class="d-flex align-items-center">
+                  <input
+                    type="radio"
+                    id="#{{ choice.title }}"
+                    [name]="filter.name"
+                    [value]="choice.value"
+                    [formControlName]="filter.name"
+                    class="form-check-input mt-0" />
+                  <label
+                    for="#{{ choice.title }}"
+                    class="form-check-label ms-3 fw-bold"
+                    i18n
+                    >{{ choice.title }}</label
+                  >
+                </div>
+              }
+            </section>
           </section>
         }
 
@@ -163,7 +166,7 @@
         <!-- NOTE :: RANGE BOX FILTER -->
         <!-- @if (filter.type === 'range') {} -->
       }
-      <div class="mt-5 text-center">
+      <div class="mt-3 text-center">
         <button
           class="btn bg-primary text-all-white px-5 fw-bold"
           (click)="applyFilters()"
