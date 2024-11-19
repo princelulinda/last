@@ -12,6 +12,7 @@ import { WithdrawalBodyModel } from '../../../components/withdrawal/withdrawal.m
 import { DissectedDateModel } from '../../../components/statements/statement.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
 import { TransactionModel } from '../../../components/merchant/products/products.model';
+import { AgentBanksModel } from '../../../components/dev/agent/agent.models';
 
 @Injectable({
   providedIn: 'root',
@@ -195,6 +196,13 @@ export class BankService {
   getRefereePersons(): Observable<{ object: nyamuranziCardModel }> {
     return this.apiService
       .get<{ object: nyamuranziCardModel }>('/client/refered/')
+      .pipe(map(data => data));
+  }
+
+  getAgentBanks(): Observable<{ objects: AgentBanksModel[] }> {
+    const url = `/banks/list/?with_agent_api=true/`;
+    return this.apiService
+      .get<{ objects: AgentBanksModel[] }>(url)
       .pipe(map(data => data));
   }
 

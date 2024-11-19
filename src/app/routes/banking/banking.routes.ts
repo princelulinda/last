@@ -17,6 +17,7 @@ import { AgentCreationComponent } from '../../components/dev/agent/agent-creatio
 import { AgentComponent } from '../../components/dev/agent/agent/agent.component';
 import { BankHomeComponent } from '../../components/dashboards/banking/online-banking/bank-home/bank-home.component';
 import { MerchantListComponent } from '../../components/dev/agent/merchant-list/merchant-list.component';
+import { AgentTransferComponent } from '../../components/dev/agent/agent-transfer/agent-transfer.component';
 import { AgentDepositComponent } from '../../components/dev/agent/agent-deposit/agent-deposit.component';
 
 export const bankingRoutes: Routes = [
@@ -96,6 +97,10 @@ export const bankingRoutes: Routes = [
             component: MerchantListComponent,
           },
         ],
+      },
+      {
+        path: 'agent-transfer',
+        component: AgentTransferComponent,
       },
     ],
   },

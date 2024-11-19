@@ -44,8 +44,8 @@
       },
       "appimage": {
         "files": {
-          "/usr/share/README.md": "../README.md", // copies the ../README.md file to <appimage>/usr/share/README.md
-          "/usr/public": "../public/" // copies the entire ../public directory to <appimage>/usr/public
+          "/usr/share/README.md": "../README.md",
+          "/usr/public": "../public/"
         }
       }
     }
@@ -59,10 +59,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 1080,
         "resizable": true,
         "title": "iHelá Ryãnje",
-        "width": 800,
+        "width": 1920,
         "useHttpsScheme": true
       }
     ],

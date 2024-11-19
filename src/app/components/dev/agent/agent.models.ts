@@ -30,6 +30,29 @@ export interface MerchantModel {
   code: string;
   client: Client;
 }
+
+export interface AgentBanksModel {
+  id: number;
+  slug: string;
+  name: string;
+  bank_code: number;
+  bank_type: string;
+  can_create_account_online: boolean;
+  is_active: boolean;
+  company: AgentCompanyModel;
+}
+
+export interface AgentCompanyModel {
+  id: number;
+  name: string;
+  fullname: string;
+  slug: string;
+  image: string;
+  about: string;
+  logo: string;
+  logo_icon: string;
+}
+
 export interface ResponseAgentDepositModel {
   response_data: object;
   success: boolean;
