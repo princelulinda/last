@@ -7,22 +7,26 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
 
-import { OrganizationModel } from '../../../auth/auth.model';
-import {
-  DialogResponseModel,
-  dialogTypeModel,
-} from '../../../../core/services/dialog/dialogs-models';
 import { PaginationConfig } from '../../../../global/models/pagination.models';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   ConfigService,
   DialogService,
   MenuService,
 } from '../../../../core/services';
 import { AdminService } from '../../../../core/services/admin/admin.service';
+import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
+import { MultiSelectComponent } from '../../../../global/components/custom-field/multi-select/multi-select.component';
+import { ProfileCardComponent } from '../../../../global/components/custom-field/profile-card/profile-card.component';
+
+import { OrganizationModel } from '../../../auth/auth.model';
+import {
+  DialogResponseModel,
+  dialogTypeModel,
+} from '../../../../core/services/dialog/dialogs-models';
 import {
   AllBranchModel,
   AllMenuListModel,
@@ -33,11 +37,7 @@ import {
   RoleListModel,
   RoleMenuListModel,
 } from '../operator.models';
-import { AutocompleteModel } from '../../../../global/models/global.models';
 import { PageMenusModel } from '../../menu/menu.models';
-import { PaginationComponent } from '../../../../global/components/list/pagination/pagination.component';
-import { MultiSelectComponent } from '../../../../global/components/custom-field/multi-select/multi-select.component';
-import { ProfileCardComponent } from '../../../../global/components/custom-field/profile-card/profile-card.component';
 
 @Component({
   selector: 'app-operator-details',
@@ -99,7 +99,7 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
   dialog!: DialogResponseModel;
 
   roleNameToEdit = '';
-  selectedRolesToAssign: AutocompleteModel[] | RoleBodyModel[] = [];
+  selectedRolesToAssign: number[] | null = [];
   searchType = 'roles';
   searchInput = new FormControl('');
 
@@ -403,13 +403,13 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
       access_type: 'D',
     };
     const body = {
-      roles: this.selectedRolesToAssign.map(id => {
+      ...date,
+      roles: this.selectedRolesToAssign?.map(id => {
         return {
           role: id,
           ...date,
         };
       }),
-      ...date,
     } as RoleBodyModel;
 
     this.adminService
@@ -720,8 +720,8 @@ export class OperatorDetailsComponent implements OnInit, OnDestroy {
     this.getRoleMenus();
   }
 
-  selectedItems(items: AutocompleteModel[] | null) {
-    this.selectedRolesToAssign = items as AutocompleteModel[];
+  selectedItems(items: number[] | null) {
+    this.selectedRolesToAssign = items;
   }
 
   getRoleById(roleId: number, roles: RoleListModel[]) {

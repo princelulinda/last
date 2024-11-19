@@ -4,6 +4,7 @@ import { ApiService } from '../api/api.service';
 import {
   AgentResModel,
   MerchantModel,
+  ResponseAgentDepositModel,
 } from '../../../components/dev/agent/agent.models';
 import { AgentModel } from '../../../components/agent/agent.model';
 import { PaginationConfig } from '../../../global/models/pagination.models';
@@ -33,5 +34,13 @@ export class AgentService {
     return this.apiService
       .get<{ object: AgentModel }>('/dbs/agents/' + id + '/')
       .pipe(map(data => data));
+  }
+  AgentDeposit(
+    body: object
+  ): Observable<{ object: ResponseAgentDepositModel }> {
+    const url = '/dbs/agent/deposit/';
+    return this.apiService
+      .post<{ object: ResponseAgentDepositModel }>(url, body)
+      .pipe(map(response => response));
   }
 }

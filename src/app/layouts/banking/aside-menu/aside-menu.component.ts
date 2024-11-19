@@ -1,7 +1,6 @@
-import { Location, NgClass } from '@angular/common';
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { RouterLinkActive } from '@angular/router';
 
 import { Observable, Subject, takeUntil } from 'rxjs';
 
@@ -18,7 +17,7 @@ import { BankModel } from '../../../core/db/models/bank/bank.model';
 @Component({
   selector: 'app-aside-menu',
   standalone: true,
-  imports: [NgClass, RouterLink, RouterLinkActive],
+  imports: [RouterLink],
   templateUrl: './aside-menu.component.html',
   styleUrls: ['./aside-menu.component.scss'],
 })
@@ -69,11 +68,6 @@ export class AsideMenuComponent implements OnInit {
         this.theme = theme;
       },
     });
-  }
-
-  hideAsideMenu() {
-    // TODO :: TO IMPLEMENT RESPONSIVE OF ASIDE MENU
-    console.log('HIDE ASIDE MENU ON MOBILE DEVICE');
   }
 
   switchPlateform(plateform: PlateformModel) {

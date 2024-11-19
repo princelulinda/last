@@ -23,7 +23,7 @@
               <div class="row pt-1 ps-2">
                 <input
                   type="text"
-                  class="w-100 ps-0 InputSearch"
+                  class="w-100 ps-0 InputSearch bg-white"
                   placeholder="Search"
                   aria-label="search" />
               </div>
@@ -130,13 +130,11 @@
             <div class="row w-100 border sm-radius p-2">
               @if (infoMerchant.merchant_logo) {
                 <div class="col-4 sm-radius p-0">
-                  <div class="">
-                    <img
-                      [src]="infoMerchant.merchant_logo"
-                      class="image sm-radius imgSize"
-                      alt="merchant logo"
-                      title="pic" />
-                  </div>
+                  <app-profile-card
+                    [width]="'90px'"
+                    [height]="'90px'"
+                    [imageUrl]="infoMerchant.merchant_logo"
+                    [radiusClass]="'sm-radius'"></app-profile-card>
                 </div>
               } @else {
                 <div class="col-4 bg-secondary sm-radius p-0">
@@ -149,19 +147,22 @@
               <div class="col-8">
                 <div
                   class="row text-start h-100 w-auto sm-radius d-flex flex-column justify-content-between">
-                  <span class="fs-normal fw-bold overflow-hidden">{{
-                    infoMerchant.merchant_title
-                  }}</span>
-                  <span class="fs-normal">{{
+                  <span
+                    class="fs-normal fw-bold overflow-hidden text-truncate"
+                    >{{ infoMerchant.merchant_title }}</span
+                  >
+                  <span class="fs-normal text-truncate">{{
                     infoMerchant.client.client_code
                   }}</span>
-                  <span class="fs-normal">{{ infoMerchant.slug }}</span>
+                  <span class="fs-normal text-truncate">{{
+                    infoMerchant.slug
+                  }}</span>
                   <span
                     class="fs-normal"
                     [ngClass]="
                       infoMerchant.is_active ? 'statusColor' : 'text-primary'
                     ">
-                    {{ infoMerchant.is_active ? 'active' : 'active' }}
+                    {{ infoMerchant.is_active ? 'active' : 'inactive' }}
                   </span>
                 </div>
               </div>

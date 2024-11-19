@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { Subject, takeUntil } from 'rxjs';
@@ -9,7 +9,6 @@ import { AdminService } from '../../../../core/services/admin/admin.service';
 import { DialogService } from '../../../../core/services';
 import { VariableService } from '../../../../core/services/variable/variable.service';
 import { ListComponent } from '../../../../global/components/list/list/list.component';
-import { AutocompleteModel } from '../../../../global/models/global.models';
 import { RoleMenuModel, RoleModel } from '../role.models';
 import { MultiSelectComponent } from '../../../../global/components/custom-field/multi-select/multi-select.component';
 import { PageMenusModel } from '../../menu/menu.models';
@@ -20,7 +19,6 @@ import { Router } from '@angular/router';
   selector: 'app-role-detail',
   standalone: true,
   imports: [
-    RouterLink,
     ListComponent,
     ReactiveFormsModule,
     CommonModule,
@@ -78,7 +76,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
   roleType!: FormControl;
   is_active!: FormControl;
 
-  menuArr: AutocompleteModel[] | null = [];
+  menuArr: number[] | null = [];
   private pageMenus: PageMenusModel[] = [];
   constructor(
     private adminService: AdminService,
@@ -193,7 +191,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
   assignRoleMenus() {
     this.isLoading = true;
     const body = {
-      menus: this.menuArr as AutocompleteModel[],
+      menus: this.menuArr as number[],
     };
 
     this.adminService.assignRoleMenus(this.roleId, body).subscribe({
@@ -224,7 +222,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  menusSelected(menus: AutocompleteModel[] | null) {
+  menusSelected(menus: number[] | null) {
     this.menuArr = menus;
   }
 

@@ -8,7 +8,6 @@ import { DialogService, MenuService } from '../../../../core/services';
 import { CommonModule } from '@angular/common';
 import { PageMenusModel } from '../../menu/menu.models';
 import { MultiSelectComponent } from '../../../../global/components/custom-field/multi-select/multi-select.component';
-import { AutocompleteModel } from '../../../../global/models/global.models';
 
 @Component({
   selector: 'app-admin-direction-details',
@@ -30,7 +29,7 @@ export class AdminDirectionDetailsComponent implements OnInit, OnDestroy {
   loadingData = true;
 
   selectedMenu: 'details' | 'roles' | 'newRole' = 'details';
-  selectedMenus: AutocompleteModel[] = [];
+  selectedMenus: number[] = [];
   roleName = new FormControl('', Validators.required);
   roleGroup = new FormControl('', Validators.required);
   isLoading = false;
@@ -143,11 +142,10 @@ export class AdminDirectionDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  getSelectedMenus(menus: AutocompleteModel[] | null) {
-    this.selectedMenus = menus as AutocompleteModel[];
+  getSelectedMenus(menus: number[] | null) {
+    this.selectedMenus = menus ?? [];
   }
   selectMenu(menu: 'details' | 'roles' | 'newRole') {
-    // this.selectedMenu = menu;
     if (menu === 'details') {
       this.router.navigate([], { fragment: undefined });
     } else {

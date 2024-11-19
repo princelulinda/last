@@ -3,7 +3,7 @@
     class="mb-3"
     [ngClass]="{
       'bg-ihela': plateform !== 'workstation',
-      'bg-erp': plateform === 'workstation'
+      'bg-erp': plateform === 'workstation',
     }">
     <div>
       <!-- NOTE :: cards ( wallet and nyamuranzi )-->
@@ -11,7 +11,7 @@
         <!--wallet card-->
         <div
           [ngClass]="{
-            'border-end border-1  pe-5': plateform === 'onlineBanking'
+            'border-end border-1  pe-5': plateform === 'onlineBanking',
           }">
           <app-wallet-card></app-wallet-card>
         </div>

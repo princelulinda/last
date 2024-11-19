@@ -44,7 +44,7 @@
     @if (!singleInvoices && isLoading) {
       <div class="d-flex justify-content-center align-items-center h-50">
         <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
+          <span i18n class="visually-hidden">Loading...</span>
         </div>
       </div>
     } @else if (singleInvoices && !isLoading) {
@@ -114,7 +114,8 @@
           }
         }
       </div>
-    } @else if (!isLoading && singleInvoices) {
+    }
+    @if (!isLoading && singleInvoices && singleInvoices.length === 0) {
       <div class="text-center">
         <app-empty-state
           [searchTerm]="'single invoice'"
@@ -169,7 +170,7 @@
                   {{ selectedInvoice.payment_status.title }}
                 </div>
                 <div class="col-11 mb-2 fs-medium fw-bold">
-                  <b>INV #{{ selectedInvoice.code }}</b>
+                  <b i18n>INV #{{ selectedInvoice.code }}</b>
                 </div>
 
                 <div class="p-0 h-50">

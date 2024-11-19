@@ -4,6 +4,111 @@
   class="ms-3 justify-content-center d-flex align-items-center bg-primary-3 sm-radius filter-square position-relative">
   <span><i class="fa-solid fa-arrow-up-wide-short text-secondary"></i></span>
 </div>
-<!-- <section class="filter-card position-absolute bg-white sm-radius end-0 p-3">
- 
-</section> -->
+<section
+  class="filter-card position-absolute bg-white sm-radius end-0 p-4 d-none">
+  <section class="row mx-0">
+    @for (filter of filtersData.filters; track $index) {
+      @if (filter.type === 'lookup') {
+        <div class="mb-3 col-10">
+          <app-lookup
+            [url]="filter.data?.url ?? ''"
+            [label]="filter.title"
+            option="lookup"
+            (selectedItemEvent)="getLookupData($event)"></app-lookup>
+        </div>
+      }
+      @if (filter.type === 'autocomplete') {
+        <div class="mb-3 col-10">
+          <app-lookup
+            [url]="filter.data?.url ?? ''"
+            [label]="filter.title"
+            option="autocomplete"
+            (selectedItemEvent)="getAutocompleteData($event)"></app-lookup>
+        </div>
+      }
+
+      <!-- NOTE :: RADIO TYPE FILTER -->
+      @if (filter.type === 'select') {
+        <section class="d-flex gap-4 mb-3 flex-wrap">
+          @for (choice of filter.data?.choices; track $index) {
+            <div class="d-flex align-items-center">
+              <input
+                type="radio"
+                id="#{{ choice.title }}"
+                [name]="filter.name"
+                [value]="choice.value"
+                class="form-check-input mt-0" />
+              <label
+                for="#{{ choice.title }}"
+                class="form-check-label ms-3 fw-bold"
+                i18n
+                >{{ choice.title }}</label
+              >
+            </div>
+          }
+        </section>
+      }
+
+      <!-- NOTE :: CHECK BOX MULTIPLE FILTER -->
+      @if (filter.type === 'select_multiple') {
+        <section class="d-flex gap-4 mb-3 flex-wrap">
+          @for (choice of filter.data?.choices; track $index) {
+            <div class="d-flex align-items-center">
+              <input
+                type="checkbox"
+                [name]="filter.name"
+                id="#{{ choice.title }}"
+                [value]="choice.value"
+                class="form-check-input mt-0" />
+              <label
+                for="#{{ choice.title }}"
+                class="form-check-label ms-3 fw-bold"
+                i18n
+                >{{ choice.title }}</label
+              >
+            </div>
+          }
+        </section>
+      }
+
+      <!-- NOTE :: INPUT TYPE FILTER -->
+      @if (filter.type === 'form_value') {
+        <div class="form-floating mb-3 col-10">
+          <input
+            [type]="filter.data?.field_type"
+            class="form-control"
+            id="#{{ filter.title }}"
+            placeholder="placeholder" />
+          <label class="form-label ms-2" for="#{{ filter.title }}">{{
+            filter.title
+          }}</label>
+        </div>
+      }
+
+      <!-- NOTE :: CHECK BOX FILTER -->
+      @if (filter.type === 'bool') {
+        <div class="d-flex align-items-center mb-3">
+          <input
+            type="checkbox"
+            [name]="filter.name"
+            id="#{{ filter.title }}"
+            class="form-check-input mt-0" />
+          <label
+            for="#{{ filter.title }}"
+            class="form-check-label ms-3 fw-bold"
+            i18n
+            >{{ filter.title }}</label
+          >
+        </div>
+      }
+
+      <!-- NOTE :: RANGE BOX FILTER -->
+      @if (filter.type === 'range') {}
+    }
+    <div class="mt-5 text-center">
+      <button class="btn bg-primary text-all-white px-5 fw-bold" i18n>
+        Apply
+      </button>
+    </div>
+  </section>
+</section>

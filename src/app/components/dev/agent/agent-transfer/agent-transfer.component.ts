@@ -1,13 +1,39 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { BankService } from '../../../../core/services';
+import { Subject, takeUntil } from 'rxjs';
+import { AgentBanksModel } from '../agent.models';
+import { SkeletonComponent } from '../../../../global/components/loaders/skeleton/skeleton.component';
 
 @Component({
   selector: 'app-agent-transfer',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, SkeletonComponent],
   templateUrl: './agent-transfer.component.html',
   styleUrl: './agent-transfer.component.scss',
 })
-export class AgentTransferComponent {
+export class AgentTransferComponent implements OnInit {
+  private OnDestroy$: Subject<void> = new Subject<void>();
+
+  selectedState: 'bank' | 'debit' | 'agent code' | 'amount' = 'bank';
+  banks!: AgentBanksModel[];
+
+  constructor(private bankService: BankService) {}
+
+  ngOnInit() {
+    this.getAgentBanks();
+  }
+
+  getAgentBanks() {
+    this.bankService
+      .getAgentBanks()
+      .pipe(takeUntil(this.OnDestroy$))
+      .subscribe({
+        next: (data: { objects: AgentBanksModel[] }) => {
+          this.banks = data.objects;
+        },
+      });
+  }
   validateInput(event: KeyboardEvent) {
     const allowedKeys = [
       '0',
