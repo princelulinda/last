@@ -34,7 +34,8 @@ export class GeneralService {
   getData(
     url: string,
     pagination: PaginationConfig,
-    params: ParamModel[] = []
+    params: ParamModel[] = [],
+    othersFilters?: string
   ): Observable<getdataModel> {
     let paginationString = '';
     let paramsString = '';
@@ -53,7 +54,7 @@ export class GeneralService {
         .join('&');
     }
 
-    const queryString = `${paginationString}${paginationString && paramsString ? '&' : ''}${paramsString}`;
+    const queryString = `${paginationString}${paginationString && paramsString ? '&' : ''}${paramsString}&${othersFilters}`;
     return this.apiService.get(`${url}${queryString}`);
   }
 
