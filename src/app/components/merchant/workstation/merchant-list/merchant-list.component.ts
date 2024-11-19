@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { ListComponent } from '../../../../global/components/list/list/list.component';
+import { ListHeadersModel } from '../../../../global/components/list/list.models';
 
 @Component({
   selector: 'app-merchant-list',
@@ -10,11 +11,15 @@ import { ListComponent } from '../../../../global/components/list/list/list.comp
   styleUrl: './merchant-list.component.scss',
 })
 export class MerchantListComponent {
-  headers = [
+  headers: ListHeadersModel[] = [
     {
       name: 'Name',
       field: ['merchant_title'],
       size: '',
+      detail: {
+        link: '/w/workstation/d/desk/merchant/detail/',
+        field: 'id',
+      },
     },
     { name: 'Merchant code', field: ['merchant_code'], size: '' },
 

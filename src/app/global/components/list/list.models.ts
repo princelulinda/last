@@ -15,7 +15,9 @@ export interface selectedPeriodModel {
 }
 
 export interface ListHeadersModel {
+  name: string;
   field: string[];
+  size: string;
   css?: string;
   icon?: string;
   detail?: {
@@ -24,15 +26,12 @@ export interface ListHeadersModel {
   };
   boolean?: boolean;
   class?: string;
-  size?: string;
   format?: string;
   canBeDisplayed?: boolean;
   option1?: string;
   option2?: string;
   value1?: string;
   value2?: string;
-
-  name: string;
 }
 
 export interface OverviewModel {
