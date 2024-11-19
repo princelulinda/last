@@ -69,11 +69,7 @@ export class DebitAccountWorkstationComponent implements OnInit {
     this.selectedDebitAccountType = accountType;
 
     this.selectedDebitAccountTypeChange.emit(this.selectedDebitAccountType);
-    //console.log('selectedDebitAccountTypeChange', this.selectDebitAccountType);
-    console.log(
-      'selectedDebitAccountTypeChange',
-      this.selectedDebitAccountType
-    );
+
     this.deselectAccount.emit(true);
     // if (accountType !== this.selectedDebitAccountType) {
     //   this.selectedDebitAccountType = '';
@@ -118,13 +114,13 @@ export class DebitAccountWorkstationComponent implements OnInit {
   getIndividualClient(event: ClientInfoModel) {
     this.individualClientInfo = event;
     this.IndividualClientOption.emit(this.individualClientInfo);
-    console.log('individual account  ', event);
+    /// console.log('individual account  ', event);
   }
 
   getClientToDebit(client: LookupModel | null) {
     this.debitAccount = client;
 
-    console.log('llokup', this.debitAccount);
+    // console.log('llokup', this.debitAccount);
     this.lookupOptions.emit(this.debitAccount);
   }
 
@@ -153,7 +149,7 @@ export class DebitAccountWorkstationComponent implements OnInit {
             this.walletNumber = response.object.response_data.account_number;
 
             this.lookupOptionsWallet.emit(response);
-            console.log('ngiyoooo', response);
+            // console.log('ngiyoooo', response);
 
             this.lookupWallet.reset();
           }
