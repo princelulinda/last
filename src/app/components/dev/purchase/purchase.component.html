@@ -237,7 +237,7 @@
     <form action="adding an invoice" [formGroup]="invoiceForm">
       <div class="d-flex flex-column gap-5">
         <div class="d-flex flex-column gap-2 mt-5">
-          <b class="text-primary">Supplier Selected</b>
+          <b class="text-primary" i18n>Supplier Selected</b>
           <div class="d-flex flex-row gap-3">
             <div
               class="selectedMerchant-card bg-secondary sm-radius d-flex gap-4 py-2">
@@ -313,7 +313,7 @@
                   maxlength="4"
                   (keydown)="validateInput($event)"
                   formControlName="pin" />
-                <label for="pin">PIN</label>
+                <label for="pin" i18n>PIN</label>
               </div>
             </div>
           </div>
@@ -451,7 +451,8 @@
           <div class="d-flex flex-column gap-3">
             <div class="d-flex col-11 mx-auto">
               <div
-                class="d-flex justify-content-start align-items-center text-dark">
+                class="d-flex justify-content-start align-items-center text-dark"
+                i18n>
                 Existant Group
               </div>
               <div class="col-9 col-sm-5 col-md-6 ms-auto">
@@ -684,7 +685,7 @@
                   }
                 }
               } @else if (invoices_groups && invoices_groups.length === 0) {
-                <strong class="text-dark text-center">
+                <strong class="text-dark text-center" i18n>
                   The Teller has no group
                 </strong>
               } @else if (!invoices_groups) {
@@ -718,7 +719,7 @@
                     id="floatingInput"
                     placeholder="Group name"
                     formControlName="group_name" />
-                  <label for="floatingInput">Group Name</label>
+                  <label for="floatingInput" i18n>Group Name</label>
                 </div>
               </div>
               <Button
@@ -732,7 +733,7 @@
                       class="fa-solid fa-spin fa-circle-notch fa-lg text-primary"></i>
                   </span>
                 } @else if (!isLoading) {
-                  <span class="p-2">Create group</span>
+                  <span class="p-2" i18n>Create group</span>
                 }
               </Button>
             </form>
