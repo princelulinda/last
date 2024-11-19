@@ -112,10 +112,10 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     },
   ];
 
+  isMerchantLoading!: boolean;
   acceptsSimplePayment = false;
   tellers!: tellerObjectModel[];
   selectedTeller!: tellerObjectModel;
-  isMerchantLoading!: boolean;
   tellerId!: string;
   isActionDone = false;
   products!: ProductsModel[];
@@ -306,6 +306,57 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
     this.pagination.filters.limit = 10;
 
     this.getMetadata();
+  }
+
+  //1. mechant details function
+
+  getMerchantsDetails() {
+    this.isMerchantLoading = true;
+    this.merchantService
+      .getMerchantsDetails(this.merchantId as unknown as number)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: data => {
+          if (data) {
+            this.merchant = data.object;
+            this.isMerchantLoading = false;
+            this.getTellersByMerchant();
+            this.getMerchantProducts();
+            this.router.navigate([], { fragment: undefined });
+            this.merchantConfigForm.patchValue({
+              name: this.merchant.merchant_title,
+              simplePayment: this.merchant.accepts_simple_payment,
+              slug: this.merchant.slug,
+              cart: this.merchant.accepts_cart,
+              plug: this.merchant.api_plug_name,
+              incognito: this.merchant.client_visibility_activated,
+              cashin: this.merchant.has_cashin,
+            });
+            if (this.merchant.merchant_location) {
+              this.longitude = this.merchant.merchant_location.longitude;
+              this.latitude = this.merchant.merchant_location.latitude;
+            }
+
+            if (this.merchant.merchant_logo) {
+              this.logoUrl = this.merchant.merchant_logo;
+            } else {
+              this.logoUrl = '/src/assets/images/userprofile.png';
+            }
+
+            this.getProducts();
+
+            this.merchantForm.patchValue({
+              inputTitle: this.merchant.merchant_title,
+              inputCategory: this.merchant.merchant_category.name,
+              inputIsActive: this.merchant.is_active,
+            });
+          }
+        },
+      });
+    if (this.clientId) {
+      this.getClientId(this.clientId);
+    }
+    //
   }
 
   getClientInfo(event: LookupModel | null = null) {
@@ -606,54 +657,7 @@ export class MerchantDetailsComponent implements OnInit, OnDestroy {
       },
     });
   }
-  getMerchantsDetails() {
-    this.isMerchantLoading = true;
-    this.merchantService
-      .getMerchantsDetails(this.merchantId as unknown as number)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: data => {
-          if (data) {
-            this.merchant = data.object;
-            this.isMerchantLoading = false;
-            this.getTellersByMerchant();
-            this.getMerchantProducts();
-            this.router.navigate([], { fragment: undefined });
-            this.merchantConfigForm.patchValue({
-              name: this.merchant.merchant_title,
-              simplePayment: this.merchant.accepts_simple_payment,
-              slug: this.merchant.slug,
-              cart: this.merchant.accepts_cart,
-              plug: this.merchant.api_plug_name,
-              incognito: this.merchant.client_visibility_activated,
-              cashin: this.merchant.has_cashin,
-            });
-            if (this.merchant.merchant_location) {
-              this.longitude = this.merchant.merchant_location.longitude;
-              this.latitude = this.merchant.merchant_location.latitude;
-            }
 
-            if (this.merchant.merchant_logo) {
-              this.logoUrl = this.merchant.merchant_logo;
-            } else {
-              this.logoUrl = '/src/assets/images/userprofile.png';
-            }
-
-            this.getProducts();
-
-            this.merchantForm.patchValue({
-              inputTitle: this.merchant.merchant_title,
-              inputCategory: this.merchant.merchant_category.name,
-              inputIsActive: this.merchant.is_active,
-            });
-          }
-        },
-      });
-    if (this.clientId) {
-      this.getClientId(this.clientId);
-    }
-    //
-  }
   getClientId(event: string) {
     this.clientId = event;
   }

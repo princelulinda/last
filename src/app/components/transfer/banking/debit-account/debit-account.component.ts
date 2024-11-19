@@ -169,6 +169,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
 
   selectDebitType(accountType: 'account' | 'wallet') {
     this.selectedDebitAccountType = accountType;
+    //console.log('hello', this.selectDebitAccountType)
   }
 
   selectDebitAccountType(accountType: 'account' | 'wallet') {
@@ -184,6 +185,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
       selectedInstitution: this.selectedInstitution,
     };
     this.debitOptions.emit(options);
+    // console.log ('accountype',options)
   }
   selectAndEmitAccount(
     accountType: 'account' | 'wallet',
@@ -208,7 +210,7 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
     this.activeDebitOption.emit(selectedDetails);
 
     // Log l'objet émis
-    console.log('Options emitted:', selectedDetails);
+    // console.log('Options emitted:', selectedDetails);
   }
 
   getAccountSelected(event: AccountsListModel | WalletModel) {
@@ -240,6 +242,6 @@ export class DebitAccountComponent implements OnInit, OnDestroy {
     this.activeDebitOption.emit(options);
 
     // Log the emitted options
-    console.log('Options emitted on destroy:', options);
+    // console.log('Options emitted on destroy:', options);
   }
 }
