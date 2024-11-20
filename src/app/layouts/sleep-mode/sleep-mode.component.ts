@@ -66,9 +66,7 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
     this.screenState$ = this.configService.getScreenState();
 
     this.screenLockEvent$ = merge(
-      fromEvent(document, 'mousemove'),
       fromEvent(document, 'click'),
-      fromEvent(document, 'scroll'),
       fromEvent(document, 'keypress')
     ).pipe(
       tap(() => this.resetScreenLockEvent$.next()), // reset on any event
@@ -81,6 +79,10 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
         this.configService.switchScreenState('unlocked');
       }
     };
+  }
+
+  showed() {
+    return this.authService.isAuthenticated();
   }
 
   ngOnInit() {
@@ -116,8 +118,10 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
   animationStart() {
     const element = document.getElementById('toAnimate');
     const showElement = document.getElementsByClassName('hidDiv')[0];
+    const toClick = document.getElementById('toClick');
 
     element?.classList.add('animation');
+    toClick?.classList.add('click');
     showElement?.classList.add('show');
   }
 
@@ -140,6 +144,10 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
         },
       });
     }
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   setShowPassword() {
