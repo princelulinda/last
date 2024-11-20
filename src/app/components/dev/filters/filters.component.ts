@@ -118,9 +118,8 @@ export class FiltersComponent implements OnInit {
         // TODO :: CHECK BACK URLS , AND CHECK IF THIS FORMAT WORK
         this.filtersData.filters.map(filter => {
           if (filter.data?.url) {
-            return this.formBackUrls(filter.data?.url);
+            filter.data.url = this.formBackUrls(filter.data?.url);
           }
-          return;
         });
 
         this.generateFilterForm();

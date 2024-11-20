@@ -2,6 +2,7 @@
   role="button"
   title="Filters"
   (click)="toogleFilterCard()"
+  [ngClass]="{ 'not-clickable': isLoading }"
   tabindex="0"
   class="ms-3 justify-content-center d-flex align-items-center bg-primary-3 sm-radius filter-square position-relative">
   <span><i class="fa-solid fa-arrow-up-wide-short text-secondary"></i></span>

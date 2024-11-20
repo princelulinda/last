@@ -182,7 +182,7 @@
           }
 
           <!-- NOTE :: FILTERS -->
-          <div [ngClass]="{ 'not-clickable': isLoading }">
+          <div>
             <app-filters
               (filtersEvent)="getActiveFilters($event)"
               [url]="url"></app-filters>
