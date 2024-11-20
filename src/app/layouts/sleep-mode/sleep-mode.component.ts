@@ -66,7 +66,9 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
     this.screenState$ = this.configService.getScreenState();
 
     this.screenLockEvent$ = merge(
+      fromEvent(document, 'mousemove'),
       fromEvent(document, 'click'),
+      fromEvent(document, 'scroll'),
       fromEvent(document, 'keypress')
     ).pipe(
       tap(() => this.resetScreenLockEvent$.next()), // reset on any event
