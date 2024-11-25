@@ -1,10 +1,10 @@
-import { NgClass, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-skeleton',
   standalone: true,
-  imports: [NgStyle, NgClass],
+  imports: [NgStyle],
   templateUrl: './skeleton.component.html',
   styleUrl: './skeleton.component.scss',
 })

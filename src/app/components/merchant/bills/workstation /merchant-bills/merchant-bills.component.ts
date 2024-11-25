@@ -36,6 +36,7 @@ export class MerchantBillsComponent {
     {
       name: '',
       field: ['code'],
+      size: '',
     },
   ];
 }

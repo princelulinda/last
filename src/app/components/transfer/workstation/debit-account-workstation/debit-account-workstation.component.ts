@@ -47,6 +47,7 @@ export class DebitAccountWorkstationComponent implements OnInit {
   @Input() selectedDebitAccountType = '';
 
   @Output() lookupOptions = new EventEmitter<LookupModel | null>();
+  @Output() IndividualClientOption = new EventEmitter<ClientInfoModel | null>();
   @Output() lookupOptionsWallet = new EventEmitter<TransferResponseModel>();
   @Output() selectedDebitAccountTypeChange = new EventEmitter<string>();
   @Output() deselectAccount = new EventEmitter<boolean>(false);
@@ -66,55 +67,60 @@ export class DebitAccountWorkstationComponent implements OnInit {
   }
   selectDebitAccountType(accountType: string) {
     this.selectedDebitAccountType = accountType;
+
     this.selectedDebitAccountTypeChange.emit(this.selectedDebitAccountType);
+
     this.deselectAccount.emit(true);
-    if (accountType !== this.selectedDebitAccountType) {
-      this.selectedDebitAccountType = '';
-    }
-    switch (accountType) {
-      case 'account':
-        this.debitAccount = null;
-        break;
+    // if (accountType !== this.selectedDebitAccountType) {
+    //   this.selectedDebitAccountType = '';
+    // }
+    // switch (accountType) {
+    //   case 'account':
+    //     this.debitAccount = null;
+    //     break;
 
-      case 'wallet':
-        this.lookupDebitAccountUrl = '/dbs/wallets/object_lookup?lookup_data=';
-        this.debitAccount = null;
-        break;
+    //   case 'wallet':
+    //     this.lookupDebitAccountUrl = '/dbs/wallets/object_lookup?lookup_data=';
+    //     this.debitAccount = null;
+    //     break;
 
-      case 'agent':
-        this.lookupDebitAccountUrl = '/dbs/agents/object_lookup?lookup_data=';
-        this.debitAccount = null;
-        break;
+    //   case 'agent':
+    //     this.lookupDebitAccountUrl = '/dbs/agents/object_lookup?lookup_data=';
+    //     this.debitAccount = null;
+    //     break;
 
-      case 'internal':
-        this.lookupDebitAccountUrl = '/ledger/objects_autocomplete?search=';
-        this.debitAccount = null;
-        break;
+    //   case 'internal':
+    //     this.lookupDebitAccountUrl = '/ledger/objects_autocomplete?search=';
+    //     this.debitAccount = null;
+    //     break;
 
-      case 'treasury':
-        this.lookupDebitAccountUrl =
-          '/treasury/institutions/manage/objects_autocomplete?search=';
-        this.debitAccount = null;
-        break;
+    //   case 'treasury':
+    //     this.lookupDebitAccountUrl =
+    //       '/treasury/institutions/manage/objects_autocomplete?search=';
+    //     this.debitAccount = null;
+    //     break;
 
-      case 'merchant':
-        this.lookupDebitAccountUrl =
-          '/dbs/merchant/manage/object_lookup?lookup_data=';
-        this.debitAccount = null;
-        break;
+    //   case 'merchant':
+    //     this.lookupDebitAccountUrl =
+    //       '/dbs/merchant/manage/object_lookup?lookup_data=';
+    //     this.debitAccount = null;
+    //     break;
 
-      default:
-        break;
-    }
+    //   default:
+    //     break;
+    // }
   }
+  //output for account
   getIndividualClient(event: ClientInfoModel) {
     this.individualClientInfo = event;
+    this.IndividualClientOption.emit(this.individualClientInfo);
+    /// console.log('individual account  ', event);
   }
 
   getClientToDebit(client: LookupModel | null) {
     this.debitAccount = client;
 
-    //console.log('helllooo' , this.debitAccount)
+    // console.log('llokup', this.debitAccount);
     this.lookupOptions.emit(this.debitAccount);
   }
 
@@ -123,7 +129,7 @@ export class DebitAccountWorkstationComponent implements OnInit {
     this.walletNumber = undefined;
     this.deselectAccount.emit(true);
   }
-
+  //for wallet output
   lookupAccount() {
     this.walletSearching = true;
 
@@ -143,6 +149,7 @@ export class DebitAccountWorkstationComponent implements OnInit {
             this.walletNumber = response.object.response_data.account_number;
 
             this.lookupOptionsWallet.emit(response);
+            // console.log('ngiyoooo', response);
 
             this.lookupWallet.reset();
           }

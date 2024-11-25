@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  WritableSignal,
+  signal,
+  effect,
+} from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -15,7 +23,6 @@ import {
   OverviewModel,
 } from '../list.models';
 import { SkeletonComponent } from '../../loaders/skeleton/skeleton.component';
-import { NotFoundPageComponent } from '../../empty-states/not-found-page/not-found-page.component';
 import { EmptyStateComponent } from '../../empty-states/empty-state/empty-state.component';
 import { FiltersComponent } from '../../../../components/dev/filters/filters.component';
 // import { TooltipDirective } from '../../../directives/tooltip/tooltip.directive';
@@ -27,7 +34,6 @@ import { FiltersComponent } from '../../../../components/dev/filters/filters.com
     ReactiveFormsModule,
     SkeletonComponent,
     CommonModule,
-    NotFoundPageComponent,
     RouterLink,
     FormsModule,
     EmptyStateComponent,
@@ -74,24 +80,26 @@ export class ListComponent implements OnInit, OnDestroy {
   }[][];
   checkAll = false;
 
-  @Input() filters = [
-    {
-      name: 'Date',
-      title: 'date',
-      value: [
-        { title: 'Date', value: 'date', type_field: 'date' },
-        { title: 'Period', value: 'period', type_field: 'date' },
-      ],
-    },
-    {
-      name: 'Status',
-      title: 'status',
-      value: [
-        { title: 'Activate', value: 'A', type_field: 'checkbox' },
-        { title: 'Deactivate', value: 'D', type_field: 'checkbox' },
-      ],
-    },
-  ];
+  // @Input() filters = [
+  //   {
+  //     name: 'Date',
+  //     title: 'date',
+  //     value: [
+  //       { title: 'Date', value: 'date', type_field: 'date' },
+  //       { title: 'Period', value: 'period', type_field: 'date' },
+  //     ],
+  //   },
+  //   {
+  //     name: 'Status',
+  //     title: 'status',
+  //     value: [
+  //       { title: 'Activate', value: 'A', type_field: 'checkbox' },
+  //       { title: 'Deactivate', value: 'D', type_field: 'checkbox' },
+  //     ],
+  //   },
+  // ];
+  filtersSignal: WritableSignal<string> = signal('');
+  filters = '';
 
   clientPagination = new PaginationConfig();
   currentPage = 0;
@@ -134,6 +142,11 @@ export class ListComponent implements OnInit, OnDestroy {
   ) {
     this.amountState$ = this.dialogService.getAmountState();
     this.data_list = [];
+
+    effect(() => {
+      this.filters = this.filtersSignal();
+      this.getData();
+    });
   }
 
   ngOnInit(): void {
@@ -142,7 +155,7 @@ export class ListComponent implements OnInit, OnDestroy {
     // NOTE :: GET FORMATTED OVERVIEW URL
     this.overviewUrl = this.getOverviewUrl();
 
-    this.getData();
+    // this.getData();
 
     this.amountState$.subscribe({
       next: state => {
@@ -179,16 +192,16 @@ export class ListComponent implements OnInit, OnDestroy {
       }
     }
 
-    if (this.selectedPeriod) {
-      params.push(
-        { title: 'date_from', value: this.selectedPeriod.startDate },
-        { title: 'date_to', value: this.selectedPeriod.endDate }
-      );
-    }
+    // if (this.selectedPeriod) {
+    //   params.push(
+    //     { title: 'date_from', value: this.selectedPeriod.startDate },
+    //     { title: 'date_to', value: this.selectedPeriod.endDate }
+    //   );
+    // }
 
     this.isLoading = true;
     this.generalService
-      .getData(this.url, this.clientPagination, params)
+      .getData(this.url, this.clientPagination, params, this.filters)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (data: getdataModel) => {
@@ -449,6 +462,10 @@ export class ListComponent implements OnInit, OnDestroy {
         },
       });
     // }
+  }
+
+  getActiveFilters(filters: string) {
+    this.filtersSignal.set(filters);
   }
 
   // openOverview() {

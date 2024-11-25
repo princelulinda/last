@@ -145,7 +145,7 @@
               </div>
             </div>
 
-            <!-- Overview/resumer of merchant details -->
+            <!--  !selectedMenu) Overview/resumer of merchant details  !selectedMenu) -->
             @if (!selectedMenu) {
               <div class="mt-3">
                 <div class="row">
@@ -270,32 +270,23 @@
                               >Accept simple payments</b
                             >
                           </div>
-                          @if (!isLoading) {
-                            <div>
-                              @if (merchant.accepts_simple_payment) {
-                                <div>
-                                  <b>
-                                    <i
-                                      class="fa fa-circle-xmark text-success"></i>
-                                  </b>
-                                </div>
-                              }
-                              @if (!merchant.accepts_simple_payment) {
-                                <div>
-                                  <b>
-                                    <i
-                                      class="fa fa-check-circle text-success"></i>
-                                  </b>
-                                </div>
-                              }
-                            </div>
-                          }
+
                           <div>
-                            @if (isLoading) {
-                              <b>
-                                <i
-                                  class="fa-solid fa-pulse fa-spinner text-dark"></i>
-                              </b>
+                            @if (merchant.accepts_simple_payment) {
+                              <div>
+                                <b>
+                                  <i
+                                    class="fa fa-circle-xmark text-success"></i>
+                                </b>
+                              </div>
+                            }
+                            @if (!merchant.accepts_simple_payment) {
+                              <div>
+                                <b>
+                                  <i
+                                    class="fa fa-check-circle text-success"></i>
+                                </b>
+                              </div>
                             }
                           </div>
                         </div>
@@ -306,280 +297,359 @@
               </div>
             }
 
-            <!-- Configurations/ teller addition -->
-            @if (selectedMenu === 'tellers') {
-              <div class="mt-5">
-                <div>
-                  <div class="d-grid text-secondary">
-                    <div class="d-flex align-items-center row">
-                      <div class="col-3 d-flex align-items-center">
-                        <b class="me-2" i18n>Notifications</b>
-                        <b>
-                          <i class="fa fa-bell"></i>
-                        </b>
-                      </div>
-                      <div class="fs-normal col-3 d-flex align-items-center">
-                        <b class="me-2" i18n>Admin</b>
-                        <b>
-                          <i class="fa fa-user-tie"></i>
-                        </b>
-                      </div>
-                      <div class="fs-normal col-3 d-flex align-items-center">
-                        <b class="me-2" i18n>Superadmin</b>
-                        <b>
-                          <i class="fa-brands fa-black-tie"></i>
-                        </b>
+            @if (!selectedMenu) {
+              <div class="mt-3">
+                <hr />
+
+                <!-- Recents payment section -->
+
+                <div class="mt-4 mb-2">
+                  <div
+                    class="d-flex justify-content-between align-items-center px-4">
+                    <div class="d-flex gap-2 align-items-center">
+                      <div class="bg-primary point rounded-circle"></div>
+                      <div class="text-dark text-md-sm" i18n>
+                        Recent payments
                       </div>
                     </div>
-                    <div class="d-flex gap-4">
-                      <hr class="w-75 mt-2" />
-                      <div class="w-25 mb-4 d-flex">
-                        <button
-                          [disabled]="!tellers"
-                          class="btn border-primary text-dark"
-                          data-bs-toggle="modal"
-                          data-bs-target="#newTellerModal"
-                          #closeModal
-                          (click)="toggleModal()"
-                          tabindex="0">
-                          <b
-                            class="mini-title"
-                            [ngClass]="{
-                              'text-dark': theme === 'magis-dark',
-                            }"
-                            i18n
-                            >Add teller</b
-                          >
-                        </button>
-                      </div>
-                    </div>
-                    <!--modAL-->
+
                     <div
-                      class="modal fade"
-                      data-mdb-backdrop="false"
-                      id="newTellerModal">
-                      <div
-                        class="modal-dialog inner-container w-100 d-flex justify-content-center h-100 align-items-center overflow-auto"
-                        style="min-width: 75%">
-                        <div class="modal-content w-50 h-75">
-                          @if (tellerCreationDone) {
-                            <main class="p-4">
-                              <section class="">
-                                <div
-                                  class="w-100 d-flex justify-content-between">
-                                  <div class="mb-4">
-                                    <span
-                                      class="l-title"
-                                      [ngClass]="{
-                                        'text-dark': theme === 'magis-dark',
-                                      }"
-                                      >New Teller</span
-                                    >
-                                  </div>
-                                  <b
-                                    role="button"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#newTellerModal">
-                                    <i class="fa fs-4 fa-xmark"></i>
-                                  </b>
-                                </div>
-                              </section>
-                              <section>
-                                <div
-                                  [formGroup]="newTellerForm"
-                                  [ngClass]="{
-                                    'not-clickable': isTellerLoading,
-                                  }">
-                                  <div>
-                                    <div
-                                      class="d-flex justify-content-start mb-3">
-                                      <app-lookup
-                                        class="w-resp-client"
-                                        option="lookup"
-                                        url="/clients/list/all/object_lookup?lookup_data="
-                                        label="Enter client id"
-                                        (selectedItemEvent)="
-                                          getClientInfo($event)
-                                        "></app-lookup>
-                                    </div>
-                                  </div>
-                                  <div class="form-floating my-4 col-lg-6">
-                                    <input
-                                      type="text"
-                                      class="input border form-control bg-input"
-                                      [ngClass]="{
-                                        'border-secondary':
-                                          theme === 'magis-light',
-                                        'border-dark bg-white text-dark':
-                                          theme === 'magis-dark',
-                                      }"
-                                      id="slug"
-                                      placeholder="alias"
-                                      formControlName="alias" />
-                                    <label
-                                      for="slug"
-                                      class="label-input ms-label"
-                                      [ngClass]="{
-                                        'text-dark': theme === 'magis-dark',
-                                      }"
-                                      >Alias</label
-                                    >
-                                  </div>
-                                  <div class="d-flex">
-                                    <span
-                                      class="me-2 fs-medium text-secondary"
-                                      i18n
-                                      >Can receive notifications</span
-                                    >
-                                    <div
-                                      tabindex="0"
-                                      role="button"
-                                      (click)="toggleNotificationsCheckbox()">
-                                      @if (isChecked) {
-                                        <span>
-                                          <i
-                                            class="fa-regular fa-square-check fs-4 text-dark"></i>
-                                        </span>
-                                      }
-                                      @if (!isChecked) {
-                                        <span>
-                                          <i
-                                            class="fa-regular fa-square fs-4 text-dark"></i>
-                                        </span>
-                                      }
-                                    </div>
-                                  </div>
-                                  <div class="mt-3">
-                                    <button
-                                      (click)="createNewTeller()"
-                                      [ngClass]="{
-                                        'not-clickable text-light':
-                                          newTellerForm.invalid,
-                                      }"
-                                      class="btn bg-primary px-4-5">
-                                      @if (isTellerLoading) {
-                                        <span class="">
-                                          <i
-                                            class="fa-solid fa-spin fa-circle-notch fs-4"></i>
-                                        </span>
-                                      }
-                                      @if (!isTellerLoading) {
-                                        <b class="text-all-white">Confirm</b>
-                                      }
-                                    </button>
-                                  </div>
-                                </div>
-                              </section>
-                            </main>
-                          }
-                        </div>
-                      </div>
+                      tabindex="0"
+                      (click)="refreshsPaymentStats('paymentStats')"
+                      role="button">
+                      <i class="fa-solid fa-rotate"></i>
                     </div>
                   </div>
-                  <div class="mb-2">
-                    <b i18n>Tellers</b>
-                  </div>
-                  @if (!tellers) {
-                    <div class="row">
-                      @for (item of [1, 2, 3]; track $index) {
-                        <div class="d-flex mb-3 align-items-center col-auto">
-                          <div class="d-grid me-3">
-                            <span>
-                              <app-skeleton
-                                classes="sm-radius"
-                                height="130px"
-                                width="130px"></app-skeleton>
-                            </span>
-                          </div>
-                          <div class="d-grid">
-                            <span class="">
-                              <app-skeleton
-                                classes="sm-radius"
-                                height="10px"
-                                width="100px"></app-skeleton>
-                            </span>
-                            <span class="">
-                              <app-skeleton
-                                classes="sm-radius"
-                                height="10px"
-                                width="100px"></app-skeleton>
-                            </span>
-                            <span class="">
-                              <app-skeleton
-                                classes="sm-radius"
-                                height="10px"
-                                width="100px"></app-skeleton>
-                            </span>
-                          </div>
-                        </div>
-                      }
-                    </div>
-                  }
-                  @if (tellers && tellers.length > 0) {
-                    <div class="row">
-                      @for (teller of tellers; track teller) {
-                        <div
-                          tabindex="0"
-                          data-bs-toggle="modal"
-                          data-bs-target="#tellersModal"
-                          role="button"
-                          (click)="displayTellerInfo(teller)"
-                          class="col-lg-4 col-md-6 mb-3 is-hoverable"
-                          role="button">
-                          <div class="d-flex align-items-start">
-                            <div
-                              style="height: 86px; width: 86px"
-                              class="me-3 overflow-hidden rounded">
-                              @if (!teller.client.picture) {
-                                <img
-                                  alt=""
-                                  src="images/userprofile.png"
-                                  class="image rounded" />
-                              }
-
-                              @if (teller.client.picture) {
-                                <img
-                                  alt=""
-                                  [src]="teller.client.picture"
-                                  class="image rounded" />
-                              }
+                </div>
+                <div>
+                  <div class="bg-input w-100 rounded p-3 mb-4">
+                    <div>
+                      <div>
+                        <div class="d-flex justify-content-center gap-5">
+                          <div class="bg-secondary sm-radius px-4 py-1">
+                            <div class="d-grid justify-content-center">
+                              <div class="d-flex justify-content-center">
+                                <div class="fw-bold text-dark text-md">
+                                  {{ merchant.payment_bills }}
+                                </div>
+                              </div>
+                              <div class="text-primary text-sm" i18n>
+                                Total payments
+                              </div>
                             </div>
-                            <div class="d-grid pt-0-1">
-                              <b class="text-dark text-md">{{
-                                teller?.client?.client_full_name
-                              }}</b>
-                              <b class="text-dark text-md">{{
-                                teller?.client?.client_code
-                              }}</b>
-                              <div class="d-flex align-items-center">
-                                @if (teller.can_receive_notifications) {
-                                  <b class="me-2">
-                                    <i class="fa fa-bell"></i>
-                                  </b>
-                                }
-
-                                @if (teller?.teller_type?.value === 'A') {
-                                  <b class="me-2">
-                                    <i class="fa fa-user-tie"></i>
-                                  </b>
-                                }
-                                @if (teller?.teller_type?.value === 'S') {
-                                  <b>
-                                    <i class="fa-brands fa-black-tie"></i>
-                                  </b>
-                                }
+                          </div>
+                          <div class="bg-secondary sm-radius px-4 py-1">
+                            <div class="d-grid">
+                              <div class="" i18n>
+                                <app-amount-visibility
+                                  [amount]="merchant.paid_amount"
+                                  [currency]="merchant.balance_currency"
+                                  customClasses="fw-bold text-dark text-md"></app-amount-visibility>
+                              </div>
+                              <div class="text-primary text-sm" i18n>
+                                Payments Volumes
                               </div>
                             </div>
                           </div>
                         </div>
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="text-primary text-sm" i18n>
+                            Last payments
+                          </span>
+
+                          <hr class="w text-primary" />
+                        </div>
+                        @if (paymentStats && !getPaymentStatsLoader) {
+                          <div class="p-3">
+                            <div class="row">
+                              <div class="col-3 text-md-sm text-secondary" i18n>
+                                Date
+                              </div>
+                              <div class="col-2 text-md-sm text-secondary" i18n>
+                                Client
+                              </div>
+                              <div class="col-5 text-md-sm text-secondary" i18n>
+                                Description
+                              </div>
+                              <div class="col-2 text-md-sm text-secondary" i18n>
+                                Amount
+                              </div>
+                            </div>
+                            @for (payments of paymentStats; track payments) {
+                              <div
+                                class="row border bg-white lg-radius d-flex align-items-center mt-2 p-1">
+                                <div class="col-3 d-grid">
+                                  <div class="text-md-sm text-secondary">
+                                    {{ payments.created_at | date: 'medium' }}
+                                  </div>
+                                  <div>
+                                    <b
+                                      [class]="
+                                        'text-' +
+                                        payments.payment_status.css +
+                                        ' badge-design bg-' +
+                                        payments.payment_status.css
+                                      ">
+                                      {{ payments.payment_status.title }}
+                                    </b>
+                                  </div>
+                                </div>
+
+                                <div class="col-2">
+                                  <div class="d-grid">
+                                    <div
+                                      class="text-md-sm text-secondary fw-bold">
+                                      {{ payments.client.client_full_name }}
+                                    </div>
+                                    <div class="text-md-sm text-secondary">
+                                      {{ payments.client.client_code }}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-5 d-flex flex-column">
+                                  <div class="text-primary text-md-sm">
+                                    {{ payments.description }}
+                                  </div>
+                                  <span class="text-secondary">
+                                    N#
+                                    {{ payments.code }}
+                                  </span>
+                                </div>
+                                <div class="col-2 d-flex flex-column">
+                                  <div class="text-primary fw-bold">
+                                    <app-amount-visibility
+                                      [amount]="payments.total_amount"
+                                      [currency]="payments.currency"
+                                      customClasses="text-md-sm text-primary fw-bold"></app-amount-visibility>
+                                  </div>
+                                </div>
+                              </div>
+                            }
+                          </div>
+                        }
+                        @if (getPaymentStatsLoader) {
+                          <div class="d-grid">
+                            <div class="w-85 rounded mt-4">
+                              @for (_ of [1, 2, 3]; track $index) {
+                                <div class="col mb-4">
+                                  <app-skeleton
+                                    [width]="'100%'"
+                                    [height]="'50px'"
+                                    classes="sm-radius">
+                                  </app-skeleton>
+                                </div>
+                              }
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Top clients section -->
+
+                  <div class="mt-4 mb-2">
+                    <div
+                      class="d-flex align-items-center justify-content-between px-4">
+                      <div class="d-flex gap-2 align-items-center">
+                        <div class="bg-primary point rounded-circle"></div>
+                        <div class="text-dark text-md-sm" i18n>Top clients</div>
+                      </div>
+                      <div
+                        tabindex="0"
+                        (click)="refreshsPaymentStats('amountOrTransaction')"
+                        role="button">
+                        <i class="fa-solid fa-rotate"></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-input w-100 rounded p-3">
+                    <div class="p-3">
+                      <div
+                        class="d-flex align-items-center gap-2 justify-content-end">
+                        <div>Filter By :</div>
+                        <div class="d-flex gap-4">
+                          <div
+                            tabindex="0"
+                            class="rounded btn-w d-flex text-center align-items-center justify-content-center"
+                            (click)="switchOption('transaction')"
+                            role="button"
+                            [ngClass]="{
+                              'bg-primary text-light':
+                                selectedOption === 'transaction' ||
+                                !selectedOption,
+                              'bg-white text-primary':
+                                selectedOption !== 'transaction' &&
+                                selectedOption,
+                            }">
+                            <div class="fw-bold text-md-sm" i18n>Payments</div>
+                          </div>
+
+                          <div
+                            tabindex="0"
+                            class="rounded btn-w d-flex text-center align-items-center justify-content-center"
+                            (click)="switchOption('amount')"
+                            role="button"
+                            [ngClass]="{
+                              'bg-primary text-light':
+                                selectedOption === 'amount',
+
+                              'bg-white text-primary':
+                                selectedOption !== 'amount',
+                            }">
+                            <div class="fw-bold text-md-sm" i18n>Amount</div>
+                          </div>
+                        </div>
+                      </div>
+                      @if (
+                        topClientsByTransactions && !topClientsByAmountLoader
+                      ) {
+                        <div>
+                          <div class="row mt-4">
+                            <div class="col-4 text-md-sm text-secondary" i18n>
+                              Name
+                            </div>
+                            <div class="col-3 text-md-sm text-secondary" i18n>
+                              Code
+                            </div>
+                            <div class="col-2 text-md-sm text-secondary" i18n>
+                              N. Transaction
+                            </div>
+                            <div class="col-3 text-md-sm text-secondary" i18n>
+                              Amount
+                            </div>
+                          </div>
+
+                          @if (
+                            selectedOption === 'transaction' || !selectedOption
+                          ) {
+                            <div>
+                              @for (
+                                client of topClientsByTransactions;
+                                track client
+                              ) {
+                                <div
+                                  class="row border bg-white lg-radius d-flex align-items-center p-2 mt-2 row-h">
+                                  <div
+                                    class="col-4 d-flex align-items-center gap-2">
+                                    <div class="img-size">
+                                      <app-profile-card
+                                        classes="fs-x-small"
+                                        width="100%"
+                                        height="100%"
+                                        [imageUrl]="client.picture"
+                                        [fullName]="
+                                          client.client_full_name
+                                        "></app-profile-card>
+                                    </div>
+                                    <div class="text-md-sm text-secondary ms-3">
+                                      {{ client.client_full_name }}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-3">
+                                    <div class="text-md-sm text-secondary">
+                                      {{ client.client_code }}
+                                    </div>
+                                  </div>
+                                  <div class="col-2">
+                                    <div class="text-md-sm text-secondary">
+                                      {{ client.num_payments }}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-3">
+                                    <div>
+                                      <app-amount-visibility
+                                        [amount]="client.total_paid"
+                                        [currency]="client.balance_currency"
+                                        customClasses="text-md-sm text-primary fw-bold"></app-amount-visibility>
+                                    </div>
+                                  </div>
+                                </div>
+                              }
+                            </div>
+                          }
+                        </div>
+                      }
+                      @if (topClientsByAmount && !topClientsByAmountLoader) {
+                        <div>
+                          @if (selectedOption === 'amount') {
+                            <div>
+                              @for (
+                                client of topClientsByAmount;
+                                track client
+                              ) {
+                                <div
+                                  class="row border bg-white lg-radius d-flex align-items-center p-2 mt-2 row-h">
+                                  <div
+                                    class="col-4 d-flex align-items-center gap-2">
+                                    <div>
+                                      @if (client.picture) {
+                                        <span>
+                                          <img
+                                            alt=""
+                                            class="image rounded-circle img-size"
+                                            [src]="client.picture" />
+                                        </span>
+                                      }
+                                      @if (!client.picture) {
+                                        <span>
+                                          <img
+                                            alt=""
+                                            class="image rounded-circle img-size"
+                                            src="images/userprofile.png" />
+                                        </span>
+                                      }
+                                    </div>
+                                    <div class="text-md-sm text-secondary ms-3">
+                                      {{ client.client_full_name }}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-3">
+                                    <div class="text-md-sm text-secondary">
+                                      {{ client.client_code }}
+                                    </div>
+                                  </div>
+                                  <div class="col-2">
+                                    <div class="text-md-sm text-secondary">
+                                      {{ client.num_payments }}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-3">
+                                    <div>
+                                      <app-amount-visibility
+                                        [amount]="client.total_paid"
+                                        [currency]="client.balance_currency"
+                                        customClasses="text-md-sm text-primary fw-bold"></app-amount-visibility>
+                                    </div>
+                                  </div>
+                                </div>
+                              }
+                            </div>
+                          }
+                        </div>
+                      }
+                      @if (topClientsByAmountLoader) {
+                        <div class="d-grid">
+                          <div class="w-100 rounded mt-4">
+                            @for (_ of [1, 2, 3]; track $index) {
+                              <div class="col mb-4">
+                                <app-skeleton
+                                  [width]="'100%'"
+                                  [height]="'50px'"
+                                  classes="sm-radius">
+                                </app-skeleton>
+                              </div>
+                            }
+                          </div>
+                        </div>
                       }
                     </div>
-                  }
-                  @if (tellers && tellers.length === 0) {
-                    <div class="my-4">
-                      <b class="text-l text-secondary" i18n>No tellers found</b>
-                    </div>
-                  }
+                  </div>
                 </div>
               </div>
             }
@@ -1062,6 +1132,284 @@
               </div>
             }
 
+            <!-- Configurations/ teller addition -->
+            @if (selectedMenu === 'tellers') {
+              <div class="mt-5">
+                <div>
+                  <div class="d-grid text-secondary">
+                    <div class="d-flex align-items-center row">
+                      <div class="col-3 d-flex align-items-center">
+                        <b class="me-2" i18n>Notifications</b>
+                        <b>
+                          <i class="fa fa-bell"></i>
+                        </b>
+                      </div>
+                      <div class="fs-normal col-3 d-flex align-items-center">
+                        <b class="me-2" i18n>Admin</b>
+                        <b>
+                          <i class="fa fa-user-tie"></i>
+                        </b>
+                      </div>
+                      <div class="fs-normal col-3 d-flex align-items-center">
+                        <b class="me-2" i18n>Superadmin</b>
+                        <b>
+                          <i class="fa-brands fa-black-tie"></i>
+                        </b>
+                      </div>
+                    </div>
+                    <div class="d-flex gap-4">
+                      <hr class="w-75 mt-2" />
+                      <div class="w-25 mb-4 d-flex">
+                        <button
+                          [disabled]="!tellers"
+                          class="btn border-primary text-dark"
+                          data-bs-toggle="modal"
+                          data-bs-target="#newTellerModal"
+                          #closeModal
+                          (click)="toggleModal()"
+                          tabindex="0">
+                          <b
+                            class="mini-title"
+                            [ngClass]="{
+                              'text-dark': theme === 'magis-dark',
+                            }"
+                            i18n
+                            >Add teller</b
+                          >
+                        </button>
+                      </div>
+                    </div>
+                    <!--modAL-->
+                    <div
+                      class="modal fade"
+                      data-mdb-backdrop="false"
+                      id="newTellerModal">
+                      <div
+                        class="modal-dialog inner-container w-100 d-flex justify-content-center h-100 align-items-center overflow-auto"
+                        style="min-width: 75%">
+                        <div class="modal-content w-50 h-75">
+                          @if (tellerCreationDone) {
+                            <main class="p-4">
+                              <section class="">
+                                <div
+                                  class="w-100 d-flex justify-content-between">
+                                  <div class="mb-4">
+                                    <span
+                                      class="l-title"
+                                      [ngClass]="{
+                                        'text-dark': theme === 'magis-dark',
+                                      }"
+                                      >New Teller</span
+                                    >
+                                  </div>
+                                  <b
+                                    role="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#newTellerModal">
+                                    <i class="fa fs-4 fa-xmark"></i>
+                                  </b>
+                                </div>
+                              </section>
+                              <section>
+                                <div
+                                  [formGroup]="newTellerForm"
+                                  [ngClass]="{
+                                    'not-clickable': isTellerLoading,
+                                  }">
+                                  <div>
+                                    <div
+                                      class="d-flex justify-content-start mb-3">
+                                      <app-lookup
+                                        class="w-resp-client"
+                                        option="lookup"
+                                        url="/clients/list/all/object_lookup?lookup_data="
+                                        label="Enter client id"
+                                        (selectedItemEvent)="
+                                          getClientInfo($event)
+                                        "></app-lookup>
+                                    </div>
+                                  </div>
+                                  <div class="form-floating my-4 col-lg-6">
+                                    <input
+                                      type="text"
+                                      class="input border form-control bg-input"
+                                      [ngClass]="{
+                                        'border-secondary':
+                                          theme === 'magis-light',
+                                        'border-dark bg-white text-dark':
+                                          theme === 'magis-dark',
+                                      }"
+                                      id="slug"
+                                      placeholder="alias"
+                                      formControlName="alias" />
+                                    <label
+                                      for="slug"
+                                      class="label-input ms-label"
+                                      [ngClass]="{
+                                        'text-dark': theme === 'magis-dark',
+                                      }"
+                                      >Alias</label
+                                    >
+                                  </div>
+                                  <div class="d-flex">
+                                    <span
+                                      class="me-2 fs-medium text-secondary"
+                                      i18n
+                                      >Can receive notifications</span
+                                    >
+                                    <div
+                                      tabindex="0"
+                                      role="button"
+                                      (click)="toggleNotificationsCheckbox()">
+                                      @if (isChecked) {
+                                        <span>
+                                          <i
+                                            class="fa-regular fa-square-check fs-4 text-dark"></i>
+                                        </span>
+                                      }
+                                      @if (!isChecked) {
+                                        <span>
+                                          <i
+                                            class="fa-regular fa-square fs-4 text-dark"></i>
+                                        </span>
+                                      }
+                                    </div>
+                                  </div>
+                                  <div class="mt-3">
+                                    <button
+                                      (click)="createNewTeller()"
+                                      [ngClass]="{
+                                        'not-clickable text-light':
+                                          newTellerForm.invalid,
+                                      }"
+                                      class="btn bg-primary px-4-5">
+                                      @if (isTellerLoading) {
+                                        <span class="">
+                                          <i
+                                            class="fa-solid fa-spin fa-circle-notch fs-4"></i>
+                                        </span>
+                                      }
+                                      @if (!isTellerLoading) {
+                                        <b class="text-all-white">Confirm</b>
+                                      }
+                                    </button>
+                                  </div>
+                                </div>
+                              </section>
+                            </main>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <b i18n>Tellers</b>
+                  </div>
+                  @if (!tellers) {
+                    <div class="row">
+                      @for (item of [1, 2, 3]; track $index) {
+                        <div class="d-flex mb-3 align-items-center col-auto">
+                          <div class="d-grid me-3">
+                            <span>
+                              <app-skeleton
+                                classes="sm-radius"
+                                height="130px"
+                                width="130px"></app-skeleton>
+                            </span>
+                          </div>
+                          <div class="d-grid">
+                            <span class="">
+                              <app-skeleton
+                                classes="sm-radius"
+                                height="10px"
+                                width="100px"></app-skeleton>
+                            </span>
+                            <span class="">
+                              <app-skeleton
+                                classes="sm-radius"
+                                height="10px"
+                                width="100px"></app-skeleton>
+                            </span>
+                            <span class="">
+                              <app-skeleton
+                                classes="sm-radius"
+                                height="10px"
+                                width="100px"></app-skeleton>
+                            </span>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+                  @if (tellers && tellers.length > 0) {
+                    <div class="row">
+                      @for (teller of tellers; track teller) {
+                        <div
+                          tabindex="0"
+                          data-bs-toggle="modal"
+                          data-bs-target="#tellersModal"
+                          role="button"
+                          (click)="displayTellerInfo(teller)"
+                          class="col-lg-4 col-md-6 mb-3 is-hoverable"
+                          role="button">
+                          <div class="d-flex align-items-start">
+                            <div
+                              style="height: 86px; width: 86px"
+                              class="me-3 overflow-hidden rounded">
+                              @if (!teller.client.picture) {
+                                <img
+                                  alt=""
+                                  src="images/userprofile.png"
+                                  class="image rounded" />
+                              }
+
+                              @if (teller.client.picture) {
+                                <img
+                                  alt=""
+                                  [src]="teller.client.picture"
+                                  class="image rounded" />
+                              }
+                            </div>
+                            <div class="d-grid pt-0-1">
+                              <b class="text-dark text-md">{{
+                                teller?.client?.client_full_name
+                              }}</b>
+                              <b class="text-dark text-md">{{
+                                teller?.client?.client_code
+                              }}</b>
+                              <div class="d-flex align-items-center">
+                                @if (teller.can_receive_notifications) {
+                                  <b class="me-2">
+                                    <i class="fa fa-bell"></i>
+                                  </b>
+                                }
+
+                                @if (teller?.teller_type?.value === 'A') {
+                                  <b class="me-2">
+                                    <i class="fa fa-user-tie"></i>
+                                  </b>
+                                }
+                                @if (teller?.teller_type?.value === 'S') {
+                                  <b>
+                                    <i class="fa-brands fa-black-tie"></i>
+                                  </b>
+                                }
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+                  @if (tellers && tellers.length === 0) {
+                    <div class="my-4">
+                      <b class="text-l text-secondary" i18n>No tellers found</b>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+
             <!-- Configuration/modification marchand -->
             @if (selectedMenu === 'configuration') {
               <div class="mt-5">
@@ -1319,362 +1667,6 @@
                     </div>
                   </div>
                 </section>
-              </div>
-            }
-            @if (!selectedMenu) {
-              <div class="mt-3">
-                <hr />
-
-                <!-- Recents payment section -->
-
-                <div class="mt-4 mb-2">
-                  <div
-                    class="d-flex justify-content-between align-items-center px-4">
-                    <div class="d-flex gap-2 align-items-center">
-                      <div class="bg-primary point rounded-circle"></div>
-                      <div class="text-dark text-md-sm" i18n>
-                        Recent payments
-                      </div>
-                    </div>
-
-                    <div
-                      tabindex="0"
-                      (click)="refreshsPaymentStats('paymentStats')"
-                      role="button">
-                      <i class="fa-solid fa-rotate"></i>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div class="bg-input w-100 rounded p-3 mb-4">
-                    <div>
-                      <div>
-                        <div class="d-flex justify-content-center gap-5">
-                          <div class="bg-secondary sm-radius px-4 py-1">
-                            <div class="d-grid justify-content-center">
-                              <div class="d-flex justify-content-center">
-                                <div class="fw-bold text-dark text-md">
-                                  {{ merchant.payment_bills }}
-                                </div>
-                              </div>
-                              <div class="text-primary text-sm" i18n>
-                                Total payments
-                              </div>
-                            </div>
-                          </div>
-                          <div class="bg-secondary sm-radius px-4 py-1">
-                            <div class="d-grid">
-                              <div class="" i18n>
-                                <app-amount-visibility
-                                  [amount]="merchant.paid_amount"
-                                  [currency]="merchant.balance_currency"
-                                  customClasses="fw-bold text-dark text-md"></app-amount-visibility>
-                              </div>
-                              <div class="text-primary text-sm" i18n>
-                                Payments Volumes
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                          <span class="text-primary text-sm" i18n>
-                            Last payments
-                          </span>
-
-                          <hr class="w text-primary" />
-                        </div>
-                        @if (paymentStats && !getPaymentStatsLoader) {
-                          <div class="p-3">
-                            <div class="row">
-                              <div class="col-3 text-md-sm text-secondary" i18n>
-                                Date
-                              </div>
-                              <div class="col-2 text-md-sm text-secondary" i18n>
-                                Client
-                              </div>
-                              <div class="col-5 text-md-sm text-secondary" i18n>
-                                Description
-                              </div>
-                              <div class="col-2 text-md-sm text-secondary" i18n>
-                                Amount
-                              </div>
-                            </div>
-                            @for (payments of paymentStats; track payments) {
-                              <div
-                                class="row border bg-white lg-radius d-flex align-items-center mt-2 p-1">
-                                <div class="col-3 d-grid">
-                                  <div class="text-md-sm text-secondary">
-                                    {{ payments.created_at | date: 'medium' }}
-                                  </div>
-                                  <div>
-                                    <b
-                                      [class]="
-                                        'text-' +
-                                        payments.payment_status.css +
-                                        ' badge-design bg-' +
-                                        payments.payment_status.css
-                                      ">
-                                      {{ payments.payment_status.title }}
-                                    </b>
-                                  </div>
-                                </div>
-
-                                <div class="col-2">
-                                  <div class="d-grid">
-                                    <div
-                                      class="text-md-sm text-secondary fw-bold">
-                                      {{ payments.client.client_full_name }}
-                                    </div>
-                                    <div class="text-md-sm text-secondary">
-                                      {{ payments.client.client_code }}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-5 d-flex flex-column">
-                                  <div class="text-primary text-md-sm">
-                                    {{ payments.description }}
-                                  </div>
-                                  <span class="text-secondary">
-                                    N#
-                                    {{ payments.code }}
-                                  </span>
-                                </div>
-                                <div class="col-2 d-flex flex-column">
-                                  <div class="text-primary fw-bold">
-                                    <app-amount-visibility
-                                      [amount]="payments.total_amount"
-                                      [currency]="payments.currency"
-                                      customClasses="text-md-sm text-primary fw-bold"></app-amount-visibility>
-                                  </div>
-                                </div>
-                              </div>
-                            }
-                          </div>
-                        }
-                        @if (getPaymentStatsLoader) {
-                          <div class="d-grid">
-                            <div class="w-85 rounded mt-4">
-                              @for (_ of [1, 2, 3]; track $index) {
-                                <div class="col mb-4">
-                                  <app-skeleton
-                                    [width]="'100%'"
-                                    [height]="'50px'"
-                                    classes="sm-radius">
-                                  </app-skeleton>
-                                </div>
-                              }
-                            </div>
-                          </div>
-                        }
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Top clients section -->
-
-                  <div class="mt-4 mb-2">
-                    <div
-                      class="d-flex align-items-center justify-content-between px-4">
-                      <div class="d-flex gap-2 align-items-center">
-                        <div class="bg-primary point rounded-circle"></div>
-                        <div class="text-dark text-md-sm" i18n>Top clients</div>
-                      </div>
-                      <div
-                        tabindex="0"
-                        (click)="refreshsPaymentStats('amountOrTransaction')"
-                        role="button">
-                        <i class="fa-solid fa-rotate"></i>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="bg-input w-100 rounded p-3">
-                    <div class="p-3">
-                      <div
-                        class="d-flex align-items-center gap-2 justify-content-end">
-                        <div>Filter By :</div>
-                        <div class="d-flex gap-4">
-                          <div
-                            tabindex="0"
-                            class="rounded btn-w d-flex text-center align-items-center justify-content-center"
-                            (click)="switchOption('transaction')"
-                            role="button"
-                            [ngClass]="{
-                              'bg-primary text-light':
-                                selectedOption === 'transaction' ||
-                                !selectedOption,
-                              'bg-white text-primary':
-                                selectedOption !== 'transaction' &&
-                                selectedOption,
-                            }">
-                            <div class="fw-bold text-md-sm" i18n>Payments</div>
-                          </div>
-
-                          <div
-                            tabindex="0"
-                            class="rounded btn-w d-flex text-center align-items-center justify-content-center"
-                            (click)="switchOption('amount')"
-                            role="button"
-                            [ngClass]="{
-                              'bg-primary text-light':
-                                selectedOption === 'amount',
-
-                              'bg-white text-primary':
-                                selectedOption !== 'amount',
-                            }">
-                            <div class="fw-bold text-md-sm" i18n>Amount</div>
-                          </div>
-                        </div>
-                      </div>
-                      @if (
-                        topClientsByTransactions && !topClientsByAmountLoader
-                      ) {
-                        <div>
-                          <div class="row mt-4">
-                            <div class="col-4 text-md-sm text-secondary" i18n>
-                              Name
-                            </div>
-                            <div class="col-3 text-md-sm text-secondary" i18n>
-                              Code
-                            </div>
-                            <div class="col-2 text-md-sm text-secondary" i18n>
-                              N. Transaction
-                            </div>
-                            <div class="col-3 text-md-sm text-secondary" i18n>
-                              Amount
-                            </div>
-                          </div>
-
-                          @if (
-                            selectedOption === 'transaction' || !selectedOption
-                          ) {
-                            <div>
-                              @for (
-                                client of topClientsByTransactions;
-                                track client
-                              ) {
-                                <div
-                                  class="row border bg-white lg-radius d-flex align-items-center p-2 mt-2 row-h">
-                                  <div
-                                    class="col-4 d-flex align-items-center gap-2">
-                                    <div class="img-size">
-                                      <app-profile-card
-                                        classes="fs-x-small"
-                                        width="100%"
-                                        height="100%"
-                                        [imageUrl]="client.picture"
-                                        [fullName]="
-                                          client.client_full_name
-                                        "></app-profile-card>
-                                    </div>
-                                    <div class="text-md-sm text-secondary ms-3">
-                                      {{ client.client_full_name }}
-                                    </div>
-                                  </div>
-
-                                  <div class="col-3">
-                                    <div class="text-md-sm text-secondary">
-                                      {{ client.client_code }}
-                                    </div>
-                                  </div>
-                                  <div class="col-2">
-                                    <div class="text-md-sm text-secondary">
-                                      {{ client.num_payments }}
-                                    </div>
-                                  </div>
-
-                                  <div class="col-3">
-                                    <div>
-                                      <app-amount-visibility
-                                        [amount]="client.total_paid"
-                                        [currency]="client.balance_currency"
-                                        customClasses="text-md-sm text-primary fw-bold"></app-amount-visibility>
-                                    </div>
-                                  </div>
-                                </div>
-                              }
-                            </div>
-                          }
-                        </div>
-                      }
-                      @if (topClientsByAmount && !topClientsByAmountLoader) {
-                        <div>
-                          @if (selectedOption === 'amount') {
-                            <div>
-                              @for (
-                                client of topClientsByAmount;
-                                track client
-                              ) {
-                                <div
-                                  class="row border bg-white lg-radius d-flex align-items-center p-2 mt-2 row-h">
-                                  <div
-                                    class="col-4 d-flex align-items-center gap-2">
-                                    <div>
-                                      @if (client.picture) {
-                                        <span>
-                                          <img
-                                            alt=""
-                                            class="image rounded-circle img-size"
-                                            [src]="client.picture" />
-                                        </span>
-                                      }
-                                      @if (!client.picture) {
-                                        <span>
-                                          <img
-                                            alt=""
-                                            class="image rounded-circle img-size"
-                                            src="images/userprofile.png" />
-                                        </span>
-                                      }
-                                    </div>
-                                    <div class="text-md-sm text-secondary ms-3">
-                                      {{ client.client_full_name }}
-                                    </div>
-                                  </div>
-
-                                  <div class="col-3">
-                                    <div class="text-md-sm text-secondary">
-                                      {{ client.client_code }}
-                                    </div>
-                                  </div>
-                                  <div class="col-2">
-                                    <div class="text-md-sm text-secondary">
-                                      {{ client.num_payments }}
-                                    </div>
-                                  </div>
-
-                                  <div class="col-3">
-                                    <div>
-                                      <app-amount-visibility
-                                        [amount]="client.total_paid"
-                                        [currency]="client.balance_currency"
-                                        customClasses="text-md-sm text-primary fw-bold"></app-amount-visibility>
-                                    </div>
-                                  </div>
-                                </div>
-                              }
-                            </div>
-                          }
-                        </div>
-                      }
-                      @if (topClientsByAmountLoader) {
-                        <div class="d-grid">
-                          <div class="w-100 rounded mt-4">
-                            @for (_ of [1, 2, 3]; track $index) {
-                              <div class="col mb-4">
-                                <app-skeleton
-                                  [width]="'100%'"
-                                  [height]="'50px'"
-                                  classes="sm-radius">
-                                </app-skeleton>
-                              </div>
-                            }
-                          </div>
-                        </div>
-                      }
-                    </div>
-                  </div>
-                </div>
               </div>
             }
           </div>

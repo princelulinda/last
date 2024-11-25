@@ -1,6 +1,6 @@
 import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import {
   ConfigService,
@@ -24,6 +24,7 @@ import { ModeModel } from '../../../../../core/services/config/main-config.model
     NgClass,
     AmountVisibilityComponent,
     ProfileCardComponent,
+    RouterLink,
   ],
   templateUrl: './credit-line-details.component.html',
   styleUrl: './credit-line-details.component.scss',

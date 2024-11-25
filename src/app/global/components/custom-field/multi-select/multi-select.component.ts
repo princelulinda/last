@@ -7,13 +7,15 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 import { Observable, Subject, takeUntil } from 'rxjs';
+
 import {
   ApiService,
   ConfigService,
   GeneralService,
 } from '../../../../core/services';
-import { CommonModule } from '@angular/common';
 import { ModeModel } from '../../../../core/services/config/main-config.models';
 import { AutocompleteModel } from '../../../../global/models/global.models';
 
@@ -74,7 +76,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
       .get<{ objects: AutocompleteModel[] }>(this.url)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
-        next: (data: { objects: AutocompleteModel[] }) => {
+        next: data => {
           this.allData = data.objects;
 
           this.removeDefaultData();

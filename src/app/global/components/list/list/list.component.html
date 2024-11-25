@@ -124,8 +124,8 @@
       </section>
 
       <section class="col text-secondary">
-        @if (response_data && data_list && data_list.length > 0) {
-          <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center">
+          @if (response_data && data_list && data_list.length > 0) {
             <!-- NOTE :: PAGINATION -->
             <div class="ms-auto d-flex align-items-center">
               <small i18n
@@ -177,13 +177,17 @@
                 <i i18n class="fa-solid fa-angles-right fs-small"></i>
               </span>
             </div>
+          } @else {
+            <div class="ms-auto"></div>
+          }
 
-            <!-- NOTE :: FILTERS -->
-            <div>
-              <app-filters [url]="url"></app-filters>
-            </div>
+          <!-- NOTE :: FILTERS -->
+          <div>
+            <app-filters
+              (filtersEvent)="getActiveFilters($event)"
+              [url]="url"></app-filters>
           </div>
-        }
+        </div>
       </section>
     </nav>
 

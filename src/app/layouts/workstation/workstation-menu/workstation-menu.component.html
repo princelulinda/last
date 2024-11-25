@@ -1,27 +1,27 @@
 <div class="d-flex h-100">
   @if (activatedTypeMenu === 'b') {
     <section class="bg-white w-aside pt-4 d-flex flex-column">
-      <div class="overflow-y-auto">
+      <!-- <div class="overflow-y-auto"> -->
+      <a
+        class="py-1 mb-2 m-1 text-secondary px-3 xx-lg-radius bg-hover-input"
+        role="button"
+        routerLink="/w/workstation/b/banking/"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="text-all-dark bg-input"
+        i18n>
+        Home
+      </a>
+      @for (menu of bankingMenus; track $index) {
         <a
           class="py-1 mb-2 m-1 text-secondary px-3 xx-lg-radius bg-hover-input"
-          role="button"
-          routerLink="/w/workstation/b/banking/"
-          [routerLinkActiveOptions]="{ exact: true }"
+          routerLink="{{ baseMenuUrl }}{{ menu.component_url }}"
           routerLinkActive="text-all-dark bg-input"
+          role="button"
           i18n>
-          Home
+          <small>{{ menu.name }}</small>
         </a>
-        @for (menu of bankingMenus; track $index) {
-          <a
-            class="py-1 mb-2 m-1 text-secondary px-3 xx-lg-radius bg-hover-input"
-            routerLink="{{ baseMenuUrl }}{{ menu.component_url }}"
-            routerLinkActive="text-all-dark bg-input"
-            role="button"
-            i18n>
-            <small>{{ menu.name }}</small>
-          </a>
-        }
-      </div>
+      }
+      <!-- </div> -->
       <ng-container [ngTemplateOutlet]="MagisLogo" />
     </section>
 
@@ -30,27 +30,27 @@
     </main>
   } @else if (activatedTypeMenu === 'm') {
     <section class="bg-white w-aside pt-4 d-flex flex-column">
-      <div class="overflow-y-auto">
+      <!-- <div class="overflow-y-auto"> -->
+      <a
+        class="py-1 mb-2 m-1 text-secondary px-3 xx-lg-radius bg-hover-input"
+        role="button"
+        routerLink="/w/workstation/m/market/"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="text-all-dark bg-input"
+        i18n>
+        <small>HOME</small>
+      </a>
+      @for (menu of marketMenus; track $index) {
         <a
-          class="py-1 mb-2 m-1 text-secondary px-3 xx-lg-radius bg-hover-input"
-          role="button"
-          routerLink="/w/workstation/m/market/"
-          [routerLinkActiveOptions]="{ exact: true }"
+          class="py-1 mb-2 m-1 text-secondary px-3 xx-lg-radius bg-hover-input text-uppercase"
+          routerLink="{{ baseMenuUrl }}{{ menu.component_url }}"
           routerLinkActive="text-all-dark bg-input"
+          role="button"
           i18n>
-          <small>HOME</small>
+          <small>{{ menu.name }}</small>
         </a>
-        @for (menu of marketMenus; track $index) {
-          <a
-            class="py-1 mb-2 m-1 text-secondary px-3 xx-lg-radius bg-hover-input text-uppercase"
-            routerLink="{{ baseMenuUrl }}{{ menu.component_url }}"
-            routerLinkActive="text-all-dark bg-input"
-            role="button"
-            i18n>
-            <small>{{ menu.name }}</small>
-          </a>
-        }
-      </div>
+      }
+      <!-- </div> -->
       <ng-container [ngTemplateOutlet]="MagisLogo" />
     </section>
 
@@ -150,61 +150,59 @@
         'd-none': activatedTypeMenu === 'd' && !operator?.organization?.is_erp,
       }">
       @if (activatedTypeGroupMenus && activatedTypeGroupMenus.length !== 0) {
-        <div class="overflow-y-auto">
-          @for (group of activatedTypeGroupMenus; track $index) {
-            <section
-              (click)="selectGroup(group)"
-              tabindex="0"
-              class="py-1 mb-1 m-1 d-block px-2 xx-lg-radius bg-hover-input d-flex justify-content-between align-items-center"
-              role="button"
-              [ngClass]="{
-                'text-all-dark bg-input': selectedGroup === group,
-                'text-secondary': selectedGroup !== group,
-              }"
-              routerLinkActive="text-all-dark bg-input">
-              <span class="ms-1">
-                {{ group.name }}
-              </span>
-              <small class="pt-1">
-                <i class="fa-solid fa-chevron-right"></i>
-              </small>
-            </section>
+        <!-- <div class="overflow-y-auto"> -->
+        @for (group of activatedTypeGroupMenus; track $index) {
+          <section
+            (click)="selectGroup(group)"
+            tabindex="0"
+            class="py-1 mb-1 m-1 d-block px-2 xx-lg-radius bg-hover-input d-flex justify-content-between align-items-center"
+            role="button"
+            [ngClass]="{
+              'text-all-dark bg-input': selectedGroup === group,
+              'text-secondary': selectedGroup !== group,
+            }"
+            routerLinkActive="text-all-dark bg-input">
+            <span class="ms-1">
+              {{ group.name }}
+            </span>
+            <small class="pt-1">
+              <i class="fa-solid fa-chevron-right"></i>
+            </small>
+          </section>
 
-            <!-- NOTE :: ON SELECTED GROUP -->
-            <section
-              class="bg-white h-100 w-100 position-absolute d-flex flex-column gap-1 px-1 m-1 align-items-center"
-              [ngClass]="selectedGroup === group ? 'showMenu' : 'hideMenu'">
-              <div
-                class="p-2 d-flex align-items-center fw-bold align-items-center clickable w-100"
-                (click)="selectGroup(null)"
-                tabindex="0">
-                <small class="me-2"
-                  ><i class="fa-solid fa-arrow-left"></i
-                ></small>
-                <span> {{ selectedGroup?.name }}</span>
-              </div>
+          <!-- NOTE :: ON SELECTED GROUP -->
+          <section
+            class="bg-white h-100 w-100 position-absolute d-flex flex-column gap-1 px-1 m-1 align-items-center"
+            [ngClass]="selectedGroup === group ? 'showMenu' : 'hideMenu'">
+            <div
+              class="p-2 d-flex align-items-center fw-bold align-items-center clickable w-100"
+              (click)="selectGroup(null)"
+              tabindex="0">
+              <small class="me-2"><i class="fa-solid fa-arrow-left"></i></small>
+              <span> {{ selectedGroup?.name }}</span>
+            </div>
 
-              @if (selectedGroup && selectedGroup.menus.length !== 0) {
-                @for (item of selectedGroup.menus; track $index) {
-                  <!-- [routerLinkActiveOptions]="{ exact: true }" -->
-                  <!-- routerLink="{{ baseMenuUrl }}{{ item.component_url }}" -->
-                  <a
-                    href="{{ baseMenuUrl }}{{ item.component_url }}"
-                    (click)="setSelectedMenu(item, item.component_url, $event)"
-                    tabindex="1"
-                    [ngClass]="{
-                      'mb-2': $index === selectedGroup.menus.length - 1,
-                      'bg-input': selectedMenu?.id === item.id,
-                    }"
-                    class="py-1 ms-1 w-100 px-2 mb-1 xx-lg-radius bg-hover-input text-secondary d-block w-100 text-truncate"
-                    role="button">
-                    {{ item.name }}
-                  </a>
-                }
+            @if (selectedGroup && selectedGroup.menus.length !== 0) {
+              @for (item of selectedGroup.menus; track $index) {
+                <!-- [routerLinkActiveOptions]="{ exact: true }" -->
+                <!-- routerLink="{{ baseMenuUrl }}{{ item.component_url }}" -->
+                <a
+                  href="{{ baseMenuUrl }}{{ item.component_url }}"
+                  (click)="setSelectedMenu(item, item.component_url, $event)"
+                  tabindex="1"
+                  [ngClass]="{
+                    'mb-2': $index === selectedGroup.menus.length - 1,
+                    'bg-input': selectedMenu?.id === item.id,
+                  }"
+                  class="py-1 ms-1 w-100 px-2 mb-1 xx-lg-radius bg-hover-input text-secondary d-block w-100 text-truncate"
+                  role="button">
+                  {{ item.name }}
+                </a>
               }
-            </section>
-          }
-        </div>
+            }
+          </section>
+        }
+        <!-- </div> -->
       } @else {
         <div class="mt-5 m-1">
           <app-empty-state
