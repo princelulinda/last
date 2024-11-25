@@ -13,7 +13,6 @@ export function clientInfoInterceptor(
   const authService = inject(AuthService);
   const menuService = inject(MenuService);
 
-  const CLIENT_ID = authService.getLocalClientId();
   const BANK_ID = authService.getLocalBankId();
   const PLATEFORM = authService.getLocalPlateform();
   const MENU_ID = menuService.getLocalSelectedMenu();
@@ -34,7 +33,6 @@ export function clientInfoInterceptor(
   // Clone the request to add headers.
   const newReq = req.clone({
     headers: req.headers
-      .set('X-iHela-Access-Client-Id', CLIENT_ID ?? '')
       .set('X-iHela-Access-Bank-Id', BANK_ID ?? '')
       .set('X-iHela-AppSubject', appSubject)
       .set('X-iHela-AppInfo', environment.appInfo)

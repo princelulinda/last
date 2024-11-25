@@ -177,17 +177,12 @@ export class DbService {
   async setUser(data: UserInfoModel) {
     const token = this.apiService.getLocalToken();
     if (token) {
-      this.setLocalStorageClientId(data.client.client_id.toString());
       await this.addOnce(User.tableName, data);
     }
   }
 
   setLocalStorageUserToken(token: string) {
     this.apiService.setLocalToken(token);
-  }
-
-  setLocalStorageClientId(clientId: string) {
-    this.apiService.setLocalClientId(clientId);
   }
 
   setLocalStorageBankId(bankId: number) {

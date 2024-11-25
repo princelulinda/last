@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ActivatedRoute,
-  Router,
-  RouterLink,
-  RouterLinkActive,
-} from '@angular/router';
-import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   FormBuilder,
   Validators,
   ReactiveFormsModule,
   FormGroup,
 } from '@angular/forms';
+
+import { Subject, Observable } from 'rxjs';
+
+import { PasswordFieldComponent } from '../../../global/components/custom-field/password-field/password-field.component';
+
 import { AuthService } from '../../../core/services';
 import { DialogService } from '../../../core/services';
-import { Subject, Observable } from 'rxjs';
 import { SkeletonComponent } from '../../../global/components/loaders/skeleton/skeleton.component';
 
 import {
@@ -37,7 +35,6 @@ import { LookupModel } from '../../../global/models/global.models';
   standalone: true,
   imports: [
     RouterLink,
-    RouterLinkActive,
     PasswordFieldComponent,
     ReactiveFormsModule,
     FileComponent,
@@ -224,7 +221,6 @@ export class AuthSignUpComponent implements OnInit {
           clientId: response.object.client.client_id,
         };
         this.dbService.setLocalStorageUserToken(userData.token);
-        this.dbService.setLocalStorageClientId(userData.clientId);
         this.step = this.step = 5;
         this.dialogService.closeLoading();
       },

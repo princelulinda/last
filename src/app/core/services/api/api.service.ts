@@ -12,7 +12,6 @@ import { PlateformModel } from '../config/main-config.models';
 })
 export class ApiService {
   private localUserTokenKey = 'iHelaRyanjeUserToken';
-  private localUserClientIdKey = 'iHelaRyanjeUserClientId';
   private localBankIdKey = 'iHelaRyanjeBankId';
   private localPlateformKey = 'iHelaRyanjePlaform';
   private localSelectedMenuTypeKey = 'iHelaRyanjeTypeMenu';
@@ -48,21 +47,6 @@ export class ApiService {
 
   setLocalToken(token: string) {
     localStorage.setItem(this.localUserTokenKey, token);
-  }
-
-  getLocalClientId(): string | null {
-    const localClientId = localStorage.getItem(this.localUserClientIdKey);
-
-    if (!localClientId) {
-      localStorage.removeItem(this.localUserClientIdKey);
-      return null;
-    } else {
-      return localClientId;
-    }
-  }
-
-  setLocalClientId(cliendId: string) {
-    localStorage.setItem(this.localUserClientIdKey, cliendId);
   }
 
   getLocalBankId(): string | null {

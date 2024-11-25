@@ -44,9 +44,6 @@ export class WorkstationComponent implements OnInit {
     this.connectedOperator$.subscribe({
       next: operator => {
         if (operator && operator.organization) {
-          this.dbService.setLocalStorageClientId(
-            operator.organization.institution_client.id.toString()
-          );
           this.configService.setLocalConnectedOperator('true');
         } else {
           this.configService.setLocalConnectedOperator('false');

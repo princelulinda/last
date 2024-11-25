@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
@@ -22,10 +22,8 @@ import { DbService } from '../../core/db';
   styleUrl: './banking.component.scss',
   imports: [
     CommonModule,
-    RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
     AsideBarComponent,
+    RouterOutlet,
     AsideMenuComponent,
     HeaderComponent,
     SwitchPlateformIconsComponent,
@@ -53,15 +51,6 @@ export class BankingComponent implements OnInit {
     this.plateform$.subscribe({
       next: plateform => {
         this.plateform = plateform;
-      },
-    });
-    this.userInfo$.subscribe({
-      next: userInfo => {
-        if (userInfo) {
-          this.dbService.setLocalStorageClientId(
-            userInfo?.client?.client_id.toString()
-          );
-        }
       },
     });
   }

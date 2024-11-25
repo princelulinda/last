@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import { Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { AuthService, DialogService } from '../../../core/services';
@@ -16,12 +16,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [
-    RouterLink,
-    RouterLinkActive,
-    ReactiveFormsModule,
-    PasswordFieldComponent,
-  ],
+  imports: [RouterLink, ReactiveFormsModule, PasswordFieldComponent],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss',
 })
