@@ -31,12 +31,8 @@ export class LookupComponent implements OnInit {
   @Input() selectedId: number | null = null;
   @Input() showProfile = true;
   @Input() lookupDefaultSearch = '';
-  @Input() classes: string | null = 'rounded';
-  @Input() isAgentTransfer = false;
-
-  title = '';
-  type = '';
-  message = '';
+  @Input() radiusClass = 'sm-radius';
+  @Input() enableLeftBorder = false;
 
   constructor(
     private generalService: GeneralService,
@@ -44,10 +40,6 @@ export class LookupComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.title = $localize`title`;
-    this.type = $localize`type`;
-    this.message = $localize`message`;
-
     this.search.setValue('');
     if (this.option === 'autocomplete') {
       this.initAutocomplete();
@@ -69,9 +61,9 @@ export class LookupComponent implements OnInit {
     this.showAutoComplete = false;
   }
 
-  focusOut() {
-    console.log('Focusout');
-  }
+  // focusOut() {
+  //   console.log('Focusout');
+  // }
 
   deselect() {
     this.selectedItem = null;

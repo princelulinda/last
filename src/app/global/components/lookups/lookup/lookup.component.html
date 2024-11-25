@@ -2,7 +2,7 @@
   @if (selectedItem) {
     <div
       class="d-flex border p-2 w-100 d-flex justify-content-between align-items-center bg-white {{
-        classes
+        radiusClass
       }}">
       <div style="line-height: 18px me-2">
         <div class="d-flex">
@@ -22,7 +22,7 @@
               <i class="fa-solid fa-mountain-sun fa-lg"></i>
             </div>
           }
-          @if (isAgentTransfer === true) {
+          @if (enableLeftBorder) {
             <span class="my-2 ms-1">
               <hr
                 class="border-start border-0 bg-primary xx-lg-radius py-4 ps-2 m-0" />

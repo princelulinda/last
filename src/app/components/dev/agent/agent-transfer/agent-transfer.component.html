@@ -484,8 +484,8 @@
       url="/dbs/agents/object_lookup/?lookup_data="
       label="Search by Agent code"
       [showProfile]="false"
-      classes="xx-lg-radius py-1 ps-2 m-0"
-      [isAgentTransfer]="true"
+      radiusClass="xx-lg-radius"
+      [enableLeftBorder]="true"
       (selectedItemEvent)="getAgentCode($event)"></app-lookup>
   </div>
 </ng-template>
