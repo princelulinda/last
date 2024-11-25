@@ -1,185 +1,132 @@
-<div>
-  <div class="row mx-md-4 mb-4">
-    <div class="col-5 d-flex align-items-center me-auto fs-l-medium">
-      <span><i class="fa-solid fa-store text-primary"></i></span>
-      <span class="fw-bolder ms-2" i18n>Merchants</span>
-    </div>
-    <div
-      class="col-5 me-3 pe-2 d-flex justify-content-end align-items-center fs-l-medium"
-      role="button"
-      tabindex="0"
-      routerLink="/b/banking/agent">
-      <i class="fa-solid fa-arrow-left fs-l-medium me-2"></i>
-      <span class="fw-bolder" i18n>Back</span>
-    </div>
-  </div>
-  <div class="row mx-md-4 mb-5">
-    <div class="d-none d-md-block col-md-4 col-lg-7"></div>
-    <div class="col-md-8 col-lg-5">
-      <div class="row justify-content-center">
-        <div class="col-7 border lg-radius">
-          <div class="row">
-            <div class="col-10">
-              <div class="row pt-1 ps-2">
-                <input
-                  type="text"
-                  class="w-100 ps-0 InputSearch bg-white"
-                  placeholder="Search"
-                  aria-label="search" />
-              </div>
-            </div>
-            <div class="col-2 d-flex justify-content-center align-items-center">
-              <i
-                class="fa-solid fa-magnifying-glass fs-normal text-secondary"
-                role="button"></i>
-            </div>
-          </div>
-        </div>
-        <div class="col-3 border ms-4 lg-radius dropdown">
-          <div class="row h-100">
-            <div
-              class="d-flex justify-content-center pt-1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              role="button"
-              tabindex="0">
-              <span class="pe-3"
-                ><i class="fa-solid fa-filter text-secondary fs-normal"></i
-              ></span>
-              <span>Filter</span>
-            </div>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" routerLink="#" i18n>Action</a></li>
-              <li>
-                <a class="dropdown-item" routerLink="#" i18n>Another action</a>
-              </li>
-              <li>
-                <a class="dropdown-item" routerLink="#" i18n
-                  >Something else here</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
+<main>
+  <header>
+    <section class="d-flex justify-content-between mx-md-2 mb-3">
+      <div class="d-flex align-items-center fs-l-medium">
+        <span class="text-primary"><i class="fa-solid fa-store"></i></span>
+        <b class="ms-2" i18n>Merchants</b>
       </div>
-    </div>
-  </div>
+      <span role="button" tabindex="0" routerLink="/b/banking/agent">
+        <span class="me-2"> <i class="fa-solid fa-arrow-left"></i></span>
+        <b class="fs-l-medium" i18n>Back</b>
+      </span>
+    </section>
+
+    <section class="d-flex mx-md-2 mb-5 justify-content-end">
+      <section class="d-flex">
+        <div class="input-group flex-nowrap">
+          <input
+            type="search"
+            class="form-control text-secondary"
+            placeholder="Search"
+            aria-label="Username"
+            aria-describedby="addon-wrapping" />
+          <span class="input-group-text" id="addon-wrapping"
+            ><i class="fa-solid fa-magnifying-glass"></i
+          ></span>
+        </div>
+
+        <div
+          class="border ms-4 lg-radius px-3 d-flex align-items-center justify-content-center">
+          <span><i class="fa-solid fa-filter text-secondary"></i></span>
+          <b class="text-secondary ms-2">Filter</b>
+        </div>
+      </section>
+    </section>
+  </header>
 
   @if (Loading) {
-    <div class="container-fluid h-100">
-      <div
-        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gy-4 mx-md-2 mb-3 mb-md-4 mb-lg-5">
-        @for (item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; track $index) {
-          <div class="col">
-            <div class="row w-100 border sm-radius">
-              <div class="col-4">
-                <div
-                  class="h-100 d-flex align-items-center justify-content-center">
-                  <app-skeleton
-                    [height]="'80px'"
-                    [width]="'80px'"
-                    appearance="line"
-                    classes="sm-radius"></app-skeleton>
-                </div>
-              </div>
-              <div class="col-8">
-                <div
-                  class="row text-start h-100 w-auto sm-radius d-flex flex-column justify-content-between">
-                  <span class="fs-l-medium fw-bold overflow-hidden">
-                    <app-skeleton
-                      [height]="'10px'"
-                      [width]="'80%'"
-                      appearance="line"
-                      classes="sm-radius"></app-skeleton>
-                  </span>
-                  <span class="fs-l-medium">
-                    <app-skeleton
-                      [height]="'10px'"
-                      [width]="'80%'"
-                      appearance="line"
-                      classes="sm-radius"></app-skeleton>
-                  </span>
-                  <span class="fs-l-medium">
-                    <app-skeleton
-                      [height]="'10px'"
-                      [width]="'80%'"
-                      appearance="line"
-                      classes="sm-radius"></app-skeleton>
-                  </span>
-                  <span class="fs-l-medium">
-                    <app-skeleton
-                      [height]="'10px'"
-                      [width]="'80%'"
-                      appearance="line"
-                      classes="sm-radius"></app-skeleton>
-                  </span>
-                </div>
-              </div>
+    <section class="row mx-0 gap-y-1">
+      @for (item of [1, 2, 3, 4, 5, 6]; track $index) {
+        <div class="col-11 col-sm-5 col-md-4 col-lg-6 col-xl-4">
+          <div class="row w-100 border sm-radius p-2">
+            <div class="col-4">
+              <app-skeleton
+                [height]="'80px'"
+                [width]="'80px'"
+                appearance="line"
+                classes="sm-radius"></app-skeleton>
+            </div>
+            <div class="col-8 d-flex flex-column">
+              <span>
+                <app-skeleton
+                  [height]="'10px'"
+                  [width]="'90%'"
+                  appearance="line"
+                  classes="sm-radius"></app-skeleton>
+              </span>
+              <span>
+                <app-skeleton
+                  [height]="'10px'"
+                  [width]="'70%'"
+                  appearance="line"
+                  classes="sm-radius"></app-skeleton>
+              </span>
+              <span>
+                <app-skeleton
+                  [height]="'10px'"
+                  [width]="'50%'"
+                  appearance="line"
+                  classes="sm-radius"></app-skeleton>
+              </span>
             </div>
           </div>
-        }
-      </div>
-    </div>
+        </div>
+      }
+    </section>
   }
   @if (!Loading && data) {
-    <div class="container-fluid h-100">
-      <div
-        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 gy-4 mx-md-2 mb-3 mb-md-4 mb-lg-5">
-        @for (infoMerchant of data; track $index) {
-          <div class="col">
-            <div class="row w-100 border sm-radius p-2">
-              @if (infoMerchant.merchant_logo) {
-                <div class="col-4 sm-radius p-0">
-                  <app-profile-card
-                    [width]="'90px'"
-                    [height]="'90px'"
-                    [imageUrl]="infoMerchant.merchant_logo"
-                    [radiusClass]="'sm-radius'"></app-profile-card>
-                </div>
-              } @else {
-                <div class="col-4 bg-secondary sm-radius p-0">
-                  <div
-                    class="h-100 d-flex align-items-center justify-content-center">
-                    <i class="fa-solid fa-image fs-xx-large text-secondary"></i>
-                  </div>
-                </div>
-              }
-              <div class="col-8">
+    <section class="row mx-0 gap-y-1 mb-5">
+      @for (infoMerchant of data; track $index) {
+        <div class="col-11 col-sm-5 col-md-4 col-lg-6 col-xl-4">
+          <div class="row w-100 border sm-radius p-2">
+            @if (infoMerchant.merchant_logo) {
+              <div class="col-4 sm-radius p-0">
+                <app-profile-card
+                  [width]="'90px'"
+                  [height]="'90px'"
+                  [imageUrl]="infoMerchant.merchant_logo"
+                  [radiusClass]="'sm-radius'"></app-profile-card>
+              </div>
+            } @else {
+              <div class="col-4 bg-secondary sm-radius p-0">
                 <div
-                  class="row text-start h-100 w-auto sm-radius d-flex flex-column justify-content-between">
-                  <span
-                    class="fs-normal fw-bold overflow-hidden text-truncate"
-                    >{{ infoMerchant.merchant_title }}</span
-                  >
-                  <span class="fs-normal text-truncate">{{
-                    infoMerchant.client.client_code
-                  }}</span>
-                  <span class="fs-normal text-truncate">{{
-                    infoMerchant.slug
-                  }}</span>
-                  <span
-                    class="fs-normal"
-                    [ngClass]="
-                      infoMerchant.is_active ? 'statusColor' : 'text-primary'
-                    ">
-                    {{ infoMerchant.is_active ? 'active' : 'inactive' }}
-                  </span>
+                  class="h-100 d-flex align-items-center justify-content-center">
+                  <i class="fa-solid fa-image fs-xx-large text-secondary"></i>
                 </div>
+              </div>
+            }
+            <div class="col-8">
+              <div
+                class="row text-start h-100 w-auto sm-radius d-flex flex-column justify-content-between">
+                <span class="fs-normal fw-bold overflow-hidden text-truncate">{{
+                  infoMerchant.merchant_title
+                }}</span>
+                <span class="fs-normal text-truncate">{{
+                  infoMerchant.client.client_code
+                }}</span>
+                <span class="fs-normal text-truncate">{{
+                  infoMerchant.slug
+                }}</span>
+                <span
+                  class="fs-normal"
+                  [ngClass]="
+                    infoMerchant.is_active ? 'statusColor' : 'text-primary'
+                  ">
+                  {{ infoMerchant.is_active ? 'active' : 'inactive' }}
+                </span>
               </div>
             </div>
           </div>
-        }
-      </div>
-    </div>
+        </div>
+      }
+    </section>
   }
-  @if (count > 12) {
-    <div class="mb-5 text-center">
-      <app-pagination
-        [isLoading]="Loading"
-        [totalData]="count"
-        [pageLimit]="merchantsPagination.filters.limit"
-        (paginationChange)="onPaginationChange($event)">
-      </app-pagination>
-    </div>
-  }
-</div>
+  <div class="text-center">
+    <app-pagination
+      [isLoading]="Loading"
+      [totalData]="count"
+      [pageLimit]="merchantsPagination.filters.limit"
+      (paginationChange)="onPaginationChange($event)">
+    </app-pagination>
+  </div>
+</main>
