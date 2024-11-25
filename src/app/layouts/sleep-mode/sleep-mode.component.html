@@ -1,110 +1,110 @@
-@if (showed()) {
-  <section
-    class="stop bg-white d-flex align-items-center justify-content-center position-relative overflow-hidden position-absolute top-0 start-0 h-100 w-100"
-    id="standby"
-    (click)="animationStart()"
-    (keydown)="animationStart()"
-    tabindex="0">
-    @if (activeMode === 'light') {
-      <img
-        src="./images/sleepMode/globe.svg"
-        class="position-absolute globe col-12 col-md-auto mt-5 mt-md-0"
-        alt="" />
-    }
-
-    @if (activeMode === 'dark') {
-      <img
-        src="./images/sleepMode/globeDark.svg"
-        class="position-absolute globe col-12 col-md-auto mt-5 mt-md-0"
-        alt="" />
-    }
-
+<section
+  class="stop bg-white d-flex align-items-center justify-content-center position-relative overflow-hidden position-absolute top-0 start-0 h-100 w-100"
+  id="standby"
+  (click)="animationStart()"
+  (keydown)="animationStart()"
+  tabindex="0">
+  @if (activeMode === 'light') {
     <img
-      src="./images/sleepMode/print.svg"
-      class="position-absolute top-0 start-0 d-none d-lg-block"
-      alt="" />
+      src="./images/sleepMode/globe.svg"
+      class="position-absolute globe col-12 col-md-auto mt-5 mt-md-0"
+      alt="GLOB LIGHT" />
+  }
+
+  @if (activeMode === 'dark') {
     <img
-      src="./images/sleepMode/print.svg"
-      class="position-absolute print d-none d-lg-block"
-      alt="" />
-    <div class="position-absolute">
-      <img
-        [attr.src]="
-          activeMode === 'light'
-            ? './images/sleepMode/iHelaRyanje.svg'
-            : './images/sleepMode/iHelaRyanjeWhite.svg'
-        "
-        id="toAnimate"
-        alt="iHelaRyanje" />
-      <div class="mt-4 text-center pt-4 font-montserrat" id="toClick">
-        <span class="pt-4"> Click any button to unlock </span>
-      </div>
+      src="./images/sleepMode/globeDark.svg"
+      class="position-absolute globe col-12 col-md-auto mt-5 mt-md-0"
+      alt="GLOB DARK" />
+  }
+
+  <img
+    src="./images/sleepMode/print.svg"
+    class="position-absolute top-0 start-0 d-none d-lg-block"
+    alt="" />
+  <img
+    src="./images/sleepMode/print.svg"
+    class="position-absolute print d-none d-lg-block"
+    alt="" />
+  <div class="position-absolute">
+    <img
+      [attr.src]="
+        activeMode === 'light'
+          ? './images/sleepMode/iHelaRyanje.svg'
+          : './images/sleepMode/iHelaRyanjeWhite.svg'
+      "
+      id="toAnimate"
+      alt="iHelaRyanje" />
+    <div class="mt-4 text-center pt-4 font-montserrat" id="toClick">
+      <span class="pt-4" i18n> Click any button to unlock </span>
     </div>
-    <div class="hidDiv">
-      <div class="h-100 d-flex align-items-center flex-column mb-3">
-        @if (user) {
-          <div class="mb-2 profile rounded-circle overflow-hidden">
-            <app-profile-card
-              [imageUrl]="user.client.picture"
-              [fullName]="user.client.client_full_name"
-              width="100%"
-              height="100%"
-              classes="fs-x-large"></app-profile-card>
-          </div>
-          <span class="fw-bold">{{ user.client.client_full_name }}</span>
+  </div>
+  <div class="hidDiv">
+    <div class="h-100 d-flex align-items-center flex-column mb-3">
+      @if (user) {
+        <div class="mb-2 rounded-circle overflow-hidden">
+          <app-profile-card
+            [imageUrl]="user.client.picture"
+            [fullName]="user.client.client_full_name"
+            width="102px"
+            height="102px"
+            classes="fs-x-large"></app-profile-card>
+        </div>
+        <span class="fw-bold">{{ user.client.client_full_name }}</span>
+      }
+    </div>
+    <form [formGroup]="form" (ngSubmit)="verification()" autocomplete="off">
+      <div
+        class="d-flex flex-row align-items-center justify-content-center gap-3 w-100 position-relative mw-200">
+        <input
+          [type]="passwordType"
+          class="form-control pe-5"
+          placeholder="Password"
+          id="password"
+          autocomplete="new-password"
+          aria-label="Recipient's username"
+          aria-describedby="button-addon2"
+          formControlName="password"
+          [disabled]="isLoading"
+          tabindex="0" />
+
+        @if (showPassword && !isLoading) {
+          <a
+            tabindex="0"
+            role="button"
+            (click)="setShowPassword()"
+            class="position-absolute end-0 me-3">
+            <i class="fa-regular fa-eye-slash text-secondary"></i>
+          </a>
+        }
+        @if (!showPassword && !isLoading) {
+          <a
+            tabindex="0"
+            role="button"
+            (click)="setShowPassword()"
+            class="position-absolute end-0 me-3">
+            <i class="fa-regular fa-eye text-secondary"></i>
+          </a>
+        }
+
+        @if (isLoading) {
+          <a class="position-absolute end-0 me-3">
+            <i class="fa-solid fa-spinner fa-pulse"></i>
+          </a>
         }
       </div>
-      <form [formGroup]="form" (ngSubmit)="verification()" autocomplete="off">
-        <div
-          class="d-flex flex-row align-items-center justify-content-center gap-3 w-100 position-relative mw-200">
-          <input
-            [type]="passwordType"
-            class="form-control pe-5"
-            placeholder="Password"
-            id="password"
-            autocomplete="off"
-            aria-label="Recipient's username"
-            aria-describedby="button-addon2"
-            formControlName="password"
-            [disabled]="isLoading"
-            tabindex="0" />
-
-          @if (showPassword && !isLoading) {
-            <a
-              tabindex="0"
-              role="button"
-              (click)="setShowPassword()"
-              class="position-absolute end-0 me-3">
-              <i class="fa-regular fa-eye-slash text-secondary"></i>
-            </a>
-          }
-          @if (!showPassword && !isLoading) {
-            <a
-              tabindex="0"
-              role="button"
-              (click)="setShowPassword()"
-              class="position-absolute end-0 me-3">
-              <i class="fa-regular fa-eye text-secondary"></i>
-            </a>
-          }
-
-          @if (isLoading) {
-            <a class="position-absolute end-0 me-3">
-              <i class="fa-solid fa-spinner fa-pulse"></i>
-            </a>
-          }
-        </div>
-      </form>
-      <div class="mt-4 text-center font-montserrat">
-        <u class="clickable" tabindex="0" (click)="logout()">Logout</u>
-      </div>
+    </form>
+    <div class="mt-4 text-center font-montserrat">
+      <u class="clickable text-secondary" tabindex="0" (click)="logout()" i18n
+        >Logout</u
+      >
     </div>
-    <div class=""></div>
-    <div class="wave-cont position-absolute bottom-0 w-100">
-      <div class="wave"></div>
-      <!-- <div class="wave wave2"></div>
+  </div>
+  <div class=""></div>
+  <div class="wave-cont position-absolute bottom-0 w-100">
+    <div class="wave"></div>
+    <!-- <div class="wave wave2"></div>
     <div class="wave wave3"></div>
     <div class="wave wave4"></div> -->
-    </div>
-  </section>
-}
+  </div>
+</section>

@@ -50,6 +50,7 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
   passwordType = 'password';
 
   screenLockedElement: HTMLElement | null = null;
+  passwordInputElement: HTMLElement | null = null;
 
   private readonly screenLockTimeout: number = 15 * 60 * 1000; // 15 minutes
   private screenLockEvent$: Observable<boolean>;
@@ -83,16 +84,12 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
     };
   }
 
-  showed() {
-    return this.authService.isAuthenticated();
-  }
-
   ngOnInit() {
     this.user$.subscribe({
       next: user => {
         if (user) {
           this.user = user;
-          this.startWatching();
+          // this.startWatching();
           this.channel.postMessage('activate');
         }
       },
@@ -105,7 +102,8 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
 
     this.screenState$.subscribe({
       next: isLocked => {
-        if (isLocked === 'locked') {
+        const isAuthenticated = this.authService.isAuthenticated();
+        if (isLocked === 'locked' && isAuthenticated) {
           this.screenLockedElement?.classList.remove('stop');
           this.screenLockedElement?.classList.add('stand');
         } else {
@@ -125,6 +123,8 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
     element?.classList.add('animation');
     toClick?.classList.add('click');
     showElement?.classList.add('show');
+
+    this.passwordInputElement?.focus();
   }
 
   verification() {
@@ -162,14 +162,16 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
     }
   }
 
-  startWatching() {
-    this.screenLockEvent$.subscribe({
-      next: () => {
-        this.configService.switchScreenState('locked');
-      },
-    });
-  }
+  // startWatching() {
+  //   this.screenLockEvent$.subscribe({
+  //     next: () => {
+  //       this.configService.switchScreenState('locked');
+  //     },
+  //   });
+  // }
+
   ngAfterViewInit() {
     this.screenLockedElement = document.getElementById('standby');
+    this.passwordInputElement = document.getElementById('password');
   }
 }
