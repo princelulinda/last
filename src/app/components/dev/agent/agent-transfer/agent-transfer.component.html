@@ -1,4 +1,4 @@
-<section class="col-11 col-sm-10 col-md-11 col-lg-12 mx-auto mx-lg-0">
+<section class="col-11 col-sm-11 col-md-11 col-lg-12 mx-auto mx-lg-0">
   <span
     class="d-flex gap-2 float-end mt-3 me-3"
     [ngClass]="{
@@ -46,7 +46,11 @@
               class="accordion-body text-dark d-flex justify-content-center flex-wrap gap-4">
               @if (banks) {
                 @for (bank of banks; track $index) {
-                  <div class="col-3 col-lg-2 d-grid gap-2">
+                  <div
+                    class="col-3 col-lg-2 d-grid gap-2"
+                    role="button"
+                    (click)="selectAccount(bank, 'agent')"
+                    tabindex="0">
                     <div class="d-flex justify-content-center">
                       <span
                         class="small_card border lg-radius d-flex align-items-center">
@@ -91,7 +95,8 @@
               data-bs-toggle="collapse"
               data-bs-target="#flush-collapseTwo"
               aria-expanded="false"
-              aria-controls="flush-collapseTwo">
+              aria-controls="flush-collapseTwo"
+              (click)="selectInstitutionType('BNQ')">
               <span class="d-flex align-items-center">
                 <i class="fa-solid fa-building-columns"></i>
               </span>
@@ -106,30 +111,45 @@
             <hr class="mx-3 my-0 text-dark" />
             <div
               class="accordion-body text-dark d-flex justify-content-center flex-wrap gap-4">
-              @if (banks) {
-                @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track $index) {
-                  <div class="col-3 col-lg-2 d-grid gap-2">
+              @if (institutionsList) {
+                @for (bank of institutionsList; track $index) {
+                  <div
+                    class="col-3 col-lg-2 d-grid gap-2"
+                    role="button"
+                    (click)="selectAccount(bank, '')"
+                    tabindex="0">
                     <div class="d-flex justify-content-center">
                       <span
                         class="small_card border lg-radius d-flex align-items-center">
-                        <span class="d-flex justify-content-center logo">
-                          <i
-                            class="fa-solid fa-mountain-sun fa-lg text-secondary"></i>
-                        </span>
+                        @if (bank.company.logo) {
+                          <img
+                            src="{{ bank.company.logo }}"
+                            class="logo"
+                            alt="{{ bank.company.fullname }}" />
+                        } @else {
+                          <span class="d-flex justify-content-center logo">
+                            <i
+                              class="fa-solid fa-mountain-sun fa-lg text-secondary"></i>
+                          </span>
+                        }
                       </span>
                     </div>
 
-                    <span class="fs-x-small text-center" i18n>name</span>
+                    <span class="fs-x-small text-center" i18n>{{
+                      bank.name
+                    }}</span>
                   </div>
                 }
-              } @else if (!banks) {
-                @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9]; track $index) {
-                  <span class="col-3">
-                    <app-skeleton
-                      height="56px"
-                      width="56px"
-                      classes="lg-radius"></app-skeleton>
-                  </span>
+              } @else if (!institutionsList) {
+                @for (i of [1, 2, 3]; track $index) {
+                  <div class="d-flex justify-content-center gap-5">
+                    <span class="col-3 d-grid gap-4 justify-content-center">
+                      <app-skeleton
+                        height="56px"
+                        width="56px"
+                        classes="lg-radius"></app-skeleton>
+                    </span>
+                  </div>
                 }
               }
             </div>
@@ -143,7 +163,8 @@
               data-bs-toggle="collapse"
               data-bs-target="#flush-collapseThree"
               aria-expanded="false"
-              aria-controls="flush-collapseThree">
+              aria-controls="flush-collapseThree"
+              (click)="selectInstitutionType('MFI')">
               <span class="d-flex align-items-center">
                 <i class="fa-solid fa-building-columns"></i>
               </span>
@@ -156,13 +177,49 @@
             aria-labelledby="flush-headingThree"
             data-bs-parent="#accordionFlushExample">
             <hr class="mx-3 my-0 text-dark" />
-            <div class="accordion-body text-dark">
-              Placeholder content for this accordion, which is intended to
-              demonstrate the <code>.accordion-flush</code> class. This is the
-              third item's accordion body. Nothing more exciting happening here
-              in terms of content, but just filling up the space to make it
-              look, at least at first glance, a bit more representative of how
-              this would look in a real-world application.
+            <div
+              class="accordion-body text-dark d-flex justify-content-center flex-wrap gap-4">
+              @if (institutionsList) {
+                @for (bank of institutionsList; track $index) {
+                  <div
+                    class="col-3 col-lg-2 d-grid gap-2"
+                    role="button"
+                    (click)="selectAccount(bank, '')"
+                    tabindex="0">
+                    <div class="d-flex justify-content-center">
+                      <span
+                        class="small_card border lg-radius d-flex align-items-center">
+                        @if (bank.company.logo) {
+                          <img
+                            src="{{ bank.company.logo }}"
+                            class="logo"
+                            alt="{{ bank.company.fullname }}" />
+                        } @else {
+                          <span class="d-flex justify-content-center logo">
+                            <i
+                              class="fa-solid fa-mountain-sun fa-lg text-secondary"></i>
+                          </span>
+                        }
+                      </span>
+                    </div>
+
+                    <span class="fs-x-small text-center" i18n>{{
+                      bank.name
+                    }}</span>
+                  </div>
+                }
+              } @else if (!institutionsList) {
+                @for (i of [1, 2, 3]; track $index) {
+                  <div class="d-flex justify-content-center gap-5">
+                    <span class="col-3 d-grid justify-content-center gap-4">
+                      <app-skeleton
+                        height="56px"
+                        width="56px"
+                        classes="lg-radius"></app-skeleton>
+                    </span>
+                  </div>
+                }
+              }
             </div>
           </div>
         </div>
@@ -174,7 +231,8 @@
               data-bs-toggle="collapse"
               data-bs-target="#flush-collapsefour"
               aria-expanded="false"
-              aria-controls="flush-collapsefour">
+              aria-controls="flush-collapsefour"
+              (click)="selectInstitutionType('MOB')">
               <span class="d-flex align-items-center">
                 <i class="fa-solid fa-mobile-screen-button"></i>
               </span>
@@ -187,13 +245,49 @@
             aria-labelledby="flush-headingfour"
             data-bs-parent="#accordionFlushExample">
             <hr class="mx-3 my-0 text-dark" />
-            <div class="accordion-body text-dark">
-              Placeholder content for this accordion, which is intended to
-              demonstrate the <code>.accordion-flush</code> class. This is the
-              third item's accordion body. Nothing more exciting happening here
-              in terms of content, but just filling up the space to make it
-              look, at least at first glance, a bit more representative of how
-              this would look in a real-world application.
+            <div
+              class="accordion-body text-dark d-flex justify-content-center flex-wrap gap-4">
+              @if (institutionsList) {
+                @for (bank of institutionsList; track $index) {
+                  <div
+                    class="col-3 col-lg-2 d-grid gap-2"
+                    role="button"
+                    (click)="selectAccount(bank, '')"
+                    tabindex="0">
+                    <div class="d-flex justify-content-center">
+                      <span
+                        class="small_card border lg-radius d-flex align-items-center">
+                        @if (bank.company.logo) {
+                          <img
+                            src="{{ bank.company.logo }}"
+                            class="logo"
+                            alt="{{ bank.company.fullname }}" />
+                        } @else {
+                          <span class="d-flex justify-content-center logo">
+                            <i
+                              class="fa-solid fa-mountain-sun fa-lg text-secondary"></i>
+                          </span>
+                        }
+                      </span>
+                    </div>
+
+                    <span class="fs-x-small text-center" i18n>{{
+                      bank.name
+                    }}</span>
+                  </div>
+                }
+              } @else if (!institutionsList) {
+                @for (i of [1, 2, 3]; track $index) {
+                  <div class="d-flex justify-content-center gap-5">
+                    <span class="col-3 d-grid justify-content-center gap-4">
+                      <app-skeleton
+                        height="56px"
+                        width="56px"
+                        classes="lg-radius"></app-skeleton>
+                    </span>
+                  </div>
+                }
+              }
             </div>
           </div>
         </div>
@@ -201,18 +295,20 @@
     </div>
   } @else {
     <form
-      class="bg-secondary p-3 py-3 p-sm-3 ps-sm-5 pb-5 xx-lg-radius"
-      action="transfer">
+      class="bg-secondary p-3 py-3 p-sm-3 ps-sm-5 pb-5 xx-lg-radius formulaire"
+      action="transfer"
+      [formGroup]="transferForm"
+      (ngSubmit)="enterPin()">
       <div
-        class="d-flex flex-column gap-4 col-12 col-sm-10 col-md-11 col-lg-10 col-xl-9 col-xxl-9">
+        class="d-flex flex-column gap-4 col-12 col-sm-11 col-md-11 col-lg-10 col-xl-9 col-xxl-9">
         <div class="d-flex gap-2">
           <span><i class="fa-solid fa-play fa-lg text-primary"></i></span>
-          <span class="fs-medium fw-bold">Agent Transfer; BANKS</span>
+          <span class="fs-medium fw-bold" i18n>Agent Transfer; BANKS</span>
         </div>
         <div class="d-flex flex-column gap-2">
           <div class="d-flex gap-2">
             <span><i class="fa-solid fa-circle fa-2xs text-primary"></i></span>
-            <div class="fw-bold fs-small">COMPTE A DEBITER</div>
+            <div class="fw-bold fs-small" i18n>COMPTE A DEBITER</div>
           </div>
 
           <div class="d-flex flex-column">
@@ -225,7 +321,7 @@
                       class="border-start py-5 bg-primary border-0 xx-lg-radius ps-2 pe-1 m-0"
                   /></span>
                   <div class="d-flex flex-column">
-                    <span class="fw-bold">
+                    <span class="fw-bold" i18n>
                       COMPTE PRINCIPAL AGENT - INDIVIDUELLE
                     </span>
                     <span> HABONIMANA BILLY </span>
@@ -247,14 +343,15 @@
         <div class="d-flex flex-column gap-2">
           <div class="d-flex gap-2">
             <span><i class="fa-solid fa-circle fa-xs text-primary"></i></span>
-            <div class="fw-bold fs-small">COMPTE A CREDITER</div>
+            <div class="fw-bold fs-small" i18n>COMPTE A CREDITER</div>
           </div>
           <div class="d-flex flex-column gap-2">
             <div class="row">
-              <div class="col-5 col-sm-5 col-md-3 col-lg-5 col-xl-4 col-xxl-4">
+              <div class="col-5 col-sm-5 col-md-3 col-lg-4 col-xl-4 col-xxl-3">
                 <div class="input-group mb-3">
                   <span
                     class="form-control input-group-text d-flex justify-content-center"
+                    i18n
                     >Agent</span
                   >
                   <span class="input-group-text bg-primary">
@@ -265,67 +362,130 @@
               <div class="col-1">
                 <i class="fa-solid fa-arrow-right fa-2x text-secondary"></i>
               </div>
-              <div class="col-6 col-sm-5 col-md-3 col-lg-5 col-xl-5 col-xxl-4">
+              <div class="col-6 col-sm-5 col-md-3 col-lg-5 col-xxl-3">
+                @if (selectedInstitution) {
+                  <span class="d-flex justify-content-center">
+                    @if (selectedInstitution.company.image) {
+                      <img
+                        src="{{ selectedInstitution.company.image }}"
+                        class="col-4 col-sm-4 col-md-5 col-lg-4 col-xl-4 col-xxl-6"
+                        alt="Logo" />
+                    } @else {
+                      <span
+                        class="col-5 col-sm-4 col-md-7 col-xl-8 d-grid justify-content-center bg-white bg-opacity-25 lg-radius py-3">
+                        <i
+                          class="fa-solid fa-mountain-sun fa-lg text-secondary"></i>
+                      </span>
+                    }
+                  </span>
+                  <span
+                    class="d-flex justify-content-center fs-small text-secondary"
+                    >{{ selectedInstitution.company.fullname }}</span
+                  >
+                }
+
                 <span class="d-flex justify-content-center">
-                  <img
-                    src="/images/sleepMode/iHelaRyanje.svg"
-                    class="col-5 col-sm-4"
-                    alt="ihelaLogo" />
-                </span>
-                <span
-                  class="d-flex justify-content-center fs-small text-secondary"
-                  >IHELA CREDIT UNION</span
-                >
-                <span class="d-flex justify-content-center">
-                  <a href="#" class="text-primary text-decoration-underline"
+                  <a
+                    role="button"
+                    (click)="selectedState = 'bank'"
+                    class="text-primary text-decoration-underline"
+                    tabindex="0"
+                    i18n
                     >Change bank</a
                   >
                 </span>
               </div>
             </div>
-            <div
-              class="col-12 col-sm-9 col-md-6 col-lg-9 col-xl-8 col-xxl-7 d-flex bg-white p-2 border xx-lg-radius gap-2">
-              <span class="my-2 ms-1"
-                ><hr
-                  class="border-start border-0 bg-primary xx-lg-radius py-4 ps-2 m-0"
-              /></span>
-              <div class="d-flex flex-column my-2">
-                <span> HABONIMANA BILLY </span>
-                <span> 0000000780-01 </span>
-              </div>
-              <span class="ms-auto">
-                <i class="fa-solid fa-circle-xmark fa-xl text-primary-2"></i>
-              </span>
-            </div>
           </div>
         </div>
+        @if (selectedState === 'agent code' || selectedState === 'amount') {
+          <ng-container [ngTemplateOutlet]="searchAgent"></ng-container>
+        }
         <div class="col-12 col-sm-9 col-md-6 col-lg-9 col-xl-8 col-xxl-7">
+          @if (selectedState === 'debit') {
+            <ng-container
+              [ngTemplateOutlet]="accountNumberHolderName"></ng-container>
+          }
+          @if (selectedState === 'debit' || selectedState === 'amount') {
+            <ng-container [ngTemplateOutlet]="amountDescription"></ng-container>
+          }
+        </div>
+        @if (selectedState !== 'agent code') {
+          <div
+            class="col-12 col-sm-8 col-md-6 col-lg-8 col-xl-6 d-flex justify-content-center mt-3">
+            <button
+              type="submit"
+              class="btn bg-primary text-white fw-bold px-5"
+              (click)="enterPin()"
+              tabindex="0"
+              [disabled]="!transferForm.valid"
+              i18n>
+              Confirm
+            </button>
+          </div>
+        }
+      </div>
+      <ng-template #amountDescription>
+        <div class="d-flex flex-column">
           <div class="form-floating mb-3">
             <input
               type="text"
               class="form-control"
               id="floatingInput"
               placeholder="amount"
-              (keydown)="validateInput($event)" />
-            <label for="floatingInput">Amount</label>
+              (keydown)="validateInput($event)"
+              formControlName="amount" />
+            <label for="floatingInput" i18n>Amount</label>
           </div>
-        </div>
-        <div class="col-12 col-sm-9 col-md-6 col-lg-9 col-xl-8 col-xxl-7">
           <div class="form-floating">
             <textarea
               class="form-control textarea"
               placeholder="Description"
-              id="floatingTextarea2"></textarea>
-            <label for="floatingTextarea2">Description</label>
+              id="floatingTextarea2"
+              formControlName="description"></textarea>
+            <label for="floatingTextarea2" i18n>Description</label>
           </div>
         </div>
-        <div
-          class="col-12 col-sm-8 col-md-6 col-lg-8 col-xl-6 d-flex justify-content-center mt-3">
-          <button class="btn bg-primary text-white fw-bold px-5">
-            Confirm
-          </button>
+      </ng-template>
+      <ng-template #accountNumberHolderName>
+        <div class="d-flex flex-column">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingInput"
+              placeholder="Account number"
+              (keydown)="validateInput($event)"
+              required
+              formControlName="account_number" />
+            <label for="floatingInput" i18n>Account number</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="floatingInput"
+              placeholder="Holder name"
+              required
+              formControlName="holder_name" />
+            <label for="floatingInput" i18n>Holder name</label>
+          </div>
         </div>
-      </div>
+      </ng-template>
     </form>
   }
 </section>
+
+<ng-template #searchAgent>
+  <div class="d-flex justify-content-center"></div>
+  <div class="col-8 col-md-5 col-lg-7 col-xl-7 col-xxl-5 mx-auto mx-md-0">
+    <app-lookup
+      option="lookup"
+      url="/dbs/agents/object_lookup/?lookup_data="
+      label="Search by Agent code"
+      [showProfile]="false"
+      classes="xx-lg-radius py-1 ps-2 m-0"
+      [isAgentTransfer]="true"
+      (selectedItemEvent)="getAgentCode($event)"></app-lookup>
+  </div>
+</ng-template>

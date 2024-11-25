@@ -1,7 +1,9 @@
 <section class="searchMenu w-100 position-relative">
   @if (selectedItem) {
     <div
-      class="d-flex border rounded p-2 w-100 d-flex justify-content-between align-items-center bg-white">
+      class="d-flex border p-2 w-100 d-flex justify-content-between align-items-center bg-white {{
+        classes
+      }}">
       <div style="line-height: 18px me-2">
         <div class="d-flex">
           @if (selectedItem.lookup_image && showProfile) {
@@ -19,6 +21,12 @@
               class="rounded-2 profile overflow-hidden d-flex align-items-center justify-content-center bg-secondary border">
               <i class="fa-solid fa-mountain-sun fa-lg"></i>
             </div>
+          }
+          @if (isAgentTransfer === true) {
+            <span class="my-2 ms-1">
+              <hr
+                class="border-start border-0 bg-primary xx-lg-radius py-4 ps-2 m-0" />
+            </span>
           }
           <div
             class="text-dark ms-2 fw-bold d-flex flex-column justify-content-center">
