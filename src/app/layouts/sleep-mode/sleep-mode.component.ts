@@ -83,6 +83,10 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
     };
   }
 
+  showed() {
+    return this.authService.isAuthenticated();
+  }
+
   ngOnInit() {
     this.user$.subscribe({
       next: user => {
@@ -116,8 +120,10 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
   animationStart() {
     const element = document.getElementById('toAnimate');
     const showElement = document.getElementsByClassName('hidDiv')[0];
+    const toClick = document.getElementById('toClick');
 
     element?.classList.add('animation');
+    toClick?.classList.add('click');
     showElement?.classList.add('show');
   }
 
@@ -140,6 +146,10 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
         },
       });
     }
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   setShowPassword() {

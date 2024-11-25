@@ -31,6 +31,10 @@
   animation: combined-animation 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
+.click {
+  display: none;
+}
+
 @keyframes combined-animation {
   0% {
     transform: translateY(0) scale(1);
@@ -80,7 +84,7 @@
 }
 
 .stand {
-  z-index: 1000;
+  z-index: 10000;
   min-height: 100vh;
   min-width: 100vw;
 }
