@@ -31,6 +31,8 @@ export class LookupComponent implements OnInit {
   @Input() selectedId: number | null = null;
   @Input() showProfile = true;
   @Input() lookupDefaultSearch = '';
+  @Input() classes: string | null = 'rounded';
+  @Input() isAgentTransfer = false;
 
   title = '';
   type = '';

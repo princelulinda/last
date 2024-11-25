@@ -118,9 +118,12 @@ export interface InstitutionInfoModel {
   id: number | string;
   name: string;
   company: {
+    id: number;
     logo: string;
     name: string;
     fullname: string;
+    image: string;
+    slug: string;
   };
   api_values: {
     has_lookup: boolean;
