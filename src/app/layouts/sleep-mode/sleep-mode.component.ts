@@ -24,11 +24,12 @@ import {
   ModeModel,
   ScreenStateModel,
 } from '../../core/services/config/main-config.models';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sleep-mode',
   standalone: true,
-  imports: [ReactiveFormsModule, ProfileCardComponent],
+  imports: [ReactiveFormsModule, ProfileCardComponent, CommonModule],
   templateUrl: './sleep-mode.component.html',
   styleUrl: './sleep-mode.component.scss',
 })
@@ -46,6 +47,7 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
   });
 
   isLoading = false;
+  passError = false;
   showPassword = false;
   passwordType = 'password';
 
@@ -128,6 +130,7 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
   }
 
   verification() {
+    this.passError = false;
     this.isLoading = true;
     const password = this.form.value.password;
     if (password) {
@@ -138,10 +141,13 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
           const res = response as { object: { success: boolean } };
           if (res.object.success === true) {
             this.configService.switchScreenState('unlocked');
+          } else {
+            this.passError = true;
           }
         },
         error: () => {
           this.isLoading = false;
+          this.passError = true;
           this.form.reset();
         },
       });
