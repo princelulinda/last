@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Modal } from 'bootstrap';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { StatementComponent } from '../../../../statements/statement/statement.component';
-import { Subject, takeUntil } from 'rxjs';
-import { ClientService, LoanService } from '../../../../../core/services';
 import { CommonModule } from '@angular/common';
+
+import { Subject, takeUntil } from 'rxjs';
+import { Modal } from 'bootstrap';
+
+import { ClientService, LoanService } from '../../../../../core/services';
 import { LoanModel } from '../../../../loan/loan.models';
 import { ClientWorkstationModel } from '../../../../client/client.model';
 import { ProfileCardComponent } from '../../../../../global/components/custom-field/profile-card/profile-card.component';
@@ -13,13 +14,7 @@ import { LoanPlanComponent } from '../../../loan-plan/loan-plan.component';
 @Component({
   selector: 'app-credit-details',
   standalone: true,
-  imports: [
-    StatementComponent,
-    LoanPlanComponent,
-    CommonModule,
-    RouterLink,
-    ProfileCardComponent,
-  ],
+  imports: [LoanPlanComponent, CommonModule, RouterLink, ProfileCardComponent],
   templateUrl: './credit-details.component.html',
   styleUrl: './credit-details.component.scss',
 })
@@ -151,9 +146,8 @@ export class CreditDetailsComponent implements OnInit, OnDestroy {
           }
           this.getClientInfo();
         },
-        error: error => {
+        error: () => {
           this.credLoading = false;
-          return error;
         },
       });
   }
@@ -167,12 +161,12 @@ export class CreditDetailsComponent implements OnInit, OnDestroy {
           this.clientLoading = false;
           this.client = client.object;
         },
-        error: error => {
+        error: () => {
           this.clientLoading = false;
-          return error;
         },
       });
   }
+
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
