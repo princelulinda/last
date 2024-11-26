@@ -143,11 +143,13 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
             this.configService.switchScreenState('unlocked');
           } else {
             this.passError = true;
+            this.managePasswordvisibility();
           }
         },
         error: () => {
           this.isLoading = false;
           this.passError = true;
+          this.managePasswordvisibility();
           this.form.reset();
         },
       });
@@ -179,5 +181,11 @@ export class SleepModeComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.screenLockedElement = document.getElementById('standby');
     this.passwordInputElement = document.getElementById('password');
+  }
+
+  private managePasswordvisibility() {
+    setTimeout(() => {
+      this.passError = false;
+    }, 4000);
   }
 }

@@ -97,17 +97,23 @@
     </form>
     @if (passError) {
       <div class="mt-2 text-center font-montserrat" style="max-width: 250px">
-        <span class="fs-small" i18n
-          >Password authentication didn't work. Please try again.</span
-        >
+        <div class="fs-x-small text-primary-2 fw-bold">
+          <span class="me-2"><i class="fa-solid fa-circle-info"></i></span>
+          <span i18n>
+            Password authentication didn't work. Please try again.
+          </span>
+        </div>
       </div>
     }
     <div
       class="text-center font-montserrat"
       [ngClass]="passError ? 'mt-3' : 'mt-4'">
-      <u class="clickable text-secondary" tabindex="0" (click)="logout()" i18n
-        >Logout</u
-      >
+      <u class="clickable text-secondary" tabindex="0" (click)="logout()" i18n>
+        <span class="me-2">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </span>
+        Logout
+      </u>
     </div>
   </div>
   <div class=""></div>
