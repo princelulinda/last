@@ -55,7 +55,8 @@
     </div>
     <form [formGroup]="form" (ngSubmit)="verification()" autocomplete="off">
       <div
-        class="d-flex flex-row align-items-center justify-content-center gap-3 w-100 position-relative mw-200">
+        class="d-flex flex-row align-items-center justify-content-center gap-3 w-100 position-relative mw-200"
+        [ngClass]="passError ? 'shake' : ''">
         <input
           [type]="passwordType"
           class="form-control pe-5"
@@ -94,7 +95,16 @@
         }
       </div>
     </form>
-    <div class="mt-4 text-center font-montserrat">
+    @if (passError) {
+      <div class="mt-2 text-center font-montserrat" style="max-width: 250px">
+        <span class="fs-small" i18n
+          >Password authentication didn't work. Please try again.</span
+        >
+      </div>
+    }
+    <div
+      class="text-center font-montserrat"
+      [ngClass]="passError ? 'mt-3' : 'mt-4'">
       <u class="clickable text-secondary" tabindex="0" (click)="logout()" i18n
         >Logout</u
       >
