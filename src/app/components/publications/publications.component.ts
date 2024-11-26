@@ -5,7 +5,6 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { PublicationCardComponent } from './publication-card/publication-card.component';
 import { SkeletonComponent } from '../../global/components/loaders/skeleton/skeleton.component';
-import { ShowMoreDirective } from '../../global/directives/show-more/show-more.directive';
 import { PublicationModel } from '../dashboards/dashboard.model';
 import { DialogService } from '../../core/services';
 import { PublicationService } from '../../core/services/publication/publication.service';
@@ -13,12 +12,7 @@ import { PublicationService } from '../../core/services/publication/publication.
 @Component({
   selector: 'app-publications',
   standalone: true,
-  imports: [
-    CommonModule,
-    PublicationCardComponent,
-    SkeletonComponent,
-    ShowMoreDirective,
-  ],
+  imports: [CommonModule, PublicationCardComponent, SkeletonComponent],
   templateUrl: './publications.component.html',
   styleUrl: './publications.component.scss',
 })
