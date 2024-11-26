@@ -40,12 +40,12 @@
             <div class="d-grid">
               <div class="mb-3">
                 <app-profile-card
-                  width="150px"
-                  height="150px"
+                  width="115px"
+                  height="115px"
                   [imageUrl]="creditLine.crel_account_info.acc_picture"
                   [fullName]="creditLine.crel_account_info.acc_holder"
                   radiusClass="xx-lg-radius"
-                  classes="fs-xx-large"></app-profile-card>
+                  classes="fs-large"></app-profile-card>
               </div>
 
               <div class="d-grid">
@@ -135,7 +135,7 @@
           <div
             class="w-100 mt-3 mb-4 border lg-radius pt-3 pb-3 p-0 bg-erp position-relative">
             <div
-              class="position-absolute bg-white lg-radius shadow-sm p-1 pe-3 ps-3 titlePosition">
+              class="position-absolute bg-white lg-radius shadow-sm p-1 pe-3 ps-3 account-info-title">
               <b i18n class="fs-normal fw-bold">Account info</b>
             </div>
             <div class="d-flex justify-content-center mt-3 mb-3">
@@ -191,8 +191,8 @@
             </div>
           </div>
           <div class="d-flex align-items-center">
-            <b i18n class="fs-normal fw-bold">Credit line info</b>
-            <hr class="flex-shrink ms-2 lineSize" />
+            <b i18n class="w-100">Credit line info</b>
+            <hr class="flex-shrink ms-2 col-auto" />
           </div>
           <div class="row">
             <div class="col">

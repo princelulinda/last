@@ -42,9 +42,8 @@ export class CreditLineListComponent implements OnInit, OnDestroy {
       name: 'Name',
       field: ['crel_account_info.acc_holder'],
       size: '',
-      format: '',
       detail: {
-        link: '/d/desk/credit/creditsline/details/',
+        link: '/w/workstation/d/desk/credit/creditsline/details/',
         field: 'id',
       },
     },
@@ -53,7 +52,6 @@ export class CreditLineListComponent implements OnInit, OnDestroy {
       name: 'Code',
       field: ['crel_code'],
       size: '',
-      format: '',
     },
     {
       name: 'Account',

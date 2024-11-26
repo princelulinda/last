@@ -1,7 +1,9 @@
 import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+
 import { Observable, Subject, takeUntil } from 'rxjs';
+
 import {
   ConfigService,
   DialogService,
@@ -67,6 +69,7 @@ export class CreditLineDetailsComponent implements OnInit, OnDestroy {
         },
       });
     }
+
     this.dialog$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: dialog => {
         this.dialog = dialog;
@@ -91,7 +94,6 @@ export class CreditLineDetailsComponent implements OnInit, OnDestroy {
         next: data => {
           this.creditLine = data.object;
           this.creditId = this.creditLine.id;
-
           this.isLoading = false;
         },
         error: () => {
@@ -99,6 +101,7 @@ export class CreditLineDetailsComponent implements OnInit, OnDestroy {
         },
       });
   }
+
   refreshPage() {
     this.creditLine = null;
     this.getCreditsLineDetails();
@@ -178,10 +181,12 @@ export class CreditLineDetailsComponent implements OnInit, OnDestroy {
       });
     }
   }
+
   ngOnDestroy() {
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
+
   goBack() {
     this.router.navigate(['/w/workstation/d/desk/credit/creditsline/list']);
   }
