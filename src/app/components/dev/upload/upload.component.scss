@@ -1,0 +1,45 @@
+.excel-table {
+  overflow-x: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  margin: 0;
+  background: white;
+  width: 100%;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  font-size: 14px;
+  vertical-align: middle;
+  position: relative;
+}
+
+.table thead {
+  background: #f9f9f9;
+  font-weight: bold;
+}
+
+.table tbody tr:hover {
+  background: #f0f8ff;
+}
+
+.edit-btn {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  display: none;
+  font-size: 12px;
+  padding: 4px 6px;
+}
+
+.table td:hover .edit-btn {
+  display: inline-block;
+  cursor: pointer;
+}
