@@ -12,15 +12,13 @@ import { myMarketRoutes } from './routes/my-market/mymarket.routes';
 import { workstationRoutes } from './routes/workstation/workstation.routes';
 import { DBReadyGuard } from './core/guards/db-ready/db-ready.guard';
 import { AsideMenuComponent } from './layouts/banking/aside-menu/aside-menu.component';
-import { UploadComponent } from './components/dev/upload/upload.component';
-
 export const routes: Routes = [
   // authentification routes
   {
     path: '',
     loadComponent: () =>
-      import('./components/dev/upload/upload.component').then(
-        m => m.UploadComponent
+      import('./layouts/auth-layout/auth-layout.component').then(
+        m => m.AuthLayoutComponent
       ),
     canActivate: [NoAuthGuard, DBReadyGuard],
     children: AuthRoutes,
@@ -103,10 +101,6 @@ export const routes: Routes = [
           ).then(m => m.NotFound404Component),
       },
     ],
-  },
-  {
-    path: 'upload',
-    component: UploadComponent,
   },
   {
     path: '**',

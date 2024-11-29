@@ -2,9 +2,15 @@
   <div
     class="w-100 bg-secondary d-flex align-items-center justify-content-between px-3 py-2">
     <div class="py-1">
-      <span class="fs-medium fw-bold text-secondary" i18n
-        >Diverse operation</span
-      >
+      @if (operation) {
+        <span class="fs-medium fw-bold text-secondary" i18n>{{
+          operation
+        }}</span>
+      } @else {
+        <span class="fs-medium fw-bold text-secondary" i18n
+          >Diverse operation</span
+        >
+      }
     </div>
 
     @if (operation && !(tellerSender && tellerReceiver)) {
@@ -73,6 +79,14 @@
       <div
         class="bg-secondary d-flex flex-row justify-content-between py-3 px-4 rounded-bottom-2 align-items-center not-clickable">
         <span>Cash</span>
+
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+      <div
+        class="bg-secondary d-flex flex-row justify-content-between py-3 px-4 align-items-center clickable"
+        tabindex="0"
+        (click)="selectOperation('free operation')">
+        <span>Free operation</span>
 
         <i class="fa-solid fa-chevron-right"></i>
       </div>
@@ -305,4 +319,7 @@
   }
 
   @if (operation === 'transfer') {}
+  @if (operation === 'free operation') {
+    <app-free-operation />
+  }
 </Section>

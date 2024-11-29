@@ -14,11 +14,17 @@ import { AutocompleteModel } from '../../../global/models/global.models';
 import { CommonModule } from '@angular/common';
 import { CounterService } from '../../../core/services/counter/counter.service';
 import { TransactionResModel } from './diverse-operation.model';
+import { FreeOperationComponent } from './free-operation/free-operation.component';
 
 @Component({
   selector: 'app-diverse-operation',
   standalone: true,
-  imports: [LookupComponent, ReactiveFormsModule, CommonModule],
+  imports: [
+    LookupComponent,
+    ReactiveFormsModule,
+    CommonModule,
+    FreeOperationComponent,
+  ],
   templateUrl: './diverse-operation.component.html',
   styleUrl: './diverse-operation.component.scss',
 })
@@ -184,6 +190,8 @@ export class DiverseOperationComponent {
     } else if (this.operation === 'Transfer') {
       this.operation = null;
     } else if (this.operation === 'Transfer Movement') {
+      this.operation = null;
+    } else if (this.operation === 'free operation') {
       this.operation = null;
     }
   }

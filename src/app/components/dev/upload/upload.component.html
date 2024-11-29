@@ -1,25 +1,23 @@
 <div class="container py-4">
   <div class="d-flex align-items-center gap-2 mb-3">
     <span
-      class="bg-danger rounded-circle"
-      style="width: 10px; height: 10px; margin-top: 6px"></span>
-    <h4 class="font-weight-bold mb-0">Attachment Files</h4>
+      class="bg-danger rounded-circle d-inline-block"
+      style="width: 7px; height: 7px"></span>
+    <span class="fw-bold fs-5">Attachment Files</span>
   </div>
 
   <div
-    class="drop-zone p-4 text-center rounded d-flex align-items-center justify-content-center"
+    class="drop-zone p-4 text-center rounded d-flex align-items-center justify-content-center flex-column"
     [class.border-danger]="isDragging"
-    style="height: 40vh; border: 2px dashed #ccc">
+    style="border: 2px dashed #ccc">
     <button
-      class="d-flex flex-column align-self-center border-0 bg-transparent align-items-center justify-content-center h-100"
+      class="d-flex flex-column align-items-center justify-content-center border-0 bg-transparent"
       (click)="fileInput.click()">
-      <h2>
-        <span class="text-danger fw-bold">Drag or Drop</span> Bulk Files Here
-      </h2>
-      <i
-        class="fa fa-cloud-upload text-danger display-1"
-        aria-hidden="true"></i>
-      <p class="text-muted fs-5">Files supported: .xlsx, .csv</p>
+      <h3 class="text-danger fw-bold text-wrap text-break">
+        Drag or Drop Bulk Files Here
+      </h3>
+      <i class="fa fa-cloud-upload text-danger display-5"></i>
+      <p class="text-muted">Files supported: .xlsx, .csv</p>
       <input
         type="file"
         #fileInput
@@ -27,107 +25,5 @@
         accept=".xlsx, .csv"
         class="d-none" />
     </button>
-  </div>
-
-  <div class="mt-3" *ngIf="fileName">
-    <div class="alert alert-success d-flex align-items-center" role="alert">
-      <div>
-        <p class="mb-1"><strong>Nom du fichier :</strong> {{ fileName }}</p>
-        <p class="mb-0">
-          <strong>Taille :</strong> {{ (fileSize / 1024).toFixed(2) }} Ko
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <button class="btn btn-outline-danger mt-3" (click)="toggleModal()">
-    <i class="fa fa-table me-2"></i> View Table in Fullscreen
-  </button>
-
-  <div
-    class="modal"
-    [class.show]="showModal"
-    [style.display]="showModal ? 'block' : 'none'"
-    style="background-color: rgba(0, 0, 0, 0.8)">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header bg-danger text-white">
-          <h5 class="modal-title">Table View</h5>
-          <!-- <button type="button" class="btn-close btn-close-white" (click)="toggleModal()"></button> -->
-        </div>
-
-        <div class="modal-body">
-          <div class="input-group mb-4">
-            <input
-              type="text"
-              [(ngModel)]="searchQuery"
-              (input)="filterTable()"
-              class="form-control"
-              placeholder="Search..." />
-            <button class="btn btn-danger" type="button">
-              <i class="fa fa-search"></i>
-            </button>
-          </div>
-
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead class="table-danger">
-                <tr>
-                  <th *ngFor="let header of data[0]">{{ header }}</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  *ngFor="
-                    let row of filteredData.slice(1);
-                    let rowIndex = index
-                  "
-                  (mouseenter)="hoveredRowIndex = rowIndex"
-                  (mouseleave)="hoveredRowIndex = null">
-                  <td
-                    *ngFor="let cell of row; let colIndex = index"
-                    (click)="editCell(rowIndex, colIndex)">
-                    <span
-                      *ngIf="
-                        editableCell?.row !== rowIndex ||
-                        editableCell?.col !== colIndex
-                      ">
-                      {{ cell }}
-                    </span>
-                    <input
-                      *ngIf="
-                        editableCell?.row === rowIndex &&
-                        editableCell?.col === colIndex
-                      "
-                      type="text"
-                      [(ngModel)]="data[rowIndex + 1][colIndex]"
-                      class="form-control form-control-sm" />
-                  </td>
-                  <td>
-                    <button
-                      *ngIf="hoveredRowIndex === rowIndex"
-                      class="btn btn-sm btn-danger position-absolute"
-                      (click)="deleteRow(rowIndex)">
-                      <i class="fa fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Modal Footer -->
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            (click)="toggleModal()">
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
